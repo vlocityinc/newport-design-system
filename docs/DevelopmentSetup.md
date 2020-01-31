@@ -20,6 +20,7 @@ yarn --version && node --version
 ```
 
 To update your node version do: `nvm install v10.16.3 && nvm use v10.16.3)`
+
 To update your yarn version do: `brew unlink yarn && brew install yarn@1.19.1`
 
 
