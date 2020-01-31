@@ -19,11 +19,9 @@ yarn --version && node --version
 > v10.16.3
 ```
 
-Note: To change your version of yarn use:
+To update your node version do: `nvm install v10.16.3 && nvm use v10.16.3)`
+To update your yarn version do: `brew unlink yarn && brew install yarn@1.19.1`
 
-```
-yarn policies set-version <version number>
-```
 
 3. Clone this repo somewhere on your filesystem (using `~projects` in this doc as an example):
 
