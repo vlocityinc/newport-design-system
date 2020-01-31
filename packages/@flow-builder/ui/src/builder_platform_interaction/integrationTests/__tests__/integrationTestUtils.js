@@ -20,30 +20,17 @@ import {
     initializeLoader,
     loadOnStart,
     loadOnProcessTypeChange,
-    clearLoader
+    clearLoader,
+    loadApexClasses
 } from 'builder_platform_interaction/preloadLib';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
+import { updateFlow } from 'builder_platform_interaction/actions';
+import { loadFieldsForComplexTypesInFlow } from 'builder_platform_interaction/preloadLib';
 
 export const FLOW_BUILDER_VALIDATION_ERROR_MESSAGES = {
     CANNOT_BE_BLANK: 'FlowBuilderValidation.cannotBeBlank',
     GENERIC: 'FlowBuilderCombobox.genericErrorMessage'
-};
-
-const LABEL_DESCRIPTION_SELECTORS = {
-    DEV_NAME: '.devName',
-    LABEL: '.label'
-};
-
-export const getLabelDescriptionElement = editor => {
-    return editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.LABEL_DESCRIPTION);
-};
-
-export const getLabelDescriptionNameElement = editor => {
-    return getLabelDescriptionElement(editor).shadowRoot.querySelector(LABEL_DESCRIPTION_SELECTORS.DEV_NAME);
-};
-
-export const getLabelDescriptionLabelElement = editor => {
-    return getLabelDescriptionElement(editor).shadowRoot.querySelector(LABEL_DESCRIPTION_SELECTORS.LABEL);
 };
 
 export const expectGroupedComboboxItem = (groupedCombobox, itemText) => {
@@ -168,6 +155,15 @@ export const setupStateForProcessType = async processType => {
     initializeLoader(store);
     loadOnStart();
     await loadOnProcessTypeChange(processType);
+    await loadApexClasses();
+    return store;
+};
+
+export const setupStateForFlow = async flow => {
+    const store = await setupStateForProcessType(flow.processType);
+    const uiFlow = translateFlowToUIModel(flow);
+    store.dispatch(updateFlow(uiFlow));
+    await loadFieldsForComplexTypesInFlow(uiFlow);
     return store;
 };
 

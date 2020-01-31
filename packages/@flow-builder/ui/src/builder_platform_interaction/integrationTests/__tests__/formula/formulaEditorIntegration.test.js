@@ -14,7 +14,6 @@ import { getElementForPropertyEditor } from 'builder_platform_interaction/proper
 import { updateFlow } from 'builder_platform_interaction/actions';
 import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
-    getLabelDescriptionNameElement,
     expectGroupedComboboxItem,
     expectGroupedComboboxItemInGroup,
     getGroupedComboboxItemInGroup,
@@ -22,6 +21,7 @@ import {
     resetState,
     setupStateForProcessType
 } from '../integrationTestUtils';
+import { getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
 import { resetFetchOnceCache } from 'builder_platform_interaction/serverDataLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';

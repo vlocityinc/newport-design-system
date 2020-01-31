@@ -88,7 +88,10 @@ describe('Screen extension properties reducer', () => {
             ];
             const OUTPUT_PARAMETERS_ATTRIBUTE = [
                 {
-                    name: { value: DESCRIPTOR_PARAMETERS[0].apiName, error: null },
+                    name: {
+                        value: DESCRIPTOR_PARAMETERS[0].apiName,
+                        error: null
+                    },
                     value: { value: '{!var1}', error: null },
                     valueDataType: 'reference'
                 }

@@ -170,7 +170,9 @@ describe('dataForProcessType', () => {
         it('invokes call out and call back', async () => {
             fetchOnce.mockResolvedValue('features');
             await loadProcessTypeFeatures('a');
-            expect(fetchOnce).toBeCalledWith(SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES, { flowProcessType: 'a' });
+            expect(fetchOnce).toBeCalledWith(SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES, {
+                flowProcessType: 'a'
+            });
             expect(setProcessTypeFeature).toBeCalledTimes(1);
             expect(setProcessTypeFeature).toBeCalledWith('a', 'features');
         });

@@ -1,44 +1,22 @@
 import { createElement } from 'lwc';
-import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
-import { flowWithGetRecordUsingSObjectSingleAutomatedOutput } from 'mock/flows/flowWithGetRecord';
-import { flowWithCreateRecordAutomatedOutput } from 'mock/flows/flowWithCreateRecord';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { updateFlow } from 'builder_platform_interaction/actions';
 import AssignmentEditor from 'builder_platform_interaction/assignmentEditor';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { setupStateForProcessType, resetState } from '../integrationTestUtils';
-import {
-    expectGroupedComboboxItem,
-    getGroupedComboboxItem,
-    getGroupedComboboxItemInGroupByDisplayText,
-    expectGroupedComboboxItemInGroup
-} from '../integrationTestUtils';
+import { setupStateForFlow, resetState } from '../integrationTestUtils';
 import {
     ticks,
     deepQuerySelector,
-    INTERACTION_COMPONENTS_SELECTORS,
-    LIGHTNING_COMPONENTS_SELECTORS,
-    selectEvent
+    INTERACTION_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
-import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import {
-    EXPRESSION_BUILDER_SELECTORS,
-    validateExpression,
-    getLhsCombobox,
-    getRhsCombobox,
-    selectOperator
-} from '../expressionBuilderTestUtils';
+import { validateExpression, getLhsCombobox, getRhsCombobox, selectOperator } from '../expressionBuilderTestUtils';
 import {
     selectComboboxItemBy,
     typeMergeFieldInCombobox,
     getComboboxItems,
-    typeReferenceOrValueInCombobox
+    typeReferenceOrValueInCombobox,
+    getComboboxGroupLabel
 } from '../comboboxTestUtils';
-import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
-import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
-import { loadFieldsForComplexTypesInFlow } from 'builder_platform_interaction/preloadLib';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createVariable } from 'builder_platform_interaction/elementFactory';
 import {
     addNewResourceEventListener,
@@ -46,43 +24,65 @@ import {
     setNextInlineResource
 } from '../inlineResourceTestUtils';
 
-jest.mock(
-    '@salesforce/label/FlowBuilderElementLabels.actionAsResourceText',
-    () => {
-        return { default: 'Outputs from {0}' };
-    },
-    { virtual: true }
-);
+jest.mock('@salesforce/label/FlowBuilderElementLabels.actionAsResourceText', () => ({ default: 'Outputs from {0}' }), {
+    virtual: true
+});
 
-jest.mock(
-    '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel',
-    () => {
-        return { default: 'New Resource' };
-    },
-    { virtual: true }
-);
+jest.mock('@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel', () => ({ default: 'New Resource' }), {
+    virtual: true
+});
 
-jest.mock(
-    '@salesforce/label/FlowBuilderElementLabels.subflowAsResourceText',
-    () => {
-        return { default: 'Outputs from {0}' };
-    },
-    { virtual: true }
-);
+jest.mock('@salesforce/label/FlowBuilderElementLabels.subflowAsResourceText', () => ({ default: 'Outputs from {0}' }), {
+    virtual: true
+});
 
 jest.mock(
     '@salesforce/label/FlowBuilderSubflows.variableInLatestVersionOnly',
-    () => {
-        return { default: '{0} (Latest Version Only)' };
-    },
+    () => ({ default: '{0} (Latest Version Only)' }),
     { virtual: true }
 );
 
 jest.mock(
     '@salesforce/label/FlowBuilderSubflows.variableInActiveVersionOnly',
-    () => {
-        return { default: '{0} (Active Version Only)' };
-    },
+    () => ({ default: '{0} (Active Version Only)' }),
+    { virtual: true }
+);
+
+jest.mock('@salesforce/label/FlowBuilderElementConfig.variablePluralLabel', () => ({ default: 'Variables' }), {
+    virtual: true
+});
+
+jest.mock(
+    '@salesforce/label/FlowBuilderElementConfig.sObjectPluralLabel',
+    () => ({ default: 'Record (Single) Variables' }),
+    { virtual: true }
+);
+
+jest.mock(
+    '@salesforce/label/FlowBuilderElementConfig.apexVariablePluralLabel',
+    () => ({ default: 'Apex-Defined Variables' }),
+    { virtual: true }
+);
+
+jest.mock('@salesforce/label/FlowBuilderElementConfig.subflowPluralLabel', () => ({ default: 'Subflows' }), {
+    virtual: true
+});
+
+jest.mock('@salesforce/label/FlowBuilderElementConfig.actionPluralLabel', () => ({ default: 'Actions' }), {
+    virtual: true
+});
+
+jest.mock('@salesforce/label/FlowBuilderDataTypes.textDataTypeLabel', () => ({ default: 'Text' }), { virtual: true });
+
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.recordCreateIdAsResourceText',
+    () => ({ default: '{0}Id from {1}' }),
+    { virtual: true }
+);
+
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.recordLookupAsResourceText',
+    () => ({ default: '{0} from {1}' }),
     { virtual: true }
 );
 
@@ -99,169 +99,22 @@ const getFerToFerovExpressionBuilder = assignment => {
     return deepQuerySelector(assignment, [INTERACTION_COMPONENTS_SELECTORS.FER_TO_FEROV_EXPRESSION_BUILDER]);
 };
 
-const getLHSGroupedCombobox = assignment => {
-    return deepQuerySelector(assignment, [
-        INTERACTION_COMPONENTS_SELECTORS.FER_TO_FEROV_EXPRESSION_BUILDER,
-        INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER,
-        EXPRESSION_BUILDER_SELECTORS.LHS_COMBOBOX,
-        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
-    ]);
-};
-
-const getRHSGroupedCombobox = assignment => {
-    return deepQuerySelector(assignment, [
-        INTERACTION_COMPONENTS_SELECTORS.FER_TO_FEROV_EXPRESSION_BUILDER,
-        INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER,
-        EXPRESSION_BUILDER_SELECTORS.RHS_COMBOBOX,
-        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
-    ]);
-};
-
 describe('Assignment Editor', () => {
-    let store;
+    let assignment, expressionBuilder;
     beforeAll(async () => {
-        store = await setupStateForProcessType(FLOW_PROCESS_TYPE.FLOW);
-        setApexClasses(apexTypesForFlow);
+        await setupStateForFlow(flowWithAllElements);
     });
     afterAll(() => {
         resetState();
     });
-    describe('"Get Records" Automated ouput in combobox', () => {
-        let assignment, assignmentForPropertyEditor;
-        beforeAll(async () => {
-            const uiFlow = translateFlowToUIModel(flowWithGetRecordUsingSObjectSingleAutomatedOutput);
-            store.dispatch(updateFlow(uiFlow));
-            await loadFieldsForComplexTypesInFlow(uiFlow);
-        });
-        beforeEach(async () => {
-            const assignmentElement = getElementByDevName('assignment');
-            assignmentForPropertyEditor = getElementForPropertyEditor(assignmentElement);
-            assignment = createComponentForTest(assignmentForPropertyEditor);
-            await ticks();
-        });
-        it('shows up automated output from Get Record in LHS', () => {
-            const lhsCombo = getLHSGroupedCombobox(assignment);
-            expect(
-                getGroupedComboboxItemInGroupByDisplayText(
-                    lhsCombo,
-                    'FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL',
-                    '{!Get_single_record_automatic_output}'
-                )
-            ).toBeDefined();
-        });
-        it('shows up automated output from Get Record in RHS', () => {
-            const rhsCombo = getRHSGroupedCombobox(assignment);
-            expect(
-                getGroupedComboboxItemInGroupByDisplayText(
-                    rhsCombo,
-                    'FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL',
-                    '{!Get_single_record_automatic_output}'
-                )
-            ).toBeDefined();
-        });
-        it('shows up record field when automated output from Get Record selected', async () => {
-            const lhsCombo = getLHSGroupedCombobox(assignment);
-            const automatedOutputFromGetRecord = getGroupedComboboxItemInGroupByDisplayText(
-                lhsCombo,
-                'FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL',
-                '{!Get_single_record_automatic_output}'
-            );
-            lhsCombo.dispatchEvent(selectEvent(automatedOutputFromGetRecord.value));
-            await ticks();
-            expectGroupedComboboxItem(lhsCombo, 'Name');
-        });
-        it('can select automated output from Get Record field', async () => {
-            const lhsCombo = getLHSGroupedCombobox(assignment);
-            const automatedOutputFromGetRecord = getGroupedComboboxItemInGroupByDisplayText(
-                lhsCombo,
-                'FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL',
-                '{!Get_single_record_automatic_output}'
-            );
-            lhsCombo.dispatchEvent(selectEvent(automatedOutputFromGetRecord.value));
-            await ticks();
-            const automatedOutputFromGetRecordNameField = getGroupedComboboxItem(lhsCombo, 'Name');
-
-            lhsCombo.dispatchEvent(selectEvent(automatedOutputFromGetRecordNameField.value));
-            await ticks();
-
-            expect(lhsCombo.value).toEqual('{!Get_single_record_automatic_output.Name}');
-        });
-    });
-    describe('"Create Records" Automated ouput in combobox', () => {
-        let assignment, assignmentForPropertyEditor;
-        const recordCreateInAutomaticModeMergeFieldName = addCurlyBraces(
-            flowWithCreateRecordAutomatedOutput.metadata.recordCreates[0].name
-        );
-        beforeAll(() => {
-            const uiFlow = translateFlowToUIModel(flowWithCreateRecordAutomatedOutput);
-            store.dispatch(updateFlow(uiFlow));
-        });
-        beforeEach(async () => {
-            const assignmentElement = getElementByDevName('assignment');
-            assignmentForPropertyEditor = getElementForPropertyEditor(assignmentElement);
-            assignment = createComponentForTest(assignmentForPropertyEditor);
-            await ticks();
-        });
-        it('shows up automated output from Create Record in LHS under "variables" section with correct "displayText" and "subtext"', () => {
-            const lhsCombo = getLHSGroupedCombobox(assignment);
-            expect(
-                getGroupedComboboxItemInGroupByDisplayText(
-                    lhsCombo,
-                    'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
-                    recordCreateInAutomaticModeMergeFieldName
-                )
-            ).toBeDefined();
-            expectGroupedComboboxItemInGroup(
-                lhsCombo,
-                'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
-                'FlowBuilderDataTypes.textDataTypeLabel',
-                'subText'
-            );
-        });
-        it('shows up automated output from Create Record in RHS under "variables" section correct "displayText" and "subtext"', () => {
-            const rhsCombo = getRHSGroupedCombobox(assignment);
-            expect(
-                getGroupedComboboxItemInGroupByDisplayText(
-                    rhsCombo,
-                    'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
-                    recordCreateInAutomaticModeMergeFieldName
-                )
-            ).toBeDefined();
-            expectGroupedComboboxItemInGroup(
-                rhsCombo,
-                'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
-                'FlowBuilderDataTypes.textDataTypeLabel',
-                'subText'
-            );
-        });
-    });
-    describe('Invocable action Automated ouput in combobox', () => {
-        let assignment, assignmentForPropertyEditor, expressionBuilder;
-        beforeAll(async () => {
-            const uiFlow = translateFlowToUIModel(flowWithAllElements);
-            store.dispatch(updateFlow(uiFlow));
-            await loadFieldsForComplexTypesInFlow(uiFlow);
-        });
-        beforeEach(async () => {
-            const assignmentElement = getElementByDevName('assignment1');
-            assignmentForPropertyEditor = getElementForPropertyEditor(assignmentElement);
-            assignment = createComponentForTest(assignmentForPropertyEditor);
-            expressionBuilder = getFerToFerovExpressionBuilder(assignment);
-            await ticks();
-        });
-        it('shows up Apex type fields with expected icon', async () => {
-            const lhsCombobox = getLhsCombobox(expressionBuilder);
-            const apexTypeField = await selectComboboxItemBy(lhsCombobox, 'text', [
-                'Outputs from apexCall_Car_automatic_output',
-                'car'
-            ]);
-
-            expect(apexTypeField).toBeDefined();
-            expect(apexTypeField.iconName).toBe('utility:apex');
-        });
+    beforeEach(async () => {
+        const assignmentElement = getElementByDevName('assignment1');
+        const assignmentForPropertyEditor = getElementForPropertyEditor(assignmentElement);
+        assignment = createComponentForTest(assignmentForPropertyEditor);
+        await ticks();
+        expressionBuilder = getFerToFerovExpressionBuilder(assignment);
     });
     describe('Validation', () => {
-        let assignment, expressionBuilder;
         const testExpression = {
             each: (strings, ...keys) => {
                 it.each(strings, ...keys)(
@@ -280,18 +133,6 @@ describe('Assignment Editor', () => {
                 return () => undefined;
             }
         };
-        beforeAll(async () => {
-            const uiFlow = translateFlowToUIModel(flowWithAllElements);
-            store.dispatch(updateFlow(uiFlow));
-            await loadFieldsForComplexTypesInFlow(uiFlow);
-        });
-        beforeEach(async () => {
-            const assignmentElement = getElementByDevName('assignment1');
-            const assignmentForPropertyEditor = getElementForPropertyEditor(assignmentElement);
-            assignment = createComponentForTest(assignmentForPropertyEditor);
-            await ticks();
-            expressionBuilder = getFerToFerovExpressionBuilder(assignment);
-        });
         describe('When LHS is a picklist', () => {
             testExpression.each`
             lhs                                            | operator    | rhs                                                     | rhsErrorMessage
@@ -387,31 +228,24 @@ describe('Assignment Editor', () => {
         });
         describe('Automatic handling mode', () => {
             testExpression.each`
-            lhs                                              | operator    | rhs                                                                                    | rhsErrorMessage
-            ${'{!stringVariable}'}                           | ${'Assign'} | ${'{!apexCall_account_automatic_output.generatedAccount.LastModifiedBy.Account.Name}'} | ${undefined}
-            ${'{!numberVariable}'}                           | ${'Assign'} | ${'{!apexCall_account_automatic_output.generatedAccount.LastModifiedBy.Account.Name}'} | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
-            ${'{!stringVariable}'}                           | ${'Assign'} | ${'{!lookupRecordAutomaticOutput.LastModifiedBy.Account.Name}'}                        | ${undefined}
-            ${'{!numberVariable}'}                           | ${'Assign'} | ${'{!lookupRecordAutomaticOutput.LastModifiedBy.Account.Name}'}                        | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
-            ${'{!emailScreenFieldAutomaticOutput.disabled}'} | ${'Assign'} | ${'{!$GlobalConstant.True}'}                                                           | ${undefined}
-            ${'{!emailScreenFieldAutomaticOutput.disabled}'} | ${'Assign'} | ${'myString'}                                                                          | ${'FlowBuilderCombobox.genericErrorMessage'}
-            ${'{!stringVariable}'}                           | ${'Assign'} | ${'{!createAccountWithAutomaticOutput}'}                                               | ${undefined}
-            ${'{!numberVariable}'}                           | ${'Assign'} | ${'{!createAccountWithAutomaticOutput}'}                                               | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
+            lhs                                                | operator    | rhs                                                                                    | rhsErrorMessage
+            ${'{!stringVariable}'}                             | ${'Assign'} | ${'{!apexCall_account_automatic_output.generatedAccount.LastModifiedBy.Account.Name}'} | ${undefined}
+            ${'{!numberVariable}'}                             | ${'Assign'} | ${'{!apexCall_account_automatic_output.generatedAccount.LastModifiedBy.Account.Name}'} | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
+            ${'{!stringVariable}'}                             | ${'Assign'} | ${'{!lookupRecordAutomaticOutput.LastModifiedBy.Account.Name}'}                        | ${undefined}
+            ${'{!numberVariable}'}                             | ${'Assign'} | ${'{!lookupRecordAutomaticOutput.LastModifiedBy.Account.Name}'}                        | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
+            ${'{!emailScreenFieldAutomaticOutput.disabled}'}   | ${'Assign'} | ${'{!$GlobalConstant.True}'}                                                           | ${undefined}
+            ${'{!emailScreenFieldAutomaticOutput.disabled}'}   | ${'Assign'} | ${'myString'}                                                                          | ${'FlowBuilderCombobox.genericErrorMessage'}
+            ${'{!stringVariable}'}                             | ${'Assign'} | ${'{!createAccountWithAutomaticOutput}'}                                               | ${undefined}
+            ${'{!numberVariable}'}                             | ${'Assign'} | ${'{!createAccountWithAutomaticOutput}'}                                               | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
+            ${'{!subflowAutomaticOutput.output1}'}             | ${'Assign'} | ${'myString'}                                                                          | ${undefined}
+            ${'{!subflowAutomaticOutput.carOutput.wheel.type}'}| ${'Assign'} | ${'myString'}                                                                          | ${undefined}
+            ${'{!numberVariable}'}                             | ${'Assign'} | ${'{!subflowAutomaticOutput.accountOutput.BillingLatitude}'}                           | ${undefined}
+            ${'{!numberVariable}'}                             | ${'Assign'} | ${'{!subflowAutomaticOutput.accountOutput.Name}'}                                      | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
             `();
         });
     });
     describe('Inline Resource creation', () => {
-        let assignment, expressionBuilder;
-        beforeAll(async () => {
-            const uiFlow = translateFlowToUIModel(flowWithAllElements);
-            store.dispatch(updateFlow(uiFlow));
-            await loadFieldsForComplexTypesInFlow(uiFlow);
-        });
         beforeEach(async () => {
-            const assignmentElement = getElementByDevName('assignment1');
-            const assignmentForPropertyEditor = getElementForPropertyEditor(assignmentElement);
-            assignment = createComponentForTest(assignmentForPropertyEditor);
-            await ticks();
-            expressionBuilder = getFerToFerovExpressionBuilder(assignment);
             addNewResourceEventListener();
         });
         afterEach(() => {
@@ -433,22 +267,9 @@ describe('Assignment Editor', () => {
         });
     });
     describe('Traversal', () => {
-        let assignment, expressionBuilder, lhsCombobox;
-        beforeAll(async () => {
-            const uiFlow = translateFlowToUIModel(flowWithAllElements);
-            store.dispatch(updateFlow(uiFlow));
-            await loadFieldsForComplexTypesInFlow(uiFlow);
-        });
-        beforeEach(async () => {
-            const assignmentElement = getElementByDevName('assignment1');
-            const assignmentForPropertyEditor = getElementForPropertyEditor(assignmentElement);
-            assignment = createComponentForTest(assignmentForPropertyEditor);
-            await ticks();
-            expressionBuilder = getFerToFerovExpressionBuilder(assignment);
-            lhsCombobox = getLhsCombobox(expressionBuilder);
-        });
         it('is limited to 10 levels', async () => {
             // Given
+            const lhsCombobox = getLhsCombobox(expressionBuilder);
             const rhsCombobox = getRhsCombobox(expressionBuilder);
             await typeMergeFieldInCombobox(lhsCombobox, '{!stringVariable}');
             selectOperator(expressionBuilder, 'Assign');
@@ -483,36 +304,82 @@ describe('Assignment Editor', () => {
             ${'{!apexComplexTypeVariable.doesNotExist}'}  | ${'FlowBuilderMergeFieldValidation.unknownRecordField'}
             ${'{!apexComplexTypeVariable.doesNotExist.}'} | ${'FlowBuilderCombobox.genericErrorMessage'}
         `('error for "$lhs should be : $expectedErrorMessage', async ({ lhs, expectedErrorMessage }) => {
+            const lhsCombobox = getLhsCombobox(expressionBuilder);
             await typeReferenceOrValueInCombobox(lhsCombobox, lhs);
             expect(lhsCombobox.errorMessage).toEqual(expectedErrorMessage);
         });
     });
     describe('Selection using comboboxes', () => {
-        let assignment;
-        const itCanSelectInLhs = lhs =>
+        const expectCanSelectInCombobox = async (combobox, propertyValues, expectedItem = {}) => {
+            const selectedItem = await selectComboboxItemBy(combobox, 'text', propertyValues, { blur: true });
+            expect(selectedItem).toBeDefined();
+            expect(combobox.errorMessage).toBeNull();
+            expect(selectedItem).toMatchObject(expectedItem);
+        };
+        const itCanSelectInLhs = (lhs, expectedItem = {}) =>
             it(`can select [${lhs}] on lhs`, async () => {
-                const expressionBuilder = getFerToFerovExpressionBuilder(assignment);
                 const lhsCombobox = getLhsCombobox(expressionBuilder);
-                const selectedLhsItem = await selectComboboxItemBy(lhsCombobox, 'text', lhs, { blur: true });
-                expect(selectedLhsItem).toBeDefined();
-                expect(lhsCombobox.errorMessage).toBeNull();
+                await expectCanSelectInCombobox(lhsCombobox, lhs, expectedItem);
             });
-        beforeAll(async () => {
-            const uiFlow = translateFlowToUIModel(flowWithAllElements);
-            store.dispatch(updateFlow(uiFlow));
-            await loadFieldsForComplexTypesInFlow(uiFlow);
+        const itCanSelectInRhs = (rhs, expectedItem = {}) =>
+            it(`can select [${rhs}] on rhs`, async () => {
+                const rhsCombobox = getRhsCombobox(expressionBuilder);
+                await expectCanSelectInCombobox(rhsCombobox, rhs, expectedItem);
+            });
+        describe('groups', () => {
+            it.each`
+                item                                                 | group
+                ${'apexComplexTypeVariable'}                         | ${'APEX-DEFINED VARIABLES'}
+                ${'Outputs from subflowAutomaticOutput'}             | ${'SUBFLOWS'}
+                ${'Outputs from apexCall_Car_automatic_output'}      | ${'ACTIONS'}
+                ${'AccountId from createAccountWithAutomaticOutput'} | ${'VARIABLES'}
+                ${'Account from lookupRecordAutomaticOutput'}        | ${'RECORD (SINGLE) VARIABLES'}
+            `('$item should be in group $group', ({ item, group }) => {
+                const lhsCombobox = getLhsCombobox(expressionBuilder);
+                const groupLabel = getComboboxGroupLabel(lhsCombobox, 'text', item);
+                expect(groupLabel).toEqual(group);
+            });
         });
-        beforeEach(async () => {
-            const assignmentElement = getElementByDevName('assignment1');
-            const assignmentForPropertyEditor = getElementForPropertyEditor(assignmentElement);
-            assignment = createComponentForTest(assignmentForPropertyEditor);
-            await ticks();
+        describe('apex variables', () => {
+            itCanSelectInLhs(['apexComplexTypeVariable', 'acct'], {
+                iconName: 'utility:sobject'
+            });
+            itCanSelectInLhs(['apexComplexTypeVariable', 'acct', 'Name']);
         });
-        itCanSelectInLhs(['apexComplexTypeVariable', 'acct']);
-        itCanSelectInLhs(['apexComplexTypeVariable', 'acct', 'Name']);
-        itCanSelectInLhs(['Outputs from subflowAutomaticOutput', 'output2 (Active Version Only)']);
-        itCanSelectInLhs(['Outputs from subflowAutomaticOutput', 'accountOutput']);
-        itCanSelectInLhs(['Outputs from subflowAutomaticOutput', 'accountOutput', 'Name']);
-        itCanSelectInLhs(['Outputs from subflowAutomaticOutput', 'carOutput (Latest Version Only)', 'wheel', 'type']);
+        describe('lookup records automatic output', () => {
+            itCanSelectInLhs(['Account from lookupRecordAutomaticOutput'], {
+                iconName: 'utility:sobject'
+            });
+            itCanSelectInLhs(['Account from lookupRecordAutomaticOutput', 'Name']);
+            itCanSelectInRhs(['Account from lookupRecordAutomaticOutput', 'Name'], {
+                displayText: '{!lookupRecordAutomaticOutput.Name}'
+            });
+        });
+        describe('create records automatic output', () => {
+            itCanSelectInLhs(['AccountId from createAccountWithAutomaticOutput'], {
+                iconName: 'utility:text',
+                subTextNoHighlight: 'Text',
+                displayText: '{!createAccountWithAutomaticOutput}'
+            });
+            itCanSelectInRhs(['AccountId from createAccountWithAutomaticOutput'], {
+                iconName: 'utility:text',
+                subTextNoHighlight: 'Text',
+                displayText: '{!createAccountWithAutomaticOutput}'
+            });
+        });
+        describe('action automatic output', () => {
+            itCanSelectInLhs(['Outputs from apexCall_Car_automatic_output', 'car'], { iconName: 'utility:apex' });
+        });
+        describe('subflow automatic output', () => {
+            itCanSelectInLhs(['Outputs from subflowAutomaticOutput', 'output2 (Active Version Only)']);
+            itCanSelectInLhs(['Outputs from subflowAutomaticOutput', 'accountOutput']);
+            itCanSelectInLhs(['Outputs from subflowAutomaticOutput', 'accountOutput', 'Name']);
+            itCanSelectInLhs(
+                ['Outputs from subflowAutomaticOutput', 'carOutput (Latest Version Only)', 'wheel', 'type'],
+                {
+                    displayText: '{!subflowAutomaticOutput.carOutput.wheel.type}'
+                }
+            );
+        });
     });
 });

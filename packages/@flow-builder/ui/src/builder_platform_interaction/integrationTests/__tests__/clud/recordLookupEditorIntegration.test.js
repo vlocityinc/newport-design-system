@@ -4,8 +4,6 @@ import { resolveRenderCycles } from '../resolveRenderCycles';
 
 import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
-    getLabelDescriptionLabelElement,
-    getLabelDescriptionNameElement,
     expectGroupedComboboxItem,
     getFieldToFerovExpressionBuilders,
     getBaseExpressionBuilder,
@@ -18,6 +16,7 @@ import {
     resetState,
     setupStateForProcessType
 } from '../integrationTestUtils';
+import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { EditElementEvent, AddElementEvent } from 'builder_platform_interaction/events';
 import { updateFlow } from 'builder_platform_interaction/actions';

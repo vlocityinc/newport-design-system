@@ -8,7 +8,8 @@ import {
     INTERACTION_COMPONENTS_SELECTORS,
     selectEvent
 } from 'builder_platform_interaction/builderTestUtils';
-import { resetState, getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../integrationTestUtils';
+import { resetState } from '../integrationTestUtils';
+import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
 import { getSubflows, getFlowInputOutputVariables, initializeAuraFetch } from '../serverDataTestUtils';
 import { ELEMENT_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { reducer } from 'builder_platform_interaction/reducers';

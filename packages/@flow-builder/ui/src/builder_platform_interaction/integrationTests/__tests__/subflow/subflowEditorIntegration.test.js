@@ -10,13 +10,12 @@ import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { flowWithSubflows } from 'mock/flows/flowWithSubflows';
 import {
-    getLabelDescriptionNameElement,
-    getLabelDescriptionLabelElement,
     changeComboboxValue,
     resetState,
     setupStateForProcessType,
     ToggleOnChangeEvent
 } from '../integrationTestUtils';
+import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
     getBaseCalloutElement,

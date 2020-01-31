@@ -10,12 +10,8 @@ import { translateFlowToUIModel } from 'builder_platform_interaction/translatorL
 import { reducer } from 'builder_platform_interaction/reducers';
 import { flowWithApexActionSubmitForApproval } from 'mock/flows/flowWithApexActionSubmitForApproval';
 import { ticks, focusoutEvent } from 'builder_platform_interaction/builderTestUtils';
-import {
-    getLabelDescriptionNameElement,
-    getLabelDescriptionLabelElement,
-    resetState,
-    ToggleOnChangeEvent
-} from '../integrationTestUtils';
+import { resetState, ToggleOnChangeEvent } from '../integrationTestUtils';
+import { getLabelDescriptionNameElement, getLabelDescriptionLabelElement } from '../labelDescriptionTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
     getBaseCalloutElement,

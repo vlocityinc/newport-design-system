@@ -142,7 +142,10 @@ function lib() {
          */
         var _nearestPointOnCurve = function(point, curve) {
             var td = _distanceFromCurve(point, curve);
-            return { point: _bezier(curve, curve.length - 1, td.location, null, null), location: td.location };
+            return {
+                point: _bezier(curve, curve.length - 1, td.location, null, null),
+                location: td.location
+            };
         };
         var _convertToBezier = function(point, curve) {
             var degree = curve.length - 1,
@@ -1213,7 +1216,11 @@ function lib() {
                     if (!obj.__tamee) {
                         // __tamee holds a flag saying whether the mouse is currently "in" the element, and a list of
                         // both mouseenter and mouseexit functions.
-                        obj.__tamee = { over: false, mouseenter: [], mouseexit: [] };
+                        obj.__tamee = {
+                            over: false,
+                            mouseenter: [],
+                            mouseexit: []
+                        };
                         // register over and out functions
                         var over = function(e) {
                                 var t = _t(e);
@@ -1257,7 +1264,11 @@ function lib() {
             },
             isTouchDevice = 'ontouchstart' in document.documentElement,
             isMouseDevice = 'onmousedown' in document.documentElement,
-            touchMap = { mousedown: 'touchstart', mouseup: 'touchend', mousemove: 'touchmove' },
+            touchMap = {
+                mousedown: 'touchstart',
+                mouseup: 'touchend',
+                mousemove: 'touchmove'
+            },
             touchstart = 'touchstart',
             touchend = 'touchend',
             touchmove = 'touchmove',
@@ -2200,7 +2211,12 @@ function lib() {
                         k.markSelection(this);
                         k.markPosses(this);
                         this.params.addClass(document.body, css.noSelect);
-                        _dispatch('beforeStart', { el: this.el, pos: posAtDown, e: e, drag: this });
+                        _dispatch('beforeStart', {
+                            el: this.el,
+                            pos: posAtDown,
+                            e: e,
+                            drag: this
+                        });
                     } else if (this.params.consumeFilteredEvents) {
                         _consume(e);
                     }
@@ -2210,7 +2226,12 @@ function lib() {
             this.moveListener = function(e) {
                 if (downAt) {
                     if (!moving) {
-                        var _continue = _dispatch('start', { el: this.el, pos: posAtDown, e: e, drag: this });
+                        var _continue = _dispatch('start', {
+                            el: this.el,
+                            pos: posAtDown,
+                            e: e,
+                            drag: this
+                        });
                         if (_continue !== false) {
                             if (!downAt) {
                                 return;
@@ -2298,7 +2319,15 @@ function lib() {
                 return retrieveOriginalElement ? elementToDrag || this.el : dragEl || this.el;
             };
 
-            var listeners = { start: [], drag: [], stop: [], over: [], out: [], beforeStart: [], revert: [] };
+            var listeners = {
+                start: [],
+                drag: [],
+                stop: [],
+                over: [],
+                out: [],
+                beforeStart: [],
+                revert: []
+            };
             if (params.events.start) listeners.start.push(params.events.start);
             if (params.events.beforeStart) listeners.beforeStart.push(params.events.beforeStart);
             if (params.events.stop) listeners.stop.push(params.events.stop);
@@ -2337,7 +2366,12 @@ function lib() {
             };
 
             this.notifyStart = function(e) {
-                _dispatch('start', { el: this.el, pos: this.params.getPosition(dragEl), e: e, drag: this });
+                _dispatch('start', {
+                    el: this.el,
+                    pos: this.params.getPosition(dragEl),
+                    e: e,
+                    drag: this
+                });
             };
 
             this.stop = function(e, force) {
@@ -2467,8 +2501,18 @@ function lib() {
                     }
                 }
 
-                var rect = { x: cPos[0], y: cPos[1], w: this.size[0], h: this.size[1] },
-                    pageRect = { x: rect.x + pageDelta[0], y: rect.y + pageDelta[1], w: rect.w, h: rect.h },
+                var rect = {
+                        x: cPos[0],
+                        y: cPos[1],
+                        w: this.size[0],
+                        h: this.size[1]
+                    },
+                    pageRect = {
+                        x: rect.x + pageDelta[0],
+                        y: rect.y + pageDelta[1],
+                        w: rect.w,
+                        h: rect.h
+                    },
                     focusDropElement = null;
 
                 this.params.setPosition(dragEl, [cPos[0] + ghostDx, cPos[1] + ghostDy]);
@@ -2556,7 +2600,12 @@ function lib() {
                     this.params[val ? 'addClass' : 'removeClass'](this.el, this._hoverClass);
                     this.el._katavorioDragHover = val ? drag.el._katavorio : null;
                     if (hover !== val) {
-                        this.params.events[val ? 'over' : 'out']({ el: this.el, e: e, drag: drag, drop: this });
+                        this.params.events[val ? 'over' : 'out']({
+                            el: this.el,
+                            e: e,
+                            drag: drag,
+                            drop: this
+                        });
                     }
                     hover = val;
                 }
@@ -2570,7 +2619,11 @@ function lib() {
              * @returns {*}
              */
             this.drop = function(drag, event) {
-                return this.params.events['drop']({ drag: drag, e: event, drop: this });
+                return this.params.events['drop']({
+                    drag: drag,
+                    e: event,
+                    drop: this
+                });
             };
 
             this.destroy = function() {
@@ -4663,7 +4716,10 @@ function lib() {
                             : this._jsPlumb.paintStyle;
                         if (!this._jsPlumb.instance.isSuspendDrawing()) {
                             timestamp = timestamp || _timestamp();
-                            this.repaint({ timestamp: timestamp, recalc: false });
+                            this.repaint({
+                                timestamp: timestamp,
+                                recalc: false
+                            });
                         }
                     }
                     // get the list of other affected elements, if supported by this component.
@@ -4737,7 +4793,10 @@ function lib() {
                         return { el: el, text: true };
                     } else {
                         var _el = _currentInstance.getElement(el);
-                        return { el: _el, id: _ju.isString(el) && _el == null ? el : _getId(_el) };
+                        return {
+                            el: _el,
+                            id: _ju.isString(el) && _el == null ? el : _getId(_el)
+                        };
                     }
                 };
 
@@ -4936,7 +4995,12 @@ function lib() {
                         }
 
                         // update the offset of everything _before_ we try to draw anything.
-                        var o = _updateOffset({ elId: id, offset: ui, recalc: false, timestamp: timestamp });
+                        var o = _updateOffset({
+                            elId: id,
+                            offset: ui,
+                            recalc: false,
+                            timestamp: timestamp
+                        });
 
                         if (repaintEls && o && o.o) {
                             for (var i in repaintEls) {
@@ -5544,8 +5608,16 @@ function lib() {
             };
 
             var stTypes = [
-                { el: 'source', elId: 'sourceId', epDefs: 'sourceEndpointDefinitions' },
-                { el: 'target', elId: 'targetId', epDefs: 'targetEndpointDefinitions' }
+                {
+                    el: 'source',
+                    elId: 'sourceId',
+                    epDefs: 'sourceEndpointDefinitions'
+                },
+                {
+                    el: 'target',
+                    elId: 'targetId',
+                    epDefs: 'targetEndpointDefinitions'
+                }
             ];
 
             var _set = function(c, el, idx, doNotRepaint) {
@@ -6219,11 +6291,18 @@ function lib() {
                         connections: []
                     };
 
-                    managedElements[id].info = _updateOffset({ elId: id, timestamp: _suspendedAt });
+                    managedElements[id].info = _updateOffset({
+                        elId: id,
+                        timestamp: _suspendedAt
+                    });
                     _currentInstance.addClass(element, 'jtk-managed');
 
                     if (!_transient) {
-                        _currentInstance.fire('manageElement', { id: id, info: managedElements[id].info, el: element });
+                        _currentInstance.fire('manageElement', {
+                            id: id,
+                            info: managedElements[id].info,
+                            el: element
+                        });
                     }
                 }
 
@@ -6235,7 +6314,10 @@ function lib() {
                     var el = managedElements[id].el;
                     _currentInstance.removeClass(el, 'jtk-managed');
                     delete managedElements[id];
-                    _currentInstance.fire('unmanageElement', { id: id, el: el });
+                    _currentInstance.fire('unmanageElement', {
+                        id: id,
+                        el: el
+                    });
                 }
             });
 
@@ -6257,7 +6339,10 @@ function lib() {
                 }
                 if (!recalc) {
                     if (timestamp && timestamp === offsetTimestamps[elId]) {
-                        return { o: params.offset || offsets[elId], s: sizes[elId] };
+                        return {
+                            o: params.offset || offsets[elId],
+                            s: sizes[elId]
+                        };
                     }
                 }
                 if (recalc || (!offset && offsets[elId] == null)) {
@@ -6327,7 +6412,9 @@ function lib() {
                             return new root.jsPlumb.Anchors[t](p);
                         }
                         if (!_currentInstance.Defaults.DoNotThrowErrors) {
-                            throw { msg: "jsPlumb: unknown anchor type '" + t + "'" };
+                            throw {
+                                msg: "jsPlumb: unknown anchor type '" + t + "'"
+                            };
                         }
                     };
                 if (arguments.length === 0) {
@@ -6343,7 +6430,10 @@ function lib() {
                 } //TODO hazy here about whether it should be added or is already added somehow.
                 // is it the name of an anchor type?
                 else if (typeof specimen === 'string') {
-                    newAnchor = _a(arguments[0], { elementId: elementId, jsPlumbInstance: _currentInstance });
+                    newAnchor = _a(arguments[0], {
+                        elementId: elementId,
+                        jsPlumbInstance: _currentInstance
+                    });
                 }
                 // is it an array? it will be one of:
                 // an array of [spec, params] - this defines a single anchor, which may be dynamic, but has parameters.
@@ -6356,7 +6446,10 @@ function lib() {
                             // if first arg is a string, its a named anchor with params
                             if (_ju.isString(specimen[0])) {
                                 pp = root.jsPlumb.extend(
-                                    { elementId: elementId, jsPlumbInstance: _currentInstance },
+                                    {
+                                        elementId: elementId,
+                                        jsPlumbInstance: _currentInstance
+                                    },
                                     specimen[1]
                                 );
                                 newAnchor = _a(specimen[0], pp);
@@ -6365,7 +6458,11 @@ function lib() {
                             // even if the first arg has only one entry. you could argue all anchors should be implicitly dynamic in fact.
                             else {
                                 pp = root.jsPlumb.extend(
-                                    { elementId: elementId, jsPlumbInstance: _currentInstance, anchors: specimen[0] },
+                                    {
+                                        elementId: elementId,
+                                        jsPlumbInstance: _currentInstance,
+                                        anchors: specimen[0]
+                                    },
                                     specimen[1]
                                 );
                                 newAnchor = new root.jsPlumb.DynamicAnchor(pp);
@@ -6410,7 +6507,10 @@ function lib() {
                 for (var i = 0, ii = types.length; i < ii; i++) {
                     if (typeof types[i] === 'string') {
                         r.push(
-                            root.jsPlumb.Anchors[types[i]]({ elementId: elementId, jsPlumbInstance: jsPlumbInstance })
+                            root.jsPlumb.Anchors[types[i]]({
+                                elementId: elementId,
+                                jsPlumbInstance: jsPlumbInstance
+                            })
                         );
                     } else if (_ju.isArray(types[i])) {
                         r.push(_currentInstance.makeAnchor(types[i], elementId, jsPlumbInstance));
@@ -6459,7 +6559,9 @@ function lib() {
                         return elInfo.def.enabled;
                     },
                     isFull: function() {
-                        var targetCount = _currentInstance.select({ target: elInfo.id }).length;
+                        var targetCount = _currentInstance.select({
+                            target: elInfo.id
+                        }).length;
                         return elInfo.def.maxConnections > 0 && targetCount >= elInfo.def.maxConnections;
                     },
                     element: elInfo.el,
@@ -7114,7 +7216,11 @@ function lib() {
             this.revalidate = function(el, timestamp, isIdAlready) {
                 return _elEach(el, function(_el) {
                     var elId = isIdAlready ? _el : _currentInstance.getId(_el);
-                    _currentInstance.updateOffset({ elId: elId, recalc: true, timestamp: timestamp });
+                    _currentInstance.updateOffset({
+                        elId: elId,
+                        recalc: true,
+                        timestamp: timestamp
+                    });
                     var dm = _currentInstance.getDragManager();
                     if (dm) {
                         // CL 18281698 - Passing down the entire element instead of just the element id
@@ -7133,7 +7239,11 @@ function lib() {
                     elId;
 
                 for (elId in endpointsByElement) {
-                    _currentInstance.updateOffset({ elId: elId, recalc: true, timestamp: timestamp });
+                    _currentInstance.updateOffset({
+                        elId: elId,
+                        recalc: true,
+                        timestamp: timestamp
+                    });
                 }
 
                 for (elId in endpointsByElement) {
@@ -7312,7 +7422,10 @@ function lib() {
                         }
                     }
                 }
-                return { endpoints: eps ? eps : [ep, ep], anchors: as ? as : [a, a] };
+                return {
+                    endpoints: eps ? eps : [ep, ep],
+                    anchors: as ? as : [a, a]
+                };
             };
 
             // sets the id of some element, changing whatever we need to to keep track.
@@ -7551,7 +7664,10 @@ function lib() {
                 proxyEp.setDeleteOnEmpty(true);
 
                 // for this index, stash proxy info: the new EP, the original EP.
-                connection.proxies[index] = { ep: proxyEp, originalEp: originalEndpoint };
+                connection.proxies[index] = {
+                    ep: proxyEp,
+                    originalEp: originalEndpoint
+                };
 
                 // and advise the anchor manager
                 if (index === 0) {
@@ -7701,7 +7817,13 @@ function lib() {
                     // which merges the 3rd arg into the 2nd.
                     var type = o[0],
                         // make a copy of the object so as not to mess up anyone else's reference...
-                        p = _jp.extend({ component: component, _jsPlumb: component._jsPlumb.instance }, o[1]);
+                        p = _jp.extend(
+                            {
+                                component: component,
+                                _jsPlumb: component._jsPlumb.instance
+                            },
+                            o[1]
+                        );
                     if (o.length === 3) {
                         _jp.extend(p, o[2]);
                     }
@@ -8004,7 +8126,11 @@ function lib() {
                         _jsPlumb.repaint(placeholder.element, _ui);
                         // always repaint the source endpoint, because only continuous/dynamic anchors cause the endpoint
                         // to be repainted, so static anchors need to be told (or the endpoint gets dragged around)
-                        endpoint.paint({ anchorPoint: endpoint.anchor.getCurrentLocation({ element: endpoint }) });
+                        endpoint.paint({
+                            anchorPoint: endpoint.anchor.getCurrentLocation({
+                                element: endpoint
+                            })
+                        });
                     }
                 },
                 stopDrag: function() {
@@ -8165,7 +8291,10 @@ function lib() {
                 a.bind(
                     'anchorChanged',
                     function(currentAnchor) {
-                        this.fire('anchorChanged', { endpoint: this, anchor: currentAnchor });
+                        this.fire('anchorChanged', {
+                            endpoint: this,
+                            anchor: currentAnchor
+                        });
                         _updateAnchorClass();
                     }.bind(this)
                 );
@@ -8220,7 +8349,9 @@ function lib() {
                         return new _jp.Endpoints[rm][t](p);
                     }
                     if (!_jsPlumb.Defaults.DoNotThrowErrors) {
-                        throw { msg: "jsPlumb: unknown endpoint type '" + t + "'" };
+                        throw {
+                            msg: "jsPlumb: unknown endpoint type '" + t + "'"
+                        };
                     }
                 };
 
@@ -8420,7 +8551,10 @@ function lib() {
                 var timestamp = params.timestamp,
                     recalc = !(params.recalc === false);
                 if (!timestamp || this.timestamp !== timestamp) {
-                    var info = _jsPlumb.updateOffset({ elId: this.elementId, timestamp: timestamp });
+                    var info = _jsPlumb.updateOffset({
+                        elId: this.elementId,
+                        timestamp: timestamp
+                    });
 
                     var xy = params.offset ? params.offset.o : info.o;
                     if (xy != null) {
@@ -8428,7 +8562,12 @@ function lib() {
                             connectorPaintStyle = params.connectorPaintStyle;
                         if (ap == null) {
                             var wh = params.dimensions || info.s,
-                                anchorParams = { xy: [xy.left, xy.top], wh: wh, element: this, timestamp: timestamp };
+                                anchorParams = {
+                                    xy: [xy.left, xy.top],
+                                    wh: wh,
+                                    element: this,
+                                    timestamp: timestamp
+                                };
                             if (recalc && this.anchor.isDynamic && this.connections.length > 0) {
                                 var c = findConnectionToUseForDynamicAnchor(this, params.elementWithPrecedence),
                                     oIdx = c.endpoints[0] === this ? 1 : 0,
@@ -8775,7 +8914,9 @@ function lib() {
                                         jpc.isReattach() ||
                                         jpc._forceReattach ||
                                         jpc._forceDetach ||
-                                        !_jsPlumb.deleteConnection(jpc, { originalEvent: originalEvent })
+                                        !_jsPlumb.deleteConnection(jpc, {
+                                            originalEvent: originalEvent
+                                        })
                                     ) {
                                         jpc.setHover(false);
                                         jpc._forceDetach = null;
@@ -9620,7 +9761,10 @@ function lib() {
                         timestamp: initialTimestamp
                     });
 
-                this.endpoints[0].paint({ anchorLoc: anchorLoc, timestamp: initialTimestamp });
+                this.endpoints[0].paint({
+                    anchorLoc: anchorLoc,
+                    timestamp: initialTimestamp
+                });
 
                 anchorLoc = this.endpoints[1].anchor.compute({
                     xy: [otherOffset.left, otherOffset.top],
@@ -9632,7 +9776,10 @@ function lib() {
                     tElement: this.endpoints[0],
                     timestamp: initialTimestamp
                 });
-                this.endpoints[1].paint({ anchorLoc: anchorLoc, timestamp: initialTimestamp });
+                this.endpoints[1].paint({
+                    anchorLoc: anchorLoc,
+                    timestamp: initialTimestamp
+                });
             }
 
             this.getTypeDescriptor = function() {
@@ -9966,8 +10113,12 @@ function lib() {
                         sIdx = swap ? 1 : 0;
 
                     if (timestamp == null || timestamp !== this._jsPlumb.lastPaintedAt) {
-                        var sourceInfo = this._jsPlumb.instance.updateOffset({ elId: sId }).o,
-                            targetInfo = this._jsPlumb.instance.updateOffset({ elId: tId }).o,
+                        var sourceInfo = this._jsPlumb.instance.updateOffset({
+                                elId: sId
+                            }).o,
+                            targetInfo = this._jsPlumb.instance.updateOffset({
+                                elId: tId
+                            }).o,
                             sE = this.endpoints[sIdx],
                             tE = this.endpoints[tIdx];
 
@@ -9998,7 +10149,12 @@ function lib() {
                             targetInfo: targetInfo
                         });
 
-                        var overlayExtents = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity };
+                        var overlayExtents = {
+                            minX: Infinity,
+                            minY: Infinity,
+                            maxX: -Infinity,
+                            maxY: -Infinity
+                        };
 
                         // compute overlays. we do this first so we can get their placements, and adjust the
                         // container if needs be (if an overlay would be clipped)
@@ -10182,8 +10338,14 @@ function lib() {
                 this.endpoints[idx] = _new;
 
                 ebe.splice(_idx, 1, _new);
-                this._jsPlumb.instance.deleteObject({ endpoint: current, deleteAttachedObjects: false });
-                this._jsPlumb.instance.fire('endpointReplaced', { previous: current, current: _new });
+                this._jsPlumb.instance.deleteObject({
+                    endpoint: current,
+                    deleteAttachedObjects: false
+                });
+                this._jsPlumb.instance.fire('endpointReplaced', {
+                    previous: current,
+                    current: _new
+                });
 
                 this._jsPlumb.instance.anchorManager.updateOtherEndpoint(
                     this.endpoints[0].elementId,
@@ -10706,17 +10868,33 @@ function lib() {
                                 oIdx = conn.sourceId === elementId ? 1 : 0;
 
                             if (sourceContinuous && !anchorLists[sourceId]) {
-                                anchorLists[sourceId] = { top: [], right: [], bottom: [], left: [] };
+                                anchorLists[sourceId] = {
+                                    top: [],
+                                    right: [],
+                                    bottom: [],
+                                    left: []
+                                };
                             }
                             if (targetContinuous && !anchorLists[targetId]) {
-                                anchorLists[targetId] = { top: [], right: [], bottom: [], left: [] };
+                                anchorLists[targetId] = {
+                                    top: [],
+                                    right: [],
+                                    bottom: [],
+                                    left: []
+                                };
                             }
 
                             if (elementId !== targetId) {
-                                jsPlumbInstance.updateOffset({ elId: targetId, timestamp: timestamp });
+                                jsPlumbInstance.updateOffset({
+                                    elId: targetId,
+                                    timestamp: timestamp
+                                });
                             }
                             if (elementId !== sourceId) {
-                                jsPlumbInstance.updateOffset({ elId: sourceId, timestamp: timestamp });
+                                jsPlumbInstance.updateOffset({
+                                    elId: sourceId,
+                                    timestamp: timestamp
+                                });
                             }
 
                             var td = jsPlumbInstance.getCachedData(targetId),
@@ -10835,13 +11013,21 @@ function lib() {
                     for (i = 0; i < ep.length; i++) {
                         if (ep[i].connections.length === 0 && ep[i].anchor.isContinuous) {
                             if (!anchorLists[elementId]) {
-                                anchorLists[elementId] = { top: [], right: [], bottom: [], left: [] };
+                                anchorLists[elementId] = {
+                                    top: [],
+                                    right: [],
+                                    bottom: [],
+                                    left: []
+                                };
                             }
                             _updateAnchorList(
                                 anchorLists[elementId],
                                 -Math.PI / 2,
                                 0,
-                                { endpoints: [ep[i], ep[i]], paint: function() {} },
+                                {
+                                    endpoints: [ep[i], ep[i]],
+                                    paint: function() {}
+                                },
                                 false,
                                 elementId,
                                 0,
@@ -10876,7 +11062,11 @@ function lib() {
                     for (i = 0; i < endpointsToPaint.length; i++) {
                         var cd = jsPlumbInstance.getCachedData(endpointsToPaint[i].elementId);
                         //endpointsToPaint[i].paint({ timestamp: timestamp, offset: cd, dimensions: cd.s });
-                        endpointsToPaint[i].paint({ timestamp: null, offset: cd, dimensions: cd.s });
+                        endpointsToPaint[i].paint({
+                            timestamp: null,
+                            offset: cd,
+                            dimensions: cd.s
+                        });
                     }
 
                     // paint all the standard and "dynamic connections", which are connections whose other anchor is
@@ -10886,7 +11076,10 @@ function lib() {
                     for (i = 0; i < endpointConnections.length; i++) {
                         var otherEndpoint = endpointConnections[i][1];
                         if (otherEndpoint.anchor.constructor === _jp.DynamicAnchor) {
-                            otherEndpoint.paint({ elementWithPrecedence: elementId, timestamp: timestamp });
+                            otherEndpoint.paint({
+                                elementWithPrecedence: elementId,
+                                timestamp: timestamp
+                            });
                             _ju.addWithFunction(connectionsToPaint, endpointConnections[i][0], function(c) {
                                 return c.id === endpointConnections[i][0].id;
                             });
@@ -10908,7 +11101,11 @@ function lib() {
                     // paint current floating connection for this element, if there is one.
                     var fc = floatingConnections[elementId];
                     if (fc) {
-                        fc.paint({ timestamp: timestamp, recalc: false, elId: elementId });
+                        fc.paint({
+                            timestamp: timestamp,
+                            recalc: false,
+                            elId: elementId
+                        });
                     }
 
                     // paint all the connections
@@ -10931,9 +11128,24 @@ function lib() {
                 var faces = anchorParams.faces || ['top', 'right', 'bottom', 'left'],
                     clockwise = !(anchorParams.clockwise === false),
                     availableFaces = {},
-                    opposites = { top: 'bottom', right: 'left', left: 'right', bottom: 'top' },
-                    clockwiseOptions = { top: 'right', right: 'bottom', left: 'top', bottom: 'left' },
-                    antiClockwiseOptions = { top: 'left', right: 'top', left: 'bottom', bottom: 'right' },
+                    opposites = {
+                        top: 'bottom',
+                        right: 'left',
+                        left: 'right',
+                        bottom: 'top'
+                    },
+                    clockwiseOptions = {
+                        top: 'right',
+                        right: 'bottom',
+                        left: 'top',
+                        bottom: 'left'
+                    },
+                    antiClockwiseOptions = {
+                        top: 'left',
+                        right: 'top',
+                        left: 'bottom',
+                        bottom: 'right'
+                    },
                     secondBest = clockwise ? clockwiseOptions : antiClockwiseOptions,
                     lastChoice = clockwise ? antiClockwiseOptions : clockwiseOptions,
                     cssClass = anchorParams.cssClass || '',
@@ -11866,7 +12078,12 @@ function lib() {
                     y2 = coords.y2;
                     _recalc();
                 };
-                this.setCoordinates({ x1: params.x1, y1: params.y1, x2: params.x2, y2: params.y2 });
+                this.setCoordinates({
+                    x1: params.x1,
+                    y1: params.y1,
+                    x2: params.x2,
+                    y2: params.y2
+                });
 
                 this.getBounds = function() {
                     return {
@@ -12194,7 +12411,11 @@ function lib() {
                  */
                 this.pointOnPath = function(location, absolute) {
                     if (location === 0) {
-                        return { x: this.x1, y: this.y1, theta: this.startAngle };
+                        return {
+                            x: this.x1,
+                            y: this.y1,
+                            theta: this.startAngle
+                        };
                     } else if (location === 1) {
                         return { x: this.x2, y: this.y2, theta: this.endAngle };
                     }
@@ -12207,7 +12428,11 @@ function lib() {
                         _x = params.cx + params.r * Math.cos(angle),
                         _y = params.cy + params.r * Math.sin(angle);
 
-                    return { x: gentleRound(_x), y: gentleRound(_y), theta: angle };
+                    return {
+                        x: gentleRound(_x),
+                        y: gentleRound(_y),
+                        theta: angle
+                    };
                 };
 
                 /**
@@ -12368,7 +12593,12 @@ function lib() {
         */
         var AbstractComponent = function() {
             this.resetBounds = function() {
-                this.bounds = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity };
+                this.bounds = {
+                    minX: Infinity,
+                    minY: Infinity,
+                    maxX: -Infinity,
+                    maxY: -Infinity
+                };
             };
             this.resetBounds();
         };
@@ -12501,7 +12731,11 @@ function lib() {
                             break;
                         }
                     }
-                    return { segment: segments[idx], proportion: inSegmentProportion, index: idx };
+                    return {
+                        segment: segments[idx],
+                        proportion: inSegmentProportion,
+                        index: idx
+                    };
                 },
                 _addSegment = function(conn, type, params) {
                     if (params.x1 === params.x2 && params.y1 === params.y2) {
@@ -13114,7 +13348,13 @@ function lib() {
                         maxY: Math.max(hxy.y, tail[0].y, tail[1].y)
                     };
                 } else {
-                    return { component: component, minX: 0, maxX: 0, minY: 0, maxY: 0 };
+                    return {
+                        component: component,
+                        minX: 0,
+                        maxX: 0,
+                        minY: 0,
+                        maxY: 0
+                    };
                 }
             };
         };
@@ -13245,7 +13485,10 @@ function lib() {
 
                     // absolutePosition would have been set by a call to connection.setAbsoluteOverlayPosition.
                     if (absolutePosition) {
-                        cxy = { x: absolutePosition[0], y: absolutePosition[1] };
+                        cxy = {
+                            x: absolutePosition[0],
+                            y: absolutePosition[1]
+                        };
                     } else if (component.pointOnPath) {
                         var loc = this.loc,
                             absolute = false;
@@ -13256,7 +13499,10 @@ function lib() {
                         cxy = component.pointOnPath(loc, absolute); // a connection
                     } else {
                         var locToUse = this.loc.constructor === Array ? this.loc : this.endpointLoc;
-                        cxy = { x: locToUse[0] * component.w, y: locToUse[1] * component.h };
+                        cxy = {
+                            x: locToUse[0] * component.w,
+                            y: locToUse[1] * component.h
+                        };
                     }
 
                     var minx = cxy.x - td[0] / 2,
@@ -13650,7 +13896,10 @@ function lib() {
                         var elId = _jsPlumb.getId(el);
                         _jsPlumb.dragManager.setParent(el, elId, groupEl, _jsPlumb.getId(groupEl), elpos);
 
-                        var newPosition = { left: elpos.left - cpos.left, top: elpos.top - cpos.top };
+                        var newPosition = {
+                            left: elpos.left - cpos.left,
+                            top: elpos.top - cpos.top
+                        };
 
                         _jsPlumb.setPosition(el, newPosition);
 
@@ -15258,7 +15507,10 @@ function lib() {
                 // not show gradients when the line was perfectly horizontal or vertical.
                 var g;
                 if (!style.gradient.offset) {
-                    g = _node(LINEAR_GRADIENT, { id: id, gradientUnits: 'userSpaceOnUse' });
+                    g = _node(LINEAR_GRADIENT, {
+                        id: id,
+                        gradientUnits: 'userSpaceOnUse'
+                    });
                 } else {
                     g = _node(RADIAL_GRADIENT, { id: id });
                 }
@@ -15373,7 +15625,9 @@ function lib() {
             this.svg = _node('svg', svgParams);
 
             if (params.useDivWrapper) {
-                this.canvas = _jp.createElement('div', { position: 'absolute' });
+                this.canvas = _jp.createElement('div', {
+                    position: 'absolute'
+                });
                 _ju.sizeElement(this.canvas, 0, 0, 1, 1);
                 this.canvas.className = clazz;
             } else {
@@ -16685,7 +16939,10 @@ function lib() {
                                 this.initDraggable(element, options);
                                 this.getDragManager().register(element);
                                 if (fireEvent) {
-                                    this.fire('elementDraggable', { el: element, options: options });
+                                    this.fire('elementDraggable', {
+                                        el: element,
+                                        options: options
+                                    });
                                 }
                             } else {
                                 // already draggable. attach any start, drag or stop listeners to the current Drag.

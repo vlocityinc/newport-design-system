@@ -16,10 +16,13 @@ yarn --version && node --version
 > 1.19.1
 > v10.16.3
 ```
+
 Note: To change your version of yarn use:
+
 ```
 yarn policies set-version <version number>
 ```
+
 3. Clone this repo somewhere on your filesystem (using `~projects` in this doc as an example):
 
 ```sh

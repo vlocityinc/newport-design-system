@@ -276,7 +276,9 @@ describe('choice-editor', () => {
         it('Handles change event when data type option is selected', () => {
             const eventPayload = { dataType: 'Number' };
             dispatchValueChangedEvent(choiceEditor, eventPayload);
-            expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, { value: eventPayload });
+            expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, {
+                value: eventPayload
+            });
         });
 
         describe('Clears the default value when switching data type', () => {

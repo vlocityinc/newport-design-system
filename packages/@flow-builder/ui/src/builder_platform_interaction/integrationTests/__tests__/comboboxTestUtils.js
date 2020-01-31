@@ -61,6 +61,26 @@ export const getGroupedComboboxItemBy = (groupedCombobox, propertyName, property
     return undefined;
 };
 
+export const getGroupedComboboxGroupLabel = (groupedCombobox, propertyName, propertyValue) => {
+    if (groupedCombobox.items) {
+        for (const item of groupedCombobox.items) {
+            if (item.items) {
+                for (const subItem of item.items) {
+                    if (subItem[propertyName] === propertyValue) {
+                        return item.label;
+                    }
+                }
+            }
+        }
+    }
+    return undefined;
+};
+
+export const getComboboxGroupLabel = (combobox, propertyName, propertyValue) => {
+    const groupedCombobox = deepQuerySelector(combobox, [LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX]);
+    return getGroupedComboboxGroupLabel(groupedCombobox, propertyName, propertyValue);
+};
+
 export const selectGroupedComboboxItemBy = async (combobox, propertyName, propertyValues, { blur = true } = {}) => {
     let promise = ticks(50);
     for (const propertyValue of propertyValues) {

@@ -43,7 +43,10 @@ export const flowWithScreenAndLightningComponentAddress = {
                 allowBack: true,
                 allowFinish: true,
                 allowPause: true,
-                connector: { processMetadataValues: [], targetReference: 'create_Account' },
+                connector: {
+                    processMetadataValues: [],
+                    targetReference: 'create_Account'
+                },
                 fields: [
                     {
                         choiceReferences: [],

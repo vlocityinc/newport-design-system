@@ -15,7 +15,8 @@ import { reducer } from 'builder_platform_interaction/reducers';
 import { ticks, focusoutEvent, textInputEvent, blurEvent } from 'builder_platform_interaction/builderTestUtils';
 import * as flowWithApexAction from 'mock/flows/flowWithApexAction.json';
 import { flowWithApexActionSubmitForApproval } from 'mock/flows/flowWithApexActionSubmitForApproval';
-import { getLabelDescriptionNameElement, getLabelDescriptionLabelElement, resetState } from '../integrationTestUtils';
+import { resetState } from '../integrationTestUtils';
+import { getLabelDescriptionNameElement, getLabelDescriptionLabelElement } from '../labelDescriptionTestUtils';
 import { getAllInvocableActionsForType, getInvocableActionDetails, initializeAuraFetch } from '../serverDataTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,

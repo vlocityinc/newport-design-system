@@ -4,8 +4,6 @@ import { resolveRenderCycles } from '../resolveRenderCycles';
 import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
     changeComboboxValue,
-    getLabelDescriptionLabelElement,
-    getLabelDescriptionNameElement,
     expectGroupedComboboxItem,
     getEntityResourcePicker,
     getFieldToFerovExpressionBuilders,
@@ -14,6 +12,7 @@ import {
     setupStateForProcessType,
     resetState
 } from '../integrationTestUtils';
+import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { EditElementEvent, AddElementEvent } from 'builder_platform_interaction/events';
 import { updateFlow } from 'builder_platform_interaction/actions';
@@ -43,8 +42,6 @@ import {
     typeReferenceOrValueInCombobox
 } from '../comboboxTestUtils';
 import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
-import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
-import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import {
     SELECTORS,
     getResourceGroupedCombobox,
@@ -501,7 +498,6 @@ describe('Record Create Editor', () => {
         let recordCreateElement;
         beforeAll(async () => {
             store = await setupStateForProcessType(FLOW_PROCESS_TYPE.FLOW);
-            setApexClasses(apexTypesForFlow);
             uiFlow = translateFlowToUIModel(flowWithAllElements);
             store.dispatch(updateFlow(uiFlow));
         });

@@ -9,14 +9,11 @@ import { createComponentForTest, getFerToFerovExpressionBuilder } from './decisi
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { setupStateForProcessType, resetState } from '../integrationTestUtils';
 import { selectComboboxItemBy } from '../comboboxTestUtils';
-import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
-import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 
 describe('Decision Editor expression builder', () => {
     let decisionForPropertyEditor, decisionEditor, store;
     beforeAll(async () => {
         store = await setupStateForProcessType(FLOW_PROCESS_TYPE.FLOW);
-        setApexClasses(apexTypesForFlow);
     });
     afterAll(() => {
         resetState();

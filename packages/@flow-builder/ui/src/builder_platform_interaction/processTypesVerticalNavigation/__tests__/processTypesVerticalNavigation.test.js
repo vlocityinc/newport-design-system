@@ -40,7 +40,9 @@ describe('process-types-vertical-navigation ', () => {
         });
 
         test('"All" entry in first place (among process types) (API)', () => {
-            expect(processTypesVerticalNavigation.items[0]).toMatchObject({ name: ALL_PROCESS_TYPE.name });
+            expect(processTypesVerticalNavigation.items[0]).toMatchObject({
+                name: ALL_PROCESS_TYPE.name
+            });
         });
 
         test('details of "featured" process types ("all" included) (API)', () => {

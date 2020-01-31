@@ -2,8 +2,6 @@ import { createElement } from 'lwc';
 import RecordDeleteEditor from 'builder_platform_interaction/recordDeleteEditor';
 import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
-    getLabelDescriptionLabelElement,
-    getLabelDescriptionNameElement,
     expectGroupedComboboxItem,
     getChildComponent,
     getEntityResourcePicker,
@@ -17,6 +15,7 @@ import {
     resetState,
     setupStateForProcessType
 } from '../integrationTestUtils';
+import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { updateFlow } from 'builder_platform_interaction/actions';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';

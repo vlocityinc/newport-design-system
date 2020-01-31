@@ -38,6 +38,7 @@ import { mockSubflowAllTypesVariables, mockSubflows } from 'mock/calloutData';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { flowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 import { flowWithNoActiveVersion } from 'serverData/GetFlowInputOutputVariables/flowWithNoActiveVersion.json';
+import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 
 const auraFetch = actions => async (actionName, shouldExecuteCallback, callback, params) => {
     await ticks(10);
@@ -178,7 +179,7 @@ const allAuraActions = {
         [FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW]: flowExtensionsForContactRequestFlow
     }),
     'c.getApexPlugins': createGetter([]),
-    'c.getApexTypes': createGetter([]),
+    'c.getApexTypes': createGetter(apexTypesForFlow),
     'c.getBuilderConfigs': createGetter({}),
     'c.getSubflows': getSubflows({
         [FLOW_PROCESS_TYPE.FLOW]: mockSubflows

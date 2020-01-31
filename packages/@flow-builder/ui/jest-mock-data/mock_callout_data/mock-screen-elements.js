@@ -29,7 +29,10 @@ export const mockScreenElement = {
             isNewField: true,
             isRequired: false,
             isVisible: undefined,
-            name: { value: 'invalidMergeFieldScreenElementNotInStore', error: null },
+            name: {
+                value: 'invalidMergeFieldScreenElementNotInStore',
+                error: null
+            },
             type: {
                 name: 'DisplayText',
                 fieldType: 'DisplayText',
@@ -46,7 +49,10 @@ export const mockScreenElement = {
             isNewField: true,
             isRequired: false,
             isVisible: undefined,
-            name: { value: 'validMergeFieldScreenElementNotInStore', error: null },
+            name: {
+                value: 'validMergeFieldScreenElementNotInStore',
+                error: null
+            },
             type: {
                 name: 'DisplayText',
                 fieldType: 'DisplayText',

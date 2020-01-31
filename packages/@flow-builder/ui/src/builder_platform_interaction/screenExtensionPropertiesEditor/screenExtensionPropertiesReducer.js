@@ -176,12 +176,18 @@ export function screenExtensionPropertiesPropsToStateReducer(state, { field, ext
         }),
 
         // Create a list of dynamic type mappings for the list of comboboxes
-        dynamicTypeMappings: createDynamicTypeMappingsReducer({ field, extensionDescription }),
+        dynamicTypeMappings: createDynamicTypeMappingsReducer({
+            field,
+            extensionDescription
+        }),
 
         // Create a list of input parameters to render
         inputParameters: createInputParameters({ field, extensionDescription }),
 
         // Create a list of output parameters to render
-        outputParameters: createOutputParameters({ field, extensionDescription })
+        outputParameters: createOutputParameters({
+            field,
+            extensionDescription
+        })
     });
 }
