@@ -9,6 +9,8 @@ yarn (version 1.19.1)
 
 Setup nexus/npm as described here: https://confluence.internal.salesforce.com/pages/viewpage.action?spaceKey=NEXUS&title=Nexus+NPM+Repositories
 
+Note: If you haven't setup SSH Keys before you can look here: https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+
 2. Check that you have the right versions installed:
 
 ```sh
