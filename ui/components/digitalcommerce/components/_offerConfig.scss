@@ -18,9 +18,12 @@
   .nds-dc-offer-config-container {
     display: block;
     width: 100%;
+    background-color: $white;
+    padding-top: 2rem;
     .nds-dc-media-container {
       min-width: 18.75rem;
       width: 100%;
+      margin-top: 2.25rem;
     }
     .nds-dc-offer-config-details {
       padding-top: 2rem;
@@ -40,22 +43,20 @@
   }
   .nds-dc-offer-group-sections {
     display: block;
+    background-color: $white;
   }
 
   @media only screen and (min-width: 48rem) {
     .nds-dc-offer-config-title-container {
       margin: 3.125rem 0 0 3.125rem;
     }
-    .nds-dc-offer-group-sections {
-      padding: 0 $spacing-large-offer-config;
-    }
     .nds-dc-offer-config-container {
       display: flex;
       .nds-dc-offer-config-details {
-        width: 60%;
+        width: 55%;
       }
       .nds-dc-media-container {
-        width: 40%;
+        width: 45%;
       }
     }
   }

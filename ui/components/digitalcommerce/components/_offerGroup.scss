@@ -37,6 +37,7 @@
     height: 2px;
     background-color: #eee;
     margin: 0.625rem 0;
+    display: none;
   }
   &.nds-dc-parent {
     .nds-dc-plan_title {
@@ -93,7 +94,7 @@
 @media only screen and (min-width: 64rem) {
   .nds-dc-offer_group {
     .nds-dc-offer_navigation {
-      padding: 1rem 1.25rem;
+      padding: 0;
     }
     .nds-dc-offer_group-separator {
       margin: 0 5rem;

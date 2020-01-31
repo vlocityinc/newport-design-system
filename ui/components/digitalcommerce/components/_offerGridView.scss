@@ -3,11 +3,11 @@
   width: 100%;
     .nds-dc-offer-board {
       padding: 0.625rem 0;
+      margin-bottom: 2rem;
       .nds-dc-offer-item-tile {
-        min-height: 33.625rem;
         margin: auto;
-        border: 0.5px solid $newport-border-gray;
-        box-shadow: 0 1px 2px 0 rgba(17, 17, 17, 0.2);
+        background-color: $white;
+        box-shadow: 0 2px 6px 2px rgba(17,17,17,.2);
         .nds-dc-offer-tag {
           background-color: $newport-color-brand-orange;
           color: $white;
@@ -27,14 +27,15 @@
             text-decoration: none;
           }
           .nds-dc-offer-item-details {
-            padding: 5% 0 0 5%;
+            padding-top: 1.5rem;
+            margin-top: 1.5rem;
+            border-top: solid 1px rgba(0,0,0,0.2);
             hr {
               margin: 1.5rem 0;
             }
             .nds-dc-tile-text {
               color: $kashmir-blue;
               font-size: 0.875rem;
-              line-height: 1.875rem;
             }
             .nds-dc-offer-name {
               color: $biscay;
@@ -48,6 +49,17 @@
               font-size: 0.75rem;
               line-height: 1rem;
             }
+            .nds-put-right-border{
+              border-right: solid 1px rgba(0,0,0,0.2);
+            }
+          }
+          .full-width{
+            width: 100%;
+          }
+          .nds-button.nds-button_brand{
+            margin-top: 1rem;
+            background-color: $newport-color-brand-orange;
+            border-color: $newport-color-brand-orange;
           }
         }
         &.nds-dc-selected {
@@ -60,7 +72,7 @@
 @media only screen and (min-width: 64rem) {
   .nds-dc-offer-grid-view {
     .nds-dc-offer-board {
-      padding: 0.625rem 0.3125rem;
+      padding: 0.625rem 5.3125rem;
     }
   }
   .nds-dc-offer-item-tile {
