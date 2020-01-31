@@ -149,18 +149,23 @@ When doing development you need to configure core and point it to where you clon
       </properties>
   </workspace>
 ```
-4.  Sync core and build
+4.  Clean, Sync, Build
+
+Before going further, make sure to stash or save any uncommitted changes you have done in core. Then clean and sync:
 
 ```sh
-blt --sync force # force to ensure you don't have any sync issues
+blt --clean-all
+blt --sync force
 ```
-Make sure you don't have any files under `ui-interaction-builder-components`, if you do delete them (make sure to stash or save any changes you have before):
+
+Make sure you don't have any files under `ui-interaction-builder-components`, if you do delete them:
 
 ```sh
 rm -rf core/ui-interaction-builder-components
 ```
 
 Then build:
+
 ```sh
 blt --build
 ```
