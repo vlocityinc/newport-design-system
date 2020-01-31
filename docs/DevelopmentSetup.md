@@ -54,9 +54,8 @@ git clone git@git.soma.salesforce.com:automation-platform/ui-interaction-builder
 
 7.  Install the npm modules for the repo:
 
-        ```sh
-        yarn install
-        ```
+    
+    `yarn install`
 
     (if you have issues with this command run `rm yarn.lock` or run `git clean -xfd` and make sure you have no file changed with `git status`)
 
