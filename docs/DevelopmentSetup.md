@@ -149,6 +149,21 @@ When doing development you need to configure core and point it to where you clon
       </properties>
   </workspace>
 ```
+4.  Sync core and build
+
+```sh
+blt --sync force # force to ensure you don't have any sync issues
+```
+Make sure you don't have any files under `ui-interaction-builder-components`, if you do delete them (make sure to stash or save any changes you have before):
+
+```sh
+rm -rf core/ui-interaction-builder-components
+```
+
+Then build:
+```sh
+blt --build
+```
 
 ### **Important**: Branch Mismatch
 
