@@ -52,11 +52,7 @@ const _checkForUndefined = (
  * @param {Object} panConfig - Contains scaled offset values and mouse positions
  * @return {Object} Contains the new offset values for the inner canvas
  */
-export const getOffsetValuesOnPan = ({
-    scaledOffsetsOnPanStart,
-    mouseDownPoint,
-    mouseMovePoint
-}) => {
+export const getOffsetValuesOnPan = ({ scaledOffsetsOnPanStart, mouseDownPoint, mouseMovePoint }) => {
     let newScaledOffsetLeft;
     let newScaledOffsetTop;
 
@@ -69,12 +65,8 @@ export const getOffsetValuesOnPan = ({
         mouseMovePoint[1] !== undefined
     ) {
         // Calculating how much the mouse has moved while down and using that to calculate the new offsets for the inner canvas
-        newScaledOffsetLeft =
-            scaledOffsetsOnPanStart[0] +
-            (mouseMovePoint[0] - mouseDownPoint[0]);
-        newScaledOffsetTop =
-            scaledOffsetsOnPanStart[1] +
-            (mouseMovePoint[1] - mouseDownPoint[1]);
+        newScaledOffsetLeft = scaledOffsetsOnPanStart[0] + (mouseMovePoint[0] - mouseDownPoint[0]);
+        newScaledOffsetTop = scaledOffsetsOnPanStart[1] + (mouseMovePoint[1] - mouseDownPoint[1]);
     }
     return { newScaledOffsetLeft, newScaledOffsetTop };
 };
@@ -89,10 +81,7 @@ export const getOffsetValuesOnPan = ({
  * @return {Boolean}  Returns true if deletion shortcut is used during the event
  */
 export const canDelete = (isCanvasMouseDown, isMarqueeModeOn) => {
-    return (
-        !isCanvasMouseDown &&
-        !isMarqueeModeOn
-    );
+    return !isCanvasMouseDown && !isMarqueeModeOn;
 };
 
 /**
@@ -105,11 +94,7 @@ export const canDelete = (isCanvasMouseDown, isMarqueeModeOn) => {
  * @return {Boolean}  Returns true if zooming shortcut is used during the event
  */
 export const canZoom = (event, isCanvasMouseDown, isMarqueeInProgress) => {
-    return (
-        event &&
-        !isCanvasMouseDown &&
-        !isMarqueeInProgress
-    );
+    return event && !isCanvasMouseDown && !isMarqueeInProgress;
 };
 
 /**
@@ -143,10 +128,7 @@ export const getScaleAndOffsetValuesOnZoom = (
     let newScaledOffsetTop = 0;
 
     if (action === ZOOM_ACTION.ZOOM_OUT && currentScale !== undefined) {
-        newScale = Math.max(
-            SCALE_BOUNDS.MIN_SCALE,
-            currentScale - SCALE_BOUNDS.SCALE_CHANGE
-        );
+        newScale = Math.max(SCALE_BOUNDS.MIN_SCALE, currentScale - SCALE_BOUNDS.SCALE_CHANGE);
         newScaledOffsetLeft = centerOffsets[0] * newScale;
         newScaledOffsetTop = centerOffsets[1] * newScale;
     } else if (
@@ -164,12 +146,7 @@ export const getScaleAndOffsetValuesOnZoom = (
         const fitHeight = viewportDimensions.viewportHeight - VIEWPORT_SPACING;
 
         // Calculating the flow width and height along with the minimum and maximum bounds
-        const {
-            flowWidth,
-            flowHeight,
-            flowCenterX,
-            flowCenterY
-        } = getFlowBounds(canvasElements);
+        const { flowWidth, flowHeight, flowCenterX, flowCenterY } = getFlowBounds(canvasElements);
 
         // Calculating the width and height ratio between the viewport and the flow.
         const widthRatio = fitWidth / flowWidth;
@@ -182,21 +159,14 @@ export const getScaleAndOffsetValuesOnZoom = (
         }
 
         // Calculating the required innerCanvas offset to fit the flow into the viewport (on new scale)
-        newScaledOffsetLeft =
-            (viewportDimensions.viewportCenterPoint[0] - flowCenterX) *
-            newScale;
-        newScaledOffsetTop =
-            (viewportDimensions.viewportCenterPoint[1] - flowCenterY) *
-            newScale;
+        newScaledOffsetLeft = (viewportDimensions.viewportCenterPoint[0] - flowCenterX) * newScale;
+        newScaledOffsetTop = (viewportDimensions.viewportCenterPoint[1] - flowCenterY) * newScale;
     } else if (action === ZOOM_ACTION.ZOOM_TO_VIEW) {
         newScale = SCALE_BOUNDS.MAX_SCALE;
         newScaledOffsetLeft = centerOffsets[0] * newScale;
         newScaledOffsetTop = centerOffsets[1] * newScale;
     } else if (action === ZOOM_ACTION.ZOOM_IN && currentScale !== undefined) {
-        newScale = Math.min(
-            SCALE_BOUNDS.MAX_SCALE,
-            currentScale + SCALE_BOUNDS.SCALE_CHANGE
-        );
+        newScale = Math.min(SCALE_BOUNDS.MAX_SCALE, currentScale + SCALE_BOUNDS.SCALE_CHANGE);
         newScaledOffsetLeft = centerOffsets[0] * newScale;
         newScaledOffsetTop = centerOffsets[1] * newScale;
     }
@@ -220,10 +190,8 @@ export const getDistanceBetweenViewportCenterAndElement = (
     elementLocationY,
     currentScale
 ) => {
-    const newScaledOffsetLeft =
-        (viewportCenterPoint[0] - elementLocationX) * currentScale;
-    const newScaledOffsetTop =
-        (viewportCenterPoint[1] - elementLocationY) * currentScale;
+    const newScaledOffsetLeft = (viewportCenterPoint[0] - elementLocationX) * currentScale;
+    const newScaledOffsetTop = (viewportCenterPoint[1] - elementLocationY) * currentScale;
 
     return { newScaledOffsetLeft, newScaledOffsetTop };
 };
@@ -243,20 +211,12 @@ export const getDistanceBetweenViewportCenterAndElement = (
  * @param {Object} panToViewConfig - Contains the current and new offset values along with the viewport center location
  * @returns {Boolean} True if element is in the current viewport, false otherwise
  */
-export const isElementInViewport = ({
-    originalScaledCenterOffsets,
-    newScaledCenterOffsets,
-    viewportCenterPoint
-}) => {
+export const isElementInViewport = ({ originalScaledCenterOffsets, newScaledCenterOffsets, viewportCenterPoint }) => {
     const EDGE_SPACING = 50;
 
     // Calculate the absoluteDistance between the current offset and the new offset of the innerCanvas
-    const absoluteDistanceX = Math.abs(
-        originalScaledCenterOffsets[0] - newScaledCenterOffsets[0]
-    );
-    const absoluteDistanceY = Math.abs(
-        originalScaledCenterOffsets[1] - newScaledCenterOffsets[1]
-    );
+    const absoluteDistanceX = Math.abs(originalScaledCenterOffsets[0] - newScaledCenterOffsets[0]);
+    const absoluteDistanceY = Math.abs(originalScaledCenterOffsets[1] - newScaledCenterOffsets[1]);
 
     // If the absoluteDistance is less than the center of the viewport in either directions then that would mean that the searched
     // canvas element lies within the current viewport.

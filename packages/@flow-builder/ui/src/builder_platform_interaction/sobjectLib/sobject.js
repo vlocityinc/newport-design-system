@@ -1,8 +1,4 @@
-import {
-    fetchOnce,
-    isAlreadyFetched,
-    SERVER_ACTION_TYPE
-} from 'builder_platform_interaction/serverDataLib';
+import { fetchOnce, isAlreadyFetched, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { updateEntities } from 'builder_platform_interaction/actions';
 import { Store } from 'builder_platform_interaction/storeLib';
 

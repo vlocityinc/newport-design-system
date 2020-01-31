@@ -40,8 +40,7 @@ const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE,
 const RHS_DATA_TYPE = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE;
 
 const NON_HYDRATABLE_PROPS = new Set([
-    ...elementTypeToConfigMap[ELEMENT_TYPE.RECORD_LOOKUP]
-        .nonHydratableProperties,
+    ...elementTypeToConfigMap[ELEMENT_TYPE.RECORD_LOOKUP].nonHydratableProperties,
     'wayToStoreFields'
 ]);
 
@@ -75,10 +74,7 @@ const deleteRecordFilter = (state, event) => {
 
 const updateRecordFilter = (state, event) => {
     const path = ['filters', event.detail.index];
-    const item = updateProperties(
-        state.filters[event.detail.index],
-        event.detail.value
-    );
+    const item = updateProperties(state.filters[event.detail.index], event.detail.value);
     return set(state, path, item);
 };
 
@@ -105,9 +101,7 @@ const deleteQueriedField = (state, event) => {
         state.queriedFields[1].field.error = null;
     }
     // reset error if the fields was duplicate and only one left.
-    const duplicates = state.queriedFields.filter(
-        queriedField => queriedField.field.value === oldFieldValue
-    );
+    const duplicates = state.queriedFields.filter(queriedField => queriedField.field.value === oldFieldValue);
     if (duplicates.length === 1) {
         duplicates[0].field.error = null;
     }
@@ -120,11 +114,7 @@ const updateQueriedField = (state, event) => {
         rowIndex: state.queriedFields[event.detail.index].rowIndex
     };
     state = updateProperties(state, {
-        queriedFields: replaceItem(
-            state.queriedFields,
-            newField,
-            event.detail.index
-        )
+        queriedFields: replaceItem(state.queriedFields, newField, event.detail.index)
     });
     return state;
 };
@@ -139,10 +129,7 @@ const addRecordFieldAssignment = state => {
 };
 
 const deleteRecordFieldAssignment = (state, event) => {
-    const updatedItems = deleteItem(
-        state.outputAssignments,
-        event.detail.index
-    );
+    const updatedItems = deleteItem(state.outputAssignments, event.detail.index);
     state = set(state, 'outputAssignments', updatedItems);
     // reset if single empty outputAssignments's its blank error if any
     if (
@@ -157,18 +144,12 @@ const deleteRecordFieldAssignment = (state, event) => {
 
 const updateRecordFieldAssignment = (state, event) => {
     const path = ['outputAssignments', event.detail.index];
-    const item = updateProperties(
-        state.outputAssignments[event.detail.index],
-        event.detail.value
-    );
+    const item = updateProperties(state.outputAssignments[event.detail.index], event.detail.value);
     return set(state, path, item);
 };
 
 const resetQueriedFields = state => {
-    if (
-        state.variableAndFieldMapping !==
-        VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC
-    ) {
+    if (state.variableAndFieldMapping !== VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC) {
         // reset queriedFields: Id query field item and one empty query field item
         return set(
             state,
@@ -307,9 +288,7 @@ const recordStoreOptionAndWayToStoreChanged = (
         });
         state = resetWayToStoreFields(state);
         return resetOutputAssignmentsOutputReferenceAndQueriedfields(state);
-    } else if (
-        state.assignNullValuesIfNoRecordsFound !== assignNullToVariableNoRecord
-    ) {
+    } else if (state.assignNullValuesIfNoRecordsFound !== assignNullToVariableNoRecord) {
         return updateProperties(state, {
             assignNullValuesIfNoRecordsFound: assignNullToVariableNoRecord
         });
@@ -332,9 +311,7 @@ const variableAndFieldMappingChanged = (state, { variableAndFieldMapping }) => {
     state = updateProperties(state, {
         variableAndFieldMapping
     });
-    if (
-        variableAndFieldMapping === VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC
-    ) {
+    if (variableAndFieldMapping === VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC) {
         // reset outputReference and delete queried fields
         state = updateOutputReferenceAndQueriedFields(state, '', null);
         state = resetOutputAssignments(state);
@@ -342,10 +319,7 @@ const variableAndFieldMappingChanged = (state, { variableAndFieldMapping }) => {
             storeOutputAutomatically: true
         });
         state = resetQueriedFields(state);
-    } else if (
-        variableAndFieldMapping ===
-        VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS
-    ) {
+    } else if (variableAndFieldMapping === VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS) {
         state = resetOutputAssignments(state);
         state = updateProperties(state, {
             outputReference: { value: '', error: null },
@@ -357,10 +331,7 @@ const variableAndFieldMappingChanged = (state, { variableAndFieldMapping }) => {
         });
     }
 
-    if (
-        prevVariableAndFieldMapping ===
-        VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC
-    ) {
+    if (prevVariableAndFieldMapping === VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC) {
         // If previous value is AUTOMATIC we need to reset the queriedFields otherwise queriedFields are kept
         state = resetQueriedFields(state);
     }
@@ -368,15 +339,9 @@ const variableAndFieldMappingChanged = (state, { variableAndFieldMapping }) => {
     return state;
 };
 
-const managePropertyChanged = (
-    state,
-    { propertyName, ignoreValidate, error, oldValue, value }
-) => {
+const managePropertyChanged = (state, { propertyName, ignoreValidate, error, oldValue, value }) => {
     if (!ignoreValidate) {
-        error =
-            error === null
-                ? recordLookupValidation.validateProperty(propertyName, value)
-                : error;
+        error = error === null ? recordLookupValidation.validateProperty(propertyName, value) : error;
     }
 
     //  filtering out non-hydratable properties
@@ -460,10 +425,7 @@ export const recordLookupReducer = (state, event) => {
         case VariableAndFieldMappingChangedEvent.EVENT_NAME:
             return variableAndFieldMappingChanged(state, event.detail);
         case VALIDATE_ALL:
-            return recordLookupValidation.validateAll(
-                state,
-                getRules(state, event)
-            );
+            return recordLookupValidation.validateAll(state, getRules(state, event));
         default:
             return state;
     }

@@ -20,11 +20,7 @@ import { MERGE_WARNING_TYPE } from './mergeWarningType';
  * @param {LABELS} labels the labels
  * @return {ParameterListWarnings} the warnings
  */
-export function getParameterListWarnings(
-    inputAssignments,
-    outputAssignments,
-    labels
-) {
+export function getParameterListWarnings(inputAssignments, outputAssignments, labels) {
     const map = {};
     inputAssignments.forEach(assignment => {
         const warning = getParameterItemWarning(assignment.warnings, labels);

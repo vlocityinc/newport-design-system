@@ -4,28 +4,16 @@ import {
     FLOW_TRIGGER_TYPE,
     FLOW_TRIGGER_SAVE_TYPE
 } from 'builder_platform_interaction/flowMetadata';
-import {
-    baseCanvasElement,
-    baseCanvasElementsArrayToMap
-} from './base/baseElement';
-import {
-    createStartElementConnector,
-    createConnectorObjects
-} from './connector';
+import { baseCanvasElement, baseCanvasElementsArrayToMap } from './base/baseElement';
+import { createStartElementConnector, createConnectorObjects } from './connector';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
-import {
-    createRecordFilters,
-    createFilterMetadataObject
-} from './base/baseRecordElement';
+import { createRecordFilters, createFilterMetadataObject } from './base/baseRecordElement';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/systemLib';
 import { isScheduledTriggerType } from 'builder_platform_interaction/triggerTypeLib';
-import {
-    formatDateTimeUTC,
-    getDayOfTheWeek
-} from 'builder_platform_interaction/dateTimeUtils';
+import { formatDateTimeUTC, getDayOfTheWeek } from 'builder_platform_interaction/dateTimeUtils';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementFactoryLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
@@ -55,8 +43,7 @@ export function createStartElement(startElement = {}) {
         recordTriggerType,
         filters = []
     } = startElement;
-    const { startDate, startTime, frequency } =
-        startElement.schedule || startElement;
+    const { startDate, startTime, frequency } = startElement.schedule || startElement;
     let { filterType } = startElement;
 
     if (!filterType) {
@@ -68,10 +55,7 @@ export function createStartElement(startElement = {}) {
             filterType = RECORD_FILTER_CRITERIA.ALL;
         }
     }
-    const recordFilters =
-        filterType === RECORD_FILTER_CRITERIA.ALL
-            ? createRecordFilters(filters, object)
-            : [];
+    const recordFilters = filterType === RECORD_FILTER_CRITERIA.ALL ? createRecordFilters(filters, object) : [];
 
     const isoStartTime =
         startTime && !isUndefinedOrNull(startTime.timeInMillis)
@@ -118,17 +102,11 @@ export function createStartElement(startElement = {}) {
  * @param {string} startElementReference guid/name of the first element in the flow
  * @returns {Object} startElement the start element object
  */
-export function createStartElementWithConnectors(
-    startElement = {},
-    startElementReference
-) {
+export function createStartElementWithConnectors(startElement = {}, startElementReference) {
     const newStartElement = createStartElement(startElement);
 
     const connectors = startElementReference
-        ? createStartElementConnector(
-              newStartElement.guid,
-              startElementReference
-          )
+        ? createStartElementConnector(newStartElement.guid, startElementReference)
         : createConnectorObjects(startElement, newStartElement.guid);
     const connectorCount = connectors.length;
     Object.assign(newStartElement, { connectorCount });
@@ -147,36 +125,19 @@ export function createStartElementMetadataObject(startElement, config = {}) {
         throw new Error('startElement is not defined');
     }
 
-    const startElementMetadata = baseCanvasElementMetadataObject(
-        startElement,
-        config
-    );
+    const startElementMetadata = baseCanvasElementMetadataObject(startElement, config);
 
-    const {
-        object,
-        triggerType,
-        startDate,
-        recordTriggerType,
-        startTime,
-        frequency,
-        filters = []
-    } = startElement;
+    const { object, triggerType, startDate, recordTriggerType, startTime, frequency, filters = [] } = startElement;
 
     const recordFilters =
-        filters.length > 0 && filters[0].leftHandSide
-            ? filters.map(filter => createFilterMetadataObject(filter))
-            : [];
-    const schedule =
-        startDate && startTime && frequency
-            ? { startDate, startTime, frequency }
-            : undefined;
+        filters.length > 0 && filters[0].leftHandSide ? filters.map(filter => createFilterMetadataObject(filter)) : [];
+    const schedule = startDate && startTime && frequency ? { startDate, startTime, frequency } : undefined;
 
     return Object.assign(startElementMetadata, {
         label: undefined,
         name: undefined,
         description: undefined,
-        triggerType:
-            triggerType === FLOW_TRIGGER_TYPE.NONE ? undefined : triggerType,
+        triggerType: triggerType === FLOW_TRIGGER_TYPE.NONE ? undefined : triggerType,
         schedule,
         object: object === '' ? undefined : object,
         recordTriggerType: recordTriggerType === '' ? undefined : recordTriggerType,
@@ -223,12 +184,7 @@ function getscheduledLabel(startDate, startTime, frequency) {
         } else if (frequency === FLOW_TRIGGER_FREQUENCY.WEEKLY) {
             frequencyLabel = LABELS.triggerFrequencyWeekly;
         }
-        label =
-            getDayOfTheWeek(startDateTime) +
-            ', ' +
-            formatDateTimeUTC(startDateTime) +
-            ', ' +
-            frequencyLabel;
+        label = getDayOfTheWeek(startDateTime) + ', ' + formatDateTimeUTC(startDateTime) + ', ' + frequencyLabel;
     }
 
     return label;

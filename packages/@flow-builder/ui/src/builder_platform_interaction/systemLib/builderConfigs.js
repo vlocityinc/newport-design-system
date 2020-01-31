@@ -17,4 +17,3 @@ export const setBuilderConfigs = data => {
  * @returns {Object} builder config
  */
 export const getBuilderConfig = builderType => (builderConfigs ? builderConfigs[builderType] : null);
-

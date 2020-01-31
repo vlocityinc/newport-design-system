@@ -1,8 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
-import {
-    sanitizeGuid,
-    updateProperties
-} from 'builder_platform_interaction/dataMutationLib';
+import { sanitizeGuid, updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import {
     EXPRESSION_PROPERTY_TYPE,
     LHS_DISPLAY_OPTION,
@@ -169,11 +166,7 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
      * and what fields should show up in the menudata.
      */
     populateLhsState() {
-        if (
-            !this.state.expression ||
-            !this.state.objectType ||
-            !this.lhsFields
-        ) {
+        if (!this.state.expression || !this.state.objectType || !this.lhsFields) {
             return;
         }
         const lhs = this.state.expression[LHS];
@@ -189,19 +182,12 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
         if (lhs.value && !lhs.error) {
             const complexGuid = sanitizeGuid(lhs.value);
             const fieldName =
-                complexGuid.fieldNames && complexGuid.fieldNames.length === 1
-                    ? complexGuid.fieldNames[0]
-                    : '';
+                complexGuid.fieldNames && complexGuid.fieldNames.length === 1 ? complexGuid.fieldNames[0] : '';
             const fieldParent = { value: this.state.objectType };
             const isFieldOnSobjectVar = false;
             this.state.lhsDescribe = updateProperties(
                 this.state.lhsDescribe,
-                populateLhsStateForField(
-                    this.lhsFields,
-                    fieldName,
-                    fieldParent,
-                    isFieldOnSobjectVar
-                )
+                populateLhsStateForField(this.lhsFields, fieldName, fieldParent, isFieldOnSobjectVar)
             );
         }
     }

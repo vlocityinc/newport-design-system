@@ -7,10 +7,7 @@ import {
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { labelComparator } from 'builder_platform_interaction/sortLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import {
-    canvasElementFilter,
-    resourceFilter
-} from 'builder_platform_interaction/filterLib';
+import { canvasElementFilter, resourceFilter } from 'builder_platform_interaction/filterLib';
 import { escapeForRegExp } from 'builder_platform_interaction/commonUtils';
 
 /**
@@ -19,10 +16,7 @@ import { escapeForRegExp } from 'builder_platform_interaction/commonUtils';
  * @returns dataType associated with a screen field
  */
 const getScreenFieldDataType = (screenFieldObject = {}) => {
-    return (
-        screenFieldObject.dataType ||
-        (screenFieldObject.type && screenFieldObject.type.type)
-    );
+    return screenFieldObject.dataType || (screenFieldObject.type && screenFieldObject.type.type);
 };
 
 /**
@@ -71,13 +65,8 @@ export const getResourceIconName = element => {
     const { elementType, dataType, storeOutputAutomatically } = element;
     if (elementType === ELEMENT_TYPE.SCREEN_FIELD) {
         const screenFieldDataType = getScreenFieldDataType(element);
-        return screenFieldDataType
-            ? getDataTypeIcons(screenFieldDataType, 'utility')
-            : 'utility:connected_apps';
-    } else if (
-        elementType === ELEMENT_TYPE.RECORD_CREATE &&
-        storeOutputAutomatically
-    ) {
+        return screenFieldDataType ? getDataTypeIcons(screenFieldDataType, 'utility') : 'utility:connected_apps';
+    } else if (elementType === ELEMENT_TYPE.RECORD_CREATE && storeOutputAutomatically) {
         return getDataTypeIcons('String', 'utility');
     } else if (dataType) {
         return getDataTypeIcons(dataType, 'utility');
@@ -89,11 +78,7 @@ const mutateResources = (elements, searchRegex) =>
     Object.values(elements).reduce((mutatedElements, element) => {
         const label = getResourceLabel(element);
         const description = element.description;
-        if (
-            !searchRegex ||
-            searchRegex.test(label) ||
-            searchRegex.test(description)
-        ) {
+        if (!searchRegex || searchRegex.test(label) || searchRegex.test(description)) {
             const resourceElement = {
                 elementType: element.elementType,
                 guid: element.guid,
@@ -113,9 +98,7 @@ const mutateResources = (elements, searchRegex) =>
 const getElementSectionsFromElementMap = elementMap => {
     const elementSections = Object.keys(elementMap)
         .filter(elementType => {
-            return (
-                elementMap[elementType] && elementMap[elementType].length > 0
-            );
+            return elementMap[elementType] && elementMap[elementType].length > 0;
         })
         .map(category => {
             const section = {
@@ -131,9 +114,7 @@ const getElementSectionsFromElementMap = elementMap => {
 };
 
 const getSearchRegExp = searchString => {
-    return searchString
-        ? new RegExp(escapeForRegExp(searchString), 'i')
-        : undefined;
+    return searchString ? new RegExp(escapeForRegExp(searchString), 'i') : undefined;
 };
 
 /**
@@ -150,9 +131,7 @@ export const getElementSections = (elements, searchString) => {
     if (!elements || Object.keys(elements).length === 0) {
         return [];
     }
-    const filteredElements = Object.values(elements).filter(
-        canvasElementFilter()
-    );
+    const filteredElements = Object.values(elements).filter(canvasElementFilter());
     const searchRegExp = getSearchRegExp(searchString);
     const elementMap = mutateElements(filteredElements, searchRegExp);
     return getElementSectionsFromElementMap(elementMap);

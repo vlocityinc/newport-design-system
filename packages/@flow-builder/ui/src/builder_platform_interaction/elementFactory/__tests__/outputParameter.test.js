@@ -1,7 +1,4 @@
-import {
-    createOutputParameter,
-    createOutputParameterMetadataObject
-} from '../outputParameter';
+import { createOutputParameter, createOutputParameterMetadataObject } from '../outputParameter';
 
 const valuePropertyName = 'value';
 const valueDataTypePropertyName = 'valueDataType';

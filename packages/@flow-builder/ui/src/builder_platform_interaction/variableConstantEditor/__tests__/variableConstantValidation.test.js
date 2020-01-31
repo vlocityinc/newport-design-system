@@ -1,23 +1,15 @@
 import { createElement } from 'lwc';
 import VariableConstantEditor from '../variableConstantEditor';
-import {
-    variableConstantValidation,
-    getRules
-} from '../variableConstantValidation.js';
+import { variableConstantValidation, getRules } from '../variableConstantValidation.js';
 import * as mockStoreData from 'mock/storeData';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const setupComponentUnderTest = props => {
-    const element = createElement(
-        'builder_platform_interaction-variable-constant-editor',
-        {
-            is: VariableConstantEditor
-        }
-    );
+    const element = createElement('builder_platform_interaction-variable-constant-editor', {
+        is: VariableConstantEditor
+    });
     element.node = props;
     element.node.subtypeIndex = { value: 'guid', error: null };
     document.body.appendChild(element);
@@ -28,9 +20,7 @@ describe('Variable Validation', () => {
     let stringVar;
 
     const validate = node => {
-        return getErrorsFromHydratedElement(
-            variableConstantValidation.validateAll(node, getRules(node))
-        );
+        return getErrorsFromHydratedElement(variableConstantValidation.validateAll(node, getRules(node)));
     };
 
     it('returns error for variable with no dataType', () => {

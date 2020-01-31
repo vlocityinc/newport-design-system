@@ -30,8 +30,7 @@ export default class RecordQueryFields extends LightningElement {
     resourceDisplayText;
 
     @api
-    globalCss =
-        'slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small';
+    globalCss = 'slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small';
 
     @api
     titleCss = 'slds-text-heading_small';
@@ -124,9 +123,7 @@ export default class RecordQueryFields extends LightningElement {
      */
     handleDeleteField(event) {
         event.stopPropagation();
-        const deleteFieldEvent = new DeleteRecordLookupFieldEvent(
-            event.detail.index
-        );
+        const deleteFieldEvent = new DeleteRecordLookupFieldEvent(event.detail.index);
         this.dispatchEvent(deleteFieldEvent);
     }
 }

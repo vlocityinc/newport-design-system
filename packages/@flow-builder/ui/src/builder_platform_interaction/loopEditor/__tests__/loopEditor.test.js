@@ -1,15 +1,10 @@
 import { createElement } from 'lwc';
 import LoopEditor from '../loopEditor';
-import {
-    PropertyChangedEvent,
-    ComboboxStateChangedEvent
-} from 'builder_platform_interaction/events';
+import { PropertyChangedEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
@@ -60,14 +55,8 @@ describe('loop-editor', () => {
         const loopElement = createComponentForTest();
         loopElement.node = noErrorState;
         Promise.resolve().then(() => {
-            const event = new PropertyChangedEvent(
-                'description',
-                'new desc',
-                null
-            );
-            loopElement.shadowRoot
-                .querySelector(selectors.LABEL_DESCRIPTION)
-                .dispatchEvent(event);
+            const event = new PropertyChangedEvent('description', 'new desc', null);
+            loopElement.shadowRoot.querySelector(selectors.LABEL_DESCRIPTION).dispatchEvent(event);
         });
         return Promise.resolve().then(() => {
             expect(loopElement.node.description.value).toBe('new desc');
@@ -84,17 +73,11 @@ describe('loop-editor', () => {
                 VARIABLE,
                 null
             );
-            loopElement.shadowRoot
-                .querySelector(selectors.LOOP_VARIABLE_FEROV_RESOURCE_PICKER)
-                .dispatchEvent(event);
+            loopElement.shadowRoot.querySelector(selectors.LOOP_VARIABLE_FEROV_RESOURCE_PICKER).dispatchEvent(event);
         });
         return Promise.resolve().then(() => {
-            expect(loopElement.node.assignNextValueToReference.value).toBe(
-                VARIABLE
-            );
-            expect(loopElement.node.assignNextValueToReference.error).toBe(
-                null
-            );
+            expect(loopElement.node.assignNextValueToReference.value).toBe(VARIABLE);
+            expect(loopElement.node.assignNextValueToReference.error).toBe(null);
         });
     });
     it('handles the loop collection value and error message is updated', () => {
@@ -108,9 +91,7 @@ describe('loop-editor', () => {
                 VARIABLE,
                 IAMERRORED
             );
-            loopElement.shadowRoot
-                .querySelector(selectors.LOOP_COLLECTION_FEROV_RESOURCE_PICKER)
-                .dispatchEvent(event);
+            loopElement.shadowRoot.querySelector(selectors.LOOP_COLLECTION_FEROV_RESOURCE_PICKER).dispatchEvent(event);
         });
         return Promise.resolve().then(() => {
             expect(loopElement.node.collectionReference.value).toBe(VARIABLE);

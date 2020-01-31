@@ -1,10 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingLib';
-import {
-    isMultiSelect,
-    setupCanvasElements,
-    setupConnectors
-} from './canvasUtils';
+import { isMultiSelect, setupCanvasElements, setupConnectors } from './canvasUtils';
 import {
     SCALE_BOUNDS,
     getOffsetValuesOnPan,
@@ -27,12 +23,14 @@ import {
     ZOOM_ACTION,
     MARQUEE_ACTION
 } from 'builder_platform_interaction/events';
+import { logPerfMarkStart, logPerfMarkEnd, logInteraction } from 'builder_platform_interaction/loggingUtils';
 import {
-    logPerfMarkStart,
-    logPerfMarkEnd,
-    logInteraction
-} from 'builder_platform_interaction/loggingUtils';
-import { ZoomInCommand, ZoomOutCommand, ZoomToFitCommand, ZoomToViewCommand, DeleteNodesCommand } from 'builder_platform_interaction/commands';
+    ZoomInCommand,
+    ZoomOutCommand,
+    ZoomToFitCommand,
+    ZoomToViewCommand,
+    DeleteNodesCommand
+} from 'builder_platform_interaction/commands';
 import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
 
 /**
@@ -138,10 +136,7 @@ export default class Canvas extends LightningElement {
      * @param {object} connectorInfo - Contains all the information about the new connector
      */
     connectionAdded = connectorInfo => {
-        const addConnectionEvent = new AddConnectionEvent(
-            connectorInfo.sourceId,
-            connectorInfo.targetId
-        );
+        const addConnectionEvent = new AddConnectionEvent(connectorInfo.sourceId, connectorInfo.targetId);
         this.dispatchEvent(addConnectionEvent);
     };
 
@@ -153,10 +148,7 @@ export default class Canvas extends LightningElement {
     connectionClicked = (connection, event) => {
         event.stopPropagation();
         const isMultiSelectKeyPressed = isMultiSelect(event);
-        const connectorSelectedEvent = new ConnectorSelectedEvent(
-            connection.id,
-            isMultiSelectKeyPressed
-        );
+        const connectorSelectedEvent = new ConnectorSelectedEvent(connection.id, isMultiSelectKeyPressed);
         this.dispatchEvent(connectorSelectedEvent);
     };
 
@@ -170,11 +162,7 @@ export default class Canvas extends LightningElement {
      * @param {object} event - mouse enter event
      */
     handleCanvasMouseEnter = event => {
-        if (
-            !this.isMarqueeModeOn &&
-            (event.buttons === 1 || event.buttons === 3) &&
-            this.shouldPanOnEnter
-        ) {
+        if (!this.isMarqueeModeOn && (event.buttons === 1 || event.buttons === 3) && this.shouldPanOnEnter) {
             this._initPanStart(event);
         }
         this.shouldPanOnEnter = false;
@@ -220,20 +208,11 @@ export default class Canvas extends LightningElement {
             };
 
             // Getting the new offset values of the innerCanvas
-            const {
-                newScaledOffsetLeft,
-                newScaledOffsetTop
-            } = getOffsetValuesOnPan(panConfig);
+            const { newScaledOffsetLeft, newScaledOffsetTop } = getOffsetValuesOnPan(panConfig);
 
             // Updating the left and top offsets of the innerCanvas.
-            if (
-                newScaledOffsetLeft !== undefined &&
-                newScaledOffsetTop !== undefined
-            ) {
-                this._updateInnerCanvasPosition(
-                    newScaledOffsetLeft,
-                    newScaledOffsetTop
-                );
+            if (newScaledOffsetLeft !== undefined && newScaledOffsetTop !== undefined) {
+                this._updateInnerCanvasPosition(newScaledOffsetLeft, newScaledOffsetTop);
             }
         }
     };
@@ -252,8 +231,7 @@ export default class Canvas extends LightningElement {
         if (
             !this.isPanInProgress &&
             event.target &&
-            (event.target.classList.contains('canvas') ||
-                event.target.classList.contains('inner-canvas'))
+            (event.target.classList.contains('canvas') || event.target.classList.contains('inner-canvas'))
         ) {
             const canvasMouseUpEvent = new CanvasMouseUpEvent();
             this.dispatchEvent(canvasMouseUpEvent);
@@ -308,19 +286,10 @@ export default class Canvas extends LightningElement {
             return;
         }
 
-        const locationX =
-            (event.clientX -
-                this.innerCanvasArea.getBoundingClientRect().left) /
-            this.currentScale;
-        const locationY =
-            (event.clientY - this.innerCanvasArea.getBoundingClientRect().top) /
-            this.currentScale;
+        const locationX = (event.clientX - this.innerCanvasArea.getBoundingClientRect().left) / this.currentScale;
+        const locationY = (event.clientY - this.innerCanvasArea.getBoundingClientRect().top) / this.currentScale;
 
-        const addElementEvent = new AddElementEvent(
-            elementType,
-            locationX,
-            locationY
-        );
+        const addElementEvent = new AddElementEvent(elementType, locationX, locationY);
         this.dispatchEvent(addElementEvent);
     };
 
@@ -372,8 +341,7 @@ export default class Canvas extends LightningElement {
             this.isMarqueeInProgress = true;
 
             const marqueeConfig = {
-                scaledOffsetsOnMarqueeStart: this
-                    .scaledOffsetsOnPanOrMarqueeStart,
+                scaledOffsetsOnMarqueeStart: this.scaledOffsetsOnPanOrMarqueeStart,
                 marqueeStartPoint: this.marqueeStartPoint,
                 marqueeEndPoint: this.marqueeEndPoint
             };
@@ -441,11 +409,7 @@ export default class Canvas extends LightningElement {
      * @param {object} event - click to zoom event coming from zoom-panel.js
      */
     handleZoom = event => {
-        if (
-            event &&
-            event.detail.action &&
-            canZoom(event, this.isCanvasMouseDown, this.isMarqueeInProgress)
-        ) {
+        if (event && event.detail.action && canZoom(event, this.isCanvasMouseDown, this.isMarqueeInProgress)) {
             const action = event.detail.action;
             this._canvasZoom(action);
             const context = { action };
@@ -498,22 +462,12 @@ export default class Canvas extends LightningElement {
      * @private
      */
     _getViewportDimensions = () => {
-        if (
-            this.canvasArea.clientWidth === undefined ||
-            this.canvasArea.clientWidth < 0
-        ) {
-            throw new Error(
-                'Canvas width is either undefined or < 0. It must be defined.'
-            );
+        if (this.canvasArea.clientWidth === undefined || this.canvasArea.clientWidth < 0) {
+            throw new Error('Canvas width is either undefined or < 0. It must be defined.');
         }
 
-        if (
-            this.canvasArea.clientHeight === undefined ||
-            this.canvasArea.clientHeight < 0
-        ) {
-            throw new Error(
-                'Canvas height is either undefined or < 0. It must be defined.'
-            );
+        if (this.canvasArea.clientHeight === undefined || this.canvasArea.clientHeight < 0) {
+            throw new Error('Canvas height is either undefined or < 0. It must be defined.');
         }
 
         const viewportWidth = this.canvasArea.clientWidth;
@@ -530,10 +484,7 @@ export default class Canvas extends LightningElement {
      * @private
      */
     _getScaledInnerCanvasCenterOffsets = () => {
-        return [
-            this.innerCanvasArea.offsetLeft,
-            this.innerCanvasArea.offsetTop
-        ];
+        return [this.innerCanvasArea.offsetLeft, this.innerCanvasArea.offsetTop];
     };
 
     /**
@@ -618,10 +569,7 @@ export default class Canvas extends LightningElement {
      * @param {Number} scaledOffsetTop - top offset on a given scale
      * @private
      */
-    _updateInnerCanvasPosition = (
-        scaledOffsetLeft = 0,
-        scaledOffsetTop = 0
-    ) => {
+    _updateInnerCanvasPosition = (scaledOffsetLeft = 0, scaledOffsetTop = 0) => {
         this.innerCanvasArea.style.left = scaledOffsetLeft + 'px';
         this.innerCanvasArea.style.top = scaledOffsetTop + 'px';
     };
@@ -643,22 +591,14 @@ export default class Canvas extends LightningElement {
 
         // Calculating new scale and offset values. Offset values tell how much the inner canvas needs to be away from the
         // current viewport center on a given scale.
-        const {
-            newScaledOffsetLeft,
-            newScaledOffsetTop,
-            newScale
-        } = getScaleAndOffsetValuesOnZoom(
+        const { newScaledOffsetLeft, newScaledOffsetTop, newScale } = getScaleAndOffsetValuesOnZoom(
             action,
             this.currentScale,
             viewportAndOffsetConfig,
             this.nodes
         );
 
-        if (
-            newScaledOffsetLeft !== undefined &&
-            newScaledOffsetTop !== undefined &&
-            newScale !== undefined
-        ) {
+        if (newScaledOffsetLeft !== undefined && newScaledOffsetTop !== undefined && newScale !== undefined) {
             this.currentScale = newScale;
 
             // Informing jsPlumb about the zoom level so that connectors are drawn on the new scale
@@ -666,10 +606,7 @@ export default class Canvas extends LightningElement {
 
             // Updating the scale and left and top properties of the canvas
             this.innerCanvasArea.style.transform = `scale(${this.currentScale})`;
-            this._updateInnerCanvasPosition(
-                newScaledOffsetLeft,
-                newScaledOffsetTop
-            );
+            this._updateInnerCanvasPosition(newScaledOffsetLeft, newScaledOffsetTop);
 
             // Disabling and enabling zoom panel buttons based on the current scale.
             // Note: We can't simply use this.currentScale <= 0.2 because 0.200000001 is treated by the browser as 0.2 at
@@ -677,10 +614,8 @@ export default class Canvas extends LightningElement {
             // the button won't get disabled unless the button is clicked again but clicking it again won't visually change
             // anything on the screen
             this.isZoomOutDisabled =
-                this.innerCanvasArea.style.transform === 'scale(0.2)' ||
-                this.currentScale < SCALE_BOUNDS.MIN_SCALE;
-            this.isZoomToView = this.isZoomInDisabled =
-                this.innerCanvasArea.style.transform === 'scale(1)';
+                this.innerCanvasArea.style.transform === 'scale(0.2)' || this.currentScale < SCALE_BOUNDS.MIN_SCALE;
+            this.isZoomToView = this.isZoomInDisabled = this.innerCanvasArea.style.transform === 'scale(1)';
 
             if (
                 (this.isZoomOutDisabled ||
@@ -698,13 +633,9 @@ export default class Canvas extends LightningElement {
      * Helper method to set up the canvas elements and connectors
      */
     _setupCanvasElementsAndConnectors = () => {
-        const canvasElements = this.template.querySelectorAll(
-            'builder_platform_interaction-node'
-        );
+        const canvasElements = this.template.querySelectorAll('builder_platform_interaction-node');
 
-        this.canvasElementGuidToContainerMap = setupCanvasElements(
-            canvasElements
-        );
+        this.canvasElementGuidToContainerMap = setupCanvasElements(canvasElements);
 
         this.jsPlumbConnectorMap = setupConnectors(
             this.connectors,
@@ -752,9 +683,7 @@ export default class Canvas extends LightningElement {
      */
     @api
     panElementToViewIfNeeded = (canvasElementGuid = '') => {
-        const searchedElementArray = this.nodes.filter(
-            node => node.guid === canvasElementGuid
-        );
+        const searchedElementArray = this.nodes.filter(node => node.guid === canvasElementGuid);
 
         if (searchedElementArray && searchedElementArray.length === 1) {
             const searchedElement = searchedElementArray[0];
@@ -763,10 +692,7 @@ export default class Canvas extends LightningElement {
             this.viewportCenterPoint = viewportCenterPoint;
 
             // Calculate the new innerCanvas offsets that will bring the searched canvas element into the center of the viewport
-            const {
-                newScaledOffsetLeft,
-                newScaledOffsetTop
-            } = getDistanceBetweenViewportCenterAndElement(
+            const { newScaledOffsetLeft, newScaledOffsetTop } = getDistanceBetweenViewportCenterAndElement(
                 this.viewportCenterPoint,
                 searchedElement.locationX,
                 searchedElement.locationY,
@@ -775,20 +701,14 @@ export default class Canvas extends LightningElement {
 
             const panToViewConfig = {
                 originalScaledCenterOffsets: this._getScaledInnerCanvasCenterOffsets(),
-                newScaledCenterOffsets: [
-                    newScaledOffsetLeft,
-                    newScaledOffsetTop
-                ],
+                newScaledCenterOffsets: [newScaledOffsetLeft, newScaledOffsetTop],
                 viewportCenterPoint: this.viewportCenterPoint
             };
 
             // In the element is current not in the viewport, we need to update our offsets to the newly calculated
             // ones and bring the searched canvas element into the center of the viewport
             if (!isElementInViewport(panToViewConfig)) {
-                this._updateInnerCanvasPosition(
-                    newScaledOffsetLeft,
-                    newScaledOffsetTop
-                );
+                this._updateInnerCanvasPosition(newScaledOffsetLeft, newScaledOffsetTop);
             }
         }
     };
@@ -802,9 +722,7 @@ export default class Canvas extends LightningElement {
 
     setupCommandsAndShortcuts = () => {
         // Delete Nodes Command
-        const deleteNodesCommand = new DeleteNodesCommand(event =>
-            this.handleDeleteNodes(event)
-        );
+        const deleteNodesCommand = new DeleteNodesCommand(event => this.handleDeleteNodes(event));
         this.keyboardInteractions.setupCommandAndShortcut(deleteNodesCommand, {
             key: 'Delete'
         });
@@ -813,18 +731,14 @@ export default class Canvas extends LightningElement {
         });
 
         // Zoom In Command
-        const zoomInCommand = new ZoomInCommand(() =>
-            this.handleZoom(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_IN))
-        );
+        const zoomInCommand = new ZoomInCommand(() => this.handleZoom(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_IN)));
         this.keyboardInteractions.setupCommandAndShortcut(zoomInCommand, {
             ctrlOrCmd: true,
             key: '='
         });
 
         // Zoom Out Command
-        const zoomOutCommand = new ZoomOutCommand(() =>
-            this.handleZoom(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_OUT))
-        );
+        const zoomOutCommand = new ZoomOutCommand(() => this.handleZoom(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_OUT)));
         this.keyboardInteractions.setupCommandAndShortcut(zoomOutCommand, {
             ctrlOrCmd: true,
             key: '-'
@@ -847,7 +761,7 @@ export default class Canvas extends LightningElement {
             ctrlOrCmd: true,
             key: '1'
         });
-      }
+    };
 
     connectedCallback() {
         this.keyboardInteractions.addKeyDownEventListener(this.template);
@@ -861,14 +775,9 @@ export default class Canvas extends LightningElement {
     renderedCallback() {
         if (!lib.getContainer()) {
             this.canvasArea = this.template.querySelector(SELECTORS.CANVAS);
-            this.innerCanvasArea = this.template.querySelector(
-                SELECTORS.INNER_CANVAS
-            );
+            this.innerCanvasArea = this.template.querySelector(SELECTORS.INNER_CANVAS);
             lib.setContainer(this.innerCanvasArea);
-            this.canvasAreaOffsets = [
-                this.canvasArea.offsetLeft,
-                this.canvasArea.offsetTop
-            ];
+            this.canvasAreaOffsets = [this.canvasArea.offsetLeft, this.canvasArea.offsetTop];
 
             // Only suspend drawing before performing the bulk operation like loading data on page load
             lib.setSuspendDrawing(true);

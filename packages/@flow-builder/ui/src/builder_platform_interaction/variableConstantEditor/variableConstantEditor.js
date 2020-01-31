@@ -1,32 +1,16 @@
 import { LightningElement, api, track, unwrap } from 'lwc';
-import {
-    getErrorsFromHydratedElement,
-    getValueFromHydratedItem
-} from 'builder_platform_interaction/dataMutationLib';
-import {
-    createAction,
-    PROPERTY_EDITOR_ACTION
-} from 'builder_platform_interaction/actions';
+import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { variableConstantReducer } from './variableConstantReducer';
-import {
-    FLOW_DATA_TYPE,
-    FEROV_DATA_TYPE,
-    isComplexType
-} from 'builder_platform_interaction/dataTypeLib';
+import { FLOW_DATA_TYPE, FEROV_DATA_TYPE, isComplexType } from 'builder_platform_interaction/dataTypeLib';
 import { PropertyEditorWarningEvent } from 'builder_platform_interaction/events';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import EntityResourcePicker from 'builder_platform_interaction/entityResourcePicker';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { LABELS } from './variableConstantEditorLabels';
-import {
-    getItemOrDisplayText,
-    getFerovInfoAndErrorFromEvent
-} from 'builder_platform_interaction/expressionUtils';
-import {
-    getRulesForElementType,
-    RULE_TYPES
-} from 'builder_platform_interaction/ruleLib';
+import { getItemOrDisplayText, getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
+import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { DEFAULT_VALUE_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 
@@ -84,8 +68,7 @@ const flowDataTypeConstantMenuItems = [
 
 // TODO: This is being used by the assessWarning function, which is not being used at this time. I will leave
 // this here hard coded and we will move it to the labels file if and when we start using the assessWarning function.
-const warningMessage =
-    'Changing this field may result in runtime errors when this flow is called by another flow.';
+const warningMessage = 'Changing this field may result in runtime errors when this flow is called by another flow.';
 
 const complexTypeConfig = {
     [FLOW_DATA_TYPE.APEX.value]: {
@@ -145,14 +128,9 @@ export default class VariableConstantEditor extends LightningElement {
         this._elementType = newValue.elementType;
         this.variableConstantResource = unwrap(newValue);
         this._devNamePreviousValue = this.variableConstantResource.name;
-        this._lastRecordedDataType = getValueFromHydratedItem(
-            this.variableConstantResource.dataType
-        );
+        this._lastRecordedDataType = getValueFromHydratedItem(this.variableConstantResource.dataType);
         // these rules are only used by variable editor to fetch allowed types. Constant editors use element config
-        this._rules = getRulesForElementType(
-            RULE_TYPES.ASSIGNMENT,
-            this.elementType
-        );
+        this._rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, this.elementType);
         this.initializeExternalAccessValues();
     }
 
@@ -180,9 +158,7 @@ export default class VariableConstantEditor extends LightningElement {
 
     get dataTypePickerValue() {
         const dataTypePickerValueObj = {
-            dataType: getValueFromHydratedItem(
-                this.variableConstantResource.dataType
-            )
+            dataType: getValueFromHydratedItem(this.variableConstantResource.dataType)
         };
         if (this.isVariable) {
             dataTypePickerValueObj.scale = this.variableConstantResource.scale;
@@ -201,16 +177,12 @@ export default class VariableConstantEditor extends LightningElement {
     }
 
     get dataTypeList() {
-        return this.isVariable
-            ? flowDataTypeVariableMenuItems
-            : flowDataTypeConstantMenuItems;
+        return this.isVariable ? flowDataTypeVariableMenuItems : flowDataTypeConstantMenuItems;
     }
 
     get dataTypeHelpText() {
         if (!this.isNewMode) {
-            return this.isVariable
-                ? LABELS.variableDataTypeHelpText
-                : LABELS.constantDataTypeHelpText;
+            return this.isVariable ? LABELS.variableDataTypeHelpText : LABELS.constantDataTypeHelpText;
         }
         return null;
     }
@@ -225,10 +197,7 @@ export default class VariableConstantEditor extends LightningElement {
      * @return {Array} with options in format the checkbox-group expects. eg: ['isInput', 'isOutput']
      */
     get externalAccessValue() {
-        return [
-            VARIABLE_CONSTANT_FIELDS.IS_INPUT,
-            VARIABLE_CONSTANT_FIELDS.IS_OUTPUT
-        ].filter(value => {
+        return [VARIABLE_CONSTANT_FIELDS.IS_INPUT, VARIABLE_CONSTANT_FIELDS.IS_OUTPUT].filter(value => {
             return this.variableConstantResource[value];
         });
     }
@@ -258,12 +227,8 @@ export default class VariableConstantEditor extends LightningElement {
      * @return {String|Object} returns the default value for the variable/constant resource if exists, otherwise empty string.
      */
     get defaultValue() {
-        const defaultValue = getValueFromHydratedItem(
-            this.variableConstantResource.defaultValue
-        );
-        const defaultValueDataType = getValueFromHydratedItem(
-            this.variableConstantResource.defaultValueDataType
-        );
+        const defaultValue = getValueFromHydratedItem(this.variableConstantResource.defaultValue);
+        const defaultValueDataType = getValueFromHydratedItem(this.variableConstantResource.defaultValueDataType);
         if (defaultValueDataType === FEROV_DATA_TYPE.REFERENCE) {
             return {
                 text: defaultValue,
@@ -271,11 +236,7 @@ export default class VariableConstantEditor extends LightningElement {
                 value: defaultValue
             };
         }
-        if (
-            defaultValue &&
-            (typeof defaultValue === 'number' ||
-                typeof defaultValue === 'boolean')
-        ) {
+        if (defaultValue && (typeof defaultValue === 'number' || typeof defaultValue === 'boolean')) {
             return defaultValue.toString();
         }
         return defaultValue;
@@ -303,9 +264,7 @@ export default class VariableConstantEditor extends LightningElement {
 
     get defaultValueComboboxConfig() {
         return BaseResourcePicker.getComboboxConfig(
-            this.isVariable
-                ? LABELS.defaultValuePickerLabel
-                : LABELS.valuePickerLabel,
+            this.isVariable ? LABELS.defaultValuePickerLabel : LABELS.valuePickerLabel,
             LABELS.defaultValuePlaceholder,
             this.variableConstantResource.defaultValue.error,
             true,
@@ -354,17 +313,11 @@ export default class VariableConstantEditor extends LightningElement {
     }
 
     get subtypePickerLabel() {
-        return (
-            complexTypeConfig[this.dataType] &&
-            complexTypeConfig[this.dataType].pickerLabel
-        );
+        return complexTypeConfig[this.dataType] && complexTypeConfig[this.dataType].pickerLabel;
     }
 
     get subtypePickerPlaceholder() {
-        return (
-            complexTypeConfig[this.dataType] &&
-            complexTypeConfig[this.dataType].pickerPlaceholder
-        );
+        return complexTypeConfig[this.dataType] && complexTypeConfig[this.dataType].pickerPlaceholder;
     }
 
     get externalAccessLabel() {
@@ -376,17 +329,11 @@ export default class VariableConstantEditor extends LightningElement {
     }
 
     get entityMode() {
-        return (
-            complexTypeConfig[this.dataType] &&
-            complexTypeConfig[this.dataType].mode
-        );
+        return complexTypeConfig[this.dataType] && complexTypeConfig[this.dataType].mode;
     }
 
     isDataTypeOrCollectionChange(dataType, isCollection) {
-        return (
-            this.dataType !== dataType ||
-            this.variableConstantResource.isCollection !== isCollection
-        );
+        return this.dataType !== dataType || this.variableConstantResource.isCollection !== isCollection;
     }
 
     /**
@@ -394,28 +341,12 @@ export default class VariableConstantEditor extends LightningElement {
      * @param {Object} value the object containing the new dataType, scale, and collection values
      */
     clearOnDataTypeChange(value) {
-        if (
-            this.isComplexDataType &&
-            (!isComplexType(value.dataType) || value.dataType !== this.dataType)
-        ) {
+        if (this.isComplexDataType && (!isComplexType(value.dataType) || value.dataType !== this.dataType)) {
             this.updateProperty(VARIABLE_CONSTANT_FIELDS.SUBTYPE, null, null);
-        } else if (
-            this.isDataTypeOrCollectionChange(
-                value.dataType,
-                value.isCollection
-            )
-        ) {
+        } else if (this.isDataTypeOrCollectionChange(value.dataType, value.isCollection)) {
             // we want to clear the default value and scale when either switching data types or the collection status
-            this.updateProperty(
-                DEFAULT_VALUE_DATA_TYPE_PROPERTY,
-                this.dataType,
-                null
-            );
-            this.updateProperty(
-                VARIABLE_CONSTANT_FIELDS.DEFAULT_VALUE,
-                null,
-                null
-            );
+            this.updateProperty(DEFAULT_VALUE_DATA_TYPE_PROPERTY, this.dataType, null);
+            this.updateProperty(VARIABLE_CONSTANT_FIELDS.DEFAULT_VALUE, null, null);
             if (this.isVariable) {
                 // Don't want to set the scale if this is a constant
                 value.scale = null;
@@ -454,10 +385,7 @@ export default class VariableConstantEditor extends LightningElement {
         const action = createAction(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, {
             value
         });
-        this.variableConstantResource = variableConstantReducer(
-            this.variableConstantResource,
-            action
-        );
+        this.variableConstantResource = variableConstantReducer(this.variableConstantResource, action);
     }
 
     /**
@@ -466,12 +394,8 @@ export default class VariableConstantEditor extends LightningElement {
      */
     handleExternalAccessPropertyChanged(event) {
         // reset the values since the event has info about only selected values
-        this.variableConstantResource[
-            VARIABLE_CONSTANT_FIELDS.IS_INPUT
-        ] = false;
-        this.variableConstantResource[
-            VARIABLE_CONSTANT_FIELDS.IS_OUTPUT
-        ] = false;
+        this.variableConstantResource[VARIABLE_CONSTANT_FIELDS.IS_INPUT] = false;
+        this.variableConstantResource[VARIABLE_CONSTANT_FIELDS.IS_OUTPUT] = false;
         this._externalAccessSelectedValues = event.detail.value;
         this._externalAccessSelectedValues.forEach(propertyName => {
             this.variableConstantResource[propertyName] = true;
@@ -534,16 +458,9 @@ export default class VariableConstantEditor extends LightningElement {
      */
     updateDefaultValue(event) {
         event.stopPropagation();
-        const { value, dataType, error } = getFerovInfoAndErrorFromEvent(
-            event,
-            this.dataType
-        );
+        const { value, dataType, error } = getFerovInfoAndErrorFromEvent(event, this.dataType);
         this.updateProperty(DEFAULT_VALUE_DATA_TYPE_PROPERTY, dataType, null);
-        this.updateProperty(
-            VARIABLE_CONSTANT_FIELDS.DEFAULT_VALUE,
-            value,
-            error
-        );
+        this.updateProperty(VARIABLE_CONSTANT_FIELDS.DEFAULT_VALUE, value, error);
     }
 
     /**
@@ -553,14 +470,8 @@ export default class VariableConstantEditor extends LightningElement {
      * @param {String} error if any
      */
     updateProperty(propertyName, value, error) {
-        const action = createAction(
-            PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-            { propertyName, value, error }
-        );
-        this.variableConstantResource = variableConstantReducer(
-            this.variableConstantResource,
-            action
-        );
+        const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error });
+        this.variableConstantResource = variableConstantReducer(this.variableConstantResource, action);
     }
 
     /**
@@ -583,13 +494,9 @@ export default class VariableConstantEditor extends LightningElement {
         const hasDevNameUpdated =
             getValueFromHydratedItem(this.variableConstantResource.name) !==
             getValueFromHydratedItem(this._devNamePreviousValue);
-        const wasExternalAccessTrue =
-            this._externalAccessPreviousValues.size > 0;
+        const wasExternalAccessTrue = this._externalAccessPreviousValues.size > 0;
         if (hasDevNameUpdated && wasExternalAccessTrue) {
-            this.fireWarningEvent(
-                VARIABLE_CONSTANT_FIELDS.NAME,
-                warningMessage
-            );
+            this.fireWarningEvent(VARIABLE_CONSTANT_FIELDS.NAME, warningMessage);
         }
 
         // check if input output was true and now its false, if so show warning
@@ -615,10 +522,7 @@ export default class VariableConstantEditor extends LightningElement {
      * @param {string} message the warning message
      */
     fireWarningEvent(propertyName, message) {
-        const warningEvent = new PropertyEditorWarningEvent(
-            propertyName,
-            message
-        );
+        const warningEvent = new PropertyEditorWarningEvent(propertyName, message);
         this.dispatchEvent(warningEvent);
     }
 
@@ -627,10 +531,7 @@ export default class VariableConstantEditor extends LightningElement {
      * @return {boolean} Returns true for ferovDataType 'reference', otherwise false.
      */
     hasFerovDataTypeRef() {
-        return (
-            this.variableConstantResource[DEFAULT_VALUE_DATA_TYPE_PROPERTY] ===
-            FEROV_DATA_TYPE.REFERENCE
-        );
+        return this.variableConstantResource[DEFAULT_VALUE_DATA_TYPE_PROPERTY] === FEROV_DATA_TYPE.REFERENCE;
     }
 
     /** *********************************/
@@ -647,10 +548,7 @@ export default class VariableConstantEditor extends LightningElement {
         // NOTE: if we find there is a case where an error can happen on a field without touching on it,
         // we might have to go through reducer to stuff the errors and call get errors method
         const event = { type: VALIDATE_ALL };
-        this.variableConstantResource = variableConstantReducer(
-            this.variableConstantResource,
-            event
-        );
+        this.variableConstantResource = variableConstantReducer(this.variableConstantResource, event);
         return getErrorsFromHydratedElement(this.variableConstantResource);
     }
 }

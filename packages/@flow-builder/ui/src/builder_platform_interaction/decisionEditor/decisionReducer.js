@@ -1,9 +1,5 @@
 import { decisionValidation } from './decisionValidation';
-import {
-    updateProperties,
-    addItem,
-    hydrateWithErrors
-} from 'builder_platform_interaction/dataMutationLib';
+import { updateProperties, addItem, hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import {
     PropertyChangedEvent,
     DeleteOutcomeEvent,
@@ -18,10 +14,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import {
-    usedByStoreAndElementState,
-    invokeUsedByAlertModal
-} from 'builder_platform_interaction/usedByLib';
+import { usedByStoreAndElementState, invokeUsedByAlertModal } from 'builder_platform_interaction/usedByLib';
 
 import { LABELS } from './decisionEditorLabels';
 
@@ -41,17 +34,9 @@ const addOutcome = state => {
 };
 
 const deleteOutcome = (state, event) => {
-    const usedElements = usedByStoreAndElementState(
-        event.detail.guid,
-        state.guid,
-        state.outcomes
-    );
+    const usedElements = usedByStoreAndElementState(event.detail.guid, state.guid, state.outcomes);
     if (usedElements && usedElements.length > 0) {
-        invokeUsedByAlertModal(
-            usedElements,
-            [event.detail.guid],
-            ELEMENT_TYPE.OUTCOME
-        );
+        invokeUsedByAlertModal(usedElements, [event.detail.guid], ELEMENT_TYPE.OUTCOME);
     } else {
         const outcomes = state.outcomes.filter(outcome => {
             return outcome.guid !== event.detail.guid;
@@ -85,9 +70,7 @@ const reorderOutcomes = (state, event) => {
 
 const addCondition = (state, event) => {
     const outcomes = state.outcomes.map(outcome => {
-        return outcome.guid === event.detail.parentGUID
-            ? conditionListReducer(outcome, event)
-            : outcome;
+        return outcome.guid === event.detail.parentGUID ? conditionListReducer(outcome, event) : outcome;
     });
 
     return updateProperties(state, { outcomes });
@@ -95,9 +78,7 @@ const addCondition = (state, event) => {
 
 const deleteCondition = (state, event) => {
     const outcomes = state.outcomes.map(outcome => {
-        return outcome.guid === event.detail.parentGUID
-            ? conditionListReducer(outcome, event)
-            : outcome;
+        return outcome.guid === event.detail.parentGUID ? conditionListReducer(outcome, event) : outcome;
     });
 
     return updateProperties(state, { outcomes });
@@ -106,12 +87,7 @@ const deleteCondition = (state, event) => {
 const updateCondition = (state, event) => {
     const outcomes = state.outcomes.map(outcome => {
         if (outcome.guid === event.detail.parentGUID) {
-            return conditionListReducer(
-                outcome,
-                event,
-                deletedOutcomeGuids,
-                LABELS.decisionSingularLabel
-            );
+            return conditionListReducer(outcome, event, deletedOutcomeGuids, LABELS.decisionSingularLabel);
         }
 
         return outcome;
@@ -123,10 +99,7 @@ const updateCondition = (state, event) => {
 const validateProperty = (state, event) => {
     event.detail.error =
         event.detail.error === null
-            ? decisionValidation.validateProperty(
-                  event.detail.propertyName,
-                  event.detail.value
-              )
+            ? decisionValidation.validateProperty(event.detail.propertyName, event.detail.value)
             : event.detail.error;
     if (event.detail.error === null && event.detail.propertyName === 'name') {
         // we need to run the outcome api name uniqueness validation within the current session of property editor

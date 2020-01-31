@@ -6,9 +6,7 @@ import {
     EXTENSION_TYPE_SOURCE,
     getCachedExtensionType
 } from 'builder_platform_interaction/flowExtensionLib';
-import {
-    getValueFromHydratedItem,
-} from 'builder_platform_interaction/dataMutationLib';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { isExtensionField } from './screenEditorFieldTypeUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 
@@ -31,7 +29,9 @@ function setDynamicTypeMappings(genericTypes = [], dynamicTypeMappings = []) {
     return genericTypes.map(genericType => {
         let dynamicTypeMapping;
         if (dynamicTypeMappings) {
-            dynamicTypeMapping = dynamicTypeMappings.find(item => getValueFromHydratedItem(item.typeName) === genericType.name);
+            dynamicTypeMapping = dynamicTypeMappings.find(
+                item => getValueFromHydratedItem(item.typeName) === genericType.name
+            );
         }
         if (!dynamicTypeMapping) {
             dynamicTypeMapping = {
@@ -40,10 +40,10 @@ function setDynamicTypeMappings(genericTypes = [], dynamicTypeMappings = []) {
                     error: null
                 },
                 typeValue: {
-                    value: "",
+                    value: '',
                     error: null
                 },
-                rowIndex : generateGuid()
+                rowIndex: generateGuid()
             };
         } else if (!dynamicTypeMapping.rowIndex) {
             dynamicTypeMapping.rowIndex = generateGuid();
@@ -76,10 +76,7 @@ export function extendFlowExtensionScreenField(field) {
  */
 export function processScreenExtensionTypes(screen) {
     for (const field of screen.fields) {
-        if (
-            field.fieldType === COMPONENT_INSTANCE &&
-            field.type.source === EXTENSION_TYPE_SOURCE.LOCAL
-        ) {
+        if (field.fieldType === COMPONENT_INSTANCE && field.type.source === EXTENSION_TYPE_SOURCE.LOCAL) {
             field.type = getCachedExtensionType(field.type.name);
             extendFlowExtensionScreenField(field);
         }
@@ -97,9 +94,7 @@ export function processScreenExtensionTypes(screen) {
  */
 export function processRequiredParamsForExtensionsInScreen(screen, callback) {
     // Get all extension fields
-    const extensionFields = screen.fields.filter(
-        f => f.fieldType === COMPONENT_INSTANCE
-    );
+    const extensionFields = screen.fields.filter(f => f.fieldType === COMPONENT_INSTANCE);
 
     // Get the extension names
     const extensions = extensionFields.map(f => f.extensionName.value);
@@ -132,9 +127,7 @@ export function processRequiredParamsForExtensionsInScreen(screen, callback) {
         // Use cached descriptors
         const descs = getCachedExtensions(extensions);
         if (descs.length !== extensions.length) {
-            throw new Error(
-                'Can not find all required extension descriptions in the cache'
-            );
+            throw new Error('Can not find all required extension descriptions in the cache');
         } else {
             processFn(descs);
         }

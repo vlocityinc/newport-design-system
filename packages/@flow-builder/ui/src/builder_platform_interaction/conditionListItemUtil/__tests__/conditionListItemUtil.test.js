@@ -1,8 +1,4 @@
-import {
-    formatLhs,
-    formatOperator,
-    formatRhs
-} from 'builder_platform_interaction/conditionListItemUtil';
+import { formatLhs, formatOperator, formatRhs } from 'builder_platform_interaction/conditionListItemUtil';
 import {
     getResourceByUniqueIdentifier,
     mutateFlowResourceToComboboxShape
@@ -10,9 +6,7 @@ import {
 import { normalizeDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { transformOperatorsForCombobox } from 'builder_platform_interaction/ruleLib';
 
-jest.mock('builder_platform_interaction/drawingLib', () =>
-    require('builder_platform_interaction_mocks/drawingLib')
-);
+jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 
 jest.mock('builder_platform_interaction/expressionUtils', () => ({
     getResourceByUniqueIdentifier: jest.fn(),
@@ -37,9 +31,7 @@ describe('formatLhs', () => {
         const lhs = 'a9015c2f-4ac2-48b7-8d7a-5bda7a5046e4.testText';
 
         getResourceByUniqueIdentifier.mockReturnValue(true);
-        mutateFlowResourceToComboboxShape.mockReturnValue(
-            comboboxShapeMockValue
-        );
+        mutateFlowResourceToComboboxShape.mockReturnValue(comboboxShapeMockValue);
         const { displayText, dataType } = formatLhs(lhs);
         expect(displayText).toEqual('{!a.testText}');
         expect(dataType).toEqual('SObject');
@@ -53,9 +45,7 @@ describe('formatLhs', () => {
         const lhs = '$Flow.CurrentDateTime';
 
         getResourceByUniqueIdentifier.mockReturnValue(true);
-        mutateFlowResourceToComboboxShape.mockReturnValue(
-            comboboxShapeMockValue
-        );
+        mutateFlowResourceToComboboxShape.mockReturnValue(comboboxShapeMockValue);
         const { displayText, dataType } = formatLhs(lhs);
         expect(displayText).toEqual('{!$Flow.CurrentDateTime}');
         expect(dataType).toEqual('DateTime');
@@ -103,9 +93,7 @@ describe('formatRhs', () => {
         const rhs = 'a9015c2f-4ac2-48b7-8d7a-5bda7a5046e4.testText';
 
         getResourceByUniqueIdentifier.mockReturnValue(true);
-        mutateFlowResourceToComboboxShape.mockReturnValue(
-            comboboxShapeMockValue
-        );
+        mutateFlowResourceToComboboxShape.mockReturnValue(comboboxShapeMockValue);
         const formattedRhs = formatRhs(rhs);
         expect(formattedRhs).toEqual('{!a.testText}');
     });
@@ -118,9 +106,7 @@ describe('formatRhs', () => {
         const rhs = '$Flow.CurrentDateTime';
 
         getResourceByUniqueIdentifier.mockReturnValue(true);
-        mutateFlowResourceToComboboxShape.mockReturnValue(
-            comboboxShapeMockValue
-        );
+        mutateFlowResourceToComboboxShape.mockReturnValue(comboboxShapeMockValue);
         const formattedRhs = formatRhs(rhs);
         expect(formattedRhs).toEqual('{!$Flow.CurrentDateTime}');
     });

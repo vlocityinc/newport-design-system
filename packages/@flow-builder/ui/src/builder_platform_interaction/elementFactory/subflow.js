@@ -6,14 +6,8 @@ import {
     automaticOutputHandlingSupport
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
-import {
-    createInputParameter,
-    createInputParameterMetadataObject
-} from './inputParameter';
-import {
-    createOutputParameter,
-    createOutputParameterMetadataObject
-} from './outputParameter';
+import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
+import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
 import { createConnectorObjects } from './connector';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
@@ -29,17 +23,13 @@ export function createSubflow(subflow = {}) {
         storeOutputAutomatically = outputAssignments.length === 0
     } = subflow;
     let dataType;
-    inputAssignments = inputAssignments.map(inputParameter =>
-        createInputParameter(inputParameter)
-    );
+    inputAssignments = inputAssignments.map(inputParameter => createInputParameter(inputParameter));
 
     if (storeOutputAutomatically) {
         outputAssignments = [];
         dataType = FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value;
     } else {
-        outputAssignments = outputAssignments.map(outputParameter =>
-            createOutputParameter(outputParameter)
-        );
+        outputAssignments = outputAssignments.map(outputParameter => createOutputParameter(outputParameter));
         storeOutputAutomatically = false;
     }
 
@@ -58,11 +48,7 @@ export function createSubflow(subflow = {}) {
 
 export function createDuplicateSubflow(subflow, newGuid, newName) {
     const newSubflow = createSubflow(subflow);
-    const duplicateSubflow = duplicateCanvasElement(
-        newSubflow,
-        newGuid,
-        newName
-    );
+    const duplicateSubflow = duplicateCanvasElement(newSubflow, newGuid, newName);
 
     return duplicateSubflow;
 }
@@ -88,14 +74,8 @@ export function createSubflowMetadataObject(subflow, config) {
 
     const subflowMetadata = baseCanvasElementMetadataObject(subflow, config);
     const { flowName } = subflow;
-    let {
-        inputAssignments = [],
-        outputAssignments = [],
-        storeOutputAutomatically
-    } = subflow;
-    inputAssignments = inputAssignments.map(inputParameter =>
-        createInputParameterMetadataObject(inputParameter)
-    );
+    let { inputAssignments = [], outputAssignments = [], storeOutputAutomatically } = subflow;
+    inputAssignments = inputAssignments.map(inputParameter => createInputParameterMetadataObject(inputParameter));
 
     if (storeOutputAutomatically && automaticOutputHandlingSupport()) {
         outputAssignments = [];
@@ -117,8 +97,6 @@ export function createSubflowMetadataObject(subflow, config) {
             inputAssignments,
             outputAssignments
         },
-        storeOutputAutomatically !== undefined
-            ? { storeOutputAutomatically }
-            : {}
+        storeOutputAutomatically !== undefined ? { storeOutputAutomatically } : {}
     );
 }

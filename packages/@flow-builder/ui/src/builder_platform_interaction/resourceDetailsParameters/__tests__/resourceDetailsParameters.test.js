@@ -1,10 +1,7 @@
 import { createElement } from 'lwc';
 import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
-import {
-    mockSubmitForApprovalActionParameters,
-    mockLocalActionParameters
-} from 'mock/calloutData';
+import { mockSubmitForApprovalActionParameters, mockLocalActionParameters } from 'mock/calloutData';
 import ResourceDetailsParameters from 'builder_platform_interaction/resourceDetailsParameters';
 import {
     mockExtensionScreenfieldAutomaticOutputsModeResourceDetails,
@@ -16,32 +13,23 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 const createComponentUnderTest = resourceDetails => {
-    const el = createElement(
-        'builder_platform_interaction-resource-details-parameters',
-        {
-            is: ResourceDetailsParameters
-        }
-    );
+    const el = createElement('builder_platform_interaction-resource-details-parameters', {
+        is: ResourceDetailsParameters
+    });
     el.resourceDetails = resourceDetails;
     document.body.appendChild(el);
     return el;
 };
 
 jest.mock('builder_platform_interaction/flowExtensionLib', () => ({
-    describeExtension: jest.fn(() =>
-        Promise.resolve(mockFlowRuntimeEmailFlowExtensionDescription)
-    )
+    describeExtension: jest.fn(() => Promise.resolve(mockFlowRuntimeEmailFlowExtensionDescription))
 }));
 
 jest.mock('builder_platform_interaction/invocableActionLib', () => ({
-    fetchDetailsForInvocableAction: jest.fn(() =>
-        Promise.resolve(mockSubmitForApprovalActionParameters)
-    )
+    fetchDetailsForInvocableAction: jest.fn(() => Promise.resolve(mockSubmitForApprovalActionParameters))
 }));
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const SELECTORS = { SPINNER: '.spinner' };
 
@@ -68,8 +56,7 @@ const EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_LC_EMAIL_IN_AUTO_MODE = [
     {
         apiName: 'readonly',
         label: 'Read Only',
-        description:
-            'Prevents the user from modifying the value, but not from copying it.',
+        description: 'Prevents the user from modifying the value, but not from copying it.',
         typeIconName: 'utility:crossfilter'
     },
     {
@@ -104,8 +91,7 @@ const EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_ACTION_SUBMIT_FOR_APPROVAL_IN_AUTO_MO
     {
         apiName: 'newWorkItemIds',
         label: 'New Work Item IDs',
-        description:
-            'An array of the ID(s) of the work item(s) created for the next step in this approval process.',
+        description: 'An array of the ID(s) of the work item(s) created for the next step in this approval process.',
         typeIconName: 'utility:text'
     },
     {
@@ -154,37 +140,25 @@ describe('Resource Details parameters', () => {
             });
             describe('Parameters fetch server call OK and NO error', () => {
                 test('check "Parameters" details (via API)', () => {
-                    const parameters =
-                        resourceDetailsParametersComponent.parameters;
-                    expect(parameters).toEqual(
-                        EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_LC_EMAIL_IN_AUTO_MODE
-                    );
+                    const parameters = resourceDetailsParametersComponent.parameters;
+                    expect(parameters).toEqual(EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_LC_EMAIL_IN_AUTO_MODE);
                 });
                 test('check UI: icon names, tooltip, labels...(snapshot) parameters displayed', () => {
-                    expect(
-                        resourceDetailsParametersComponent
-                    ).toMatchSnapshot();
+                    expect(resourceDetailsParametersComponent).toMatchSnapshot();
                 });
             });
             describe('Parameters fetch server call OK but error', () => {
                 beforeAll(() => {
                     describeExtension.mockImplementation(() =>
-                        Promise.reject(
-                            new Error(
-                                'An error occured during extension parameters fetching'
-                            )
-                        )
+                        Promise.reject(new Error('An error occured during extension parameters fetching'))
                     );
                 });
                 test('check "Parameters" details (via API)', () => {
-                    const parameters =
-                        resourceDetailsParametersComponent.parameters;
+                    const parameters = resourceDetailsParametersComponent.parameters;
                     expect(parameters).toHaveLength(0);
                 });
                 test('check UI: icon names, tooltip, labels (snapshot) no parameters displayed', () => {
-                    expect(
-                        resourceDetailsParametersComponent
-                    ).toMatchSnapshot();
+                    expect(resourceDetailsParametersComponent).toMatchSnapshot();
                 });
             });
         });
@@ -196,9 +170,7 @@ describe('Resource Details parameters', () => {
                 resourceDetailsParametersComponent = createComponentUnderTest(
                     mockExtensionScreenfieldAutomaticOutputsModeResourceDetails
                 );
-                const spinner = resourceDetailsParametersComponent.shadowRoot.querySelector(
-                    SELECTORS.spinner
-                );
+                const spinner = resourceDetailsParametersComponent.shadowRoot.querySelector(SELECTORS.spinner);
                 expect(spinner).toBeNull();
             });
         });
@@ -214,37 +186,27 @@ describe('Resource Details parameters', () => {
                 });
                 describe('Parameters fetch server call OK and NO error', () => {
                     test('check "Parameters" details (via API)', () => {
-                        const parameters =
-                            resourceDetailsParametersComponent.parameters;
+                        const parameters = resourceDetailsParametersComponent.parameters;
                         expect(parameters).toEqual(
                             EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_ACTION_SUBMIT_FOR_APPROVAL_IN_AUTO_MODE
                         );
                     });
                     test('check UI: icon names, tooltip, labels...(snapshot) parameters displayed', () => {
-                        expect(
-                            resourceDetailsParametersComponent
-                        ).toMatchSnapshot();
+                        expect(resourceDetailsParametersComponent).toMatchSnapshot();
                     });
                 });
                 describe('Parameters fetch server call OK but error', () => {
                     beforeAll(() => {
                         fetchDetailsForInvocableAction.mockImplementation(() =>
-                            Promise.reject(
-                                new Error(
-                                    'An error occured during extension parameters fetching'
-                                )
-                            )
+                            Promise.reject(new Error('An error occured during extension parameters fetching'))
                         );
                     });
                     test('check "Parameters" details (via API)', () => {
-                        const parameters =
-                            resourceDetailsParametersComponent.parameters;
+                        const parameters = resourceDetailsParametersComponent.parameters;
                         expect(parameters).toHaveLength(0);
                     });
                     test('check UI: icon names, tooltip, labels (snapshot) no parameters displayed', () => {
-                        expect(
-                            resourceDetailsParametersComponent
-                        ).toMatchSnapshot();
+                        expect(resourceDetailsParametersComponent).toMatchSnapshot();
                     });
                 });
             });
@@ -253,9 +215,7 @@ describe('Resource Details parameters', () => {
         describe('"Local action" in automatic outputs mode', () => {
             describe('No fetch exception', () => {
                 beforeAll(() => {
-                    fetchDetailsForInvocableAction.mockImplementation(() =>
-                        Promise.resolve(mockLocalActionParameters)
-                    );
+                    fetchDetailsForInvocableAction.mockImplementation(() => Promise.resolve(mockLocalActionParameters));
                 });
                 beforeEach(() => {
                     resourceDetailsParametersComponent = createComponentUnderTest(
@@ -264,37 +224,27 @@ describe('Resource Details parameters', () => {
                 });
                 describe('Parameters fetch server call OK and NO error', () => {
                     test('check "Parameters" details (via API)', () => {
-                        const parameters =
-                            resourceDetailsParametersComponent.parameters;
+                        const parameters = resourceDetailsParametersComponent.parameters;
                         expect(parameters).toEqual(
                             EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_ACTION_LOCAL_ACTION_IN_AUTO_MODE
                         );
                     });
                     test('check UI: icon names, tooltip, labels...(snapshot) parameters displayed', () => {
-                        expect(
-                            resourceDetailsParametersComponent
-                        ).toMatchSnapshot();
+                        expect(resourceDetailsParametersComponent).toMatchSnapshot();
                     });
                 });
                 describe('Parameters fetch server call OK but error', () => {
                     beforeAll(() => {
                         fetchDetailsForInvocableAction.mockImplementation(() =>
-                            Promise.reject(
-                                new Error(
-                                    'An error occured during extension parameters fetching'
-                                )
-                            )
+                            Promise.reject(new Error('An error occured during extension parameters fetching'))
                         );
                     });
                     test('check "Parameters" details (via API)', () => {
-                        const parameters =
-                            resourceDetailsParametersComponent.parameters;
+                        const parameters = resourceDetailsParametersComponent.parameters;
                         expect(parameters).toHaveLength(0);
                     });
                     test('check UI: icon names, tooltip, labels (snapshot) no parameters displayed', () => {
-                        expect(
-                            resourceDetailsParametersComponent
-                        ).toMatchSnapshot();
+                        expect(resourceDetailsParametersComponent).toMatchSnapshot();
                     });
                 });
             });

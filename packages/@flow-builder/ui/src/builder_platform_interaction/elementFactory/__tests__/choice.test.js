@@ -1,9 +1,4 @@
-import {
-    createUserInputForChoice,
-    createChoice,
-    createChoiceForStore,
-    createChoiceMetadataObject
-} from '../choice.js';
+import { createUserInputForChoice, createChoice, createChoiceForStore, createChoiceMetadataObject } from '../choice.js';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
@@ -184,9 +179,7 @@ describe('createChoice function', () => {
                 validationRule: undefined
             }
         };
-        const actualResult = createChoice(
-            choiceElementWithUserInputAndNoValidationRule
-        );
+        const actualResult = createChoice(choiceElementWithUserInputAndNoValidationRule);
         it('returns a new choice object with userInput', () => {
             expect(actualResult).toMatchObject(expectedResult);
         });

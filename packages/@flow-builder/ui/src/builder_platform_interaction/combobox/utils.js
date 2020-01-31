@@ -63,9 +63,7 @@ export function sliceMenu(menuData, size) {
  */
 export function getMenuLength(menu) {
     return menu && typeof menu.filter === 'function'
-        ? menu
-              .filter(item => !!item.items)
-              .reduce((length, item) => length + item.items.length, menu.length)
+        ? menu.filter(item => !!item.items).reduce((length, item) => length + item.items.length, menu.length)
         : 0;
 }
 

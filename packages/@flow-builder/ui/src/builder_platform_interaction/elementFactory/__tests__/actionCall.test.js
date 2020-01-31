@@ -1,12 +1,5 @@
-import {
-    createActionCall,
-    createDuplicateActionCall,
-    createActionCallMetadataObject
-} from '../actionCall';
-import {
-    ELEMENT_TYPE,
-    CONNECTOR_TYPE
-} from 'builder_platform_interaction/flowMetadata';
+import { createActionCall, createDuplicateActionCall, createActionCallMetadataObject } from '../actionCall';
+import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
@@ -26,9 +19,7 @@ const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'flow';
 const mockGuid = 'mockGuid';
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/processTypeLib'
-    );
+    const actual = require.requireActual('builder_platform_interaction/processTypeLib');
     return {
         FLOW_AUTOMATIC_OUTPUT_HANDLING: actual.FLOW_AUTOMATIC_OUTPUT_HANDLING,
         getProcessTypeAutomaticOutPutHandlingSupport: jest.fn()
@@ -36,7 +27,7 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
 });
 
 jest.mock('builder_platform_interaction/storeLib', () => {
-    const getCurrentState = function () {
+    const getCurrentState = function() {
         return {
             properties: {
                 processType: MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
@@ -49,7 +40,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
             }
         };
     };
-    const getStore = function () {
+    const getStore = function() {
         return {
             getCurrentState
         };
@@ -118,10 +109,7 @@ const actionCallMetaData = {
     actionName: 'chatterPost',
     actionType: 'chatterPost',
     dataTypeMappings: [flowDataTypeMapping],
-    inputParameters: [
-        flowInputParameterWithDefaultValueAsString,
-        flowInputParameterWithDefaultValueAsReference
-    ],
+    inputParameters: [flowInputParameterWithDefaultValueAsString, flowInputParameterWithDefaultValueAsReference],
     label: 'My Post to Chatter',
     locationX: 353,
     locationY: 57,
@@ -153,10 +141,7 @@ const actionCallInStore = {
         isSelected: false
     },
     dataTypeMappings: [storeDataTypeMapping],
-    inputParameters: [
-        storeInputParameterWithDefaultValueAsString,
-        storeInputParameterWithDefaultValueAsReference
-    ],
+    inputParameters: [storeInputParameterWithDefaultValueAsString, storeInputParameterWithDefaultValueAsReference],
     outputParameters: [storeOutputParameterWithDefaultValue],
     maxConnections: 2,
     elementType: 'ACTION_CALL',
@@ -181,10 +166,7 @@ const parametersWithoutProcessMetaDataValue = (parameters, isInput) => {
 const actionCallAutomaticOutputMetadata = {
     actionName: 'chatterPost',
     actionType: 'chatterPost',
-    inputParameters: [
-        flowInputParameterWithDefaultValueAsString,
-        flowInputParameterWithDefaultValueAsReference
-    ],
+    inputParameters: [flowInputParameterWithDefaultValueAsString, flowInputParameterWithDefaultValueAsReference],
     label: 'postToChatter',
     locationX: 442,
     locationY: 256,
@@ -208,10 +190,7 @@ const actionCallAutomaticOutputInStore = {
     },
     actionType: 'chatterPost',
     actionName: 'chatterPost',
-    inputParameters: [
-        storeInputParameterWithDefaultValueAsString,
-        storeInputParameterWithDefaultValueAsReference
-    ],
+    inputParameters: [storeInputParameterWithDefaultValueAsString, storeInputParameterWithDefaultValueAsReference],
     outputParameters: [],
     availableConnections: [
         {
@@ -240,9 +219,7 @@ describe('actionCall', () => {
             });
 
             it('creates element of type ACTION_CALL', () => {
-                expect(actionCall.elementType).toEqual(
-                    ELEMENT_TYPE.ACTION_CALL
-                );
+                expect(actionCall.elementType).toEqual(ELEMENT_TYPE.ACTION_CALL);
             });
 
             it('has empty actionName', () => {
@@ -261,9 +238,7 @@ describe('actionCall', () => {
                 expect(actionCall.outputParameters).toHaveLength(0);
             });
             it('has dataType of ACTION_OUTPUT', () => {
-                expect(actionCall.dataType).toEqual(
-                    FLOW_DATA_TYPE.ACTION_OUTPUT.value
-                );
+                expect(actionCall.dataType).toEqual(FLOW_DATA_TYPE.ACTION_OUTPUT.value);
             });
         });
 
@@ -272,44 +247,28 @@ describe('actionCall', () => {
                 actionCall = createActionCall(actionCallMetaData);
             });
             it('creates element of type ACTION_CALL', () => {
-                expect(actionCall.elementType).toEqual(
-                    ELEMENT_TYPE.ACTION_CALL
-                );
+                expect(actionCall.elementType).toEqual(ELEMENT_TYPE.ACTION_CALL);
             });
             it('has actionName equal to actionName from store', () => {
-                expect(actionCall.actionName).toEqual(
-                    actionCallMetaData.actionName
-                );
+                expect(actionCall.actionName).toEqual(actionCallMetaData.actionName);
             });
             it('has actionType equal to actionType from store', () => {
-                expect(actionCall.actionType).toEqual(
-                    actionCallMetaData.actionType
-                );
+                expect(actionCall.actionType).toEqual(actionCallMetaData.actionType);
             });
             it('has dataTypeMappings matching the dataTypeMappings from store', () => {
-                expect(actionCall.dataTypeMappings).toEqual(
-                    actionCallInStore.dataTypeMappings
-                );
+                expect(actionCall.dataTypeMappings).toEqual(actionCallInStore.dataTypeMappings);
             });
             it('has inputParameters matching the inputParameters from store', () => {
-                expect(actionCall.inputParameters).toEqual(
-                    actionCallInStore.inputParameters
-                );
+                expect(actionCall.inputParameters).toEqual(actionCallInStore.inputParameters);
             });
             it('has outputParameters matching the outputParameters from store', () => {
-                expect(actionCall.outputParameters).toEqual(
-                    actionCallInStore.outputParameters
-                );
+                expect(actionCall.outputParameters).toEqual(actionCallInStore.outputParameters);
             });
             it('has dataType of ACTION OUTPUT', () => {
-                expect(actionCall.dataType).toEqual(
-                    FLOW_DATA_TYPE.BOOLEAN.value
-                );
+                expect(actionCall.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
             });
             it('has no common mutable object with action call metadata passed as parameter', () => {
-                expect(actionCall).toHaveNoCommonMutableObjectWith(
-                    actionCallMetaData
-                );
+                expect(actionCall).toHaveNoCommonMutableObjectWith(actionCallMetaData);
             });
         });
 
@@ -318,63 +277,41 @@ describe('actionCall', () => {
                 actionCall = createActionCall(actionCallInStore);
             });
             it('has actionName equal to actionName from store', () => {
-                expect(actionCall.actionName).toEqual(
-                    actionCallInStore.actionName
-                );
+                expect(actionCall.actionName).toEqual(actionCallInStore.actionName);
             });
             it('has actionType equal to actionType from store', () => {
-                expect(actionCall.actionType).toEqual(
-                    actionCallInStore.actionType
-                );
+                expect(actionCall.actionType).toEqual(actionCallInStore.actionType);
             });
             it('has dataTypeMappings matching the dataTypeMappings from store', () => {
-                expect(actionCall.dataTypeMappings).toEqual(
-                    actionCallInStore.dataTypeMappings
-                );
+                expect(actionCall.dataTypeMappings).toEqual(actionCallInStore.dataTypeMappings);
             });
             it('has inputParameters matching the inputParameters from store', () => {
-                expect(actionCall.inputParameters).toEqual(
-                    actionCallInStore.inputParameters
-                );
+                expect(actionCall.inputParameters).toEqual(actionCallInStore.inputParameters);
             });
             it('has outputParameters matching the outputParameters from store', () => {
-                expect(actionCall.outputParameters).toEqual(
-                    actionCallInStore.outputParameters
-                );
+                expect(actionCall.outputParameters).toEqual(actionCallInStore.outputParameters);
             });
             it('has dataType of boolean', () => {
-                expect(actionCall.dataType).toEqual(
-                    FLOW_DATA_TYPE.BOOLEAN.value
-                );
+                expect(actionCall.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
             });
             it('has no common mutable object with action call from store passed as parameter', () => {
-                expect(actionCall).toHaveNoCommonMutableObjectWith(
-                    actionCallInStore
-                );
+                expect(actionCall).toHaveNoCommonMutableObjectWith(actionCallInStore);
             });
         });
 
         describe('when metadata action call with automatic output handling is passed', () => {
             beforeEach(() => {
-                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
-                    'Supported'
-                );
-                actionCall = createActionCall(
-                    actionCallAutomaticOutputMetadata
-                );
+                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue('Supported');
+                actionCall = createActionCall(actionCallAutomaticOutputMetadata);
             });
             it('has no common mutable object with action metadata passed as parameter', () => {
-                expect(actionCall).toHaveNoCommonMutableObjectWith(
-                    actionCallAutomaticOutputMetadata
-                );
+                expect(actionCall).toHaveNoCommonMutableObjectWith(actionCallAutomaticOutputMetadata);
             });
             it('"outputParameters" should be an empty array', () => {
                 expect(actionCall.outputParameters).toEqual([]);
             });
             it('should have a ACTION_OUTPUT datatype', () => {
-                expect(actionCall.dataType).toBe(
-                    FLOW_DATA_TYPE.ACTION_OUTPUT.value
-                );
+                expect(actionCall.dataType).toBe(FLOW_DATA_TYPE.ACTION_OUTPUT.value);
                 expect(actionCall.isCollection).toBeFalsy();
                 expect(actionCall.subtype).toBeFalsy();
             });
@@ -395,57 +332,41 @@ describe('actionCall', () => {
         describe('when metadata action call with anonymous output handling is passed', () => {
             it('sets isSystemGeneratedOutput to true, isCollection to false and primitive datatype for single primitives', () => {
                 const createdAction = createActionCall(
-                    getActionCallsByNames(flowWithAllElements, [
-                        apexCallAutomaticAnonymousStringOutput.name
-                    ])[0]
+                    getActionCallsByNames(flowWithAllElements, [apexCallAutomaticAnonymousStringOutput.name])[0]
                 );
 
                 expect(createdAction.isSystemGeneratedOutput).toBe(true);
-                expect(createdAction.dataType).toBe(
-                    FLOW_DATA_TYPE.STRING.value
-                );
+                expect(createdAction.dataType).toBe(FLOW_DATA_TYPE.STRING.value);
                 expect(createdAction.subtype).toBeNull();
                 expect(createdAction.isCollection).toBe(false);
             });
             it('sets isSystemGeneratedOutput to true, isCollection to false, sobject datatype and subtype for single sobjects', () => {
                 const createdAction = createActionCall(
-                    getActionCallsByNames(flowWithAllElements, [
-                        apexCallAutomaticAnonymousAccountOutput.name
-                    ])[0]
+                    getActionCallsByNames(flowWithAllElements, [apexCallAutomaticAnonymousAccountOutput.name])[0]
                 );
 
                 expect(createdAction.isSystemGeneratedOutput).toBe(true);
-                expect(createdAction.dataType).toBe(
-                    FLOW_DATA_TYPE.SOBJECT.value
-                );
+                expect(createdAction.dataType).toBe(FLOW_DATA_TYPE.SOBJECT.value);
                 expect(createdAction.subtype).toBe('Account');
                 expect(createdAction.isCollection).toBe(false);
             });
             it('sets isSystemGeneratedOutput to true, isCollection to true and primitive datatype for collection of primitives', () => {
                 const createdAction = createActionCall(
-                    getActionCallsByNames(flowWithAllElements, [
-                        apexCallAutomaticAnonymousStringsOutput.name
-                    ])[0]
+                    getActionCallsByNames(flowWithAllElements, [apexCallAutomaticAnonymousStringsOutput.name])[0]
                 );
 
                 expect(createdAction.isSystemGeneratedOutput).toBe(true);
-                expect(createdAction.dataType).toBe(
-                    FLOW_DATA_TYPE.STRING.value
-                );
+                expect(createdAction.dataType).toBe(FLOW_DATA_TYPE.STRING.value);
                 expect(createdAction.subtype).toBeNull();
                 expect(createdAction.isCollection).toBe(true);
             });
             it('sets isSystemGeneratedOutput to true, isCollection to true, sobject datatype and subtype for collection of sobjects', () => {
                 const createdAction = createActionCall(
-                    getActionCallsByNames(flowWithAllElements, [
-                        apexCallAutomaticAnonymousAccountsOutput.name
-                    ])[0]
+                    getActionCallsByNames(flowWithAllElements, [apexCallAutomaticAnonymousAccountsOutput.name])[0]
                 );
 
                 expect(createdAction.isSystemGeneratedOutput).toBe(true);
-                expect(createdAction.dataType).toBe(
-                    FLOW_DATA_TYPE.SOBJECT.value
-                );
+                expect(createdAction.dataType).toBe(FLOW_DATA_TYPE.SOBJECT.value);
                 expect(createdAction.subtype).toBe('Account');
                 expect(createdAction.isCollection).toBe(true);
             });
@@ -458,9 +379,7 @@ describe('actionCall', () => {
 
                 expect(createdAction.isSystemGeneratedOutput).toBe(true);
                 expect(createdAction.dataType).toBe(FLOW_DATA_TYPE.APEX.value);
-                expect(createdAction.apexClass).toBe(
-                    'InvocableGetCars$GetCarResult'
-                );
+                expect(createdAction.apexClass).toBe('InvocableGetCars$GetCarResult');
                 expect(createdAction.isCollection).toBe(true);
             });
         });
@@ -486,11 +405,7 @@ describe('actionCall', () => {
                 }
             ]
         };
-        const { duplicatedElement } = createDuplicateActionCall(
-            originalActionCall,
-            'duplicatedGuid',
-            'duplicatedName'
-        );
+        const { duplicatedElement } = createDuplicateActionCall(originalActionCall, 'duplicatedGuid', 'duplicatedName');
 
         it('has the new guid', () => {
             expect(duplicatedElement.guid).toEqual('duplicatedGuid');
@@ -499,14 +414,10 @@ describe('actionCall', () => {
             expect(duplicatedElement.name).toEqual('duplicatedName');
         });
         it('has the updated locationX', () => {
-            expect(duplicatedElement.locationX).toEqual(
-                originalActionCall.locationX + DUPLICATE_ELEMENT_XY_OFFSET
-            );
+            expect(duplicatedElement.locationX).toEqual(originalActionCall.locationX + DUPLICATE_ELEMENT_XY_OFFSET);
         });
         it('has the updated locationY', () => {
-            expect(duplicatedElement.locationY).toEqual(
-                originalActionCall.locationY + DUPLICATE_ELEMENT_XY_OFFSET
-            );
+            expect(duplicatedElement.locationY).toEqual(originalActionCall.locationY + DUPLICATE_ELEMENT_XY_OFFSET);
         });
         it('has isSelected set to true', () => {
             expect(duplicatedElement.config.isSelected).toBeTruthy();
@@ -521,9 +432,7 @@ describe('actionCall', () => {
             expect(duplicatedElement.maxConnections).toEqual(2);
         });
         it('has the right elementType', () => {
-            expect(duplicatedElement.elementType).toEqual(
-                ELEMENT_TYPE.ACTION_CALL
-            );
+            expect(duplicatedElement.elementType).toEqual(ELEMENT_TYPE.ACTION_CALL);
         });
         it('has default availableConnections', () => {
             expect(duplicatedElement.availableConnections).toEqual([
@@ -541,64 +450,40 @@ describe('actionCall', () => {
         let actionCallMetaDataObject;
         describe('when store actionCall is passed', () => {
             beforeEach(() => {
-                actionCallMetaDataObject = createActionCallMetadataObject(
-                    actionCallInStore
-                );
+                actionCallMetaDataObject = createActionCallMetadataObject(actionCallInStore);
             });
             it('has actionName equal to actionName from flow', () => {
-                expect(actionCallMetaDataObject.actionName).toEqual(
-                    actionCallMetaData.actionName
-                );
+                expect(actionCallMetaDataObject.actionName).toEqual(actionCallMetaData.actionName);
             });
             it('has actionType equal to actionType from flow', () => {
-                expect(actionCallMetaDataObject.actionType).toEqual(
-                    actionCallMetaData.actionType
-                );
+                expect(actionCallMetaDataObject.actionType).toEqual(actionCallMetaData.actionType);
             });
             it('has dataTypeMappings matching the dataTypeMappings from flow', () => {
-                expect(actionCallMetaDataObject.dataTypeMappings).toEqual(
-                    actionCallMetaData.dataTypeMappings
-                );
+                expect(actionCallMetaDataObject.dataTypeMappings).toEqual(actionCallMetaData.dataTypeMappings);
             });
             it('has inputParameters matching the inputParameters from flow', () => {
                 expect(actionCallMetaDataObject.inputParameters).toEqual(
-                    parametersWithoutProcessMetaDataValue(
-                        actionCallMetaData.inputParameters,
-                        true
-                    )
+                    parametersWithoutProcessMetaDataValue(actionCallMetaData.inputParameters, true)
                 );
             });
             it('has outputParameters matching the outputParameters from flow', () => {
                 expect(actionCallMetaDataObject.outputParameters).toEqual(
-                    parametersWithoutProcessMetaDataValue(
-                        actionCallMetaData.outputParameters,
-                        false
-                    )
+                    parametersWithoutProcessMetaDataValue(actionCallMetaData.outputParameters, false)
                 );
             });
         });
         describe('when store actionCall with automatic output handling is passed', () => {
             beforeEach(() => {
-                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
-                    'Supported'
-                );
+                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue('Supported');
             });
             it('convert to flow metadata', () => {
-                const actualResult = createActionCallMetadataObject(
-                    actionCallAutomaticOutputInStore
-                );
+                const actualResult = createActionCallMetadataObject(actionCallAutomaticOutputInStore);
 
-                expect(actualResult).toMatchObject(
-                    actionCallAutomaticOutputMetadata
-                );
+                expect(actualResult).toMatchObject(actionCallAutomaticOutputMetadata);
             });
             it('has no common mutable object with actionCall from store passed as parameter', () => {
-                const actualResult = createActionCallMetadataObject(
-                    actionCallAutomaticOutputInStore
-                );
-                expect(actualResult).toHaveNoCommonMutableObjectWith(
-                    actionCallAutomaticOutputInStore
-                );
+                const actualResult = createActionCallMetadataObject(actionCallAutomaticOutputInStore);
+                expect(actualResult).toHaveNoCommonMutableObjectWith(actionCallAutomaticOutputInStore);
             });
         });
     });

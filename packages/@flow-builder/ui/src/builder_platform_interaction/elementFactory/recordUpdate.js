@@ -30,28 +30,20 @@ export function createRecordUpdate(recordUpdate = {}) {
         object = '',
         objectIndex = generateGuid()
     } = recordUpdate;
-    let {
-        filters,
-        inputAssignments = [],
-        availableConnections = getDefaultAvailableConnections()
-    } = recordUpdate;
+    let { filters, inputAssignments = [], availableConnections = getDefaultAvailableConnections() } = recordUpdate;
 
     availableConnections = availableConnections.map(availableConnection =>
         createAvailableConnection(availableConnection)
     );
 
-    inputAssignments = inputAssignments.map(item =>
-        createFlowInputFieldAssignment(item, object)
-    );
+    inputAssignments = inputAssignments.map(item => createFlowInputFieldAssignment(item, object));
 
     const useSobject = inputReference !== '' || object === '';
 
     filters = createRecordFilters(filters, object);
 
     const filterType =
-        filters[0].leftHandSide || recordUpdate.isNewElement
-            ? RECORD_FILTER_CRITERIA.ALL
-            : RECORD_FILTER_CRITERIA.NONE;
+        filters[0].leftHandSide || recordUpdate.isNewElement ? RECORD_FILTER_CRITERIA.ALL : RECORD_FILTER_CRITERIA.NONE;
 
     const recordUpdateObject = Object.assign(newRecordUpdate, {
         inputReference,
@@ -76,11 +68,7 @@ export function createDuplicateRecordUpdate(recordUpdate, newGuid, newName) {
     Object.assign(newRecordUpdate, {
         availableConnections: getDefaultAvailableConnections()
     });
-    const duplicateRecordUpdate = duplicateCanvasElement(
-        newRecordUpdate,
-        newGuid,
-        newName
-    );
+    const duplicateRecordUpdate = duplicateCanvasElement(newRecordUpdate, newGuid, newName);
 
     return duplicateRecordUpdate;
 }
@@ -88,14 +76,8 @@ export function createDuplicateRecordUpdate(recordUpdate, newGuid, newName) {
 export function createRecordUpdateWithConnectors(recordUpdate = {}) {
     const newRecordUpdate = createRecordUpdate(recordUpdate);
 
-    const connectors = createConnectorObjects(
-        recordUpdate,
-        newRecordUpdate.guid
-    );
-    const availableConnections = removeFromAvailableConnections(
-        getDefaultAvailableConnections(),
-        connectors
-    );
+    const connectors = createConnectorObjects(recordUpdate, newRecordUpdate.guid);
+    const availableConnections = removeFromAvailableConnections(getDefaultAvailableConnections(), connectors);
     const connectorCount = connectors ? connectors.length : 0;
 
     const recordUpdateObject = Object.assign(newRecordUpdate, {
@@ -111,10 +93,7 @@ export function createRecordUpdateMetadataObject(recordUpdate, config) {
         throw new Error('recordUpdate is not defined');
     }
 
-    const recordUpdateMetadata = baseCanvasElementMetadataObject(
-        recordUpdate,
-        config
-    );
+    const recordUpdateMetadata = baseCanvasElementMetadataObject(recordUpdate, config);
     const { inputReference, filterType, object, useSobject } = recordUpdate;
 
     if (!useSobject) {
@@ -125,9 +104,7 @@ export function createRecordUpdateMetadataObject(recordUpdate, config) {
             filters = filters.map(filter => createFilterMetadataObject(filter));
         }
 
-        inputAssignments = inputAssignments.map(input =>
-            createFlowInputFieldAssignmentMetadataObject(input)
-        );
+        inputAssignments = inputAssignments.map(input => createFlowInputFieldAssignmentMetadataObject(input));
 
         return Object.assign(recordUpdateMetadata, {
             filters,

@@ -9,5 +9,5 @@ export const LABELS = {
     backButtonText,
     helpButtonText,
     systemModeLabelText,
-    versionLabelText,
+    versionLabelText
 };

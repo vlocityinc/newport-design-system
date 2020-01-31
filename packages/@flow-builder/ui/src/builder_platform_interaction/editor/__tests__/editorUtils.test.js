@@ -71,14 +71,12 @@ jest.mock('builder_platform_interaction/actions', () => {
                 payload
             };
         }),
-        updatePropertiesAfterSaveFailed: jest
-            .fn()
-            .mockImplementation(payload => {
-                return {
-                    type: 'updatePropertiesAfterSaveFailed',
-                    payload
-                };
-            }),
+        updatePropertiesAfterSaveFailed: jest.fn().mockImplementation(payload => {
+            return {
+                type: 'updatePropertiesAfterSaveFailed',
+                payload
+            };
+        }),
         updateProperties: jest.fn().mockImplementation(payload => {
             return {
                 type: 'updateProperties',
@@ -102,9 +100,7 @@ jest.mock('builder_platform_interaction/usedByLib', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/drawingLib', () =>
-    require('builder_platform_interaction_mocks/drawingLib')
-);
+jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 
 jest.mock('builder_platform_interaction/propertyEditorFactory', () => {
     return {
@@ -375,39 +371,27 @@ describe('Editor Utils Test', () => {
         });
 
         it('return "UPDATE" save type if flow event type is "save" and flowid is defined', () => {
-            expect(getSaveType(SaveFlowEvent.Type.SAVE, 'flowid', false)).toBe(
-                SaveType.UPDATE
-            );
+            expect(getSaveType(SaveFlowEvent.Type.SAVE, 'flowid', false)).toBe(SaveType.UPDATE);
         });
 
         it('return "CREATE" save type if flow event type is "save" and flow id is not defined', () => {
-            expect(getSaveType(SaveFlowEvent.Type.SAVE, undefined, false)).toBe(
-                SaveType.CREATE
-            );
+            expect(getSaveType(SaveFlowEvent.Type.SAVE, undefined, false)).toBe(SaveType.CREATE);
         });
 
         it('return "NEW_DEFINITION" save type if flow event type is "save_as", "flowId" is undefined and "canOnlySaveAsNewDefinition" is true', () => {
-            expect(
-                getSaveType(SaveFlowEvent.Type.SAVE_AS, undefined, true)
-            ).toBe(SaveType.NEW_DEFINITION);
+            expect(getSaveType(SaveFlowEvent.Type.SAVE_AS, undefined, true)).toBe(SaveType.NEW_DEFINITION);
         });
 
         it('return "NEW_DEFINITION" save type if flow event type is "save_as", "flowId" is defined and "canOnlySaveAsNewDefinition" is true', () => {
-            expect(
-                getSaveType(SaveFlowEvent.Type.SAVE_AS, 'flowid', true)
-            ).toBe(SaveType.NEW_DEFINITION);
+            expect(getSaveType(SaveFlowEvent.Type.SAVE_AS, 'flowid', true)).toBe(SaveType.NEW_DEFINITION);
         });
 
         it('return "NEW_VERSION" save type if flow event type is "save_as", "flowId" is undefined and "canOnlySaveAsNewDefinition" is false', () => {
-            expect(
-                getSaveType(SaveFlowEvent.Type.SAVE_AS, undefined, false)
-            ).toBe(SaveType.NEW_VERSION);
+            expect(getSaveType(SaveFlowEvent.Type.SAVE_AS, undefined, false)).toBe(SaveType.NEW_VERSION);
         });
 
         it('return "NEW_VERSION" save type if flow event type is "save_as", "flowId" is defined and "canOnlySaveAsNewDefinition" is false', () => {
-            expect(
-                getSaveType(SaveFlowEvent.Type.SAVE_AS, 'flowid', false)
-            ).toBe(SaveType.NEW_VERSION);
+            expect(getSaveType(SaveFlowEvent.Type.SAVE_AS, 'flowid', false)).toBe(SaveType.NEW_VERSION);
         });
     });
 
@@ -490,12 +474,7 @@ describe('Editor Utils Test', () => {
                 dispatch
             };
 
-            updateStoreAfterSaveAsNewVersionIsFailed(
-                storeInstance,
-                'label1',
-                'description1',
-                'interviewLabel1'
-            );
+            updateStoreAfterSaveAsNewVersionIsFailed(storeInstance, 'label1', 'description1', 'interviewLabel1');
 
             const payload = {
                 label: 'label1',
@@ -667,12 +646,7 @@ describe('Editor Utils Test', () => {
                 childElementGuidMap,
                 unduplicatedCanvasElementsGuids
             };
-            expect(
-                getDuplicateElementGuidMaps(
-                    canvasElementsInStore,
-                    elementsInStore
-                )
-            ).toEqual(res);
+            expect(getDuplicateElementGuidMaps(canvasElementsInStore, elementsInStore)).toEqual(res);
         });
     });
 
@@ -727,9 +701,7 @@ describe('Editor Utils Test', () => {
                     type: 'REGULAR'
                 }
             ];
-            expect(
-                getConnectorToDuplicate(connectorsInStore, canvasElementGuidMap)
-            ).toEqual(connectorsToDuplicate);
+            expect(getConnectorToDuplicate(connectorsInStore, canvasElementGuidMap)).toEqual(connectorsToDuplicate);
         });
     });
 

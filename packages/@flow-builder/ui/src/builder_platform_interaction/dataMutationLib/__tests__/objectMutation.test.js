@@ -1,10 +1,4 @@
-import {
-    pick,
-    omit,
-    set,
-    updateProperties,
-    stringToPath
-} from '../objectMutation';
+import { pick, omit, set, updateProperties, stringToPath } from '../objectMutation';
 
 const obj = {
     name: 'ass1',
@@ -212,11 +206,7 @@ describe('Set function', () => {
         });
 
         it('should update the value with a string path using indexing', () => {
-            const newObj = set(
-                mockAssignment,
-                'items[0].lhs.value',
-                'newvalue'
-            );
+            const newObj = set(mockAssignment, 'items[0].lhs.value', 'newvalue');
             expect(newObj.items[0].lhs.value).toEqual('newvalue');
         });
 
@@ -234,20 +224,12 @@ describe('Set function', () => {
         });
 
         it('should update the value at the given path using idexing', () => {
-            const newObj = set(
-                mockAssignment,
-                ['items', '0', 'lhs', 'value'],
-                'newvalue'
-            );
+            const newObj = set(mockAssignment, ['items', '0', 'lhs', 'value'], 'newvalue');
             expect(newObj.items[0].lhs.value).toEqual('newvalue');
         });
 
         it('should return an object with keys from the given path if such a path does not already exist', () => {
-            const newObj = set(
-                assignmentItem,
-                ['firstNewKey', 'secondNewKey'],
-                'newvalue'
-            );
+            const newObj = set(assignmentItem, ['firstNewKey', 'secondNewKey'], 'newvalue');
             expect(newObj.firstNewKey.secondNewKey).toEqual('newvalue');
         });
 
@@ -261,17 +243,9 @@ describe('Set function', () => {
         });
 
         it('should only change the value at the given path using indexing', () => {
-            const newObj = set(
-                mockAssignment,
-                ['items', '0', 'lhs', 'value'],
-                'newvalue'
-            );
-            expect(newObj.items[0].lhs.menudata).toEqual(
-                mockAssignment.items[0].lhs.menudata
-            );
-            expect(newObj.items[0].operator).toEqual(
-                mockAssignment.items[0].operator
-            );
+            const newObj = set(mockAssignment, ['items', '0', 'lhs', 'value'], 'newvalue');
+            expect(newObj.items[0].lhs.menudata).toEqual(mockAssignment.items[0].lhs.menudata);
+            expect(newObj.items[0].operator).toEqual(mockAssignment.items[0].operator);
             expect(newObj.items[0].rhs).toEqual(mockAssignment.items[0].rhs);
             expect(newObj.items[1]).toEqual(mockAssignment.items[1]);
         });

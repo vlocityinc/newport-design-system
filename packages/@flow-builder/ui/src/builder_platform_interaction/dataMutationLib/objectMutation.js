@@ -28,9 +28,7 @@ const setValue = (obj, path, value) => {
         const key = path[0];
         if (Array.isArray(obj)) {
             if (isNaN(parseInt(key, 10))) {
-                throw new Error(
-                    `the key ${key} is not a number and cannot be used in an array`
-                );
+                throw new Error(`the key ${key} is not a number and cannot be used in an array`);
             }
             // create a new array with the given value at position key
             return replaceItem(obj, value, key);
@@ -42,9 +40,7 @@ const setValue = (obj, path, value) => {
     const key = path[0];
     if (Array.isArray(obj)) {
         if (isNaN(parseInt(key, 10))) {
-            throw new Error(
-                `the key ${key} is not a number and cannot be used as an index in an array`
-            );
+            throw new Error(`the key ${key} is not a number and cannot be used as an index in an array`);
         }
         return replaceItem(obj, setValue(obj[key], path.slice(1), value), key);
     }

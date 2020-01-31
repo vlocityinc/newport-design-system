@@ -18,14 +18,10 @@ import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLi
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/flowExtensionLib', () => {
-    const flowExtensionLib = require.requireActual(
-        'builder_platform_interaction/flowExtensionLib'
-    );
+    const flowExtensionLib = require.requireActual('builder_platform_interaction/flowExtensionLib');
     return Object.assign({}, flowExtensionLib, {
         getCachedExtension: jest.fn().mockReturnValue({
             inputParameters: [
@@ -87,9 +83,7 @@ describe('screen reducer', () => {
         // The changed property should be updated, but the unchanged property should be the same.
         expect(newScreen).toBeDefined();
         expect(newScreen.fields[0].fieldText.value).toBe(newDisplayText);
-        expect(newScreen.fields[0].name.value).toBe(
-            screen.fields[0].name.value
-        );
+        expect(newScreen.fields[0].name.value).toBe(screen.fields[0].name.value);
     });
 
     it('change screen field validation error message when there is none before', () => {
@@ -118,11 +112,7 @@ describe('screen reducer', () => {
         const newErrorMessage = 'error2';
         const screen = createTestScreen(SCREEN_NAME, null);
         screen.fields = [];
-        const field = createTestScreenField(
-            'Screenfield1',
-            'DisplayText',
-            'Display this'
-        );
+        const field = createTestScreenField('Screenfield1', 'DisplayText', 'Display this');
         field.errorMessage = { value: oldErrorMessage, error: null };
         field.formulaExpression = {
             value: '{Screenfield1} != null',
@@ -173,11 +163,7 @@ describe('screen reducer', () => {
         const newFormula = '{Screenfield1} != null';
         const screen = createTestScreen(SCREEN_NAME, null);
         screen.fields = [];
-        const field = createTestScreenField(
-            'Screenfield1',
-            'DisplayText',
-            'Display this'
-        );
+        const field = createTestScreenField('Screenfield1', 'DisplayText', 'Display this');
         field.errorMessage = { value: 'some error', error: null };
         field.formulaExpression = { value: oldFormula, error: null };
         screen.fields.push(field);
@@ -238,9 +224,7 @@ describe('screen reducer', () => {
         const event = createAddScreenFieldEvent(fieldType);
         const newScreen = screenReducer(screen, event);
         expect(newScreen.fields).toHaveLength(screen.fields.length + 1);
-        expect(newScreen.fields[newScreen.fields.length - 1].type.name).toBe(
-            fieldType
-        );
+        expect(newScreen.fields[newScreen.fields.length - 1].type.name).toBe(fieldType);
     });
 
     it('deletes a screen field', () => {
@@ -311,27 +295,13 @@ describe('screen reducer', () => {
     });
     describe('on UseAdvancedOptionsSelectionChanged', () => {
         it('updates screen field with expected option', () => {
-            const expectedEvent = new UseAdvancedOptionsSelectionChangedEvent(
-                true
-            );
-            const field = createTestScreenField(
-                'fieldName',
-                'Extension',
-                'fieldValue',
-                {},
-                true
-            );
-            const screen = createTestScreenWithFields(
-                'screenName',
-                [field],
-                {}
-            );
+            const expectedEvent = new UseAdvancedOptionsSelectionChangedEvent(true);
+            const field = createTestScreenField('fieldName', 'Extension', 'fieldValue', {}, true);
+            const screen = createTestScreenWithFields('screenName', [field], {});
 
             const updatedScreen = screenReducer(screen, expectedEvent, field);
 
-            expect(updatedScreen.fields[0].storeOutputAutomatically).toBe(
-                false
-            );
+            expect(updatedScreen.fields[0].storeOutputAutomatically).toBe(false);
         });
     });
 

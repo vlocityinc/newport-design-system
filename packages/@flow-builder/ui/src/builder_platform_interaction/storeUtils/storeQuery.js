@@ -45,19 +45,14 @@ export const getElementByDevName = (devName, caseSensitive = false) => {
  * @param {string[]} listOfGuidsToSkip
  * @returns {Object[]} matchingElements Object list
  */
-export const getDuplicateDevNameElements = (
-    elements = {},
-    nameToBeTested,
-    listOfGuidsToSkip = []
-) => {
+export const getDuplicateDevNameElements = (elements = {}, nameToBeTested, listOfGuidsToSkip = []) => {
     return (
         elements &&
         Object.values(elements).filter(
             element =>
                 !listOfGuidsToSkip.includes(element.guid) &&
                 nameToBeTested !== '' && // no need to run the validation in case of empty string
-                (element.name && element.name.toLowerCase()) ===
-                    (nameToBeTested && nameToBeTested.toLowerCase())
+                (element.name && element.name.toLowerCase()) === (nameToBeTested && nameToBeTested.toLowerCase())
         )
     );
 };
@@ -72,12 +67,7 @@ export const getDuplicateDevNameElements = (
 export const isDevNameInStore = (nameToBeTested, listOfGuidsToSkip = []) => {
     const currentState = Store.getStore().getCurrentState();
     const elements = currentState.elements;
-    const matches =
-        getDuplicateDevNameElements(
-            elements,
-            nameToBeTested,
-            listOfGuidsToSkip
-        ) || [];
+    const matches = getDuplicateDevNameElements(elements, nameToBeTested, listOfGuidsToSkip) || [];
     return matches.length > 0;
 };
 
@@ -88,16 +78,11 @@ export const isDevNameInStore = (nameToBeTested, listOfGuidsToSkip = []) => {
  * @param {string[]} listOfGuidsToSkip - for checking against uniqueness
  * @returns {boolean}
  */
-export const isOrderNumberInStore = (
-    orderNumberToBeTested,
-    listOfGuidsToSkip = []
-) => {
+export const isOrderNumberInStore = (orderNumberToBeTested, listOfGuidsToSkip = []) => {
     const currentState = Store.getStore().getCurrentState();
     const elements = currentState.elements;
     const matches = Object.values(elements).filter(
-        element =>
-            !listOfGuidsToSkip.includes(element.guid) &&
-            element.stageOrder === orderNumberToBeTested
+        element => !listOfGuidsToSkip.includes(element.guid) && element.stageOrder === orderNumberToBeTested
     );
     return matches.length > 0;
 };
@@ -107,9 +92,7 @@ export const isOrderNumberInStore = (
  * @returns {String}
  */
 export const getTriggerType = () => {
-    const startElement = Object.values(
-        Store.getStore().getCurrentState().elements
-    ).find(element => {
+    const startElement = Object.values(Store.getStore().getCurrentState().elements).find(element => {
         return element.elementType === ELEMENT_TYPE.START_ELEMENT;
     });
 

@@ -1,9 +1,5 @@
 import { recordUpdateValidation, getRules } from './recordUpdateValidation';
-import {
-    updateProperties,
-    set,
-    deleteItem
-} from 'builder_platform_interaction/dataMutationLib';
+import { updateProperties, set, deleteItem } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
@@ -101,10 +97,7 @@ const deleteRecordFilter = (state, event) => {
 
 const updateRecordFilter = (state, event) => {
     const path = [FILTERS_PROP, event.detail.index];
-    const item = updateProperties(
-        state.filters[event.detail.index],
-        event.detail.value
-    );
+    const item = updateProperties(state.filters[event.detail.index], event.detail.value);
     return set(state, path, item);
 };
 
@@ -120,10 +113,7 @@ const deleteRecordRecordFieldAssignment = (state, event) => {
 
 const updateRecordRecordFieldAssignment = (state, event) => {
     const path = [INPUTASSIGNMENTS_PROP, event.detail.index];
-    const item = updateProperties(
-        state.inputAssignments[event.detail.index],
-        event.detail.value
-    );
+    const item = updateProperties(state.inputAssignments[event.detail.index], event.detail.value);
     return set(state, path, item);
 };
 
@@ -143,10 +133,7 @@ const resetRecordUpdate = (state, resetObject) => {
 /**
  * Update the way the user store the records
  */
-const recordStoreOptionAndWayToStoreChanged = (
-    state,
-    { getFirstRecordOnly }
-) => {
+const recordStoreOptionAndWayToStoreChanged = (state, { getFirstRecordOnly }) => {
     if (state.useSobject !== getFirstRecordOnly) {
         state = updateProperties(state, { useSobject: getFirstRecordOnly });
         return resetRecordUpdate(state, true);
@@ -159,36 +146,24 @@ const managePropertyChanged = (state, event) => {
     if (!event.detail.ignoreValidate) {
         event.detail.error =
             event.detail.error === null
-                ? recordUpdateValidation.validateProperty(
-                      propName,
-                      event.detail.value
-                  )
+                ? recordUpdateValidation.validateProperty(propName, event.detail.value)
                 : event.detail.error;
     }
     state = updateProperties(state, {
         [propName]: { value: event.detail.value, error: event.detail.error }
     });
     if (!event.detail.error) {
-        if (
-            propName === 'object' &&
-            event.detail.value !== event.detail.oldValue
-        ) {
+        if (propName === 'object' && event.detail.value !== event.detail.oldValue) {
             // reset all filterItems, outputReference, queriedFields
             state = resetRecordUpdate(state);
-        } else if (
-            propName === FILTERS_TYPE_PROP &&
-            event.detail.value === RECORD_FILTER_CRITERIA.NONE
-        ) {
+        } else if (propName === FILTERS_TYPE_PROP && event.detail.value === RECORD_FILTER_CRITERIA.NONE) {
             state = resetFilter(state);
         } else if (propName === FILTERS_PROP) {
             // reset errors in filters if any, and preserve values
             state = resetFilterErrors(state);
         } else if (propName === INPUTASSIGNMENTS_PROP) {
             state = resetAssignmentErrors(state);
-        } else if (
-            propName === 'numberRecordsToStore' &&
-            event.detail.value !== event.detail.oldValue
-        ) {
+        } else if (propName === 'numberRecordsToStore' && event.detail.value !== event.detail.oldValue) {
             state = set(state, propName, {
                 value: event.detail.value,
                 error: null

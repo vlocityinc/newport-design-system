@@ -1,7 +1,4 @@
-import {
-    createRecordLookup,
-    createRecordLookupMetadataObject
-} from '../recordLookup';
+import { createRecordLookup, createRecordLookupMetadataObject } from '../recordLookup';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
@@ -10,14 +7,10 @@ import {
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/processTypeLib'
-    );
+    const actual = require.requireActual('builder_platform_interaction/processTypeLib');
     return Object.assign({}, actual, {
         getProcessTypeAutomaticOutPutHandlingSupport: jest.fn()
     });
@@ -124,17 +117,11 @@ describe('recordLookup', () => {
     describe('recordLookup UI model => flow metadata', () => {
         describe('recordLookup function with automatic handled output', () => {
             beforeEach(() => {
-                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
-                    FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
-                );
+                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED);
             });
             it('sets null queried fields', () => {
-                const actualResult = createRecordLookupMetadataObject(
-                    recordLookupStore()
-                );
-                expect(actualResult).toMatchObject(
-                    recordLookupMetadataWithQueriedFieldNull()
-                );
+                const actualResult = createRecordLookupMetadataObject(recordLookupStore());
+                expect(actualResult).toMatchObject(recordLookupMetadataWithQueriedFieldNull());
             });
         });
     });

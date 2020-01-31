@@ -22,17 +22,12 @@ export default class PaletteItem extends LightningElement {
 
     @api
     get elementIcon() {
-        return this.template.querySelector(
-            'builder_platform_interaction-element-icon'
-        );
+        return this.template.querySelector('builder_platform_interaction-element-icon');
     }
 
     @api
     get dragImage() {
-        if (
-            typeof this.dragImageSrc !== 'string' ||
-            this.dragImageSrc.length === 0
-        ) {
+        if (typeof this.dragImageSrc !== 'string' || this.dragImageSrc.length === 0) {
             return undefined;
         }
 
@@ -47,11 +42,7 @@ export default class PaletteItem extends LightningElement {
     }
 
     get hasIcon() {
-        return (
-            this.iconName !== undefined &&
-            this.iconName !== null &&
-            this.iconName.length > 0
-        );
+        return this.iconName !== undefined && this.iconName !== null && this.iconName.length > 0;
     }
 
     /**
@@ -72,10 +63,7 @@ export default class PaletteItem extends LightningElement {
         event.stopPropagation();
         const elementType = this.elementType;
         const guid = this.guid;
-        const paletteItemClickedEvent = new PaletteItemClickedEvent(
-            elementType,
-            guid
-        );
+        const paletteItemClickedEvent = new PaletteItemClickedEvent(elementType, guid);
         this.dispatchEvent(paletteItemClickedEvent);
     }
 

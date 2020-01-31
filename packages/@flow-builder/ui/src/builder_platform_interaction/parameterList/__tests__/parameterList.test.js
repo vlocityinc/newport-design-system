@@ -14,9 +14,7 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
 );
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const defaultInputHeader = 'Send to action';
 const defaultOutputHeader = 'Received from action';
@@ -25,8 +23,7 @@ const defaultEmptyInputsBody = 'No variables to define';
 const defaultEmptyOutputsTitle = 'No outputs';
 const defaultEmptyOutputsBody = 'This action doesn’t return any data';
 const defaultEmptyInputsOutputsTitle = 'No inputs and No outputs';
-const defaultEmptyInputsOutputsBody =
-    'This action doesn’t have or return any data';
+const defaultEmptyInputsOutputsBody = 'This action doesn’t have or return any data';
 
 const defaultInputParameters = [
     {
@@ -84,30 +81,21 @@ const defaultOutputParameters = [
     }
 ];
 
-const defaultParameterList = (
-    storeOutputAutomatically = false,
-    automaticOutputHandlingSupported = false
-) => ({
+const defaultParameterList = (storeOutputAutomatically = false, automaticOutputHandlingSupported = false) => ({
     inputs: defaultInputParameters,
     outputs: defaultOutputParameters,
     storeOutputAutomatically,
     automaticOutputHandlingSupported
 });
 
-const parameterListWithInputs = (
-    storeOutputAutomatically = false,
-    automaticOutputHandlingSupported = false
-) => ({
+const parameterListWithInputs = (storeOutputAutomatically = false, automaticOutputHandlingSupported = false) => ({
     inputs: defaultInputParameters,
     outputs: [],
     storeOutputAutomatically,
     automaticOutputHandlingSupported
 });
 
-const parameterListWithOutputs = (
-    storeOutputAutomatically = false,
-    automaticOutputHandlingSupported = false
-) => ({
+const parameterListWithOutputs = (storeOutputAutomatically = false, automaticOutputHandlingSupported = false) => ({
     inputs: [],
     outputs: defaultOutputParameters,
     storeOutputAutomatically,
@@ -139,44 +127,31 @@ const selectors = {
     configurationEditor: 'builder_platform_interaction-custom-property-editor'
 };
 
-const getInputsDiv = parameterList =>
-    parameterList.shadowRoot.querySelector(selectors.divInput);
+const getInputsDiv = parameterList => parameterList.shadowRoot.querySelector(selectors.divInput);
 
-const getOutputsDiv = parameterList =>
-    parameterList.shadowRoot.querySelector(selectors.divOutputs);
+const getOutputsDiv = parameterList => parameterList.shadowRoot.querySelector(selectors.divOutputs);
 
 const getInputParameterItems = parameterList => {
-    return parameterList.shadowRoot
-        .querySelector(selectors.divInputs)
-        .querySelectorAll(selectors.parameterItem);
+    return parameterList.shadowRoot.querySelector(selectors.divInputs).querySelectorAll(selectors.parameterItem);
 };
 
 const getOutputParameterItems = parameterList => {
-    return parameterList.shadowRoot
-        .querySelector(selectors.divOutputs)
-        .querySelectorAll(selectors.parameterItem);
+    return parameterList.shadowRoot.querySelector(selectors.divOutputs).querySelectorAll(selectors.parameterItem);
 };
 
 const getEmptyInputs = parameterList => {
-    return parameterList.shadowRoot
-        .querySelector(selectors.emptyInputs)
-        .querySelector(selectors.goneCamping);
+    return parameterList.shadowRoot.querySelector(selectors.emptyInputs).querySelector(selectors.goneCamping);
 };
 
 const getEmptyInputsOutputs = parameterList => {
-    return parameterList.shadowRoot
-        .querySelector(selectors.emptyInputsOutputs)
-        .querySelector(selectors.goneCamping);
+    return parameterList.shadowRoot.querySelector(selectors.emptyInputsOutputs).querySelector(selectors.goneCamping);
 };
 
-const getInputHeader = parameterList =>
-    parameterList.shadowRoot.querySelector(selectors.inputHeader);
+const getInputHeader = parameterList => parameterList.shadowRoot.querySelector(selectors.inputHeader);
 
-const getOutputHeader = parameterList =>
-    parameterList.shadowRoot.querySelector(selectors.outputHeader);
+const getOutputHeader = parameterList => parameterList.shadowRoot.querySelector(selectors.outputHeader);
 
-const getConfigurationEditor = parameterList =>
-    parameterList.shadowRoot.querySelector(selectors.configurationEditor);
+const getConfigurationEditor = parameterList => parameterList.shadowRoot.querySelector(selectors.configurationEditor);
 
 function createComponentForTest({
     elementType = ELEMENT_TYPE.ACTION_CALL,
@@ -233,15 +208,9 @@ describe('parameter-list', () => {
                 expect(inputDiv).toBeNull();
             });
             it('should display the empty inputs and outputs message', () => {
-                const emptyInputsOutputsElement = getEmptyInputsOutputs(
-                    parameterList
-                );
-                expect(emptyInputsOutputsElement.title).toEqual(
-                    defaultEmptyInputsOutputsTitle
-                );
-                expect(emptyInputsOutputsElement.body).toEqual(
-                    defaultEmptyInputsOutputsBody
-                );
+                const emptyInputsOutputsElement = getEmptyInputsOutputs(parameterList);
+                expect(emptyInputsOutputsElement.title).toEqual(defaultEmptyInputsOutputsTitle);
+                expect(emptyInputsOutputsElement.body).toEqual(defaultEmptyInputsOutputsBody);
             });
             it('should not contains input div header', () => {
                 const inputHeader = getInputHeader(parameterList);
@@ -264,22 +233,16 @@ describe('parameter-list', () => {
             it('should contains input div header', () => {
                 const inputHeader = getInputHeader(parameterList);
                 expect(inputHeader).not.toBeNull();
-                expect(inputHeader.firstChild.nodeValue).toEqual(
-                    defaultInputHeader
-                );
+                expect(inputHeader.firstChild.nodeValue).toEqual(defaultInputHeader);
             });
             it('should contains output div header', () => {
                 const outputHeader = getOutputHeader(parameterList);
                 expect(outputHeader).not.toBeNull();
-                expect(outputHeader.firstChild.nodeValue).toEqual(
-                    defaultOutputHeader
-                );
+                expect(outputHeader.firstChild.nodeValue).toEqual(defaultOutputHeader);
             });
             it('contains input parameters in inputs div', () => {
                 const parameterItems = getInputParameterItems(parameterList);
-                expect(parameterItems).toHaveLength(
-                    defaultInputParameters.length
-                );
+                expect(parameterItems).toHaveLength(defaultInputParameters.length);
             });
             it('sorts input parameters by isRequired and label', () => {
                 const parameterItems = getInputParameterItems(parameterList);
@@ -296,26 +259,18 @@ describe('parameter-list', () => {
                         isRequired: false
                     }
                 ];
-                const inputParameters = [...parameterItems].map(
-                    parameterItem => {
-                        return {
-                            name: getValueFromHydratedItem(
-                                parameterItem.item.name
-                            ),
-                            label: getValueFromHydratedItem(
-                                parameterItem.item.label
-                            ),
-                            isRequired: parameterItem.item.isRequired
-                        };
-                    }
-                );
+                const inputParameters = [...parameterItems].map(parameterItem => {
+                    return {
+                        name: getValueFromHydratedItem(parameterItem.item.name),
+                        label: getValueFromHydratedItem(parameterItem.item.label),
+                        isRequired: parameterItem.item.isRequired
+                    };
+                });
                 expect(inputParameters).toEqual(expectedInputs);
             });
             it('contains output parameters in outputs div', () => {
                 const parameterItems = getOutputParameterItems(parameterList);
-                expect(parameterItems).toHaveLength(
-                    defaultOutputParameters.length
-                );
+                expect(parameterItems).toHaveLength(defaultOutputParameters.length);
             });
             it('sorts outputs parameters by label', () => {
                 const parameterItems = getOutputParameterItems(parameterList);
@@ -327,19 +282,13 @@ describe('parameter-list', () => {
                     },
                     { name: 'feedId', label: 'Feed ID', isRequired: false }
                 ];
-                const outputParameters = [...parameterItems].map(
-                    parameterItem => {
-                        return {
-                            name: getValueFromHydratedItem(
-                                parameterItem.item.name
-                            ),
-                            label: getValueFromHydratedItem(
-                                parameterItem.item.label
-                            ),
-                            isRequired: parameterItem.item.isRequired
-                        };
-                    }
-                );
+                const outputParameters = [...parameterItems].map(parameterItem => {
+                    return {
+                        name: getValueFromHydratedItem(parameterItem.item.name),
+                        label: getValueFromHydratedItem(parameterItem.item.label),
+                        isRequired: parameterItem.item.isRequired
+                    };
+                });
                 expect(outputParameters).toEqual(expectedOutputs);
             });
         });
@@ -347,9 +296,7 @@ describe('parameter-list', () => {
     describe('Automatic output handling supported', () => {
         let parameterList;
         beforeEach(() => {
-            parameterList = createComponentForTest(
-                defaultParameterList(true, true)
-            );
+            parameterList = createComponentForTest(defaultParameterList(true, true));
         });
         it('contains input parameters in inputs div', () => {
             const parameterItems = getInputParameterItems(parameterList);
@@ -384,9 +331,7 @@ describe('parameter-list', () => {
             expect(outputsDiv).toBeNull();
         });
         it('Display the Use Advanced Option checkbox', () => {
-            const advancedOptionCheckbox = getAdvancedOptionCheckbox(
-                parameterList
-            );
+            const advancedOptionCheckbox = getAdvancedOptionCheckbox(parameterList);
             expect(advancedOptionCheckbox).toBeDefined();
             expect(advancedOptionCheckbox.type).toBe('checkbox');
             expect(advancedOptionCheckbox.checked).toBe(false);
@@ -399,18 +344,14 @@ describe('parameter-list', () => {
     describe('Automatic output handling supported with inputs only', () => {
         let parameterList;
         beforeEach(() => {
-            parameterList = createComponentForTest(
-                parameterListWithInputs(true, true)
-            );
+            parameterList = createComponentForTest(parameterListWithInputs(true, true));
         });
         it('contains input parameters in inputs div', () => {
             const parameterItems = getInputParameterItems(parameterList);
             expect(parameterItems).toHaveLength(defaultInputParameters.length);
         });
         it('Should not display the Use Advanced Option checkbox', () => {
-            const advancedOptionCheckbox = getUseAdvancedOptionComponent(
-                parameterList
-            );
+            const advancedOptionCheckbox = getUseAdvancedOptionComponent(parameterList);
             expect(advancedOptionCheckbox).toBeNull();
         });
         it('should not contains output div header', () => {
@@ -421,14 +362,10 @@ describe('parameter-list', () => {
     describe('Automatic output handling supported with outputs only', () => {
         let parameterList;
         beforeEach(() => {
-            parameterList = createComponentForTest(
-                parameterListWithOutputs(false, true)
-            );
+            parameterList = createComponentForTest(parameterListWithOutputs(false, true));
         });
         it('Display the Use Advanced Option checkbox', () => {
-            const advancedOptionCheckbox = getAdvancedOptionCheckbox(
-                parameterList
-            );
+            const advancedOptionCheckbox = getAdvancedOptionCheckbox(parameterList);
             expect(advancedOptionCheckbox).toBeDefined();
             expect(advancedOptionCheckbox.type).toBe('checkbox');
             expect(advancedOptionCheckbox.checked).toBe(true);
@@ -436,9 +373,7 @@ describe('parameter-list', () => {
         it('should contains output div header', () => {
             const outputHeader = getOutputHeader(parameterList);
             expect(outputHeader).not.toBeNull();
-            expect(outputHeader.firstChild.nodeValue).toEqual(
-                defaultOutputHeader
-            );
+            expect(outputHeader.firstChild.nodeValue).toEqual(defaultOutputHeader);
         });
         it('should not contains input div header', () => {
             const inputHeader = getInputHeader(parameterList);
@@ -453,9 +388,7 @@ describe('parameter-list', () => {
     describe('Automatic output handling supported with advanced option', () => {
         let parameterList;
         beforeEach(() => {
-            parameterList = createComponentForTest(
-                defaultParameterList(false, true)
-            );
+            parameterList = createComponentForTest(defaultParameterList(false, true));
         });
         it('contains input parameters in inputs div', () => {
             const parameterItems = getInputParameterItems(parameterList);
@@ -490,9 +423,7 @@ describe('parameter-list', () => {
             expect(parameterItems).toHaveLength(defaultOutputParameters.length);
         });
         it('Display the Use Advanced Option checkbox', () => {
-            const advancedOptionCheckbox = getAdvancedOptionCheckbox(
-                parameterList
-            );
+            const advancedOptionCheckbox = getAdvancedOptionCheckbox(parameterList);
             expect(advancedOptionCheckbox).toBeDefined();
             expect(advancedOptionCheckbox.type).toBe('checkbox');
             expect(advancedOptionCheckbox.checked).toBe(true);
@@ -515,9 +446,7 @@ describe('parameter-list', () => {
         it('should contains output div header', () => {
             const outputHeader = getOutputHeader(parameterList);
             expect(outputHeader).not.toBeNull();
-            expect(outputHeader.firstChild.nodeValue).toEqual(
-                defaultOutputHeader
-            );
+            expect(outputHeader.firstChild.nodeValue).toEqual(defaultOutputHeader);
         });
     });
     describe('custom property editor', () => {

@@ -45,13 +45,7 @@ const mutateElements = elements =>
     elements.reduce((acc, { elementType }) => {
         try {
             const { nodeConfig, labels } = getConfigForElementType(elementType);
-            const {
-                iconName,
-                dragImageSrc,
-                iconBackgroundColor,
-                section,
-                description
-            } = nodeConfig;
+            const { iconName, dragImageSrc, iconBackgroundColor, section, description } = nodeConfig;
 
             if (section) {
                 if (!acc[section]) {
@@ -70,9 +64,7 @@ const mutateElements = elements =>
             }
         } catch (e) {
             // if an element is invalid, just log it but don't stop the rest from loading
-            logMetricsServiceErrorTransaction(
-                JSON.stringify(e, Object.getOwnPropertyNames(e))
-            );
+            logMetricsServiceErrorTransaction(JSON.stringify(e, Object.getOwnPropertyNames(e)));
         }
         return acc;
     }, {});

@@ -4,9 +4,7 @@ import { isAutomaticOutputElementWithoutChildren } from 'builder_platform_intera
 
 jest.mock('builder_platform_interaction/complexTypeLib', () => {
     return {
-        isAutomaticOutputElementWithoutChildren: jest
-            .fn()
-            .mockReturnValue(false)
+        isAutomaticOutputElementWithoutChildren: jest.fn().mockReturnValue(false)
     };
 });
 

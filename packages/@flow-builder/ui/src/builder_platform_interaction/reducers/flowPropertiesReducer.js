@@ -43,10 +43,7 @@ const flowProperties = createFlowProperties();
  *
  */
 
-export default function flowPropertiesReducer(
-    state = flowProperties,
-    { payload, type }
-) {
+export default function flowPropertiesReducer(state = flowProperties, { payload, type }) {
     switch (type) {
         case ADD_RESOURCE:
             return {
@@ -99,8 +96,7 @@ export default function flowPropertiesReducer(
         case UPDATE_CANVAS_ELEMENT:
             // If the start element is updated with a trigger type that does not support
             // the run-in system mode, then set the run-in mode property to undefined
-            return payload.elementType === ELEMENT_TYPE.START_ELEMENT &&
-                !isRunInModeSupported(payload.triggerType)
+            return payload.elementType === ELEMENT_TYPE.START_ELEMENT && !isRunInModeSupported(payload.triggerType)
                 ? {
                       ...state,
                       runInMode: undefined,

@@ -7,194 +7,194 @@ export const platformEventStartLabel = 'Start Event';
 
 export const mockEventTypes = [
     {
-        description: "platform event description",
+        description: 'platform event description',
         label: platformEvent1Label,
-        qualifiedApiName: platformEvent1ApiName,
+        qualifiedApiName: platformEvent1ApiName
     },
     {
-        description: "printer ink level check event",
+        description: 'printer ink level check event',
         label: platformEventInkLevelLabel,
-        qualifiedApiName: platformEventInkLevelApiName,
+        qualifiedApiName: platformEventInkLevelApiName
     },
     {
-        description: "start event",
+        description: 'start event',
         label: platformEventStartLabel,
-        qualifiedApiName: platformEventStartApiName,
+        qualifiedApiName: platformEventStartApiName
     }
 ];
 
 export const mockEventTypeParameters = {
-    'PlatformEvent1__e' : {
-        'input': [
+    PlatformEvent1__e: {
+        input: [
             {
-                dataType: "reference",
+                dataType: 'reference',
                 isRequired: false,
-                label: "Created By",
-                qualifiedApiName: "CreatedById",
+                label: 'Created By',
+                qualifiedApiName: 'CreatedById'
             },
             {
-                dataType: "datetime",
+                dataType: 'datetime',
                 isRequired: false,
-                label: "Created Date",
-                qualifiedApiName: "CreatedDate",
+                label: 'Created Date',
+                qualifiedApiName: 'CreatedDate'
             },
             {
-                dataType: "id",
+                dataType: 'id',
                 isRequired: false,
-                label: "ID",
-                qualifiedApiName: "Id",
+                label: 'ID',
+                qualifiedApiName: 'Id'
             },
             {
-                dataType: "string",
+                dataType: 'string',
                 isRequired: false,
-                label: "Replay ID",
-                qualifiedApiName: "ReplayId",
+                label: 'Replay ID',
+                qualifiedApiName: 'ReplayId'
             }
         ],
-        'output': [
+        output: [
             {
-                dataType: "sobject",
+                dataType: 'sobject',
                 isRequired: true,
-                label: "PlatformEvent1",
+                label: 'PlatformEvent1',
                 qualifiedApiName: platformEvent1ApiName
             }
         ]
     },
-    'InkLevel__e': {
-        'input': [
+    InkLevel__e: {
+        input: [
             {
-                dataType: "number",
+                dataType: 'number',
                 isRequired: false,
-                label: "Ink Level",
-                qualifiedApiName: "InkLevel",
+                label: 'Ink Level',
+                qualifiedApiName: 'InkLevel'
             },
             {
-                dataType: "reference",
+                dataType: 'reference',
                 isRequired: false,
-                label: "Created By",
-                qualifiedApiName: "CreatedById",
+                label: 'Created By',
+                qualifiedApiName: 'CreatedById'
             },
             {
-                dataType: "datetime",
+                dataType: 'datetime',
                 isRequired: false,
-                label: "Created Date",
-                qualifiedApiName: "CreatedDate",
+                label: 'Created Date',
+                qualifiedApiName: 'CreatedDate'
             },
             {
-                dataType: "id",
+                dataType: 'id',
                 isRequired: false,
-                label: "ID",
-                qualifiedApiName: "Id",
+                label: 'ID',
+                qualifiedApiName: 'Id'
             },
             {
-                dataType: "string",
+                dataType: 'string',
                 isRequired: false,
-                label: "Replay ID",
-                qualifiedApiName: "ReplayId",
+                label: 'Replay ID',
+                qualifiedApiName: 'ReplayId'
             }
         ],
-        'output': [
+        output: [
             {
-                dataType: "sobject",
+                dataType: 'sobject',
                 isRequired: true,
-                label: "Ink Level",
-                qualifiedApiName: platformEventInkLevelApiName,
+                label: 'Ink Level',
+                qualifiedApiName: platformEventInkLevelApiName
             }
         ]
     }
 };
 
 export const mockEventTypeAllParameters = {
-    'PlatformEvent1__e': [
+    PlatformEvent1__e: [
         {
-            dataType: "reference",
+            dataType: 'reference',
             isRequired: false,
-            label: "Created By",
-            qualifiedApiName: "CreatedById",
+            label: 'Created By',
+            qualifiedApiName: 'CreatedById',
             isSubscription: true,
-            isPublication: false,
+            isPublication: false
         },
         {
-            dataType: "datetime",
+            dataType: 'datetime',
             isRequired: false,
-            label: "Created Date",
-            qualifiedApiName: "CreatedDate",
+            label: 'Created Date',
+            qualifiedApiName: 'CreatedDate',
             isSubscription: true,
-            isPublication: false,
+            isPublication: false
         },
         {
-            dataType: "id",
+            dataType: 'id',
             isRequired: false,
-            label: "ID",
-            qualifiedApiName: "Id",
+            label: 'ID',
+            qualifiedApiName: 'Id',
             isSubscription: true,
-            isPublication: false,
+            isPublication: false
         },
         {
-            dataType: "string",
+            dataType: 'string',
             isRequired: false,
-            label: "Replay ID",
-            qualifiedApiName: "ReplayId",
+            label: 'Replay ID',
+            qualifiedApiName: 'ReplayId',
             isSubscription: true,
-            isPublication: false,
+            isPublication: false
         },
         {
-            dataType: "sobject",
+            dataType: 'sobject',
             isRequired: true,
-            label: "PlatformEvent1",
+            label: 'PlatformEvent1',
             qualifiedApiName: platformEvent1ApiName,
             isSubscription: false,
-            isPublication: true,
+            isPublication: true
         }
     ],
-    'InkLevel__e' : [
+    InkLevel__e: [
         {
-            dataType: "number",
+            dataType: 'number',
             isRequired: false,
-            label: "Ink Level",
-            qualifiedApiName: "InkLevel",
+            label: 'Ink Level',
+            qualifiedApiName: 'InkLevel',
             isSubscription: true,
-            isPublication: false,
+            isPublication: false
         },
         {
-            dataType: "reference",
+            dataType: 'reference',
             isRequired: false,
-            label: "Created By",
-            qualifiedApiName: "CreatedById",
+            label: 'Created By',
+            qualifiedApiName: 'CreatedById',
             isSubscription: true,
-            isPublication: false,
+            isPublication: false
         },
         {
-            dataType: "datetime",
+            dataType: 'datetime',
             isRequired: false,
-            label: "Created Date",
-            qualifiedApiName: "CreatedDate",
+            label: 'Created Date',
+            qualifiedApiName: 'CreatedDate',
             isSubscription: true,
-            isPublication: false,
+            isPublication: false
         },
         {
-            dataType: "id",
+            dataType: 'id',
             isRequired: false,
-            label: "ID",
-            qualifiedApiName: "Id",
+            label: 'ID',
+            qualifiedApiName: 'Id',
             isSubscription: true,
-            isPublication: false,
+            isPublication: false
         },
         {
-            dataType: "string",
+            dataType: 'string',
             isRequired: false,
-            label: "Replay ID",
-            qualifiedApiName: "ReplayId",
+            label: 'Replay ID',
+            qualifiedApiName: 'ReplayId',
             isSubscription: true,
-            isPublication: false,
+            isPublication: false
         },
         {
-            dataType: "sobject",
+            dataType: 'sobject',
             isRequired: true,
-            label: "Ink Level",
+            label: 'Ink Level',
             qualifiedApiName: platformEventInkLevelApiName,
             isSubscription: false,
-            isPublication: true,
+            isPublication: true
         }
     ]
 };

@@ -12,12 +12,7 @@ import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
  */
 export const createDynamicChoiceSet = (element = {}) => {
     const newDynamicChoiceSet = baseResource(element);
-    const {
-        displayField,
-        valueField = null,
-        dataType,
-        sortOrder = SORT_ORDER.NOT_SORTED
-    } = element;
+    const { displayField, valueField = null, dataType, sortOrder = SORT_ORDER.NOT_SORTED } = element;
     // We need to set the limit as undefined if it comes out to be zero. valid range for limit is >0 and <200
     let { limit } = element;
     if (limit === 0 || limit === undefined) {
@@ -41,9 +36,7 @@ export const createDynamicChoiceSet = (element = {}) => {
  */
 export const createDynamicChoiceSetMetadataObject = element => {
     if (!element) {
-        throw new Error(
-            'element is required to create dynamic choice set metadata object'
-        );
+        throw new Error('element is required to create dynamic choice set metadata object');
     }
     const newDynamicChoiceSet = baseResourceMetadataObject(element);
     const { displayField, dataType } = element;

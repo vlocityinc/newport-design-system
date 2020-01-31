@@ -2,10 +2,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseResource, baseElementsArrayToMap } from './base/baseElement';
 import { baseResourceMetadataObject } from './base/baseMetadata';
 import { createFEROV, createFEROVMetadataObject } from './ferov';
-import {
-    DEFAULT_VALUE_PROPERTY,
-    DEFAULT_VALUE_DATA_TYPE_PROPERTY
-} from './variable';
+import { DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY } from './variable';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 const elementType = ELEMENT_TYPE.CONSTANT;
@@ -20,17 +17,10 @@ export function createConstant(constant = {}) {
     const { dataType = null, value } = constant;
     let valueFerov;
     if (value) {
-        valueFerov = createFEROV(
-            value,
-            DEFAULT_VALUE_PROPERTY,
-            DEFAULT_VALUE_DATA_TYPE_PROPERTY
-        );
+        valueFerov = createFEROV(value, DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY);
     }
-    const {
-        defaultValue = null,
-        defaultValueDataType = null,
-        defaultValueIndex = generateGuid()
-    } = valueFerov || constant;
+    const { defaultValue = null, defaultValueDataType = null, defaultValueIndex = generateGuid() } =
+        valueFerov || constant;
     Object.assign(newConstant, {
         elementType,
         dataType,
@@ -66,11 +56,7 @@ export function createConstantMetadataObject(constant) {
     const newConstant = baseResourceMetadataObject(constant);
     const { dataType } = constant;
     let valueFerovObject;
-    const valueFerov = createFEROVMetadataObject(
-        constant,
-        DEFAULT_VALUE_PROPERTY,
-        DEFAULT_VALUE_DATA_TYPE_PROPERTY
-    );
+    const valueFerov = createFEROVMetadataObject(constant, DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY);
     if (valueFerov) {
         valueFerovObject = { value: valueFerov };
     }

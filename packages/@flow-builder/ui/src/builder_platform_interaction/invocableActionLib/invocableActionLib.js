@@ -1,7 +1,4 @@
-import {
-    fetchOnce,
-    SERVER_ACTION_TYPE
-} from 'builder_platform_interaction/serverDataLib';
+import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
@@ -53,17 +50,13 @@ export function applyDynamicTypeMappings(parameters, dynamicTypeMappings) {
         .map(parameter => ({
             parameter,
             dynamicTypeMapping: dynamicTypeMappings.find(
-                dynamicTypeMapping =>
-                    parameter.sobjectType ===
-                    getValueFromHydratedItem(dynamicTypeMapping.typeName)
+                dynamicTypeMapping => parameter.sobjectType === getValueFromHydratedItem(dynamicTypeMapping.typeName)
             )
         }))
         .map(({ parameter, dynamicTypeMapping }) => {
             if (dynamicTypeMapping && dynamicTypeMapping.typeValue) {
                 parameter = Object.assign({}, parameter, {
-                    sobjectType: getValueFromHydratedItem(
-                        dynamicTypeMapping.typeValue
-                    )
+                    sobjectType: getValueFromHydratedItem(dynamicTypeMapping.typeValue)
                 });
             }
             return parameter;
@@ -78,24 +71,15 @@ export function applyDynamicTypeMappings(parameters, dynamicTypeMappings) {
  * @param {string} actionId.actionType - the action type
  * @returns {Object} the action parameters
  */
-export function getParametersForInvocableAction({
-    actionName,
-    actionType,
-    dataTypeMappings
-}) {
+export function getParametersForInvocableAction({ actionName, actionType, dataTypeMappings }) {
     const key = `${actionName}-${actionType}`;
     const params = cachedDetails[key] && cachedDetails[key].parameters;
     return applyDynamicTypeMappings(params, dataTypeMappings);
 }
 
 export function isAutomaticOutputHandlingSupported(flowProcessType) {
-    const processTypeAutomaticOutPutHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(
-        flowProcessType
-    );
-    return (
-        processTypeAutomaticOutPutHandlingSupport ===
-        FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
-    );
+    const processTypeAutomaticOutPutHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(flowProcessType);
+    return processTypeAutomaticOutPutHandlingSupport === FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED;
 }
 
 export function clearInvocableActionCachedParameters() {

@@ -1,7 +1,4 @@
-import {
-    usedBy,
-    invokeUsedByAlertModal
-} from 'builder_platform_interaction/usedByLib';
+import { usedBy, invokeUsedByAlertModal } from 'builder_platform_interaction/usedByLib';
 import {
     deleteElements,
     updatePropertiesAfterSaving,
@@ -36,8 +33,7 @@ import { canUserVAD } from 'builder_platform_interaction/contextLib';
  */
 const isAssociatedConnector = (selectedElementGUIDs, connector) => {
     return (
-        selectedElementGUIDs.indexOf(connector.target) !== -1 ||
-        selectedElementGUIDs.indexOf(connector.source) !== -1
+        selectedElementGUIDs.indexOf(connector.target) !== -1 || selectedElementGUIDs.indexOf(connector.source) !== -1
     );
 };
 
@@ -48,11 +44,7 @@ const isAssociatedConnector = (selectedElementGUIDs, connector) => {
  * @param {Boolean} includeSelectedConnector config to include selected connectors or not
  * @return {Array} Array of connectors to be deleted
  */
-const connectorsToBeDeleted = (
-    selectedElementGUIDs = [],
-    connectors = [],
-    includeSelectedConnector = false
-) => {
+const connectorsToBeDeleted = (selectedElementGUIDs = [], connectors = [], includeSelectedConnector = false) => {
     return connectors.filter(connector => {
         return (
             (includeSelectedConnector && connector.config.isSelected) ||
@@ -82,10 +74,7 @@ const selectedCanvasElementGuids = (canvasElements = []) => {
  */
 const deletableCanvasElements = (canvasElements = []) => {
     return canvasElements.filter(canvasElement => {
-        return getPropertyOrDefaultToTrue(
-            getConfigForElementType(canvasElement.elementType),
-            'isDeletable'
-        );
+        return getPropertyOrDefaultToTrue(getConfigForElementType(canvasElement.elementType), 'isDeletable');
     });
 };
 
@@ -97,12 +86,7 @@ const deletableCanvasElements = (canvasElements = []) => {
  * @param {Object[]} connectorsToDelete - Contains all the selected and associated connectors that need to be deleted
  * @param {String} elementType - Type of the element being deleted
  */
-const doDeleteOrInvokeAlert = (
-    storeInstance,
-    selectedElementGUIDs,
-    connectorsToDelete,
-    elementType
-) => {
+const doDeleteOrInvokeAlert = (storeInstance, selectedElementGUIDs, connectorsToDelete, elementType) => {
     const currentState = storeInstance.getCurrentState();
     const storeElements = currentState.elements;
 
@@ -122,25 +106,16 @@ const doDeleteOrInvokeAlert = (
         );
     } else {
         // Handling cases when the element/elements being deleted are being referenced somewhere in the flow
-        invokeUsedByAlertModal(
-            usedByElements,
-            selectedElementGUIDs,
-            elementType,
-            storeElements
-        );
+        invokeUsedByAlertModal(usedByElements, selectedElementGUIDs, elementType, storeElements);
     }
 };
 
 const resetStartElementIfNeeded = (storeInstance, processType) => {
     if (!isConfigurableStartSupported(processType)) {
-        const startElement = Object.values(
-            storeInstance.getCurrentState().elements
-        ).find(element => element.elementType === ELEMENT_TYPE.START_ELEMENT);
-        storeInstance.dispatch(
-            updateElement(
-                createBasicStartElement(baseCanvasElement(startElement))
-            )
+        const startElement = Object.values(storeInstance.getCurrentState().elements).find(
+            element => element.elementType === ELEMENT_TYPE.START_ELEMENT
         );
+        storeInstance.dispatch(updateElement(createBasicStartElement(baseCanvasElement(startElement))));
     }
 };
 
@@ -149,36 +124,22 @@ const resetStartElementIfNeeded = (storeInstance, processType) => {
  * @param {Object} storeInstance instance of the store
  * @param {Object} containing selected Element GUID and type
  */
-export const getElementsToBeDeleted = (
-    storeInstance,
-    { selectedElementGUID, selectedElementType }
-) => {
+export const getElementsToBeDeleted = (storeInstance, { selectedElementGUID, selectedElementType }) => {
     const isMultiElementDelete = !selectedElementGUID;
     const currentState = storeInstance.getCurrentState();
     const connectors = currentState.connectors;
 
     const canvasElementGuidsToDelete = isMultiElementDelete
-        ? selectedCanvasElementGuids(
-              deletableCanvasElements(canvasSelector(currentState))
-          )
+        ? selectedCanvasElementGuids(deletableCanvasElements(canvasSelector(currentState)))
         : [...selectedElementGUID];
 
-    const connectorsToDelete = connectorsToBeDeleted(
-        canvasElementGuidsToDelete,
-        connectors,
-        isMultiElementDelete
-    );
+    const connectorsToDelete = connectorsToBeDeleted(canvasElementGuidsToDelete, connectors, isMultiElementDelete);
 
     if (
         (canvasElementGuidsToDelete && canvasElementGuidsToDelete.length > 0) ||
         (connectorsToDelete && connectorsToDelete.length > 0)
     ) {
-        doDeleteOrInvokeAlert(
-            storeInstance,
-            canvasElementGuidsToDelete,
-            connectorsToDelete,
-            selectedElementType
-        );
+        doDeleteOrInvokeAlert(storeInstance, canvasElementGuidsToDelete, connectorsToDelete, selectedElementType);
     }
 };
 
@@ -198,10 +159,7 @@ export const getSaveType = (eventType, flowId, canOnlySaveAsNewDefinition) => {
     if (eventType === SaveFlowEvent.Type.SAVE) {
         return SaveType.CREATE;
     }
-    if (
-        eventType === SaveFlowEvent.Type.SAVE_AS &&
-        canOnlySaveAsNewDefinition
-    ) {
+    if (eventType === SaveFlowEvent.Type.SAVE_AS && canOnlySaveAsNewDefinition) {
         return SaveType.NEW_DEFINITION;
     }
     return SaveType.NEW_VERSION;
@@ -242,12 +200,7 @@ export const updateStoreAfterSaveAsNewFlowIsFailed = storeInstance => {
     );
 };
 
-export const updateStoreAfterSaveAsNewVersionIsFailed = (
-    storeInstance,
-    label,
-    description,
-    interviewLabel
-) => {
+export const updateStoreAfterSaveAsNewVersionIsFailed = (storeInstance, label, description, interviewLabel) => {
     if (!storeInstance) {
         throw new Error('Store instance is not defined');
     }
@@ -265,11 +218,7 @@ export const updateUrl = flowId => {
     if (flowId) {
         urlParams += '?flowId=' + flowId;
     }
-    window.history.pushState(
-        null,
-        'Flow Builder',
-        window.location.href.split('?')[0] + urlParams
-    );
+    window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0] + urlParams);
 };
 
 export const setFlowErrorsAndWarnings = data => {
@@ -297,10 +246,7 @@ export const flowPropertiesCallback = storeInstance => flowProperties => {
  * @param {Object} storeInstance instance of the client side store
  * @param {Function} saveFlowFn function which make server call to save the flow
  */
-export const saveAsFlowCallback = (
-    storeInstance,
-    saveFlowFn
-) => flowProperties => {
+export const saveAsFlowCallback = (storeInstance, saveFlowFn) => flowProperties => {
     if (!storeInstance) {
         throw new Error('Store instance is not defined');
     }
@@ -334,12 +280,7 @@ const shouldDuplicateElement = canvasElement => {
         'canBeDuplicated'
     );
 
-    return (
-        canvasElement.guid &&
-        canBeDuplicated &&
-        canvasElement.config &&
-        canvasElement.config.isSelected
-    );
+    return canvasElement.guid && canBeDuplicated && canvasElement.config && canvasElement.config.isSelected;
 };
 
 /**
@@ -388,23 +329,17 @@ const setupChildElementGuidMap = canvasElement => {
         throw new Error('canvasElement is not defined');
     }
 
-    const elementConfig =
-        canvasElement.elementType &&
-        getConfigForElementType(canvasElement.elementType);
+    const elementConfig = canvasElement.elementType && getConfigForElementType(canvasElement.elementType);
     const childReferenceKey = elementConfig && elementConfig.childReferenceKey;
 
     const childElementGuidMap = {};
     const childReferenceArray =
-        childReferenceKey &&
-        childReferenceKey.plural &&
-        canvasElement[childReferenceKey.plural];
+        childReferenceKey && childReferenceKey.plural && canvasElement[childReferenceKey.plural];
 
     if (childReferenceArray && childReferenceKey.singular) {
         for (let i = 0; i < childReferenceArray.length; i++) {
             const childReferenceObject = childReferenceArray[i];
-            childElementGuidMap[
-                childReferenceObject[childReferenceKey.singular]
-            ] = generateGuid();
+            childElementGuidMap[childReferenceObject[childReferenceKey.singular]] = generateGuid();
         }
     }
 
@@ -419,10 +354,7 @@ const setupChildElementGuidMap = canvasElement => {
  * @returns {{canvasElementGuidMap, childElementGuidMap}} - Contains a map of canvasElementGuid -> duplicateCanvasElementGuid
  * and childElementGuid -> duplicateChildElementGuid
  */
-export const getDuplicateElementGuidMaps = (
-    canvasElementsInStore,
-    elementsInStore
-) => {
+export const getDuplicateElementGuidMaps = (canvasElementsInStore, elementsInStore) => {
     if (!canvasElementsInStore) {
         throw new Error('canvasElementsInStore is not defined');
     }
@@ -494,10 +426,7 @@ const isConnectorSelectedAndAssociated = (connector, canvasElementGuidMap) => {
  * the guid for the duplicate element
  * @returns {Object[]} connectorsToDuplicate - Array containing connectors that need to be duplicated
  */
-export const getConnectorToDuplicate = (
-    connectorsInStore,
-    canvasElementGuidMap
-) => {
+export const getConnectorToDuplicate = (connectorsInStore, canvasElementGuidMap) => {
     if (!connectorsInStore) {
         throw new Error('connectorsInStore is not defined');
     }
@@ -530,10 +459,7 @@ const isCanvasElementHighlighted = canvasElementToHighlight => {
         throw new Error('canvasElementToHighlight is not defined');
     }
 
-    return (
-        canvasElementToHighlight.config &&
-        canvasElementToHighlight.config.isHighlighted
-    );
+    return canvasElementToHighlight.config && canvasElementToHighlight.config.isHighlighted;
 };
 
 /**
@@ -554,8 +480,7 @@ export const highlightCanvasElement = (storeInstance, elementGuid) => {
     const currentStoreState = storeInstance.getCurrentState();
     const storeElements = currentStoreState && currentStoreState.elements;
 
-    const canvasElementToHighlight =
-        storeElements && storeElements[elementGuid];
+    const canvasElementToHighlight = storeElements && storeElements[elementGuid];
     if (!isCanvasElementHighlighted(canvasElementToHighlight)) {
         const payload = {
             guid: elementGuid
@@ -628,10 +553,6 @@ export const setErrorMessage = (modal, message) => {
 export const canRunDebugWith = (runInMode, status) => {
     return (
         status === 'Active' ||
-        !(
-            (runInMode === 'SystemModeWithSharing' ||
-                runInMode === 'SystemModeWithoutSharing') &&
-            !canUserVAD()
-        )
+        !((runInMode === 'SystemModeWithSharing' || runInMode === 'SystemModeWithoutSharing') && !canUserVAD())
     );
 };

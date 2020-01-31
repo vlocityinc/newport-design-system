@@ -1,5 +1,8 @@
 import { LightningElement, api, track } from 'lwc';
-import { screenExtensionPropertiesEventReducer, screenExtensionPropertiesPropsToStateReducer } from './screenExtensionPropertiesReducer';
+import {
+    screenExtensionPropertiesEventReducer,
+    screenExtensionPropertiesPropsToStateReducer
+} from './screenExtensionPropertiesReducer';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
@@ -41,7 +44,8 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
 
     set processType(value) {
         this._processTypeValue = value;
-        this._automaticOutputHandlingSupported = getProcessTypeAutomaticOutPutHandlingSupport(value) !== FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
+        this._automaticOutputHandlingSupported =
+            getProcessTypeAutomaticOutPutHandlingSupport(value) !== FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
     }
 
     @track
@@ -90,15 +94,16 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
     }
 
     get isManualOutputDisplayed() {
-        return (
-            this.hasOutputs &&
-            (!this.isAutomaticOutputHandlingSupported || this.isAdvancedMode)
-        );
+        return this.hasOutputs && (!this.isAutomaticOutputHandlingSupported || this.isAdvancedMode);
     }
 
     get hasUnboundDynamicTypeMappings() {
-        return this.state.dynamicTypeMappings && !!this.state.dynamicTypeMappings.find(dynamicTypeMapping =>
-            !dynamicTypeMapping.value || dynamicTypeMapping.comboboxConfig.errorMessage);
+        return (
+            this.state.dynamicTypeMappings &&
+            !!this.state.dynamicTypeMappings.find(
+                dynamicTypeMapping => !dynamicTypeMapping.value || dynamicTypeMapping.comboboxConfig.errorMessage
+            )
+        );
     }
 
     get hasDynamicTypeMappings() {
@@ -120,11 +125,15 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
     handleDynamicTypeMappingChange(event) {
         const rowIndex = event.target.rowIndex;
         const dynamicTypeMapping = this.state.dynamicTypeMappings.find(value => value.rowIndex === rowIndex);
-        this.dispatchEvent(new DynamicTypeMappingChangeEvent({
-            typeName: getValueFromHydratedItem(dynamicTypeMapping.name),
-            typeValue: event.detail.item ? getValueFromHydratedItem(event.detail.item.value) : event.detail.displayText,
-            rowIndex,
-            error: event.detail.error
-        }));
+        this.dispatchEvent(
+            new DynamicTypeMappingChangeEvent({
+                typeName: getValueFromHydratedItem(dynamicTypeMapping.name),
+                typeValue: event.detail.item
+                    ? getValueFromHydratedItem(event.detail.item.value)
+                    : event.detail.displayText,
+                rowIndex,
+                error: event.detail.error
+            })
+        );
     }
 }

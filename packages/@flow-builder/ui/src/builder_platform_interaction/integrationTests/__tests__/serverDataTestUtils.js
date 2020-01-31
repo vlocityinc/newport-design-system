@@ -33,21 +33,13 @@ import { flowExtensionListParams } from 'serverData/GetFlowExtensionListParams/f
 import { flowExtensionsForFlow } from 'serverData/GetFlowExtensions/flowExtensionsForFlow.json';
 import { flowExtensionsForContactRequestFlow } from 'serverData/GetFlowExtensions/flowExtensionsForContactRequestFlow.json';
 import { supportedFeaturesListForContactRequestFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForContactRequestFlow.json';
-import {
-    setAuraFetch,
-    setAuraGetCallback
-} from 'builder_platform_interaction/serverDataLib';
+import { setAuraFetch, setAuraGetCallback } from 'builder_platform_interaction/serverDataLib';
 import { mockSubflowAllTypesVariables, mockSubflows } from 'mock/calloutData';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { flowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 import { flowWithNoActiveVersion } from 'serverData/GetFlowInputOutputVariables/flowWithNoActiveVersion.json';
 
-const auraFetch = actions => async (
-    actionName,
-    shouldExecuteCallback,
-    callback,
-    params
-) => {
+const auraFetch = actions => async (actionName, shouldExecuteCallback, callback, params) => {
     await ticks(10);
     if (!shouldExecuteCallback()) {
         return;
@@ -61,39 +53,29 @@ const auraFetch = actions => async (
     callback(result);
 };
 
-export const getSubflows = flowProcessTypeToSubflows => ({
-    flowProcessType
-}) => {
+export const getSubflows = flowProcessTypeToSubflows => ({ flowProcessType }) => {
     const subflows = flowProcessTypeToSubflows[flowProcessType] || [];
     return {
         data: subflows
     };
 };
 
-export const getFlowInputOutputVariables = flowNameToFlowInputOutputVariables => ({
-    flowName
-}) => {
-    const flowInputOutputVariables =
-        flowNameToFlowInputOutputVariables[flowName];
+export const getFlowInputOutputVariables = flowNameToFlowInputOutputVariables => ({ flowName }) => {
+    const flowInputOutputVariables = flowNameToFlowInputOutputVariables[flowName];
     if (flowInputOutputVariables != null) {
         return { data: flowInputOutputVariables };
     }
     return { error: 'Unknown flow' };
 };
 
-export const getAllInvocableActionsForType = flowProcessTypeToInvocableActions => ({
-    flowProcessType
-}) => {
-    const invocableActions =
-        flowProcessTypeToInvocableActions[flowProcessType] || [];
+export const getAllInvocableActionsForType = flowProcessTypeToInvocableActions => ({ flowProcessType }) => {
+    const invocableActions = flowProcessTypeToInvocableActions[flowProcessType] || [];
     return {
         data: invocableActions
     };
 };
 
-const getFieldsForEntity = entityApiNameToEntityFields => ({
-    entityApiName
-}) => {
+const getFieldsForEntity = entityApiNameToEntityFields => ({ entityApiName }) => {
     const fields = entityApiNameToEntityFields[entityApiName];
     if (fields != null) {
         return { data: fields };
@@ -102,24 +84,17 @@ const getFieldsForEntity = entityApiNameToEntityFields => ({
 };
 
 export const getTemplates = allTemplates => ({ processTypes }) => {
-    const matchingTemplates = allTemplates.filter(template =>
-        processTypes.includes(template.ProcessType)
-    );
+    const matchingTemplates = allTemplates.filter(template => processTypes.includes(template.ProcessType));
     return { data: matchingTemplates };
 };
 
 export const getInvocableActionDetails = invocableActionParameters => params => {
     let invocableActionParametersForAction;
-    const invocableActionParametersForType =
-        invocableActionParameters[params.actionType];
+    const invocableActionParametersForType = invocableActionParameters[params.actionType];
     if (invocableActionParametersForType) {
-        invocableActionParametersForAction =
-            invocableActionParametersForType[params.actionName];
+        invocableActionParametersForAction = invocableActionParametersForType[params.actionName];
     } else {
-        invocableActionParametersForAction =
-            invocableActionParameters[
-                params.actionType + '-' + params.actionName
-            ];
+        invocableActionParametersForAction = invocableActionParameters[params.actionType + '-' + params.actionName];
     }
     return invocableActionParametersForAction
         ? { data: invocableActionParametersForAction }
@@ -128,9 +103,7 @@ export const getInvocableActionDetails = invocableActionParameters => params => 
 
 const createGetter = data => () => ({ data });
 
-export const createGetterByProcessType = (map, defaultValue = []) => ({
-    flowProcessType
-}) => ({
+export const createGetterByProcessType = (map, defaultValue = []) => ({ flowProcessType }) => ({
     data: map[flowProcessType] || defaultValue
 });
 
@@ -199,9 +172,7 @@ const allAuraActions = {
         'chatterPost-chatterPost': chatterPostActionDetails,
         'quickAction-Case.LogACall': logACallActionDetails
     }),
-    'c.getFlowExtensionListParams': getFlowExtensionListParams(
-        flowExtensionListParams
-    ),
+    'c.getFlowExtensionListParams': getFlowExtensionListParams(flowExtensionListParams),
     'c.getFlowExtensions': createGetterByProcessType({
         [FLOW_PROCESS_TYPE.FLOW]: flowExtensionsForFlow,
         [FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW]: flowExtensionsForContactRequestFlow

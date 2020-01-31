@@ -15,9 +15,7 @@ import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 expect.extend(goldObjectMatchers);
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 describe('propertyEditorFactory', () => {
     beforeAll(() => {
@@ -37,13 +35,10 @@ describe('propertyEditorFactory', () => {
                 textTemplate1,
                 stringConstant
             ];
-            const actualElementsForPropertyEditors = elements.reduce(
-                (acc, element) => {
-                    acc[element.name] = getElementForPropertyEditor(element);
-                    return acc;
-                },
-                {}
-            );
+            const actualElementsForPropertyEditors = elements.reduce((acc, element) => {
+                acc[element.name] = getElementForPropertyEditor(element);
+                return acc;
+            }, {});
             expect(actualElementsForPropertyEditors).toEqualGoldObject(
                 elementsForPropertyEditors,
                 'elementsForPropertyEditors in mock_store_data/elementsForPropertyEditors.js'

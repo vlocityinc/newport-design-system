@@ -99,8 +99,7 @@ const FLOW_API_VALUE_TO_FLOW_DATA_TYPE = {
     [FLOW_DATA_TYPE.PICKLIST.value]: 'PICKLIST',
     [FLOW_DATA_TYPE.MULTI_PICKLIST.value]: 'MULTI_PICKLIST',
     [FLOW_DATA_TYPE.APEX.value]: 'APEX',
-    [FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value]:
-        'LIGHTNING_COMPONENT_OUTPUT',
+    [FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value]: 'LIGHTNING_COMPONENT_OUTPUT',
     [FLOW_DATA_TYPE.ACTION_OUTPUT.value]: 'ACTION_OUTPUT',
     [FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value]: 'SUBFLOW_OUTPUT'
 };
@@ -139,9 +138,7 @@ const TYPE_MAPPING = {
     [FLOW_DATA_TYPE.CURRENCY.value]: ['currency'],
     [FLOW_DATA_TYPE.SOBJECT.value]: ['sobject'],
     [FLOW_DATA_TYPE.APEX.value]: ['apex'],
-    [FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value]: [
-        'lightningComponentOutput'
-    ],
+    [FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value]: ['lightningComponentOutput'],
     [FLOW_DATA_TYPE.ACTION_OUTPUT.value]: ['actionOutput'],
     [FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value]: ['subflowOutput']
 };
@@ -207,15 +204,12 @@ function sortResourceTypes(unsortedResourceTypes = []) {
         ELEMENT_TYPE.PICKLIST_CHOICE_SET,
         ELEMENT_TYPE.STAGE
     ];
-    return [...unsortedResourceTypes].sort(
-        (firstResourceType, secondResourceType) => {
-            // sort by name property instead of elementType here since 'RECORD_CHOICE_SET' and 'PICKLIST_CHOICE_SET' both point to 'CHOICELOOKUP' ElementType
-            return (
-                resourceOrderedList.indexOf(firstResourceType.name) -
-                resourceOrderedList.indexOf(secondResourceType.name)
-            );
-        }
-    );
+    return [...unsortedResourceTypes].sort((firstResourceType, secondResourceType) => {
+        // sort by name property instead of elementType here since 'RECORD_CHOICE_SET' and 'PICKLIST_CHOICE_SET' both point to 'CHOICELOOKUP' ElementType
+        return (
+            resourceOrderedList.indexOf(firstResourceType.name) - resourceOrderedList.indexOf(secondResourceType.name)
+        );
+    });
 }
 
 /**
@@ -235,9 +229,7 @@ export function getFlowType(dataType) {
         for (const flowType in FLOW_DATA_TYPE) {
             if (FLOW_DATA_TYPE.hasOwnProperty(flowType)) {
                 const flowDataType = FLOW_DATA_TYPE[flowType];
-                const type = TYPE_MAPPING[flowDataType.value].find(
-                    t => t.toUpperCase() === ucDataType
-                );
+                const type = TYPE_MAPPING[flowDataType.value].find(t => t.toUpperCase() === ucDataType);
                 if (type) {
                     return flowDataType;
                 }
@@ -261,8 +253,7 @@ export function getDataTypeIcons(dataType, iconType = 'standard') {
     if (dataType) {
         const flowType = getFlowType(dataType);
         if (flowType) {
-            const dataTypeKey =
-                FLOW_API_VALUE_TO_FLOW_DATA_TYPE[flowType.value];
+            const dataTypeKey = FLOW_API_VALUE_TO_FLOW_DATA_TYPE[flowType.value];
             if (dataTypeKey) {
                 const data = FLOW_DATA_TYPE[dataTypeKey];
                 if (data) {
@@ -304,9 +295,7 @@ export function getDataTypeLabel(dataTypeApiName) {
  */
 export function getFlowDataType(dataType) {
     const flowDataType = dataType
-        ? Object.keys(TYPE_MAPPING).find(key =>
-              TYPE_MAPPING[key].includes(dataType.toLowerCase())
-          )
+        ? Object.keys(TYPE_MAPPING).find(key => TYPE_MAPPING[key].includes(dataType.toLowerCase()))
         : undefined;
     return flowDataType ? flowDataType : undefined;
 }
@@ -351,5 +340,4 @@ export const SUPER_TYPE = {
     }
 };
 
-export const superTypeToFlowDataType = superType =>
-    SUPER_TYPE[superType].flowDataType;
+export const superTypeToFlowDataType = superType => SUPER_TYPE[superType].flowDataType;

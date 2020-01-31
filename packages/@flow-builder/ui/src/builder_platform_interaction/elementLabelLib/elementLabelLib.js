@@ -1,28 +1,17 @@
 import { format } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementLabelLibLabels';
 import { getEntity } from 'builder_platform_interaction/sobjectLib';
-import {
-    FLOW_DATA_TYPE,
-    isComplexType,
-    getDataTypeLabel
-} from 'builder_platform_interaction/dataTypeLib';
+import { FLOW_DATA_TYPE, isComplexType, getDataTypeLabel } from 'builder_platform_interaction/dataTypeLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
 const APEX_TYPE = FLOW_DATA_TYPE.APEX.value;
-const LIGHTNING_COMPONENT_OUTPUT_TYPE =
-    FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value;
+const LIGHTNING_COMPONENT_OUTPUT_TYPE = FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value;
 const ACTION_OUTPUT_TYPE = FLOW_DATA_TYPE.ACTION_OUTPUT.value;
 const SUBFLOW_OUTPUT_TYPE = FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value;
-const isAnonymousPrimitiveOutputResource = ({
-    isSystemGeneratedOutput,
-    dataType
-}) => {
-    return (
-        isSystemGeneratedOutput === true &&
-        dataType !== FLOW_DATA_TYPE.SOBJECT.value
-    );
+const isAnonymousPrimitiveOutputResource = ({ isSystemGeneratedOutput, dataType }) => {
+    return isSystemGeneratedOutput === true && dataType !== FLOW_DATA_TYPE.SOBJECT.value;
 };
 
 /**
@@ -32,20 +21,14 @@ const isAnonymousPrimitiveOutputResource = ({
  * @param {String} labelWithTokens - used to format the resulting label with entity label if any (eg: "{0} from {1}")
  * @returns {String} formatted label if any entity label found the given element name otherwise
  */
-export const formatWithEntityLabel = (
-    resource = {},
-    elementName,
-    labelWithTokens
-) => {
+export const formatWithEntityLabel = (resource = {}, elementName, labelWithTokens) => {
     if (!resource) {
         return elementName;
     }
     const entity = getEntity(resource.subtype || resource.object);
     let label = elementName;
     if (entity) {
-        const entityLabel = resource.isCollection
-            ? entity.entityLabelPlural
-            : entity.entityLabel;
+        const entityLabel = resource.isCollection ? entity.entityLabelPlural : entity.entityLabel;
         if (entityLabel && labelWithTokens) {
             label = format(labelWithTokens, entityLabel, label);
         }
@@ -64,45 +47,25 @@ export function getResourceLabel(resource) {
     if (resource.storeOutputAutomatically) {
         if (resource.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
             // "Accounts from resourceName" (get record, action with sobject anonymous output...)
-            label = formatWithEntityLabel(
-                resource,
-                label,
-                LABELS.recordLookupAsResourceText
-            );
+            label = formatWithEntityLabel(resource, label, LABELS.recordLookupAsResourceText);
         } else if (resource.elementType === ELEMENT_TYPE.RECORD_CREATE) {
             // "AccountId from myCreateRecord"
-            label = formatWithEntityLabel(
-                resource,
-                label,
-                LABELS.recordCreateIdAsResourceText
-            );
-        } else if (
-            resource.dataType ===
-            FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
-        ) {
+            label = formatWithEntityLabel(resource, label, LABELS.recordCreateIdAsResourceText);
+        } else if (resource.dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value) {
             // "Outputs from myLC"
-            label = format(
-                LABELS.lightningComponentScreenFieldAsResourceText,
-                label
-            );
+            label = format(LABELS.lightningComponentScreenFieldAsResourceText, label);
         } else if (resource.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
             // "Outputs from myAction
             label = format(LABELS.actionAsResourceText, label);
         } else if (isAnonymousPrimitiveOutputResource(resource)) {
-            const dataTypeLabel = resource.apexClass
-                ? resource.apexClass
-                : getDataTypeLabel(resource.dataType);
+            const dataTypeLabel = resource.apexClass ? resource.apexClass : getDataTypeLabel(resource.dataType);
             label = resource.isCollection
                 ? format(
                       LABELS.actionAnonymousPrimitiveAsResourceText,
                       format(LABELS.collectionDataType, dataTypeLabel),
                       label
                   )
-                : format(
-                      LABELS.actionAnonymousPrimitiveAsResourceText,
-                      dataTypeLabel,
-                      label
-                  );
+                : format(LABELS.actionAnonymousPrimitiveAsResourceText, dataTypeLabel, label);
         } else if (resource.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value) {
             // "Outputs from mySubflow"
             label = format(LABELS.subflowAsResourceText, label);
@@ -159,17 +122,9 @@ export function getElementTypeLabel({ elementType }) {
  *            [resource.isSystemGeneratedOutput=false] whether or not that element is an anonymous output
  * @returns {String} the category label for this element
  */
-export function getResourceCategory({
-    elementType,
-    dataType,
-    isCollection = false,
-    isSystemGeneratedOutput = false
-}) {
+export function getResourceCategory({ elementType, dataType, isCollection = false, isSystemGeneratedOutput = false }) {
     let categoryLabel;
-    if (
-        elementType === ELEMENT_TYPE.RECORD_CREATE &&
-        dataType === FLOW_DATA_TYPE.STRING.value
-    ) {
+    if (elementType === ELEMENT_TYPE.RECORD_CREATE && dataType === FLOW_DATA_TYPE.STRING.value) {
         categoryLabel = LABELS.variablePluralLabel;
     } else if (!isComplexType(dataType)) {
         if (
@@ -178,9 +133,7 @@ export function getResourceCategory({
                 dataType
             })
         ) {
-            categoryLabel = isCollection
-                ? LABELS.collectionVariablePluralLabel
-                : LABELS.variablePluralLabel;
+            categoryLabel = isCollection ? LABELS.collectionVariablePluralLabel : LABELS.variablePluralLabel;
         } else if (!isCollection) {
             const config = getConfigForElementType(elementType);
             if (config && config.labels && config.labels.plural) {
@@ -191,9 +144,7 @@ export function getResourceCategory({
         }
     } else if (isCollection) {
         categoryLabel =
-            dataType === SOBJECT_TYPE
-                ? LABELS.sObjectCollectionPluralLabel
-                : LABELS.apexCollectionVariablePluralLabel;
+            dataType === SOBJECT_TYPE ? LABELS.sObjectCollectionPluralLabel : LABELS.apexCollectionVariablePluralLabel;
     } else if (dataType === SOBJECT_TYPE) {
         categoryLabel = LABELS.sObjectPluralLabel;
     } else if (dataType === APEX_TYPE) {
@@ -232,10 +183,7 @@ export function getResourceTypeLabel({
     isSystemGeneratedOutput
 }) {
     let typeLabel;
-    if (
-        elementType === ELEMENT_TYPE.RECORD_CREATE &&
-        storeOutputAutomatically
-    ) {
+    if (elementType === ELEMENT_TYPE.RECORD_CREATE && storeOutputAutomatically) {
         typeLabel = LABELS.variableSingularLabel;
     } else if (!isComplexType(dataType)) {
         if (
@@ -244,9 +192,7 @@ export function getResourceTypeLabel({
                 dataType
             })
         ) {
-            typeLabel = isCollection
-                ? LABELS.collectionVariableSingularLabel
-                : LABELS.variableSingularLabel;
+            typeLabel = isCollection ? LABELS.collectionVariableSingularLabel : LABELS.variableSingularLabel;
         } else if (!isCollection) {
             const config = getConfigForElementType(elementType);
             if (config && config.labels && config.labels.singular) {

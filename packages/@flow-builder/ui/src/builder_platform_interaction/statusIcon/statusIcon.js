@@ -64,22 +64,16 @@ export default class StatusIcon extends LightningElement {
         const panelHidden = !isPopoverOpen();
         if (this.type === 'warning') {
             if (this.messages.length > 1) {
-                title = panelHidden
-                    ? LABELS.statusIconShowWarningPluralTitle
-                    : LABELS.statusIconHideWarningPluralTitle;
+                title = panelHidden ? LABELS.statusIconShowWarningPluralTitle : LABELS.statusIconHideWarningPluralTitle;
             } else {
                 title = panelHidden
                     ? LABELS.statusIconShowWarningSingularTitle
                     : LABELS.statusIconHideWarningSingularTitle;
             }
         } else if (this.messages.length > 1) {
-            title = panelHidden
-                ? LABELS.statusIconShowErrorPluralTitle
-                : LABELS.statusIconHideErrorPluralTitle;
+            title = panelHidden ? LABELS.statusIconShowErrorPluralTitle : LABELS.statusIconHideErrorPluralTitle;
         } else {
-            title = panelHidden
-                ? LABELS.statusIconShowErrorSingularTitle
-                : LABELS.statusIconHideErrorSingularTitle;
+            title = panelHidden ? LABELS.statusIconShowErrorSingularTitle : LABELS.statusIconHideErrorSingularTitle;
         }
         return title;
     }
@@ -99,13 +93,9 @@ export default class StatusIcon extends LightningElement {
             this.allCount += msgs[section].length;
             if (this.type === 'warning') {
                 sectionHeader =
-                    section === 'INFO'
-                        ? LABELS.generalWarningSectionTitle
-                        : LABELS.validationWarningsSectionTitle;
+                    section === 'INFO' ? LABELS.generalWarningSectionTitle : LABELS.validationWarningsSectionTitle;
                 sectionInfo =
-                    section === 'INFO'
-                        ? LABELS.generalWarningSectionInfo
-                        : LABELS.validationWarningsSectionInfo;
+                    section === 'INFO' ? LABELS.generalWarningSectionInfo : LABELS.validationWarningsSectionInfo;
             }
             return {
                 title: sectionHeader,
@@ -125,19 +115,14 @@ export default class StatusIcon extends LightningElement {
      * @returns {Object} the reference element for the popover
      */
     getReferenceElement() {
-        return this.template.querySelector(
-            dotPrefixForClass + this.classForIcon
-        );
+        return this.template.querySelector(dotPrefixForClass + this.classForIcon);
     }
 
     /**
      * Handle Icon click : event handler for clicking on icon button. Acts as a toggle to show/hide the panel and create it for the very first time.
      */
     handleIconClick() {
-        if (
-            isPopoverOpen() &&
-            this.getReferenceElement() === getPopoverReferenceElement()
-        ) {
+        if (isPopoverOpen() && this.getReferenceElement() === getPopoverReferenceElement()) {
             // if the popover is open for the same reference element, close it
             hidePopover();
         } else {

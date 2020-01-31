@@ -25,17 +25,12 @@ export default class ScreenInputFieldPropertiesEditor extends LightningElement {
     }
 
     get isScaleEnabled() {
-        return (
-            this.field.dataType === 'Number' ||
-            this.field.dataType === 'Currency'
-        );
+        return this.field.dataType === 'Number' || this.field.dataType === 'Currency';
     }
 
     handlePropertyChanged = event => {
         event.stopPropagation();
         const currentValue = this.field[event.detail.propertyName];
-        this.dispatchEvent(
-            addCurrentValueToEvent(event, this.field, currentValue)
-        );
+        this.dispatchEvent(addCurrentValueToEvent(event, this.field, currentValue));
     };
 }

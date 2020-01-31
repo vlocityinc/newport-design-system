@@ -208,6 +208,6 @@ export const mockAllTypesActionParameters = {
             sobjectType: null,
             name: 'outputDateColParam',
             description: 'Output Date Collection Parameter.'
-        },
+        }
     ]
 };

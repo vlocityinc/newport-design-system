@@ -11,18 +11,7 @@ import { orgHasFlowScreenSections } from 'builder_platform_interaction/contextLi
 
 const FEROV_TYPES = {
     String: ['TEXT', 'STRING', 'PASSWORD', 'PASSWORDFIELD'],
-    Number: [
-        'CURRENCY',
-        'NUMBER',
-        'DECIMAL',
-        'FLOAT',
-        'DOUBLE',
-        'LONG',
-        'INT',
-        'INTEGER',
-        'SHORT',
-        'BYTE'
-    ],
+    Number: ['CURRENCY', 'NUMBER', 'DECIMAL', 'FLOAT', 'DOUBLE', 'LONG', 'INT', 'INTEGER', 'SHORT', 'BYTE'],
     Date: ['DATE'],
     DateTime: ['DATETIME', 'DATE-TIME'],
     Boolean: ['BOOLEAN']
@@ -216,10 +205,7 @@ export function getScreenFieldType(field) {
         // A reality, these choice based fields have a dataType associated with them. However, we generically
         // lump each type of choice based fields as one type in the screenFieldTypes map and dataType is ignored.
         // For this check only, just check the fieldType and ignore dataType.
-        if (
-            fieldType === type.fieldType &&
-            (fieldType === 'RadioButtons' || fieldType === 'DropdownBox')
-        ) {
+        if (fieldType === type.fieldType && (fieldType === 'RadioButtons' || fieldType === 'DropdownBox')) {
             return type;
         }
     }
@@ -408,9 +394,7 @@ export function getIconNameFromDataType(dataType) {
  */
 export function getFerovTypeFromFieldType(fieldType) {
     if (fieldType) {
-        return getFerovTypeFromTypeName(
-            fieldType.dataType || fieldType.fieldType
-        );
+        return getFerovTypeFromTypeName(fieldType.dataType || fieldType.fieldType);
     }
 
     return null;
@@ -467,14 +451,9 @@ export function getFieldChoiceData(field) {
                 choice.choiceReference.value !== '' &&
                 !choice.choiceReference.error
             ) {
-                const choiceElement = getElementByGuid(
-                    choice.choiceReference.value
-                );
+                const choiceElement = getElementByGuid(choice.choiceReference.value);
                 if (!choiceElement) {
-                    throw new Error(
-                        'Unable to find element associated with choice: ' +
-                            choice.choiceReference.value
-                    );
+                    throw new Error('Unable to find element associated with choice: ' + choice.choiceReference.value);
                 }
 
                 return {
@@ -485,8 +464,7 @@ export function getFieldChoiceData(field) {
                         error: getErrorFromChoice(choice)
                     },
                     name: choiceElement.name,
-                    defaultValueOption:
-                        choiceElement.elementType === ELEMENT_TYPE.CHOICE
+                    defaultValueOption: choiceElement.elementType === ELEMENT_TYPE.CHOICE
                 };
             }
             // When a new choice is being added to a screen field, there will be

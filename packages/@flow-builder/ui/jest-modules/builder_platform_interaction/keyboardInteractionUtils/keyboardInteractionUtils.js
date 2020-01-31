@@ -1,14 +1,14 @@
 export class KeyboardInteractions {
-	commands = {};
-	
-	addKeyDownEventListener = jest.fn();
+    commands = {};
+
+    addKeyDownEventListener = jest.fn();
     removeKeyDownEventListener = jest.fn();
     setupCommandAndShortcut(command) {
-    	this.commands[command.id] = command;
+        this.commands[command.id] = command;
     }
     execute(commandId) {
-    	if (this.commands[commandId]) {
-    		this.commands[commandId].execute();
-    	}
+        if (this.commands[commandId]) {
+            this.commands[commandId].execute();
+        }
     }
 }

@@ -1,11 +1,7 @@
 import { createElement } from 'lwc';
 import { DeleteListItemEvent } from 'builder_platform_interaction/events';
 import ConditionListItem from 'builder_platform_interaction/conditionListItem';
-import {
-    formatLhs,
-    formatOperator,
-    formatRhs
-} from 'builder_platform_interaction/conditionListItemUtil';
+import { formatLhs, formatOperator, formatRhs } from 'builder_platform_interaction/conditionListItemUtil';
 
 const createComponentUnderTest = (lhs, op, rhs) => {
     const el = createElement('builder_platform_interaction-conditionListItem', {
@@ -39,10 +35,7 @@ describe('conditionListItem delete', () => {
 
         return Promise.resolve().then(() => {
             const callback = jest.fn();
-            itemComponent.addEventListener(
-                DeleteListItemEvent.EVENT_NAME,
-                callback
-            );
+            itemComponent.addEventListener(DeleteListItemEvent.EVENT_NAME, callback);
             itemComponent.shadowRoot.querySelector(selectors.trash).click();
             expect(callback).toHaveBeenCalled();
         });
@@ -67,15 +60,9 @@ describe('condition', () => {
         const itemComponent = createComponentUnderTest(lhs, op, rhs);
 
         return Promise.resolve().then(() => {
-            const lhsSelector = itemComponent.shadowRoot.querySelector(
-                selectors.lhs
-            );
-            const opSelector = itemComponent.shadowRoot.querySelector(
-                selectors.op
-            );
-            const rhsSelector = itemComponent.shadowRoot.querySelector(
-                selectors.rhs
-            );
+            const lhsSelector = itemComponent.shadowRoot.querySelector(selectors.lhs);
+            const opSelector = itemComponent.shadowRoot.querySelector(selectors.op);
+            const rhsSelector = itemComponent.shadowRoot.querySelector(selectors.rhs);
 
             expect(lhsSelector.textContent.trim()).toEqual(expectedLhsValue);
             expect(opSelector.textContent.trim()).toEqual(op);

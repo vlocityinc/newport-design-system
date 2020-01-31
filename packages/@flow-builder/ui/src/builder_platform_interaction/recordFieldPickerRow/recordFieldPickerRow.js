@@ -79,9 +79,7 @@ export default class RecordFieldPickerRow extends LightningElement {
 
         this.menuDataFields = Object.keys(this._entityFields)
             .filter(field => {
-                return (
-                    field === this.value || !this.queriedFields.includes(field)
-                );
+                return field === this.value || !this.queriedFields.includes(field);
             })
             .reduce((menuData, fieldName) => {
                 menuData[fieldName] = this._entityFields[fieldName];
@@ -111,9 +109,7 @@ export default class RecordFieldPickerRow extends LightningElement {
         event.stopPropagation();
         const updateFieldEvent = new UpdateRecordLookupFieldEvent(
             this.fieldIndex,
-            event.detail.item
-                ? event.detail.item.value
-                : event.detail.displayText,
+            event.detail.item ? event.detail.item.value : event.detail.displayText,
             event.detail.error
         );
         this.dispatchEvent(updateFieldEvent);

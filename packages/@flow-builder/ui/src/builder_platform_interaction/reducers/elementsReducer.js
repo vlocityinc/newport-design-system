@@ -25,11 +25,7 @@ import {
     UPDATE_CANVAS_ELEMENT_LOCATION
 } from 'builder_platform_interaction/actions';
 import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
-import {
-    updateProperties,
-    omit,
-    addItem
-} from 'builder_platform_interaction/dataMutationLib';
+import { updateProperties, omit, addItem } from 'builder_platform_interaction/dataMutationLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 
@@ -58,31 +54,15 @@ export default function elementsReducer(state = {}, action) {
         case ADD_RESOURCE:
         case UPDATE_CANVAS_ELEMENT:
         case UPDATE_RESOURCE:
-            return _addOrUpdateElement(
-                state,
-                action.payload.guid,
-                action.payload
-            );
+            return _addOrUpdateElement(state, action.payload.guid, action.payload);
         case UPDATE_CANVAS_ELEMENT_LOCATION:
             return _updateCanvasElementsLocation(state, action.payload);
         case UPDATE_VARIABLE_CONSTANT:
-            return _updateVariableOrConstant(
-                state,
-                action.payload.guid,
-                action.payload
-            );
+            return _updateVariableOrConstant(state, action.payload.guid, action.payload);
         case UPDATE_RECORD_LOOKUP:
-            return _updateRecordLookup(
-                state,
-                action.payload.guid,
-                action.payload
-            );
+            return _updateRecordLookup(state, action.payload.guid, action.payload);
         case DELETE_ELEMENT:
-            return _deleteAndUpdateElements(
-                state,
-                action.payload.selectedElements,
-                action.payload.connectorsToDelete
-            );
+            return _deleteAndUpdateElements(state, action.payload.selectedElements, action.payload.connectorsToDelete);
         case ADD_CONNECTOR:
             return _updateElementOnAddConnection(state, action.payload);
         case DELETE_RESOURCE:
@@ -163,9 +143,7 @@ function _duplicateElement(
     blacklistNames.push(Object.values(childElementNameMap));
 
     // Deselect all the unduplicated elements
-    unduplicatedCanvasElementsGuids.forEach(guid =>
-        _deselectElement(newState[guid], newState)
-    );
+    unduplicatedCanvasElementsGuids.forEach(guid => _deselectElement(newState[guid], newState));
 
     for (let i = 0; i < elementGuidsToDuplicate.length; i++) {
         const selectedElement = newState[elementGuidsToDuplicate[i]];
@@ -174,15 +152,10 @@ function _duplicateElement(
 
         // Figure out a unique name for the element to be duplicated
         const duplicateElementGuid = canvasElementGuidMap[selectedElement.guid];
-        const duplicateElementName = _getUniqueDuplicateElementName(
-            selectedElement.name,
-            blacklistNames
-        );
+        const duplicateElementName = _getUniqueDuplicateElementName(selectedElement.name, blacklistNames);
         blacklistNames.push(duplicateElementName);
 
-        const elementConfig = getConfigForElementType(
-            selectedElement.elementType
-        );
+        const elementConfig = getConfigForElementType(selectedElement.elementType);
         const { duplicatedElement, duplicatedChildElements = {} } =
             elementConfig &&
             elementConfig.factory &&
@@ -219,11 +192,7 @@ function _duplicateElement(
  * @private
  */
 function _deselectElement(selectedElement, state) {
-    if (
-        selectedElement &&
-        selectedElement.config &&
-        selectedElement.config.isSelected
-    ) {
+    if (selectedElement && selectedElement.config && selectedElement.config.isSelected) {
         state[selectedElement.guid] = Object.assign({}, selectedElement, {
             config: {
                 isSelected: false,
@@ -252,16 +221,10 @@ function _addOrUpdateCanvasElementWithChildElements(
     childElements = []
 ) {
     let newState = updateProperties(state);
-    newState[canvasElement.guid] = updateProperties(
-        newState[canvasElement.guid],
-        canvasElement
-    );
+    newState[canvasElement.guid] = updateProperties(newState[canvasElement.guid], canvasElement);
 
     for (const childElement of childElements) {
-        newState[childElement.guid] = updateProperties(
-            newState[childElement.guid],
-            childElement
-        );
+        newState[childElement.guid] = updateProperties(newState[childElement.guid], childElement);
     }
 
     newState = omit(newState, deletedChildElementGuids);
@@ -295,13 +258,10 @@ function _addOrUpdateElement(state, guid, element) {
 function _updateCanvasElementsLocation(state, updatedCanvasElementLocations) {
     const newState = updateProperties(state);
     updatedCanvasElementLocations.map(info => {
-        newState[info.canvasElementGuid] = updateProperties(
-            newState[info.canvasElementGuid],
-            {
-                locationX: info.locationX,
-                locationY: info.locationY
-            }
-        );
+        newState[info.canvasElementGuid] = updateProperties(newState[info.canvasElementGuid], {
+            locationX: info.locationX,
+            locationY: info.locationY
+        });
         return info;
     });
 
@@ -365,9 +325,7 @@ function _getSubElementGuids(node) {
         }
     } else if (node.elementType === ELEMENT_TYPE.WAIT) {
         for (let i = 0; i < node.waitEventReferences.length; i++) {
-            subElementsGuids.push(
-                node.waitEventReferences[i].waitEventReference
-            );
+            subElementsGuids.push(node.waitEventReferences[i].waitEventReference);
         }
     }
 
@@ -383,11 +341,7 @@ function _getSubElementGuids(node) {
  * @returns {Object} new state after reduction
  * @private
  */
-function _deleteAndUpdateElements(
-    elements,
-    originalElements,
-    connectorsToDelete
-) {
+function _deleteAndUpdateElements(elements, originalElements, connectorsToDelete) {
     const guidsToDelete = [];
 
     originalElements.forEach(element => {
@@ -400,22 +354,17 @@ function _deleteAndUpdateElements(
     const connectorsToDeleteLength = connectorsToDelete.length;
     for (let i = 0; i < connectorsToDeleteLength; i++) {
         const connector = connectorsToDelete[i];
-        const connectorSourceElement = updateProperties(
-            newState[connector.source]
-        );
+        const connectorSourceElement = updateProperties(newState[connector.source]);
         if (connectorSourceElement && connectorSourceElement.connectorCount) {
             // Decrements the connector count
             connectorSourceElement.connectorCount--;
 
             if (connectorSourceElement.availableConnections) {
                 // Adds the deleted connector to availableConnections
-                connectorSourceElement.availableConnections = addItem(
-                    connectorSourceElement.availableConnections,
-                    {
-                        type: connector.type,
-                        childReference: connector.childSource
-                    }
-                );
+                connectorSourceElement.availableConnections = addItem(connectorSourceElement.availableConnections, {
+                    type: connector.type,
+                    childReference: connector.childSource
+                });
             }
 
             newState[connector.source] = connectorSourceElement;
@@ -476,10 +425,7 @@ function _selectCanvasElement(elements, selectedGUID) {
                     });
                     hasStateChanged = true;
                 }
-            } else if (
-                element.config.isSelected ||
-                element.config.isHighlighted
-            ) {
+            } else if (element.config.isSelected || element.config.isHighlighted) {
                 newState[guid] = updateProperties(element, {
                     config: {
                         isSelected: false,
@@ -632,12 +578,7 @@ function _highlightCanvasElement(elements, elementGuid) {
  * @return {Object} new state after reduction
  * @private
  */
-function _addOrUpdateScreenWithScreenFields(
-    state,
-    screen,
-    deletedFields,
-    fields = []
-) {
+function _addOrUpdateScreenWithScreenFields(state, screen, deletedFields, fields = []) {
     let newState = updateProperties(state);
     newState[screen.guid] = updateProperties(newState[screen.guid], screen);
 
@@ -680,18 +621,11 @@ function _getUniqueDuplicateElementName(name, blacklistNames = []) {
  *
  * @return {Object} Map of child element dev names to duplicated child element dev names
  */
-function _getDuplicateChildElementNameMap(
-    state,
-    childElementGuidsToDuplicate,
-    blacklistNames = []
-) {
+function _getDuplicateChildElementNameMap(state, childElementGuidsToDuplicate, blacklistNames = []) {
     const childElementNameMap = {};
     for (let i = 0; i < childElementGuidsToDuplicate.length; i++) {
         const childElement = state[childElementGuidsToDuplicate[i]];
-        const duplicateChildElementName = _getUniqueDuplicateElementName(
-            childElement.name,
-            blacklistNames
-        );
+        const duplicateChildElementName = _getUniqueDuplicateElementName(childElement.name, blacklistNames);
         childElementNameMap[childElement.name] = duplicateChildElementName;
         blacklistNames.push(duplicateChildElementName);
     }
@@ -716,19 +650,12 @@ function _updateAvailableConnectionsAndConnectorCount(
     for (let i = 0; i < connectorsToDuplicate.length; i++) {
         const originalConnector = connectorsToDuplicate[i];
 
-        const duplicateSourceGuid =
-            canvasElementGuidMap[originalConnector.source];
+        const duplicateSourceGuid = canvasElementGuidMap[originalConnector.source];
         const duplicateSourceElement = state[duplicateSourceGuid];
 
-        const childSourceGUID =
-            originalConnector.childSource &&
-            childElementGuidMap[originalConnector.childSource];
+        const childSourceGUID = originalConnector.childSource && childElementGuidMap[originalConnector.childSource];
         const duplicateConnectorType = originalConnector.type;
-        _filterAvailableConnections(
-            duplicateSourceElement,
-            childSourceGUID,
-            duplicateConnectorType
-        );
+        _filterAvailableConnections(duplicateSourceElement, childSourceGUID, duplicateConnectorType);
 
         state[duplicateSourceGuid] = Object.assign({}, duplicateSourceElement, {
             connectorCount: duplicateSourceElement.connectorCount + 1
@@ -748,8 +675,7 @@ function _filterAvailableConnections(element, childSourceGUID, connectorType) {
     if (element.availableConnections) {
         if (childSourceGUID) {
             element.availableConnections = element.availableConnections.filter(
-                availableConnector =>
-                    availableConnector.childReference !== childSourceGUID
+                availableConnector => availableConnector.childReference !== childSourceGUID
             );
         } else {
             element.availableConnections = element.availableConnections.filter(

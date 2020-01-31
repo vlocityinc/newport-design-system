@@ -9,17 +9,14 @@ import { translateFlowToUIModel } from 'builder_platform_interaction/translatorL
 import { updateFlow } from 'builder_platform_interaction/actions';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { resetState } from '../integrationTestUtils';
-import {  initializeAuraFetch } from '../serverDataTestUtils';
+import { initializeAuraFetch } from '../serverDataTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getLhsCombobox, getRhsCombobox } from '../expressionBuilderTestUtils';
 import { selectGroupedComboboxItemBy } from '../comboboxTestUtils';
-import {
-    createComponentForTest,
-    getFerToFerovExpressionBuilder
-} from './decisionEditorTestUtils';
+import { createComponentForTest, getFerToFerovExpressionBuilder } from './decisionEditorTestUtils';
 import { initializeLoader, loadOnProcessTypeChange } from 'builder_platform_interaction/preloadLib';
 
 const SELECTORS = {
@@ -28,15 +25,15 @@ const SELECTORS = {
 };
 
 const getLHSGroupedCombobox = decision => {
-    return getLhsCombobox(
-        getFerToFerovExpressionBuilder(decision)
-    ).shadowRoot.querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
+    return getLhsCombobox(getFerToFerovExpressionBuilder(decision)).shadowRoot.querySelector(
+        SELECTORS.LIGHTNING_GROUPED_COMBOBOX
+    );
 };
 
 const getRHSGroupedCombobox = decision => {
-    return getRhsCombobox(
-        getFerToFerovExpressionBuilder(decision)
-    ).shadowRoot.querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
+    return getRhsCombobox(getFerToFerovExpressionBuilder(decision)).shadowRoot.querySelector(
+        SELECTORS.LIGHTNING_GROUPED_COMBOBOX
+    );
 };
 
 describe('Decision Editor', () => {
@@ -68,9 +65,7 @@ describe('Decision Editor', () => {
                 { blur: false }
             );
 
-            expect(accountCreatedByItem.rightIconName).toBe(
-                'utility:chevronright'
-            );
+            expect(accountCreatedByItem.rightIconName).toBe('utility:chevronright');
         });
         it('shows up chevron on fields in RHS', async () => {
             const rhsCombobox = getRHSGroupedCombobox(decisionEditor);
@@ -81,9 +76,7 @@ describe('Decision Editor', () => {
                 { blur: false }
             );
 
-            expect(accountCreatedByItem.rightIconName).toBe(
-                'utility:chevronright'
-            );
+            expect(accountCreatedByItem.rightIconName).toBe('utility:chevronright');
         });
     });
     describe('AutoLaunched flow : does not support traversal if trigger type set', () => {
@@ -94,12 +87,8 @@ describe('Decision Editor', () => {
                 await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
 
                 const element = getElementByDevName('decision');
-                decisionForPropertyEditor = getElementForPropertyEditor(
-                    element
-                );
-                decisionEditor = createComponentForTest(
-                    decisionForPropertyEditor
-                );
+                decisionForPropertyEditor = getElementForPropertyEditor(element);
+                decisionEditor = createComponentForTest(decisionForPropertyEditor);
             });
             it('does not show up chevron on fields in LHS', async () => {
                 const lhsCombobox = getLHSGroupedCombobox(decisionEditor);

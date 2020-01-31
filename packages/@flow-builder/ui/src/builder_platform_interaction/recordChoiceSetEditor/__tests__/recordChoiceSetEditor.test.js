@@ -9,10 +9,7 @@ import {
     DeleteRecordFieldAssignmentEvent,
     UpdateRecordFieldAssignmentEvent
 } from 'builder_platform_interaction/events';
-import {
-    createAction,
-    PROPERTY_EDITOR_ACTION
-} from 'builder_platform_interaction/actions';
+import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { recordChoiceSetReducer } from '../recordChoiceSetReducer';
@@ -25,14 +22,11 @@ jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
 );
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
-    ENTITY_RESOURCE_PICKER:
-        'builder_platform_interaction-entity-resource-picker',
+    ENTITY_RESOURCE_PICKER: 'builder_platform_interaction-entity-resource-picker',
     FIELD_PICKER: 'builder_platform_interaction-field-picker',
     RECORD_FILTER: 'builder_platform_interaction-record-filter',
     RECORD_SORT: 'builder_platform_interaction-record-sort',
@@ -40,17 +34,13 @@ const SELECTORS = {
     DISPLAY_FIELD: '.test-display-field',
     DATA_TYPE: 'builder_platform_interaction-data-type-picker',
     VALUE_FIELD: '.test-value-field',
-    OUTPUT_ASSIGNMENTS:
-        'builder_platform_interaction-record-input-output-assignments'
+    OUTPUT_ASSIGNMENTS: 'builder_platform_interaction-record-input-output-assignments'
 };
 
 const setupComponentUnderTest = recordChoiceObject => {
-    const element = createElement(
-        'builder_platform_interaction-record-choice-set-editor',
-        {
-            is: RecordChoiceSetEditor
-        }
-    );
+    const element = createElement('builder_platform_interaction-record-choice-set-editor', {
+        is: RecordChoiceSetEditor
+    });
     element.node = recordChoiceObject;
     document.body.appendChild(element);
     return element;
@@ -58,17 +48,13 @@ const setupComponentUnderTest = recordChoiceObject => {
 jest.mock('builder_platform_interaction/actions', () => {
     return {
         createAction: jest.fn().mockImplementation((type, payload) => payload),
-        PROPERTY_EDITOR_ACTION: require.requireActual(
-            'builder_platform_interaction/actions'
-        ).PROPERTY_EDITOR_ACTION
+        PROPERTY_EDITOR_ACTION: require.requireActual('builder_platform_interaction/actions').PROPERTY_EDITOR_ACTION
     };
 });
 // helps remove dependency of the editor tests on the reducer functionality
 jest.mock('../recordChoiceSetReducer', () => {
     return {
-        recordChoiceSetReducer: jest
-            .fn()
-            .mockImplementation(obj => Object.assign({}, obj))
+        recordChoiceSetReducer: jest.fn().mockImplementation(obj => Object.assign({}, obj))
     };
 });
 
@@ -76,9 +62,7 @@ const mockAccountFieldsPromise = Promise.resolve(accountFields);
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     const sobjectLib = require.requireActual('builder_platform_interaction/sobjectLib');
     const mockSobjectLib = Object.assign({}, sobjectLib);
-    mockSobjectLib.fetchFieldsForEntity = jest
-        .fn()
-        .mockImplementation(() => mockAccountFieldsPromise);
+    mockSobjectLib.fetchFieldsForEntity = jest.fn().mockImplementation(() => mockAccountFieldsPromise);
     return mockSobjectLib;
 });
 const newRecordObjectOrField = {
@@ -174,9 +158,7 @@ describe('record-choice-set-editor', () => {
         let labelDescription;
         beforeEach(() => {
             recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
-            labelDescription = recordChoiceEditor.shadowRoot.querySelector(
-                SELECTORS.LABEL_DESCRIPTION
-            );
+            labelDescription = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION);
         });
 
         it('Label-Description should be defined', () => {
@@ -188,29 +170,20 @@ describe('record-choice-set-editor', () => {
         });
 
         it('Description should be same as the description of the recordChoiceObject', () => {
-            expect(labelDescription.description).toEqual(
-                recordChoiceObject.description
-            );
+            expect(labelDescription.description).toEqual(recordChoiceObject.description);
         });
 
         it('Handles the property changed event and updates the property', () => {
-            const event = new PropertyChangedEvent(
-                'description',
-                'new desc',
-                null
-            );
+            const event = new PropertyChangedEvent('description', 'new desc', null);
             recordChoiceEditor.shadowRoot
                 .querySelector('builder_platform_interaction-label-description')
                 .dispatchEvent(event);
-            expect(createAction).toHaveBeenCalledWith(
-                PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-                {
-                    propertyName: 'description',
-                    value: 'new desc',
-                    error: null,
-                    doValidateProperty: true
-                }
-            );
+            expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+                propertyName: 'description',
+                value: 'new desc',
+                error: null,
+                doValidateProperty: true
+            });
         });
     });
 
@@ -219,9 +192,7 @@ describe('record-choice-set-editor', () => {
         let entityResourcePicker;
         beforeEach(() => {
             recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
-            entityResourcePicker = recordChoiceEditor.shadowRoot.querySelector(
-                SELECTORS.ENTITY_RESOURCE_PICKER
-            );
+            entityResourcePicker = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
         });
 
         it('entity-resource-picker should be defined', () => {
@@ -307,9 +278,7 @@ describe('record-choice-set-editor', () => {
         let fieldPicker;
         beforeEach(() => {
             recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
-            fieldPicker = recordChoiceEditor.shadowRoot.querySelector(
-                SELECTORS.FIELD_PICKER
-            );
+            fieldPicker = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.FIELD_PICKER);
         });
 
         it('field-picker should be defined', () => {
@@ -317,41 +286,26 @@ describe('record-choice-set-editor', () => {
         });
 
         it('field-picker fields should be defined', () => {
-            expect(Object.keys(fieldPicker.fields)).toHaveLength(
-                Object.keys(accountFields).length
-            );
+            expect(Object.keys(fieldPicker.fields)).toHaveLength(Object.keys(accountFields).length);
         });
     });
 
     describe('second-section', () => {
         let recordChoiceEditor;
-        let recordFilter,
-            recordSort,
-            displayField,
-            dataTypePicker,
-            valueField,
-            outputAssignment;
+        let recordFilter, recordSort, displayField, dataTypePicker, valueField, outputAssignment;
 
         describe('record-filter', () => {
             describe('without object field filled', () => {
-                recordChoiceEditor = setupComponentUnderTest(
-                    recordChoiceObjectWithoutObjectField
-                );
-                recordFilter = recordChoiceEditor.shadowRoot.querySelector(
-                    SELECTORS.RECORD_FILTER
-                );
+                recordChoiceEditor = setupComponentUnderTest(recordChoiceObjectWithoutObjectField);
+                recordFilter = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.RECORD_FILTER);
                 it('record-filter is undefined', () => {
                     expect(recordFilter).toBeNull();
                 });
             });
             describe('with object field filled', () => {
                 beforeEach(() => {
-                    recordChoiceEditor = setupComponentUnderTest(
-                        recordChoiceObject
-                    );
-                    recordFilter = recordChoiceEditor.shadowRoot.querySelector(
-                        SELECTORS.RECORD_FILTER
-                    );
+                    recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
+                    recordFilter = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.RECORD_FILTER);
                 });
 
                 it('Filter section should be defined', () => {
@@ -359,43 +313,30 @@ describe('record-choice-set-editor', () => {
                 });
 
                 it('Handles the RecordFilterTypeChangedEvent Changed event', () => {
-                    const filterTypeChangedEvent = new RecordFilterTypeChangedEvent(
-                        'all'
-                    );
+                    const filterTypeChangedEvent = new RecordFilterTypeChangedEvent('all');
                     recordFilter.dispatchEvent(filterTypeChangedEvent);
-                    expect(createAction).toHaveBeenCalledWith(
-                        PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-                        {
-                            propertyName: 'filterType',
-                            value: 'all',
-                            error: null,
-                            doValidateProperty: true
-                        }
-                    );
+                    expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+                        propertyName: 'filterType',
+                        value: 'all',
+                        error: null,
+                        doValidateProperty: true
+                    });
                 });
             });
         });
 
         describe('record-sort', () => {
             describe('without object field filled', () => {
-                recordChoiceEditor = setupComponentUnderTest(
-                    recordChoiceObjectWithoutObjectField
-                );
-                recordSort = recordChoiceEditor.shadowRoot.querySelector(
-                    SELECTORS.RECORD_SORT
-                );
+                recordChoiceEditor = setupComponentUnderTest(recordChoiceObjectWithoutObjectField);
+                recordSort = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.RECORD_SORT);
                 it('record-filter is undefined', () => {
                     expect(recordSort).toBeNull();
                 });
             });
             describe('with object field filled', () => {
                 beforeEach(() => {
-                    recordChoiceEditor = setupComponentUnderTest(
-                        recordChoiceObject
-                    );
-                    recordSort = recordChoiceEditor.shadowRoot.querySelector(
-                        SELECTORS.RECORD_SORT
-                    );
+                    recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
+                    recordSort = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.RECORD_SORT);
                 });
 
                 it('Sort section should be defined', () => {
@@ -403,79 +344,55 @@ describe('record-choice-set-editor', () => {
                 });
 
                 it('Handles the change event when sort order is changed', () => {
-                    const recordSortOrderChangedEvent = new CustomEvent(
-                        'change',
-                        {
-                            detail: {
-                                sortOrder: 'desc',
-                                fieldApiName: 'AccountSource'
-                            }
+                    const recordSortOrderChangedEvent = new CustomEvent('change', {
+                        detail: {
+                            sortOrder: 'desc',
+                            fieldApiName: 'AccountSource'
                         }
-                    );
+                    });
                     recordSort.dispatchEvent(recordSortOrderChangedEvent);
-                    expect(createAction).toHaveBeenCalledWith(
-                        PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-                        {
-                            propertyName: 'sortOrder',
-                            value: 'desc',
-                            error: undefined,
-                            doValidateProperty: false
-                        }
-                    );
+                    expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+                        propertyName: 'sortOrder',
+                        value: 'desc',
+                        error: undefined,
+                        doValidateProperty: false
+                    });
                 });
 
                 it('Handles the change event when sort fieldAPiName is changed', () => {
-                    const recordSortOrderChangedEvent = new CustomEvent(
-                        'change',
-                        {
-                            detail: {
-                                sortOrder: 'asc',
-                                fieldApiName: 'testField'
-                            }
+                    const recordSortOrderChangedEvent = new CustomEvent('change', {
+                        detail: {
+                            sortOrder: 'asc',
+                            fieldApiName: 'testField'
                         }
-                    );
+                    });
                     recordSort.dispatchEvent(recordSortOrderChangedEvent);
-                    expect(createAction).toHaveBeenCalledWith(
-                        PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-                        {
-                            propertyName: 'sortField',
-                            value: 'testField',
-                            error: undefined,
-                            doValidateProperty: false
-                        }
-                    );
+                    expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+                        propertyName: 'sortField',
+                        value: 'testField',
+                        error: undefined,
+                        doValidateProperty: false
+                    });
                 });
             });
         });
 
         describe('choice-limit-input', () => {
             it('is null when the object is not defined', () => {
-                recordChoiceEditor = setupComponentUnderTest(
-                    recordChoiceObjectWithoutObjectField
-                );
-                const choiceLimit = recordChoiceEditor.shadowRoot.querySelector(
-                    SELECTORS.CHOICE_LIMIT_INPUT
-                );
+                recordChoiceEditor = setupComponentUnderTest(recordChoiceObjectWithoutObjectField);
+                const choiceLimit = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.CHOICE_LIMIT_INPUT);
                 expect(choiceLimit).toBeNull();
             });
 
             it('is defined when the object is defined', () => {
-                recordChoiceEditor = setupComponentUnderTest(
-                    recordChoiceObject
-                );
-                const choiceLimit = recordChoiceEditor.shadowRoot.querySelector(
-                    SELECTORS.CHOICE_LIMIT_INPUT
-                );
+                recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
+                const choiceLimit = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.CHOICE_LIMIT_INPUT);
                 expect(choiceLimit).not.toBeNull();
             });
 
             it('default value is empty string', () => {
-                recordChoiceEditor = setupComponentUnderTest(
-                    recordChoiceObject
-                );
-                const choiceLimit = recordChoiceEditor.shadowRoot.querySelector(
-                    SELECTORS.CHOICE_LIMIT_INPUT
-                );
+                recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
+                const choiceLimit = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.CHOICE_LIMIT_INPUT);
                 expect(choiceLimit.value).toBe('');
             });
         });
@@ -483,12 +400,8 @@ describe('record-choice-set-editor', () => {
         describe('choice-template-section', () => {
             describe('displayField', () => {
                 describe('without object field filled', () => {
-                    recordChoiceEditor = setupComponentUnderTest(
-                        recordChoiceObjectWithoutObjectField
-                    );
-                    displayField = recordChoiceEditor.shadowRoot.querySelector(
-                        SELECTORS.DISPLAY_FIELD
-                    );
+                    recordChoiceEditor = setupComponentUnderTest(recordChoiceObjectWithoutObjectField);
+                    displayField = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.DISPLAY_FIELD);
                     it('Display Field is undefined', () => {
                         expect(displayField).toBeNull();
                     });
@@ -496,12 +409,8 @@ describe('record-choice-set-editor', () => {
 
                 describe('with object field filled', () => {
                     beforeEach(() => {
-                        recordChoiceEditor = setupComponentUnderTest(
-                            recordChoiceObject
-                        );
-                        displayField = recordChoiceEditor.shadowRoot.querySelector(
-                            SELECTORS.DISPLAY_FIELD
-                        );
+                        recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
+                        displayField = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.DISPLAY_FIELD);
                     });
 
                     it('Display Field should be defined', () => {
@@ -509,9 +418,7 @@ describe('record-choice-set-editor', () => {
                     });
 
                     it('Changing value in displayField field-picker should update displayField value', () => {
-                        displayField.dispatchEvent(
-                            getComboboxStateChangedEvent()
-                        );
+                        displayField.dispatchEvent(getComboboxStateChangedEvent());
                         expect(createAction.mock.calls[1][1]).toEqual({
                             propertyName: 'displayField',
                             value: 'Contact',
@@ -524,12 +431,8 @@ describe('record-choice-set-editor', () => {
 
             describe('dataType', () => {
                 describe('without object field filled', () => {
-                    recordChoiceEditor = setupComponentUnderTest(
-                        recordChoiceObjectWithoutObjectField
-                    );
-                    dataTypePicker = recordChoiceEditor.shadowRoot.querySelector(
-                        SELECTORS.DATA_TYPE
-                    );
+                    recordChoiceEditor = setupComponentUnderTest(recordChoiceObjectWithoutObjectField);
+                    dataTypePicker = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
 
                     it('Data type Picker is undefined', () => {
                         expect(dataTypePicker).toBeNull();
@@ -538,12 +441,8 @@ describe('record-choice-set-editor', () => {
 
                 describe('with object field filled', () => {
                     beforeEach(() => {
-                        recordChoiceEditor = setupComponentUnderTest(
-                            recordChoiceObject
-                        );
-                        dataTypePicker = recordChoiceEditor.shadowRoot.querySelector(
-                            SELECTORS.DATA_TYPE
-                        );
+                        recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
+                        dataTypePicker = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
                     });
 
                     const dispatchValueChangedEvent = payload => {
@@ -556,23 +455,18 @@ describe('record-choice-set-editor', () => {
                     });
 
                     it('Datatype Picker should have five options', () => {
-                        const dataTypeCombobox = dataTypePicker.shadowRoot.querySelector(
-                            'lightning-combobox'
-                        );
+                        const dataTypeCombobox = dataTypePicker.shadowRoot.querySelector('lightning-combobox');
                         expect(dataTypeCombobox.options).toHaveLength(5);
                     });
 
                     it('Handles value change event when data type option is selected', () => {
                         dispatchValueChangedEvent({ dataType: 'Number' });
-                        expect(createAction).toHaveBeenCalledWith(
-                            PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-                            {
-                                propertyName: 'dataType',
-                                value: 'Number',
-                                error: null,
-                                doValidateProperty: true
-                            }
-                        );
+                        expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+                            propertyName: 'dataType',
+                            value: 'Number',
+                            error: null,
+                            doValidateProperty: true
+                        });
                     });
 
                     it('Changing value in Datatype Picker should update valueField', () => {
@@ -589,12 +483,8 @@ describe('record-choice-set-editor', () => {
 
             describe('valueField', () => {
                 describe('whithout object field filled', () => {
-                    recordChoiceEditor = setupComponentUnderTest(
-                        recordChoiceObjectWithoutObjectField
-                    );
-                    valueField = recordChoiceEditor.shadowRoot.querySelector(
-                        SELECTORS.VALUE_FIELD
-                    );
+                    recordChoiceEditor = setupComponentUnderTest(recordChoiceObjectWithoutObjectField);
+                    valueField = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.VALUE_FIELD);
                     it('Display Field is undefined', () => {
                         expect(valueField).toBeNull();
                     });
@@ -602,12 +492,8 @@ describe('record-choice-set-editor', () => {
 
                 describe('with object field filled', () => {
                     beforeEach(() => {
-                        recordChoiceEditor = setupComponentUnderTest(
-                            recordChoiceObject
-                        );
-                        valueField = recordChoiceEditor.shadowRoot.querySelector(
-                            SELECTORS.VALUE_FIELD
-                        );
+                        recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
+                        valueField = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.VALUE_FIELD);
                     });
 
                     it('Value Field should be defined', () => {
@@ -615,9 +501,7 @@ describe('record-choice-set-editor', () => {
                     });
 
                     it('Changing value in valueField field-picker should update valueField value', () => {
-                        valueField.dispatchEvent(
-                            getComboboxStateChangedEvent()
-                        );
+                        valueField.dispatchEvent(getComboboxStateChangedEvent());
                         expect(createAction.mock.calls[1][1]).toEqual({
                             propertyName: 'valueField',
                             value: 'Contact',
@@ -630,12 +514,8 @@ describe('record-choice-set-editor', () => {
 
             describe('outputAssignments', () => {
                 describe('whithout object field filled', () => {
-                    recordChoiceEditor = setupComponentUnderTest(
-                        recordChoiceObjectWithoutObjectField
-                    );
-                    outputAssignment = recordChoiceEditor.shadowRoot.querySelector(
-                        SELECTORS.OUTPUT_ASSIGNMENTS
-                    );
+                    recordChoiceEditor = setupComponentUnderTest(recordChoiceObjectWithoutObjectField);
+                    outputAssignment = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.OUTPUT_ASSIGNMENTS);
                     it('Output Assignment is undefined', () => {
                         expect(outputAssignment).toBeNull();
                     });
@@ -643,12 +523,8 @@ describe('record-choice-set-editor', () => {
 
                 describe('with object field filled', () => {
                     beforeEach(() => {
-                        recordChoiceEditor = setupComponentUnderTest(
-                            recordChoiceObject
-                        );
-                        outputAssignment = recordChoiceEditor.shadowRoot.querySelector(
-                            SELECTORS.OUTPUT_ASSIGNMENTS
-                        );
+                        recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
+                        outputAssignment = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.OUTPUT_ASSIGNMENTS);
                     });
 
                     it('Output Assignment should be defined', () => {
@@ -657,16 +533,11 @@ describe('record-choice-set-editor', () => {
 
                     it('handle AddRecordFieldAssignmentEvent should add an output Assignments element', () => {
                         const addRecordFieldAssignmentEvent = new AddRecordFieldAssignmentEvent();
-                        outputAssignment.dispatchEvent(
-                            addRecordFieldAssignmentEvent
-                        );
-                        expect(createAction).toHaveBeenCalledWith(
-                            'addrecordfieldassignment',
-                            {
-                                index: null,
-                                value: null
-                            }
-                        );
+                        outputAssignment.dispatchEvent(addRecordFieldAssignmentEvent);
+                        expect(createAction).toHaveBeenCalledWith('addrecordfieldassignment', {
+                            index: null,
+                            value: null
+                        });
                     });
 
                     it('handle UpdateRecordFieldAssignmentEvent should update an output Assignments element', () => {
@@ -679,31 +550,19 @@ describe('record-choice-set-editor', () => {
                             0,
                             newOutputAssignment
                         );
-                        outputAssignment.dispatchEvent(
-                            updateRecordFieldAssignmentEvent
-                        );
-                        expect(createAction).toHaveBeenCalledWith(
-                            'updaterecordfieldassignment',
-                            {
-                                index: 0,
-                                value: newOutputAssignment
-                            }
-                        );
+                        outputAssignment.dispatchEvent(updateRecordFieldAssignmentEvent);
+                        expect(createAction).toHaveBeenCalledWith('updaterecordfieldassignment', {
+                            index: 0,
+                            value: newOutputAssignment
+                        });
                     });
 
                     it('handle DeleteRecordFieldAssignmentEvent should delete the output assignment', () => {
-                        const deleteRecordFieldAssignmentEvent = new DeleteRecordFieldAssignmentEvent(
-                            0
-                        ); // This is using the numerical rowIndex not the property rowIndex
-                        outputAssignment.dispatchEvent(
-                            deleteRecordFieldAssignmentEvent
-                        );
-                        expect(createAction).toHaveBeenCalledWith(
-                            'deleterecordfieldassignment',
-                            {
-                                index: 0
-                            }
-                        );
+                        const deleteRecordFieldAssignmentEvent = new DeleteRecordFieldAssignmentEvent(0); // This is using the numerical rowIndex not the property rowIndex
+                        outputAssignment.dispatchEvent(deleteRecordFieldAssignmentEvent);
+                        expect(createAction).toHaveBeenCalledWith('deleterecordfieldassignment', {
+                            index: 0
+                        });
                     });
                 });
             });
@@ -712,13 +571,8 @@ describe('record-choice-set-editor', () => {
 
     describe('Validation', () => {
         it('Calls reducer with validate all event', () => {
-            const hydratedRecordChoiceObject = hydrateWithErrors(
-                recordChoiceObject,
-                ['guid', 'elementType']
-            );
-            const recordChoiceEditor = setupComponentUnderTest(
-                hydratedRecordChoiceObject
-            );
+            const hydratedRecordChoiceObject = hydrateWithErrors(recordChoiceObject, ['guid', 'elementType']);
+            const recordChoiceEditor = setupComponentUnderTest(hydratedRecordChoiceObject);
             recordChoiceEditor.validate();
             expect(recordChoiceSetReducer.mock.calls[1][1]).toEqual({
                 showSecondSection: true,

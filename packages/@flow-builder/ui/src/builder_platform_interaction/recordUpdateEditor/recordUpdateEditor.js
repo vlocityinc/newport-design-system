@@ -3,16 +3,9 @@ import { recordUpdateReducer } from './recordUpdateReducer';
 import { LABELS } from './recordUpdateEditorLabels';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
-import {
-    getErrorsFromHydratedElement,
-    getValueFromHydratedItem
-} from 'builder_platform_interaction/dataMutationLib';
+import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';
-import {
-    ENTITY_TYPE,
-    fetchFieldsForEntity,
-    getUpdateableEntities
-} from 'builder_platform_interaction/sobjectLib';
+import { ENTITY_TYPE, fetchFieldsForEntity, getUpdateableEntities } from 'builder_platform_interaction/sobjectLib';
 import { SUB_ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -21,8 +14,7 @@ import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interacti
 
 export default class RecordUpdateEditor extends LightningElement {
     labels = LABELS;
-    sobjectCollectionCriterion =
-        SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_OR_SOBJECT_COLLECTION;
+    sobjectCollectionCriterion = SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_OR_SOBJECT_COLLECTION;
 
     @track
     state = {
@@ -55,9 +47,7 @@ export default class RecordUpdateEditor extends LightningElement {
 
     set node(newValue) {
         this.state.recordUpdateElement = newValue;
-        this.state.recordEntityName = getValueFromHydratedItem(
-            this.state.recordUpdateElement.object
-        );
+        this.state.recordEntityName = getValueFromHydratedItem(this.state.recordUpdateElement.object);
         this.updateFields();
     }
 
@@ -67,10 +57,7 @@ export default class RecordUpdateEditor extends LightningElement {
      */
     @api validate() {
         const event = { type: VALIDATE_ALL };
-        this.state.recordUpdateElement = recordUpdateReducer(
-            this.state.recordUpdateElement,
-            event
-        );
+        this.state.recordUpdateElement = recordUpdateReducer(this.state.recordUpdateElement, event);
         return getErrorsFromHydratedElement(this.state.recordUpdateElement);
     }
 
@@ -83,10 +70,7 @@ export default class RecordUpdateEditor extends LightningElement {
     }
 
     get assignmentTitle() {
-        return format(
-            this.labels.setFieldValuesForTheRecordsFormat,
-            this.resourceDisplayText
-        );
+        return format(this.labels.setFieldValuesForTheRecordsFormat, this.resourceDisplayText);
     }
 
     get recordFieldsToFilter() {
@@ -120,13 +104,9 @@ export default class RecordUpdateEditor extends LightningElement {
     get inputReference() {
         if (
             this.state.recordUpdateElement.inputReference &&
-            getValueFromHydratedItem(
-                this.state.recordUpdateElement.inputReference
-            )
+            getValueFromHydratedItem(this.state.recordUpdateElement.inputReference)
         ) {
-            return getValueFromHydratedItem(
-                this.state.recordUpdateElement.inputReference
-            );
+            return getValueFromHydratedItem(this.state.recordUpdateElement.inputReference);
         }
         return '';
     }
@@ -136,9 +116,7 @@ export default class RecordUpdateEditor extends LightningElement {
     }
 
     get resourceDisplayText() {
-        const entityToDisplay = getUpdateableEntities().find(
-            entity => entity.apiName === this.state.recordEntityName
-        );
+        const entityToDisplay = getUpdateableEntities().find(entity => entity.apiName === this.state.recordEntityName);
         if (entityToDisplay) {
             return entityToDisplay.entityLabel;
         }
@@ -152,9 +130,7 @@ export default class RecordUpdateEditor extends LightningElement {
      * @returns {String} This value can be 'firstRecord' or 'allRecords'
      */
     get numberRecordsToStoreValue() {
-        return this.isSObjectMode
-            ? NUMBER_RECORDS_TO_STORE.FIRST_RECORD
-            : NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
+        return this.isSObjectMode ? NUMBER_RECORDS_TO_STORE.FIRST_RECORD : NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
     }
 
     /**
@@ -193,19 +169,12 @@ export default class RecordUpdateEditor extends LightningElement {
      */
     handleInputReferenceChangedEvent(event) {
         event.stopPropagation();
-        this.updateProperty(
-            'inputReference',
-            event.detail.value,
-            event.detail.error
-        );
+        this.updateProperty('inputReference', event.detail.value, event.detail.error);
     }
 
     handleRecordStoreOptionChanged(event) {
         event.stopPropagation();
-        this.state.recordUpdateElement = recordUpdateReducer(
-            this.state.recordUpdateElement,
-            event
-        );
+        this.state.recordUpdateElement = recordUpdateReducer(this.state.recordUpdateElement, event);
     }
 
     /**
@@ -214,18 +183,10 @@ export default class RecordUpdateEditor extends LightningElement {
     handleResourceChanged(event) {
         event.stopPropagation();
         const oldRecordEntityName = this.state.recordEntityName;
-        const newRecordEntityName = event.detail.item
-            ? event.detail.item.value
-            : '';
+        const newRecordEntityName = event.detail.item ? event.detail.item.value : '';
 
         if (newRecordEntityName !== oldRecordEntityName) {
-            this.updateProperty(
-                'object',
-                newRecordEntityName,
-                event.detail.error,
-                false,
-                oldRecordEntityName
-            );
+            this.updateProperty('object', newRecordEntityName, event.detail.error, false, oldRecordEntityName);
             this.state.recordEntityName = newRecordEntityName;
             this.updateFields();
         }
@@ -236,42 +197,22 @@ export default class RecordUpdateEditor extends LightningElement {
      */
     handlePropertyOrListItemChanged(event) {
         event.stopPropagation();
-        this.state.recordUpdateElement = recordUpdateReducer(
-            this.state.recordUpdateElement,
-            event
-        );
+        this.state.recordUpdateElement = recordUpdateReducer(this.state.recordUpdateElement, event);
     }
 
     handleRecordInputOutputAssignmentsChanged(event) {
         event.stopPropagation();
-        this.state.recordUpdateElement = recordUpdateReducer(
-            this.state.recordUpdateElement,
-            event
-        );
+        this.state.recordUpdateElement = recordUpdateReducer(this.state.recordUpdateElement, event);
     }
 
     handleFilterTypeChanged(event) {
         event.stopPropagation();
-        this.updateProperty(
-            'filterType',
-            event.detail.filterType,
-            event.detail.error,
-            false
-        );
+        this.updateProperty('filterType', event.detail.filterType, event.detail.error, false);
     }
 
     updateProperty(propertyName, newValue, error, ignoreValidate, oldValue) {
-        const propChangedEvent = new PropertyChangedEvent(
-            propertyName,
-            newValue,
-            error,
-            null,
-            oldValue
-        );
+        const propChangedEvent = new PropertyChangedEvent(propertyName, newValue, error, null, oldValue);
         propChangedEvent.detail.ignoreValidate = ignoreValidate;
-        this.state.recordUpdateElement = recordUpdateReducer(
-            this.state.recordUpdateElement,
-            propChangedEvent
-        );
+        this.state.recordUpdateElement = recordUpdateReducer(this.state.recordUpdateElement, propChangedEvent);
     }
 }

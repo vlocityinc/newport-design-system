@@ -21,29 +21,19 @@ jest.mock('builder_platform_interaction/selectors', () => {
 
 const SELECTORS = {
     NAME_AND_LABEL_FIELD: 'builder_platform_interaction-label-description',
-    SHOW_HEADER:
-        'builder_platform_interaction-screen-property-field[name="showHeader"]',
-    SHOW_FOOTER:
-        'builder_platform_interaction-screen-property-field[name="showFooter"]',
-    ALLOW_PAUSE:
-        'builder_platform_interaction-screen-property-field[name="allowPause"]',
-    ALLOW_BACK:
-        'builder_platform_interaction-screen-property-field[name="allowBack"]',
-    ALLOW_NEXT:
-        'builder_platform_interaction-screen-property-field[name="allowFinish"]',
-    PAUSED_TEXT:
-        'builder_platform_interaction-screen-property-field[name="pausedText"]',
-    HELP_TEXT:
-        'builder_platform_interaction-screen-property-field[name="helpText"]'
+    SHOW_HEADER: 'builder_platform_interaction-screen-property-field[name="showHeader"]',
+    SHOW_FOOTER: 'builder_platform_interaction-screen-property-field[name="showFooter"]',
+    ALLOW_PAUSE: 'builder_platform_interaction-screen-property-field[name="allowPause"]',
+    ALLOW_BACK: 'builder_platform_interaction-screen-property-field[name="allowBack"]',
+    ALLOW_NEXT: 'builder_platform_interaction-screen-property-field[name="allowFinish"]',
+    PAUSED_TEXT: 'builder_platform_interaction-screen-property-field[name="pausedText"]',
+    HELP_TEXT: 'builder_platform_interaction-screen-property-field[name="helpText"]'
 };
 
 const createComponentUnderTest = props => {
-    const el = createElement(
-        'builder_platform_interaction-screen-properties-editor',
-        {
-            is: ScreenPropertiesEditor
-        }
-    );
+    const el = createElement('builder_platform_interaction-screen-properties-editor', {
+        is: ScreenPropertiesEditor
+    });
     if (props) {
         Object.assign(el, props);
     }
@@ -61,25 +51,19 @@ describe('screen-properties-editor for new screen', () => {
     });
     it('API Name should be empty by default', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(
-                SELECTORS.NAME_AND_LABEL_FIELD
-            );
+            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.devName.value).toBe('');
         });
     });
     it('Label should be empty by default', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(
-                SELECTORS.NAME_AND_LABEL_FIELD
-            );
+            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.label.value).toBe('');
         });
     });
     it('Description should be empty by default', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(
-                SELECTORS.NAME_AND_LABEL_FIELD
-            );
+            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.description.value).toBe('');
         });
     });
@@ -170,9 +154,7 @@ describe('screen-properties-editor for existing screen', () => {
     });
     it('API Name is populated', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(
-                SELECTORS.NAME_AND_LABEL_FIELD
-            );
+            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.devName.value).toBe('screen1');
         });
     });

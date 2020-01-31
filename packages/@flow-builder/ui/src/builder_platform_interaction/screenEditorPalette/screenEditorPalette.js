@@ -51,10 +51,7 @@ export default class ScreenPalette extends LightningElement {
             if (typeMap.hasOwnProperty(type)) {
                 const items = typeMap[type];
                 if (items && items.length > 0) {
-                    const section = createSection(
-                        type,
-                        items.sort(labelComparator)
-                    );
+                    const section = createSection(type, items.sort(labelComparator));
                     sections.push(section);
                 }
             }
@@ -125,10 +122,7 @@ function createSection(label, items) {
 }
 
 function getTypeMap(pattern) {
-    const types = [
-        ...getAllScreenFieldTypes(),
-        ...getAllCachedExtensionTypes()
-    ].filter(labelFilter(pattern));
+    const types = [...getAllScreenFieldTypes(), ...getAllCachedExtensionTypes()].filter(labelFilter(pattern));
     const typeMap = types.reduce((acc, type) => {
         const guid = generateGuid();
         const item = {

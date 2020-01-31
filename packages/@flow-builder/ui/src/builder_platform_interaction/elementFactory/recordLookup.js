@@ -50,15 +50,11 @@ export const createQueriedField = queriedField => {
 export function createRecordLookup(recordLookup = {}) {
     let newRecordLookup;
     if (recordLookup.storeOutputAutomatically) {
-        newRecordLookup = createRecordLookupWithAutomaticOutputHandling(
-            recordLookup
-        );
+        newRecordLookup = createRecordLookupWithAutomaticOutputHandling(recordLookup);
     } else if (recordLookup.outputReference) {
         newRecordLookup = createRecordLookupWithOuputReference(recordLookup);
     } else {
-        newRecordLookup = createRecordLookupWithVariableAssignments(
-            recordLookup
-        );
+        newRecordLookup = createRecordLookupWithVariableAssignments(recordLookup);
     }
     return newRecordLookup;
 }
@@ -88,31 +84,20 @@ function createRecordLookupWithOuputReference(recordLookup = {}) {
 
     filters = createRecordFilters(filters, object);
 
-    const filterType = filters[0].leftHandSide
-        ? RECORD_FILTER_CRITERIA.ALL
-        : RECORD_FILTER_CRITERIA.NONE;
+    const filterType = filters[0].leftHandSide ? RECORD_FILTER_CRITERIA.ALL : RECORD_FILTER_CRITERIA.NONE;
 
     // When the builder is loaded the store does not yet contain the variables
     // numberRecordsToStore can only be calculated at the opening on the element
-    const variable =
-        getElementByGuid(outputReference) ||
-        getGlobalConstantOrSystemVariable(outputReference);
+    const variable = getElementByGuid(outputReference) || getGlobalConstantOrSystemVariable(outputReference);
     if (variable) {
-        getFirstRecordOnly = !(
-            variable.dataType === FLOW_DATA_TYPE.SOBJECT.value &&
-            variable.isCollection
-        );
+        getFirstRecordOnly = !(variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection);
     }
 
     if (queriedFields && queriedFields.length > 0) {
-        queriedFields = queriedFields.map(queriedField =>
-            createQueriedField(queriedField)
-        );
+        queriedFields = queriedFields.map(queriedField => createQueriedField(queriedField));
     } else {
         // If creating new queried fields, there needs to be one for the ID field, and a new blank one
-        queriedFields = ['Id', ''].map(queriedField =>
-            createQueriedField(queriedField)
-        );
+        queriedFields = ['Id', ''].map(queriedField => createQueriedField(queriedField));
     }
     return Object.assign(newRecordLookup, {
         object,
@@ -138,11 +123,7 @@ function createRecordLookupWithOuputReference(recordLookup = {}) {
 function createRecordLookupWithVariableAssignments(recordLookup = {}) {
     const newRecordLookup = baseCanvasElement(recordLookup);
 
-    let {
-        availableConnections = getDefaultAvailableConnections(),
-        filters,
-        outputAssignments = []
-    } = recordLookup;
+    let { availableConnections = getDefaultAvailableConnections(), filters, outputAssignments = [] } = recordLookup;
     const {
         object = '',
         objectIndex = generateGuid(),
@@ -158,9 +139,7 @@ function createRecordLookupWithVariableAssignments(recordLookup = {}) {
 
     filters = createRecordFilters(filters, object);
 
-    const filterType = filters[0].leftHandSide
-        ? RECORD_FILTER_CRITERIA.ALL
-        : RECORD_FILTER_CRITERIA.NONE;
+    const filterType = filters[0].leftHandSide ? RECORD_FILTER_CRITERIA.ALL : RECORD_FILTER_CRITERIA.NONE;
 
     outputAssignments = outputAssignments.map(item =>
         createFlowOutputFieldAssignment(item, object, 'assignToReference')
@@ -212,9 +191,7 @@ function createRecordLookupWithAutomaticOutputHandling(recordLookup = {}) {
 
     filters = createRecordFilters(filters, object);
 
-    const filterType = filters[0].leftHandSide
-        ? RECORD_FILTER_CRITERIA.ALL
-        : RECORD_FILTER_CRITERIA.NONE;
+    const filterType = filters[0].leftHandSide ? RECORD_FILTER_CRITERIA.ALL : RECORD_FILTER_CRITERIA.NONE;
 
     // if queriedFields.length is 0 it means the user selected automatic version.
     // the flow has been saved with queriedFields = null but the serialization create an empty array
@@ -223,11 +200,8 @@ function createRecordLookupWithAutomaticOutputHandling(recordLookup = {}) {
             // If creating new queried fields or only one field is selected, there needs to be one for the ID field, and a new blank one
             queriedFields = ['Id', ''];
         }
-        queriedFields = queriedFields.map(queriedField =>
-            createQueriedField(queriedField)
-        );
-        variableAndFieldMapping =
-            VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS;
+        queriedFields = queriedFields.map(queriedField => createQueriedField(queriedField));
+        variableAndFieldMapping = VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS;
     } else {
         queriedFields = null;
     }
@@ -259,11 +233,7 @@ export function createDuplicateRecordLookup(recordLookup, newGuid, newName) {
     Object.assign(newRecordLookup, {
         availableConnections: getDefaultAvailableConnections()
     });
-    const duplicateRecordLookup = duplicateCanvasElement(
-        newRecordLookup,
-        newGuid,
-        newName
-    );
+    const duplicateRecordLookup = duplicateCanvasElement(newRecordLookup, newGuid, newName);
 
     return duplicateRecordLookup;
 }
@@ -271,14 +241,8 @@ export function createDuplicateRecordLookup(recordLookup, newGuid, newName) {
 export function createRecordLookupWithConnectors(recordLookup) {
     const newRecordLookup = createRecordLookup(recordLookup);
 
-    const connectors = createConnectorObjects(
-        recordLookup,
-        newRecordLookup.guid
-    );
-    const availableConnections = removeFromAvailableConnections(
-        getDefaultAvailableConnections(),
-        connectors
-    );
+    const connectors = createConnectorObjects(recordLookup, newRecordLookup.guid);
+    const availableConnections = removeFromAvailableConnections(getDefaultAvailableConnections(), connectors);
     const connectorCount = connectors ? connectors.length : 0;
 
     const recordLookupObject = Object.assign(newRecordLookup, {
@@ -294,10 +258,7 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
         throw new Error('recordLookup is not defined');
     }
 
-    const recordUpdateMetadata = baseCanvasElementMetadataObject(
-        recordLookup,
-        config
-    );
+    const recordUpdateMetadata = baseCanvasElementMetadataObject(recordLookup, config);
     const {
         object,
         outputReference,
@@ -308,12 +269,7 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
         variableAndFieldMapping
     } = recordLookup;
 
-    let {
-        sortOrder,
-        sortField,
-        filters = [],
-        queriedFields = []
-    } = recordLookup;
+    let { sortOrder, sortField, filters = [], queriedFields = [] } = recordLookup;
     if (filterType === RECORD_FILTER_CRITERIA.NONE) {
         filters = [];
     } else {
@@ -332,10 +288,7 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
     }
 
     if (storeOutputAutomatically && automaticOutputHandlingSupport()) {
-        if (
-            variableAndFieldMapping ===
-            VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC
-        ) {
+        if (variableAndFieldMapping === VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC) {
             Object.assign(recordUpdateMetadata, {
                 object,
                 filters,
@@ -379,9 +332,7 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
         });
     } else {
         let { outputAssignments = [] } = recordLookup;
-        outputAssignments = outputAssignments.map(output =>
-            createFlowOutputFieldAssignmentMetadataObject(output)
-        );
+        outputAssignments = outputAssignments.map(output => createFlowOutputFieldAssignmentMetadataObject(output));
 
         outputAssignments = createEmptyAssignmentMetadata(outputAssignments);
 

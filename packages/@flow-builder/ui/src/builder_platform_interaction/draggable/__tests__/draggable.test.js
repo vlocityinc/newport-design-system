@@ -65,9 +65,7 @@ describe('Draggable component', () => {
             };
             draggableItem.dispatchEvent(dragStartEvent);
 
-            expect(dragStartEvent.dataTransfer.getData('text')).toBe(
-                SOURCE_INDEX
-            );
+            expect(dragStartEvent.dataTransfer.getData('text')).toBe(SOURCE_INDEX);
             expect(dragStartEvent.dataTransfer.effectAllowed).toBe('move');
         });
     });

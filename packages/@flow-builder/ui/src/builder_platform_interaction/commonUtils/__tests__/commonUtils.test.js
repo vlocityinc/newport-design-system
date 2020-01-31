@@ -1,10 +1,4 @@
-import {
-    memoize,
-    escapeForRegExp,
-    isValidNumber,
-    format,
-    sanitizeBoolean
-} from '../commonUtils';
+import { memoize, escapeForRegExp, isValidNumber, format, sanitizeBoolean } from '../commonUtils';
 
 describe('memoize', () => {
     it('throws an exception if parameter is not a function', () => {
@@ -67,13 +61,10 @@ describe('isValidNumber', () => {
         ${'astring'}   | ${false}
         ${() => {}}    | ${false}
         ${1}           | ${true}
-    `(
-        'isValidNumber for parameter value: $parameterValue',
-        ({ parameterValue, expected }) => {
-            const actual = isValidNumber(parameterValue);
-            expect(actual).toBe(expected);
-        }
-    );
+    `('isValidNumber for parameter value: $parameterValue', ({ parameterValue, expected }) => {
+        const actual = isValidNumber(parameterValue);
+        expect(actual).toBe(expected);
+    });
 });
 
 describe('format', () => {
@@ -94,11 +85,8 @@ describe('sanitizeBoolean', () => {
         ${true}      | ${true}
         ${'true'}    | ${true}
         ${'false'}   | ${false}
-    `(
-        'Sanitized boolean for raw value: $rawValue',
-        ({ rawValue, expected }) => {
-            const actual = sanitizeBoolean(rawValue);
-            expect(actual).toBe(expected);
-        }
-    );
+    `('Sanitized boolean for raw value: $rawValue', ({ rawValue, expected }) => {
+        const actual = sanitizeBoolean(rawValue);
+        expect(actual).toBe(expected);
+    });
 });

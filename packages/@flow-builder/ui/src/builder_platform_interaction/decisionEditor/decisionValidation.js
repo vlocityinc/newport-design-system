@@ -38,11 +38,7 @@ class DecisionValidation extends Validation {
      * @param {string} currentOutcomeGuid - guid of the current outcome whose devname is tested for uniquness
      * @returns {string|null} errorString or null
      */
-    validateOutcomeNameUniquenessLocally = (
-        state,
-        devNameToBeValidated,
-        currentOutcomeGuid
-    ) => {
+    validateOutcomeNameUniquenessLocally = (state, devNameToBeValidated, currentOutcomeGuid) => {
         // Add the decision editor guid and api name to the list to check
         const stateGuidToDevName = [
             {
@@ -56,9 +52,7 @@ class DecisionValidation extends Validation {
                 name: outcome.name.value
             };
         });
-        const finalListOfGuidToDevNames = stateGuidToDevName.concat(
-            outcomesDevNameToGuidList
-        );
+        const finalListOfGuidToDevNames = stateGuidToDevName.concat(outcomesDevNameToGuidList);
         return this.validateDevNameUniquenessLocally(
             finalListOfGuidToDevNames,
             devNameToBeValidated,

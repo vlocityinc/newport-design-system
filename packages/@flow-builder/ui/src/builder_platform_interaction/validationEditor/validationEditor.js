@@ -24,41 +24,26 @@ export default class ValidationEditor extends LightningElement {
                 value: event.detail.value,
                 error: event.detail.error
             };
-            const errorDisplayedValue = this.template.querySelector(
-                '.property-input.errorMessage'
-            ).value;
-            this.handleFormulaExpressionOrErrorMessageChanged(
-                formulaDisplayedValue,
-                errorDisplayedValue
-            );
+            const errorDisplayedValue = this.template.querySelector('.property-input.errorMessage').value;
+            this.handleFormulaExpressionOrErrorMessageChanged(formulaDisplayedValue, errorDisplayedValue);
         }
     };
 
     handleErrorMessageValueChanged = event => {
         if (event && event.detail) {
             event.stopPropagation();
-            const formulaDisplayedValue = this.template.querySelector(
-                '.property-input.formulaExpression'
-            ).value;
+            const formulaDisplayedValue = this.template.querySelector('.property-input.formulaExpression').value;
             const errorDisplayedValue = {
                 value: event.detail.value,
                 error: event.detail.error
             };
-            this.handleFormulaExpressionOrErrorMessageChanged(
-                formulaDisplayedValue,
-                errorDisplayedValue
-            );
+            this.handleFormulaExpressionOrErrorMessageChanged(formulaDisplayedValue, errorDisplayedValue);
         }
     };
 
-    handleFormulaExpressionOrErrorMessageChanged = (
-        formulaExpression,
-        errorMessage
-    ) => {
-        const ifFormulaExpressionHasValue =
-            formulaExpression.value && formulaExpression.value.length > 0;
-        const ifErrorMessageHasValue =
-            errorMessage.value && errorMessage.value.length > 0;
+    handleFormulaExpressionOrErrorMessageChanged = (formulaExpression, errorMessage) => {
+        const ifFormulaExpressionHasValue = formulaExpression.value && formulaExpression.value.length > 0;
+        const ifErrorMessageHasValue = errorMessage.value && errorMessage.value.length > 0;
         let errorOnFormulaExpression = formulaExpression.error,
             errorOnErrorMessage = errorMessage.error;
 

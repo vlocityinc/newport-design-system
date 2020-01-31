@@ -5,10 +5,7 @@ import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interacti
 
 let allTemplates = {};
 
-const RECOMMENDED_PROCESS_TYPES = [
-    FLOW_PROCESS_TYPE.FLOW,
-    FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
-];
+const RECOMMENDED_PROCESS_TYPES = [FLOW_PROCESS_TYPE.FLOW, FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW];
 
 const groupByProcessType = templates => {
     return templates.reduce((templatesByProcessType, template) => {
@@ -21,21 +18,21 @@ const groupByProcessType = templates => {
 };
 
 const createProcessTypeTile = ({ name, label }) => ({
-        itemId: name,
-        label,
-        description: LABELS[name] || format(LABELS.newProcessTypeDescription, label),
-        iconName: getProcessTypeIcon(name),
-        processType: name
-    });
+    itemId: name,
+    label,
+    description: LABELS[name] || format(LABELS.newProcessTypeDescription, label),
+    iconName: getProcessTypeIcon(name),
+    processType: name
+});
 
 const createTriggerTypeTile = (processType, triggerType) => ({
-        itemId: processType + '-' + triggerType,
-        label: TRIGGER_TYPE_LABELS[triggerType],
-        description: LABELS[triggerType],
-        iconName: getTriggerTypeIcon(processType, triggerType),
-        processType,
-        triggerType
-    });
+    itemId: processType + '-' + triggerType,
+    label: TRIGGER_TYPE_LABELS[triggerType],
+    description: LABELS[triggerType],
+    iconName: getTriggerTypeIcon(processType, triggerType),
+    processType,
+    triggerType
+});
 
 function createFlowEntryTilesForProcessType(processType) {
     if (processType.name === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW) {
@@ -49,13 +46,13 @@ function createFlowEntryTilesForProcessType(processType) {
     return [createProcessTypeTile(processType)];
 }
 
-export const createFlowEntryTilesForProcessTypes = (processTypes) =>
-    processTypes.reduce((tiles, processType) =>
-        tiles.concat(createFlowEntryTilesForProcessType(processType)), []);
+export const createFlowEntryTilesForProcessTypes = processTypes =>
+    processTypes.reduce((tiles, processType) => tiles.concat(createFlowEntryTilesForProcessType(processType)), []);
 
-export const createRecommendedItems = (allProcessTypes) => {
+export const createRecommendedItems = allProcessTypes => {
     const recommendedProcessTypes = RECOMMENDED_PROCESS_TYPES.map(processTypeName =>
-        allProcessTypes.find(processType => processType.name === processTypeName));
+        allProcessTypes.find(processType => processType.name === processTypeName)
+    );
     return createFlowEntryTilesForProcessTypes(recommendedProcessTypes);
 };
 
@@ -71,12 +68,12 @@ export const createRecommendedItems = (allProcessTypes) => {
  * @property {String} Label
  */
 const createFlowEntryTilesForTemplate = ({ EnumOrID, Label, Description, ProcessType }) => ({
-        itemId: EnumOrID,
-        label: Label,
-        description: Description,
-        iconName: getProcessTypeIcon(ProcessType),
-        templateId: EnumOrID
-    });
+    itemId: EnumOrID,
+    label: Label,
+    description: Description,
+    iconName: getProcessTypeIcon(ProcessType),
+    templateId: EnumOrID
+});
 
 /**
  * @param data an array of FlowVersionDescriptor

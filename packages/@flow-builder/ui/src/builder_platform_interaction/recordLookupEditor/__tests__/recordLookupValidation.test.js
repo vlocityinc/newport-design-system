@@ -2,11 +2,7 @@ import { createElement } from 'lwc';
 import RecordLookupEditor from '../recordLookupEditor';
 import { recordLookupValidation, getRules } from '../recordLookupValidation.js';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import {
-    SORT_ORDER,
-    RECORD_FILTER_CRITERIA,
-    WAY_TO_STORE_FIELDS
-} from 'builder_platform_interaction/recordEditorLib';
+import { SORT_ORDER, RECORD_FILTER_CRITERIA, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 import { recordLookupReducer } from '../recordLookupReducer';
 import { LABELS } from 'builder_platform_interaction/validationRules';
 import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
@@ -16,9 +12,7 @@ import { flowWithAllElementsUIModel } from 'mock/storeData';
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
 );
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
@@ -27,10 +21,7 @@ jest.mock('builder_platform_interaction/expressionValidator', () =>
 );
 
 function createComponentForTest(node) {
-    const el = createElement(
-        'builder_platform_interaction-record-lookup-editor',
-        { is: RecordLookupEditor }
-    );
+    const el = createElement('builder_platform_interaction-record-lookup-editor', { is: RecordLookupEditor });
     if (node) {
         el.node = node;
     }
@@ -40,9 +31,7 @@ function createComponentForTest(node) {
 
 const validate = node => {
     const rules = getRules(node);
-    return getErrorsFromHydratedElement(
-        recordLookupValidation.validateAll(node, rules)
-    );
+    return getErrorsFromHydratedElement(recordLookupValidation.validateAll(node, rules));
 };
 
 const recordLookupElementWithValidSObject = () => ({
@@ -184,9 +173,7 @@ describe('Record Lookup Validation', () => {
     });
     describe('node is valid', () => {
         it('returns no errors', () => {
-            const recordLookupEditor = createComponentForTest(
-                recordLookupEditorNode
-            );
+            const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(0);
         });
@@ -194,9 +181,7 @@ describe('Record Lookup Validation', () => {
     describe('no label', () => {
         it('should return an error', () => {
             recordLookupEditorNode.label.value = '';
-            const recordLookupEditor = createComponentForTest(
-                recordLookupEditorNode
-            );
+            const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('label');
@@ -206,9 +191,7 @@ describe('Record Lookup Validation', () => {
     describe('no apiName', () => {
         it('should return an error', () => {
             recordLookupEditorNode.name.value = '';
-            const recordLookupEditor = createComponentForTest(
-                recordLookupEditorNode
-            );
+            const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('name');
@@ -221,20 +204,14 @@ describe('Record Lookup Validation', () => {
             return createComponentForTest(recordLookupEditorNode);
         };
         it('should return 1 error only if object is blank', () => {
-            const recordLookupEditor = createRecordLookupEditor(
-                '',
-                LABELS.cannotBeBlank
-            );
+            const recordLookupEditor = createRecordLookupEditor('', LABELS.cannotBeBlank);
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('object');
             expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
         it('should return 1 error only if object is invalid (but not blank)', () => {
-            const recordLookupEditor = createRecordLookupEditor(
-                'AnInvalidObjectIAmBelieveMe',
-                LABELS.enterValidValue
-            );
+            const recordLookupEditor = createRecordLookupEditor('AnInvalidObjectIAmBelieveMe', LABELS.enterValidValue);
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('object');
@@ -245,29 +222,22 @@ describe('Record Lookup Validation', () => {
         it('should not be validated if filter type equals "NONE"', () => {
             recordLookupEditorNode.filters[0].leftHandSide.value = '';
             recordLookupEditorNode.filterType = RECORD_FILTER_CRITERIA.NONE;
-            const recordLookupEditor = createComponentForTest(
-                recordLookupEditorNode
-            );
+            const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(0);
         });
         it('should return an error if leftHandSide is empty', () => {
             recordLookupEditorNode.filters[0].leftHandSide.value = '';
-            const recordLookupEditor = createComponentForTest(
-                recordLookupEditorNode
-            );
+            const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('leftHandSide');
             expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
         it('should return an error if operator is empty', () => {
-            recordLookupEditorNode.filters[0].leftHandSide.value =
-                'Account.BillingAddress';
+            recordLookupEditorNode.filters[0].leftHandSide.value = 'Account.BillingAddress';
             recordLookupEditorNode.filters[0].operator.value = '';
-            const recordLookupEditor = createComponentForTest(
-                recordLookupEditorNode
-            );
+            const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('operator');
@@ -276,9 +246,7 @@ describe('Record Lookup Validation', () => {
         it('should return an error if rightHandSide is empty', () => {
             recordLookupEditorNode.filters[0].operator.value = 'EqualTo';
             recordLookupEditorNode.filters[0].rightHandSide.value = '';
-            const recordLookupEditor = createComponentForTest(
-                recordLookupEditorNode
-            );
+            const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('rightHandSide');
@@ -289,17 +257,13 @@ describe('Record Lookup Validation', () => {
         it('should not be validated if sortOrder equals "NOT SORTED"', () => {
             recordLookupEditorNode.sortField.value = '';
             recordLookupEditorNode.sortOrder = SORT_ORDER.NOT_SORTED;
-            const recordLookupEditor = createComponentForTest(
-                recordLookupEditorNode
-            );
+            const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(0);
         });
         it('should return an error if sortField is blank', () => {
             recordLookupEditorNode.sortField.value = '';
-            const recordLookupEditor = createComponentForTest(
-                recordLookupEditorNode
-            );
+            const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('sortField');
@@ -307,9 +271,7 @@ describe('Record Lookup Validation', () => {
         });
         it('should return an error if sortField is null', () => {
             recordLookupEditorNode.sortField.value = '';
-            const recordLookupEditor = createComponentForTest(
-                recordLookupEditorNode
-            );
+            const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('sortField');
@@ -378,9 +340,7 @@ describe('Record Lookup Validation using sObject', () => {
                 field: { value: '', error: null },
                 rowIndex: '75cb7e19-9f98-4b59-9fdd-a276f216ddcf'
             });
-            const recordLookupEditor = createComponentForTest(
-                recordLookupEditorNode
-            );
+            const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('field');
@@ -402,9 +362,7 @@ describe('Record Lookup Validation using sObject', () => {
                     rowIndex: '78cb7e19-9f98-4b59-9fdd-a276f216ddcf'
                 }
             ];
-            const recordLookupEditor = createComponentForTest(
-                recordLookupEditorNode
-            );
+            const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
             let errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(2);
             // now delete one empty row -> there are 'Id' and one empty row
@@ -428,18 +386,13 @@ describe('Record Lookup Validation using Fields', () => {
     describe('outputAssignments item is empty', () => {
         it('should not return an error when there is only one outputAssignment and the lhs is set without a value', () => {
             recordLookupEditorNode.outputAssignments[0].leftHandSide.value = '';
-            const recordLookupEditor = createComponentForTest(
-                recordLookupEditorNode
-            );
+            const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(0);
         });
         it('should return an error when an outputAssignment rhs does not have a value', () => {
-            recordLookupEditorNode.outputAssignments[0].rightHandSide.value =
-                '';
-            const recordLookupEditor = createComponentForTest(
-                recordLookupEditorNode
-            );
+            recordLookupEditorNode.outputAssignments[0].rightHandSide.value = '';
+            const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('rightHandSide');
@@ -452,9 +405,7 @@ describe('Record Lookup Validation using Fields', () => {
                 rightHandSide: { value: 'vCountry', error: null },
                 rowIndex: '71cb7e19-9f98-4b59-9fdd-a276f216eede'
             });
-            const recordLookupEditor = createComponentForTest(
-                recordLookupEditorNode
-            );
+            const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('leftHandSide');

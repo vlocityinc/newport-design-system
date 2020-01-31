@@ -53,10 +53,7 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
     }
 
     get isInputField() {
-        return (
-            screenEditorUtils.isInputField(this.node) ||
-            screenEditorUtils.isPasswordField(this.node)
-        );
+        return screenEditorUtils.isInputField(this.node) || screenEditorUtils.isPasswordField(this.node);
     }
 
     get isTextAreaField() {
@@ -74,9 +71,7 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
     get getPanelTitle() {
         let title = '';
         if (this.node) {
-            title = screenEditorUtils.isScreen(this.node)
-                ? LABELS.screenProperties
-                : this.node.type.label;
+            title = screenEditorUtils.isScreen(this.node) ? LABELS.screenProperties : this.node.type.label;
         }
         return title;
     }
@@ -107,9 +102,7 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
         container.classList.toggle('slds-size_medium');
         const expanded = container.classList.toggle('slds-size_x-large');
 
-        this.toggleIconName = expanded
-            ? 'utility:contract_alt'
-            : 'utility:expand_alt';
+        this.toggleIconName = expanded ? 'utility:contract_alt' : 'utility:expand_alt';
     };
 
     handleScreenSelection = (/* event */) => {
@@ -124,7 +117,9 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
             .then(desc => {
                 this.displaySpinner = false;
                 if (this.node === node) {
-                    const genericTypes = this.extensionTypes ? this.extensionTypes.find(extensionType => extensionType.name === extensionName).genericTypes : undefined;
+                    const genericTypes = this.extensionTypes
+                        ? this.extensionTypes.find(extensionType => extensionType.name === extensionName).genericTypes
+                        : undefined;
                     if (genericTypes && genericTypes.length > 0) {
                         desc = readonly({
                             ...desc,

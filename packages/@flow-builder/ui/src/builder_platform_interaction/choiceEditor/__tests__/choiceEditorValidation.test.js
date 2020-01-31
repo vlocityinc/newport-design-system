@@ -6,17 +6,12 @@ import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataM
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const setupComponentUnderTest = defaultChoiceObject => {
-    const element = createElement(
-        'builder_platform_interaction-choice-editor',
-        {
-            is: ChoiceEditor
-        }
-    );
+    const element = createElement('builder_platform_interaction-choice-editor', {
+        is: ChoiceEditor
+    });
     element.node = defaultChoiceObject;
     document.body.appendChild(element);
     return element;

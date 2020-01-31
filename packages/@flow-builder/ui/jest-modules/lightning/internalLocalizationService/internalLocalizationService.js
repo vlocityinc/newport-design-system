@@ -1,4 +1,3 @@
-
 const parseDateTimeUTC = jest.fn().mockName('parseDateTimeUTC');
 const formatDateUTC = jest.fn().mockName('formatDateUTC');
 const formatDateTimeUTC = jest.fn().mockName('formatDateTimeUTC');

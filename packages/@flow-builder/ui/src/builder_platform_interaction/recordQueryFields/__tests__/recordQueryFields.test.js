@@ -14,17 +14,13 @@ import * as store from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const mockDefaultConfig = {
     elementType: ELEMENT_TYPE.RECORD_LOOKUP,
     recordEntityName: 'Account',
     outputReference: '',
-    queriedFields: [
-        { field: { value: '', error: null }, rowIndex: 'RECORD_LOOKUP_FIELD_1' }
-    ]
+    queriedFields: [{ field: { value: '', error: null }, rowIndex: 'RECORD_LOOKUP_FIELD_1' }]
 };
 
 const queried2Fields = [
@@ -43,21 +39,15 @@ const selectors = {
 };
 
 const getFieldList = recordStoreFieldsComponent => {
-    return recordStoreFieldsComponent.shadowRoot.querySelector(
-        selectors.fieldsList
-    );
+    return recordStoreFieldsComponent.shadowRoot.querySelector(selectors.fieldsList);
 };
 
 const getRecordFieldPickers = recordStoreFieldsComponent => {
-    return recordStoreFieldsComponent.shadowRoot.querySelectorAll(
-        selectors.recordFieldPicker
-    );
+    return recordStoreFieldsComponent.shadowRoot.querySelectorAll(selectors.recordFieldPicker);
 };
 
 const getIdCombobox = recordStoreFieldsComponent => {
-    return recordStoreFieldsComponent.shadowRoot.querySelector(
-        selectors.idCombobox
-    );
+    return recordStoreFieldsComponent.shadowRoot.querySelector(selectors.idCombobox);
 };
 
 const getFieldPicker = recordFieldPicker => {
@@ -65,12 +55,9 @@ const getFieldPicker = recordFieldPicker => {
 };
 
 const createComponentUnderTest = props => {
-    const el = createElement(
-        'builder_platform_interaction-record-query-fields',
-        {
-            is: RecordQueryFields
-        }
-    );
+    const el = createElement('builder_platform_interaction-record-query-fields', {
+        is: RecordQueryFields
+    });
     Object.assign(el, mockDefaultConfig, props);
     document.body.appendChild(el);
     return el;
@@ -111,9 +98,7 @@ describe('record-store-fields', () => {
             recordQueryFields = createComponentUnderTest({
                 outputReference: store.accountSObjectVariable.guid
             });
-            expect(recordQueryFields.outputReference).toBe(
-                store.accountSObjectVariable.guid
-            );
+            expect(recordQueryFields.outputReference).toBe(store.accountSObjectVariable.guid);
 
             expect(getFieldList(recordQueryFields)).not.toBeNull();
             const fieldPickers = getRecordFieldPickers(recordQueryFields);
@@ -128,12 +113,8 @@ describe('record-store-fields', () => {
             });
             const fieldPickers = getRecordFieldPickers(recordQueryFields);
             expect(fieldPickers).toHaveLength(2);
-            expect(getFieldPicker(fieldPickers[0]).value).toEqual(
-                queried2Fields[0].field.value
-            );
-            expect(getFieldPicker(fieldPickers[1]).value).toEqual(
-                queried2Fields[1].field.value
-            );
+            expect(getFieldPicker(fieldPickers[0]).value).toEqual(queried2Fields[0].field.value);
+            expect(getFieldPicker(fieldPickers[1]).value).toEqual(queried2Fields[1].field.value);
         });
     });
 
@@ -150,10 +131,7 @@ describe('record-store-fields', () => {
         it('fires addRecordLookupFieldEvent', () => {
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
-                recordQueryFields.addEventListener(
-                    AddRecordLookupFieldEvent.EVENT_NAME,
-                    eventCallback
-                );
+                recordQueryFields.addEventListener(AddRecordLookupFieldEvent.EVENT_NAME, eventCallback);
                 fieldList.dispatchEvent(new AddListItemEvent());
                 expect(eventCallback).toHaveBeenCalled();
             });
@@ -166,13 +144,8 @@ describe('record-store-fields', () => {
             };
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
-                recordQueryFields.addEventListener(
-                    UpdateRecordLookupFieldEvent.EVENT_NAME,
-                    eventCallback
-                );
-                fieldList.dispatchEvent(
-                    new UpdateListItemEvent(updateData.index, updateData.value)
-                );
+                recordQueryFields.addEventListener(UpdateRecordLookupFieldEvent.EVENT_NAME, eventCallback);
+                fieldList.dispatchEvent(new UpdateListItemEvent(updateData.index, updateData.value));
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({
                     detail: {
@@ -187,10 +160,7 @@ describe('record-store-fields', () => {
             const deleteIndex = 1;
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
-                recordQueryFields.addEventListener(
-                    DeleteRecordLookupFieldEvent.EVENT_NAME,
-                    eventCallback
-                );
+                recordQueryFields.addEventListener(DeleteRecordLookupFieldEvent.EVENT_NAME, eventCallback);
                 fieldList.dispatchEvent(new DeleteListItemEvent(deleteIndex));
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({

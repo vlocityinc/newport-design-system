@@ -4,8 +4,7 @@ import { readonly } from 'lwc';
 export const SYSTEM_VARIABLE_PREFIX = '$Flow';
 export const SYSTEM_VARIABLE_CLIENT_PREFIX = '$Client';
 const SYSTEM_VARIABLE_RECORD_CATEGORY = 'Record';
-export const SYSTEM_VARIABLE_RECORD_PREFIX =
-    '$' + SYSTEM_VARIABLE_RECORD_CATEGORY;
+export const SYSTEM_VARIABLE_RECORD_PREFIX = '$' + SYSTEM_VARIABLE_RECORD_CATEGORY;
 
 export const SYSTEM_VARIABLES = {
     CURRENT_DATE_TIME: SYSTEM_VARIABLE_PREFIX + '.CurrentDateTime'
@@ -57,9 +56,7 @@ export const setSystemVariables = data => {
     // With that the visibility of $Record communicated by the backend based on the process type is ignored in the Flow Builder.
     // If it is ever needed, it can be tracked with a dedicated local var here and surfaced in the app by
     // e.g. a function like isRecordSystemVariableEnabled().
-    const index = variables.findIndex(
-        variable => variable.category === SYSTEM_VARIABLE_RECORD_CATEGORY
-    );
+    const index = variables.findIndex(variable => variable.category === SYSTEM_VARIABLE_RECORD_CATEGORY);
     if (index !== -1) {
         variables.splice(index, 1);
     }

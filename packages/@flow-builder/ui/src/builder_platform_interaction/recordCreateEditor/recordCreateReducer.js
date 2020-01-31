@@ -1,9 +1,5 @@
 import { recordCreateValidation, getRules } from './recordCreateValidation';
-import {
-    updateProperties,
-    set,
-    deleteItem
-} from 'builder_platform_interaction/dataMutationLib';
+import { updateProperties, set, deleteItem } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
@@ -58,11 +54,7 @@ const deleteRecordRecordFieldAssignment = (state, event) => {
 };
 
 const hasRhsValueButNoLhs = (assignMentToUpdate, leftHandSide) => {
-    return (
-        assignMentToUpdate[RHS].value !== '' &&
-        leftHandSide &&
-        leftHandSide.value === ''
-    );
+    return assignMentToUpdate[RHS].value !== '' && leftHandSide && leftHandSide.value === '';
 };
 
 const updateRecordRecordFieldAssignment = (state, { index, value }) => {
@@ -70,9 +62,7 @@ const updateRecordRecordFieldAssignment = (state, { index, value }) => {
     const assignMentToUpdate = state.inputAssignments[index];
     const item = updateProperties(
         assignMentToUpdate,
-        hasRhsValueButNoLhs(assignMentToUpdate, value.leftHandSide)
-            ? assignMentToUpdate
-            : value
+        hasRhsValueButNoLhs(assignMentToUpdate, value.leftHandSide) ? assignMentToUpdate : value
     );
     return set(state, path, item);
 };
@@ -124,10 +114,7 @@ const recordStoreOptionAndWayToStoreChanged = (
         return resetRecordCreate(state, true);
     } else if (state.wayToStoreFields !== wayToStoreFields) {
         state = updateProperties(state, { wayToStoreFields });
-        if (
-            isAutomaticOutputHandlingSupported &&
-            wayToStoreFields === WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES
-        ) {
+        if (isAutomaticOutputHandlingSupported && wayToStoreFields === WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES) {
             state = resetUseAdvancedOptionsSelection(state);
         }
         return resetRecordCreate(state, true);
@@ -135,15 +122,9 @@ const recordStoreOptionAndWayToStoreChanged = (
     return state;
 };
 
-const managePropertyChanged = (
-    state,
-    { propertyName, ignoreValidate, error, oldValue, value }
-) => {
+const managePropertyChanged = (state, { propertyName, ignoreValidate, error, oldValue, value }) => {
     if (!ignoreValidate) {
-        error =
-            error === null
-                ? recordCreateValidation.validateProperty(propertyName, value)
-                : error;
+        error = error === null ? recordCreateValidation.validateProperty(propertyName, value) : error;
     }
     state = updateProperties(state, { [propertyName]: { value, error } });
     if (!error) {
@@ -177,11 +158,7 @@ const useAdvancedOptionsSelectionChanged = (state, { useAdvancedOptions }) => {
  * @param {object} event - The event to be handled
  * @returns {object} state - updated state
  */
-export const recordCreateReducer = (
-    state,
-    event,
-    isAutomaticOutputHandlingSupported = false
-) => {
+export const recordCreateReducer = (state, event, isAutomaticOutputHandlingSupported = false) => {
     switch (event.type) {
         case AddRecordFieldAssignmentEvent.EVENT_NAME:
             return addRecordRecordFieldAssignment(state);
@@ -194,16 +171,9 @@ export const recordCreateReducer = (
         case UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME:
             return useAdvancedOptionsSelectionChanged(state, event.detail);
         case RecordStoreOptionChangedEvent.EVENT_NAME:
-            return recordStoreOptionAndWayToStoreChanged(
-                state,
-                event.detail,
-                isAutomaticOutputHandlingSupported
-            );
+            return recordStoreOptionAndWayToStoreChanged(state, event.detail, isAutomaticOutputHandlingSupported);
         case VALIDATE_ALL: {
-            return recordCreateValidation.validateAll(
-                state,
-                getRules(state, state.wayToStoreFields)
-            );
+            return recordCreateValidation.validateAll(state, getRules(state, state.wayToStoreFields));
         }
         default:
             return state;

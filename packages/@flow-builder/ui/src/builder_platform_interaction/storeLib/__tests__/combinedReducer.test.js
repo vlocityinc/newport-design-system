@@ -4,16 +4,14 @@ const state = {
     canvasElements: ['Element 1']
 };
 
-const canvasElementsReducer = jest
-    .fn()
-    .mockImplementation((canvasElements = [], action) => {
-        switch (action.type) {
-            case 'updateCanvasElements':
-                return [...canvasElements, 'Element 2'];
-            default:
-                return canvasElements;
-        }
-    });
+const canvasElementsReducer = jest.fn().mockImplementation((canvasElements = [], action) => {
+    switch (action.type) {
+        case 'updateCanvasElements':
+            return [...canvasElements, 'Element 2'];
+        default:
+            return canvasElements;
+    }
+});
 
 const reducers = {
     canvasElements: canvasElementsReducer

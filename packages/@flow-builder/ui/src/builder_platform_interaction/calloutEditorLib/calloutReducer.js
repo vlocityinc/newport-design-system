@@ -58,11 +58,7 @@ export const updateParameterItem = (state, param) => {
     return state;
 };
 
-export const updateInputParameterItemConfigurationEditor = (
-    state,
-    { id, newValueDataType, newValue },
-    elements
-) => {
+export const updateInputParameterItemConfigurationEditor = (state, { id, newValueDataType, newValue }, elements) => {
     if (!id) {
         throw new Error('id is not defined');
     }
@@ -70,13 +66,10 @@ export const updateInputParameterItemConfigurationEditor = (
     const valueDataType = newValueDataType ? newValueDataType : null;
     const value = newValue ? newValue : null;
 
-    const { rowIndex } =
-        state.inputParameters.find(({ name }) => name === id) || {};
+    const { rowIndex } = state.inputParameters.find(({ name }) => name === id) || {};
 
     if (!rowIndex) {
-        throw new Error(
-            `'${id}' parameter does not exist in the input parameter list`
-        );
+        throw new Error(`'${id}' parameter does not exist in the input parameter list`);
     }
 
     const obj = {
@@ -96,10 +89,7 @@ export const updateInputParameterItemConfigurationEditor = (
  * @param {ActionOrApexPluginInputOutputParameter[]} inputOutputParameters all of the action/apex plugin input/output parameters
  * @return {Object} the updated node
  */
-export const mergeWithInputOutputParameters = (
-    state,
-    inputOutputParameters
-) => {
+export const mergeWithInputOutputParameters = (state, inputOutputParameters) => {
     const { inputs, outputs } = mergeInputOutputParameters(
         inputOutputParameters,
         state.inputParameters,
@@ -144,9 +134,7 @@ export const mergeWithInputOutputVariables = (state, inputOutputVariables) => {
 export const removeUnsetParameters = state => {
     const inputPropertyName = getNodeInputsPropertyName(state.elementType);
     const outputPropertyName = getNodeOutputsPropertyName(state.elementType);
-    const inputs = state[inputPropertyName].filter(
-        input => !isUndefinedOrNull(getValueFromHydratedItem(input.value))
-    );
+    const inputs = state[inputPropertyName].filter(input => !isUndefinedOrNull(getValueFromHydratedItem(input.value)));
     const outputs = state[outputPropertyName].filter(
         output => !isUndefinedOrNull(getValueFromHydratedItem(output.value))
     );
@@ -188,10 +176,7 @@ const removeDuplicateWarningIfOnlyOneWithName = (state, isInput, name) => {
     if (warningIndex === -1) {
         return state;
     }
-    const updatedWarnings = deleteItem(
-        state[propertyName][paramIndex].warnings,
-        warningIndex
-    );
+    const updatedWarnings = deleteItem(state[propertyName][paramIndex].warnings, warningIndex);
     const updatedParam = updateProperties(state[propertyName][paramIndex], {
         warnings: updatedWarnings
     });
@@ -228,10 +213,7 @@ const removeOutputErrors = state => {
     return state;
 };
 
-export const updateUseAdvancedOptionSelection = (
-    state,
-    { useAdvancedOptions }
-) => {
+export const updateUseAdvancedOptionSelection = (state, { useAdvancedOptions }) => {
     state = removeOutputErrors(state);
     return updateProperties(state, {
         storeOutputAutomatically: !useAdvancedOptions

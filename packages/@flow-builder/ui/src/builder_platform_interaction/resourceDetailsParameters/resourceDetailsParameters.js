@@ -10,13 +10,11 @@ import { LABELS } from './resourceDetailsParametersLabels';
  * will provide fetch function and mapping function in order to render parameters as expected
  * To be completed by any other element type supporting automatic output parameters
  */
-export const RESOURCES_TYPE_WITH_AUTOMATIC_OUTPUT_PARAMETERS_CONFIGURATION = new Map(
-    [
-        [ELEMENT_TYPE.SCREEN_FIELD, ResourceDetailsParametersExtensionConfig],
-        [ELEMENT_TYPE.ACTION_CALL, ResourceDetailsParametersActionConfig],
-        [ELEMENT_TYPE.APEX_CALL, ResourceDetailsParametersActionConfig]
-    ]
-);
+export const RESOURCES_TYPE_WITH_AUTOMATIC_OUTPUT_PARAMETERS_CONFIGURATION = new Map([
+    [ELEMENT_TYPE.SCREEN_FIELD, ResourceDetailsParametersExtensionConfig],
+    [ELEMENT_TYPE.ACTION_CALL, ResourceDetailsParametersActionConfig],
+    [ELEMENT_TYPE.APEX_CALL, ResourceDetailsParametersActionConfig]
+]);
 
 export default class ResourceDetailParameters extends LightningElement {
     @api resourceDetails = {};
@@ -45,9 +43,7 @@ export default class ResourceDetailParameters extends LightningElement {
             const configurationClass = RESOURCES_TYPE_WITH_AUTOMATIC_OUTPUT_PARAMETERS_CONFIGURATION.get(
                 this.resourceDetails.elementType
             );
-            this._fetchFunction = configurationClass
-                ? configurationClass.fetch()
-                : undefined;
+            this._fetchFunction = configurationClass ? configurationClass.fetch() : undefined;
         }
         return this._fetchFunction;
     }
@@ -76,9 +72,7 @@ export default class ResourceDetailParameters extends LightningElement {
         if (typeof this.fetchFunction === 'function') {
             this.state.displaySpinner = true;
             try {
-                this.fetchFunction(this.resourceGuid, (data, error) =>
-                    this._setParameters(data, error)
-                );
+                this.fetchFunction(this.resourceGuid, (data, error) => this._setParameters(data, error));
             } catch (error) {
                 this.state.displaySpinner = false;
             }

@@ -8,16 +8,10 @@ import {
     getValueFromHydratedItem
 } from 'builder_platform_interaction/dataMutationLib';
 import { getResourceByUniqueIdentifier } from 'builder_platform_interaction/expressionUtils';
-import {
-    addCurlyBraces,
-    removeCurlyBraces
-} from 'builder_platform_interaction/commonUtils';
+import { addCurlyBraces, removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import {
-    PropertyChangedEvent,
-    LoopCollectionChangedEvent
-} from 'builder_platform_interaction/events';
+import { PropertyChangedEvent, LoopCollectionChangedEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './loopEditorLabels';
 
 const LOOP_PROPERTIES = {
@@ -63,17 +57,10 @@ export default class LoopEditor extends LightningElement {
     set node(newValue) {
         this.loopElement = newValue || {};
         this._collectionVariable = this.loopElement.collectionReference.value
-            ? getResourceByUniqueIdentifier(
-                  getValueFromHydratedItem(this.loopElement.collectionReference)
-              )
+            ? getResourceByUniqueIdentifier(getValueFromHydratedItem(this.loopElement.collectionReference))
             : null;
-        this.loopVariableState = this.loopElement.assignNextValueToReference
-            .value
-            ? getResourceByUniqueIdentifier(
-                  getValueFromHydratedItem(
-                      this.loopElement.assignNextValueToReference
-                  )
-              )
+        this.loopVariableState = this.loopElement.assignNextValueToReference.value
+            ? getResourceByUniqueIdentifier(getValueFromHydratedItem(this.loopElement.assignNextValueToReference))
             : null;
         // disable loop variable until collection is chosen.
         this.isLoopVariableDisabled = !this._collectionVariable;
@@ -107,9 +94,7 @@ export default class LoopEditor extends LightningElement {
             return {
                 text: addCurlyBraces(this._collectionVariable.name),
                 displayText: addCurlyBraces(this._collectionVariable.name),
-                value: getValueFromHydratedItem(
-                    this.loopElement.collectionReference
-                )
+                value: getValueFromHydratedItem(this.loopElement.collectionReference)
             };
         }
         return '';
@@ -131,17 +116,12 @@ export default class LoopEditor extends LightningElement {
     }
 
     get loopVariableElementConfig() {
-        const collectionVariableDataType = this._collectionVariable
-            ? this._collectionVariable.dataType
-            : null;
+        const collectionVariableDataType = this._collectionVariable ? this._collectionVariable.dataType : null;
         return {
             elementType: ELEMENT_TYPE.LOOP,
             dataType: collectionVariableDataType,
-            sObjectSelector:
-                collectionVariableDataType === FLOW_DATA_TYPE.SOBJECT.value,
-            entityName: this._collectionVariable
-                ? this._collectionVariable.subtype
-                : null
+            sObjectSelector: collectionVariableDataType === FLOW_DATA_TYPE.SOBJECT.value,
+            entityName: this._collectionVariable ? this._collectionVariable.subtype : null
         };
     }
 
@@ -181,9 +161,7 @@ export default class LoopEditor extends LightningElement {
     }
 
     get iterationOrderValue() {
-        return this.loopElement.iterationOrder
-            ? this.loopElement.iterationOrder.value
-            : ITERATION_ORDER_ASCENDING;
+        return this.loopElement.iterationOrder ? this.loopElement.iterationOrder.value : ITERATION_ORDER_ASCENDING;
     }
 
     handleEvent(event) {
@@ -193,30 +171,17 @@ export default class LoopEditor extends LightningElement {
 
     handleCollectionVariablePropertyChanged(event) {
         event.stopPropagation();
-        this._collectionVariable = event.detail.item
-            ? this.mutateComboboxItem(event.detail.item)
-            : null;
-        let loopVarErrorMessage = getErrorFromHydratedItem(
-            this.loopElement.assignNextValueToReference
-        );
-        const isDataTypeChanged =
-            this.getLoopVariableDataType() !==
-            this.getCollectionVariableDataType();
-        const isSubtypeChanged =
-            this.getLoopVariableSubtype() !==
-            this.getCollectionVariableSubtype();
+        this._collectionVariable = event.detail.item ? this.mutateComboboxItem(event.detail.item) : null;
+        let loopVarErrorMessage = getErrorFromHydratedItem(this.loopElement.assignNextValueToReference);
+        const isDataTypeChanged = this.getLoopVariableDataType() !== this.getCollectionVariableDataType();
+        const isSubtypeChanged = this.getLoopVariableSubtype() !== this.getCollectionVariableSubtype();
 
-        if (
-            this.loopVariableState &&
-            this._collectionVariable &&
-            (isDataTypeChanged || isSubtypeChanged)
-        ) {
+        if (this.loopVariableState && this._collectionVariable && (isDataTypeChanged || isSubtypeChanged)) {
             // set datatype mismatch error message for loopVariable
             loopVarErrorMessage = LABELS.loopVariableErrorMessage;
         } else if (
             event.detail.error !== null &&
-            this.loopElement.assignNextValueToReference.error ===
-                LABELS.loopVariableErrorMessage
+            this.loopElement.assignNextValueToReference.error === LABELS.loopVariableErrorMessage
         ) {
             // If loopCollection has error then clear datatypemismatch error message for loopVariable
             loopVarErrorMessage = null;
@@ -226,75 +191,44 @@ export default class LoopEditor extends LightningElement {
         this.isLoopVariableDisabled = this._collectionVariable === null;
 
         // update collectionVariable and loopVariableErrorMessage
-        const loopCollectionValue = event.detail.item
-            ? event.detail.item.value
-            : null;
-        const loopVariableValue = getValueFromHydratedItem(
-            this.loopElement.assignNextValueToReference
-        );
+        const loopCollectionValue = event.detail.item ? event.detail.item.value : null;
+        const loopVariableValue = getValueFromHydratedItem(this.loopElement.assignNextValueToReference);
         const loopCollectionChangedEvent = new LoopCollectionChangedEvent(
             loopCollectionValue,
             event.detail.error,
             loopVariableValue,
             loopVarErrorMessage
         );
-        this.loopElement = loopReducer(
-            this.loopElement,
-            loopCollectionChangedEvent
-        );
+        this.loopElement = loopReducer(this.loopElement, loopCollectionChangedEvent);
     }
 
     handleLoopVariablePropertyChanged(event) {
         event.stopPropagation();
         let loopVariableError = event.detail.error ? event.detail.error : null;
-        const loopVariableValue = event.detail.item
-            ? event.detail.item.value
-            : null;
+        const loopVariableValue = event.detail.item ? event.detail.item.value : null;
         const isDataTypeErrorMessageApplied =
-            getErrorFromHydratedItem(
-                this.loopElement.assignNextValueToReference
-            ) === LABELS.loopVariableErrorMessage;
+            getErrorFromHydratedItem(this.loopElement.assignNextValueToReference) === LABELS.loopVariableErrorMessage;
         const isLoopVariableValueChanged =
-            loopVariableValue ===
-            getValueFromHydratedItem(
-                this.loopElement.assignNextValueToReference
-            );
-        const isDataTypeChanged =
-            this.getLoopVariableDataType() !==
-            this.getCollectionVariableDataType();
-        const isSubtypeChanged =
-            this.getLoopVariableSubtype() !==
-            this.getCollectionVariableSubtype();
+            loopVariableValue === getValueFromHydratedItem(this.loopElement.assignNextValueToReference);
+        const isDataTypeChanged = this.getLoopVariableDataType() !== this.getCollectionVariableDataType();
+        const isSubtypeChanged = this.getLoopVariableSubtype() !== this.getCollectionVariableSubtype();
 
-        if (
-            this.loopVariableState &&
-            this._collectionVariable &&
-            (isDataTypeChanged || isSubtypeChanged)
-        ) {
+        if (this.loopVariableState && this._collectionVariable && (isDataTypeChanged || isSubtypeChanged)) {
             // set datatype mismatch error message for loopVariable
             loopVariableError = LABELS.loopVariableErrorMessage;
         }
 
-        if (
-            loopVariableError === null &&
-            isDataTypeErrorMessageApplied &&
-            isLoopVariableValueChanged
-        ) {
+        if (loopVariableError === null && isDataTypeErrorMessageApplied && isLoopVariableValueChanged) {
             // preserve data type mismatch error if it already exists, otherwise it will be removed.
             loopVariableError = LABELS.loopVariableErrorMessage;
         }
-        this.loopVariableState = event.detail.item
-            ? this.mutateComboboxItem(event.detail.item)
-            : null;
+        this.loopVariableState = event.detail.item ? this.mutateComboboxItem(event.detail.item) : null;
         const loopVariableChangedEvent = new PropertyChangedEvent(
             LOOP_PROPERTIES.LOOP_VARIABLE,
             loopVariableValue,
             loopVariableError
         );
-        this.loopElement = loopReducer(
-            this.loopElement,
-            loopVariableChangedEvent
-        );
+        this.loopElement = loopReducer(this.loopElement, loopVariableChangedEvent);
     }
 
     handleLoopIterationOrderChanged(event) {
@@ -304,10 +238,7 @@ export default class LoopEditor extends LightningElement {
             event.detail.value,
             null
         );
-        this.loopElement = loopReducer(
-            this.loopElement,
-            iterationOrderChangedEvent
-        );
+        this.loopElement = loopReducer(this.loopElement, iterationOrderChangedEvent);
     }
 
     /* **************************** */
@@ -327,9 +258,7 @@ export default class LoopEditor extends LightningElement {
      * @returns {String} The string value
      */
     getCollectionVariableDataType() {
-        return this._collectionVariable
-            ? this._collectionVariable.dataType
-            : null;
+        return this._collectionVariable ? this._collectionVariable.dataType : null;
     }
 
     /**
@@ -337,9 +266,7 @@ export default class LoopEditor extends LightningElement {
      * @returns {String} The string value
      */
     getLoopVariableSubtype() {
-        return this.loopVariableState && this.loopVariableState.subtype
-            ? this.loopVariableState.subtype
-            : null;
+        return this.loopVariableState && this.loopVariableState.subtype ? this.loopVariableState.subtype : null;
     }
 
     /**
@@ -347,9 +274,7 @@ export default class LoopEditor extends LightningElement {
      * @returns {String} The string value
      */
     getCollectionVariableSubtype() {
-        return this._collectionVariable && this._collectionVariable.subtype
-            ? this._collectionVariable.subtype
-            : null;
+        return this._collectionVariable && this._collectionVariable.subtype ? this._collectionVariable.subtype : null;
     }
 
     /**

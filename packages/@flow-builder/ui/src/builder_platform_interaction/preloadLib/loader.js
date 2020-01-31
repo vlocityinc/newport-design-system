@@ -1,15 +1,8 @@
 import { format } from 'builder_platform_interaction/commonUtils';
-import {
-    fetchOnce,
-    SERVER_ACTION_TYPE,
-    getAuraCallback
-} from 'builder_platform_interaction/serverDataLib';
+import { fetchOnce, SERVER_ACTION_TYPE, getAuraCallback } from 'builder_platform_interaction/serverDataLib';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { updateApexClasses } from 'builder_platform_interaction/actions';
-import {
-    logPerfTransactionEnd,
-    logPerfTransactionStart
-} from 'builder_platform_interaction/loggingUtils';
+import { logPerfTransactionEnd, logPerfTransactionStart } from 'builder_platform_interaction/loggingUtils';
 import {
     loadApexPlugins,
     loadActions,
@@ -101,11 +94,7 @@ class Loader {
             // Load apex
             // we don't set the apex types until we loaded the entities because we need entities before we can get apex properties
             this.apexClassesLoaded.promise = Promise.all([
-                fetchOnce(
-                    SERVER_ACTION_TYPE.GET_APEX_TYPES,
-                    {},
-                    { background: true }
-                ),
+                fetchOnce(SERVER_ACTION_TYPE.GET_APEX_TYPES, {}, { background: true }),
                 this.entitiesLoaded.promise
             ]).then(([data]) => {
                 this.store.dispatch(updateApexClasses(data));
@@ -126,9 +115,7 @@ class Loader {
     }
 
     loadPeripheralMetadata(flowProcessType) {
-        logPerfTransactionStart(
-            SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR
-        );
+        logPerfTransactionStart(SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR);
         return getAuraCallback(() =>
             // TODO: Use Promise.allSettled() & Promise.finally() when supported by LWC
             promiseFinally(
@@ -145,22 +132,17 @@ class Loader {
                     loadGlobalVariables(flowProcessType),
                     loadSystemVariables(flowProcessType)
                 ]).then(promises => {
-                    const failed = promises.find(
-                        promise => promise.status === 'rejected'
-                    );
+                    const failed = promises.find(promise => promise.status === 'rejected');
                     if (failed) {
                         // This will get replaced with a better error message with W-7024241.
                         let messageForErrorModal = errorMessage;
                         if (failed.reason.cause) {
                             const error = failed.reason.cause;
                             if (error && error[0]) {
-                                messageForErrorModal =
-                                    error[0].data &&
-                                    error[0].data.contextMessage;
+                                messageForErrorModal = error[0].data && error[0].data.contextMessage;
                                 const gackId = error[0].id;
                                 if (gackId) {
-                                    messageForErrorModal +=
-                                        ' ' + format(errorCode, gackId);
+                                    messageForErrorModal += ' ' + format(errorCode, gackId);
                                 }
                             }
                         }
@@ -185,9 +167,7 @@ class Loader {
                 }),
                 // finally
                 () => {
-                    logPerfTransactionEnd(
-                        SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR
-                    );
+                    logPerfTransactionEnd(SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR);
                 }
             )
         )();
@@ -232,8 +212,7 @@ export const loadOnStart = () => loader.loadOnStart();
  * - subflows
  * @param {String} processType Process type
  */
-export const loadOnProcessTypeChange = processType =>
-    loader.loadOnProcessTypeChange(processType);
+export const loadOnProcessTypeChange = processType => loader.loadOnProcessTypeChange(processType);
 
 /**
  * Load all apex classes
@@ -246,6 +225,4 @@ export const loadApexClasses = () => loader.loadApexClasses();
  * @param processTypes
  */
 export const loadAllSupportedFeatures = processTypes =>
-    processTypes.forEach(processType =>
-        loadProcessTypeFeatures(processType.name)
-    );
+    processTypes.forEach(processType => loadProcessTypeFeatures(processType.name));

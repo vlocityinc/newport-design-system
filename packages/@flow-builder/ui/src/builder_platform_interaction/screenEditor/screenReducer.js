@@ -4,10 +4,7 @@ import {
     getRulesForField,
     getDynamicTypeMappingValidation
 } from './screenValidation';
-import {
-    VALIDATE_ALL,
-    isUniqueDevNameInStore
-} from 'builder_platform_interaction/validationRules';
+import { VALIDATE_ALL, isUniqueDevNameInStore } from 'builder_platform_interaction/validationRules';
 import { conditionListReducer } from 'builder_platform_interaction/conditionListReducer';
 import {
     updateProperties,
@@ -81,12 +78,7 @@ const updateConditionLogic = (state, field, event) => {
  * @param {*} event - The UpdateConditionEvent
  */
 const updateCondition = (screen, field, event) => {
-    const visibilityRule = conditionListReducer(
-        field.visibilityRule,
-        event,
-        new Map(),
-        ''
-    );
+    const visibilityRule = conditionListReducer(field.visibilityRule, event, new Map(), '');
     return updateField(screen, field, { visibilityRule });
 };
 
@@ -118,20 +110,21 @@ const clearGenericParameters = ({ parameters, extensionParameters, genericTypeNa
     parameters
         .map(parameter => ({
             parameter,
-            parameterType: extensionParameters.find(paramType =>
-                paramType.apiName === getValueFromHydratedItem(parameter.name))
+            parameterType: extensionParameters.find(
+                paramType => paramType.apiName === getValueFromHydratedItem(parameter.name)
+            )
         }))
-        .map(({ parameter, parameterType }) => (
+        .map(({ parameter, parameterType }) =>
             parameterType && parameterType.subtype === '{' + genericTypeName + '}'
                 ? {
-                    ...parameter,
-                    value: {
-                        value: "",
-                        error: null
-                    }
-                }
+                      ...parameter,
+                      value: {
+                          value: '',
+                          error: null
+                      }
+                  }
                 : parameter
-        ));
+        );
 
 /**
  * Clears values of input and output parameters of the specified generic type
@@ -142,17 +135,17 @@ function clearGenericFieldParameters(field, genericTypeName) {
     const result = {};
     if (field.inputParameters) {
         result.inputParameters = clearGenericParameters({
-                parameters: field.inputParameters,
-                extensionParameters: extension.inputParameters,
-                genericTypeName
-            });
+            parameters: field.inputParameters,
+            extensionParameters: extension.inputParameters,
+            genericTypeName
+        });
     }
     if (field.outputParameters) {
         result.outputParameters = clearGenericParameters({
-                parameters: field.outputParameters,
-                extensionParameters: extension.outputParameters,
-                genericTypeName
-            });
+            parameters: field.outputParameters,
+            extensionParameters: extension.outputParameters,
+            genericTypeName
+        });
     }
     return result;
 }
@@ -185,10 +178,9 @@ function setDynamicTypeMappingTypeValue(screen, field, event) {
     // Update dynamic type mappings in the state and return the new state.
     const newDynamicTypeMappings = replaceItem(dynamicTypeMappings, newDynamicTypeMapping, index);
     return updateField(screen, field, {
-            dynamicTypeMappings: newDynamicTypeMappings,
-            ...clearGenericFieldParameters(field, typeName)
-        }
-    );
+        dynamicTypeMappings: newDynamicTypeMappings,
+        ...clearGenericFieldParameters(field, typeName)
+    });
 }
 
 /**
@@ -199,16 +191,11 @@ function setDynamicTypeMappingTypeValue(screen, field, event) {
  */
 const addScreenField = (screen, event) => {
     // Figure out if the field be added to the end or somewhere in between.
-    const position = Number.isInteger(event.position)
-        ? event.position
-        : screen.fields.length;
+    const position = Number.isInteger(event.position) ? event.position : screen.fields.length;
 
     const field = createEmptyScreenFieldOfType(event.typeName);
 
-    hydrateWithErrors(
-        field,
-        elementTypeToConfigMap[ELEMENT_TYPE.SCREEN].nonHydratableProperties
-    );
+    hydrateWithErrors(field, elementTypeToConfigMap[ELEMENT_TYPE.SCREEN].nonHydratableProperties);
 
     // Add properties, specific to flow extensions
     if (isExtensionField(field)) {
@@ -229,26 +216,16 @@ const addChoice = (screen, event, field) => {
     // New choices can only be added to the end of the list. The position number should never
     // be anything other than the the next available index.
     if (event.detail.position !== field.choiceReferences.length) {
-        throw new Error(
-            'Position for new choice is invalid: ' + event.detail.position
-        );
+        throw new Error('Position for new choice is invalid: ' + event.detail.position);
     }
 
     const emptyChoice = hydrateWithErrors(createChoiceReference());
-    const updatedChoices = insertItem(
-        field.choiceReferences,
-        emptyChoice,
-        event.detail.position
-    );
+    const updatedChoices = insertItem(field.choiceReferences, emptyChoice, event.detail.position);
     const updatedField = set(field, 'choiceReferences', updatedChoices);
 
     // Replace the field in the screen
     const fieldPosition = screen.getFieldIndexByGUID(field.guid);
-    const updatedFields = replaceItem(
-        screen.fields,
-        updatedField,
-        fieldPosition
-    );
+    const updatedFields = replaceItem(screen.fields, updatedField, fieldPosition);
     return set(screen, 'fields', updatedFields);
 };
 
@@ -259,49 +236,28 @@ const addChoice = (screen, event, field) => {
  * @param {*} field - The field that the choice should be changed in.
  */
 const changeChoice = (screen, event, field) => {
-    if (
-        event.detail.position > field.choiceReferences.length - 1 ||
-        event.detail.position < 0
-    ) {
-        throw new Error(
-            'Invalid position for choice deletion: ' + event.detail.position
-        );
+    if (event.detail.position > field.choiceReferences.length - 1 || event.detail.position < 0) {
+        throw new Error('Invalid position for choice deletion: ' + event.detail.position);
     }
 
     const originalChoice = field.choiceReferences[event.detail.position];
 
-    const hydratedChoice = hydrateWithErrors(
-        createChoiceReference(event.detail.newValue.value)
-    );
+    const hydratedChoice = hydrateWithErrors(createChoiceReference(event.detail.newValue.value));
     hydratedChoice.choiceReference.error = event.detail.newValue.error;
-    const updatedChoices = replaceItem(
-        field.choiceReferences,
-        hydratedChoice,
-        event.detail.position
-    );
+    const updatedChoices = replaceItem(field.choiceReferences, hydratedChoice, event.detail.position);
     const updatedField = set(field, 'choiceReferences', updatedChoices);
 
     // If default value was set for this field, check to see if its set to the choice that was just
     // changed. If it was, then clear the default value as it may no longer be valid.
-    if (
-        field.defaultSelectedChoiceReference &&
-        field.defaultSelectedChoiceReference.value
-    ) {
-        if (
-            field.defaultSelectedChoiceReference.value ===
-            originalChoice.choiceReference.value
-        ) {
+    if (field.defaultSelectedChoiceReference && field.defaultSelectedChoiceReference.value) {
+        if (field.defaultSelectedChoiceReference.value === originalChoice.choiceReference.value) {
             updatedField.defaultSelectedChoiceReference.value = null;
         }
     }
 
     // Replace the field in the screen
     const fieldPosition = screen.getFieldIndexByGUID(field.guid);
-    const updatedFields = replaceItem(
-        screen.fields,
-        updatedField,
-        fieldPosition
-    );
+    const updatedFields = replaceItem(screen.fields, updatedField, fieldPosition);
     return set(screen, 'fields', updatedFields);
 };
 
@@ -313,33 +269,20 @@ const changeChoice = (screen, event, field) => {
  */
 const deleteChoice = (screen, event, field) => {
     const originalChoice = field.choiceReferences[event.detail.position];
-    const updatedChoices = deleteItem(
-        field.choiceReferences,
-        event.detail.position
-    );
+    const updatedChoices = deleteItem(field.choiceReferences, event.detail.position);
     const updatedField = set(field, 'choiceReferences', updatedChoices);
 
     // If default value was set for this field, check to see if its set to the choice that was just
     // delete. If it was, then clear the default value as it may no longer be valid.
-    if (
-        field.defaultSelectedChoiceReference &&
-        field.defaultSelectedChoiceReference.value
-    ) {
-        if (
-            field.defaultSelectedChoiceReference.value ===
-            originalChoice.choiceReference.value
-        ) {
+    if (field.defaultSelectedChoiceReference && field.defaultSelectedChoiceReference.value) {
+        if (field.defaultSelectedChoiceReference.value === originalChoice.choiceReference.value) {
             updatedField.defaultSelectedChoiceReference.value = null;
         }
     }
 
     // Replace the field in the screen
     const fieldPosition = screen.getFieldIndexByGUID(field.guid);
-    const updatedFields = replaceItem(
-        screen.fields,
-        updatedField,
-        fieldPosition
-    );
+    const updatedFields = replaceItem(screen.fields, updatedField, fieldPosition);
     return set(screen, 'fields', updatedFields);
 };
 
@@ -350,10 +293,7 @@ const deleteChoice = (screen, event, field) => {
  * @returns {object} - A new screen with the changes applied
  */
 const deleteScreenField = (screen, event) => {
-    const updatedItems = deleteItem(
-        screen.fields,
-        screen.getFieldIndex(event.screenElement)
-    );
+    const updatedItems = deleteItem(screen.fields, screen.getFieldIndex(event.screenElement));
     return set(screen, 'fields', updatedItems);
 };
 
@@ -366,9 +306,7 @@ const deleteScreenField = (screen, event) => {
 const reorderFields = (screen, event) => {
     let fields = screen.fields;
 
-    const destinationIndex = screen.getFieldIndexByGUID(
-        event.detail.destinationGuid
-    );
+    const destinationIndex = screen.getFieldIndexByGUID(event.detail.destinationGuid);
     const movedField = screen.getFieldByGUID(event.detail.sourceGuid);
 
     if (destinationIndex >= 0 && movedField) {
@@ -388,11 +326,7 @@ const reorderFields = (screen, event) => {
  * @param {string} typePropertyName - The name of the data type property (assigned in ferov mutation)
  * @return {object} - The processed field
  */
-const processFerovValueChange = (
-    valueField,
-    ferovDataType,
-    typePropertyName
-) => {
+const processFerovValueChange = (valueField, ferovDataType, typePropertyName) => {
     return updateProperties(valueField, { [typePropertyName]: ferovDataType });
 };
 
@@ -411,11 +345,7 @@ const handleStandardScreenFieldPropertyChange = data => {
     const newValue = data.hydrated ? data.newValue.value : data.newValue; // TODO property must be hydrated here
     const error =
         data.error === null
-            ? screenValidation.validateProperty(
-                  data.property,
-                  newValue,
-                  rules[data.property]
-              )
+            ? screenValidation.validateProperty(data.property, newValue, rules[data.property])
             : data.error;
     if (error && data.hydrated) {
         data.newValue.error = error;
@@ -436,11 +366,7 @@ const handleStandardScreenFieldPropertyChange = data => {
             });
         }
         // Now the defaultValue object.
-        return processFerovValueChange(
-            updatedValueField,
-            data.ferovDataType,
-            'defaultValueDataType'
-        );
+        return processFerovValueChange(updatedValueField, data.ferovDataType, 'defaultValueDataType');
     }
 
     // If the dataType of the field was changed and this is a choice based field, clear out any choices
@@ -495,9 +421,7 @@ const handleExtensionFieldPropertyChange = (data, attributeIndex) => {
         );
         param = params[attributeIndex - 1];
     } else {
-        param = field[parametersPropName].find(
-            p => (p.name && p.name.value ? p.name.value : p.name) === paramName
-        );
+        param = field[parametersPropName].find(p => (p.name && p.name.value ? p.name.value : p.name) === paramName);
     }
 
     // Going from no value to having a value
@@ -510,26 +434,15 @@ const handleExtensionFieldPropertyChange = (data, attributeIndex) => {
             rowIndex: generateGuid()
         };
 
-        hydrateWithErrors(
-            param,
-            elementTypeToConfigMap[ELEMENT_TYPE.SCREEN].nonHydratableProperties
-        );
-        const updatedParams = insertItem(
-            field[parametersPropName],
-            param,
-            field[parametersPropName].length
-        );
+        hydrateWithErrors(param, elementTypeToConfigMap[ELEMENT_TYPE.SCREEN].nonHydratableProperties);
+        const updatedParams = insertItem(field[parametersPropName], param, field[parametersPropName].length);
         field = set(field, parametersPropName, updatedParams);
     }
 
     const newValue = data.hydrated ? data.newValue.value : data.newValue;
     let error = data.error;
     if (!error) {
-        const paramValidation = getExtensionParameterValidation(
-            'parameterValue',
-            data.dataType,
-            data.required
-        );
+        const paramValidation = getExtensionParameterValidation('parameterValue', data.dataType, data.required);
         error = paramValidation.validateProperty('parameterValue', newValue);
     }
 
@@ -551,11 +464,7 @@ const handleExtensionFieldPropertyChange = (data, attributeIndex) => {
         let newParam = updateProperties(param, { value: newParamValue });
         const dataTypePropName = 'valueDataType';
 
-        newParam = processFerovValueChange(
-            newParam,
-            data.ferovDataType,
-            dataTypePropName
-        );
+        newParam = processFerovValueChange(newParam, data.ferovDataType, dataTypePropName);
 
         // Replace the new parameter in the parameters array
         updatedParams = replaceItem(field[parametersPropName], newParam, index);
@@ -576,32 +485,19 @@ const handleScreenFieldPropertyChange = (data, screen, event, screenfield) => {
     const newValueForProperty = data.newValue.value;
     if (data.property === 'name' && data.error === null && screen) {
         data.error =
-            screenValidation.validateFieldNameUniquenessLocally(
-                screen,
-                newValueForProperty,
-                screenfield.guid
-            ) ||
-            isUniqueDevNameInStore(newValueForProperty, [
-                event.detail.guid || screenfield.guid
-            ]);
+            screenValidation.validateFieldNameUniquenessLocally(screen, newValueForProperty, screenfield.guid) ||
+            isUniqueDevNameInStore(newValueForProperty, [event.detail.guid || screenfield.guid]);
     }
 
     // If the default value is being cleared out, the dataType associated with the new value should be set
     // to undefined because we want to clear that property.
-    if (
-        newValueForProperty === undefined ||
-        newValueForProperty === null ||
-        newValueForProperty === ''
-    ) {
+    if (newValueForProperty === undefined || newValueForProperty === null || newValueForProperty === '') {
         data.dataType = undefined;
     }
 
     let newField = null;
     if (isExtensionField(screenfield) && data.property !== 'name') {
-        newField = handleExtensionFieldPropertyChange(
-            data,
-            event.detail.attributeIndex
-        );
+        newField = handleExtensionFieldPropertyChange(data, event.detail.attributeIndex);
     } else {
         newField = handleStandardScreenFieldPropertyChange(data);
     }
@@ -632,21 +528,14 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
 
     if (hydrated) {
         if (!isItemHydratedWithErrors(value)) {
-            throw new Error(
-                'Current value is hydrated and new value is not' +
-                    JSON.stringify(event.detail)
-            );
+            throw new Error('Current value is hydrated and new value is not' + JSON.stringify(event.detail));
         }
     } else if (
         (typeof currentValue === 'string' || typeof value === 'string') &&
-        !elementTypeToConfigMap[
-            ELEMENT_TYPE.SCREEN
-        ].nonHydratableProperties.includes(property)
+        !elementTypeToConfigMap[ELEMENT_TYPE.SCREEN].nonHydratableProperties.includes(property)
     ) {
         // Unless this property is on the blacklist, if it's a string, we should be hydrating it.
-        throw new Error(
-            'String values have to be hydrated: ' + JSON.stringify(event.detail)
-        );
+        throw new Error('String values have to be hydrated: ' + JSON.stringify(event.detail));
     }
 
     // Only update the field if the given property value actually changed.
@@ -654,25 +543,15 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
     if (compareValues(currentValue, value, true)) {
         if (isScreen(selectedNode)) {
             if (hydrated) {
-                value.error =
-                    error ||
-                    screenValidation.validateProperty(property, value.value);
+                value.error = error || screenValidation.validateProperty(property, value.value);
                 if (value.error === null && property === 'name' && screen) {
-                    value.error = screenValidation.validateFieldNameUniquenessLocally(
-                        screen,
-                        value.value,
-                        screen.guid
-                    );
+                    value.error = screenValidation.validateFieldNameUniquenessLocally(screen, value.value, screen.guid);
                 }
             }
 
             updatedNode = updateProperties(screen, { [property]: value });
 
-            if (
-                property === 'allowPause' &&
-                !value &&
-                screen.pausedText.error
-            ) {
+            if (property === 'allowPause' && !value && screen.pausedText.error) {
                 // Clear the the pausedText if allowPause is false and the pausedText has an error, if it doesn't we
                 // keep it until the user saves the flow in case he changes his mind
                 updatedNode = updateProperties(updatedNode, {
@@ -689,20 +568,12 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
                 hydrated,
                 error,
                 newValueGuid: event.detail.guid,
-                dataType:
-                    selectedNode.dataType ||
-                    event.detail.valueDataType ||
-                    event.detail.defaultValueDataType,
+                dataType: selectedNode.dataType || event.detail.valueDataType || event.detail.defaultValueDataType,
                 ferovDataType: event.detail.dataType,
                 required: event.detail.required
             };
 
-            updatedNode = handleScreenFieldPropertyChange(
-                data,
-                screen,
-                event,
-                selectedNode
-            );
+            updatedNode = handleScreenFieldPropertyChange(data, screen, event, selectedNode);
         }
     } else {
         // If nothing changed, return the screen, unchanged.
@@ -723,11 +594,7 @@ const validationRuleChanged = (screen, event, selectedNode) => {
     const newRule = event.detail.rule;
     const currentRule = selectedNode.validationRule;
     if (
-        compareValues(
-            newRule.formulaExpression,
-            currentRule.formulaExpression,
-            true
-        ) ||
+        compareValues(newRule.formulaExpression, currentRule.formulaExpression, true) ||
         compareValues(newRule.errorMessage, currentRule.errorMessage, true)
     ) {
         // Run validation
@@ -736,11 +603,7 @@ const validationRuleChanged = (screen, event, selectedNode) => {
             const propertyRules = rules.validationRule[property];
             value.error =
                 value.error === null
-                    ? screenValidation.validateProperty(
-                          property,
-                          value.value,
-                          propertyRules
-                      )
+                    ? screenValidation.validateProperty(property, value.value, propertyRules)
                     : value.error;
         };
 
@@ -761,11 +624,7 @@ const validationRuleChanged = (screen, event, selectedNode) => {
     return screen;
 };
 
-const useAdvancedOptionsSelectionChanged = (
-    state,
-    selectedNode,
-    { useAdvancedOptions }
-) => {
+const useAdvancedOptionsSelectionChanged = (state, selectedNode, { useAdvancedOptions }) => {
     const updatedField = updateProperties(selectedNode, {
         storeOutputAutomatically: !useAdvancedOptions
     });
@@ -821,11 +680,7 @@ export const screenReducer = (state, event, selectedNode) => {
             return updateCondition(state, selectedNode, event);
 
         case UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME:
-            return useAdvancedOptionsSelectionChanged(
-                state,
-                selectedNode,
-                event.detail
-            );
+            return useAdvancedOptionsSelectionChanged(state, selectedNode, event.detail);
 
         case DynamicTypeMappingChangeEvent.EVENT_NAME:
             return setDynamicTypeMappingTypeValue(state, selectedNode, event);

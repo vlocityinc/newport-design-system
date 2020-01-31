@@ -64,16 +64,7 @@ const getNextDelimiter = delimiters => {
  * @param {Number} lines. The number of lines to clamp to. Default 2 lines.
  * @param {String} truncationChar. The character to add to thte end of the truncated string. Default to ...
  */
-export const clamp = (
-    element,
-    {
-        delimiters = [],
-        label = '',
-        lineHeight = 20,
-        lines = 2,
-        truncationChar = '...'
-    }
-) => {
+export const clamp = (element, { delimiters = [], label = '', lineHeight = 20, lines = 2, truncationChar = '...' }) => {
     if (!label) {
         return;
     }
@@ -97,11 +88,7 @@ export const clamp = (
         // If there are chunks left to remove, remove the next one
         if (chunks.length > 1) {
             chunks.pop();
-            const newLabel = textWithEllipsis(
-                chunks.join(splitChar),
-                truncationChar,
-                element
-            );
+            const newLabel = textWithEllipsis(chunks.join(splitChar), truncationChar, element);
             // set the new height and textContent
             setTextContent(element, newLabel);
             height = element.clientHeight;

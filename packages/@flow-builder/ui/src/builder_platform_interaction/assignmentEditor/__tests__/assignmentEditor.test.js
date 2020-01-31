@@ -11,9 +11,7 @@ import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 function createComponentForTest() {
     const el = createElement('builder_platform_interaction-assignment-editor', {
@@ -91,11 +89,7 @@ describe('assignment-editor', () => {
         const assignmentElement = createComponentForTest();
         assignmentElement.node = deepCopy(testObj);
         return Promise.resolve().then(() => {
-            const event = new PropertyChangedEvent(
-                'description',
-                'new desc',
-                null
-            );
+            const event = new PropertyChangedEvent('description', 'new desc', null);
             assignmentElement.shadowRoot
                 .querySelector('builder_platform_interaction-label-description')
                 .dispatchEvent(event);
@@ -107,9 +101,7 @@ describe('assignment-editor', () => {
         assignmentElement.node = deepCopy(testObj);
         return Promise.resolve().then(() => {
             const event = new AddListItemEvent(1);
-            assignmentElement.shadowRoot
-                .querySelector('builder_platform_interaction-list')
-                .dispatchEvent(event);
+            assignmentElement.shadowRoot.querySelector('builder_platform_interaction-list').dispatchEvent(event);
             expect(assignmentElement.node.assignmentItems).toHaveLength(2);
         });
     });
@@ -118,9 +110,7 @@ describe('assignment-editor', () => {
         assignmentElement.node = deepCopy(testObj);
         return Promise.resolve().then(() => {
             const event = new DeleteListItemEvent(0);
-            assignmentElement.shadowRoot
-                .querySelector('builder_platform_interaction-list')
-                .dispatchEvent(event);
+            assignmentElement.shadowRoot.querySelector('builder_platform_interaction-list').dispatchEvent(event);
             expect(assignmentElement.node.assignmentItems).toHaveLength(0);
         });
     });
@@ -131,12 +121,8 @@ describe('assignment-editor', () => {
             const event = new UpdateListItemEvent(0, {
                 leftHandSide: { value: 'val', error: 'err' }
             });
-            assignmentElement.shadowRoot
-                .querySelector('builder_platform_interaction-list')
-                .dispatchEvent(event);
-            expect(
-                assignmentElement.node.assignmentItems[0].leftHandSide.value
-            ).toBe('val');
+            assignmentElement.shadowRoot.querySelector('builder_platform_interaction-list').dispatchEvent(event);
+            expect(assignmentElement.node.assignmentItems[0].leftHandSide.value).toBe('val');
         });
     });
     it('shows delete when more than 1 item', () => {
@@ -145,9 +131,7 @@ describe('assignment-editor', () => {
         node.assignmentItems = deepCopy(size2);
         assignmentElement.node = node;
         return Promise.resolve().then(() => {
-            const rows = assignmentElement.shadowRoot.querySelectorAll(
-                'builder_platform_interaction-row'
-            );
+            const rows = assignmentElement.shadowRoot.querySelectorAll('builder_platform_interaction-row');
             rows.forEach(row => {
                 expect(row.showDelete).toBe(true);
             });
@@ -159,9 +143,7 @@ describe('assignment-editor', () => {
         node.assignmentItems = deepCopy(size1);
         assignmentElement.node = node;
         return Promise.resolve().then(() => {
-            const rows = assignmentElement.shadowRoot.querySelectorAll(
-                'builder_platform_interaction-row'
-            );
+            const rows = assignmentElement.shadowRoot.querySelectorAll('builder_platform_interaction-row');
             rows.forEach(row => {
                 expect(row.showDelete).toBe(false);
             });

@@ -30,9 +30,7 @@ export const validatePicker = rowIndex => {
     if (rowIndex) {
         const index = rowIndex.value ? rowIndex.value : rowIndex;
         if (resourcePickers[index]) {
-            const combobox = resourcePickers[index].template.querySelector(
-                'builder_platform_interaction-combobox'
-            );
+            const combobox = resourcePickers[index].template.querySelector('builder_platform_interaction-combobox');
             return combobox.validate();
         }
     }
@@ -46,9 +44,7 @@ export const validatePicker = rowIndex => {
  */
 export const validateLHS = rowIndex => {
     if (expressions[rowIndex]) {
-        const lhsCombobox = expressions[rowIndex].template.querySelector(
-            '.lhs'
-        );
+        const lhsCombobox = expressions[rowIndex].template.querySelector('.lhs');
         return lhsCombobox.validate();
     }
     return null;
@@ -61,9 +57,7 @@ export const validateLHS = rowIndex => {
  */
 export const validateRHS = rowIndex => {
     if (expressions[rowIndex]) {
-        const rhsCombobox = expressions[rowIndex].template.querySelector(
-            '.rhs'
-        );
+        const rhsCombobox = expressions[rowIndex].template.querySelector('.rhs');
         return rhsCombobox.validate();
     }
     return null;

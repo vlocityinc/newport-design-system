@@ -3,22 +3,16 @@ import { variableConstantValidation } from '../variableConstantValidation';
 import { variableConstantReducer } from '../variableConstantReducer';
 import VariableConstantEditor from '../variableConstantEditor';
 import * as mockStoreData from 'mock/storeData';
-import {
-    createAction,
-    PROPERTY_EDITOR_ACTION
-} from 'builder_platform_interaction/actions';
+import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
 
 const setupComponentUnderTest = props => {
-    const element = createElement(
-        'builder_platform_interaction-variable-constant-editor',
-        {
-            is: VariableConstantEditor
-        }
-    );
+    const element = createElement('builder_platform_interaction-variable-constant-editor', {
+        is: VariableConstantEditor
+    });
     element.node = props;
     element.node.defaultValueIndex = { value: 'guid', error: null };
     document.body.appendChild(element);
@@ -41,14 +35,12 @@ describe('variable/constant reducer', () => {
         variableConstantEditor = setupComponentUnderTest(stringVariable);
 
         updateAction = errorValue => {
-            const action = createAction(
-                PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-                { propertyName, value, error: errorValue }
-            );
-            updatedEditor = variableConstantReducer(
-                variableConstantEditor,
-                action
-            );
+            const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+                propertyName,
+                value,
+                error: errorValue
+            });
+            updatedEditor = variableConstantReducer(variableConstantEditor, action);
         };
 
         spy = jest.spyOn(variableConstantValidation, 'validateProperty');

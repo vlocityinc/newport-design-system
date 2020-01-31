@@ -1,8 +1,5 @@
 import { getMenuData } from '../resourcePickerUtils';
-import {
-    filterAndMutateMenuData,
-    filterFieldsForChosenElement
-} from '../menuDataRetrieval';
+import { filterAndMutateMenuData, filterFieldsForChosenElement } from '../menuDataRetrieval';
 import { getStoreElements } from '../storeElementsFilter';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
@@ -27,8 +24,7 @@ const storeInstance = {
 
 jest.mock('../menuDataRetrieval', () => {
     return {
-        getChildrenItemsPromise: require.requireActual('../menuDataRetrieval')
-            .getChildrenItemsPromise,
+        getChildrenItemsPromise: require.requireActual('../menuDataRetrieval').getChildrenItemsPromise,
         filterFieldsForChosenElement: jest.fn(),
         filterAndMutateMenuData: jest.fn()
     };
@@ -62,82 +58,50 @@ describe('resourcePickerUtils', () => {
             const mockFieldMenuData = ['field2'];
             filterFieldsForChosenElement.mockReturnValueOnce(mockFieldMenuData);
 
-            const result = await getMenuData(
-                null,
-                null,
-                resourcePicker.populateParamTypes,
-                null,
-                parentItem,
-                null,
-                {
-                    allowGlobalConstants: false,
-                    enableFieldDrilldown: false,
-                    includeNewResource: true
-                }
-            );
+            const result = await getMenuData(null, null, resourcePicker.populateParamTypes, null, parentItem, null, {
+                allowGlobalConstants: false,
+                enableFieldDrilldown: false,
+                includeNewResource: true
+            });
             expect(result).toEqual(['field2']);
         });
 
         it('Should filter the fields when the fields already have been loaded', async () => {
-            await getMenuData(
-                null,
-                null,
-                resourcePicker.populateParamTypes,
-                null,
-                parentItem,
-                fields,
-                {
-                    allowGlobalConstants: false,
-                    enableFieldDrilldown: false,
-                    includeNewResource: true,
-                    allowSObjectFieldsTraversal: true
-                }
-            );
-            expect(filterFieldsForChosenElement).toHaveBeenCalledWith(
-                parentItem,
-                fields,
-                {
-                    allowSObjectFields: true,
-                    allowedParamTypes: paramTypes,
-                    allowSObjectFieldsTraversal: true,
-                    showAsFieldReference: true,
-                    showSubText: true,
-                    sObjectSelectorConfig: null,
-                    shouldBeWritable: false
-                }
-            );
+            await getMenuData(null, null, resourcePicker.populateParamTypes, null, parentItem, fields, {
+                allowGlobalConstants: false,
+                enableFieldDrilldown: false,
+                includeNewResource: true,
+                allowSObjectFieldsTraversal: true
+            });
+            expect(filterFieldsForChosenElement).toHaveBeenCalledWith(parentItem, fields, {
+                allowSObjectFields: true,
+                allowedParamTypes: paramTypes,
+                allowSObjectFieldsTraversal: true,
+                showAsFieldReference: true,
+                showSubText: true,
+                sObjectSelectorConfig: null,
+                shouldBeWritable: false
+            });
         });
 
         it('Should filter the fields after waiting for the fields to load', async () => {
-            await getMenuData(
-                null,
-                null,
-                resourcePicker.populateParamTypes,
-                null,
-                parentItem,
-                null,
-                {
-                    allowedParamTypes: paramTypes,
-                    showAsFieldReference: true,
-                    showSubText: true
-                }
-            );
+            await getMenuData(null, null, resourcePicker.populateParamTypes, null, parentItem, null, {
+                allowedParamTypes: paramTypes,
+                showAsFieldReference: true,
+                showSubText: true
+            });
             expect(fetchFieldsForEntity).toHaveBeenCalledWith(objectName, {
                 disableErrorModal: true
             });
-            expect(filterFieldsForChosenElement).toHaveBeenCalledWith(
-                parentItem,
-                ['field2'],
-                {
-                    allowSObjectFields: true,
-                    allowedParamTypes: paramTypes,
-                    showAsFieldReference: true,
-                    showSubText: true,
-                    allowSObjectFieldsTraversal: true,
-                    sObjectSelectorConfig: null,
-                    shouldBeWritable: false
-                }
-            );
+            expect(filterFieldsForChosenElement).toHaveBeenCalledWith(parentItem, ['field2'], {
+                allowSObjectFields: true,
+                allowedParamTypes: paramTypes,
+                showAsFieldReference: true,
+                showSubText: true,
+                allowSObjectFieldsTraversal: true,
+                sObjectSelectorConfig: null,
+                shouldBeWritable: false
+            });
         });
     });
 
@@ -218,10 +182,7 @@ describe('resourcePickerUtils', () => {
                     includeNewResource: false
                 }
             );
-            expect(getStoreElements).toHaveBeenCalledWith(
-                elements,
-                'elementConfig'
-            );
+            expect(getStoreElements).toHaveBeenCalledWith(elements, 'elementConfig');
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
             expect(filterAndMutateMenuData).toHaveBeenCalledWith(
                 elements,

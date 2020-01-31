@@ -1,20 +1,11 @@
 import { LightningElement, track, api } from 'lwc';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import {
-    CONDITION_LOGIC,
-    ELEMENT_TYPE
-} from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './waitPlatformEventLabels';
-import {
-    RULE_TYPES,
-    getRulesForElementType
-} from 'builder_platform_interaction/ruleLib';
+import { RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction/ruleLib';
 import { getInputParametersForEventType } from 'builder_platform_interaction/sobjectLib';
-import {
-    getValueFromHydratedItem,
-    getErrorFromHydratedItem
-} from 'builder_platform_interaction/dataMutationLib';
+import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import {
     AddConditionEvent,
     DeleteConditionEvent,
@@ -132,9 +123,7 @@ export default class WaitPlatformEvent extends LightningElement {
             }
 
             this.filterConditionLogic =
-                this.filters.length === 0
-                    ? { value: CONDITION_LOGIC.NO_CONDITIONS }
-                    : { value: CONDITION_LOGIC.AND };
+                this.filters.length === 0 ? { value: CONDITION_LOGIC.NO_CONDITIONS } : { value: CONDITION_LOGIC.AND };
         }
     }
 
@@ -156,10 +145,7 @@ export default class WaitPlatformEvent extends LightningElement {
     ];
 
     @track
-    rulesForExpressionBuilder = getRulesForElementType(
-        RULE_TYPES.ASSIGNMENT,
-        this.elementTypeForExpressionBuilder
-    );
+    rulesForExpressionBuilder = getRulesForElementType(RULE_TYPES.ASSIGNMENT, this.elementTypeForExpressionBuilder);
 
     @track
     elementTypeForExpressionBuilder = ELEMENT_TYPE.WAIT;
@@ -187,16 +173,11 @@ export default class WaitPlatformEvent extends LightningElement {
     _lastRecordedEventTypeValue = null;
 
     get eventTypeValue() {
-        return this._eventType
-            ? getValueFromHydratedItem(this._eventType)
-            : null;
+        return this._eventType ? getValueFromHydratedItem(this._eventType) : null;
     }
 
     get isEventTypeValid() {
-        return (
-            getValueFromHydratedItem(this._eventType) &&
-            !getErrorFromHydratedItem(this._eventType)
-        );
+        return getValueFromHydratedItem(this._eventType) && !getErrorFromHydratedItem(this._eventType);
     }
 
     get operatorIconName() {
@@ -346,22 +327,11 @@ export default class WaitPlatformEvent extends LightningElement {
         event.stopPropagation();
         switch (event.type) {
             case AddConditionEvent.EVENT_NAME:
-                this.dispatchEvent(
-                    new WaitEventAddParameterEvent(
-                        null,
-                        event.detail.parentGUID,
-                        true
-                    )
-                );
+                this.dispatchEvent(new WaitEventAddParameterEvent(null, event.detail.parentGUID, true));
                 break;
             case DeleteConditionEvent.EVENT_NAME:
                 this.dispatchEvent(
-                    new WaitEventDeleteParameterEvent(
-                        null,
-                        event.detail.parentGUID,
-                        true,
-                        event.detail.index
-                    )
+                    new WaitEventDeleteParameterEvent(null, event.detail.parentGUID, true, event.detail.index)
                 );
                 break;
             case UpdateConditionEvent.EVENT_NAME:
@@ -370,21 +340,15 @@ export default class WaitPlatformEvent extends LightningElement {
                         // EventType prefix should not be there in metadata/store
                         {
                             value: event.detail.value.leftHandSide
-                                ? this.removeEventTypePrefix(
-                                      event.detail.value.leftHandSide
-                                  )
+                                ? this.removeEventTypePrefix(event.detail.value.leftHandSide)
                                 : undefined,
-                            error: event.detail.value.leftHandSide
-                                ? event.detail.value.leftHandSide.error
-                                : null
+                            error: event.detail.value.leftHandSide ? event.detail.value.leftHandSide.error : null
                         },
                         {
                             value: event.detail.value.rightHandSide
                                 ? event.detail.value.rightHandSide.value
                                 : undefined,
-                            error: event.detail.value.rightHandSide
-                                ? event.detail.value.rightHandSide.error
-                                : null
+                            error: event.detail.value.rightHandSide ? event.detail.value.rightHandSide.error : null
                         },
                         {
                             value: event.detail.value.rightHandSideDataType

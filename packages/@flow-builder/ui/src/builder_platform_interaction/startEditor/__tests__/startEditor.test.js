@@ -1,9 +1,6 @@
 import { createElement } from 'lwc';
 
-import {
-    FLOW_TRIGGER_TYPE,
-    FLOW_TRIGGER_FREQUENCY
-} from 'builder_platform_interaction/flowMetadata';
+import { FLOW_TRIGGER_TYPE, FLOW_TRIGGER_FREQUENCY } from 'builder_platform_interaction/flowMetadata';
 import {
     AddRecordFilterEvent,
     DeleteRecordFilterEvent,
@@ -23,18 +20,14 @@ jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
-jest.mock('builder_platform_interaction/fieldPicker', () =>
-    require('builder_platform_interaction_mocks/fieldPicker')
-);
+jest.mock('builder_platform_interaction/fieldPicker', () => require('builder_platform_interaction_mocks/fieldPicker'));
 
 jest.mock('builder_platform_interaction/contextLib', () => {
     return { orgHasBeforeSaveEnabled: jest.fn() };
 });
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/expressionUtils'
-    );
+    const actual = require.requireActual('builder_platform_interaction/expressionUtils');
     return {
         getResourceByUniqueIdentifier: jest.fn(),
         getEntitiesMenuData: actual.getEntitiesMenuData,
@@ -43,13 +36,10 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         filterMatches: actual.filterMatches
     };
 });
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const SELECTORS = {
-    ENTITY_RESOURCE_PICKER:
-        'builder_platform_interaction-entity-resource-picker',
+    ENTITY_RESOURCE_PICKER: 'builder_platform_interaction-entity-resource-picker',
     SECHEDULE_SECTION: '.scheduleSection',
     SAVE_TYPE_SECTION: 'lightning-radio-group.recordCreateOrUpdate',
     TRIGGER_TYPE_INPUT: 'lightning-radio-group.triggerType',
@@ -71,9 +61,7 @@ function createComponentForTest(node) {
 }
 
 const getEntityResourcePicker = startEditor => {
-    return startEditor.shadowRoot.querySelector(
-        SELECTORS.ENTITY_RESOURCE_PICKER
-    );
+    return startEditor.shadowRoot.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
 };
 
 const getRecordFilter = startEditor => {
@@ -205,60 +193,36 @@ describe('start-editor', () => {
     it('when triggerType is not set, schedule section is not displayed', () => {
         const startElement = createComponentForTest(defaultNewStartElement());
         expect(startElement.node.triggerType.value).toBeFalsy();
-        const scheduleSection = query(
-            startElement,
-            SELECTORS.SECHEDULE_SECTION
-        );
+        const scheduleSection = query(startElement, SELECTORS.SECHEDULE_SECTION);
         expect(scheduleSection).toBeFalsy();
     });
 
     it('when before save trigger perm is disabled, before save trigger type is not displayed', () => {
         contextLibMock.orgHasBeforeSaveEnabled.mockReturnValue(false);
         const startElement = createComponentForTest(defaultNewStartElement());
-        const scheduleSection = query(
-            startElement,
-            SELECTORS.TRIGGER_TYPE_INPUT
-        );
+        const scheduleSection = query(startElement, SELECTORS.TRIGGER_TYPE_INPUT);
         expect(scheduleSection.options).toHaveLength(3);
     });
 
     it('when before save trigger perm is enabled, before save trigger type is displayed', () => {
         contextLibMock.orgHasBeforeSaveEnabled.mockReturnValue(true);
         const startElement = createComponentForTest(defaultNewStartElement());
-        const scheduleSection = query(
-            startElement,
-            SELECTORS.TRIGGER_TYPE_INPUT
-        );
+        const scheduleSection = query(startElement, SELECTORS.TRIGGER_TYPE_INPUT);
         expect(scheduleSection.options).toHaveLength(4);
     });
 
     it('when triggerType is scheduled, schedule section is displayed', () => {
         const startElement = createComponentForTest(scheduledNewStartElement());
-        expect(startElement.node.triggerType.value).toBe(
-            FLOW_TRIGGER_TYPE.SCHEDULED
-        );
-        const scheduleSection = query(
-            startElement,
-            SELECTORS.SECHEDULE_SECTION
-        );
+        expect(startElement.node.triggerType.value).toBe(FLOW_TRIGGER_TYPE.SCHEDULED);
+        const scheduleSection = query(startElement, SELECTORS.SECHEDULE_SECTION);
         expect(scheduleSection).toBeTruthy();
     });
 
     it('when triggerType is beforeSave, beforeSave section is displayed', () => {
-        const startElement = createComponentForTest(
-            beforeSaveNewStartElement()
-        );
-        expect(startElement.node.triggerType.value).toBe(
-            FLOW_TRIGGER_TYPE.BEFORE_SAVE
-        );
-        const scheduleSection = query(
-            startElement,
-            SELECTORS.SECHEDULE_SECTION
-        );
-        const saveTypeSection = query(
-            startElement,
-            SELECTORS.SAVE_TYPE_SECTION
-        );
+        const startElement = createComponentForTest(beforeSaveNewStartElement());
+        expect(startElement.node.triggerType.value).toBe(FLOW_TRIGGER_TYPE.BEFORE_SAVE);
+        const scheduleSection = query(startElement, SELECTORS.SECHEDULE_SECTION);
+        const saveTypeSection = query(startElement, SELECTORS.SAVE_TYPE_SECTION);
         expect(scheduleSection).toBeNull();
         expect(saveTypeSection).toBeTruthy();
     });
@@ -272,9 +236,7 @@ describe('start-editor', () => {
         });
         query(startElement, SELECTORS.TRIGGER_TYPE_INPUT).dispatchEvent(event);
 
-        expect(startElement.node.triggerType.value).toBe(
-            FLOW_TRIGGER_TYPE.SCHEDULED
-        );
+        expect(startElement.node.triggerType.value).toBe(FLOW_TRIGGER_TYPE.SCHEDULED);
     });
 
     it('handles startDate updates', () => {
@@ -310,9 +272,7 @@ describe('start-editor', () => {
         });
         query(startElement, SELECTORS.FREQUENCY_INPUT).dispatchEvent(event);
 
-        expect(startElement.node.frequency.value).toBe(
-            FLOW_TRIGGER_FREQUENCY.WEEKLY
-        );
+        expect(startElement.node.frequency.value).toBe(FLOW_TRIGGER_FREQUENCY.WEEKLY);
     });
 
     it('entity picker (object) value should be "Account" for scheduled', () => {
@@ -321,42 +281,26 @@ describe('start-editor', () => {
     });
 
     it('entity picker (object) value should be "Account" for beforeSave', () => {
-        const startElement = createComponentForTest(
-            beforeSaveNewStartElement()
-        );
+        const startElement = createComponentForTest(beforeSaveNewStartElement());
         expect(getEntityResourcePicker(startElement).value).toBe('Account');
     });
 
     it('record filter type should be "none" ', () => {
-        const startElement = createComponentForTest(
-            scheduledNewStartElementWithoutFilters()
-        );
-        expect(getRecordFilter(startElement).filterType).toBe(
-            RECORD_FILTER_CRITERIA.NONE
-        );
+        const startElement = createComponentForTest(scheduledNewStartElementWithoutFilters());
+        expect(getRecordFilter(startElement).filterType).toBe(RECORD_FILTER_CRITERIA.NONE);
     });
 
     it('record filter type should be "all" ', () => {
-        expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(
-            store.accountSObjectVariable
-        );
-        const startElement = createComponentForTest(
-            scheduledNewStartElementWithFilters()
-        );
-        expect(getRecordFilter(startElement).filterType).toBe(
-            RECORD_FILTER_CRITERIA.ALL
-        );
+        expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(store.accountSObjectVariable);
+        const startElement = createComponentForTest(scheduledNewStartElementWithFilters());
+        expect(getRecordFilter(startElement).filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
     });
 
     describe('handle events', () => {
         let startElement, entityResourcePicker;
         beforeEach(() => {
-            expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(
-                store.accountSObjectVariable
-            );
-            startElement = createComponentForTest(
-                scheduledNewStartElementWithFilters()
-            );
+            expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(store.accountSObjectVariable);
+            startElement = createComponentForTest(scheduledNewStartElementWithFilters());
         });
         it('handles "entityResourcePicker" value changed event', () => {
             entityResourcePicker = getEntityResourcePicker(startElement);
@@ -366,18 +310,10 @@ describe('start-editor', () => {
             });
         });
         it('handle UpdateRecordFilterEvent should update the filter element', () => {
-            const updateRecordFilterEvent = new UpdateRecordFilterEvent(
-                0,
-                filterElement,
-                null
-            );
-            getRecordFilter(startElement).dispatchEvent(
-                updateRecordFilterEvent
-            );
+            const updateRecordFilterEvent = new UpdateRecordFilterEvent(0, filterElement, null);
+            getRecordFilter(startElement).dispatchEvent(updateRecordFilterEvent);
             return Promise.resolve().then(() => {
-                expect(startElement.node.filters[0]).toMatchObject(
-                    filterElement
-                );
+                expect(startElement.node.filters[0]).toMatchObject(filterElement);
             });
         });
         it('handle AddRecordFilterEvent should add a filter element', () => {
@@ -388,23 +324,15 @@ describe('start-editor', () => {
             });
         });
         it('handle record filter type Change event', () => {
-            const recordFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(
-                RECORD_FILTER_CRITERIA.ALL
-            );
-            getRecordFilter(startElement).dispatchEvent(
-                recordFilterTypeChangedEvent
-            );
+            const recordFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(RECORD_FILTER_CRITERIA.ALL);
+            getRecordFilter(startElement).dispatchEvent(recordFilterTypeChangedEvent);
             return Promise.resolve().then(() => {
-                expect(startElement.node.filterType).toBe(
-                    RECORD_FILTER_CRITERIA.ALL
-                );
+                expect(startElement.node.filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
             });
         });
         it('record filter fire DeleteRecordFilterEvent', () => {
             const deleteRecordFilterEvent = new DeleteRecordFilterEvent(0); // This is using the numerical rowIndex not the property rowIndex
-            getRecordFilter(startElement).dispatchEvent(
-                deleteRecordFilterEvent
-            );
+            getRecordFilter(startElement).dispatchEvent(deleteRecordFilterEvent);
             return Promise.resolve().then(() => {
                 expect(startElement.node.filters).toHaveLength(0);
             });

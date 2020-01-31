@@ -33,10 +33,7 @@ import {
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const createComponentForTest = node => {
-    const el = createElement(
-        'builder_platform_interaction-record-update-editor',
-        { is: RecordUpdateEditor }
-    );
+    const el = createElement('builder_platform_interaction-record-update-editor', { is: RecordUpdateEditor });
     Object.assign(el, { node });
     document.body.appendChild(el);
     return el;
@@ -47,8 +44,7 @@ const SELECTORS = {
     ...INTERACTION_COMPONENTS_SELECTORS
 };
 
-const UPDATE_RECORDS_USING_SOBJECT_FLOW_ELEMENT =
-    'update_contract_using_sobject';
+const UPDATE_RECORDS_USING_SOBJECT_FLOW_ELEMENT = 'update_contract_using_sobject';
 const UPDATE_RECORDS_USING_FIELDS_FLOW_ELEMENT = 'update_contract_using_fields';
 
 describe('Record Update Editor', () => {
@@ -62,9 +58,7 @@ describe('Record Update Editor', () => {
     describe('name and dev name', () => {
         let newLabel, newDevName;
         beforeAll(() => {
-            uiFlow = translateFlowToUIModel(
-                FLOWS_WITH_UPDATE_RECORDS.USING_SOBJECT
-            );
+            uiFlow = translateFlowToUIModel(FLOWS_WITH_UPDATE_RECORDS.USING_SOBJECT);
             store.dispatch(updateFlow(uiFlow));
         });
         afterAll(() => {
@@ -78,33 +72,22 @@ describe('Record Update Editor', () => {
         });
         it('do not change "dev name" if it already exists after the user modifies the "label"', () => {
             newLabel = 'new label';
-            changeInputValue(
-                getLabelDescriptionLabelElement(recordUpdateComponent),
-                newLabel
-            );
+            changeInputValue(getLabelDescriptionLabelElement(recordUpdateComponent), newLabel);
             return Promise.resolve().then(() => {
                 expect(recordUpdateComponent.node.label.value).toBe(newLabel);
-                expect(recordUpdateComponent.node.name.value).toBe(
-                    UPDATE_RECORDS_USING_SOBJECT_FLOW_ELEMENT
-                );
+                expect(recordUpdateComponent.node.name.value).toBe(UPDATE_RECORDS_USING_SOBJECT_FLOW_ELEMENT);
             });
         });
         it('modify the "dev name"', () => {
             newDevName = 'newDevName';
-            changeInputValue(
-                getLabelDescriptionNameElement(recordUpdateComponent),
-                newDevName
-            );
+            changeInputValue(getLabelDescriptionNameElement(recordUpdateComponent), newDevName);
             return Promise.resolve().then(() => {
                 expect(recordUpdateComponent.node.name.value).toBe(newDevName);
             });
         });
         it('display error if the "label" is cleared', () => {
             newLabel = '';
-            changeInputValue(
-                getLabelDescriptionLabelElement(recordUpdateComponent),
-                newLabel
-            );
+            changeInputValue(getLabelDescriptionLabelElement(recordUpdateComponent), newLabel);
             return Promise.resolve().then(() => {
                 expect(recordUpdateComponent.node.label.error).toBe(
                     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
@@ -113,10 +96,7 @@ describe('Record Update Editor', () => {
         });
         it('display error if the "dev name" is cleared', () => {
             newDevName = '';
-            changeInputValue(
-                getLabelDescriptionNameElement(recordUpdateComponent),
-                newDevName
-            );
+            changeInputValue(getLabelDescriptionNameElement(recordUpdateComponent), newDevName);
             return Promise.resolve().then(() => {
                 expect(recordUpdateComponent.node.name.error).toBe(
                     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
@@ -136,10 +116,7 @@ describe('Record Update Editor', () => {
         describe('Filtering (store options)', () => {
             let storeOptions;
             beforeEach(() => {
-                storeOptions = getChildComponent(
-                    recordUpdateComponent,
-                    SELECTORS.RECORD_STORE_OPTION
-                );
+                storeOptions = getChildComponent(recordUpdateComponent, SELECTORS.RECORD_STORE_OPTION);
             });
             it('should be displayed', () => {
                 expect(storeOptions).not.toBeNull();
@@ -165,21 +142,12 @@ describe('Record Update Editor', () => {
         });
         describe('default Filter', () => {
             it('should be all (Conditions are Met)', () => {
-                const recordStoreElement = getChildComponent(
-                    recordUpdateComponent,
-                    SELECTORS.RECORD_STORE_OPTION
-                );
-                recordStoreElement.dispatchEvent(
-                    new RecordStoreOptionChangedEvent(false, '', false)
-                );
+                const recordStoreElement = getChildComponent(recordUpdateComponent, SELECTORS.RECORD_STORE_OPTION);
+                recordStoreElement.dispatchEvent(new RecordStoreOptionChangedEvent(false, '', false));
                 return resolveRenderCycles(() => {
-                    const entityResourcePicker = getEntityResourcePicker(
-                        recordUpdateComponent
-                    );
+                    const entityResourcePicker = getEntityResourcePicker(recordUpdateComponent);
                     changeComboboxValue(
-                        getEntityResourcePickerChildGroupedComboboxComponent(
-                            entityResourcePicker
-                        ),
+                        getEntityResourcePickerChildGroupedComboboxComponent(entityResourcePicker),
                         'Contract'
                     );
                     return resolveRenderCycles(() => {
@@ -187,13 +155,8 @@ describe('Record Update Editor', () => {
                             displayText: 'Contract',
                             value: 'Contract'
                         });
-                        const recordFilter = getChildComponent(
-                            recordUpdateComponent,
-                            SELECTORS.RECORD_FILTER
-                        );
-                        expect(recordFilter.filterType).toBe(
-                            RECORD_FILTER_CRITERIA.ALL
-                        );
+                        const recordFilter = getChildComponent(recordUpdateComponent, SELECTORS.RECORD_FILTER);
+                        expect(recordFilter.filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
                     });
                 });
             });
@@ -202,9 +165,7 @@ describe('Record Update Editor', () => {
     describe('Existing element', () => {
         describe('Working with sObject', () => {
             beforeAll(() => {
-                uiFlow = translateFlowToUIModel(
-                    FLOWS_WITH_UPDATE_RECORDS.USING_SOBJECT
-                );
+                uiFlow = translateFlowToUIModel(FLOWS_WITH_UPDATE_RECORDS.USING_SOBJECT);
                 store.dispatch(updateFlow(uiFlow));
             });
             afterAll(() => {
@@ -212,29 +173,20 @@ describe('Record Update Editor', () => {
             });
             beforeEach(() => {
                 recordUpdateNode = getElementForPropertyEditor(
-                    getElementByDevName(
-                        UPDATE_RECORDS_USING_SOBJECT_FLOW_ELEMENT
-                    )
+                    getElementByDevName(UPDATE_RECORDS_USING_SOBJECT_FLOW_ELEMENT)
                 );
-                recordUpdateComponent = createComponentForTest(
-                    recordUpdateNode
-                );
+                recordUpdateComponent = createComponentForTest(recordUpdateNode);
             });
             describe('Filtering (store options)', () => {
                 let storeOptions;
                 beforeEach(() => {
-                    storeOptions = getChildComponent(
-                        recordUpdateComponent,
-                        SELECTORS.RECORD_STORE_OPTION
-                    );
+                    storeOptions = getChildComponent(recordUpdateComponent, SELECTORS.RECORD_STORE_OPTION);
                 });
                 it('should be displayed', () => {
                     expect(storeOptions).not.toBeNull();
                 });
                 it('value should be "firstRecord" (ie: "Use the IDs stored in a record variable or record collection variable")', () => {
-                    expect(storeOptions.numberOfRecordsToStore).toBe(
-                        'firstRecord'
-                    );
+                    expect(storeOptions.numberOfRecordsToStore).toBe('firstRecord');
                 });
             });
             describe('Record Variable or Record Collection Variable picker', () => {
@@ -249,25 +201,17 @@ describe('Record Update Editor', () => {
                     expect(recordVariablePicker).not.toBeNull();
                 });
                 it('Selected value is correctly displayed', () => {
-                    expect(recordVariablePicker.value).toBe(
-                        recordUpdateNode.inputReference.value
-                    );
+                    expect(recordVariablePicker.value).toBe(recordUpdateNode.inputReference.value);
                 });
                 it('Should contain "New Resource" entry', () => {
-                    const groupedCombobox = getRecordVariablePickerChildGroupedComboboxComponent(
-                        recordVariablePicker
-                    );
+                    const groupedCombobox = getRecordVariablePickerChildGroupedComboboxComponent(recordVariablePicker);
                     return Promise.resolve().then(() => {
-                        expectGroupedComboboxItem(
-                            groupedCombobox,
-                            'FlowBuilderExpressionUtils.newResourceLabel'
-                        );
+                        expectGroupedComboboxItem(groupedCombobox, 'FlowBuilderExpressionUtils.newResourceLabel');
                     });
                 });
                 it('Should contain all record variables', () => {
-                    const comboboxItems = getRecordVariablePickerChildGroupedComboboxComponent(
-                        recordVariablePicker
-                    ).items;
+                    const comboboxItems = getRecordVariablePickerChildGroupedComboboxComponent(recordVariablePicker)
+                        .items;
                     expect(comboboxItems).toEqual(
                         expect.arrayContaining([
                             expect.objectContaining({
@@ -287,9 +231,7 @@ describe('Record Update Editor', () => {
         });
         describe('Working with fields', () => {
             beforeAll(() => {
-                uiFlow = translateFlowToUIModel(
-                    FLOWS_WITH_UPDATE_RECORDS.USING_FIELDS
-                );
+                uiFlow = translateFlowToUIModel(FLOWS_WITH_UPDATE_RECORDS.USING_FIELDS);
                 store.dispatch(updateFlow(uiFlow));
             });
             afterAll(() => {
@@ -297,88 +239,57 @@ describe('Record Update Editor', () => {
             });
             beforeEach(() => {
                 recordUpdateNode = getElementForPropertyEditor(
-                    getElementByDevName(
-                        UPDATE_RECORDS_USING_FIELDS_FLOW_ELEMENT
-                    )
+                    getElementByDevName(UPDATE_RECORDS_USING_FIELDS_FLOW_ELEMENT)
                 );
-                recordUpdateComponent = createComponentForTest(
-                    recordUpdateNode
-                );
+                recordUpdateComponent = createComponentForTest(recordUpdateNode);
             });
             describe('Filtering (store options)', () => {
                 let storeOptions;
                 beforeEach(() => {
-                    storeOptions = getChildComponent(
-                        recordUpdateComponent,
-                        SELECTORS.RECORD_STORE_OPTION
-                    );
+                    storeOptions = getChildComponent(recordUpdateComponent, SELECTORS.RECORD_STORE_OPTION);
                 });
                 it('should be displayed', () => {
                     expect(storeOptions).not.toBeNull();
                 });
                 it('value should be "allRecords" (ie: "Specify conditions")', () => {
-                    expect(storeOptions.numberOfRecordsToStore).toBe(
-                        'allRecords'
-                    );
+                    expect(storeOptions.numberOfRecordsToStore).toBe('allRecords');
                 });
             });
             describe('Entity resource picker', () => {
                 let entityResourcePicker;
                 beforeEach(() => {
-                    entityResourcePicker = getEntityResourcePicker(
-                        recordUpdateComponent
-                    );
+                    entityResourcePicker = getEntityResourcePicker(recordUpdateComponent);
                 });
                 it('should be displayed', () => {
                     expect(entityResourcePicker).not.toBeNull();
                 });
                 it('selected entity is correctly displayed', () => {
-                    expect(entityResourcePicker.value.displayText).toBe(
-                        recordUpdateNode.object.value
-                    );
+                    expect(entityResourcePicker.value.displayText).toBe(recordUpdateNode.object.value);
                 });
                 it('only updateable entities available', () => {
                     // see mock-entity.js (updateable = true)
-                    const comboboxItems = getEntityResourcePickerChildGroupedComboboxComponent(
-                        entityResourcePicker
-                    ).items;
-                    expect(comboboxItems).toContainEqual(
-                        expect.objectContaining({ displayText: 'Contract' })
-                    );
-                    expect(comboboxItems).toContainEqual(
-                        expect.objectContaining({ displayText: 'Contact' })
-                    );
-                    expect(comboboxItems).not.toContainEqual(
-                        expect.objectContaining({ displayText: 'Account Feed' })
-                    );
-                    expect(comboboxItems).not.toContainEqual(
-                        expect.objectContaining({ displayText: 'Bookmark' })
-                    );
+                    const comboboxItems = getEntityResourcePickerChildGroupedComboboxComponent(entityResourcePicker)
+                        .items;
+                    expect(comboboxItems).toContainEqual(expect.objectContaining({ displayText: 'Contract' }));
+                    expect(comboboxItems).toContainEqual(expect.objectContaining({ displayText: 'Contact' }));
+                    expect(comboboxItems).not.toContainEqual(expect.objectContaining({ displayText: 'Account Feed' }));
+                    expect(comboboxItems).not.toContainEqual(expect.objectContaining({ displayText: 'Bookmark' }));
                 });
                 describe('Enter invalid value', () => {
                     beforeEach(() => {
                         changeComboboxValue(
-                            getEntityResourcePickerChildGroupedComboboxComponent(
-                                entityResourcePicker
-                            ),
+                            getEntityResourcePickerChildGroupedComboboxComponent(entityResourcePicker),
                             'invalidValue'
                         );
                     });
                     it('should NOT display record filters', () => {
                         return Promise.resolve().then(() => {
-                            expect(
-                                getChildComponent(
-                                    recordUpdateComponent,
-                                    SELECTORS.RECORD_FILTER
-                                )
-                            ).toBeNull();
+                            expect(getChildComponent(recordUpdateComponent, SELECTORS.RECORD_FILTER)).toBeNull();
                         });
                     });
                     it('should display invalid entry error', () => {
                         return Promise.resolve().then(() => {
-                            expect(
-                                recordUpdateComponent.node.object.error
-                            ).toBe(
+                            expect(recordUpdateComponent.node.object.error).toBe(
                                 FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC
                             );
                         });
@@ -388,9 +299,7 @@ describe('Record Update Editor', () => {
                     let filterItems;
                     beforeEach(() => {
                         changeComboboxValue(
-                            getEntityResourcePickerChildGroupedComboboxComponent(
-                                entityResourcePicker
-                            ),
+                            getEntityResourcePickerChildGroupedComboboxComponent(entityResourcePicker),
                             'Contact'
                         );
                     });
@@ -401,57 +310,35 @@ describe('Record Update Editor', () => {
                         });
                     });
                     it('should NOT display an error', () => {
-                        expect(
-                            recordUpdateComponent.node.object.error
-                        ).toBeNull();
+                        expect(recordUpdateComponent.node.object.error).toBeNull();
                     });
                     it('should display record filters', () => {
-                        expect(
-                            getChildComponent(
-                                recordUpdateComponent,
-                                SELECTORS.RECORD_FILTER
-                            )
-                        ).not.toBeNull();
+                        expect(getChildComponent(recordUpdateComponent, SELECTORS.RECORD_FILTER)).not.toBeNull();
                     });
                     it('should display 1 filters item', () => {
-                        filterItems = getChildComponent(
-                            recordUpdateComponent,
-                            SELECTORS.RECORD_FILTER
-                        ).filterItems;
+                        filterItems = getChildComponent(recordUpdateComponent, SELECTORS.RECORD_FILTER).filterItems;
                         expect(filterItems).toHaveLength(1);
                     });
                     it('filters item LHS/Operator/RHS', () => {
-                        filterItems = getChildComponent(
-                            recordUpdateComponent,
-                            SELECTORS.RECORD_FILTER
-                        ).filterItems;
+                        filterItems = getChildComponent(recordUpdateComponent, SELECTORS.RECORD_FILTER).filterItems;
                         expect(filterItems[0]).toMatchObject(newFilterItem());
                     });
                 });
                 describe('Remove value (empty string)', () => {
                     beforeEach(() => {
                         changeComboboxValue(
-                            getEntityResourcePickerChildGroupedComboboxComponent(
-                                entityResourcePicker
-                            ),
+                            getEntityResourcePickerChildGroupedComboboxComponent(entityResourcePicker),
                             ''
                         );
                     });
                     it('should NOT display record filters', () => {
                         return Promise.resolve().then(() => {
-                            expect(
-                                getChildComponent(
-                                    recordUpdateComponent,
-                                    SELECTORS.RECORD_FILTER
-                                )
-                            ).toBeNull();
+                            expect(getChildComponent(recordUpdateComponent, SELECTORS.RECORD_FILTER)).toBeNull();
                         });
                     });
                     it('should display required value error', () => {
                         return Promise.resolve().then(() => {
-                            expect(
-                                recordUpdateComponent.node.object.error
-                            ).toBe(
+                            expect(recordUpdateComponent.node.object.error).toBe(
                                 FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
                             );
                         });
@@ -461,47 +348,28 @@ describe('Record Update Editor', () => {
             describe('Record Filter', () => {
                 let recordFilter;
                 beforeEach(() => {
-                    recordFilter = getChildComponent(
-                        recordUpdateComponent,
-                        SELECTORS.RECORD_FILTER
-                    );
+                    recordFilter = getChildComponent(recordUpdateComponent, SELECTORS.RECORD_FILTER);
                 });
                 it('should be displayed', () => {
                     expect(recordFilter).not.toBeNull();
                 });
                 it('filter type', () => {
-                    expect(recordFilter.filterType).toBe(
-                        RECORD_FILTER_CRITERIA.ALL
-                    );
+                    expect(recordFilter.filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
                 });
                 it('number of filters', () => {
                     expect(recordFilter.filterItems).toHaveLength(2);
                 });
                 it('filters item LHS/Operator/RHS', () => {
                     expect(recordFilter.filterItems[0]).toMatchObject(
-                        newFilterItem(
-                            'Contract.BillingCity',
-                            'EqualTo',
-                            'San Francisco',
-                            'String'
-                        )
+                        newFilterItem('Contract.BillingCity', 'EqualTo', 'San Francisco', 'String')
                     );
                     expect(recordFilter.filterItems[1]).toMatchObject(
-                        newFilterItem(
-                            'Contract.BillingCountry',
-                            'EqualTo',
-                            'US',
-                            'String'
-                        )
+                        newFilterItem('Contract.BillingCountry', 'EqualTo', 'US', 'String')
                     );
                 });
                 it('operators available for the first filter', () => {
-                    const fieldToFerovExpressionBuilders = getFieldToFerovExpressionBuilders(
-                        recordFilter
-                    );
-                    const baseExpressionBuilderComponent = getBaseExpressionBuilder(
-                        fieldToFerovExpressionBuilders[0]
-                    );
+                    const fieldToFerovExpressionBuilders = getFieldToFerovExpressionBuilders(recordFilter);
+                    const baseExpressionBuilderComponent = getBaseExpressionBuilder(fieldToFerovExpressionBuilders[0]);
                     const operatorsComboboxComponent = getChildComponent(
                         baseExpressionBuilderComponent,
                         SELECTORS.LIGHTNING_COMBOBOX
@@ -527,9 +395,7 @@ describe('Record Update Editor', () => {
                         recordUpdateComponent,
                         SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS
                     );
-                    fieldToFerovExpressionBuilder = getFieldToFerovExpressionBuilders(
-                        inputAssignments
-                    );
+                    fieldToFerovExpressionBuilder = getFieldToFerovExpressionBuilders(inputAssignments);
                 });
                 it('should be displayed', () => {
                     expect(inputAssignments).not.toBeNull();
@@ -538,9 +404,7 @@ describe('Record Update Editor', () => {
                     expect(fieldToFerovExpressionBuilder).toHaveLength(1);
                 });
                 it('input assignment item LHS/Operator/RHS', () => {
-                    const baseExpressionBuilder = getBaseExpressionBuilder(
-                        fieldToFerovExpressionBuilder[0]
-                    );
+                    const baseExpressionBuilder = getBaseExpressionBuilder(fieldToFerovExpressionBuilder[0]);
                     expect(baseExpressionBuilder.lhsValue).toMatchObject({
                         displayText: 'Name',
                         value: 'Contract.Name'

@@ -21,9 +21,7 @@ const MAX_CONNECTIONS = 2;
 const getAvailableConnections = recordDelete => {
     const { availableConnections } = recordDelete;
     return availableConnections
-        ? availableConnections.map(availableConnection =>
-              createAvailableConnection(availableConnection)
-          )
+        ? availableConnections.map(availableConnection => createAvailableConnection(availableConnection))
         : getDefaultAvailableConnections();
 };
 
@@ -60,11 +58,7 @@ export function createDuplicateRecordDelete(recordDelete, newGuid, newName) {
     Object.assign(newRecordDelete, {
         availableConnections: getDefaultAvailableConnections()
     });
-    const duplicateRecordDelete = duplicateCanvasElement(
-        newRecordDelete,
-        newGuid,
-        newName
-    );
+    const duplicateRecordDelete = duplicateCanvasElement(newRecordDelete, newGuid, newName);
 
     return duplicateRecordDelete;
 }
@@ -72,14 +66,8 @@ export function createDuplicateRecordDelete(recordDelete, newGuid, newName) {
 export function createRecordDeleteWithConnectors(recordDelete) {
     const newRecordDelete = createRecordDelete(recordDelete);
 
-    const connectors = createConnectorObjects(
-        recordDelete,
-        newRecordDelete.guid
-    );
-    const availableConnections = removeFromAvailableConnections(
-        getDefaultAvailableConnections(),
-        connectors
-    );
+    const connectors = createConnectorObjects(recordDelete, newRecordDelete.guid);
+    const availableConnections = removeFromAvailableConnections(getDefaultAvailableConnections(), connectors);
     const connectorCount = connectors ? connectors.length : 0;
 
     const recordDeleteObject = Object.assign(newRecordDelete, {
@@ -95,10 +83,7 @@ export function createRecordDeleteMetadataObject(recordDelete, config) {
         throw new Error('recordDelete is not defined');
     }
 
-    const recordDeleteMetadata = baseCanvasElementMetadataObject(
-        recordDelete,
-        config
-    );
+    const recordDeleteMetadata = baseCanvasElementMetadataObject(recordDelete, config);
     const { inputReference, object } = recordDelete;
     if (inputReference) {
         return Object.assign(recordDeleteMetadata, {

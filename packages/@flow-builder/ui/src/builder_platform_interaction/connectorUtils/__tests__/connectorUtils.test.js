@@ -4,10 +4,7 @@ import {
     getLabelAndValueForConnectorPickerOptions,
     createNewConnector
 } from 'builder_platform_interaction/connectorUtils';
-import {
-    ELEMENT_TYPE,
-    CONNECTOR_TYPE
-} from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from '../connectorUtilsLabels';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
@@ -54,10 +51,7 @@ describe('Connector Utils', () => {
                 }
             ];
 
-            const sortedOptions = sortConnectorPickerComboboxOptions(
-                sourceElement,
-                comboboxOptions
-            );
+            const sortedOptions = sortConnectorPickerComboboxOptions(sourceElement, comboboxOptions);
 
             expect(sortedOptions).toEqual([
                 {
@@ -74,10 +68,7 @@ describe('Connector Utils', () => {
         it('Sorting options in connector picker for Decision Element', () => {
             const sourceElement = {
                 elementType: ELEMENT_TYPE.DECISION,
-                outcomeReferences: [
-                    { outcomeReference: 'outcome1' },
-                    { outcomeReference: 'outcome2' }
-                ]
+                outcomeReferences: [{ outcomeReference: 'outcome1' }, { outcomeReference: 'outcome2' }]
             };
             const comboboxOptions = [
                 {
@@ -94,10 +85,7 @@ describe('Connector Utils', () => {
                 }
             ];
 
-            const sortedOptions = sortConnectorPickerComboboxOptions(
-                sourceElement,
-                comboboxOptions
-            );
+            const sortedOptions = sortConnectorPickerComboboxOptions(sourceElement, comboboxOptions);
 
             expect(sortedOptions).toEqual([
                 {
@@ -142,10 +130,7 @@ describe('Connector Utils', () => {
                 }
             ];
 
-            const sortedOptions = sortConnectorPickerComboboxOptions(
-                sourceElement,
-                comboboxOptions
-            );
+            const sortedOptions = sortConnectorPickerComboboxOptions(sourceElement, comboboxOptions);
 
             expect(sortedOptions).toEqual([
                 {
@@ -178,56 +163,31 @@ describe('Connector Utils', () => {
             };
 
             expect(
-                getLabelAndValueForConnectorPickerOptions(
-                    elements,
-                    sourceElement,
-                    'outcome1',
-                    CONNECTOR_TYPE.REGULAR
-                )
+                getLabelAndValueForConnectorPickerOptions(elements, sourceElement, 'outcome1', CONNECTOR_TYPE.REGULAR)
             ).toEqual({
                 label: 'Outcome 1',
                 value: 'outcome1'
             });
             expect(
-                getLabelAndValueForConnectorPickerOptions(
-                    elements,
-                    sourceElement,
-                    null,
-                    CONNECTOR_TYPE.DEFAULT
-                )
+                getLabelAndValueForConnectorPickerOptions(elements, sourceElement, null, CONNECTOR_TYPE.DEFAULT)
             ).toEqual({
                 label: 'Default',
                 value: CONNECTOR_TYPE.DEFAULT
             });
             expect(
-                getLabelAndValueForConnectorPickerOptions(
-                    elements,
-                    sourceElement,
-                    null,
-                    CONNECTOR_TYPE.FAULT
-                )
+                getLabelAndValueForConnectorPickerOptions(elements, sourceElement, null, CONNECTOR_TYPE.FAULT)
             ).toEqual({
                 label: LABELS.faultConnectorLabel,
                 value: CONNECTOR_TYPE.FAULT
             });
             expect(
-                getLabelAndValueForConnectorPickerOptions(
-                    elements,
-                    sourceElement,
-                    null,
-                    CONNECTOR_TYPE.LOOP_NEXT
-                )
+                getLabelAndValueForConnectorPickerOptions(elements, sourceElement, null, CONNECTOR_TYPE.LOOP_NEXT)
             ).toEqual({
                 label: LABELS.loopNextComboBoxOption,
                 value: CONNECTOR_TYPE.LOOP_NEXT
             });
             expect(
-                getLabelAndValueForConnectorPickerOptions(
-                    elements,
-                    sourceElement,
-                    null,
-                    CONNECTOR_TYPE.LOOP_END
-                )
+                getLabelAndValueForConnectorPickerOptions(elements, sourceElement, null, CONNECTOR_TYPE.LOOP_END)
             ).toEqual({
                 label: LABELS.loopEndComboBoxOption,
                 value: CONNECTOR_TYPE.LOOP_END
@@ -244,14 +204,7 @@ describe('Connector Utils', () => {
                 }
             };
 
-            expect(
-                createNewConnector(
-                    elements,
-                    'start_1',
-                    'assignment_1',
-                    CONNECTOR_TYPE.START
-                )
-            ).toEqual({
+            expect(createNewConnector(elements, 'start_1', 'assignment_1', CONNECTOR_TYPE.START)).toEqual({
                 guid: 'CONNECTOR_1',
                 source: 'start_1',
                 target: 'assignment_1',
@@ -262,14 +215,7 @@ describe('Connector Utils', () => {
                     isSelected: false
                 }
             });
-            expect(
-                createNewConnector(
-                    elements,
-                    'assignment_1',
-                    'assignment_2',
-                    CONNECTOR_TYPE.REGULAR
-                )
-            ).toEqual({
+            expect(createNewConnector(elements, 'assignment_1', 'assignment_2', CONNECTOR_TYPE.REGULAR)).toEqual({
                 guid: 'CONNECTOR_1',
                 source: 'assignment_1',
                 target: 'assignment_2',
@@ -280,14 +226,7 @@ describe('Connector Utils', () => {
                     isSelected: false
                 }
             });
-            expect(
-                createNewConnector(
-                    elements,
-                    'decision1',
-                    'assignment_2',
-                    CONNECTOR_TYPE.DEFAULT
-                )
-            ).toEqual({
+            expect(createNewConnector(elements, 'decision1', 'assignment_2', CONNECTOR_TYPE.DEFAULT)).toEqual({
                 guid: 'CONNECTOR_1',
                 source: 'decision1',
                 target: 'assignment_2',
@@ -298,14 +237,7 @@ describe('Connector Utils', () => {
                     isSelected: false
                 }
             });
-            expect(
-                createNewConnector(
-                    elements,
-                    'action_1',
-                    'assignment_1',
-                    CONNECTOR_TYPE.FAULT
-                )
-            ).toEqual({
+            expect(createNewConnector(elements, 'action_1', 'assignment_1', CONNECTOR_TYPE.FAULT)).toEqual({
                 guid: 'CONNECTOR_1',
                 source: 'action_1',
                 target: 'assignment_1',
@@ -316,14 +248,7 @@ describe('Connector Utils', () => {
                     isSelected: false
                 }
             });
-            expect(
-                createNewConnector(
-                    elements,
-                    'loop_1',
-                    'assignment_1',
-                    CONNECTOR_TYPE.LOOP_NEXT
-                )
-            ).toEqual({
+            expect(createNewConnector(elements, 'loop_1', 'assignment_1', CONNECTOR_TYPE.LOOP_NEXT)).toEqual({
                 guid: 'CONNECTOR_1',
                 source: 'loop_1',
                 target: 'assignment_1',
@@ -334,14 +259,7 @@ describe('Connector Utils', () => {
                     isSelected: false
                 }
             });
-            expect(
-                createNewConnector(
-                    elements,
-                    'loop_1',
-                    'assignment_2',
-                    CONNECTOR_TYPE.LOOP_END
-                )
-            ).toEqual({
+            expect(createNewConnector(elements, 'loop_1', 'assignment_2', CONNECTOR_TYPE.LOOP_END)).toEqual({
                 guid: 'CONNECTOR_1',
                 source: 'loop_1',
                 target: 'assignment_2',
@@ -352,9 +270,7 @@ describe('Connector Utils', () => {
                     isSelected: false
                 }
             });
-            expect(
-                createNewConnector(elements, 'decision1', 'loop_1', 'outcome1')
-            ).toEqual({
+            expect(createNewConnector(elements, 'decision1', 'loop_1', 'outcome1')).toEqual({
                 guid: 'CONNECTOR_1',
                 source: 'decision1',
                 target: 'loop_1',

@@ -15,9 +15,7 @@ export default class RecordNumberRecordToStore extends LightningElement {
     handleNumberRecordsToStoreChange(event) {
         event.stopPropagation();
         this.dispatchEvent(
-            new NumberRecordToStoreChangedEvent(
-                event.detail.value === NUMBER_RECORDS_TO_STORE.FIRST_RECORD
-            )
+            new NumberRecordToStoreChangedEvent(event.detail.value === NUMBER_RECORDS_TO_STORE.FIRST_RECORD)
         );
     }
 }

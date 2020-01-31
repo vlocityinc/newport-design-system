@@ -17,16 +17,9 @@ export function baseResourceMetadataObject(resource = {}) {
     });
 }
 
-export function baseCanvasElementMetadataObject(
-    canvasElement = {},
-    config = {}
-) {
+export function baseCanvasElementMetadataObject(canvasElement = {}, config = {}) {
     const newCanvasElement = baseResourceMetadataObject(canvasElement);
-    const {
-        xyTranslate,
-        connectorMap = {},
-        hasMultipleRegularConnectors = false
-    } = config;
+    const { xyTranslate, connectorMap = {}, hasMultipleRegularConnectors = false } = config;
     const { label = '' } = canvasElement;
     let { locationX = 0, locationY = 0 } = canvasElement;
 
@@ -40,11 +33,7 @@ export function baseCanvasElementMetadataObject(
     const { elementType } = canvasElement;
 
     if (connectors) {
-        connectorMetadata = createConnectorMetadataObjects(
-            connectors,
-            hasMultipleRegularConnectors,
-            elementType
-        );
+        connectorMetadata = createConnectorMetadataObjects(connectors, hasMultipleRegularConnectors, elementType);
     }
 
     return Object.assign(
@@ -90,11 +79,7 @@ export function createConditionMetadataObject(condition) {
         throw new Error('Condition is not defined');
     }
     const { leftHandSide, operator } = condition;
-    const rightValue = createFEROVMetadataObject(
-        condition,
-        RHS_PROPERTY,
-        RHS_DATA_TYPE_PROPERTY
-    );
+    const rightValue = createFEROVMetadataObject(condition, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY);
     return Object.assign(
         {},
         {

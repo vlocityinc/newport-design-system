@@ -19,8 +19,7 @@ const createComponentUnderTest = node => {
 const SELECTORS = {
     dataTypePicker: 'builder_platform_interaction-data-type-picker',
     resourcedTextArea: 'builder_platform_interaction-resourced-textarea',
-    richTextPlainTextSwitch:
-        'builder_platform_interaction-rich-text-plain-text-switch'
+    richTextPlainTextSwitch: 'builder_platform_interaction-rich-text-plain-text-switch'
 };
 
 const getDataTypePicker = formulaEditor => {
@@ -32,9 +31,7 @@ const getFormulaTextArea = formulaEditor => {
 };
 
 const getRichTextPlainTextSwitch = rexourdedTextArea =>
-    rexourdedTextArea.shadowRoot.querySelector(
-        SELECTORS.richTextPlainTextSwitch
-    );
+    rexourdedTextArea.shadowRoot.querySelector(SELECTORS.richTextPlainTextSwitch);
 
 describe('formula-editor', () => {
     let formulaResource;
@@ -73,9 +70,7 @@ describe('formula-editor', () => {
             expect(formulaTextArea.value.value).toBe('2+2');
         });
         it('"Rich text plain text selection menu" should not be displayed as no plain text supported', () => {
-            const richTextPlainTextComponent = getRichTextPlainTextSwitch(
-                getFormulaTextArea(formulaEditor)
-            );
+            const richTextPlainTextComponent = getRichTextPlainTextSwitch(getFormulaTextArea(formulaEditor));
             expect(richTextPlainTextComponent).toBeNull();
         });
     });

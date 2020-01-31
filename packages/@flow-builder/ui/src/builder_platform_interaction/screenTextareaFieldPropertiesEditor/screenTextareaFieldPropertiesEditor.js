@@ -16,9 +16,7 @@ export default class ScreenTextareaFieldPropertiesEditor extends LightningElemen
     handlePropertyChanged = event => {
         event.stopPropagation();
         const currentValue = this.field[event.detail.propertyName];
-        this.dispatchEvent(
-            addCurrentValueToEvent(event, this.field, currentValue)
-        );
+        this.dispatchEvent(addCurrentValueToEvent(event, this.field, currentValue));
     };
 
     /* Handle change of Default Value resource picker */

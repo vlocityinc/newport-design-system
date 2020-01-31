@@ -1,8 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
-import {
-    EditElementEvent,
-    DeleteResourceEvent
-} from 'builder_platform_interaction/events';
+import { EditElementEvent, DeleteResourceEvent } from 'builder_platform_interaction/events';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { RESOURCES_TYPE_WITH_AUTOMATIC_OUTPUT_PARAMETERS_CONFIGURATION } from 'builder_platform_interaction/resourceDetailsParameters';
 import { LABELS } from './resourceDetailsLabels';
@@ -24,10 +21,7 @@ export default class ResourceDetails extends LightningElement {
     }
 
     get hasApiName() {
-        return (
-            !!this.resourceDetails.apiName &&
-            !this.isAutomaticOutputFromGetRecordOrCreateRecord()
-        );
+        return !!this.resourceDetails.apiName && !this.isAutomaticOutputFromGetRecordOrCreateRecord();
     }
 
     get hasDescription() {
@@ -35,10 +29,7 @@ export default class ResourceDetails extends LightningElement {
     }
 
     get hasUsedByContent() {
-        return (
-            Array.isArray(this.resourceDetails.usedByElements) &&
-            this.resourceDetails.usedByElements.length > 0
-        );
+        return Array.isArray(this.resourceDetails.usedByElements) && this.resourceDetails.usedByElements.length > 0;
     }
 
     get hasCreatedByElement() {
@@ -47,9 +38,7 @@ export default class ResourceDetails extends LightningElement {
 
     @api
     get createdByElements() {
-        return this.hasCreatedByElement
-            ? [this.resourceDetails.createdByElement]
-            : [];
+        return this.hasCreatedByElement ? [this.resourceDetails.createdByElement] : [];
     }
 
     get displayButtons() {
@@ -61,18 +50,14 @@ export default class ResourceDetails extends LightningElement {
             this._isAutomaticOutputParametersSupported =
                 this.resourceDetails.storeOutputAutomatically &&
                 !this.resourceDetails.isSystemGeneratedOutput &&
-                RESOURCES_TYPE_WITH_AUTOMATIC_OUTPUT_PARAMETERS_CONFIGURATION.get(
-                    this.resourceDetails.elementType
-                );
+                RESOURCES_TYPE_WITH_AUTOMATIC_OUTPUT_PARAMETERS_CONFIGURATION.get(this.resourceDetails.elementType);
         }
         return this._isAutomaticOutputParametersSupported;
     }
 
     handleEditButtonClicked(event) {
         event.stopPropagation();
-        const editElementEvent = new EditElementEvent(
-            this.resourceDetails.elementGuid
-        );
+        const editElementEvent = new EditElementEvent(this.resourceDetails.elementGuid);
         this.dispatchEvent(editElementEvent);
         logInteraction(
             `edit-element-button`,
@@ -108,8 +93,7 @@ export default class ResourceDetails extends LightningElement {
     isAutomaticOutputFromGetRecordOrCreateRecord() {
         return (
             (this.resourceDetails.elementType === ELEMENT_TYPE.RECORD_LOOKUP ||
-                this.resourceDetails.elementType ===
-                    ELEMENT_TYPE.RECORD_CREATE) &&
+                this.resourceDetails.elementType === ELEMENT_TYPE.RECORD_CREATE) &&
             this.resourceDetails.storeOutputAutomatically
         );
     }

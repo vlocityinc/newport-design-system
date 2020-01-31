@@ -9,10 +9,7 @@ import {
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('../dataTypeLib.js', () => {
-    const dataTypeLib = Object.assign(
-        {},
-        jest.requireActual('../dataTypeLib.js')
-    );
+    const dataTypeLib = Object.assign({}, jest.requireActual('../dataTypeLib.js'));
     dataTypeLib.FLOW_DATA_TYPE.MULTI_PICKLIST.label = undefined;
     return dataTypeLib;
 });
@@ -128,14 +125,10 @@ describe('dataTypeLib', () => {
     });
     describe('getDataTypeIcons', () => {
         it('returns a standard icon for each data type', () => {
-            dataTypes.forEach(dataType =>
-                expect(getDataTypeIcons(dataType, 'standard')).toBeDefined()
-            );
+            dataTypes.forEach(dataType => expect(getDataTypeIcons(dataType, 'standard')).toBeDefined());
         });
         it('returns a utility icon for each data type', () => {
-            dataTypes.forEach(dataType =>
-                expect(getDataTypeIcons(dataType, 'utility')).toBeDefined()
-            );
+            dataTypes.forEach(dataType => expect(getDataTypeIcons(dataType, 'utility')).toBeDefined());
         });
     });
     describe('getFlowDataType', () => {

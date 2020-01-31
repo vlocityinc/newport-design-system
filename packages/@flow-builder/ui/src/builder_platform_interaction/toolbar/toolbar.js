@@ -104,26 +104,18 @@ export default class Toolbar extends LightningElement {
     }
 
     get statusIndicatorTitle() {
-        if (
-            this.isDoingOperation
-        ) {
+        if (this.isDoingOperation) {
             return this.saveAndPendingOperationStatus;
         }
-        return (
-            this.statusLabelFromStatus[this.flowStatus] &&
-            this.statusLabelFromStatus[this.flowStatus].label
-        );
+        return this.statusLabelFromStatus[this.flowStatus] && this.statusLabelFromStatus[this.flowStatus].label;
     }
 
     get activationStatus() {
-        if (
-            this.isDoingOperation
-        ) {
+        if (this.isDoingOperation) {
             return this.saveAndPendingOperationStatus;
         }
         const activationStatusLabel =
-            this.statusLabelFromStatus[this.flowStatus] &&
-            this.statusLabelFromStatus[this.flowStatus].label;
+            this.statusLabelFromStatus[this.flowStatus] && this.statusLabelFromStatus[this.flowStatus].label;
         return activationStatusLabel && `${activationStatusLabel}\u2014`;
     }
 
@@ -152,7 +144,8 @@ export default class Toolbar extends LightningElement {
         );
     }
 
-    get activateDisabled() { // for the activate button, disables and enables activation or deactivation through the button
+    get activateDisabled() {
+        // for the activate button, disables and enables activation or deactivation through the button
         return (
             !this.flowStatus ||
             this.flowStatus === FLOW_STATUS.INVALID_DRAFT ||
@@ -170,9 +163,9 @@ export default class Toolbar extends LightningElement {
 
     get activateButtonVariant() {
         if (this.flowStatus === FLOW_STATUS.ACTIVE) {
-            return "destructive-text";
+            return 'destructive-text';
         }
-        return "neutral";
+        return 'neutral';
     }
 
     get isDiffFlowAllowed() {

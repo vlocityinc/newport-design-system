@@ -86,30 +86,22 @@ describe('connectors-reducer', () => {
 
         describe('Connector being clicked upon', () => {
             it('When the connector is deselected, the connector gets selected.', () => {
-                const connectorState = [
-                    getConnectorWithConfigProp('selectedGUID', false)
-                ];
+                const connectorState = [getConnectorWithConfigProp('selectedGUID', false)];
                 const newConnectorState = reducer(connectorState, {
                     type: SELECT_ON_CANVAS,
                     payload: { guid: 'selectedGUID' }
                 });
-                const updatedConnectors = [
-                    getConnectorWithConfigProp('selectedGUID', true)
-                ];
+                const updatedConnectors = [getConnectorWithConfigProp('selectedGUID', true)];
                 expect(newConnectorState).toEqual(updatedConnectors);
             });
 
             it('When the connector is selected, the connector stays selected.', () => {
-                const connectorState = [
-                    getConnectorWithConfigProp('selectedGUID', true)
-                ];
+                const connectorState = [getConnectorWithConfigProp('selectedGUID', true)];
                 const newConnectorState = reducer(connectorState, {
                     type: SELECT_ON_CANVAS,
                     payload: { guid: 'selectedGUID' }
                 });
-                const updatedConnectors = [
-                    getConnectorWithConfigProp('selectedGUID', true)
-                ];
+                const updatedConnectors = [getConnectorWithConfigProp('selectedGUID', true)];
                 expect(newConnectorState).toEqual(updatedConnectors);
             });
         });
@@ -160,12 +152,8 @@ describe('connectors-reducer', () => {
         });
 
         it('When the connector is deselected, the connector gets selected.', () => {
-            const connectorState = [
-                getConnectorWithConfigProp('toggledGUID', false)
-            ];
-            const updatedConnectors = [
-                getConnectorWithConfigProp('toggledGUID', true)
-            ];
+            const connectorState = [getConnectorWithConfigProp('toggledGUID', false)];
+            const updatedConnectors = [getConnectorWithConfigProp('toggledGUID', true)];
             const newConnectorState = reducer(connectorState, {
                 type: TOGGLE_ON_CANVAS,
                 payload: { guid: 'toggledGUID' }
@@ -174,12 +162,8 @@ describe('connectors-reducer', () => {
         });
 
         it('When the connector is selected, the connector gets deselected.', () => {
-            const connectorState = [
-                getConnectorWithConfigProp('toggledGUID', true)
-            ];
-            const updatedConnectors = [
-                getConnectorWithConfigProp('toggledGUID', false)
-            ];
+            const connectorState = [getConnectorWithConfigProp('toggledGUID', true)];
+            const updatedConnectors = [getConnectorWithConfigProp('toggledGUID', false)];
             const newConnectorState = reducer(connectorState, {
                 type: TOGGLE_ON_CANVAS,
                 payload: { guid: 'toggledGUID' }
@@ -374,12 +358,8 @@ describe('connectors-reducer', () => {
                     isSelected: true
                 }
             };
-            expect(newConnectorsState).toContainEqual(
-                expect.objectContaining(expectedOriginalConnector)
-            );
-            expect(newConnectorsState).toContainEqual(
-                expect.objectContaining(expectedDuplicateConnector)
-            );
+            expect(newConnectorsState).toContainEqual(expect.objectContaining(expectedOriginalConnector));
+            expect(newConnectorsState).toContainEqual(expect.objectContaining(expectedDuplicateConnector));
         });
     });
 

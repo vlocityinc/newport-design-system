@@ -1,13 +1,6 @@
 import { LightningElement, api } from 'lwc';
-import {
-    getConfigForElementType,
-    ICON_SHAPE
-} from 'builder_platform_interaction/elementConfig';
-import {
-    ELEMENT_TYPE,
-    FLOW_TRIGGER_TYPE,
-    FLOW_TRIGGER_SAVE_TYPE
-} from 'builder_platform_interaction/flowMetadata';
+import { getConfigForElementType, ICON_SHAPE } from 'builder_platform_interaction/elementConfig';
+import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     DragNodeEvent,
     DragNodeStopEvent,
@@ -18,10 +11,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingLib';
 import { LABELS } from './nodeLabels';
-import {
-    format,
-    getPropertyOrDefaultToTrue
-} from 'builder_platform_interaction/commonUtils';
+import { format, getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
 import { clamp } from 'builder_platform_interaction/clampLib';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
@@ -111,10 +101,7 @@ export default class Node extends LightningElement {
     get showTrashIcon() {
         return (
             this.node.config.isSelected &&
-            getPropertyOrDefaultToTrue(
-                getConfigForElementType(this.node.elementType),
-                'isDeletable'
-            )
+            getPropertyOrDefaultToTrue(getConfigForElementType(this.node.elementType), 'isDeletable')
         );
     }
 
@@ -177,9 +164,7 @@ export default class Node extends LightningElement {
     }
 
     get nodeLabel() {
-        return getPropertyOrDefaultToTrue(this.getNodeConfig(), 'showLabel')
-            ? this.node.label
-            : '';
+        return getPropertyOrDefaultToTrue(this.getNodeConfig(), 'showLabel') ? this.node.label : '';
     }
 
     get nodeTypeLabel() {
@@ -201,9 +186,7 @@ export default class Node extends LightningElement {
         }
 
         if (isTestMode()) {
-            classes = `${classes} test-node-${(
-                this.node.elementType || ''
-            ).toLowerCase()}`;
+            classes = `${classes} test-node-${(this.node.elementType || '').toLowerCase()}`;
         }
 
         return classes;
@@ -226,14 +209,8 @@ export default class Node extends LightningElement {
         event.stopPropagation();
         const isMultiSelectKeyPressed = this.isMultiSelect(event);
 
-        if (
-            this.isSelectable() &&
-            (!this.node.config.isSelected || !this.isNodeDragging)
-        ) {
-            const nodeSelectedEvent = new SelectNodeEvent(
-                this.node.guid,
-                isMultiSelectKeyPressed
-            );
+        if (this.isSelectable() && (!this.node.config.isSelected || !this.isNodeDragging)) {
+            const nodeSelectedEvent = new SelectNodeEvent(this.node.guid, isMultiSelectKeyPressed);
             this.dispatchEvent(nodeSelectedEvent);
         }
         this.isNodeDragging = false;
@@ -264,12 +241,7 @@ export default class Node extends LightningElement {
             const { guid, elementType } = this.node;
             const deleteEvent = new DeleteElementEvent([guid], elementType);
             this.dispatchEvent(deleteEvent);
-            logInteraction(
-                `element-trash-can-icon`,
-                'node-icon',
-                { guid, elementType },
-                'click'
-            );
+            logInteraction(`element-trash-can-icon`, 'node-icon', { guid, elementType }, 'click');
         }
         this.isNodeDragging = false;
     };
@@ -293,10 +265,7 @@ export default class Node extends LightningElement {
         this.isNodeDragging = true;
         if (this.isSelectable() && !this.node.config.isSelected) {
             const isMultiSelectKeyPressed = this.isMultiSelect(event.e);
-            const nodeSelectedEvent = new SelectNodeEvent(
-                this.node.guid,
-                isMultiSelectKeyPressed
-            );
+            const nodeSelectedEvent = new SelectNodeEvent(this.node.guid, isMultiSelectKeyPressed);
             this.dispatchEvent(nodeSelectedEvent);
         }
     };
@@ -308,8 +277,7 @@ export default class Node extends LightningElement {
     @api
     dragStop = event => {
         if (
-            (event.finalPos[0] !== this.node.locationX ||
-                event.finalPos[1] !== this.node.locationY) &&
+            (event.finalPos[0] !== this.node.locationX || event.finalPos[1] !== this.node.locationY) &&
             event.selection &&
             event.selection.length > 0
         ) {
@@ -324,11 +292,7 @@ export default class Node extends LightningElement {
      */
     @api
     drag = event => {
-        const dragNodeEvent = new DragNodeEvent(
-            this.node.guid,
-            event.pos[0],
-            event.pos[1]
-        );
+        const dragNodeEvent = new DragNodeEvent(this.node.guid, event.pos[0], event.pos[1]);
         this.dispatchEvent(dragNodeEvent);
     };
 
@@ -337,21 +301,14 @@ export default class Node extends LightningElement {
     }
 
     renderedCallback() {
-        const canvasElementContainer = this.template.querySelector(
-            '.node-container'
-        );
+        const canvasElementContainer = this.template.querySelector('.node-container');
 
         // revalidate the specific canvas element when it is being rendered (in case the canvas element's location has been programmatically updated)
-        if (
-            canvasElementContainer &&
-            canvasElementContainer.getAttribute('id')
-        ) {
+        if (canvasElementContainer && canvasElementContainer.getAttribute('id')) {
             lib.revalidate(canvasElementContainer);
         }
 
-        const textElementLabel = this.template.querySelector(
-            '.text-element-label'
-        );
+        const textElementLabel = this.template.querySelector('.text-element-label');
         if (textElementLabel && this.nodeLabel !== this.currentNodeLabel) {
             clamp(textElementLabel, {
                 label: this.nodeLabel

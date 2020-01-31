@@ -21,12 +21,8 @@ describe('ReorderableVerticalNavigationItem', () => {
     it('does not have front or end icon by default', () => {
         const element = createComponentUnderTest();
         return Promise.resolve().then(() => {
-            const frontIcon = element.shadowRoot.querySelectorAll(
-                SELECTORS.FRONT_ICON
-            );
-            const endIcon = element.shadowRoot.querySelectorAll(
-                SELECTORS.END_ICON
-            );
+            const frontIcon = element.shadowRoot.querySelectorAll(SELECTORS.FRONT_ICON);
+            const endIcon = element.shadowRoot.querySelectorAll(SELECTORS.END_ICON);
 
             expect(frontIcon).toHaveLength(0);
             expect(endIcon).toHaveLength(0);
@@ -62,14 +58,10 @@ describe('ReorderableVerticalNavigationItem', () => {
         const element = createComponentUnderTest();
         element.isDraggable = true;
         return Promise.resolve().then(() => {
-            const draggableElement = element.shadowRoot.querySelector(
-                SELECTORS.DRAGGABLE
-            );
+            const draggableElement = element.shadowRoot.querySelector(SELECTORS.DRAGGABLE);
             draggableElement.handleDragStart = jest.fn();
 
-            const anchorElement = element.shadowRoot.querySelector(
-                SELECTORS.LINK
-            );
+            const anchorElement = element.shadowRoot.querySelector(SELECTORS.LINK);
             const dragstartEvent = new CustomEvent('dragstart');
             anchorElement.dispatchEvent(dragstartEvent);
 
@@ -83,9 +75,7 @@ describe('ReorderableVerticalNavigationItem', () => {
             element.isDraggable = true;
 
             return Promise.resolve().then(() => {
-                const draggables = element.shadowRoot.querySelectorAll(
-                    SELECTORS.DRAGGABLE
-                );
+                const draggables = element.shadowRoot.querySelectorAll(SELECTORS.DRAGGABLE);
                 expect(draggables).toHaveLength(1);
             });
         });
@@ -95,9 +85,7 @@ describe('ReorderableVerticalNavigationItem', () => {
             element.isDraggable = false;
 
             return Promise.resolve().then(() => {
-                const draggables = element.shadowRoot.querySelectorAll(
-                    SELECTORS.DRAGGABLE
-                );
+                const draggables = element.shadowRoot.querySelectorAll(SELECTORS.DRAGGABLE);
                 expect(draggables).toHaveLength(0);
             });
         });
@@ -110,12 +98,8 @@ describe('ReorderableVerticalNavigationItem', () => {
             element.activeId = 'item1';
 
             return Promise.resolve().then(() => {
-                const listItem = element.shadowRoot.querySelector(
-                    SELECTORS.MAIN_DIV
-                );
-                expect(listItem.getAttribute('class')).toContain(
-                    'slds-is-active'
-                );
+                const listItem = element.shadowRoot.querySelector(SELECTORS.MAIN_DIV);
+                expect(listItem.getAttribute('class')).toContain('slds-is-active');
             });
         });
         it('does not have slds-is-active applied to the base div when not selected', () => {
@@ -124,12 +108,8 @@ describe('ReorderableVerticalNavigationItem', () => {
             element.activeId = 'item2';
 
             return Promise.resolve().then(() => {
-                const listItem = element.shadowRoot.querySelector(
-                    SELECTORS.MAIN_DIV
-                );
-                expect(listItem.getAttribute('class')).not.toContain(
-                    'slds-is-active'
-                );
+                const listItem = element.shadowRoot.querySelector(SELECTORS.MAIN_DIV);
+                expect(listItem.getAttribute('class')).not.toContain('slds-is-active');
             });
         });
     });

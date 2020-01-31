@@ -8,11 +8,7 @@ import {
     parseFormattedDateTime,
     parseMetadataDateTime
 } from '../dateTimeUtils';
-import {
-    parseDateTimeUTC,
-    syncUTCToWallTime,
-    syncWallTimeToUTC
-} from 'lightning/internalLocalizationService';
+import { parseDateTimeUTC, syncUTCToWallTime, syncWallTimeToUTC } from 'lightning/internalLocalizationService';
 import { getLocalizationService } from 'lightning/configProvider';
 
 import shortDateTimeFormat from '@salesforce/i18n/dateTime.shortDateTimeFormat';
@@ -44,22 +40,15 @@ describe('date-time-utils', () => {
         it('returns true for a valid datetime literal', () => {
             const mockDatetimeLiteral = '12/31/1999, 11:59 pm';
             const isDateTime = true;
-            localizationService.parseDateTimeUTC.mockReturnValueOnce(
-                new Date()
-            );
+            localizationService.parseDateTimeUTC.mockReturnValueOnce(new Date());
 
-            const isValid = isValidFormattedDateTime(
-                mockDatetimeLiteral,
-                isDateTime
-            );
+            const isValid = isValidFormattedDateTime(mockDatetimeLiteral, isDateTime);
             expect(isValid).toEqual(true);
         });
 
         it('returns true for a valid date literal', () => {
             const mockDateLiteral = '12/31/1999';
-            localizationService.parseDateTimeUTC.mockReturnValueOnce(
-                new Date()
-            );
+            localizationService.parseDateTimeUTC.mockReturnValueOnce(new Date());
 
             const isValid = isValidFormattedDateTime(mockDateLiteral);
             expect(isValid).toEqual(true);
@@ -68,22 +57,15 @@ describe('date-time-utils', () => {
         it('returns false for an invalid datetime literal', () => {
             const mockDatetimeLiteral = 'bad date time literal';
             const isDateTime = true;
-            localizationService.parseDateTimeUTC.mockReturnValueOnce(
-                new Date(mockDatetimeLiteral)
-            );
+            localizationService.parseDateTimeUTC.mockReturnValueOnce(new Date(mockDatetimeLiteral));
 
-            const isValid = isValidFormattedDateTime(
-                mockDatetimeLiteral,
-                isDateTime
-            );
+            const isValid = isValidFormattedDateTime(mockDatetimeLiteral, isDateTime);
             expect(isValid).toEqual(false);
         });
 
         it('returns false for an invalid date literal', () => {
             const mockDatetimeLiteral = 'bad date literal';
-            localizationService.parseDateTimeUTC.mockReturnValueOnce(
-                new Date(mockDatetimeLiteral)
-            );
+            localizationService.parseDateTimeUTC.mockReturnValueOnce(new Date(mockDatetimeLiteral));
 
             const isValid = isValidFormattedDateTime(mockDatetimeLiteral);
             expect(isValid).toEqual(false);
@@ -102,10 +84,7 @@ describe('date-time-utils', () => {
             const isDateTime = true;
             parseDateTimeUTC.mockReturnValueOnce(new Date(mockDatetimeLiteral));
 
-            const isValid = isValidMetadataDateTime(
-                mockDatetimeLiteral,
-                isDateTime
-            );
+            const isValid = isValidMetadataDateTime(mockDatetimeLiteral, isDateTime);
             expect(isValid).toEqual(true);
         });
 
@@ -122,10 +101,7 @@ describe('date-time-utils', () => {
             const isDateTime = true;
             parseDateTimeUTC.mockReturnValueOnce(new Date(mockDatetimeLiteral));
 
-            const isValid = isValidMetadataDateTime(
-                mockDatetimeLiteral,
-                isDateTime
-            );
+            const isValid = isValidMetadataDateTime(mockDatetimeLiteral, isDateTime);
             expect(isValid).toEqual(false);
         });
 
@@ -153,9 +129,7 @@ describe('date-time-utils', () => {
 
         it('returns null for date property when given an invalid literal', () => {
             const badDateLiteral = '99/99/1999';
-            localizationService.parseDateTimeUTC.mockReturnValueOnce(
-                new Date(badDateLiteral)
-            );
+            localizationService.parseDateTimeUTC.mockReturnValueOnce(new Date(badDateLiteral));
 
             const { date } = parseFormattedDateTime(badDateLiteral);
             expect(date).toBeNull();
@@ -169,10 +143,7 @@ describe('date-time-utils', () => {
             const { date } = parseFormattedDateTime(literal, true);
             expect(date).toBeInstanceOf(Date);
             expect(date).toBe(mockDate);
-            expect(localizationService.parseDateTimeUTC).toHaveBeenCalledWith(
-                literal,
-                shortDateTimeFormat
-            );
+            expect(localizationService.parseDateTimeUTC).toHaveBeenCalledWith(literal, shortDateTimeFormat);
         });
     });
 
@@ -209,9 +180,7 @@ describe('date-time-utils', () => {
         it('returns the given date literal without leading or trailing whitespace', () => {
             const literal = '12/31/1999';
 
-            const { dateLiteral } = parseMetadataDateTime(
-                `     ${literal}    `
-            );
+            const { dateLiteral } = parseMetadataDateTime(`     ${literal}    `);
             expect(dateLiteral).toEqual(literal);
         });
     });
@@ -233,16 +202,11 @@ describe('date-time-utils', () => {
             const mockDate = new Date();
             parseDateTimeUTC.mockReturnValueOnce(mockDate);
             const mockFormattedDate = '12/31/1999';
-            localizationService.formatDateUTC.mockReturnValueOnce(
-                mockFormattedDate
-            );
+            localizationService.formatDateUTC.mockReturnValueOnce(mockFormattedDate);
             const dateLiteral = '1999-12-31';
 
             const result = normalizeDateTime(dateLiteral);
-            expect(localizationService.formatDateUTC).toHaveBeenCalledWith(
-                mockDate.toISOString(),
-                shortDateFormat
-            );
+            expect(localizationService.formatDateUTC).toHaveBeenCalledWith(mockDate.toISOString(), shortDateFormat);
             expect(result).toEqual(mockFormattedDate);
         });
 
@@ -252,17 +216,12 @@ describe('date-time-utils', () => {
             const mockWallTime = new Date();
             syncUTCToWallTime.mockReturnValueOnce(mockWallTime);
             const mockFormattedDatetime = '12/31/1999, 11:59 pm';
-            localizationService.formatDateTimeUTC.mockReturnValue(
-                mockFormattedDatetime
-            );
+            localizationService.formatDateTimeUTC.mockReturnValue(mockFormattedDatetime);
             const datetimeLiteral = '1999-12-31T23:59:00.000+0000';
 
             const result = normalizeDateTime(datetimeLiteral, true);
             expect(result).toEqual(mockFormattedDatetime);
-            expect(syncUTCToWallTime).toHaveBeenCalledWith(
-                mockDatetime,
-                timeZone
-            );
+            expect(syncUTCToWallTime).toHaveBeenCalledWith(mockDatetime, timeZone);
             expect(localizationService.formatDateTimeUTC).toHaveBeenCalledWith(
                 mockWallTime.toISOString(),
                 shortDateTimeFormat
@@ -326,19 +285,14 @@ describe('date-time-utils', () => {
 
             const result = formatDateTime(dateLiteral);
             expect(result).toEqual(dateLiteral);
-            expect(localizationService.formatDateUTC).toHaveBeenCalledWith(
-                mockDate.toISOString(),
-                shortDateFormat
-            );
+            expect(localizationService.formatDateUTC).toHaveBeenCalledWith(mockDate.toISOString(), shortDateFormat);
         });
 
         it('returns a formatted date time string when given a valid date time literal', () => {
             const datetimeLiteral = '12/31/1999 11:59 pm';
             const mockDate = new Date('1999-12-31T23:59:00.000+0000');
             localizationService.parseDateTimeUTC.mockReturnValueOnce(mockDate);
-            localizationService.formatDateTimeUTC.mockReturnValueOnce(
-                datetimeLiteral
-            );
+            localizationService.formatDateTimeUTC.mockReturnValueOnce(datetimeLiteral);
 
             const result = formatDateTime(datetimeLiteral, true);
             expect(result).toEqual(datetimeLiteral);

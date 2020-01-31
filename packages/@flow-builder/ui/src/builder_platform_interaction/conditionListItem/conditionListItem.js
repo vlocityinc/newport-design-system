@@ -1,9 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import {
-    formatLhs,
-    formatOperator,
-    formatRhs
-} from 'builder_platform_interaction/conditionListItemUtil';
+import { formatLhs, formatOperator, formatRhs } from 'builder_platform_interaction/conditionListItemUtil';
 import { DeleteListItemEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './conditionListItemLabels';
 
@@ -22,9 +18,7 @@ export default class ConditionListItem extends LightningElement {
 
     get formattedLhs() {
         if (this.condition.leftHandSide.value) {
-            const { displayText, dataType } = formatLhs(
-                this.condition.leftHandSide.value
-            );
+            const { displayText, dataType } = formatLhs(this.condition.leftHandSide.value);
             this.newCondition = false;
             this._lhsDataType = dataType;
             return displayText;
@@ -38,10 +32,7 @@ export default class ConditionListItem extends LightningElement {
 
     get formattedRhs() {
         if (!this.newCondition) {
-            const rhsText = formatRhs(
-                this.condition.rightHandSide.value,
-                this._lhsDataType
-            );
+            const rhsText = formatRhs(this.condition.rightHandSide.value, this._lhsDataType);
             return rhsText;
         }
         return null;

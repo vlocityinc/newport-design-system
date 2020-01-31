@@ -95,10 +95,12 @@ export default class CustomPropertyEditor extends LightningElement {
 
     get errors() {
         const errors = (this.configurationEditor && this.configurationEditor.errors) || [];
-        return errors.map(errorString => ({
+        return errors
+            .map(errorString => ({
                 key: CUSTOM_PROPERTY_EDITOR,
                 errorString
-            })).concat(this._createComponentErrors);
+            }))
+            .concat(this._createComponentErrors);
     }
 
     /** Lifecycle hooks */
@@ -128,7 +130,7 @@ export default class CustomPropertyEditor extends LightningElement {
      */
     shouldCreateComponent = () => {
         return !this._isComponentCreated && this.configurationEditor && !this.hasErrors;
-    }
+    };
 
     /**
      * Creates custom property editor and set the unrender function in a private variable
@@ -137,9 +139,7 @@ export default class CustomPropertyEditor extends LightningElement {
      */
     createComponent = () => {
         logPerfTransactionStart(`${CUSTOM_PROPERTY_EDITOR}-${this.configurationEditor.name}`);
-        const container = this.template.querySelector(
-            CONFIGURATION_EDITOR_SELECTOR
-        );
+        const container = this.template.querySelector(CONFIGURATION_EDITOR_SELECTOR);
 
         const successCallback = () => {
             // End the instrumentation
@@ -153,10 +153,12 @@ export default class CustomPropertyEditor extends LightningElement {
             logPerfTransactionEnd(`${CUSTOM_PROPERTY_EDITOR}-${this.configurationEditor.name}`, {
                 isSuccess: false
             });
-            this._createComponentErrors = [{
-                key: CUSTOM_PROPERTY_EDITOR,
-                errorString: 'unable to create the component'
-            }];
+            this._createComponentErrors = [
+                {
+                    key: CUSTOM_PROPERTY_EDITOR,
+                    errorString: 'unable to create the component'
+                }
+            ];
         };
 
         const cmpName = this.configurationEditor.name;
@@ -184,5 +186,5 @@ export default class CustomPropertyEditor extends LightningElement {
     getConfigurationEditorTemplate = () => {
         const configurationEditorTemplate = this.template.querySelector(CONFIGURATION_EDITOR_SELECTOR);
         return configurationEditorTemplate && configurationEditorTemplate.firstChild;
-    }
+    };
 }

@@ -53,7 +53,7 @@ export default class PropertyEditorPanel extends LightningElement {
     @track
     ctor;
 
-    @track messages = {}
+    @track messages = {};
 
     loadCtor(descriptor) {
         // TODO: Once dynamic import is supported in core (W-6985280)
@@ -89,8 +89,8 @@ export default class PropertyEditorPanel extends LightningElement {
                 break;
 
             case elementTypeToConfigMap[ELEMENT_TYPE.ACTION_CALL].descriptor[AddElementEvent.EVENT_NAME]:
-                 module = CalloutEditor;
-                 break;
+                module = CalloutEditor;
+                break;
             case elementTypeToConfigMap[ELEMENT_TYPE.ACTION_CALL].descriptor[EditElementEvent.EVENT_NAME]:
                 module = InvocableActionEditor;
                 break;

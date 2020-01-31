@@ -1,8 +1,5 @@
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import {
-    ELEMENT_TYPE,
-    CONNECTOR_TYPE
-} from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './elementFactoryLabels';
 
 /**
@@ -17,23 +14,13 @@ import { LABELS } from './elementFactoryLabels';
  *
  * @returns {Object} connector       connector object
  */
-export const createConnector = (
-    source,
-    childSource,
-    target,
-    label,
-    type,
-    isSelected = false
-) => {
+export const createConnector = (source, childSource, target, label, type, isSelected = false) => {
     const guid = generateGuid();
     const config = {
         isSelected
     };
 
-    const connector = Object.assign(
-        {},
-        { guid, source, childSource, target, label, type, config }
-    );
+    const connector = Object.assign({}, { guid, source, childSource, target, label, type, config });
 
     return connector;
 };
@@ -81,10 +68,7 @@ export const createConnectorObjects = (element, elementGuid, parentGuid) => {
     }
 
     // Create next value connector (if the current element is of type loop)
-    if (
-        element.nextValueConnector &&
-        element.nextValueConnector.targetReference
-    ) {
+    if (element.nextValueConnector && element.nextValueConnector.targetReference) {
         const nextValueConnector = createConnector(
             elementGuid,
             null,
@@ -96,10 +80,7 @@ export const createConnectorObjects = (element, elementGuid, parentGuid) => {
     }
 
     // Create no more values aka end of loop connector (if the current element is of type loop)
-    if (
-        element.noMoreValuesConnector &&
-        element.noMoreValuesConnector.targetReference
-    ) {
+    if (element.noMoreValuesConnector && element.noMoreValuesConnector.targetReference) {
         const noMoreValuesConnector = createConnector(
             elementGuid,
             null,
@@ -141,11 +122,7 @@ export const createConnectorMetadataObject = connector => {
     return { targetReference: connector.target };
 };
 
-export const createConnectorMetadataObjects = (
-    connectors,
-    hasMultipleRegularConnectors,
-    elementType
-) => {
+export const createConnectorMetadataObjects = (connectors, hasMultipleRegularConnectors, elementType) => {
     let connectorMetadata;
 
     // TODO: Need to refactor the logic on changing datatype based on the elementType for Steps.( W-5478126 )
@@ -161,9 +138,7 @@ export const createConnectorMetadataObjects = (
         switch (connector.type) {
             case CONNECTOR_TYPE.START:
             case CONNECTOR_TYPE.REGULAR: {
-                const connectorObject = createConnectorMetadataObject(
-                    connector
-                );
+                const connectorObject = createConnectorMetadataObject(connector);
                 if (hasMultipleRegularConnectors) {
                     const connectorObjects = connectorMetadata.connectors || [];
                     connectorObjects.push(connectorObject);
@@ -179,17 +154,13 @@ export const createConnectorMetadataObjects = (
             }
 
             case CONNECTOR_TYPE.LOOP_NEXT: {
-                const nextValueConnector = createConnectorMetadataObject(
-                    connector
-                );
+                const nextValueConnector = createConnectorMetadataObject(connector);
                 Object.assign(connectorMetadata, { nextValueConnector });
                 break;
             }
 
             case CONNECTOR_TYPE.LOOP_END: {
-                const noMoreValuesConnector = createConnectorMetadataObject(
-                    connector
-                );
+                const noMoreValuesConnector = createConnectorMetadataObject(connector);
                 Object.assign(connectorMetadata, { noMoreValuesConnector });
                 break;
             }
@@ -202,9 +173,7 @@ export const createConnectorMetadataObjects = (
 
             case CONNECTOR_TYPE.DEFAULT: {
                 const defaultConnectorLabel = connector.label;
-                const defaultConnector = createConnectorMetadataObject(
-                    connector
-                );
+                const defaultConnector = createConnectorMetadataObject(connector);
                 Object.assign(connectorMetadata, {
                     defaultConnector,
                     defaultConnectorLabel
@@ -221,12 +190,6 @@ export const createConnectorMetadataObjects = (
 };
 
 export const createStartElementConnector = (startNodeGuid, target) => {
-    const startElementConnector = createConnector(
-        startNodeGuid,
-        null,
-        target,
-        null,
-        CONNECTOR_TYPE.START
-    );
+    const startElementConnector = createConnector(startNodeGuid, null, target, null, CONNECTOR_TYPE.START);
     return [startElementConnector];
 };

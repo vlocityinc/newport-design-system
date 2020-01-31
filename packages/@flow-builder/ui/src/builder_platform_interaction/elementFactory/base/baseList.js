@@ -11,9 +11,7 @@ export const RHS_DATA_TYPE_PROPERTY = getDataTypeKey(RHS_PROPERTY);
  */
 export function createListRowItem(listRowItem = {}) {
     const { operator = '' } = listRowItem;
-    const listRowItemWithoutOperator = createExpressionListRowItemWithoutOperator(
-        listRowItem
-    );
+    const listRowItemWithoutOperator = createExpressionListRowItemWithoutOperator(listRowItem);
     const newListRowItem = Object.assign(listRowItemWithoutOperator, {
         operator
     });
@@ -46,14 +44,8 @@ export function createExpressionListRowItemWithoutOperator(listRowItem = {}) {
  * @param {Object} listRowItem object which is used to create new list row item object. If it is not passed, then default values are used.
  * @returns {Object} new list row item object
  */
-export function createExpressionListRowItemWithoutOperatorAndRHSDataType(
-    listRowItem = {}
-) {
-    const {
-        leftHandSide = '',
-        rightHandSide = '',
-        rowIndex = generateGuid()
-    } = listRowItem;
+export function createExpressionListRowItemWithoutOperatorAndRHSDataType(listRowItem = {}) {
+    const { leftHandSide = '', rightHandSide = '', rowIndex = generateGuid() } = listRowItem;
 
     return {
         rowIndex,
@@ -68,12 +60,7 @@ export function createExpressionListRowItemWithoutOperatorAndRHSDataType(
  * @returns {Object} new parameter list row item object
  */
 export function createParameterListRowItem(listRowItem = {}) {
-    const {
-        name = '',
-        value = '',
-        valueDataType = '',
-        rowIndex = generateGuid()
-    } = listRowItem;
+    const { name = '', value = '', valueDataType = '', rowIndex = generateGuid() } = listRowItem;
 
     return {
         rowIndex,

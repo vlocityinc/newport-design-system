@@ -8,7 +8,7 @@ jest.mock('builder_platform_interaction/translatorLib', () => ({
 }));
 
 jest.mock('builder_platform_interaction/storeLib', () => {
-    const getCurrentState = function () {
+    const getCurrentState = function() {
         return {
             properties: {
                 processType: 'flow'
@@ -16,7 +16,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
             elements: {}
         };
     };
-    const getStore = function () {
+    const getStore = function() {
         return {
             getCurrentState
         };
@@ -34,19 +34,14 @@ jest.mock('builder_platform_interaction/outputResourcePicker', () =>
 );
 
 const createComponentForTest = node => {
-    const el = createElement(
-        'builder_platform_interaction-invocable-action-editor',
-        { is: InvocableActionEditor }
-    );
+    const el = createElement('builder_platform_interaction-invocable-action-editor', { is: InvocableActionEditor });
     el.node = node;
     document.body.appendChild(el);
     return el;
 };
 
 const validate = node => {
-    return getErrorsFromHydratedElement(
-        invocableActionValidation.validateAll(node)
-    );
+    return getErrorsFromHydratedElement(invocableActionValidation.validateAll(node));
 };
 
 describe('Invocable Action Editor Validation', () => {
@@ -107,9 +102,7 @@ describe('Invocable Action Editor Validation', () => {
     });
     describe('node is valid', () => {
         it('returns no errors', () => {
-            const invocableActionEditor = createComponentForTest(
-                invocableActionNode
-            );
+            const invocableActionEditor = createComponentForTest(invocableActionNode);
             const errors = validate(invocableActionEditor.node);
             expect(errors).toHaveLength(0);
         });
@@ -117,9 +110,7 @@ describe('Invocable Action Editor Validation', () => {
     describe('no label', () => {
         it('should return an error', () => {
             invocableActionNode.label.value = '';
-            const invocableActionEditor = createComponentForTest(
-                invocableActionNode
-            );
+            const invocableActionEditor = createComponentForTest(invocableActionNode);
             const errors = validate(invocableActionEditor.node);
             expect(errors).toEqual([
                 {
@@ -132,9 +123,7 @@ describe('Invocable Action Editor Validation', () => {
     describe('no apiName', () => {
         it('should return an error', () => {
             invocableActionNode.name.value = '';
-            const invocableActionEditor = createComponentForTest(
-                invocableActionNode
-            );
+            const invocableActionEditor = createComponentForTest(invocableActionNode);
             const errors = validate(invocableActionEditor.node);
             expect(errors).toEqual([
                 {
@@ -147,9 +136,7 @@ describe('Invocable Action Editor Validation', () => {
     describe('required input parameter is not valid', () => {
         it('should return an error if subjectNameOrId is null', () => {
             invocableActionNode.inputParameters[0].value.value = null;
-            const invocableActionEditor = createComponentForTest(
-                invocableActionNode
-            );
+            const invocableActionEditor = createComponentForTest(invocableActionNode);
             const errors = validate(invocableActionEditor.node);
             expect(errors).toEqual([
                 {
@@ -160,9 +147,7 @@ describe('Invocable Action Editor Validation', () => {
         });
         it('should return an error if subjectNameOrId is blank', () => {
             invocableActionNode.inputParameters[0].value.value = '';
-            const invocableActionEditor = createComponentForTest(
-                invocableActionNode
-            );
+            const invocableActionEditor = createComponentForTest(invocableActionNode);
             const errors = validate(invocableActionEditor.node);
             expect(errors).toEqual([
                 {

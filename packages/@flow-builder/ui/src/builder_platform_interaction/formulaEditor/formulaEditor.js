@@ -1,12 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
-import {
-    getErrorsFromHydratedElement,
-    getValueFromHydratedItem
-} from 'builder_platform_interaction/dataMutationLib';
-import {
-    createAction,
-    PROPERTY_EDITOR_ACTION
-} from 'builder_platform_interaction/actions';
+import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { formulaReducer } from './formulaReducer';
 import { LABELS } from './formulaEditorLabels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -68,9 +62,7 @@ export default class FormulaEditor extends LightningElement {
     }
 
     get dataTypeHelpText() {
-        return !this.isNewMode
-            ? this.labels.dataTypeCannotBeChangedHelpText
-            : null;
+        return !this.isNewMode ? this.labels.dataTypeCannotBeChangedHelpText : null;
     }
 
     get hideNewResourceButton() {
@@ -84,10 +76,7 @@ export default class FormulaEditor extends LightningElement {
         const propertyName = event.detail.propertyName;
         const value = event.detail.value;
         const error = event.detail.error;
-        const action = createAction(
-            PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-            { propertyName, value, error }
-        );
+        const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error });
         this.formulaResource = formulaReducer(this.formulaResource, action);
     }
 
@@ -103,10 +92,7 @@ export default class FormulaEditor extends LightningElement {
         const propertyName = 'expression';
         const value = event.detail.value;
         const error = event.detail.error || null;
-        const action = createAction(
-            PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-            { propertyName, value, error }
-        );
+        const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error });
         this.formulaResource = formulaReducer(this.formulaResource, action);
     }
 

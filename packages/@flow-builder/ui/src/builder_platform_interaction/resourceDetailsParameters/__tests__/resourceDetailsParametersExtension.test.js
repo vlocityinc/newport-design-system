@@ -4,14 +4,10 @@ import { emailScreenFieldAutomaticOutput } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/flowExtensionLib', () => ({
-    describeExtension: jest.fn(() =>
-        Promise.resolve(mockFlowRuntimeEmailFlowExtensionDescription)
-    )
+    describeExtension: jest.fn(() => Promise.resolve(mockFlowRuntimeEmailFlowExtensionDescription))
 }));
 
 describe('resource-details-parameters-extension', () => {
@@ -33,23 +29,12 @@ describe('resource-details-parameters-extension', () => {
         `('Invalid resourceGuid: "$resourceGuid"', ({ resourceGuid }) => {
             fetchExtensionOutputFetchFunc(resourceGuid, callback);
             return Promise.resolve().then(() =>
-                expect(callback).toHaveBeenCalledWith(
-                    [],
-                    `No resource found for GUID: ${resourceGuid}`
-                )
+                expect(callback).toHaveBeenCalledWith([], `No resource found for GUID: ${resourceGuid}`)
             );
         });
         test('Existing resourceGuid', () => {
-            fetchExtensionOutputFetchFunc(
-                emailScreenFieldAutomaticOutput.guid,
-                callback
-            );
-            return Promise.resolve().then(() =>
-                expect(callback).not.toHaveBeenCalledWith(
-                    [],
-                    expect.any(String)
-                )
-            );
+            fetchExtensionOutputFetchFunc(emailScreenFieldAutomaticOutput.guid, callback);
+            return Promise.resolve().then(() => expect(callback).not.toHaveBeenCalledWith([], expect.any(String)));
         });
     });
     describe('mapperExtensionOutputParameter', () => {
@@ -77,9 +62,7 @@ describe('resource-details-parameters-extension', () => {
         `(
             '(Incorrect "final" parameter label (initial raw label: "$label") should fallback to parameter name',
             label => {
-                actualResult = mapperExtensionOutputMapFunc(
-                    getParameterWithLabel(label)
-                );
+                actualResult = mapperExtensionOutputMapFunc(getParameterWithLabel(label));
                 expect(actualResult).toMatchObject({
                     label: parameterName,
                     apiName: parameterName

@@ -4,7 +4,7 @@ export const comboboxInitialConfig = {
             text: 'New Resource',
             value: '%%NewResource%%',
             iconName: 'utility:add',
-            type: 'option-inline',
+            type: 'option-inline'
         },
         {
             label: 'SObject Variables',
@@ -32,7 +32,7 @@ export const comboboxInitialConfig = {
                     type: 'option-card',
                     dataType: 'SObject',
                     subtype: 'Contact'
-                },
+                }
             ]
         },
         {
@@ -85,7 +85,7 @@ export const comboboxInitialConfig = {
                     type: 'option-card',
                     dataType: 'Boolean',
                     subtype: null
-                },
+                }
             ]
         },
         {
@@ -110,14 +110,14 @@ export const comboboxInitialConfig = {
                     type: 'option-card',
                     dataType: 'String',
                     subtype: null
-                },
+                }
             ]
         }
     ],
     placeholder: 'placeholderText',
     value: {
         value: 'testGuid',
-        displayText: 'testvalue',
+        displayText: 'testvalue'
     },
     label: 'label',
     type: 'String',
@@ -126,28 +126,27 @@ export const comboboxInitialConfig = {
     enableFieldDrilldown: true,
     disabled: false,
     required: true,
-    errorMessage: 'testErrorMessage',
+    errorMessage: 'testErrorMessage'
 };
 
 const accountVar = comboboxInitialConfig.menuData[1].items[0];
 
-export const secondLevelMenuData =
-[
-	{
-	    type: 'option-card',
-	    text: 'CreatedBy',
-	    subText: 'Created By ID',
-	    displayText: '{!accountVar.CreatedBy}',
-	    iconName: 'utility:text',
-	    iconSize: 'xx-small',
-	    value: 'b4c16f3b-b29c-4f73-a561-442247440fba.CreatedBy',
-	    parent: accountVar,
-	    dataType: 'SObject',
-	    subtype: 'User',
-	    rightIconName: 'utility:chevronright',
-	    rightIconSize: 'xx-small',
-	    hasNext: true
-	},
+export const secondLevelMenuData = [
+    {
+        type: 'option-card',
+        text: 'CreatedBy',
+        subText: 'Created By ID',
+        displayText: '{!accountVar.CreatedBy}',
+        iconName: 'utility:text',
+        iconSize: 'xx-small',
+        value: 'b4c16f3b-b29c-4f73-a561-442247440fba.CreatedBy',
+        parent: accountVar,
+        dataType: 'SObject',
+        subtype: 'User',
+        rightIconName: 'utility:chevronright',
+        rightIconSize: 'xx-small',
+        hasNext: true
+    },
     {
         type: 'option-card',
         text: 'FirstName',
@@ -155,7 +154,7 @@ export const secondLevelMenuData =
         subText: 'First Name',
         value: '{!MyAccount.FirstName}',
         displayText: '{!MyAccount.FirstName}',
-        parent: accountVar,
+        parent: accountVar
     },
     {
         type: 'option-card',
@@ -164,7 +163,7 @@ export const secondLevelMenuData =
         subText: 'Last Name',
         value: '{!MyAccount.LastName}',
         displayText: '{!MyAccount.LastName}',
-        parent: accountVar,
+        parent: accountVar
     },
     {
         type: 'option-card',
@@ -173,23 +172,21 @@ export const secondLevelMenuData =
         subText: 'Annual Revenue',
         value: '{!MyAccount.AnnualRevenue}',
         displayText: '{!MyAccount.AnnualRevenue}',
-        parent: accountVar,
-    },
+        parent: accountVar
+    }
 ];
 
 const accountCreatedByField = secondLevelMenuData[0];
 
-export const thirdLevelMenuData = 
-[
-	{
-	type: 'option-card',
-    text: 'EmployeeNumber',
-    subText: 'Employee Number',
-    displayText: '{!accountVar.CreatedBy.EmployeeNumber}',
-    iconName: 'utility:text',
-    iconSize: 'xx-small',
-    value: 'b4c16f3b-b29c-4f73-a561-442247440fba.CreatedBy.EmployeeNumber',
-    parent: accountCreatedByField
-	}
+export const thirdLevelMenuData = [
+    {
+        type: 'option-card',
+        text: 'EmployeeNumber',
+        subText: 'Employee Number',
+        displayText: '{!accountVar.CreatedBy.EmployeeNumber}',
+        iconName: 'utility:text',
+        iconSize: 'xx-small',
+        value: 'b4c16f3b-b29c-4f73-a561-442247440fba.CreatedBy.EmployeeNumber',
+        parent: accountCreatedByField
+    }
 ];
-	

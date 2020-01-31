@@ -43,9 +43,7 @@ describe('ReorderableVerticalNavigation', () => {
         return Promise.resolve().then(() => {
             const div = element.shadowRoot.querySelectorAll(SELECTORS.DIV);
             expect(div).toHaveLength(4);
-            expect(div[2].getAttribute('class')).toContain(
-                'slds-vertical-tabs__nav'
-            );
+            expect(div[2].getAttribute('class')).toContain('slds-vertical-tabs__nav');
         });
     });
     it('renders all initial menu items', () => {
@@ -61,9 +59,7 @@ describe('ReorderableVerticalNavigation', () => {
         const element = createComponentUnderTest();
         element.menuItems = initialMenu;
         return Promise.resolve().then(() => {
-            const menuItems = element.shadowRoot.querySelectorAll(
-                SELECTORS.ITEM
-            );
+            const menuItems = element.shadowRoot.querySelectorAll(SELECTORS.ITEM);
             expect(menuItems[0].isDraggable).toBeTruthy();
             expect(menuItems[1].isDraggable).toBeFalsy();
         });
@@ -72,9 +68,7 @@ describe('ReorderableVerticalNavigation', () => {
         const element = createComponentUnderTest();
         element.menuItems = initialMenu;
         return Promise.resolve().then(() => {
-            const frontIcon = element.shadowRoot.querySelectorAll(
-                SELECTORS.FRONT_ICON
-            );
+            const frontIcon = element.shadowRoot.querySelectorAll(SELECTORS.FRONT_ICON);
             expect(frontIcon).toHaveLength(1);
         });
     });
@@ -82,9 +76,7 @@ describe('ReorderableVerticalNavigation', () => {
         const element = createComponentUnderTest();
         element.menuItems = initialMenu;
         return Promise.resolve().then(() => {
-            const firstMenuItem = element.shadowRoot.querySelector(
-                SELECTORS.ITEM
-            );
+            const firstMenuItem = element.shadowRoot.querySelector(SELECTORS.ITEM);
             const eventCallback = jest.fn();
             element.addEventListener('itemselected', eventCallback);
 

@@ -5,28 +5,14 @@ import {
     GLOBAL_CONSTANT_OBJECTS
 } from 'builder_platform_interaction/systemLib';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
-import {
-    getMenuItemForField,
-    mutateFlowResourceToComboboxShape
-} from './menuDataGenerator';
-import {
-    getElementByGuid,
-    getElementByDevName
-} from 'builder_platform_interaction/storeUtils';
+import { getMenuItemForField, mutateFlowResourceToComboboxShape } from './menuDataGenerator';
+import { getElementByGuid, getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { elementToParam } from 'builder_platform_interaction/ruleLib';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import {
-    isObject,
-    addCurlyBraces,
-    removeCurlyBraces,
-    format
-} from 'builder_platform_interaction/commonUtils';
+import { isObject, addCurlyBraces, removeCurlyBraces, format } from 'builder_platform_interaction/commonUtils';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 import removedResource from '@salesforce/label/FlowBuilderValidation.removedResource';
-import {
-    getChildrenItems,
-    filterFieldsForChosenElement
-} from './menuDataRetrieval';
+import { getChildrenItems, filterFieldsForChosenElement } from './menuDataRetrieval';
 
 /* Global variable to hold the current state of the screen element.
  *  This is being populated by the screenEditor component and
@@ -141,9 +127,7 @@ export const getFerovInfoAndErrorFromEvent = (event, literalDataType) => {
     let value = event.detail.displayText;
     let dataType = literalDataType;
     if (isObject(itemOrDisplayText) && !error) {
-        const resourceDataType = getFerovDataTypeForValidId(
-            itemOrDisplayText.value
-        );
+        const resourceDataType = getFerovDataTypeForValidId(itemOrDisplayText.value);
         if (resourceDataType) {
             value = itemOrDisplayText.value;
             dataType = resourceDataType;
@@ -160,22 +144,14 @@ export const getFerovInfoAndErrorFromEvent = (event, literalDataType) => {
     };
 };
 
-const normalizeMenuItemChildField = (
-    parentMenuItem,
-    fieldNames,
-    { allowSObjectFieldsTraversal = true } = {}
-) => {
+const normalizeMenuItemChildField = (parentMenuItem, fieldNames, { allowSObjectFieldsTraversal = true } = {}) => {
     const [fieldName, ...remainingFieldNames] = fieldNames;
     const fields = getChildrenItems(parentMenuItem);
     const menuItems = filterFieldsForChosenElement(parentMenuItem, fields, {
         allowSObjectFieldsTraversal
     });
-    const fieldDisplayText = addCurlyBraces(
-        removeCurlyBraces(parentMenuItem.displayText) + '.' + fieldName
-    );
-    const item = menuItems.find(
-        menuItem => menuItem.displayText === fieldDisplayText
-    );
+    const fieldDisplayText = addCurlyBraces(removeCurlyBraces(parentMenuItem.displayText) + '.' + fieldName);
+    const item = menuItems.find(menuItem => menuItem.displayText === fieldDisplayText);
     if (!item) {
         return undefined;
     }
@@ -191,30 +167,21 @@ const normalizeMenuItemChildField = (
  * @param {String} identifier    used to identify value, could be GUID or literal
  * @returns {Item}               value in format displayable by combobox
  */
-export const normalizeFEROV = (
-    identifier,
-    { allowSObjectFieldsTraversal = true } = {}
-) => {
+export const normalizeFEROV = (identifier, { allowSObjectFieldsTraversal = true } = {}) => {
     let result = { itemOrDisplayText: identifier };
     const elementOrResource = getResourceByUniqueIdentifier(identifier);
     if (!elementOrResource) {
         return result;
     }
-    const elementOrResourceMenuItem = mutateFlowResourceToComboboxShape(
-        elementOrResource
-    );
+    const elementOrResourceMenuItem = mutateFlowResourceToComboboxShape(elementOrResource);
     const { fieldNames } = sanitizeGuid(identifier);
     if (fieldNames) {
-        const normalizedChildField = normalizeMenuItemChildField(
-            elementOrResourceMenuItem,
-            fieldNames,
-            { allowSObjectFieldsTraversal }
-        );
+        const normalizedChildField = normalizeMenuItemChildField(elementOrResourceMenuItem, fieldNames, {
+            allowSObjectFieldsTraversal
+        });
         if (!normalizedChildField) {
             result.itemOrDisplayText = addCurlyBraces(
-                removeCurlyBraces(elementOrResourceMenuItem.displayText) +
-                    '.' +
-                    fieldNames.join('.')
+                removeCurlyBraces(elementOrResourceMenuItem.displayText) + '.' + fieldNames.join('.')
             );
         } else {
             result = normalizedChildField;
@@ -259,12 +226,7 @@ export const normalizeFEROV = (
  * @param {Boolean} isFieldOnSobjectVar   true if this field should be displayed in a mergefield relative to an sobject variable, false if it should be displayed alone
  * @returns {lhsDescribe}                      describes the attributes needed for the expression builder
  */
-export const populateLhsStateForField = (
-    fields,
-    fieldName,
-    fieldParent,
-    isFieldOnSobjectVar
-) => {
+export const populateLhsStateForField = (fields, fieldName, fieldParent, isFieldOnSobjectVar) => {
     const lhsState = {
         fields
     };
@@ -302,27 +264,17 @@ export const populateRhsState = ({ rightHandSide }, callback) => {
     callback(rhsState);
 };
 
-export const checkExpressionForDeletedElem = (
-    deletedGuids,
-    expression,
-    propertyEditorLabel
-) => {
+export const checkExpressionForDeletedElem = (deletedGuids, expression, propertyEditorLabel) => {
     const checkComboboxForDeletedElem = prop => {
         const property = expression[prop];
         if (property && !property.error && deletedGuids.has(property.value)) {
-            const deletedDevName = getResourceByUniqueIdentifier(property.value)
-                .name;
+            const deletedDevName = getResourceByUniqueIdentifier(property.value).name;
             property.value = addCurlyBraces(deletedDevName);
-            property.error = format(
-                removedResource,
-                deletedDevName,
-                propertyEditorLabel
-            );
+            property.error = format(removedResource, deletedDevName, propertyEditorLabel);
         }
     };
 
-    [
-        EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE,
-        EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE
-    ].forEach(prop => checkComboboxForDeletedElem(prop));
+    [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE, EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].forEach(prop =>
+        checkComboboxForDeletedElem(prop)
+    );
 };

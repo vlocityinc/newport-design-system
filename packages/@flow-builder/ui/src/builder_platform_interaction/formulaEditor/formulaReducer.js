@@ -7,10 +7,7 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 const formulaPropertyChanged = (state, action) => {
     action.payload.error =
         action.payload.error === null
-            ? formulaValidation.validateProperty(
-                  action.payload.propertyName,
-                  action.payload.value
-              )
+            ? formulaValidation.validateProperty(action.payload.propertyName, action.payload.value)
             : action.payload.error;
     return updateProperties(state, {
         [action.payload.propertyName]: {
@@ -22,10 +19,7 @@ const formulaPropertyChanged = (state, action) => {
 
 const formulaDataTypeChanged = (state, action) => {
     const dataType = action.payload.value.dataType;
-    let dataTypeError = formulaValidation.validateProperty(
-        'dataType',
-        dataType
-    );
+    let dataTypeError = formulaValidation.validateProperty('dataType', dataType);
     let scale = action.payload.value.scale;
     if (typeof scale !== 'number') {
         scale = SCALE_DEFAULT;

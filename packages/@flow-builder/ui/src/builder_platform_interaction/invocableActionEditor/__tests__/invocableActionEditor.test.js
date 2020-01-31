@@ -7,10 +7,7 @@ import {
     CannotRetrieveCalloutParametersEvent,
     SetPropertyEditorTitleEvent
 } from 'builder_platform_interaction/events';
-import {
-    untilNoFailure,
-    ticks
-} from 'builder_platform_interaction/builderTestUtils';
+import { untilNoFailure, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { clearInvocableActionCachedParameters } from 'builder_platform_interaction/invocableActionLib';
 import { getProcessTypeAutomaticOutPutHandlingSupport } from 'builder_platform_interaction/processTypeLib';
@@ -27,9 +24,7 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
 );
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/processTypeLib'
-    );
+    const actual = require.requireActual('builder_platform_interaction/processTypeLib');
     return {
         FLOW_AUTOMATIC_OUTPUT_HANDLING: actual.FLOW_AUTOMATIC_OUTPUT_HANDLING,
         getProcessTypeAutomaticOutPutHandlingSupport: jest.fn()
@@ -39,9 +34,7 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
 const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest
     .fn()
-    .mockImplementation(
-        (formatString, ...args) => formatString + '(' + args.toString() + ')'
-    );
+    .mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
 
 const defaultNode = {
     actionName: { value: 'chatterPost', error: null },
@@ -138,10 +131,7 @@ const actionWithAutomaticOutputNode = {
 };
 
 const createComponentUnderTest = (node, { isNewMode = false } = {}) => {
-    const el = createElement(
-        'builder_platform_interaction-invocable-action-editor',
-        { is: InvocableActionEditor }
-    );
+    const el = createElement('builder_platform_interaction-invocable-action-editor', { is: InvocableActionEditor });
     Object.assign(el, { node, isNewMode });
     document.body.appendChild(el);
     return el;
@@ -155,9 +145,7 @@ let mockActionDetailsPromise = Promise.resolve(mockActionDetails);
 let mockActionsPromise = Promise.resolve(mockActions);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/serverDataLib'
-    );
+    const actual = require.requireActual('builder_platform_interaction/serverDataLib');
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,
@@ -175,7 +163,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 });
 
 jest.mock('builder_platform_interaction/storeLib', () => {
-    const getCurrentState = function () {
+    const getCurrentState = function() {
         return {
             properties: {
                 processType: 'flow'
@@ -183,7 +171,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
             elements: {}
         };
     };
-    const getStore = function () {
+    const getStore = function() {
         return {
             getCurrentState
         };
@@ -237,26 +225,17 @@ describe('Invocable Action editor', () => {
             mockActionDetailsPromise = Promise.reject();
             createComponentUnderTest(defaultNode, { isNewMode: false });
             const eventCallback = jest.fn();
-            document.addEventListener(
-                ClosePropertyEditorEvent.EVENT_NAME,
-                eventCallback
-            );
+            document.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
             await ticks(10);
 
             await mockActionDetailsPromise.catch(() => {
-                document.removeEventListener(
-                    ClosePropertyEditorEvent.EVENT_NAME,
-                    eventCallback
-                );
+                document.removeEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
                 expect(eventCallback).toHaveBeenCalled();
             });
         });
         it('should dispatch a SetPropertyEditorTitleEvent with a title containing the action call label', async () => {
             const eventCallback = jest.fn();
-            document.addEventListener(
-                SetPropertyEditorTitleEvent.EVENT_NAME,
-                eventCallback
-            );
+            document.addEventListener(SetPropertyEditorTitleEvent.EVENT_NAME, eventCallback);
             createComponentUnderTest(defaultNode, { isNewMode: false });
             await untilNoFailure(() => {
                 expect(eventCallback).toHaveBeenCalledTimes(2);
@@ -271,10 +250,7 @@ describe('Invocable Action editor', () => {
         it('should dispatch a SetPropertyEditorTitleEvent with a title containing the action call unique name if we cannot get the action call label', async () => {
             mockActionsPromise = Promise.reject();
             const eventCallback = jest.fn();
-            document.addEventListener(
-                SetPropertyEditorTitleEvent.EVENT_NAME,
-                eventCallback
-            );
+            document.addEventListener(SetPropertyEditorTitleEvent.EVENT_NAME, eventCallback);
             createComponentUnderTest(defaultNode, { isNewMode: false });
             await ticks(10);
             expect(eventCallback).toHaveBeenCalledTimes(1);
@@ -288,17 +264,11 @@ describe('Invocable Action editor', () => {
             mockActionDetailsPromise = Promise.reject();
             createComponentUnderTest(defaultNode, { isNewMode: true });
             const eventCallback = jest.fn();
-            document.addEventListener(
-                CannotRetrieveCalloutParametersEvent.EVENT_NAME,
-                eventCallback
-            );
+            document.addEventListener(CannotRetrieveCalloutParametersEvent.EVENT_NAME, eventCallback);
             await ticks(10);
 
             await mockActionDetailsPromise.catch(() => {
-                document.removeEventListener(
-                    CannotRetrieveCalloutParametersEvent.EVENT_NAME,
-                    eventCallback
-                );
+                document.removeEventListener(CannotRetrieveCalloutParametersEvent.EVENT_NAME, eventCallback);
                 expect(eventCallback).toHaveBeenCalled();
             });
         });
@@ -306,17 +276,11 @@ describe('Invocable Action editor', () => {
     describe('invocable action supports automatic output handling', () => {
         let invocableActionEditor;
         beforeEach(() => {
-            getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
-                'Unsupported'
-            );
-            invocableActionEditor = createComponentUnderTest(
-                actionWithAutomaticOutputNode
-            );
+            getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue('Unsupported');
+            invocableActionEditor = createComponentUnderTest(actionWithAutomaticOutputNode);
         });
         it('Should change storeOutputAutomatically to false if the process type does not support automatic output', () => {
-            expect(invocableActionEditor.node.storeOutputAutomatically).toBe(
-                false
-            );
+            expect(invocableActionEditor.node.storeOutputAutomatically).toBe(false);
         });
     });
 });

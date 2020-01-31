@@ -1,7 +1,4 @@
-import {
-    getValueFromHydratedItem,
-    getErrorFromHydratedItem
-} from 'builder_platform_interaction/dataMutationLib';
+import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { MERGE_WARNING_TYPE } from './mergeWarningType';
@@ -40,10 +37,7 @@ export function mergeSubflowAssignmentsWithInputOutputVariables(
     nodeOutputAssignments,
     inputOutputVariablesVersions
 ) {
-    const flowHasActiveVersion =
-        inputOutputVariablesVersions.find(
-            version => version.isActiveVersion
-        ) !== undefined;
+    const flowHasActiveVersion = inputOutputVariablesVersions.find(version => version.isActiveVersion) !== undefined;
     const activeInputVariables = flowHasActiveVersion
         ? getVariables(
               inputOutputVariablesVersions,
@@ -71,11 +65,7 @@ export function mergeSubflowAssignmentsWithInputOutputVariables(
     );
 
     return {
-        inputs: mergeSubflowAssignmentsWithVariables(
-            nodeInputAssignments,
-            activeInputVariables,
-            latestInputVariables
-        ),
+        inputs: mergeSubflowAssignmentsWithVariables(nodeInputAssignments, activeInputVariables, latestInputVariables),
         outputs: mergeSubflowAssignmentsWithVariables(
             nodeOutputAssignments,
             activeOutputVariables,
@@ -87,11 +77,7 @@ export function mergeSubflowAssignmentsWithInputOutputVariables(
 /**
  * Get the variables matching the given filters
  */
-function getVariables(
-    inputOutputVariablesVersions,
-    versionFilter,
-    variableFilter
-) {
+function getVariables(inputOutputVariablesVersions, versionFilter, variableFilter) {
     const version = inputOutputVariablesVersions.find(versionFilter);
     if (!version) {
         return [];
@@ -119,12 +105,9 @@ function getAsMap(activeVariables, latestVariables, nodeAssignments) {
     });
     nodeAssignments.forEach(nodeAssignment => {
         // there can be several assignments for a given variable (when flow has been edited using CFD)
-        const nodeAssignmentName = getValueFromHydratedItem(
-            nodeAssignment.name
-        );
+        const nodeAssignmentName = getValueFromHydratedItem(nodeAssignment.name);
         map[nodeAssignmentName] = map[nodeAssignmentName] || {};
-        map[nodeAssignmentName].nodeAssignments =
-            map[nodeAssignmentName].nodeAssignments || [];
+        map[nodeAssignmentName].nodeAssignments = map[nodeAssignmentName].nodeAssignments || [];
         map[nodeAssignmentName].nodeAssignments.push(nodeAssignment);
     });
     return map;
@@ -133,46 +116,21 @@ function getAsMap(activeVariables, latestVariables, nodeAssignments) {
 /**
  * Merge either input or output subflow assignments with input or output subflow active and latest variables
  */
-function mergeSubflowAssignmentsWithVariables(
-    nodeAssignments,
-    activeVariables,
-    latestVariables
-) {
+function mergeSubflowAssignmentsWithVariables(nodeAssignments, activeVariables, latestVariables) {
     const flowHasActiveVersion = activeVariables !== undefined;
-    const allParameters = getAsMap(
-        activeVariables,
-        latestVariables,
-        nodeAssignments
-    );
+    const allParameters = getAsMap(activeVariables, latestVariables, nodeAssignments);
     const parameterItems = [];
     for (const [
         name,
-        {
-            activeVariable,
-            latestVariable,
-            nodeAssignments: nodeAssignmentsForVariable
-        }
+        { activeVariable, latestVariable, nodeAssignments: nodeAssignmentsForVariable }
     ] of Object.entries(allParameters)) {
         if (nodeAssignmentsForVariable.length > 0) {
             // When using CFD, there is a warning when an input variable has multiple input assignments. At runtime, the last input assignment win
             // When using CFD, you can add multiple output assignments for the same subflow variable
             nodeAssignmentsForVariable.forEach(nodeAssignment => {
-                const parameterItem = merge(
-                    name,
-                    nodeAssignment,
-                    activeVariable,
-                    latestVariable
-                );
-                const warnings =
-                    nodeAssignmentsForVariable.length === 1
-                        ? []
-                        : [MERGE_WARNING_TYPE.DUPLICATE];
-                const warning = getMergeWarning(
-                    nodeAssignment,
-                    flowHasActiveVersion,
-                    activeVariable,
-                    latestVariable
-                );
+                const parameterItem = merge(name, nodeAssignment, activeVariable, latestVariable);
+                const warnings = nodeAssignmentsForVariable.length === 1 ? [] : [MERGE_WARNING_TYPE.DUPLICATE];
+                const warning = getMergeWarning(nodeAssignment, flowHasActiveVersion, activeVariable, latestVariable);
                 if (warning) {
                     warnings.push(warning);
                 }
@@ -183,18 +141,8 @@ function mergeSubflowAssignmentsWithVariables(
             });
         } else {
             const nodeAssignment = undefined;
-            const parameterItem = merge(
-                name,
-                nodeAssignment,
-                activeVariable,
-                latestVariable
-            );
-            const warning = getMergeWarning(
-                nodeAssignment,
-                flowHasActiveVersion,
-                activeVariable,
-                latestVariable
-            );
+            const parameterItem = merge(name, nodeAssignment, activeVariable, latestVariable);
+            const warning = getMergeWarning(nodeAssignment, flowHasActiveVersion, activeVariable, latestVariable);
             if (warning) {
                 parameterItem.warnings = [warning];
             }
@@ -249,12 +197,7 @@ function merge(name, nodeAssignment, activeVariable, latestVariable) {
     return parameterItem;
 }
 
-function getMergeWarning(
-    nodeAssignment,
-    flowHasActiveVersion,
-    activeVariable,
-    latestVariable
-) {
+function getMergeWarning(nodeAssignment, flowHasActiveVersion, activeVariable, latestVariable) {
     if (nodeAssignment && !activeVariable && !latestVariable) {
         return MERGE_WARNING_TYPE.NOT_AVAILABLE;
     }

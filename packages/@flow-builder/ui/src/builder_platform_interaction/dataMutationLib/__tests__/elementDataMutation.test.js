@@ -108,11 +108,7 @@ function expectNotToBeHydrated(field) {
 describe('hydrateWithErrors function', () => {
     describe('without default blacklist', () => {
         const blackListFields = ['guid', 'description'];
-        const resultObj = hydrateWithErrors(
-            deepCopy(testObj),
-            blackListFields,
-            false
-        );
+        const resultObj = hydrateWithErrors(deepCopy(testObj), blackListFields, false);
         const fieldsToBeTestedForHydration = {
             name: resultObj.name,
             label: resultObj.label,
@@ -122,13 +118,11 @@ describe('hydrateWithErrors function', () => {
             rightHandSide: resultObj.assignmentItems[0].rightHandSide
         };
 
-        Object.entries(fieldsToBeTestedForHydration).forEach(
-            ([fieldKey, fieldValue]) => {
-                it(`${fieldKey}:Needs to have a value and an empty error property`, () => {
-                    expectFieldToHaveValueAndErrorProperty(fieldValue);
-                });
-            }
-        );
+        Object.entries(fieldsToBeTestedForHydration).forEach(([fieldKey, fieldValue]) => {
+            it(`${fieldKey}:Needs to have a value and an empty error property`, () => {
+                expectFieldToHaveValueAndErrorProperty(fieldValue);
+            });
+        });
 
         const fieldsNotToBeHydrated = {
             description: resultObj.description, // Blacklisted
@@ -137,13 +131,11 @@ describe('hydrateWithErrors function', () => {
             locationY: resultObj.locationY, // number
             isCanvasElement: resultObj.isCanvasElement // boolean
         };
-        Object.entries(fieldsNotToBeHydrated).forEach(
-            ([fieldKey, fieldValue]) => {
-                it(`${fieldKey} should not have the error or value property on itself`, () => {
-                    expectNotToBeHydrated(fieldValue);
-                });
-            }
-        );
+        Object.entries(fieldsNotToBeHydrated).forEach(([fieldKey, fieldValue]) => {
+            it(`${fieldKey} should not have the error or value property on itself`, () => {
+                expectNotToBeHydrated(fieldValue);
+            });
+        });
     });
     describe('with default blacklist', () => {
         const blackListFields = ['leftHandSide', 'name'];
@@ -154,13 +146,11 @@ describe('hydrateWithErrors function', () => {
             rightHandSide: resultObj.assignmentItems[0].rightHandSide
         };
 
-        Object.entries(fieldsToBeTestedForHydration).forEach(
-            ([fieldKey, fieldValue]) => {
-                it(`${fieldKey}:Needs to have a value and an empty error property`, () => {
-                    expectFieldToHaveValueAndErrorProperty(fieldValue);
-                });
-            }
-        );
+        Object.entries(fieldsToBeTestedForHydration).forEach(([fieldKey, fieldValue]) => {
+            it(`${fieldKey}:Needs to have a value and an empty error property`, () => {
+                expectFieldToHaveValueAndErrorProperty(fieldValue);
+            });
+        });
 
         const fieldsNotToBeHydrated = {
             guid: resultObj.guid,
@@ -171,13 +161,11 @@ describe('hydrateWithErrors function', () => {
             leftHandSide: resultObj.assignmentItems[0].leftHandSide,
             name: resultObj.name
         };
-        Object.entries(fieldsNotToBeHydrated).forEach(
-            ([fieldKey, fieldValue]) => {
-                it(`${fieldKey} should not have the error or value property on itself`, () => {
-                    expectNotToBeHydrated(fieldValue);
-                });
-            }
-        );
+        Object.entries(fieldsNotToBeHydrated).forEach(([fieldKey, fieldValue]) => {
+            it(`${fieldKey} should not have the error or value property on itself`, () => {
+                expectNotToBeHydrated(fieldValue);
+            });
+        });
     });
 });
 
@@ -191,20 +179,16 @@ describe('dehydrate function', () => {
         operator: dehydratedObj.assignmentItems[0].operator,
         rightHandSide: dehydratedObj.assignmentItems[0].rightHandSide
     };
-    Object.entries(fieldsToBeTestedForDeHydration).forEach(
-        ([fieldKey, fieldValue]) => {
-            it(`${fieldKey} should not have the error or value property on itself`, () => {
-                expectNotToBeHydrated(fieldValue);
-            });
-        }
-    );
+    Object.entries(fieldsToBeTestedForDeHydration).forEach(([fieldKey, fieldValue]) => {
+        it(`${fieldKey} should not have the error or value property on itself`, () => {
+            expectNotToBeHydrated(fieldValue);
+        });
+    });
 });
 
 describe('getErrorsFromHydratedElement function', () => {
     it('should recursively include all errors for element values including arrays', () => {
-        const errorsList = getErrorsFromHydratedElement(
-            testObjectForGetErrorsFromHydratedElementFunction
-        );
+        const errorsList = getErrorsFromHydratedElement(testObjectForGetErrorsFromHydratedElementFunction);
         expect(errorsList).toHaveLength(2);
         expect(errorsList[0].key).toBe('leftHandSide');
         expect(errorsList[1].key).toBe('label');
@@ -213,10 +197,7 @@ describe('getErrorsFromHydratedElement function', () => {
     });
     it('should include all errors passed in via errorList argument', () => {
         const testItem = { name: 'Test Error3' };
-        const errorsList = getErrorsFromHydratedElement(
-            testObjectForGetErrorsFromHydratedElementFunction,
-            [testItem]
-        );
+        const errorsList = getErrorsFromHydratedElement(testObjectForGetErrorsFromHydratedElementFunction, [testItem]);
         expect(errorsList).toHaveLength(3);
         expect(errorsList).toContain(testItem);
     });
@@ -240,9 +221,7 @@ describe('getValueFromHydratedItem function', () => {
 
 describe('getErrorFromHydratedItem function', () => {
     it('should return error for the item hydrated with error', () => {
-        const error = getErrorFromHydratedItem(
-            testObjectForGetErrorsFromHydratedElementFunction.label
-        );
+        const error = getErrorFromHydratedItem(testObjectForGetErrorsFromHydratedElementFunction.label);
         expect(error).toBe('Test Error2');
     });
     it('should return null if not hydrated with error', () => {

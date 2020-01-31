@@ -1,14 +1,8 @@
 import { LightningElement, api, track } from 'lwc';
-import {
-    fetchOnce,
-    SERVER_ACTION_TYPE
-} from 'builder_platform_interaction/serverDataLib';
+import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { LABELS } from './apexPluginEditorLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
-import {
-    getValueFromHydratedItem,
-    getErrorsFromHydratedElement
-} from 'builder_platform_interaction/dataMutationLib';
+import { getValueFromHydratedItem, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { apexPluginReducer } from './apexPluginReducer';
 import {
     MERGE_WITH_PARAMETERS,
@@ -81,9 +75,7 @@ export default class ApexPluginEditor extends LightningElement {
     }
 
     get elementType() {
-        return this.apexPluginNode && this.apexPluginNode.elementType
-            ? this.apexPluginNode.elementType
-            : undefined;
+        return this.apexPluginNode && this.apexPluginNode.elementType ? this.apexPluginNode.elementType : undefined;
     }
 
     // used to keep track of whether this is an existing apex plugin
@@ -98,34 +90,20 @@ export default class ApexPluginEditor extends LightningElement {
             this.apexPluginDescriptor != null
                 ? this.apexPluginDescriptor.name
                 : getValueFromHydratedItem(this.apexPluginNode.apexClass);
-        return format(
-            this.labels.subtitle,
-            name,
-            this.labels.apexPluginTypeLabel
-        );
+        return format(this.labels.subtitle, name, this.labels.apexPluginTypeLabel);
     }
 
     get parameterListConfig() {
-        const inputs = this.apexPluginParametersDescriptor
-            ? this.apexPluginNode.inputParameters
-            : [];
-        const outputs = this.apexPluginParametersDescriptor
-            ? this.apexPluginNode.outputParameters
-            : [];
+        const inputs = this.apexPluginParametersDescriptor ? this.apexPluginNode.inputParameters : [];
+        const outputs = this.apexPluginParametersDescriptor ? this.apexPluginNode.outputParameters : [];
         const warnings = getParameterListWarnings(inputs, outputs, this.labels);
         return {
             inputHeader: this.labels.inputHeader,
             outputHeader: this.labels.outputHeader,
             emptyInputsTitle: this.labels.emptyInputsTitle,
-            emptyInputsBody: format(
-                this.labels.emptyInputsBody,
-                this.labels.apexPluginTypeLabel
-            ),
+            emptyInputsBody: format(this.labels.emptyInputsBody, this.labels.apexPluginTypeLabel),
             emptyOutputsTitle: this.labels.emptyOutputsTitle,
-            emptyOutputsBody: format(
-                this.labels.emptyOutputsBody,
-                this.labels.apexPluginTypeLabel
-            ),
+            emptyOutputsBody: format(this.labels.emptyOutputsBody, this.labels.apexPluginTypeLabel),
             sortInputs: true,
             sortOutputs: true,
             inputs,
@@ -133,10 +111,7 @@ export default class ApexPluginEditor extends LightningElement {
             warnings,
             storeOutputAutomatically: false, // automatic output handling are not supported for apex plugin
             automaticOutputHandlingSupported: false, // automatic output handling are not supported for apex plugin
-            emptyInputsOutputsBody: format(
-                this.labels.emptyInputsOutputsBody,
-                this.labels.apexPluginTypeLabel
-            ),
+            emptyInputsOutputsBody: format(this.labels.emptyInputsOutputsBody, this.labels.apexPluginTypeLabel),
             emptyInputsOutputsTitle: this.labels.emptyInputsOutputsTitle
         };
     }
@@ -148,11 +123,7 @@ export default class ApexPluginEditor extends LightningElement {
             .then(apexPlugins => {
                 if (this.connected) {
                     this.apexPluginDescriptor = apexPlugins.find(
-                        apexPlugin =>
-                            apexPlugin.apexClass ===
-                            getValueFromHydratedItem(
-                                this.apexPluginNode.apexClass
-                            )
+                        apexPlugin => apexPlugin.apexClass === getValueFromHydratedItem(this.apexPluginNode.apexClass)
                     );
                     this.updatePropertyEditorTitle();
                 }
@@ -176,10 +147,7 @@ export default class ApexPluginEditor extends LightningElement {
                     const event = new CustomEvent(MERGE_WITH_PARAMETERS, {
                         detail: parameters
                     });
-                    this.apexPluginNode = apexPluginReducer(
-                        this.apexPluginNode,
-                        event
-                    );
+                    this.apexPluginNode = apexPluginReducer(this.apexPluginNode, event);
                 }
             })
             .catch(() => {
@@ -218,9 +186,7 @@ export default class ApexPluginEditor extends LightningElement {
                 ? this.apexPluginDescriptor.name
                 : getValueFromHydratedItem(this.apexPluginNode.apexClass);
         const title = format(this.labels.editPropertyEditorTitle, name);
-        const setPropertyEditorTitleEvent = new SetPropertyEditorTitleEvent(
-            title
-        );
+        const setPropertyEditorTitleEvent = new SetPropertyEditorTitleEvent(title);
         this.dispatchEvent(setPropertyEditorTitleEvent);
     }
 }

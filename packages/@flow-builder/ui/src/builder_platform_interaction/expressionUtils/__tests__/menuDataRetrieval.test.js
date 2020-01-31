@@ -7,20 +7,12 @@ import {
     getResourceTypesMenuData,
     filterFieldsForChosenElement
 } from '../menuDataRetrieval.js';
-import {
-    numberParamCanBeAnything,
-    stringParam,
-    booleanParam,
-    stageParam
-} from 'mock/ruleService';
+import { numberParamCanBeAnything, stringParam, booleanParam, stageParam } from 'mock/ruleService';
 import * as store from 'mock/storeData';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import * as selectorsMock from 'builder_platform_interaction/selectors';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import {
-    ENTITY_TYPE,
-    getAllEntities
-} from 'builder_platform_interaction/sobjectLib';
+import { ENTITY_TYPE, getAllEntities } from 'builder_platform_interaction/sobjectLib';
 import {
     GLOBAL_CONSTANTS as gcLabels,
     GLOBAL_CONSTANT_OBJECTS as gcObjects,
@@ -29,14 +21,8 @@ import {
 import { LABELS } from '../expressionUtilsLabels';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import variablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.variablePluralLabel';
-import {
-    platformEvent1ApiName,
-    platformEvent1Label
-} from 'mock/eventTypesData';
-import {
-    getEventTypes,
-    fetchFieldsForEntity
-} from 'builder_platform_interaction/sobjectLib';
+import { platformEvent1ApiName, platformEvent1Label } from 'mock/eventTypesData';
+import { getEventTypes, fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { setSystemVariables } from 'builder_platform_interaction_mocks/systemLib';
 import { getSystemVariables } from 'builder_platform_interaction/systemLib';
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
@@ -54,9 +40,7 @@ import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const collectionVariable = LABELS.collectionVariablePluralLabel.toUpperCase();
 const sobjectVariable = LABELS.sObjectPluralLabel.toUpperCase();
@@ -118,18 +102,12 @@ jest.mock('builder_platform_interaction/apexTypeLib', () => {
 
 jest.mock('builder_platform_interaction/flowExtensionLib', () => {
     return {
-        getCachedExtension: jest
-            .fn()
-            .mockImplementation(
-                () => mockFlowRuntimeEmailFlowExtensionDescription
-            )
+        getCachedExtension: jest.fn().mockImplementation(() => mockFlowRuntimeEmailFlowExtensionDescription)
     };
 });
 
 jest.mock('builder_platform_interaction/screenEditorUtils', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/screenEditorUtils'
-    );
+    const actual = require.requireActual('builder_platform_interaction/screenEditorUtils');
     return {
         getFlowDataTypeByName: actual.getFlowDataTypeByName,
         getIconNameFromDataType: jest.fn().mockImplementation(() => {
@@ -143,19 +121,14 @@ jest.mock('builder_platform_interaction/invocableActionLib', () =>
 );
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
-    const sobjectLib = require.requireActual(
-        'builder_platform_interaction/sobjectLib'
-    );
+    const sobjectLib = require.requireActual('builder_platform_interaction/sobjectLib');
     return {
-        fetchFieldsForEntity: jest
-            .fn()
-            .mockImplementation(() => Promise.resolve(mockAccountFields)),
+        fetchFieldsForEntity: jest.fn().mockImplementation(() => Promise.resolve(mockAccountFields)),
         getAllEntities: jest.fn().mockImplementation(() => {
             return mockEntities;
         }),
         getWorkflowEnabledEntities: jest.fn().mockImplementation(() => {
-            return require.requireActual('mock/serverEntityData')
-                .mockWorkflowEnabledEntities;
+            return require.requireActual('mock/serverEntityData').mockWorkflowEnabledEntities;
         }),
         getEventTypes: jest.fn().mockImplementation(() => {
             return require('mock/eventTypesData').mockEventTypes;
@@ -176,12 +149,8 @@ jest.mock('builder_platform_interaction/selectors', () => {
 });
 
 jest.mock('builder_platform_interaction/dataTypeLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/dataTypeLib'
-    );
-    const {
-        ELEMENT_TYPE: elementType
-    } = require('builder_platform_interaction/flowMetadata');
+    const actual = require.requireActual('builder_platform_interaction/dataTypeLib');
+    const { ELEMENT_TYPE: elementType } = require('builder_platform_interaction/flowMetadata');
     return {
         getDataTypeLabel: actual.getDataTypeLabel,
         getDataTypeIcons: actual.getDataTypeIcons,
@@ -190,37 +159,25 @@ jest.mock('builder_platform_interaction/dataTypeLib', () => {
         isComplexType: actual.isComplexType,
         getFlowDataType: actual.getFlowDataType,
         getResourceTypes: jest.fn().mockImplementation(() => {
-            return [
-                { name: elementType.VARIABLE },
-                { name: elementType.CONSTANT },
-                { name: elementType.FORMULA }
-            ];
+            return [{ name: elementType.VARIABLE }, { name: elementType.CONSTANT }, { name: elementType.FORMULA }];
         })
     };
 });
 
 jest.mock('builder_platform_interaction/elementLabelLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/elementLabelLib'
-    );
+    const actual = require.requireActual('builder_platform_interaction/elementLabelLib');
     return {
-        getResourceLabel: jest
-            .fn()
-            .mockImplementation(resource => resource.name),
+        getResourceLabel: jest.fn().mockImplementation(resource => resource.name),
         getResourceCategory: actual.getResourceCategory
     };
 });
 
 jest.mock('builder_platform_interaction/subflowsLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/subflowsLib'
-    );
+    const actual = require.requireActual('builder_platform_interaction/subflowsLib');
     return {
         getMergedFlowOutputVariables: jest.fn().mockImplementation(flowName => {
             if (flowName === 'flowWithActiveAndLatest') {
-                return actual.getMergedInputOutputVariables(
-                    mockFlowWithActiveAndLatest
-                ).outputVariables;
+                return actual.getMergedInputOutputVariables(mockFlowWithActiveAndLatest).outputVariables;
             }
             return undefined;
         })
@@ -272,12 +229,8 @@ describe('Menu data retrieval', () => {
             shouldBeWritable: true
         })[0];
         expect(collectionVariables.items).toHaveLength(2);
-        expect(collectionVariables.items[0].text).toBe(
-            store.stringCollectionVariable1.name
-        );
-        expect(collectionVariables.items[1].text).toBe(
-            store.stringCollectionVariable2.name
-        );
+        expect(collectionVariables.items[0].text).toBe(store.stringCollectionVariable1.name);
+        expect(collectionVariables.items[1].text).toBe(store.stringCollectionVariable2.name);
     });
     it('should filter by allowed types', () => {
         jest.mock('builder_platform_interaction/ruleLib', () => {
@@ -288,10 +241,7 @@ describe('Menu data retrieval', () => {
                     .mockImplementationOnce(() => false)
             };
         });
-        selectorsMock.writableElementsSelector.mockReturnValue([
-            store.numberVariable,
-            store.stringCollectionVariable1
-        ]);
+        selectorsMock.writableElementsSelector.mockReturnValue([store.numberVariable, store.stringCollectionVariable1]);
         const allowedVariables = getElementsForMenuData(
             {
                 elementType: ELEMENT_TYPE.ASSIGNMENT,
@@ -301,27 +251,19 @@ describe('Menu data retrieval', () => {
         );
         expect(allowedVariables).toHaveLength(1);
         expect(allowedVariables[0].items).toHaveLength(1);
-        expect(allowedVariables[0].items[0].displayText).toBe(
-            addCurlyBraces(store.numberVariable.name)
-        );
+        expect(allowedVariables[0].items[0].displayText).toBe(addCurlyBraces(store.numberVariable.name));
     });
     it('should preserve devName in text & value field', () => {
-        selectorsMock.writableElementsSelector.mockReturnValue([
-            store.numberVariable
-        ]);
+        selectorsMock.writableElementsSelector.mockReturnValue([store.numberVariable]);
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
         })[1].items[0];
         expect(copiedElement.text).toBe(store.numberVariable.name);
-        expect(copiedElement.displayText).toBe(
-            addCurlyBraces(store.numberVariable.name)
-        );
+        expect(copiedElement.displayText).toBe(addCurlyBraces(store.numberVariable.name));
     });
     it('should set subText to subtype for sObject var', () => {
-        selectorsMock.writableElementsSelector.mockReturnValue([
-            store.accountSObjectVariable
-        ]);
+        selectorsMock.writableElementsSelector.mockReturnValue([store.accountSObjectVariable]);
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
@@ -329,9 +271,7 @@ describe('Menu data retrieval', () => {
         expect(copiedElement.subText).toBe('Account');
     });
     it('should set subText to label if there is a label', () => {
-        selectorsMock.readableElementsSelector.mockReturnValue([
-            store.decision1Outcome1
-        ]);
+        selectorsMock.readableElementsSelector.mockReturnValue([store.decision1Outcome1]);
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.DECISION,
             shouldBeWritable: true
@@ -339,9 +279,7 @@ describe('Menu data retrieval', () => {
         expect(copiedElement.subText).toBe(store.decision1Outcome1.name);
     });
     it('should set subText to dataType label if no subtype or label', () => {
-        selectorsMock.writableElementsSelector.mockReturnValue([
-            store.numberVariable
-        ]);
+        selectorsMock.writableElementsSelector.mockReturnValue([store.numberVariable]);
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
@@ -350,9 +288,7 @@ describe('Menu data retrieval', () => {
     });
 
     it('should have New Resource as first element', () => {
-        selectorsMock.writableElementsSelector.mockReturnValue([
-            store.numberVariable
-        ]);
+        selectorsMock.writableElementsSelector.mockReturnValue([store.numberVariable]);
         const allowedVariables = getElementsForMenuData(
             {
                 elementType: ELEMENT_TYPE.ASSIGNMENT,
@@ -362,9 +298,7 @@ describe('Menu data retrieval', () => {
             true
         );
         expect(allowedVariables).toHaveLength(2);
-        expect(allowedVariables[0].text).toBe(
-            'FlowBuilderExpressionUtils.newResourceLabel'
-        );
+        expect(allowedVariables[0].text).toBe('FlowBuilderExpressionUtils.newResourceLabel');
         expect(allowedVariables[0].value).toBe('%%NewResource%%');
     });
     it('should include complex objects (non-collection) when fields are allowed', () => {
@@ -450,9 +384,7 @@ describe('Menu data retrieval', () => {
         });
         expect(menuData[1].label).toBe(sobjectVariable);
         expect(menuData[1].items).toHaveLength(1);
-        expect(menuData[1].items[0].value).toEqual(
-            store.accountSObjectVariable.guid
-        );
+        expect(menuData[1].items[0].value).toEqual(store.accountSObjectVariable.guid);
     });
     it('should have only sobject collection variables', () => {
         selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReturnValue(
@@ -466,18 +398,11 @@ describe('Menu data retrieval', () => {
         });
         expect(menuData[1].label).toBe(sobjectCollectionVariable);
         expect(menuData[1].items).toHaveLength(1);
-        expect(menuData[1].items[0].value).toEqual(
-            store.accountSObjectCollectionVariable.guid
-        );
+        expect(menuData[1].items[0].value).toEqual(store.accountSObjectCollectionVariable.guid);
     });
     it('should have one sobject variable and one sobject collection variable', () => {
         selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReturnValue(
-            jest
-                .fn()
-                .mockReturnValue([
-                    store.accountSObjectVariable,
-                    store.accountSObjectCollectionVariable
-                ])
+            jest.fn().mockReturnValue([store.accountSObjectVariable, store.accountSObjectCollectionVariable])
         );
         const menuData = getElementsForMenuData({
             elementType: ELEMENT_TYPE.RECORD_LOOKUP,
@@ -490,13 +415,9 @@ describe('Menu data retrieval', () => {
         expect(menuData[1].label).toBe(sobjectCollectionVariable);
         expect(menuData[2].label).toBe(sobjectVariable);
         expect(menuData[1].items).toHaveLength(1);
-        expect(menuData[1].items[0].value).toEqual(
-            store.accountSObjectCollectionVariable.guid
-        );
+        expect(menuData[1].items[0].value).toEqual(store.accountSObjectCollectionVariable.guid);
         expect(menuData[2].items).toHaveLength(1);
-        expect(menuData[2].items[0].value).toEqual(
-            store.accountSObjectVariable.guid
-        );
+        expect(menuData[2].items[0].value).toEqual(store.accountSObjectVariable.guid);
     });
     it('should have only sobject variables (record Update)', () => {
         selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReturnValue(
@@ -510,9 +431,7 @@ describe('Menu data retrieval', () => {
         });
         expect(menuData[1].label).toBe(sobjectVariable);
         expect(menuData[1].items).toHaveLength(1);
-        expect(menuData[1].items[0].value).toEqual(
-            store.accountSObjectVariable.guid
-        );
+        expect(menuData[1].items[0].value).toEqual(store.accountSObjectVariable.guid);
     });
     it('should have only sobject collection variables  (record Update)', () => {
         selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReturnValue(
@@ -526,14 +445,10 @@ describe('Menu data retrieval', () => {
         });
         expect(menuData[1].label).toBe(sobjectCollectionVariable);
         expect(menuData[1].items).toHaveLength(1);
-        expect(menuData[1].items[0].value).toEqual(
-            store.accountSObjectCollectionVariable.guid
-        );
+        expect(menuData[1].items[0].value).toEqual(store.accountSObjectCollectionVariable.guid);
     });
     it('should have dataType populated for number variable', () => {
-        selectorsMock.writableElementsSelector.mockReturnValue([
-            store.numberVariable
-        ]);
+        selectorsMock.writableElementsSelector.mockReturnValue([store.numberVariable]);
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
@@ -542,9 +457,7 @@ describe('Menu data retrieval', () => {
         expect(copiedElement.subtype).toBeNull();
     });
     it('should have dataType and subtype populated for sObject var', () => {
-        selectorsMock.writableElementsSelector.mockReturnValue([
-            store.accountSObjectVariable
-        ]);
+        selectorsMock.writableElementsSelector.mockReturnValue([store.accountSObjectVariable]);
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
@@ -553,28 +466,19 @@ describe('Menu data retrieval', () => {
         expect(copiedElement.subtype).toBe('Account');
     });
     it('should have the iconName and iconSize populated', () => {
-        selectorsMock.writableElementsSelector.mockReturnValueOnce([
-            store.numberVariable
-        ]);
+        selectorsMock.writableElementsSelector.mockReturnValueOnce([store.numberVariable]);
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
         })[1].items[0];
-        expect(copiedElement.iconName).toBe(
-            FLOW_DATA_TYPE.NUMBER.utilityIconName
-        );
+        expect(copiedElement.iconName).toBe(FLOW_DATA_TYPE.NUMBER.utilityIconName);
         expect(copiedElement.iconSize).toBe('xx-small');
     });
 
     describe('disableHasNext', () => {
         it('should set hasNext to false for all menu items when true', () => {
             selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReturnValue(
-                jest
-                    .fn()
-                    .mockReturnValue([
-                        store.accountSObjectVariable,
-                        store.accountSObjectCollectionVariable
-                    ])
+                jest.fn().mockReturnValue([store.accountSObjectVariable, store.accountSObjectCollectionVariable])
             );
             const menuData = getElementsForMenuData(
                 {
@@ -595,12 +499,7 @@ describe('Menu data retrieval', () => {
 
         it('should not manipulate hasNext for all menu items when false', () => {
             selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReturnValue(
-                jest
-                    .fn()
-                    .mockReturnValue([
-                        store.accountSObjectVariable,
-                        store.accountSObjectCollectionVariable
-                    ])
+                jest.fn().mockReturnValue([store.accountSObjectVariable, store.accountSObjectCollectionVariable])
             );
             const menuData = getElementsForMenuData(
                 {
@@ -621,9 +520,7 @@ describe('Menu data retrieval', () => {
     });
     describe('RHS menuData', () => {
         it('should have active picklist values in menu data when LHS is picklist field', () => {
-            selectorsMock.writableElementsSelector.mockReturnValue([
-                store.accountSObjectVariable
-            ]);
+            selectorsMock.writableElementsSelector.mockReturnValue([store.accountSObjectVariable]);
             // configuration for menu data retrieval
             const allowedParamTypes = null;
             const includeNewResource = false;
@@ -642,14 +539,9 @@ describe('Menu data retrieval', () => {
                 disableHasNext,
                 activePicklistValues
             );
-            const picklistLabel =
-                'FlowBuilderExpressionUtils.picklistValuesLabel';
-            expect(menuData).toContainEqual(
-                expect.objectContaining({ label: picklistLabel })
-            );
-            expect(menuData).toContainEqual(
-                expect.objectContaining({ items: expect.any(Array) })
-            );
+            const picklistLabel = 'FlowBuilderExpressionUtils.picklistValuesLabel';
+            expect(menuData).toContainEqual(expect.objectContaining({ label: picklistLabel }));
+            expect(menuData).toContainEqual(expect.objectContaining({ items: expect.any(Array) }));
         });
     });
     describe('global constants', () => {
@@ -662,10 +554,7 @@ describe('Menu data retrieval', () => {
             ]);
 
             // only pass a string param for allowedParamTypes
-            const menuData = getElementsForMenuData(
-                { elementType: ELEMENT_TYPE.ASSIGNMENT },
-                sampleStringParamTypes
-            );
+            const menuData = getElementsForMenuData({ elementType: ELEMENT_TYPE.ASSIGNMENT }, sampleStringParamTypes);
 
             // only the empty string global constant is added to the menu data
             expect(menuData).toContainEqual(
@@ -673,9 +562,7 @@ describe('Menu data retrieval', () => {
                     label: LABELS.globalConstantCategory
                 })
             );
-            expect(menuData).toContainEqual(
-                expect.objectContaining({ items: expect.any(Array) })
-            );
+            expect(menuData).toContainEqual(expect.objectContaining({ items: expect.any(Array) }));
             expect(menuData[1].items).toHaveLength(1);
         });
         it('true and false should show in menuData when allowed', () => {
@@ -687,10 +574,7 @@ describe('Menu data retrieval', () => {
             ]);
 
             // only pass a boolean param for allowedParamTypes
-            const menuData = getElementsForMenuData(
-                { elementType: ELEMENT_TYPE.ASSIGNMENT },
-                sampleBooleanParamTypes
-            );
+            const menuData = getElementsForMenuData({ elementType: ELEMENT_TYPE.ASSIGNMENT }, sampleBooleanParamTypes);
 
             // only the boolean global constant is added to the menu data
             expect(menuData).toContainEqual(
@@ -698,9 +582,7 @@ describe('Menu data retrieval', () => {
                     label: LABELS.globalConstantCategory
                 })
             );
-            expect(menuData).toContainEqual(
-                expect.objectContaining({ items: expect.any(Array) })
-            );
+            expect(menuData).toContainEqual(expect.objectContaining({ items: expect.any(Array) }));
             expect(menuData[0].items).toHaveLength(2);
         });
     });
@@ -718,9 +600,7 @@ describe('Menu data retrieval', () => {
         });
 
         it('filters on workflowEnabled entities', () => {
-            const entitiesMenuData = getEntitiesMenuData(
-                ENTITY_TYPE.WORKFLOW_ENABLED
-            );
+            const entitiesMenuData = getEntitiesMenuData(ENTITY_TYPE.WORKFLOW_ENABLED);
             expect(entitiesMenuData).toBeDefined();
             expect(entitiesMenuData[0].text).toEqual('testWFEnabledEntity');
         });
@@ -738,15 +618,10 @@ describe('Menu data retrieval', () => {
             expect(element.value).toBe(store.numberVariable.guid);
             expect(element.text).toBe(store.numberVariable.name);
             expect(element.subText).toBe(FLOW_DATA_TYPE.NUMBER.label);
-            expect(element.displayText).toBe(
-                addCurlyBraces(store.numberVariable.name)
-            );
+            expect(element.displayText).toBe(addCurlyBraces(store.numberVariable.name));
         });
         it('filters using element type', () => {
-            const menuData = filterAndMutateMenuData(
-                [store.stageElement, store.dateVariable],
-                sampleStageParamTypes
-            );
+            const menuData = filterAndMutateMenuData([store.stageElement, store.dateVariable], sampleStageParamTypes);
             expect(menuData).toHaveLength(1);
             expect(menuData[0].items).toHaveLength(1);
             const element = menuData[0].items[0];
@@ -800,10 +675,7 @@ describe('Menu data retrieval', () => {
         });
         it('sets hasNext and right icon name when hasNext enabled only on not SObject when allowSObjectFields is false', () => {
             const menuData = filterAndMutateMenuData(
-                [
-                    store.apexCallAccountAutomaticOutput,
-                    store.apexCallAutomaticAnonymousAccountOutput
-                ],
+                [store.apexCallAccountAutomaticOutput, store.apexCallAutomaticAnonymousAccountOutput],
                 undefined,
                 false,
                 false,
@@ -838,17 +710,11 @@ describe('Menu data retrieval', () => {
             const eventTypesMenuData = getEventTypesMenuData();
             expect(eventTypesMenuData).toBeDefined();
             expect(eventTypesMenuData).toHaveLength(3);
-            expect(eventTypesMenuData[0].displayText).toEqual(
-                platformEvent1Label
-            );
+            expect(eventTypesMenuData[0].displayText).toEqual(platformEvent1Label);
             expect(eventTypesMenuData[0].text).toEqual(platformEvent1Label);
-            expect(eventTypesMenuData[0].subText).toEqual(
-                platformEvent1ApiName
-            );
+            expect(eventTypesMenuData[0].subText).toEqual(platformEvent1ApiName);
             expect(eventTypesMenuData[0].dataType).toEqual('SObject');
-            expect(eventTypesMenuData[0].subtype).toEqual(
-                platformEvent1ApiName
-            );
+            expect(eventTypesMenuData[0].subtype).toEqual(platformEvent1ApiName);
         });
     });
 
@@ -870,16 +736,12 @@ describe('Menu data retrieval', () => {
         });
         it('should fetch fields for sobject variables', async () => {
             const items = await getChildrenItemsPromise(parentSObjectItem);
-            expect(Object.keys(items)).toHaveLength(
-                Object.keys(mockAccountFields).length
-            );
+            expect(Object.keys(items)).toHaveLength(Object.keys(mockAccountFields).length);
             expectFieldsAreComplexTypeFieldDescriptions(items);
         });
         it('should return an empty map if cannot get fields', async () => {
             fetchFieldsForEntity.mockImplementationOnce(() =>
-                Promise.reject(
-                    new Error('cannot get entity fields : No Access')
-                )
+                Promise.reject(new Error('cannot get entity fields : No Access'))
             );
             const items = await getChildrenItemsPromise(parentSObjectItem);
             expect(items).toEqual({});
@@ -890,19 +752,13 @@ describe('Menu data retrieval', () => {
             expectFieldsAreComplexTypeFieldDescriptions(items);
         });
         it('should fetch ouput parameters for LC screen field with automatic handling', async () => {
-            const items = await getChildrenItemsPromise(
-                parentLightningComponentScreenFieldItem
-            );
-            expect(Object.keys(items)).toEqual(
-                expect.arrayContaining(['label', 'value'])
-            );
+            const items = await getChildrenItemsPromise(parentLightningComponentScreenFieldItem);
+            expect(Object.keys(items)).toEqual(expect.arrayContaining(['label', 'value']));
             expectFieldsAreComplexTypeFieldDescriptions(items);
         });
         it('should fetch ouput parameters for action with automatic handling', async () => {
             const items = await getChildrenItemsPromise(parentActionItem);
-            expect(Object.keys(items)).toEqual(
-                expect.arrayContaining(['feedItemId'])
-            );
+            expect(Object.keys(items)).toEqual(expect.arrayContaining(['feedItemId']));
             expectFieldsAreComplexTypeFieldDescriptions(items);
         });
         it('should fetch output variables for subflow with automatic handling', async () => {
@@ -957,11 +813,7 @@ describe('Menu data retrieval', () => {
                 displayText: '{!$Flow}'
             };
             const fields = getSystemVariables();
-            const menuItems = filterFieldsForChosenElement(
-                chosenElement,
-                fields,
-                { shouldBeWritable: true }
-            );
+            const menuItems = filterFieldsForChosenElement(chosenElement, fields, { shouldBeWritable: true });
             expect(menuItems).toHaveLength(3);
             expect(menuItems[0]).toMatchObject({
                 displayText: '{!$Flow.ActiveStages}'
@@ -979,13 +831,9 @@ describe('Menu data retrieval', () => {
                 subtype: 'FeedItem',
                 displayText: '{!recordVar}'
             };
-            const menuItems = filterFieldsForChosenElement(
-                parentMenuItem,
-                feedItemFields,
-                {
-                    allowedParamTypes: sampleNumberParamTypes
-                }
-            );
+            const menuItems = filterFieldsForChosenElement(parentMenuItem, feedItemFields, {
+                allowedParamTypes: sampleNumberParamTypes
+            });
             expect(menuItems).toContainEqual(
                 expect.objectContaining({
                     displayText: '{!recordVar.LikeCount}',
@@ -1005,21 +853,16 @@ describe('Menu data retrieval', () => {
             );
         });
         it('returns only sobject or can contain sobject elements when sobjectSelectorConfig is set', () => {
-            const parentMenuItem =
-                store.lightningCompAutomaticOutputContainsAccountExtension;
+            const parentMenuItem = store.lightningCompAutomaticOutputContainsAccountExtension;
             const fields = {
                 ...mockLightningCompWithAccountOutputFlowExtensionDescription.outputParameters
             };
 
-            const menuItems = filterFieldsForChosenElement(
-                parentMenuItem,
-                fields,
-                {
-                    sObjectSelectorConfig: {
-                        sObjectCollectionCriterion: 'SOBJECT'
-                    }
+            const menuItems = filterFieldsForChosenElement(parentMenuItem, fields, {
+                sObjectSelectorConfig: {
+                    sObjectCollectionCriterion: 'SOBJECT'
                 }
-            );
+            });
 
             expect(menuItems).toHaveLength(1);
             expect(menuItems).toContainEqual(
@@ -1030,21 +873,16 @@ describe('Menu data retrieval', () => {
             );
         });
         it('does not set hasNext when sobjectSelectorConfig is set', () => {
-            const parentMenuItem =
-                store.lightningCompAutomaticOutputContainsAccountExtension;
+            const parentMenuItem = store.lightningCompAutomaticOutputContainsAccountExtension;
             const fields = {
                 ...mockLightningCompWithAccountOutputFlowExtensionDescription.outputParameters
             };
 
-            const menuItems = filterFieldsForChosenElement(
-                parentMenuItem,
-                fields,
-                {
-                    sObjectSelectorConfig: {
-                        sObjectCollectionCriterion: 'SOBJECT'
-                    }
+            const menuItems = filterFieldsForChosenElement(parentMenuItem, fields, {
+                sObjectSelectorConfig: {
+                    sObjectCollectionCriterion: 'SOBJECT'
                 }
-            );
+            });
 
             expect(menuItems).toHaveLength(1);
             expect(menuItems[0].hasNext).toBeUndefined();

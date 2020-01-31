@@ -1,8 +1,4 @@
-import {
-    createFormula,
-    createFormulaForStore,
-    createFormulaMetadataObject
-} from '../formula';
+import { createFormula, createFormulaForStore, createFormulaMetadataObject } from '../formula';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const formulaMetadata = {

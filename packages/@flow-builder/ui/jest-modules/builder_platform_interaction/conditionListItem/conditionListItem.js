@@ -1,12 +1,12 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, api } from 'lwc';
 
 export default class ConditionListItem extends LightningElement {
-  @api
-  itemIndex;
+    @api
+    itemIndex;
 
-  @api
-  condition = {};
+    @api
+    condition = {};
 
-  @api
-  deleteable;
+    @api
+    deleteable;
 }

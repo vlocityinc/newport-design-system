@@ -1,23 +1,14 @@
 import { getResourceByUniqueIdentifier } from 'builder_platform_interaction/expressionUtils';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
-import {
-    getPropertiesForClass,
-    getApexPropertyWithName
-} from 'builder_platform_interaction/apexTypeLib';
+import { getPropertiesForClass, getApexPropertyWithName } from 'builder_platform_interaction/apexTypeLib';
 import { loadApexClasses } from 'builder_platform_interaction/preloadLib';
 import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
 import {
     getExtensionParamDescriptionAsComplexTypeFieldDescription,
     getInvocableActionParamDescriptionAsComplexTypeFieldDescription
 } from 'builder_platform_interaction/complexTypeLib';
-import {
-    isComplexType,
-    FLOW_DATA_TYPE
-} from 'builder_platform_interaction/dataTypeLib';
-import {
-    fetchFieldsForEntity,
-    getEntityFieldWithApiName
-} from 'builder_platform_interaction/sobjectLib';
+import { isComplexType, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { fetchFieldsForEntity, getEntityFieldWithApiName } from 'builder_platform_interaction/sobjectLib';
 import { isLookupTraversalSupported as isLookupTraversalSupportedByProcessType } from 'builder_platform_interaction/processTypeLib';
 import { isLookupTraversalSupported as isLookupTraversalSupportedByTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
@@ -30,10 +21,7 @@ import { fetchMergedFlowOutputVariables } from 'builder_platform_interaction/sub
  * @returns {Boolean} true if lookup traversal is supported, false otherwise
  */
 export const isLookupTraversalSupported = (processType, triggerType) => {
-    return (
-        isLookupTraversalSupportedByProcessType(processType) &&
-        isLookupTraversalSupportedByTriggerType(triggerType)
-    );
+    return isLookupTraversalSupportedByProcessType(processType) && isLookupTraversalSupportedByTriggerType(triggerType);
 };
 
 /**
@@ -61,23 +49,11 @@ function resolveComplexTypeReference(flowResource, fieldNames) {
     }
     let fieldsPromise;
     if (flowResource.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
-        fieldsPromise = resolveEntityFieldReference(
-            flowResource.subtype,
-            fieldNames
-        );
+        fieldsPromise = resolveEntityFieldReference(flowResource.subtype, fieldNames);
     } else if (flowResource.dataType === FLOW_DATA_TYPE.APEX.value) {
-        fieldsPromise = resolveApexPropertyReference(
-            flowResource.subtype,
-            fieldNames
-        );
-    } else if (
-        flowResource.dataType ===
-        FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
-    ) {
-        fieldsPromise = resolveLightningComponentOutputReference(
-            flowResource.extensionName,
-            fieldNames
-        );
+        fieldsPromise = resolveApexPropertyReference(flowResource.subtype, fieldNames);
+    } else if (flowResource.dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value) {
+        fieldsPromise = resolveLightningComponentOutputReference(flowResource.extensionName, fieldNames);
     } else if (flowResource.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
         fieldsPromise = resolveActionOutputReference(flowResource, fieldNames);
     } else if (flowResource.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value) {
@@ -107,17 +83,11 @@ function resolveApexPropertyReference(clazz, fieldNames) {
         }
         if (remainingFieldNames.length > 0) {
             if (property.dataType === FLOW_DATA_TYPE.APEX.value) {
-                return resolveApexPropertyReference(
-                    property.subtype,
-                    remainingFieldNames
-                ).then(fields => {
+                return resolveApexPropertyReference(property.subtype, remainingFieldNames).then(fields => {
                     return fields ? [property, ...fields] : undefined;
                 });
             } else if (property.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
-                return resolveEntityFieldReference(
-                    property.subtype,
-                    remainingFieldNames
-                ).then(fields => {
+                return resolveEntityFieldReference(property.subtype, remainingFieldNames).then(fields => {
                     return fields ? [property, ...fields] : undefined;
                 });
             }
@@ -132,40 +102,24 @@ function resolveEntityFieldReference(entityName, fieldNames) {
         return Promise.resolve([]);
     }
     const [fieldName, ...remainingFieldNames] = fieldNames;
-    return fetchFieldsForEntity(entityName, { disableErrorModal: true }).then(
-        fields => {
-            if (remainingFieldNames.length > 0) {
-                const {
-                    relationshipName,
-                    specificEntityName
-                } = getPolymorphicRelationShipName(fieldName);
-                const field = getEntityFieldWithRelationshipName(
-                    fields,
-                    relationshipName
-                );
-                if (!field) {
-                    return undefined;
-                }
-                const referenceToName = getReferenceToName(
-                    field,
-                    specificEntityName
-                );
-                return resolveEntityFieldReference(
-                    referenceToName,
-                    remainingFieldNames
-                ).then(remainingFields => {
-                    return remainingFields
-                        ? [field, ...remainingFields]
-                        : undefined;
-                });
-            }
-            const field = getEntityFieldWithApiName(fields, fieldName);
+    return fetchFieldsForEntity(entityName, { disableErrorModal: true }).then(fields => {
+        if (remainingFieldNames.length > 0) {
+            const { relationshipName, specificEntityName } = getPolymorphicRelationShipName(fieldName);
+            const field = getEntityFieldWithRelationshipName(fields, relationshipName);
             if (!field) {
                 return undefined;
             }
-            return [field];
+            const referenceToName = getReferenceToName(field, specificEntityName);
+            return resolveEntityFieldReference(referenceToName, remainingFieldNames).then(remainingFields => {
+                return remainingFields ? [field, ...remainingFields] : undefined;
+            });
         }
-    );
+        const field = getEntityFieldWithApiName(fields, fieldName);
+        if (!field) {
+            return undefined;
+        }
+        return [field];
+    });
 }
 
 function resolveLightningComponentOutputReference(extensionName, fieldNames) {
@@ -173,25 +127,18 @@ function resolveLightningComponentOutputReference(extensionName, fieldNames) {
         return Promise.resolve([]);
     }
     const [fieldName, ...remainingFieldNames] = fieldNames;
-    return fetchExtensionOutputParameters(extensionName).then(
-        outputParameters => {
-            const field = outputParameters[fieldName];
-            if (!field) {
-                return undefined;
-            }
-            if (remainingFieldNames.length > 0) {
-                return resolveApexPropertyOrEntityFieldReference(
-                    field,
-                    remainingFieldNames
-                ).then(remainingFields => {
-                    return remainingFields
-                        ? [field, ...remainingFields]
-                        : undefined;
-                });
-            }
-            return [field];
+    return fetchExtensionOutputParameters(extensionName).then(outputParameters => {
+        const field = outputParameters[fieldName];
+        if (!field) {
+            return undefined;
         }
-    );
+        if (remainingFieldNames.length > 0) {
+            return resolveApexPropertyOrEntityFieldReference(field, remainingFieldNames).then(remainingFields => {
+                return remainingFields ? [field, ...remainingFields] : undefined;
+            });
+        }
+        return [field];
+    });
 }
 
 function resolveApexPropertyOrEntityFieldReference(field, fieldNames) {
@@ -208,25 +155,18 @@ function resolveActionOutputReference({ actionType, actionName }, fieldNames) {
         return Promise.resolve([]);
     }
     const [fieldName, ...remainingFieldNames] = fieldNames;
-    return fetchActionOutputParameters({ actionType, actionName }).then(
-        outputParameters => {
-            const field = outputParameters[fieldName];
-            if (!field) {
-                return undefined;
-            }
-            if (remainingFieldNames.length > 0) {
-                return resolveApexPropertyOrEntityFieldReference(
-                    field,
-                    remainingFieldNames
-                ).then(remainingFields => {
-                    return remainingFields
-                        ? [field, ...remainingFields]
-                        : undefined;
-                });
-            }
-            return [field];
+    return fetchActionOutputParameters({ actionType, actionName }).then(outputParameters => {
+        const field = outputParameters[fieldName];
+        if (!field) {
+            return undefined;
         }
-    );
+        if (remainingFieldNames.length > 0) {
+            return resolveApexPropertyOrEntityFieldReference(field, remainingFieldNames).then(remainingFields => {
+                return remainingFields ? [field, ...remainingFields] : undefined;
+            });
+        }
+        return [field];
+    });
 }
 
 function resolveSubflowOutputReference({ flowName }, fieldNames) {
@@ -240,13 +180,8 @@ function resolveSubflowOutputReference({ flowName }, fieldNames) {
             return undefined;
         }
         if (remainingFieldNames.length > 0) {
-            return resolveApexPropertyOrEntityFieldReference(
-                field,
-                remainingFieldNames
-            ).then(remainingFields => {
-                return remainingFields
-                    ? [field, ...remainingFields]
-                    : undefined;
+            return resolveApexPropertyOrEntityFieldReference(field, remainingFieldNames).then(remainingFields => {
+                return remainingFields ? [field, ...remainingFields] : undefined;
             });
         }
         return [field];
@@ -256,10 +191,7 @@ function resolveSubflowOutputReference({ flowName }, fieldNames) {
 export function getReferenceToName(field, specificEntityName) {
     let referenceToName;
     if (specificEntityName) {
-        if (
-            !field.isPolymorphic ||
-            !entityFieldIncludesReferenceToName(field, specificEntityName)
-        ) {
+        if (!field.isPolymorphic || !entityFieldIncludesReferenceToName(field, specificEntityName)) {
             return undefined;
         }
         referenceToName = specificEntityName;
@@ -275,8 +207,7 @@ export function getReferenceToName(field, specificEntityName) {
 function entityFieldIncludesReferenceToName(entityField, referenceToName) {
     referenceToName = referenceToName.toLowerCase();
     return entityField.referenceToNames.some(
-        fieldReferenceToName =>
-            fieldReferenceToName.toLowerCase() === referenceToName
+        fieldReferenceToName => fieldReferenceToName.toLowerCase() === referenceToName
     );
 }
 
@@ -297,15 +228,9 @@ export function getEntityFieldWithRelationshipName(fields, relationshipName) {
         if (fields.hasOwnProperty(apiName)) {
             const field = fields[apiName];
             if (field.isSpanningAllowed) {
-                if (
-                    field.relationshipName &&
-                    relationshipName === field.relationshipName.toLowerCase()
-                ) {
+                if (field.relationshipName && relationshipName === field.relationshipName.toLowerCase()) {
                     return fields[apiName];
-                } else if (
-                    relationshipName === field.apiName.toLowerCase() &&
-                    field.isCustom
-                ) {
+                } else if (relationshipName === field.apiName.toLowerCase() && field.isCustom) {
                     return fields[apiName];
                 }
             }
@@ -316,11 +241,7 @@ export function getEntityFieldWithRelationshipName(fields, relationshipName) {
 
 function getExtensionOutputParamDescriptions(extension) {
     return extension.outputParameters.reduce((acc, parameter) => {
-        acc[
-            parameter.apiName
-        ] = getExtensionParamDescriptionAsComplexTypeFieldDescription(
-            parameter
-        );
+        acc[parameter.apiName] = getExtensionParamDescriptionAsComplexTypeFieldDescription(parameter);
         return acc;
     }, {});
 }
@@ -335,11 +256,7 @@ function getActionOutputParameterDescriptions(details) {
     return details.parameters
         .filter(parameter => parameter.isOutput === true)
         .reduce((acc, parameter) => {
-            acc[
-                parameter.name
-            ] = getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
-                parameter
-            );
+            acc[parameter.name] = getInvocableActionParamDescriptionAsComplexTypeFieldDescription(parameter);
             return acc;
         }, {});
 }

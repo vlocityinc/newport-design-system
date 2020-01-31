@@ -1,11 +1,4 @@
-import {
-    RULE_TYPES,
-    RULE_PROPERTY,
-    setRules,
-    getRules,
-    getOutputRules,
-    getRulesForElementType
-} from '../rules';
+import { RULE_TYPES, RULE_PROPERTY, setRules, getRules, getOutputRules, getRulesForElementType } from '../rules';
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
 const { LEFT, RHS_PARAMS, EXCLUDE_ELEMS } = RULE_PROPERTY;
@@ -204,9 +197,7 @@ const verifyProperties = testRulesVariable => {
 };
 
 const verifyOutputRuleShape = testExcludeElems => {
-    const rule = testExcludeElems
-        ? mockSingleAssignmentRuleWithExcludeElems
-        : mockSingleAssignmentRule;
+    const rule = testExcludeElems ? mockSingleAssignmentRuleWithExcludeElems : mockSingleAssignmentRule;
     const initialRule = rule[0];
     const initialLHS = initialRule[LEFT];
     const initialRHSParams = initialRule[RHS_PARAMS];
@@ -302,13 +293,8 @@ describe('get rules for element type', () => {
         setRules(mockRulesFromServiceAssignmentComparisonAndIncludedElems);
 
         const allRules = getRules();
-        const comparisonRules = getRulesForElementType(
-            COMPARISON,
-            decisionElement
-        );
+        const comparisonRules = getRulesForElementType(COMPARISON, decisionElement);
 
-        expect(comparisonRules).toEqual(
-            allRules[COMPARISON].concat(allRules[decisionElement][COMPARISON])
-        );
+        expect(comparisonRules).toEqual(allRules[COMPARISON].concat(allRules[decisionElement][COMPARISON]));
     });
 });

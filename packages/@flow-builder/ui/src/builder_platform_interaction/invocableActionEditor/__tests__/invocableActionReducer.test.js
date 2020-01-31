@@ -14,9 +14,7 @@ import {
 } from 'builder_platform_interaction/events';
 
 jest.mock('builder_platform_interaction/invocableActionLib', () => {
-    const invocableActionLib = require.requireActual(
-        'builder_platform_interaction/invocableActionLib'
-    );
+    const invocableActionLib = require.requireActual('builder_platform_interaction/invocableActionLib');
     return Object.assign({}, invocableActionLib, {
         getParametersForInvocableAction: jest.fn().mockReturnValue([
             {
@@ -257,14 +255,10 @@ describe('invocable-action-reducer', () => {
             newState = invocableActionReducer(originalState, event);
         });
         it('should remove unset input parameters', () => {
-            expect(newState.inputParameters).toHaveLength(
-                originalState.inputParameters.length
-            );
+            expect(newState.inputParameters).toHaveLength(originalState.inputParameters.length);
         });
         it('should remove unset output parameters', () => {
-            expect(newState.outputParameters).toHaveLength(
-                originalState.outputParameters.length
-            );
+            expect(newState.outputParameters).toHaveLength(originalState.outputParameters.length);
         });
     });
 
@@ -283,9 +277,7 @@ describe('invocable-action-reducer', () => {
             };
             const newState = invocableActionReducer(originalState, event);
             expect(newState.inputParameters).toHaveLength(2);
-            expect(newState.inputParameters[1].value.value).toEqual(
-                'This is a new message'
-            );
+            expect(newState.inputParameters[1].value.value).toEqual('This is a new message');
         });
         it('updates output parameter', () => {
             const event = {
@@ -301,9 +293,7 @@ describe('invocable-action-reducer', () => {
             };
             const newState = invocableActionReducer(originalState, event);
             expect(newState.outputParameters).toHaveLength(2);
-            expect(newState.outputParameters[0].value.value).toEqual(
-                'feedItemVar'
-            );
+            expect(newState.outputParameters[0].value.value).toEqual('feedItemVar');
         });
         it('set then value to null when we assign an empty string', () => {
             const event = {
@@ -334,35 +324,19 @@ describe('invocable-action-reducer', () => {
             newState = invocableActionReducer(originalState, event);
         });
         it('deletes the duplicate parameter', () => {
-            event = new DeleteParameterItemEvent(
-                false,
-                '78g56g57-7843-783b-78h5-785hk64g90g4',
-                'feedItemId'
-            );
+            event = new DeleteParameterItemEvent(false, '78g56g57-7843-783b-78h5-785hk64g90g4', 'feedItemId');
             newState = invocableActionReducer(originalState, event);
             expect(newState.outputParameters).toHaveLength(1);
-            expect(newState.outputParameters[0].value.value).toEqual(
-                '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f'
-            );
+            expect(newState.outputParameters[0].value.value).toEqual('578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f');
         });
         it('removes duplicate warning if there is no more duplicate', () => {
-            let duplicateOutputParameters = getParameterItemsWithName(
-                newState.outputParameters,
-                'feedItemId'
-            );
-            expect(duplicateOutputParameters[0].warnings).toEqual([
-                MERGE_WARNING_TYPE.DUPLICATE
-            ]);
-            expect(duplicateOutputParameters[1].warnings).toEqual([
-                MERGE_WARNING_TYPE.DUPLICATE
-            ]);
+            let duplicateOutputParameters = getParameterItemsWithName(newState.outputParameters, 'feedItemId');
+            expect(duplicateOutputParameters[0].warnings).toEqual([MERGE_WARNING_TYPE.DUPLICATE]);
+            expect(duplicateOutputParameters[1].warnings).toEqual([MERGE_WARNING_TYPE.DUPLICATE]);
             const rowIndex = duplicateOutputParameters[1].rowIndex;
             event = new DeleteParameterItemEvent(false, rowIndex, 'feedItemId');
             newState = invocableActionReducer(newState, event);
-            duplicateOutputParameters = getParameterItemsWithName(
-                newState.outputParameters,
-                'feedItemId'
-            );
+            duplicateOutputParameters = getParameterItemsWithName(newState.outputParameters, 'feedItemId');
             expect(duplicateOutputParameters).toHaveLength(1);
             expect(duplicateOutputParameters[0].warnings).toEqual([]);
         });
@@ -384,12 +358,8 @@ describe('invocable-action-reducer', () => {
             const newState = invocableActionReducer(originalState, event);
             expect(newState).not.toBe(originalState);
             expect(newState.inputParameters).toHaveLength(2);
-            expect(newState.inputParameters[0].value.value).toEqual(
-                'invalid value'
-            );
-            expect(newState.inputParameters[0].value.error).toEqual(
-                'Entered an invalid value'
-            );
+            expect(newState.inputParameters[0].value.value).toEqual('invalid value');
+            expect(newState.inputParameters[0].value.error).toEqual('Entered an invalid value');
         });
         it('fetch the error from output parameter', () => {
             const event = {
@@ -406,12 +376,8 @@ describe('invocable-action-reducer', () => {
             const newState = invocableActionReducer(originalState, event);
             expect(newState).not.toBe(originalState);
             expect(newState.outputParameters).toHaveLength(2);
-            expect(newState.outputParameters[0].value.value).toEqual(
-                'invalid value'
-            );
-            expect(newState.outputParameters[0].value.error).toEqual(
-                'Entered an invalid value'
-            );
+            expect(newState.outputParameters[0].value.value).toEqual('invalid value');
+            expect(newState.outputParameters[0].value.error).toEqual('Entered an invalid value');
         });
     });
     describe('Automatic output handling', () => {
@@ -438,10 +404,7 @@ describe('invocable-action-reducer', () => {
                     rowIndex: 'index1'
                 }
             };
-            newState = invocableActionReducer(
-                actionWithDynamicallyTypedOutput,
-                event
-            );
+            newState = invocableActionReducer(actionWithDynamicallyTypedOutput, event);
         });
         it('updates data type mapping and clears relevant invocable action parameters', () => {
             const dataTypeMappings = [

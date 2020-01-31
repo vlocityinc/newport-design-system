@@ -6,4 +6,4 @@
     handleCancel: function(cmp, event, helper) {
         helper.closePanel(cmp);
     }
-})
+});

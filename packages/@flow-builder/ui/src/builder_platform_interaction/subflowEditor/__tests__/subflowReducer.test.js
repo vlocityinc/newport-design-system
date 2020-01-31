@@ -1,13 +1,6 @@
 import { mockSubflowVariables } from 'mock/calloutData';
-import {
-    subflowReducer,
-    MERGE_WITH_VARIABLES,
-    REMOVE_UNSET_ASSIGNMENTS
-} from '../subflowReducer';
-import {
-    UpdateParameterItemEvent,
-    DeleteParameterItemEvent
-} from 'builder_platform_interaction/events';
+import { subflowReducer, MERGE_WITH_VARIABLES, REMOVE_UNSET_ASSIGNMENTS } from '../subflowReducer';
+import { UpdateParameterItemEvent, DeleteParameterItemEvent } from 'builder_platform_interaction/events';
 import { MERGE_WARNING_TYPE } from 'builder_platform_interaction/calloutEditorLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
@@ -131,29 +124,15 @@ describe('subflowReducer', () => {
         });
         it('merges assignments with variables', () => {
             expect(
-                getParameterItemsWithName(
-                    originalState.inputAssignments,
-                    'inputAccountCollectionVariable'
-                )
+                getParameterItemsWithName(originalState.inputAssignments, 'inputAccountCollectionVariable')
             ).toHaveLength(0);
+            expect(getParameterItemsWithName(newState.inputAssignments, 'inputAccountCollectionVariable')).toHaveLength(
+                1
+            );
             expect(
-                getParameterItemsWithName(
-                    newState.inputAssignments,
-                    'inputAccountCollectionVariable'
-                )
-            ).toHaveLength(1);
-            expect(
-                getParameterItemsWithName(
-                    originalState.outputAssignments,
-                    'inputOutputNumberVariable'
-                )
+                getParameterItemsWithName(originalState.outputAssignments, 'inputOutputNumberVariable')
             ).toHaveLength(0);
-            expect(
-                getParameterItemsWithName(
-                    newState.outputAssignments,
-                    'inputOutputNumberVariable'
-                )
-            ).toHaveLength(1);
+            expect(getParameterItemsWithName(newState.outputAssignments, 'inputOutputNumberVariable')).toHaveLength(1);
         });
     });
     describe('REMOVE_UNSET_ASSIGNMENTS event', () => {
@@ -167,26 +146,14 @@ describe('subflowReducer', () => {
             newState = subflowReducer(newState, event);
         });
         it('removes input assignments that are not set from the ui model', () => {
-            expect(newState.inputAssignments).toHaveLength(
-                originalState.inputAssignments.length
+            expect(newState.inputAssignments).toHaveLength(originalState.inputAssignments.length);
+            expect(getParameterItemsWithName(newState.inputAssignments, 'inputAccountCollectionVariable')).toHaveLength(
+                0
             );
-            expect(
-                getParameterItemsWithName(
-                    newState.inputAssignments,
-                    'inputAccountCollectionVariable'
-                )
-            ).toHaveLength(0);
         });
         it('removes output assignments that are not set from the ui model', () => {
-            expect(newState.outputAssignments).toHaveLength(
-                originalState.outputAssignments.length
-            );
-            expect(
-                getParameterItemsWithName(
-                    newState.outputAssignments,
-                    'inputOutputNumberVariable'
-                )
-            ).toHaveLength(0);
+            expect(newState.outputAssignments).toHaveLength(originalState.outputAssignments.length);
+            expect(getParameterItemsWithName(newState.outputAssignments, 'inputOutputNumberVariable')).toHaveLength(0);
         });
     });
 
@@ -202,66 +169,33 @@ describe('subflowReducer', () => {
             const rowId = '67501c16-0fb0-4a25-8b0c-bb933d395b09';
             const value = '8';
             const valueDataType = 'Number';
-            const event = new UpdateParameterItemEvent(
-                true,
-                rowId,
-                'inputNumberVariable',
-                value,
-                valueDataType
-            );
+            const event = new UpdateParameterItemEvent(true, rowId, 'inputNumberVariable', value, valueDataType);
             newState = subflowReducer(newState, event);
-            expect(
-                getParameterItemsWithName(
-                    newState.inputAssignments,
-                    'inputNumberVariable'
-                )[0].value.value
-            ).toEqual('8');
+            expect(getParameterItemsWithName(newState.inputAssignments, 'inputNumberVariable')[0].value.value).toEqual(
+                '8'
+            );
         });
         it('updates assignment correctly when there are several assignments using same variable', () => {
             const rowId = 'd461606d-cf4c-4bb1-b40b-54bbd4eb1a41';
             const value = '8';
             const valueDataType = 'Number';
-            const event = new UpdateParameterItemEvent(
-                true,
-                rowId,
-                'inputNumberVariable',
-                value,
-                valueDataType
-            );
+            const event = new UpdateParameterItemEvent(true, rowId, 'inputNumberVariable', value, valueDataType);
             newState = subflowReducer(newState, event);
-            expect(
-                getParameterItemsWithName(
-                    newState.inputAssignments,
-                    'inputNumberVariable'
-                )[0].value.value
-            ).toEqual('3');
-            expect(
-                getParameterItemsWithName(
-                    newState.inputAssignments,
-                    'inputNumberVariable'
-                )[1].value.value
-            ).toEqual('8');
+            expect(getParameterItemsWithName(newState.inputAssignments, 'inputNumberVariable')[0].value.value).toEqual(
+                '3'
+            );
+            expect(getParameterItemsWithName(newState.inputAssignments, 'inputNumberVariable')[1].value.value).toEqual(
+                '8'
+            );
         });
         it('updates the error for the assignment', () => {
             const rowId = '67501c16-0fb0-4a25-8b0c-bb933d395b09';
             const value = 'invalid value';
             const valueDataType = 'Number';
             const error = 'Entered an invalid value';
-            const event = new UpdateParameterItemEvent(
-                true,
-                rowId,
-                'inputNumberVariable',
-                value,
-                valueDataType,
-                error
-            );
+            const event = new UpdateParameterItemEvent(true, rowId, 'inputNumberVariable', value, valueDataType, error);
             newState = subflowReducer(newState, event);
-            expect(
-                getParameterItemsWithName(
-                    newState.inputAssignments,
-                    'inputNumberVariable'
-                )[0].value
-            ).toEqual({
+            expect(getParameterItemsWithName(newState.inputAssignments, 'inputNumberVariable')[0].value).toEqual({
                 error: 'Entered an invalid value',
                 value: 'invalid value'
             });
@@ -270,39 +204,23 @@ describe('subflowReducer', () => {
             const rowId = '67501c16-0fb0-4a25-8b0c-bb933d395b09';
             const value = null;
             const valueDataType = 'Number';
-            const event = new UpdateParameterItemEvent(
-                true,
-                rowId,
-                'inputNumberVariable',
-                value,
-                valueDataType
-            );
+            const event = new UpdateParameterItemEvent(true, rowId, 'inputNumberVariable', value, valueDataType);
             newState = subflowReducer(newState, event);
-            expect(
-                getParameterItemsWithName(
-                    newState.inputAssignments,
-                    'inputNumberVariable'
-                )[0].value
-            ).toEqual({ value: null, error: null });
+            expect(getParameterItemsWithName(newState.inputAssignments, 'inputNumberVariable')[0].value).toEqual({
+                value: null,
+                error: null
+            });
         });
         it('set the value to null when we assign an empty string to an output parameter', () => {
             const rowId = 'ade1a71a-1f7b-4de1-bd42-3aace88ea956';
             const value = '';
             const valueDataType = 'Number';
-            const event = new UpdateParameterItemEvent(
-                false,
-                rowId,
-                'outputNumberVariable',
-                value,
-                valueDataType
-            );
+            const event = new UpdateParameterItemEvent(false, rowId, 'outputNumberVariable', value, valueDataType);
             newState = subflowReducer(newState, event);
-            expect(
-                getParameterItemsWithName(
-                    newState.outputAssignments,
-                    'outputNumberVariable'
-                )[0].value
-            ).toEqual({ value: null, error: null });
+            expect(getParameterItemsWithName(newState.outputAssignments, 'outputNumberVariable')[0].value).toEqual({
+                value: null,
+                error: null
+            });
         });
     });
     describe('DeleteParameterItemEvent', () => {
@@ -315,38 +233,24 @@ describe('subflowReducer', () => {
         });
         it('deletes the assignment', () => {
             const rowIndex = 'd461606d-cf4c-4bb1-b40b-54bbd4eb1a41';
-            const event = new DeleteParameterItemEvent(
-                true,
-                rowIndex,
-                'inputNumberVariable'
-            );
+            const event = new DeleteParameterItemEvent(true, rowIndex, 'inputNumberVariable');
             newState = subflowReducer(newState, event);
             const inputNumberVariableParameterItems = getParameterItemsWithName(
                 newState.inputAssignments,
                 'inputNumberVariable'
             );
             expect(inputNumberVariableParameterItems).toHaveLength(1);
-            expect(inputNumberVariableParameterItems[0].value.value).toEqual(
-                '3'
-            );
+            expect(inputNumberVariableParameterItems[0].value.value).toEqual('3');
         });
         it('removes duplicate warning if there is no more duplicate', () => {
             let inputNumberVariableParameterItems = getParameterItemsWithName(
                 newState.inputAssignments,
                 'inputNumberVariable'
             );
-            expect(inputNumberVariableParameterItems[0].warnings).toEqual([
-                MERGE_WARNING_TYPE.DUPLICATE
-            ]);
-            expect(inputNumberVariableParameterItems[1].warnings).toEqual([
-                MERGE_WARNING_TYPE.DUPLICATE
-            ]);
+            expect(inputNumberVariableParameterItems[0].warnings).toEqual([MERGE_WARNING_TYPE.DUPLICATE]);
+            expect(inputNumberVariableParameterItems[1].warnings).toEqual([MERGE_WARNING_TYPE.DUPLICATE]);
             const rowIndex = inputNumberVariableParameterItems[1].rowIndex;
-            const event = new DeleteParameterItemEvent(
-                true,
-                rowIndex,
-                'inputNumberVariable'
-            );
+            const event = new DeleteParameterItemEvent(true, rowIndex, 'inputNumberVariable');
             newState = subflowReducer(newState, event);
             inputNumberVariableParameterItems = getParameterItemsWithName(
                 newState.inputAssignments,

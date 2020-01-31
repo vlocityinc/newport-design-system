@@ -18,12 +18,12 @@ export default class LightningTextArea extends LightningElement {
     @api fieldLevelHelp;
     @api disabled;
 
-    @api mockUserInput = (textEntered) => {
+    @api mockUserInput = textEntered => {
         Object.defineProperty(this, 'value', {
             value: textEntered,
             // required to be able to directly change the value input.value = 'desired'
             // this is necessary to support overriding what a user has typed in some cases
             writable: true
         });
-    }
+    };
 }

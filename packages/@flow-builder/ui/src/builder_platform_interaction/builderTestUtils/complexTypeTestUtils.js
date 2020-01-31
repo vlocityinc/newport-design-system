@@ -7,10 +7,7 @@ export const expectComplexTypeFieldDescription = field => {
     // need a dataType and apiName. isCollection and label optional
     expect(field.dataType).toBeDefined();
     expect(field.apiName).toBeDefined();
-    if (
-        field.dataType === FLOW_DATA_TYPE.SOBJECT.value ||
-        field.dataType === FLOW_DATA_TYPE.APEX.value
-    ) {
+    if (field.dataType === FLOW_DATA_TYPE.SOBJECT.value || field.dataType === FLOW_DATA_TYPE.APEX.value) {
         expect(field.subtype).toBeDefined();
         expect(field.subtype).not.toBeNull();
     }

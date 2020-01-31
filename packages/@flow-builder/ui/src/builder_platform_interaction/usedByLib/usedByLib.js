@@ -1,7 +1,4 @@
-import {
-    EXPRESSION_RE,
-    ELEMENT_TYPE
-} from 'builder_platform_interaction/flowMetadata';
+import { EXPRESSION_RE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store, isPlainObject } from 'builder_platform_interaction/storeLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import {
@@ -10,17 +7,10 @@ import {
     dehydrate,
     unionOfArrays
 } from 'builder_platform_interaction/dataMutationLib';
-import {
-    format,
-    splitStringBySeparator
-} from 'builder_platform_interaction/commonUtils';
+import { format, splitStringBySeparator } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './usedByLibLabels';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
-import {
-    isTemplateField,
-    isReferenceField,
-    shouldCallSwapFunction
-} from 'builder_platform_interaction/translatorLib';
+import { isTemplateField, isReferenceField, shouldCallSwapFunction } from 'builder_platform_interaction/translatorLib';
 
 let mapOfChildElements = {};
 
@@ -38,8 +28,7 @@ export function usedBy(
     listOfGuidsToSkip = [],
     flowProps = Store.getStore().getCurrentState().properties
 ) {
-    const updatedElementGuids =
-        insertChildReferences(elementGuids, elements) || [];
+    const updatedElementGuids = insertChildReferences(elementGuids, elements) || [];
     const elementsKeys = Object.keys(elements);
 
     let usedByElements =
@@ -48,14 +37,8 @@ export function usedBy(
             .filter(element => !listOfGuidsToSkip.includes(element))
             .reduce((acc, key) => {
                 if (!updatedElementGuids.includes(key)) {
-                    const elementGuidsReferenced = findReference(
-                        updatedElementGuids,
-                        elements[key]
-                    );
-                    if (
-                        elementGuidsReferenced &&
-                        elementGuidsReferenced.size > 0
-                    ) {
+                    const elementGuidsReferenced = findReference(updatedElementGuids, elements[key]);
+                    if (elementGuidsReferenced && elementGuidsReferenced.size > 0) {
                         const usedByElement = createUsedByElement({
                             element: elements[key],
                             elementGuidsReferenced: [...elementGuidsReferenced]
@@ -66,14 +49,8 @@ export function usedBy(
                 return acc;
             }, []);
     if (flowProps) {
-        const elementGuidsReferencedByFlowProps = findReference(
-            updatedElementGuids,
-            flowProps
-        );
-        if (
-            elementGuidsReferencedByFlowProps &&
-            elementGuidsReferencedByFlowProps.size > 0
-        ) {
+        const elementGuidsReferencedByFlowProps = findReference(updatedElementGuids, flowProps);
+        if (elementGuidsReferencedByFlowProps && elementGuidsReferencedByFlowProps.size > 0) {
             const label = LABELS.interviewLabelLabel;
             const elementType = ELEMENT_TYPE.FLOW_PROPERTIES;
             const flowPropsElement = {
@@ -100,14 +77,8 @@ export function usedBy(
  * @param {String} elementType - Type of the element being deleted
  * @param {Object} storeElements - Current state of elements in the store
  */
-export function invokeUsedByAlertModal(
-    usedByElements,
-    elementGuidsToBeDeleted,
-    elementType,
-    storeElements = {}
-) {
-    const elementGuidsToBeDeletedLength =
-        elementGuidsToBeDeleted && elementGuidsToBeDeleted.length;
+export function invokeUsedByAlertModal(usedByElements, elementGuidsToBeDeleted, elementType, storeElements = {}) {
+    const elementGuidsToBeDeletedLength = elementGuidsToBeDeleted && elementGuidsToBeDeleted.length;
     let headerTitle = LABELS.deleteAlertMultiDeleteHeaderTitle;
     let bodyTextOne = LABELS.deleteAlertMultiDeleteBodyTextOne;
     const listSectionHeader = LABELS.deleteAlertListSectionHeader;
@@ -118,25 +89,14 @@ export function invokeUsedByAlertModal(
     if (elementGuidsToBeDeletedLength === 1) {
         // When only a single element is being deleted and either the element or it's children are being referenced in the flow
         if (!elementType) {
-            const elementToBeDeleted =
-                storeElements[elementGuidsToBeDeleted[0]];
+            const elementToBeDeleted = storeElements[elementGuidsToBeDeleted[0]];
             elementType = elementToBeDeleted && elementToBeDeleted.elementType;
         }
         const elementConfig = getConfigForElementType(elementType);
-        if (
-            elementConfig &&
-            elementConfig.labels &&
-            elementConfig.labels.singular
-        ) {
+        if (elementConfig && elementConfig.labels && elementConfig.labels.singular) {
             const label = elementConfig.labels.singular.toLowerCase();
-            headerTitle = format(
-                LABELS.deleteAlertSingleDeleteHeaderTitle,
-                label
-            );
-            bodyTextOne = format(
-                LABELS.deleteAlertSingleDeleteBodyTextOne,
-                label
-            );
+            headerTitle = format(LABELS.deleteAlertSingleDeleteHeaderTitle, label);
+            bodyTextOne = format(LABELS.deleteAlertSingleDeleteBodyTextOne, label);
         }
     }
 
@@ -180,17 +140,8 @@ export function usedByStoreAndElementState(guid, parentGuid, internalElements) {
         return acc;
     }, []);
 
-    const locallyUsedElements = usedBy(
-        [guid],
-        mapOfChildElements,
-        undefined,
-        null
-    );
-    const globallyUsedElements = usedBy(
-        [guid],
-        undefined,
-        listOfGuidsToSkipWhenCheckingUsedByGlobally
-    );
+    const locallyUsedElements = usedBy([guid], mapOfChildElements, undefined, null);
+    const globallyUsedElements = usedBy([guid], undefined, listOfGuidsToSkipWhenCheckingUsedByGlobally);
     return unionOfArrays(locallyUsedElements, globallyUsedElements);
 }
 
@@ -207,25 +158,19 @@ function insertChildReferences(elementGuids, elements) {
             return acc;
         }
         if (element.elementType === ELEMENT_TYPE.DECISION) {
-            const outcomeReferences = element.outcomeReferences.map(
-                ({ outcomeReference }) => {
-                    return outcomeReference;
-                }
-            );
+            const outcomeReferences = element.outcomeReferences.map(({ outcomeReference }) => {
+                return outcomeReference;
+            });
             acc = [...acc, ...outcomeReferences];
         } else if (element.elementType === ELEMENT_TYPE.WAIT) {
-            const waitEventReferences = element.waitEventReferences.map(
-                ({ waitEventReference }) => {
-                    return waitEventReference;
-                }
-            );
+            const waitEventReferences = element.waitEventReferences.map(({ waitEventReference }) => {
+                return waitEventReference;
+            });
             acc = [...acc, ...waitEventReferences];
         } else if (element.elementType === ELEMENT_TYPE.SCREEN) {
-            const fieldReferences = element.fieldReferences.map(
-                ({ fieldReference }) => {
-                    return fieldReference;
-                }
-            );
+            const fieldReferences = element.fieldReferences.map(({ fieldReference }) => {
+                return fieldReference;
+            });
             acc = [...acc, ...fieldReferences];
         }
         return addItem(acc, elementGuid);
@@ -239,11 +184,7 @@ function insertChildReferences(elementGuids, elements) {
  * @param {String[]} elementGuidsReferenced set of element guids which are being referenced in an element
  * @returns {Boolean} true if elementGuids is used in the object
  */
-function findReference(
-    elementGuids,
-    object,
-    elementGuidsReferenced = new Set()
-) {
+function findReference(elementGuids, object, elementGuidsReferenced = new Set()) {
     if (Array.isArray(object)) {
         const objectLength = object && object.length;
         for (let index = 0; index < objectLength; index += 1) {
@@ -256,16 +197,8 @@ function findReference(
             const key = keys[index];
             const value = getValueFromHydratedItem(object[key]);
             if (shouldCallSwapFunction(object, key, value)) {
-                const newElementGuidsReferenced = matchElement(
-                    elementGuids,
-                    object,
-                    key,
-                    value
-                );
-                updateElementGuidsReferenced(
-                    elementGuidsReferenced,
-                    newElementGuidsReferenced
-                );
+                const newElementGuidsReferenced = matchElement(elementGuids, object, key, value);
+                updateElementGuidsReferenced(elementGuidsReferenced, newElementGuidsReferenced);
             } else if (typeof value !== 'number') {
                 findReference(elementGuids, value, elementGuidsReferenced);
             }
@@ -325,20 +258,13 @@ function matchElement(elementGuids, object, key, value) {
             if (occurences) {
                 return occurences
                     .map(occurence =>
-                        updateDevNameToGuid(
-                            splitStringBySeparator(
-                                occurence.slice(2, occurence.length - 1)
-                            )[0]
-                        )
+                        updateDevNameToGuid(splitStringBySeparator(occurence.slice(2, occurence.length - 1))[0])
                     )
                     .filter(guid => elementGuids.includes(guid));
             }
         } else if (isReferenceField(object, key)) {
             const guid = splitStringBySeparator(value)[0];
-            return (
-                elementGuids &&
-                elementGuids.filter(elementGuid => guid === elementGuid)
-            );
+            return elementGuids && elementGuids.filter(elementGuid => guid === elementGuid);
         }
     }
     return [];
@@ -350,12 +276,8 @@ function matchElement(elementGuids, object, key, value) {
  * @param {String[]} newElementGuidsReferenced list of new elementGuids which are referenced
  * @return {Set} elementGuidsReferenced updated set of unique elementGuids
  */
-function updateElementGuidsReferenced(
-    elementGuidsReferenced,
-    newElementGuidsReferenced
-) {
-    const newElementGuidsReferenceLength =
-        newElementGuidsReferenced && newElementGuidsReferenced.length;
+function updateElementGuidsReferenced(elementGuidsReferenced, newElementGuidsReferenced) {
+    const newElementGuidsReferenceLength = newElementGuidsReferenced && newElementGuidsReferenced.length;
     for (let index = 0; index < newElementGuidsReferenceLength; index++) {
         elementGuidsReferenced.add(newElementGuidsReferenced[index]);
     }
@@ -373,14 +295,9 @@ export function createUsedByElement({ element, elementGuidsReferenced }) {
     const guid = element.guid;
     const label = element.label;
     const name = element.name;
-    const isCanvasElement =
-        (elementConfig && elementConfig.canvasElement) || false;
+    const isCanvasElement = (elementConfig && elementConfig.canvasElement) || false;
     let iconName;
-    if (
-        elementConfig &&
-        elementConfig.nodeConfig &&
-        elementConfig.nodeConfig.iconName
-    ) {
+    if (elementConfig && elementConfig.nodeConfig && elementConfig.nodeConfig.iconName) {
         iconName = elementConfig.nodeConfig.iconName;
     }
 

@@ -75,10 +75,7 @@ describe('record delete reducer using sObject', () => {
                 originalState[INPUT_REFERENCE_PROPERTY_NAME].value
             );
             propChangedEvent.detail.ignoreValidate = true;
-            const newState = recordDeleteReducer(
-                originalState,
-                propChangedEvent
-            );
+            const newState = recordDeleteReducer(originalState, propChangedEvent);
             expect(newState).not.toBe(originalState);
             expect(newState[INPUT_REFERENCE_PROPERTY_NAME]).toMatchObject({
                 value: newValue,
@@ -96,10 +93,7 @@ describe('record delete reducer using sObject', () => {
                 originalState[INPUT_REFERENCE_PROPERTY_NAME].value
             );
             propChangedEvent.detail.ignoreValidate = true;
-            const newState = recordDeleteReducer(
-                originalState,
-                propChangedEvent
-            );
+            const newState = recordDeleteReducer(originalState, propChangedEvent);
             expect(newState).not.toBe(originalState);
             expect(newState[INPUT_REFERENCE_PROPERTY_NAME]).toMatchObject({
                 value: newValue,
@@ -138,10 +132,7 @@ describe('record delete reducer using fields', () => {
                 originalState.object.value
             );
             propChangedEvent.detail.ignoreValidate = true;
-            const newState = recordDeleteReducer(
-                originalState,
-                propChangedEvent
-            );
+            const newState = recordDeleteReducer(originalState, propChangedEvent);
             expect(newState).not.toBe(originalState);
             expect(newState[OBJECT_PROPERTY_NAME]).toMatchObject({
                 value: newValue,
@@ -158,10 +149,7 @@ describe('record delete reducer using fields', () => {
                 null,
                 originalState[OBJECT_PROPERTY_NAME].value
             );
-            const newState = recordDeleteReducer(
-                originalState,
-                propChangedEvent
-            );
+            const newState = recordDeleteReducer(originalState, propChangedEvent);
             expect(newState).not.toBe(originalState);
             expect(newState[OBJECT_PROPERTY_NAME]).toMatchObject({
                 value: newValue,
@@ -174,26 +162,15 @@ describe('record delete reducer using fields', () => {
                 let newState;
                 beforeAll(() => {
                     originalState = recordDeleteUsingFieldsState();
-                    const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(
-                        true,
-                        '',
-                        false
-                    );
-                    newState = recordDeleteReducer(
-                        originalState,
-                        recordStoreOptionChangedEvent
-                    );
+                    const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(true, '', false);
+                    newState = recordDeleteReducer(originalState, recordStoreOptionChangedEvent);
                 });
                 test('should reset "object" property', () => {
-                    expect(newState[OBJECT_PROPERTY_NAME].value).toHaveLength(
-                        0
-                    );
+                    expect(newState[OBJECT_PROPERTY_NAME].value).toHaveLength(0);
                 });
                 test('should reset "filters" property', () => {
                     expect(newState[FILTERS_PROPERTY_NAME]).toHaveLength(1);
-                    expect(
-                        newState[FILTERS_PROPERTY_NAME][0].leftHandSide.value
-                    ).toHaveLength(0);
+                    expect(newState[FILTERS_PROPERTY_NAME][0].leftHandSide.value).toHaveLength(0);
                 });
             });
 
@@ -201,20 +178,11 @@ describe('record delete reducer using fields', () => {
                 let newState;
                 beforeAll(() => {
                     originalState = recordDeleteUsingSobjectState();
-                    const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(
-                        false,
-                        '',
-                        false
-                    );
-                    newState = recordDeleteReducer(
-                        originalState,
-                        recordStoreOptionChangedEvent
-                    );
+                    const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(false, '', false);
+                    newState = recordDeleteReducer(originalState, recordStoreOptionChangedEvent);
                 });
                 test('should reset "inputReference" property', () => {
-                    expect(
-                        newState[INPUT_REFERENCE_PROPERTY_NAME].value
-                    ).toHaveLength(0);
+                    expect(newState[INPUT_REFERENCE_PROPERTY_NAME].value).toHaveLength(0);
                 });
             });
         });
@@ -256,9 +224,7 @@ describe('record delete reducer using fields', () => {
             };
             const newState = recordDeleteReducer(originalState, event);
             expect(newState.filters).toHaveLength(1);
-            expect(newState.filters[0].leftHandSide.value).toBe(
-                'Account.Description'
-            );
+            expect(newState.filters[0].leftHandSide.value).toBe('Account.Description');
             expect(newState).not.toBe(originalState);
         });
 
@@ -277,9 +243,7 @@ describe('record delete reducer using fields', () => {
             };
             const newState = recordDeleteReducer(originalState, event);
             expect(newState.filters).toHaveLength(1);
-            expect(newState.filters[0].rightHandSide.value).toBe(
-                'my NEW address'
-            );
+            expect(newState.filters[0].rightHandSide.value).toBe('my NEW address');
             expect(newState).not.toBe(originalState);
         });
         it('update the operator of filter item', () => {

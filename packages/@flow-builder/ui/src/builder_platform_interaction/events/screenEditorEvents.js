@@ -18,13 +18,7 @@ export const SCREEN_EDITOR_EVENT_NAME = {
  * @param {boolean} bubbles - Should the event bubble up
  * @returns {event} The event
  */
-export function createScreenEditorEvent(
-    type,
-    detail = {},
-    cancelable = true,
-    composed = true,
-    bubbles = true
-) {
+export function createScreenEditorEvent(type, detail = {}, cancelable = true, composed = true, bubbles = true) {
     const event = new CustomEvent(type, {
         detail,
         cancelable,
@@ -56,10 +50,7 @@ export function createScreenEditorEvent(
  * @returns {event} The event
  */
 export function createAddScreenFieldEvent(typeName, position) {
-    return createScreenEditorEvent(
-        SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED,
-        { typeName, position }
-    );
+    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED, { typeName, position });
 }
 
 /**
@@ -69,10 +60,7 @@ export function createAddScreenFieldEvent(typeName, position) {
  * @returns {event} The event
  */
 export function createScreenElementDeletedEvent(screenElement, property) {
-    return createScreenEditorEvent(
-        SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_DELETED,
-        { screenElement, property }
-    );
+    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_DELETED, { screenElement, property });
 }
 
 /**
@@ -81,10 +69,7 @@ export function createScreenElementDeletedEvent(screenElement, property) {
  * @returns {event} The event
  */
 export function createScreenElementDeselectedEvent(screenElement) {
-    return createScreenEditorEvent(
-        SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_DESELECTED,
-        { screenElement }
-    );
+    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_DESELECTED, { screenElement });
 }
 
 /**
@@ -94,10 +79,7 @@ export function createScreenElementDeselectedEvent(screenElement) {
  * @returns {event} The event
  */
 export function createScreenElementSelectedEvent(screenElement, property) {
-    return createScreenEditorEvent(
-        SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_SELECTED,
-        { screenElement, property }
-    );
+    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_SELECTED, { screenElement, property });
 }
 
 /**
@@ -107,10 +89,7 @@ export function createScreenElementSelectedEvent(screenElement, property) {
  * @returns {event} The event
  */
 export function createScreenNodeSelectedEvent(screenElement) {
-    return createScreenEditorEvent(
-        SCREEN_EDITOR_EVENT_NAME.SCREEN_NODE_SELECTED,
-        { screenElement }
-    );
+    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_NODE_SELECTED, { screenElement });
 }
 
 /**

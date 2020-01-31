@@ -8,10 +8,7 @@ import {
     UpdateParameterItemEvent
 } from 'builder_platform_interaction/events';
 import { LABELS } from '../waitEventLabels';
-import {
-    getConditionsWithPrefixes,
-    showDeleteCondition
-} from 'builder_platform_interaction/conditionListUtils';
+import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 
@@ -74,8 +71,7 @@ const selectors = {
     removeButton: 'lightning-button.removeWaitEvent',
     waitResumeConditions: 'builder_platform_interaction-wait-resume-conditions',
     tab: 'lightning-tab',
-    ferToFerovExpressionBuilder:
-        'builder_platform_interaction-fer-to-ferov-expression-builder'
+    ferToFerovExpressionBuilder: 'builder_platform_interaction-fer-to-ferov-expression-builder'
 };
 
 const createComponentUnderTest = waitEvent => {
@@ -94,44 +90,26 @@ const createComponentUnderTest = waitEvent => {
 describe('Wait Event', () => {
     describe('header section', () => {
         it('has name and api name component', () => {
-            const element = createComponentUnderTest(
-                waitEventWithOneConditional
-            );
+            const element = createComponentUnderTest(waitEventWithOneConditional);
 
             return Promise.resolve().then(() => {
-                const labelAndNameComponents = element.shadowRoot.querySelectorAll(
-                    selectors.labelAndName
-                );
+                const labelAndNameComponents = element.shadowRoot.querySelectorAll(selectors.labelAndName);
                 expect(labelAndNameComponents).toHaveLength(1);
-                expect(labelAndNameComponents[0].devName.value).toBe(
-                    waitEventWithOneConditional.name.value
-                );
-                expect(labelAndNameComponents[0].label.value).toBe(
-                    waitEventWithOneConditional.label.value
-                );
+                expect(labelAndNameComponents[0].devName.value).toBe(waitEventWithOneConditional.name.value);
+                expect(labelAndNameComponents[0].label.value).toBe(waitEventWithOneConditional.label.value);
             });
         });
 
         it('fires a waitEventPropertyChangedEvent with guid when a propertyChanged event is handled', () => {
             const newValue = 'newVal';
 
-            const element = createComponentUnderTest(
-                waitEventWithOneConditional
-            );
+            const element = createComponentUnderTest(waitEventWithOneConditional);
 
             const waitEventEventCallback = jest.fn();
-            element.addEventListener(
-                WaitEventPropertyChangedEvent.EVENT_NAME,
-                waitEventEventCallback
-            );
+            element.addEventListener(WaitEventPropertyChangedEvent.EVENT_NAME, waitEventEventCallback);
 
-            const propertyChangedEvent = new PropertyChangedEvent(
-                'label',
-                newValue
-            );
-            const labelAndNameComponent = element.shadowRoot.querySelector(
-                selectors.labelAndName
-            );
+            const propertyChangedEvent = new PropertyChangedEvent('label', newValue);
+            const labelAndNameComponent = element.shadowRoot.querySelector(selectors.labelAndName);
             labelAndNameComponent.dispatchEvent(propertyChangedEvent);
 
             expect(waitEventEventCallback).toHaveBeenCalled();
@@ -146,29 +124,21 @@ describe('Wait Event', () => {
         });
 
         it('has Remove button if show delete is true', () => {
-            const element = createComponentUnderTest(
-                waitEventWithOneConditional
-            );
+            const element = createComponentUnderTest(waitEventWithOneConditional);
 
             return Promise.resolve().then(() => {
-                const removeButton = element.shadowRoot.querySelectorAll(
-                    selectors.removeButton
-                )[0];
+                const removeButton = element.shadowRoot.querySelectorAll(selectors.removeButton)[0];
 
                 expect(removeButton.label).toBe(LABELS.deleteWaitEventLabel);
                 expect(removeButton.title).toBe(LABELS.deleteWaitEventLabel);
             });
         });
         it('has no Remove button if show delete is false', () => {
-            const element = createComponentUnderTest(
-                waitEventWithOneConditional
-            );
+            const element = createComponentUnderTest(waitEventWithOneConditional);
             element.showDelete = false;
 
             return Promise.resolve().then(() => {
-                const removeButton = element.shadowRoot.querySelector(
-                    selectors.removeButton
-                );
+                const removeButton = element.shadowRoot.querySelector(selectors.removeButton);
 
                 expect(removeButton).toBeNull();
             });
@@ -177,20 +147,13 @@ describe('Wait Event', () => {
 
     describe('handleDelete', () => {
         it('fires deleteWaitEventEvent with wait event GUID', () => {
-            const element = createComponentUnderTest(
-                waitEventWithOneConditional
-            );
+            const element = createComponentUnderTest(waitEventWithOneConditional);
 
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
-                element.addEventListener(
-                    DeleteWaitEventEvent.EVENT_NAME,
-                    eventCallback
-                );
+                element.addEventListener(DeleteWaitEventEvent.EVENT_NAME, eventCallback);
 
-                const removeButton = element.shadowRoot.querySelector(
-                    selectors.button
-                );
+                const removeButton = element.shadowRoot.querySelector(selectors.button);
                 removeButton.click();
 
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({
@@ -210,9 +173,7 @@ describe('Wait Event', () => {
         });
 
         it('contains a condition list', () => {
-            const conditionList = waitEvent.shadowRoot.querySelector(
-                selectors.conditionList
-            );
+            const conditionList = waitEvent.shadowRoot.querySelector(selectors.conditionList);
             expect(conditionList).toBeDefined();
         });
 
@@ -231,15 +192,11 @@ describe('Wait Event', () => {
                 }
             ]);
             waitEvent = createComponentUnderTest(waitEventWithOneConditional);
-            expect(showDeleteCondition).toHaveBeenCalledWith(
-                waitEventWithOneConditional.conditions
-            );
+            expect(showDeleteCondition).toHaveBeenCalledWith(waitEventWithOneConditional.conditions);
         });
 
         it('has AND, OR, NO_CONDITION, and CUSTOM_LOGIC options for wait criteria', () => {
-            const conditionList = waitEvent.shadowRoot.querySelector(
-                selectors.conditionList
-            );
+            const conditionList = waitEvent.shadowRoot.querySelector(selectors.conditionList);
             expect(conditionList.conditionLogicOptions).toEqual([
                 expect.objectContaining({
                     value: CONDITION_LOGIC.NO_CONDITIONS
@@ -251,29 +208,17 @@ describe('Wait Event', () => {
         });
 
         it('dispatches a WaitEventPropertyChangedEvent on PropertyChangedEvent', () => {
-            const conditionList = waitEvent.shadowRoot.querySelector(
-                selectors.conditionList
-            );
+            const conditionList = waitEvent.shadowRoot.querySelector(selectors.conditionList);
             const propNameToUpdate = 'foo';
             const propChangedEvent = new PropertyChangedEvent(propNameToUpdate);
             const waitEventUpdateSpy = jest.fn();
 
-            window.addEventListener(
-                WaitEventPropertyChangedEvent.EVENT_NAME,
-                waitEventUpdateSpy
-            );
+            window.addEventListener(WaitEventPropertyChangedEvent.EVENT_NAME, waitEventUpdateSpy);
             conditionList.dispatchEvent(propChangedEvent);
             return Promise.resolve().then(() => {
-                window.removeEventListener(
-                    WaitEventPropertyChangedEvent.EVENT_NAME,
-                    waitEventUpdateSpy
-                );
-                expect(waitEventUpdateSpy.mock.calls[0][0].type).toEqual(
-                    WaitEventPropertyChangedEvent.EVENT_NAME
-                );
-                expect(
-                    waitEventUpdateSpy.mock.calls[0][0].detail.propertyName
-                ).toEqual(propNameToUpdate);
+                window.removeEventListener(WaitEventPropertyChangedEvent.EVENT_NAME, waitEventUpdateSpy);
+                expect(waitEventUpdateSpy.mock.calls[0][0].type).toEqual(WaitEventPropertyChangedEvent.EVENT_NAME);
+                expect(waitEventUpdateSpy.mock.calls[0][0].detail.propertyName).toEqual(propNameToUpdate);
             });
         });
 
@@ -283,11 +228,9 @@ describe('Wait Event', () => {
                 rowIndex: 0,
                 leftHandSide: { value: '{!foo}', error: 'someError' }
             };
-            const waitEventWithErrorConditional = Object.assign(
-                {},
-                waitEventWithOneConditional,
-                { conditions: [conditionWithErorr] }
-            );
+            const waitEventWithErrorConditional = Object.assign({}, waitEventWithOneConditional, {
+                conditions: [conditionWithErorr]
+            });
             waitEvent = createComponentUnderTest(waitEventWithErrorConditional);
             const tabs = waitEvent.shadowRoot.querySelectorAll(selectors.tab);
             return Promise.resolve().then(() => {
@@ -297,14 +240,10 @@ describe('Wait Event', () => {
 
         it('shows the error indicator in the wait conditions subtab when errors in conditionLogic exist', () => {
             const conditionLogicWithError = { value: '1', error: 'some error' };
-            const waitEventWithErrorConditionLogic = Object.assign(
-                {},
-                waitEventWithOneConditional,
-                { conditionLogic: conditionLogicWithError }
-            );
-            waitEvent = createComponentUnderTest(
-                waitEventWithErrorConditionLogic
-            );
+            const waitEventWithErrorConditionLogic = Object.assign({}, waitEventWithOneConditional, {
+                conditionLogic: conditionLogicWithError
+            });
+            waitEvent = createComponentUnderTest(waitEventWithErrorConditionLogic);
             const tabs = waitEvent.shadowRoot.querySelectorAll(selectors.tab);
             return Promise.resolve().then(() => {
                 expect(tabs[0].showErrorIndicator).toEqual(true);
@@ -318,14 +257,10 @@ describe('Wait Event', () => {
                 leftHandSide: { value: '{!foo}', error: null }
             };
             const conditionLogicWithNoError = { value: '1', error: null };
-            const waitEventWithErrorConditional = Object.assign(
-                {},
-                waitEventWithOneConditional,
-                {
-                    conditions: [conditionWithNoErorr],
-                    conditionLogic: conditionLogicWithNoError
-                }
-            );
+            const waitEventWithErrorConditional = Object.assign({}, waitEventWithOneConditional, {
+                conditions: [conditionWithNoErorr],
+                conditionLogic: conditionLogicWithNoError
+            });
             waitEvent = createComponentUnderTest(waitEventWithErrorConditional);
             const tabs = waitEvent.shadowRoot.querySelectorAll(selectors.tab);
             return Promise.resolve().then(() => {
@@ -344,68 +279,40 @@ describe('Wait Event', () => {
             const ferToFerovExpressionBuilder = waitEvent.shadowRoot.querySelector(
                 selectors.ferToFerovExpressionBuilder
             );
-            expect(ferToFerovExpressionBuilder.defaultOperator).toEqual(
-                RULE_OPERATOR.EQUAL_TO
-            );
+            expect(ferToFerovExpressionBuilder.defaultOperator).toEqual(RULE_OPERATOR.EQUAL_TO);
         });
     });
 
     describe('resume conditions', () => {
         let waitEvent;
-        const waitEventParameterSpy = jest
-            .fn()
-            .mockName('waitEventParameterChangedEventSpy');
-        const waitEventPropertySpy = jest
-            .fn()
-            .mockName('waitEventPropertyChangedEventSpy');
+        const waitEventParameterSpy = jest.fn().mockName('waitEventParameterChangedEventSpy');
+        const waitEventPropertySpy = jest.fn().mockName('waitEventPropertyChangedEventSpy');
 
         beforeEach(() => {
             waitEvent = createComponentUnderTest(waitEventWithInputParameters);
-            window.addEventListener(
-                WaitEventPropertyChangedEvent.EVENT_NAME,
-                waitEventPropertySpy
-            );
-            window.addEventListener(
-                WaitEventParameterChangedEvent.EVENT_NAME,
-                waitEventParameterSpy
-            );
+            window.addEventListener(WaitEventPropertyChangedEvent.EVENT_NAME, waitEventPropertySpy);
+            window.addEventListener(WaitEventParameterChangedEvent.EVENT_NAME, waitEventParameterSpy);
         });
 
         afterEach(() => {
-            window.removeEventListener(
-                WaitEventPropertyChangedEvent.EVENT_NAME,
-                waitEventPropertySpy
-            );
-            window.removeEventListener(
-                WaitEventParameterChangedEvent.EVENT_NAME,
-                waitEventParameterSpy
-            );
+            window.removeEventListener(WaitEventPropertyChangedEvent.EVENT_NAME, waitEventPropertySpy);
+            window.removeEventListener(WaitEventParameterChangedEvent.EVENT_NAME, waitEventParameterSpy);
         });
 
         it('passes inputParameters to to the waitResumeConditions component', () => {
-            const waitResumeConditions = waitEvent.shadowRoot.querySelector(
-                selectors.waitResumeConditions
-            );
-            expect(waitResumeConditions.resumeTimeParameters).toEqual(
-                waitEventWithInputParameters.inputParameters
-            );
+            const waitResumeConditions = waitEvent.shadowRoot.querySelector(selectors.waitResumeConditions);
+            expect(waitResumeConditions.resumeTimeParameters).toEqual(waitEventWithInputParameters.inputParameters);
         });
 
         it('passes eventType to the waitResumeConditions component', () => {
-            const waitResumeConditions = waitEvent.shadowRoot.querySelector(
-                selectors.waitResumeConditions
-            );
-            expect(waitResumeConditions.eventType).toEqual(
-                waitEventWithInputParameters.eventType
-            );
+            const waitResumeConditions = waitEvent.shadowRoot.querySelector(selectors.waitResumeConditions);
+            expect(waitResumeConditions.eventType).toEqual(waitEventWithInputParameters.eventType);
         });
 
         it('handles PropertyChangedEvent from waitResumeConditions and fires WaitEventPropertyChangedEvent', () => {
             const propertyChanged = new PropertyChangedEvent();
 
-            const waitResumeConditions = waitEvent.shadowRoot.querySelector(
-                selectors.waitResumeConditions
-            );
+            const waitResumeConditions = waitEvent.shadowRoot.querySelector(selectors.waitResumeConditions);
             waitResumeConditions.dispatchEvent(propertyChanged);
 
             return Promise.resolve().then(() => {
@@ -437,31 +344,16 @@ describe('Wait Event', () => {
                 error
             );
 
-            const waitResumeConditions = waitEvent.shadowRoot.querySelector(
-                selectors.waitResumeConditions
-            );
+            const waitResumeConditions = waitEvent.shadowRoot.querySelector(selectors.waitResumeConditions);
             waitResumeConditions.dispatchEvent(parameterChanged);
 
             return Promise.resolve().then(() => {
-                expect(waitEventParameterSpy.mock.calls[0][0].type).toEqual(
-                    WaitEventParameterChangedEvent.EVENT_NAME
-                );
-                expect(
-                    waitEventParameterSpy.mock.calls[0][0].detail
-                        .isInputParameter
-                ).toEqual(isInput);
-                expect(
-                    waitEventParameterSpy.mock.calls[0][0].detail.name
-                ).toEqual(propName);
-                expect(
-                    waitEventParameterSpy.mock.calls[0][0].detail.value
-                ).toEqual(newValue);
-                expect(
-                    waitEventParameterSpy.mock.calls[0][0].detail.valueDataType
-                ).toEqual(newValueDataType);
-                expect(
-                    waitEventParameterSpy.mock.calls[0][0].detail.error
-                ).toEqual(error);
+                expect(waitEventParameterSpy.mock.calls[0][0].type).toEqual(WaitEventParameterChangedEvent.EVENT_NAME);
+                expect(waitEventParameterSpy.mock.calls[0][0].detail.isInputParameter).toEqual(isInput);
+                expect(waitEventParameterSpy.mock.calls[0][0].detail.name).toEqual(propName);
+                expect(waitEventParameterSpy.mock.calls[0][0].detail.value).toEqual(newValue);
+                expect(waitEventParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual(newValueDataType);
+                expect(waitEventParameterSpy.mock.calls[0][0].detail.error).toEqual(error);
             });
         });
 
@@ -472,14 +364,10 @@ describe('Wait Event', () => {
                 valueDataType: { value: 'vdt', error: null },
                 rowIndex: '123'
             };
-            const waitEventWithErrorInputParameters = Object.assign(
-                {},
-                waitEventWithInputParameters,
-                { inputParameters: [inputParameterWithError] }
-            );
-            waitEvent = createComponentUnderTest(
-                waitEventWithErrorInputParameters
-            );
+            const waitEventWithErrorInputParameters = Object.assign({}, waitEventWithInputParameters, {
+                inputParameters: [inputParameterWithError]
+            });
+            waitEvent = createComponentUnderTest(waitEventWithErrorInputParameters);
             const tabs = waitEvent.shadowRoot.querySelectorAll(selectors.tab);
             return Promise.resolve().then(() => {
                 expect(tabs[1].showErrorIndicator).toEqual(true);
@@ -493,14 +381,10 @@ describe('Wait Event', () => {
                 valueDataType: { value: 'vdt', error: null },
                 rowIndex: '12345'
             };
-            const waitEventWithErrorOutputParameters = Object.assign(
-                {},
-                waitEventWithInputParameters,
-                { inputParameters: [outputParameterWithError] }
-            );
-            waitEvent = createComponentUnderTest(
-                waitEventWithErrorOutputParameters
-            );
+            const waitEventWithErrorOutputParameters = Object.assign({}, waitEventWithInputParameters, {
+                inputParameters: [outputParameterWithError]
+            });
+            waitEvent = createComponentUnderTest(waitEventWithErrorOutputParameters);
             const tabs = waitEvent.shadowRoot.querySelectorAll(selectors.tab);
             return Promise.resolve().then(() => {
                 expect(tabs[1].showErrorIndicator).toEqual(true);
@@ -512,14 +396,10 @@ describe('Wait Event', () => {
                 value: 'someEventType',
                 error: 'some error'
             };
-            const waitEventWithErrorOutputParameters = Object.assign(
-                {},
-                waitEventWithInputParameters,
-                { eventType: eventTypeWithError }
-            );
-            waitEvent = createComponentUnderTest(
-                waitEventWithErrorOutputParameters
-            );
+            const waitEventWithErrorOutputParameters = Object.assign({}, waitEventWithInputParameters, {
+                eventType: eventTypeWithError
+            });
+            waitEvent = createComponentUnderTest(waitEventWithErrorOutputParameters);
             const tabs = waitEvent.shadowRoot.querySelectorAll(selectors.tab);
             return Promise.resolve().then(() => {
                 expect(tabs[1].showErrorIndicator).toEqual(true);
@@ -542,15 +422,11 @@ describe('Wait Event', () => {
                 value: 'someEventType',
                 error: null
             };
-            const waitEventWithErrorConditional = Object.assign(
-                {},
-                waitEventWithOneConditional,
-                {
-                    inputParameters: [inputParameterWithNoError],
-                    outputParameters: [outputParameterWithNoError],
-                    eventType: eventTypeWithNoError
-                }
-            );
+            const waitEventWithErrorConditional = Object.assign({}, waitEventWithOneConditional, {
+                inputParameters: [inputParameterWithNoError],
+                outputParameters: [outputParameterWithNoError],
+                eventType: eventTypeWithNoError
+            });
             waitEvent = createComponentUnderTest(waitEventWithErrorConditional);
             const tabs = waitEvent.shadowRoot.querySelectorAll(selectors.tab);
             return Promise.resolve().then(() => {

@@ -15,12 +15,12 @@ export function createSelector(selectors, transformation, shouldMemoize) {
     let transformationFunc = transformation;
     // Memoize the transformation, if requested
     if (shouldMemoize) {
-        transformationFunc = memoize(function () {
+        transformationFunc = memoize(function() {
             return transformation.apply(null, arguments);
         });
     }
 
-    let selector = function () {
+    let selector = function() {
         // Invoke each selector with supplied arguments, collecting results into an array.
         const dataFromSelectors = selectors.map(arg => arg.apply(null, arguments));
         // Invoke the transformation, passing it the array of selectors' results.

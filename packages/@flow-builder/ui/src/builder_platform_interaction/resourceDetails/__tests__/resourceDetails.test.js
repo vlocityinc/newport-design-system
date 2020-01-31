@@ -1,8 +1,5 @@
 import { createElement } from 'lwc';
-import {
-    EditElementEvent,
-    DeleteResourceEvent
-} from 'builder_platform_interaction/events';
+import { EditElementEvent, DeleteResourceEvent } from 'builder_platform_interaction/events';
 import ResourceDetails from 'builder_platform_interaction/resourceDetails';
 import {
     mockExtensionScreenfieldAutomaticOutputsModeResourceDetails,
@@ -56,21 +53,14 @@ const SELECTORS = {
     createdBySection: '.test-created-by-section',
     createdByList: 'builder_platform_interaction-used-by-content',
     usedByList: 'builder_platform_interaction-used-by-content',
-    resourceDetailsParameters:
-        'builder_platform_interaction-resource-details-parameters',
+    resourceDetailsParameters: 'builder_platform_interaction-resource-details-parameters',
     detailsSectionLi: '.resource-detail-panel-body li'
 };
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const getApiNameLineTextContent = resourceDetailsComponent =>
-    Array.from(
-        resourceDetailsComponent.shadowRoot.querySelectorAll(
-            SELECTORS.detailsSectionLi
-        )
-    )
+    Array.from(resourceDetailsComponent.shadowRoot.querySelectorAll(SELECTORS.detailsSectionLi))
         .map(li => li.textContent)
         .find(textContent => textContent && textContent.includes('uniqueName'));
 
@@ -78,22 +68,15 @@ describe('Resource Details', () => {
     describe('For elements', () => {
         it('should display Edit Button', () => {
             const element = createComponentUnderTest(ASSIGNMENT_DETAILS);
-            const editBtn = element.shadowRoot.querySelectorAll(
-                SELECTORS.footerButtons
-            )[1];
+            const editBtn = element.shadowRoot.querySelectorAll(SELECTORS.footerButtons)[1];
             expect(editBtn.label).toBe(LABELS.editButtonLabel);
             expect(editBtn.title).toBe(LABELS.editButtonLabel);
         });
         it('handle edit click and check call to logging made', async () => {
             const eventCallback = jest.fn();
             const element = createComponentUnderTest(ASSIGNMENT_DETAILS);
-            element.addEventListener(
-                EditElementEvent.EVENT_NAME,
-                eventCallback
-            );
-            element.shadowRoot
-                .querySelectorAll(SELECTORS.footerButtons)[1]
-                .dispatchEvent(new CustomEvent('click'));
+            element.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
+            element.shadowRoot.querySelectorAll(SELECTORS.footerButtons)[1].dispatchEvent(new CustomEvent('click'));
             await Promise.resolve();
             expect(eventCallback).toHaveBeenCalled();
             expect(logInteraction).toHaveBeenCalled();
@@ -101,13 +84,8 @@ describe('Resource Details', () => {
         it('handle delete click and check call to logging made', async () => {
             const eventCallback = jest.fn();
             const element = createComponentUnderTest(ASSIGNMENT_DETAILS);
-            element.addEventListener(
-                DeleteResourceEvent.EVENT_NAME,
-                eventCallback
-            );
-            element.shadowRoot
-                .querySelectorAll(SELECTORS.footerButtons)[0]
-                .dispatchEvent(new CustomEvent('click'));
+            element.addEventListener(DeleteResourceEvent.EVENT_NAME, eventCallback);
+            element.shadowRoot.querySelectorAll(SELECTORS.footerButtons)[0].dispatchEvent(new CustomEvent('click'));
             await Promise.resolve();
             expect(eventCallback).toHaveBeenCalled();
             expect(logInteraction).toHaveBeenCalled();
@@ -116,14 +94,9 @@ describe('Resource Details', () => {
             const eventCallback = jest.fn();
             const guid = 'guid1';
             const element = createComponentUnderTest(ASSIGNMENT_DETAILS);
-            element.addEventListener(
-                EditElementEvent.EVENT_NAME,
-                eventCallback
-            );
+            element.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
             return Promise.resolve().then(() => {
-                const footerButtons = element.shadowRoot.querySelectorAll(
-                    SELECTORS.footerButtons
-                );
+                const footerButtons = element.shadowRoot.querySelectorAll(SELECTORS.footerButtons);
                 const editButtonClickedEvent = new EditElementEvent(guid);
                 footerButtons[1].dispatchEvent(editButtonClickedEvent);
                 return Promise.resolve().then(() => {
@@ -139,9 +112,7 @@ describe('Resource Details', () => {
 
         it('should display Delete Button', () => {
             const element = createComponentUnderTest(ASSIGNMENT_DETAILS);
-            const footerButtons = element.shadowRoot.querySelectorAll(
-                SELECTORS.footerButtons
-            );
+            const footerButtons = element.shadowRoot.querySelectorAll(SELECTORS.footerButtons);
             expect(footerButtons[0].label).toBe(LABELS.deleteButtonLabel);
             expect(footerButtons[0].title).toBe(LABELS.deleteButtonLabel);
         });
@@ -149,18 +120,10 @@ describe('Resource Details', () => {
             const eventCallback = jest.fn();
             const guid = 'guid1';
             const element = createComponentUnderTest(ASSIGNMENT_DETAILS);
-            element.addEventListener(
-                DeleteResourceEvent.EVENT_NAME,
-                eventCallback
-            );
+            element.addEventListener(DeleteResourceEvent.EVENT_NAME, eventCallback);
             return Promise.resolve().then(() => {
-                const footerButtons = element.shadowRoot.querySelectorAll(
-                    SELECTORS.footerButtons
-                );
-                const deleteButtonClickedEvent = new DeleteResourceEvent(
-                    [guid],
-                    'ASSIGNMENT'
-                );
+                const footerButtons = element.shadowRoot.querySelectorAll(SELECTORS.footerButtons);
+                const deleteButtonClickedEvent = new DeleteResourceEvent([guid], 'ASSIGNMENT');
                 footerButtons[0].dispatchEvent(deleteButtonClickedEvent);
                 return Promise.resolve().then(() => {
                     expect(eventCallback).toHaveBeenCalled();
@@ -178,27 +141,17 @@ describe('Resource Details', () => {
         describe('"Get Records" as a resource', () => {
             let resourceDetailsComponent;
             beforeEach(() => {
-                resourceDetailsComponent = createComponentUnderTest(
-                    mockGetRecordsAutomaticOutputModeResourceDetails
-                );
+                resourceDetailsComponent = createComponentUnderTest(mockGetRecordsAutomaticOutputModeResourceDetails);
             });
             it('should not display Edit and Delete buttons', () => {
-                const footerButtons = resourceDetailsComponent.shadowRoot.querySelectorAll(
-                    SELECTORS.footerButtons
-                );
+                const footerButtons = resourceDetailsComponent.shadowRoot.querySelectorAll(SELECTORS.footerButtons);
                 expect(footerButtons).toHaveLength(0);
             });
             it('should display the element that created the automatic output (createdBy section) with correct title and list elements', () => {
-                const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(
-                    SELECTORS.createdBySection
-                );
+                const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(SELECTORS.createdBySection);
                 expect(createdBySection).toBeDefined();
-                const createdByList = createdBySection.querySelector(
-                    SELECTORS.createdByList
-                );
-                expect(createdByList.listSectionHeader).toBe(
-                    'FlowBuilderResourceDetailsPanel.createdByText'
-                );
+                const createdByList = createdBySection.querySelector(SELECTORS.createdByList);
+                expect(createdByList.listSectionHeader).toBe('FlowBuilderResourceDetailsPanel.createdByText');
                 expect(createdByList.listSectionItems).toEqual([
                     mockGetRecordsAutomaticOutputModeResourceDetails.createdByElement
                 ]);
@@ -213,9 +166,7 @@ describe('Resource Details', () => {
                 expect(resourceDetailsParametersComponent).toBeNull();
             });
             it('should not display API Name', () => {
-                const apiName = getApiNameLineTextContent(
-                    resourceDetailsComponent
-                );
+                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
 
                 expect(apiName).not.toBeDefined();
             });
@@ -229,22 +180,14 @@ describe('Resource Details', () => {
             });
 
             it('should not display "Edit" and "Delete" buttons', () => {
-                const footerButtons = resourceDetailsComponent.shadowRoot.querySelectorAll(
-                    SELECTORS.footerButtons
-                );
+                const footerButtons = resourceDetailsComponent.shadowRoot.querySelectorAll(SELECTORS.footerButtons);
                 expect(footerButtons).toHaveLength(0);
             });
             it('should display the element that created the automatic output (createdBy section) with correct title and list elements', () => {
-                const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(
-                    SELECTORS.createdBySection
-                );
+                const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(SELECTORS.createdBySection);
                 expect(createdBySection).toBeDefined();
-                const createdByList = createdBySection.querySelector(
-                    SELECTORS.createdByList
-                );
-                expect(createdByList.listSectionHeader).toBe(
-                    'FlowBuilderResourceDetailsPanel.createdByText'
-                );
+                const createdByList = createdBySection.querySelector(SELECTORS.createdByList);
+                expect(createdByList.listSectionHeader).toBe('FlowBuilderResourceDetailsPanel.createdByText');
                 expect(createdByList.listSectionItems).toEqual([
                     mockExtensionScreenfieldAutomaticOutputsModeResourceDetails.createdByElement
                 ]);
@@ -259,9 +202,7 @@ describe('Resource Details', () => {
                 expect(resourceDetailsParametersComponent).not.toBeNull();
             });
             it('should display API Name', () => {
-                const apiName = getApiNameLineTextContent(
-                    resourceDetailsComponent
-                );
+                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
 
                 expect(apiName).toContain('email1');
             });
@@ -275,22 +216,14 @@ describe('Resource Details', () => {
             });
 
             it('should not display "Edit" and "Delete" buttons', () => {
-                const footerButtons = resourceDetailsComponent.shadowRoot.querySelectorAll(
-                    SELECTORS.footerButtons
-                );
+                const footerButtons = resourceDetailsComponent.shadowRoot.querySelectorAll(SELECTORS.footerButtons);
                 expect(footerButtons).toHaveLength(0);
             });
             it('should display the element that created the automatic output (createdBy section) with correct title and list elements', () => {
-                const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(
-                    SELECTORS.createdBySection
-                );
+                const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(SELECTORS.createdBySection);
                 expect(createdBySection).toBeDefined();
-                const createdByList = createdBySection.querySelector(
-                    SELECTORS.createdByList
-                );
-                expect(createdByList.listSectionHeader).toBe(
-                    'FlowBuilderResourceDetailsPanel.createdByText'
-                );
+                const createdByList = createdBySection.querySelector(SELECTORS.createdByList);
+                expect(createdByList.listSectionHeader).toBe('FlowBuilderResourceDetailsPanel.createdByText');
                 expect(createdByList.listSectionItems).toEqual([
                     mockActionSubmitForApprovalAutomaticOutputsModeResourceDetails.createdByElement
                 ]);
@@ -305,9 +238,7 @@ describe('Resource Details', () => {
                 expect(resourceDetailsParametersComponent).not.toBeNull();
             });
             it('should display API Name', () => {
-                const apiName = getApiNameLineTextContent(
-                    resourceDetailsComponent
-                );
+                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
 
                 expect(apiName).toContain('actionCallAutomaticOutput');
             });
@@ -321,22 +252,14 @@ describe('Resource Details', () => {
             });
 
             it('should not display "Edit" and "Delete" buttons', () => {
-                const footerButtons = resourceDetailsComponent.shadowRoot.querySelectorAll(
-                    SELECTORS.footerButtons
-                );
+                const footerButtons = resourceDetailsComponent.shadowRoot.querySelectorAll(SELECTORS.footerButtons);
                 expect(footerButtons).toHaveLength(0);
             });
             it('should display the element that created the automatic output (createdBy section) with correct title and list elements', () => {
-                const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(
-                    SELECTORS.createdBySection
-                );
+                const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(SELECTORS.createdBySection);
                 expect(createdBySection).toBeDefined();
-                const createdByList = createdBySection.querySelector(
-                    SELECTORS.createdByList
-                );
-                expect(createdByList.listSectionHeader).toBe(
-                    'FlowBuilderResourceDetailsPanel.createdByText'
-                );
+                const createdByList = createdBySection.querySelector(SELECTORS.createdByList);
+                expect(createdByList.listSectionHeader).toBe('FlowBuilderResourceDetailsPanel.createdByText');
                 expect(createdByList.listSectionItems).toEqual([
                     mockApexActionInAutomaticOutputsModeResourceDetails.createdByElement
                 ]);
@@ -351,9 +274,7 @@ describe('Resource Details', () => {
                 expect(resourceDetailsParametersComponent).not.toBeNull();
             });
             it('should display API Name', () => {
-                const apiName = getApiNameLineTextContent(
-                    resourceDetailsComponent
-                );
+                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
 
                 expect(apiName).toContain('apex_action1');
             });
@@ -375,27 +296,17 @@ describe('Resource Details', () => {
         describe('"Create Record" as a resource', () => {
             let resourceDetailsComponent;
             beforeEach(() => {
-                resourceDetailsComponent = createComponentUnderTest(
-                    mockCreateRecordAutomaticOutputModeResourceDetails
-                );
+                resourceDetailsComponent = createComponentUnderTest(mockCreateRecordAutomaticOutputModeResourceDetails);
             });
             it('should not display Edit and Delete buttons', () => {
-                const footerButtons = resourceDetailsComponent.shadowRoot.querySelectorAll(
-                    SELECTORS.footerButtons
-                );
+                const footerButtons = resourceDetailsComponent.shadowRoot.querySelectorAll(SELECTORS.footerButtons);
                 expect(footerButtons).toHaveLength(0);
             });
             it('should display the element that created the automatic output (createdBy section) with correct title and list elements', () => {
-                const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(
-                    SELECTORS.createdBySection
-                );
+                const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(SELECTORS.createdBySection);
                 expect(createdBySection).toBeDefined();
-                const createdByList = createdBySection.querySelector(
-                    SELECTORS.createdByList
-                );
-                expect(createdByList.listSectionHeader).toBe(
-                    'FlowBuilderResourceDetailsPanel.createdByText'
-                );
+                const createdByList = createdBySection.querySelector(SELECTORS.createdByList);
+                expect(createdByList.listSectionHeader).toBe('FlowBuilderResourceDetailsPanel.createdByText');
                 expect(createdByList.listSectionItems).toEqual([
                     mockCreateRecordAutomaticOutputModeResourceDetails.createdByElement
                 ]);
@@ -410,9 +321,7 @@ describe('Resource Details', () => {
                 expect(resourceDetailsParametersComponent).toBeNull();
             });
             it('should not display API Name', () => {
-                const apiName = getApiNameLineTextContent(
-                    resourceDetailsComponent
-                );
+                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
 
                 expect(apiName).not.toBeDefined();
             });
@@ -423,10 +332,7 @@ describe('Resource Details', () => {
         describe('"Get Records" as a resource', () => {
             it('should NOT display "Parameters" section (element type that supports automatic output mode but "storeOutputAutomatically: false")', () => {
                 resourceDetailsComponent = createComponentUnderTest(
-                    Object.assign(
-                        mockGetRecordsAutomaticOutputModeResourceDetails,
-                        { storeOutputAutomatically: false }
-                    )
+                    Object.assign(mockGetRecordsAutomaticOutputModeResourceDetails, { storeOutputAutomatically: false })
                 );
                 const resourceDetailsParametersComponent = resourceDetailsComponent.shadowRoot.querySelector(
                     SELECTORS.resourceDetailsParameters
@@ -434,13 +340,9 @@ describe('Resource Details', () => {
                 expect(resourceDetailsParametersComponent).toBeNull();
             });
             it('should display API Name', () => {
-                const apiName = getApiNameLineTextContent(
-                    resourceDetailsComponent
-                );
+                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
 
-                expect(apiName).toContain(
-                    mockGetRecordsAutomaticOutputModeResourceDetails.apiName
-                );
+                expect(apiName).toContain(mockGetRecordsAutomaticOutputModeResourceDetails.apiName);
             });
         });
         describe('Extension (ie: lightning component) screenfield as a resource', () => {
@@ -456,13 +358,9 @@ describe('Resource Details', () => {
                 expect(resourceDetailsParametersComponent).toBeNull();
             });
             it('should display API Name', () => {
-                const apiName = getApiNameLineTextContent(
-                    resourceDetailsComponent
-                );
+                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
 
-                expect(apiName).toContain(
-                    mockExtensionScreenfieldNotInAutomaticOutputsModeResourceDetails.apiName
-                );
+                expect(apiName).toContain(mockExtensionScreenfieldNotInAutomaticOutputsModeResourceDetails.apiName);
             });
         });
         describe('Action (core action - submit for approval) as a resource', () => {
@@ -478,13 +376,9 @@ describe('Resource Details', () => {
                 expect(resourceDetailsParametersComponent).toBeNull();
             });
             it('should display API Name', () => {
-                const apiName = getApiNameLineTextContent(
-                    resourceDetailsComponent
-                );
+                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
 
-                expect(apiName).toContain(
-                    mockActionSubmitForApprovalNotInAutomaticOutputsModeResourceDetails.apiName
-                );
+                expect(apiName).toContain(mockActionSubmitForApprovalNotInAutomaticOutputsModeResourceDetails.apiName);
             });
         });
         describe('Action (Apex action) as a resource', () => {
@@ -500,20 +394,14 @@ describe('Resource Details', () => {
                 expect(resourceDetailsParametersComponent).toBeNull();
             });
             it('should display API Name', () => {
-                const apiName = getApiNameLineTextContent(
-                    resourceDetailsComponent
-                );
+                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
 
-                expect(apiName).toContain(
-                    mockApexActionNotInAutomaticOutputsModeResourceDetails.apiName
-                );
+                expect(apiName).toContain(mockApexActionNotInAutomaticOutputsModeResourceDetails.apiName);
             });
         });
         describe('"Account record variable as a resource', () => {
             beforeEach(() => {
-                resourceDetailsComponent = createComponentUnderTest(
-                    mockAccountRecordVariable
-                );
+                resourceDetailsComponent = createComponentUnderTest(mockAccountRecordVariable);
             });
             it('should NOT display "Parameters" section (element type that does not supports automatic output mode - "storeOutputAutomatically: undefined")', () => {
                 const resourceDetailsParametersComponent = resourceDetailsComponent.shadowRoot.querySelector(
@@ -522,18 +410,12 @@ describe('Resource Details', () => {
                 expect(resourceDetailsParametersComponent).toBeNull();
             });
             it('should NOT display the element that created the automatic output (createdBy section)', () => {
-                const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(
-                    SELECTORS.createdBySection
-                );
+                const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(SELECTORS.createdBySection);
                 expect(createdBySection).toBeDefined();
-                expect(resourceDetailsComponent.createdByElements).toHaveLength(
-                    0
-                );
+                expect(resourceDetailsComponent.createdByElements).toHaveLength(0);
             });
             it('should display API Name', () => {
-                const apiName = getApiNameLineTextContent(
-                    resourceDetailsComponent
-                );
+                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
 
                 expect(apiName).toContain('vAccount');
             });
@@ -541,10 +423,9 @@ describe('Resource Details', () => {
         describe('"Create Record" as a resource', () => {
             it('should NOT display "Parameters" section (element type that supports automatic output mode but "storeOutputAutomatically: false")', () => {
                 resourceDetailsComponent = createComponentUnderTest(
-                    Object.assign(
-                        mockCreateRecordNotInAutomaticOutputModeResourceDetails,
-                        { storeOutputAutomatically: false }
-                    )
+                    Object.assign(mockCreateRecordNotInAutomaticOutputModeResourceDetails, {
+                        storeOutputAutomatically: false
+                    })
                 );
                 const resourceDetailsParametersComponent = resourceDetailsComponent.shadowRoot.querySelector(
                     SELECTORS.resourceDetailsParameters
@@ -552,13 +433,9 @@ describe('Resource Details', () => {
                 expect(resourceDetailsParametersComponent).toBeNull();
             });
             it('should display API Name', () => {
-                const apiName = getApiNameLineTextContent(
-                    resourceDetailsComponent
-                );
+                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
 
-                expect(apiName).toContain(
-                    mockCreateRecordNotInAutomaticOutputModeResourceDetails.apiName
-                );
+                expect(apiName).toContain(mockCreateRecordNotInAutomaticOutputModeResourceDetails.apiName);
             });
         });
     });

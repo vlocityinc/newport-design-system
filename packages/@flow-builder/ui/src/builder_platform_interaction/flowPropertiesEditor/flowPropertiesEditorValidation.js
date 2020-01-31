@@ -19,21 +19,12 @@ const additionalRules = {
         ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
         ValidationRules.maximumCharactersLimit(80)
     ],
-    interviewLabel: [
-        ValidationRules.maximumCharactersLimit(1000),
-        ValidationRules.isValidResourcedTextArea
-    ]
+    interviewLabel: [ValidationRules.maximumCharactersLimit(1000), ValidationRules.isValidResourcedTextArea]
 };
 
-export const flowPropertiesEditorValidation = new Validation(
-    additionalRules,
-    true
-);
+export const flowPropertiesEditorValidation = new Validation(additionalRules, true);
 export const getRules = (state, isSavingExistingFlow) => {
-    const overrideRules = Object.assign(
-        {},
-        flowPropertiesEditorValidation.finalizedRules
-    );
+    const overrideRules = Object.assign({}, flowPropertiesEditorValidation.finalizedRules);
 
     if (isSavingExistingFlow) {
         overrideRules.name = [];

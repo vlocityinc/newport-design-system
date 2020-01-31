@@ -9,9 +9,7 @@ import {
 import { createCondition } from 'builder_platform_interaction/elementFactory';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
@@ -36,20 +34,14 @@ describe('condition-list-reducer', () => {
     it('adds a condition', () => {
         const addConditionEvent = new AddConditionEvent();
         expect(conditionList.conditions).toHaveLength(1);
-        const resultObj = conditionListReducer(
-            conditionList,
-            addConditionEvent
-        );
+        const resultObj = conditionListReducer(conditionList, addConditionEvent);
         expect(resultObj.conditions).toHaveLength(2);
     });
 
     it('hydrates a new condition', () => {
         const addConditionEvent = new AddConditionEvent();
         expect(conditionList.conditions).toHaveLength(1);
-        const resultObj = conditionListReducer(
-            conditionList,
-            addConditionEvent
-        );
+        const resultObj = conditionListReducer(conditionList, addConditionEvent);
         const newCondition = resultObj.conditions[1];
         expect(newCondition).toHaveProperty('operator.value');
         expect(newCondition).toHaveProperty('operator.error');
@@ -61,10 +53,7 @@ describe('condition-list-reducer', () => {
             operator
         });
 
-        const resultObj = conditionListReducer(
-            conditionList,
-            updateConditionEvent
-        );
+        const resultObj = conditionListReducer(conditionList, updateConditionEvent);
 
         expect(resultObj.conditions).toHaveLength(1);
         const updatedCondition = resultObj.conditions[0];
@@ -73,54 +62,32 @@ describe('condition-list-reducer', () => {
 
     it('deletes a condition', () => {
         const deleteIndex = 0;
-        const deleteConditionEvent = new DeleteConditionEvent(
-            null,
-            deleteIndex
-        );
+        const deleteConditionEvent = new DeleteConditionEvent(null, deleteIndex);
 
-        const resultObj = conditionListReducer(
-            conditionList,
-            deleteConditionEvent
-        );
+        const resultObj = conditionListReducer(conditionList, deleteConditionEvent);
 
         expect(resultObj.conditions).toHaveLength(0);
     });
 
     describe('condition logic', () => {
         it('updates condition logic', () => {
-            expect(conditionList.conditionLogic.value).toEqual(
-                CONDITION_LOGIC.AND
-            );
+            expect(conditionList.conditionLogic.value).toEqual(CONDITION_LOGIC.AND);
 
             const newConditionLogic = CONDITION_LOGIC.OR;
-            const updateConditionLogicEvent = new UpdateConditionLogicEvent(
-                null,
-                newConditionLogic
-            );
+            const updateConditionLogicEvent = new UpdateConditionLogicEvent(null, newConditionLogic);
 
-            const resultObj = conditionListReducer(
-                conditionList,
-                updateConditionLogicEvent
-            );
+            const resultObj = conditionListReducer(conditionList, updateConditionLogicEvent);
 
             expect(resultObj.conditionLogic.value).toEqual(CONDITION_LOGIC.OR);
         });
 
         it('other logic to no condition', () => {
-            expect(conditionList.conditionLogic.value).toEqual(
-                CONDITION_LOGIC.AND
-            );
+            expect(conditionList.conditionLogic.value).toEqual(CONDITION_LOGIC.AND);
 
             const newConditionLogic = CONDITION_LOGIC.NO_CONDITIONS;
-            const updateConditionLogicEvent = new UpdateConditionLogicEvent(
-                null,
-                newConditionLogic
-            );
+            const updateConditionLogicEvent = new UpdateConditionLogicEvent(null, newConditionLogic);
 
-            const resultObj = conditionListReducer(
-                conditionList,
-                updateConditionLogicEvent
-            );
+            const resultObj = conditionListReducer(conditionList, updateConditionLogicEvent);
 
             expect(resultObj.conditionLogic.value).toEqual(newConditionLogic);
             expect(resultObj.conditions).toHaveLength(0);
@@ -131,15 +98,9 @@ describe('condition-list-reducer', () => {
             conditionList.conditions = [];
 
             const newConditionLogic = CONDITION_LOGIC.OR;
-            const updateConditionLogicEvent = new UpdateConditionLogicEvent(
-                null,
-                newConditionLogic
-            );
+            const updateConditionLogicEvent = new UpdateConditionLogicEvent(null, newConditionLogic);
 
-            const resultObj = conditionListReducer(
-                conditionList,
-                updateConditionLogicEvent
-            );
+            const resultObj = conditionListReducer(conditionList, updateConditionLogicEvent);
 
             expect(resultObj.conditionLogic.value).toEqual(newConditionLogic);
             expect(resultObj.conditions).toHaveLength(1);

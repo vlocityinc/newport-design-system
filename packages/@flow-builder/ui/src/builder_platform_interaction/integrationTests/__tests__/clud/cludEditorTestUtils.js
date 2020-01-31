@@ -10,10 +10,7 @@ export const SELECTORS = {
 };
 
 const getBaseResourcePickerCombobox = element => {
-    return deepQuerySelector(element, [
-        SELECTORS.BASE_RESOURCE_PICKER,
-        SELECTORS.INTERACTION_COMBOBOX
-    ]);
+    return deepQuerySelector(element, [SELECTORS.BASE_RESOURCE_PICKER, SELECTORS.INTERACTION_COMBOBOX]);
 };
 
 export const getOutputResourcePickerCombobox = outputResourcePicker => {
@@ -30,7 +27,5 @@ export const getResourceCombobox = recordEditor => {
 };
 
 export const getResourceGroupedCombobox = recordEditor => {
-    return deepQuerySelector(getResourceCombobox(recordEditor), [
-        SELECTORS.LIGHTNING_GROUPED_COMBOBOX
-    ]);
+    return deepQuerySelector(getResourceCombobox(recordEditor), [SELECTORS.LIGHTNING_GROUPED_COMBOBOX]);
 };

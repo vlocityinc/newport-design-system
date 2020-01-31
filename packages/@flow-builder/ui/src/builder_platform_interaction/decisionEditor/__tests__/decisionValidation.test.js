@@ -10,32 +10,20 @@ jest.mock('builder_platform_interaction/expressionValidator', () =>
 describe('Additional Decision Validations', () => {
     describe('when props set to conditionLogic', () => {
         it('and when valid string is passed should return - null', () => {
-            expect(
-                decisionValidation.validateProperty(
-                    'conditionLogic',
-                    'valid condition'
-                )
-            ).toBeNull();
+            expect(decisionValidation.validateProperty('conditionLogic', 'valid condition')).toBeNull();
         });
         it('and when empty string is passed should return - Cannot be blank.', () => {
-            expect(
-                decisionValidation.validateProperty('conditionLogic', '')
-            ).toBe(CANNOT_BE_BLANK_ERROR);
+            expect(decisionValidation.validateProperty('conditionLogic', '')).toBe(CANNOT_BE_BLANK_ERROR);
         });
     });
     describe('when props set to defaultConnectorLabel', () => {
         it('and when valid string is passed should return - null', () => {
             expect(
-                decisionValidation.validateProperty(
-                    'defaultConnectorLabel',
-                    'valid default outcome name'
-                )
+                decisionValidation.validateProperty('defaultConnectorLabel', 'valid default outcome name')
             ).toBeNull();
         });
         it('and when empty string is passed should return - Cannot be blank.', () => {
-            expect(
-                decisionValidation.validateProperty('defaultConnectorLabel', '')
-            ).toBe(CANNOT_BE_BLANK_ERROR);
+            expect(decisionValidation.validateProperty('defaultConnectorLabel', '')).toBe(CANNOT_BE_BLANK_ERROR);
         });
     });
 });
@@ -77,9 +65,7 @@ describe('All validations happen when OK is clicked', () => {
                     }
                 ]
             };
-            expect(
-                decisionValidation.validateAll(decisionWithCorrectCondition)
-            ).toEqual(decisionWithCorrectCondition);
+            expect(decisionValidation.validateAll(decisionWithCorrectCondition)).toEqual(decisionWithCorrectCondition);
         });
         it('and when empty string is passed on leftHandSide, should return - Cannot be blank.', () => {
             const decisionWithEmptyLHSInCondition = {
@@ -112,9 +98,7 @@ describe('All validations happen when OK is clicked', () => {
             // The node returned after validation has only one change - the correct error added to the invalid property
             const expectedNode = { ...decisionWithEmptyLHSInCondition };
             expectedNode.outcomes[1].conditions[0].leftHandSide.error = CANNOT_BE_BLANK_ERROR;
-            const validatedNode = decisionValidation.validateAll(
-                decisionWithEmptyLHSInCondition
-            );
+            const validatedNode = decisionValidation.validateAll(decisionWithEmptyLHSInCondition);
             expect(validatedNode).toEqual(expectedNode);
         });
     });
@@ -135,14 +119,10 @@ describe('All validations happen when OK is clicked', () => {
                 },
                 outcomes: [{}]
             };
-            const validatedDecision = decisionValidation.validateAll(
-                decisionWithEmptyProperties
-            );
+            const validatedDecision = decisionValidation.validateAll(decisionWithEmptyProperties);
             expect(validatedDecision.label.error).toBe(CANNOT_BE_BLANK_ERROR);
             expect(validatedDecision.name.error).toBe(CANNOT_BE_BLANK_ERROR);
-            expect(validatedDecision.conditionLogic.error).toBe(
-                CANNOT_BE_BLANK_ERROR
-            );
+            expect(validatedDecision.conditionLogic.error).toBe(CANNOT_BE_BLANK_ERROR);
         });
     });
 });

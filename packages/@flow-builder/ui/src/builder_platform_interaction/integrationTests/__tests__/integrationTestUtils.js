@@ -16,7 +16,12 @@ import {
 import { clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib';
 import { setResourceTypes } from 'builder_platform_interaction/dataTypeLib';
 import { initializeAuraFetch } from './serverDataTestUtils';
-import { initializeLoader, loadOnStart, loadOnProcessTypeChange, clearLoader } from 'builder_platform_interaction/preloadLib';
+import {
+    initializeLoader,
+    loadOnStart,
+    loadOnProcessTypeChange,
+    clearLoader
+} from 'builder_platform_interaction/preloadLib';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 
 export const FLOW_BUILDER_VALIDATION_ERROR_MESSAGES = {

@@ -6,15 +6,9 @@ import {
     createFlowEntryTilesForProcessTypes,
     createFlowEntryTilesForTemplates
 } from 'builder_platform_interaction/processTypeLib';
-import {
-    fetchOnce,
-    SERVER_ACTION_TYPE
-} from 'builder_platform_interaction/serverDataLib';
+import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 
-import {
-    TemplateChangedEvent,
-    CannotRetrieveTemplatesEvent
-} from 'builder_platform_interaction/events';
+import { TemplateChangedEvent, CannotRetrieveTemplatesEvent } from 'builder_platform_interaction/events';
 
 import spinnerAlternativeText from '@salesforce/label/FlowBuilderEditor.spinnerAlternativeText';
 
@@ -77,7 +71,7 @@ export default class ProcessTypesTemplates extends LightningElement {
         processTypes: null,
         processType: null,
         templates: [], // an array of Template that are fetched for the selected process type
-        processTypesTiles: [], // an array of process type tiles
+        processTypesTiles: [] // an array of process type tiles
     };
 
     get items() {
@@ -122,16 +116,15 @@ export default class ProcessTypesTemplates extends LightningElement {
             return;
         }
 
-        const processTypes = this.processType !== ALL_PROCESS_TYPE.name ? [this.processType] : this.state.processTypes.map(type => type.name);
+        const processTypes =
+            this.processType !== ALL_PROCESS_TYPE.name
+                ? [this.processType]
+                : this.state.processTypes.map(type => type.name);
         if (!processTypes || processTypes.length === 0) {
             return;
         }
         this.state.displaySpinner = true;
-        fetchOnce(
-            SERVER_ACTION_TYPE.GET_TEMPLATES,
-            { processTypes },
-            { disableErrorModal: true }
-        )
+        fetchOnce(SERVER_ACTION_TYPE.GET_TEMPLATES, { processTypes }, { disableErrorModal: true })
             .then(data => {
                 this.state.displaySpinner = false;
                 // caches the returned templates to avoid calling to server when changing the process type

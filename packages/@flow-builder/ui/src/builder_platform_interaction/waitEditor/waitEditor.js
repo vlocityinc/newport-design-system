@@ -73,36 +73,25 @@ export default class WaitEditor extends LightningElement {
     }
 
     get activeWaitEvent() {
-        return this.waitElement.waitEvents.find(
-            waitEvent => waitEvent.guid === this.activeWaitEventId
-        );
+        return this.waitElement.waitEvents.find(waitEvent => waitEvent.guid === this.activeWaitEventId);
     }
 
     get waitEventsWithDefaultPath() {
-        const waitEventsWithDefaultPath = this.waitElement.waitEvents.map(
-            waitEvent => {
-                return {
-                    element: waitEvent,
-                    label:
-                        waitEvent.label && waitEvent.label.value
-                            ? waitEvent.label.value
-                            : LABELS.newWaitEventLabel,
-                    isDraggable: true,
-                    hasErrors:
-                        getErrorsFromHydratedElement(waitEvent).length > 0
-                };
-            }
-        );
+        const waitEventsWithDefaultPath = this.waitElement.waitEvents.map(waitEvent => {
+            return {
+                element: waitEvent,
+                label: waitEvent.label && waitEvent.label.value ? waitEvent.label.value : LABELS.newWaitEventLabel,
+                isDraggable: true,
+                hasErrors: getErrorsFromHydratedElement(waitEvent).length > 0
+            };
+        });
 
         const defaultLabel = this.waitElement.defaultConnectorLabel;
         const defaultPath = {
             element: {
                 guid: DEFAULT_WAIT_EVENT_ID
             },
-            label:
-                defaultLabel && defaultLabel.value
-                    ? defaultLabel.value
-                    : LABELS.defaultPathLabel,
+            label: defaultLabel && defaultLabel.value ? defaultLabel.value : LABELS.defaultPathLabel,
             isDraggable: false,
             hasErrors: defaultLabel && defaultLabel.error
         };
@@ -117,14 +106,8 @@ export default class WaitEditor extends LightningElement {
 
     handleDefaultPathChangedEvent(event) {
         event.stopPropagation();
-        const defaultPathChangedEvent = new PropertyChangedEvent(
-            'defaultConnectorLabel',
-            event.detail.value
-        );
-        this.waitElement = waitReducer(
-            this.waitElement,
-            defaultPathChangedEvent
-        );
+        const defaultPathChangedEvent = new PropertyChangedEvent('defaultConnectorLabel', event.detail.value);
+        this.waitElement = waitReducer(this.waitElement, defaultPathChangedEvent);
     }
 
     handleWaitEventSelected(event) {

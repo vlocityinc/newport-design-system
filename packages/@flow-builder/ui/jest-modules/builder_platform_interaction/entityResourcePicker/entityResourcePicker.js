@@ -1,14 +1,14 @@
-import { api, LightningElement } from "lwc";
+import { api, LightningElement } from 'lwc';
 
 export default class EntityResourcePicker extends LightningElement {
-  static SELECTOR = "builder_platform_interaction-entity-resource-picker";
+    static SELECTOR = 'builder_platform_interaction-entity-resource-picker';
 
-  @api
-  value;
+    @api
+    value;
 
-  @api
-  comboboxConfig;
+    @api
+    comboboxConfig;
 
-  @api
-  rowIndex;
+    @api
+    rowIndex;
 }

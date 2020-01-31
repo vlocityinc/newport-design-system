@@ -3,19 +3,13 @@ import { flowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/
 
 describe('subflowVariablesMerger', () => {
     describe('merges latest and active version', () => {
-        const getVariableWithApiName = (variables, apiName) =>
-            variables.find(variable => variable.apiName === apiName);
+        const getVariableWithApiName = (variables, apiName) => variables.find(variable => variable.apiName === apiName);
         let inputOutputVariables;
         beforeAll(() => {
-            inputOutputVariables = getMergedInputOutputVariables(
-                flowWithActiveAndLatest
-            );
+            inputOutputVariables = getMergedInputOutputVariables(flowWithActiveAndLatest);
         });
         it('returns no warning for a variable that is both in active and latest', () => {
-            const variable = getVariableWithApiName(
-                inputOutputVariables.outputVariables,
-                'output1'
-            );
+            const variable = getVariableWithApiName(inputOutputVariables.outputVariables, 'output1');
             expect(variable).toEqual({
                 apiName: 'output1',
                 dataType: 'String',
@@ -27,10 +21,7 @@ describe('subflowVariablesMerger', () => {
             });
         });
         it('returns a warning for a variable that is only in active', () => {
-            const variable = getVariableWithApiName(
-                inputOutputVariables.outputVariables,
-                'output2'
-            );
+            const variable = getVariableWithApiName(inputOutputVariables.outputVariables, 'output2');
             expect(variable).toEqual({
                 apiName: 'output2',
                 dataType: 'String',
@@ -43,10 +34,7 @@ describe('subflowVariablesMerger', () => {
             });
         });
         it('returns a warning for a variable that is only in latest', () => {
-            const variable = getVariableWithApiName(
-                inputOutputVariables.outputVariables,
-                'output4'
-            );
+            const variable = getVariableWithApiName(inputOutputVariables.outputVariables, 'output4');
             expect(variable).toEqual({
                 apiName: 'output4',
                 dataType: 'String',
@@ -59,10 +47,7 @@ describe('subflowVariablesMerger', () => {
             });
         });
         it('returns a warning for a variable that has its type changed between active and latest', () => {
-            const variable = getVariableWithApiName(
-                inputOutputVariables.outputVariables,
-                'output3'
-            );
+            const variable = getVariableWithApiName(inputOutputVariables.outputVariables, 'output3');
             expect(variable).toEqual({
                 apiName: 'output3',
                 dataType: 'String',
@@ -75,14 +60,8 @@ describe('subflowVariablesMerger', () => {
             });
         });
         it('returns a input/output variable in both inputVariables and outputVariables, possibly with a different warning', () => {
-            const inputVariable = getVariableWithApiName(
-                inputOutputVariables.inputVariables,
-                'inputOutput2'
-            );
-            const outputVariable = getVariableWithApiName(
-                inputOutputVariables.outputVariables,
-                'inputOutput2'
-            );
+            const inputVariable = getVariableWithApiName(inputOutputVariables.inputVariables, 'inputOutput2');
+            const outputVariable = getVariableWithApiName(inputOutputVariables.outputVariables, 'inputOutput2');
             expect(inputVariable).toEqual({
                 apiName: 'inputOutput2',
                 dataType: 'String',

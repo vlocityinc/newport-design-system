@@ -4,41 +4,41 @@ export const mockApexPluginParameters = [
         isInput: true,
         isOutput: false,
         isRequired: true,
-        name: 'Name',
+        name: 'Name'
     },
     {
         dataType: 'STRING',
         isInput: true,
         isOutput: false,
         isRequired: true,
-        name: 'Phone',
+        name: 'Phone'
     },
     {
         dataType: 'STRING',
         isInput: true,
         isOutput: false,
         isRequired: false,
-        name: 'Email',
+        name: 'Email'
     },
     {
         dataType: 'STRING',
         isInput: true,
         isOutput: false,
         isRequired: false,
-        name: 'Address',
+        name: 'Address'
     },
     {
         dataType: 'STRING',
         isInput: false,
         isOutput: true,
         isRequired: false,
-        name: 'AccountId',
+        name: 'AccountId'
     },
     {
         dataType: 'STRING',
         isInput: false,
         isOutput: true,
         isRequired: false,
-        name: 'Account Name',
-    },
+        name: 'Account Name'
+    }
 ];

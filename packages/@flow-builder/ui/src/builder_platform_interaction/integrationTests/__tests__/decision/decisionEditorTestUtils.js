@@ -21,11 +21,7 @@ export const createComponentForTest = node => {
 };
 
 export const getList = decision => {
-    return deepQuerySelector(decision, [
-        SELECTORS.OUTCOME,
-        SELECTORS.CONDITION_LIST,
-        SELECTORS.LIST
-    ]);
+    return deepQuerySelector(decision, [SELECTORS.OUTCOME, SELECTORS.CONDITION_LIST, SELECTORS.LIST]);
 };
 
 export const getRow = decision => {

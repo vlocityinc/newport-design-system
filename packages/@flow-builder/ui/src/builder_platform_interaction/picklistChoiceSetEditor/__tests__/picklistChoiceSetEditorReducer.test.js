@@ -47,10 +47,7 @@ describe('Picklist Choice Set Reducer', () => {
                 doValidateProperty: true
             }
         };
-        const resultObj = picklistChoiceSetReducer(
-            picklistChoiceSetObject,
-            action
-        );
+        const resultObj = picklistChoiceSetReducer(picklistChoiceSetObject, action);
         expect(resultObj.name).toEqual({
             value: 'pChoice',
             error: null
@@ -67,10 +64,7 @@ describe('Picklist Choice Set Reducer', () => {
                 doValidateProperty: true
             }
         };
-        const resultObj = picklistChoiceSetReducer(
-            picklistChoiceSetObject,
-            action
-        );
+        const resultObj = picklistChoiceSetReducer(picklistChoiceSetObject, action);
         expect(resultObj.description).toEqual({
             value: null,
             error: null
@@ -87,10 +81,7 @@ describe('Picklist Choice Set Reducer', () => {
                 doValidateProperty: true
             }
         };
-        const resultObj = picklistChoiceSetReducer(
-            picklistChoiceSetObject,
-            action
-        );
+        const resultObj = picklistChoiceSetReducer(picklistChoiceSetObject, action);
         expect(resultObj.picklistObject).toBeUndefined();
     });
 
@@ -104,10 +95,7 @@ describe('Picklist Choice Set Reducer', () => {
                 doValidateProperty: false
             }
         };
-        const resultObj = picklistChoiceSetReducer(
-            picklistChoiceSetObject,
-            action
-        );
+        const resultObj = picklistChoiceSetReducer(picklistChoiceSetObject, action);
         expect(resultObj.dataType).toEqual({
             value: null,
             error: null

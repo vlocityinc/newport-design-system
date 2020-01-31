@@ -31,9 +31,7 @@ describe('Used-By-Content component', () => {
             });
         });
         it('when not null should be diplay the header content', () => {
-            const usedByContentComponent = createComponentForTest(
-                'Section-Header'
-            );
+            const usedByContentComponent = createComponentForTest('Section-Header');
             return Promise.resolve().then(() => {
                 const usedBySectionHeaderTitle = usedByContentComponent.shadowRoot.querySelector(
                     selectors.usedBySectionHeaderTitle
@@ -44,9 +42,7 @@ describe('Used-By-Content component', () => {
     });
     describe('section-list', () => {
         it('when null or undefined should be hidden.', () => {
-            const usedByContentComponent = createComponentForTest(
-                'Section Header'
-            );
+            const usedByContentComponent = createComponentForTest('Section Header');
             return Promise.resolve().then(() => {
                 const usedBySectionItems = usedByContentComponent.shadowRoot.querySelector(
                     selectors.usedBySectionItems
@@ -63,10 +59,7 @@ describe('Used-By-Content component', () => {
                     iconName: 'standard:formula'
                 }
             ];
-            const usedByContentComponent = createComponentForTest(
-                'Section-Header',
-                expectedResult
-            );
+            const usedByContentComponent = createComponentForTest('Section-Header', expectedResult);
             return Promise.resolve().then(() => {
                 const usedBySectionItems = usedByContentComponent.shadowRoot.querySelector(
                     selectors.usedBySectionItems
@@ -83,10 +76,7 @@ describe('Used-By-Content component', () => {
                     iconName: 'standard:formula'
                 }
             ];
-            const usedByContentComponent = createComponentForTest(
-                'Section-Header',
-                expectedResult
-            );
+            const usedByContentComponent = createComponentForTest('Section-Header', expectedResult);
             return Promise.resolve().then(() => {
                 const usedBySectionItemContentItem = usedByContentComponent.shadowRoot.querySelector(
                     selectors.usedByContentItem

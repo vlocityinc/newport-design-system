@@ -33,16 +33,13 @@ export default class RecordSobjectAndQueryFields extends LightningElement {
     sObjectVariablePickerGlobalCss = 'slds-m-bottom_small slds-border_top';
 
     @api
-    sObjectVariablePickerTitleCss =
-        'slds-text-heading_small slds-p-around_small';
+    sObjectVariablePickerTitleCss = 'slds-text-heading_small slds-p-around_small';
 
     @api
-    sObjectVariablePickerDivCss =
-        'slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small';
+    sObjectVariablePickerDivCss = 'slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small';
 
     @api
-    queryFieldsGlobalCss =
-        'slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small';
+    queryFieldsGlobalCss = 'slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small';
 
     @api
     queryFieldsTitleCss = 'slds-text-heading_small slds-p-top_small';
@@ -106,26 +103,16 @@ export default class RecordSobjectAndQueryFields extends LightningElement {
 
     get sObjectVariablePickerTitle() {
         return !this.state.isCollection
-            ? format(
-                  this.labels.selectVariableToStore,
-                  this.resourceDisplayText
-              )
-            : format(
-                  this.labels.selectVariableToStoreRecords,
-                  this.resourceDisplayText
-              );
+            ? format(this.labels.selectVariableToStore, this.resourceDisplayText)
+            : format(this.labels.selectVariableToStoreRecords, this.resourceDisplayText);
     }
 
     get sObjectVariablePickerLabel() {
-        return !this.isCollection
-            ? this.labels.recordVariable
-            : this.labels.recordCollectionVariable;
+        return !this.isCollection ? this.labels.recordVariable : this.labels.recordCollectionVariable;
     }
 
     get sObjectVariablePickerPlaceholder() {
-        return !this.state.isCollection
-            ? this.labels.searchRecords
-            : this.labels.searchRecordCollections;
+        return !this.state.isCollection ? this.labels.searchRecords : this.labels.searchRecordCollections;
     }
 
     get selectFieldsLabel() {

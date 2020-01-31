@@ -1,9 +1,6 @@
 import { createSelector } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    FLOW_DATA_TYPE,
-    getFlowDataType
-} from 'builder_platform_interaction/dataTypeLib';
+import { FLOW_DATA_TYPE, getFlowDataType } from 'builder_platform_interaction/dataTypeLib';
 import {
     getQueryableEntities,
     getCreateableEntities,
@@ -17,8 +14,7 @@ import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interacti
 
 const elementsSelector = state => state.elements;
 
-const isApexTypeElement = element =>
-    getFlowDataType(element.dataType) === FLOW_DATA_TYPE.APEX.value;
+const isApexTypeElement = element => getFlowDataType(element.dataType) === FLOW_DATA_TYPE.APEX.value;
 
 const getFilteredElements = filterFunction => {
     return elements => {
@@ -31,15 +27,11 @@ const isQueryableSObject = objectType => {
 };
 
 const isCreateableSObject = objectType => {
-    return getCreateableEntities().some(
-        entity => entity.apiName === objectType
-    );
+    return getCreateableEntities().some(entity => entity.apiName === objectType);
 };
 
 const isUpdateableSObject = objectType => {
-    return getUpdateableEntities().some(
-        entity => entity.apiName === objectType
-    );
+    return getUpdateableEntities().some(entity => entity.apiName === objectType);
 };
 
 const isDeleteableSObject = objectType => {
@@ -55,62 +47,38 @@ const entityNameFilter = (element, entityName) => {
 };
 
 const queryableFilter = element => {
-    return (
-        isQueryableSObject(element.subtype) ||
-        isQueryableSObject(element.sobjectType)
-    );
+    return isQueryableSObject(element.subtype) || isQueryableSObject(element.sobjectType);
 };
 
 const creatableFilter = element => {
-    return (
-        isCreateableSObject(element.subtype) ||
-        isCreateableSObject(element.sobjectType)
-    );
+    return isCreateableSObject(element.subtype) || isCreateableSObject(element.sobjectType);
 };
 
 const updatableFilter = element => {
-    return (
-        isUpdateableSObject(element.subtype) ||
-        isUpdateableSObject(element.sobjectType)
-    );
+    return isUpdateableSObject(element.subtype) || isUpdateableSObject(element.sobjectType);
 };
 
 const deletableFilter = element => {
-    return (
-        isDeleteableSObject(element.subtype) ||
-        isDeleteableSObject(element.sobjectType)
-    );
+    return isDeleteableSObject(element.subtype) || isDeleteableSObject(element.sobjectType);
 };
 
 const apexClassHasSomePropertyMatching = (apexClass, filter) => {
-    return Object.values(
-        apexTypeLib.getPropertiesForClass(apexClass)
-    ).some(property => filter(property));
+    return Object.values(apexTypeLib.getPropertiesForClass(apexClass)).some(property => filter(property));
 };
 
 const filterByRetrieveOptions = (elements, retrieveOptions) => {
     let filteredElements = Object.values(elements);
     const sObjectCollectionCriterion =
-        retrieveOptions.sobjectCollectionCriterion ||
-        SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT;
-    if (
-        sObjectCollectionCriterion !==
-        SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_OR_SOBJECT_COLLECTION
-    ) {
-        const isCollection =
-            sObjectCollectionCriterion ===
-            SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT
-                ? false
-                : true;
+        retrieveOptions.sobjectCollectionCriterion || SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT;
+    if (sObjectCollectionCriterion !== SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_OR_SOBJECT_COLLECTION) {
+        const isCollection = sObjectCollectionCriterion === SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT ? false : true;
         // elements should either all be collections, or all not be collections, based on isCollection setting
         filteredElements = filteredElements.filter(
             element =>
                 isCollectionFilter(element, isCollection) ||
                 (isApexTypeElement(element) &&
-                    apexClassHasSomePropertyMatching(
-                        element.apexClass,
-                        apexProperty =>
-                            isCollectionFilter(apexProperty, isCollection)
+                    apexClassHasSomePropertyMatching(element.apexClass, apexProperty =>
+                        isCollectionFilter(apexProperty, isCollection)
                     ))
         );
     }
@@ -119,13 +87,8 @@ const filterByRetrieveOptions = (elements, retrieveOptions) => {
             element =>
                 entityNameFilter(element, retrieveOptions.entityName) ||
                 (isApexTypeElement(element) &&
-                    apexClassHasSomePropertyMatching(
-                        element.apexClass,
-                        apexProperty =>
-                            entityNameFilter(
-                                apexProperty,
-                                retrieveOptions.entityName
-                            )
+                    apexClassHasSomePropertyMatching(element.apexClass, apexProperty =>
+                        entityNameFilter(apexProperty, retrieveOptions.entityName)
                     ))
         );
     }
@@ -134,10 +97,7 @@ const filterByRetrieveOptions = (elements, retrieveOptions) => {
             element =>
                 queryableFilter(element) ||
                 (isApexTypeElement(element) &&
-                    apexClassHasSomePropertyMatching(
-                        element.apexClass,
-                        apexProperty => queryableFilter(apexProperty)
-                    ))
+                    apexClassHasSomePropertyMatching(element.apexClass, apexProperty => queryableFilter(apexProperty)))
         );
     }
     if (retrieveOptions.createable) {
@@ -145,10 +105,7 @@ const filterByRetrieveOptions = (elements, retrieveOptions) => {
             element =>
                 creatableFilter(element) ||
                 (isApexTypeElement(element) &&
-                    apexClassHasSomePropertyMatching(
-                        element.apexClass,
-                        apexProperty => creatableFilter(apexProperty)
-                    ))
+                    apexClassHasSomePropertyMatching(element.apexClass, apexProperty => creatableFilter(apexProperty)))
         );
     }
     if (retrieveOptions.updateable) {
@@ -156,10 +113,7 @@ const filterByRetrieveOptions = (elements, retrieveOptions) => {
             element =>
                 updatableFilter(element) ||
                 (isApexTypeElement(element) &&
-                    apexClassHasSomePropertyMatching(
-                        element.apexClass,
-                        apexProperty => updatableFilter(apexProperty)
-                    ))
+                    apexClassHasSomePropertyMatching(element.apexClass, apexProperty => updatableFilter(apexProperty)))
         );
     }
     if (retrieveOptions.deleteable) {
@@ -167,10 +121,7 @@ const filterByRetrieveOptions = (elements, retrieveOptions) => {
             element =>
                 deletableFilter(element) ||
                 (isApexTypeElement(element) &&
-                    apexClassHasSomePropertyMatching(
-                        element.apexClass,
-                        apexProperty => deletableFilter(apexProperty)
-                    ))
+                    apexClassHasSomePropertyMatching(element.apexClass, apexProperty => deletableFilter(apexProperty)))
         );
     }
     return filteredElements;
@@ -182,13 +133,8 @@ const filterByRetrieveOptions = (elements, retrieveOptions) => {
  * @param {RetrieveOptions} retrieveOptions way to retrieve the sObject or sObject collection variables
  * @returns {Object[]}  list of sobject/sobject collection variables
  */
-export const getSObjectOrSObjectCollectionByEntityElements = (
-    elements,
-    retrieveOptions = {}
-) => {
-    let allElements = getFilteredElements(
-        element => element.dataType === FLOW_DATA_TYPE.SOBJECT.value
-    )(elements);
+export const getSObjectOrSObjectCollectionByEntityElements = (elements, retrieveOptions = {}) => {
+    let allElements = getFilteredElements(element => element.dataType === FLOW_DATA_TYPE.SOBJECT.value)(elements);
 
     if (retrieveOptions && allElements) {
         allElements = filterByRetrieveOptions(allElements, retrieveOptions);
@@ -203,14 +149,9 @@ export const getSObjectOrSObjectCollectionByEntityElements = (
  * @returns {Object[]} elements that match one of the following: SObject, SObject collection, output contains SObject, apex variable which has SObject field
  */
 export const getCanContainSObjectElements = (elements, retrieveOptions) => {
-    const filteredElements = getSObjectOrSObjectCollectionByEntityElements(
-        elements,
-        retrieveOptions
-    );
+    const filteredElements = getSObjectOrSObjectCollectionByEntityElements(elements, retrieveOptions);
     const sobjectAllElements = getFilteredElements(
-        element =>
-            !element.isCollection &&
-            isFlowResourceWithSObjectField(element, retrieveOptions)
+        element => !element.isCollection && isFlowResourceWithSObjectField(element, retrieveOptions)
     )(elements);
 
     if (sobjectAllElements && sobjectAllElements.length > 0) {
@@ -225,14 +166,8 @@ export const getCanContainSObjectElements = (elements, retrieveOptions) => {
  * @param {Object} a set of additional requirements on the SObject (e.g. isCollection, createable/queryable/deleteable/queryable, ...)
  */
 export const canContainSObjectElements = (element, retrieveOptions) => {
-    const filterOnCanContainSObjectElement = getCanContainSObjectElements(
-        { element },
-        retrieveOptions
-    );
-    return (
-        filterOnCanContainSObjectElement &&
-        filterOnCanContainSObjectElement.length > 0
-    );
+    const filterOnCanContainSObjectElement = getCanContainSObjectElements({ element }, retrieveOptions);
+    return filterOnCanContainSObjectElement && filterOnCanContainSObjectElement.length > 0;
 };
 
 /**
@@ -240,9 +175,7 @@ export const canContainSObjectElements = (element, retrieveOptions) => {
  * @param {RetrieveOptions} retrieveOptions options such as whether we want only deletable/queryable etc... SObject
  */
 export const isOrCanContainsObjectOrSObjectCollectionSelector = retrieveOptions => {
-    return createSelector([elementsSelector], elements =>
-        getCanContainSObjectElements(elements, retrieveOptions)
-    );
+    return createSelector([elementsSelector], elements => getCanContainSObjectElements(elements, retrieveOptions));
 };
 
 /**
@@ -269,26 +202,16 @@ export const sObjectOrSObjectCollectionByEntitySelector = retrieveOptions => {
     );
 };
 
-export const filteredElementsSelector = filter =>
-    createSelector([elementsSelector], getFilteredElements(filter));
+export const filteredElementsSelector = filter => createSelector([elementsSelector], getFilteredElements(filter));
 
 export const byTypeWritableElementsSelector = dataType =>
     filteredElementsSelector(
         element =>
-            element.dataType === dataType &&
-            !element.isCollection &&
-            element.elementType === ELEMENT_TYPE.VARIABLE
+            element.dataType === dataType && !element.isCollection && element.elementType === ELEMENT_TYPE.VARIABLE
     );
 
-const choiceTypes = [
-    ELEMENT_TYPE.CHOICE,
-    ELEMENT_TYPE.RECORD_CHOICE_SET,
-    ELEMENT_TYPE.PICKLIST_CHOICE_SET
-];
-const textCompatibleTypes = [
-    FLOW_DATA_TYPE.PICKLIST.value,
-    FLOW_DATA_TYPE.MULTI_PICKLIST.value
-];
+const choiceTypes = [ELEMENT_TYPE.CHOICE, ELEMENT_TYPE.RECORD_CHOICE_SET, ELEMENT_TYPE.PICKLIST_CHOICE_SET];
+const textCompatibleTypes = [FLOW_DATA_TYPE.PICKLIST.value, FLOW_DATA_TYPE.MULTI_PICKLIST.value];
 
 export const choiceSelector = dataType =>
     filteredElementsSelector(
@@ -296,8 +219,7 @@ export const choiceSelector = dataType =>
             choiceTypes.includes(element.elementType) &&
             (!dataType ||
                 dataType === element.dataType ||
-                (dataType === FLOW_DATA_TYPE.STRING.value &&
-                    textCompatibleTypes.includes(element.dataType)))
+                (dataType === FLOW_DATA_TYPE.STRING.value && textCompatibleTypes.includes(element.dataType)))
     );
 
 // Only variables and automatic output from GetRecord/Actions/Create elements are writable.
@@ -310,19 +232,15 @@ export const writableElementsSelector = filteredElementsSelector(
         dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value ||
         dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value ||
         dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value ||
-        (elementType === ELEMENT_TYPE.RECORD_CREATE &&
-            dataType === FLOW_DATA_TYPE.STRING.value) ||
+        (elementType === ELEMENT_TYPE.RECORD_CREATE && dataType === FLOW_DATA_TYPE.STRING.value) ||
         isSystemGeneratedOutput === true
 );
 
 export const readableElementsSelector = filteredElementsSelector(
-    element =>
-        element.elementType !== ELEMENT_TYPE.START_ELEMENT || !!element.object
+    element => element.elementType !== ELEMENT_TYPE.START_ELEMENT || !!element.object
 );
 
-export const collectionElementsSelector = filteredElementsSelector(
-    element => element.isCollection
-);
+export const collectionElementsSelector = filteredElementsSelector(element => element.isCollection);
 
 export const apexScalarVariablesSelector = filteredElementsSelector(
     element =>
@@ -332,22 +250,16 @@ export const apexScalarVariablesSelector = filteredElementsSelector(
 );
 
 export const componentInstanceScreenFieldsSelector = filteredElementsSelector(
-    element =>
-        element.elementType === ELEMENT_TYPE.SCREEN_FIELD &&
-        element.fieldType === COMPONENT_INSTANCE
+    element => element.elementType === ELEMENT_TYPE.SCREEN_FIELD && element.fieldType === COMPONENT_INSTANCE
 );
 
 export const byElementTypeElementsSelector = (...elementType) =>
-    filteredElementsSelector(element =>
-        elementType.includes(element.elementType)
-    );
+    filteredElementsSelector(element => elementType.includes(element.elementType));
 
 const hasSObjectProperties = apexClassProperties => {
     return apexClassProperties
         ? Object.values(apexClassProperties).some(
-              apexClassProperty =>
-                  getFlowDataType(apexClassProperty.dataType) ===
-                  FLOW_DATA_TYPE.SOBJECT.value
+              apexClassProperty => getFlowDataType(apexClassProperty.dataType) === FLOW_DATA_TYPE.SOBJECT.value
           )
         : false;
 };
@@ -357,14 +269,9 @@ const getSObjectOrContainsSObjectParameters = parameters => {
         ? Object.values(parameters).filter(
               parameter =>
                   parameter &&
-                  (getFlowDataType(parameter.dataType) ===
-                      FLOW_DATA_TYPE.SOBJECT.value ||
+                  (getFlowDataType(parameter.dataType) === FLOW_DATA_TYPE.SOBJECT.value ||
                       (isApexTypeElement(parameter) &&
-                          hasSObjectProperties(
-                              apexTypeLib.getPropertiesForClass(
-                                  parameter.apexClass
-                              )
-                          )))
+                          hasSObjectProperties(apexTypeLib.getPropertiesForClass(parameter.apexClass))))
           )
         : [];
 };
@@ -374,15 +281,10 @@ function isFlowResourceWithSObjectField(flowResource, retrieveOptions = {}) {
         flowResource.dataType === FLOW_DATA_TYPE.APEX.value
             ? apexTypeLib.getPropertiesForClass(flowResource.subtype)
             : retrieveResourceComplexTypeFields(flowResource);
-    let sobjectParameters = getSObjectOrContainsSObjectParameters(
-        automaticOutputParametersOrApexClassProperties
-    );
+    let sobjectParameters = getSObjectOrContainsSObjectParameters(automaticOutputParametersOrApexClassProperties);
 
     if (retrieveOptions && sobjectParameters && sobjectParameters.length > 0) {
-        sobjectParameters = filterByRetrieveOptions(
-            sobjectParameters,
-            retrieveOptions
-        );
+        sobjectParameters = filterByRetrieveOptions(sobjectParameters, retrieveOptions);
     }
     return sobjectParameters && sobjectParameters.length > 0;
 }

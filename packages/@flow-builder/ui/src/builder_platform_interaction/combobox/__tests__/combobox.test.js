@@ -1,12 +1,6 @@
 import { createElement } from 'lwc';
-import Combobox, {
-    MENU_DATA_PAGE_SIZE
-} from 'builder_platform_interaction/combobox';
-import {
-    comboboxInitialConfig,
-    secondLevelMenuData,
-    thirdLevelMenuData
-} from 'mock/comboboxData';
+import Combobox, { MENU_DATA_PAGE_SIZE } from 'builder_platform_interaction/combobox';
+import { comboboxInitialConfig, secondLevelMenuData, thirdLevelMenuData } from 'mock/comboboxData';
 import {
     FilterMatchesEvent,
     FetchMenuDataEvent,
@@ -66,10 +60,7 @@ jest.mock('builder_platform_interaction/systemLib', () => {
             return id === emptyString || id === booleanTrue;
         },
         isGlobalConstantOrSystemVariableId: id => {
-            return (
-                id.startsWith(globalConstantPrefix) ||
-                id.startsWith(systemVariablePrefix)
-            );
+            return id.startsWith(globalConstantPrefix) || id.startsWith(systemVariablePrefix);
         },
         isRecordSystemVariableIdentifier: id => id.startsWith('$Record')
     };
@@ -89,9 +80,7 @@ const VALIDATION_ERROR_MESSAGE = {
 
 jest.mock('builder_platform_interaction/mergeFieldLib', () => {
     return {
-        validateTextWithMergeFields: jest
-            .fn()
-            .mockReturnValue(Promise.resolve([])),
+        validateTextWithMergeFields: jest.fn().mockReturnValue(Promise.resolve([])),
         validateMergeField: jest.fn().mockReturnValue(Promise.resolve([])),
         isTextWithMergeFields: jest.fn().mockReturnValue(Promise.resolve([]))
     };
@@ -102,9 +91,7 @@ jest.mock('builder_platform_interaction/dateTimeUtils', () => {
         normalizeDateTime: jest.fn().mockName('normalizeDateTime'),
         createMetadataDateTime: jest.fn().mockName('createMetadataDateTime'),
         formatDateTime: jest.fn().mockName('formatDateTime'),
-        isValidFormattedDateTime: jest
-            .fn()
-            .mockName('isValidFormattedDateTime'),
+        isValidFormattedDateTime: jest.fn().mockName('isValidFormattedDateTime'),
         isValidMetadataDateTime: jest.fn().mockName('isValidMetadataDateTime'),
         getFormat: jest.fn().mockName('getFormat')
     };
@@ -118,19 +105,14 @@ const createCombobox = props => {
     });
     Object.assign(combobox, props);
     document.body.appendChild(combobox);
-    groupedCombobox = combobox.shadowRoot.querySelector(
-        SELECTORS.GROUPED_COMBOBOX
-    );
+    groupedCombobox = combobox.shadowRoot.querySelector(SELECTORS.GROUPED_COMBOBOX);
 };
 
 describe('Combobox Tests', () => {
     beforeAll(() => {
         const sObjectVariables = comboboxInitialConfig.menuData[1].items;
         for (let i = 0; i < sObjectVariables.length; i++) {
-            addToParentElementCache(
-                sObjectVariables[i].displayText,
-                sObjectVariables[i]
-            );
+            addToParentElementCache(sObjectVariables[i].displayText, sObjectVariables[i]);
         }
     });
 
@@ -187,15 +169,11 @@ describe('Combobox Tests', () => {
         });
 
         it('has literalsAllowed', () => {
-            expect(combobox.literalsAllowed).toEqual(
-                comboboxInitialConfig.literalsAllowed
-            );
+            expect(combobox.literalsAllowed).toEqual(comboboxInitialConfig.literalsAllowed);
         });
 
         it('has blockValidation', () => {
-            expect(combobox.blockValidation).toEqual(
-                comboboxInitialConfig.blockValidation
-            );
+            expect(combobox.blockValidation).toEqual(comboboxInitialConfig.blockValidation);
         });
 
         it('has type', () => {
@@ -262,9 +240,7 @@ describe('Combobox Tests', () => {
                 item.value = testValues[i];
                 expect(() => {
                     setValue();
-                }).toThrow(
-                    'Setting an item on Flow Combobox without a value property!'
-                );
+                }).toThrow('Setting an item on Flow Combobox without a value property!');
             }
         });
 
@@ -320,9 +296,7 @@ describe('Combobox Tests', () => {
                     });
 
                     return Promise.resolve().then(() => {
-                        expect(groupedCombobox.inputText).toEqual(
-                            validItemWithHasNext.displayText
-                        );
+                        expect(groupedCombobox.inputText).toEqual(validItemWithHasNext.displayText);
                     });
                 });
 
@@ -339,9 +313,7 @@ describe('Combobox Tests', () => {
                             combobox.value = validItemWithHasNext2;
 
                             return Promise.resolve().then(() => {
-                                expect(groupedCombobox.inputText).toEqual(
-                                    validItemWithHasNext2.displayText
-                                );
+                                expect(groupedCombobox.inputText).toEqual(validItemWithHasNext2.displayText);
                             });
                         });
                     });
@@ -360,31 +332,22 @@ describe('Combobox Tests', () => {
                         combobox.value = validItemWithHasNext2;
 
                         return Promise.resolve().then(() => {
-                            expect(groupedCombobox.inputText).toEqual(
-                                validItemWithHasNext2.displayText
-                            );
+                            expect(groupedCombobox.inputText).toEqual(validItemWithHasNext2.displayText);
                         });
                     });
                 });
 
                 it('matching display text with period after select should retain period', () => {
-                    const textInputValue =
-                        comboboxInitialConfig.menuData[1].items[0].displayText;
-                    const textInputValueWithPeriod =
-                        textInputValue.substring(0, textInputValue.length - 1) +
-                        '.}';
+                    const textInputValue = comboboxInitialConfig.menuData[1].items[0].displayText;
+                    const textInputValueWithPeriod = textInputValue.substring(0, textInputValue.length - 1) + '.}';
 
                     createCombobox({
                         menuData: comboboxInitialConfig.menuData
                     });
 
                     return Promise.resolve().then(() => {
-                        groupedCombobox.dispatchEvent(
-                            getTextInputEvent(textInputValue)
-                        );
-                        groupedCombobox.dispatchEvent(
-                            getTextInputEvent(textInputValueWithPeriod)
-                        );
+                        groupedCombobox.dispatchEvent(getTextInputEvent(textInputValue));
+                        groupedCombobox.dispatchEvent(getTextInputEvent(textInputValueWithPeriod));
 
                         return Promise.resolve().then(() => {
                             combobox.value = {
@@ -394,9 +357,7 @@ describe('Combobox Tests', () => {
                             };
 
                             return Promise.resolve().then(() => {
-                                expect(groupedCombobox.inputText).toEqual(
-                                    textInputValueWithPeriod
-                                );
+                                expect(groupedCombobox.inputText).toEqual(textInputValueWithPeriod);
                             });
                         });
                     });
@@ -408,9 +369,7 @@ describe('Combobox Tests', () => {
 
                 combobox.value = validItemWithHasNextFalse;
                 return Promise.resolve().then(() => {
-                    expect(groupedCombobox.inputText).toEqual(
-                        validItemWithHasNextFalse.displayText
-                    );
+                    expect(groupedCombobox.inputText).toEqual(validItemWithHasNextFalse.displayText);
                 });
             });
 
@@ -430,10 +389,7 @@ describe('Combobox Tests', () => {
                     combobox.type = FLOW_DATA_TYPE.DATE_TIME.value;
 
                     return Promise.resolve().then(() => {
-                        expect(normalizeDateTime).toHaveBeenCalledWith(
-                            literal,
-                            true
-                        );
+                        expect(normalizeDateTime).toHaveBeenCalledWith(literal, true);
                         expect(combobox.value).toEqual(normalizedLiteral);
                     });
                 });
@@ -450,10 +406,7 @@ describe('Combobox Tests', () => {
                     combobox.value = literal;
 
                     return Promise.resolve().then(() => {
-                        expect(normalizeDateTime).toHaveBeenCalledWith(
-                            literal,
-                            true
-                        );
+                        expect(normalizeDateTime).toHaveBeenCalledWith(literal, true);
                         expect(combobox.value).toEqual(normalizedLiteral);
                     });
                 });
@@ -470,10 +423,7 @@ describe('Combobox Tests', () => {
                     combobox.value = literal;
 
                     return Promise.resolve().then(() => {
-                        expect(normalizeDateTime).toHaveBeenCalledWith(
-                            literal,
-                            false
-                        );
+                        expect(normalizeDateTime).toHaveBeenCalledWith(literal, false);
                         expect(combobox.value).toEqual(normalizedLiteral);
                     });
                 });
@@ -494,10 +444,7 @@ describe('Combobox Tests', () => {
                     combobox.type = FLOW_DATA_TYPE.DATE.value;
 
                     return Promise.resolve().then(() => {
-                        expect(normalizeDateTime).toHaveBeenCalledWith(
-                            literal,
-                            false
-                        );
+                        expect(normalizeDateTime).toHaveBeenCalledWith(literal, false);
                         expect(combobox.value).toEqual(normalizedLiteral);
                     });
                 });
@@ -560,32 +507,22 @@ describe('Combobox Tests', () => {
                 it('calls createMetadataDateTime when type is dateTime and literalsAllowed and no error', () => {
                     combobox.errorMessage = null;
                     const mockMetadataValue = 'some metadata value';
-                    createMetadataDateTime.mockReturnValueOnce(
-                        mockMetadataValue
-                    );
+                    createMetadataDateTime.mockReturnValueOnce(mockMetadataValue);
                     const literal = combobox.value;
                     expect(literal).toEqual(mockMetadataValue);
-                    expect(createMetadataDateTime).toHaveBeenCalledWith(
-                        normalizedOutput,
-                        true
-                    );
+                    expect(createMetadataDateTime).toHaveBeenCalledWith(normalizedOutput, true);
                 });
 
                 it('calls createMetadataDateTime when type is date and literalsAllowed and no error', () => {
                     combobox.type = FLOW_DATA_TYPE.DATE.value;
                     combobox.errorMessage = null;
                     const mockMetadataValue = 'some metadata value';
-                    createMetadataDateTime.mockReturnValueOnce(
-                        mockMetadataValue
-                    );
+                    createMetadataDateTime.mockReturnValueOnce(mockMetadataValue);
 
                     return Promise.resolve().then(() => {
                         const literal = combobox.value;
                         expect(literal).toEqual(mockMetadataValue);
-                        expect(createMetadataDateTime).toHaveBeenCalledWith(
-                            normalizedOutput,
-                            false
-                        );
+                        expect(createMetadataDateTime).toHaveBeenCalledWith(normalizedOutput, false);
                     });
                 });
 
@@ -623,10 +560,7 @@ describe('Combobox Tests', () => {
                     createMetadataDateTime.mockReturnValueOnce(null);
                     const literal = combobox.value;
                     expect(literal).toEqual(normalizedOutput);
-                    expect(createMetadataDateTime).toHaveBeenCalledWith(
-                        normalizedOutput,
-                        true
-                    );
+                    expect(createMetadataDateTime).toHaveBeenCalledWith(normalizedOutput, true);
                 });
             });
         });
@@ -643,9 +577,7 @@ describe('Combobox Tests', () => {
         expect(combobox.errorMessage).toEqual('');
         combobox.errorMessage = null;
         expect(combobox.errorMessage).toEqual(null);
-        expect(groupedCombobox.showHelpMessageIfInvalid).toHaveBeenCalledTimes(
-            3
-        );
+        expect(groupedCombobox.showHelpMessageIfInvalid).toHaveBeenCalledTimes(3);
     });
 
     describe('Variant setter/getter tests', () => {
@@ -713,9 +645,7 @@ describe('Combobox Tests', () => {
                     expect(groupedCombobox.showActivityIndicator).toEqual(true);
                     combobox.menuData = comboboxInitialConfig.menuData;
                     return Promise.resolve().then(() => {
-                        expect(groupedCombobox.showActivityIndicator).toEqual(
-                            false
-                        );
+                        expect(groupedCombobox.showActivityIndicator).toEqual(false);
                     });
                 });
             });
@@ -723,11 +653,7 @@ describe('Combobox Tests', () => {
     });
 
     describe('Events Testing', () => {
-        let filterMatchesHandler,
-            fetchMenuDataHandler,
-            comboboxStateChangedHandler,
-            selectHandler,
-            itemSelectedHandler;
+        let filterMatchesHandler, fetchMenuDataHandler, comboboxStateChangedHandler, selectHandler, itemSelectedHandler;
         let textInputEvent, blurEvent, selectEvent;
         beforeEach(() => {
             createCombobox();
@@ -738,26 +664,11 @@ describe('Combobox Tests', () => {
             selectHandler = jest.fn();
             itemSelectedHandler = jest.fn();
 
-            combobox.addEventListener(
-                FilterMatchesEvent.EVENT_NAME,
-                filterMatchesHandler
-            );
-            combobox.addEventListener(
-                FetchMenuDataEvent.EVENT_NAME,
-                fetchMenuDataHandler
-            );
-            combobox.addEventListener(
-                ComboboxStateChangedEvent.EVENT_NAME,
-                comboboxStateChangedHandler
-            );
-            combobox.addEventListener(
-                NewResourceEvent.EVENT_NAME,
-                selectHandler
-            );
-            combobox.addEventListener(
-                ItemSelectedEvent.EVENT_NAME,
-                itemSelectedHandler
-            );
+            combobox.addEventListener(FilterMatchesEvent.EVENT_NAME, filterMatchesHandler);
+            combobox.addEventListener(FetchMenuDataEvent.EVENT_NAME, fetchMenuDataHandler);
+            combobox.addEventListener(ComboboxStateChangedEvent.EVENT_NAME, comboboxStateChangedHandler);
+            combobox.addEventListener(NewResourceEvent.EVENT_NAME, selectHandler);
+            combobox.addEventListener(ItemSelectedEvent.EVENT_NAME, itemSelectedHandler);
 
             for (const attribute in comboboxInitialConfig) {
                 if (comboboxInitialConfig.hasOwnProperty(attribute)) {
@@ -771,9 +682,7 @@ describe('Combobox Tests', () => {
             textInputEvent = getTextInputEvent(enteredText);
             groupedCombobox.dispatchEvent(textInputEvent);
             expect(filterMatchesHandler).toHaveBeenCalledTimes(1);
-            expect(filterMatchesHandler.mock.calls[0][0].detail.value).toEqual(
-                enteredText
-            );
+            expect(filterMatchesHandler.mock.calls[0][0].detail.value).toEqual(enteredText);
         });
 
         it('FilterMatches is fired without curly braces for a merge field', () => {
@@ -781,23 +690,17 @@ describe('Combobox Tests', () => {
             textInputEvent = getTextInputEvent(enteredText);
             groupedCombobox.dispatchEvent(textInputEvent);
             expect(filterMatchesHandler).toHaveBeenCalledTimes(1);
-            expect(filterMatchesHandler.mock.calls[0][0].detail.value).toEqual(
-                removeCurlyBraces(enteredText)
-            );
+            expect(filterMatchesHandler.mock.calls[0][0].detail.value).toEqual(removeCurlyBraces(enteredText));
         });
 
         it('FilterMatches is fired with only the field portion of entered text for a merge field on the second level', () => {
             combobox.value = secondLevelMenuData[0];
 
             const filterText = 'foobar';
-            textInputEvent = getTextInputEvent(
-                '{!MyAccount.' + filterText + '}'
-            );
+            textInputEvent = getTextInputEvent('{!MyAccount.' + filterText + '}');
             groupedCombobox.dispatchEvent(textInputEvent);
             expect(filterMatchesHandler).toHaveBeenCalledTimes(1);
-            expect(filterMatchesHandler.mock.calls[0][0].detail.value).toEqual(
-                filterText
-            );
+            expect(filterMatchesHandler.mock.calls[0][0].detail.value).toEqual(filterText);
         });
 
         it('FilterMatches is fired with only the field portion of entered text for a merge field on the third level', () => {
@@ -806,9 +709,7 @@ describe('Combobox Tests', () => {
             textInputEvent = getTextInputEvent(enteredText);
             groupedCombobox.dispatchEvent(textInputEvent);
             expect(filterMatchesHandler).toHaveBeenCalledTimes(1);
-            expect(filterMatchesHandler.mock.calls[0][0].detail.value).toEqual(
-                'Name'
-            );
+            expect(filterMatchesHandler.mock.calls[0][0].detail.value).toEqual('Name');
         });
 
         it('FilterMatches is fired when combobox first level value is cleared', () => {
@@ -816,9 +717,7 @@ describe('Combobox Tests', () => {
             combobox.value = null;
             return Promise.resolve().then(() => {
                 expect(filterMatchesHandler).toHaveBeenCalledTimes(1);
-                expect(filterMatchesHandler.mock.calls[0][0].detail.value).toBe(
-                    ''
-                );
+                expect(filterMatchesHandler.mock.calls[0][0].detail.value).toBe('');
             });
         });
 
@@ -944,9 +843,9 @@ describe('Combobox Tests', () => {
                     textInputEvent = getTextInputEvent('{!MyAccount.Na}');
                     groupedCombobox.dispatchEvent(textInputEvent);
                     expect(fetchMenuDataHandler).toHaveBeenCalledTimes(1);
-                    expect(
-                        fetchMenuDataHandler.mock.calls[0][0].detail.item
-                    ).toEqual(comboboxInitialConfig.menuData[1].items[0]);
+                    expect(fetchMenuDataHandler.mock.calls[0][0].detail.item).toEqual(
+                        comboboxInitialConfig.menuData[1].items[0]
+                    );
                 });
             });
 
@@ -956,9 +855,9 @@ describe('Combobox Tests', () => {
                     textInputEvent = getTextInputEvent('{!myaccount.Na}');
                     groupedCombobox.dispatchEvent(textInputEvent);
                     expect(fetchMenuDataHandler).toHaveBeenCalledTimes(1);
-                    expect(
-                        fetchMenuDataHandler.mock.calls[0][0].detail.item
-                    ).toEqual(comboboxInitialConfig.menuData[1].items[0]);
+                    expect(fetchMenuDataHandler.mock.calls[0][0].detail.item).toEqual(
+                        comboboxInitialConfig.menuData[1].items[0]
+                    );
                 });
             });
 
@@ -977,9 +876,9 @@ describe('Combobox Tests', () => {
                     textInputEvent = getTextInputEvent('{!MyContact.Descri}');
                     groupedCombobox.dispatchEvent(textInputEvent);
                     expect(fetchMenuDataHandler).toHaveBeenCalledTimes(1);
-                    expect(
-                        fetchMenuDataHandler.mock.calls[0][0].detail.item
-                    ).toEqual(comboboxInitialConfig.menuData[1].items[1]);
+                    expect(fetchMenuDataHandler.mock.calls[0][0].detail.item).toEqual(
+                        comboboxInitialConfig.menuData[1].items[1]
+                    );
                 });
             });
 
@@ -989,9 +888,7 @@ describe('Combobox Tests', () => {
                     textInputEvent = getTextInputEvent('{!MyNumb}');
                     groupedCombobox.dispatchEvent(textInputEvent);
                     expect(fetchMenuDataHandler).toHaveBeenCalledTimes(1);
-                    expect(
-                        fetchMenuDataHandler.mock.calls[0][0].detail.item
-                    ).toBeNull();
+                    expect(fetchMenuDataHandler.mock.calls[0][0].detail.item).toBeNull();
                 });
             });
         });
@@ -1002,29 +899,21 @@ describe('Combobox Tests', () => {
             selectEvent = getSelectEvent(secondLevelMenuData[1].value);
             groupedCombobox.dispatchEvent(selectEvent);
             expect(itemSelectedHandler).toHaveBeenCalledTimes(1);
-            expect(itemSelectedHandler.mock.calls[0][0].detail.item).toEqual(
-                secondLevelMenuData[1]
-            );
+            expect(itemSelectedHandler.mock.calls[0][0].detail.item).toEqual(secondLevelMenuData[1]);
         });
 
         it('FilterMatches is not fired when item with hasNext true is selected', () => {
-            selectEvent = getSelectEvent(
-                comboboxInitialConfig.menuData[1].items[0].value
-            );
+            selectEvent = getSelectEvent(comboboxInitialConfig.menuData[1].items[0].value);
             groupedCombobox.dispatchEvent(selectEvent);
             expect(filterMatchesHandler).not.toHaveBeenCalled();
         });
 
         it('FilterMatches is fired only when item with hasNext false is selected', () => {
-            selectEvent = getSelectEvent(
-                comboboxInitialConfig.menuData[2].items[0].value
-            );
+            selectEvent = getSelectEvent(comboboxInitialConfig.menuData[2].items[0].value);
             groupedCombobox.dispatchEvent(selectEvent);
             expect(filterMatchesHandler).toHaveBeenCalledTimes(1);
             expect(filterMatchesHandler.mock.calls[0][0].detail.value).toEqual(
-                removeCurlyBraces(
-                    comboboxInitialConfig.menuData[2].items[0].displayText
-                )
+                removeCurlyBraces(comboboxInitialConfig.menuData[2].items[0].displayText)
             );
         });
 
@@ -1038,12 +927,8 @@ describe('Combobox Tests', () => {
             blurEvent = new CustomEvent('blur');
             groupedCombobox.dispatchEvent(blurEvent);
             expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
-            expect(
-                comboboxStateChangedHandler.mock.calls[0][0].detail.item
-            ).toEqual(null);
-            expect(
-                comboboxStateChangedHandler.mock.calls[0][0].detail.displayText
-            ).toEqual(blurValue);
+            expect(comboboxStateChangedHandler.mock.calls[0][0].detail.item).toEqual(null);
+            expect(comboboxStateChangedHandler.mock.calls[0][0].detail.displayText).toEqual(blurValue);
 
             // This second part tests matchTextWithItem as well
             blurValue = '{!MyAccount}';
@@ -1053,12 +938,10 @@ describe('Combobox Tests', () => {
             groupedCombobox.dispatchEvent(textInputEvent);
             groupedCombobox.dispatchEvent(blurEvent);
             expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(2);
-            expect(
-                comboboxStateChangedHandler.mock.calls[1][0].detail.item
-            ).toEqual(comboboxInitialConfig.menuData[1].items[0]);
-            expect(
-                comboboxStateChangedHandler.mock.calls[1][0].detail.displayText
-            ).toEqual(blurValue);
+            expect(comboboxStateChangedHandler.mock.calls[1][0].detail.item).toEqual(
+                comboboxInitialConfig.menuData[1].items[0]
+            );
+            expect(comboboxStateChangedHandler.mock.calls[1][0].detail.displayText).toEqual(blurValue);
         });
 
         it('ComboboxStateChanged is fired on blur with the correct item even with incorrect case', () => {
@@ -1070,12 +953,10 @@ describe('Combobox Tests', () => {
             groupedCombobox.dispatchEvent(textInputEvent);
             groupedCombobox.dispatchEvent(blurEvent);
             expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
-            expect(
-                comboboxStateChangedHandler.mock.calls[0][0].detail.item
-            ).toEqual(comboboxInitialConfig.menuData[1].items[0]);
-            expect(
-                comboboxStateChangedHandler.mock.calls[0][0].detail.displayText
-            ).toEqual('{!MyAccount}');
+            expect(comboboxStateChangedHandler.mock.calls[0][0].detail.item).toEqual(
+                comboboxInitialConfig.menuData[1].items[0]
+            );
+            expect(comboboxStateChangedHandler.mock.calls[0][0].detail.displayText).toEqual('{!MyAccount}');
         });
 
         it('ComboboxStateChanged is fired after literalsAllowed property has changed', () => {
@@ -1101,9 +982,7 @@ describe('Combobox Tests', () => {
             combobox.value = '';
             groupedCombobox.dispatchEvent(blurEvent);
             expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
-            expect(
-                comboboxStateChangedHandler.mock.calls[0][0].detail.item
-            ).toEqual(null);
+            expect(comboboxStateChangedHandler.mock.calls[0][0].detail.item).toEqual(null);
         });
 
         it('ComboboxStateChanged is fired even when value has not changed', () => {
@@ -1124,18 +1003,14 @@ describe('Combobox Tests', () => {
         });
 
         it('Shows dropdown with fields after item is selected', () => {
-            selectEvent = getSelectEvent(
-                comboboxInitialConfig.menuData[1].items[0].value
-            );
+            selectEvent = getSelectEvent(comboboxInitialConfig.menuData[1].items[0].value);
             groupedCombobox.dispatchEvent(selectEvent);
             groupedCombobox.focusAndOpenDropdownIfNotEmpty = jest.fn();
 
             combobox.menuData = secondLevelMenuData;
 
             return Promise.resolve().then(() => {
-                expect(
-                    groupedCombobox.focusAndOpenDropdownIfNotEmpty
-                ).toHaveBeenCalled();
+                expect(groupedCombobox.focusAndOpenDropdownIfNotEmpty).toHaveBeenCalled();
             });
         });
     });
@@ -1245,10 +1120,7 @@ describe('Combobox Tests', () => {
             combobox.menuData = comboboxInitialConfig.menuData;
 
             comboboxStateChangedHandler = jest.fn();
-            combobox.addEventListener(
-                ComboboxStateChangedEvent.EVENT_NAME,
-                comboboxStateChangedHandler
-            );
+            combobox.addEventListener(ComboboxStateChangedEvent.EVENT_NAME, comboboxStateChangedHandler);
 
             isTextWithMergeFields.mockReturnValue(false);
         });
@@ -1258,15 +1130,10 @@ describe('Combobox Tests', () => {
                 testName = !testData.isLiteralsAllowed
                     ? `for data type ${dataType} and value ${testData.value}`
                     : `for data type ${dataType} value ${testData.value} and literalsAllowed ${testData.isLiteralsAllowed}`;
-                testName = testData.error
-                    ? (testName += ' shows error.')
-                    : testName;
+                testName = testData.error ? (testName += ' shows error.') : testName;
 
                 it(testName, () => {
-                    if (
-                        typeof testData.isLiteralsAllowed === 'boolean' &&
-                        testData.isLiteralsAllowed === false
-                    ) {
+                    if (typeof testData.isLiteralsAllowed === 'boolean' && testData.isLiteralsAllowed === false) {
                         combobox.literalsAllowed = 'false';
                     } else {
                         combobox.literalsAllowed = 'true';
@@ -1278,19 +1145,12 @@ describe('Combobox Tests', () => {
                     groupedCombobox.dispatchEvent(textInputEvent);
                     groupedCombobox.dispatchEvent(blurEvent);
 
-                    expect(
-                        comboboxStateChangedHandler.mock.calls[0][0].detail
-                            .error
-                    ).toEqual(testData.error);
+                    expect(comboboxStateChangedHandler.mock.calls[0][0].detail.error).toEqual(testData.error);
                     if (testData.expectedValue) {
                         if (dataType !== 'DateTime') {
-                            expect(combobox.value).toEqual(
-                                testData.expectedValue
-                            );
+                            expect(combobox.value).toEqual(testData.expectedValue);
                         } else {
-                            expect(
-                                ignoreTZRegex.exec(combobox.value)[0]
-                            ).toEqual(
+                            expect(ignoreTZRegex.exec(combobox.value)[0]).toEqual(
                                 ignoreTZRegex.exec(testData.expectedValue)[0]
                             );
                         }
@@ -1303,9 +1163,9 @@ describe('Combobox Tests', () => {
             combobox.required = true;
             combobox.displayText = '';
             groupedCombobox.dispatchEvent(blurEvent);
-            expect(
-                comboboxStateChangedHandler.mock.calls[0][0].detail.error
-            ).toEqual(VALIDATION_ERROR_MESSAGE.REQUIRED);
+            expect(comboboxStateChangedHandler.mock.calls[0][0].detail.error).toEqual(
+                VALIDATION_ERROR_MESSAGE.REQUIRED
+            );
         });
 
         it('for invalid data type', () => {
@@ -1314,18 +1174,14 @@ describe('Combobox Tests', () => {
                 combobox.type = dataType;
             } catch (e) {
                 expect(e).toBeDefined();
-                expect(e.message).toEqual(
-                    `Data type must be a valid Flow Data Type but instead was ${dataType}`
-                );
+                expect(e.message).toEqual(`Data type must be a valid Flow Data Type but instead was ${dataType}`);
             }
             expect.assertions(2);
         });
 
         it('validateTextWithMergeFields sets the error message for strings with invalid merge fields', () => {
             isTextWithMergeFields.mockReturnValueOnce(true);
-            validateTextWithMergeFields.mockReturnValueOnce([
-                { message: unknownMergeField }
-            ]);
+            validateTextWithMergeFields.mockReturnValueOnce([{ message: unknownMergeField }]);
             combobox.type = FLOW_DATA_TYPE.STRING.value;
             combobox.value = 'Hey, my name is {!blah}';
             groupedCombobox.dispatchEvent(blurEvent);
@@ -1349,9 +1205,7 @@ describe('Combobox Tests', () => {
             groupedCombobox.dispatchEvent(blurEvent);
             return Promise.resolve().then(() => {
                 expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
-                expect(combobox.errorMessage).toEqual(
-                    LABELS.genericErrorMessage
-                );
+                expect(combobox.errorMessage).toEqual(LABELS.genericErrorMessage);
             });
         });
 
@@ -1366,10 +1220,7 @@ describe('Combobox Tests', () => {
             groupedCombobox.dispatchEvent(blurEvent);
             return Promise.resolve().then(() => {
                 expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
-                expect(
-                    comboboxStateChangedHandler.mock.calls[0][0].detail
-                        .displayText
-                ).toEqual(comboboxValue);
+                expect(comboboxStateChangedHandler.mock.calls[0][0].detail.displayText).toEqual(comboboxValue);
                 expect(validateMergeField).toHaveBeenCalledTimes(1);
                 expect(combobox.errorMessage).toBeNull();
             });
@@ -1407,19 +1258,12 @@ describe('Combobox Tests', () => {
 
         it('merge fields with spaces get treated as merge fields when typing', () => {
             const filterMatchesHandler = jest.fn();
-            combobox.addEventListener(
-                FilterMatchesEvent.EVENT_NAME,
-                filterMatchesHandler
-            );
-            const selectEvent = getSelectEvent(
-                comboboxInitialConfig.menuData[1].items[0].value
-            );
+            combobox.addEventListener(FilterMatchesEvent.EVENT_NAME, filterMatchesHandler);
+            const selectEvent = getSelectEvent(comboboxInitialConfig.menuData[1].items[0].value);
             groupedCombobox.dispatchEvent(selectEvent);
             combobox.menuData = secondLevelMenuData;
             return Promise.resolve().then(() => {
-                const textInputEvent = getTextInputEvent(
-                    '{!MyAccount.First Na}'
-                );
+                const textInputEvent = getTextInputEvent('{!MyAccount.First Na}');
                 groupedCombobox.dispatchEvent(textInputEvent);
                 return Promise.resolve(() => {
                     expect(filterMatchesHandler).toHaveBeenCalledTimes(1);
@@ -1448,10 +1292,7 @@ describe('Combobox Tests', () => {
                 type: FLOW_DATA_TYPE.STRING.value
             });
             comboboxStateChangedHandler = jest.fn();
-            combobox.addEventListener(
-                ComboboxStateChangedEvent.EVENT_NAME,
-                comboboxStateChangedHandler
-            );
+            combobox.addEventListener(ComboboxStateChangedEvent.EVENT_NAME, comboboxStateChangedHandler);
         });
         it('should validate when enabled if literalsAllowed is changed while disabled is true', () => {
             combobox.disabled = true;
@@ -1514,10 +1355,7 @@ describe('Combobox Tests', () => {
 
             return Promise.resolve().then(() => {
                 expect(isValidFormattedDateTime).toHaveBeenCalledTimes(1);
-                expect(isValidFormattedDateTime).toHaveBeenCalledWith(
-                    mockDatetime,
-                    true
-                );
+                expect(isValidFormattedDateTime).toHaveBeenCalledWith(mockDatetime, true);
             });
         });
 
@@ -1529,10 +1367,7 @@ describe('Combobox Tests', () => {
 
             return Promise.resolve().then(() => {
                 expect(isValidFormattedDateTime).toHaveBeenCalledTimes(1);
-                expect(isValidFormattedDateTime).toHaveBeenCalledWith(
-                    mockDate,
-                    false
-                );
+                expect(isValidFormattedDateTime).toHaveBeenCalledWith(mockDate, false);
             });
         });
 
@@ -1651,12 +1486,7 @@ describe('Combobox Tests', () => {
             return result;
         }
 
-        function generateGroupedMenu(
-            groupCount,
-            groupSize,
-            groupBase = {},
-            groupItemBase = {}
-        ) {
+        function generateGroupedMenu(groupCount, groupSize, groupBase = {}, groupItemBase = {}) {
             const result = [];
             for (let i = 0; i < groupCount; i++) {
                 const suffix = '_' + i;
@@ -1677,12 +1507,7 @@ describe('Combobox Tests', () => {
         let longMenu;
 
         beforeAll(() => {
-            longMenu = generateGroupedMenu(
-                3,
-                MENU_DATA_PAGE_SIZE * 4,
-                { value: 'g_' },
-                { value: 'i' }
-            );
+            longMenu = generateGroupedMenu(3, MENU_DATA_PAGE_SIZE * 4, { value: 'g_' }, { value: 'i' });
 
             createCombobox({
                 menuData: longMenu,
@@ -1695,10 +1520,7 @@ describe('Combobox Tests', () => {
             expect(combobox.renderIncrementally).toEqual(true);
             const groupItem0 = Object.assign({}, longMenu[0]);
             // One page worth of subitems minus the top item (the group header item)
-            groupItem0.items = groupItem0.items.slice(
-                0,
-                MENU_DATA_PAGE_SIZE - 1
-            );
+            groupItem0.items = groupItem0.items.slice(0, MENU_DATA_PAGE_SIZE - 1);
             expect(groupedCombobox.items).toEqual([groupItem0]);
         });
 
@@ -1730,15 +1552,9 @@ describe('Combobox Tests', () => {
             return Promise.resolve().then(() => {
                 const groupItem1 = Object.assign({}, longMenu[1]);
                 // One page worth of subitems minus the top header items for the first and the second groups
-                groupItem1.items = groupItem1.items.slice(
-                    0,
-                    MENU_DATA_PAGE_SIZE - 2
-                );
+                groupItem1.items = groupItem1.items.slice(0, MENU_DATA_PAGE_SIZE - 2);
                 // The first group + a part of the second group
-                expect(combobox.currentMenuData).toEqual([
-                    longMenu[0],
-                    groupItem1
-                ]);
+                expect(combobox.currentMenuData).toEqual([longMenu[0], groupItem1]);
             });
         });
 
@@ -1752,11 +1568,7 @@ describe('Combobox Tests', () => {
                 const itemCount = 4 * MENU_DATA_PAGE_SIZE;
                 groupItem2.items = groupItem2.items.slice(0, itemCount - 3);
                 // The first and the second groups + a part of the last group
-                expect(combobox.currentMenuData).toEqual([
-                    longMenu[0],
-                    longMenu[1],
-                    groupItem2
-                ]);
+                expect(combobox.currentMenuData).toEqual([longMenu[0], longMenu[1], groupItem2]);
             });
         });
 
@@ -1785,10 +1597,7 @@ describe('Combobox Tests', () => {
         });
         it('should fire the comboboxstatechanged event ', () => {
             const comboboxStateChangedHandler = jest.fn();
-            combobox.addEventListener(
-                ComboboxStateChangedEvent.EVENT_NAME,
-                comboboxStateChangedHandler
-            );
+            combobox.addEventListener(ComboboxStateChangedEvent.EVENT_NAME, comboboxStateChangedHandler);
             const comboboxValue = {
                 displayText: 'display text',
                 guid: 123,

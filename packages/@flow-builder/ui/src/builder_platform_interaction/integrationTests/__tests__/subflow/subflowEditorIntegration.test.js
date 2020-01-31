@@ -40,16 +40,8 @@ import {
     getAutomaticOutputAdvancedOptionCheckbox,
     getAutomaticOutputAdvancedOptionComponent
 } from '../baseCalloutEditorTestUtils';
-import {
-    ticks,
-    focusoutEvent,
-    textInputEvent,
-    blurEvent
-} from 'builder_platform_interaction/builderTestUtils';
-import {
-    getFlowInputOutputVariables,
-    initializeAuraFetch
-} from '../serverDataTestUtils';
+import { ticks, focusoutEvent, textInputEvent, blurEvent } from 'builder_platform_interaction/builderTestUtils';
+import { getFlowInputOutputVariables, initializeAuraFetch } from '../serverDataTestUtils';
 import { EditElementEvent } from 'builder_platform_interaction/events';
 import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
@@ -90,16 +82,11 @@ describe('Subflow Editor with automatic ouput', () => {
         beforeAll(() => {
             const element = getElementByDevName('subflowAutomaticOutput');
             subflowNode = getElementForPropertyEditor(element);
-            subflowElement = createComponentForTest(
-                subflowNode,
-                EditElementEvent.EVENT_NAME
-            );
+            subflowElement = createComponentForTest(subflowNode, EditElementEvent.EVENT_NAME);
         });
         it('"useAdvancedOptionsCheckbox" should be unchecked', () => {
             return resolveRenderCycles(() => {
-                const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckbox(
-                    subflowElement
-                );
+                const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckbox(subflowElement);
 
                 expect(advancedOptionCheckbox).toBeDefined();
                 expect(advancedOptionCheckbox.type).toBe('checkbox');
@@ -109,16 +96,12 @@ describe('Subflow Editor with automatic ouput', () => {
         describe('modify from automatic to advanced', () => {
             beforeAll(async () => {
                 await ticks(50);
-                const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckbox(
-                    subflowElement
-                );
+                const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckbox(subflowElement);
                 advancedOptionCheckbox.dispatchEvent(new ToggleOnChangeEvent());
                 await ticks(50);
             });
             it('"useAdvancedOptionsCheckbox" should checked', () => {
-                const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckbox(
-                    subflowElement
-                );
+                const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckbox(subflowElement);
                 expect(advancedOptionCheckbox).toBeDefined();
                 expect(advancedOptionCheckbox.type).toBe('checkbox');
                 expect(advancedOptionCheckbox.checked).toBe(true);
@@ -146,25 +129,19 @@ describe('Subflow Editor', () => {
             const newLabel = 'new label';
             const subflowElement = createComponentForTest(subflowNode);
             await ticks(2);
-            const labelInput = getLabelDescriptionLabelElement(
-                getBaseCalloutElement(subflowElement)
-            );
+            const labelInput = getLabelDescriptionLabelElement(getBaseCalloutElement(subflowElement));
             labelInput.value = newLabel;
             labelInput.dispatchEvent(focusoutEvent);
             return resolveRenderCycles(() => {
                 expect(subflowElement.node.label.value).toBe(newLabel);
-                expect(subflowElement.node.name.value).toBe(
-                    'Flow_With_All_Types_Variables'
-                );
+                expect(subflowElement.node.name.value).toBe('Flow_With_All_Types_Variables');
             });
         });
         it('modify the dev name', () => {
             const newDevName = 'newName';
             const subflowElement = createComponentForTest(subflowNode);
             return resolveRenderCycles(() => {
-                const devNameInput = getLabelDescriptionNameElement(
-                    getBaseCalloutElement(subflowElement)
-                );
+                const devNameInput = getLabelDescriptionNameElement(getBaseCalloutElement(subflowElement));
                 devNameInput.value = newDevName;
                 devNameInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {
@@ -176,15 +153,11 @@ describe('Subflow Editor', () => {
             const newLabel = '';
             const subflowElement = createComponentForTest(subflowNode);
             return resolveRenderCycles(() => {
-                const labelInput = getLabelDescriptionLabelElement(
-                    getBaseCalloutElement(subflowElement)
-                );
+                const labelInput = getLabelDescriptionLabelElement(getBaseCalloutElement(subflowElement));
                 labelInput.value = newLabel;
                 labelInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {
-                    expect(subflowElement.node.label.error).toBe(
-                        VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
-                    );
+                    expect(subflowElement.node.label.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
                 });
             });
         });
@@ -192,15 +165,11 @@ describe('Subflow Editor', () => {
             const newDevName = '';
             const subflowElement = createComponentForTest(subflowNode);
             return resolveRenderCycles(() => {
-                const devNameInput = getLabelDescriptionNameElement(
-                    getBaseCalloutElement(subflowElement)
-                );
+                const devNameInput = getLabelDescriptionNameElement(getBaseCalloutElement(subflowElement));
                 devNameInput.value = newDevName;
                 devNameInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {
-                    expect(subflowElement.node.name.error).toBe(
-                        VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
-                    );
+                    expect(subflowElement.node.name.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
                 });
             });
         });
@@ -214,55 +183,19 @@ describe('Subflow Editor', () => {
                 inputAssignments = getInputParameterItems(subflowElement);
             });
             it('show all input parameters (sorted)', () => {
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[0],
-                    'inputAccountColVar'
-                );
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[1],
-                    'inputAccountVar'
-                );
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[2],
-                    'inputBoolColVar'
-                );
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[3],
-                    'inputBoolVar'
-                );
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[4],
-                    'inputCurrencyColVar'
-                );
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[5],
-                    'inputCurrencyVar'
-                );
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[6],
-                    'inputDateColVar'
-                );
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[7],
-                    'inputDateTimeColVar'
-                );
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[8],
-                    'inputDateTimeVar'
-                );
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[9],
-                    'inputDateVar'
-                );
+                verifyOptionalInputParameterNoValue(inputAssignments[0], 'inputAccountColVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[1], 'inputAccountVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[2], 'inputBoolColVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[3], 'inputBoolVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[4], 'inputCurrencyColVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[5], 'inputCurrencyVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[6], 'inputDateColVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[7], 'inputDateTimeColVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[8], 'inputDateTimeVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[9], 'inputDateVar');
                 // inputNotAvailableParam is not available item and will be check in warning cases
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[11],
-                    'inputNumberColVar'
-                );
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[12],
-                    'inputNumberVar'
-                );
+                verifyOptionalInputParameterNoValue(inputAssignments[11], 'inputNumberColVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[12], 'inputNumberVar');
                 verifyOptionalInputParameterWithValue(
                     inputAssignments[13],
                     'inputOutputAccountColVar',
@@ -273,123 +206,59 @@ describe('Subflow Editor', () => {
                     'inputOutputAccountVar',
                     '{!accountSObjectVariable}'
                 );
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[15],
-                    'inputOutputBoolColVar'
-                );
-                verifyOptionalInputParameterWithValue(
-                    inputAssignments[16],
-                    'inputOutputBoolVar',
-                    '{!booleanVariable}'
-                );
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[17],
-                    'inputOutputCurrencyColVar'
-                );
+                verifyOptionalInputParameterNoValue(inputAssignments[15], 'inputOutputBoolColVar');
+                verifyOptionalInputParameterWithValue(inputAssignments[16], 'inputOutputBoolVar', '{!booleanVariable}');
+                verifyOptionalInputParameterNoValue(inputAssignments[17], 'inputOutputCurrencyColVar');
                 verifyOptionalInputParameterWithValue(
                     inputAssignments[18],
                     'inputOutputCurrencyVar',
                     '{!currencyVariable}'
                 );
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[19],
-                    'inputOutputDateColVar'
-                );
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[20],
-                    'inputOutputDateTimeColVar'
-                );
+                verifyOptionalInputParameterNoValue(inputAssignments[19], 'inputOutputDateColVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[20], 'inputOutputDateTimeColVar');
                 verifyOptionalInputParameterWithValue(
                     inputAssignments[21],
                     'inputOutputDateTimeVar',
                     '{!dateTimeVariable}'
                 );
-                verifyOptionalInputParameterWithValue(
-                    inputAssignments[22],
-                    'inputOutputDateVar',
-                    '{!dateVariable}'
-                );
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[23],
-                    'inputOutputNumberColVar'
-                );
+                verifyOptionalInputParameterWithValue(inputAssignments[22], 'inputOutputDateVar', '{!dateVariable}');
+                verifyOptionalInputParameterNoValue(inputAssignments[23], 'inputOutputNumberColVar');
                 // inputOutputNumberVar is duplicated and will be check in warning cases
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[26],
-                    'inputOutputStringColVar'
-                );
+                verifyOptionalInputParameterNoValue(inputAssignments[26], 'inputOutputStringColVar');
                 verifyOptionalInputParameterWithValue(
                     inputAssignments[27],
                     'inputOutputStringVar',
                     '{!stringVariable}'
                 );
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[28],
-                    'inputStringColVar'
-                );
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[29],
-                    'inputStringVar'
-                );
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[30],
-                    'latestInputOutputStringColVar'
-                );
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[31],
-                    'latestInputOutputStringVar'
-                );
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[32],
-                    'latestInputStringColVar'
-                );
-                verifyOptionalInputParameterNoValue(
-                    inputAssignments[33],
-                    'latestInputStringVar'
-                );
+                verifyOptionalInputParameterNoValue(inputAssignments[28], 'inputStringColVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[29], 'inputStringVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[30], 'latestInputOutputStringColVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[31], 'latestInputOutputStringVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[32], 'latestInputStringColVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[33], 'latestInputStringVar');
             });
             it('update value when setting the litteral string to the String Parameter', () => {
-                const stringParameterElement = findParameterElement(
-                    inputAssignments,
-                    'inputOutputStringVar'
-                );
-                const stringParameterCombobox = getInputParameterComboboxElement(
-                    stringParameterElement
-                );
-                stringParameterCombobox.dispatchEvent(
-                    textInputEvent('any value')
-                );
+                const stringParameterElement = findParameterElement(inputAssignments, 'inputOutputStringVar');
+                const stringParameterCombobox = getInputParameterComboboxElement(stringParameterElement);
+                stringParameterCombobox.dispatchEvent(textInputEvent('any value'));
                 return resolveRenderCycles(() => {
                     stringParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
                         expect(
-                            getParameter(
-                                subflowElement.node.inputAssignments,
-                                'inputOutputStringVar'
-                            ).value
+                            getParameter(subflowElement.node.inputAssignments, 'inputOutputStringVar').value
                         ).toEqual({ value: 'any value', error: null });
                     });
                 });
             });
             it('update value when setting the variable number to the String Parameter', () => {
-                const stringParameterElement = findParameterElement(
-                    inputAssignments,
-                    'inputOutputStringVar'
-                );
-                const stringParameterCombobox = getInputParameterComboboxElement(
-                    stringParameterElement
-                );
-                stringParameterCombobox.dispatchEvent(
-                    textInputEvent('{!numberVariable}')
-                );
+                const stringParameterElement = findParameterElement(inputAssignments, 'inputOutputStringVar');
+                const stringParameterCombobox = getInputParameterComboboxElement(stringParameterElement);
+                stringParameterCombobox.dispatchEvent(textInputEvent('{!numberVariable}'));
                 return resolveRenderCycles(() => {
                     stringParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
                         expect(
-                            getParameter(
-                                subflowElement.node.inputAssignments,
-                                'inputOutputStringVar'
-                            ).value
+                            getParameter(subflowElement.node.inputAssignments, 'inputOutputStringVar').value
                         ).toEqual({
                             value: getElementGuid('numberVariable'),
                             error: null
@@ -398,26 +267,14 @@ describe('Subflow Editor', () => {
                 });
             });
             it('update value when setting the empty string constant to the String Parameter', () => {
-                const stringParameterElement = findParameterElement(
-                    inputAssignments,
-                    'inputOutputStringVar'
-                );
-                const stringParameterCombobox = getInputParameterComboboxElement(
-                    stringParameterElement
-                );
-                stringParameterCombobox.dispatchEvent(
-                    textInputEvent(
-                        addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING)
-                    )
-                );
+                const stringParameterElement = findParameterElement(inputAssignments, 'inputOutputStringVar');
+                const stringParameterCombobox = getInputParameterComboboxElement(stringParameterElement);
+                stringParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING)));
                 return resolveRenderCycles(() => {
                     stringParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
                         expect(
-                            getParameter(
-                                subflowElement.node.inputAssignments,
-                                'inputOutputStringVar'
-                            ).value
+                            getParameter(subflowElement.node.inputAssignments, 'inputOutputStringVar').value
                         ).toEqual({
                             value: GLOBAL_CONSTANTS.EMPTY_STRING,
                             error: null
@@ -426,33 +283,19 @@ describe('Subflow Editor', () => {
                 });
             });
             it('update value when setting the string collection variable to the String Collection Parameter', () => {
-                const stringColParameterElement = findParameterElement(
-                    inputAssignments,
-                    'inputOutputStringColVar'
-                );
-                const toggle = getLightningInputToggle(
-                    stringColParameterElement
-                );
+                const stringColParameterElement = findParameterElement(inputAssignments, 'inputOutputStringColVar');
+                const toggle = getLightningInputToggle(stringColParameterElement);
                 toggle.dispatchEvent(toggleChangeEvent(true));
                 return resolveRenderCycles(() => {
-                    const stringColParameterCombobox = getInputParameterComboboxElement(
-                        stringColParameterElement
-                    );
-                    stringColParameterCombobox.dispatchEvent(
-                        textInputEvent('{!stringCollectionVariable}')
-                    );
+                    const stringColParameterCombobox = getInputParameterComboboxElement(stringColParameterElement);
+                    stringColParameterCombobox.dispatchEvent(textInputEvent('{!stringCollectionVariable}'));
                     return resolveRenderCycles(() => {
                         stringColParameterCombobox.dispatchEvent(blurEvent);
                         return resolveRenderCycles(() => {
                             expect(
-                                getParameter(
-                                    subflowElement.node.inputAssignments,
-                                    'inputOutputStringColVar'
-                                ).value
+                                getParameter(subflowElement.node.inputAssignments, 'inputOutputStringColVar').value
                             ).toEqual({
-                                value: getElementGuid(
-                                    'stringCollectionVariable'
-                                ),
+                                value: getElementGuid('stringCollectionVariable'),
                                 error: null
                             });
                         });
@@ -460,43 +303,24 @@ describe('Subflow Editor', () => {
                 });
             });
             it('update value when setting the valid number to the Number Parameter', () => {
-                const numberParameterElement = findParameterElement(
-                    inputAssignments,
-                    'inputNumberVar'
-                );
-                const numberParameterCombobox = getInputParameterComboboxElement(
-                    numberParameterElement
-                );
+                const numberParameterElement = findParameterElement(inputAssignments, 'inputNumberVar');
+                const numberParameterCombobox = getInputParameterComboboxElement(numberParameterElement);
                 changeComboboxValue(numberParameterCombobox, '1234');
                 return resolveRenderCycles(() => {
-                    expect(
-                        getParameter(
-                            subflowElement.node.inputAssignments,
-                            'inputNumberVar'
-                        ).value
-                    ).toEqual({ value: '1234', error: null });
+                    expect(getParameter(subflowElement.node.inputAssignments, 'inputNumberVar').value).toEqual({
+                        value: '1234',
+                        error: null
+                    });
                 });
             });
             it('update value when setting the dateTime variable to the Date Parameter', () => {
-                const dateParameterElement = findParameterElement(
-                    inputAssignments,
-                    'inputOutputDateVar'
-                );
-                const dateParameterCombobox = getInputParameterComboboxElement(
-                    dateParameterElement
-                );
-                dateParameterCombobox.dispatchEvent(
-                    textInputEvent('{!dateTimeVariable}')
-                );
+                const dateParameterElement = findParameterElement(inputAssignments, 'inputOutputDateVar');
+                const dateParameterCombobox = getInputParameterComboboxElement(dateParameterElement);
+                dateParameterCombobox.dispatchEvent(textInputEvent('{!dateTimeVariable}'));
                 return resolveRenderCycles(() => {
                     dateParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(
-                            getParameter(
-                                subflowElement.node.inputAssignments,
-                                'inputOutputDateVar'
-                            ).value
-                        ).toEqual({
+                        expect(getParameter(subflowElement.node.inputAssignments, 'inputOutputDateVar').value).toEqual({
                             value: getElementGuid('dateTimeVariable'),
                             error: null
                         });
@@ -504,27 +328,13 @@ describe('Subflow Editor', () => {
                 });
             });
             it('update value when setting the global constant to the Boolean Parameter', () => {
-                const booleanParameterElement = findParameterElement(
-                    inputAssignments,
-                    'inputOutputBoolVar'
-                );
-                const booleanParameterCombobox = getInputParameterComboboxElement(
-                    booleanParameterElement
-                );
-                booleanParameterCombobox.dispatchEvent(
-                    textInputEvent(
-                        addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_FALSE)
-                    )
-                );
+                const booleanParameterElement = findParameterElement(inputAssignments, 'inputOutputBoolVar');
+                const booleanParameterCombobox = getInputParameterComboboxElement(booleanParameterElement);
+                booleanParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_FALSE)));
                 return resolveRenderCycles(() => {
                     booleanParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(
-                            getParameter(
-                                subflowElement.node.inputAssignments,
-                                'inputOutputBoolVar'
-                            ).value
-                        ).toEqual({
+                        expect(getParameter(subflowElement.node.inputAssignments, 'inputOutputBoolVar').value).toEqual({
                             value: GLOBAL_CONSTANTS.BOOLEAN_FALSE,
                             error: null
                         });
@@ -532,82 +342,53 @@ describe('Subflow Editor', () => {
                 });
             });
             it('update value when setting the number to the Currency Parameter', () => {
-                const currencyParameterElement = findParameterElement(
-                    inputAssignments,
-                    'inputCurrencyVar'
-                );
-                const currencyParameterCombobox = getInputParameterComboboxElement(
-                    currencyParameterElement
-                );
+                const currencyParameterElement = findParameterElement(inputAssignments, 'inputCurrencyVar');
+                const currencyParameterCombobox = getInputParameterComboboxElement(currencyParameterElement);
                 currencyParameterCombobox.dispatchEvent(textInputEvent('1000'));
                 return resolveRenderCycles(() => {
                     currencyParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(
-                            getParameter(
-                                subflowElement.node.inputAssignments,
-                                'inputCurrencyVar'
-                            ).value
-                        ).toEqual({ value: '1000', error: null });
+                        expect(getParameter(subflowElement.node.inputAssignments, 'inputCurrencyVar').value).toEqual({
+                            value: '1000',
+                            error: null
+                        });
                     });
                 });
             });
             it('update value when setting the account variable to the Account Parameter', () => {
-                const accountParameterElement = findParameterElement(
-                    inputAssignments,
-                    'inputAccountVar'
-                );
+                const accountParameterElement = findParameterElement(inputAssignments, 'inputAccountVar');
                 const toggle = getLightningInputToggle(accountParameterElement);
                 toggle.dispatchEvent(toggleChangeEvent(true));
                 return resolveRenderCycles(() => {
-                    const accountParameterCombobox = getInputParameterComboboxElement(
-                        accountParameterElement
-                    );
-                    accountParameterCombobox.dispatchEvent(
-                        textInputEvent('{!accountSObjectVariable}')
-                    );
+                    const accountParameterCombobox = getInputParameterComboboxElement(accountParameterElement);
+                    accountParameterCombobox.dispatchEvent(textInputEvent('{!accountSObjectVariable}'));
                     return resolveRenderCycles(() => {
                         accountParameterCombobox.dispatchEvent(blurEvent);
                         return resolveRenderCycles(() => {
-                            expect(
-                                getParameter(
-                                    subflowElement.node.inputAssignments,
-                                    'inputAccountVar'
-                                ).value
-                            ).toEqual({
-                                value: getElementGuid('accountSObjectVariable'),
-                                error: null
-                            });
+                            expect(getParameter(subflowElement.node.inputAssignments, 'inputAccountVar').value).toEqual(
+                                {
+                                    value: getElementGuid('accountSObjectVariable'),
+                                    error: null
+                                }
+                            );
                         });
                     });
                 });
             });
             it('update value when setting the account collection variable to the Account Collection Parameter', () => {
-                const accountParameterElement = findParameterElement(
-                    inputAssignments,
-                    'inputAccountColVar'
-                );
+                const accountParameterElement = findParameterElement(inputAssignments, 'inputAccountColVar');
                 const toggle = getLightningInputToggle(accountParameterElement);
                 toggle.dispatchEvent(toggleChangeEvent(true));
                 return resolveRenderCycles(() => {
-                    const accountParameterCombobox = getInputParameterComboboxElement(
-                        accountParameterElement
-                    );
-                    accountParameterCombobox.dispatchEvent(
-                        textInputEvent('{!accountSObjectCollectionVariable}')
-                    );
+                    const accountParameterCombobox = getInputParameterComboboxElement(accountParameterElement);
+                    accountParameterCombobox.dispatchEvent(textInputEvent('{!accountSObjectCollectionVariable}'));
                     return resolveRenderCycles(() => {
                         accountParameterCombobox.dispatchEvent(blurEvent);
                         return resolveRenderCycles(() => {
                             expect(
-                                getParameter(
-                                    subflowElement.node.inputAssignments,
-                                    'inputAccountColVar'
-                                ).value
+                                getParameter(subflowElement.node.inputAssignments, 'inputAccountColVar').value
                             ).toEqual({
-                                value: getElementGuid(
-                                    'accountSObjectCollectionVariable'
-                                ),
+                                value: getElementGuid('accountSObjectCollectionVariable'),
                                 error: null
                             });
                         });
@@ -619,41 +400,25 @@ describe('Subflow Editor', () => {
                 await ticks(2);
                 inputAssignments = getInputParameterItems(subflowElement);
 
-                const boolParameterElement = findParameterElement(
-                    inputAssignments,
-                    'inputBoolColVar'
-                );
+                const boolParameterElement = findParameterElement(inputAssignments, 'inputBoolColVar');
                 const toggle = getLightningInputToggle(boolParameterElement);
                 toggle.dispatchEvent(toggleChangeEvent(true));
                 return resolveRenderCycles(() => {
-                    verifyOptionalInputParameterWithValue(
-                        boolParameterElement,
-                        'inputBoolColVar',
-                        ''
-                    );
+                    verifyOptionalInputParameterWithValue(boolParameterElement, 'inputBoolColVar', '');
                 });
             });
             it('hide combobox when toggle is set OFF', async () => {
                 subflowElement = createComponentForTest(subflowNode);
                 await ticks(2);
                 inputAssignments = getInputParameterItems(subflowElement);
-                const inputBoolElement = findParameterElement(
-                    inputAssignments,
-                    'inputOutputBoolVar'
-                );
+                const inputBoolElement = findParameterElement(inputAssignments, 'inputOutputBoolVar');
                 const toggle = getLightningInputToggle(inputBoolElement);
                 toggle.dispatchEvent(toggleChangeEvent(false));
                 await ticks(2);
-                verifyOptionalInputParameterNoValue(
-                    inputBoolElement,
-                    'inputOutputBoolVar'
-                );
+                verifyOptionalInputParameterNoValue(inputBoolElement, 'inputOutputBoolVar');
             });
             it('preserve value when toggle is set OFF then ON', () => {
-                const accountElement = findParameterElement(
-                    inputAssignments,
-                    'inputOutputAccountVar'
-                );
+                const accountElement = findParameterElement(inputAssignments, 'inputOutputAccountVar');
                 const toggle = getLightningInputToggle(accountElement);
                 toggle.dispatchEvent(toggleChangeEvent(false));
                 return resolveRenderCycles(() => {
@@ -676,16 +441,9 @@ describe('Subflow Editor', () => {
                 inputAssignments = getInputParameterItems(subflowElement);
             });
             it('show the error if entering the string for the Number Parameter', () => {
-                const numberParameterElement = findParameterElement(
-                    inputAssignments,
-                    'inputOutputNumberVar'
-                );
-                const numberParameterCombobox = getInputParameterComboboxElement(
-                    numberParameterElement
-                );
-                numberParameterCombobox.dispatchEvent(
-                    textInputEvent('invalidNumber')
-                );
+                const numberParameterElement = findParameterElement(inputAssignments, 'inputOutputNumberVar');
+                const numberParameterCombobox = getInputParameterComboboxElement(numberParameterElement);
+                numberParameterCombobox.dispatchEvent(textInputEvent('invalidNumber'));
                 return resolveRenderCycles(() => {
                     numberParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
@@ -696,16 +454,9 @@ describe('Subflow Editor', () => {
                 });
             });
             it('show the error if entering the string for the Currency Parameter', () => {
-                const currencyParameterElement = findParameterElement(
-                    inputAssignments,
-                    'inputOutputCurrencyVar'
-                );
-                const currencyParameterCombobox = getInputParameterComboboxElement(
-                    currencyParameterElement
-                );
-                currencyParameterCombobox.dispatchEvent(
-                    textInputEvent('invalidNumber')
-                );
+                const currencyParameterElement = findParameterElement(inputAssignments, 'inputOutputCurrencyVar');
+                const currencyParameterCombobox = getInputParameterComboboxElement(currencyParameterElement);
+                currencyParameterCombobox.dispatchEvent(textInputEvent('invalidNumber'));
                 return resolveRenderCycles(() => {
                     currencyParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
@@ -716,76 +467,42 @@ describe('Subflow Editor', () => {
                 });
             });
             it('show the error if entering the string for the Account Parameter', () => {
-                const accountParameterElement = findParameterElement(
-                    inputAssignments,
-                    'inputOutputAccountVar'
-                );
-                const accountParameterCombobox = getInputParameterComboboxElement(
-                    accountParameterElement
-                );
-                accountParameterCombobox.dispatchEvent(
-                    textInputEvent('any string')
-                );
+                const accountParameterElement = findParameterElement(inputAssignments, 'inputOutputAccountVar');
+                const accountParameterCombobox = getInputParameterComboboxElement(accountParameterElement);
+                accountParameterCombobox.dispatchEvent(textInputEvent('any string'));
                 return resolveRenderCycles(() => {
                     accountParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(accountParameterCombobox.validity).toEqual(
-                            VALIDATION_ERROR_MESSAGES.GENERIC
-                        );
+                        expect(accountParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.GENERIC);
                     });
                 });
             });
             it('show the error if entering the account variable for the String Parameter', () => {
-                const stringParameterElement = findParameterElement(
-                    inputAssignments,
-                    'inputOutputStringVar'
-                );
-                const stringParameterCombobox = getInputParameterComboboxElement(
-                    stringParameterElement
-                );
-                stringParameterCombobox.dispatchEvent(
-                    textInputEvent('{!accountSObjectVariable}')
-                );
+                const stringParameterElement = findParameterElement(inputAssignments, 'inputOutputStringVar');
+                const stringParameterCombobox = getInputParameterComboboxElement(stringParameterElement);
+                stringParameterCombobox.dispatchEvent(textInputEvent('{!accountSObjectVariable}'));
                 return resolveRenderCycles(() => {
                     stringParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(stringParameterCombobox.validity).toEqual(
-                            VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE
-                        );
+                        expect(stringParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE);
                     });
                 });
             });
             it('show the error if entering the collection variable for the String Parameter', () => {
-                const stringParameterElement = findParameterElement(
-                    inputAssignments,
-                    'inputOutputStringVar'
-                );
-                const stringParameterCombobox = getInputParameterComboboxElement(
-                    stringParameterElement
-                );
-                stringParameterCombobox.dispatchEvent(
-                    textInputEvent('{!stringCollectionVariable}')
-                );
+                const stringParameterElement = findParameterElement(inputAssignments, 'inputOutputStringVar');
+                const stringParameterCombobox = getInputParameterComboboxElement(stringParameterElement);
+                stringParameterCombobox.dispatchEvent(textInputEvent('{!stringCollectionVariable}'));
                 return resolveRenderCycles(() => {
                     stringParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(stringParameterCombobox.validity).toEqual(
-                            VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE
-                        );
+                        expect(stringParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE);
                     });
                 });
             });
             it('show the error if entering the account variable for the Account Collection Parameter', () => {
-                const accountColParameterElement = findParameterElement(
-                    inputAssignments,
-                    'inputOutputAccountColVar'
-                );
-                const sObjectColParameterCombobox = getInputParameterComboboxElement(
-                    accountColParameterElement
-                );
-                sObjectColParameterCombobox.dispatchEvent(
-                    textInputEvent('{!accountSObjectVariable}')
-                );
+                const accountColParameterElement = findParameterElement(inputAssignments, 'inputOutputAccountColVar');
+                const sObjectColParameterCombobox = getInputParameterComboboxElement(accountColParameterElement);
+                sObjectColParameterCombobox.dispatchEvent(textInputEvent('{!accountSObjectVariable}'));
                 return resolveRenderCycles(() => {
                     sObjectColParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
@@ -796,16 +513,9 @@ describe('Subflow Editor', () => {
                 });
             });
             it('show the error if entering the string collection variable for the Account Collection Parameter', () => {
-                const accountColParameterElement = findParameterElement(
-                    inputAssignments,
-                    'inputOutputAccountColVar'
-                );
-                const sObjectColParameterCombobox = getInputParameterComboboxElement(
-                    accountColParameterElement
-                );
-                sObjectColParameterCombobox.dispatchEvent(
-                    textInputEvent('{!stringCollectionVariable}')
-                );
+                const accountColParameterElement = findParameterElement(inputAssignments, 'inputOutputAccountColVar');
+                const sObjectColParameterCombobox = getInputParameterComboboxElement(accountColParameterElement);
+                sObjectColParameterCombobox.dispatchEvent(textInputEvent('{!stringCollectionVariable}'));
                 return resolveRenderCycles(() => {
                     sObjectColParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
@@ -816,20 +526,13 @@ describe('Subflow Editor', () => {
                 });
             });
             it('show the error if entering the empty string constant for the Boolean Parameter', () => {
-                const booleanParameterElement = findParameterElement(
-                    inputAssignments,
-                    'inputOutputBoolVar'
-                );
+                const booleanParameterElement = findParameterElement(inputAssignments, 'inputOutputBoolVar');
                 const toggle = getLightningInputToggle(booleanParameterElement);
                 toggle.dispatchEvent(toggleChangeEvent(true));
                 return resolveRenderCycles(() => {
-                    const booleanParameterCombobox = getInputParameterComboboxElement(
-                        booleanParameterElement
-                    );
+                    const booleanParameterCombobox = getInputParameterComboboxElement(booleanParameterElement);
                     booleanParameterCombobox.dispatchEvent(
-                        textInputEvent(
-                            addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING)
-                        )
+                        textInputEvent(addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING))
                     );
                     return resolveRenderCycles(() => {
                         booleanParameterCombobox.dispatchEvent(blurEvent);
@@ -849,19 +552,12 @@ describe('Subflow Editor', () => {
                     subflowElement = createComponentForTest(subflowNode);
                     await ticks(2);
                     inputAssignments = getInputParameterItems(subflowElement);
-                    numberParameterItems = filterParameterElements(
-                        inputAssignments,
-                        'inputOutputNumberVar'
-                    );
+                    numberParameterItems = filterParameterElements(inputAssignments, 'inputOutputNumberVar');
                 });
                 it('show duplicated Number Parameter parameters', () => {
                     expect(numberParameterItems).toHaveLength(2);
-                    expect(numberParameterItems[0].item.value.value).toEqual(
-                        getElementGuid('numberVariable')
-                    );
-                    expect(numberParameterItems[1].item.value.value).toEqual(
-                        getElementGuid('numberVariable')
-                    );
+                    expect(numberParameterItems[0].item.value.value).toEqual(getElementGuid('numberVariable'));
+                    expect(numberParameterItems[1].item.value.value).toEqual(getElementGuid('numberVariable'));
                 });
                 it('show delete button', () => {
                     numberParameterItems.forEach(item => {
@@ -874,19 +570,13 @@ describe('Subflow Editor', () => {
                     subflowElement = createComponentForTest(subflowNode);
                     await ticks(2);
                     inputAssignments = getInputParameterItems(subflowElement);
-                    numberParameterItems = filterParameterElements(
-                        inputAssignments,
-                        'inputOutputNumberVar'
-                    );
+                    numberParameterItems = filterParameterElements(inputAssignments, 'inputOutputNumberVar');
                     const deleteBtn = getDeleteButton(numberParameterItems[1]);
                     deleteBtn.click();
                     await ticks(2);
 
                     inputAssignments = getInputParameterItems(subflowElement);
-                    numberParameterItems = filterParameterElements(
-                        inputAssignments,
-                        'inputOutputNumberVar'
-                    );
+                    numberParameterItems = filterParameterElements(inputAssignments, 'inputOutputNumberVar');
                     expect(numberParameterItems).toHaveLength(1);
                     verifyOptionalInputParameterWithValue(
                         numberParameterItems[0],
@@ -900,13 +590,8 @@ describe('Subflow Editor', () => {
                 beforeAll(async () => {
                     const subflowElement = createComponentForTest(subflowNode);
                     await ticks(2);
-                    const inputAssignments = getInputParameterItems(
-                        subflowElement
-                    );
-                    notAvailableItem = findParameterElement(
-                        inputAssignments,
-                        'inputNotAvailableParam'
-                    );
+                    const inputAssignments = getInputParameterItems(subflowElement);
+                    notAvailableItem = findParameterElement(inputAssignments, 'inputNotAvailableParam');
                 });
                 it('show delete button', () => {
                     const deleteBtn = getDeleteButton(notAvailableItem);
@@ -926,23 +611,18 @@ describe('Subflow Editor', () => {
                             messages: [
                                 {
                                     guid: expect.any(String),
-                                    message:
-                                        'FlowBuilderSubflowEditor.warningNotAvailable'
+                                    message: 'FlowBuilderSubflowEditor.warningNotAvailable'
                                 }
                             ],
-                            sectionInfo:
-                                'FlowBuilderCommonPropertyEditor.validationWarningsSectionInfo',
-                            title:
-                                'FlowBuilderCommonPropertyEditor.validationWarningsSectionTitle'
+                            sectionInfo: 'FlowBuilderCommonPropertyEditor.validationWarningsSectionInfo',
+                            title: 'FlowBuilderCommonPropertyEditor.validationWarningsSectionTitle'
                         }
                     ]);
                 });
                 it('show warning badge', () => {
                     const badgeCmp = getWarningBadge(notAvailableItem);
                     expect(badgeCmp).not.toBeNull();
-                    expect(badgeCmp.label).toEqual(
-                        'FlowBuilderSubflowEditor.badgeWillCauseErrors'
-                    );
+                    expect(badgeCmp.label).toEqual('FlowBuilderSubflowEditor.badgeWillCauseErrors');
                     expect(badgeCmp.classList).toContain('slds-theme_warning');
                 });
             });
@@ -953,10 +633,7 @@ describe('Subflow Editor', () => {
                 const subflowElement = createComponentForTest(subflowNode);
                 await ticks(2);
                 const inputAssignments = getInputParameterItems(subflowElement);
-                const stringColElement = findParameterElement(
-                    inputAssignments,
-                    'inputOutputStringColVar'
-                );
+                const stringColElement = findParameterElement(inputAssignments, 'inputOutputStringColVar');
                 const statusIcon = getWarningIcon(stringColElement);
                 expect(statusIcon).not.toBeNull();
                 expect(statusIcon.type).toBe('warning');
@@ -966,14 +643,11 @@ describe('Subflow Editor', () => {
                         messages: [
                             {
                                 guid: expect.any(String),
-                                message:
-                                    'FlowBuilderSubflowEditor.warningActiveOnly'
+                                message: 'FlowBuilderSubflowEditor.warningActiveOnly'
                             }
                         ],
-                        sectionInfo:
-                            'FlowBuilderCommonPropertyEditor.validationWarningsSectionInfo',
-                        title:
-                            'FlowBuilderCommonPropertyEditor.validationWarningsSectionTitle'
+                        sectionInfo: 'FlowBuilderCommonPropertyEditor.validationWarningsSectionInfo',
+                        title: 'FlowBuilderCommonPropertyEditor.validationWarningsSectionTitle'
                     }
                 ]);
             });
@@ -985,10 +659,7 @@ describe('Subflow Editor', () => {
                 const subflowElement = createComponentForTest(subflowNode);
                 await ticks(2);
                 const inputAssignments = getInputParameterItems(subflowElement);
-                stringColElement = findParameterElement(
-                    inputAssignments,
-                    'latestInputOutputStringColVar'
-                );
+                stringColElement = findParameterElement(inputAssignments, 'latestInputOutputStringColVar');
             });
             it('show warning icon', () => {
                 const statusIcon = getWarningIcon(stringColElement);
@@ -1000,23 +671,18 @@ describe('Subflow Editor', () => {
                         messages: [
                             {
                                 guid: expect.any(String),
-                                message:
-                                    'FlowBuilderSubflowEditor.warningLatestOnly'
+                                message: 'FlowBuilderSubflowEditor.warningLatestOnly'
                             }
                         ],
-                        sectionInfo:
-                            'FlowBuilderCommonPropertyEditor.validationWarningsSectionInfo',
-                        title:
-                            'FlowBuilderCommonPropertyEditor.validationWarningsSectionTitle'
+                        sectionInfo: 'FlowBuilderCommonPropertyEditor.validationWarningsSectionInfo',
+                        title: 'FlowBuilderCommonPropertyEditor.validationWarningsSectionTitle'
                     }
                 ]);
             });
             it('show warning badge', () => {
                 const badgeCmp = getWarningBadge(stringColElement);
                 expect(badgeCmp).not.toBeNull();
-                expect(badgeCmp.label).toEqual(
-                    'FlowBuilderSubflowEditor.badgeDebugOnly'
-                );
+                expect(badgeCmp.label).toEqual('FlowBuilderSubflowEditor.badgeDebugOnly');
                 expect(badgeCmp.classList).toContain('slds-theme_warning');
             });
         });
@@ -1026,10 +692,7 @@ describe('Subflow Editor', () => {
                 const subflowElement = createComponentForTest(subflowNode);
                 await ticks(2);
                 const inputAssignments = getInputParameterItems(subflowElement);
-                const currencyColElement = findParameterElement(
-                    inputAssignments,
-                    'inputCurrencyColVar'
-                );
+                const currencyColElement = findParameterElement(inputAssignments, 'inputCurrencyColVar');
                 const statusIcon = getWarningIcon(currencyColElement);
                 expect(statusIcon).not.toBeNull();
                 expect(statusIcon.type).toBe('warning');
@@ -1039,14 +702,11 @@ describe('Subflow Editor', () => {
                         messages: [
                             {
                                 guid: expect.any(String),
-                                message:
-                                    'FlowBuilderSubflowEditor.warningDataTypeChanged'
+                                message: 'FlowBuilderSubflowEditor.warningDataTypeChanged'
                             }
                         ],
-                        sectionInfo:
-                            'FlowBuilderCommonPropertyEditor.validationWarningsSectionInfo',
-                        title:
-                            'FlowBuilderCommonPropertyEditor.validationWarningsSectionTitle'
+                        sectionInfo: 'FlowBuilderCommonPropertyEditor.validationWarningsSectionInfo',
+                        title: 'FlowBuilderCommonPropertyEditor.validationWarningsSectionTitle'
                     }
                 ]);
             });
@@ -1066,146 +726,47 @@ describe('Subflow Editor', () => {
                     'inputOutputAccountColVar',
                     '{!accountSObjectCollectionVariable}'
                 );
-                verifyOutputParameter(
-                    outputAssignments[1],
-                    'inputOutputAccountVar',
-                    '{!accountSObjectVariable}'
-                );
-                verifyOutputParameter(
-                    outputAssignments[2],
-                    'inputOutputBoolColVar'
-                );
-                verifyOutputParameter(
-                    outputAssignments[3],
-                    'inputOutputBoolVar',
-                    '{!booleanVariable}'
-                );
-                verifyOutputParameter(
-                    outputAssignments[4],
-                    'inputOutputCurrencyColVar'
-                );
-                verifyOutputParameter(
-                    outputAssignments[5],
-                    'inputOutputCurrencyVar',
-                    '{!currencyVariable}'
-                );
-                verifyOutputParameter(
-                    outputAssignments[6],
-                    'inputOutputDateColVar'
-                );
-                verifyOutputParameter(
-                    outputAssignments[7],
-                    'inputOutputDateTimeColVar'
-                );
-                verifyOutputParameter(
-                    outputAssignments[8],
-                    'inputOutputDateTimeVar',
-                    '{!dateVariable}'
-                );
-                verifyOutputParameter(
-                    outputAssignments[9],
-                    'inputOutputDateVar',
-                    '{!dateVariable}'
-                );
-                verifyOutputParameter(
-                    outputAssignments[10],
-                    'inputOutputNumberColVar'
-                );
+                verifyOutputParameter(outputAssignments[1], 'inputOutputAccountVar', '{!accountSObjectVariable}');
+                verifyOutputParameter(outputAssignments[2], 'inputOutputBoolColVar');
+                verifyOutputParameter(outputAssignments[3], 'inputOutputBoolVar', '{!booleanVariable}');
+                verifyOutputParameter(outputAssignments[4], 'inputOutputCurrencyColVar');
+                verifyOutputParameter(outputAssignments[5], 'inputOutputCurrencyVar', '{!currencyVariable}');
+                verifyOutputParameter(outputAssignments[6], 'inputOutputDateColVar');
+                verifyOutputParameter(outputAssignments[7], 'inputOutputDateTimeColVar');
+                verifyOutputParameter(outputAssignments[8], 'inputOutputDateTimeVar', '{!dateVariable}');
+                verifyOutputParameter(outputAssignments[9], 'inputOutputDateVar', '{!dateVariable}');
+                verifyOutputParameter(outputAssignments[10], 'inputOutputNumberColVar');
                 // inputOutputNumberVar is duplicated and will be check in warning cases
-                verifyOutputParameter(
-                    outputAssignments[13],
-                    'inputOutputStringColVar',
-                    '{!stringCollectionVariable}'
-                );
-                verifyOutputParameter(
-                    outputAssignments[14],
-                    'inputOutputStringVar',
-                    '{!stringVariable}'
-                );
-                verifyOutputParameter(
-                    outputAssignments[15],
-                    'latestInputOutputStringColVar'
-                );
-                verifyOutputParameter(
-                    outputAssignments[16],
-                    'latestInputOutputStringVar'
-                );
-                verifyOutputParameter(
-                    outputAssignments[17],
-                    'latestOutputStringColVar',
-                    '{!stringCollectionVariable}'
-                );
-                verifyOutputParameter(
-                    outputAssignments[18],
-                    'latestOutputStringVar',
-                    '{!stringVariable}'
-                );
-                verifyOutputParameter(
-                    outputAssignments[19],
-                    'outputAccountColVar'
-                );
-                verifyOutputParameter(
-                    outputAssignments[20],
-                    'outputAccountVar'
-                );
-                verifyOutputParameter(
-                    outputAssignments[21],
-                    'outputBoolColVar'
-                );
+                verifyOutputParameter(outputAssignments[13], 'inputOutputStringColVar', '{!stringCollectionVariable}');
+                verifyOutputParameter(outputAssignments[14], 'inputOutputStringVar', '{!stringVariable}');
+                verifyOutputParameter(outputAssignments[15], 'latestInputOutputStringColVar');
+                verifyOutputParameter(outputAssignments[16], 'latestInputOutputStringVar');
+                verifyOutputParameter(outputAssignments[17], 'latestOutputStringColVar', '{!stringCollectionVariable}');
+                verifyOutputParameter(outputAssignments[18], 'latestOutputStringVar', '{!stringVariable}');
+                verifyOutputParameter(outputAssignments[19], 'outputAccountColVar');
+                verifyOutputParameter(outputAssignments[20], 'outputAccountVar');
+                verifyOutputParameter(outputAssignments[21], 'outputBoolColVar');
                 verifyOutputParameter(outputAssignments[22], 'outputBoolVar');
-                verifyOutputParameter(
-                    outputAssignments[23],
-                    'outputCurrencyColVar'
-                );
-                verifyOutputParameter(
-                    outputAssignments[24],
-                    'outputCurrencyVar'
-                );
-                verifyOutputParameter(
-                    outputAssignments[25],
-                    'outputDateColVar'
-                );
-                verifyOutputParameter(
-                    outputAssignments[26],
-                    'outputDateTimeColVar'
-                );
-                verifyOutputParameter(
-                    outputAssignments[27],
-                    'outputDateTimeVar'
-                );
+                verifyOutputParameter(outputAssignments[23], 'outputCurrencyColVar');
+                verifyOutputParameter(outputAssignments[24], 'outputCurrencyVar');
+                verifyOutputParameter(outputAssignments[25], 'outputDateColVar');
+                verifyOutputParameter(outputAssignments[26], 'outputDateTimeColVar');
+                verifyOutputParameter(outputAssignments[27], 'outputDateTimeVar');
                 verifyOutputParameter(outputAssignments[28], 'outputDateVar');
                 // outputNotAvailableParam is not available item and will be check in warning cases
-                verifyOutputParameter(
-                    outputAssignments[30],
-                    'outputNumberColVar'
-                );
+                verifyOutputParameter(outputAssignments[30], 'outputNumberColVar');
                 verifyOutputParameter(outputAssignments[31], 'outputNumberVar');
-                verifyOutputParameter(
-                    outputAssignments[32],
-                    'outputStringColVar'
-                );
+                verifyOutputParameter(outputAssignments[32], 'outputStringColVar');
                 verifyOutputParameter(outputAssignments[33], 'outputStringVar');
             });
             it('update value when setting the string variable to the String Parameter', () => {
-                const stringParameterElement = findParameterElement(
-                    outputAssignments,
-                    'outputStringVar'
-                );
-                const stringParameterCombobox = getOutputParameterComboboxElement(
-                    stringParameterElement
-                );
-                stringParameterCombobox.dispatchEvent(
-                    textInputEvent('{!stringVariable}')
-                );
+                const stringParameterElement = findParameterElement(outputAssignments, 'outputStringVar');
+                const stringParameterCombobox = getOutputParameterComboboxElement(stringParameterElement);
+                stringParameterCombobox.dispatchEvent(textInputEvent('{!stringVariable}'));
                 return resolveRenderCycles(() => {
                     stringParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(
-                            getParameter(
-                                subflowElement.node.outputAssignments,
-                                'outputStringVar'
-                            ).value
-                        ).toEqual({
+                        expect(getParameter(subflowElement.node.outputAssignments, 'outputStringVar').value).toEqual({
                             value: getElementGuid('stringVariable'),
                             error: null
                         });
@@ -1213,51 +774,29 @@ describe('Subflow Editor', () => {
                 });
             });
             it('update value when setting the string collection variable to the String Collection Parameter', () => {
-                const stringColParameterElement = findParameterElement(
-                    outputAssignments,
-                    'outputStringColVar'
-                );
-                const stringColParameterCombobox = getOutputParameterComboboxElement(
-                    stringColParameterElement
-                );
-                stringColParameterCombobox.dispatchEvent(
-                    textInputEvent('{!stringCollectionVariable}')
-                );
+                const stringColParameterElement = findParameterElement(outputAssignments, 'outputStringColVar');
+                const stringColParameterCombobox = getOutputParameterComboboxElement(stringColParameterElement);
+                stringColParameterCombobox.dispatchEvent(textInputEvent('{!stringCollectionVariable}'));
                 return resolveRenderCycles(() => {
                     stringColParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(
-                            getParameter(
-                                subflowElement.node.outputAssignments,
-                                'outputStringColVar'
-                            ).value
-                        ).toEqual({
-                            value: getElementGuid('stringCollectionVariable'),
-                            error: null
-                        });
+                        expect(getParameter(subflowElement.node.outputAssignments, 'outputStringColVar').value).toEqual(
+                            {
+                                value: getElementGuid('stringCollectionVariable'),
+                                error: null
+                            }
+                        );
                     });
                 });
             });
             it('update value when setting the number variable to the Number Parameter', () => {
-                const numberParameterElement = findParameterElement(
-                    outputAssignments,
-                    'outputNumberVar'
-                );
-                const numberParameterCombobox = getOutputParameterComboboxElement(
-                    numberParameterElement
-                );
-                numberParameterCombobox.dispatchEvent(
-                    textInputEvent('{!numberVariable}')
-                );
+                const numberParameterElement = findParameterElement(outputAssignments, 'outputNumberVar');
+                const numberParameterCombobox = getOutputParameterComboboxElement(numberParameterElement);
+                numberParameterCombobox.dispatchEvent(textInputEvent('{!numberVariable}'));
                 return resolveRenderCycles(() => {
                     numberParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(
-                            getParameter(
-                                subflowElement.node.outputAssignments,
-                                'outputNumberVar'
-                            ).value
-                        ).toEqual({
+                        expect(getParameter(subflowElement.node.outputAssignments, 'outputNumberVar').value).toEqual({
                             value: getElementGuid('numberVariable'),
                             error: null
                         });
@@ -1265,77 +804,45 @@ describe('Subflow Editor', () => {
                 });
             });
             it('update value when setting the number collection variable to the Number Collection Parameter', () => {
-                const numberColParameterElement = findParameterElement(
-                    outputAssignments,
-                    'outputNumberColVar'
-                );
-                const numberColParameterCombobox = getOutputParameterComboboxElement(
-                    numberColParameterElement
-                );
-                numberColParameterCombobox.dispatchEvent(
-                    textInputEvent('{!numberVariable}')
-                );
+                const numberColParameterElement = findParameterElement(outputAssignments, 'outputNumberColVar');
+                const numberColParameterCombobox = getOutputParameterComboboxElement(numberColParameterElement);
+                numberColParameterCombobox.dispatchEvent(textInputEvent('{!numberVariable}'));
                 return resolveRenderCycles(() => {
                     numberColParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(
-                            getParameter(
-                                subflowElement.node.outputAssignments,
-                                'outputNumberColVar'
-                            ).value
-                        ).toEqual({
-                            value: getElementGuid('numberVariable'),
-                            error: null
-                        });
+                        expect(getParameter(subflowElement.node.outputAssignments, 'outputNumberColVar').value).toEqual(
+                            {
+                                value: getElementGuid('numberVariable'),
+                                error: null
+                            }
+                        );
                     });
                 });
             });
             it('update value when setting the dateTime variable to the Date Parameter', () => {
-                const dateParameterElement = findParameterElement(
-                    outputAssignments,
-                    'inputOutputDateVar'
-                );
-                const dateParameterCombobox = getOutputParameterComboboxElement(
-                    dateParameterElement
-                );
-                dateParameterCombobox.dispatchEvent(
-                    textInputEvent('{!dateTimeVariable}')
-                );
+                const dateParameterElement = findParameterElement(outputAssignments, 'inputOutputDateVar');
+                const dateParameterCombobox = getOutputParameterComboboxElement(dateParameterElement);
+                dateParameterCombobox.dispatchEvent(textInputEvent('{!dateTimeVariable}'));
                 return resolveRenderCycles(() => {
                     dateParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(
-                            getParameter(
-                                subflowElement.node.outputAssignments,
-                                'inputOutputDateVar'
-                            ).value
-                        ).toEqual({
-                            value: getElementGuid('dateTimeVariable'),
-                            error: null
-                        });
+                        expect(getParameter(subflowElement.node.outputAssignments, 'inputOutputDateVar').value).toEqual(
+                            {
+                                value: getElementGuid('dateTimeVariable'),
+                                error: null
+                            }
+                        );
                     });
                 });
             });
             it('update value when setting the account variable to the Account Parameter', () => {
-                const accountParameterElement = findParameterElement(
-                    outputAssignments,
-                    'outputAccountVar'
-                );
-                const accountParameterCombobox = getOutputParameterComboboxElement(
-                    accountParameterElement
-                );
-                accountParameterCombobox.dispatchEvent(
-                    textInputEvent('{!accountSObjectVariable}')
-                );
+                const accountParameterElement = findParameterElement(outputAssignments, 'outputAccountVar');
+                const accountParameterCombobox = getOutputParameterComboboxElement(accountParameterElement);
+                accountParameterCombobox.dispatchEvent(textInputEvent('{!accountSObjectVariable}'));
                 return resolveRenderCycles(() => {
                     accountParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(
-                            getParameter(
-                                subflowElement.node.outputAssignments,
-                                'outputAccountVar'
-                            ).value
-                        ).toEqual({
+                        expect(getParameter(subflowElement.node.outputAssignments, 'outputAccountVar').value).toEqual({
                             value: getElementGuid('accountSObjectVariable'),
                             error: null
                         });
@@ -1343,28 +850,16 @@ describe('Subflow Editor', () => {
                 });
             });
             it('update value when setting the account collection variable to the Account Collection Parameter', () => {
-                const accountParameterElement = findParameterElement(
-                    outputAssignments,
-                    'outputAccountColVar'
-                );
-                const accountParameterCombobox = getOutputParameterComboboxElement(
-                    accountParameterElement
-                );
-                accountParameterCombobox.dispatchEvent(
-                    textInputEvent('{!accountSObjectCollectionVariable}')
-                );
+                const accountParameterElement = findParameterElement(outputAssignments, 'outputAccountColVar');
+                const accountParameterCombobox = getOutputParameterComboboxElement(accountParameterElement);
+                accountParameterCombobox.dispatchEvent(textInputEvent('{!accountSObjectCollectionVariable}'));
                 return resolveRenderCycles(() => {
                     accountParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
                         expect(
-                            getParameter(
-                                subflowElement.node.outputAssignments,
-                                'outputAccountColVar'
-                            ).value
+                            getParameter(subflowElement.node.outputAssignments, 'outputAccountColVar').value
                         ).toEqual({
-                            value: getElementGuid(
-                                'accountSObjectCollectionVariable'
-                            ),
+                            value: getElementGuid('accountSObjectCollectionVariable'),
                             error: null
                         });
                     });
@@ -1377,15 +872,11 @@ describe('Subflow Editor', () => {
                 subflowElement = createComponentForTest(subflowNode);
             });
             it('"useAdvancedOptionsComponent" should be display', () => {
-                const advancedOptionComponent = getAutomaticOutputAdvancedOptionComponent(
-                    subflowElement
-                );
+                const advancedOptionComponent = getAutomaticOutputAdvancedOptionComponent(subflowElement);
                 expect(advancedOptionComponent).not.toBeNull();
             });
             it('"useAdvancedOptionsCheckbox" should be checked', () => {
-                const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckbox(
-                    subflowElement
-                );
+                const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckbox(subflowElement);
                 expect(advancedOptionCheckbox).toBeDefined();
                 expect(advancedOptionCheckbox.type).toBe('checkbox');
                 expect(advancedOptionCheckbox.checked).toBe(true);
@@ -1399,230 +890,122 @@ describe('Subflow Editor', () => {
                 outputAssignments = getOutputParameterItems(subflowElement);
             });
             it('show error when setting the litteral string to the String Parameter', () => {
-                const stringParameterElement = findParameterElement(
-                    outputAssignments,
-                    'inputOutputStringVar'
-                );
-                const stringParameterCombobox = getOutputParameterComboboxElement(
-                    stringParameterElement
-                );
-                stringParameterCombobox.dispatchEvent(
-                    textInputEvent('any value')
-                );
+                const stringParameterElement = findParameterElement(outputAssignments, 'inputOutputStringVar');
+                const stringParameterCombobox = getOutputParameterComboboxElement(stringParameterElement);
+                stringParameterCombobox.dispatchEvent(textInputEvent('any value'));
                 return resolveRenderCycles(() => {
                     stringParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(stringParameterCombobox.validity).toEqual(
-                            VALIDATION_ERROR_MESSAGES.GENERIC
-                        );
+                        expect(stringParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.GENERIC);
                     });
                 });
             });
             // W-5726771
-            itSkip(
-                'show error if entering the empty string constant to the String Parameter',
-                () => {
-                    const stringParameterElement = findParameterElement(
-                        outputAssignments,
-                        'inputOutputStringVar'
-                    );
-                    const stringParameterCombobox = getOutputParameterComboboxElement(
-                        stringParameterElement
-                    );
-                    stringParameterCombobox.dispatchEvent(
-                        textInputEvent(
-                            addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING)
-                        )
-                    );
-                    return resolveRenderCycles(() => {
-                        stringParameterCombobox.dispatchEvent(blurEvent);
-                        return resolveRenderCycles(() => {
-                            expect(stringParameterCombobox.validity).toEqual(
-                                VALIDATION_ERROR_MESSAGES.GENERIC
-                            );
-                        });
-                    });
-                }
-            );
-            it('show error if entering the number variable to the String Parameter', () => {
-                const stringParameterElement = findParameterElement(
-                    outputAssignments,
-                    'inputOutputStringVar'
-                );
-                const stringParameterCombobox = getOutputParameterComboboxElement(
-                    stringParameterElement
-                );
-                stringParameterCombobox.dispatchEvent(
-                    textInputEvent('{!numberVariable}')
-                );
+            itSkip('show error if entering the empty string constant to the String Parameter', () => {
+                const stringParameterElement = findParameterElement(outputAssignments, 'inputOutputStringVar');
+                const stringParameterCombobox = getOutputParameterComboboxElement(stringParameterElement);
+                stringParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING)));
                 return resolveRenderCycles(() => {
                     stringParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(stringParameterCombobox.validity).toEqual(
-                            VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE
-                        );
+                        expect(stringParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.GENERIC);
+                    });
+                });
+            });
+            it('show error if entering the number variable to the String Parameter', () => {
+                const stringParameterElement = findParameterElement(outputAssignments, 'inputOutputStringVar');
+                const stringParameterCombobox = getOutputParameterComboboxElement(stringParameterElement);
+                stringParameterCombobox.dispatchEvent(textInputEvent('{!numberVariable}'));
+                return resolveRenderCycles(() => {
+                    stringParameterCombobox.dispatchEvent(blurEvent);
+                    return resolveRenderCycles(() => {
+                        expect(stringParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE);
                     });
                 });
             });
             it('show the error if entering the string for the Number Parameter', () => {
-                const numberParameterElement = findParameterElement(
-                    outputAssignments,
-                    'inputOutputNumberVar'
-                );
-                const numberParameterCombobox = getOutputParameterComboboxElement(
-                    numberParameterElement
-                );
+                const numberParameterElement = findParameterElement(outputAssignments, 'inputOutputNumberVar');
+                const numberParameterCombobox = getOutputParameterComboboxElement(numberParameterElement);
                 numberParameterCombobox.dispatchEvent(textInputEvent('1234'));
                 return resolveRenderCycles(() => {
                     numberParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(numberParameterCombobox.validity).toEqual(
-                            VALIDATION_ERROR_MESSAGES.GENERIC
-                        );
+                        expect(numberParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.GENERIC);
                     });
                 });
             });
             it('show the error if entering the string for the Currency Parameter', () => {
-                const currencyParameterElement = findParameterElement(
-                    outputAssignments,
-                    'inputOutputCurrencyVar'
-                );
-                const currencyParameterCombobox = getOutputParameterComboboxElement(
-                    currencyParameterElement
-                );
+                const currencyParameterElement = findParameterElement(outputAssignments, 'inputOutputCurrencyVar');
+                const currencyParameterCombobox = getOutputParameterComboboxElement(currencyParameterElement);
                 currencyParameterCombobox.dispatchEvent(textInputEvent('1000'));
                 return resolveRenderCycles(() => {
                     currencyParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(currencyParameterCombobox.validity).toEqual(
-                            VALIDATION_ERROR_MESSAGES.GENERIC
-                        );
+                        expect(currencyParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.GENERIC);
                     });
                 });
             });
             // W-5726771
-            itSkip(
-                'show error if entering the global constant to the Boolean Parameter',
-                () => {
-                    const booleanParameterElement = findParameterElement(
-                        outputAssignments,
-                        'inputOutputBoolVar'
-                    );
-                    const booleanParameterCombobox = getOutputParameterComboboxElement(
-                        booleanParameterElement
-                    );
-                    booleanParameterCombobox.dispatchEvent(
-                        textInputEvent(
-                            addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_FALSE)
-                        )
-                    );
+            itSkip('show error if entering the global constant to the Boolean Parameter', () => {
+                const booleanParameterElement = findParameterElement(outputAssignments, 'inputOutputBoolVar');
+                const booleanParameterCombobox = getOutputParameterComboboxElement(booleanParameterElement);
+                booleanParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(GLOBAL_CONSTANTS.BOOLEAN_FALSE)));
+                return resolveRenderCycles(() => {
+                    booleanParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        booleanParameterCombobox.dispatchEvent(blurEvent);
-                        return resolveRenderCycles(() => {
-                            expect(booleanParameterCombobox.validity).toEqual(
-                                VALIDATION_ERROR_MESSAGES.GENERIC
-                            );
-                        });
+                        expect(booleanParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.GENERIC);
                     });
-                }
-            );
+                });
+            });
             // W-5726771
-            itSkip(
-                'show the error if entering the empty string constant for the Boolean Parameter',
-                () => {
-                    const booleanParameterElement = findParameterElement(
-                        outputAssignments,
-                        'inputOutputBoolVar'
-                    );
-                    const booleanParameterCombobox = getOutputParameterComboboxElement(
-                        booleanParameterElement
-                    );
-                    booleanParameterCombobox.dispatchEvent(
-                        textInputEvent(
-                            addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING)
-                        )
-                    );
+            itSkip('show the error if entering the empty string constant for the Boolean Parameter', () => {
+                const booleanParameterElement = findParameterElement(outputAssignments, 'inputOutputBoolVar');
+                const booleanParameterCombobox = getOutputParameterComboboxElement(booleanParameterElement);
+                booleanParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING)));
+                return resolveRenderCycles(() => {
+                    booleanParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        booleanParameterCombobox.dispatchEvent(blurEvent);
-                        return resolveRenderCycles(() => {
-                            expect(booleanParameterCombobox.validity).toEqual(
-                                VALIDATION_ERROR_MESSAGES.GENERIC
-                            );
-                        });
+                        expect(booleanParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.GENERIC);
                     });
-                }
-            );
+                });
+            });
             it('show the error if entering the string for the Account Parameter', () => {
-                const accountParameterElement = findParameterElement(
-                    outputAssignments,
-                    'inputOutputAccountVar'
-                );
-                const accountParameterCombobox = getOutputParameterComboboxElement(
-                    accountParameterElement
-                );
-                accountParameterCombobox.dispatchEvent(
-                    textInputEvent('any string')
-                );
+                const accountParameterElement = findParameterElement(outputAssignments, 'inputOutputAccountVar');
+                const accountParameterCombobox = getOutputParameterComboboxElement(accountParameterElement);
+                accountParameterCombobox.dispatchEvent(textInputEvent('any string'));
                 return resolveRenderCycles(() => {
                     accountParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(accountParameterCombobox.validity).toEqual(
-                            VALIDATION_ERROR_MESSAGES.GENERIC
-                        );
+                        expect(accountParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.GENERIC);
                     });
                 });
             });
             it('show the error if entering the account variable for the String Parameter', () => {
-                const stringParameterElement = findParameterElement(
-                    outputAssignments,
-                    'inputOutputStringVar'
-                );
-                const stringParameterCombobox = getOutputParameterComboboxElement(
-                    stringParameterElement
-                );
-                stringParameterCombobox.dispatchEvent(
-                    textInputEvent('{!accountSObjectVariable}')
-                );
+                const stringParameterElement = findParameterElement(outputAssignments, 'inputOutputStringVar');
+                const stringParameterCombobox = getOutputParameterComboboxElement(stringParameterElement);
+                stringParameterCombobox.dispatchEvent(textInputEvent('{!accountSObjectVariable}'));
                 return resolveRenderCycles(() => {
                     stringParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(stringParameterCombobox.validity).toEqual(
-                            VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE
-                        );
+                        expect(stringParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE);
                     });
                 });
             });
             it('show the error if entering the collection variable for the String Parameter', () => {
-                const stringParameterElement = findParameterElement(
-                    outputAssignments,
-                    'inputOutputStringVar'
-                );
-                const stringParameterCombobox = getOutputParameterComboboxElement(
-                    stringParameterElement
-                );
-                stringParameterCombobox.dispatchEvent(
-                    textInputEvent('{!stringCollectionVariable}')
-                );
+                const stringParameterElement = findParameterElement(outputAssignments, 'inputOutputStringVar');
+                const stringParameterCombobox = getOutputParameterComboboxElement(stringParameterElement);
+                stringParameterCombobox.dispatchEvent(textInputEvent('{!stringCollectionVariable}'));
                 return resolveRenderCycles(() => {
                     stringParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(stringParameterCombobox.validity).toEqual(
-                            VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE
-                        );
+                        expect(stringParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE);
                     });
                 });
             });
             it('show the error if entering the account variable for the Account Collection Parameter', () => {
-                const accountColParameterElement = findParameterElement(
-                    outputAssignments,
-                    'inputOutputAccountColVar'
-                );
-                const sObjectColParameterCombobox = getOutputParameterComboboxElement(
-                    accountColParameterElement
-                );
-                sObjectColParameterCombobox.dispatchEvent(
-                    textInputEvent('{!accountSObjectVariable}')
-                );
+                const accountColParameterElement = findParameterElement(outputAssignments, 'inputOutputAccountColVar');
+                const sObjectColParameterCombobox = getOutputParameterComboboxElement(accountColParameterElement);
+                sObjectColParameterCombobox.dispatchEvent(textInputEvent('{!accountSObjectVariable}'));
                 return resolveRenderCycles(() => {
                     sObjectColParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
@@ -1633,16 +1016,9 @@ describe('Subflow Editor', () => {
                 });
             });
             it('show the error if entering the string collection variable for the Account Collection Parameter', () => {
-                const accountColParameterElement = findParameterElement(
-                    outputAssignments,
-                    'inputOutputAccountColVar'
-                );
-                const sObjectColParameterCombobox = getOutputParameterComboboxElement(
-                    accountColParameterElement
-                );
-                sObjectColParameterCombobox.dispatchEvent(
-                    textInputEvent('{!stringCollectionVariable}')
-                );
+                const accountColParameterElement = findParameterElement(outputAssignments, 'inputOutputAccountColVar');
+                const sObjectColParameterCombobox = getOutputParameterComboboxElement(accountColParameterElement);
+                sObjectColParameterCombobox.dispatchEvent(textInputEvent('{!stringCollectionVariable}'));
                 return resolveRenderCycles(() => {
                     sObjectColParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
@@ -1659,22 +1035,13 @@ describe('Subflow Editor', () => {
                 beforeAll(async () => {
                     const subflowElement = createComponentForTest(subflowNode);
                     await ticks(2);
-                    const outputAssignments = getOutputParameterItems(
-                        subflowElement
-                    );
-                    numberParameterItems = filterParameterElements(
-                        outputAssignments,
-                        'inputOutputNumberVar'
-                    );
+                    const outputAssignments = getOutputParameterItems(subflowElement);
+                    numberParameterItems = filterParameterElements(outputAssignments, 'inputOutputNumberVar');
                 });
                 it('show duplicated Number Parameter parameters', () => {
                     expect(numberParameterItems).toHaveLength(2);
-                    expect(numberParameterItems[0].item.value.value).toEqual(
-                        getElementGuid('numberVariable')
-                    );
-                    expect(numberParameterItems[1].item.value.value).toEqual(
-                        getElementGuid('numberVariable')
-                    );
+                    expect(numberParameterItems[0].item.value.value).toEqual(getElementGuid('numberVariable'));
+                    expect(numberParameterItems[1].item.value.value).toEqual(getElementGuid('numberVariable'));
                 });
                 it('show delete button', () => {
                     numberParameterItems.forEach(item => {
@@ -1686,27 +1053,15 @@ describe('Subflow Editor', () => {
                     // delete the second Number Parameter
                     const subflowElement = createComponentForTest(subflowNode);
                     await ticks(2);
-                    let outputAssignments = getOutputParameterItems(
-                        subflowElement
-                    );
-                    numberParameterItems = filterParameterElements(
-                        outputAssignments,
-                        'inputOutputNumberVar'
-                    );
+                    let outputAssignments = getOutputParameterItems(subflowElement);
+                    numberParameterItems = filterParameterElements(outputAssignments, 'inputOutputNumberVar');
                     const deleteBtn = getDeleteButton(numberParameterItems[1]);
                     deleteBtn.click();
                     await ticks(2);
                     outputAssignments = getOutputParameterItems(subflowElement);
-                    numberParameterItems = filterParameterElements(
-                        outputAssignments,
-                        'inputOutputNumberVar'
-                    );
+                    numberParameterItems = filterParameterElements(outputAssignments, 'inputOutputNumberVar');
                     expect(numberParameterItems).toHaveLength(1);
-                    verifyOutputParameter(
-                        numberParameterItems[0],
-                        'inputOutputNumberVar',
-                        '{!numberVariable}'
-                    );
+                    verifyOutputParameter(numberParameterItems[0], 'inputOutputNumberVar', '{!numberVariable}');
                 });
             });
             describe('not available parameters', () => {
@@ -1714,13 +1069,8 @@ describe('Subflow Editor', () => {
                 beforeAll(async () => {
                     const subflowElement = createComponentForTest(subflowNode);
                     await ticks(2);
-                    const outputAssignments = getOutputParameterItems(
-                        subflowElement
-                    );
-                    notAvailableItem = findParameterElement(
-                        outputAssignments,
-                        'outputNotAvailableParam'
-                    );
+                    const outputAssignments = getOutputParameterItems(subflowElement);
+                    notAvailableItem = findParameterElement(outputAssignments, 'outputNotAvailableParam');
                 });
                 it('show delete button', () => {
                     const deleteBtn = getDeleteButton(notAvailableItem);
@@ -1740,23 +1090,18 @@ describe('Subflow Editor', () => {
                             messages: [
                                 {
                                     guid: expect.any(String),
-                                    message:
-                                        'FlowBuilderSubflowEditor.warningNotAvailable'
+                                    message: 'FlowBuilderSubflowEditor.warningNotAvailable'
                                 }
                             ],
-                            sectionInfo:
-                                'FlowBuilderCommonPropertyEditor.validationWarningsSectionInfo',
-                            title:
-                                'FlowBuilderCommonPropertyEditor.validationWarningsSectionTitle'
+                            sectionInfo: 'FlowBuilderCommonPropertyEditor.validationWarningsSectionInfo',
+                            title: 'FlowBuilderCommonPropertyEditor.validationWarningsSectionTitle'
                         }
                     ]);
                 });
                 it('show warning badge', () => {
                     const badgeCmp = getWarningBadge(notAvailableItem);
                     expect(badgeCmp).not.toBeNull();
-                    expect(badgeCmp.label).toEqual(
-                        'FlowBuilderSubflowEditor.badgeWillCauseErrors'
-                    );
+                    expect(badgeCmp.label).toEqual('FlowBuilderSubflowEditor.badgeWillCauseErrors');
                     expect(badgeCmp.classList).toContain('slds-theme_warning');
                 });
             });
@@ -1766,13 +1111,8 @@ describe('Subflow Editor', () => {
             it('show warning icon', async () => {
                 const subflowElement = createComponentForTest(subflowNode);
                 await ticks(2);
-                const outputAssignments = getOutputParameterItems(
-                    subflowElement
-                );
-                const stringColElement = findParameterElement(
-                    outputAssignments,
-                    'inputOutputStringColVar'
-                );
+                const outputAssignments = getOutputParameterItems(subflowElement);
+                const stringColElement = findParameterElement(outputAssignments, 'inputOutputStringColVar');
                 const statusIcon = getWarningIcon(stringColElement);
                 expect(statusIcon).not.toBeNull();
                 expect(statusIcon.type).toBe('warning');
@@ -1782,14 +1122,11 @@ describe('Subflow Editor', () => {
                         messages: [
                             {
                                 guid: expect.any(String),
-                                message:
-                                    'FlowBuilderSubflowEditor.warningActiveOnly'
+                                message: 'FlowBuilderSubflowEditor.warningActiveOnly'
                             }
                         ],
-                        sectionInfo:
-                            'FlowBuilderCommonPropertyEditor.validationWarningsSectionInfo',
-                        title:
-                            'FlowBuilderCommonPropertyEditor.validationWarningsSectionTitle'
+                        sectionInfo: 'FlowBuilderCommonPropertyEditor.validationWarningsSectionInfo',
+                        title: 'FlowBuilderCommonPropertyEditor.validationWarningsSectionTitle'
                     }
                 ]);
             });
@@ -1800,13 +1137,8 @@ describe('Subflow Editor', () => {
             beforeAll(async () => {
                 const subflowElement = createComponentForTest(subflowNode);
                 await ticks(2);
-                const outputAssignments = getOutputParameterItems(
-                    subflowElement
-                );
-                stringColElement = findParameterElement(
-                    outputAssignments,
-                    'latestInputOutputStringColVar'
-                );
+                const outputAssignments = getOutputParameterItems(subflowElement);
+                stringColElement = findParameterElement(outputAssignments, 'latestInputOutputStringColVar');
             });
             it('show warning icon', () => {
                 const statusIcon = getWarningIcon(stringColElement);
@@ -1818,23 +1150,18 @@ describe('Subflow Editor', () => {
                         messages: [
                             {
                                 guid: expect.any(String),
-                                message:
-                                    'FlowBuilderSubflowEditor.warningLatestOnly'
+                                message: 'FlowBuilderSubflowEditor.warningLatestOnly'
                             }
                         ],
-                        sectionInfo:
-                            'FlowBuilderCommonPropertyEditor.validationWarningsSectionInfo',
-                        title:
-                            'FlowBuilderCommonPropertyEditor.validationWarningsSectionTitle'
+                        sectionInfo: 'FlowBuilderCommonPropertyEditor.validationWarningsSectionInfo',
+                        title: 'FlowBuilderCommonPropertyEditor.validationWarningsSectionTitle'
                     }
                 ]);
             });
             it('show warning badge', () => {
                 const badgeCmp = getWarningBadge(stringColElement);
                 expect(badgeCmp).not.toBeNull();
-                expect(badgeCmp.label).toEqual(
-                    'FlowBuilderSubflowEditor.badgeDebugOnly'
-                );
+                expect(badgeCmp.label).toEqual('FlowBuilderSubflowEditor.badgeDebugOnly');
                 expect(badgeCmp.classList).toContain('slds-theme_warning');
             });
         });
@@ -1843,13 +1170,8 @@ describe('Subflow Editor', () => {
             it('show warning icon', async () => {
                 const subflowElement = createComponentForTest(subflowNode);
                 await ticks(2);
-                const outputAssignments = getOutputParameterItems(
-                    subflowElement
-                );
-                const accountElement = findParameterElement(
-                    outputAssignments,
-                    'inputOutputAccountVar'
-                );
+                const outputAssignments = getOutputParameterItems(subflowElement);
+                const accountElement = findParameterElement(outputAssignments, 'inputOutputAccountVar');
                 const statusIcon = getWarningIcon(accountElement);
                 expect(statusIcon).not.toBeNull();
                 expect(statusIcon.type).toBe('warning');
@@ -1859,14 +1181,11 @@ describe('Subflow Editor', () => {
                         messages: [
                             {
                                 guid: expect.any(String),
-                                message:
-                                    'FlowBuilderSubflowEditor.warningDataTypeChanged'
+                                message: 'FlowBuilderSubflowEditor.warningDataTypeChanged'
                             }
                         ],
-                        sectionInfo:
-                            'FlowBuilderCommonPropertyEditor.validationWarningsSectionInfo',
-                        title:
-                            'FlowBuilderCommonPropertyEditor.validationWarningsSectionTitle'
+                        sectionInfo: 'FlowBuilderCommonPropertyEditor.validationWarningsSectionInfo',
+                        title: 'FlowBuilderCommonPropertyEditor.validationWarningsSectionTitle'
                     }
                 ]);
             });

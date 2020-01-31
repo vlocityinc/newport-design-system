@@ -24,12 +24,8 @@ const newProperties = {
 describe('flow-properties-reducer', () => {
     it('with state set to undefined & action type set to empty should return empty object', () => {
         const newPropertiesState = reducer(undefined, {});
-        expect(newPropertiesState.elementType).toEqual(
-            defaultProperties.elementType
-        );
-        expect(newPropertiesState.processType).toEqual(
-            defaultProperties.processType
-        );
+        expect(newPropertiesState.elementType).toEqual(defaultProperties.elementType);
+        expect(newPropertiesState.processType).toEqual(defaultProperties.processType);
     });
 
     it('with state set to defined & action type set to UPDATE_PROPERTIES should return the new state with updated properties', () => {
@@ -40,12 +36,8 @@ describe('flow-properties-reducer', () => {
         expect(newPropertiesState).not.toBe(oldProperties);
         expect(newPropertiesState.name).toEqual(oldProperties.name);
         expect(newPropertiesState.label).toEqual(oldProperties.label);
-        expect(newPropertiesState.description).toEqual(
-            oldProperties.description
-        );
-        expect(newPropertiesState.processType).toEqual(
-            newProperties.processType
-        );
+        expect(newPropertiesState.description).toEqual(oldProperties.description);
+        expect(newPropertiesState.processType).toEqual(newProperties.processType);
         expect(newPropertiesState.org).toEqual(newProperties.org);
         expect(newPropertiesState.hasUnsavedChanges).toBe(true);
     });
@@ -56,12 +48,8 @@ describe('flow-properties-reducer', () => {
             payload: newProperties
         });
         expect(newPropertiesState.org).toEqual(newProperties.org);
-        expect(newPropertiesState.elementType).toEqual(
-            defaultProperties.elementType
-        );
-        expect(newPropertiesState.processType).toEqual(
-            newProperties.processType
-        );
+        expect(newPropertiesState.elementType).toEqual(defaultProperties.elementType);
+        expect(newPropertiesState.processType).toEqual(newProperties.processType);
         expect(newPropertiesState.hasUnsavedChanges).toBe(true);
     });
 
@@ -73,12 +61,8 @@ describe('flow-properties-reducer', () => {
         expect(newPropertiesState).not.toBe(oldProperties);
         expect(newPropertiesState.name).toEqual(oldProperties.name);
         expect(newPropertiesState.label).toEqual(oldProperties.label);
-        expect(newPropertiesState.description).toEqual(
-            oldProperties.description
-        );
-        expect(newPropertiesState.processType).toEqual(
-            newProperties.processType
-        );
+        expect(newPropertiesState.description).toEqual(oldProperties.description);
+        expect(newPropertiesState.processType).toEqual(newProperties.processType);
         expect(newPropertiesState.org).toEqual(newProperties.org);
         expect(newPropertiesState.hasUnsavedChanges).toBe(false);
     });
@@ -89,25 +73,18 @@ describe('flow-properties-reducer', () => {
             payload: { properties: newProperties }
         });
         expect(newPropertiesState.org).toEqual(newProperties.org);
-        expect(newPropertiesState.elementType).toEqual(
-            defaultProperties.elementType
-        );
-        expect(newPropertiesState.processType).toEqual(
-            newProperties.processType
-        );
+        expect(newPropertiesState.elementType).toEqual(defaultProperties.elementType);
+        expect(newPropertiesState.processType).toEqual(newProperties.processType);
         expect(newPropertiesState.hasUnsavedChanges).toBe(false);
     });
-    test.each([UPDATE_APEX_CLASSES, UPDATE_ENTITIES])(
-        'should not set hasUnsavedChanges on %s',
-        action => {
-            const newState = reducer(
-                { a: 'b' },
-                {
-                    type: action,
-                    payload: { properties: { some: 'thing' } }
-                }
-            );
-            expect(newState.hasUnsavedChanges).toBeUndefined();
-        }
-    );
+    test.each([UPDATE_APEX_CLASSES, UPDATE_ENTITIES])('should not set hasUnsavedChanges on %s', action => {
+        const newState = reducer(
+            { a: 'b' },
+            {
+                type: action,
+                payload: { properties: { some: 'thing' } }
+            }
+        );
+        expect(newState.hasUnsavedChanges).toBeUndefined();
+    });
 });

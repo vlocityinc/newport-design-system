@@ -9,10 +9,7 @@ const additionalRules = {
     ],
     dataType: [ValidationRules.shouldNotBeNullOrUndefined],
     userInput: {
-        promptText: [
-            ValidationRules.shouldNotBeBlank,
-            ValidationRules.shouldNotBeNullOrUndefined
-        ]
+        promptText: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined]
     }
 };
 
@@ -25,8 +22,6 @@ export const choiceValidation = new Validation(additionalRules);
  */
 export const getRules = ({ storedValueIndex }) => {
     const overrideRules = Object.assign({}, choiceValidation.finalizedRules);
-    overrideRules.storedValue = [
-        ValidationRules.validateResourcePicker(storedValueIndex)
-    ];
+    overrideRules.storedValue = [ValidationRules.validateResourcePicker(storedValueIndex)];
     return overrideRules;
 };

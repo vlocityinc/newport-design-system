@@ -4,20 +4,10 @@ import { LABELS } from './recordCreateEditorLabels';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    getErrorsFromHydratedElement,
-    getValueFromHydratedItem
-} from 'builder_platform_interaction/dataMutationLib';
-import {
-    NUMBER_RECORDS_TO_STORE,
-    WAY_TO_STORE_FIELDS
-} from 'builder_platform_interaction/recordEditorLib';
+import { getErrorsFromHydratedElement, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 import { PARAM_PROPERTY } from 'builder_platform_interaction/ruleLib';
-import {
-    ENTITY_TYPE,
-    fetchFieldsForEntity,
-    getCreateableEntities
-} from 'builder_platform_interaction/sobjectLib';
+import { ENTITY_TYPE, fetchFieldsForEntity, getCreateableEntities } from 'builder_platform_interaction/sobjectLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { format } from 'builder_platform_interaction/commonUtils';
 import {
@@ -47,8 +37,7 @@ export default class RecordCreateEditor extends LightningElement {
         resourceDisplayText: ''
     };
 
-    processTypeAutomaticOutPutHandlingSupport =
-        FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
+    processTypeAutomaticOutPutHandlingSupport = FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
 
     /**
      * public api function to return the node
@@ -67,11 +56,9 @@ export default class RecordCreateEditor extends LightningElement {
     set node(newValue) {
         this.state.recordCreateElement = newValue;
         this.state.recordEntityName = this.objectValue;
-        this.state.recordCreateElement = Object.assign(
-            {},
-            this.state.recordCreateElement,
-            { wayToStoreFields: this.initialWayToStoreFields }
-        );
+        this.state.recordCreateElement = Object.assign({}, this.state.recordCreateElement, {
+            wayToStoreFields: this.initialWayToStoreFields
+        });
         this.updateFields();
         this.resourceDisplayText();
     }
@@ -86,10 +73,7 @@ export default class RecordCreateEditor extends LightningElement {
 
     set mode(newValue) {
         this._mode = newValue;
-        if (
-            this.isInAddElementMode &&
-            this.isAutomaticOutputHandlingSupported
-        ) {
+        if (this.isInAddElementMode && this.isAutomaticOutputHandlingSupported) {
             this.state.recordCreateElement = recordCreateReducer(
                 this.state.recordCreateElement,
                 new UseAdvancedOptionsSelectionChangedEvent(false)
@@ -107,9 +91,7 @@ export default class RecordCreateEditor extends LightningElement {
 
     set processType(newValue) {
         this.processTypeValue = newValue;
-        this.processTypeAutomaticOutPutHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(
-            newValue
-        );
+        this.processTypeAutomaticOutPutHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(newValue);
     }
 
     /**
@@ -118,10 +100,7 @@ export default class RecordCreateEditor extends LightningElement {
      */
     @api validate() {
         const event = new CustomEvent(VALIDATE_ALL);
-        this.state.recordCreateElement = recordCreateReducer(
-            this.state.recordCreateElement,
-            event
-        );
+        this.state.recordCreateElement = recordCreateReducer(this.state.recordCreateElement, event);
         return getErrorsFromHydratedElement(this.state.recordCreateElement);
     }
 
@@ -152,9 +131,7 @@ export default class RecordCreateEditor extends LightningElement {
     }
 
     get isSObjectMode() {
-        return (
-            this.wayToStoreFieldsValue === WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE
-        );
+        return this.wayToStoreFieldsValue === WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE;
     }
 
     get isCollection() {
@@ -168,10 +145,7 @@ export default class RecordCreateEditor extends LightningElement {
     }
 
     get inputReference() {
-        if (
-            this.state.recordCreateElement.inputReference &&
-            this.state.recordCreateElement.inputReference.value
-        ) {
+        if (this.state.recordCreateElement.inputReference && this.state.recordCreateElement.inputReference.value) {
             return this.state.recordCreateElement.inputReference.value;
         }
         return '';
@@ -186,15 +160,11 @@ export default class RecordCreateEditor extends LightningElement {
     }
 
     get sObjectVariablePickerPlaceholder() {
-        return !this.isCollection
-            ? this.labels.searchRecords
-            : this.labels.searchRecordCollections;
+        return !this.isCollection ? this.labels.searchRecords : this.labels.searchRecordCollections;
     }
 
     get sObjectVariablePickerLabel() {
-        return !this.isCollection
-            ? this.labels.recordVariable
-            : this.labels.recordCollectionVariable;
+        return !this.isCollection ? this.labels.recordVariable : this.labels.recordCollectionVariable;
     }
 
     get sObjectVariableTitle() {
@@ -204,17 +174,11 @@ export default class RecordCreateEditor extends LightningElement {
     }
 
     get assignmentTitle() {
-        return format(
-            this.labels.createAssignmentTitleFormat,
-            this.state.resourceDisplayText
-        );
+        return format(this.labels.createAssignmentTitleFormat, this.state.resourceDisplayText);
     }
 
     get storeNewIdTitle() {
-        return format(
-            this.labels.storeIdInVariableFormat,
-            this.state.resourceDisplayText
-        );
+        return format(this.labels.storeIdInVariableFormat, this.state.resourceDisplayText);
     }
 
     get crudFilterType() {
@@ -270,9 +234,7 @@ export default class RecordCreateEditor extends LightningElement {
     }
 
     resourceDisplayText() {
-        const entityToDisplay = getCreateableEntities().find(
-            entity => entity.apiName === this.state.recordEntityName
-        );
+        const entityToDisplay = getCreateableEntities().find(entity => entity.apiName === this.state.recordEntityName);
         if (entityToDisplay) {
             this.state.resourceDisplayText = entityToDisplay.entityLabel;
         }
@@ -300,9 +262,7 @@ export default class RecordCreateEditor extends LightningElement {
     }
 
     get assignRecordIDValue() {
-        return getValueFromHydratedItem(
-            this.state.recordCreateElement.assignRecordIdToReference
-        );
+        return getValueFromHydratedItem(this.state.recordCreateElement.assignRecordIdToReference);
     }
 
     get assignRecordIDError() {
@@ -310,9 +270,7 @@ export default class RecordCreateEditor extends LightningElement {
     }
 
     get sObjectAltText() {
-        return this.isCollection
-            ? this.labels.helpSObjectCollAltText
-            : this.labels.helpSObjectAltText;
+        return this.isCollection ? this.labels.helpSObjectCollAltText : this.labels.helpSObjectAltText;
     }
 
     /**
@@ -326,10 +284,7 @@ export default class RecordCreateEditor extends LightningElement {
      * @return {Boolean} true : the process type supports the automatic output handling
      */
     get isAutomaticOutputHandlingSupported() {
-        return (
-            this.processTypeAutomaticOutPutHandlingSupport ===
-            FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
-        );
+        return this.processTypeAutomaticOutPutHandlingSupport === FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED;
     }
 
     get isAdvancedModeOrAutomaticOutputNotSupported() {
@@ -357,22 +312,12 @@ export default class RecordCreateEditor extends LightningElement {
      */
     handleLabelDescriptionChangedEvent(event) {
         event.stopPropagation();
-        this.updateProperty(
-            event.detail.propertyName,
-            event.detail.value,
-            event.detail.error,
-            false
-        );
+        this.updateProperty(event.detail.propertyName, event.detail.value, event.detail.error, false);
     }
 
     handleInputReferenceChangedEvent(event) {
         event.stopPropagation();
-        this.updateProperty(
-            'inputReference',
-            event.detail.value,
-            event.detail.error,
-            false
-        );
+        this.updateProperty('inputReference', event.detail.value, event.detail.error, false);
     }
 
     /**
@@ -381,18 +326,10 @@ export default class RecordCreateEditor extends LightningElement {
     handleResourceChanged(event) {
         event.stopPropagation();
         const oldRecordEntityName = this.state.recordEntityName;
-        const newRecordEntityName = event.detail.item
-            ? event.detail.item.value
-            : '';
+        const newRecordEntityName = event.detail.item ? event.detail.item.value : '';
 
         if (newRecordEntityName !== oldRecordEntityName) {
-            this.updateProperty(
-                'object',
-                newRecordEntityName,
-                event.detail.error,
-                false,
-                oldRecordEntityName
-            );
+            this.updateProperty('object', newRecordEntityName, event.detail.error, false, oldRecordEntityName);
             this.state.recordEntityName = newRecordEntityName;
             this.updateFields();
             this.resourceDisplayText();
@@ -401,36 +338,19 @@ export default class RecordCreateEditor extends LightningElement {
 
     handleRecordInputOutputAssignmentsChanged(event) {
         event.stopPropagation();
-        this.state.recordCreateElement = recordCreateReducer(
-            this.state.recordCreateElement,
-            event
-        );
+        this.state.recordCreateElement = recordCreateReducer(this.state.recordCreateElement, event);
     }
 
     handleAssignRecordIdToReferenceEvent(event) {
         event.stopPropagation();
         const value = event.detail.item ? event.detail.item.value : undefined;
-        this.updateProperty(
-            'assignRecordIdToReference',
-            value,
-            event.detail.error,
-            false
-        );
+        this.updateProperty('assignRecordIdToReference', value, event.detail.error, false);
     }
 
     updateProperty(propertyName, newValue, error, ignoreValidate, oldValue) {
-        const propChangedEvent = new PropertyChangedEvent(
-            propertyName,
-            newValue,
-            error,
-            null,
-            oldValue
-        );
+        const propChangedEvent = new PropertyChangedEvent(propertyName, newValue, error, null, oldValue);
         propChangedEvent.detail.ignoreValidate = ignoreValidate;
-        this.state.recordCreateElement = recordCreateReducer(
-            this.state.recordCreateElement,
-            propChangedEvent
-        );
+        this.state.recordCreateElement = recordCreateReducer(this.state.recordCreateElement, propChangedEvent);
     }
 
     /**
@@ -439,9 +359,6 @@ export default class RecordCreateEditor extends LightningElement {
      */
     handleAdvancedOptionsSelectionChange(event) {
         event.stopPropagation();
-        this.state.recordCreateElement = recordCreateReducer(
-            this.state.recordCreateElement,
-            event
-        );
+        this.state.recordCreateElement = recordCreateReducer(this.state.recordCreateElement, event);
     }
 }

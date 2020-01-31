@@ -18,11 +18,7 @@ export function createDuplicateApexCall(apexCall, newGuid, newName) {
     Object.assign(newApexCall, {
         availableConnections: getDefaultAvailableConnections()
     });
-    const duplicateApexCall = duplicateCanvasElement(
-        newApexCall,
-        newGuid,
-        newName
-    );
+    const duplicateApexCall = duplicateCanvasElement(newApexCall, newGuid, newName);
 
     return duplicateApexCall;
 }

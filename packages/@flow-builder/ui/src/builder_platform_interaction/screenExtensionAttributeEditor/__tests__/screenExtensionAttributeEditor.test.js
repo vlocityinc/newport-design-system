@@ -95,10 +95,9 @@ const ATTRIBUTES = {
 };
 
 function createComponentForTest(props) {
-    const el = createElement(
-        'builder_platform_interaction-screen-extension-attribute-editor',
-        { is: ScreenExtensionAttributeEditor }
-    );
+    const el = createElement('builder_platform_interaction-screen-extension-attribute-editor', {
+        is: ScreenExtensionAttributeEditor
+    });
     Object.assign(el, props);
     document.body.appendChild(el);
     return el;
@@ -126,21 +125,14 @@ const runTest = (inputType, outputType, propertiesProcessor, test) => {
         propertiesProcessor(inputProperties, outputProperties);
     }
 
-    const inputEditor = inputType
-        ? createComponentForTest(inputProperties)
-        : null;
-    const outputEditor = outputType
-        ? createComponentForTest(outputProperties)
-        : null;
+    const inputEditor = inputType ? createComponentForTest(inputProperties) : null;
+    const outputEditor = outputType ? createComponentForTest(outputProperties) : null;
     return Promise.resolve().then(() => {
         test(inputEditor, outputEditor);
     });
 };
 
-const testResourcePickerConfigAllowLiterals = (
-    propertyProcessor,
-    expectedValue
-) => {
+const testResourcePickerConfigAllowLiterals = (propertyProcessor, expectedValue) => {
     return runTest(STRING, null, propertyProcessor, editor => {
         const field = query(editor, SELECTORS.PROPERTY_FIELD);
         expect(field).not.toBeNull();
@@ -177,21 +169,13 @@ describe('Screen Extension Attribute Editor', () => {
 
     it('does not display an icon for input attributes', () => {
         return runTest(STRING, null, null, inputEditor => {
-            expect(
-                query(inputEditor, SELECTORS.INPUT_DIV + ' ' + SELECTORS.ICON)
-            ).toBeNull();
+            expect(query(inputEditor, SELECTORS.INPUT_DIV + ' ' + SELECTORS.ICON)).toBeNull();
         });
     });
 
     it('displays an icon for output attributes', () => {
         return runTest(false, ACCOUNT, null, (_, outputEditor) => {
-            expect(
-                query(
-                    outputEditor,
-                    SELECTORS.OUTPUT_DIV + ' ' + SELECTORS.ICON,
-                    true
-                )
-            ).toHaveLength(1);
+            expect(query(outputEditor, SELECTORS.OUTPUT_DIV + ' ' + SELECTORS.ICON, true)).toHaveLength(1);
         });
     });
 
@@ -201,23 +185,15 @@ describe('Screen Extension Attribute Editor', () => {
         };
 
         return runTest(false, ACCOUNT, propertyProcessor, (_, outputEditor) => {
-            const paddingDivs = query(
-                outputEditor,
-                SELECTORS.PADDING_DIV,
-                true
-            );
+            const paddingDivs = query(outputEditor, SELECTORS.PADDING_DIV, true);
             expect(paddingDivs).toHaveLength(1);
-            expect(paddingDivs[0].className).toEqual(
-                expect.stringContaining('slds-p-top_xx-small')
-            );
+            expect(paddingDivs[0].className).toEqual(expect.stringContaining('slds-p-top_xx-small'));
         });
     });
 
     it('does not display a padding div for outputs with index = 0', () => {
         return runTest(STRING, null, null, outputEditor => {
-            expect(
-                query(outputEditor, SELECTORS.PADDING_DIV, true)
-            ).toHaveLength(0);
+            expect(query(outputEditor, SELECTORS.PADDING_DIV, true)).toHaveLength(0);
         });
     });
 
@@ -228,9 +204,7 @@ describe('Screen Extension Attribute Editor', () => {
             expect(propertyField.allowResourcesForParameter).toBe(true);
             expect(propertyField.allowResourcesForOutput).toBeFalsy();
             expect(propertyField.getAttribute('data-param-type')).toBe('input');
-            expect(propertyField.helpText).toBe(
-                DESCRIPTORS[STRING].description
-            );
+            expect(propertyField.helpText).toBe(DESCRIPTORS[STRING].description);
             expect(propertyField.label).toBe(DESCRIPTORS[STRING].label);
             expect(propertyField.name).toBe(DESCRIPTORS[STRING].apiName);
             expect(propertyField.required).toBe(DESCRIPTORS[STRING].isRequired);
@@ -246,16 +220,12 @@ describe('Screen Extension Attribute Editor', () => {
             expect(propertyField.allowResourcesForParameter).toBeFalsy();
             expect(propertyField.allowResourcesForOutput).toBe(true);
             expect(propertyField.hideTopPadding).toBe(true);
-            expect(propertyField.getAttribute('data-param-type')).toBe(
-                'output'
-            );
+            expect(propertyField.getAttribute('data-param-type')).toBe('output');
             expect(propertyField.label).toBe(DESCRIPTORS[ACCOUNT].label);
             expect(propertyField.name).toBe(DESCRIPTORS[ACCOUNT].apiName);
             expect(propertyField.required).toBeFalsy();
             expect(propertyField.type).toBe(DESCRIPTORS[ACCOUNT].dataType);
-            expect(propertyField.value).toMatchObject(
-                ATTRIBUTES[ACCOUNT].value
-            );
+            expect(propertyField.value).toMatchObject(ATTRIBUTES[ACCOUNT].value);
         });
     });
 
@@ -299,16 +269,7 @@ describe('Screen Extension Attribute Editor', () => {
 
         it('for primitives', () => {
             return runTest(STRING, undefined, null, inputEditor => {
-                testChecker(
-                    inputEditor,
-                    true,
-                    false,
-                    null,
-                    false,
-                    false,
-                    undefined,
-                    undefined
-                );
+                testChecker(inputEditor, true, false, null, false, false, undefined, undefined);
             });
         });
         it('for sobjects', () => {
@@ -316,36 +277,13 @@ describe('Screen Extension Attribute Editor', () => {
                 outputProperties.descriptor.maxOccurs = 3;
             };
 
-            return runTest(
-                undefined,
-                ACCOUNT,
-                propertyProcessor,
-                (inputEditor, outputEditor) => {
-                    testChecker(
-                        outputEditor,
-                        false,
-                        true,
-                        null,
-                        true,
-                        false,
-                        DESCRIPTORS[ACCOUNT].subtype,
-                        undefined
-                    );
-                }
-            );
+            return runTest(undefined, ACCOUNT, propertyProcessor, (inputEditor, outputEditor) => {
+                testChecker(outputEditor, false, true, null, true, false, DESCRIPTORS[ACCOUNT].subtype, undefined);
+            });
         });
         it('for apex types', () => {
             return runTest(APEX, undefined, null, inputEditor => {
-                testChecker(
-                    inputEditor,
-                    false,
-                    false,
-                    null,
-                    false,
-                    false,
-                    undefined,
-                    DESCRIPTORS[APEX].subtype
-                );
+                testChecker(inputEditor, false, false, null, false, false, undefined, DESCRIPTORS[APEX].subtype);
             });
         });
     });
@@ -433,16 +371,11 @@ describe('Screen Extension Attribute Editor', () => {
             const containerDiv = query(outputEditor, SELECTORS.CONTAINER_DIV);
 
             let event;
-            containerDiv.addEventListener(
-                PropertyChangedEvent.EVENT_NAME,
-                evt => {
-                    event = evt;
-                }
-            );
+            containerDiv.addEventListener(PropertyChangedEvent.EVENT_NAME, evt => {
+                event = evt;
+            });
 
-            const propertyField = containerDiv.querySelector(
-                SELECTORS.PROPERTY_FIELD
-            );
+            const propertyField = containerDiv.querySelector(SELECTORS.PROPERTY_FIELD);
             propertyField.dispatchEvent(
                 new PropertyChangedEvent(
                     propertyField.name,
@@ -454,15 +387,9 @@ describe('Screen Extension Attribute Editor', () => {
                 )
             );
 
-            expect(event.detail.propertyName).toBe(
-                EXTENSION_PARAM_PREFIX.OUTPUT +
-                    '.' +
-                    DESCRIPTORS[ACCOUNT].apiName
-            );
+            expect(event.detail.propertyName).toBe(EXTENSION_PARAM_PREFIX.OUTPUT + '.' + DESCRIPTORS[ACCOUNT].apiName);
             expect(event.detail.required).toBe(DESCRIPTORS[ACCOUNT].isRequired);
-            expect(event.detail.valueDataType).toBe(
-                DESCRIPTORS[ACCOUNT].dataType
-            );
+            expect(event.detail.valueDataType).toBe(DESCRIPTORS[ACCOUNT].dataType);
             expect(event.detail.attributeIndex).toBe(ATT_INDEX);
         });
     });

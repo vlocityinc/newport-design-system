@@ -1,37 +1,23 @@
 import { createElement } from 'lwc';
-import {
-    EditElementEvent,
-    DeleteElementEvent,
-    SelectNodeEvent
-} from 'builder_platform_interaction/events';
+import { EditElementEvent, DeleteElementEvent, SelectNodeEvent } from 'builder_platform_interaction/events';
 import Node from 'builder_platform_interaction/node';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
-jest.mock('builder_platform_interaction/drawingLib', () =>
-    require('builder_platform_interaction_mocks/drawingLib')
-);
+jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 
-const elementConfig = require.requireActual(
-    'builder_platform_interaction/elementConfig'
-);
-elementConfig.getConfigForElementType = jest
-    .fn()
-    .mockImplementation(elementType => {
-        return elementType === ELEMENT_TYPE.START_ELEMENT
-            ? {
-                  isDeletable: false,
-                  nodeConfig: { isSelectable: false, isEditable: false },
-                  labels: {}
-              }
-            : elementConfig.elementTypeToConfigMap[elementType];
-    });
+const elementConfig = require.requireActual('builder_platform_interaction/elementConfig');
+elementConfig.getConfigForElementType = jest.fn().mockImplementation(elementType => {
+    return elementType === ELEMENT_TYPE.START_ELEMENT
+        ? {
+              isDeletable: false,
+              nodeConfig: { isSelectable: false, isEditable: false },
+              labels: {}
+          }
+        : elementConfig.elementTypeToConfigMap[elementType];
+});
 
-const createComponentUnderTest = (
-    isSelected,
-    isHighlighted,
-    elementType = ELEMENT_TYPE.ASSIGNMENT
-) => {
+const createComponentUnderTest = (isSelected, isHighlighted, elementType = ELEMENT_TYPE.ASSIGNMENT) => {
     const el = createElement('builder_platform_interaction-node', {
         is: Node
     });
@@ -90,10 +76,7 @@ describe('node', () => {
         const nodeComponent = createComponentUnderTest(false, false);
         return Promise.resolve().then(() => {
             const callback = jest.fn();
-            nodeComponent.addEventListener(
-                SelectNodeEvent.EVENT_NAME,
-                callback
-            );
+            nodeComponent.addEventListener(SelectNodeEvent.EVENT_NAME, callback);
             nodeComponent.shadowRoot.querySelector(selectors.icon).click();
             expect(callback).toHaveBeenCalled();
         });
@@ -103,27 +86,17 @@ describe('node', () => {
         const nodeComponent = createComponentUnderTest(true, false);
         return Promise.resolve().then(() => {
             const callback = jest.fn();
-            nodeComponent.addEventListener(
-                SelectNodeEvent.EVENT_NAME,
-                callback
-            );
+            nodeComponent.addEventListener(SelectNodeEvent.EVENT_NAME, callback);
             nodeComponent.shadowRoot.querySelector(selectors.icon).click();
             expect(callback).toHaveBeenCalled();
         });
     });
 
     it('Checks if node selected event is not dispatched when element that is configured to be non-selectable is clicked', () => {
-        const nodeComponent = createComponentUnderTest(
-            false,
-            false,
-            ELEMENT_TYPE.START_ELEMENT
-        );
+        const nodeComponent = createComponentUnderTest(false, false, ELEMENT_TYPE.START_ELEMENT);
         return Promise.resolve().then(() => {
             const callback = jest.fn();
-            nodeComponent.addEventListener(
-                SelectNodeEvent.EVENT_NAME,
-                callback
-            );
+            nodeComponent.addEventListener(SelectNodeEvent.EVENT_NAME, callback);
             nodeComponent.shadowRoot.querySelector(selectors.icon).click();
             expect(callback).not.toHaveBeenCalled();
         });
@@ -131,28 +104,19 @@ describe('node', () => {
 
     it('Checks if a selected node has the right styling', () => {
         const nodeComponent = createComponentUnderTest(true);
-        expect(
-            nodeComponent.shadowRoot.querySelector(selectors.iconSelected)
-        ).toBeTruthy();
+        expect(nodeComponent.shadowRoot.querySelector(selectors.iconSelected)).toBeTruthy();
     });
 
     it('Checks if a highlighted node has the right styling', () => {
         const nodeComponent = createComponentUnderTest(false, true);
-        expect(
-            nodeComponent.shadowRoot.querySelector(
-                selectors.highlightedContainer
-            )
-        ).toBeTruthy();
+        expect(nodeComponent.shadowRoot.querySelector(selectors.highlightedContainer)).toBeTruthy();
     });
 
     it('Checks if an EditElementEvent is dispatched when icon is double clicked', () => {
         const nodeComponent = createComponentUnderTest(false, false);
         return Promise.resolve().then(() => {
             const callback = jest.fn();
-            nodeComponent.addEventListener(
-                EditElementEvent.EVENT_NAME,
-                callback
-            );
+            nodeComponent.addEventListener(EditElementEvent.EVENT_NAME, callback);
             dblClick(nodeComponent);
             expect(callback).toHaveBeenCalled();
             expect(callback.mock.calls[0][0]).toMatchObject({
@@ -164,17 +128,10 @@ describe('node', () => {
     });
 
     it('Checks that EditElementEvent is not dispatched when element configured to be non-editable is double clicked', () => {
-        const nodeComponent = createComponentUnderTest(
-            false,
-            false,
-            ELEMENT_TYPE.START_ELEMENT
-        );
+        const nodeComponent = createComponentUnderTest(false, false, ELEMENT_TYPE.START_ELEMENT);
         return Promise.resolve().then(() => {
             const callback = jest.fn();
-            nodeComponent.addEventListener(
-                EditElementEvent.EVENT_NAME,
-                callback
-            );
+            nodeComponent.addEventListener(EditElementEvent.EVENT_NAME, callback);
             dblClick(nodeComponent);
             expect(callback).not.toHaveBeenCalled();
         });
@@ -184,26 +141,17 @@ describe('node', () => {
         const nodeComponent = createComponentUnderTest(true, false);
         return Promise.resolve().then(() => {
             const callback = jest.fn();
-            nodeComponent.addEventListener(
-                DeleteElementEvent.EVENT_NAME,
-                callback
-            );
+            nodeComponent.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
             nodeComponent.shadowRoot.querySelector(selectors.trash).click();
             expect(callback).toHaveBeenCalled();
         });
     });
 
     it('Checks that trash icon is not displayed when element configured to be non-deletable is clicked', () => {
-        const nodeComponent = createComponentUnderTest(
-            false,
-            false,
-            ELEMENT_TYPE.START_ELEMENT
-        );
+        const nodeComponent = createComponentUnderTest(false, false, ELEMENT_TYPE.START_ELEMENT);
         return Promise.resolve().then(() => {
             nodeComponent.shadowRoot.querySelector(selectors.icon).click();
-            expect(
-                nodeComponent.shadowRoot.querySelector(selectors.trash)
-            ).toBeNull();
+            expect(nodeComponent.shadowRoot.querySelector(selectors.trash)).toBeNull();
         });
     });
 
@@ -220,9 +168,7 @@ describe('node', () => {
             isTestMode.mockReturnValue(false);
             const node = createComponentUnderTest();
             parentDiv = node.shadowRoot.querySelector('div');
-            expect(parentDiv.classList).not.toContain(
-                testModeSpecificClassName
-            );
+            expect(parentDiv.classList).not.toContain(testModeSpecificClassName);
         });
     });
 });

@@ -8,11 +8,7 @@ import {
     createCondition,
     DUPLICATE_ELEMENT_XY_OFFSET
 } from '../../base/baseElement';
-import {
-    CONDITION_LOGIC,
-    ELEMENT_TYPE,
-    CONNECTOR_TYPE
-} from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import * as baseList from '../../base/baseList';
 
@@ -178,21 +174,15 @@ describe('Duplicate Base Canvas Element Function', () => {
     const duplicatedCanvasElement = {
         guid: 'duplicateElement',
         name: 'Assignment1_0',
-        locationX:
-            originalCanvasElement.locationX + DUPLICATE_ELEMENT_XY_OFFSET,
-        locationY:
-            originalCanvasElement.locationY + DUPLICATE_ELEMENT_XY_OFFSET,
+        locationX: originalCanvasElement.locationX + DUPLICATE_ELEMENT_XY_OFFSET,
+        locationY: originalCanvasElement.locationY + DUPLICATE_ELEMENT_XY_OFFSET,
         config: { isSelected: true, isHighlighted: false },
         connectorCount: 0,
         maxConnections: 1,
         elementType: ELEMENT_TYPE.ASSIGNMENT
     };
 
-    const { duplicatedElement } = duplicateCanvasElement(
-        originalCanvasElement,
-        'duplicateElement',
-        'Assignment1_0'
-    );
+    const { duplicatedElement } = duplicateCanvasElement(originalCanvasElement, 'duplicateElement', 'Assignment1_0');
 
     it('The duplicated element should contain updated properties', () => {
         expect(duplicatedElement).toEqual(duplicatedCanvasElement);
@@ -208,7 +198,7 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
         childElement1: 'childElement1_0'
     };
 
-    const createChildElement = function (originalChildElement) {
+    const createChildElement = function(originalChildElement) {
         return originalChildElement;
     };
 
@@ -254,12 +244,8 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             const newElement = {
                 guid: 'duplicateElement',
                 name: 'Decision1_0',
-                locationX:
-                    originalCanvasElement.locationX +
-                    DUPLICATE_ELEMENT_XY_OFFSET,
-                locationY:
-                    originalCanvasElement.locationY +
-                    DUPLICATE_ELEMENT_XY_OFFSET,
+                locationX: originalCanvasElement.locationX + DUPLICATE_ELEMENT_XY_OFFSET,
+                locationY: originalCanvasElement.locationY + DUPLICATE_ELEMENT_XY_OFFSET,
                 config: { isSelected: true, isHighlighted: false },
                 connectorCount: 0,
                 maxConnections: 2,
@@ -335,12 +321,8 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             const newElement = {
                 guid: 'duplicateElement',
                 name: 'Screen1_0',
-                locationX:
-                    originalCanvasElement.locationX +
-                    DUPLICATE_ELEMENT_XY_OFFSET,
-                locationY:
-                    originalCanvasElement.locationY +
-                    DUPLICATE_ELEMENT_XY_OFFSET,
+                locationX: originalCanvasElement.locationX + DUPLICATE_ELEMENT_XY_OFFSET,
+                locationY: originalCanvasElement.locationY + DUPLICATE_ELEMENT_XY_OFFSET,
                 config: { isSelected: true, isHighlighted: false },
                 connectorCount: 0,
                 maxConnections: 1,
@@ -367,14 +349,10 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
 
 describe('Base child element function', () => {
     it('throws an Error if no element type specified', () => {
-        expect(() => baseChildElement()).toThrow(
-            'baseChildElement should only be used for outcomes and wait events'
-        );
+        expect(() => baseChildElement()).toThrow('baseChildElement should only be used for outcomes and wait events');
     });
     it('throws an Error if invalid element type specified', () => {
-        expect(() =>
-            baseChildElement(childElement, ELEMENT_TYPE.ACTION_CALL)
-        ).toThrow(
+        expect(() => baseChildElement(childElement, ELEMENT_TYPE.ACTION_CALL)).toThrow(
             'baseChildElement should only be used for outcomes and wait events'
         );
     });
@@ -384,10 +362,7 @@ describe('Base child element function', () => {
             elementType: ELEMENT_TYPE.OUTCOME
         };
 
-        const actualResult = baseChildElement(
-            childElement,
-            ELEMENT_TYPE.OUTCOME
-        );
+        const actualResult = baseChildElement(childElement, ELEMENT_TYPE.OUTCOME);
         expect(actualResult).not.toBe(expectedResult);
     });
     it('returns a new child element object with same value when existing child element object is passed as argument', () => {
@@ -396,10 +371,7 @@ describe('Base child element function', () => {
             elementType: ELEMENT_TYPE.OUTCOME
         };
 
-        const actualResult = baseChildElement(
-            mockOutcome,
-            ELEMENT_TYPE.OUTCOME
-        );
+        const actualResult = baseChildElement(mockOutcome, ELEMENT_TYPE.OUTCOME);
         expect(actualResult).toMatchObject(mockOutcome);
     });
 
@@ -409,10 +381,7 @@ describe('Base child element function', () => {
             elementType: ELEMENT_TYPE.OUTCOME
         };
 
-        const actualResult = baseChildElement(
-            mockOutcome,
-            ELEMENT_TYPE.OUTCOME
-        );
+        const actualResult = baseChildElement(mockOutcome, ELEMENT_TYPE.OUTCOME);
         expect(actualResult.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
     });
 
@@ -423,12 +392,8 @@ describe('Base child element function', () => {
             dataType: FLOW_DATA_TYPE.STRING.value
         };
 
-        expect(() =>
-            baseChildElement(mockOutcome, ELEMENT_TYPE.OUTCOME)
-        ).toThrow(
-            `dataType ${
-                FLOW_DATA_TYPE.STRING.value
-            } is invalid for baseChildElement`
+        expect(() => baseChildElement(mockOutcome, ELEMENT_TYPE.OUTCOME)).toThrow(
+            `dataType ${FLOW_DATA_TYPE.STRING.value} is invalid for baseChildElement`
         );
     });
 });
@@ -484,17 +449,11 @@ describe('createCondition', () => {
 
 describe('Base elements with connectors function returns a new object combining elements and connectors', () => {
     it('and have same element object as element in element list', () => {
-        const actualResult = baseCanvasElementsArrayToMap(
-            elementList,
-            connectors
-        );
+        const actualResult = baseCanvasElementsArrayToMap(elementList, connectors);
         expect(actualResult.elements['1']).toBe(elementList[0]);
     });
     it('and have same connector array in new object as connector', () => {
-        const actualResult = baseCanvasElementsArrayToMap(
-            elementList,
-            connectors
-        );
+        const actualResult = baseCanvasElementsArrayToMap(elementList, connectors);
         expect(actualResult.connectors).toBe(connectors);
     });
 });

@@ -1,7 +1,6 @@
 import { api, LightningElement } from 'lwc';
 
 export default class OutputResourcePicker extends LightningElement {
-
     @api propertyEditorElementType;
 
     @api value;
@@ -9,10 +8,8 @@ export default class OutputResourcePicker extends LightningElement {
     @api comboboxConfig;
 
     @api elementParam;
-    
+
     @api errorMessage;
 
     @api rowIndex;
-
 }
-

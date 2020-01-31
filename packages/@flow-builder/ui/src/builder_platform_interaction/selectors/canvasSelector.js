@@ -17,7 +17,4 @@ const getCanvasElements = (elements, canvasElements) =>
         return acc;
     }, []);
 
-export const canvasSelector = createSelector(
-    [elementsSelector, canvasElementsSelector],
-    getCanvasElements
-);
+export const canvasSelector = createSelector([elementsSelector, canvasElementsSelector], getCanvasElements);

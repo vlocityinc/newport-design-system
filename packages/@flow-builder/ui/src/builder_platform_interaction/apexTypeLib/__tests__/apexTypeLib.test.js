@@ -1,21 +1,13 @@
-import {
-    setApexClasses,
-    cachePropertiesForClass,
-    getPropertiesForClass
-} from '../apexTypeLib';
+import { setApexClasses, cachePropertiesForClass, getPropertiesForClass } from '../apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         getEntity: jest.fn().mockImplementation(apiName => {
-            return mockEntities.find(
-                entity => entity.apiName.toLowerCase() === apiName.toLowerCase()
-            );
+            return mockEntities.find(entity => entity.apiName.toLowerCase() === apiName.toLowerCase());
         })
     };
 });
@@ -33,9 +25,7 @@ describe('apex type lib', () => {
         expect(Object.keys(properties)).toHaveLength(27);
     });
     it("caches primitive properties with api name, data type, and parent's name", () => {
-        const actualProperty = getPropertiesForClass(
-            'ApexComplexTypeTestOne216'
-        ).name;
+        const actualProperty = getPropertiesForClass('ApexComplexTypeTestOne216').name;
         expect(actualProperty).toMatchObject({
             apiName: 'name',
             dataType: 'String',
@@ -43,9 +33,7 @@ describe('apex type lib', () => {
         });
     });
     it('caches SObject properties with subtype', () => {
-        const actualProperty = getPropertiesForClass(
-            'ApexComplexTypeTestOne216'
-        ).acct;
+        const actualProperty = getPropertiesForClass('ApexComplexTypeTestOne216').acct;
         expect(actualProperty).toMatchObject({
             apiName: 'acct',
             dataType: 'SObject',

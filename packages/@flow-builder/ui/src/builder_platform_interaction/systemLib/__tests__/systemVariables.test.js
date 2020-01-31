@@ -1,8 +1,4 @@
-import {
-    setSystemVariables,
-    getSystemVariables,
-    resetSystemVariables
-} from '../systemVariables';
+import { setSystemVariables, getSystemVariables, resetSystemVariables } from '../systemVariables';
 import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { systemVariablesForAutoLaunchedFlow } from 'serverData/GetSystemVariables/systemVariablesForAutoLaunchedFlow.json';
 
@@ -63,11 +59,7 @@ describe('system Variables', () => {
             setSystemVariables(systemVariablesForFlow);
 
             systemVariablesForFlow.forEach(systemVariable => {
-                expect(
-                    getSystemVariables(
-                        `$${systemVariable.category}.${systemVariable.devName}`
-                    )
-                ).not.toEqual({});
+                expect(getSystemVariables(`$${systemVariable.category}.${systemVariable.devName}`)).not.toEqual({});
             });
         });
     });

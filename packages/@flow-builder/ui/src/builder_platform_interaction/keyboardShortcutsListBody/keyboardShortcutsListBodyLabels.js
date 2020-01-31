@@ -13,7 +13,6 @@ import deleteElementsLabel from '@salesforce/label/FlowBuilderKeyboardInteractio
 import deleteKey from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.deleteKey';
 import backspaceKey from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.backspaceKey';
 
-
 export const LABELS = {
     canvasSectionHeader,
     generalSectionHeader,

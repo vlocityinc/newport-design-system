@@ -7,10 +7,7 @@ import {
     byElementTypeElementsSelector,
     filteredElementsSelector
 } from 'builder_platform_interaction/selectors';
-import {
-    ELEMENT_TYPE,
-    ACTION_TYPE
-} from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, ACTION_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { loadApexClasses } from './preloadLib';
 import { fetchMergedFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
@@ -29,9 +26,7 @@ export function loadFieldsForComplexTypesInFlow(state) {
 
 export function loadFieldsForApexClassesInFlow(state) {
     const selector = filteredElementsSelector(
-        element =>
-            element.dataType === FLOW_DATA_TYPE.APEX.value &&
-            !element.isCollection
+        element => element.dataType === FLOW_DATA_TYPE.APEX.value && !element.isCollection
     );
     const apexTypes = selector(state);
     if (apexTypes.length > 0) {
@@ -42,9 +37,7 @@ export function loadFieldsForApexClassesInFlow(state) {
 
 export function loadFieldsForSobjectsInFlow(state) {
     // Only gets elements with sObject datatype (no collections)
-    const sobjects = getSObjectOrSObjectCollectionByEntityElements(
-        state.elements
-    );
+    const sobjects = getSObjectOrSObjectCollectionByEntityElements(state.elements);
     const promises = [];
     for (let i = 0; i < sobjects.length; i++) {
         // fetch fields and cache them
@@ -68,12 +61,8 @@ export function loadFieldsForExtensionsInFlow(state) {
 }
 
 export function loadFieldsForSubflowsInFlow(state) {
-    const selector = filteredElementsSelector(
-        element => element.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value
-    );
-    const subFlowNames = selector(state).map(
-        subflowElement => subflowElement.flowName
-    );
+    const selector = filteredElementsSelector(element => element.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value);
+    const subFlowNames = selector(state).map(subflowElement => subflowElement.flowName);
     const promises = [];
     for (let i = 0; i < subFlowNames.length; i++) {
         // fetch fields and cache them
@@ -86,14 +75,10 @@ export function loadFieldsForSubflowsInFlow(state) {
     return Promise.all(promises);
 }
 
-export function loadParametersForInvocableApexActionsInFlowFromMetadata(
-    actionCalls
-) {
+export function loadParametersForInvocableApexActionsInFlowFromMetadata(actionCalls) {
     const actionCallNamesAndTypes = actionCalls
         .filter(
-            actionCall =>
-                actionCall.storeOutputAutomatically === true &&
-                actionCall.actionType === ACTION_TYPE.APEX
+            actionCall => actionCall.storeOutputAutomatically === true && actionCall.actionType === ACTION_TYPE.APEX
         )
         .map(actionCall => ({
             actionName: actionCall.actionName,

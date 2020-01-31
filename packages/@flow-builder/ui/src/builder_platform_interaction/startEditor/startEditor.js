@@ -1,9 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
-import {
-    fetchFieldsForEntity,
-    getEntity,
-    ENTITY_TYPE
-} from 'builder_platform_interaction/sobjectLib';
+import { fetchFieldsForEntity, getEntity, ENTITY_TYPE } from 'builder_platform_interaction/sobjectLib';
 import {
     ELEMENT_TYPE,
     FLOW_TRIGGER_TYPE,
@@ -120,28 +116,20 @@ export default class StartEditor extends LightningElement {
 
     get showObjectSection() {
         return (
-            this.triggerType === SCHEDULED ||
-            this.triggerType === SCHEDULED_JOURNEY ||
-            this.triggerType === BEFORE_SAVE
+            this.triggerType === SCHEDULED || this.triggerType === SCHEDULED_JOURNEY || this.triggerType === BEFORE_SAVE
         );
     }
 
     get startDate() {
-        return this.startElement.startDate
-            ? this.startElement.startDate.value
-            : null;
+        return this.startElement.startDate ? this.startElement.startDate.value : null;
     }
 
     get startTime() {
-        return this.startElement.startTime
-            ? this.startElement.startTime.value
-            : null;
+        return this.startElement.startTime ? this.startElement.startTime.value : null;
     }
 
     get frequency() {
-        return this.startElement.frequency
-            ? this.startElement.frequency.value
-            : ONCE;
+        return this.startElement.frequency ? this.startElement.frequency.value : ONCE;
     }
 
     get frequencyOptions() {
@@ -184,11 +172,7 @@ export default class StartEditor extends LightningElement {
     }
 
     get triggerTypeOptions() {
-        const triggerOptions = [
-            noneRadioOption,
-            scheduledRadioOption,
-            scheduledJourneyRadioOption
-        ];
+        const triggerOptions = [noneRadioOption, scheduledRadioOption, scheduledJourneyRadioOption];
 
         // Checking if before save is enabled
         if (orgHasBeforeSaveEnabled()) {
@@ -294,11 +278,7 @@ export default class StartEditor extends LightningElement {
     }
 
     get showRecordFilterSection() {
-        return (
-            this.recordEntityName &&
-            this.showScheduleSection &&
-            !this.startElement.object.error
-        );
+        return this.recordEntityName && this.showScheduleSection && !this.startElement.object.error;
     }
 
     /**
@@ -309,17 +289,11 @@ export default class StartEditor extends LightningElement {
     }
 
     handleTriggerTypeChange = event => {
-        this._updateField(
-            START_ELEMENT_FIELDS.TRIGGER_TYPE,
-            event.detail.value
-        );
+        this._updateField(START_ELEMENT_FIELDS.TRIGGER_TYPE, event.detail.value);
     };
 
     handleTriggerSaveTypeChange = event => {
-        this._updateField(
-            START_ELEMENT_FIELDS.TRIGGER_SAVE_TYPE,
-            event.detail.value
-        );
+        this._updateField(START_ELEMENT_FIELDS.TRIGGER_SAVE_TYPE, event.detail.value);
     };
 
     handleFrequencyChange = event => {
@@ -343,13 +317,7 @@ export default class StartEditor extends LightningElement {
         const oldRecordEntityName = this.recordEntityName;
         const newRecordEntityName = (item && item.value) || displayText;
         if (newRecordEntityName !== oldRecordEntityName) {
-            this.updateProperty(
-                'object',
-                newRecordEntityName,
-                error,
-                false,
-                oldRecordEntityName
-            );
+            this.updateProperty('object', newRecordEntityName, error, false, oldRecordEntityName);
             if (!error && newRecordEntityName) {
                 this.recordEntityName = newRecordEntityName;
             }
@@ -363,13 +331,7 @@ export default class StartEditor extends LightningElement {
     handleFilterTypeChanged(event) {
         event.stopPropagation();
         const { filterType, error } = event.detail;
-        this.updateProperty(
-            'filterType',
-            filterType,
-            error,
-            true,
-            this.startElement.filterType
-        );
+        this.updateProperty('filterType', filterType, error, true, this.startElement.filterType);
     }
 
     /**
@@ -427,13 +389,7 @@ export default class StartEditor extends LightningElement {
      * @param {Object|string|boolean} oldValue - property's previous value
      */
     updateProperty(propertyName, newValue, error, ignoreValidate, oldValue) {
-        const propChangedEvent = new PropertyChangedEvent(
-            propertyName,
-            newValue,
-            error,
-            null,
-            oldValue
-        );
+        const propChangedEvent = new PropertyChangedEvent(propertyName, newValue, error, null, oldValue);
         propChangedEvent.detail.ignoreValidate = ignoreValidate;
         this.startElement = startReducer(this.startElement, propChangedEvent);
     }

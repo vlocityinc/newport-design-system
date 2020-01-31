@@ -1,29 +1,16 @@
 import { createElement } from 'lwc';
 import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import ProcessTypesTemplates from 'builder_platform_interaction/processTypesTemplates';
-import {
-    TemplateChangedEvent,
-    CannotRetrieveTemplatesEvent
-} from 'builder_platform_interaction/events';
-import {
-    ALL_PROCESS_TYPE,
-    resetCacheTemplates
-} from 'builder_platform_interaction/processTypeLib';
-import {
-    MOCK_ALL_TEMPLATES,
-    MOCK_AUTO_TEMPLATE,
-    MOCK_SCREEN_TEMPLATE_1,
-    MOCK_SCREEN_TEMPLATE_2
-} from 'mock/templates';
+import { TemplateChangedEvent, CannotRetrieveTemplatesEvent } from 'builder_platform_interaction/events';
+import { ALL_PROCESS_TYPE, resetCacheTemplates } from 'builder_platform_interaction/processTypeLib';
+import { MOCK_ALL_TEMPLATES, MOCK_AUTO_TEMPLATE, MOCK_SCREEN_TEMPLATE_1, MOCK_SCREEN_TEMPLATE_2 } from 'mock/templates';
 import { MOCK_ALL_PROCESS_TYPES } from 'mock/processTypesData';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 let mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/serverDataLib'
-    );
+    const actual = require.requireActual('builder_platform_interaction/serverDataLib');
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,
@@ -46,20 +33,13 @@ jest.mock('builder_platform_interaction/systemLib', () => {
     };
 });
 
-const commonUtils = require.requireActual(
-    'builder_platform_interaction/commonUtils'
-);
+const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest
     .fn()
-    .mockImplementation(
-        (formatString, ...args) => formatString + '(' + args.toString() + ')'
-    );
+    .mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
 
 function createComponentForTest({ processType = ALL_PROCESS_TYPE.name } = {}) {
-    const el = createElement(
-        'builder_platform_interaction-process-types-templates',
-        { is: ProcessTypesTemplates }
-    );
+    const el = createElement('builder_platform_interaction-process-types-templates', { is: ProcessTypesTemplates });
     Object.assign(el, {
         processType,
         processTypes: MOCK_ALL_PROCESS_TYPES
@@ -75,22 +55,18 @@ const SELECTORS = {
     CHECKBOX: 'input[type="checkbox"]'
 };
 
-const getVisualPickerList = (processTypeTemplates) => {
-    const featuredSection = processTypeTemplates.shadowRoot.querySelector(
-        SELECTORS.TEMPLATES_SECTION
-    );
+const getVisualPickerList = processTypeTemplates => {
+    const featuredSection = processTypeTemplates.shadowRoot.querySelector(SELECTORS.TEMPLATES_SECTION);
     return featuredSection.querySelector(SELECTORS.VISUAL_PICKER_LIST);
 };
 
-const getVisualPickerListItems = (processTypeTemplates) => {
+const getVisualPickerListItems = processTypeTemplates => {
     const visualPickerList = getVisualPickerList(processTypeTemplates);
     return visualPickerList.items;
 };
 
 const getVisualPickerItems = visualPickerList => {
-    return visualPickerList.shadowRoot.querySelectorAll(
-        SELECTORS.VISUAL_PICKER_ITEM
-    );
+    return visualPickerList.shadowRoot.querySelectorAll(SELECTORS.VISUAL_PICKER_ITEM);
 };
 
 const getCheckbox = visualPickerItem => {
@@ -122,7 +98,8 @@ describe('process-type-templates', () => {
                 label: 'FlowBuilderProcessTypeTemplates.newBeforeSaveFlowLabel',
                 processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
                 triggerType: FLOW_TRIGGER_TYPE.BEFORE_SAVE
-            }, {
+            },
+            {
                 description: 'FlowBuilderProcessTypeTemplates.newScheduledFlowDescription',
                 iconName: 'utility:clock',
                 itemId: 'AutoLaunchedFlow-Scheduled',
@@ -235,10 +212,7 @@ describe('process-type-templates', () => {
 
     it('should fire TemplateChangedEvent when checking the template', async () => {
         const eventCallback = jest.fn();
-        processTypeTemplates.addEventListener(
-            TemplateChangedEvent.EVENT_NAME,
-            eventCallback
-        );
+        processTypeTemplates.addEventListener(TemplateChangedEvent.EVENT_NAME, eventCallback);
         const visualPickerList = getVisualPickerList(processTypeTemplates);
         const visualPickerItems = getVisualPickerItems(visualPickerList);
         const template = visualPickerItems[visualPickerItems.length - 1];
@@ -261,16 +235,10 @@ describe('templates load server error', () => {
     });
     it('should fire CannotRetrieveTemplatesEvent', async () => {
         const eventCallback = jest.fn();
-        document.addEventListener(
-            CannotRetrieveTemplatesEvent.EVENT_NAME,
-            eventCallback
-        );
+        document.addEventListener(CannotRetrieveTemplatesEvent.EVENT_NAME, eventCallback);
         createComponentForTest();
         await ticks(2);
         expect(eventCallback).toHaveBeenCalled();
-        document.removeEventListener(
-            CannotRetrieveTemplatesEvent.EVENT_NAME,
-            eventCallback
-        );
+        document.removeEventListener(CannotRetrieveTemplatesEvent.EVENT_NAME, eventCallback);
     });
 });

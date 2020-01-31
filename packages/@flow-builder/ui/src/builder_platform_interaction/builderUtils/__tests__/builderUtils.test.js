@@ -1,44 +1,35 @@
-import {
-    getPropertyEditorConfig,
-    showPopover,
-    isPopoverOpen,
-    createConfigurationEditor,
-} from '../builderUtils';
+import { getPropertyEditorConfig, showPopover, isPopoverOpen, createConfigurationEditor } from '../builderUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const mockPackage = 'foo';
 const mockComponent = 'bar';
 
 jest.mock('builder_platform_interaction/elementConfig', () => {
-        const actual = require.requireActual('builder_platform_interaction/elementConfig');
+    const actual = require.requireActual('builder_platform_interaction/elementConfig');
 
-        return Object.assign({}, actual, {
-            getConfigForElementType : jest.fn((type) => {
-                const config = actual.getConfigForElementType(type);
-                config.descriptor = `${mockPackage}:${mockComponent}`;
-                return config;
-            })
-        });
+    return Object.assign({}, actual, {
+        getConfigForElementType: jest.fn(type => {
+            const config = actual.getConfigForElementType(type);
+            config.descriptor = `${mockPackage}:${mockComponent}`;
+            return config;
+        })
+    });
 });
 
 jest.mock('aura', () => {
     return {
-        dispatchGlobalEvent: jest
-            .fn()
-            .mockImplementation((name, attributes) => {
-                attributes.onCreate({
-                    close: () => {}
-                });
-            }),
+        dispatchGlobalEvent: jest.fn().mockImplementation((name, attributes) => {
+            attributes.onCreate({
+                close: () => {}
+            });
+        }),
 
-        createComponent: jest
-            .fn()
-            .mockImplementation((cmpName, attr, callback) => {
-                const newComponent = {
-                    getElement: () => {}
-                };
-                callback(newComponent, 'SUCCESS', null);
-            }),
+        createComponent: jest.fn().mockImplementation((cmpName, attr, callback) => {
+            const newComponent = {
+                getElement: () => {}
+            };
+            callback(newComponent, 'SUCCESS', null);
+        }),
 
         renderComponent: jest.fn().mockImplementation(() => {})
     };
@@ -119,32 +110,17 @@ describe('builderUtils', () => {
         describe('Editor mode (edit, add) correctly returned', () => {
             const modePropertyNestedPath = 'attr.bodyComponent.attr.mode';
             test('Edit mode', () => {
-                const actualResult = getPropertyEditorConfig(
-                    EDIT_MODE,
-                    getAttributes(EDIT_MODE)
-                );
-                expect(actualResult).toHaveProperty(
-                    modePropertyNestedPath,
-                    EDIT_MODE
-                );
+                const actualResult = getPropertyEditorConfig(EDIT_MODE, getAttributes(EDIT_MODE));
+                expect(actualResult).toHaveProperty(modePropertyNestedPath, EDIT_MODE);
             });
             test('Add mode', () => {
-                const actualResult = getPropertyEditorConfig(
-                    ADD_MODE,
-                    getAttributes(ADD_MODE)
-                );
-                expect(actualResult).toHaveProperty(
-                    modePropertyNestedPath,
-                    ADD_MODE
-                );
+                const actualResult = getPropertyEditorConfig(ADD_MODE, getAttributes(ADD_MODE));
+                expect(actualResult).toHaveProperty(modePropertyNestedPath, ADD_MODE);
             });
             it('sets className based on descriptor', () => {
                 const params = getAttributes(ADD_MODE);
 
-                const actualResult = getPropertyEditorConfig(
-                    ADD_MODE,
-                    params
-                );
+                const actualResult = getPropertyEditorConfig(ADD_MODE, params);
 
                 expect(actualResult.attr.bodyComponent.className).toEqual(`${mockPackage}/${mockComponent}`);
             });

@@ -128,12 +128,8 @@ describe('the best assignment reducer ever', () => {
         expect(testState.assignmentItems).toHaveLength(3);
         const resultObj = assignmentReducer(testState, event);
         expect(resultObj.assignmentItems).toHaveLength(3);
-        expect(resultObj.assignmentItems[0].leftHandSide.value).toBe(
-            state.assignmentItems[0].leftHandSide.value
-        );
+        expect(resultObj.assignmentItems[0].leftHandSide.value).toBe(state.assignmentItems[0].leftHandSide.value);
         expect(resultObj.assignmentItems[1].leftHandSide.value).toBe('val');
-        expect(resultObj.assignmentItems[2].leftHandSide.value).toBe(
-            state.assignmentItems[0].leftHandSide.value
-        );
+        expect(resultObj.assignmentItems[2].leftHandSide.value).toBe(state.assignmentItems[0].leftHandSide.value);
     });
 });

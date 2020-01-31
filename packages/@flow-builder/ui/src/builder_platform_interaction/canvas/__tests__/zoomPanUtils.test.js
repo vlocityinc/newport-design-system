@@ -18,12 +18,9 @@ describe('Testing getScaleAndDeltaValues', () => {
 
     it('Gets the scale and delta values for zoom out action', () => {
         expect(
-            getScaleAndOffsetValuesOnZoom(
-                ZOOM_ACTION.ZOOM_OUT,
-                0.4,
-                viewportAndOffsetConfig,
-                [{ locationX: 20, locationY: 20 }]
-            )
+            getScaleAndOffsetValuesOnZoom(ZOOM_ACTION.ZOOM_OUT, 0.4, viewportAndOffsetConfig, [
+                { locationX: 20, locationY: 20 }
+            ])
         ).toEqual({
             newScaledOffsetLeft: 0,
             newScaledOffsetTop: 0,
@@ -33,12 +30,9 @@ describe('Testing getScaleAndDeltaValues', () => {
 
     it('Gets the scale and delta values for zoom to fit action', () => {
         expect(
-            getScaleAndOffsetValuesOnZoom(
-                ZOOM_ACTION.ZOOM_TO_FIT,
-                0.4,
-                viewportAndOffsetConfig,
-                [{ locationX: 20, locationY: 20 }]
-            )
+            getScaleAndOffsetValuesOnZoom(ZOOM_ACTION.ZOOM_TO_FIT, 0.4, viewportAndOffsetConfig, [
+                { locationX: 20, locationY: 20 }
+            ])
         ).toEqual({
             newScaledOffsetLeft: 82.4,
             newScaledOffsetTop: 72.8,
@@ -48,12 +42,9 @@ describe('Testing getScaleAndDeltaValues', () => {
 
     it('Gets the scale and delta values for zoom to view action', () => {
         expect(
-            getScaleAndOffsetValuesOnZoom(
-                ZOOM_ACTION.ZOOM_TO_VIEW,
-                0.4,
-                viewportAndOffsetConfig,
-                [{ locationX: 20, locationY: 20 }]
-            )
+            getScaleAndOffsetValuesOnZoom(ZOOM_ACTION.ZOOM_TO_VIEW, 0.4, viewportAndOffsetConfig, [
+                { locationX: 20, locationY: 20 }
+            ])
         ).toEqual({
             newScaledOffsetLeft: 0,
             newScaledOffsetTop: 0,
@@ -63,12 +54,9 @@ describe('Testing getScaleAndDeltaValues', () => {
 
     it('Gets the scale and delta values for zoom in action', () => {
         expect(
-            getScaleAndOffsetValuesOnZoom(
-                ZOOM_ACTION.ZOOM_IN,
-                0.4,
-                viewportAndOffsetConfig,
-                [{ locationX: 20, locationY: 20 }]
-            )
+            getScaleAndOffsetValuesOnZoom(ZOOM_ACTION.ZOOM_IN, 0.4, viewportAndOffsetConfig, [
+                { locationX: 20, locationY: 20 }
+            ])
         ).toEqual({
             newScaledOffsetLeft: 0,
             newScaledOffsetTop: 0,
@@ -101,47 +89,31 @@ describe('Testing getOffsetValues', () => {
 
 describe('Testing getDistanceBetweenViewportCenterAndElement', () => {
     it('Gets the distance between the element and the viewport center when the element is to the right of the center', () => {
-        expect(
-            getDistanceBetweenViewportCenterAndElement(
-                [250, 250],
-                300,
-                250,
-                0.4
-            )
-        ).toEqual({ newScaledOffsetLeft: -20, newScaledOffsetTop: 0 });
+        expect(getDistanceBetweenViewportCenterAndElement([250, 250], 300, 250, 0.4)).toEqual({
+            newScaledOffsetLeft: -20,
+            newScaledOffsetTop: 0
+        });
     });
 
     it('Gets the distance between the element and the viewport center when the element is to the left of the center', () => {
-        expect(
-            getDistanceBetweenViewportCenterAndElement(
-                [250, 250],
-                200,
-                250,
-                0.4
-            )
-        ).toEqual({ newScaledOffsetLeft: 20, newScaledOffsetTop: 0 });
+        expect(getDistanceBetweenViewportCenterAndElement([250, 250], 200, 250, 0.4)).toEqual({
+            newScaledOffsetLeft: 20,
+            newScaledOffsetTop: 0
+        });
     });
 
     it('Gets the distance between the element and the viewport center when the element is to the bottom of the center', () => {
-        expect(
-            getDistanceBetweenViewportCenterAndElement(
-                [250, 250],
-                250,
-                300,
-                0.4
-            )
-        ).toEqual({ newScaledOffsetLeft: 0, newScaledOffsetTop: -20 });
+        expect(getDistanceBetweenViewportCenterAndElement([250, 250], 250, 300, 0.4)).toEqual({
+            newScaledOffsetLeft: 0,
+            newScaledOffsetTop: -20
+        });
     });
 
     it('Gets the distance between the element and the viewport center when the element is to the top of the center', () => {
-        expect(
-            getDistanceBetweenViewportCenterAndElement(
-                [250, 250],
-                250,
-                200,
-                0.4
-            )
-        ).toEqual({ newScaledOffsetLeft: 0, newScaledOffsetTop: 20 });
+        expect(getDistanceBetweenViewportCenterAndElement([250, 250], 250, 200, 0.4)).toEqual({
+            newScaledOffsetLeft: 0,
+            newScaledOffsetTop: 20
+        });
     });
 });
 

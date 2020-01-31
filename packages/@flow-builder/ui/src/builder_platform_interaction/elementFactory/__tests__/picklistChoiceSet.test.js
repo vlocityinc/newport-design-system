@@ -55,9 +55,7 @@ describe('createPicklistChoiceSet', () => {
         expect(result).toMatchObject(mockDefaultValuesForPicklistChoiceSet);
     });
     describe('with a valid element', () => {
-        const result = createPicklistChoiceSet(
-            paramElementForPicklistChoiceSet
-        );
+        const result = createPicklistChoiceSet(paramElementForPicklistChoiceSet);
         it('result object matches the mockPicklistChoiceSetResult object', () => {
             result.picklistObjectIndex = 'guid';
             expect(result).toMatchObject(mockPicklistChoiceSetResult);
@@ -72,9 +70,7 @@ describe('createPicklistChoiceSetMetadataObject', () => {
         }).toThrow();
     });
     describe('when a valid element is passed as param', () => {
-        const result = createPicklistChoiceSetMetadataObject(
-            paramElementForPicklistChoiceSet
-        );
+        const result = createPicklistChoiceSetMetadataObject(paramElementForPicklistChoiceSet);
         it('result object matches the paramElementForPicklistChoiceSet object', () => {
             expect(result).toMatchObject(paramElementForPicklistChoiceSet);
         });
@@ -89,8 +85,6 @@ describe('createPicklistChoiceForStore', () => {
     });
     it('calls the baseElementsArrayToMap function with the right param', () => {
         createPicklistChoiceSetForStore(mockPicklistChoiceSetResult);
-        expect(baseElementsArrayToMap.mock.calls[0][0]).toEqual([
-            mockPicklistChoiceSetResult
-        ]);
+        expect(baseElementsArrayToMap.mock.calls[0][0]).toEqual([mockPicklistChoiceSetResult]);
     });
 });

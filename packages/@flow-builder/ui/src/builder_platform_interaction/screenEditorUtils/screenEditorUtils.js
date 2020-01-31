@@ -32,11 +32,7 @@ export const DRAGGING_CLASS = 'dragging';
 export const CONTAINER_DIV_SELECTOR = 'div.highlight';
 
 export function isScreen(element) {
-    return (
-        element &&
-        element.elementType &&
-        element.elementType === ELEMENT_TYPE.SCREEN
-    );
+    return element && element.elementType && element.elementType === ELEMENT_TYPE.SCREEN;
 }
 
 export function getVariant(label) {

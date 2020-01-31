@@ -39,19 +39,12 @@ describe('element-lib', () => {
 
             const expectedElementSections = [
                 {
-                    _children: [
-                        { elementType: ELEMENT_TYPE.SCREEN },
-                        { elementType: ELEMENT_TYPE.ACTION_CALL }
-                    ],
+                    _children: [{ elementType: ELEMENT_TYPE.SCREEN }, { elementType: ELEMENT_TYPE.ACTION_CALL }],
                     guid: 'testGUID',
-                    label:
-                        'FlowBuilderLeftPanelElements.flowInteractionComponentsLabel'
+                    label: 'FlowBuilderLeftPanelElements.flowInteractionComponentsLabel'
                 },
                 {
-                    _children: [
-                        { elementType: ELEMENT_TYPE.ASSIGNMENT },
-                        { elementType: ELEMENT_TYPE.WAIT }
-                    ],
+                    _children: [{ elementType: ELEMENT_TYPE.ASSIGNMENT }, { elementType: ELEMENT_TYPE.WAIT }],
                     guid: 'testGUID',
                     label: 'FlowBuilderLeftPanelElements.flowControlLogicLabel'
                 },
@@ -61,14 +54,11 @@ describe('element-lib', () => {
                         { elementType: ELEMENT_TYPE.RECORD_LOOKUP }
                     ],
                     guid: 'testGUID',
-                    label:
-                        'FlowBuilderLeftPanelElements.flowControlDataOperationsLabel'
+                    label: 'FlowBuilderLeftPanelElements.flowControlDataOperationsLabel'
                 }
             ];
 
-            expect(getElementSections(unsortedElements)).toMatchObject(
-                expectedElementSections
-            );
+            expect(getElementSections(unsortedElements)).toMatchObject(expectedElementSections);
         });
 
         it('returns the expected sections list based on custom ordering when receive full element list', () => {
@@ -94,8 +84,7 @@ describe('element-lib', () => {
                         { elementType: ELEMENT_TYPE.SUBFLOW }
                     ],
                     guid: 'testGUID',
-                    label:
-                        'FlowBuilderLeftPanelElements.flowInteractionComponentsLabel'
+                    label: 'FlowBuilderLeftPanelElements.flowInteractionComponentsLabel'
                 },
                 {
                     _children: [
@@ -115,14 +104,11 @@ describe('element-lib', () => {
                         { elementType: ELEMENT_TYPE.RECORD_DELETE }
                     ],
                     guid: 'testGUID',
-                    label:
-                        'FlowBuilderLeftPanelElements.flowControlDataOperationsLabel'
+                    label: 'FlowBuilderLeftPanelElements.flowControlDataOperationsLabel'
                 }
             ];
 
-            expect(getElementSections(unsortedElements)).toMatchObject(
-                expectedElementSections
-            );
+            expect(getElementSections(unsortedElements)).toMatchObject(expectedElementSections);
         });
     });
 });

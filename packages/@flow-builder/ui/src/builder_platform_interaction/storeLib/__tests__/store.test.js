@@ -1,13 +1,11 @@
-const canvasElementsReducer = jest
-    .fn()
-    .mockImplementation((canvasElements = [], action) => {
-        switch (action.type) {
-            case 'updateCanvasElements':
-                return [...canvasElements, 'Element 1'];
-            default:
-                return canvasElements;
-        }
-    });
+const canvasElementsReducer = jest.fn().mockImplementation((canvasElements = [], action) => {
+    switch (action.type) {
+        case 'updateCanvasElements':
+            return [...canvasElements, 'Element 1'];
+        default:
+            return canvasElements;
+    }
+});
 
 jest.mock('builder_platform_interaction/contextLib', () => ({
     isDevMode: () => true
@@ -96,8 +94,7 @@ describe('Store class', () => {
             // updating store state directly throws error in local env in auto builds it's not
             const previousStoreState = storeInstance.getCurrentState();
             try {
-                storeInstance.getCurrentState().invalidProperty =
-                    'property value';
+                storeInstance.getCurrentState().invalidProperty = 'property value';
             } catch (e) {
                 // ignore the error
             }

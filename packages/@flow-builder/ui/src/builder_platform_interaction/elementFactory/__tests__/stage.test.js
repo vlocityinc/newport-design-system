@@ -1,8 +1,4 @@
-import {
-    createStage,
-    createStageForStore,
-    createStageMetadataObject
-} from '../stage';
+import { createStage, createStageForStore, createStageMetadataObject } from '../stage';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
@@ -44,18 +40,14 @@ describe('Stage Element Factory', () => {
             const expectedObject = {
                 testGUID: defaultStageElement
             };
-            expect(Object.values(actualResult)[0]).toMatchObject(
-                expectedObject
-            );
+            expect(Object.values(actualResult)[0]).toMatchObject(expectedObject);
         });
         it('returns a new stage object for store with same values when an existing stage object is passed', () => {
             const actualResult = createStageForStore(stageElementForStore);
             const expectedObject = {
                 testGUID: stageElementForStore
             };
-            expect(Object.values(actualResult)[0]).toMatchObject(
-                expectedObject
-            );
+            expect(Object.values(actualResult)[0]).toMatchObject(expectedObject);
         });
     });
     describe('createStageMetadataObject function', () => {

@@ -6,10 +6,7 @@ import {
     addItem
 } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import {
-    invocableActionValidation,
-    getDynamicTypeMappingValidation
-} from './invocableActionValidation';
+import { invocableActionValidation, getDynamicTypeMappingValidation } from './invocableActionValidation';
 import {
     UpdateParameterItemEvent,
     PropertyChangedEvent,
@@ -30,10 +27,7 @@ import {
     updateInputParameterItemConfigurationEditor
 } from 'builder_platform_interaction/calloutEditorLib';
 import { getComboboxConfig } from 'builder_platform_interaction/baseResourcePicker';
-import {
-    getFlowType,
-    FLOW_DATA_TYPE
-} from 'builder_platform_interaction/dataTypeLib';
+import { getFlowType, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 
@@ -42,10 +36,7 @@ export const MERGE_WITH_DATA_TYPE_MAPPINGS = 'MERGE_WITH_DATA_TYPE_MAPPINGS';
 const invocableActionPropertyChanged = (state, event) => {
     const error =
         event.detail.error === null
-            ? invocableActionValidation.validateProperty(
-                event.detail.propertyName,
-                event.detail.value
-            )
+            ? invocableActionValidation.validateProperty(event.detail.propertyName, event.detail.value)
             : event.detail.error;
     return updateProperties(state, {
         [event.detail.propertyName]: { value: event.detail.value, error }
@@ -56,25 +47,19 @@ const invocableActionPropertyChanged = (state, event) => {
  * Clears values of field parameters with the specified generic type.
  */
 // TODO: Can we consolidate this with the similar function in screenReducer.js?
-const clearGenericParameters = ({
-    actionCallParameters,
-    invocableActionParameters,
-    genericTypeName
-}) =>
+const clearGenericParameters = ({ actionCallParameters, invocableActionParameters, genericTypeName }) =>
     actionCallParameters
         .map(actionCallParameter => ({
             actionCallParameter,
             invocableActionParameter: invocableActionParameters.find(
                 invocableActionParameter =>
-                    invocableActionParameter.name ===
-                    getValueFromHydratedItem(actionCallParameter.name)
+                    invocableActionParameter.name === getValueFromHydratedItem(actionCallParameter.name)
             )
         }))
         .map(({ actionCallParameter, invocableActionParameter }) =>
-            (invocableActionParameter &&
-                invocableActionParameter.sobjectType === genericTypeName
+            invocableActionParameter && invocableActionParameter.sobjectType === genericTypeName
                 ? { ...actionCallParameter, value: { value: '', error: null } }
-                : actionCallParameter)
+                : actionCallParameter
         );
 
 /**
@@ -82,12 +67,7 @@ const clearGenericParameters = ({
  * of an action call.
  */
 function clearGenericActionCallParameters(actionCall, genericTypeName) {
-    const {
-        actionName,
-        actionType,
-        inputParameters,
-        outputParameters
-    } = actionCall;
+    const { actionName, actionType, inputParameters, outputParameters } = actionCall;
     const invocableActionParams = getParametersForInvocableAction({
         actionName,
         actionType
@@ -118,24 +98,19 @@ function setDynamicTypeMappingTypeValue(actionCall, event) {
     const { typeName, typeValue, rowIndex } = event.detail;
     // Find an existing dynamic type mapping by the type name or create new.
     const dataTypeMappings = actionCall.dataTypeMappings || [];
-    const index = dataTypeMappings.findIndex(
-        mapping => getValueFromHydratedItem(mapping.typeName) === typeName
-    );
+    const index = dataTypeMappings.findIndex(mapping => getValueFromHydratedItem(mapping.typeName) === typeName);
     const dataTypeMapping =
         index !== -1
             ? dataTypeMappings[index]
             : {
-                typeName: {
-                    value: typeName,
-                    error: null
-                },
-                rowIndex
-            };
+                  typeName: {
+                      value: typeName,
+                      error: null
+                  },
+                  rowIndex
+              };
     // Check if the value has actually changed
-    if (
-        index !== -1 &&
-        getValueFromHydratedItem(dataTypeMapping.typeValue) === typeValue
-    ) {
+    if (index !== -1 && getValueFromHydratedItem(dataTypeMapping.typeValue) === typeValue) {
         return actionCall;
     }
     // Update the dynamic type mapping with the new value and validate it.
@@ -166,38 +141,20 @@ function setDynamicTypeMappingTypeValue(actionCall, event) {
  * @returns {[{ name, value, rowIndex, comboboxConfig }]} - Collection of data type mapping data
  *  for rendering entity pickers
  */
-const createDataTypeMappings = (
-    genericTypes = [],
-    dataTypeMappings = [],
-    disabled = false
-) =>
+const createDataTypeMappings = (genericTypes = [], dataTypeMappings = [], disabled = false) =>
     genericTypes.reduce((types, currentType) => {
-        const {
-            description: fieldLevelHelp,
-            label,
-            name,
-            superType
-        } = currentType;
+        const { description: fieldLevelHelp, label, name, superType } = currentType;
         const flowType = getFlowType(superType);
-        const type =
-            (flowType && flowType.value) || FLOW_DATA_TYPE.SOBJECT.value;
+        const type = (flowType && flowType.value) || FLOW_DATA_TYPE.SOBJECT.value;
         const dataTypeMapping =
-            dataTypeMappings.find(
-                ({ typeName }) => getValueFromHydratedItem(typeName) === name
-            ) || {};
-        const {
-            typeValue = null,
-            rowIndex = null,
-            typeName = null
-        } = dataTypeMapping;
+            dataTypeMappings.find(({ typeName }) => getValueFromHydratedItem(typeName) === name) || {};
+        const { typeValue = null, rowIndex = null, typeName = null } = dataTypeMapping;
         return [
             ...types,
             {
                 comboboxConfig: getComboboxConfig({
                     label,
-                    errorMessage:
-                        (typeValue && getErrorFromHydratedItem(typeValue)) ||
-                        null,
+                    errorMessage: (typeValue && getErrorFromHydratedItem(typeValue)) || null,
                     required: true,
                     disabled,
                     type,
@@ -218,11 +175,7 @@ const createDataTypeMappings = (
  * @return {Object} the updated node
  */
 const mergeWithDataTypeMappings = (state, props) => {
-    const dataTypeMappings = createDataTypeMappings(
-        props.genericTypes,
-        state.dataTypeMappings || [],
-        !props.isNewMode
-    );
+    const dataTypeMappings = createDataTypeMappings(props.genericTypes, state.dataTypeMappings || [], !props.isNewMode);
     state = updateProperties(state, {
         dataTypeMappings
     });
@@ -257,11 +210,7 @@ export const invocableActionReducer = (state, event, elements) => {
             return invocableActionValidation.validateAll(state);
         case ConfigurationEditorChangeEvent.EVENT_NAME:
         case ConfigurationEditorPropertyDeleteEvent.EVENT_NAME:
-            return updateInputParameterItemConfigurationEditor(
-                state,
-                event.detail,
-                elements
-            );
+            return updateInputParameterItemConfigurationEditor(state, event.detail, elements);
         default:
             return state;
     }

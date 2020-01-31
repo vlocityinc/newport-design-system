@@ -18,7 +18,7 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { selectGroupedComboboxItemBy } from '../../comboboxTestUtils';
-import { initializeLoader, loadOnProcessTypeChange  } from 'builder_platform_interaction/preloadLib';
+import { initializeLoader, loadOnProcessTypeChange } from 'builder_platform_interaction/preloadLib';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -37,28 +37,22 @@ const createComponentUnderTest = props => {
 };
 
 const getScreenPropertiesEditorContainerElement = screenEditor => {
-    return screenEditor.shadowRoot.querySelector(
-        SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER
-    );
+    return screenEditor.shadowRoot.querySelector(SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER);
 };
 
 const getEditorCanvasElement = screenEditor => {
-    return screenEditor.shadowRoot.querySelector(
-        SELECTORS.SCREEN_EDITOR_CANVAS
-    );
+    return screenEditor.shadowRoot.querySelector(SELECTORS.SCREEN_EDITOR_CANVAS);
 };
 
 const getExtensionPropertiesEditorElement = screenEditor => {
-    return getScreenPropertiesEditorContainerElement(
-        screenEditor
-    ).shadowRoot.querySelector(SELECTORS.SCREEN_EXTENSION_PROPERTIES_EDITOR);
+    return getScreenPropertiesEditorContainerElement(screenEditor).shadowRoot.querySelector(
+        SELECTORS.SCREEN_EXTENSION_PROPERTIES_EDITOR
+    );
 };
 
 const getCanvasScreenFieldElement = (screenEditor, elementTitle) => {
     const screenEditorCanvas = getEditorCanvasElement(screenEditor);
-    const screenEditorHighlight = screenEditorCanvas.shadowRoot.querySelectorAll(
-        SELECTORS.SCREEN_EDITOR_HIGHLIGHT
-    );
+    const screenEditorHighlight = screenEditorCanvas.shadowRoot.querySelectorAll(SELECTORS.SCREEN_EDITOR_HIGHLIGHT);
     let elementAddress;
     screenEditorHighlight.forEach(element => {
         if (element.title === elementTitle) {
@@ -104,30 +98,20 @@ describe('ScreenEditor', () => {
                     processType: FLOW_PROCESS_TYPE.FLOW
                 });
                 await ticks(50);
-                const addressElement = getCanvasScreenFieldElement(
-                    screenEditor,
-                    'Address'
-                );
+                const addressElement = getCanvasScreenFieldElement(screenEditor, 'Address');
                 addressElement.click();
                 await ticks(50);
             });
             it('shows up chevrons on fields', async () => {
-                const groupedCombobox = getGroupedCombobox(
-                    getExtensionPropertiesEditorElement(screenEditor)
-                );
+                const groupedCombobox = getGroupedCombobox(getExtensionPropertiesEditorElement(screenEditor));
                 const accountCreatedByItem = await selectGroupedComboboxItemBy(
                     groupedCombobox,
                     'displayText',
-                    [
-                        '{!accountSObjectVariable}',
-                        '{!accountSObjectVariable.CreatedBy}'
-                    ],
+                    ['{!accountSObjectVariable}', '{!accountSObjectVariable.CreatedBy}'],
                     { blur: false }
                 );
 
-                expect(accountCreatedByItem.rightIconName).toBe(
-                    'utility:chevronright'
-                );
+                expect(accountCreatedByItem.rightIconName).toBe('utility:chevronright');
             });
         });
         describe('Process type does not support lookup traversal', () => {
@@ -143,17 +127,12 @@ describe('ScreenEditor', () => {
                     node: screenNode
                 });
                 await ticks(50);
-                const addressElement = getCanvasScreenFieldElement(
-                    screenEditor,
-                    'Address'
-                );
+                const addressElement = getCanvasScreenFieldElement(screenEditor, 'Address');
                 addressElement.click();
                 await ticks(50);
             });
             it('does not show up chevrons on fields', async () => {
-                const groupedCombobox = getGroupedCombobox(
-                    getExtensionPropertiesEditorElement(screenEditor)
-                );
+                const groupedCombobox = getGroupedCombobox(getExtensionPropertiesEditorElement(screenEditor));
                 const accountCreatedByItem = await selectGroupedComboboxItemBy(
                     groupedCombobox,
                     'displayText',

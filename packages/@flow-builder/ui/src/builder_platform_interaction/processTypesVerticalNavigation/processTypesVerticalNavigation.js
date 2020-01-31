@@ -1,9 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import { ProcessTypeSelectedEvent } from 'builder_platform_interaction/events';
-import {
-    ALL_PROCESS_TYPE,
-    getProcessTypesWithIcons
-} from 'builder_platform_interaction/processTypeLib';
+import { ALL_PROCESS_TYPE, getProcessTypesWithIcons } from 'builder_platform_interaction/processTypeLib';
 
 export default class ProcessTypesVerticalNavigation extends LightningElement {
     /**
@@ -36,7 +33,7 @@ export default class ProcessTypesVerticalNavigation extends LightningElement {
     state = {
         processTypes: [],
         items: []
-    }
+    };
 
     /**
      * Handler for process type selection

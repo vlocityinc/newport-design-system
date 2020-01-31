@@ -1,7 +1,4 @@
-import {
-    ELEMENT_TYPE,
-    CONNECTOR_TYPE
-} from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { LABELS } from './connectorUtilsLabels';
 
@@ -46,13 +43,11 @@ export const getFlowBounds = canvasElements => {
     const CANVAS_ELEMENT_HEIGHT_SPACING = 96;
 
     // Calculating width and height of the entire flow
-    flowBounds.flowWidth =
-        flowBounds.maxX + CANVAS_ELEMENT_WIDTH_SPACING - flowBounds.minX;
-    flowBounds.flowHeight =
-        flowBounds.maxY + CANVAS_ELEMENT_HEIGHT_SPACING - flowBounds.minY;
+    flowBounds.flowWidth = flowBounds.maxX + CANVAS_ELEMENT_WIDTH_SPACING - flowBounds.minX;
+    flowBounds.flowHeight = flowBounds.maxY + CANVAS_ELEMENT_HEIGHT_SPACING - flowBounds.minY;
 
-    flowBounds.flowCenterX = flowBounds.minX + (flowBounds.flowWidth / 2);
-    flowBounds.flowCenterY = flowBounds.minY + (flowBounds.flowHeight / 2);
+    flowBounds.flowCenterX = flowBounds.minX + flowBounds.flowWidth / 2;
+    flowBounds.flowCenterY = flowBounds.minY + flowBounds.flowHeight / 2;
 
     return flowBounds;
 };
@@ -68,13 +63,7 @@ export const getFlowBounds = canvasElements => {
  *
  * @returns {Object} connector       connector object
  */
-export const createConnectorObject = (
-    source,
-    childSource,
-    target,
-    label,
-    type
-) => {
+export const createConnectorObject = (source, childSource, target, label, type) => {
     const guid = generateGuid();
     return {
         guid,
@@ -97,10 +86,7 @@ export const createConnectorObject = (
  *
  * @returns {Array} availableConnections    updated list of available connections
  */
-export const removeFromAvailableConnections = (
-    availableConnections,
-    connectors = []
-) => {
+export const removeFromAvailableConnections = (availableConnections, connectors = []) => {
     availableConnections = availableConnections.filter(connection => {
         let removeConnection = false;
         for (let i = 0; i < connectors.length; i++) {
@@ -108,8 +94,7 @@ export const removeFromAvailableConnections = (
             // OR if the connection is for a child reference (example, outcomes) and the child reference matches the connector child source
             if (
                 connection.type === connectors[i].type &&
-                (!connection.childReference ||
-                    connection.childReference === connectors[i].childSource)
+                (!connection.childReference || connection.childReference === connectors[i].childSource)
             ) {
                 removeConnection = true;
                 break;
@@ -129,10 +114,7 @@ export const removeFromAvailableConnections = (
  * @param {Object[]} comboboxOptions - Available connections in the shape needed by the combobox
  * @return {Object[]} sortedComboboxOptions - Combobox options sorted in the required order
  */
-export const sortConnectorPickerComboboxOptions = (
-    sourceElement,
-    comboboxOptions
-) => {
+export const sortConnectorPickerComboboxOptions = (sourceElement, comboboxOptions) => {
     const sortedComboboxOptions = [];
     if (sourceElement.elementType === ELEMENT_TYPE.LOOP) {
         // Connector-picker for loop pops up only when both LOOP_NEXT and LOOP_END are unused. Therefore, we simply
@@ -147,20 +129,14 @@ export const sortConnectorPickerComboboxOptions = (
             value: CONNECTOR_TYPE.LOOP_END
         };
 
-        sortedComboboxOptions.push(
-            loopNextComboboxOption,
-            loopEndComboboxOption
-        );
+        sortedComboboxOptions.push(loopNextComboboxOption, loopEndComboboxOption);
     } else if (sourceElement.elementType === ELEMENT_TYPE.DECISION) {
         // Iterating over outcomeReferences and sorting the comboboxOptions in the same order. For default outcome we
         // push it at the end if the option exists in comboboxOptions
         const defaultOutcomeComboboxOption = {};
         for (let i = 0; i < sourceElement.outcomeReferences.length; i++) {
             comboboxOptions.map(option => {
-                if (
-                    option.value ===
-                    sourceElement.outcomeReferences[i].outcomeReference
-                ) {
+                if (option.value === sourceElement.outcomeReferences[i].outcomeReference) {
                     sortedComboboxOptions.push(option);
                 } else if (
                     option.value === CONNECTOR_TYPE.DEFAULT &&
@@ -186,10 +162,7 @@ export const sortConnectorPickerComboboxOptions = (
         const faultComboboxOption = {};
         for (let i = 0; i < sourceElement.waitEventReferences.length; i++) {
             comboboxOptions.forEach(option => {
-                if (
-                    option.value ===
-                    sourceElement.waitEventReferences[i].waitEventReference
-                ) {
+                if (option.value === sourceElement.waitEventReferences[i].waitEventReference) {
                     sortedComboboxOptions.push(option);
                 } else if (
                     option.value === CONNECTOR_TYPE.DEFAULT &&
@@ -197,10 +170,7 @@ export const sortConnectorPickerComboboxOptions = (
                 ) {
                     defaultPathComboboxOption.label = option.label;
                     defaultPathComboboxOption.value = option.value;
-                } else if (
-                    option.value === CONNECTOR_TYPE.FAULT &&
-                    Object.keys(faultComboboxOption).length === 0
-                ) {
+                } else if (option.value === CONNECTOR_TYPE.FAULT && Object.keys(faultComboboxOption).length === 0) {
                     faultComboboxOption.label = option.label;
                     faultComboboxOption.value = option.value;
                 }
@@ -268,20 +238,12 @@ export const getLabelAndValueForConnectorPickerOptions = (
  * @param {string} valueFromCombobox - The selected value in the connector-picker
  * @return {object} - New connector object
  */
-export const createNewConnector = (
-    elements,
-    sourceGuid,
-    targetGuid,
-    valueFromCombobox
-) => {
+export const createNewConnector = (elements, sourceGuid, targetGuid, valueFromCombobox) => {
     let type = valueFromCombobox,
         label,
         childSource;
 
-    if (
-        valueFromCombobox === CONNECTOR_TYPE.START ||
-        valueFromCombobox === CONNECTOR_TYPE.REGULAR
-    ) {
+    if (valueFromCombobox === CONNECTOR_TYPE.START || valueFromCombobox === CONNECTOR_TYPE.REGULAR) {
         label = null;
     } else if (valueFromCombobox === CONNECTOR_TYPE.DEFAULT) {
         label = elements[sourceGuid].defaultConnectorLabel;
@@ -297,11 +259,5 @@ export const createNewConnector = (
         childSource = valueFromCombobox;
     }
 
-    return createConnectorObject(
-        sourceGuid,
-        childSource,
-        targetGuid,
-        label,
-        type
-    );
+    return createConnectorObject(sourceGuid, childSource, targetGuid, label, type);
 };

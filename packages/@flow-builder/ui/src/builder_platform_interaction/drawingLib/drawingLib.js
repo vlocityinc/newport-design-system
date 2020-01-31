@@ -198,13 +198,7 @@ class DrawingLib {
      * @param {String} connectorType - Type of connector
      * @return {Object} connection - jsPlumb's connector instance
      */
-    setExistingConnections = (
-        sourceContainer,
-        targetContainer,
-        label,
-        connectorGuid,
-        connectorType
-    ) => {
+    setExistingConnections = (sourceContainer, targetContainer, label, connectorGuid, connectorType) => {
         const connectionInstance = {
             source: sourceContainer,
             target: targetContainer,
@@ -224,9 +218,7 @@ class DrawingLib {
         if (label) {
             if (connectorType === CONNECTOR_TYPE.FAULT) {
                 connection.setPaintStyle(this.connectorStyles.faultConnector);
-                connection.setHoverPaintStyle(
-                    this.connectorStyles.hoverFaultConnector
-                );
+                connection.setHoverPaintStyle(this.connectorStyles.hoverFaultConnector);
                 connection.addOverlay([
                     'Label',
                     {
@@ -236,10 +228,7 @@ class DrawingLib {
                     }
                 ]);
             } else {
-                connection.addOverlay([
-                    'Label',
-                    { id: CONNECTOR_OVERLAY.LABEL, label }
-                ]);
+                connection.addOverlay(['Label', { id: CONNECTOR_OVERLAY.LABEL, label }]);
             }
 
             this.setLabelOverlayTitle(connection, label);
@@ -274,12 +263,7 @@ class DrawingLib {
      * @param {Object} hoverPaintStyle - Hover paint style of the selected/deselected connector
      * @param {String} cssClass - css class that needs to be added
      */
-    setPaintStyleAndLabel = (
-        connection,
-        paintStyle,
-        hoverPaintStyle,
-        cssClass
-    ) => {
+    setPaintStyleAndLabel = (connection, paintStyle, hoverPaintStyle, cssClass) => {
         connection.setPaintStyle(paintStyle);
         connection.setHoverPaintStyle(hoverPaintStyle);
         const labelOverlay = connection.getOverlay(CONNECTOR_OVERLAY.LABEL);
@@ -315,12 +299,7 @@ class DrawingLib {
             cssClass = 'label-selected';
         }
         connection.addClass('connector-selected');
-        this.setPaintStyleAndLabel(
-            connection,
-            paintStyle,
-            hoverPaintStyle,
-            cssClass
-        );
+        this.setPaintStyleAndLabel(connection, paintStyle, hoverPaintStyle, cssClass);
     };
 
     /**
@@ -342,12 +321,7 @@ class DrawingLib {
             cssClass = '';
         }
         connection.removeClass('connector-selected');
-        this.setPaintStyleAndLabel(
-            connection,
-            paintStyle,
-            hoverPaintStyle,
-            cssClass
-        );
+        this.setPaintStyleAndLabel(connection, paintStyle, hoverPaintStyle, cssClass);
     };
 
     /**
@@ -373,9 +347,7 @@ class DrawingLib {
      */
     removeNodeFromLib = (nodeId, canvasElementContainer) => {
         if (!canvasElementContainer) {
-            throw new Error(
-                'canvasElementContainer is not defined. It must be defined.'
-            );
+            throw new Error('canvasElementContainer is not defined. It must be defined.');
         }
 
         instance.removeFromDragSelection(canvasElementContainer);

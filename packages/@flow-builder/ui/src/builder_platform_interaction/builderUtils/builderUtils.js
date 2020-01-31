@@ -1,9 +1,6 @@
 // eslint-disable-next-line lwc-core/no-interop-create, lwc-core/no-interop-dispatch, lwc-core/no-interop-render
 import { createComponent, dispatchGlobalEvent, renderComponent } from 'aura';
-import {
-    getConfigForElementType,
-    MODAL_SIZE
-} from 'builder_platform_interaction/elementConfig';
+import { getConfigForElementType, MODAL_SIZE } from 'builder_platform_interaction/elementConfig';
 import {
     AddElementEvent,
     AddNonCanvasElementEvent,
@@ -85,10 +82,7 @@ const createComponentPromise = (cmpName, attr) => {
 const getTitleForModalHeader = (mode, elementType) => {
     const elementConfig = getConfigForElementType(elementType);
     if (!elementConfig || !elementConfig.labels) {
-        throw new Error(
-            'label is not defined in the element config for the element type: ' +
-                elementType
-        );
+        throw new Error('label is not defined in the element config for the element type: ' + elementType);
     }
 
     let titlePrefix = '',
@@ -126,10 +120,7 @@ const getTitleForModalHeader = (mode, elementType) => {
 
 const getLabelForOkButton = mode => {
     let label;
-    if (
-        mode === SaveFlowEvent.Type.SAVE ||
-        mode === SaveFlowEvent.Type.SAVE_AS
-    ) {
+    if (mode === SaveFlowEvent.Type.SAVE || mode === SaveFlowEvent.Type.SAVE_AS) {
         label = LABELS.saveButtonLabel;
     }
     return label;
@@ -170,11 +161,7 @@ const getNewResourceConfig = attributes => {
 
 const clearExpressionValidator = panel => {
     const panelBody = panel.get('v.body')[0];
-    if (
-        panelBody &&
-        panelBody.get('v.bodyComponent') &&
-        panelBody.get('v.bodyComponent').desc !== RESOURCE_EDITOR
-    ) {
+    if (panelBody && panelBody.get('v.bodyComponent') && panelBody.get('v.bodyComponent').desc !== RESOURCE_EDITOR) {
         clearExpressions();
     }
 };
@@ -258,7 +245,7 @@ const getPropertyEditorDescriptor = (mode, elementConfig) => {
 /**
  * Convert a property editor descriptor in to a class name for dynamic lwc loading.
  */
-const getPropertyEditorClassName = (desc) => {
+const getPropertyEditorClassName = desc => {
     const packageAndClass = desc.split(':');
 
     return packageAndClass[0] + '/' + packageAndClass[1];
@@ -284,9 +271,7 @@ const invokeModalWithComponentsOnCreate = (modal, data) => {
  */
 export const getPropertyEditorConfig = (mode, attributes) => {
     if (!attributes.node || !attributes.nodeUpdate) {
-        throw new Error(
-            'Attributes passed to invoke panel method are incorrect. Must contain node and nodeUpdate'
-        );
+        throw new Error('Attributes passed to invoke panel method are incorrect. Must contain node and nodeUpdate');
     }
 
     const nodeUpdate = attributes.nodeUpdate,
@@ -301,10 +286,7 @@ export const getPropertyEditorConfig = (mode, attributes) => {
         processType = attributes.processType;
 
     if (!desc) {
-        throw new Error(
-            'descriptor is not defined in the element config for the element type: ' +
-                elementType
-        );
+        throw new Error('descriptor is not defined in the element config for the element type: ' + elementType);
     }
 
     const attr = {
@@ -358,26 +340,18 @@ const getEditorConfig = (mode, attributes) => {
  */
 const doInvoke = (cmpName, attr, panelConfig) => {
     const propertyEditorBodyPromise = createComponentPromise(cmpName, attr);
-    const propertyEditorHeaderPromise = createComponentPromise(
-        'builder_platform_interaction:propertyEditorHeader',
-        { titleForModal: panelConfig.titleForModal }
-    );
+    const propertyEditorHeaderPromise = createComponentPromise('builder_platform_interaction:propertyEditorHeader', {
+        titleForModal: panelConfig.titleForModal
+    });
     let propertyEditorFooterPromise;
     if (panelConfig.labelForOkButton) {
-        propertyEditorFooterPromise = createComponentPromise(
-            'builder_platform_interaction:propertyEditorFooter',
-            { labelForOkButton: panelConfig.labelForOkButton }
-        );
+        propertyEditorFooterPromise = createComponentPromise('builder_platform_interaction:propertyEditorFooter', {
+            labelForOkButton: panelConfig.labelForOkButton
+        });
     } else {
-        propertyEditorFooterPromise = createComponentPromise(
-            'builder_platform_interaction:propertyEditorFooter'
-        );
+        propertyEditorFooterPromise = createComponentPromise('builder_platform_interaction:propertyEditorFooter');
     }
-    Promise.all([
-        propertyEditorBodyPromise,
-        propertyEditorHeaderPromise,
-        propertyEditorFooterPromise
-    ])
+    Promise.all([propertyEditorBodyPromise, propertyEditorHeaderPromise, propertyEditorFooterPromise])
         .then(newComponents => {
             const createPanelEventAttributes = {
                 panelType: MODAL,
@@ -395,10 +369,7 @@ const doInvoke = (cmpName, attr, panelConfig) => {
                 onCreate: panel => {
                     const panelFooter = panel.get('v.footer')[0];
                     panelFooter.set('v.panelInstance', panel);
-                    panelFooter.set(
-                        'v.closeActionCallback',
-                        closeActionCallback
-                    );
+                    panelFooter.set('v.closeActionCallback', closeActionCallback);
                     const panelBody = panel.get('v.body')[0];
                     panelBody.set('v.panelInstance', panel);
                     panelBody.set('v.closeActionCallback', closeActionCallback);
@@ -506,23 +477,18 @@ export const invokeModalWithComponents = (
  * @param {object} data - contains data for modal header/body/footer
  */
 export const invokeModal = data => {
-    const modalHeaderPromise = createComponentPromise(
-        'builder_platform_interaction:modalHeader',
-        { headerTitle: data.headerData.headerTitle }
-    );
-    const modalBodyPromise = createComponentPromise(
-        'builder_platform_interaction:modalBody',
-        {
-            bodyTextOne: data.bodyData.bodyTextOne,
-            bodyTextTwo: data.bodyData.bodyTextTwo,
-            listSectionHeader: data.bodyData.listSectionHeader,
-            listSectionItems: data.bodyData.listSectionItems
-        }
-    );
-    const modalFooterPromise = createComponentPromise(
-        'builder_platform_interaction:modalFooter',
-        { buttons: data.footerData }
-    );
+    const modalHeaderPromise = createComponentPromise('builder_platform_interaction:modalHeader', {
+        headerTitle: data.headerData.headerTitle
+    });
+    const modalBodyPromise = createComponentPromise('builder_platform_interaction:modalBody', {
+        bodyTextOne: data.bodyData.bodyTextOne,
+        bodyTextTwo: data.bodyData.bodyTextTwo,
+        listSectionHeader: data.bodyData.listSectionHeader,
+        listSectionItems: data.bodyData.listSectionItems
+    });
+    const modalFooterPromise = createComponentPromise('builder_platform_interaction:modalFooter', {
+        buttons: data.footerData
+    });
 
     invokeModalWithComponents(
         data,
@@ -539,23 +505,18 @@ export const invokeModal = data => {
  * @param data
  */
 export const invokeModalInternalData = data => {
-    const modalHeaderPromise = createComponentPromise(
-        'builder_platform_interaction:modalHeader',
-        { headerTitle: data.headerData.headerTitle }
-    );
-    const modalBodyPromise = createComponentPromise(
-        'builder_platform_interaction:modalBodyInternalData',
-        {
-            bodyTextOne: data.bodyData.bodyTextOne,
-            bodyTextTwo: data.bodyData.bodyTextTwo,
-            listSectionHeader: data.bodyData.listSectionHeader,
-            listSectionItems: data.bodyData.listSectionItems
-        }
-    );
-    const modalFooterPromise = createComponentPromise(
-        'builder_platform_interaction:modalFooter',
-        { buttons: data.footerData }
-    );
+    const modalHeaderPromise = createComponentPromise('builder_platform_interaction:modalHeader', {
+        headerTitle: data.headerData.headerTitle
+    });
+    const modalBodyPromise = createComponentPromise('builder_platform_interaction:modalBodyInternalData', {
+        bodyTextOne: data.bodyData.bodyTextOne,
+        bodyTextTwo: data.bodyData.bodyTextTwo,
+        listSectionHeader: data.bodyData.listSectionHeader,
+        listSectionItems: data.bodyData.listSectionItems
+    });
+    const modalFooterPromise = createComponentPromise('builder_platform_interaction:modalFooter', {
+        buttons: data.footerData
+    });
 
     invokeModalWithComponents(
         data,
@@ -587,28 +548,22 @@ export const invokeNewFlowModal = (
     closeFlowModalAction,
     createFlowFromTemplateCallback
 ) => {
-    const modalHeaderPromise = createComponentPromise(
-        'builder_platform_interaction:modalHeader',
-        {
-            headerTitle: LABELS.headerTitle
-        }
-    );
+    const modalHeaderPromise = createComponentPromise('builder_platform_interaction:modalHeader', {
+        headerTitle: LABELS.headerTitle
+    });
 
-    const modalBodyPromise = createComponentPromise(
-        'builder_platform_interaction:newFlowModalBody',
-        { ...configuration, builderType }
-    );
-    const modalFooterPromise = createComponentPromise(
-        'builder_platform_interaction:modalFooter',
-        {
-            buttons: {
-                buttonOne: {
-                    buttonLabel: LABELS.createButtonLabel,
-                    buttonVariant: 'brand'
-                }
+    const modalBodyPromise = createComponentPromise('builder_platform_interaction:newFlowModalBody', {
+        ...configuration,
+        builderType
+    });
+    const modalFooterPromise = createComponentPromise('builder_platform_interaction:modalFooter', {
+        buttons: {
+            buttonOne: {
+                buttonLabel: LABELS.createButtonLabel,
+                buttonVariant: 'brand'
             }
         }
-    );
+    });
 
     const invokeModalWithComponentsOnCreateOverride = (modal, data) => {
         const modalFooter = invokeModalWithComponentsOnCreate(modal, data);
@@ -678,24 +633,18 @@ export function showHover(cmpName, attr, hoverId, panelConfig) {
 }
 
 export function invokeKeyboardHelpDialog() {
-    const modalHeaderPromise = createComponentPromise(
-        'builder_platform_interaction:modalHeader',
-        { headerTitle: LABELS.keyboardShortcutListTitle }
-    );
-    const modalBodyPromise = createComponentPromise(
-        'builder_platform_interaction:keyboardShortcutsListBody', {}
-    );
-    const modalFooterPromise = createComponentPromise(
-        'builder_platform_interaction:modalFooter',
-        {
-            buttons: {
-                buttonOne: {
-                    buttonLabel: LABELS.okayButtonLabel,
-                    buttonVariant: 'brand'
-                }
+    const modalHeaderPromise = createComponentPromise('builder_platform_interaction:modalHeader', {
+        headerTitle: LABELS.keyboardShortcutListTitle
+    });
+    const modalBodyPromise = createComponentPromise('builder_platform_interaction:keyboardShortcutsListBody', {});
+    const modalFooterPromise = createComponentPromise('builder_platform_interaction:modalFooter', {
+        buttons: {
+            buttonOne: {
+                buttonLabel: LABELS.okayButtonLabel,
+                buttonVariant: 'brand'
             }
         }
-    );
+    });
     invokeModalWithComponents(
         {
             bodyClass: 'slds-p-around_none slds-is-relative',
@@ -769,13 +718,7 @@ export function showPopover(cmpName, cmpAttributes = {}, popoverProps) {
         return;
     }
 
-    const {
-        direction,
-        onClose,
-        referenceElement,
-        closeOnClickOut,
-        showCloseButton
-    } = popoverProps;
+    const { direction, onClose, referenceElement, closeOnClickOut, showCloseButton } = popoverProps;
 
     popoverState = {
         panelInstance: null,
@@ -806,9 +749,7 @@ export function showPopover(cmpName, cmpAttributes = {}, popoverProps) {
             dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
         })
         .catch(errorMessage => {
-            throw new Error(
-                'Status Icon Panel creation failed : ' + errorMessage
-            );
+            throw new Error('Status Icon Panel creation failed : ' + errorMessage);
         });
 }
 
@@ -816,7 +757,13 @@ export function showPopover(cmpName, cmpAttributes = {}, popoverProps) {
  * Create LWC component dynamically for custom property editor
  * PLEASE DON'T USE THIS UTIL EXCEPT FOR CUSTOM PROPERTY EDITOR
  */
-export function createConfigurationEditor({cmpName, container, attr = {}, errorCallback = () => {}, successCallback = () => {}}) {
+export function createConfigurationEditor({
+    cmpName,
+    container,
+    attr = {},
+    errorCallback = () => {},
+    successCallback = () => {}
+}) {
     if (!cmpName) {
         throw new Error('Component name is not defined');
     }
@@ -824,11 +771,13 @@ export function createConfigurationEditor({cmpName, container, attr = {}, errorC
         throw new Error('Container component is not defined');
     }
     let newCmp;
-    createComponentPromise(cmpName, attr).then((cmp) => {
-        renderComponent(cmp, container);
-        newCmp = cmp;
-        successCallback(newCmp);
-    }).catch(errorCallback);
+    createComponentPromise(cmpName, attr)
+        .then(cmp => {
+            renderComponent(cmp, container);
+            newCmp = cmp;
+            successCallback(newCmp);
+        })
+        .catch(errorCallback);
 
     const unrender = () => {
         if (newCmp) {

@@ -22,11 +22,7 @@ export const isUndefined = value => {
  * @returns {Boolean} Whether item is an object or not
  */
 export const isObject = item => {
-    return (
-        typeof item === 'object' &&
-        !Array.isArray(item) &&
-        !isUndefinedOrNull(item)
-    );
+    return typeof item === 'object' && !Array.isArray(item) && !isUndefinedOrNull(item);
 };
 
 /*
@@ -134,11 +130,7 @@ export const escapeForRegExp = value => {
  * @return {boolean} if value is a reference.
  */
 export function isReference(value) {
-    return (
-        typeof value === 'string' &&
-        value.startsWith('{!') &&
-        value.endsWith('}')
-    );
+    return typeof value === 'string' && value.startsWith('{!') && value.endsWith('}');
 }
 
 /**
@@ -147,14 +139,10 @@ export function isReference(value) {
  * @param {String} propertyName
  */
 export function getPropertyOrDefaultToTrue(object, propertyName) {
-    return object.hasOwnProperty(propertyName) &&
-        object[propertyName] !== undefined
-        ? object[propertyName]
-        : true;
+    return object.hasOwnProperty(propertyName) && object[propertyName] !== undefined ? object[propertyName] : true;
 }
 
-export const APP_EXCHANGE_LINK =
-    'https://appexchange.salesforce.com/appxStore?type=Flow';
+export const APP_EXCHANGE_LINK = 'https://appexchange.salesforce.com/appxStore?type=Flow';
 
 /**
  * Simple memoizer, which holds on to a most recent successful invocation and its result.
@@ -168,12 +156,9 @@ export function memoize(func) {
     let everInvoked = false;
     let lastArguments;
     let lastResult;
-    return function () {
+    return function() {
         // Invoke the memoized function, but only if never invoked or if the arguments are different.
-        if (
-            everInvoked === false ||
-            !equalArguments(lastArguments, arguments)
-        ) {
+        if (everInvoked === false || !equalArguments(lastArguments, arguments)) {
             lastResult = func.apply(null, arguments);
             lastArguments = arguments;
             everInvoked = true;

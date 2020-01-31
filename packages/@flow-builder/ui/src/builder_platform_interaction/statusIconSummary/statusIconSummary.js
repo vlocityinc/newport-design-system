@@ -27,8 +27,7 @@ export default class StatusIconSummary extends LightningElement {
      * @returns {string} sectionStyle: the section style css based on type
      */
     get sectionStyle() {
-        const popOverClasses =
-            'slds-popover slds-show slds-popover_' + this.type;
+        const popOverClasses = 'slds-popover slds-show slds-popover_' + this.type;
         return this.type === 'warning'
             ? popOverClasses + ' slds-popover_large'
             : popOverClasses + ' slds-popover_medium';
@@ -75,10 +74,8 @@ export default class StatusIconSummary extends LightningElement {
      * @returns {string} sectionItemStyle: the section item style css based on type
      */
     get hasSectionItems() {
-        const sectionItemClasses =
-            'slds-is-nested slds-list_vertical-space-medium';
-        return (this.type === 'warning' && this.showSections) ||
-            this.type === 'error'
+        const sectionItemClasses = 'slds-is-nested slds-list_vertical-space-medium';
+        return (this.type === 'warning' && this.showSections) || this.type === 'error'
             ? sectionItemClasses + ' slds-list_dotted'
             : sectionItemClasses;
     }

@@ -50,13 +50,8 @@ describe('toolbar', () => {
 
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn();
-            toolbarComponent.addEventListener(
-                EditFlowPropertiesEvent.EVENT_NAME,
-                eventCallback
-            );
-            toolbarComponent.shadowRoot
-                .querySelector(selectors.editflowproperties)
-                .click();
+            toolbarComponent.addEventListener(EditFlowPropertiesEvent.EVENT_NAME, eventCallback);
+            toolbarComponent.shadowRoot.querySelector(selectors.editflowproperties).click();
             expect(eventCallback).toHaveBeenCalled();
         });
     });
@@ -65,9 +60,7 @@ describe('toolbar', () => {
         const toolbarComponent = createComponentUnderTest();
 
         return Promise.resolve().then(() => {
-            const toolbarButtonGroup = toolbarComponent.shadowRoot.querySelector(
-                'lightning-button-group'
-            );
+            const toolbarButtonGroup = toolbarComponent.shadowRoot.querySelector('lightning-button-group');
             expect(toolbarButtonGroup).not.toBeNull();
         });
     });
@@ -85,9 +78,7 @@ describe('toolbar', () => {
     it('Activate button should be present', () => {
         const toolbarComponent = createComponentUnderTest();
         return Promise.resolve().then(() => {
-            const activateButton = toolbarComponent.shadowRoot.querySelector(
-                selectors.activate
-            );
+            const activateButton = toolbarComponent.shadowRoot.querySelector(selectors.activate);
             expect(activateButton).not.toBeNull();
         });
     });
@@ -97,9 +88,7 @@ describe('toolbar', () => {
             flowStatus: FLOW_STATUS.ACTIVE
         });
         return Promise.resolve().then(() => {
-            const activateButton = toolbarComponent.shadowRoot.querySelector(
-                selectors.activate
-            );
+            const activateButton = toolbarComponent.shadowRoot.querySelector(selectors.activate);
             expect(activateButton.label).toBe(LABELS.deactivateTitle);
         });
     });
@@ -110,9 +99,7 @@ describe('toolbar', () => {
             hasUnsavedChanges: true
         });
         return Promise.resolve().then(() => {
-            const activateButton = toolbarComponent.shadowRoot.querySelector(
-                selectors.activate
-            );
+            const activateButton = toolbarComponent.shadowRoot.querySelector(selectors.activate);
             expect(activateButton.disabled).toBe(true);
         });
     });
@@ -122,9 +109,7 @@ describe('toolbar', () => {
             flowStatus: FLOW_STATUS.INVALID_DRAFT
         });
         return Promise.resolve().then(() => {
-            const activateButton = toolbarComponent.shadowRoot.querySelector(
-                selectors.activate
-            );
+            const activateButton = toolbarComponent.shadowRoot.querySelector(selectors.activate);
             expect(activateButton.disabled).toBe(true);
         });
     });
@@ -135,9 +120,7 @@ describe('toolbar', () => {
             hasUnsavedChanges: false
         });
         return Promise.resolve().then(() => {
-            const activateButton = toolbarComponent.shadowRoot.querySelector(
-                selectors.activate
-            );
+            const activateButton = toolbarComponent.shadowRoot.querySelector(selectors.activate);
             expect(activateButton.disabled).toBe(false);
         });
     });
@@ -148,9 +131,7 @@ describe('toolbar', () => {
             hasUnsavedChanges: false
         });
         return Promise.resolve().then(() => {
-            const activateButton = toolbarComponent.shadowRoot.querySelector(
-                selectors.activate
-            );
+            const activateButton = toolbarComponent.shadowRoot.querySelector(selectors.activate);
             expect(activateButton.disabled).toBe(false);
         });
     });
@@ -160,15 +141,10 @@ describe('toolbar', () => {
 
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn();
-            toolbarComponent.addEventListener(
-                SaveFlowEvent.EVENT_NAME,
-                eventCallback
-            );
+            toolbarComponent.addEventListener(SaveFlowEvent.EVENT_NAME, eventCallback);
             toolbarComponent.shadowRoot.querySelector(selectors.save).click();
             expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0].detail.type).toBe(
-                SaveFlowEvent.Type.SAVE
-            );
+            expect(eventCallback.mock.calls[0][0].detail.type).toBe(SaveFlowEvent.Type.SAVE);
         });
     });
 
@@ -177,15 +153,10 @@ describe('toolbar', () => {
 
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn();
-            toolbarComponent.addEventListener(
-                SaveFlowEvent.EVENT_NAME,
-                eventCallback
-            );
+            toolbarComponent.addEventListener(SaveFlowEvent.EVENT_NAME, eventCallback);
             toolbarComponent.shadowRoot.querySelector(selectors.saveas).click();
             expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0].detail.type).toBe(
-                SaveFlowEvent.Type.SAVE_AS
-            );
+            expect(eventCallback.mock.calls[0][0].detail.type).toBe(SaveFlowEvent.Type.SAVE_AS);
         });
     });
 
@@ -194,13 +165,8 @@ describe('toolbar', () => {
 
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn();
-            toolbarComponent.addEventListener(
-                ToggleFlowStatusEvent.EVENT_NAME,
-                eventCallback
-            );
-            toolbarComponent.shadowRoot
-                .querySelector(selectors.activate)
-                .click();
+            toolbarComponent.addEventListener(ToggleFlowStatusEvent.EVENT_NAME, eventCallback);
+            toolbarComponent.shadowRoot.querySelector(selectors.activate).click();
             expect(eventCallback).toHaveBeenCalled();
         });
     });
@@ -210,13 +176,8 @@ describe('toolbar', () => {
 
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn();
-            toolbarComponent.addEventListener(
-                DuplicateEvent.EVENT_NAME,
-                eventCallback
-            );
-            toolbarComponent.shadowRoot
-                .querySelector(selectors.duplicate)
-                .click();
+            toolbarComponent.addEventListener(DuplicateEvent.EVENT_NAME, eventCallback);
+            toolbarComponent.shadowRoot.querySelector(selectors.duplicate).click();
             expect(eventCallback).toHaveBeenCalled();
         });
     });
@@ -232,21 +193,12 @@ describe('toolbar', () => {
             });
 
             return Promise.resolve().then(() => {
-                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(
-                    selectors.lastSave
-                );
-                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(
-                    selectors.relativedatetime
-                );
-                expect(lastSavedButton.textContent.trim()).toEqual(
-                    LABELS.draftLabel + '\u2014' + LABELS.savedStatus
-                );
+                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(selectors.lastSave);
+                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(selectors.relativedatetime);
+                expect(lastSavedButton.textContent.trim()).toEqual(LABELS.draftLabel + '\u2014' + LABELS.savedStatus);
                 expect(relativeDateTimeComponent).not.toBeNull();
                 expect(relativeDateTimeComponent.value).toEqual(currentDate);
-                expect(parseMetadataDateTime).toHaveBeenCalledWith(
-                    currentDate.toISOString(),
-                    true
-                );
+                expect(parseMetadataDateTime).toHaveBeenCalledWith(currentDate.toISOString(), true);
             });
         });
 
@@ -260,16 +212,10 @@ describe('toolbar', () => {
             });
 
             return Promise.resolve().then(() => {
-                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(
-                    selectors.lastSave
-                );
-                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(
-                    selectors.relativedatetime
-                );
+                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(selectors.lastSave);
+                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(selectors.relativedatetime);
 
-                expect(lastSavedButton.textContent.trim()).toEqual(
-                    LABELS.draftLabel + '\u2014' + LABELS.savedStatus
-                );
+                expect(lastSavedButton.textContent.trim()).toEqual(LABELS.draftLabel + '\u2014' + LABELS.savedStatus);
                 expect(relativeDateTimeComponent).not.toBeNull();
             });
         });
@@ -284,16 +230,10 @@ describe('toolbar', () => {
             });
 
             return Promise.resolve().then(() => {
-                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(
-                    selectors.lastSave
-                );
-                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(
-                    selectors.relativedatetime
-                );
+                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(selectors.lastSave);
+                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(selectors.relativedatetime);
 
-                expect(lastSavedButton.textContent.trim()).toEqual(
-                    LABELS.activeLabel + '\u2014' + LABELS.savedStatus
-                );
+                expect(lastSavedButton.textContent.trim()).toEqual(LABELS.activeLabel + '\u2014' + LABELS.savedStatus);
                 expect(relativeDateTimeComponent).not.toBeNull();
             });
         });
@@ -308,12 +248,8 @@ describe('toolbar', () => {
             });
 
             return Promise.resolve().then(() => {
-                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(
-                    selectors.lastSave
-                );
-                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(
-                    selectors.relativedatetime
-                );
+                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(selectors.lastSave);
+                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(selectors.relativedatetime);
 
                 expect(lastSavedButton.textContent.trim()).toEqual(
                     LABELS.deactivatedLabel + '\u2014' + LABELS.savedStatus
@@ -332,16 +268,10 @@ describe('toolbar', () => {
             });
 
             return Promise.resolve().then(() => {
-                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(
-                    selectors.lastSave
-                );
-                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(
-                    selectors.relativedatetime
-                );
+                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(selectors.lastSave);
+                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(selectors.relativedatetime);
 
-                expect(lastSavedButton.textContent.trim()).toEqual(
-                    LABELS.activating
-                );
+                expect(lastSavedButton.textContent.trim()).toEqual(LABELS.activating);
                 expect(relativeDateTimeComponent).toBeNull();
             });
         });
@@ -353,12 +283,8 @@ describe('toolbar', () => {
             });
 
             return Promise.resolve().then(() => {
-                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(
-                    selectors.lastSave
-                );
-                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(
-                    selectors.relativedatetime
-                );
+                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(selectors.lastSave);
+                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(selectors.relativedatetime);
                 expect(lastSavedButton.textContent).toBe(LABELS.savingStatus);
                 expect(relativeDateTimeComponent).toBeNull();
             });

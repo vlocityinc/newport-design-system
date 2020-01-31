@@ -25,14 +25,6 @@ export default class ScreenPropertiesEditor extends LightningElement {
         const error = event.detail.error;
         const newValue = hydrateIfNecessary(event.detail.value);
         const currentValue = hydrateIfNecessary(this.screen[property]);
-        this.dispatchEvent(
-            new PropertyChangedEvent(
-                property,
-                newValue,
-                error,
-                null,
-                currentValue
-            )
-        );
+        this.dispatchEvent(new PropertyChangedEvent(property, newValue, error, null, currentValue));
     };
 }

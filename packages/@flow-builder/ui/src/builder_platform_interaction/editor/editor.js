@@ -30,26 +30,11 @@ import {
     UPDATE_APEX_CLASSES,
     UPDATE_ENTITIES
 } from 'builder_platform_interaction/actions';
-import {
-    ELEMENT_TYPE,
-    FLOW_STATUS
-} from 'builder_platform_interaction/flowMetadata';
-import {
-    fetch,
-    fetchOnce,
-    SERVER_ACTION_TYPE
-} from 'builder_platform_interaction/serverDataLib';
-import {
-    translateFlowToUIModel,
-    translateUIModelToFlow
-} from 'builder_platform_interaction/translatorLib';
+import { ELEMENT_TYPE, FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
+import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
-import {
-    undoRedo,
-    isUndoAvailable,
-    isRedoAvailable,
-    INIT
-} from 'builder_platform_interaction/undoRedoLib';
+import { undoRedo, isUndoAvailable, isRedoAvailable, INIT } from 'builder_platform_interaction/undoRedoLib';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from './editorLabels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -59,17 +44,11 @@ import {
     logPerfTransactionStart,
     setAppName
 } from 'builder_platform_interaction/loggingUtils';
-import {
-    EditElementEvent,
-    NewResourceEvent
-} from 'builder_platform_interaction/events';
+import { EditElementEvent, NewResourceEvent } from 'builder_platform_interaction/events';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import { mutateFlowResourceToComboboxShape } from 'builder_platform_interaction/expressionUtils';
-import {
-    getElementForPropertyEditor,
-    getElementForStore
-} from 'builder_platform_interaction/propertyEditorFactory';
+import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { diffFlow } from 'builder_platform_interaction/metadataUtils';
 import {
     canRunDebugWith,
@@ -224,14 +203,19 @@ export default class Editor extends LightningElement {
     get hasFlow() {
         if (storeInstance) {
             const currentState = storeInstance.getCurrentState();
-            return !!(this.currentFlowId || (currentState && currentState.properties && currentState.properties.processType));
+            return !!(
+                this.currentFlowId ||
+                (currentState && currentState.properties && currentState.properties.processType)
+            );
         }
         return false;
     }
 
     /** Default flow as supplied in the builder config */
     get defaultFlow() {
-        return this.builderConfig && this.builderConfig.newFlowConfig && this.builderConfig.newFlowConfig.defaultNewFlow;
+        return (
+            this.builderConfig && this.builderConfig.newFlowConfig && this.builderConfig.newFlowConfig.defaultNewFlow
+        );
     }
 
     /** Indicates that the new flow modal should be displayed */
@@ -271,9 +255,7 @@ export default class Editor extends LightningElement {
             })
         );
         unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
-        fetchOnce(SERVER_ACTION_TYPE.GET_HEADER_URLS).then(data =>
-            this.getHeaderUrlsCallBack(data)
-        );
+        fetchOnce(SERVER_ACTION_TYPE.GET_HEADER_URLS).then(data => this.getHeaderUrlsCallBack(data));
         this.builderConfigLoading = true;
         fetchOnce(SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS)
             .then(setBuilderConfigs)
@@ -327,11 +309,7 @@ export default class Editor extends LightningElement {
     }
 
     get isRunDebugDisabled() {
-        return (
-            this.hasNotBeenSaved ||
-            !this.retrievedHeaderUrls ||
-            !this.canRunDebugWithVAD
-        );
+        return this.hasNotBeenSaved || !this.retrievedHeaderUrls || !this.canRunDebugWithVAD;
     }
 
     /**
@@ -346,28 +324,20 @@ export default class Editor extends LightningElement {
             currentState.properties.processType &&
             currentState.properties.processType !== this.properties.processType
         ) {
-            this.propertyEditorBlockerCalls.push(
-                loadOnProcessTypeChange(currentState.properties.processType)
-            );
+            this.propertyEditorBlockerCalls.push(loadOnProcessTypeChange(currentState.properties.processType));
         }
         this.properties = currentState.properties;
         this.showWarningIfUnsavedChanges();
         // should fetch process types here if they aren't fetched
         if (!getProcessTypes()) {
-            const getProcessTypesCall = fetchOnce(
-                SERVER_ACTION_TYPE.GET_PROCESS_TYPES,
-                {}
-            ).then(data => {
+            const getProcessTypesCall = fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES, {}).then(data => {
                 setProcessTypes(data);
                 loadAllSupportedFeatures(getProcessTypes());
             });
             this.propertyEditorBlockerCalls.push(getProcessTypesCall);
         }
         if (!getRunInModes()) {
-            const getRunInModesCall = fetchOnce(
-                SERVER_ACTION_TYPE.GET_RUN_IN_MODES,
-                {}
-            ).then(data => {
+            const getRunInModesCall = fetchOnce(SERVER_ACTION_TYPE.GET_RUN_IN_MODES, {}).then(data => {
                 setRunInModes(data);
             });
             this.propertyEditorBlockerCalls.push(getRunInModesCall);
@@ -386,12 +356,8 @@ export default class Editor extends LightningElement {
             this.spinners.showFlowMetadataSpinner = false;
         } else {
             // We need to load the parameters first, so as having some information needed at the factory level (e.g. for Action with anonymous output we need parameter related information see actionCall#createActionCall)
-            loadParametersForInvocableApexActionsInFlowFromMetadata(
-                (data.metadata || data).actionCalls
-            ).then(() => {
-                storeInstance.dispatch(
-                    updateFlow(translateFlowToUIModel(data))
-                );
+            loadParametersForInvocableApexActionsInFlowFromMetadata((data.metadata || data).actionCalls).then(() => {
+                storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
                 if (!data.metadata) {
                     // service does not return the api name but the api name lower cased
 
@@ -405,10 +371,7 @@ export default class Editor extends LightningElement {
             });
         }
         if (data && data.metadata) {
-            this.canRunDebugWithVAD = canRunDebugWith(
-                data.metadata.runInMode,
-                data.metadata.status
-            );
+            this.canRunDebugWithVAD = canRunDebugWith(data.metadata.runInMode, data.metadata.status);
         }
     };
 
@@ -425,8 +388,7 @@ export default class Editor extends LightningElement {
                     headerTitle: 'Metadata Diff'
                 },
                 bodyData: {
-                    bodyTextOne:
-                        'Encountered an issue while trying to retrieve the before flow'
+                    bodyTextOne: 'Encountered an issue while trying to retrieve the before flow'
                 },
                 footerData: {
                     buttonOne: {
@@ -436,29 +398,15 @@ export default class Editor extends LightningElement {
             });
         } else {
             const originalFlow = data;
-            const newFlow = translateUIModelToFlow(
-                storeInstance.getCurrentState()
-            );
+            const newFlow = translateUIModelToFlow(storeInstance.getCurrentState());
 
             // full diff
-            const fullDiff = diffFlow(
-                originalFlow,
-                newFlow,
-                false,
-                false,
-                false
-            );
+            const fullDiff = diffFlow(originalFlow, newFlow, false, false, false);
             const fullDiffJson = JSON.stringify(fullDiff, null, 2);
 
             // Trimmed Diff - use blacklist, ignore undefined values, empty arrays, empty strings,
             // and differences in date/dateTime formats
-            const trimmedDiff = diffFlow(
-                originalFlow,
-                newFlow,
-                true,
-                true,
-                true
-            );
+            const trimmedDiff = diffFlow(originalFlow, newFlow, true, true, true);
             const trimmedDiffJson = JSON.stringify(trimmedDiff, null, 2);
 
             invokeModalInternalData({
@@ -493,18 +441,11 @@ export default class Editor extends LightningElement {
     cacheSObjectsInComboboxShape() {
         const currentState = storeInstance.getCurrentState();
         // Only gets elements with sObject datatype (no collections)
-        const sobjects = getSObjectOrSObjectCollectionByEntityElements(
-            currentState.elements
-        );
+        const sobjects = getSObjectOrSObjectCollectionByEntityElements(currentState.elements);
         for (let i = 0; i < sobjects.length; i++) {
             // add sobject element to combobox cache in required shape
-            const sObjectInComboboxShape = mutateFlowResourceToComboboxShape(
-                sobjects[i]
-            );
-            addToParentElementCache(
-                sObjectInComboboxShape.displayText,
-                sObjectInComboboxShape
-            );
+            const sObjectInComboboxShape = mutateFlowResourceToComboboxShape(sobjects[i]);
+            addToParentElementCache(sObjectInComboboxShape.displayText, sObjectInComboboxShape);
         }
     }
 
@@ -513,9 +454,7 @@ export default class Editor extends LightningElement {
      */
     loadFieldsForComplexTypesInFlow() {
         const currentState = storeInstance.getCurrentState();
-        this.propertyEditorBlockerCalls.push(
-            loadFieldsForComplexTypesInFlow(currentState)
-        );
+        this.propertyEditorBlockerCalls.push(loadFieldsForComplexTypesInFlow(currentState));
     }
 
     /**
@@ -531,10 +470,7 @@ export default class Editor extends LightningElement {
             updateStoreAfterSaveFlowIsSuccessful(storeInstance, data);
             updateUrl(this.currentFlowId);
             this.setOriginalFlowValues();
-        } else if (
-            !data.isSuccess &&
-            this.saveType === SaveType.NEW_DEFINITION
-        ) {
+        } else if (!data.isSuccess && this.saveType === SaveType.NEW_DEFINITION) {
             // If the save failed and saveType === SaveType.NEW_DEFINITION, then clear the flowId from the url
             // and reset some of the flow properties as if this is a net new flow
             this.currentFlowId = undefined;
@@ -562,10 +498,7 @@ export default class Editor extends LightningElement {
         this.flowErrorsAndWarnings = setFlowErrorsAndWarnings(data);
 
         if (data) {
-            this.canRunDebugWithVAD = canRunDebugWith(
-                data.runInMode,
-                data.status
-            );
+            this.canRunDebugWithVAD = canRunDebugWith(data.runInMode, data.status);
         }
     };
 
@@ -602,10 +535,7 @@ export default class Editor extends LightningElement {
      */
     buildBackUrlForLightning = url => {
         if (this.currentFlowDefId) {
-            url =
-                url.split('/home')[0] +
-                '/page?address=' +
-                encodeURIComponent('/' + this.currentFlowDefId);
+            url = url.split('/home')[0] + '/page?address=' + encodeURIComponent('/' + this.currentFlowDefId);
         }
         return url;
     };
@@ -649,10 +579,7 @@ export default class Editor extends LightningElement {
         if (this.properties.hasUnsavedChanges) {
             window.addEventListener('beforeunload', this.beforeUnloadCallback);
         } else {
-            window.removeEventListener(
-                'beforeunload',
-                this.beforeUnloadCallback
-            );
+            window.removeEventListener('beforeunload', this.beforeUnloadCallback);
         }
     };
 
@@ -666,19 +593,10 @@ export default class Editor extends LightningElement {
             canvasElementGuidMap,
             childElementGuidMap,
             unduplicatedCanvasElementsGuids
-        } = getDuplicateElementGuidMaps(
-            currentState.canvasElements,
-            currentState.elements
-        );
+        } = getDuplicateElementGuidMaps(currentState.canvasElements, currentState.elements);
 
-        if (
-            canvasElementGuidMap &&
-            Object.keys(canvasElementGuidMap).length > 0
-        ) {
-            const connectorsToDuplicate = getConnectorToDuplicate(
-                currentState.connectors,
-                canvasElementGuidMap
-            );
+        if (canvasElementGuidMap && Object.keys(canvasElementGuidMap).length > 0) {
+            const connectorsToDuplicate = getConnectorToDuplicate(currentState.connectors, canvasElementGuidMap);
 
             const payload = {
                 canvasElementGuidMap,
@@ -761,23 +679,14 @@ export default class Editor extends LightningElement {
         if (event && event.detail && event.detail.type) {
             const eventType = event.detail.type;
             let flowProperties = storeInstance.getCurrentState().properties;
-            const saveType = getSaveType(
-                eventType,
-                this.currentFlowId,
-                flowProperties.canOnlySaveAsNewDefinition
-            );
+            const saveType = getSaveType(eventType, this.currentFlowId, flowProperties.canOnlySaveAsNewDefinition);
             if (saveType === SaveType.UPDATE) {
                 this.saveFlow(SaveType.UPDATE);
             } else {
-                const nodeUpdate = saveAsFlowCallback(
-                    storeInstance,
-                    this.saveFlow
-                );
+                const nodeUpdate = saveAsFlowCallback(storeInstance, this.saveFlow);
                 const newResourceCallback = this.newResourceCallback;
                 this.queueOpenPropertyEditor(() => {
-                    flowProperties = getElementForPropertyEditor(
-                        flowProperties
-                    );
+                    flowProperties = getElementForPropertyEditor(flowProperties);
                     flowProperties.saveType = saveType;
                     return {
                         mode: eventType,
@@ -800,11 +709,7 @@ export default class Editor extends LightningElement {
             // Get the saved copy from the DB as our 'before' flow for comparing.
             const params = { id: this.flowId };
             // Keeping this as fetch because we want to go to the server
-            fetch(
-                SERVER_ACTION_TYPE.GET_FLOW,
-                this.getFlowCallbackAndDiff,
-                params
-            );
+            fetch(SERVER_ACTION_TYPE.GET_FLOW, this.getFlowCallbackAndDiff, params);
         }
     };
 
@@ -814,11 +719,7 @@ export default class Editor extends LightningElement {
      */
     handleToggleFlowStatus = () => {
         const params = { flowId: this.flowId };
-        fetch(
-            SERVER_ACTION_TYPE.TOGGLE_FLOW_STATUS,
-            this.toggleFlowStatusCallBack,
-            params
-        );
+        fetch(SERVER_ACTION_TYPE.TOGGLE_FLOW_STATUS, this.toggleFlowStatusCallBack, params);
         if (this.flowStatus === FLOW_STATUS.ACTIVE) {
             this.saveAndPendingOperationStatus = LABELS.deactivating;
         } else {
@@ -856,10 +757,7 @@ export default class Editor extends LightningElement {
     showPropertyEditor(params) {
         if (this.builderConfig.usePanelForPropertyEditor) {
             this.showPropertyEditorRightPanel = true;
-            this.propertyEditorParams = getPropertyEditorConfig(
-                params.mode,
-                params
-            );
+            this.propertyEditorParams = getPropertyEditorConfig(params.mode, params);
         } else {
             invokePropertyEditor(PROPERTY_EDITOR, params);
         }
@@ -903,10 +801,7 @@ export default class Editor extends LightningElement {
      * @param {Object} event canvas element drop event
      */
     handleAddCanvasElement = event => {
-        if (
-            storeInstance &&
-            storeInstance.getCurrentState().properties.lastInlineResourceGuid
-        ) {
+        if (storeInstance && storeInstance.getCurrentState().properties.lastInlineResourceGuid) {
             storeInstance.dispatch(removeLastCreatedInlineResource);
         }
 
@@ -952,10 +847,7 @@ export default class Editor extends LightningElement {
             const nodeUpdate = this.deMutateAndUpdateNodeCollection;
             const newResourceCallback = this.newResourceCallback;
             const processType = this.properties.processType;
-            if (
-                element.elementType !== ELEMENT_TYPE.START_ELEMENT ||
-                isConfigurableStartSupported(processType)
-            ) {
+            if (element.elementType !== ELEMENT_TYPE.START_ELEMENT || isConfigurableStartSupported(processType)) {
                 logPerfTransactionStart('PropertyEditor');
                 this.queueOpenPropertyEditor(() => {
                     const node = getElementForPropertyEditor(element);
@@ -1005,9 +897,7 @@ export default class Editor extends LightningElement {
     loadReferencesInFlow() {
         const currentState = storeInstance.getCurrentState();
         const { elements, properties } = currentState;
-        this.propertyEditorBlockerCalls.push(
-            loadReferencesIn({ elements, properties }).catch(() => {})
-        );
+        this.propertyEditorBlockerCalls.push(loadReferencesIn({ elements, properties }).catch(() => {}));
     }
 
     /**
@@ -1032,9 +922,7 @@ export default class Editor extends LightningElement {
             const elementGuid = event.detail.elementGuid;
 
             // Panning the canvas element into the viewport if needed
-            const canvasContainer = this.template.querySelector(
-                'builder_platform_interaction-canvas-container'
-            );
+            const canvasContainer = this.template.querySelector('builder_platform_interaction-canvas-container');
             if (canvasContainer && canvasContainer.panElementToView) {
                 canvasContainer.panElementToView(elementGuid);
             }
@@ -1046,8 +934,7 @@ export default class Editor extends LightningElement {
 
     handleShiftFocus = shiftBackward => {
         const currentlyFocusedElement =
-            this.template.activeElement &&
-            this.template.activeElement.tagName.toLowerCase();
+            this.template.activeElement && this.template.activeElement.tagName.toLowerCase();
 
         switch (currentlyFocusedElement) {
             case PANELS.HEADER:
@@ -1089,12 +976,7 @@ export default class Editor extends LightningElement {
                     this.template.querySelector(PANELS.HEADER).focus();
                 }
         }
-        logInteraction(
-            'editor',
-            'editor',
-            { operationStatus: 'shift panel focus' },
-            'keydown'
-        );
+        logInteraction('editor', 'editor', { operationStatus: 'shift panel focus' }, 'keydown');
     };
 
     /**
@@ -1119,12 +1001,7 @@ export default class Editor extends LightningElement {
         // Keeping this as fetch because we want to go to the server
         fetch(SERVER_ACTION_TYPE.SAVE_FLOW, this.saveFlowCallback, params);
         this.saveType = saveType;
-        logInteraction(
-            `saveas-menu-done-button`,
-            'modal',
-            { saveType },
-            'click'
-        );
+        logInteraction(`saveas-menu-done-button`, 'modal', { saveType }, 'click');
         this.saveAndPendingOperationStatus = LABELS.savingStatus;
         this.hasNotBeenSaved = true;
         this.disableSave = true;
@@ -1141,12 +1018,7 @@ export default class Editor extends LightningElement {
         // calls on OK doesn't actually work and keeps the proxy wrappers.
         const nodeForStore = getElementForStore(node);
         storeInstance.dispatch(updateElement(nodeForStore));
-        logInteraction(
-            `update-node-of-type-${node.elementType}`,
-            'modal',
-            null,
-            'click'
-        );
+        logInteraction(`update-node-of-type-${node.elementType}`, 'modal', null, 'click');
     };
 
     deMutateAndAddNodeCollection = node => {
@@ -1156,32 +1028,18 @@ export default class Editor extends LightningElement {
         const nodeForStore = getElementForStore(node);
         this.cacheNewComplexObjectFields(nodeForStore);
         storeInstance.dispatch(addElement(nodeForStore));
-        logInteraction(
-            `add-node-of-type-${node.elementType}`,
-            'modal',
-            null,
-            'click'
-        );
+        logInteraction(`add-node-of-type-${node.elementType}`, 'modal', null, 'click');
     };
 
     /**
      * Fetches & caches the fields/properties for new sobject/apex variable types. Shows spinner until this is done
      */
     cacheNewComplexObjectFields(node) {
-        if (
-            node.elementType === ELEMENT_TYPE.VARIABLE &&
-            node.subtype &&
-            !node.isCollection
-        ) {
+        if (node.elementType === ELEMENT_TYPE.VARIABLE && node.subtype && !node.isCollection) {
             const varInComboboxShape = mutateFlowResourceToComboboxShape(node);
-            addToParentElementCache(
-                varInComboboxShape.displayText,
-                varInComboboxShape
-            );
+            addToParentElementCache(varInComboboxShape.displayText, varInComboboxShape);
             if (node.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
-                this.propertyEditorBlockerCalls.push(
-                    fetchFieldsForEntity(node.subtype).catch(() => {})
-                );
+                this.propertyEditorBlockerCalls.push(fetchFieldsForEntity(node.subtype).catch(() => {}));
             } else if (node.dataType === FLOW_DATA_TYPE.APEX.value) {
                 cachePropertiesForClass(node.subtype);
             }
@@ -1194,38 +1052,21 @@ export default class Editor extends LightningElement {
 
     setupCommandsAndShortcuts = () => {
         // Shift Focus Forward Command
-        const shiftFocusForwardCommand = new ShiftFocusForwardCommand(() =>
-            this.handleShiftFocus(false)
-        );
-        const shiftFocusForwardShortcut = this.isMacPlatform()
-            ? { key: 'F6' }
-            : { ctrlOrCmd: true, key: 'F6' };
-        this.keyboardInteractions.setupCommandAndShortcut(
-            shiftFocusForwardCommand,
-            shiftFocusForwardShortcut
-        );
+        const shiftFocusForwardCommand = new ShiftFocusForwardCommand(() => this.handleShiftFocus(false));
+        const shiftFocusForwardShortcut = this.isMacPlatform() ? { key: 'F6' } : { ctrlOrCmd: true, key: 'F6' };
+        this.keyboardInteractions.setupCommandAndShortcut(shiftFocusForwardCommand, shiftFocusForwardShortcut);
 
         // Shift Focus Backward Command
-        const shiftFocusBackwardCommand = new ShiftFocusBackwardCommand(() =>
-            this.handleShiftFocus(true)
-        );
+        const shiftFocusBackwardCommand = new ShiftFocusBackwardCommand(() => this.handleShiftFocus(true));
         const shiftFocusBackwardShortcut = this.isMacPlatform()
             ? { shift: true, key: 'F6' }
             : { shift: true, ctrlOrCmd: true, key: 'F6' };
-        this.keyboardInteractions.setupCommandAndShortcut(
-            shiftFocusBackwardCommand,
-            shiftFocusBackwardShortcut
-        );
+        this.keyboardInteractions.setupCommandAndShortcut(shiftFocusBackwardCommand, shiftFocusBackwardShortcut);
 
         // Display shortcuts Command
-        const displayShortcutsCommand = new DisplayShortcutsCommand(() =>
-            invokeKeyboardHelpDialog()
-        );
+        const displayShortcutsCommand = new DisplayShortcutsCommand(() => invokeKeyboardHelpDialog());
         const displayShortcutKeyCombo = { key: '/' };
-        this.keyboardInteractions.setupCommandAndShortcut(
-            displayShortcutsCommand,
-            displayShortcutKeyCombo
-        );
+        this.keyboardInteractions.setupCommandAndShortcut(displayShortcutsCommand, displayShortcutKeyCombo);
     };
 
     /**
@@ -1263,10 +1104,7 @@ export default class Editor extends LightningElement {
         }
 
         const currentState = storeInstance.getCurrentState();
-        if (
-            !this.isFlowServerCallInProgress &&
-            this.spinners.showFlowMetadataSpinner
-        ) {
+        if (!this.isFlowServerCallInProgress && this.spinners.showFlowMetadataSpinner) {
             this.spinners.showFlowMetadataSpinner = false;
             logPerfTransactionEnd(EDITOR, {
                 numOfNodes: currentState.canvasElements.length,
@@ -1338,13 +1176,7 @@ export default class Editor extends LightningElement {
         const item = getSelectedFlowEntry(modal);
         // Template id
         if (typeof item === 'string') {
-            logInteraction(
-                `create-new-flow-button`,
-                'editor-component',
-                { devNameOrId: item },
-                'click',
-                'user'
-            );
+            logInteraction(`create-new-flow-button`, 'editor-component', { devNameOrId: item }, 'click', 'user');
             // create the flow from the template
             this.createFlowFromTemplate(item, modal);
             this.isFlowServerCallInProgress = true;
@@ -1375,9 +1207,7 @@ export default class Editor extends LightningElement {
      */
     createFlowFromProcessType = (processType, triggerType) => {
         const payload = { processType };
-        storeInstance.dispatch(
-            updatePropertiesAfterCreatingFlowFromProcessType(payload)
-        );
+        storeInstance.dispatch(updatePropertiesAfterCreatingFlowFromProcessType(payload));
         createStartElement(storeInstance, triggerType);
         this.disableSave = false;
     };

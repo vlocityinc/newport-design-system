@@ -11,12 +11,9 @@ const itemText = '{!var}';
 const resourcePickerVal = 'initialValue';
 
 const createComponentUnderTest = props => {
-    const el = createElement(
-        'builder_platform_interaction-resourced-textarea',
-        {
-            is: ResourcedTextarea
-        }
-    );
+    const el = createElement('builder_platform_interaction-resourced-textarea', {
+        is: ResourcedTextarea
+    });
     Object.assign(el, props);
     document.body.appendChild(el);
     return el;
@@ -45,9 +42,7 @@ function verifyItemInsertion(
     const element = createComponentUnderTest({ value: existingText });
     const textarea = element.shadowRoot.querySelector(selectors.textarea);
     textarea.setSelectionRange(selectionStart, selectionEnd);
-    const ferovResourcePicker = element.shadowRoot.querySelector(
-        selectors.ferovResourcePicker
-    );
+    const ferovResourcePicker = element.shadowRoot.querySelector(selectors.ferovResourcePicker);
     const changeEventCallback = jest.fn();
     element.addEventListener(changeEventName, changeEventCallback);
     ferovResourcePicker.value = resourcePickerVal;
@@ -72,9 +67,7 @@ describe('Resourced text area label', () => {
             name: 'test',
             label
         });
-        const fullLabel = resourcedTextareaComponent.shadowRoot.querySelector(
-            selectors.label
-        );
+        const fullLabel = resourcedTextareaComponent.shadowRoot.querySelector(selectors.label);
         expect(fullLabel.textContent).toMatch(label);
         const asterisk = fullLabel.querySelector(selectors.abbr);
         expect(asterisk.textContent).toMatch('*');
@@ -85,9 +78,7 @@ describe('Resourced text area label', () => {
             name: 'test',
             label
         });
-        const fullLabel = resourcedTextareaComponent.shadowRoot.querySelector(
-            selectors.label
-        );
+        const fullLabel = resourcedTextareaComponent.shadowRoot.querySelector(selectors.label);
         expect(fullLabel.textContent).toMatch(label);
         const asterisk = fullLabel.querySelector(selectors.abbr);
         expect(asterisk).toBeFalsy();
@@ -118,55 +109,25 @@ describe('Item selection from the resource picker', () => {
     });
     it('Should insert the item when the cursor is at the beginning of text', () => {
         const existingText = 'Sample Text';
-        return verifyItemInsertion(
-            existingText,
-            0,
-            0,
-            itemText + existingText,
-            itemText.length
-        );
+        return verifyItemInsertion(existingText, 0, 0, itemText + existingText, itemText.length);
     });
     it('Should insert the item when the cursor is in the middle of text', () => {
-        return verifyItemInsertion(
-            'Sample Text',
-            6,
-            6,
-            'Sample{!var} Text',
-            12
-        );
+        return verifyItemInsertion('Sample Text', 6, 6, 'Sample{!var} Text', 12);
     });
     it('Should insert the item when the cursor is at the end of text', () => {
         const existingText = 'Sample Text';
         const finalText = existingText + itemText;
-        return verifyItemInsertion(
-            existingText,
-            existingText.length,
-            existingText.length,
-            finalText,
-            finalText.length
-        );
+        return verifyItemInsertion(existingText, existingText.length, existingText.length, finalText, finalText.length);
     });
     it('Should insert the item when the cursor is on a new line', () => {
         const existingText = 'Sample Text\n';
         const finalText = existingText + itemText;
-        return verifyItemInsertion(
-            existingText,
-            existingText.length,
-            existingText.length,
-            finalText,
-            finalText.length
-        );
+        return verifyItemInsertion(existingText, existingText.length, existingText.length, finalText, finalText.length);
     });
     it('Should replace selected text with the inserted item', () => {
         const existingText = 'Sample Text';
         const finalText = 'Sample {!var}';
-        return verifyItemInsertion(
-            existingText,
-            7,
-            existingText.length,
-            finalText,
-            finalText.length
-        );
+        return verifyItemInsertion(existingText, 7, existingText.length, finalText, finalText.length);
     });
     it('Should not do anything if it has a next item', () => {
         const existingText = 'Sample Text';
@@ -176,9 +137,7 @@ describe('Item selection from the resource picker', () => {
         const itemSelectedEvent2 = new CustomEvent('itemselected', {
             detail: { item: { hasNext: true } }
         });
-        const ferovResourcePicker = element.shadowRoot.querySelector(
-            selectors.ferovResourcePicker
-        );
+        const ferovResourcePicker = element.shadowRoot.querySelector(selectors.ferovResourcePicker);
         const changeEventCallback = jest.fn();
         element.addEventListener(changeEventName, changeEventCallback);
         ferovResourcePicker.value = resourcePickerVal;
@@ -212,9 +171,7 @@ describe('Events from the textarea', () => {
         const resourcedTextarea = createComponentUnderTest({ value: '1+1' });
         resourcedTextarea.addEventListener('change', eventCallback);
 
-        const textarea = resourcedTextarea.shadowRoot.querySelector(
-            selectors.textarea
-        );
+        const textarea = resourcedTextarea.shadowRoot.querySelector(selectors.textarea);
         textarea.value = '2+2';
         textarea.dispatchEvent(new CustomEvent('blur'));
         expectValueChangedEventWithValue('2+2', null);
@@ -224,9 +181,7 @@ describe('Events from the textarea', () => {
         const resourcedTextarea = createComponentUnderTest();
         resourcedTextarea.addEventListener('change', eventCallback);
 
-        const textarea = resourcedTextarea.shadowRoot.querySelector(
-            selectors.textarea
-        );
+        const textarea = resourcedTextarea.shadowRoot.querySelector(selectors.textarea);
         const valueWithWhiteSpace = 'my text       ';
         textarea.value = valueWithWhiteSpace;
         textarea.dispatchEvent(new CustomEvent('blur'));
@@ -247,13 +202,8 @@ describe('Events from the textarea', () => {
         };
         validateTextWithMergeFields.mockReturnValue([validationError]);
 
-        const textarea = resourcedTextarea.shadowRoot.querySelector(
-            selectors.textarea
-        );
+        const textarea = resourcedTextarea.shadowRoot.querySelector(selectors.textarea);
         textarea.dispatchEvent(new CustomEvent('blur'));
-        expectValueChangedEventWithValue(
-            '{!unknownMergeField}',
-            validationError.message
-        );
+        expectValueChangedEventWithValue('{!unknownMergeField}', validationError.message);
     });
 });

@@ -11,28 +11,15 @@ import { isTestMode } from 'builder_platform_interaction/contextLib';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { LABELS } from './leftPanelLabels';
 import { getTriggerType } from 'builder_platform_interaction/storeUtils';
-import {
-    getResourceSections,
-    getElementSections,
-    getResourceIconName
-} from './resourceLib';
-import {
-    usedBy,
-    createUsedByElement
-} from 'builder_platform_interaction/usedByLib';
-import {
-    fetch,
-    SERVER_ACTION_TYPE
-} from 'builder_platform_interaction/serverDataLib';
+import { getResourceSections, getElementSections, getResourceIconName } from './resourceLib';
+import { usedBy, createUsedByElement } from 'builder_platform_interaction/usedByLib';
+import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import {
     getResourceLabel,
     getElementTypeLabel,
     getResourceTypeLabel
 } from 'builder_platform_interaction/elementLabelLib';
-import {
-    logPerfTransactionStart,
-    logPerfTransactionEnd
-} from 'builder_platform_interaction/loggingUtils';
+import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
 
 import { removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
 
@@ -67,8 +54,7 @@ export default class LeftPanel extends LightningElement {
         // Ideally, we should not use shadowRoot to access the child components. The base components
         // should provide overidden focus() method to set focus within the components.
         // However, this method is missing for lightning-tabset. Hence, implemented such for now.
-        const activeTab = this.template.querySelector('lightning-tabset')
-            .activeTabValue;
+        const activeTab = this.template.querySelector('lightning-tabset').activeTabValue;
         this.template
             .querySelector('lightning-tabset')
             .shadowRoot.querySelector('lightning-tab-bar')
@@ -99,23 +85,13 @@ export default class LeftPanel extends LightningElement {
     };
 
     mapAppStateToStore = () => {
-        const {
-            properties = {},
-            elements = {}
-        } = storeInstance.getCurrentState();
+        const { properties = {}, elements = {} } = storeInstance.getCurrentState();
         const { processType: flowProcessType } = properties;
         this.canvasElements = getElementSections(elements, this.searchString);
-        this.nonCanvasElements = getResourceSections(
-            elements,
-            this.searchString
-        );
+        this.nonCanvasElements = getResourceSections(elements, this.searchString);
         if (this.showResourceDetailsPanel) {
-            const currentElementState =
-                elements[this.resourceDetails.elementGuid];
-            this.retrieveResourceDetailsFromStore(
-                currentElementState,
-                this.resourceDetails.asResource
-            );
+            const currentElementState = elements[this.resourceDetails.elementGuid];
+            this.retrieveResourceDetailsFromStore(currentElementState, this.resourceDetails.asResource);
         }
         const flowTriggerType = getTriggerType();
         if (
@@ -126,18 +102,12 @@ export default class LeftPanel extends LightningElement {
             this.triggerType = flowTriggerType;
 
             logPerfTransactionStart(LEFT_PANEL_ELEMENTS);
-            fetch(
-                SERVER_ACTION_TYPE.GET_LEFT_PANEL_ELEMENTS,
-                this.setElements,
-                { flowProcessType, flowTriggerType }
-            );
+            fetch(SERVER_ACTION_TYPE.GET_LEFT_PANEL_ELEMENTS, this.setElements, { flowProcessType, flowTriggerType });
         }
     };
 
     get getPanelTitle() {
-        return this.showResourceDetailsPanel
-            ? this.resourceDetails.title
-            : LABELS.headerText;
+        return this.showResourceDetailsPanel ? this.resourceDetails.title : LABELS.headerText;
     }
 
     get panelClasses() {
@@ -149,8 +119,7 @@ export default class LeftPanel extends LightningElement {
         return classes;
     }
     get panelHeaderClasses() {
-        let classes =
-            'left-panel-header slds-panel__header slds-truncate_container';
+        let classes = 'left-panel-header slds-panel__header slds-truncate_container';
         if (!this.showResourceDetailsPanel) {
             classes = `${classes} slds-p-left_medium`;
         }
@@ -171,11 +140,7 @@ export default class LeftPanel extends LightningElement {
         const locationX = 0;
         const locationY = 0;
 
-        const addElementEvent = new AddElementEvent(
-            elementType,
-            locationX,
-            locationY
-        );
+        const addElementEvent = new AddElementEvent(elementType, locationX, locationY);
         this.dispatchEvent(addElementEvent);
     }
 
@@ -186,13 +151,8 @@ export default class LeftPanel extends LightningElement {
     }
 
     handleShowResourceDetails(event) {
-        const currentElementState = storeInstance.getCurrentState().elements[
-            event.detail.elementGUID
-        ];
-        this.retrieveResourceDetailsFromStore(
-            currentElementState,
-            !event.detail.canvasElement
-        );
+        const currentElementState = storeInstance.getCurrentState().elements[event.detail.elementGUID];
+        this.retrieveResourceDetailsFromStore(currentElementState, !event.detail.canvasElement);
         this.showResourceDetailsPanel = true;
     }
 
@@ -219,14 +179,8 @@ export default class LeftPanel extends LightningElement {
     handleResourceSearch(event) {
         this.searchString = event.detail.value.trim();
         const currentState = storeInstance.getCurrentState();
-        this.canvasElements = getElementSections(
-            currentState.elements,
-            this.searchString
-        );
-        this.nonCanvasElements = getResourceSections(
-            currentState.elements,
-            this.searchString
-        );
+        this.canvasElements = getElementSections(currentState.elements, this.searchString);
+        this.nonCanvasElements = getResourceSections(currentState.elements, this.searchString);
     }
 
     retrieveResourceDetailsFromStore(currentElementState, asResource) {
@@ -266,15 +220,10 @@ export default class LeftPanel extends LightningElement {
                 editable,
                 deletable: editable,
                 createdByElement,
-                usedByElements: usedBy(
-                    [currentElementState.guid],
-                    storeElements
-                ),
+                usedByElements: usedBy([currentElementState.guid], storeElements),
                 asResource,
-                storeOutputAutomatically:
-                    currentElementState.storeOutputAutomatically,
-                isSystemGeneratedOutput:
-                    currentElementState.isSystemGeneratedOutput
+                storeOutputAutomatically: currentElementState.storeOutputAutomatically,
+                isSystemGeneratedOutput: currentElementState.isSystemGeneratedOutput
             };
         } else {
             this.showResourceDetailsPanel = false;

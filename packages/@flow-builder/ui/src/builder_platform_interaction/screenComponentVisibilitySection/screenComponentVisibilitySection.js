@@ -11,9 +11,7 @@ export default class ScreenComponentVisibilitySection extends LightningElement {
     labels = LABELS;
 
     get conditionalFieldVisibilityAllowed() {
-        return getSupportedFeatures().has(
-            FLOW_SUPPORTED_FEATURES.CONDITIONAL_FIELD_VISIBILITY
-        );
+        return getSupportedFeatures().has(FLOW_SUPPORTED_FEATURES.CONDITIONAL_FIELD_VISIBILITY);
     }
 
     connectedCallback() {}

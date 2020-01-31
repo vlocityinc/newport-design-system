@@ -1,8 +1,4 @@
-import {
-    FLOW_DATA_TYPE,
-    getDataTypeLabel,
-    getDataTypeIcons
-} from 'builder_platform_interaction/dataTypeLib';
+import { FLOW_DATA_TYPE, getDataTypeLabel, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import {
     isGlobalConstantOrSystemVariableId,
     SYSTEM_VARIABLE_PREFIX,
@@ -12,10 +8,7 @@ import {
     isSystemVariablesCategoryNotEmpty
 } from 'builder_platform_interaction/systemLib';
 import { getResourceCategory } from 'builder_platform_interaction/elementLabelLib';
-import {
-    addCurlyBraces,
-    format
-} from 'builder_platform_interaction/commonUtils';
+import { addCurlyBraces, format } from 'builder_platform_interaction/commonUtils';
 import { getDataType } from 'builder_platform_interaction/ruleLib';
 import { isComplexType } from 'builder_platform_interaction/dataTypeLib';
 import systemGlobalVariableCategoryLabel from '@salesforce/label/FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory';
@@ -54,11 +47,7 @@ export const COMBOBOX_ITEM_DISPLAY_TYPE = {
  * @param {String} resource.elementType element type (eg: recordCreate)
  * @returns {String} the subtext to display in a combobox row
  */
-function getSubText(
-    dataType,
-    label,
-    { subtype, isSystemGeneratedOutput, elementType }
-) {
+function getSubText(dataType, label, { subtype, isSystemGeneratedOutput, elementType }) {
     let subText = '';
     if (dataType === SOBJECT_TYPE) {
         subText = subtype;
@@ -169,10 +158,7 @@ function getFieldSubText(parent, field) {
     let subText = label;
     if (shouldShowDataTypeAsSubText(parent)) {
         const dataTypeLabel = getDataTypeLabel(field.dataType);
-        if (
-            field.isCollection &&
-            parent.dataType === FLOW_DATA_TYPE.APEX.value
-        ) {
+        if (field.isCollection && parent.dataType === FLOW_DATA_TYPE.APEX.value) {
             subText = format(collectionDataType, dataTypeLabel);
         } else {
             subText = dataTypeLabel;
@@ -189,21 +175,10 @@ function getFieldSubText(parent, field) {
  * @param {boolean} true to show the display text as field reference, otherwise return field name
  * @returns {string} the display text for the field
  */
-function getFieldDisplayText(
-    parent,
-    fieldNameOrRelationshipName,
-    specificObjectName,
-    showAsFieldReference
-) {
-    let displayText =
-        fieldNameOrRelationshipName +
-        (specificObjectName ? ':' + specificObjectName : '');
+function getFieldDisplayText(parent, fieldNameOrRelationshipName, specificObjectName, showAsFieldReference) {
+    let displayText = fieldNameOrRelationshipName + (specificObjectName ? ':' + specificObjectName : '');
     if (showAsFieldReference && parent && parent.displayText) {
-        displayText =
-            parent.displayText.substring(0, parent.displayText.length - 1) +
-            '.' +
-            displayText +
-            '}';
+        displayText = parent.displayText.substring(0, parent.displayText.length - 1) + '.' + displayText + '}';
     }
     return displayText;
 }
@@ -249,11 +224,8 @@ function getMenuItemForSpannableSObjectField(
     { showAsFieldReference = true, showSubText = true } = {}
 ) {
     const relationshipName = field.relationshipName || field.apiName;
-    const text = field.isPolymorphic
-        ? `${relationshipName} (${referenceToName})`
-        : relationshipName;
-    let value =
-        relationshipName + (field.isPolymorphic ? ':' + referenceToName : '');
+    const text = field.isPolymorphic ? `${relationshipName} (${referenceToName})` : relationshipName;
+    let value = relationshipName + (field.isPolymorphic ? ':' + referenceToName : '');
     if (parent) {
         value = parent.value + '.' + value;
     }
@@ -290,11 +262,7 @@ function getMergeFieldLevel(item) {
 function getMenuItemsForSObjectField(
     field,
     parent,
-    {
-        showAsFieldReference = true,
-        showSubText = true,
-        allowSObjectFieldsTraversal = true
-    } = {}
+    { showAsFieldReference = true, showSubText = true, allowSObjectFieldsTraversal = true } = {}
 ) {
     if (
         allowSObjectFieldsTraversal &&
@@ -304,12 +272,10 @@ function getMenuItemsForSObjectField(
         const comboboxItems = [];
         field.referenceToNames.forEach(referenceToName => {
             comboboxItems.push(
-                getMenuItemForSpannableSObjectField(
-                    field,
-                    parent,
-                    referenceToName,
-                    { showAsFieldReference, showSubText }
-                )
+                getMenuItemForSpannableSObjectField(field, parent, referenceToName, {
+                    showAsFieldReference,
+                    showSubText
+                })
             );
         });
         comboboxItems.push(
@@ -420,12 +386,7 @@ export function getMenuItemForField(
         text,
         value: parent ? parent.value + '.' + apiName : apiName,
         hasNext,
-        displayText: getFieldDisplayText(
-            parent,
-            apiName,
-            undefined,
-            showAsFieldReference
-        )
+        displayText: getFieldDisplayText(parent, apiName, undefined, showAsFieldReference)
     });
     return comboboxItem;
 }
@@ -502,9 +463,7 @@ export function mutateFlowResourceToComboboxShape(resource) {
         if (resource.elementType === ELEMENT_TYPE.SCREEN_FIELD) {
             resourceIcon = getIconNameFromDataType(resource.type.dataType);
         } else {
-            resourceIcon = resource.type
-                ? resource.type.icon
-                : resource.iconName;
+            resourceIcon = resource.type ? resource.type.icon : resource.iconName;
         }
         elementCategory = getResourceCategory({
             ...resource,
@@ -514,19 +473,12 @@ export function mutateFlowResourceToComboboxShape(resource) {
         newElement.value = resource.guid;
         isNonElement = isGlobalConstantOrSystemVariableId(resource.guid);
     }
-    newElement.displayText = addCurlyBraces(
-        resource.isNewField ? resource.name.value : resource.name
-    );
-    newElement.subText = isNonElement
-        ? resource.description
-        : getSubText(resourceDataType, resourceLabel, resource);
+    newElement.displayText = addCurlyBraces(resource.isNewField ? resource.name.value : resource.name);
+    newElement.subText = isNonElement ? resource.description : getSubText(resourceDataType, resourceLabel, resource);
 
-    newElement.hasNext =
-        isComplexType(resourceDataType) && !resource.isCollection;
-    newElement.category =
-        resource.category || (elementCategory && elementCategory.toUpperCase());
-    newElement.iconName =
-        resourceIcon || getDataTypeIcons(resourceDataType, ICON_TYPE);
+    newElement.hasNext = isComplexType(resourceDataType) && !resource.isCollection;
+    newElement.category = resource.category || (elementCategory && elementCategory.toUpperCase());
+    newElement.iconName = resourceIcon || getDataTypeIcons(resourceDataType, ICON_TYPE);
     newElement.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
     newElement.dataType = resourceDataType;
     newElement.subtype = resource.subtype || null;
@@ -576,14 +528,9 @@ export const mutateApexClassesToComboboxShape = classes => {
     });
 };
 
-export const apexClassesMenuDataSelector = createSelector(
-    [apexClassesSelector],
-    apexClasses => {
-        return apexClasses
-            ? mutateApexClassesToComboboxShape(apexClasses)
-            : null;
-    }
-);
+export const apexClassesMenuDataSelector = createSelector([apexClassesSelector], apexClasses => {
+    return apexClasses ? mutateApexClassesToComboboxShape(apexClasses) : null;
+});
 
 /**
  * Mutates one picklist value into a combobox menu item
@@ -600,9 +547,7 @@ export const mutatePicklistValue = picklistOption => {
         iconName: getDataTypeIcons(FLOW_DATA_TYPE.STRING.value, ICON_TYPE),
         iconAlternativeText: FLOW_DATA_TYPE.STRING.value,
         // This is to insure uniqueness among picklist values
-        value: picklistOption.label
-            ? picklistOption.value + '-' + picklistOption.label
-            : picklistOption.value
+        value: picklistOption.label ? picklistOption.value + '-' + picklistOption.label : picklistOption.value
     });
 };
 
@@ -652,9 +597,7 @@ export const getGlobalVariableTypeComboboxItems = () => {
 
     Object.keys(globalVariableTypes).forEach(type => {
         const globalVariable = globalVariableTypes[type];
-        typeMenuData.push(
-            mutateSystemAndGlobalVariablesToComboboxShape(globalVariable.name)
-        );
+        typeMenuData.push(mutateSystemAndGlobalVariablesToComboboxShape(globalVariable.name));
     });
 
     return typeMenuData;
@@ -666,9 +609,7 @@ export const getGlobalVariableTypeComboboxItems = () => {
  * @return {MenuDataItem[]} menu data for $Flow
  */
 export const getFlowSystemVariableComboboxItem = () => {
-    return mutateSystemAndGlobalVariablesToComboboxShape(
-        SYSTEM_VARIABLE_PREFIX
-    );
+    return mutateSystemAndGlobalVariablesToComboboxShape(SYSTEM_VARIABLE_PREFIX);
 };
 
 /**
@@ -677,9 +618,7 @@ export const getFlowSystemVariableComboboxItem = () => {
  * @return {MenuDataItem[]} menu data for $Client
  */
 const getFlowSystemClientVariableComboboxItem = () =>
-    mutateSystemAndGlobalVariablesToComboboxShape(
-        SYSTEM_VARIABLE_CLIENT_PREFIX
-    );
+    mutateSystemAndGlobalVariablesToComboboxShape(SYSTEM_VARIABLE_CLIENT_PREFIX);
 
 /**
  * Menu data for system and/or global variables.
@@ -688,10 +627,7 @@ const getFlowSystemClientVariableComboboxItem = () =>
  * @param {Boolean} showGlobalVariables   should include the global variable categories
  * @return {MenuData} menu data showing system variables and/or global variables
  */
-export const getSystemAndGlobalVariableMenuData = (
-    showSystemVariables,
-    showGlobalVariables
-) => {
+export const getSystemAndGlobalVariableMenuData = (showSystemVariables, showGlobalVariables) => {
     const categories = [];
     if (showSystemVariables) {
         categories.push(getFlowSystemVariableComboboxItem());

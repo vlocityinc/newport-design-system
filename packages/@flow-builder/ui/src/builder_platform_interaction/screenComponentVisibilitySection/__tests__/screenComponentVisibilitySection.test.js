@@ -9,16 +9,12 @@ jest.mock('builder_platform_interaction/componentVisibility', () =>
     require('builder_platform_interaction_mocks/componentVisibility')
 );
 
-const SELECTOR_COMPONENT_VISIBILITY =
-    'builder_platform_interaction-component-visibility';
+const SELECTOR_COMPONENT_VISIBILITY = 'builder_platform_interaction-component-visibility';
 
 const createComponentUnderTest = props => {
-    const el = createElement(
-        'builder_platform_interaction-screen-component-visibility-section',
-        {
-            is: ScreenComponentVisiblitySection
-        }
-    );
+    const el = createElement('builder_platform_interaction-screen-component-visibility-section', {
+        is: ScreenComponentVisiblitySection
+    });
 
     props = props || { field: {} };
     Object.assign(el, props);
@@ -39,10 +35,7 @@ describe('Screen Component Visibility Section', () => {
 
         const element = createComponentUnderTest();
 
-        const componentVisibility = query(
-            element,
-            SELECTOR_COMPONENT_VISIBILITY
-        );
+        const componentVisibility = query(element, SELECTOR_COMPONENT_VISIBILITY);
 
         expect(componentVisibility).toBeFalsy();
     });
@@ -53,10 +46,7 @@ describe('Screen Component Visibility Section', () => {
         );
 
         const element = createComponentUnderTest();
-        const componentVisibility = query(
-            element,
-            SELECTOR_COMPONENT_VISIBILITY
-        );
+        const componentVisibility = query(element, SELECTOR_COMPONENT_VISIBILITY);
 
         expect(componentVisibility).toBeTruthy();
     });

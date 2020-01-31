@@ -21,16 +21,10 @@ export const choiceReducer = (choice, action) => {
     switch (action.type) {
         case PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY: {
             let propertyValue;
-            if (
-                typeof action.payload.value === 'string' ||
-                action.payload.value === null
-            ) {
+            if (typeof action.payload.value === 'string' || action.payload.value === null) {
                 action.payload.error =
                     action.payload.error === null
-                        ? choiceValidation.validateProperty(
-                              action.payload.propertyName,
-                              action.payload.value
-                          )
+                        ? choiceValidation.validateProperty(action.payload.propertyName, action.payload.value)
                         : action.payload.error;
                 propertyValue = {
                     error: action.payload.error,

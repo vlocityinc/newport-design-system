@@ -20,9 +20,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
                 data: mockEventTypeAllParameters[eventTypeApiName]
             });
         }),
-        SERVER_ACTION_TYPE: require.requireActual(
-            'builder_platform_interaction/serverDataLib'
-        ).SERVER_ACTION_TYPE
+        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE
     };
 });
 
@@ -46,29 +44,21 @@ describe('Event Type Tests', () => {
             const eventTypes = getEventTypes();
             expect(eventTypes).toHaveLength(3);
             expect(eventTypes[0].label).toEqual(platformEvent1Label);
-            expect(eventTypes[0].qualifiedApiName).toEqual(
-                platformEvent1ApiName
-            );
+            expect(eventTypes[0].qualifiedApiName).toEqual(platformEvent1ApiName);
         });
     });
 
     describe('Get Event Type Parameters Callback Tests', () => {
         it('Verify input parameters returned', () => {
-            getInputParametersForEventType(
-                platformEvent1ApiName,
-                parameters => {
-                    expect(Object.keys(parameters)).toHaveLength(4);
-                }
-            );
+            getInputParametersForEventType(platformEvent1ApiName, parameters => {
+                expect(Object.keys(parameters)).toHaveLength(4);
+            });
         });
 
         it('Verify output parameters returned', () => {
-            getOutputParametersForEventType(
-                platformEventInkLevelApiName,
-                parameters => {
-                    expect(Object.keys(parameters)).toHaveLength(1);
-                }
-            );
+            getOutputParametersForEventType(platformEventInkLevelApiName, parameters => {
+                expect(Object.keys(parameters)).toHaveLength(1);
+            });
         });
     });
 });

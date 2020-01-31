@@ -11,10 +11,7 @@ export default class ModalFooter extends LightningElement {
     };
 
     closeModal = (closeCallback = true) => {
-        if (
-            typeof this.closeModalCallback === 'function' &&
-            closeCallback === true
-        ) {
+        if (typeof this.closeModalCallback === 'function' && closeCallback === true) {
             this.closeModalCallback();
         }
     };

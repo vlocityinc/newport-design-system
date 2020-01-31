@@ -1,7 +1,4 @@
-import {
-    textTemplateValidation,
-    MAX_TEXT_LENGTH
-} from '../textTemplateValidation';
+import { textTemplateValidation, MAX_TEXT_LENGTH } from '../textTemplateValidation';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { LABELS } from '../../validationRules/validationRulesLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
@@ -10,9 +7,7 @@ const CANNOT_BE_BLANK_ERROR = LABELS.cannotBeBlank;
 const MAXIMUM_CHARS_LIMIT_ERROR_FORMAT = LABELS.maximumCharactersLimit;
 const TEXT_WITH_65536_CHARS = 'z'.repeat(MAX_TEXT_LENGTH + 1);
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/mergeFieldLib', () => {
     return {
@@ -39,9 +34,7 @@ describe('Text Template validation - additional rules', () => {
                 error: null
             }
         };
-        const validatedTextTemplate = textTemplateValidation.validateAll(
-            textTemplateWithEmptyTextArea
-        );
+        const validatedTextTemplate = textTemplateValidation.validateAll(textTemplateWithEmptyTextArea);
         expect(validatedTextTemplate.label.error).toBeNull();
         expect(validatedTextTemplate.name.error).toBeNull();
         expect(validatedTextTemplate.text.error).toBe(CANNOT_BE_BLANK_ERROR);
@@ -62,9 +55,7 @@ describe('Text Template validation - additional rules', () => {
                 error: null
             }
         };
-        const validatedTextTemplate = textTemplateValidation.validateAll(
-            textTemplateWithEmptyTextArea
-        );
+        const validatedTextTemplate = textTemplateValidation.validateAll(textTemplateWithEmptyTextArea);
         expect(validatedTextTemplate.label.error).toBeNull();
         expect(validatedTextTemplate.name.error).toBeNull();
         expect(validatedTextTemplate.text.error).toBe(CANNOT_BE_BLANK_ERROR);
@@ -87,9 +78,7 @@ describe('Text Template validation - additional rules', () => {
                 error: null
             }
         };
-        const validatedTextTemplate = textTemplateValidation.validateAll(
-            textTemplateWithInvalidMergeField
-        );
+        const validatedTextTemplate = textTemplateValidation.validateAll(textTemplateWithInvalidMergeField);
         expect(validatedTextTemplate.label.error).toBeNull();
         expect(validatedTextTemplate.name.error).toBeNull();
         expect(validatedTextTemplate.text.error).toBe(error.message);
@@ -113,9 +102,7 @@ describe('Text Template validation - additional rules', () => {
                 error: null
             }
         };
-        const validatedTextTemplate = textTemplateValidation.validateAll(
-            textTemplateWithMoreThan65535Chars
-        );
+        const validatedTextTemplate = textTemplateValidation.validateAll(textTemplateWithMoreThan65535Chars);
         expect(validatedTextTemplate.label.error).toBeNull();
         expect(validatedTextTemplate.name.error).toBeNull();
         expect(validatedTextTemplate.text.error).toBe(error.message);

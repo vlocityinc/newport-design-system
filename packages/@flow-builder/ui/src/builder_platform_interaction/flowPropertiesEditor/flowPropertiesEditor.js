@@ -7,16 +7,10 @@ import {
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { LABELS } from './flowPropertiesEditorLabels';
 import { flowPropertiesEditorReducer } from './flowPropertiesEditorReducer';
-import {
-    format,
-    addCurlyBraces
-} from 'builder_platform_interaction/commonUtils';
+import { format, addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { normalizeDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { SaveType } from 'builder_platform_interaction/saveType';
-import {
-    getProcessTypesMenuData,
-    getRunInModesMenuData
-} from 'builder_platform_interaction/expressionUtils';
+import { getProcessTypesMenuData, getRunInModesMenuData } from 'builder_platform_interaction/expressionUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { SYSTEM_VARIABLES } from 'builder_platform_interaction/systemLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
@@ -82,19 +76,10 @@ export default class FlowPropertiesEditor extends LightningElement {
             type: VALIDATE_ALL,
             isSavingExistingFlow: this.savingExistingFlow
         };
-        this.flowProperties = flowPropertiesEditorReducer(
-            this.flowProperties,
-            event
-        );
+        this.flowProperties = flowPropertiesEditorReducer(this.flowProperties, event);
         const processTypeElement = this.template.querySelector('.process-type');
-        if (
-            this.flowProperties.processType &&
-            this.flowProperties.processType.error
-        ) {
-            this.setElementErrorMessage(
-                processTypeElement,
-                this.flowProperties.processType.error
-            );
+        if (this.flowProperties.processType && this.flowProperties.processType.error) {
+            this.setElementErrorMessage(processTypeElement, this.flowProperties.processType.error);
         }
         return getErrorsFromHydratedElement(this.flowProperties);
     }
@@ -128,10 +113,7 @@ export default class FlowPropertiesEditor extends LightningElement {
     ];
 
     isSavingExistingFlow() {
-        return (
-            this.node.saveType === SaveType.NEW_VERSION ||
-            this.node.saveType === SaveType.UPDATE
-        );
+        return this.node.saveType === SaveType.NEW_VERSION || this.node.saveType === SaveType.UPDATE;
     }
 
     isSystemModeDisabled() {
@@ -277,15 +259,8 @@ export default class FlowPropertiesEditor extends LightningElement {
     }
 
     updateProperty(propName, newValue, error = null) {
-        const propChangedEvent = new PropertyChangedEvent(
-            propName,
-            newValue,
-            error
-        );
-        this.flowProperties = flowPropertiesEditorReducer(
-            this.flowProperties,
-            propChangedEvent
-        );
+        const propChangedEvent = new PropertyChangedEvent(propName, newValue, error);
+        this.flowProperties = flowPropertiesEditorReducer(this.flowProperties, propChangedEvent);
     }
 
     /* ********************** */
@@ -297,10 +272,7 @@ export default class FlowPropertiesEditor extends LightningElement {
      */
     handleEvent(event) {
         event.stopPropagation();
-        this.flowProperties = flowPropertiesEditorReducer(
-            this.flowProperties,
-            event
-        );
+        this.flowProperties = flowPropertiesEditorReducer(this.flowProperties, event);
         const { interviewLabel, label } = this.flowProperties;
         const flowLabelValue = getValueFromHydratedItem(label);
         const flowLabelError = getErrorFromHydratedItem(label);
@@ -308,9 +280,7 @@ export default class FlowPropertiesEditor extends LightningElement {
         if (flowLabelValue && !newInterviewLabel && !flowLabelError) {
             this.updateProperty(
                 'interviewLabel',
-                `${flowLabelValue} ${addCurlyBraces(
-                    SYSTEM_VARIABLES.CURRENT_DATE_TIME
-                )}`
+                `${flowLabelValue} ${addCurlyBraces(SYSTEM_VARIABLES.CURRENT_DATE_TIME)}`
             );
         }
     }
@@ -357,22 +327,14 @@ export default class FlowPropertiesEditor extends LightningElement {
     handleAdvancedToggle(event) {
         const { showAdvanced, hideAdvanced } = LABELS;
         event.stopPropagation();
-        this._toggleAdvancedLabel = !this.isAdvancedShown
-            ? showAdvanced
-            : hideAdvanced;
-        this._toggleAdvancedClass = !this.isAdvancedShown
-            ? TOGGLE_CLASS_SHOW
-            : TOGGLE_CLASS_HIDE;
+        this._toggleAdvancedLabel = !this.isAdvancedShown ? showAdvanced : hideAdvanced;
+        this._toggleAdvancedClass = !this.isAdvancedShown ? TOGGLE_CLASS_SHOW : TOGGLE_CLASS_HIDE;
         this.isAdvancedShown = !this.isAdvancedShown;
     }
 
     handleInstanceLabelChanged(event) {
         event.stopPropagation();
-        this.updateProperty(
-            'interviewLabel',
-            event.detail.value,
-            event.detail.error
-        );
+        this.updateProperty('interviewLabel', event.detail.value, event.detail.error);
     }
 
     renderedCallback() {
@@ -381,9 +343,7 @@ export default class FlowPropertiesEditor extends LightningElement {
             this.flowProperties.processType.value &&
             !this.flowProperties.processType.error
         ) {
-            const processTypeElement = this.template.querySelector(
-                '.process-type'
-            );
+            const processTypeElement = this.template.querySelector('.process-type');
             this.setElementErrorMessage(processTypeElement, null);
         }
     }

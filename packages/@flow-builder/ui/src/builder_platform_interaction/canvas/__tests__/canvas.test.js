@@ -3,9 +3,7 @@ import Canvas from 'builder_platform_interaction/canvas';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { DeleteElementEvent } from 'builder_platform_interaction/events';
 
-jest.mock('builder_platform_interaction/drawingLib', () =>
-    require('builder_platform_interaction_mocks/drawingLib')
-);
+jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 
 jest.mock('builder_platform_interaction/keyboardInteractionUtils', () =>
     require('builder_platform_interaction_mocks/keyboardInteractionUtils')
@@ -66,10 +64,7 @@ describe('Canvas', () => {
         }
     ];
 
-    const createComponentForTest = (
-        nodes,
-        connectors
-    ) => {
+    const createComponentForTest = (nodes, connectors) => {
         const el = createElement('builder_platform_interaction-canvas', {
             is: Canvas
         });
@@ -84,41 +79,25 @@ describe('Canvas', () => {
 
     describe('commands', () => {
         it('DeleteElementEvent is fired on backspace or delete key', () => {
-            const canvas = createComponentForTest(
-                defaultNodes,
-                defaultConnectors
-            );
+            const canvas = createComponentForTest(defaultNodes, defaultConnectors);
 
             const eventCallback = jest.fn();
-            canvas.addEventListener(
-                DeleteElementEvent.EVENT_NAME,
-                eventCallback
-            );
+            canvas.addEventListener(DeleteElementEvent.EVENT_NAME, eventCallback);
             // on backspace or delete, 'deletenodes' command is executed
             canvas.keyboardInteractions.execute('deletenodes');
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail).toEqual({});
         });
         it('Canvas zooms out when meta key is pressed down along with "-" key', () => {
-            const canvas = createComponentForTest(
-                defaultNodes,
-                defaultConnectors
-            );
-            const innerCanvasDiv = canvas.shadowRoot.querySelector(
-                SELECTORS.INNER_CANVAS_DIV
-            );
+            const canvas = createComponentForTest(defaultNodes, defaultConnectors);
+            const innerCanvasDiv = canvas.shadowRoot.querySelector(SELECTORS.INNER_CANVAS_DIV);
             // on meta+"-", 'zoomout' command is executed
             canvas.keyboardInteractions.execute('zoomout');
             expect(innerCanvasDiv.style.transform).toEqual('scale(0.8)');
         });
         it('Canvas zooms in when meta key is pressed down along with "=" key', () => {
-            const canvas = createComponentForTest(
-                defaultNodes,
-                defaultConnectors
-            );
-            const innerCanvasDiv = canvas.shadowRoot.querySelector(
-                SELECTORS.INNER_CANVAS_DIV
-            );
+            const canvas = createComponentForTest(defaultNodes, defaultConnectors);
+            const innerCanvasDiv = canvas.shadowRoot.querySelector(SELECTORS.INNER_CANVAS_DIV);
             // on meta+"=", 'zoomin' command is executed
             canvas.keyboardInteractions.execute('zoomin');
             expect(innerCanvasDiv.style.transform).toEqual('scale(1)');

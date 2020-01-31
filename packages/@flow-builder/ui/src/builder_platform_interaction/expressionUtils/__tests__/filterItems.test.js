@@ -10,8 +10,7 @@ const filterText = {
     curlyBraces: '{',
     specialChar: '@#$%',
     newResource: 'new resource',
-    esperanto:
-        '«คู้Eöש是[[Activate Session-Based Permission Set]]是שöEคู้是שöEคู้»',
+    esperanto: '«คู้Eöש是[[Activate Session-Based Permission Set]]是שöEคู้是שöEคู้»',
     regexSpecialChar1: '$',
     regexSpecialChar2: '$%^',
     displayText
@@ -159,9 +158,7 @@ describe('Combobox Search Library', () => {
             filteredArray.forEach(group => {
                 group.items.every(item => {
                     return (
-                        expect(item.text).not.toContainEqual(
-                            filteredTextName
-                        ) &&
+                        expect(item.text).not.toContainEqual(filteredTextName) &&
                         expect(item.subText).toContainEqual(filteredTextString)
                     );
                 });
@@ -181,35 +178,24 @@ describe('Combobox Search Library', () => {
         });
 
         it('Search should work for open curly braces.', () => {
-            const filteredArray = filterMatches(
-                filterText.curlyBraces,
-                menuData
-            );
+            const filteredArray = filterMatches(filterText.curlyBraces, menuData);
             expect(filteredArray).toHaveLength(1);
             expect(filteredArray[0].label).toBe(labelVariables);
             expect(filteredArray[0].items).toHaveLength(1);
         });
 
         it('Search should work for special chars.', () => {
-            const filteredArray = filterMatches(
-                filterText.specialChar,
-                menuData
-            );
+            const filteredArray = filterMatches(filterText.specialChar, menuData);
             expect(filteredArray).toHaveLength(1);
             expect(filteredArray[0].label).toBe(labelVariables);
             expect(filteredArray[0].items).toHaveLength(1);
         });
 
         it('Search should work option inline items.', () => {
-            const filteredArray = filterMatches(
-                filterText.newResource,
-                menuData
-            );
+            const filteredArray = filterMatches(filterText.newResource, menuData);
             expect(filteredArray).toHaveLength(1);
             expect(filteredArray[0].items).toHaveLength(1);
-            expect(filteredArray[0].items[0].text).toContainEqual(
-                filteredTextNewResource
-            );
+            expect(filteredArray[0].items[0].text).toContainEqual(filteredTextNewResource);
         });
 
         it('Search should not gack for esperanto.', () => {
@@ -219,29 +205,19 @@ describe('Combobox Search Library', () => {
         });
 
         it('Search should work for regex special char $', () => {
-            const filteredArray = filterMatches(
-                filterText.regexSpecialChar1,
-                menuData
-            );
+            const filteredArray = filterMatches(filterText.regexSpecialChar1, menuData);
             expect(filteredArray).toHaveLength(1);
             expect(filteredArray[0].label).toBe(labelVariables);
             expect(filteredArray[0].items).toHaveLength(1);
-            expect(filteredArray[0].items[0].text).toEqual(
-                filteredTextHighlightSpecialChar1
-            );
+            expect(filteredArray[0].items[0].text).toEqual(filteredTextHighlightSpecialChar1);
         });
 
         it('Search should work for regex special char $%^', () => {
-            const filteredArray = filterMatches(
-                filterText.regexSpecialChar2,
-                menuData
-            );
+            const filteredArray = filterMatches(filterText.regexSpecialChar2, menuData);
             expect(filteredArray).toHaveLength(1);
             expect(filteredArray[0].label).toBe(labelVariables);
             expect(filteredArray[0].items).toHaveLength(1);
-            expect(filteredArray[0].items[0].text).toEqual(
-                filteredTextHighlightSpecialChar2
-            );
+            expect(filteredArray[0].items[0].text).toEqual(filteredTextHighlightSpecialChar2);
         });
         it('Search should work for null filter text', () => {
             const filteredArray = filterMatches(null, menuData);
@@ -256,10 +232,7 @@ describe('Combobox Search Library', () => {
             expect(filteredArray).toEqual(menuData);
         });
         it('Search should filter on displayText', () => {
-            const filteredArray = filterMatches(
-                filterText.displayText,
-                menuData
-            );
+            const filteredArray = filterMatches(filterText.displayText, menuData);
             expect(filteredArray).toHaveLength(1);
             expect(filteredArray[0].label).toBe(labelVariables);
             expect(filteredArray[0].items).toHaveLength(1);

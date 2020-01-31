@@ -34,9 +34,7 @@ import { getScreenElement } from './resourceUtils';
  */
 function writableOrReadableElement(shouldBeWritable) {
     return {
-        selector: shouldBeWritable
-            ? writableElementsSelector
-            : readableElementsSelector,
+        selector: shouldBeWritable ? writableElementsSelector : readableElementsSelector,
         isWritable: shouldBeWritable
     };
 }
@@ -47,9 +45,7 @@ function writableOrReadableElement(shouldBeWritable) {
  */
 function sobjectSelector(sObjectSelectorConfig) {
     return {
-        selector: isOrCanContainsObjectOrSObjectCollectionSelector(
-            sObjectSelectorConfig
-        ),
+        selector: isOrCanContainsObjectOrSObjectCollectionSelector(sObjectSelectorConfig),
         isWritable: false
     };
 }
@@ -63,12 +59,7 @@ function sobjectSelector(sObjectSelectorConfig) {
  * @param {Boolean} sObjectSelector     optional: true if using selector to retrieve sobject/sobject collection variables
  * @returns {FilterInformation}
  */
-function sObjectOrByTypeElements(
-    isCollection,
-    dataType,
-    entityName,
-    sObjectSelector
-) {
+function sObjectOrByTypeElements(isCollection, dataType, entityName, sObjectSelector) {
     return {
         selector: isCollection
             ? collectionElementsSelector
@@ -98,43 +89,22 @@ function screenSelectors(shouldBeWritable, choices, dataType) {
 }
 
 const filterInformationProviderMap = {
-    [ELEMENT_TYPE.EXTERNAL_SERVICE]: ({ shouldBeWritable }) =>
-        writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.ACTION_CALL]: ({ shouldBeWritable }) =>
-        writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.APEX_CALL]: ({ shouldBeWritable }) =>
-        writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.APEX_PLUGIN_CALL]: ({ shouldBeWritable }) =>
-        writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.ASSIGNMENT]: ({ shouldBeWritable }) =>
-        writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.EMAIL_ALERT]: ({ shouldBeWritable }) =>
-        writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.SUBFLOW]: ({ shouldBeWritable }) =>
-        writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.VARIABLE]: ({ shouldBeWritable }) =>
-        writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.CHOICE]: ({ shouldBeWritable }) =>
-        writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.RECORD_CHOICE_SET]: ({ shouldBeWritable }) =>
-        writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.EXTERNAL_SERVICE]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.ACTION_CALL]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.APEX_CALL]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.APEX_PLUGIN_CALL]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.ASSIGNMENT]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.EMAIL_ALERT]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.SUBFLOW]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.VARIABLE]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.CHOICE]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.RECORD_CHOICE_SET]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.DECISION]: () => writableOrReadableElement(),
-    [ELEMENT_TYPE.WAIT]: ({ shouldBeWritable }) =>
-        writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.WAIT]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.SCREEN]: ({ shouldBeWritable, dataType, choices }) =>
         screenSelectors(shouldBeWritable, choices, dataType),
-    [ELEMENT_TYPE.LOOP]: ({
-        isCollection,
-        dataType,
-        entityName,
-        sObjectSelector
-    }) =>
-        sObjectOrByTypeElements(
-            isCollection,
-            dataType,
-            entityName,
-            sObjectSelector
-        )
+    [ELEMENT_TYPE.LOOP]: ({ isCollection, dataType, entityName, sObjectSelector }) =>
+        sObjectOrByTypeElements(isCollection, dataType, entityName, sObjectSelector)
 };
 
 const CLUD_ELEMENT_TYPES = [
@@ -152,9 +122,7 @@ function getFilterInformation(config = {}) {
     if (CLUD_ELEMENT_TYPES.includes(elementType)) {
         return writableOrReadableElement(shouldBeWritable);
     }
-    return filterInformationProviderMap[elementType]
-        ? filterInformationProviderMap[elementType](config)
-        : {};
+    return filterInformationProviderMap[elementType] ? filterInformationProviderMap[elementType](config) : {};
 }
 
 /*
@@ -163,11 +131,7 @@ function getFilterInformation(config = {}) {
 function addUncommittedElementsFromLocalStorage(elements) {
     const screen = getScreenElement();
     if (screen && screen.fields) {
-        elements = elements.concat(
-            screen.fields.filter(
-                field => field.isNewField && field.name.value !== ''
-            )
-        );
+        elements = elements.concat(screen.fields.filter(field => field.isNewField && field.name.value !== ''));
     }
     return elements;
 }

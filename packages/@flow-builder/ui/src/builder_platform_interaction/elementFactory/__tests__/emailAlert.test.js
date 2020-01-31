@@ -11,13 +11,7 @@ describe('create email alert', () => {
         expect(loadExistingEmailAlert.storeOutputAutomatically).toBe(false);
     });
     it('has store output automatically false when duplicating email alert', () => {
-        const duplicateEmailAlert = createDuplicateEmailAlert(
-            emailAlertOnAccount,
-            'newGuid',
-            'newName'
-        );
-        expect(
-            duplicateEmailAlert.duplicatedElement.storeOutputAutomatically
-        ).toBe(false);
+        const duplicateEmailAlert = createDuplicateEmailAlert(emailAlertOnAccount, 'newGuid', 'newName');
+        expect(duplicateEmailAlert.duplicatedElement.storeOutputAutomatically).toBe(false);
     });
 });

@@ -18,7 +18,6 @@ function splitItems(items, size) {
     return results;
 }
 
-
 export default class VisualPickerList extends LightningElement {
     @api
     title;
@@ -100,9 +99,7 @@ export default class VisualPickerList extends LightningElement {
         if (event.detail.isSelected) {
             // unselect the prev selected item if allowMultipleSelection is false
             if (!this.allowMultipleSelection) {
-                const prevSelectedItem = this.items.find(
-                    item => item.isSelected
-                );
+                const prevSelectedItem = this.items.find(item => item.isSelected);
                 if (prevSelectedItem) {
                     changedItems.push({
                         id: prevSelectedItem.itemId,

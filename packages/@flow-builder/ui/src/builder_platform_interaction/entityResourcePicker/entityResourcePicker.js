@@ -89,10 +89,7 @@ export default class EntityResourcePicker extends LightningElement {
      */
     set crudFilterType(crudFilterType) {
         this._crudFilterType = crudFilterType;
-        if (
-            this._isInitialized &&
-            this.mode === EntityResourcePicker.ENTITY_MODE.SOBJECT
-        ) {
+        if (this._isInitialized && this.mode === EntityResourcePicker.ENTITY_MODE.SOBJECT) {
             this.populateEntityMenuData();
         }
     }
@@ -148,7 +145,9 @@ export default class EntityResourcePicker extends LightningElement {
             this._state.item = itemOrDisplayText;
             this._state.displayText = null;
         } else {
-            this._state.item = this._fullEntityMenuData ? this._fullEntityMenuData.find(item => item.value === itemOrDisplayText) : null;
+            this._state.item = this._fullEntityMenuData
+                ? this._fullEntityMenuData.find(item => item.value === itemOrDisplayText)
+                : null;
             this._state.displayText = this._state.item ? null : itemOrDisplayText;
         }
     }
@@ -175,9 +174,7 @@ export default class EntityResourcePicker extends LightningElement {
 
     renderedCallback() {
         if (!this._isInitialized) {
-            this._baseResourcePicker = this.template.querySelector(
-                BaseResourcePicker.SELECTOR
-            );
+            this._baseResourcePicker = this.template.querySelector(BaseResourcePicker.SELECTOR);
             this._isInitialized = true;
             this._updateState();
         }
@@ -197,11 +194,9 @@ export default class EntityResourcePicker extends LightningElement {
      */
     populateEntityMenuData(newMode = this.mode) {
         const fetchMenuDataForEntityMode = {
-                [EntityResourcePicker.ENTITY_MODE.APEX]: () =>
-                    this.selector(Store.getStore().getCurrentState()),
-                [EntityResourcePicker.ENTITY_MODE.EVENT]: getEventTypesMenuData,
-                [EntityResourcePicker.ENTITY_MODE.SOBJECT]: () =>
-                    getEntitiesMenuData(this._crudFilterType)
+            [EntityResourcePicker.ENTITY_MODE.APEX]: () => this.selector(Store.getStore().getCurrentState()),
+            [EntityResourcePicker.ENTITY_MODE.EVENT]: getEventTypesMenuData,
+            [EntityResourcePicker.ENTITY_MODE.SOBJECT]: () => getEntitiesMenuData(this._crudFilterType)
         };
         this._fullEntityMenuData = fetchMenuDataForEntityMode[newMode]();
         this._baseResourcePicker.setMenuData(this._fullEntityMenuData || []);
@@ -230,5 +225,5 @@ export default class EntityResourcePicker extends LightningElement {
 
     handleStoreChange = () => {
         this._updateState();
-    }
+    };
 }

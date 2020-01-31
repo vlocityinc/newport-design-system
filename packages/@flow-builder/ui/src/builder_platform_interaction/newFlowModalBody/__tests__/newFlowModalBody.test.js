@@ -1,20 +1,11 @@
 import { LABELS } from '../newFlowModalBodyLabels';
 import { createElement } from 'lwc';
 import NewFlowModalBody from 'builder_platform_interaction/newFlowModalBody';
-import {
-    ProcessTypeSelectedEvent,
-    TemplateChangedEvent
-} from 'builder_platform_interaction/events';
-import {
-    ALL_PROCESS_TYPE,
-    resetCacheTemplates
-} from 'builder_platform_interaction/processTypeLib';
+import { ProcessTypeSelectedEvent, TemplateChangedEvent } from 'builder_platform_interaction/events';
+import { ALL_PROCESS_TYPE, resetCacheTemplates } from 'builder_platform_interaction/processTypeLib';
 import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { MOCK_ALL_PROCESS_TYPES } from 'mock/processTypesData';
-import {
-    MOCK_ALL_TEMPLATES,
-    MOCK_AUTO_TEMPLATE
-} from 'mock/templates';
+import { MOCK_ALL_TEMPLATES, MOCK_AUTO_TEMPLATE } from 'mock/templates';
 import { setProcessTypes } from 'builder_platform_interaction/systemLib';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
@@ -22,9 +13,7 @@ let mockProcessTypesPromise = Promise.resolve(MOCK_ALL_PROCESS_TYPES);
 let mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/serverDataLib'
-    );
+    const actual = require.requireActual('builder_platform_interaction/serverDataLib');
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,
@@ -44,10 +33,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 });
 
 function createComponentForTest(props) {
-    const el = createElement(
-        'builder_platform_interaction-new-flow-modal-body',
-        { is: NewFlowModalBody }
-    );
+    const el = createElement('builder_platform_interaction-new-flow-modal-body', { is: NewFlowModalBody });
     Object.assign(el, {
         showRecommended: true,
         showAll: true
@@ -57,32 +43,28 @@ function createComponentForTest(props) {
     return el;
 }
 
-const getTemplatesTab = modalBody => modalBody.shadowRoot
-    .querySelector('lightning-tab.templates');
+const getTemplatesTab = modalBody => modalBody.shadowRoot.querySelector('lightning-tab.templates');
 
-const getProcessTypesNavigation = modalBody => modalBody.shadowRoot
-    .querySelector('builder_platform_interaction-process-types-vertical-navigation');
+const getProcessTypesNavigation = modalBody =>
+    modalBody.shadowRoot.querySelector('builder_platform_interaction-process-types-vertical-navigation');
 
-const getProcessTypesTemplates = modalBody => modalBody.shadowRoot
-    .querySelector('builder_platform_interaction-process-types-templates');
+const getProcessTypesTemplates = modalBody =>
+    modalBody.shadowRoot.querySelector('builder_platform_interaction-process-types-templates');
 
-const getRecommended = (modalBody) => modalBody.shadowRoot
-    .querySelector('lightning-tab.recommended')
-    .querySelector('builder_platform_interaction-visual-picker-list');
+const getRecommended = modalBody =>
+    modalBody.shadowRoot
+        .querySelector('lightning-tab.recommended')
+        .querySelector('builder_platform_interaction-visual-picker-list');
 
-const getTemplates = (processTypeTemplates) => processTypeTemplates.shadowRoot
-    .querySelector('builder_platform_interaction-visual-picker-list');
+const getTemplates = processTypeTemplates =>
+    processTypeTemplates.shadowRoot.querySelector('builder_platform_interaction-visual-picker-list');
 
-const getErrorMessage = modalBody => modalBody.shadowRoot
-    .querySelector('.errorMessage .slds-notify__content');
+const getErrorMessage = modalBody => modalBody.shadowRoot.querySelector('.errorMessage .slds-notify__content');
 
-const getErrorClosingButton = modalBody => modalBody.shadowRoot
-    .querySelector('lightning-button-icon');
+const getErrorClosingButton = modalBody => modalBody.shadowRoot.querySelector('lightning-button-icon');
 
 const getProcessType = processTypeName =>
-    MOCK_ALL_PROCESS_TYPES.find(
-        processType => processType.name === processTypeName
-    );
+    MOCK_ALL_PROCESS_TYPES.find(processType => processType.name === processTypeName);
 
 const resetProcessTypesCache = () => setProcessTypes([]);
 
@@ -120,7 +102,7 @@ describe('new-flow-modal-body', () => {
                     itemId: 'AutoLaunchedFlow-Scheduled',
                     label: 'FlowBuilderProcessTypeTemplates.newScheduledFlowLabel',
                     processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-                    triggerType: FLOW_TRIGGER_TYPE.SCHEDULED,
+                    triggerType: FLOW_TRIGGER_TYPE.SCHEDULED
                 },
                 {
                     description: 'FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription',
@@ -142,42 +124,22 @@ describe('new-flow-modal-body', () => {
             resetProcessTypesCache();
         });
         it('shows correct number of process types in navigation', () => {
-            const processTypesNavigation = getProcessTypesNavigation(
-                newFlowModalBody
-            );
-            expect(processTypesNavigation.processTypes).toHaveLength(
-                MOCK_ALL_PROCESS_TYPES.length
-            );
+            const processTypesNavigation = getProcessTypesNavigation(newFlowModalBody);
+            expect(processTypesNavigation.processTypes).toHaveLength(MOCK_ALL_PROCESS_TYPES.length);
         });
 
         it('selects "all" as the default process type', () => {
-            const processTypesNavigation = getProcessTypesNavigation(
-                newFlowModalBody
-            );
-            expect(processTypesNavigation.selectedProcessType).toEqual(
-                ALL_PROCESS_TYPE.name
-            );
+            const processTypesNavigation = getProcessTypesNavigation(newFlowModalBody);
+            expect(processTypesNavigation.selectedProcessType).toEqual(ALL_PROCESS_TYPE.name);
         });
 
         it('should change templates when select the process type', async () => {
-            const processTypesNavigation = getProcessTypesNavigation(
-                newFlowModalBody
-            );
-            processTypesNavigation.dispatchEvent(
-                new ProcessTypeSelectedEvent(
-                    FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
-                )
-            );
+            const processTypesNavigation = getProcessTypesNavigation(newFlowModalBody);
+            processTypesNavigation.dispatchEvent(new ProcessTypeSelectedEvent(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW));
             await Promise.resolve();
-            const processTypesTemplates = getProcessTypesTemplates(
-                newFlowModalBody
-            );
-            expect(processTypesTemplates.processType).toEqual(
-                FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
-            );
-            const templates = getTemplates(
-                processTypesTemplates
-            );
+            const processTypesTemplates = getProcessTypesTemplates(newFlowModalBody);
+            expect(processTypesTemplates.processType).toEqual(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
+            const templates = getTemplates(processTypesTemplates);
             expect(templates.items).toEqual([
                 {
                     description: 'FlowBuilderProcessTypeTemplates.newBeforeSaveFlowDescription',
@@ -194,7 +156,7 @@ describe('new-flow-modal-body', () => {
                     itemId: 'AutoLaunchedFlow-Scheduled',
                     label: 'FlowBuilderProcessTypeTemplates.newScheduledFlowLabel',
                     processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-                    triggerType: FLOW_TRIGGER_TYPE.SCHEDULED,
+                    triggerType: FLOW_TRIGGER_TYPE.SCHEDULED
                 },
                 {
                     description: 'FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription',
@@ -226,9 +188,7 @@ describe('new-flow-modal-body', () => {
         });
 
         it('shows process types templates', () => {
-            const processTypesTemplates = getProcessTypesTemplates(
-                newFlowModalBody
-            );
+            const processTypesTemplates = getProcessTypesTemplates(newFlowModalBody);
             expect(newFlowModalBody.selectedItem).toEqual({
                 description: 'FlowBuilderProcessTypeTemplates.newFlowDescription',
                 iconName: 'utility:desktop',
@@ -237,18 +197,12 @@ describe('new-flow-modal-body', () => {
                 label: getProcessType(FLOW_PROCESS_TYPE.FLOW).label,
                 processType: FLOW_PROCESS_TYPE.FLOW
             });
-            expect(processTypesTemplates.processType).toEqual(
-                ALL_PROCESS_TYPE.name
-            );
+            expect(processTypesTemplates.processType).toEqual(ALL_PROCESS_TYPE.name);
         });
 
         it('shows 8 process types and 3 templates', () => {
-            const processTypesTemplates = getProcessTypesTemplates(
-                newFlowModalBody
-            );
-            const processTypeTiles = getTemplates(
-                processTypesTemplates
-            );
+            const processTypesTemplates = getProcessTypesTemplates(newFlowModalBody);
+            const processTypeTiles = getTemplates(processTypesTemplates);
             expect(processTypeTiles.items).toEqual([
                 {
                     description: 'FlowBuilderProcessTypeTemplates.newBeforeSaveFlowDescription',
@@ -265,85 +219,84 @@ describe('new-flow-modal-body', () => {
                     itemId: 'AutoLaunchedFlow-Scheduled',
                     label: 'FlowBuilderProcessTypeTemplates.newScheduledFlowLabel',
                     processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-                    triggerType: FLOW_TRIGGER_TYPE.SCHEDULED,
+                    triggerType: FLOW_TRIGGER_TYPE.SCHEDULED
                 },
                 {
                     description: 'FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription',
                     iconName: 'utility:magicwand',
                     itemId: 'AutoLaunchedFlow',
                     label: 'Autolaunched Flow',
-                    processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
+                    processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
                 },
                 {
-                    description:
-                        'FlowBuilderProcessTypeTemplates.newFlowDescription',
+                    description: 'FlowBuilderProcessTypeTemplates.newFlowDescription',
                     iconName: 'utility:desktop',
                     itemId: FLOW_PROCESS_TYPE.FLOW,
                     label: getProcessType(FLOW_PROCESS_TYPE.FLOW).label,
-                    processType: FLOW_PROCESS_TYPE.FLOW,
+                    processType: FLOW_PROCESS_TYPE.FLOW
                 },
                 {
                     description: 'FlowBuilderProcessTypeTemplates.newProcessTypeDescription',
                     iconName: 'utility:cart',
                     itemId: 'CheckoutFlow',
                     label: 'Checkout Flow',
-                    processType: "CheckoutFlow"
+                    processType: 'CheckoutFlow'
                 },
                 {
                     description: 'FlowBuilderProcessTypeTemplates.newContactRequestFlowDescription',
                     iconName: 'utility:contact_request',
                     itemId: 'ContactRequestFlow',
                     label: 'Contact Request Flow',
-                    processType: "ContactRequestFlow"
+                    processType: 'ContactRequestFlow'
                 },
                 {
                     description: 'FlowBuilderProcessTypeTemplates.newFieldServiceWebDescription',
                     iconName: 'utility:insert_tag_field',
                     itemId: 'FieldServiceWeb',
                     label: 'Embedded Appointment Management Flow',
-                    processType: "FieldServiceWeb"
+                    processType: 'FieldServiceWeb'
                 },
                 {
                     description: 'FlowBuilderProcessTypeTemplates.newFieldServiceMobileDescription',
                     iconName: 'utility:phone_portrait',
                     itemId: 'FieldServiceMobile',
                     label: 'Field Service Mobile Flow',
-                    processType: "FieldServiceMobile"
+                    processType: 'FieldServiceMobile'
                 },
                 {
                     description: 'FlowBuilderProcessTypeTemplates.newUserProvisioningFlowDescription',
                     iconName: 'utility:user',
                     itemId: 'UserProvisioningFlow',
                     label: 'User Provisioning Flow',
-                    processType: "UserProvisioningFlow"
+                    processType: 'UserProvisioningFlow'
                 },
                 {
                     description: 'FlowBuilderProcessTypeTemplates.newProcessTypeDescription',
                     iconName: 'utility:flow',
                     itemId: 'WeDoNotKnowYou',
                     label: 'Well no icon yet',
-                    processType: "WeDoNotKnowYou"
+                    processType: 'WeDoNotKnowYou'
                 },
                 {
                     description: 'This is an autolaunched template',
                     iconName: 'utility:magicwand',
                     templateId: '1',
                     itemId: '1',
-                    label: 'Autolaunched template',
+                    label: 'Autolaunched template'
                 },
                 {
                     description: 'This is a screen template',
                     iconName: 'utility:desktop',
                     templateId: '2',
                     itemId: '2',
-                    label: 'Screen template',
+                    label: 'Screen template'
                 },
                 {
                     description: 'This is a screen template 2',
                     iconName: 'utility:desktop',
                     templateId: '3',
                     itemId: '3',
-                    label: 'Screen template 2',
+                    label: 'Screen template 2'
                 }
             ]);
         });
@@ -368,14 +321,8 @@ describe('new-flow-modal-body', () => {
         it('should reset error message when changing the process type', async () => {
             newFlowModalBody.errorMessage = ERROR_MESSAGE;
             await Promise.resolve();
-            const processTypesNavigation = getProcessTypesNavigation(
-                newFlowModalBody
-            );
-            processTypesNavigation.dispatchEvent(
-                new ProcessTypeSelectedEvent(
-                    FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
-                )
-            );
+            const processTypesNavigation = getProcessTypesNavigation(newFlowModalBody);
+            processTypesNavigation.dispatchEvent(new ProcessTypeSelectedEvent(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW));
             await Promise.resolve();
             errorMessage = getErrorMessage(newFlowModalBody);
             expect(errorMessage).toBeNull();
@@ -385,16 +332,10 @@ describe('new-flow-modal-body', () => {
             templatesTab.dispatchEvent(new CustomEvent('active'));
             newFlowModalBody.errorMessage = ERROR_MESSAGE;
             await Promise.resolve();
-            const processTypesTemplates = getProcessTypesTemplates(
-                newFlowModalBody
-            );
-            processTypesTemplates.dispatchEvent(
-                new TemplateChangedEvent(MOCK_AUTO_TEMPLATE.EnumOrId, false)
-            );
+            const processTypesTemplates = getProcessTypesTemplates(newFlowModalBody);
+            processTypesTemplates.dispatchEvent(new TemplateChangedEvent(MOCK_AUTO_TEMPLATE.EnumOrId, false));
             await Promise.resolve();
-            expect(newFlowModalBody.selectedItem).toBe(
-                MOCK_AUTO_TEMPLATE.EnumOrId
-            );
+            expect(newFlowModalBody.selectedItem).toBe(MOCK_AUTO_TEMPLATE.EnumOrId);
             errorMessage = getErrorMessage(newFlowModalBody);
             expect(errorMessage).toBeNull();
         });

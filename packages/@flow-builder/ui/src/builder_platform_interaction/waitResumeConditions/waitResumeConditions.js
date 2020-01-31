@@ -99,11 +99,7 @@ export default class WaitResumeConditions extends LightningElement {
         }
 
         // fire update event type event
-        const updateWaitEventEventEvent = new UpdateWaitEventEventTypeEvent(
-            this._eventType,
-            null,
-            this.waitEventGuid
-        );
+        const updateWaitEventEventEvent = new UpdateWaitEventEventTypeEvent(this._eventType, null, this.waitEventGuid);
         this.dispatchEvent(updateWaitEventEventEvent);
     }
 

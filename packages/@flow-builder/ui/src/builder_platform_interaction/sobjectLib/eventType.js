@@ -1,7 +1,4 @@
-import {
-    fetch,
-    SERVER_ACTION_TYPE
-} from 'builder_platform_interaction/serverDataLib';
+import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 
 /**
  * Holds all the event types fetched from the server.
@@ -51,12 +48,7 @@ const eventTypeParameters = {};
  * @param {String} paramType The type of param. Either input or output
  * @param {Function} callback The callback
  */
-const getParametersForEventTypeCallback = (
-    eventTypeParametersData = [],
-    eventTypeApiName,
-    paramType,
-    callback
-) => {
+const getParametersForEventTypeCallback = (eventTypeParametersData = [], eventTypeApiName, paramType, callback) => {
     // Cache check added here since Aura Action bundles the request and
     // for an given eventType we get all input and output params together.
     if (isEventTypeParamsInCache(eventTypeApiName, paramType)) {
@@ -66,27 +58,20 @@ const getParametersForEventTypeCallback = (
         return;
     }
 
-    const eventTypeAllParameters = Array.isArray(eventTypeParametersData)
-        ? eventTypeParametersData
-        : [];
+    const eventTypeAllParameters = Array.isArray(eventTypeParametersData) ? eventTypeParametersData : [];
     const inputParams = {};
     const outputParams = {};
     const parameters = {};
     eventTypeAllParameters.forEach(eventTypeParameter => {
         // These additional properties are needed for expression builder
         eventTypeParameter.sobjectName = eventTypeApiName;
-        eventTypeParameter.prefixedApiName =
-            eventTypeApiName + '.' + eventTypeParameter.qualifiedApiName;
+        eventTypeParameter.prefixedApiName = eventTypeApiName + '.' + eventTypeParameter.qualifiedApiName;
 
         if (eventTypeParameter.isSubscription) {
-            inputParams[
-                eventTypeParameter.qualifiedApiName
-            ] = eventTypeParameter;
+            inputParams[eventTypeParameter.qualifiedApiName] = eventTypeParameter;
         }
         if (eventTypeParameter.isPublication) {
-            outputParams[
-                eventTypeParameter.qualifiedApiName
-            ] = eventTypeParameter;
+            outputParams[eventTypeParameter.qualifiedApiName] = eventTypeParameter;
         }
     });
     parameters[EVENT_FIELD_TYPE.INPUT] = inputParams;
@@ -120,12 +105,7 @@ function getParametersForEventType(eventTypeApiName, paramType, callback) {
             if (error) {
                 // Error is handled and shown in pop up in serverDataLibInit.cmp
             } else {
-                getParametersForEventTypeCallback(
-                    data,
-                    eventTypeApiName,
-                    paramType,
-                    callback
-                );
+                getParametersForEventTypeCallback(data, eventTypeApiName, paramType, callback);
             }
         },
         params
@@ -152,11 +132,7 @@ function isEventTypeParamsInCache(eventTypeApiName, paramType) {
  * @param {Function} callback function to call once the server call is complete
  */
 export const getInputParametersForEventType = (eventTypeApiName, callback) => {
-    getParametersForEventType(
-        eventTypeApiName,
-        EVENT_FIELD_TYPE.INPUT,
-        callback
-    );
+    getParametersForEventType(eventTypeApiName, EVENT_FIELD_TYPE.INPUT, callback);
 };
 
 /**
@@ -166,11 +142,7 @@ export const getInputParametersForEventType = (eventTypeApiName, callback) => {
  * @param {Function} callback function to call once the server call is complete
  */
 export const getOutputParametersForEventType = (eventTypeApiName, callback) => {
-    getParametersForEventType(
-        eventTypeApiName,
-        EVENT_FIELD_TYPE.OUTPUT,
-        callback
-    );
+    getParametersForEventType(eventTypeApiName, EVENT_FIELD_TYPE.OUTPUT, callback);
 };
 
 /**
@@ -179,9 +151,7 @@ export const getOutputParametersForEventType = (eventTypeApiName, callback) => {
  */
 export const setEventTypes = eventTypesData => {
     if (!Array.isArray(eventTypesData)) {
-        throw new Error(
-            `Expected input to be an Array but was ${eventTypesData}`
-        );
+        throw new Error(`Expected input to be an Array but was ${eventTypesData}`);
     }
     eventTypes = eventTypesData;
 };

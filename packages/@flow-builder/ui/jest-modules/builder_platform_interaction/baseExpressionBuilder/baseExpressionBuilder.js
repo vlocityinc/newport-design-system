@@ -69,10 +69,10 @@ export default class BaseExpressionBuilder extends LightningElement {
 
     @api
     hideNewResource;
-    
+
     @api
     rules;
-    
+
     @api
     objectType;
 }

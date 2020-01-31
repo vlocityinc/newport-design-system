@@ -41,8 +41,6 @@ export default class RichTextPlainTextSwitch extends LightningElement {
         const { value } = event.detail;
         this.selectedMode = value;
         const isPlainText = value === TEXT_MODES.plainText;
-        this.dispatchEvent(
-            new RichTextPlainTextSwitchChangedEvent(isPlainText)
-        );
+        this.dispatchEvent(new RichTextPlainTextSwitchChangedEvent(isPlainText));
     }
 }

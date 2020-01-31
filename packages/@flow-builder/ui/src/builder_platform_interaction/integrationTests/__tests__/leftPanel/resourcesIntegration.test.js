@@ -20,9 +20,7 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { initializeAuraFetch } from '../serverDataTestUtils';
 import { loadOnProcessTypeChange } from 'builder_platform_interaction/preloadLib';
 
-jest.mock('builder_platform_interaction/drawingLib', () =>
-    require('builder_platform_interaction_mocks/drawingLib')
-);
+jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 
 jest.mock('builder_platform_interaction/keyboardInteractionUtils', () =>
     require('builder_platform_interaction_mocks/keyboardInteractionUtils')
@@ -59,16 +57,10 @@ describe('Resource tab - resource', () => {
         await ticks(100);
         const resourceDetails = getResourceDetail(leftPanel);
         expect(resourceDetails).not.toBeNull();
-        const apiNameSpan = getElementByTitle(
-            resourceDetails,
-            stringConstant.name
-        );
+        const apiNameSpan = getElementByTitle(resourceDetails, stringConstant.name);
         expect(apiNameSpan).not.toBeNull();
         expect(apiNameSpan.textContent).toBe(stringConstant.name);
-        const descriptionSpan = getElementByTitle(
-            resourceDetails,
-            stringConstant.description
-        );
+        const descriptionSpan = getElementByTitle(resourceDetails, stringConstant.description);
         expect(descriptionSpan).not.toBeNull();
         expect(descriptionSpan.textContent).toBe(stringConstant.description);
     });
@@ -88,11 +80,7 @@ describe('Resource tab - resource', () => {
     it('Delete a decision with one outcome should delete the outcome', async () => {
         const decision1 = getElementByDevName('decision1');
         const decision1Outcome1 = getElementByDevName('outcome1');
-        let chevron = getChevronElement(
-            leftPanel,
-            decision1.guid,
-            PALETTE_ELEMENTS_INDEX
-        );
+        let chevron = getChevronElement(leftPanel, decision1.guid, PALETTE_ELEMENTS_INDEX);
         expect(chevron).toBeDefined();
         clickOnViewDetailButton(chevron);
         await ticks(200);
@@ -100,11 +88,7 @@ describe('Resource tab - resource', () => {
         expect(resourceDetails).not.toBeNull();
         clickDeleteButtonInResourceDetailsPanel(resourceDetails);
         await ticks(100);
-        chevron = getChevronElement(
-            leftPanel,
-            decision1.guid,
-            PALETTE_ELEMENTS_INDEX
-        );
+        chevron = getChevronElement(leftPanel, decision1.guid, PALETTE_ELEMENTS_INDEX);
         // Check the element has been deleted
         expect(chevron).toBeNull();
 
@@ -115,11 +99,7 @@ describe('Resource tab - resource', () => {
     it('Delete a screen with a component should delete the component', async () => {
         const screenWithAddress = getElementByDevName('screenWithAddress');
         const addressComponentField = getElementByDevName('Address');
-        let chevron = getChevronElement(
-            leftPanel,
-            screenWithAddress.guid,
-            PALETTE_ELEMENTS_INDEX
-        );
+        let chevron = getChevronElement(leftPanel, screenWithAddress.guid, PALETTE_ELEMENTS_INDEX);
         expect(chevron).toBeDefined();
         clickOnViewDetailButton(chevron);
         await ticks(200);
@@ -127,11 +107,7 @@ describe('Resource tab - resource', () => {
         expect(resourceDetails).not.toBeNull();
         clickDeleteButtonInResourceDetailsPanel(resourceDetails);
         await ticks(100);
-        chevron = getChevronElement(
-            leftPanel,
-            screenWithAddress.guid,
-            PALETTE_ELEMENTS_INDEX
-        );
+        chevron = getChevronElement(leftPanel, screenWithAddress.guid, PALETTE_ELEMENTS_INDEX);
         // Check the screen has been deleted
         expect(chevron).toBeNull();
 

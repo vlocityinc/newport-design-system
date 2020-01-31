@@ -1,8 +1,4 @@
-import {
-    createSubflow,
-    createSubflowMetadataObject,
-    createSubflowWithConnectors
-} from '../subflow';
+import { createSubflow, createSubflowMetadataObject, createSubflowWithConnectors } from '../subflow';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
@@ -13,14 +9,10 @@ import {
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/processTypeLib'
-    );
+    const actual = require.requireActual('builder_platform_interaction/processTypeLib');
     return Object.assign({}, actual, {
         getProcessTypeAutomaticOutPutHandlingSupport: jest.fn()
     });
@@ -103,9 +95,7 @@ describe('subflow', () => {
         Store.resetStore();
     });
     beforeEach(() => {
-        getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
-            FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
-        );
+        getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED);
     });
     describe('createSubflow function', () => {
         let subflow;
@@ -133,32 +123,22 @@ describe('subflow', () => {
             let expectedSubflowInStore;
             beforeEach(() => {
                 subflow = createSubflow(subflowMetadata);
-                expectedSubflowInStore = subflowInStoreWithAnyRowIndexGuidExpected(
-                    subflowInStore
-                );
+                expectedSubflowInStore = subflowInStoreWithAnyRowIndexGuidExpected(subflowInStore);
             });
             it('creates element of type SUBFLOW', () => {
                 expect(subflow.elementType).toEqual(ELEMENT_TYPE.SUBFLOW);
             });
             it('has flowName equal to flowName from store', () => {
-                expect(subflow.flowName).toEqual(
-                    expectedSubflowInStore.flowName
-                );
+                expect(subflow.flowName).toEqual(expectedSubflowInStore.flowName);
             });
             it('has inputAssignments matching the inputAssignments from store', () => {
-                expect(subflow.inputAssignments).toEqual(
-                    expectedSubflowInStore.inputAssignments
-                );
+                expect(subflow.inputAssignments).toEqual(expectedSubflowInStore.inputAssignments);
             });
             it('has outputParameters matching the inputAssignments from store', () => {
-                expect(subflow.outputAssignments).toEqual(
-                    expectedSubflowInStore.outputAssignments
-                );
+                expect(subflow.outputAssignments).toEqual(expectedSubflowInStore.outputAssignments);
             });
             it('has no common mutable object with subflow metadata passed as parameter', () => {
-                expect(subflow).toHaveNoCommonMutableObjectWith(
-                    subflowMetadata
-                );
+                expect(subflow).toHaveNoCommonMutableObjectWith(subflowMetadata);
             });
         });
         describe('when subflow from store is passed', () => {
@@ -166,29 +146,19 @@ describe('subflow', () => {
             beforeEach(() => {
                 subflow = createSubflow(subflowInStore);
                 // inputParameter changes the rowId property. It probably should not though
-                expectedSubflowInStore = subflowInStoreWithAnyRowIndexGuidExpected(
-                    subflowInStore
-                );
+                expectedSubflowInStore = subflowInStoreWithAnyRowIndexGuidExpected(subflowInStore);
             });
             it('has flowName equal to flowName from store', () => {
-                expect(subflow.flowName).toEqual(
-                    expectedSubflowInStore.flowName
-                );
+                expect(subflow.flowName).toEqual(expectedSubflowInStore.flowName);
             });
             it('has inputAssignments matching the inputAssignments from store', () => {
-                expect(subflow.inputAssignments).toEqual(
-                    expectedSubflowInStore.inputAssignments
-                );
+                expect(subflow.inputAssignments).toEqual(expectedSubflowInStore.inputAssignments);
             });
             it('has outputParameters matching the outputParameters from store', () => {
-                expect(subflow.outputAssignments).toEqual(
-                    expectedSubflowInStore.outputAssignments
-                );
+                expect(subflow.outputAssignments).toEqual(expectedSubflowInStore.outputAssignments);
             });
             it('has storeOutputAutomatically matching the storeOutputAutomatically from store', () => {
-                expect(subflow.storeOutputAutomatically).toEqual(
-                    expectedSubflowInStore.storeOutputAutomatically
-                );
+                expect(subflow.storeOutputAutomatically).toEqual(expectedSubflowInStore.storeOutputAutomatically);
             });
             it('has no common mutable object with subflow from store passed as parameter', () => {
                 expect(subflow).toHaveNoCommonMutableObjectWith(subflowInStore);
@@ -201,15 +171,11 @@ describe('subflow', () => {
                 });
                 it('is equal to the subflow metadata', () => {
                     // we don't pass config so connector cannot be recreated
-                    const expectedSubflow = expectedSubflowMetadata(
-                        subflowMetadata
-                    );
+                    const expectedSubflow = expectedSubflowMetadata(subflowMetadata);
                     expect(subflow).toEqual(expectedSubflow);
                 });
                 it('has no common mutable object with subflow from store passed as parameter', () => {
-                    expect(subflow).toHaveNoCommonMutableObjectWith(
-                        subflowInStore
-                    );
+                    expect(subflow).toHaveNoCommonMutableObjectWith(subflowInStore);
                 });
             });
         });
@@ -218,9 +184,7 @@ describe('subflow', () => {
                 subflow = createSubflowWithConnectors(subflowMetadata);
             });
             it('has no common mutable object with subflow metadata passed as parameter', () => {
-                expect(subflow).toHaveNoCommonMutableObjectWith(
-                    subflowMetadata
-                );
+                expect(subflow).toHaveNoCommonMutableObjectWith(subflowMetadata);
             });
         });
     });

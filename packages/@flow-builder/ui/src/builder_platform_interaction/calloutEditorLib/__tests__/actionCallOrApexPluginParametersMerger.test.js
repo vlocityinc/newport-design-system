@@ -1,12 +1,7 @@
-import {
-    mergeInputOutputParameters,
-    MERGE_WARNING_TYPE
-} from '../calloutEditorLib';
+import { mergeInputOutputParameters, MERGE_WARNING_TYPE } from '../calloutEditorLib';
 import { chatterPostActionDetails as mockActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const mockGuid = 'mockGuid';
 
@@ -201,8 +196,7 @@ const notAvailableParameter = [
         valueDataType: 'reference'
     }
 ];
-const getParameterItem = (parameterItems, name) =>
-    parameterItems.find(parameterItem => parameterItem.name === name);
+const getParameterItem = (parameterItems, name) => parameterItems.find(parameterItem => parameterItem.name === name);
 
 describe('ActionCall/ApexPlugin parameters merge', () => {
     const storeLib = require('builder_platform_interaction/storeLib');
@@ -221,22 +215,14 @@ describe('ActionCall/ApexPlugin parameters merge', () => {
     describe('When there is duplicate parameter', () => {
         let mergedParameters;
         beforeEach(() => {
-            mergedParameters = mergeInputOutputParameters(
-                mockActionDetails.parameters,
-                [],
-                duplicatedOutputParameters
-            );
+            mergedParameters = mergeInputOutputParameters(mockActionDetails.parameters, [], duplicatedOutputParameters);
         });
         it('merges duplicated output parameters', () => {
             expect(mergedParameters.outputs).toEqual(duplicatedMergedOutputs);
         });
         it('generates DUPLICATE warning', () => {
-            expect(mergedParameters.outputs[0].warnings).toEqual([
-                MERGE_WARNING_TYPE.DUPLICATE
-            ]);
-            expect(mergedParameters.outputs[1].warnings).toEqual([
-                MERGE_WARNING_TYPE.DUPLICATE
-            ]);
+            expect(mergedParameters.outputs[0].warnings).toEqual([MERGE_WARNING_TYPE.DUPLICATE]);
+            expect(mergedParameters.outputs[1].warnings).toEqual([MERGE_WARNING_TYPE.DUPLICATE]);
         });
     });
     describe('When there is no parameter in an action or apex plugin', () => {
@@ -247,18 +233,13 @@ describe('ActionCall/ApexPlugin parameters merge', () => {
                 notAvailableParameter,
                 []
             );
-            notAvailabelParameterItem = getParameterItem(
-                mergedParameters.inputs,
-                'notAvailableParameter'
-            );
+            notAvailabelParameterItem = getParameterItem(mergedParameters.inputs, 'notAvailableParameter');
         });
         it('should have notAvailableParameter item', () => {
             expect(notAvailabelParameterItem).toBeDefined();
         });
         it('generates NOT_AVAILABLE warning', () => {
-            expect(notAvailabelParameterItem.warnings).toEqual([
-                MERGE_WARNING_TYPE.NOT_AVAILABLE
-            ]);
+            expect(notAvailabelParameterItem.warnings).toEqual([MERGE_WARNING_TYPE.NOT_AVAILABLE]);
         });
     });
 });

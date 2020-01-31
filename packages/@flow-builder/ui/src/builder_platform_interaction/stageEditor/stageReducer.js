@@ -6,10 +6,7 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 const stagePropertyChanged = (state, action) => {
     action.payload.error =
         action.payload.error === null
-            ? stageValidation.validateProperty(
-                  action.payload.propertyName,
-                  action.payload.value
-              )
+            ? stageValidation.validateProperty(action.payload.propertyName, action.payload.value)
             : action.payload.error;
     return updateProperties(state, {
         [action.payload.propertyName]: {

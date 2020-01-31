@@ -40,9 +40,7 @@ const undo = (pastStates, presentState, futureStates) => {
  */
 const redo = (pastStates, presentState, futureStates) => {
     if (futureStates && futureStates.length < 1) {
-        throw new Error(
-            'Redo: Future State Array length cannot be less than 1'
-        );
+        throw new Error('Redo: Future State Array length cannot be less than 1');
     }
     const next = futureStates[0];
     const updatedFuture = futureStates.slice(1);
@@ -78,10 +76,7 @@ export const isRedoAvailable = () => {
  * @param {Object} config - Config object containing blacklistedActions array & groupedActions array
  * @returns {Object} Reduced state object
  */
-export const undoRedo = (
-    reducer,
-    { blacklistedActions = [], groupedActions = [] }
-) => (state = {}, action) => {
+export const undoRedo = (reducer, { blacklistedActions = [], groupedActions = [] }) => (state = {}, action) => {
     switch (action.type) {
         case CLEAR_UNDO_REDO: {
             past = [];
@@ -112,10 +107,7 @@ export const undoRedo = (
             }
 
             // Grouped Actions
-            if (
-                groupedActions.includes(action.type) &&
-                lastAction === action.type
-            ) {
+            if (groupedActions.includes(action.type) && lastAction === action.type) {
                 present = newState;
             } else {
                 // Do not ever put undefined in the past state. Else it would result in undo state corruption.

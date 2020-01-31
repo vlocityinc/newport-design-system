@@ -80,10 +80,7 @@ describe('record-update-reducer using sObject', () => {
                 originalState.inputReference.value
             );
             propChangedEvent.detail.ignoreValidate = true;
-            const newState = recordUpdateReducer(
-                originalState,
-                propChangedEvent
-            );
+            const newState = recordUpdateReducer(originalState, propChangedEvent);
             expect(newState).not.toBe(originalState);
             expect(newState.inputReference.value).toEqual('VARIABLE_33');
             expect(newState.inputReference.error).toBe(null);
@@ -100,10 +97,7 @@ describe('record-update-reducer using sObject', () => {
                 originalState.inputReference.value
             );
             propChangedEvent.detail.ignoreValidate = true;
-            const newState = recordUpdateReducer(
-                originalState,
-                propChangedEvent
-            );
+            const newState = recordUpdateReducer(originalState, propChangedEvent);
             expect(newState).not.toBe(originalState);
             expect(newState.inputReference.value).toEqual(value);
             expect(newState.inputReference.error).toBe(error);
@@ -140,10 +134,7 @@ describe('record-update-reducer using fields', () => {
                 originalState.object.value
             );
             propChangedEvent.detail.ignoreValidate = true;
-            const newState = recordUpdateReducer(
-                originalState,
-                propChangedEvent
-            );
+            const newState = recordUpdateReducer(originalState, propChangedEvent);
             expect(newState).not.toBe(originalState);
             expect(newState.object.value).toEqual('USER');
             expect(newState.object.error).toBe(null);
@@ -160,10 +151,7 @@ describe('record-update-reducer using fields', () => {
                 originalState.object.value
             );
             propChangedEvent.detail.ignoreValidate = true;
-            const newState = recordUpdateReducer(
-                originalState,
-                propChangedEvent
-            );
+            const newState = recordUpdateReducer(originalState, propChangedEvent);
             expect(newState).not.toBe(originalState);
             expect(newState.object.value).toEqual(value);
             expect(newState.object.error).toBe(error);
@@ -180,8 +168,7 @@ describe('record-update-reducer using fields', () => {
                 }
             };
             originalState.filters[0].leftHandSide.value = 'invalidValue';
-            originalState.filters[0].leftHandSide.error =
-                'You have entered an invalid value';
+            originalState.filters[0].leftHandSide.error = 'You have entered an invalid value';
             newState = recordUpdateReducer(originalState, event);
         });
         it('should update filterType', () => {
@@ -230,9 +217,7 @@ describe('record-update-reducer using fields', () => {
             };
             const newState = recordUpdateReducer(originalState, event);
             expect(newState.filters).toHaveLength(1);
-            expect(newState.filters[0].leftHandSide.value).toBe(
-                'Account.Description'
-            );
+            expect(newState.filters[0].leftHandSide.value).toBe('Account.Description');
             expect(newState).not.toBe(originalState);
         });
         it('add an assignment item', () => {
@@ -269,9 +254,7 @@ describe('record-update-reducer using fields', () => {
             };
             const newState = recordUpdateReducer(originalState, event);
             expect(newState.inputAssignments).toHaveLength(1);
-            expect(newState.inputAssignments[0].leftHandSide.value).toBe(
-                'Account.Description'
-            );
+            expect(newState.inputAssignments[0].leftHandSide.value).toBe('Account.Description');
             expect(newState).not.toBe(originalState);
         });
     });
@@ -280,15 +263,8 @@ describe('record-update-reducer using fields', () => {
             let newState;
             beforeAll(() => {
                 originalState = recordUpdateUsingFieldsTemplate();
-                const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(
-                    true,
-                    '',
-                    false
-                );
-                newState = recordUpdateReducer(
-                    originalState,
-                    recordStoreOptionChangedEvent
-                );
+                const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(true, '', false);
+                newState = recordUpdateReducer(originalState, recordStoreOptionChangedEvent);
             });
             it('should reset object', () => {
                 expect(newState.object.value).toBe('');
@@ -299,24 +275,15 @@ describe('record-update-reducer using fields', () => {
             });
             it('should reset inputAssignments', () => {
                 expect(newState.inputAssignments).toHaveLength(1);
-                expect(newState.inputAssignments[0].leftHandSide.value).toBe(
-                    ''
-                );
+                expect(newState.inputAssignments[0].leftHandSide.value).toBe('');
             });
         });
         describe('update getFirstRecord from true to false', () => {
             let newState;
             beforeAll(() => {
                 originalState = recordUpdateUsingSobjectTemplate();
-                const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(
-                    false,
-                    '',
-                    false
-                );
-                newState = recordUpdateReducer(
-                    originalState,
-                    recordStoreOptionChangedEvent
-                );
+                const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(false, '', false);
+                newState = recordUpdateReducer(originalState, recordStoreOptionChangedEvent);
             });
             it('should reset inputReference', () => {
                 expect(newState.inputReference.value).toBe('');

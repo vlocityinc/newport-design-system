@@ -130,10 +130,7 @@ export default class CalloutEditorContainer extends LightningElement {
             case ELEMENT_TYPE.ACTION_CALL:
             case ELEMENT_TYPE.EMAIL_ALERT:
             case ELEMENT_TYPE.APEX_CALL:
-                return (
-                    !this._selectedAction.actionName &&
-                    !this._selectedAction.actionType
-                );
+                return !this._selectedAction.actionName && !this._selectedAction.actionType;
             case ELEMENT_TYPE.APEX_PLUGIN_CALL:
                 return !this._selectedAction.apexClass;
             case ELEMENT_TYPE.SUBFLOW:
@@ -208,8 +205,7 @@ export default class CalloutEditorContainer extends LightningElement {
     }
 
     updateLabels() {
-        const elementType =
-            this.node && this.node.elementType ? this.node.elementType : null;
+        const elementType = this.node && this.node.elementType ? this.node.elementType : null;
         if (elementType == null) {
             this.state.noActionHeadingMedium = '';
             this.state.noActionBodyRegular = '';
@@ -220,12 +216,8 @@ export default class CalloutEditorContainer extends LightningElement {
                 this.state.noActionHeadingMedium = this.labels.selectActionHeadingMedium;
                 this.state.noActionBodyRegular = this.labels.selectActionBodyRegular;
             } else {
-                this.state.noActionHeadingMedium = this.labels[
-                    elementType
-                ].HEAD[this._hasActions];
-                this.state.noActionBodyRegular = this.labels[elementType].BODY[
-                    this._hasActions
-                ];
+                this.state.noActionHeadingMedium = this.labels[elementType].HEAD[this._hasActions];
+                this.state.noActionBodyRegular = this.labels[elementType].BODY[this._hasActions];
             }
         } else {
             this.state.noActionHeadingMedium = this.labels.actionsLoading;

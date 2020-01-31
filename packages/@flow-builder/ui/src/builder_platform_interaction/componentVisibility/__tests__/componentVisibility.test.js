@@ -1,9 +1,6 @@
 import { createElement } from 'lwc';
 import ComponentVisiblity from 'builder_platform_interaction/componentVisibility';
-import {
-    showPopover,
-    hidePopover
-} from 'builder_platform_interaction/builderUtils';
+import { showPopover, hidePopover } from 'builder_platform_interaction/builderUtils';
 import {
     AddConditionEvent,
     DeleteConditionEvent,
@@ -36,14 +33,10 @@ const CONDITION_2 = {
 
 const selectors = {
     conditionList: 'builder_platform_interaction-condition-list',
-    firstCondition:
-        'builder_platform_interaction-row:nth-child(1) div.condition-container'
+    firstCondition: 'builder_platform_interaction-row:nth-child(1) div.condition-container'
 };
 
-function getVisibilityRule(
-    conditionLogic = CONDITION_LOGIC.NO_CONDITIONS,
-    conditions = []
-) {
+function getVisibilityRule(conditionLogic = CONDITION_LOGIC.NO_CONDITIONS, conditions = []) {
     return {
         conditionLogic: { value: conditionLogic },
         conditions
@@ -51,12 +44,9 @@ function getVisibilityRule(
 }
 
 const createComponentUnderTest = props => {
-    const el = createElement(
-        'builder_platform_interaction-component-visibility',
-        {
-            is: ComponentVisiblity
-        }
-    );
+    const el = createElement('builder_platform_interaction-component-visibility', {
+        is: ComponentVisiblity
+    });
 
     Object.assign(
         el,
@@ -92,9 +82,7 @@ describe('Component Visibility', () => {
             visibilityRule: getVisibilityRule(CONDITION_LOGIC.AND, [CONDITION])
         });
 
-        const firstCondition = element.shadowRoot.querySelector(
-            selectors.firstCondition
-        );
+        const firstCondition = element.shadowRoot.querySelector(selectors.firstCondition);
 
         firstCondition.dispatchEvent(
             new Event('click', {
@@ -112,29 +100,20 @@ describe('Component Visibility', () => {
     describe('when update condition logic', () => {
         it('emits an UpdateConditionLogic event, hides popover', () => {
             const element = createComponentUnderTest({
-                visibilityRule: getVisibilityRule(CONDITION_LOGIC.OR, [
-                    CONDITION
-                ])
+                visibilityRule: getVisibilityRule(CONDITION_LOGIC.OR, [CONDITION])
             });
 
             const updateConditionLogicCallback = jest.fn();
-            element.addEventListener(
-                UpdateConditionLogicEvent.EVENT_NAME,
-                updateConditionLogicCallback
-            );
+            element.addEventListener(UpdateConditionLogicEvent.EVENT_NAME, updateConditionLogicCallback);
 
-            getConditionList(element).dispatchEvent(
-                new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.AND)
-            );
+            getConditionList(element).dispatchEvent(new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.AND));
 
             expect(updateConditionLogicCallback).toHaveBeenCalled();
-            expect(updateConditionLogicCallback.mock.calls[0][0]).toMatchObject(
-                {
-                    detail: {
-                        value: CONDITION_LOGIC.AND
-                    }
+            expect(updateConditionLogicCallback.mock.calls[0][0]).toMatchObject({
+                detail: {
+                    value: CONDITION_LOGIC.AND
                 }
-            );
+            });
 
             expect(hidePopover).toHaveBeenCalled();
         });
@@ -142,9 +121,7 @@ describe('Component Visibility', () => {
         it('from NO_CONDITIONS to AND, adds a new condition and shows the popover for it', () => {
             const element = createComponentUnderTest();
 
-            getConditionList(element).dispatchEvent(
-                new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.AND)
-            );
+            getConditionList(element).dispatchEvent(new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.AND));
 
             return Promise.resolve().then(() => {
                 expect(showPopover).toHaveBeenCalled();
@@ -156,17 +133,11 @@ describe('Component Visibility', () => {
 
         it('from AND to NO_CONDITIONS, removes all conditions', () => {
             const element = createComponentUnderTest({
-                visibilityRule: getVisibilityRule(CONDITION_LOGIC.OR, [
-                    CONDITION,
-                    CONDITION_2
-                ])
+                visibilityRule: getVisibilityRule(CONDITION_LOGIC.OR, [CONDITION, CONDITION_2])
             });
 
             getConditionList(element).dispatchEvent(
-                new PropertyChangedEvent(
-                    'conditionLogic',
-                    CONDITION_LOGIC.NO_CONDITIONS
-                )
+                new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.NO_CONDITIONS)
             );
 
             return Promise.resolve().then(() => {
@@ -180,20 +151,13 @@ describe('Component Visibility', () => {
         it('emits a DeleteConditionEvent and popover is hidden', () => {
             const indexOfItemToDelete = 0;
             const element = createComponentUnderTest({
-                visibilityRule: getVisibilityRule(CONDITION_LOGIC.AND, [
-                    CONDITION
-                ])
+                visibilityRule: getVisibilityRule(CONDITION_LOGIC.AND, [CONDITION])
             });
 
             const eventCallback = jest.fn();
-            element.addEventListener(
-                DeleteConditionEvent.EVENT_NAME,
-                eventCallback
-            );
+            element.addEventListener(DeleteConditionEvent.EVENT_NAME, eventCallback);
 
-            getConditionList(element).dispatchEvent(
-                new DeleteConditionEvent(element.guid, indexOfItemToDelete)
-            );
+            getConditionList(element).dispatchEvent(new DeleteConditionEvent(element.guid, indexOfItemToDelete));
 
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0]).toMatchObject({
@@ -209,16 +173,11 @@ describe('Component Visibility', () => {
     describe('when add condition', () => {
         it('emits AddConditionEvent and popover is hidden and then shown again for the new condition', () => {
             const element = createComponentUnderTest({
-                visibilityRule: getVisibilityRule(CONDITION_LOGIC.AND, [
-                    CONDITION
-                ])
+                visibilityRule: getVisibilityRule(CONDITION_LOGIC.AND, [CONDITION])
             });
 
             const eventCallback = jest.fn();
-            element.addEventListener(
-                AddConditionEvent.EVENT_NAME,
-                eventCallback
-            );
+            element.addEventListener(AddConditionEvent.EVENT_NAME, eventCallback);
 
             const addConditionEvent = new AddConditionEvent();
             getConditionList(element).dispatchEvent(addConditionEvent);
@@ -237,20 +196,13 @@ describe('Component Visibility', () => {
 
         it('noop when last condition isNew: popover is not hidden, no conditions is added', () => {
             const element = createComponentUnderTest({
-                visibilityRule: getVisibilityRule(CONDITION_LOGIC.AND, [
-                    NEW_CONDITION
-                ])
+                visibilityRule: getVisibilityRule(CONDITION_LOGIC.AND, [NEW_CONDITION])
             });
 
             const eventCallback = jest.fn();
-            element.addEventListener(
-                AddConditionEvent.EVENT_NAME,
-                eventCallback
-            );
+            element.addEventListener(AddConditionEvent.EVENT_NAME, eventCallback);
 
-            const conditionList = element.shadowRoot.querySelector(
-                selectors.conditionList
-            );
+            const conditionList = element.shadowRoot.querySelector(selectors.conditionList);
 
             conditionList.dispatchEvent(new AddConditionEvent());
 

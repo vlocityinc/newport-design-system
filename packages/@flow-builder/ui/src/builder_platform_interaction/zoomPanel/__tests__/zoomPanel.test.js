@@ -28,9 +28,7 @@ describe('Zoom Panel', () => {
     describe('Marquee button', () => {
         it('check marquee button is hidden by default when showMarqueeButton is false', () => {
             const zoomPanelElement = createComponentUnderTest();
-            const marqueeButton = zoomPanelElement.shadowRoot.querySelector(
-                selectors.marqueeButton
-            );
+            const marqueeButton = zoomPanelElement.shadowRoot.querySelector(selectors.marqueeButton);
             expect(marqueeButton).toBeNull();
         });
 
@@ -38,9 +36,7 @@ describe('Zoom Panel', () => {
             const zoomPanelElement = createComponentUnderTest({
                 showMarqueeButton: true
             });
-            const marqueeButton = zoomPanelElement.shadowRoot.querySelector(
-                selectors.marqueeButton
-            );
+            const marqueeButton = zoomPanelElement.shadowRoot.querySelector(selectors.marqueeButton);
             expect(marqueeButton).not.toBeNull();
         });
     });
@@ -48,9 +44,7 @@ describe('Zoom Panel', () => {
     describe('Zoom button group', () => {
         it('check zoom button group is shown by default', () => {
             const zoomPanelElement = createComponentUnderTest();
-            const zoomButtonGroup = zoomPanelElement.shadowRoot.querySelector(
-                selectors.zoomButtonGroup
-            );
+            const zoomButtonGroup = zoomPanelElement.shadowRoot.querySelector(selectors.zoomButtonGroup);
             expect(zoomButtonGroup).not.toBeNull();
         });
     });

@@ -2,10 +2,7 @@ import { LightningElement, api, track } from 'lwc';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
-import {
-    LIGHTNING_INPUT_VARIANTS,
-    booleanAttributeValue
-} from 'builder_platform_interaction/screenEditorUtils';
+import { LIGHTNING_INPUT_VARIANTS, booleanAttributeValue } from 'builder_platform_interaction/screenEditorUtils';
 import { LABELS } from './resourcedTextareaLabels';
 import { TEXT_MODES } from 'builder_platform_interaction/richTextPlainTextSwitch';
 
@@ -88,14 +85,11 @@ export default class ResourcedTextarea extends LightningElement {
 
     @api
     get value() {
-        return this._hydrated
-            ? { value: this._value, error: this.error }
-            : this._value;
+        return this._hydrated ? { value: this._value, error: this.error } : this._value;
     }
 
     set value(val) {
-        this._hydrated =
-            val && val.hasOwnProperty('value') && val.hasOwnProperty('error');
+        this._hydrated = val && val.hasOwnProperty('value') && val.hasOwnProperty('error');
 
         if (this._hydrated) {
             this._value = val.value;
@@ -111,10 +105,7 @@ export default class ResourcedTextarea extends LightningElement {
     }
 
     get classList() {
-        return (
-            'container slds-grid slds-grid_vertical' +
-            (this.error ? ' has-error' : '')
-        );
+        return 'container slds-grid slds-grid_vertical' + (this.error ? ' has-error' : '');
     }
 
     get isRequired() {
@@ -126,9 +117,7 @@ export default class ResourcedTextarea extends LightningElement {
      * if supported
      */
     get computedDivResourcePickerClass() {
-        return this.plainTextAvailable
-            ? 'divResourcePickerPartialWidth'
-            : 'divResourcePickerFulllWidth';
+        return this.plainTextAvailable ? 'divResourcePickerPartialWidth' : 'divResourcePickerFulllWidth';
     }
 
     handleResourcePickerSelection = event => {
@@ -137,25 +126,18 @@ export default class ResourcedTextarea extends LightningElement {
             const text = event.detail.item.displayText;
             if (text && !event.detail.item.hasNext) {
                 // Insert the item at cursor position and notify up
-                const textarea = this.template.querySelector(
-                    SELECTORS.TEXTAREA
-                );
+                const textarea = this.template.querySelector(SELECTORS.TEXTAREA);
                 const val = textarea.value;
                 const start = textarea.selectionStart || 0;
                 const end = textarea.selectionEnd || start;
                 const pre = val.substring(0, start);
                 const post = val.substring(end, val.length);
                 textarea.value = pre + text + post;
-                textarea.setSelectionRange(
-                    start + text.length,
-                    start + text.length
-                );
+                textarea.setSelectionRange(start + text.length, start + text.length);
                 this.fireEvent(textarea.value, null);
 
                 Promise.resolve().then(() => {
-                    this.template.querySelector(
-                        SELECTORS.FEROV_RESOURCE_PICKER
-                    ).value = null;
+                    this.template.querySelector(SELECTORS.FEROV_RESOURCE_PICKER).value = null;
                 });
             }
         }

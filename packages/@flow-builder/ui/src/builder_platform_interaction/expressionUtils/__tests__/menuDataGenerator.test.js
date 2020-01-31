@@ -4,18 +4,12 @@ import {
     getMenuItemForField,
     getMenuItemsForField
 } from '../menuDataGenerator';
-import {
-    getDataTypeLabel,
-    getDataTypeIcons
-} from 'builder_platform_interaction/dataTypeLib';
+import { getDataTypeLabel, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import { getResourceCategory } from 'builder_platform_interaction/elementLabelLib';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import {
-    SYSTEM_VARIABLE_PREFIX,
-    SYSTEM_VARIABLE_CLIENT_PREFIX
-} from 'builder_platform_interaction/systemLib';
+import { SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX } from 'builder_platform_interaction/systemLib';
 import {
     apexCallAutomaticAnonymousStringOutput,
     apexCallAutomaticAnonymousAccountOutput,
@@ -26,9 +20,7 @@ import { format } from 'builder_platform_interaction/commonUtils';
 import collectionDataType from '@salesforce/label/FlowBuilderDataTypes.collectionDataType';
 
 jest.mock('builder_platform_interaction/dataTypeLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/dataTypeLib'
-    );
+    const actual = require.requireActual('builder_platform_interaction/dataTypeLib');
     return {
         getDataTypeLabel: jest.fn(actual.getDataTypeLabel),
         getDataTypeIcons: jest.fn(),
@@ -47,15 +39,8 @@ jest.mock(
 );
 
 let mockGetResourceCategory = true;
-const mockImplementationForGetResourceCategory = ({
-    elementType,
-    dataType,
-    isCollection,
-    isSystemGeneratedOutput
-}) => {
-    const actual = jest.requireActual(
-        'builder_platform_interaction/elementLabelLib'
-    );
+const mockImplementationForGetResourceCategory = ({ elementType, dataType, isCollection, isSystemGeneratedOutput }) => {
+    const actual = jest.requireActual('builder_platform_interaction/elementLabelLib');
     return mockGetResourceCategory
         ? ''
         : actual.getResourceCategory({
@@ -70,23 +55,15 @@ jest.mock('builder_platform_interaction/elementLabelLib', () => {
     return {
         getResourceCategory: jest
             .fn()
-            .mockImplementation(
-                ({
+            .mockImplementation(({ elementType, dataType, isCollection, isSystemGeneratedOutput }) =>
+                mockImplementationForGetResourceCategory({
                     elementType,
                     dataType,
                     isCollection,
                     isSystemGeneratedOutput
-                }) =>
-                    mockImplementationForGetResourceCategory({
-                        elementType,
-                        dataType,
-                        isCollection,
-                        isSystemGeneratedOutput
-                    })
+                })
             ),
-        getResourceLabel: jest
-            .fn()
-            .mockImplementation(resource => resource.name)
+        getResourceLabel: jest.fn().mockImplementation(resource => resource.name)
     };
 });
 
@@ -101,9 +78,7 @@ describe('menuDataGenerator', () => {
         });
         it('calls getDataTypeLabel when given a non sobject resource with no label', () => {
             mutateFlowResourceToComboboxShape(mockResource);
-            expect(getDataTypeLabel).toHaveBeenCalledWith(
-                mockResource.dataType
-            );
+            expect(getDataTypeLabel).toHaveBeenCalledWith(mockResource.dataType);
         });
 
         it('gets a localized label when getting subtext for a data type', () => {
@@ -117,13 +92,8 @@ describe('menuDataGenerator', () => {
             mockResource.dataType = undefined;
             mockResource.type = { type: FLOW_DATA_TYPE.STRING.value };
             mutateFlowResourceToComboboxShape(mockResource);
-            expect(getDataTypeLabel).toHaveBeenCalledWith(
-                mockResource.type.type
-            );
-            expect(getDataTypeIcons).toHaveBeenCalledWith(
-                mockResource.type.type,
-                expect.any(String)
-            );
+            expect(getDataTypeLabel).toHaveBeenCalledWith(mockResource.type.type);
+            expect(getDataTypeIcons).toHaveBeenCalledWith(mockResource.type.type, expect.any(String));
             expect(getResourceCategory).toHaveBeenCalledWith({
                 ...mockResource,
                 dataType: mockResource.type.type
@@ -142,41 +112,27 @@ describe('menuDataGenerator', () => {
         });
         it('sets Variables category to action with anonymous string output as resource', () => {
             mockGetResourceCategory = false;
-            const mutatedResource = mutateFlowResourceToComboboxShape(
-                apexCallAutomaticAnonymousStringOutput
-            );
+            const mutatedResource = mutateFlowResourceToComboboxShape(apexCallAutomaticAnonymousStringOutput);
 
-            expect(mutatedResource.category).toEqual(
-                'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL'
-            );
+            expect(mutatedResource.category).toEqual('FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL');
         });
         describe('Subtext', () => {
             it('sets "Text" subtext to action with anonymous string output as resource', () => {
                 mockGetResourceCategory = false;
-                const mutatedResource = mutateFlowResourceToComboboxShape(
-                    apexCallAutomaticAnonymousStringOutput
-                );
+                const mutatedResource = mutateFlowResourceToComboboxShape(apexCallAutomaticAnonymousStringOutput);
 
-                expect(mutatedResource.subText).toEqual(
-                    'FlowBuilderDataTypes.textDataTypeLabel'
-                );
+                expect(mutatedResource.subText).toEqual('FlowBuilderDataTypes.textDataTypeLabel');
             });
             it('sets "Account" subtext to action with anonymous account output as resource', () => {
                 mockGetResourceCategory = false;
-                const mutatedResource = mutateFlowResourceToComboboxShape(
-                    apexCallAutomaticAnonymousAccountOutput
-                );
+                const mutatedResource = mutateFlowResourceToComboboxShape(apexCallAutomaticAnonymousAccountOutput);
 
                 expect(mutatedResource.subText).toEqual('Account');
             });
             it('sets "Text" subtext for "record create" in automatic output mode as resource', () => {
-                const mutatedResource = mutateFlowResourceToComboboxShape(
-                    createAccountWithAutomaticOutput
-                );
+                const mutatedResource = mutateFlowResourceToComboboxShape(createAccountWithAutomaticOutput);
 
-                expect(mutatedResource.subText).toEqual(
-                    'FlowBuilderDataTypes.textDataTypeLabel'
-                );
+                expect(mutatedResource.subText).toEqual('FlowBuilderDataTypes.textDataTypeLabel');
             });
             it('sets "Text" subtext for variable without label ("String" datatype) as resource', () => {
                 const mutatedResource = mutateFlowResourceToComboboxShape({
@@ -184,9 +140,7 @@ describe('menuDataGenerator', () => {
                     dataType: FLOW_DATA_TYPE.STRING.value
                 });
 
-                expect(mutatedResource.subText).toEqual(
-                    'FlowBuilderDataTypes.textDataTypeLabel'
-                );
+                expect(mutatedResource.subText).toEqual('FlowBuilderDataTypes.textDataTypeLabel');
             });
             it('sets "" subtext for variable with no label and no dataType as resource', () => {
                 const mutatedResource = mutateFlowResourceToComboboxShape({
@@ -249,11 +203,7 @@ describe('menuDataGenerator', () => {
         };
         const mockedDataTypeLabel = field => `${field.dataType}Label`;
 
-        const expectSubText = (
-            field,
-            parent,
-            expectedSubtext = mockedDataTypeLabel(field)
-        ) => {
+        const expectSubText = (field, parent, expectedSubtext = mockedDataTypeLabel(field)) => {
             const dataTypeLabel = mockedDataTypeLabel(field);
             getDataTypeLabel.mockReturnValueOnce(dataTypeLabel);
             const mutatedProperty = getMenuItemForField(field, parent);
@@ -261,10 +211,7 @@ describe('menuDataGenerator', () => {
         };
         it('should use label for subtext for sobject fields', () => {
             const mockField = accountFields.AccountSource;
-            const mutatedField = getMenuItemForField(
-                mockField,
-                parentSObjectItem
-            );
+            const mutatedField = getMenuItemForField(mockField, parentSObjectItem);
             expect(mutatedField.subText).toEqual(mockField.label);
         });
         it('should use dataType for subtext for apex properties', () => {
@@ -292,10 +239,7 @@ describe('menuDataGenerator', () => {
             value: 'recordVarGuid'
         };
         it('should return one menu item for a field that is not spannable', () => {
-            const menuItems = getMenuItemsForField(
-                accountFields.CloneSourceId,
-                parentSObjectItem
-            );
+            const menuItems = getMenuItemsForField(accountFields.CloneSourceId, parentSObjectItem);
             expect(menuItems).toHaveLength(1);
             expect(menuItems[0]).toMatchObject({
                 text: 'CloneSourceId',
@@ -306,10 +250,7 @@ describe('menuDataGenerator', () => {
             expect(menuItems[0].hasNext).toBeFalsy();
         });
         it('should return two menu items for a spannable field', () => {
-            const menuItems = getMenuItemsForField(
-                accountFields.CreatedById,
-                parentSObjectItem
-            );
+            const menuItems = getMenuItemsForField(accountFields.CreatedById, parentSObjectItem);
             expect(menuItems).toHaveLength(2);
             expect(menuItems[0]).toMatchObject({
                 text: 'CreatedBy',
@@ -327,11 +268,9 @@ describe('menuDataGenerator', () => {
             expect(menuItems[1].hasNext).toBeFalsy();
         });
         it('should return only one menu item for a spannable field if option allowSObjectFieldsTraversal is false', () => {
-            const menuItems = getMenuItemsForField(
-                accountFields.CreatedById,
-                parentSObjectItem,
-                { allowSObjectFieldsTraversal: false }
-            );
+            const menuItems = getMenuItemsForField(accountFields.CreatedById, parentSObjectItem, {
+                allowSObjectFieldsTraversal: false
+            });
             expect(menuItems).toHaveLength(1);
             expect(menuItems[0]).toMatchObject({
                 text: 'CreatedById',
@@ -342,10 +281,7 @@ describe('menuDataGenerator', () => {
             expect(menuItems[0].hasNext).toBeFalsy();
         });
         it('should return a menu item for each possible specific object in a polymorphic field', () => {
-            const menuItems = getMenuItemsForField(
-                feedItemFields.CreatedById,
-                parentSObjectItem
-            );
+            const menuItems = getMenuItemsForField(feedItemFields.CreatedById, parentSObjectItem);
             expect(menuItems).toHaveLength(3);
             expect(menuItems[0]).toMatchObject({
                 text: 'CreatedBy (SelfServiceUser)',

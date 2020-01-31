@@ -6,10 +6,7 @@ import { textTemplateValidation } from './textTemplateValidation';
 const textTemplatePropertyChanged = (textTemplate, action) => {
     action.payload.error =
         action.payload.error === null
-            ? textTemplateValidation.validateProperty(
-                  action.payload.propertyName,
-                  action.payload.value
-              )
+            ? textTemplateValidation.validateProperty(action.payload.propertyName, action.payload.value)
             : action.payload.error;
     return updateProperties(textTemplate, {
         [action.payload.propertyName]: {

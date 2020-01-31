@@ -26,9 +26,7 @@ jest.mock('builder_platform_interaction/preloadLib', () => {
 });
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/serverDataLib'
-    );
+    const actual = require.requireActual('builder_platform_interaction/serverDataLib');
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,
@@ -39,9 +37,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/drawingLib', () =>
-    require('builder_platform_interaction_mocks/drawingLib')
-);
+jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 
 jest.mock('builder_platform_interaction/loggingUtils', () => ({
     setAppName: jest.fn(),
@@ -73,9 +69,7 @@ describe('editorMetadata', () => {
                     flowId: '301RM0000000E4N'
                 });
                 await ticks(20);
-                expect(
-                    loadParametersForInvocableApexActionsInFlowFromMetadata
-                ).toHaveBeenCalledWith(
+                expect(loadParametersForInvocableApexActionsInFlowFromMetadata).toHaveBeenCalledWith(
                     (mockData.metadata || mockData).actionCalls
                 );
             }

@@ -1,18 +1,8 @@
 import { LightningElement, api, track } from 'lwc';
-import {
-    fetchOnce,
-    SERVER_ACTION_TYPE
-} from 'builder_platform_interaction/serverDataLib';
-import {
-    ALL_PROCESS_TYPE,
-    createRecommendedItems
-} from 'builder_platform_interaction/processTypeLib';
-import {
-    loadAllSupportedFeatures
-} from 'builder_platform_interaction/preloadLib';
-import {
-    LABELS
-} from './newFlowModalBodyLabels';
+import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { ALL_PROCESS_TYPE, createRecommendedItems } from 'builder_platform_interaction/processTypeLib';
+import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLib';
+import { LABELS } from './newFlowModalBodyLabels';
 
 const TAB_RECOMMENDED = 'recommended';
 const TAB_TEMPLATES = 'templates';
@@ -42,7 +32,7 @@ export default class NewFlowModalBody extends LightningElement {
     showRecommended;
 
     @api
-    showAll
+    showAll;
 
     @api
     footer;
@@ -55,12 +45,12 @@ export default class NewFlowModalBody extends LightningElement {
     @api
     get selectedItem() {
         switch (this.state.activeTab) {
-        case TAB_RECOMMENDED:
-            return this.state.selectedRecommendedItem;
-        case TAB_TEMPLATES:
-            return this.state.selectedTemplatesItem;
-        default:
-            throw new Error('Invalid tab ' + this.state.activeTab);
+            case TAB_RECOMMENDED:
+                return this.state.selectedRecommendedItem;
+            case TAB_TEMPLATES:
+                return this.state.selectedTemplatesItem;
+            default:
+                throw new Error('Invalid tab ' + this.state.activeTab);
         }
     }
 

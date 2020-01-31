@@ -1,7 +1,4 @@
-import {
-    getMergeWarning,
-    MERGE_VARIABLES_WARNING_TYPE
-} from '../subflowVariablesWarnings';
+import { getMergeWarning, MERGE_VARIABLES_WARNING_TYPE } from '../subflowVariablesWarnings';
 
 describe('getMergeWarning', () => {
     it('Returns a warning if variable is only in latest version', () => {
@@ -19,9 +16,7 @@ describe('getMergeWarning', () => {
         const warning = getMergeWarning(undefined, latestVersionVariable);
 
         // Then
-        expect(warning).toBe(
-            MERGE_VARIABLES_WARNING_TYPE.ONLY_AVAILABLE_IN_LATEST
-        );
+        expect(warning).toBe(MERGE_VARIABLES_WARNING_TYPE.ONLY_AVAILABLE_IN_LATEST);
     });
     it('Returns a warning if variable is only in active version', () => {
         // Given
@@ -38,9 +33,7 @@ describe('getMergeWarning', () => {
         const warning = getMergeWarning(activeVersionVariable, undefined);
 
         // Then
-        expect(warning).toBe(
-            MERGE_VARIABLES_WARNING_TYPE.ONLY_AVAILABLE_IN_ACTIVE
-        );
+        expect(warning).toBe(MERGE_VARIABLES_WARNING_TYPE.ONLY_AVAILABLE_IN_ACTIVE);
     });
     it('Returns no warning if variable is both in active and latest with same type', () => {
         // Given
@@ -61,10 +54,7 @@ describe('getMergeWarning', () => {
             scale: 0
         };
         // When
-        const warning = getMergeWarning(
-            activeVersionVariable,
-            latestVersionVariable
-        );
+        const warning = getMergeWarning(activeVersionVariable, latestVersionVariable);
 
         // Then
         expect(warning).toBeUndefined();
@@ -88,10 +78,7 @@ describe('getMergeWarning', () => {
             scale: 0
         };
         // When
-        const warning = getMergeWarning(
-            activeVersionVariable,
-            latestVersionVariable
-        );
+        const warning = getMergeWarning(activeVersionVariable, latestVersionVariable);
 
         // Then
         expect(warning).toBe(MERGE_VARIABLES_WARNING_TYPE.DATA_TYPE_CHANGED);

@@ -1,9 +1,6 @@
 import { createElement } from 'lwc';
 import ScreenPropertyField from '../screenPropertyField';
-import {
-    getRulesForElementType,
-    RULE_TYPES
-} from 'builder_platform_interaction/ruleLib';
+import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
 
@@ -33,12 +30,9 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
 });
 
 const createComponentUnderTest = props => {
-    const el = createElement(
-        'builder_platform_interaction-screen-property-field',
-        {
-            is: ScreenPropertyField
-        }
-    );
+    const el = createElement('builder_platform_interaction-screen-property-field', {
+        is: ScreenPropertyField
+    });
     if (props) {
         Object.assign(el, props);
     }
@@ -51,10 +45,8 @@ const SELECTORS = {
     TEXT_AREA_SELECTOR: 'builder_platform_interaction-resourced-textarea',
     INPUT_SELECTOR: 'lightning-input',
     RICH_TEXT: 'lightning-input-rich-text',
-    RESOURCE_RICH_TEXT_EDITOR:
-        'builder_platform_interaction-resourced-rich-text-editor',
-    RICH_TEXT_PLAIN_TEXT_SWITCH:
-        'builder_platform_interaction-rich-text-plain-text-switch'
+    RESOURCE_RICH_TEXT_EDITOR: 'builder_platform_interaction-resourced-rich-text-editor',
+    RICH_TEXT_PLAIN_TEXT_SWITCH: 'builder_platform_interaction-rich-text-plain-text-switch'
 };
 
 describe('screen-property-field', () => {
@@ -69,9 +61,7 @@ describe('screen-property-field', () => {
             );
             expect(resourcedTextAreaComponent).not.toBeNull();
             expect(
-                resourcedTextAreaComponent.shadowRoot.querySelector(
-                    SELECTORS.RICH_TEXT_PLAIN_TEXT_SWITCH
-                )
+                resourcedTextAreaComponent.shadowRoot.querySelector(SELECTORS.RICH_TEXT_PLAIN_TEXT_SWITCH)
             ).toBeNull();
         });
     });
@@ -81,18 +71,12 @@ describe('screen-property-field', () => {
             type: 'rich_string'
         });
         return Promise.resolve().then(() => {
-            const richTextComponent = screenPropertyFieldElement.shadowRoot.querySelector(
-                SELECTORS.RICH_TEXT
-            );
+            const richTextComponent = screenPropertyFieldElement.shadowRoot.querySelector(SELECTORS.RICH_TEXT);
             expect(richTextComponent).toBeDefined();
             const resourcedRichTextEditor = screenPropertyFieldElement.shadowRoot.querySelector(
                 SELECTORS.RESOURCE_RICH_TEXT_EDITOR
             );
-            expect(
-                resourcedRichTextEditor.shadowRoot.querySelector(
-                    SELECTORS.RICH_TEXT_PLAIN_TEXT_SWITCH
-                )
-            ).toBeNull();
+            expect(resourcedRichTextEditor.shadowRoot.querySelector(SELECTORS.RICH_TEXT_PLAIN_TEXT_SWITCH)).toBeNull();
         });
     });
     it('number field renders input field type', () => {
@@ -101,9 +85,7 @@ describe('screen-property-field', () => {
             type: 'number'
         });
         return Promise.resolve().then(() => {
-            const elem = screenPropertyFieldElement.shadowRoot.querySelector(
-                SELECTORS.INPUT_SELECTOR
-            );
+            const elem = screenPropertyFieldElement.shadowRoot.querySelector(SELECTORS.INPUT_SELECTOR);
             expect(elem).toBeDefined();
             expect(elem.type).toBe('number');
         });
@@ -114,9 +96,7 @@ describe('screen-property-field', () => {
             type: 'boolean'
         });
         return Promise.resolve().then(() => {
-            const elem = screenPropertyFieldElement.shadowRoot.querySelector(
-                SELECTORS.INPUT_SELECTOR
-            );
+            const elem = screenPropertyFieldElement.shadowRoot.querySelector(SELECTORS.INPUT_SELECTOR);
             expect(elem).toBeDefined();
             expect(elem.type).toBe('checkbox');
         });
@@ -127,9 +107,7 @@ describe('screen-property-field', () => {
             type: 'string'
         });
         return Promise.resolve().then(() => {
-            const elem = screenPropertyFieldElement.shadowRoot.querySelector(
-                SELECTORS.INPUT_SELECTOR
-            );
+            const elem = screenPropertyFieldElement.shadowRoot.querySelector(SELECTORS.INPUT_SELECTOR);
             expect(elem).toBeDefined();
             expect(elem.type).toBe('text');
         });
@@ -142,9 +120,7 @@ describe('screen-property-field', () => {
             helpText: helpValue
         });
         return Promise.resolve().then(() => {
-            const elem = screenPropertyFieldElement.shadowRoot.querySelector(
-                SELECTORS.INPUT_SELECTOR
-            );
+            const elem = screenPropertyFieldElement.shadowRoot.querySelector(SELECTORS.INPUT_SELECTOR);
             expect(elem).toBeDefined();
             expect(elem.fieldLevelHelp).toBe(helpValue);
         });
@@ -158,10 +134,7 @@ describe('screen-property-field', () => {
             resourcePickerConfig: {}
         });
         return Promise.resolve().then(() => {
-            expect(getRulesForElementType).toHaveBeenCalledWith(
-                RULE_TYPES.ASSIGNMENT,
-                ELEMENT_TYPE.SCREEN
-            );
+            expect(getRulesForElementType).toHaveBeenCalledWith(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.SCREEN);
         });
     });
 
@@ -175,9 +148,7 @@ describe('screen-property-field', () => {
             resourcePickerConfig: {}
         });
         return Promise.resolve().then(() => {
-            const picker = screenPropertyField.shadowRoot.querySelector(
-                FerovResourcePicker.SELECTOR
-            );
+            const picker = screenPropertyField.shadowRoot.querySelector(FerovResourcePicker.SELECTOR);
             expect(picker.rules).toEqual(mockRules);
         });
     });

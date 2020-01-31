@@ -1,20 +1,20 @@
 export const mockEntitiesWithNoLabel = [
-  {
-    apiName: "AcceptedEventRelation",
-    deletable: false,
-    queryable: true,
-    updateable: false,
-    createable: false
-  }
+    {
+        apiName: 'AcceptedEventRelation',
+        deletable: false,
+        queryable: true,
+        updateable: false,
+        createable: false
+    }
 ];
 
 export const mockWorkflowEnabledEntities = [
-  {
-    apiName: "testWFEnabledEntity",
-    deletable: false,
-    queryable: true,
-    updateable: false,
-    createable: false,
-    workflowEnabled: true
-  }
+    {
+        apiName: 'testWFEnabledEntity',
+        deletable: false,
+        queryable: true,
+        updateable: false,
+        createable: false,
+        workflowEnabled: true
+    }
 ];

@@ -8,10 +8,7 @@ import {
     compareValues
 } from 'builder_platform_interaction/screenEditorUtils';
 import { hydrateIfNecessary } from 'builder_platform_interaction/dataMutationLib';
-import {
-    getRulesForElementType,
-    RULE_TYPES
-} from 'builder_platform_interaction/ruleLib';
+import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
@@ -51,10 +48,7 @@ export default class ScreenPropertyField extends LightningElement {
 
     constructor() {
         super();
-        this.rules = getRulesForElementType(
-            RULE_TYPES.ASSIGNMENT,
-            ELEMENT_TYPE.SCREEN
-        );
+        this.rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.SCREEN);
     }
 
     renderedCallback() {
@@ -112,9 +106,7 @@ export default class ScreenPropertyField extends LightningElement {
         // Check for value like this because just doing this.value results in "false" when value is a number
         // set to 0, for example. Hence, perform the check like this.
         if (this.value !== undefined && this.value !== null) {
-            return this.value.hasOwnProperty('value')
-                ? this.value.value
-                : this.value;
+            return this.value.hasOwnProperty('value') ? this.value.value : this.value;
         }
 
         return null;
@@ -142,17 +134,11 @@ export default class ScreenPropertyField extends LightningElement {
     }
 
     get isFerov() {
-        return (
-            this.allowsResourcesForParameter || this.allowsResourcesForContext
-        );
+        return this.allowsResourcesForParameter || this.allowsResourcesForContext;
     }
 
     get allowsResources() {
-        return (
-            this.allowResourcesForContext ||
-            this.allowResourcesForParameter ||
-            this.allowResourcesForOutput
-        );
+        return this.allowResourcesForContext || this.allowResourcesForParameter || this.allowResourcesForOutput;
     }
 
     get allowsResourcesForParameter() {
@@ -196,12 +182,7 @@ export default class ScreenPropertyField extends LightningElement {
     }
 
     get isInput() {
-        return (
-            !this.allowsResources &&
-            !this.isLongString &&
-            !this.isRichString &&
-            !this.isList
-        );
+        return !this.allowsResources && !this.isLongString && !this.isRichString && !this.isList;
     }
 
     get isList() {
@@ -225,9 +206,7 @@ export default class ScreenPropertyField extends LightningElement {
     get domValue() {
         const input = this.input;
         if (this.allowsResources) {
-            return input.value && input.value.hasOwnProperty('value')
-                ? input.value.value
-                : input.value;
+            return input.value && input.value.hasOwnProperty('value') ? input.value.value : input.value;
         } else if (this.isLongString) {
             return input.value.value;
         } else if (this.isRichString) {
@@ -244,30 +223,15 @@ export default class ScreenPropertyField extends LightningElement {
     handleComboboxChanged = event => {
         event.stopPropagation();
 
-        const { value, dataType, error } = getFerovInfoAndErrorFromEvent(
-            event,
-            getFlowDataTypeByName(this.type)
-        );
-        let newValue = hydrateIfNecessary(
-            event.detail.item
-                ? event.detail.item.displayText
-                : event.detail.displayText
-        );
+        const { value, dataType, error } = getFerovInfoAndErrorFromEvent(event, getFlowDataTypeByName(this.type));
+        let newValue = hydrateIfNecessary(event.detail.item ? event.detail.item.displayText : event.detail.displayText);
         const currentValue = hydrateIfNecessary(this.value);
         if (newValue === '') {
             newValue = null;
         }
 
         this.dispatchEvent(
-            new PropertyChangedEvent(
-                this.name,
-                newValue,
-                error,
-                value,
-                currentValue,
-                this.listIndex,
-                dataType
-            )
+            new PropertyChangedEvent(this.name, newValue, error, value, currentValue, this.listIndex, dataType)
         );
     };
 
@@ -276,13 +240,7 @@ export default class ScreenPropertyField extends LightningElement {
 
         // If this is a change event, we don't want to always handle it, because it can
         // be too noisy.
-        if (
-            event.type === 'change' &&
-            !this.isBoolean &&
-            !this.isList &&
-            !this.isLongString &&
-            !this.isRichString
-        ) {
+        if (event.type === 'change' && !this.isBoolean && !this.isList && !this.isLongString && !this.isRichString) {
             return;
         }
 
@@ -301,11 +259,7 @@ export default class ScreenPropertyField extends LightningElement {
         } else if (this.isLongString && event.detail.value) {
             newValue = event.detail.value;
             ferovDataType = FEROV_DATA_TYPE.STRING;
-        } else if (
-            this.isRichString &&
-            event.detail &&
-            event.detail.value != null
-        ) {
+        } else if (this.isRichString && event.detail && event.detail.value != null) {
             newValue = event.detail.value;
             ferovDataType = FEROV_DATA_TYPE.STRING;
         } else {
@@ -330,18 +284,9 @@ export default class ScreenPropertyField extends LightningElement {
             }
         }
 
-        const error =
-            event.detail && event.detail.error ? event.detail.error : null;
+        const error = event.detail && event.detail.error ? event.detail.error : null;
         this.dispatchEvent(
-            new PropertyChangedEvent(
-                this.name,
-                newValue,
-                error,
-                newGuid,
-                currentValue,
-                this.listIndex,
-                ferovDataType
-            )
+            new PropertyChangedEvent(this.name, newValue, error, newGuid, currentValue, this.listIndex, ferovDataType)
         );
     };
 }

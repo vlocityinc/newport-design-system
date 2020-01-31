@@ -37,21 +37,15 @@ jest.mock('builder_platform_interaction/sobjectLib', () => ({
 }));
 
 jest.mock('builder_platform_interaction/flowExtensionLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/flowExtensionLib'
-    );
+    const actual = require.requireActual('builder_platform_interaction/flowExtensionLib');
     return {
         COMPONENT_INSTANCE: actual.COMPONENT_INSTANCE,
-        describeExtensions: jest
-            .fn()
-            .mockImplementation(() => Promise.resolve())
+        describeExtensions: jest.fn().mockImplementation(() => Promise.resolve())
     };
 });
 
 jest.mock('builder_platform_interaction/invocableActionLib', () => ({
-    fetchDetailsForInvocableAction: jest
-        .fn()
-        .mockImplementation(() => Promise.resolve())
+    fetchDetailsForInvocableAction: jest.fn().mockImplementation(() => Promise.resolve())
 }));
 
 jest.mock('builder_platform_interaction/preloadLib', () => ({
@@ -59,9 +53,7 @@ jest.mock('builder_platform_interaction/preloadLib', () => ({
 }));
 
 jest.mock('builder_platform_interaction/subflowsLib', () => ({
-    fetchMergedFlowOutputVariables: jest
-        .fn()
-        .mockImplementation(() => Promise.resolve())
+    fetchMergedFlowOutputVariables: jest.fn().mockImplementation(() => Promise.resolve())
 }));
 
 describe('flowComplexTypeFields', () => {
@@ -75,52 +67,36 @@ describe('flowComplexTypeFields', () => {
     describe('loadFieldsForSobjectsInFlow', () => {
         const expectOneCallToFetchFieldsForEntity = expectedEntityName => {
             expect(fetchFieldsForEntity.mock.calls).toHaveLength(1);
-            expect(fetchFieldsForEntity.mock.calls[0][0]).toBe(
-                expectedEntityName
-            );
+            expect(fetchFieldsForEntity.mock.calls[0][0]).toBe(expectedEntityName);
         };
         it('Load fields for sobject variables', async () => {
-            await loadFieldsForSobjectsInFlow(
-                stateWithElements([accountSObjectVariable])
-            );
+            await loadFieldsForSobjectsInFlow(stateWithElements([accountSObjectVariable]));
             expectOneCallToFetchFieldsForEntity('Account');
         });
         it('Does not load fields for sobject variable collections', async () => {
-            await loadFieldsForSobjectsInFlow(
-                stateWithElements([accountSObjectCollectionVariable])
-            );
+            await loadFieldsForSobjectsInFlow(stateWithElements([accountSObjectCollectionVariable]));
             expect(fetchFieldsForEntity.mock.calls).toHaveLength(0);
         });
         it('Load fields for lookups in automatic output mode with first record only', async () => {
-            await loadFieldsForSobjectsInFlow(
-                stateWithElements([lookupRecordAutomaticOutput])
-            );
+            await loadFieldsForSobjectsInFlow(stateWithElements([lookupRecordAutomaticOutput]));
             expectOneCallToFetchFieldsForEntity('Account');
         });
         it('Does not load fields for lookups in automatic output mode when we retrieve all records', async () => {
-            await loadFieldsForSobjectsInFlow(
-                stateWithElements([lookupRecordCollectionAutomaticOutput])
-            );
+            await loadFieldsForSobjectsInFlow(stateWithElements([lookupRecordCollectionAutomaticOutput]));
             expect(fetchFieldsForEntity.mock.calls).toHaveLength(0);
         });
         it('Does not load fields for lookups not in automatic output mode', async () => {
-            await loadFieldsForSobjectsInFlow(
-                stateWithElements([lookupRecordOutputReference])
-            );
+            await loadFieldsForSobjectsInFlow(stateWithElements([lookupRecordOutputReference]));
             expect(fetchFieldsForEntity.mock.calls).toHaveLength(0);
         });
     });
     describe('loadFieldsForApexClassesInFlow', () => {
         it('Load fields for apex type variables', async () => {
-            await loadFieldsForApexClassesInFlow(
-                stateWithElements([apexCarVariable])
-            );
+            await loadFieldsForApexClassesInFlow(stateWithElements([apexCarVariable]));
             expect(loadApexClasses.mock.calls).toHaveLength(1);
         });
         it('Does not load fields for apex type variable collections', async () => {
-            await loadFieldsForApexClassesInFlow(
-                stateWithElements([apexComplexTypeCollectionVariable])
-            );
+            await loadFieldsForApexClassesInFlow(stateWithElements([apexComplexTypeCollectionVariable]));
             expect(loadApexClasses.mock.calls).toHaveLength(0);
         });
     });
@@ -130,37 +106,20 @@ describe('flowComplexTypeFields', () => {
             expect(describeExtensions.mock.calls[0][0]).toEqual(expectedNames);
         };
         it('Load fields for screen fields in automatic output mode', async () => {
-            await loadFieldsForExtensionsInFlow(
-                stateWithElements([
-                    screenElement,
-                    emailScreenFieldAutomaticOutput
-                ])
-            );
-            expectOneCallToDescribeExtensions([
-                emailScreenFieldAutomaticOutput.extensionName
-            ]);
+            await loadFieldsForExtensionsInFlow(stateWithElements([screenElement, emailScreenFieldAutomaticOutput]));
+            expectOneCallToDescribeExtensions([emailScreenFieldAutomaticOutput.extensionName]);
         });
         it('Does not load fields for screen fields not in automatic mode', async () => {
-            await loadFieldsForExtensionsInFlow(
-                stateWithElements([screenElement, emailScreenField])
-            );
+            await loadFieldsForExtensionsInFlow(stateWithElements([screenElement, emailScreenField]));
             expectOneCallToDescribeExtensions([]);
         });
     });
     describe('loadParametersForInvocableActionsInFlow', () => {
-        const expectThreeCallsToFetchParametersForInvocableAction = (
-            ...expectedActionCallNameAndType
-        ) => {
+        const expectThreeCallsToFetchParametersForInvocableAction = (...expectedActionCallNameAndType) => {
             expect(fetchDetailsForInvocableAction.mock.calls).toHaveLength(3);
-            expect(fetchDetailsForInvocableAction.mock.calls[0][0]).toEqual(
-                expectedActionCallNameAndType[0]
-            );
-            expect(fetchDetailsForInvocableAction.mock.calls[1][0]).toEqual(
-                expectedActionCallNameAndType[1]
-            );
-            expect(fetchDetailsForInvocableAction.mock.calls[2][0]).toEqual(
-                expectedActionCallNameAndType[2]
-            );
+            expect(fetchDetailsForInvocableAction.mock.calls[0][0]).toEqual(expectedActionCallNameAndType[0]);
+            expect(fetchDetailsForInvocableAction.mock.calls[1][0]).toEqual(expectedActionCallNameAndType[1]);
+            expect(fetchDetailsForInvocableAction.mock.calls[2][0]).toEqual(expectedActionCallNameAndType[2]);
         };
         it('Load invocable action parameters for actions in automatic output mode', async () => {
             await loadParametersForInvocableActionsInFlow(
@@ -186,29 +145,21 @@ describe('flowComplexTypeFields', () => {
             );
         });
         it('Does not load invocable action parameters for actions not in automatic output mode', async () => {
-            await loadParametersForInvocableActionsInFlow(
-                stateWithElements([actionCallElement])
-            );
+            await loadParametersForInvocableActionsInFlow(stateWithElements([actionCallElement]));
             expect(fetchDetailsForInvocableAction.mock.calls).toHaveLength(0);
         });
     });
     describe('loadFieldsForSubflowsInFlow', () => {
         it('Load subflow output variables for subflows in automatic output mode', async () => {
-            await loadFieldsForSubflowsInFlow(
-                stateWithElements([subflowAutomaticOutput])
-            );
+            await loadFieldsForSubflowsInFlow(stateWithElements([subflowAutomaticOutput]));
             expect(fetchMergedFlowOutputVariables.mock.calls).toHaveLength(1);
-            expect(fetchMergedFlowOutputVariables.mock.calls[0][0]).toBe(
-                'flowWithActiveAndLatest'
-            );
+            expect(fetchMergedFlowOutputVariables.mock.calls[0][0]).toBe('flowWithActiveAndLatest');
         });
     });
     describe('loadParametersForInvocableApexActionsInFlowFromMetadata', () => {
         const expectOneCallToFetchParametersForInvocableAction = expectedActionCallNameAndType => {
             expect(fetchDetailsForInvocableAction.mock.calls).toHaveLength(1);
-            expect(fetchDetailsForInvocableAction.mock.calls[0][0]).toEqual(
-                expectedActionCallNameAndType
-            );
+            expect(fetchDetailsForInvocableAction.mock.calls[0][0]).toEqual(expectedActionCallNameAndType);
         };
         it('Load invocable action parameters only for apex actions in automatic output mode', async () => {
             await loadParametersForInvocableApexActionsInFlowFromMetadata(
@@ -226,9 +177,7 @@ describe('flowComplexTypeFields', () => {
         });
         it('Does not load invocable action parameters for actions not in automatic output mode', async () => {
             await loadParametersForInvocableApexActionsInFlowFromMetadata(
-                getActionCallsByNames(flowWithAllElements, [
-                    actionCallElement.name
-                ])
+                getActionCallsByNames(flowWithAllElements, [actionCallElement.name])
             );
             expect(fetchDetailsForInvocableAction.mock.calls).toHaveLength(0);
         });

@@ -4,15 +4,9 @@ import {
     UpdateConditionLogicEvent,
     DeleteConditionEvent
 } from 'builder_platform_interaction/events';
-import {
-    getConditionsWithPrefixes,
-    showDeleteCondition
-} from 'builder_platform_interaction/conditionListUtils';
+import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
-import {
-    showPopover,
-    hidePopover
-} from 'builder_platform_interaction/builderUtils';
+import { showPopover, hidePopover } from 'builder_platform_interaction/builderUtils';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './componentVisibilityLabels';
 
@@ -70,10 +64,7 @@ export default class ComponentVisibility extends LightningElement {
     }
 
     get showConditions() {
-        return (
-            this.visibilityRule.conditionLogic.value !==
-            CONDITION_LOGIC.NO_CONDITIONS
-        );
+        return this.visibilityRule.conditionLogic.value !== CONDITION_LOGIC.NO_CONDITIONS;
     }
 
     get maxConditions() {
@@ -158,9 +149,7 @@ export default class ComponentVisibility extends LightningElement {
         // makes sure the popover is redisplayed
         hidePopover();
 
-        this.dispatchEvent(
-            new UpdateConditionLogicEvent(this.guid, conditionLogic)
-        );
+        this.dispatchEvent(new UpdateConditionLogicEvent(this.guid, conditionLogic));
     };
 
     /**
@@ -190,9 +179,7 @@ export default class ComponentVisibility extends LightningElement {
      * @fires UpdateConditionEvent
      */
     handleDone = (index, condition) => {
-        this.dispatchEvent(
-            new UpdateConditionEvent(this.guid, index, condition)
-        );
+        this.dispatchEvent(new UpdateConditionEvent(this.guid, index, condition));
         this._popoverIndex = -1;
         hidePopover();
     };
@@ -215,8 +202,7 @@ export default class ComponentVisibility extends LightningElement {
      */
     isLastConditionNew() {
         const { conditions } = this.visibilityRule;
-        const lastCondition =
-            conditions.length > 0 ? conditions[conditions.length - 1] : null;
+        const lastCondition = conditions.length > 0 ? conditions[conditions.length - 1] : null;
         return lastCondition && this.isConditionNew(lastCondition);
     }
 

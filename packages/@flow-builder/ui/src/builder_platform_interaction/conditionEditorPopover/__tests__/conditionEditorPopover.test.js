@@ -47,12 +47,9 @@ const selectors = {
 };
 
 const createComponentUnderTest = props => {
-    const el = createElement(
-        'builder_platform_interaction-condition-editor-popover',
-        {
-            is: ConditionEditorPopover
-        }
-    );
+    const el = createElement('builder_platform_interaction-condition-editor-popover', {
+        is: ConditionEditorPopover
+    });
 
     Object.assign(
         el,
@@ -92,9 +89,7 @@ describe('Condition Editor Popover', () => {
             handleDone
         });
 
-        const doneButton = element.shadowRoot.querySelector(
-            selectors.doneButton
-        );
+        const doneButton = element.shadowRoot.querySelector(selectors.doneButton);
 
         doneButton.click();
 

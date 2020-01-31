@@ -36,8 +36,7 @@ const selectors = {
     conditionLogicComboBox: '.conditionLogic',
     customLogicInput: '.customLogic',
     removeButton: 'lightning-button.removeOutcome',
-    ferToFerovExpressionBuilder:
-        'builder_platform_interaction-fer-to-ferov-expression-builder'
+    ferToFerovExpressionBuilder: 'builder_platform_interaction-fer-to-ferov-expression-builder'
 };
 
 jest.mock('builder_platform_interaction/conditionListUtils', () => {
@@ -69,16 +68,10 @@ describe('Outcome', () => {
             element.outcome = outcomeWithOneConditional;
 
             return Promise.resolve().then(() => {
-                const labelAndNameComponents = element.shadowRoot.querySelectorAll(
-                    selectors.labelAndName
-                );
+                const labelAndNameComponents = element.shadowRoot.querySelectorAll(selectors.labelAndName);
                 expect(labelAndNameComponents).toHaveLength(1);
-                expect(labelAndNameComponents[0].devName.value).toBe(
-                    outcomeWithOneConditional.name.value
-                );
-                expect(labelAndNameComponents[0].label.value).toBe(
-                    outcomeWithOneConditional.label.value
-                );
+                expect(labelAndNameComponents[0].devName.value).toBe(outcomeWithOneConditional.name.value);
+                expect(labelAndNameComponents[0].label.value).toBe(outcomeWithOneConditional.label.value);
             });
         });
         it('has Remove button if show delete is true', () => {
@@ -86,9 +79,7 @@ describe('Outcome', () => {
             element.outcome = outcomeWithOneConditional;
 
             return Promise.resolve().then(() => {
-                const removeButton = element.shadowRoot.querySelectorAll(
-                    selectors.removeButton
-                )[0];
+                const removeButton = element.shadowRoot.querySelectorAll(selectors.removeButton)[0];
 
                 expect(removeButton.label).toBe(LABELS.deleteOutcomeLabel);
                 expect(removeButton.title).toBe(LABELS.deleteOutcomeTitle);
@@ -100,9 +91,7 @@ describe('Outcome', () => {
             element.showDelete = false;
 
             return Promise.resolve().then(() => {
-                const removeButton = element.shadowRoot.querySelector(
-                    selectors.removeButton
-                );
+                const removeButton = element.shadowRoot.querySelector(selectors.removeButton);
 
                 expect(removeButton).toBeNull();
             });
@@ -116,14 +105,9 @@ describe('Outcome', () => {
 
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
-                element.addEventListener(
-                    DeleteOutcomeEvent.EVENT_NAME,
-                    eventCallback
-                );
+                element.addEventListener(DeleteOutcomeEvent.EVENT_NAME, eventCallback);
 
-                const removeButton = element.shadowRoot.querySelector(
-                    selectors.button
-                );
+                const removeButton = element.shadowRoot.querySelector(selectors.button);
                 removeButton.click();
 
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({
@@ -148,9 +132,7 @@ describe('Outcome', () => {
             element.outcome = outcomeWithOneConditional;
 
             return Promise.resolve().then(() => {
-                const expressionBuilder = element.shadowRoot.querySelector(
-                    selectors.ferToFerovExpressionBuilder
-                );
+                const expressionBuilder = element.shadowRoot.querySelector(selectors.ferToFerovExpressionBuilder);
                 expect(expressionBuilder).not.toBeNull();
             });
         });
@@ -176,9 +158,7 @@ describe('Outcome', () => {
             element.outcome = outcomeWithThreeConditionals;
 
             return Promise.resolve().then(() => {
-                const rowsArray = element.shadowRoot.querySelectorAll(
-                    selectors.row
-                );
+                const rowsArray = element.shadowRoot.querySelectorAll(selectors.row);
                 expect(rowsArray).toHaveLength(3);
             });
         });
@@ -193,12 +173,8 @@ describe('Outcome', () => {
             ]);
             element.outcome = outcomeWithOneConditional;
             return Promise.resolve().then(() => {
-                const expressionBuilder = element.shadowRoot.querySelector(
-                    selectors.ferToFerovExpressionBuilder
-                );
-                expect(expressionBuilder.defaultOperator).toEqual(
-                    RULE_OPERATOR.EQUAL_TO
-                );
+                const expressionBuilder = element.shadowRoot.querySelector(selectors.ferToFerovExpressionBuilder);
+                expect(expressionBuilder.defaultOperator).toEqual(RULE_OPERATOR.EQUAL_TO);
             });
         });
     });

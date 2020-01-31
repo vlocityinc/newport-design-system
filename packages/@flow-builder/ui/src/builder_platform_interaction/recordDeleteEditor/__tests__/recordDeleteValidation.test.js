@@ -3,9 +3,7 @@ import * as storeMockedData from 'mock/storeData';
 import { LABELS } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/expressionValidator', () =>
     require('builder_platform_interaction_mocks/expressionValidator')
 );
@@ -55,9 +53,7 @@ const recordDeleteElementWithValidSObject = {
 
 const validate = (node, event = {}) => {
     const rules = getRules(node, event);
-    return getErrorsFromHydratedElement(
-        recordDeleteValidation.validateAll(node, rules)
-    );
+    return getErrorsFromHydratedElement(recordDeleteValidation.validateAll(node, rules));
 };
 
 describe('Record delete validations using sObject', () => {
@@ -72,33 +68,23 @@ describe('Record delete validations using sObject', () => {
                 recordDeleteElementWithSObjectValid,
                 getRules(recordDeleteElementWithSObjectValid, event)
             );
-            expect(validatedRecordDelete).toEqual(
-                recordDeleteElementWithValidSObject
-            );
+            expect(validatedRecordDelete).toEqual(recordDeleteElementWithValidSObject);
         });
         test('should return an error if blank', () => {
-            recordDeleteElementWithSObjectValid[
-                INPUT_REFERENCE_PROPERTY_NAME
-            ].value = '';
+            recordDeleteElementWithSObjectValid[INPUT_REFERENCE_PROPERTY_NAME].value = '';
             validatedRecordDelete = recordDeleteValidation.validateAll(
                 recordDeleteElementWithSObjectValid,
                 getRules(recordDeleteElementWithSObjectValid, event)
             );
-            expect(validatedRecordDelete.inputReference.error).toBe(
-                LABELS.cannotBeBlank
-            );
+            expect(validatedRecordDelete.inputReference.error).toBe(LABELS.cannotBeBlank);
         });
         test('should return an error if null', () => {
-            recordDeleteElementWithValidSObject[
-                INPUT_REFERENCE_PROPERTY_NAME
-            ].value = null;
+            recordDeleteElementWithValidSObject[INPUT_REFERENCE_PROPERTY_NAME].value = null;
             validatedRecordDelete = recordDeleteValidation.validateAll(
                 recordDeleteElementWithValidSObject,
                 getRules(recordDeleteElementWithValidSObject, event)
             );
-            expect(
-                validatedRecordDelete[INPUT_REFERENCE_PROPERTY_NAME].error
-            ).toBe(LABELS.cannotBeBlank);
+            expect(validatedRecordDelete[INPUT_REFERENCE_PROPERTY_NAME].error).toBe(LABELS.cannotBeBlank);
         });
     });
 });
@@ -136,8 +122,7 @@ describe('Record delete validations using fields', () => {
                     expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
                 });
                 test('should return an error if operator is empty', () => {
-                    recordDeleteUsingFields.filters[0].leftHandSide.value =
-                        'Account.BillingAddress';
+                    recordDeleteUsingFields.filters[0].leftHandSide.value = 'Account.BillingAddress';
                     recordDeleteUsingFields.filters[0].operator.value = '';
                     const errors = validate(recordDeleteUsingFields, event);
                     expect(errors).toHaveLength(1);
@@ -145,8 +130,7 @@ describe('Record delete validations using fields', () => {
                     expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
                 });
                 test('should return an error if rightHandSide is empty', () => {
-                    recordDeleteUsingFields.filters[0].operator.value =
-                        'EqualTo';
+                    recordDeleteUsingFields.filters[0].operator.value = 'EqualTo';
                     recordDeleteUsingFields.filters[0].rightHandSide.value = '';
                     const errors = validate(recordDeleteUsingFields, event);
                     expect(errors).toHaveLength(1);
@@ -160,8 +144,7 @@ describe('Record delete validations using fields', () => {
                 test('should return an error for the object but not for the filters', () => {
                     recordDeleteUsingFields.filters[0].leftHandSide.value = '';
                     recordDeleteUsingFields.object.value = 'myNotValidValue';
-                    recordDeleteUsingFields.object.error =
-                        'Enter a valid value.';
+                    recordDeleteUsingFields.object.error = 'Enter a valid value.';
                     const errors = validate(recordDeleteUsingFields, event);
                     expect(errors).toHaveLength(1);
                     expect(errors[0].key).toBe('object');

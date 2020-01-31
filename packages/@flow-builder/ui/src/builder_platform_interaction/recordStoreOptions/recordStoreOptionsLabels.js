@@ -1,8 +1,5 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    NUMBER_RECORDS_TO_STORE,
-    WAY_TO_STORE_FIELDS
-} from 'builder_platform_interaction/recordEditorLib';
+import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 /* Labels */
 import firstRecordLabel from '@salesforce/label/FlowBuilderRecordEditor.firstRecord';
 import allRecordsLabel from '@salesforce/label/FlowBuilderRecordEditor.allRecords';
@@ -79,14 +76,8 @@ const getWayToStoreOption = (labelFirstWay, labelSecondWay) => {
  * The labels depend on the element type but the values are still the same
  */
 export const NUMBER_RECORDS_OPTIONS = {
-    [ELEMENT_TYPE.RECORD_LOOKUP]: getNumberRecordsOption(
-        LABELS.firstRecordLabel,
-        LABELS.allRecordsLabel
-    ),
-    [ELEMENT_TYPE.RECORD_CREATE]: getNumberRecordsOption(
-        LABELS.oneRecordLabel,
-        LABELS.multipleRecordsLabel
-    ),
+    [ELEMENT_TYPE.RECORD_LOOKUP]: getNumberRecordsOption(LABELS.firstRecordLabel, LABELS.allRecordsLabel),
+    [ELEMENT_TYPE.RECORD_CREATE]: getNumberRecordsOption(LABELS.oneRecordLabel, LABELS.multipleRecordsLabel),
     [ELEMENT_TYPE.RECORD_UPDATE]: getNumberRecordsOption(
         LABELS.idsStoredSObjectOrSObjectCollectionLabel,
         LABELS.usingCriteriaLabel
@@ -102,10 +93,7 @@ export const NUMBER_RECORDS_OPTIONS = {
  * The labels depend on the element type but the values are still the same
  */
 export const WAY_TO_STORE_FIELDS_OPTIONS = {
-    [ELEMENT_TYPE.RECORD_LOOKUP]: getWayToStoreOption(
-        LABELS.togetherInsObjectVariable,
-        LABELS.separateVariable
-    ),
+    [ELEMENT_TYPE.RECORD_LOOKUP]: getWayToStoreOption(LABELS.togetherInsObjectVariable, LABELS.separateVariable),
     [ELEMENT_TYPE.RECORD_CREATE]: getWayToStoreOption(
         LABELS.useAllValuesFromRecordVariableLabel,
         LABELS.useSeparateVariableLabel

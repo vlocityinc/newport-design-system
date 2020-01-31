@@ -1,12 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
-import {
-    getRulesForElementType,
-    RULE_TYPES
-} from 'builder_platform_interaction/ruleLib';
-import {
-    compareParamsByRequired,
-    compareParamsByLabel
-} from './parameterUtils';
+import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import { compareParamsByRequired, compareParamsByLabel } from './parameterUtils';
 import { multiComparator } from 'builder_platform_interaction/sortLib';
 
 export default class ParameterList extends LightningElement {
@@ -213,7 +207,9 @@ export default class ParameterList extends LightningElement {
     @api
     validate() {
         if (this.hasConfigurationEditor) {
-            const customPropertyEditor = this.template.querySelector('builder_platform_interaction-custom-property-editor');
+            const customPropertyEditor = this.template.querySelector(
+                'builder_platform_interaction-custom-property-editor'
+            );
             if (customPropertyEditor) {
                 return customPropertyEditor.validate();
             }
@@ -223,14 +219,7 @@ export default class ParameterList extends LightningElement {
 
     get sortedInputsWithWarnings() {
         const sortedInputs = this.sortInputs
-            ? this.state.inputs
-                  .slice()
-                  .sort(
-                      multiComparator([
-                          compareParamsByRequired,
-                          compareParamsByLabel
-                      ])
-                  )
+            ? this.state.inputs.slice().sort(multiComparator([compareParamsByRequired, compareParamsByLabel]))
             : this.state.inputs;
         return sortedInputs.map(item => ({
             item,
@@ -252,10 +241,7 @@ export default class ParameterList extends LightningElement {
      * @return {Boolean} true : the user chooses to use the Advanced Options or if the process type does not support the automatic output handling
      */
     get isAdvancedMode() {
-        return (
-            !this.state.storeOutputAutomatically ||
-            !this.automaticOutputHandlingSupported
-        );
+        return !this.state.storeOutputAutomatically || !this.automaticOutputHandlingSupported;
     }
 
     /**
@@ -263,8 +249,6 @@ export default class ParameterList extends LightningElement {
      * @return {string} "slds-p-left_xx-large slds-p-right_small" : if the automatic output handling is supported
      */
     get cssDivAdvancedMode() {
-        return this.automaticOutputHandlingSupported
-            ? 'slds-p-left_xx-large slds-p-right_small'
-            : 'slds-p-right_small';
+        return this.automaticOutputHandlingSupported ? 'slds-p-left_xx-large slds-p-right_small' : 'slds-p-right_small';
     }
 }

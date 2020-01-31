@@ -7,14 +7,20 @@ import {
     getUseAdvancedOptionComponent
 } from 'builder_platform_interaction/builderTestUtils';
 import { screenExtensionPropertiesEventReducer } from '../screenExtensionPropertiesReducer';
-import { UseAdvancedOptionsSelectionChangedEvent, ItemSelectedEvent, DynamicTypeMappingChangeEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
+import {
+    UseAdvancedOptionsSelectionChangedEvent,
+    ItemSelectedEvent,
+    DynamicTypeMappingChangeEvent,
+    ComboboxStateChangedEvent
+} from 'builder_platform_interaction/events';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import { createFlowExtensionWithDynamicTypes, createScreenFieldWithDynamicTypes } from './screenExtensionDynamicTypesMocks';
+import {
+    createFlowExtensionWithDynamicTypes,
+    createScreenFieldWithDynamicTypes
+} from './screenExtensionDynamicTypesMocks';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
@@ -42,11 +48,9 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
 });
 
 jest.mock('../screenExtensionPropertiesReducer.js', () => {
-    const actual = require.requireActual(
-        '../screenExtensionPropertiesReducer.js'
-    );
+    const actual = require.requireActual('../screenExtensionPropertiesReducer.js');
     return {
-        screenExtensionPropertiesEventReducer: jest.fn().mockImplementation((state) => state),
+        screenExtensionPropertiesEventReducer: jest.fn().mockImplementation(state => state),
         screenExtensionPropertiesPropsToStateReducer: actual.screenExtensionPropertiesPropsToStateReducer
     };
 });
@@ -60,11 +64,8 @@ let mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(processType => {
 });
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/processTypeLib'
-    );
-    const FLOW_AUTOMATIC_OUTPUT_HANDLING =
-        actual.FLOW_AUTOMATIC_OUTPUT_HANDLING;
+    const actual = require.requireActual('builder_platform_interaction/processTypeLib');
+    const FLOW_AUTOMATIC_OUTPUT_HANDLING = actual.FLOW_AUTOMATIC_OUTPUT_HANDLING;
     return {
         FLOW_AUTOMATIC_OUTPUT_HANDLING,
         getProcessTypeAutomaticOutPutHandlingSupport: processType =>
@@ -74,16 +75,11 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
 
 const SELECTORS = {
     CONTAINER_DIV: 'div.container',
-    NAME_FIELD:
-        'builder_platform_interaction-screen-property-field[name="name"]',
-    DYNAMIC_TYPE_MAPPINGS:
-        'builder_platform_interaction-entity-resource-picker',
-    INPUT_EDITOR:
-        'builder_platform_interaction-screen-extension-attribute-editor[attributeType="input"]',
-    OUTPUT_EDITOR:
-        'builder_platform_interaction-screen-extension-attribute-editor[attributeType="output"]',
-    COMPONENT_VISIBILITY:
-        'lightning-accordion-section[name="componentVisibility"]',
+    NAME_FIELD: 'builder_platform_interaction-screen-property-field[name="name"]',
+    DYNAMIC_TYPE_MAPPINGS: 'builder_platform_interaction-entity-resource-picker',
+    INPUT_EDITOR: 'builder_platform_interaction-screen-extension-attribute-editor[attributeType="input"]',
+    OUTPUT_EDITOR: 'builder_platform_interaction-screen-extension-attribute-editor[attributeType="output"]',
+    COMPONENT_VISIBILITY: 'lightning-accordion-section[name="componentVisibility"]',
     H3: 'h3'
 };
 
@@ -227,13 +223,7 @@ const createField = (
     outputParameters = deepCopy(OUTPUT_PARAMETERS),
     storeOutputAutomatically = true
 ) => {
-    properties.field = createTestScreenField(
-        'lcField',
-        'Extension',
-        DESCRIPTOR_NAME,
-        {},
-        storeOutputAutomatically
-    );
+    properties.field = createTestScreenField('lcField', 'Extension', DESCRIPTOR_NAME, {}, storeOutputAutomatically);
     properties.field.inputParameters = inputParameters;
     properties.field.outputParameters = outputParameters;
 };
@@ -251,20 +241,18 @@ const createDescription = (
 };
 
 function createComponentForTest(properties) {
-    const el = createElement(
-        'builder_platform_interaction-screen-extension-properties-editor',
-        { is: ScreenExtensionPropertiesEditor }
-    );
+    const el = createElement('builder_platform_interaction-screen-extension-properties-editor', {
+        is: ScreenExtensionPropertiesEditor
+    });
     Object.assign(el, properties);
     document.body.appendChild(el);
     return el;
 }
 
 const createComponentForTestWithProperties = () => {
-    const el = createElement(
-        'builder_platform_interaction-screen-extension-properties-editor',
-        { is: ScreenExtensionPropertiesEditor }
-    );
+    const el = createElement('builder_platform_interaction-screen-extension-properties-editor', {
+        is: ScreenExtensionPropertiesEditor
+    });
     const properties = {};
     createField(properties);
     createDescription(properties);
@@ -275,10 +263,9 @@ const createComponentForTestWithProperties = () => {
 };
 
 const createComponentForTestWithNoOutput = () => {
-    const el = createElement(
-        'builder_platform_interaction-screen-extension-properties-editor',
-        { is: ScreenExtensionPropertiesEditor }
-    );
+    const el = createElement('builder_platform_interaction-screen-extension-properties-editor', {
+        is: ScreenExtensionPropertiesEditor
+    });
     const properties = {};
     createField(properties, INPUT_PARAMETERS, [], false);
     createDescription(properties, DESCRIPTOR_PARAMETERS, []);
@@ -288,12 +275,7 @@ const createComponentForTestWithNoOutput = () => {
     return el;
 };
 
-const runTest = (
-    createFieldRequired,
-    createDescriptionRequired,
-    propertiesProcessor,
-    testCallback
-) => {
+const runTest = (createFieldRequired, createDescriptionRequired, propertiesProcessor, testCallback) => {
     const properties = {};
     if (createFieldRequired) {
         createField(properties);
@@ -329,21 +311,16 @@ const testEditors = (selector, propertyName) => {
         let fieldParams = props.field[propertyName];
         attEditors.forEach(attEditor => {
             if (attEditor.attribute) {
-                expect(attEditor.attribute.name.value).toEqual(
-                    attEditor.descriptor.apiName
-                );
+                expect(attEditor.attribute.name.value).toEqual(attEditor.descriptor.apiName);
                 const fieldParamsCount = fieldParams.length;
                 fieldParams = fieldParams.filter(
-                    fieldParam =>
-                        fieldParam.name.value !== attEditor.attribute.name.value
+                    fieldParam => fieldParam.name.value !== attEditor.attribute.name.value
                 );
                 expect(fieldParams).toHaveLength(fieldParamsCount - 1); // Make sure we only removed 1
             }
 
             const descParamsCount = descParams.length;
-            descParams = descParams.filter(
-                descParam => descParam.apiName !== attEditor.descriptor.apiName
-            );
+            descParams = descParams.filter(descParam => descParam.apiName !== attEditor.descriptor.apiName);
             expect(descParams).toHaveLength(descParamsCount - 1); // Make sure we only removed 1
         });
 
@@ -382,12 +359,8 @@ describe('Screen Extension Properties Editor', () => {
     it('displays name, input and output parameters', () => {
         return runTest(true, true, null, editor => {
             expect(query(editor, SELECTORS.NAME_FIELD)).not.toBeNull();
-            expect(query(editor, SELECTORS.INPUT_EDITOR, true)).toHaveLength(
-                DESCRIPTOR_PARAMETERS.length
-            );
-            expect(query(editor, SELECTORS.OUTPUT_EDITOR, true)).toHaveLength(
-                DESCRIPTOR_PARAMETERS.length
-            );
+            expect(query(editor, SELECTORS.INPUT_EDITOR, true)).toHaveLength(DESCRIPTOR_PARAMETERS.length);
+            expect(query(editor, SELECTORS.OUTPUT_EDITOR, true)).toHaveLength(DESCRIPTOR_PARAMETERS.length);
         });
     });
 
@@ -396,12 +369,10 @@ describe('Screen Extension Properties Editor', () => {
             const inputs = query(editor, SELECTORS.INPUT_EDITOR, true);
             expect(inputs).toHaveLength(DESCRIPTOR_PARAMETERS.length);
 
-            const names = inputs.map(
-                input => input.descriptor.label || input.descriptor.apiName
+            const names = inputs.map(input => input.descriptor.label || input.descriptor.apiName);
+            const expectedNames = DESCRIPTOR_PARAMETERS.sort((p1, p2) => parametersComparator(p1, p2, true)).map(
+                p => p.label || p.apiName
             );
-            const expectedNames = DESCRIPTOR_PARAMETERS.sort((p1, p2) =>
-                parametersComparator(p1, p2, true)
-            ).map(p => p.label || p.apiName);
             expect(names).toEqual(expectedNames);
         });
     });
@@ -411,12 +382,10 @@ describe('Screen Extension Properties Editor', () => {
             const outputs = query(editor, SELECTORS.OUTPUT_EDITOR, true);
             expect(outputs).toHaveLength(DESCRIPTOR_PARAMETERS.length);
 
-            const names = outputs.map(
-                input => input.descriptor.label || input.descriptor.apiName
+            const names = outputs.map(input => input.descriptor.label || input.descriptor.apiName);
+            const expectedNames = DESCRIPTOR_PARAMETERS.sort((p1, p2) => parametersComparator(p1, p2, false)).map(
+                p => p.label || p.apiName
             );
-            const expectedNames = DESCRIPTOR_PARAMETERS.sort((p1, p2) =>
-                parametersComparator(p1, p2, false)
-            ).map(p => p.label || p.apiName);
             expect(names).toEqual(expectedNames);
         });
     });
@@ -428,9 +397,7 @@ describe('Screen Extension Properties Editor', () => {
         };
 
         return runTest(true, true, propertiesProcessor, editor => {
-            expect(
-                getStoreOutputVariableTitleElement(editor)
-            ).not.toBeDefined();
+            expect(getStoreOutputVariableTitleElement(editor)).not.toBeDefined();
         });
     });
 
@@ -442,9 +409,7 @@ describe('Screen Extension Properties Editor', () => {
 
     it('can handle multiple mappings for an output parameter', () => {
         const propertiesProcessor = properties => {
-            properties.field.outputParameters.push(
-                properties.field.outputParameters[0]
-            ); // Add second mapping for first parameter
+            properties.field.outputParameters.push(properties.field.outputParameters[0]); // Add second mapping for first parameter
         };
 
         return runTest(true, true, propertiesProcessor, editor => {
@@ -463,100 +428,73 @@ describe('Screen Extension Properties Editor', () => {
 
     describe('Automated output', () => {
         it('shows up Use Advanced Options when Automated Output enabled', async () => {
-            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(
-                () => 'Supported'
-            );
+            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => 'Supported');
             const extensionEditor = createComponentForTestWithProperties();
 
             await Promise.resolve();
 
-            const useAdvancedOptionsCheckbox = getAdvancedOptionCheckbox(
-                extensionEditor
-            );
+            const useAdvancedOptionsCheckbox = getAdvancedOptionCheckbox(extensionEditor);
             expect(useAdvancedOptionsCheckbox).toBeDefined();
             expect(useAdvancedOptionsCheckbox.checked).toBe(false);
         });
         it('does not show up Use Advanced Options when Automated Output disabled', async () => {
-            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(
-                () => 'Unsupported'
-            );
+            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => 'Unsupported');
             const extensionEditor = createComponentForTestWithProperties();
 
             await Promise.resolve();
 
-            expect(
-                getUseAdvancedOptionComponent(extensionEditor)
-            ).toBeNull();
+            expect(getUseAdvancedOptionComponent(extensionEditor)).toBeNull();
         });
         it('handles use advanced option checkbox event', async () => {
-            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(
-                () => 'Supported'
-            );
+            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => 'Supported');
             const extensionEditor = createComponentForTestWithProperties();
-            const expectedEvent = new UseAdvancedOptionsSelectionChangedEvent(
-                true
-            );
+            const expectedEvent = new UseAdvancedOptionsSelectionChangedEvent(true);
 
             await Promise.resolve();
 
-            getUseAdvancedOptionComponent(extensionEditor).dispatchEvent(
-                expectedEvent
-            );
+            getUseAdvancedOptionComponent(extensionEditor).dispatchEvent(expectedEvent);
             await Promise.resolve();
 
             expect(screenExtensionPropertiesEventReducer).toHaveBeenCalled();
-            expect(
-                screenExtensionPropertiesEventReducer.mock.calls[0][0]
-            ).toMatchObject({
+            expect(screenExtensionPropertiesEventReducer.mock.calls[0][0]).toMatchObject({
                 outputParameters: expect.anything(),
                 storeOutputAutomatically: true
             });
-            expect(
-                screenExtensionPropertiesEventReducer.mock.calls[0][1]
-            ).toMatchObject({
+            expect(screenExtensionPropertiesEventReducer.mock.calls[0][1]).toMatchObject({
                 extensionDescription: {
                     inputParameters: expect.anything(),
                     outputParameters: expect.anything()
                 }
             });
-            expect(
-                screenExtensionPropertiesEventReducer.mock.calls[0][2].detail
-            ).toMatchObject({
+            expect(screenExtensionPropertiesEventReducer.mock.calls[0][2].detail).toMatchObject({
                 useAdvancedOptions: true
             });
         });
         it('does not show the checkbox up when screen field has no output', () => {
-            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(
-                () => 'Supported'
-            );
+            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => 'Supported');
             const extensionEditor = createComponentForTestWithNoOutput();
 
             return Promise.resolve().then(() => {
-                expect(
-                    getUseAdvancedOptionComponent(extensionEditor)
-                ).toBeNull();
+                expect(getUseAdvancedOptionComponent(extensionEditor)).toBeNull();
             });
         });
         it('does not show the store output variable section when screen field has no output', () => {
-            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(
-                () => 'Supported'
-            );
+            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => 'Supported');
             const extensionEditor = createComponentForTestWithNoOutput();
 
             return Promise.resolve().then(() => {
-                expect(
-                    getStoreOutputVariableTitleElement(extensionEditor)
-                ).not.toBeDefined();
+                expect(getStoreOutputVariableTitleElement(extensionEditor)).not.toBeDefined();
             });
         });
     });
 
     describe('dynamic types', () => {
-        const createComponentWithDynmicTypes = () => createComponentForTest({
-            field: createScreenFieldWithDynamicTypes(),
-            extensionDescription: createFlowExtensionWithDynamicTypes(),
-            processType: 'Something'
-        });
+        const createComponentWithDynmicTypes = () =>
+            createComponentForTest({
+                field: createScreenFieldWithDynamicTypes(),
+                extensionDescription: createFlowExtensionWithDynamicTypes(),
+                processType: 'Something'
+            });
 
         it('renders', () => {
             createComponentWithDynmicTypes();
@@ -600,7 +538,8 @@ describe('Screen Extension Properties Editor', () => {
             pickers[1].dispatchEvent(
                 new ItemSelectedEvent({
                     value: 'Account'
-                }));
+                })
+            );
             await Promise.resolve();
             expect(handler).toHaveBeenCalled();
             expect(handler.mock.calls[0][0].detail).toMatchObject({
@@ -616,7 +555,9 @@ describe('Screen Extension Properties Editor', () => {
             const pickers = query(editor, SELECTORS.DYNAMIC_TYPE_MAPPINGS, true);
             const handler = jest.fn();
             editor.addEventListener(DynamicTypeMappingChangeEvent.EVENT_NAME, handler);
-            pickers[1].dispatchEvent(new ComboboxStateChangedEvent({ value: 'Engine' }, 'This is an engine', null, false));
+            pickers[1].dispatchEvent(
+                new ComboboxStateChangedEvent({ value: 'Engine' }, 'This is an engine', null, false)
+            );
             await Promise.resolve();
             expect(handler).toHaveBeenCalled();
             expect(handler.mock.calls[0][0].detail).toMatchObject({
@@ -635,13 +576,16 @@ describe('Screen Extension Properties Editor', () => {
             expect(outputs).toHaveLength(0);
 
             editor.field = Object.assign({}, editor.field, {
-                dynamicTypeMappings: [{
-                    typeName: 'T',
-                    typeValue: 'Account'
-                }, {
-                    typeName: 'S',
-                    typeValue: 'Engine'
-                }]
+                dynamicTypeMappings: [
+                    {
+                        typeName: 'T',
+                        typeValue: 'Account'
+                    },
+                    {
+                        typeName: 'S',
+                        typeValue: 'Engine'
+                    }
+                ]
             });
 
             forceRender(editor);

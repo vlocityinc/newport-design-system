@@ -61,8 +61,7 @@ export default class ScreenInputField extends LightningElement {
         // to be ISO format in order to be previewed. Perform this translation for preview
         // purposes only.
         if (
-            (this.type === LIGHTNING_INPUT_TYPES.DATE ||
-                this.type === LIGHTNING_INPUT_TYPES.DATE_TIME) &&
+            (this.type === LIGHTNING_INPUT_TYPES.DATE || this.type === LIGHTNING_INPUT_TYPES.DATE_TIME) &&
             displayValue &&
             displayValue.trim() !== ''
         ) {
@@ -88,9 +87,7 @@ export default class ScreenInputField extends LightningElement {
     get label() {
         // Empty label is not allowed by the lightning component used to render this field type.
         // Use a placeholder label if none was provided.
-        return this._label && this._label.value
-            ? this._label.value
-            : getPlaceHolderLabel(this.typeName);
+        return this._label && this._label.value ? this._label.value : getPlaceHolderLabel(this.typeName);
     }
 
     set label(value) {

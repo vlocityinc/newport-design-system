@@ -1,8 +1,4 @@
-import {
-    createStep,
-    createStepWithConnectorsForStore,
-    createStepMetadataObject
-} from '../step';
+import { createStep, createStepWithConnectorsForStore, createStepMetadataObject } from '../step';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const defaultStepElement = {
@@ -76,20 +72,14 @@ describe('Step Element Factory', () => {
             const expectedObject = {
                 testGUID: defaultStepElement
             };
-            expect(Object.values(actualResult)[0]).toMatchObject(
-                expectedObject
-            );
+            expect(Object.values(actualResult)[0]).toMatchObject(expectedObject);
         });
         it('returns a new step object for store with same values when an existing step object is passed', () => {
-            const actualResult = createStepWithConnectorsForStore(
-                stepElementForStore
-            );
+            const actualResult = createStepWithConnectorsForStore(stepElementForStore);
             const expectedObject = {
                 testGUID: stepElementForStore
             };
-            expect(Object.values(actualResult)[0]).toMatchObject(
-                expectedObject
-            );
+            expect(Object.values(actualResult)[0]).toMatchObject(expectedObject);
         });
     });
     describe('createStepMetadataObject function', () => {

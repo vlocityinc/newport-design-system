@@ -8,18 +8,17 @@ import {
     setScreenElement
 } from '../resourceUtils';
 import * as store from 'mock/storeData';
-import {
-    addCurlyBraces,
-    format
-} from 'builder_platform_interaction/commonUtils';
+import { addCurlyBraces, format } from 'builder_platform_interaction/commonUtils';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { getMenuItemForField } from '../menuDataGenerator';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
-import { setSystemVariables} from 'builder_platform_interaction_mocks/systemLib';
-import { GLOBAL_CONSTANTS,
-        GLOBAL_CONSTANT_OBJECTS,
-        SYSTEM_VARIABLE_PREFIX } from 'builder_platform_interaction/systemLib';
+import { setSystemVariables } from 'builder_platform_interaction_mocks/systemLib';
+import {
+    GLOBAL_CONSTANTS,
+    GLOBAL_CONSTANT_OBJECTS,
+    SYSTEM_VARIABLE_PREFIX
+} from 'builder_platform_interaction/systemLib';
 import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { userFields as mockUserFields } from 'serverData/GetFieldsForEntity/userFields.json';
@@ -30,13 +29,9 @@ import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/commonUtils', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/commonUtils'
-    );
+    const actual = require.requireActual('builder_platform_interaction/commonUtils');
     return {
         addCurlyBraces: actual.addCurlyBraces,
         removeCurlyBraces: actual.removeCurlyBraces,
@@ -74,9 +69,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 });
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/ruleLib'
-    );
+    const actual = require.requireActual('builder_platform_interaction/ruleLib');
     return {
         PARAM_PROPERTY: actual.PARAM_PROPERTY,
         getDataType: actual.getDataType,
@@ -87,8 +80,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
 jest.mock('../menuDataGenerator', () => {
     const actual = require.requireActual('../menuDataGenerator');
     return {
-        mutateFlowResourceToComboboxShape:
-            actual.mutateFlowResourceToComboboxShape,
+        mutateFlowResourceToComboboxShape: actual.mutateFlowResourceToComboboxShape,
         getMenuItemForField: jest.fn(),
         getMenuItemsForField: actual.getMenuItemsForField
     };
@@ -115,9 +107,7 @@ describe('ResourceUtils', () => {
             expect(rhs.itemOrDisplayText).toEqual(rhsApiValue);
         });
         it('should normalize an SObject variable', () => {
-            const normalizedFEROV = normalizeFEROV(
-                store.accountSObjectVariable.guid
-            );
+            const normalizedFEROV = normalizeFEROV(store.accountSObjectVariable.guid);
             expect(normalizedFEROV).toMatchObject({
                 itemOrDisplayText: {
                     dataType: 'SObject',
@@ -127,9 +117,7 @@ describe('ResourceUtils', () => {
         });
         it('should handle values that traverse more than two levels for sobject variables', () => {
             const fieldTraversal = '.Owner.Id';
-            const normalizedFEROV = normalizeFEROV(
-                store.accountSObjectVariable.guid + fieldTraversal
-            );
+            const normalizedFEROV = normalizeFEROV(store.accountSObjectVariable.guid + fieldTraversal);
             expect(normalizedFEROV).toMatchObject({
                 itemOrDisplayText: {
                     dataType: 'String',
@@ -152,9 +140,7 @@ describe('ResourceUtils', () => {
             });
         });
         it('should normalize a merge field containing a polymorphic relationships', () => {
-            const normalizedFEROV = normalizeFEROV(
-                store.feedItemVariable.guid + '.CreatedBy:User.AboutMe'
-            );
+            const normalizedFEROV = normalizeFEROV(store.feedItemVariable.guid + '.CreatedBy:User.AboutMe');
             expect(normalizedFEROV).toMatchObject({
                 itemOrDisplayText: {
                     dataType: 'String',
@@ -179,29 +165,19 @@ describe('ResourceUtils', () => {
         it('should not throw an exception if the user does not have access to the SObject in a merge field', () => {
             getFieldsForEntity.mockReturnValueOnce(undefined);
             const field = '.Name';
-            const normalizedFEROV = normalizeFEROV(
-                store.accountSObjectVariable.guid + field
-            );
-            expect(normalizedFEROV.itemOrDisplayText).toBe(
-                addCurlyBraces(store.accountSObjectVariable.name + field)
-            );
+            const normalizedFEROV = normalizeFEROV(store.accountSObjectVariable.guid + field);
+            expect(normalizedFEROV.itemOrDisplayText).toBe(addCurlyBraces(store.accountSObjectVariable.name + field));
         });
         it('should not throw an exception if the user does not have access to the SObject field in a merge field', () => {
             getFieldsForEntity.mockImplementationOnce(entityName => {
                 return entityName === account ? ['Name1'] : undefined;
             });
             const field = '.Name';
-            const normalizedFEROV = normalizeFEROV(
-                store.accountSObjectVariable.guid + field
-            );
-            expect(normalizedFEROV.itemOrDisplayText).toBe(
-                addCurlyBraces(store.accountSObjectVariable.name + field)
-            );
+            const normalizedFEROV = normalizeFEROV(store.accountSObjectVariable.guid + field);
+            expect(normalizedFEROV.itemOrDisplayText).toBe(addCurlyBraces(store.accountSObjectVariable.name + field));
         });
         it('should normalize Apex fields', () => {
-            const normalizedFEROV = normalizeFEROV(
-                `${store.apexCarVariable.guid}.model`
-            );
+            const normalizedFEROV = normalizeFEROV(`${store.apexCarVariable.guid}.model`);
             expect(normalizedFEROV).toMatchObject({
                 itemOrDisplayText: {
                     dataType: 'String',
@@ -222,12 +198,7 @@ describe('ResourceUtils', () => {
     describe('populate LHS state for field', () => {
         it('should populate lhs state if user has access to the entity and field', () => {
             getMenuItemForField.mockReturnValueOnce('formattedField');
-            const lhsState = populateLhsStateForField(
-                { Name: {} },
-                'Name',
-                account,
-                true
-            );
+            const lhsState = populateLhsStateForField({ Name: {} }, 'Name', account, true);
             expect(lhsState.value).toBe('formattedField');
             expect(getMenuItemForField).toHaveBeenCalledWith({}, account, {
                 showAsFieldReference: true,
@@ -239,19 +210,16 @@ describe('ResourceUtils', () => {
             expect(lhsState.value).toBeUndefined();
         });
         it('should not throw an exception if the user does not have access to the SObject field', () => {
-            const lhsState = populateLhsStateForField(
-                { BillingAddress: {} },
-                'Name'
-            );
+            const lhsState = populateLhsStateForField({ BillingAddress: {} }, 'Name');
             expect(lhsState.value).toBeUndefined();
         });
     });
 
     describe('resource retrieval', () => {
         it('getResourceByUniqueIdentifier should return element by guid', () => {
-            expect(
-                getResourceByUniqueIdentifier(store.accountSObjectVariable.guid)
-            ).toEqual(store.accountSObjectVariable);
+            expect(getResourceByUniqueIdentifier(store.accountSObjectVariable.guid)).toEqual(
+                store.accountSObjectVariable
+            );
         });
         const constants = [
             GLOBAL_CONSTANTS.EMPTY_STRING,
@@ -260,16 +228,12 @@ describe('ResourceUtils', () => {
         ];
         for (let i = 0; i < 3; i++) {
             it(`should retrieve ${constants[i]} by label`, () => {
-                expect(getResourceByUniqueIdentifier(constants[i])).toEqual(
-                    GLOBAL_CONSTANT_OBJECTS[constants[i]]
-                );
+                expect(getResourceByUniqueIdentifier(constants[i])).toEqual(GLOBAL_CONSTANT_OBJECTS[constants[i]]);
             });
         }
         it('getResourceByUniqueIdentifier should return element by guid from local storage for an uncommitted resource', () => {
             setScreenElement(mockScreenElement);
-            const retrievedResource = getResourceByUniqueIdentifier(
-                'e1b88c4a-1a78-42d2-8057-93e2401bbdd4'
-            );
+            const retrievedResource = getResourceByUniqueIdentifier('e1b88c4a-1a78-42d2-8057-93e2401bbdd4');
             expect(retrievedResource.name.value).toEqual('dt1');
             setScreenElement(undefined);
         });
@@ -292,19 +256,13 @@ describe('ResourceUtils', () => {
 
         it('uses the literal data type when not given display text', () => {
             const mockDataType = 'sfdcDataType';
-            const result = getFerovInfoAndErrorFromEvent(
-                { detail: {} },
-                mockDataType
-            );
+            const result = getFerovInfoAndErrorFromEvent({ detail: {} }, mockDataType);
             expect(result.dataType).toEqual(mockDataType);
         });
 
         it('uses the displayText as value when given display text', () => {
             const displayText = 'foo';
-            const result = getFerovInfoAndErrorFromEvent(
-                { detail: { displayText: 'foo' } },
-                undefined
-            );
+            const result = getFerovInfoAndErrorFromEvent({ detail: { displayText: 'foo' } }, undefined);
             expect(result.value).toEqual(displayText);
         });
         it('sets an error when given an invalid resource identifier', () => {
@@ -324,10 +282,7 @@ describe('ResourceUtils', () => {
         });
         it('uses literal data type when given an invalid resource identifier', () => {
             const literalDataType = 'sfdcDataType';
-            const { dataType } = getFerovInfoAndErrorFromEvent(
-                { detail: { item: badMenuItem } },
-                literalDataType
-            );
+            const { dataType } = getFerovInfoAndErrorFromEvent({ detail: { item: badMenuItem } }, literalDataType);
             expect(dataType).toEqual(literalDataType);
         });
         it('gets the ferov data type when given a menu item', () => {
@@ -400,11 +355,8 @@ describe('ResourceUtils', () => {
                 }
             };
             checkExpressionForDeletedElem(deletedGuids, expression, 'DECISION');
-            const updatedValues =
-                expression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE];
-            expect(updatedValues.value).toEqual(
-                addCurlyBraces(store.numberVariable.name)
-            );
+            const updatedValues = expression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE];
+            expect(updatedValues.value).toEqual(addCurlyBraces(store.numberVariable.name));
             expect(updatedValues.error).toEqual(anError);
         });
         it('catches deleted guid on RHS', () => {
@@ -414,11 +366,8 @@ describe('ResourceUtils', () => {
                 }
             };
             checkExpressionForDeletedElem(deletedGuids, expression, 'DECISION');
-            const updatedValues =
-                expression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE];
-            expect(updatedValues.value).toEqual(
-                addCurlyBraces(store.numberVariable.name)
-            );
+            const updatedValues = expression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE];
+            expect(updatedValues.value).toEqual(addCurlyBraces(store.numberVariable.name));
             expect(updatedValues.error).toEqual(anError);
         });
     });

@@ -10,20 +10,16 @@ import { LABELS } from 'builder_platform_interaction/validationRules';
 
 import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const SCREEN_NAME = 'TestScreen1';
 
 it('change choice screen field by changing the 1st choice', () => {
     // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField(
-        'radioField1',
-        'RadioButtons',
-        SCREEN_NO_DEF_VALUE,
-        { dataType: 'String', createChoices: true }
-    );
+    const field = createTestScreenField('radioField1', 'RadioButtons', SCREEN_NO_DEF_VALUE, {
+        dataType: 'String',
+        createChoices: true
+    });
     const screen = createTestScreen(SCREEN_NAME, []);
     const newChoice = createChoice({ name: 'newChoice' });
     screen.fields = [field];
@@ -41,28 +37,18 @@ it('change choice screen field by changing the 1st choice', () => {
 
     // The first choice should be changed, the rest should be the same.
     expect(newScreen).toBeDefined();
-    expect(newScreen.fields[0].choiceReferences[0].choiceReference.value).toBe(
-        newChoice.name
-    );
-    expect(newScreen.fields[0].choiceReferences[0].choiceReference.error).toBe(
-        'error1'
-    );
-    expect(newScreen.fields[0].choiceReferences[1]).toBe(
-        field.choiceReferences[1]
-    );
-    expect(newScreen.fields[0].choiceReferences[2]).toBe(
-        field.choiceReferences[2]
-    );
+    expect(newScreen.fields[0].choiceReferences[0].choiceReference.value).toBe(newChoice.name);
+    expect(newScreen.fields[0].choiceReferences[0].choiceReference.error).toBe('error1');
+    expect(newScreen.fields[0].choiceReferences[1]).toBe(field.choiceReferences[1]);
+    expect(newScreen.fields[0].choiceReferences[2]).toBe(field.choiceReferences[2]);
 });
 
 it('change choice screen field by changing the last choice', () => {
     // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField(
-        'radioField1',
-        'RadioButtons',
-        SCREEN_NO_DEF_VALUE,
-        { dataType: 'String', createChoices: true }
-    );
+    const field = createTestScreenField('radioField1', 'RadioButtons', SCREEN_NO_DEF_VALUE, {
+        dataType: 'String',
+        createChoices: true
+    });
     const screen = createTestScreen(SCREEN_NAME, []);
     const newChoice = createChoice({ name: 'newChoice' });
     screen.fields = [field];
@@ -80,26 +66,19 @@ it('change choice screen field by changing the last choice', () => {
 
     // The last choice should be changed, the rest should be the same.
     expect(newScreen).toBeDefined();
-    expect(newScreen.fields[0].choiceReferences[0]).toBe(
-        field.choiceReferences[0]
-    );
-    expect(newScreen.fields[0].choiceReferences[1]).toBe(
-        field.choiceReferences[1]
-    );
-    expect(newScreen.fields[0].choiceReferences[2].choiceReference.value).toBe(
-        newChoice.name
-    );
+    expect(newScreen.fields[0].choiceReferences[0]).toBe(field.choiceReferences[0]);
+    expect(newScreen.fields[0].choiceReferences[1]).toBe(field.choiceReferences[1]);
+    expect(newScreen.fields[0].choiceReferences[2].choiceReference.value).toBe(newChoice.name);
 });
 
 it('defaultValue is cleared when corresponding choice is changed', () => {
     const screen = createTestScreen(SCREEN_NAME, []);
     screen.fields = [];
-    const field = createTestScreenField(
-        'radio1',
-        'RadioButtons',
-        SCREEN_NO_DEF_VALUE,
-        { dataType: 'String', validation: false, helpText: false }
-    );
+    const field = createTestScreenField('radio1', 'RadioButtons', SCREEN_NO_DEF_VALUE, {
+        dataType: 'String',
+        validation: false,
+        helpText: false
+    });
     field.choiceReferences = [];
     field.choiceReferences.push({
         choiceReference: { value: 'choice1', error: null }
@@ -124,21 +103,18 @@ it('defaultValue is cleared when corresponding choice is changed', () => {
 
     // The default value should be cleared, along with the choice change.
     expect(newScreen).toBeDefined();
-    expect(newScreen.fields[0].choiceReferences[0].choiceReference.value).toBe(
-        newChoice.name
-    );
+    expect(newScreen.fields[0].choiceReferences[0].choiceReference.value).toBe(newChoice.name);
     expect(newScreen.fields[0].defaultSelectedChoiceReference.value).toBeNull();
 });
 
 it('defaultValue should not be cleared when unrelated choice is changed', () => {
     const screen = createTestScreen(SCREEN_NAME, []);
     screen.fields = [];
-    const field = createTestScreenField(
-        'radio1',
-        'RadioButtons',
-        SCREEN_NO_DEF_VALUE,
-        { dataType: 'String', validation: false, helpText: false }
-    );
+    const field = createTestScreenField('radio1', 'RadioButtons', SCREEN_NO_DEF_VALUE, {
+        dataType: 'String',
+        validation: false,
+        helpText: false
+    });
     field.choiceReferences = [];
     field.choiceReferences.push({
         choiceReference: { value: 'choice1', error: null }
@@ -163,22 +139,16 @@ it('defaultValue should not be cleared when unrelated choice is changed', () => 
 
     // The default value should be cleared, along with the choice change.
     expect(newScreen).toBeDefined();
-    expect(newScreen.fields[0].choiceReferences[1].choiceReference.value).toBe(
-        newChoice.name
-    );
-    expect(newScreen.fields[0].defaultSelectedChoiceReference.value).toBe(
-        'choice1'
-    );
+    expect(newScreen.fields[0].choiceReferences[1].choiceReference.value).toBe(newChoice.name);
+    expect(newScreen.fields[0].defaultSelectedChoiceReference.value).toBe('choice1');
 });
 
 it('add choice to radio screen field', () => {
     // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField(
-        'radioField1',
-        'RadioButtons',
-        SCREEN_NO_DEF_VALUE,
-        { dataType: 'String', createChoices: true }
-    );
+    const field = createTestScreenField('radioField1', 'RadioButtons', SCREEN_NO_DEF_VALUE, {
+        dataType: 'String',
+        createChoices: true
+    });
     const originalNumChoices = field.choiceReferences.length;
     expect(originalNumChoices).toBe(3);
     const screen = createTestScreen(SCREEN_NAME, []);
@@ -196,23 +166,16 @@ it('add choice to radio screen field', () => {
 
     // New choice is added to the end of the list and it's empty.
     expect(newScreen).toBeDefined();
-    expect(newScreen.fields[0].choiceReferences).toHaveLength(
-        originalNumChoices + 1
-    );
-    expect(
-        newScreen.fields[0].choiceReferences[originalNumChoices].choiceReference
-            .value
-    ).toBe('');
+    expect(newScreen.fields[0].choiceReferences).toHaveLength(originalNumChoices + 1);
+    expect(newScreen.fields[0].choiceReferences[originalNumChoices].choiceReference.value).toBe('');
 });
 
 it('Attempt to add choice to invalid position results in an error', () => {
     // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField(
-        'radioField1',
-        'RadioButtons',
-        SCREEN_NO_DEF_VALUE,
-        { dataType: 'String', createChoices: true }
-    );
+    const field = createTestScreenField('radioField1', 'RadioButtons', SCREEN_NO_DEF_VALUE, {
+        dataType: 'String',
+        createChoices: true
+    });
     const originalNumChoices = field.choiceReferences.length;
     expect(originalNumChoices).toBe(3);
     const screen = createTestScreen(SCREEN_NAME, []);
@@ -236,12 +199,10 @@ it('Attempt to add choice to invalid position results in an error', () => {
 
 it('Delete first choice from radio screen field', () => {
     // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField(
-        'radioField1',
-        'RadioButtons',
-        SCREEN_NO_DEF_VALUE,
-        { dataType: 'String', createChoices: true }
-    );
+    const field = createTestScreenField('radioField1', 'RadioButtons', SCREEN_NO_DEF_VALUE, {
+        dataType: 'String',
+        createChoices: true
+    });
     const originalNumChoices = field.choiceReferences.length;
     expect(originalNumChoices).toBe(3);
     const screen = createTestScreen(SCREEN_NAME, []);
@@ -259,25 +220,17 @@ it('Delete first choice from radio screen field', () => {
 
     // The first choice should be gone and the rest should be moved up.
     expect(newScreen).toBeDefined();
-    expect(newScreen.fields[0].choiceReferences).toHaveLength(
-        originalNumChoices - 1
-    );
-    expect(newScreen.fields[0].choiceReferences[0]).toBe(
-        field.choiceReferences[1]
-    );
-    expect(newScreen.fields[0].choiceReferences[1]).toBe(
-        field.choiceReferences[2]
-    );
+    expect(newScreen.fields[0].choiceReferences).toHaveLength(originalNumChoices - 1);
+    expect(newScreen.fields[0].choiceReferences[0]).toBe(field.choiceReferences[1]);
+    expect(newScreen.fields[0].choiceReferences[1]).toBe(field.choiceReferences[2]);
 });
 
 it('Delete last choice from radio screen field', () => {
     // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField(
-        'radioField1',
-        'RadioButtons',
-        SCREEN_NO_DEF_VALUE,
-        { dataType: 'String', createChoices: true }
-    );
+    const field = createTestScreenField('radioField1', 'RadioButtons', SCREEN_NO_DEF_VALUE, {
+        dataType: 'String',
+        createChoices: true
+    });
     const originalNumChoices = field.choiceReferences.length;
     expect(originalNumChoices).toBe(3);
     const screen = createTestScreen(SCREEN_NAME, []);
@@ -295,25 +248,17 @@ it('Delete last choice from radio screen field', () => {
 
     // The last choice should be gone, the others should be the same.
     expect(newScreen).toBeDefined();
-    expect(newScreen.fields[0].choiceReferences).toHaveLength(
-        originalNumChoices - 1
-    );
-    expect(newScreen.fields[0].choiceReferences[0]).toBe(
-        field.choiceReferences[0]
-    );
-    expect(newScreen.fields[0].choiceReferences[1]).toBe(
-        field.choiceReferences[1]
-    );
+    expect(newScreen.fields[0].choiceReferences).toHaveLength(originalNumChoices - 1);
+    expect(newScreen.fields[0].choiceReferences[0]).toBe(field.choiceReferences[0]);
+    expect(newScreen.fields[0].choiceReferences[1]).toBe(field.choiceReferences[1]);
 });
 
 it('Delete choice from radio screen field when it was the defaultValue', () => {
     // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField(
-        'radioField1',
-        'RadioButtons',
-        SCREEN_NO_DEF_VALUE,
-        { dataType: 'String', createChoices: true }
-    );
+    const field = createTestScreenField('radioField1', 'RadioButtons', SCREEN_NO_DEF_VALUE, {
+        dataType: 'String',
+        createChoices: true
+    });
     field.defaultSelectedChoiceReference = { value: 'choice1', error: null };
     const screen = createTestScreen(SCREEN_NAME, []);
     screen.fields = [field];
@@ -335,12 +280,10 @@ it('Delete choice from radio screen field when it was the defaultValue', () => {
 
 it('Deleting choice from radio screen field when it is not the defaultValue', () => {
     // Create screen with radio screenField and 3 choices
-    const field = createTestScreenField(
-        'radioField1',
-        'RadioButtons',
-        SCREEN_NO_DEF_VALUE,
-        { dataType: 'String', createChoices: true }
-    );
+    const field = createTestScreenField('radioField1', 'RadioButtons', SCREEN_NO_DEF_VALUE, {
+        dataType: 'String',
+        createChoices: true
+    });
     field.defaultSelectedChoiceReference = { value: 'choice1', error: null };
     const screen = createTestScreen(SCREEN_NAME, []);
     screen.fields = [field];
@@ -357,20 +300,17 @@ it('Deleting choice from radio screen field when it is not the defaultValue', ()
 
     // DefaultValue should be gone because its corresponding choice was deleted.
     expect(newScreen).toBeDefined();
-    expect(newScreen.fields[0].defaultSelectedChoiceReference.value).toBe(
-        'choice1'
-    );
+    expect(newScreen.fields[0].defaultSelectedChoiceReference.value).toBe('choice1');
 });
 
 it('validate all when choice based field has no choice associated with it', () => {
     const screen = createTestScreen(SCREEN_NAME, []);
     screen.fields = [];
-    const field = createTestScreenField(
-        'radio1',
-        'RadioButtons',
-        SCREEN_NO_DEF_VALUE,
-        { dataType: 'String', validation: false, helpText: false }
-    );
+    const field = createTestScreenField('radio1', 'RadioButtons', SCREEN_NO_DEF_VALUE, {
+        dataType: 'String',
+        validation: false,
+        helpText: false
+    });
     field.choiceReferences = [];
     field.choiceReferences.push({
         choiceReference: { value: '', error: null }
@@ -387,23 +327,18 @@ it('validate all when choice based field has no choice associated with it', () =
     // The screen should now have an error associated with the choice field.
     expect(newScreen).toBeDefined();
     expect(newScreen.fields[0].choiceReferences[0]).toBeDefined();
-    expect(
-        newScreen.fields[0].choiceReferences[0].choiceReference
-    ).toBeDefined();
-    expect(newScreen.fields[0].choiceReferences[0].choiceReference.error).toBe(
-        LABELS.cannotBeBlank
-    );
+    expect(newScreen.fields[0].choiceReferences[0].choiceReference).toBeDefined();
+    expect(newScreen.fields[0].choiceReferences[0].choiceReference.error).toBe(LABELS.cannotBeBlank);
 });
 
 it('validate all when choice based field has a choice associated with it', () => {
     const screen = createTestScreen(SCREEN_NAME, []);
     screen.fields = [];
-    const field = createTestScreenField(
-        'radio1',
-        'RadioButtons',
-        SCREEN_NO_DEF_VALUE,
-        { dataType: 'String', validation: false, helpText: false }
-    );
+    const field = createTestScreenField('radio1', 'RadioButtons', SCREEN_NO_DEF_VALUE, {
+        dataType: 'String',
+        validation: false,
+        helpText: false
+    });
     field.choiceReferences = [];
     field.choiceReferences.push({
         choiceReference: { value: 'choice1', error: null }
@@ -420,10 +355,6 @@ it('validate all when choice based field has a choice associated with it', () =>
     // The screen should now have an error associated with the choice field.
     expect(newScreen).toBeDefined();
     expect(newScreen.fields[0].choiceReferences[0]).toBeDefined();
-    expect(
-        newScreen.fields[0].choiceReferences[0].choiceReference
-    ).toBeDefined();
-    expect(
-        newScreen.fields[0].choiceReferences[0].choiceReference.error
-    ).toBeNull();
+    expect(newScreen.fields[0].choiceReferences[0].choiceReference).toBeDefined();
+    expect(newScreen.fields[0].choiceReferences[0].choiceReference.error).toBeNull();
 });

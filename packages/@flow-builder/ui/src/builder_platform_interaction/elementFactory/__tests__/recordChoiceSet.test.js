@@ -77,9 +77,7 @@ describe('createRecordChoiceSetMetadataObject', () => {
         }).toThrow();
     });
     describe('when a valid element is passed as param', () => {
-        const result = createRecordChoiceSetMetadataObject(
-            paramElementForRecordChoiceSet
-        );
+        const result = createRecordChoiceSetMetadataObject(paramElementForRecordChoiceSet);
         it('result object matches the paramElementForRecordChoiceSet object', () => {
             expect(result).toMatchObject(paramElementForRecordChoiceSet);
         });
@@ -94,8 +92,6 @@ describe('createRecordChoiceForStore', () => {
     });
     it('calls the baseElementsArrayToMap function with the right param', () => {
         createRecordChoiceSetForStore(mockRecordChoiceSetResult);
-        expect(baseElementsArrayToMap.mock.calls[0][0]).toMatchObject([
-            mockRecordChoiceSetResult
-        ]);
+        expect(baseElementsArrayToMap.mock.calls[0][0]).toMatchObject([mockRecordChoiceSetResult]);
     });
 });

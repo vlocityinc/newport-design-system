@@ -1,7 +1,4 @@
-import {
-    addToParentElementCache,
-    getElementFromParentElementCache
-} from 'builder_platform_interaction/comboboxCache';
+import { addToParentElementCache, getElementFromParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import { comboboxInitialConfig } from 'mock/comboboxData';
 
 const accountVar = comboboxInitialConfig.menuData[1].items[0];
@@ -21,9 +18,7 @@ jest.mock('builder_platform_interaction/selectors', () => {
 describe('combobox cache tests', () => {
     it('adding an item to the cache and reading it back works properly', () => {
         addToParentElementCache(accountVar.displayText, accountVar);
-        const accountVarFromCache = getElementFromParentElementCache(
-            accountVar.displayText
-        );
+        const accountVarFromCache = getElementFromParentElementCache(accountVar.displayText);
         expect(accountVarFromCache).toEqual(accountVar);
     });
 
@@ -35,9 +30,7 @@ describe('combobox cache tests', () => {
     });
 
     it('Trying to fetch an item not in the cache returns undefined', () => {
-        const contactVarFromCache = getElementFromParentElementCache(
-            contactVar.displayText
-        );
+        const contactVarFromCache = getElementFromParentElementCache(contactVar.displayText);
         expect(contactVarFromCache).toBeUndefined();
     });
 });

@@ -1,8 +1,4 @@
-import {
-    ELEMENT_TYPE,
-    CONNECTOR_TYPE,
-    ACTION_TYPE
-} from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, CONNECTOR_TYPE, ACTION_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
@@ -11,24 +7,12 @@ import {
     automaticOutputHandlingSupport
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
-import {
-    createInputParameter,
-    createInputParameterMetadataObject
-} from './inputParameter';
-import {
-    createOutputParameter,
-    createOutputParameterMetadataObject
-} from './outputParameter';
-import {
-    createDynamicTypeMappings,
-    createDataTypeMappingsMetadataObject
-} from './dynamicTypeMapping';
+import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
+import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
+import { createDynamicTypeMappings, createDataTypeMappingsMetadataObject } from './dynamicTypeMapping';
 import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
-import {
-    FLOW_DATA_TYPE,
-    getFlowDataType
-} from 'builder_platform_interaction/dataTypeLib';
+import { FLOW_DATA_TYPE, getFlowDataType } from 'builder_platform_interaction/dataTypeLib';
 import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 
 const maxConnections = 2;
@@ -40,22 +24,14 @@ export const getDefaultAvailableConnections = () => [
         type: CONNECTOR_TYPE.FAULT
     }
 ];
-const getSystemGeneratedOutputParameter = (
-    actionName,
-    actionType,
-    dataTypeMappings
-) => {
+const getSystemGeneratedOutputParameter = (actionName, actionType, dataTypeMappings) => {
     const parameters = getParametersForInvocableAction({
         actionName,
         actionType,
         dataTypeMappings
     });
     return parameters
-        ? parameters.find(
-              param =>
-                  param.isOutput === true &&
-                  param.isSystemGeneratedOutput === true
-          )
+        ? parameters.find(param => param.isOutput === true && param.isSystemGeneratedOutput === true)
         : undefined;
 };
 
@@ -63,10 +39,7 @@ const maxOccursToIsCollection = maxOccurs => {
     return maxOccurs > 1 ? true : false;
 };
 
-export function createActionCall(
-    actionCall = {},
-    elementType = ELEMENT_TYPE.ACTION_CALL
-) {
+export function createActionCall(actionCall = {}, elementType = ELEMENT_TYPE.ACTION_CALL) {
     const newActionCall = baseCanvasElement(actionCall);
     const { actionType = '', actionName = '' } = actionCall;
     let {
@@ -78,9 +51,7 @@ export function createActionCall(
     } = actionCall;
     let dataType;
     dataTypeMappings = createDynamicTypeMappings(dataTypeMappings);
-    inputParameters = inputParameters.map(inputParameter =>
-        createInputParameter(inputParameter)
-    );
+    inputParameters = inputParameters.map(inputParameter => createInputParameter(inputParameter));
     let isSystemGeneratedOutput;
     let subtype;
     let isCollection;
@@ -94,24 +65,13 @@ export function createActionCall(
             dataTypeMappings
         );
         if (systemGeneratedOutputParameter) {
-            ({
-                isSystemGeneratedOutput,
-                dataType,
-                sobjectType: subtype,
-                apexClass
-            } = systemGeneratedOutputParameter);
-            isCollection = maxOccursToIsCollection(
-                systemGeneratedOutputParameter.maxOccurs
-            );
-            dataType = !dataType
-                ? FLOW_DATA_TYPE.ACTION_OUTPUT.value
-                : getFlowDataType(dataType);
+            ({ isSystemGeneratedOutput, dataType, sobjectType: subtype, apexClass } = systemGeneratedOutputParameter);
+            isCollection = maxOccursToIsCollection(systemGeneratedOutputParameter.maxOccurs);
+            dataType = !dataType ? FLOW_DATA_TYPE.ACTION_OUTPUT.value : getFlowDataType(dataType);
         }
     } else {
         dataType = FLOW_DATA_TYPE.BOOLEAN.value;
-        outputParameters = outputParameters.map(outputParameter =>
-            createOutputParameter(outputParameter)
-        );
+        outputParameters = outputParameters.map(outputParameter => createOutputParameter(outputParameter));
         storeOutputAutomatically = false;
     }
     availableConnections = availableConnections.map(availableConnection =>
@@ -143,11 +103,7 @@ export function createDuplicateActionCall(actionCall, newGuid, newName) {
     Object.assign(newActionCall, {
         availableConnections: getDefaultAvailableConnections()
     });
-    const duplicateActionCall = duplicateCanvasElement(
-        newActionCall,
-        newGuid,
-        newName
-    );
+    const duplicateActionCall = duplicateCanvasElement(newActionCall, newGuid, newName);
 
     return duplicateActionCall;
 }
@@ -157,10 +113,7 @@ export function createActionCallWithConnectors(actionCall, elementType) {
 
     const connectors = createConnectorObjects(actionCall, newActionCall.guid);
     const defaultAvailableConnections = getDefaultAvailableConnections();
-    const availableConnections = removeFromAvailableConnections(
-        defaultAvailableConnections,
-        connectors
-    );
+    const availableConnections = removeFromAvailableConnections(defaultAvailableConnections, connectors);
     const connectorCount = connectors ? connectors.length : 0;
 
     const actionCallObject = Object.assign(newActionCall, {
@@ -176,21 +129,11 @@ export function createActionCallMetadataObject(actionCall, config) {
         throw new Error('actionCall is not defined');
     }
 
-    const actionCallMetadata = baseCanvasElementMetadataObject(
-        actionCall,
-        config
-    );
+    const actionCallMetadata = baseCanvasElementMetadataObject(actionCall, config);
 
     const { actionType, actionName } = actionCall;
-    let {
-        inputParameters = [],
-        outputParameters = [],
-        dataTypeMappings = [],
-        storeOutputAutomatically
-    } = actionCall;
-    inputParameters = inputParameters.map(inputParameter =>
-        createInputParameterMetadataObject(inputParameter)
-    );
+    let { inputParameters = [], outputParameters = [], dataTypeMappings = [], storeOutputAutomatically } = actionCall;
+    inputParameters = inputParameters.map(inputParameter => createInputParameterMetadataObject(inputParameter));
     if (storeOutputAutomatically && automaticOutputHandlingSupport()) {
         outputParameters = [];
     } else if (storeOutputAutomatically && !automaticOutputHandlingSupport()) {
@@ -214,9 +157,7 @@ export function createActionCallMetadataObject(actionCall, config) {
             outputParameters,
             dataTypeMappings
         },
-        storeOutputAutomatically !== undefined
-            ? { storeOutputAutomatically }
-            : {}
+        storeOutputAutomatically !== undefined ? { storeOutputAutomatically } : {}
     );
 }
 
@@ -230,15 +171,9 @@ export function createActionCallForStore(actionCall) {
     const actionType = actionCall.actionType;
     switch (actionType) {
         case ACTION_TYPE.EMAIL_ALERT:
-            return createActionCallWithConnectors(
-                actionCall,
-                ELEMENT_TYPE.EMAIL_ALERT
-            );
+            return createActionCallWithConnectors(actionCall, ELEMENT_TYPE.EMAIL_ALERT);
         case ACTION_TYPE.APEX:
-            return createActionCallWithConnectors(
-                actionCall,
-                ELEMENT_TYPE.APEX_CALL
-            );
+            return createActionCallWithConnectors(actionCall, ELEMENT_TYPE.APEX_CALL);
         default:
             return createActionCallWithConnectors(actionCall);
     }

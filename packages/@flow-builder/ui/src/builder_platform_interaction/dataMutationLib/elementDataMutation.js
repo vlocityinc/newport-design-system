@@ -1,13 +1,6 @@
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 
-const DEFAULT_BLACK_LIST = [
-    'guid',
-    'elementType',
-    'locationX',
-    'locationY',
-    'rowIndex',
-    'availableConnections'
-];
+const DEFAULT_BLACK_LIST = ['guid', 'elementType', 'locationX', 'locationY', 'rowIndex', 'availableConnections'];
 
 /**
  * Returns true if the input item is hydrated with errors.
@@ -38,10 +31,7 @@ const doHydrateWithErrors = (element, blackList) => {
  * @returns {object} - The hydrated value
  */
 export const hydrateIfNecessary = value => {
-    if (
-        !isItemHydratedWithErrors(value) &&
-        (typeof value === 'string' || value === null)
-    ) {
+    if (!isItemHydratedWithErrors(value) && (typeof value === 'string' || value === null)) {
         return { value, error: null };
     }
     return value;
@@ -54,11 +44,7 @@ export const hydrateIfNecessary = value => {
  * @param {boolean} useDefaultBlackList - Determines if the default blacklist should be merged with the elementblacklist
  * @return {Object} hydrated element object
  */
-export const hydrateWithErrors = (
-    element,
-    elementBlackListFields = [],
-    useDefaultBlackList = true
-) => {
+export const hydrateWithErrors = (element, elementBlackListFields = [], useDefaultBlackList = true) => {
     // Merge elementBlacklist and blackList fields
     const allBlacklistFields = useDefaultBlackList
         ? DEFAULT_BLACK_LIST.concat(elementBlackListFields)
@@ -82,11 +68,7 @@ export const dehydrate = element => {
                 } else if (isItemHydratedWithErrors(element[key])) {
                     if (element[key].error !== null) {
                         throw new Error(
-                            key +
-                                ' should not have any error: ' +
-                                element[key].value +
-                                ':' +
-                                element[key].error
+                            key + ' should not have any error: ' + element[key].value + ':' + element[key].error
                         );
                     }
                     element[key] = element[key].value;

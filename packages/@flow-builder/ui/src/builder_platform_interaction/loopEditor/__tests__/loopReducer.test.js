@@ -1,8 +1,5 @@
 import { loopReducer } from '../loopReducer';
-import {
-    PropertyChangedEvent,
-    LoopCollectionChangedEvent
-} from 'builder_platform_interaction/events';
+import { PropertyChangedEvent, LoopCollectionChangedEvent } from 'builder_platform_interaction/events';
 
 const IAMERRORED = 'IAMERRORED';
 const CANNOTBEBLANKERROR = 'FlowBuilderValidation.cannotBeBlank';
@@ -70,15 +67,9 @@ describe('Loop-reducer', () => {
             };
             const resultObj = loopReducer(originalState, event);
             expect(resultObj.collectionReference.value).toEqual(null);
-            expect(resultObj.collectionReference.error).toEqual(
-                CANNOTBEBLANKERROR
-            );
-            expect(resultObj.assignNextValueToReference.value).toEqual(
-                VARIABLE
-            );
-            expect(resultObj.assignNextValueToReference.error).toEqual(
-                IAMERRORED
-            );
+            expect(resultObj.collectionReference.error).toEqual(CANNOTBEBLANKERROR);
+            expect(resultObj.assignNextValueToReference.value).toEqual(VARIABLE);
+            expect(resultObj.assignNextValueToReference.error).toEqual(IAMERRORED);
         });
         it('updates both loop collection value, loop collection error', () => {
             const event = {
@@ -109,12 +100,8 @@ describe('Loop-reducer', () => {
             const resultObj = loopReducer(originalState, event);
             expect(resultObj.collectionReference.value).toEqual(VARIABLE);
             expect(resultObj.collectionReference.error).toEqual(IAMERRORED);
-            expect(resultObj.assignNextValueToReference.value).toEqual(
-                VARIABLE
-            );
-            expect(resultObj.assignNextValueToReference.error).toEqual(
-                IAMERRORED
-            );
+            expect(resultObj.assignNextValueToReference.value).toEqual(VARIABLE);
+            expect(resultObj.assignNextValueToReference.error).toEqual(IAMERRORED);
         });
         it('updates cannot be blank error for only loop collection error', () => {
             const event = {
@@ -128,9 +115,7 @@ describe('Loop-reducer', () => {
             };
             const resultObj = loopReducer(originalState, event);
             expect(resultObj.collectionReference.value).toEqual(null);
-            expect(resultObj.collectionReference.error).toEqual(
-                CANNOTBEBLANKERROR
-            );
+            expect(resultObj.collectionReference.error).toEqual(CANNOTBEBLANKERROR);
             expect(resultObj.assignNextValueToReference.value).toEqual(null);
             expect(resultObj.assignNextValueToReference.error).toEqual(null);
         });

@@ -9,10 +9,7 @@ import {
     UpdateListItemEvent,
     PropertyChangedEvent
 } from 'builder_platform_interaction/events';
-import {
-    CONDITION_LOGIC,
-    ELEMENT_TYPE
-} from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from '../conditionListLabels';
 
 const listWithThreeConditionals = {
@@ -59,8 +56,7 @@ const selectors = {
     customLogicInput: '.customLogic',
     removeButton: 'lightning-button.removeOutcome',
     ferToFerov: 'builder_platform_interaction-fer-to-ferov-expression-builder',
-    fieldToFerov:
-        'builder_platform_interaction-field-to-ferov-expression-builder'
+    fieldToFerov: 'builder_platform_interaction-field-to-ferov-expression-builder'
 };
 
 const createComponentUnderTest = props => {
@@ -82,18 +78,14 @@ describe('Condition List', () => {
                 ...listWithThreeConditionals,
                 variant: 'narrow'
             });
-            expect(
-                element.shadowRoot.querySelector('div.size_1_of_3')
-            ).toBeNull();
+            expect(element.shadowRoot.querySelector('div.size_1_of_3')).toBeNull();
         });
 
         it('size_1_of_3 present by default', () => {
             const element = createComponentUnderTest({
                 ...listWithThreeConditionals
             });
-            expect(
-                element.shadowRoot.querySelector('div.size_1_of_3')
-            ).toBeNull();
+            expect(element.shadowRoot.querySelector('div.size_1_of_3')).toBeNull();
         });
     });
 
@@ -103,14 +95,9 @@ describe('Condition List', () => {
 
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
-                element.addEventListener(
-                    AddConditionEvent.EVENT_NAME,
-                    eventCallback
-                );
+                element.addEventListener(AddConditionEvent.EVENT_NAME, eventCallback);
 
-                const conditionList = element.shadowRoot.querySelector(
-                    selectors.conditionList
-                );
+                const conditionList = element.shadowRoot.querySelector(selectors.conditionList);
                 conditionList.dispatchEvent(new AddListItemEvent());
 
                 expect(eventCallback).toHaveBeenCalled();
@@ -131,17 +118,10 @@ describe('Condition List', () => {
 
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
-                element.addEventListener(
-                    DeleteConditionEvent.EVENT_NAME,
-                    eventCallback
-                );
+                element.addEventListener(DeleteConditionEvent.EVENT_NAME, eventCallback);
 
-                const conditionList = element.shadowRoot.querySelector(
-                    selectors.conditionList
-                );
-                conditionList.dispatchEvent(
-                    new DeleteListItemEvent(indexToDelete)
-                );
+                const conditionList = element.shadowRoot.querySelector(selectors.conditionList);
+                conditionList.dispatchEvent(new DeleteListItemEvent(indexToDelete));
 
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({
                     detail: {
@@ -164,20 +144,11 @@ describe('Condition List', () => {
 
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
-                element.addEventListener(
-                    UpdateConditionEvent.EVENT_NAME,
-                    eventCallback
-                );
+                element.addEventListener(UpdateConditionEvent.EVENT_NAME, eventCallback);
 
-                const conditionList = element.shadowRoot.querySelector(
-                    selectors.conditionList
-                );
+                const conditionList = element.shadowRoot.querySelector(selectors.conditionList);
                 conditionList.dispatchEvent(
-                    new UpdateListItemEvent(
-                        updateData.index,
-                        updateData.value,
-                        updateData.error
-                    )
+                    new UpdateListItemEvent(updateData.index, updateData.value, updateData.error)
                 );
 
                 expect(eventCallback).toHaveBeenCalled();
@@ -199,9 +170,7 @@ describe('Condition List', () => {
                 const element = createComponentUnderTest(list);
 
                 return Promise.resolve().then(() => {
-                    const customLogicInput = element.shadowRoot.querySelector(
-                        selectors.customLogicInput
-                    );
+                    const customLogicInput = element.shadowRoot.querySelector(selectors.customLogicInput);
                     expect(customLogicInput).toBeNull();
                 });
             });
@@ -214,9 +183,7 @@ describe('Condition List', () => {
             const element = createComponentUnderTest(list);
 
             return Promise.resolve().then(() => {
-                const customLogicInput = element.shadowRoot.querySelector(
-                    selectors.conditionList
-                );
+                const customLogicInput = element.shadowRoot.querySelector(selectors.conditionList);
                 expect(customLogicInput).toBeNull();
             });
         });
@@ -230,13 +197,9 @@ describe('Condition List', () => {
                 const element = createComponentUnderTest(list);
 
                 return Promise.resolve().then(() => {
-                    const conditionLogicComboBox = element.shadowRoot.querySelector(
-                        selectors.conditionLogicComboBox
-                    );
+                    const conditionLogicComboBox = element.shadowRoot.querySelector(selectors.conditionLogicComboBox);
 
-                    expect(conditionLogicComboBox.value).toEqual(
-                        CONDITION_LOGIC.AND
-                    );
+                    expect(conditionLogicComboBox.value).toEqual(CONDITION_LOGIC.AND);
                 });
             });
             it('should hide the custom logic input', () => {
@@ -247,9 +210,7 @@ describe('Condition List', () => {
                 const element = createComponentUnderTest(list);
 
                 return Promise.resolve().then(() => {
-                    const customLogicInput = element.shadowRoot.querySelector(
-                        selectors.customLogicInput
-                    );
+                    const customLogicInput = element.shadowRoot.querySelector(selectors.customLogicInput);
                     expect(customLogicInput).toBeNull();
                 });
             });
@@ -264,13 +225,9 @@ describe('Condition List', () => {
                 const element = createComponentUnderTest(list);
 
                 return Promise.resolve().then(() => {
-                    const conditionLogicComboBox = element.shadowRoot.querySelector(
-                        selectors.conditionLogicComboBox
-                    );
+                    const conditionLogicComboBox = element.shadowRoot.querySelector(selectors.conditionLogicComboBox);
 
-                    expect(conditionLogicComboBox.value).toEqual(
-                        CONDITION_LOGIC.OR
-                    );
+                    expect(conditionLogicComboBox.value).toEqual(CONDITION_LOGIC.OR);
                 });
             });
             it('should hide the custom logic input', () => {
@@ -282,9 +239,7 @@ describe('Condition List', () => {
                 const element = createComponentUnderTest(list);
 
                 return Promise.resolve().then(() => {
-                    const customLogicInput = element.shadowRoot.querySelector(
-                        selectors.customLogicInput
-                    );
+                    const customLogicInput = element.shadowRoot.querySelector(selectors.customLogicInput);
                     expect(customLogicInput).toBeNull();
                 });
             });
@@ -292,33 +247,21 @@ describe('Condition List', () => {
 
         describe('custom logic', () => {
             it('sets the logic combobox to custom logic', () => {
-                const element = createComponentUnderTest(
-                    listWithThreeConditionals
-                );
+                const element = createComponentUnderTest(listWithThreeConditionals);
 
                 return Promise.resolve().then(() => {
-                    const conditionLogicComboBox = element.shadowRoot.querySelector(
-                        selectors.conditionLogicComboBox
-                    );
+                    const conditionLogicComboBox = element.shadowRoot.querySelector(selectors.conditionLogicComboBox);
 
-                    expect(conditionLogicComboBox.value).toEqual(
-                        CONDITION_LOGIC.CUSTOM_LOGIC
-                    );
+                    expect(conditionLogicComboBox.value).toEqual(CONDITION_LOGIC.CUSTOM_LOGIC);
                 });
             });
             it('shows the custom logic with the value from conditionLogic', () => {
-                const element = createComponentUnderTest(
-                    listWithThreeConditionals
-                );
+                const element = createComponentUnderTest(listWithThreeConditionals);
 
                 return Promise.resolve().then(() => {
-                    const customLogicInput = element.shadowRoot.querySelector(
-                        selectors.customLogicInput
-                    );
+                    const customLogicInput = element.shadowRoot.querySelector(selectors.customLogicInput);
 
-                    expect(customLogicInput.value).toEqual(
-                        listWithThreeConditionals.conditionLogic.value
-                    );
+                    expect(customLogicInput.value).toEqual(listWithThreeConditionals.conditionLogic.value);
                 });
             });
 
@@ -333,14 +276,9 @@ describe('Condition List', () => {
 
                     return Promise.resolve().then(() => {
                         const eventCallback = jest.fn();
-                        element.addEventListener(
-                            PropertyChangedEvent.EVENT_NAME,
-                            eventCallback
-                        );
+                        element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
 
-                        const logicComboBox = element.shadowRoot.querySelector(
-                            selectors.conditionLogicComboBox
-                        );
+                        const logicComboBox = element.shadowRoot.querySelector(selectors.conditionLogicComboBox);
                         logicComboBox.dispatchEvent(
                             new CustomEvent('change', {
                                 detail: {
@@ -371,14 +309,9 @@ describe('Condition List', () => {
 
                     return Promise.resolve().then(() => {
                         const eventCallback = jest.fn();
-                        element.addEventListener(
-                            PropertyChangedEvent.EVENT_NAME,
-                            eventCallback
-                        );
+                        element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
 
-                        const logicComboBox = element.shadowRoot.querySelector(
-                            selectors.conditionLogicComboBox
-                        );
+                        const logicComboBox = element.shadowRoot.querySelector(selectors.conditionLogicComboBox);
                         logicComboBox.dispatchEvent(
                             new CustomEvent('change', {
                                 detail: {
@@ -409,14 +342,9 @@ describe('Condition List', () => {
 
                     return Promise.resolve().then(() => {
                         const eventCallback = jest.fn();
-                        element.addEventListener(
-                            PropertyChangedEvent.EVENT_NAME,
-                            eventCallback
-                        );
+                        element.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
 
-                        const logicComboBox = element.shadowRoot.querySelector(
-                            selectors.conditionLogicComboBox
-                        );
+                        const logicComboBox = element.shadowRoot.querySelector(selectors.conditionLogicComboBox);
                         logicComboBox.dispatchEvent(
                             new CustomEvent('change', {
                                 detail: {

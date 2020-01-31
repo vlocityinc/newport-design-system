@@ -2,19 +2,13 @@ import { resolveReferenceFromIdentifier } from '../mergeField';
 import * as mockStoreData from 'mock/storeData';
 import { autolaunchedFlowUIModel } from 'mock/storeDataAutolaunched';
 import { Store } from 'builder_platform_interaction/storeLib';
-import {
-    GLOBAL_CONSTANT_OBJECTS,
-    setSystemVariables
-} from 'builder_platform_interaction/systemLib';
+import { GLOBAL_CONSTANT_OBJECTS, setSystemVariables } from 'builder_platform_interaction/systemLib';
 import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { userFields as mockUserFields } from 'serverData/GetFieldsForEntity/userFields.json';
 import { feedItemFields as mockFeedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import { expectFieldsAreComplexTypeFieldDescriptions } from 'builder_platform_interaction/builderTestUtils';
-import {
-    setApexClasses,
-    setApexClasses as mockSetApexClasses
-} from 'builder_platform_interaction/apexTypeLib';
+import { setApexClasses, setApexClasses as mockSetApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { apexTypesForFlow as mockApexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import {
     mockFlowRuntimeEmailFlowExtensionDescription,
@@ -25,14 +19,10 @@ import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/sobjectLib'
-    );
+    const actual = require.requireActual('builder_platform_interaction/sobjectLib');
     return {
         fetchFieldsForEntity: jest.fn().mockImplementation(entityName => {
             if (entityName === 'Account') {
@@ -46,9 +36,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
         }),
         getEntityFieldWithApiName: actual.getEntityFieldWithApiName,
         getEntity: jest.fn().mockImplementation(apiName => {
-            return mockEntities.find(
-                entity => entity.apiName.toLowerCase() === apiName.toLowerCase()
-            );
+            return mockEntities.find(entity => entity.apiName.toLowerCase() === apiName.toLowerCase());
         })
     };
 });
@@ -57,13 +45,9 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
     return {
         describeExtension: jest.fn().mockImplementation(name => {
             if (name === 'flowruntime:email') {
-                return Promise.resolve(
-                    mockFlowRuntimeEmailFlowExtensionDescription
-                );
+                return Promise.resolve(mockFlowRuntimeEmailFlowExtensionDescription);
             } else if (name === 'c:HelloWorld') {
-                return Promise.resolve(
-                    mockLightningCompWithAccountOutputFlowExtensionDescription
-                );
+                return Promise.resolve(mockLightningCompWithAccountOutputFlowExtensionDescription);
             }
             return Promise.reject(`No flow extension with name ${name}`);
         })
@@ -71,22 +55,16 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
 });
 
 jest.mock('builder_platform_interaction/subflowsLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/subflowsLib'
-    );
+    const actual = require.requireActual('builder_platform_interaction/subflowsLib');
     return {
-        fetchMergedFlowOutputVariables: jest
-            .fn()
-            .mockImplementation(flowName => {
-                if (flowName === 'flowWithActiveAndLatest') {
-                    return Promise.resolve(
-                        actual.getMergedInputOutputVariables(
-                            mockFlowWithActiveAndLatest
-                        ).outputVariables
-                    );
-                }
-                return Promise.reject(`No flow with name ${flowName}`);
-            })
+        fetchMergedFlowOutputVariables: jest.fn().mockImplementation(flowName => {
+            if (flowName === 'flowWithActiveAndLatest') {
+                return Promise.resolve(
+                    actual.getMergedInputOutputVariables(mockFlowWithActiveAndLatest).outputVariables
+                );
+            }
+            return Promise.reject(`No flow with name ${flowName}`);
+        })
     };
 });
 
@@ -116,38 +94,24 @@ describe('mergeField', () => {
     });
     describe('resolveReferenceFromIdentifier', () => {
         it('returns undefined if not a valid identifier', async () => {
-            const resolved = await resolveReferenceFromIdentifier(
-                'thisIsNotAnId'
-            );
+            const resolved = await resolveReferenceFromIdentifier('thisIsNotAnId');
             expect(resolved).toBeUndefined();
         });
         it('resolves element identifier', async () => {
-            const resolved = await resolveReferenceFromIdentifier(
-                mockStoreData.numberVariable.guid
-            );
+            const resolved = await resolveReferenceFromIdentifier(mockStoreData.numberVariable.guid);
             expect(resolved).toEqual([mockStoreData.numberVariable]);
         });
         it('resolves global constant identifier', async () => {
-            const resolved = await resolveReferenceFromIdentifier(
-                '$GlobalConstant.EmptyString'
-            );
-            expect(resolved).toEqual([
-                GLOBAL_CONSTANT_OBJECTS['$GlobalConstant.EmptyString']
-            ]);
+            const resolved = await resolveReferenceFromIdentifier('$GlobalConstant.EmptyString');
+            expect(resolved).toEqual([GLOBAL_CONSTANT_OBJECTS['$GlobalConstant.EmptyString']]);
         });
         it('returns undefined if unknown global constant identifier', async () => {
-            const resolved = await resolveReferenceFromIdentifier(
-                '$GlobalConstant.A'
-            );
+            const resolved = await resolveReferenceFromIdentifier('$GlobalConstant.A');
             expect(resolved).toBeUndefined();
         });
         it('resolves system variable identifier', async () => {
-            const resolved = await resolveReferenceFromIdentifier(
-                '$Flow.CurrentDateTime'
-            );
-            expect(resolved).toEqual([
-                expect.objectContaining({ name: '$Flow.CurrentDateTime' })
-            ]);
+            const resolved = await resolveReferenceFromIdentifier('$Flow.CurrentDateTime');
+            expect(resolved).toEqual([expect.objectContaining({ name: '$Flow.CurrentDateTime' })]);
         });
         it('returns undefined if unknown system variable identifier', async () => {
             const resolved = await resolveReferenceFromIdentifier('{!$Flow.A}');
@@ -162,9 +126,7 @@ describe('mergeField', () => {
                 Store.resetStore();
             });
             it('resolves record system variable identifier', async () => {
-                const resolved = await resolveReferenceFromIdentifier(
-                    '$Record.BillingAddress'
-                );
+                const resolved = await resolveReferenceFromIdentifier('$Record.BillingAddress');
 
                 expect(resolved).toEqual([
                     expect.objectContaining({
@@ -180,13 +142,10 @@ describe('mergeField', () => {
             });
         });
         describe('record fields', () => {
-            const accountSObjectVariableGuid =
-                mockStoreData.accountSObjectVariable.guid;
+            const accountSObjectVariableGuid = mockStoreData.accountSObjectVariable.guid;
             const feedItemVariableGuid = mockStoreData.feedItemVariable.guid;
             it('resolves a record field identifier', async () => {
-                const resolved = await resolveReferenceFromIdentifier(
-                    `${accountSObjectVariableGuid}.Name`
-                );
+                const resolved = await resolveReferenceFromIdentifier(`${accountSObjectVariableGuid}.Name`);
                 expectFieldsAreComplexTypeFieldDescriptions(resolved.slice(1));
                 expect(resolved).toEqual([
                     expect.objectContaining({ name: 'accountSObjectVariable' }),
@@ -197,9 +156,7 @@ describe('mergeField', () => {
                 ]);
             });
             it('resolves a record field identifier case-insensitively', async () => {
-                const resolved = await resolveReferenceFromIdentifier(
-                    `${accountSObjectVariableGuid}.NAME`
-                );
+                const resolved = await resolveReferenceFromIdentifier(`${accountSObjectVariableGuid}.NAME`);
                 expectFieldsAreComplexTypeFieldDescriptions(resolved.slice(1));
                 expect(resolved).toEqual([
                     expect.objectContaining({ name: 'accountSObjectVariable' }),
@@ -210,9 +167,7 @@ describe('mergeField', () => {
                 ]);
             });
             it('returns undefined if record field is unknown', async () => {
-                const resolved = await resolveReferenceFromIdentifier(
-                    `${accountSObjectVariableGuid}.Unknown`
-                );
+                const resolved = await resolveReferenceFromIdentifier(`${accountSObjectVariableGuid}.Unknown`);
                 expect(resolved).toBeUndefined();
             });
             it('resolves a cross object field reference identifier', async () => {
@@ -233,15 +188,11 @@ describe('mergeField', () => {
                 ]);
             });
             it('returns undefined if one of the intermediary fields is not spannable', async () => {
-                const resolved = await resolveReferenceFromIdentifier(
-                    `${feedItemVariableGuid}.OriginalCreatedBy.Name`
-                );
+                const resolved = await resolveReferenceFromIdentifier(`${feedItemVariableGuid}.OriginalCreatedBy.Name`);
                 expect(resolved).toBeUndefined();
             });
             it('resolves a polymorphic cross object field reference identifier', async () => {
-                const resolved = await resolveReferenceFromIdentifier(
-                    `${feedItemVariableGuid}.Parent:User.AboutMe`
-                );
+                const resolved = await resolveReferenceFromIdentifier(`${feedItemVariableGuid}.Parent:User.AboutMe`);
                 expectFieldsAreComplexTypeFieldDescriptions(resolved.slice(1));
                 expect(resolved).toEqual([
                     expect.objectContaining({ name: 'feedItemVariable' }),
@@ -257,24 +208,17 @@ describe('mergeField', () => {
                 ]);
             });
             it('returns a rejected promise if remote call failed', async () => {
-                fetchFieldsForEntity.mockImplementationOnce(() =>
-                    Promise.reject('Error while retrieving fields')
+                fetchFieldsForEntity.mockImplementationOnce(() => Promise.reject('Error while retrieving fields'));
+                await expect(resolveReferenceFromIdentifier(`${accountSObjectVariableGuid}.Name`)).rejects.toEqual(
+                    'Error while retrieving fields'
                 );
-                await expect(
-                    resolveReferenceFromIdentifier(
-                        `${accountSObjectVariableGuid}.Name`
-                    )
-                ).rejects.toEqual('Error while retrieving fields');
             });
         });
         describe('Apex types', () => {
             const apexCarVariableGuid = mockStoreData.apexCarVariable.guid;
-            const apexComplexTypeVariableGuid =
-                mockStoreData.apexComplexTypeVariable.guid;
+            const apexComplexTypeVariableGuid = mockStoreData.apexComplexTypeVariable.guid;
             it('resolves an apex type field identifier', async () => {
-                const resolved = await resolveReferenceFromIdentifier(
-                    `${apexCarVariableGuid}.model`
-                );
+                const resolved = await resolveReferenceFromIdentifier(`${apexCarVariableGuid}.model`);
                 expectFieldsAreComplexTypeFieldDescriptions(resolved.slice(1));
                 expect(resolved).toEqual([
                     expect.objectContaining({
@@ -290,9 +234,7 @@ describe('mergeField', () => {
                 ]);
             });
             it('returns undefined if apex type property is unknown', async () => {
-                const resolved = await resolveReferenceFromIdentifier(
-                    `${apexCarVariableGuid}.Unknown`
-                );
+                const resolved = await resolveReferenceFromIdentifier(`${apexCarVariableGuid}.Unknown`);
                 expect(resolved).toBeUndefined();
             });
             it('resolves a reference with apex type with an sobject field', async () => {
@@ -323,9 +265,7 @@ describe('mergeField', () => {
                 ]);
             });
             it('resolves a reference with apex type containing another apex type', async () => {
-                const resolved = await resolveReferenceFromIdentifier(
-                    `${apexCarVariableGuid}.wheel.Type`
-                );
+                const resolved = await resolveReferenceFromIdentifier(`${apexCarVariableGuid}.wheel.Type`);
                 expectFieldsAreComplexTypeFieldDescriptions(resolved.slice(1));
                 expect(resolved).toEqual([
                     expect.objectContaining({
@@ -348,12 +288,9 @@ describe('mergeField', () => {
             });
         });
         describe('Lookup elements with automatic output handling mode', () => {
-            const lookupRecordAutomaticOutputGuid =
-                mockStoreData.lookupRecordAutomaticOutput.guid;
+            const lookupRecordAutomaticOutputGuid = mockStoreData.lookupRecordAutomaticOutput.guid;
             it('resolves a reference to lookup element automatic output', async () => {
-                const resolved = await resolveReferenceFromIdentifier(
-                    `${lookupRecordAutomaticOutputGuid}`
-                );
+                const resolved = await resolveReferenceFromIdentifier(`${lookupRecordAutomaticOutputGuid}`);
                 expect(resolved).toEqual([
                     expect.objectContaining({
                         name: 'lookupRecordAutomaticOutput',
@@ -363,9 +300,7 @@ describe('mergeField', () => {
                 ]);
             });
             it('resolves a reference to field from lookup element automatic output', async () => {
-                const resolved = await resolveReferenceFromIdentifier(
-                    `${lookupRecordAutomaticOutputGuid}.Name`
-                );
+                const resolved = await resolveReferenceFromIdentifier(`${lookupRecordAutomaticOutputGuid}.Name`);
                 expect(resolved).toEqual([
                     expect.objectContaining({
                         name: 'lookupRecordAutomaticOutput',
@@ -401,15 +336,11 @@ describe('mergeField', () => {
             });
         });
         describe('LC screen fields with automatic output handling mode', () => {
-            const emailScreenFieldAutomaticOutputGuid =
-                mockStoreData.emailScreenFieldAutomaticOutput.guid;
+            const emailScreenFieldAutomaticOutputGuid = mockStoreData.emailScreenFieldAutomaticOutput.guid;
             const screenFieldWithAccountAutomaticOutputGuid =
-                mockStoreData
-                    .lightningCompAutomaticOutputContainsAccountExtension.guid;
+                mockStoreData.lightningCompAutomaticOutputContainsAccountExtension.guid;
             it('resolves a reference to an output parameter from a screen field', async () => {
-                const resolved = await resolveReferenceFromIdentifier(
-                    `${emailScreenFieldAutomaticOutputGuid}.value`
-                );
+                const resolved = await resolveReferenceFromIdentifier(`${emailScreenFieldAutomaticOutputGuid}.value`);
                 expect(resolved).toEqual([
                     expect.objectContaining({
                         name: 'emailScreenFieldAutomaticOutput',
@@ -443,8 +374,7 @@ describe('mergeField', () => {
         });
         describe('Action with automatic output handling mode', () => {
             it('resolves a reference to an output parameter from an action', async () => {
-                const apexCallStringAutomaticOutputGuid =
-                    mockStoreData.apexCallStringAutomaticOutput.guid;
+                const apexCallStringAutomaticOutputGuid = mockStoreData.apexCallStringAutomaticOutput.guid;
                 const resolved = await resolveReferenceFromIdentifier(
                     `${apexCallStringAutomaticOutputGuid}.accountName`
                 );
@@ -460,8 +390,7 @@ describe('mergeField', () => {
                 ]);
             });
             it('resolves a reference to object field from an action in automatic output handling mode', async () => {
-                const apexCallAccountAutomaticOutputGuid =
-                    mockStoreData.apexCallAccountAutomaticOutput.guid;
+                const apexCallAccountAutomaticOutputGuid = mockStoreData.apexCallAccountAutomaticOutput.guid;
                 const resolved = await resolveReferenceFromIdentifier(
                     `${apexCallAccountAutomaticOutputGuid}.generatedAccount.LastModifiedBy.Name`
                 );
@@ -488,11 +417,8 @@ describe('mergeField', () => {
         });
         describe('Subflow with automatic output handling mode', () => {
             it('resolves a reference to an output variable from a subflow', async () => {
-                const subflowAutomaticOutputGuid =
-                    mockStoreData.subflowAutomaticOutput.guid;
-                const resolved = await resolveReferenceFromIdentifier(
-                    `${subflowAutomaticOutputGuid}.output1`
-                );
+                const subflowAutomaticOutputGuid = mockStoreData.subflowAutomaticOutput.guid;
+                const resolved = await resolveReferenceFromIdentifier(`${subflowAutomaticOutputGuid}.output1`);
                 expect(resolved).toEqual([
                     expect.objectContaining({
                         name: 'subflowAutomaticOutput',

@@ -6,12 +6,7 @@
  * @param {string} [path=''] current path
  * @return {string|undefined} the path to the element in object
  */
-export const deepFind = (
-    object,
-    element,
-    isEqual = (e1, e2) => e1 === e2,
-    path = 'object'
-) => {
+export const deepFind = (object, element, isEqual = (e1, e2) => e1 === e2, path = 'object') => {
     if (!isEqual(element, element)) {
         // we won't find anything
         return undefined;
@@ -38,12 +33,7 @@ export const deepFind = (
                 if (found !== undefined) {
                     return found;
                 }
-                found = deepFind(
-                    object[key],
-                    element,
-                    isEqual,
-                    path + `.${key}`
-                );
+                found = deepFind(object[key], element, isEqual, path + `.${key}`);
                 if (found !== undefined) {
                     return found;
                 }
@@ -71,18 +61,11 @@ export const deepFindCommonElement = (
     if (path !== undefined) {
         return [path, pathObject2];
     }
-    const iterable =
-        object2 != null && typeof object2[Symbol.iterator] === 'function';
+    const iterable = object2 != null && typeof object2[Symbol.iterator] === 'function';
     if (iterable && typeof object2 !== 'string') {
         let i = 0;
         for (const value of object2) {
-            const paths = deepFindCommonElement(
-                object1,
-                value,
-                isEqual,
-                pathObject1,
-                pathObject2 + `[${i}]`
-            );
+            const paths = deepFindCommonElement(object1, value, isEqual, pathObject1, pathObject2 + `[${i}]`);
             if (paths !== undefined) {
                 return paths;
             }
@@ -91,23 +74,11 @@ export const deepFindCommonElement = (
     } else if (typeof object2 === 'object') {
         for (const key in object2) {
             if (Object.prototype.hasOwnProperty.call(object2, key)) {
-                let paths = deepFindCommonElement(
-                    object1,
-                    key,
-                    isEqual,
-                    pathObject1,
-                    pathObject2 + `.${key}`
-                );
+                let paths = deepFindCommonElement(object1, key, isEqual, pathObject1, pathObject2 + `.${key}`);
                 if (paths !== undefined) {
                     return paths;
                 }
-                paths = deepFindCommonElement(
-                    object1,
-                    object2[key],
-                    isEqual,
-                    pathObject1,
-                    pathObject2 + `.${key}`
-                );
+                paths = deepFindCommonElement(object1, object2[key], isEqual, pathObject1, pathObject2 + `.${key}`);
                 if (paths !== undefined) {
                     return paths;
                 }
@@ -118,18 +89,11 @@ export const deepFindCommonElement = (
 };
 
 const isImmutable = element =>
-    element == null ||
-    typeof element === 'string' ||
-    typeof element === 'number' ||
-    typeof element === 'boolean';
+    element == null || typeof element === 'string' || typeof element === 'number' || typeof element === 'boolean';
 
 export const deepFindMatchers = {
     toHaveNoCommonMutableObjectWith(received, object2) {
-        const paths = deepFindCommonElement(
-            received,
-            object2,
-            (e1, e2) => e1 === e2 && !isImmutable(e1)
-        );
+        const paths = deepFindCommonElement(received, object2, (e1, e2) => e1 === e2 && !isImmutable(e1));
         if (!paths) {
             return {
                 message: () => 'objects do not have a common mutable object',
@@ -137,10 +101,7 @@ export const deepFindMatchers = {
             };
         }
         return {
-            message: () =>
-                `objects have a common mutable object : ${paths[0]}===${
-                    paths[1]
-                }`,
+            message: () => `objects have a common mutable object : ${paths[0]}===${paths[1]}`,
             pass: false
         };
     }

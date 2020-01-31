@@ -1,14 +1,8 @@
 import { createElement } from 'lwc';
 
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    addElement,
-    updateElement
-} from 'builder_platform_interaction/actions';
-import {
-    PROPERTY_EDITOR,
-    invokePropertyEditor
-} from 'builder_platform_interaction/builderUtils';
+import { addElement, updateElement } from 'builder_platform_interaction/actions';
+import { PROPERTY_EDITOR, invokePropertyEditor } from 'builder_platform_interaction/builderUtils';
 import Editor from '../editor';
 import {
     CANVAS_EVENT,
@@ -19,14 +13,8 @@ import {
 } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
-import {
-    fetch,
-    SERVER_ACTION_TYPE
-} from 'builder_platform_interaction/serverDataLib';
-import {
-    getElementForPropertyEditor,
-    getElementForStore
-} from 'builder_platform_interaction/propertyEditorFactory';
+import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/preloadLib', () => {
@@ -41,27 +29,24 @@ jest.mock('builder_platform_interaction/preloadLib', () => {
 });
 
 jest.mock('builder_platform_interaction/elementConfig', () => {
-    return Object.assign(
-        require.requireActual('builder_platform_interaction/elementConfig'),
-        {
-            getConfigForElementType: jest.fn().mockImplementation(() => {
-                return {
-                    descriptor: 'test descriptor',
-                    canBeDuplicated: false,
-                    isDeletable: false,
-                    nodeConfig: {isSelectable: false},
-                    labels: {
-                        singular: 'a'
-                    }
-                };
-            })
-        }
-    );
+    return Object.assign(require.requireActual('builder_platform_interaction/elementConfig'), {
+        getConfigForElementType: jest.fn().mockImplementation(() => {
+            return {
+                descriptor: 'test descriptor',
+                canBeDuplicated: false,
+                isDeletable: false,
+                nodeConfig: { isSelectable: false },
+                labels: {
+                    singular: 'a'
+                }
+            };
+        })
+    });
 });
 
 jest.mock('builder_platform_interaction/elementLabelLib', () => {
     return {
-        getResourceLabel: jest.fn((element) => {
+        getResourceLabel: jest.fn(element => {
             return element.label;
         }),
         getResourceCategory: jest.fn()
@@ -69,34 +54,25 @@ jest.mock('builder_platform_interaction/elementLabelLib', () => {
 });
 
 jest.mock('builder_platform_interaction/builderUtils', () => {
-    return Object.assign(
-        require.requireActual('builder_platform_interaction/builderUtils'),
-        {
-            invokePropertyEditor: jest.fn()
-        }
-    );
+    return Object.assign(require.requireActual('builder_platform_interaction/builderUtils'), {
+        invokePropertyEditor: jest.fn()
+    });
 });
 
 jest.mock('builder_platform_interaction/propertyEditorFactory', () => {
     const elementMock = { a: 1 };
 
-    return Object.assign(
-        require.requireActual('builder_platform_interaction/propertyEditorFactory'),
-        {
-            getElementForPropertyEditor: jest.fn(() => {
-                return elementMock;
-            }),
-            getElementForStore: jest.fn((node) => {
-                return node;
-            })
-        }
-    );
+    return Object.assign(require.requireActual('builder_platform_interaction/propertyEditorFactory'), {
+        getElementForPropertyEditor: jest.fn(() => {
+            return elementMock;
+        }),
+        getElementForStore: jest.fn(node => {
+            return node;
+        })
+    });
 });
 
-
-jest.mock('builder_platform_interaction/drawingLib', () =>
-    require('builder_platform_interaction_mocks/drawingLib')
-);
+jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 
 jest.mock('builder_platform_interaction/keyboardInteractionUtils', () =>
     require('builder_platform_interaction_mocks/keyboardInteractionUtils')
@@ -111,7 +87,7 @@ jest.mock('builder_platform_interaction/translatorLib', () => {
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
         fetch: jest.fn(),
-        fetchOnce: jest.fn((action) => {
+        fetchOnce: jest.fn(action => {
             if (action === 'getBuilderConfigs') {
                 return Promise.resolve({});
             }
@@ -119,9 +95,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
                 then: () => {}
             };
         }),
-        SERVER_ACTION_TYPE: require.requireActual(
-            'builder_platform_interaction/serverDataLib'
-        ).SERVER_ACTION_TYPE
+        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE
     };
 });
 
@@ -129,32 +103,31 @@ jest.mock('builder_platform_interaction/systemLib', () => {
     const actual = require.requireActual('builder_platform_interaction/systemLib');
 
     return Object.assign({}, actual, {
-        getBuilderConfig: (builderType) => {
-            return (builderType === 'old' ? {
-                supportedProcessTypes: ['right']
-            }
-            :
-            {
-                supportedProcessTypes: ['right'],
-                usePanelForPropertyEditor: true
-            });
+        getBuilderConfig: builderType => {
+            return builderType === 'old'
+                ? {
+                      supportedProcessTypes: ['right']
+                  }
+                : {
+                      supportedProcessTypes: ['right'],
+                      usePanelForPropertyEditor: true
+                  };
         }
     });
 });
 
 jest.mock('builder_platform_interaction/actions', () => {
     return {
-        addElement: jest.fn((element) => {
+        addElement: jest.fn(element => {
             return {
                 value: element
             };
         }),
-        updateElement: jest.fn((element) => {
+        updateElement: jest.fn(element => {
             return {
                 updateValue: element
             };
         })
-
     };
 });
 const createComponentUnderTest = (props = { builderType: 'old' }) => {
@@ -222,12 +195,7 @@ const mockStoreState = {
             config: { isSelected: false }
         }
     },
-    canvasElements: [
-        { guid: '1' },
-        { guid: '2' },
-        { guid: '3' },
-        { guid: '5' }
-    ],
+    canvasElements: [{ guid: '1' }, { guid: '2' }, { guid: '3' }, { guid: '5' }],
     connectors: [
         {
             guid: 'c1',
@@ -376,14 +344,10 @@ describeSkip('editor', () => {
         it('translates the ui model to flow data', () => {
             const editorComponent = createComponentUnderTest();
             return Promise.resolve().then(() => {
-                editorComponent.shadowRoot
-                    .querySelector(selectors.save)
-                    .click();
+                editorComponent.shadowRoot.querySelector(selectors.save).click();
 
                 expect(translateUIModelToFlow.mock.calls).toHaveLength(1);
-                expect(translateUIModelToFlow.mock.calls[0][0]).toEqual(
-                    Store.getStore().getCurrentState()
-                );
+                expect(translateUIModelToFlow.mock.calls[0][0]).toEqual(Store.getStore().getCurrentState());
             });
         });
 
@@ -394,17 +358,13 @@ describeSkip('editor', () => {
 
                 translateUIModelToFlow.mockReturnValue(flow);
 
-                editorComponent.shadowRoot
-                    .querySelector(selectors.save)
-                    .click();
+                editorComponent.shadowRoot.querySelector(selectors.save).click();
                 // Check against the last call to fetch.  The first is in editor.js constructor and thus
                 // unavoidable and other components included via editor.html may also have fetch calls
                 // (for example left-panel-elements
                 const saveFetchCallIndex = fetch.mock.calls.length - 1;
 
-                expect(fetch.mock.calls[saveFetchCallIndex][0]).toEqual(
-                    SERVER_ACTION_TYPE.SAVE_FLOW
-                );
+                expect(fetch.mock.calls[saveFetchCallIndex][0]).toEqual(SERVER_ACTION_TYPE.SAVE_FLOW);
                 expect(fetch.mock.calls[saveFetchCallIndex][2]).toEqual({
                     flow
                 });
@@ -417,9 +377,7 @@ describeSkip('editor', () => {
             createComponentUnderTest();
             return Promise.resolve().then(() => {
                 expect(fetch.mock.calls).toHaveLength(4);
-                expect(fetch.mock.calls[0][0]).toEqual(
-                    SERVER_ACTION_TYPE.GET_RULES
-                );
+                expect(fetch.mock.calls[0][0]).toEqual(SERVER_ACTION_TYPE.GET_RULES);
             });
         });
         it('getting flow metadata', () => {
@@ -428,18 +386,14 @@ describeSkip('editor', () => {
             });
             return Promise.resolve().then(() => {
                 expect(fetch.mock.calls).toHaveLength(5);
-                expect(fetch.mock.calls[3][0]).toEqual(
-                    SERVER_ACTION_TYPE.GET_FLOW
-                );
+                expect(fetch.mock.calls[3][0]).toEqual(SERVER_ACTION_TYPE.GET_FLOW);
             });
         });
         it('getting header urls', () => {
             createComponentUnderTest();
             return Promise.resolve().then(() => {
                 expect(fetch.mock.calls).toHaveLength(4);
-                expect(fetch.mock.calls[2][0]).toEqual(
-                    SERVER_ACTION_TYPE.GET_HEADER_URLS
-                );
+                expect(fetch.mock.calls[2][0]).toEqual(SERVER_ACTION_TYPE.GET_HEADER_URLS);
             });
         });
 
@@ -458,15 +412,11 @@ describeSkip('editor', () => {
                     isMultiSelectKeyPressed: false
                 }
             });
-            editorComponent.shadowRoot
-                .querySelector('builder_platform_interaction-canvas')
-                .dispatchEvent(event);
+            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(
-                    element('1', 'SELECT_ON_CANVAS')
-                );
+                expect(spy.mock.calls[0][0]).toEqual(element('1', 'SELECT_ON_CANVAS'));
             });
         });
 
@@ -481,15 +431,11 @@ describeSkip('editor', () => {
                     isMultiSelectKeyPressed: false
                 }
             });
-            editorComponent.shadowRoot
-                .querySelector('builder_platform_interaction-canvas')
-                .dispatchEvent(event);
+            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(
-                    element('2', 'SELECT_ON_CANVAS')
-                );
+                expect(spy.mock.calls[0][0]).toEqual(element('2', 'SELECT_ON_CANVAS'));
             });
         });
 
@@ -504,15 +450,11 @@ describeSkip('editor', () => {
                     isMultiSelectKeyPressed: true
                 }
             });
-            editorComponent.shadowRoot
-                .querySelector('builder_platform_interaction-canvas')
-                .dispatchEvent(event);
+            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(
-                    element('1', 'TOGGLE_ON_CANVAS')
-                );
+                expect(spy.mock.calls[0][0]).toEqual(element('1', 'TOGGLE_ON_CANVAS'));
             });
         });
 
@@ -527,15 +469,11 @@ describeSkip('editor', () => {
                     isMultiSelectKeyPressed: true
                 }
             });
-            editorComponent.shadowRoot
-                .querySelector('builder_platform_interaction-canvas')
-                .dispatchEvent(event);
+            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(
-                    element('2', 'TOGGLE_ON_CANVAS')
-                );
+                expect(spy.mock.calls[0][0]).toEqual(element('2', 'TOGGLE_ON_CANVAS'));
             });
         });
 
@@ -546,9 +484,7 @@ describeSkip('editor', () => {
                 composed: true,
                 cancelable: true
             });
-            editorComponent.shadowRoot
-                .querySelector('builder_platform_interaction-canvas')
-                .dispatchEvent(event);
+            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
@@ -567,15 +503,11 @@ describeSkip('editor', () => {
                     isMultiSelectKeyPressed: false
                 }
             });
-            editorComponent.shadowRoot
-                .querySelector('builder_platform_interaction-canvas')
-                .dispatchEvent(event);
+            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(
-                    element('c1', 'SELECT_ON_CANVAS')
-                );
+                expect(spy.mock.calls[0][0]).toEqual(element('c1', 'SELECT_ON_CANVAS'));
             });
         });
 
@@ -590,15 +522,11 @@ describeSkip('editor', () => {
                     isMultiSelectKeyPressed: false
                 }
             });
-            editorComponent.shadowRoot
-                .querySelector('builder_platform_interaction-canvas')
-                .dispatchEvent(event);
+            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(
-                    element('c2', 'SELECT_ON_CANVAS')
-                );
+                expect(spy.mock.calls[0][0]).toEqual(element('c2', 'SELECT_ON_CANVAS'));
             });
         });
 
@@ -613,15 +541,11 @@ describeSkip('editor', () => {
                     isMultiSelectKeyPressed: true
                 }
             });
-            editorComponent.shadowRoot
-                .querySelector('builder_platform_interaction-canvas')
-                .dispatchEvent(event);
+            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(
-                    element('c1', 'TOGGLE_ON_CANVAS')
-                );
+                expect(spy.mock.calls[0][0]).toEqual(element('c1', 'TOGGLE_ON_CANVAS'));
             });
         });
 
@@ -636,15 +560,11 @@ describeSkip('editor', () => {
                     isMultiSelectKeyPressed: true
                 }
             });
-            editorComponent.shadowRoot
-                .querySelector('builder_platform_interaction-canvas')
-                .dispatchEvent(event);
+            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(
-                    element('c2', 'TOGGLE_ON_CANVAS')
-                );
+                expect(spy.mock.calls[0][0]).toEqual(element('c2', 'TOGGLE_ON_CANVAS'));
             });
         });
 
@@ -659,9 +579,7 @@ describeSkip('editor', () => {
                         selectedCanvasElementGUIDs: ['2']
                     }
                 });
-                editorComponent.shadowRoot
-                    .querySelector('builder_platform_interaction-canvas')
-                    .dispatchEvent(event);
+                editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
                 return Promise.resolve().then(() => {
                     const spy = Store.getStore().dispatch;
                     expect(spy).toHaveBeenCalled();
@@ -679,9 +597,7 @@ describeSkip('editor', () => {
                         selectedCanvasElementGUIDs: ['3']
                     }
                 });
-                editorComponent.shadowRoot
-                    .querySelector('builder_platform_interaction-canvas')
-                    .dispatchEvent(event);
+                editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
                 return Promise.resolve().then(() => {
                     const spy = Store.getStore().dispatch;
                     expect(spy).toHaveBeenCalled();
@@ -698,9 +614,7 @@ describeSkip('editor', () => {
                 cancelable: true,
                 detail: {}
             });
-            editorComponent.shadowRoot
-                .querySelector('builder_platform_interaction-canvas')
-                .dispatchEvent(event);
+            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
@@ -721,9 +635,7 @@ describeSkip('editor', () => {
                     locationY: '70'
                 }
             });
-            editorComponent.shadowRoot
-                .querySelector('builder_platform_interaction-canvas')
-                .dispatchEvent(event);
+            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
@@ -742,9 +654,7 @@ describeSkip('editor', () => {
                     label: 'Label'
                 }
             });
-            editorComponent.shadowRoot
-                .querySelector('builder_platform_interaction-canvas')
-                .dispatchEvent(event);
+            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
@@ -763,21 +673,16 @@ describe('editor property editor', () => {
         const event = new AddElementEvent(elementType, 0, 0);
 
         return Promise.resolve().then(() => {
-            editorComponent.shadowRoot
-                .querySelector('builder_platform_interaction-left-panel')
-                .dispatchEvent(event);
+            editorComponent.shadowRoot.querySelector('builder_platform_interaction-left-panel').dispatchEvent(event);
 
             return ticks().then(() => {
-                expect(invokePropertyEditor).toHaveBeenCalledWith(
-                    PROPERTY_EDITOR,
-                    {
-                        mode: 'addelement',
-                        node: getElementForPropertyEditor(),
-                        nodeUpdate: expect.anything(),
-                        newResourceCallback: expect.anything(),
-                        processType: 'dummyProcessType'
-                    }
-                );
+                expect(invokePropertyEditor).toHaveBeenCalledWith(PROPERTY_EDITOR, {
+                    mode: 'addelement',
+                    node: getElementForPropertyEditor(),
+                    nodeUpdate: expect.anything(),
+                    newResourceCallback: expect.anything(),
+                    processType: 'dummyProcessType'
+                });
             });
         });
     });
@@ -794,13 +699,10 @@ describe('editor property editor', () => {
         const event = new AddElementEvent(elementType, 0, 0);
 
         return Promise.resolve().then(() => {
-            editorComponent.shadowRoot
-                .querySelector('builder_platform_interaction-left-panel')
-                .dispatchEvent(event);
+            editorComponent.shadowRoot.querySelector('builder_platform_interaction-left-panel').dispatchEvent(event);
 
             return ticks().then(() => {
-                const rightPanel = editorComponent.shadowRoot
-                    .querySelector('builder_platform_interaction-right-panel');
+                const rightPanel = editorComponent.shadowRoot.querySelector('builder_platform_interaction-right-panel');
                 expect(rightPanel).not.toBeNull();
             });
         });
@@ -827,8 +729,9 @@ describe('editor property editor', () => {
                         .dispatchEvent(event);
 
                     return ticks().then(() => {
-                        rightPanel = editorComponent.shadowRoot
-                            .querySelector('builder_platform_interaction-right-panel');
+                        rightPanel = editorComponent.shadowRoot.querySelector(
+                            'builder_platform_interaction-right-panel'
+                        );
                     });
                 });
             });
@@ -841,8 +744,7 @@ describe('editor property editor', () => {
                 rightPanel.dispatchEvent(event);
 
                 return Promise.resolve().then(() => {
-                    rightPanel = editorComponent.shadowRoot
-                        .querySelector('builder_platform_interaction-right-panel');
+                    rightPanel = editorComponent.shadowRoot.querySelector('builder_platform_interaction-right-panel');
 
                     expect(rightPanel).toBeNull();
                 });
@@ -850,7 +752,7 @@ describe('editor property editor', () => {
         });
 
         it('addnodeevent dispatches addElement to the store', () => {
-            const elementToAdd = { a:1 };
+            const elementToAdd = { a: 1 };
             const event = new AddNodeEvent(elementToAdd);
 
             return Promise.resolve().then(() => {
@@ -865,7 +767,7 @@ describe('editor property editor', () => {
         });
 
         it('updatenodeevent dispatches updateElement to the store', () => {
-            const elementToUpdate = { a:1 };
+            const elementToUpdate = { a: 1 };
             const event = new UpdateNodeEvent(elementToUpdate);
 
             return Promise.resolve().then(() => {

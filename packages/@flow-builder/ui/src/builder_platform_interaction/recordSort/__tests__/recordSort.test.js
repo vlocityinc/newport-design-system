@@ -10,15 +10,11 @@ import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 let mockEntityFieldsPromise = Promise.resolve(accountFields);
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 // Mocking out the fetch function to return Account fields
 jest.mock('builder_platform_interaction/serverDataLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/serverDataLib'
-    );
+    const actual = require.requireActual('builder_platform_interaction/serverDataLib');
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,
@@ -47,21 +43,15 @@ const SELECTORS = {
 };
 
 const getSortOrderCombobox = recordSortResultComponent => {
-    return recordSortResultComponent.shadowRoot.querySelector(
-        SELECTORS.lightningCombobox
-    );
+    return recordSortResultComponent.shadowRoot.querySelector(SELECTORS.lightningCombobox);
 };
 
 const getFilterCombobox = recordSortResultComponent => {
-    return recordSortResultComponent.shadowRoot.querySelector(
-        SELECTORS.fieldPicker
-    );
+    return recordSortResultComponent.shadowRoot.querySelector(SELECTORS.fieldPicker);
 };
 
 const getFilterHelpText = recordSortResultComponent => {
-    return recordSortResultComponent.shadowRoot.querySelector(
-        SELECTORS.filterHelpText
-    );
+    return recordSortResultComponent.shadowRoot.querySelector(SELECTORS.filterHelpText);
 };
 
 describe('recordSort', () => {
@@ -84,9 +74,7 @@ describe('recordSort', () => {
             sortOrderCmb = getSortOrderCombobox(recordSortResultComponent);
         });
         it('sort order list should have all the options', () => {
-            expect(sortOrderCmb.options).toHaveLength(
-                Object.values(SORT_ORDER).length
-            );
+            expect(sortOrderCmb.options).toHaveLength(Object.values(SORT_ORDER).length);
         });
         it('"notSorted" should be the selected sort order', () => {
             expect(sortOrderCmb.value).toBe(SORT_ORDER.NOT_SORTED);
@@ -109,21 +97,14 @@ describe('recordSort', () => {
             sortOrderCmb = getSortOrderCombobox(recordSortResultComponent);
         });
         it('fields combobox should be displayed with correct fields', async () => {
-            expect(getSortOrderCombobox(recordSortResultComponent).value).toBe(
-                SORT_ORDER.ASC
-            );
+            expect(getSortOrderCombobox(recordSortResultComponent).value).toBe(SORT_ORDER.ASC);
             expect(getFilterCombobox(recordSortResultComponent)).toBeDefined();
-            expect(
-                Object.keys(getFilterCombobox(recordSortResultComponent).fields)
-            ).toHaveLength(
-                Object.values(accountFields).filter(field => field.sortable)
-                    .length
+            expect(Object.keys(getFilterCombobox(recordSortResultComponent).fields)).toHaveLength(
+                Object.values(accountFields).filter(field => field.sortable).length
             );
         });
         it('"Description" as value, sort field should be populated', () => {
-            expect(getFilterCombobox(recordSortResultComponent).value).toEqual(
-                selectedField
-            );
+            expect(getFilterCombobox(recordSortResultComponent).value).toEqual(selectedField);
         });
         it('Filter help text is not displayed', () => {
             expect(getFilterHelpText(recordSortResultComponent)).toBeNull();
@@ -132,10 +113,7 @@ describe('recordSort', () => {
             const eventCallback = jest.fn();
             const sortField = 'Annual Revenue';
             recordSortResultComponent.addEventListener('change', eventCallback);
-            const fieldCmbChangeEventForAscending = new ComboboxStateChangedEvent(
-                null,
-                sortField
-            );
+            const fieldCmbChangeEventForAscending = new ComboboxStateChangedEvent(null, sortField);
             const fieldCmb = getFilterCombobox(recordSortResultComponent);
             fieldCmb.dispatchEvent(fieldCmbChangeEventForAscending);
             expect(eventCallback).toHaveBeenCalled();
@@ -145,27 +123,21 @@ describe('recordSort', () => {
             });
         });
         it('fields combobox should be visible when Ascending is selected', async () => {
-            const sortOrderCmbChangeEventForAscending = new CustomEvent(
-                'change',
-                { detail: { value: SORT_ORDER.ASC } }
-            );
+            const sortOrderCmbChangeEventForAscending = new CustomEvent('change', {
+                detail: { value: SORT_ORDER.ASC }
+            });
             sortOrderCmb.dispatchEvent(sortOrderCmbChangeEventForAscending);
             return Promise.resolve().then(() => {
-                expect(
-                    getFilterCombobox(recordSortResultComponent)
-                ).toBeDefined();
+                expect(getFilterCombobox(recordSortResultComponent)).toBeDefined();
             });
         });
         it('fields combobox should be visible when Descending is selected', async () => {
-            const sortOrderCmbChangeEventForAscending = new CustomEvent(
-                'change',
-                { detail: { value: SORT_ORDER.DESC } }
-            );
+            const sortOrderCmbChangeEventForAscending = new CustomEvent('change', {
+                detail: { value: SORT_ORDER.DESC }
+            });
             sortOrderCmb.dispatchEvent(sortOrderCmbChangeEventForAscending);
             return Promise.resolve().then(() => {
-                expect(
-                    getFilterCombobox(recordSortResultComponent)
-                ).toBeDefined();
+                expect(getFilterCombobox(recordSortResultComponent)).toBeDefined();
             });
         });
         it('error is shown on the sort by field, if one exists', () => {
@@ -176,17 +148,13 @@ describe('recordSort', () => {
                 selectedField,
                 sortFieldError
             });
-            expect(
-                getFilterCombobox(recordSortResultComponent).errorMessage
-            ).toEqual(sortFieldError);
+            expect(getFilterCombobox(recordSortResultComponent).errorMessage).toEqual(sortFieldError);
         });
     });
     describe('when entity fields cannot be loaded', () => {
         let recordSortResultComponent;
         beforeEach(() => {
-            mockEntityFieldsPromise = Promise.reject(
-                Error('Cannot get fields')
-            );
+            mockEntityFieldsPromise = Promise.reject(Error('Cannot get fields'));
             recordSortResultComponent = createComponentUnderTest({
                 resourceApiName,
                 sortOrder: SORT_ORDER.ASC,
@@ -194,13 +162,9 @@ describe('recordSort', () => {
             });
         });
         it('fields combobox should be empty', async () => {
-            expect(getSortOrderCombobox(recordSortResultComponent).value).toBe(
-                SORT_ORDER.ASC
-            );
+            expect(getSortOrderCombobox(recordSortResultComponent).value).toBe(SORT_ORDER.ASC);
             expect(getFilterCombobox(recordSortResultComponent)).toBeDefined();
-            expect(
-                Object.keys(getFilterCombobox(recordSortResultComponent).fields)
-            ).toHaveLength(0);
+            expect(Object.keys(getFilterCombobox(recordSortResultComponent).fields)).toHaveLength(0);
         });
     });
     describe('sort order changes', () => {
@@ -208,13 +172,10 @@ describe('recordSort', () => {
             const eventCallback = jest.fn();
             const recordSortResultComponent = createComponentUnderTest();
             recordSortResultComponent.addEventListener('change', eventCallback);
-            const sortOrderCmbChangeEventForAscending = new CustomEvent(
-                'change',
-                { detail: { value: SORT_ORDER.ASC } }
-            );
-            const sortOrderCmb = getSortOrderCombobox(
-                recordSortResultComponent
-            );
+            const sortOrderCmbChangeEventForAscending = new CustomEvent('change', {
+                detail: { value: SORT_ORDER.ASC }
+            });
+            const sortOrderCmb = getSortOrderCombobox(recordSortResultComponent);
             sortOrderCmb.dispatchEvent(sortOrderCmbChangeEventForAscending);
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail).toMatchObject({
@@ -230,13 +191,10 @@ describe('recordSort', () => {
                 selectedField
             });
             recordSortResultComponent.addEventListener('change', eventCallback);
-            const sortOrderCmbChangeEventForAscending = new CustomEvent(
-                'change',
-                { detail: { value: SORT_ORDER.ASC } }
-            );
-            const sortOrderCmb = getSortOrderCombobox(
-                recordSortResultComponent
-            );
+            const sortOrderCmbChangeEventForAscending = new CustomEvent('change', {
+                detail: { value: SORT_ORDER.ASC }
+            });
+            const sortOrderCmb = getSortOrderCombobox(recordSortResultComponent);
             sortOrderCmb.dispatchEvent(sortOrderCmbChangeEventForAscending);
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail).toMatchObject({
@@ -251,16 +209,10 @@ describe('recordSort', () => {
                 resourceApiName,
                 sortOrder: SORT_ORDER.ASC
             });
-            const options = await until(
-                () => getFilterCombobox(recordSortResultComponent).fields
-            );
+            const options = await until(() => getFilterCombobox(recordSortResultComponent).fields);
             const mockAccFieldsArr = accountFields;
             Object.values(options).forEach(option => {
-                expect(
-                    mockAccFieldsArr.find(
-                        field => field.apiName === option.apiName
-                    ).sortable
-                ).toBeTruthy();
+                expect(mockAccFieldsArr.find(field => field.apiName === option.apiName).sortable).toBeTruthy();
             });
         });
     });

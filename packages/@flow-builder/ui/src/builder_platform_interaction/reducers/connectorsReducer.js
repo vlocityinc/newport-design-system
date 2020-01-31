@@ -10,11 +10,7 @@ import {
     MODIFY_DECISION_WITH_OUTCOMES,
     MODIFY_WAIT_WITH_WAIT_EVENTS
 } from 'builder_platform_interaction/actions';
-import {
-    addItem,
-    updateProperties,
-    replaceItem
-} from 'builder_platform_interaction/dataMutationLib';
+import { addItem, updateProperties, replaceItem } from 'builder_platform_interaction/dataMutationLib';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createConnector } from 'builder_platform_interaction/elementFactory';
 
@@ -101,19 +97,10 @@ function _duplicateConnector(
         const originalConnector = connectorsToDuplicate[i];
         const source = canvasElementGuidMap[originalConnector.source];
         const target = canvasElementGuidMap[originalConnector.target];
-        const childSource =
-            originalConnector.childSource &&
-            childElementGuidMap[originalConnector.childSource];
+        const childSource = originalConnector.childSource && childElementGuidMap[originalConnector.childSource];
         const { label, type } = originalConnector;
 
-        const duplicateConnector = createConnector(
-            source,
-            childSource,
-            target,
-            label,
-            type,
-            true
-        );
+        const duplicateConnector = createConnector(source, childSource, target, label, type, true);
 
         newState = addItem(newState, duplicateConnector);
     }
@@ -135,9 +122,7 @@ function _deleteConnectors(connectors, connectorsToDelete) {
         const connectorGUIDs = connectorsToDelete.map(deleteConnector => {
             return deleteConnector.guid;
         });
-        newState = connectors.filter(
-            connector => connectorGUIDs.indexOf(connector.guid) === -1
-        );
+        newState = connectors.filter(connector => connectorGUIDs.indexOf(connector.guid) === -1);
     }
     return newState;
 }
@@ -177,10 +162,7 @@ function _deleteAndUpdateConnectorsForChildElements(
 
         if (!connector.childSource) {
             let updatedConnector = connector;
-            if (
-                connector.type === CONNECTOR_TYPE.DEFAULT &&
-                connector.source === parentElementGuid
-            ) {
+            if (connector.type === CONNECTOR_TYPE.DEFAULT && connector.source === parentElementGuid) {
                 updatedConnector = updateProperties(connector, {
                     label: defaultConnectorLabel
                 });
@@ -243,9 +225,7 @@ function _selectConnector(connectors, selectedGUID) {
  * @private
  */
 function _toggleConnector(connectors, selectedGUID) {
-    const index = connectors.findIndex(
-        connector => connector.guid === selectedGUID
-    );
+    const index = connectors.findIndex(connector => connector.guid === selectedGUID);
     if (index !== -1) {
         const newConnector = updateProperties(connectors[index], {
             config: {

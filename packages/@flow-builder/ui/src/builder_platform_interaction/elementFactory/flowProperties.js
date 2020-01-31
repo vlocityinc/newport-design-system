@@ -29,11 +29,7 @@ export function createFlowPropertiesForEditor(flowProperties = {}) {
 
 export function createFlowProperties(flowProperties = {}) {
     const name = flowProperties.fullName || flowProperties.name || '';
-    const {
-        lastModifiedDate = null,
-        manageableState = null,
-        versionNumber = null
-    } = flowProperties;
+    const { lastModifiedDate = null, manageableState = null, versionNumber = null } = flowProperties;
     const lastModifiedBy = getLastModifiedBy(flowProperties.lastModifiedBy);
 
     const {
@@ -56,19 +52,14 @@ export function createFlowProperties(flowProperties = {}) {
         isCreatedOutsideLfb = false,
         canOnlySaveAsNewDefinition = false
     } = flowProperties;
-    canOnlySaveAsNewDefinition =
-        canOnlySaveAsNewDefinition || manageableState === 'installed';
+    canOnlySaveAsNewDefinition = canOnlySaveAsNewDefinition || manageableState === 'installed';
 
     if (processMetadataValues) {
         // isCreatedOutsideLFB can be true in 2 cases
         // 1) when an existing flow is never saved in LFB => In this case processMetadataValues will be an empty array
         // 2) After an existing flow is saved for the first time in LFB
-        isCreatedOutsideLfb =
-            processMetadataValues.length === 0 ||
-            checkIfCreatedOutsideLFB(processMetadataValues);
-        isLightningFlowBuilder = checkIfLightningFlowBuilder(
-            processMetadataValues
-        );
+        isCreatedOutsideLfb = processMetadataValues.length === 0 || checkIfCreatedOutsideLFB(processMetadataValues);
+        isLightningFlowBuilder = checkIfLightningFlowBuilder(processMetadataValues);
     }
     // TODO: make an object that contains lastInlineResourceGuid, lastInlineResourcePosition and lastInlineResourceRowIndex
     return {
@@ -177,17 +168,11 @@ function checkIfLightningFlowBuilder(processMetadataValues = []) {
  * @param {*} isCreatedOutsideLfb if flow was created via CFD, metadata api or any third party builder
  */
 function setProcessMetadataValue(isCreatedOutsideLfb = false) {
-    const lfbProcessMetadataValue = createProcessMetadataValue(
-        BUILDER_TYPE,
-        LIGHTNING_FLOW_BUILDER
-    );
+    const lfbProcessMetadataValue = createProcessMetadataValue(BUILDER_TYPE, LIGHTNING_FLOW_BUILDER);
     if (isCreatedOutsideLfb) {
         return [lfbProcessMetadataValue];
     }
-    const originProcessMetadataValue = createProcessMetadataValue(
-        ORIGIN_BUILDER_TYPE,
-        LIGHTNING_FLOW_BUILDER
-    );
+    const originProcessMetadataValue = createProcessMetadataValue(ORIGIN_BUILDER_TYPE, LIGHTNING_FLOW_BUILDER);
     return [lfbProcessMetadataValue, originProcessMetadataValue];
 }
 

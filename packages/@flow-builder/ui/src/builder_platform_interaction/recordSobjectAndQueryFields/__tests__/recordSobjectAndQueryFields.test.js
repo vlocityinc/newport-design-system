@@ -6,44 +6,32 @@ import * as store from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const mockDefaultConfig = {
     elementType: ELEMENT_TYPE.RECORD_LOOKUP,
     recordEntityName: 'Account',
     outputReference: '',
-    queriedFields: [
-        { field: { value: '', error: null }, rowIndex: 'RECORD_LOOKUP_FIELD_1' }
-    ]
+    queriedFields: [{ field: { value: '', error: null }, rowIndex: 'RECORD_LOOKUP_FIELD_1' }]
 };
 
 const selectors = {
-    sobjectPicker:
-        'builder_platform_interaction-sobject-or-sobject-collection-picker',
+    sobjectPicker: 'builder_platform_interaction-sobject-or-sobject-collection-picker',
     fieldsList: 'builder_platform_interaction-record-query-fields'
 };
 
 const getSObjectPicker = recordStoreFieldsComponent => {
-    return recordStoreFieldsComponent.shadowRoot.querySelector(
-        selectors.sobjectPicker
-    );
+    return recordStoreFieldsComponent.shadowRoot.querySelector(selectors.sobjectPicker);
 };
 
 const getFieldList = recordStoreFieldsComponent => {
-    return recordStoreFieldsComponent.shadowRoot.querySelector(
-        selectors.fieldsList
-    );
+    return recordStoreFieldsComponent.shadowRoot.querySelector(selectors.fieldsList);
 };
 
 const createComponentUnderTest = props => {
-    const el = createElement(
-        'builder_platform_interaction-record-sobject-and-query-fields',
-        {
-            is: RecordSobjectAndQueryFields
-        }
-    );
+    const el = createElement('builder_platform_interaction-record-sobject-and-query-fields', {
+        is: RecordSobjectAndQueryFields
+    });
     Object.assign(el, mockDefaultConfig, props);
     document.body.appendChild(el);
     return el;
@@ -70,9 +58,7 @@ describe('record-store-fields', () => {
 
         it('contains an sObject resource picker', () => {
             recordSobjectAndQueryFields = createComponentUnderTest();
-            expect(
-                getSObjectPicker(recordSobjectAndQueryFields)
-            ).not.toBeNull();
+            expect(getSObjectPicker(recordSobjectAndQueryFields)).not.toBeNull();
         });
 
         it('do not show fields list if outputReference is not set', () => {

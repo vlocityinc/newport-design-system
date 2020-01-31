@@ -1,7 +1,4 @@
-import {
-    compareParamsByRequired,
-    compareParamsByLabel
-} from '../parameterUtils';
+import { compareParamsByRequired, compareParamsByLabel } from '../parameterUtils';
 
 describe('compareParamsByRequired', () => {
     it('sorts params by isRequired', () => {

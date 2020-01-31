@@ -1,8 +1,5 @@
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import {
-    isUndefinedOrNull,
-    isUndefined
-} from 'builder_platform_interaction/commonUtils';
+import { isUndefinedOrNull, isUndefined } from 'builder_platform_interaction/commonUtils';
 import { RULE_TYPES, RULE_PROPERTY, PARAM_PROPERTY, CONSTRAINT } from './rules';
 import { UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { isComplexType } from 'builder_platform_interaction/dataTypeLib';
@@ -64,10 +61,7 @@ export const isCollectionRequired = (paramTypes, dataType) => {
  * @return {dataTypeLib/FLOW_DATA_TYPE} flow data type
  */
 export const getDataType = element => {
-    return (
-        getValueFromHydratedItem(element[DATA_TYPE]) ||
-        (element.type && element.type.type)
-    );
+    return getValueFromHydratedItem(element[DATA_TYPE]) || (element.type && element.type.type);
 };
 
 /**
@@ -89,9 +83,7 @@ const getDataTypeOrElementTypes = param => {
  */
 const filterByRuleType = (rules, ruleType) => {
     if (ruleType !== ASSIGNMENT && ruleType !== COMPARISON) {
-        throw new Error(
-            `Rule type must be either ${ASSIGNMENT} or ${COMPARISON}`
-        );
+        throw new Error(`Rule type must be either ${ASSIGNMENT} or ${COMPARISON}`);
     }
     // filter the given rules by the desired rule type
     return rules.filter(rule => {
@@ -119,9 +111,7 @@ export const setOperators = (allOperators = {}) => {
  */
 export const elementToParam = element => {
     if (!element || Object.keys(element).length === 0) {
-        throw new Error(
-            `Element must be non empty object but instead was ${element}`
-        );
+        throw new Error(`Element must be non empty object but instead was ${element}`);
     }
     // if it has sobjectName set, it's a field. Or, if this element has already been param-ified, we can just check how this field was initially set
     const isSobjectField = !!element[IS_SOBJECT_FIELD] || !!element.sobjectName;
@@ -134,35 +124,26 @@ export const elementToParam = element => {
         [IS_APEX_PROPERTY]: isApexProperty,
         [IS_SOBJECT_FIELD]: isSobjectField,
         // if it's a field, it doesn't have an elementType
-        [ELEMENT_TYPE]:
-            isSobjectField || isApexProperty
-                ? undefined
-                : getValueFromHydratedItem(element.elementType),
+        [ELEMENT_TYPE]: isSobjectField || isApexProperty ? undefined : getValueFromHydratedItem(element.elementType),
 
         // the param in the rules service has 'collection' but flow elements have 'isCollection'. In some scenarios,
         // an element goes through this function twice, and on the first pass it will have 'isCollection' but on the second
         // it has 'collection', so we have to account for both options
         [IS_COLLECTION]: !!element[IS_COLLECTION] || !!element.isCollection,
-        [IS_SYSTEM_VARIABLE]:
-            element[IS_SYSTEM_VARIABLE] ||
-            element.category === systemVariableCategory
+        [IS_SYSTEM_VARIABLE]: element[IS_SYSTEM_VARIABLE] || element.category === systemVariableCategory
     };
 };
 
 const elementTypeNotAllowedForDataParam = (rule, element) => {
     return (
-        (rule[MUST_BE_ELEMENTS] &&
-            rule[MUST_BE_ELEMENTS].length > 0 &&
-            !rule[MUST_BE_ELEMENTS].includes(element)) ||
+        (rule[MUST_BE_ELEMENTS] && rule[MUST_BE_ELEMENTS].length > 0 && !rule[MUST_BE_ELEMENTS].includes(element)) ||
         (rule[CANNOT_BE_ELEMENTS] && rule[CANNOT_BE_ELEMENTS].includes(element))
     );
 };
 
 const propertyAllowed = (rule, property, status) => {
     return (
-        rule[property] === CAN_BE ||
-        (rule[property] === MUST_BE && status) ||
-        (rule[property] === CANNOT_BE && !status)
+        rule[property] === CAN_BE || (rule[property] === MUST_BE && status) || (rule[property] === CANNOT_BE && !status)
     );
 };
 
@@ -183,9 +164,7 @@ const propertyMatches = (rule, element, property) => {
 export const isMatch = (ruleParam, element) => {
     // sanity checks
     if (!ruleParam || Object.keys(ruleParam).length === 0) {
-        throw new Error(
-            `Rule param from service must be non empty object but instead was ${ruleParam}`
-        );
+        throw new Error(`Rule param from service must be non empty object but instead was ${ruleParam}`);
     }
 
     // convert the given element into the rule service param shape
@@ -199,45 +178,22 @@ export const isMatch = (ruleParam, element) => {
         ((elementParam[ELEMENT_TYPE]
             ? !elementTypeNotAllowedForDataParam(
                   ruleParam,
-                  UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[
-                      elementParam[ELEMENT_TYPE]
-                  ]
+                  UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[elementParam[ELEMENT_TYPE]]
               )
             : true) &&
-            propertyAllowed(
-                ruleParam,
-                SOBJECT_FIELD_REQUIREMENT,
-                elementParam[IS_SOBJECT_FIELD]
-            ) &&
-            propertyAllowed(
-                ruleParam,
-                SYSTEM_VARIABLE_REQUIREMENT,
-                elementParam[IS_SYSTEM_VARIABLE]
-            ) &&
-            propertyAllowed(
-                ruleParam,
-                APEX_PROPERTY_REQUIREMENT,
-                elementParam[IS_APEX_PROPERTY]
-            ));
+            propertyAllowed(ruleParam, SOBJECT_FIELD_REQUIREMENT, elementParam[IS_SOBJECT_FIELD]) &&
+            propertyAllowed(ruleParam, SYSTEM_VARIABLE_REQUIREMENT, elementParam[IS_SYSTEM_VARIABLE]) &&
+            propertyAllowed(ruleParam, APEX_PROPERTY_REQUIREMENT, elementParam[IS_APEX_PROPERTY]));
 
     const propertiesToCompare = [DATA_TYPE, IS_COLLECTION];
     let i = 0;
     while (matches && i < propertiesToCompare.length) {
-        matches = propertyMatches(
-            ruleParam,
-            elementParam,
-            propertiesToCompare[i]
-        );
+        matches = propertyMatches(ruleParam, elementParam, propertiesToCompare[i]);
         i++;
     }
-    if (
-        matches &&
-        ruleParam[MUST_BE_ELEMENTS] &&
-        ruleParam[MUST_BE_ELEMENTS].length
-    ) {
+    if (matches && ruleParam[MUST_BE_ELEMENTS] && ruleParam[MUST_BE_ELEMENTS].length) {
         matches = ruleParam[MUST_BE_ELEMENTS].includes(
-            UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[elementParam[ELEMENT_TYPE]] ||
-                elementParam[ELEMENT_TYPE]
+            UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[elementParam[ELEMENT_TYPE]] || elementParam[ELEMENT_TYPE]
         );
     }
     return matches;
@@ -260,12 +216,7 @@ const specialCaseAllowed = (param, flag) => {
  * @param {Boolean} true if rule is allowed, false if not
  */
 const ruleAllowedInElementEditor = (rule, elementType) => {
-    return (
-        !rule[EXCLUDE_ELEMS] ||
-        !rule[EXCLUDE_ELEMS].includes(
-            UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[elementType]
-        )
-    );
+    return !rule[EXCLUDE_ELEMS] || !rule[EXCLUDE_ELEMS].includes(UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[elementType]);
 };
 
 /**
@@ -295,19 +246,11 @@ const convertToAllowedParamMap = stringifiedParamTypeMap => {
     let canBeSObjectField = false;
     let canBeApexProperty = false;
     Object.keys(stringifiedParamTypeMap).forEach(key => {
-        stringifiedParamTypeMap[key] = Array.from(
-            stringifiedParamTypeMap[key]
-        ).map(serializedValue => {
+        stringifiedParamTypeMap[key] = Array.from(stringifiedParamTypeMap[key]).map(serializedValue => {
             const param = JSON.parse(serializedValue);
-            canBeSObjectField =
-                canBeSObjectField ||
-                specialCaseAllowed(param, SOBJECT_FIELD_REQUIREMENT);
-            canBeSystemVariable =
-                canBeSystemVariable ||
-                specialCaseAllowed(param, SYSTEM_VARIABLE_REQUIREMENT);
-            canBeApexProperty =
-                canBeApexProperty ||
-                specialCaseAllowed(param, APEX_PROPERTY_REQUIREMENT);
+            canBeSObjectField = canBeSObjectField || specialCaseAllowed(param, SOBJECT_FIELD_REQUIREMENT);
+            canBeSystemVariable = canBeSystemVariable || specialCaseAllowed(param, SYSTEM_VARIABLE_REQUIREMENT);
+            canBeApexProperty = canBeApexProperty || specialCaseAllowed(param, APEX_PROPERTY_REQUIREMENT);
             return param;
         });
     });
@@ -325,13 +268,10 @@ const convertToAllowedParamMap = stringifiedParamTypeMap => {
  */
 export const getLHSTypes = (elementType, rules, ruleType) => {
     if (!Array.isArray(rules)) {
-        throw new Error(
-            `Rules must be an Array but instead was ${typeof rules}`
-        );
+        throw new Error(`Rules must be an Array but instead was ${typeof rules}`);
     }
     // if the rule type was specified then we want to filter by rule type
-    const allowedRules =
-        ruleType !== undefined ? filterByRuleType(rules, ruleType) : rules;
+    const allowedRules = ruleType !== undefined ? filterByRuleType(rules, ruleType) : rules;
 
     const paramTypeMap = {};
     allowedRules.forEach(rule => {
@@ -358,19 +298,13 @@ export const getOperators = (elementType, lhsElement = {}, rules, ruleType) => {
         return [];
     }
     if (!Array.isArray(rules)) {
-        throw new Error(
-            `Rules must be an Array but instead was ${typeof rules}`
-        );
+        throw new Error(`Rules must be an Array but instead was ${typeof rules}`);
     }
     // if the rule type was specified then we want to filter by rule type
-    const allowedRules =
-        ruleType !== undefined ? filterByRuleType(rules, ruleType) : rules;
+    const allowedRules = ruleType !== undefined ? filterByRuleType(rules, ruleType) : rules;
 
     const reducer = (operatorSet, rule) => {
-        if (
-            ruleAllowedInElementEditor(rule, elementType) &&
-            isMatch(rule[LEFT], lhsElement)
-        ) {
+        if (ruleAllowedInElementEditor(rule, elementType) && isMatch(rule[LEFT], lhsElement)) {
             operatorSet.add(rule[OPERATOR]);
         }
         return operatorSet;
@@ -406,38 +340,27 @@ export const transformOperatorsForCombobox = operators => {
  * @param {String} ruleType         the rule type of the given rules eg: assignment/comparator
  * @returns {allowedParamMap}       map of data types, element types, and object types to allowed right hand side types
  */
-export const getRHSTypes = (
-    elementType,
-    lhsElement,
-    operator,
-    rules,
-    ruleType
-) => {
+export const getRHSTypes = (elementType, lhsElement, operator, rules, ruleType) => {
     // sanity checks
     if (!lhsElement || Object.keys(lhsElement).length === 0) {
         return [];
     }
     if (!Array.isArray(rules)) {
-        throw new Error(
-            `Rule must be an Array but instead was ${typeof rules}`
-        );
+        throw new Error(`Rule must be an Array but instead was ${typeof rules}`);
     }
     // if the rule type was specified then we want to filter by rule type
-    const allowedRules =
-        ruleType !== undefined ? filterByRuleType(rules, ruleType) : rules;
+    const allowedRules = ruleType !== undefined ? filterByRuleType(rules, ruleType) : rules;
 
     const paramTypeMap = {};
     allowedRules.forEach(rule => {
         if (
             ruleAllowedInElementEditor(rule, elementType) &&
-            (operator === rule[OPERATOR] && isMatch(rule[LEFT], lhsElement))
+            operator === rule[OPERATOR] &&
+            isMatch(rule[LEFT], lhsElement)
         ) {
             rule[RHS_PARAMS].forEach(rhsParam => {
                 let type = getDataTypeOrElementTypes(rhsParam);
-                if (
-                    isComplexType(lhsElement.dataType) &&
-                    isComplexType(type[0])
-                ) {
+                if (isComplexType(lhsElement.dataType) && isComplexType(type[0])) {
                     // if element is an sObject, we want to track by subtype because sObject/apex type must match exactly
                     type = lhsElement.subtype;
                 }

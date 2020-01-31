@@ -1,13 +1,8 @@
-import {
-    getProcessTypesWithIcons
-} from '../processTypeUtils';
+import { getProcessTypesWithIcons } from '../processTypeUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { MOCK_ALL_PROCESS_TYPES } from 'mock/processTypesData';
 
-const getProcessTypesWithIconsWithProcessTypes = getProcessTypesWithIcons.bind(
-    null,
-    MOCK_ALL_PROCESS_TYPES
-);
+const getProcessTypesWithIconsWithProcessTypes = getProcessTypesWithIcons.bind(null, MOCK_ALL_PROCESS_TYPES);
 
 describe('processTypesUtils', () => {
     test('No filtering: all process types returned', () => {

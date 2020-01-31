@@ -8,10 +8,7 @@ import {
     WAY_TO_STORE_FIELDS_OPTIONS
 } from './recordStoreOptionsLabels';
 import { RecordStoreOptionChangedEvent } from 'builder_platform_interaction/events';
-import {
-    NUMBER_RECORDS_TO_STORE,
-    WAY_TO_STORE_FIELDS
-} from 'builder_platform_interaction/recordEditorLib';
+import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 
 export default class RecordStoreFieldsSelection extends LightningElement {
     labels = LABELS;
@@ -131,10 +128,7 @@ export default class RecordStoreFieldsSelection extends LightningElement {
     }
 
     get isGetFirstRecord() {
-        return (
-            this.state.numberOfRecordsToStore ===
-            NUMBER_RECORDS_TO_STORE.FIRST_RECORD
-        );
+        return this.state.numberOfRecordsToStore === NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
     }
 
     /**
@@ -143,10 +137,8 @@ export default class RecordStoreFieldsSelection extends LightningElement {
      */
     get showWayToStoreFieldSelector() {
         return (
-            (this.elementType === ELEMENT_TYPE.RECORD_LOOKUP ||
-                this.elementType === ELEMENT_TYPE.RECORD_CREATE) &&
-            this.state.numberOfRecordsToStore ===
-                NUMBER_RECORDS_OPTIONS[this.elementType][0].value
+            (this.elementType === ELEMENT_TYPE.RECORD_LOOKUP || this.elementType === ELEMENT_TYPE.RECORD_CREATE) &&
+            this.state.numberOfRecordsToStore === NUMBER_RECORDS_OPTIONS[this.elementType][0].value
         );
     }
 

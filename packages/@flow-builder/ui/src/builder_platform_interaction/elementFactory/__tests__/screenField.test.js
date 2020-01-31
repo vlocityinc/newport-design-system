@@ -1,8 +1,4 @@
-import {
-    createScreenField,
-    createScreenFieldMetadataObject,
-    createEmptyScreenFieldOfType
-} from '../screenField';
+import { createScreenField, createScreenFieldMetadataObject, createEmptyScreenFieldOfType } from '../screenField';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getProcessTypeAutomaticOutPutHandlingSupport } from 'builder_platform_interaction/processTypeLib';
@@ -12,9 +8,7 @@ expect.extend(deepFindMatchers);
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'flow';
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/processTypeLib'
-    );
+    const actual = require.requireActual('builder_platform_interaction/processTypeLib');
     return {
         FLOW_AUTOMATIC_OUTPUT_HANDLING: actual.FLOW_AUTOMATIC_OUTPUT_HANDLING,
         getProcessTypeAutomaticOutPutHandlingSupport: jest.fn()
@@ -22,14 +16,14 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
 });
 
 jest.mock('builder_platform_interaction/storeLib', () => {
-    const getCurrentState = function () {
+    const getCurrentState = function() {
         return {
             properties: {
                 processType: MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
             }
         };
     };
-    const getStore = function () {
+    const getStore = function() {
         return {
             getCurrentState
         };
@@ -53,9 +47,7 @@ const mockGetScreenFieldTypeByNameEmail = () => ({
 });
 
 jest.mock('builder_platform_interaction/screenEditorUtils', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/screenEditorUtils'
-    );
+    const actual = require.requireActual('builder_platform_interaction/screenEditorUtils');
     return {
         getFlowDataTypeByName: actual.getFlowDataTypeByName,
         isExtensionField: actual.isExtensionField,
@@ -221,12 +213,8 @@ describe('screenField', () => {
         describe('LC screen field (automatic output handling supported)', () => {
             let actualResult;
             beforeEach(() => {
-                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
-                    'Supported'
-                );
-                actualResult = createEmptyScreenFieldOfType(
-                    'flowruntime:email'
-                );
+                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue('Supported');
+                actualResult = createEmptyScreenFieldOfType('flowruntime:email');
             });
             it('"storeOutputAutomatically" should be true', () => {
                 expect(actualResult.storeOutputAutomatically).toBe(true);
@@ -235,12 +223,8 @@ describe('screenField', () => {
         describe('LC screen field (automatic output handling unsupported)', () => {
             let actualResult;
             beforeEach(() => {
-                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
-                    'Unsupported'
-                );
-                actualResult = createEmptyScreenFieldOfType(
-                    'flowruntime:email'
-                );
+                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue('Unsupported');
+                actualResult = createEmptyScreenFieldOfType('flowruntime:email');
             });
             it('"storeOutputAutomatically" should be false', () => {
                 expect(actualResult.storeOutputAutomatically).toBe(false);
@@ -252,15 +236,11 @@ describe('screenField', () => {
             let screenFieldMetadata;
             beforeEach(() => {
                 screenFieldMetadata = componentAutomaticScreenFieldMetadata();
-                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
-                    'Supported'
-                );
+                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue('Supported');
             });
             it('has no common mutable object with screen field metadata passed as parameter', () => {
                 const actualResult = createScreenField(screenFieldMetadata);
-                expect(actualResult).toHaveNoCommonMutableObjectWith(
-                    screenFieldMetadata
-                );
+                expect(actualResult).toHaveNoCommonMutableObjectWith(screenFieldMetadata);
             });
             it('"outputParameters" should be an empty array', () => {
                 const actualResult = createScreenField(screenFieldMetadata);
@@ -268,9 +248,7 @@ describe('screenField', () => {
             });
             it('should have a LIGHTNING_COMPONENT_OUTPUT datatype', () => {
                 const actualResult = createScreenField(screenFieldMetadata);
-                expect(actualResult.dataType).toBe(
-                    FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
-                );
+                expect(actualResult.dataType).toBe(FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value);
                 expect(actualResult.isCollection).toBeFalsy();
                 expect(actualResult.subtype).toBeFalsy();
             });
@@ -292,9 +270,7 @@ describe('screenField', () => {
             let screenFieldMetadata;
             beforeEach(() => {
                 screenFieldMetadata = componentScreenFieldEmailMetadata();
-                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
-                    'Unsupported'
-                );
+                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue('Unsupported');
             });
             it('"outputParameters" should be an empty array', () => {
                 const actualResult = createScreenField(screenFieldMetadata);
@@ -319,32 +295,20 @@ describe('screenField', () => {
     describe('screenField UI model => flow metadata', () => {
         describe('LC screen field with automatic output handling', () => {
             beforeEach(() => {
-                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
-                    'Supported'
-                );
+                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue('Supported');
             });
             it('converts to flow metadata', () => {
-                const actualResult = createScreenFieldMetadataObject(
-                    componentAutomaticScreenFieldStore()
-                );
+                const actualResult = createScreenFieldMetadataObject(componentAutomaticScreenFieldStore());
 
-                expect(actualResult).toMatchObject(
-                    componentAutomaticScreenFieldMetadata()
-                );
+                expect(actualResult).toMatchObject(componentAutomaticScreenFieldMetadata());
             });
             it('has no common mutable object with screen field from store passed as parameter', () => {
                 const screenFieldStore = componentAutomaticScreenFieldStore();
-                const actualResult = createScreenFieldMetadataObject(
-                    screenFieldStore
-                );
-                expect(actualResult).toHaveNoCommonMutableObjectWith(
-                    screenFieldStore
-                );
+                const actualResult = createScreenFieldMetadataObject(screenFieldStore);
+                expect(actualResult).toHaveNoCommonMutableObjectWith(screenFieldStore);
             });
             it('has dynamic type mappings', () => {
-                const actualResult = createScreenFieldMetadataObject(
-                    componentAutomaticScreenFieldStore()
-                );
+                const actualResult = createScreenFieldMetadataObject(componentAutomaticScreenFieldStore());
                 expect(actualResult).toHaveProperty('dataTypeMappings');
                 expect(actualResult.dataTypeMappings).toHaveLength(1);
                 expect(actualResult.dataTypeMappings[0]).toEqual({
@@ -355,27 +319,17 @@ describe('screenField', () => {
         });
         describe('LC screen field (automatic output handling not supported)', () => {
             beforeAll(() => {
-                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
-                    'Unsupported'
-                );
+                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue('Unsupported');
             });
             it('convert to flow metadata', () => {
-                const actualResult = createScreenFieldMetadataObject(
-                    componentScreenFieldEmailStore()
-                );
-                expect(actualResult).toMatchObject(
-                    componentScreenFieldEmailMetadata()
-                );
+                const actualResult = createScreenFieldMetadataObject(componentScreenFieldEmailStore());
+                expect(actualResult).toMatchObject(componentScreenFieldEmailMetadata());
                 expect(actualResult.storeOutputAutomatically).not.toBeDefined();
                 expect(actualResult).not.toHaveProperty('dataTypeMappings');
             });
             it('convert to flow metadata should remove the storeOutputAutomatically if processType does not support it', () => {
-                const actualResult = createScreenFieldMetadataObject(
-                    componentAutomaticScreenFieldStore()
-                );
-                expect(actualResult).toMatchObject(
-                    componentScreenFieldEmailMetadata()
-                );
+                const actualResult = createScreenFieldMetadataObject(componentAutomaticScreenFieldStore());
+                expect(actualResult).toMatchObject(componentScreenFieldEmailMetadata());
                 expect(actualResult.storeOutputAutomatically).not.toBeDefined();
             });
         });

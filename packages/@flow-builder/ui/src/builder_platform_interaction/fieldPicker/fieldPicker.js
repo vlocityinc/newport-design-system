@@ -89,9 +89,7 @@ export default class FieldPicker extends LightningElement {
 
     renderedCallback() {
         if (!this._isInitialized) {
-            this._baseResourcePicker = this.template.querySelector(
-                BaseResourcePicker.SELECTOR
-            );
+            this._baseResourcePicker = this.template.querySelector(BaseResourcePicker.SELECTOR);
             this._isInitialized = true;
 
             if (this.fields) {
@@ -101,10 +99,7 @@ export default class FieldPicker extends LightningElement {
     }
 
     isLookupTraversalSupported() {
-        return isLookupTraversalSupported(
-            Store.getStore().getCurrentState().properties.processType,
-            getTriggerType()
-        );
+        return isLookupTraversalSupported(Store.getStore().getCurrentState().properties.processType, getTriggerType());
     }
 
     /**

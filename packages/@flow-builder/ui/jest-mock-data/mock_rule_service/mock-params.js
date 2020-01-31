@@ -8,113 +8,113 @@
 const allElements = ['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'];
 
 export const dateParam = {
-    paramType:'Data',
+    paramType: 'Data',
     dataType: 'Date',
-    collection:false,
-    canBeSobjectField:'CanBe',
-    canBeSystemVariable:'CanBe',
-    canBeApexProperty:'CanBe',
+    collection: false,
+    canBeSobjectField: 'CanBe',
+    canBeSystemVariable: 'CanBe',
+    canBeApexProperty: 'CanBe'
 };
 
 export const datetimeParam = {
-    paramType:'Data',
+    paramType: 'Data',
     dataType: 'DateTime',
-    collection:false,
-    canBeSobjectField:'CanBe',
-    canBeSystemVariable:'CanBe',
-    canBeApexProperty:'CanBe',
+    collection: false,
+    canBeSobjectField: 'CanBe',
+    canBeSystemVariable: 'CanBe',
+    canBeApexProperty: 'CanBe'
 };
 
 export const dateCollectionParam = {
-    paramType:'Data',
+    paramType: 'Data',
     dataType: 'Date',
-    collection:true,
-    canBeSobjectField:'CanBe',
-    canBeSystemVariable:'CanBe',
-    canBeApexProperty:'CanBe',
+    collection: true,
+    canBeSobjectField: 'CanBe',
+    canBeSystemVariable: 'CanBe',
+    canBeApexProperty: 'CanBe'
 };
 
 export const stringParam = {
-    paramType:'Data',
+    paramType: 'Data',
     dataType: 'String',
-    collection:false,
-    canBeSobjectField:'CannotBe',
-    canBeSystemVariable:'CanBe',
-    canBeApexProperty:'CanBe',
+    collection: false,
+    canBeSobjectField: 'CannotBe',
+    canBeSystemVariable: 'CanBe',
+    canBeApexProperty: 'CanBe'
 };
 
 export const numberParamMustBeField = {
-    paramType:'Data',
+    paramType: 'Data',
     dataType: 'Number',
-    collection:false,
-    canBeSobjectField:'MustBe',
-    canBeSystemVariable:'CanBe',
-    canBeApexProperty:'CanBe',
+    collection: false,
+    canBeSobjectField: 'MustBe',
+    canBeSystemVariable: 'CanBe',
+    canBeApexProperty: 'CanBe'
 };
 
 export const numberParamCannotBeField = {
-    paramType:'Data',
+    paramType: 'Data',
     dataType: 'Number',
-    collection:false,
-    canBeSobjectField:'CannotBe',
-    canBeSystemVariable:'CanBe',
-    canBeApexProperty:'CanBe',
+    collection: false,
+    canBeSobjectField: 'CannotBe',
+    canBeSystemVariable: 'CanBe',
+    canBeApexProperty: 'CanBe'
 };
 
 export const numberParamCanBeAnything = {
-    paramType:'Data',
+    paramType: 'Data',
     dataType: 'Number',
-    collection:false,
-    canBeSobjectField:'CanBe',
-    canBeSystemVariable:'CanBe',
-    canBeApexProperty:'CanBe',
+    collection: false,
+    canBeSobjectField: 'CanBe',
+    canBeSystemVariable: 'CanBe',
+    canBeApexProperty: 'CanBe'
 };
 
 export const numberParamCannotBeProperty = {
-    paramType:'Data',
+    paramType: 'Data',
     dataType: 'Number',
-    collection:false,
-    canBeSobjectField:'CanBe',
-    canBeSystemVariable:'CanBe',
-    canBeApexProperty:'CannotBe',
+    collection: false,
+    canBeSobjectField: 'CanBe',
+    canBeSystemVariable: 'CanBe',
+    canBeApexProperty: 'CannotBe'
 };
 
 export const numberParamMustBeProperty = {
-    paramType:'Data',
+    paramType: 'Data',
     dataType: 'Number',
-    collection:false,
-    canBeSobjectField:'CanBe',
-    canBeSystemVariable:'CanBe',
-    canBeApexProperty:'MustBe',
+    collection: false,
+    canBeSobjectField: 'CanBe',
+    canBeSystemVariable: 'CanBe',
+    canBeApexProperty: 'MustBe'
 };
 
 export const stageCollectionParam = {
-    paramType:'Element',
-    elementType:'STAGE',
-    collection:true,
-    canBeSobjectField:'CannotBe',
-    canBeSystemVariable:'CanBe',
-    canBeApexProperty:'CanBe',
-    cannotBeElements: allElements,
+    paramType: 'Element',
+    elementType: 'STAGE',
+    collection: true,
+    canBeSobjectField: 'CannotBe',
+    canBeSystemVariable: 'CanBe',
+    canBeApexProperty: 'CanBe',
+    cannotBeElements: allElements
 };
 
 export const stageParam = {
-    paramType:'Element',
-    elementType:'STAGE',
-    collection:false,
-    canBeSobjectField:'CannotBe',
-    canBeSystemVariable:'CanBe',
-    canBeApexProperty:'CanBe',
-    cannotBeElements: allElements,
+    paramType: 'Element',
+    elementType: 'STAGE',
+    collection: false,
+    canBeSobjectField: 'CannotBe',
+    canBeSystemVariable: 'CanBe',
+    canBeApexProperty: 'CanBe',
+    cannotBeElements: allElements
 };
 
 export const booleanParam = {
-    paramType:'Data',
-    dataType:'Boolean',
-    collection:false,
-    canBeSobjectField:'CanBe',
-    canBeSystemVariable:'CanBe',
-    canBeApexProperty:'CanBe',
+    paramType: 'Data',
+    dataType: 'Boolean',
+    collection: false,
+    canBeSobjectField: 'CanBe',
+    canBeSystemVariable: 'CanBe',
+    canBeApexProperty: 'CanBe'
 };
 
 export const sobjectParam = {
@@ -123,7 +123,7 @@ export const sobjectParam = {
     collection: false,
     canBeSobjectField: 'CanBe',
     canBeSystemVariable: 'CanBe',
-    canBeApexProperty:'CanBe',
+    canBeApexProperty: 'CanBe'
 };
 
 export const apexParam = {
@@ -132,53 +132,53 @@ export const apexParam = {
     collection: false,
     canBeSobjectField: 'CannotBe',
     canBeSystemVariable: 'CannotBe',
-    canBeApexProperty:'CanBe',
+    canBeApexProperty: 'CanBe'
 };
 
 export const accountParam = {
-    Account: [sobjectParam],
+    Account: [sobjectParam]
 };
 
 export const apexClassParam = {
-    MyApexClass: [apexParam],
+    MyApexClass: [apexParam]
 };
 
 export const datetimeParamTypes = {
     Date: [dateParam],
-    DateTime: [datetimeParam],
+    DateTime: [datetimeParam]
 };
 
 // these params deal with hypothetical situations that we account for but don't exist right now
 export const dateParamMissingCollection = {
-    paramType:'Data',
+    paramType: 'Data',
     dataType: 'Date',
-    canBeSobjectField:'CanBe',
-    canBeSystemVariable:'CanBe',
-    canBeApexProperty:'CanBe',
+    canBeSobjectField: 'CanBe',
+    canBeSystemVariable: 'CanBe',
+    canBeApexProperty: 'CanBe'
 };
 
 export const dateParamMustBeElements = {
-    paramType:'Data',
+    paramType: 'Data',
     dataType: 'Date',
-    canBeSobjectField:'CanBe',
-    canBeSystemVariable:'CanBe',
-    canBeApexProperty:'CanBe',
-    mustBeElements: allElements,
+    canBeSobjectField: 'CanBe',
+    canBeSystemVariable: 'CanBe',
+    canBeApexProperty: 'CanBe',
+    mustBeElements: allElements
 };
 
 export const dateParamCannotBeElements = {
-    paramType:'Data',
+    paramType: 'Data',
     dataType: 'Date',
-    canBeSobjectField:'CanBe',
-    canBeSystemVariable:'CanBe',
-    canBeApexProperty:'CanBe',
-    cannotBeElements: allElements,
+    canBeSobjectField: 'CanBe',
+    canBeSystemVariable: 'CanBe',
+    canBeApexProperty: 'CanBe',
+    cannotBeElements: allElements
 };
 
 export const dateParamNoElementsList = {
-    paramType:'Data',
+    paramType: 'Data',
     dataType: 'Date',
-    canBeSobjectField:'CanBe',
-    canBeSystemVariable:'CanBe',
-    canBeApexProperty:'CanBe',
+    canBeSobjectField: 'CanBe',
+    canBeSystemVariable: 'CanBe',
+    canBeApexProperty: 'CanBe'
 };

@@ -1,7 +1,4 @@
-import {
-    fetch,
-    SERVER_ACTION_TYPE
-} from 'builder_platform_interaction/serverDataLib';
+import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { readonly } from 'lwc';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
@@ -16,15 +13,15 @@ let _retriever; // Retrieves extensions list and notifies all callbacks that reg
 export const COMPONENT_INSTANCE = 'ComponentInstance';
 export const EXTENSION_TYPE_SOURCE = { LOCAL: 'local', SERVER: 'server' };
 const screenFieldLabelToIconMapping = {
-        'Address': 'standard:address',
-        'Dependent Picklists': 'standard:picklist_type',
-        'Display Image': 'utility:image',
-        'Email': 'standard:email',
-        'Lookup': 'standard:record_lookup',
-        'Name': 'standard:contact',
-        'Phone': 'standard:call',
-        'Time':  'standard:date_time',
-        'URL': 'standard:link'
+    Address: 'standard:address',
+    'Dependent Picklists': 'standard:picklist_type',
+    'Display Image': 'utility:image',
+    Email: 'standard:email',
+    Lookup: 'standard:record_lookup',
+    Name: 'standard:contact',
+    Phone: 'standard:call',
+    Time: 'standard:date_time',
+    URL: 'standard:link'
 };
 
 /**
@@ -82,13 +79,8 @@ function getListExtensionsRetriever(flowProcessType) {
                                             genericTypes: extension.genericTypes
                                                 ? extension.genericTypes.records
                                                 : undefined,
-                                            label: extension.label
-                                                ? extension.label
-                                                : extension.qualifiedApiName,
-                                            icon:
-                                                screenFieldLabelToIconMapping[
-                                                    extension.label
-                                                ] || defaultIcon,
+                                            label: extension.label ? extension.label : extension.qualifiedApiName,
+                                            icon: screenFieldLabelToIconMapping[extension.label] || defaultIcon,
                                             category:
                                                 extension.source === 'Standard'
                                                     ? LABELS.fieldCategoryInput
@@ -128,12 +120,7 @@ export function getExtensionFieldTypes(flowProcessType) {
     // After refactoring, the screen property editor will be using the same mechanism to cache as other places in the flow builder.
     // Work item: https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000006Qf9JIAS/view
     const cachedFlowProcessType = getCachedFlowProcessType();
-    if (
-        cachedFields &&
-        cachedFields.length &&
-        cachedFlowProcessType &&
-        cachedFlowProcessType === flowProcessType
-    ) {
+    if (cachedFields && cachedFields.length && cachedFlowProcessType && cachedFlowProcessType === flowProcessType) {
         return Promise.resolve(cachedFields);
     }
 
@@ -158,10 +145,7 @@ export function getExtensionFieldTypes(flowProcessType) {
  * @param {String} name - The FQN of the component
  * @returns {Promise} A promise to the extension description
  */
-export function describeExtension(
-    name,
-    { background = false, disableErrorModal = false, messageForErrorModal } = {}
-) {
+export function describeExtension(name, { background = false, disableErrorModal = false, messageForErrorModal } = {}) {
     return describeExtensions([name], {
         background,
         disableErrorModal,
@@ -200,7 +184,7 @@ export function getCachedExtension(name, dynamicTypeMappings) {
         extension = {
             ...extension,
             inputParameters: applyDynamicTypeMappings(extension.inputParameters, dynamicTypeMappings),
-            outputParameters: applyDynamicTypeMappings(extension.outputParameters, dynamicTypeMappings),
+            outputParameters: applyDynamicTypeMappings(extension.outputParameters, dynamicTypeMappings)
         };
     }
     return extension;
@@ -208,15 +192,9 @@ export function getCachedExtension(name, dynamicTypeMappings) {
 
 function transformDefaultValue(value) {
     if (value) {
-        if (
-            value === false ||
-            (value.toLowerCase && value.toLowerCase().trim() === 'false')
-        ) {
+        if (value === false || (value.toLowerCase && value.toLowerCase().trim() === 'false')) {
             return GLOBAL_CONSTANTS.BOOLEAN_FALSE;
-        } else if (
-            value === true ||
-            (value.toLowerCase && value.toLowerCase().trim() === 'true')
-        ) {
+        } else if (value === true || (value.toLowerCase && value.toLowerCase().trim() === 'true')) {
             return GLOBAL_CONSTANTS.BOOLEAN_TRUE;
         } else if (value && value.trim && value.trim() === '') {
             return GLOBAL_CONSTANTS.EMPTY_STRING;
@@ -279,9 +257,7 @@ export function describeExtensions(
     names = [],
     { background = false, disableErrorModal = false, messageForErrorModal } = {}
 ) {
-    const extensionNamesToFetch = names.filter(
-        name => !extensionDescriptionCache[name]
-    );
+    const extensionNamesToFetch = names.filter(name => !extensionDescriptionCache[name]);
     let promise;
     if (extensionNamesToFetch.length === 0) {
         promise = Promise.resolve([]);
@@ -295,16 +271,10 @@ export function describeExtensions(
                     } else {
                         for (const name of extensionNamesToFetch) {
                             if (!extensionDescriptionCache[name]) {
-                                extensionDescriptionCache[
-                                    name
-                                ] = createDescription(name, data[name]);
+                                extensionDescriptionCache[name] = createDescription(name, data[name]);
                             }
                         }
-                        resolve(
-                            extensionNamesToFetch.map(
-                                name => extensionDescriptionCache[name]
-                            )
-                        );
+                        resolve(extensionNamesToFetch.map(name => extensionDescriptionCache[name]));
                     }
                 },
                 { names: extensionNamesToFetch },
@@ -316,9 +286,7 @@ export function describeExtensions(
             );
         });
     }
-    return promise.then(() =>
-        names.map(name => extensionDescriptionCache[name])
-    );
+    return promise.then(() => names.map(name => extensionDescriptionCache[name]));
 }
 
 /**
@@ -337,7 +305,7 @@ export function getAllCachedExtensionTypes() {
     return extensionCache;
 }
 
-export const getCachedExtensionType = (name) => extensionCache.find(extension => extension.name === name);
+export const getCachedExtensionType = name => extensionCache.find(extension => extension.name === name);
 
 export function getCachedFlowProcessType() {
     return flowProcessTypeCache;
@@ -357,8 +325,10 @@ export function applyDynamicTypeMappings(parameters, dynamicTypeMappings) {
     return parameters
         .map(parameter => ({
             parameter,
-            dynamicTypeMapping: dynamicTypeMappings.find(dynamicTypeMapping =>
-                parameter.subtype === '{' + getValueFromHydratedItem(dynamicTypeMapping.typeName) + '}')
+            dynamicTypeMapping: dynamicTypeMappings.find(
+                dynamicTypeMapping =>
+                    parameter.subtype === '{' + getValueFromHydratedItem(dynamicTypeMapping.typeName) + '}'
+            )
         }))
         .map(({ parameter, dynamicTypeMapping }) => {
             if (dynamicTypeMapping && dynamicTypeMapping.typeValue) {

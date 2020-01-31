@@ -2,28 +2,21 @@ import { createElement } from 'lwc';
 import StageEditor from '../stageEditor';
 import { createStage } from 'builder_platform_interaction/elementFactory';
 import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
-import {
-    createAction,
-    PROPERTY_EDITOR_ACTION
-} from 'builder_platform_interaction/actions';
+import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { stageReducer } from '../../stageEditor/stageReducer';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 
 jest.mock('builder_platform_interaction/actions', () => {
     return {
         createAction: jest.fn().mockImplementation((type, payload) => payload),
-        PROPERTY_EDITOR_ACTION: require.requireActual(
-            'builder_platform_interaction/actions'
-        ).PROPERTY_EDITOR_ACTION
+        PROPERTY_EDITOR_ACTION: require.requireActual('builder_platform_interaction/actions').PROPERTY_EDITOR_ACTION
     };
 });
 
 // helps remove dependency of the editor tests on the reducer functionality
 jest.mock('../stageReducer', () => {
     return {
-        stageReducer: jest
-            .fn()
-            .mockImplementation(obj => Object.assign({}, obj))
+        stageReducer: jest.fn().mockImplementation(obj => Object.assign({}, obj))
     };
 });
 
@@ -51,9 +44,7 @@ const getStageOrder = stageEditor => {
 };
 
 const getStageActiveByDefaultCheckBox = stageEditor => {
-    return stageEditor.shadowRoot.querySelector(
-        selectors.STAGE_ACTIVE_BY_DEFAULT_CHECKBOX
-    );
+    return stageEditor.shadowRoot.querySelector(selectors.STAGE_ACTIVE_BY_DEFAULT_CHECKBOX);
 };
 
 describe('Stage-Editor', () => {
@@ -81,9 +72,7 @@ describe('Stage-Editor', () => {
             expect(stageOrderInputField.value).toBeNull();
         });
         it('Active By Default Checkbox should be unchecked by default.', () => {
-            const stageActiveByDefaultCheckBox = getStageActiveByDefaultCheckBox(
-                stageEditor
-            );
+            const stageActiveByDefaultCheckBox = getStageActiveByDefaultCheckBox(stageEditor);
             expect(stageActiveByDefaultCheckBox).toBeDefined();
             expect(stageActiveByDefaultCheckBox.checked).toBe(false);
         });
@@ -119,30 +108,20 @@ describe('Stage-Editor', () => {
         it('Label Description Component', () => {
             const labelDescription = getLabelDescription(stageEditor);
             expect(labelDescription).toBeDefined();
-            expect(labelDescription.label.value).toBe(
-                stageResource.label.value
-            );
+            expect(labelDescription.label.value).toBe(stageResource.label.value);
             expect(labelDescription.label.error).toBeNull();
-            expect(labelDescription.devName.value).toBe(
-                stageResource.name.value
-            );
+            expect(labelDescription.devName.value).toBe(stageResource.name.value);
             expect(labelDescription.devName.error).toBeNull();
-            expect(labelDescription.description.value).toBe(
-                stageResource.description.value
-            );
+            expect(labelDescription.description.value).toBe(stageResource.description.value);
             expect(labelDescription.description.error).toBeNull();
         });
         it('Stage Order Input should be Empty (NULL)', () => {
             const stageOrderInputField = getStageOrder(stageEditor);
             expect(stageOrderInputField).toBeDefined();
-            expect(stageOrderInputField.value).toBe(
-                stageResource.stageOrder.value
-            );
+            expect(stageOrderInputField.value).toBe(stageResource.stageOrder.value);
         });
         it('Active By Default Checkbox should be unchecked by default.', () => {
-            const stageActiveByDefaultCheckBox = getStageActiveByDefaultCheckBox(
-                stageEditor
-            );
+            const stageActiveByDefaultCheckBox = getStageActiveByDefaultCheckBox(stageEditor);
             expect(stageActiveByDefaultCheckBox).toBeDefined();
             expect(stageActiveByDefaultCheckBox.checked).toBe(true);
         });
@@ -151,15 +130,9 @@ describe('Stage-Editor', () => {
         it('handles the property changed event and updates to Description.', () => {
             const stageEditor = createComponentUnderTest(stageResource);
             return Promise.resolve().then(() => {
-                const event = new PropertyChangedEvent(
-                    'description',
-                    'new desc',
-                    null
-                );
+                const event = new PropertyChangedEvent('description', 'new desc', null);
                 getLabelDescription(stageEditor).dispatchEvent(event);
-                expect(createAction.mock.calls[0][0]).toEqual(
-                    PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY
-                );
+                expect(createAction.mock.calls[0][0]).toEqual(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY);
                 expect(stageReducer.mock.calls[0][0]).toEqual(stageEditor.node);
             });
         });

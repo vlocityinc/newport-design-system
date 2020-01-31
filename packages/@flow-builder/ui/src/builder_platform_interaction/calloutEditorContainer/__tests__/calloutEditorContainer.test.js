@@ -8,7 +8,7 @@ jest.mock('builder_platform_interaction/translatorLib', () => ({
 }));
 
 jest.mock('builder_platform_interaction/storeLib', () => {
-    const getCurrentState = function () {
+    const getCurrentState = function() {
         return {
             properties: {
                 processType: 'flow'
@@ -16,7 +16,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
             elements: {}
         };
     };
-    const getStore = function () {
+    const getStore = function() {
         return {
             getCurrentState
         };
@@ -28,12 +28,9 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 });
 
 const setupComponentUnderTest = props => {
-    const element = createElement(
-        'builder_platform_interaction-callout-editor-container',
-        {
-            is: CalloutEditorContainer
-        }
-    );
+    const element = createElement('builder_platform_interaction-callout-editor-container', {
+        is: CalloutEditorContainer
+    });
     if (props) {
         Object.assign(element, props);
     }
@@ -57,9 +54,7 @@ describe('callout-editor-container', () => {
             container = setupComponentUnderTest();
         });
         it('should have an empty template', () => {
-            const innerEditor = container.shadowRoot.querySelector(
-                NO_ACTION_TEMPLATE_SELECTOR
-            );
+            const innerEditor = container.shadowRoot.querySelector(NO_ACTION_TEMPLATE_SELECTOR);
             expect(innerEditor).not.toBeNull();
         });
         it('should not have an inner node element without selected action', () => {
@@ -81,9 +76,7 @@ describe('callout-editor-container', () => {
         });
 
         it('should create inner editor', () => {
-            const innerEditor = container.shadowRoot.querySelector(
-                EDITOR_SELECTOR
-            );
+            const innerEditor = container.shadowRoot.querySelector(EDITOR_SELECTOR);
             const node = innerEditor.getNode();
             expect(node.actionName).toEqual(mockSelectedAction.actionName);
             expect(node.actionType).toEqual(mockSelectedAction.actionType);
@@ -91,26 +84,20 @@ describe('callout-editor-container', () => {
         });
 
         it('should call validate on the inner editor', () => {
-            const innerEditor = container.shadowRoot.querySelector(
-                EDITOR_SELECTOR
-            );
+            const innerEditor = container.shadowRoot.querySelector(EDITOR_SELECTOR);
             innerEditor.validate = jest.fn();
             container.validate();
             expect(innerEditor.validate).toHaveBeenCalledTimes(1);
         });
 
         it('should be at location(100, 100)', () => {
-            const innerEditor = container.shadowRoot.querySelector(
-                EDITOR_SELECTOR
-            );
+            const innerEditor = container.shadowRoot.querySelector(EDITOR_SELECTOR);
             const node = innerEditor.getNode();
             expect(node.locationX).toEqual(100);
             expect(node.locationY).toEqual(100);
         });
         it('should preserve name, label, description when changing the referenced action', async () => {
-            const innerEditor = container.shadowRoot.querySelector(
-                EDITOR_SELECTOR
-            );
+            const innerEditor = container.shadowRoot.querySelector(EDITOR_SELECTOR);
             // set name, label, description
             const testNode = Object.assign({}, innerEditor.node, {
                 name: { value: 'test name', error: null },

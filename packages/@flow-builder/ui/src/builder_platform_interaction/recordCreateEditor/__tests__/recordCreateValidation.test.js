@@ -6,9 +6,7 @@ import { LABELS } from 'builder_platform_interaction/validationRules';
 import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
@@ -23,10 +21,7 @@ jest.mock('builder_platform_interaction/expressionValidator', () =>
 );
 
 function createComponentForTest(node) {
-    const el = createElement(
-        'builder_platform_interaction-record-update-editor',
-        { is: RecordCreateEditor }
-    );
+    const el = createElement('builder_platform_interaction-record-update-editor', { is: RecordCreateEditor });
     if (node) {
         el.node = node;
     }
@@ -103,70 +98,48 @@ const recordCreateUsingFieldsTemplate = () => ({
 
 const validate = (node, wayToStoreFields) => {
     const rules = getRules(node, wayToStoreFields);
-    return getErrorsFromHydratedElement(
-        recordCreateValidation.validateAll(node, rules)
-    );
+    return getErrorsFromHydratedElement(recordCreateValidation.validateAll(node, rules));
 };
 
 describe('Check validations update using sObject', () => {
     describe('when props set to inputReference', () => {
         it('should return same object if valid', () => {
-            expect(
-                recordCreateValidation.validateAll(
-                    recordCreateElementWithValidSObject
-                )
-            ).toEqual(recordCreateElementWithValidSObject);
+            expect(recordCreateValidation.validateAll(recordCreateElementWithValidSObject)).toEqual(
+                recordCreateElementWithValidSObject
+            );
         });
         it('should return an error if blank', () => {
             recordCreateElementWithValidSObject.inputReference.value = '';
             const validatedRecordUpdate = recordCreateValidation.validateAll(
                 recordCreateElementWithValidSObject,
-                getRules(
-                    recordCreateElementWithValidSObject,
-                    WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE
-                )
+                getRules(recordCreateElementWithValidSObject, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE)
             );
-            expect(validatedRecordUpdate.inputReference.error).toBe(
-                LABELS.cannotBeBlank
-            );
+            expect(validatedRecordUpdate.inputReference.error).toBe(LABELS.cannotBeBlank);
         });
         it('should return an error if null', () => {
             recordCreateElementWithValidSObject.inputReference.value = null;
             const validatedRecordUpdate = recordCreateValidation.validateAll(
                 recordCreateElementWithValidSObject,
-                getRules(
-                    recordCreateElementWithValidSObject,
-                    WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE
-                )
+                getRules(recordCreateElementWithValidSObject, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE)
             );
-            expect(validatedRecordUpdate.inputReference.error).toBe(
-                LABELS.cannotBeBlank
-            );
+            expect(validatedRecordUpdate.inputReference.error).toBe(LABELS.cannotBeBlank);
         });
     });
 });
 describe('Check validations update using sObject Collection', () => {
     describe('when props set to inputReference', () => {
         it('should return same object if valid', () => {
-            expect(
-                recordCreateValidation.validateAll(
-                    recordCreateElementWithValidSObjectCollection
-                )
-            ).toEqual(recordCreateElementWithValidSObjectCollection);
+            expect(recordCreateValidation.validateAll(recordCreateElementWithValidSObjectCollection)).toEqual(
+                recordCreateElementWithValidSObjectCollection
+            );
         });
         it('should return an error if blank', () => {
-            recordCreateElementWithValidSObjectCollection.inputReference.value =
-                '';
+            recordCreateElementWithValidSObjectCollection.inputReference.value = '';
             const validatedRecordUpdate = recordCreateValidation.validateAll(
                 recordCreateElementWithValidSObjectCollection,
-                getRules(
-                    recordCreateElementWithValidSObjectCollection,
-                    WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE
-                )
+                getRules(recordCreateElementWithValidSObjectCollection, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE)
             );
-            expect(validatedRecordUpdate.inputReference.error).toBe(
-                LABELS.cannotBeBlank
-            );
+            expect(validatedRecordUpdate.inputReference.error).toBe(LABELS.cannotBeBlank);
         });
         it('should return an error if null', () => {
             recordCreateElementWithValidSObjectCollection.inputReference.value = null;
@@ -174,9 +147,7 @@ describe('Check validations update using sObject Collection', () => {
                 recordCreateElementWithValidSObjectCollection,
                 getRules(recordCreateElementWithValidSObjectCollection)
             );
-            expect(validatedRecordUpdate.inputReference.error).toBe(
-                LABELS.cannotBeBlank
-            );
+            expect(validatedRecordUpdate.inputReference.error).toBe(LABELS.cannotBeBlank);
         });
     });
 });
@@ -189,13 +160,8 @@ describe('Check validations update using fields', () => {
         it('should return an error when no object has been selected', () => {
             recordCreateUsingFields.object.value = '';
             recordCreateUsingFields.object.error = null;
-            const recordupdateEditor = createComponentForTest(
-                recordCreateUsingFields
-            );
-            const errors = validate(
-                recordupdateEditor.node,
-                WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES
-            );
+            const recordupdateEditor = createComponentForTest(recordCreateUsingFields);
+            const errors = validate(recordupdateEditor.node, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('object');
             expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
@@ -206,13 +172,8 @@ describe('Check validations update using fields', () => {
             recordCreateUsingFields.inputAssignments[0].leftHandSide.value = '';
             recordCreateUsingFields.object.value = 'myNotValidValue';
             recordCreateUsingFields.object.error = 'Enter a valid value.';
-            const recordupdateEditor = createComponentForTest(
-                recordCreateUsingFields
-            );
-            const errors = validate(
-                recordupdateEditor.node,
-                WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES
-            );
+            const recordupdateEditor = createComponentForTest(recordCreateUsingFields);
+            const errors = validate(recordupdateEditor.node, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('object');
             expect(errors[0].errorString).toBe('Enter a valid value.');
@@ -221,13 +182,8 @@ describe('Check validations update using fields', () => {
     describe('inputAssignments item is empty', () => {
         it('should not return an error when an inputAssignment is set without a value', () => {
             recordCreateUsingFields.inputAssignments[0].leftHandSide.value = '';
-            const recordupdateEditor = createComponentForTest(
-                recordCreateUsingFields
-            );
-            const errors = validate(
-                recordupdateEditor.node,
-                WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES
-            );
+            const recordupdateEditor = createComponentForTest(recordCreateUsingFields);
+            const errors = validate(recordupdateEditor.node, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
             expect(errors).toHaveLength(0);
         });
         it('should return 2 errors when 2 inputAssignments are set without a value', () => {
@@ -237,13 +193,8 @@ describe('Check validations update using fields', () => {
                 rightHandSide: { value: '', error: null },
                 rowIndex: '71cb7e19-9f98-4b59-9fdd-a276f216eede'
             });
-            const recordupdateEditor = createComponentForTest(
-                recordCreateUsingFields
-            );
-            const errors = validate(
-                recordupdateEditor.node,
-                WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES
-            );
+            const recordupdateEditor = createComponentForTest(recordCreateUsingFields);
+            const errors = validate(recordupdateEditor.node, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
             expect(errors).toHaveLength(2);
             expect(errors[0].key).toBe('leftHandSide');
             expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
@@ -256,13 +207,8 @@ describe('Check validations update using fields', () => {
                 rightHandSide: { value: '', error: null },
                 rowIndex: '71cb7e19-9f98-4b59-9fdd-a276f216eede'
             });
-            const recordupdateEditor = createComponentForTest(
-                recordCreateUsingFields
-            );
-            const errors = validate(
-                recordupdateEditor.node,
-                WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES
-            );
+            const recordupdateEditor = createComponentForTest(recordCreateUsingFields);
+            const errors = validate(recordupdateEditor.node, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('leftHandSide');
             expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);

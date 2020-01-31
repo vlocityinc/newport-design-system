@@ -13,9 +13,7 @@ import { getMergedFlowOutputVariables } from 'builder_platform_interaction/subfl
  * @param {object} extensionParamDescription - the extension parameter description as returned by describeExtensions
  * @returns {object} - the extension parameter description as a complex type field description (as expected by menudata or merge field validation)
  */
-export function getExtensionParamDescriptionAsComplexTypeFieldDescription(
-    extensionParamDescription
-) {
+export function getExtensionParamDescriptionAsComplexTypeFieldDescription(extensionParamDescription) {
     return {
         ...extensionParamDescription,
         dataType: getFlowDataTypeByName(extensionParamDescription.dataType),
@@ -29,17 +27,13 @@ export function getExtensionParamDescriptionAsComplexTypeFieldDescription(
  * @param {object} invocableActionParamDescription - the invocable action parameter description as returned by getParametersForInvocableAction
  * @returns {object} - the invocable action parameter description as a complex type field description (as expected by menudata or merge field validation)
  */
-export function getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
-    invocableActionParamDescription
-) {
+export function getInvocableActionParamDescriptionAsComplexTypeFieldDescription(invocableActionParamDescription) {
     return {
         ...invocableActionParamDescription,
         apiName: invocableActionParamDescription.name,
         dataType: getFlowDataType(invocableActionParamDescription.dataType),
         isCollection: invocableActionParamDescription.maxOccurs > 1,
-        subtype:
-            invocableActionParamDescription.sobjectType ||
-            invocableActionParamDescription.apexClass
+        subtype: invocableActionParamDescription.sobjectType || invocableActionParamDescription.apexClass
     };
 }
 
@@ -51,31 +45,19 @@ export function getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
 export function getAutomaticOutputParameters(flowResource) {
     let automaticOutputParameters;
     if (flowResource.storeOutputAutomatically) {
-        if (
-            flowResource.dataType ===
-            FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
-        ) {
-            const extension = getCachedExtension(
-                flowResource.extensionName,
-                flowResource.dynamicTypeMappings
-            );
+        if (flowResource.dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value) {
+            const extension = getCachedExtension(flowResource.extensionName, flowResource.dynamicTypeMappings);
             if (extension === undefined) {
                 return undefined;
             }
             automaticOutputParameters = extension.outputParameters;
-        } else if (
-            flowResource.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value
-        ) {
+        } else if (flowResource.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
             const parameters = getParametersForInvocableAction(flowResource);
             if (parameters === undefined) {
                 return undefined;
             }
-            automaticOutputParameters = parameters.filter(
-                parameter => parameter.isOutput
-            );
-        } else if (
-            flowResource.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value
-        ) {
+            automaticOutputParameters = parameters.filter(parameter => parameter.isOutput);
+        } else if (flowResource.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value) {
             return getMergedFlowOutputVariables(flowResource.flowName);
         }
     }
@@ -92,12 +74,8 @@ export function isAutomaticOutputElementWithoutChildren(flowResource) {
     if (!flowResource.storeOutputAutomatically) {
         return false;
     }
-    const automaticOutputParameters = getAutomaticOutputParameters(
-        flowResource
-    );
-    return automaticOutputParameters === undefined
-        ? undefined
-        : automaticOutputParameters.length === 0;
+    const automaticOutputParameters = getAutomaticOutputParameters(flowResource);
+    return automaticOutputParameters === undefined ? undefined : automaticOutputParameters.length === 0;
 }
 
 /**
@@ -112,10 +90,7 @@ export function retrieveResourceComplexTypeFields(flowResource) {
         fields = sobjectLib.getFieldsForEntity(flowResource.subtype);
     } else if (flowResource.dataType === FLOW_DATA_TYPE.APEX.value) {
         fields = apexTypeLib.getPropertiesForClass(flowResource.subtype);
-    } else if (
-        flowResource.dataType ===
-        FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
-    ) {
+    } else if (flowResource.dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value) {
         fields = getExtensionComplexTypeOutputFields(flowResource);
     } else if (flowResource.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
         fields = getInvocableActionComplexTypeOutputFields(flowResource);
@@ -127,18 +102,11 @@ export function retrieveResourceComplexTypeFields(flowResource) {
 
 function getExtensionComplexTypeOutputFields(flowResource) {
     const extensionName = flowResource.extensionName;
-    const extension = getCachedExtension(
-        extensionName.value || extensionName,
-        flowResource.dynamicTypeMappings
-    );
+    const extension = getCachedExtension(extensionName.value || extensionName, flowResource.dynamicTypeMappings);
     const fields =
         extension &&
         extension.outputParameters.reduce((acc, parameter) => {
-            acc[
-                parameter.apiName
-            ] = getExtensionParamDescriptionAsComplexTypeFieldDescription(
-                parameter
-            );
+            acc[parameter.apiName] = getExtensionParamDescriptionAsComplexTypeFieldDescription(parameter);
             return acc;
         }, {});
     return fields;
@@ -159,11 +127,7 @@ function getSubflowComplexTypeOutputFields({ flowName }) {
     return fields;
 }
 
-function getInvocableActionComplexTypeOutputFields({
-    actionName,
-    actionType,
-    dataTypeMappings
-}) {
+function getInvocableActionComplexTypeOutputFields({ actionName, actionType, dataTypeMappings }) {
     const parameters = getParametersForInvocableAction({
         actionName,
         actionType,
@@ -177,16 +141,10 @@ function getInvocableActionComplexTypeOutputFields({
                 if (isSingleAnonymousOutput(parameter)) {
                     acc =
                         parameter.dataType === 'sobject'
-                            ? sobjectLib.getFieldsForEntity(
-                                  parameter.sobjectType
-                              )
+                            ? sobjectLib.getFieldsForEntity(parameter.sobjectType)
                             : undefined;
                 } else {
-                    acc[
-                        parameter.name
-                    ] = getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
-                        parameter
-                    );
+                    acc[parameter.name] = getInvocableActionParamDescriptionAsComplexTypeFieldDescription(parameter);
                 }
                 return acc;
             }, {});

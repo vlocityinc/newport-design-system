@@ -36,8 +36,6 @@ export default class List extends LightningElement {
     }
 
     get maxItemsHelpText() {
-        return this.maxItemsLabel
-            ? format(this.maxItemsLabel, this.maxItems)
-            : '';
+        return this.maxItemsLabel ? format(this.maxItemsLabel, this.maxItems) : '';
     }
 }

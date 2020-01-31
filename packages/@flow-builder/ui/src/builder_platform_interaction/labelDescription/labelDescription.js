@@ -154,19 +154,13 @@ export default class LabelDescription extends LightningElement {
     renderedCallback() {
         if (this._shouldSetLabelError) {
             const labelInput = this.template.querySelector(SELECTORS.LABEL);
-            this.resetError(
-                labelInput,
-                this.state.label.error,
-                this.labelRequired
-            );
+            this.resetError(labelInput, this.state.label.error, this.labelRequired);
             this.setInputErrorMessage(labelInput, this.state.label.error);
             this._shouldSetLabelError = false;
         }
 
         if (this._shouldSetDevNameError) {
-            const devNameInput = this.template.querySelector(
-                SELECTORS.DEV_NAME
-            );
+            const devNameInput = this.template.querySelector(SELECTORS.DEV_NAME);
             this.resetError(devNameInput, this.state.devName.error, true);
             this.setInputErrorMessage(devNameInput, this.state.devName.error);
             this._shouldSetDevNameError = false;
@@ -253,19 +247,11 @@ export default class LabelDescription extends LightningElement {
             // only required if the user makes a whitespace only change such as 'a' to 'a '
             inputElement.value = newLabel;
         }
-        const error =
-            inputElement.value === '' && this.labelRequired
-                ? this.showErrorMessageIfBlank
-                : null;
+        const error = inputElement.value === '' && this.labelRequired ? this.showErrorMessageIfBlank : null;
         this.updateStateAndDispatch(newLabel, 'label', error);
 
         // Update devName if it is present, enabled, and blank
-        if (
-            newLabel !== '' &&
-            !this.hideDevName &&
-            !this.disableDevName &&
-            !this.state.devName.value
-        ) {
+        if (newLabel !== '' && !this.hideDevName && !this.disableDevName && !this.state.devName.value) {
             if (newLabel.match(/^\W+$/)) {
                 newLabel = 'UniqueName';
             }

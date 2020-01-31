@@ -1,8 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import {
-    createScreenElementSelectedEvent,
-    createScreenElementDeletedEvent
-} from 'builder_platform_interaction/events';
+import { createScreenElementSelectedEvent, createScreenElementDeletedEvent } from 'builder_platform_interaction/events';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import {
     SELECTED_CLASS,
@@ -26,10 +23,7 @@ export default class ScreenEditorHighlight extends LightningElement {
     labels = LABELS;
 
     get classList() {
-        return (
-            'highlight slds-is-relative ' +
-            (booleanAttributeValue(this, 'selected') ? SELECTED_CLASS : '')
-        );
+        return 'highlight slds-is-relative ' + (booleanAttributeValue(this, 'selected') ? SELECTED_CLASS : '');
     }
 
     get isDraggable() {
@@ -45,41 +39,31 @@ export default class ScreenEditorHighlight extends LightningElement {
     }
 
     connectedCallback() {
-        this.highlightIcon = (this.screenElement && this.screenElement.type && this.screenElement.type.icon) || "utility:connected_apps";
+        this.highlightIcon =
+            (this.screenElement && this.screenElement.type && this.screenElement.type.icon) || 'utility:connected_apps';
     }
 
     handleSelected = event => {
         event.stopPropagation();
 
         if (!this.selected) {
-            this.dispatchEvent(
-                createScreenElementSelectedEvent(
-                    this.screenElement,
-                    this.property
-                )
-            );
+            this.dispatchEvent(createScreenElementSelectedEvent(this.screenElement, this.property));
         }
     };
 
     handleDelete = event => {
         event.stopPropagation();
-        this.dispatchEvent(
-            createScreenElementDeletedEvent(this.screenElement, this.property)
-        );
+        this.dispatchEvent(createScreenElementDeletedEvent(this.screenElement, this.property));
     };
 
     handleDragStart(event) {
-        this.template
-            .querySelector(CONTAINER_DIV_SELECTOR)
-            .classList.add(DRAGGING_CLASS);
+        this.template.querySelector(CONTAINER_DIV_SELECTOR).classList.add(DRAGGING_CLASS);
         event.dataTransfer.effectAllowed = 'move';
         // Cannot use a different attribute here because only 'text' works in IE
         event.dataTransfer.setData('text', this.screenElement.guid);
     }
 
     handleDragEnd(/* event */) {
-        this.template
-            .querySelector(CONTAINER_DIV_SELECTOR)
-            .classList.remove(DRAGGING_CLASS);
+        this.template.querySelector(CONTAINER_DIV_SELECTOR).classList.remove(DRAGGING_CLASS);
     }
 }

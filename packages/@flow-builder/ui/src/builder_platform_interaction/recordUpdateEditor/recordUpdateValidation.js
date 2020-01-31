@@ -6,8 +6,7 @@ import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEdito
  * Validate the filter item.
  * @return {function} the function to be called with each filter item to return the array of rules.
  */
-const validateAssignments = () =>
-    ValidationRules.validateExpressionWith2Properties();
+const validateAssignments = () => ValidationRules.validateExpressionWith2Properties();
 
 /**
  * Validate the filter item. Here we can't use the ValidationRules.validateExpressionWith3Properties because this function allows empty RHS
@@ -36,15 +35,10 @@ export const recordUpdateValidation = new Validation();
  * @return {Object} the override rules
  */
 export const getRules = nodeElement => {
-    const overrideRules = Object.assign(
-        {},
-        recordUpdateValidation.finalizedRules
-    );
+    const overrideRules = Object.assign({}, recordUpdateValidation.finalizedRules);
     // case where a sObject has been selected
     if (nodeElement.useSobject) {
-        overrideRules.inputReference = validateInputReference(
-            nodeElement.inputReferenceIndex
-        );
+        overrideRules.inputReference = validateInputReference(nodeElement.inputReferenceIndex);
     } else if (nodeElement.inputAssignments) {
         overrideRules.object = validateInputReference(nodeElement.objectIndex);
         if (nodeElement.object.value !== '' && !nodeElement.object.error) {

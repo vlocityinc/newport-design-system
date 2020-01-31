@@ -8,12 +8,9 @@ jest.mock('builder_platform_interaction/variableConstantEditor', () =>
 );
 
 const setupComponentUnderTest = props => {
-    const element = createElement(
-        'builder_platform_interaction-resource-editor-container',
-        {
-            is: ResourceEditorContainer
-        }
-    );
+    const element = createElement('builder_platform_interaction-resource-editor-container', {
+        is: ResourceEditorContainer
+    });
     if (props) {
         Object.assign(element, props);
     }

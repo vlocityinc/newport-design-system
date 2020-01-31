@@ -1,17 +1,13 @@
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { Validation } from 'builder_platform_interaction/validation';
-import {
-    SORT_ORDER,
-    RECORD_FILTER_CRITERIA
-} from 'builder_platform_interaction/recordEditorLib';
+import { SORT_ORDER, RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 
 /**
  * Validate the filter item. Here we can't use the ValidationRules.validateExpressionWith3Properties because this function allows empty RHS
  * @return {function} the function to be called with each filter item to return the array of rules.
  */
-const validateFilter = () =>
-    ValidationRules.validateExpressionWith3PropertiesWithNoEmptyRHS();
+const validateFilter = () => ValidationRules.validateExpressionWith3PropertiesWithNoEmptyRHS();
 
 /**
  * Validate the assignments item.
@@ -80,19 +76,14 @@ export const getRules = ({
     storeOutputAutomatically
 }) => {
     const overriddenRules = { ...recordLookupValidation.finalizedRules };
-    overriddenRules.object.push(
-        ValidationRules.validateResourcePicker(objectIndex)
-    );
+    overriddenRules.object.push(ValidationRules.validateResourcePicker(objectIndex));
     // validate filters if filter type is ALL
     if (filterType === RECORD_FILTER_CRITERIA.ALL) {
         overriddenRules.filters = validateFilter();
     }
     // validate sortField when sortOrder !== NOT_SORTED
     if (sortOrder !== SORT_ORDER.NOT_SORTED) {
-        overriddenRules.sortField = [
-            ValidationRules.shouldNotBeNullOrUndefined,
-            ValidationRules.shouldNotBeBlank
-        ];
+        overriddenRules.sortField = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
     }
 
     if (object && object.value && !object.error && !storeOutputAutomatically) {
@@ -102,21 +93,11 @@ export const getRules = ({
             outputAssignments.length > 1
         ) {
             overriddenRules.outputAssignments = validateAssignments();
-        } else if (
-            outputAssignments &&
-            outputAssignments.length === 1 &&
-            outputAssignments[0].leftHandSide.value
-        ) {
+        } else if (outputAssignments && outputAssignments.length === 1 && outputAssignments[0].leftHandSide.value) {
             overriddenRules.outputAssignments = validateAssignments();
         } else if (wayToStoreFields === WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE) {
-            overriddenRules.outputReference = validateOutputReference(
-                outputReferenceIndex
-            );
-            if (
-                outputReference &&
-                outputReference.value &&
-                queriedFields.length > 2
-            ) {
+            overriddenRules.outputReference = validateOutputReference(outputReferenceIndex);
+            if (outputReference && outputReference.value && queriedFields.length > 2) {
                 overriddenRules.queriedFields = validateQueriedField();
             }
         }

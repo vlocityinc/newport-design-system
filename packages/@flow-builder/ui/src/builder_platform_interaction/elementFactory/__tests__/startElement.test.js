@@ -121,10 +121,7 @@ describe('Start element', () => {
 
     describe('createStartElementWithConnector function', () => {
         it('returns new start element with connector having target as start element reference', () => {
-            const { connectors } = createStartElementWithConnectors(
-                {},
-                startElementReference
-            );
+            const { connectors } = createStartElementWithConnectors({}, startElementReference);
             const target = connectors[0].target;
             expect(target).toBe(startElementReference);
         });
@@ -143,10 +140,7 @@ describe('Start element', () => {
             const startElement = {};
             createStartElementMetadataObject(startElement);
 
-            expect(baseCanvasElementMetadataObject).toHaveBeenCalledWith(
-                startElement,
-                {}
-            );
+            expect(baseCanvasElementMetadataObject).toHaveBeenCalledWith(startElement, {});
         });
 
         it('creates start element metadata object', () => {

@@ -1,10 +1,6 @@
 import { createElement } from 'lwc';
 import DataTypePicker from '../dataTypePicker';
-import {
-    FLOW_DATA_TYPE,
-    SCALE_DEFAULT,
-    SCALE_RANGE
-} from 'builder_platform_interaction/dataTypeLib';
+import { FLOW_DATA_TYPE, SCALE_DEFAULT, SCALE_RANGE } from 'builder_platform_interaction/dataTypeLib';
 import { ValueChangedEvent } from 'builder_platform_interaction/events';
 
 const createComponentUnderTest = () => {
@@ -22,39 +18,24 @@ describe('Data Type picker', () => {
     let collectionComponent;
     beforeEach(() => {
         dataTypePickerComponent = createComponentUnderTest();
-        dataTypeComponent = () =>
-            dataTypePickerComponent.shadowRoot.querySelector(
-                'lightning-combobox'
-            );
-        scaleComponent = () =>
-            dataTypePickerComponent.shadowRoot.querySelector('.scale');
-        collectionComponent = () =>
-            dataTypePickerComponent.shadowRoot.querySelector('.collection');
+        dataTypeComponent = () => dataTypePickerComponent.shadowRoot.querySelector('lightning-combobox');
+        scaleComponent = () => dataTypePickerComponent.shadowRoot.querySelector('.scale');
+        collectionComponent = () => dataTypePickerComponent.shadowRoot.querySelector('.collection');
     });
 
     it('should only display given available data types', async () => {
-        dataTypePickerComponent.availableDataTypes = [
-            FLOW_DATA_TYPE.STRING,
-            FLOW_DATA_TYPE.NUMBER
-        ];
+        dataTypePickerComponent.availableDataTypes = [FLOW_DATA_TYPE.STRING, FLOW_DATA_TYPE.NUMBER];
         await Promise.resolve();
         expect(
-            dataTypePickerComponent.shadowRoot
-                .querySelector('lightning-combobox')
-                .options.map(option => option.label)
-        ).toEqual([
-            'FlowBuilderDataTypes.textDataTypeLabel',
-            'FlowBuilderDataTypes.numberDataTypeLabel'
-        ]);
+            dataTypePickerComponent.shadowRoot.querySelector('lightning-combobox').options.map(option => option.label)
+        ).toEqual(['FlowBuilderDataTypes.textDataTypeLabel', 'FlowBuilderDataTypes.numberDataTypeLabel']);
     });
 
     it('should display the given error message', () => {
         const errorMessage = 'test error';
         dataTypePickerComponent.errorMessage = errorMessage;
         return Promise.resolve(() => {
-            const combobox = dataTypeComponent.shadowRoot.querySelector(
-                'lightning-component'
-            );
+            const combobox = dataTypeComponent.shadowRoot.querySelector('lightning-component');
             expect(combobox.checkValidity()).toBeFalsy();
             expect(combobox.errorMessage).toEqual(errorMessage);
         });
@@ -139,10 +120,7 @@ describe('Data Type picker', () => {
         };
         beforeEach(async () => {
             eventCallback = jest.fn();
-            dataTypePickerComponent.addEventListener(
-                ValueChangedEvent.EVENT_NAME,
-                eventCallback
-            );
+            dataTypePickerComponent.addEventListener(ValueChangedEvent.EVENT_NAME, eventCallback);
             dataTypePickerComponent.allowScale = true;
             dataTypePickerComponent.allowCollection = true;
             dataTypePickerComponent.value = {
@@ -168,9 +146,7 @@ describe('Data Type picker', () => {
             });
         });
         it('fires valueChanged event when collection is changed', async () => {
-            collectionComponent().dispatchEvent(
-                new CustomEvent('change', { detail: { checked: true } })
-            );
+            collectionComponent().dispatchEvent(new CustomEvent('change', { detail: { checked: true } }));
             await Promise.resolve();
             expectValueChangedEventWithValue({
                 dataType: FLOW_DATA_TYPE.NUMBER.value,
@@ -211,10 +187,7 @@ describe('Data Type picker', () => {
         };
         beforeEach(async () => {
             eventCallback = jest.fn();
-            dataTypePickerComponent.addEventListener(
-                ValueChangedEvent.EVENT_NAME,
-                eventCallback
-            );
+            dataTypePickerComponent.addEventListener(ValueChangedEvent.EVENT_NAME, eventCallback);
             dataTypePickerComponent.allowScale = true;
             dataTypePickerComponent.value = {
                 dataType: FLOW_DATA_TYPE.NUMBER.value,

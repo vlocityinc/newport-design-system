@@ -1,7 +1,7 @@
 const eventName = 'dynamictypemappingchange';
 
 export class DynamicTypeMappingChangeEvent {
-    constructor({typeName, typeValue, error, rowIndex}) {
+    constructor({ typeName, typeValue, error, rowIndex }) {
         return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,

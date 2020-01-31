@@ -18,8 +18,7 @@ function getAsMap(actionParameters, nodeParameters) {
         // there can be several assignments for a given parameter
         const nodeParameterName = getValueFromHydratedItem(nodeParameter.name);
         map[nodeParameterName] = map[nodeParameterName] || {};
-        map[nodeParameterName].paramAssigments =
-            map[nodeParameterName].paramAssigments || [];
+        map[nodeParameterName].paramAssigments = map[nodeParameterName].paramAssigments || [];
         map[nodeParameterName].paramAssigments.push(nodeParameter);
     });
     return map;
@@ -59,19 +58,10 @@ function getAsMap(actionParameters, nodeParameters) {
 function mergeParameters(inputOrOutputParameters, nodeParameters) {
     const finalArray = [];
     const allParameters = getAsMap(inputOrOutputParameters, nodeParameters);
-    for (const [name, { parameter, paramAssigments }] of Object.entries(
-        allParameters
-    )) {
+    for (const [name, { parameter, paramAssigments }] of Object.entries(allParameters)) {
         let parameterItem = { name };
         if (parameter) {
-            const {
-                isRequired,
-                maxOccurs,
-                dataType,
-                label,
-                sobjectType,
-                apexClass
-            } = parameter;
+            const { isRequired, maxOccurs, dataType, label, sobjectType, apexClass } = parameter;
             parameterItem = {
                 name,
                 isRequired,
@@ -83,11 +73,7 @@ function mergeParameters(inputOrOutputParameters, nodeParameters) {
         }
         if (paramAssigments.length > 0) {
             paramAssigments.forEach(nodeParameter => {
-                const parameterItemWithWarning = Object.assign(
-                    {},
-                    nodeParameter,
-                    parameterItem
-                );
+                const parameterItemWithWarning = Object.assign({}, nodeParameter, parameterItem);
                 const warnings = getMergeWarnings(parameter, paramAssigments);
                 if (warnings.length > 0) {
                     parameterItemWithWarning.warnings = warnings;
@@ -99,9 +85,7 @@ function mergeParameters(inputOrOutputParameters, nodeParameters) {
             finalArray.push(
                 Object.assign(
                     { rowIndex: generateGuid() },
-                    parameterItem.isRequired
-                        ? { value: { value: null, error: null } }
-                        : {},
+                    parameterItem.isRequired ? { value: { value: null, error: null } } : {},
                     parameterItem
                 )
             );
@@ -111,8 +95,7 @@ function mergeParameters(inputOrOutputParameters, nodeParameters) {
 }
 
 function getMergeWarnings(parameter, paramAssigments) {
-    const warnings =
-        paramAssigments.length === 1 ? [] : [MERGE_WARNING_TYPE.DUPLICATE];
+    const warnings = paramAssigments.length === 1 ? [] : [MERGE_WARNING_TYPE.DUPLICATE];
     if (!parameter) {
         warnings.push(MERGE_WARNING_TYPE.NOT_AVAILABLE);
     }
@@ -126,25 +109,11 @@ function getMergeWarnings(parameter, paramAssigments) {
  * @param {CalloutOutputParameter[]} nodeOutputParameters the current node's output parameters, hydrated
  * @return {InputOutputParameterItems} the input and output parameter items
  */
-export function mergeInputOutputParameters(
-    allParameters,
-    nodeInputParameters,
-    nodeOutputParameters
-) {
+export function mergeInputOutputParameters(allParameters, nodeInputParameters, nodeOutputParameters) {
     const newParameters = {};
-    const inputParameters = allParameters.filter(
-        parameter => parameter.isInput === true
-    );
-    const outputParameters = allParameters.filter(
-        parameter => parameter.isInput === false
-    );
-    newParameters.inputs = mergeParameters(
-        inputParameters,
-        nodeInputParameters
-    );
-    newParameters.outputs = mergeParameters(
-        outputParameters,
-        nodeOutputParameters
-    );
+    const inputParameters = allParameters.filter(parameter => parameter.isInput === true);
+    const outputParameters = allParameters.filter(parameter => parameter.isInput === false);
+    newParameters.inputs = mergeParameters(inputParameters, nodeInputParameters);
+    newParameters.outputs = mergeParameters(outputParameters, nodeOutputParameters);
     return newParameters;
 }

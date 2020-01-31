@@ -1,9 +1,4 @@
-import {
-    swapUidsForDevNames,
-    swapDevNamesToUids,
-    swapSingleExpression,
-    getSwapValueFunction
-} from '../uidSwapping';
+import { swapUidsForDevNames, swapDevNamesToUids, swapSingleExpression, getSwapValueFunction } from '../uidSwapping';
 
 const elementUidMap = { before: { name: 'after' }, pre: { name: 'post' } };
 const guidMapping = { before: 'after', pre: 'post' };
@@ -13,24 +8,16 @@ const nameToUidMapping = { before: 'AFTER', secondswap: 'secondSwapAfter' };
 describe('UID Swapper', () => {
     describe('Swaps single expressions', () => {
         it('Handles basic expressions', () => {
-            expect(swapSingleExpression('before', guidMapping)).toEqual(
-                'after'
-            );
+            expect(swapSingleExpression('before', guidMapping)).toEqual('after');
         });
         it('Handles dot separated expressions', () => {
-            expect(
-                swapSingleExpression('before.second.third', guidMapping)
-            ).toEqual('after.second.third');
+            expect(swapSingleExpression('before.second.third', guidMapping)).toEqual('after.second.third');
         });
         it('Only swaps the expressions at the begining', () => {
-            expect(swapSingleExpression(' before', guidMapping)).toEqual(
-                ' before'
-            );
+            expect(swapSingleExpression(' before', guidMapping)).toEqual(' before');
         });
         it('Does not swap if only the start matches', () => {
-            expect(swapSingleExpression('before3', guidMapping)).toEqual(
-                'before3'
-            );
+            expect(swapSingleExpression('before3', guidMapping)).toEqual('before3');
         });
     });
 
@@ -40,28 +27,18 @@ describe('UID Swapper', () => {
         };
         const swapValueFunction = getSwapValueFunction(swapFunction, true);
         it('Swaps values inside a template', () => {
-            expect(swapValueFunction(null, 'stringValue', '{!value}')).toEqual(
-                '{![value]}'
-            );
+            expect(swapValueFunction(null, 'stringValue', '{!value}')).toEqual('{![value]}');
         });
         it('Swaps compound values inside a template', () => {
-            expect(
-                swapValueFunction(null, 'stringValue', '{!value.first.second}')
-            ).toEqual('{![value.first.second]}');
+            expect(swapValueFunction(null, 'stringValue', '{!value.first.second}')).toEqual('{![value.first.second]}');
         });
         it('Swaps multiple values inside a template', () => {
-            expect(
-                swapValueFunction(
-                    null,
-                    'stringValue',
-                    ' {!first.a.b} {!second.a.b}'
-                )
-            ).toEqual(' {![first.a.b]} {![second.a.b]}');
+            expect(swapValueFunction(null, 'stringValue', ' {!first.a.b} {!second.a.b}')).toEqual(
+                ' {![first.a.b]} {![second.a.b]}'
+            );
         });
         it('Swaps reference values', () => {
-            expect(
-                swapValueFunction(null, 'elementReference', 'value')
-            ).toEqual('[value]');
+            expect(swapValueFunction(null, 'elementReference', 'value')).toEqual('[value]');
         });
     });
 

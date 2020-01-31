@@ -1,14 +1,7 @@
 const eventName = 'updateparameteritem';
 
 export class UpdateParameterItemEvent {
-    constructor(
-        isInput,
-        rowIndex,
-        name,
-        value = null,
-        valueDataType = null,
-        error = null
-    ) {
+    constructor(isInput, rowIndex, name, value = null, valueDataType = null, error = null) {
         return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,

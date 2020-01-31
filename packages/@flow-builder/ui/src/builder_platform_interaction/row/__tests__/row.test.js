@@ -24,25 +24,19 @@ const selectors = {
 describe('Row delete button', () => {
     it('check delete button is disabled by default when showDelete not specified', () => {
         const myrowElement = createComponentUnderTest();
-        const deleteButton = myrowElement.shadowRoot.querySelector(
-            selectors.deleteButton
-        );
+        const deleteButton = myrowElement.shadowRoot.querySelector(selectors.deleteButton);
         expect(deleteButton).not.toBeNull();
         expect(deleteButton.disabled).toBeTruthy();
     });
     it('check delete button is disabled when showDelete specified to false', () => {
         const myrowElement = createComponentUnderTest({ showDelete: false });
-        const deleteButton = myrowElement.shadowRoot.querySelector(
-            selectors.deleteButton
-        );
+        const deleteButton = myrowElement.shadowRoot.querySelector(selectors.deleteButton);
         expect(deleteButton).not.toBeNull();
         expect(deleteButton.disabled).toBeTruthy();
     });
     it('check delete button enabled when showDelete specified to true', () => {
         const myrowElement = createComponentUnderTest({ showDelete: true });
-        const deleteButton = myrowElement.shadowRoot.querySelector(
-            selectors.deleteButton
-        );
+        const deleteButton = myrowElement.shadowRoot.querySelector(selectors.deleteButton);
         expect(deleteButton).not.toBeNull();
         expect(deleteButton.disabled).toBeFalsy();
     });
@@ -51,9 +45,7 @@ describe('Row delete button', () => {
         const myrowElement = createComponentUnderTest({
             showDeleteButton: false
         });
-        const deleteButton = myrowElement.shadowRoot.querySelector(
-            selectors.deleteButton
-        );
+        const deleteButton = myrowElement.shadowRoot.querySelector(selectors.deleteButton);
         expect(deleteButton).toBeNull();
     });
 });
@@ -64,9 +56,7 @@ describe('Row prefix', () => {
             showPrefix: true,
             itemPrefix: prefix
         });
-        const firstRow = myrowElement.shadowRoot.querySelector(
-            selectors.prefix
-        );
+        const firstRow = myrowElement.shadowRoot.querySelector(selectors.prefix);
         expect(firstRow.textContent).toMatch(prefix);
     });
     it('check prefix is not displayed when showprefix false and prefix is given', () => {
@@ -74,9 +64,7 @@ describe('Row prefix', () => {
             showPrefix: false,
             itemPrefix: prefix
         });
-        const firstRow = myrowElement.shadowRoot.querySelector(
-            selectors.prefix
-        );
+        const firstRow = myrowElement.shadowRoot.querySelector(selectors.prefix);
         expect(firstRow).toBeNull();
     });
     it('check prefix is not displayed when showprefix undefined and prefix is given', () => {
@@ -84,9 +72,7 @@ describe('Row prefix', () => {
             showPrefix: undefined,
             itemPrefix: prefix
         });
-        const firstRow = myrowElement.shadowRoot.querySelector(
-            selectors.prefix
-        );
+        const firstRow = myrowElement.shadowRoot.querySelector(selectors.prefix);
         expect(firstRow).toBeNull();
     });
 });
@@ -97,13 +83,8 @@ describe('Row Events', () => {
         myrowElement.itemIndex = itemIndex;
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn();
-            myrowElement.addEventListener(
-                DeleteListItemEvent.EVENT_NAME,
-                eventCallback
-            );
-            const deleteButton = myrowElement.shadowRoot.querySelector(
-                selectors.deleteButton
-            );
+            myrowElement.addEventListener(DeleteListItemEvent.EVENT_NAME, eventCallback);
+            const deleteButton = myrowElement.shadowRoot.querySelector(selectors.deleteButton);
             deleteButton.click();
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0]).toMatchObject({

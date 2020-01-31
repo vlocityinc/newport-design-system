@@ -21,10 +21,7 @@ export const REMOVE_UNSET_ASSIGNMENTS = 'REMOVE_UNSET_ASSIGNMENTS';
 const subflowPropertyChanged = (state, event) => {
     const error =
         event.detail.error === null
-            ? subflowValidation.validateProperty(
-                  event.detail.propertyName,
-                  event.detail.value
-              )
+            ? subflowValidation.validateProperty(event.detail.propertyName, event.detail.value)
             : event.detail.error;
     return updateProperties(state, {
         [event.detail.propertyName]: { error, value: event.detail.value }

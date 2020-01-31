@@ -9,11 +9,7 @@ import {
 } from './recordFilterLabels';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import { format } from 'builder_platform_interaction/commonUtils';
-import {
-    getRulesForElementType,
-    RULE_TYPES,
-    RULE_OPERATOR
-} from 'builder_platform_interaction/ruleLib';
+import { getRulesForElementType, RULE_TYPES, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import {
     AddRecordFilterEvent,
     DeleteRecordFilterEvent,
@@ -55,9 +51,7 @@ export default class RecordFilter extends LightningElement {
     variant;
 
     get rules() {
-        return this.elementType
-            ? getRulesForElementType(RULE_TYPES.COMPARISON, this.elementType)
-            : undefined;
+        return this.elementType ? getRulesForElementType(RULE_TYPES.COMPARISON, this.elementType) : undefined;
     }
 
     @api
@@ -105,9 +99,7 @@ export default class RecordFilter extends LightningElement {
     set recordFields(fields) {
         if (fields) {
             this.entityFields = {};
-            const filterableFields = Object.values(fields).filter(
-                field => field.filterable
-            );
+            const filterableFields = Object.values(fields).filter(field => field.filterable);
             filterableFields.forEach(filterableField => {
                 this.entityFields[filterableField.apiName] = filterableField;
             });
@@ -120,9 +112,7 @@ export default class RecordFilter extends LightningElement {
     }
 
     get containerClasses() {
-        return this.variant === VARIANT_START
-            ? 'slds-m-bottom_small'
-            : 'slds-m-bottom_small slds-border_top';
+        return this.variant === VARIANT_START ? 'slds-m-bottom_small' : 'slds-m-bottom_small slds-border_top';
     }
 
     get showDeleteFilter() {
@@ -146,10 +136,7 @@ export default class RecordFilter extends LightningElement {
         }
         return [
             {
-                label: format(
-                    NO_CRITERIA_LABELS[this.elementType],
-                    this.resourceDisplayText
-                ),
+                label: format(NO_CRITERIA_LABELS[this.elementType], this.resourceDisplayText),
                 value: RECORD_FILTER_CRITERIA.NONE
             },
             {
@@ -192,9 +179,7 @@ export default class RecordFilter extends LightningElement {
         event.stopPropagation();
         this.selectedFilter = event.detail.value;
         // fire RecordFilterTypeChangedEvent
-        const recordFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(
-            this.selectedFilter
-        );
+        const recordFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(this.selectedFilter);
         this.dispatchEvent(recordFilterTypeChangedEvent);
     }
 
@@ -228,9 +213,7 @@ export default class RecordFilter extends LightningElement {
      */
     handleDeleteFilter(event) {
         event.stopPropagation();
-        const deleteRecordFilterEvent = new DeleteRecordFilterEvent(
-            event.detail.index
-        );
+        const deleteRecordFilterEvent = new DeleteRecordFilterEvent(event.detail.index);
         this.dispatchEvent(deleteRecordFilterEvent);
     }
 }

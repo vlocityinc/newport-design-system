@@ -1,9 +1,6 @@
 import { LightningElement, track, api, unwrap } from 'lwc';
 import { recordChoiceSetReducer } from './recordChoiceSetReducer';
-import {
-    createAction,
-    PROPERTY_EDITOR_ACTION
-} from 'builder_platform_interaction/actions';
+import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { LABELS } from './recordChoiceSetEditorLabels';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
@@ -11,10 +8,7 @@ import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker'
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { format } from 'builder_platform_interaction/commonUtils';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
-import {
-    SORT_ORDER,
-    RECORD_FILTER_CRITERIA
-} from 'builder_platform_interaction/recordEditorLib';
+import { SORT_ORDER, RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 
 const RECORD_CHOICE_SET_FIELDS = {
     RECORD_OBJECT: 'object',
@@ -56,26 +50,15 @@ export default class RecordChoiceSetEditor extends LightningElement {
             type: VALIDATE_ALL,
             showSecondSection: this.showSecondSection
         };
-        this.recordChoiceSetResource = recordChoiceSetReducer(
-            this.recordChoiceSetResource,
-            event
-        );
-        const errors = getErrorsFromHydratedElement(
-            this.recordChoiceSetResource
-        );
+        this.recordChoiceSetResource = recordChoiceSetReducer(this.recordChoiceSetResource, event);
+        const errors = getErrorsFromHydratedElement(this.recordChoiceSetResource);
 
         // If there are no errors then we need to update outputAssignments before storing the recordChoiceSetResource
         if (errors && errors.length === 0) {
-            const action = createAction(
-                PROPERTY_EDITOR_ACTION.UPDATE_OUTPUT_ASSIGNMENTS_BEFORE_CLOSE,
-                {
-                    propertyName: RECORD_CHOICE_SET_FIELDS.OUTPUT_ASSIGNMENTS
-                }
-            );
-            this.recordChoiceSetResource = recordChoiceSetReducer(
-                this.recordChoiceSetResource,
-                action
-            );
+            const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_OUTPUT_ASSIGNMENTS_BEFORE_CLOSE, {
+                propertyName: RECORD_CHOICE_SET_FIELDS.OUTPUT_ASSIGNMENTS
+            });
+            this.recordChoiceSetResource = recordChoiceSetReducer(this.recordChoiceSetResource, action);
         }
         return errors;
     }
@@ -97,27 +80,17 @@ export default class RecordChoiceSetEditor extends LightningElement {
 
     set node(newValue) {
         this.recordChoiceSetResource = unwrap(newValue);
-        if (
-            this.recordChoiceSetResource.object &&
-            this.recordChoiceSetResource.object.value
-        ) {
+        if (this.recordChoiceSetResource.object && this.recordChoiceSetResource.object.value) {
             this.getEntityFields();
 
             if (
                 this.recordChoiceSetResource.outputAssignments &&
                 this.recordChoiceSetResource.outputAssignments.length === 0
             ) {
-                const action = createAction(
-                    PROPERTY_EDITOR_ACTION.ADD_EMPTY_OUTPUT_ASSIGNMENT,
-                    {
-                        propertyName:
-                            RECORD_CHOICE_SET_FIELDS.OUTPUT_ASSIGNMENTS
-                    }
-                );
-                this.recordChoiceSetResource = recordChoiceSetReducer(
-                    this.recordChoiceSetResource,
-                    action
-                );
+                const action = createAction(PROPERTY_EDITOR_ACTION.ADD_EMPTY_OUTPUT_ASSIGNMENT, {
+                    propertyName: RECORD_CHOICE_SET_FIELDS.OUTPUT_ASSIGNMENTS
+                });
+                this.recordChoiceSetResource = recordChoiceSetReducer(this.recordChoiceSetResource, action);
             }
 
             this.showSecondSection = true;
@@ -190,10 +163,7 @@ export default class RecordChoiceSetEditor extends LightningElement {
     }
 
     get outputAssignmentTitle() {
-        return format(
-            this.labels.outputFieldsHeaderLabel,
-            this.resourceDisplayText
-        );
+        return format(this.labels.outputFieldsHeaderLabel, this.resourceDisplayText);
     }
 
     /**
@@ -222,10 +192,7 @@ export default class RecordChoiceSetEditor extends LightningElement {
                 }
 
                 // Filtering the menudata based on the selected dataType(if any) for the Choice Value Field Picker
-                if (
-                    this.recordChoiceSetResource.dataType &&
-                    this.recordChoiceSetResource.dataType.value
-                ) {
+                if (this.recordChoiceSetResource.dataType && this.recordChoiceSetResource.dataType.value) {
                     this.filterEntityFields();
                 }
             })
@@ -242,17 +209,12 @@ export default class RecordChoiceSetEditor extends LightningElement {
             return;
         }
 
-        this.filteredMenuDataFields = Object.keys(this.menuDataFields).reduce(
-            (filteredMenuData, fieldName) => {
-                if (this.menuDataFields[fieldName].dataType === this.dataType) {
-                    filteredMenuData[fieldName] = this.menuDataFields[
-                        fieldName
-                    ];
-                }
-                return filteredMenuData;
-            },
-            {}
-        );
+        this.filteredMenuDataFields = Object.keys(this.menuDataFields).reduce((filteredMenuData, fieldName) => {
+            if (this.menuDataFields[fieldName].dataType === this.dataType) {
+                filteredMenuData[fieldName] = this.menuDataFields[fieldName];
+            }
+            return filteredMenuData;
+        }, {});
     }
 
     /**
@@ -268,54 +230,20 @@ export default class RecordChoiceSetEditor extends LightningElement {
         if (value !== this.recordChoiceSetResource.object.value) {
             this.menuDataFields = {};
             this.filteredMenuDataFields = {};
-            this.updateProperty(
-                RECORD_CHOICE_SET_FIELDS.RECORD_OBJECT,
-                value,
-                error
-            );
+            this.updateProperty(RECORD_CHOICE_SET_FIELDS.RECORD_OBJECT, value, error);
             if (value && !error) {
                 // Getting the entityFields only when a valid value is entered.
                 this.getEntityFields();
             }
-            this.updateProperty(
-                RECORD_CHOICE_SET_FIELDS.FILTER_TYPE,
-                RECORD_FILTER_CRITERIA.NONE,
-                null,
-                false
-            );
-            this.updateProperty(
-                RECORD_CHOICE_SET_FIELDS.SORT_ORDER,
-                SORT_ORDER.NOT_SORTED,
-                null,
-                false
-            );
-            this.updateProperty(
-                RECORD_CHOICE_SET_FIELDS.SORT_FIELD,
-                null,
-                null,
-                false
-            );
-            this.updateProperty(
-                RECORD_CHOICE_SET_FIELDS.DISPLAY_FIELD,
-                null,
-                null,
-                false
-            );
-            this.updateProperty(
-                RECORD_CHOICE_SET_FIELDS.VALUE_FIELD,
-                null,
-                null,
-                false
-            );
+            this.updateProperty(RECORD_CHOICE_SET_FIELDS.FILTER_TYPE, RECORD_FILTER_CRITERIA.NONE, null, false);
+            this.updateProperty(RECORD_CHOICE_SET_FIELDS.SORT_ORDER, SORT_ORDER.NOT_SORTED, null, false);
+            this.updateProperty(RECORD_CHOICE_SET_FIELDS.SORT_FIELD, null, null, false);
+            this.updateProperty(RECORD_CHOICE_SET_FIELDS.DISPLAY_FIELD, null, null, false);
+            this.updateProperty(RECORD_CHOICE_SET_FIELDS.VALUE_FIELD, null, null, false);
 
             // Updating the dataType property only for the first time when second section opens
             if (!this.showSecondSection && !error) {
-                this.updateProperty(
-                    RECORD_CHOICE_SET_FIELDS.DATA_TYPE,
-                    null,
-                    null,
-                    false
-                );
+                this.updateProperty(RECORD_CHOICE_SET_FIELDS.DATA_TYPE, null, null, false);
                 this.showSecondSection = true;
             }
         }
@@ -367,10 +295,7 @@ export default class RecordChoiceSetEditor extends LightningElement {
             value,
             index
         });
-        this.recordChoiceSetResource = recordChoiceSetReducer(
-            this.recordChoiceSetResource,
-            action
-        );
+        this.recordChoiceSetResource = recordChoiceSetReducer(this.recordChoiceSetResource, action);
     }
 
     /**
@@ -378,10 +303,7 @@ export default class RecordChoiceSetEditor extends LightningElement {
      */
     handleRecordSortChanged(event) {
         event.stopPropagation();
-        if (
-            this.recordChoiceSetResource.sortField.value !==
-            event.detail.fieldApiName
-        ) {
+        if (this.recordChoiceSetResource.sortField.value !== event.detail.fieldApiName) {
             this.updateProperty(
                 RECORD_CHOICE_SET_FIELDS.SORT_FIELD,
                 event.detail.fieldApiName,
@@ -389,12 +311,7 @@ export default class RecordChoiceSetEditor extends LightningElement {
                 false
             );
         } else {
-            this.updateProperty(
-                RECORD_CHOICE_SET_FIELDS.SORT_ORDER,
-                event.detail.sortOrder,
-                event.detail.error,
-                false
-            );
+            this.updateProperty(RECORD_CHOICE_SET_FIELDS.SORT_ORDER, event.detail.sortOrder, event.detail.error, false);
         }
     }
 
@@ -404,22 +321,10 @@ export default class RecordChoiceSetEditor extends LightningElement {
     handleChoiceLimitChanged(event) {
         const choiceLimitElement = event.target;
         const limitValue = choiceLimitElement.value;
-        if (
-            choiceLimitElement.validity &&
-            !choiceLimitElement.validity.valid &&
-            choiceLimitElement.validity.badInput
-        ) {
-            this.updateProperty(
-                RECORD_CHOICE_SET_FIELDS.LIMIT,
-                limitValue,
-                LABELS.mustBeAValidNumber
-            );
+        if (choiceLimitElement.validity && !choiceLimitElement.validity.valid && choiceLimitElement.validity.badInput) {
+            this.updateProperty(RECORD_CHOICE_SET_FIELDS.LIMIT, limitValue, LABELS.mustBeAValidNumber);
         } else {
-            this.updateProperty(
-                RECORD_CHOICE_SET_FIELDS.LIMIT,
-                limitValue,
-                null
-            );
+            this.updateProperty(RECORD_CHOICE_SET_FIELDS.LIMIT, limitValue, null);
         }
     }
 
@@ -432,11 +337,7 @@ export default class RecordChoiceSetEditor extends LightningElement {
         const value = itemOrDisplayText.value || itemOrDisplayText;
 
         if (value !== this.recordChoiceSetResource.displayField.value) {
-            this.updateProperty(
-                RECORD_CHOICE_SET_FIELDS.DISPLAY_FIELD,
-                value,
-                event.detail.error
-            );
+            this.updateProperty(RECORD_CHOICE_SET_FIELDS.DISPLAY_FIELD, value, event.detail.error);
         }
     }
 
@@ -449,20 +350,11 @@ export default class RecordChoiceSetEditor extends LightningElement {
 
         // Updating the property only if newValue !== oldValue
         if (value.dataType !== this.dataType) {
-            this.updateProperty(
-                RECORD_CHOICE_SET_FIELDS.DATA_TYPE,
-                value.dataType,
-                event.detail.error
-            );
+            this.updateProperty(RECORD_CHOICE_SET_FIELDS.DATA_TYPE, value.dataType, event.detail.error);
             // Filtering entityFields based on selected dataType
             this.filterEntityFields();
             // Resetting picklistField to null and ensuring that it doesn't get hydrated yet.
-            this.updateProperty(
-                RECORD_CHOICE_SET_FIELDS.VALUE_FIELD,
-                null,
-                null,
-                false
-            );
+            this.updateProperty(RECORD_CHOICE_SET_FIELDS.VALUE_FIELD, null, null, false);
         }
     }
 
@@ -475,11 +367,7 @@ export default class RecordChoiceSetEditor extends LightningElement {
         const value = itemOrDisplayText.value || itemOrDisplayText;
 
         if (value !== this.recordChoiceSetResource.valueField.value) {
-            this.updateProperty(
-                RECORD_CHOICE_SET_FIELDS.VALUE_FIELD,
-                value,
-                event.detail.error
-            );
+            this.updateProperty(RECORD_CHOICE_SET_FIELDS.VALUE_FIELD, value, event.detail.error);
         }
     }
 
@@ -491,31 +379,20 @@ export default class RecordChoiceSetEditor extends LightningElement {
      * @param {Boolean} doValidateProperty If false, doesn't validate the property on blur
      */
     updateProperty(propertyName, value, error, doValidateProperty = true) {
-        const action = createAction(
-            PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-            {
-                propertyName,
-                value,
-                error,
-                doValidateProperty
-            }
-        );
-        this.recordChoiceSetResource = recordChoiceSetReducer(
-            this.recordChoiceSetResource,
-            action
-        );
+        const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+            propertyName,
+            value,
+            error,
+            doValidateProperty
+        });
+        this.recordChoiceSetResource = recordChoiceSetReducer(this.recordChoiceSetResource, action);
     }
 
     renderedCallback() {
         const limitElement = this.template.querySelector(SELECTORS.LIMIT);
         if (limitElement) {
-            if (
-                this.recordChoiceSetResource.limit &&
-                this.recordChoiceSetResource.limit.error
-            ) {
-                limitElement.setCustomValidity(
-                    this.recordChoiceSetResource.limit.error
-                );
+            if (this.recordChoiceSetResource.limit && this.recordChoiceSetResource.limit.error) {
+                limitElement.setCustomValidity(this.recordChoiceSetResource.limit.error);
             } else {
                 limitElement.setCustomValidity('');
             }

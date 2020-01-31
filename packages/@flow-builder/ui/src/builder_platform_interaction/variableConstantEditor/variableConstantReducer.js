@@ -1,10 +1,7 @@
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import {
-    variableConstantValidation,
-    getRules
-} from './variableConstantValidation';
+import { variableConstantValidation, getRules } from './variableConstantValidation';
 
 const dataTypeChanged = (state, action) => {
     const value = action.payload.value;
@@ -30,10 +27,7 @@ export const variableConstantReducer = (variableOrConstant, action) => {
         case PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY: {
             const error =
                 action.payload.error ||
-                variableConstantValidation.validateProperty(
-                    action.payload.propertyName,
-                    action.payload.value
-                );
+                variableConstantValidation.validateProperty(action.payload.propertyName, action.payload.value);
             const propertyValue = {
                 error,
                 value: action.payload.value
@@ -45,10 +39,7 @@ export const variableConstantReducer = (variableOrConstant, action) => {
         case PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE:
             return dataTypeChanged(variableOrConstant, action);
         case VALIDATE_ALL:
-            return variableConstantValidation.validateAll(
-                variableOrConstant,
-                getRules(variableOrConstant)
-            );
+            return variableConstantValidation.validateAll(variableOrConstant, getRules(variableOrConstant));
         default:
             return variableOrConstant;
     }

@@ -44,21 +44,13 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     }
 
     handlePropertyChanged = event => {
-        this.dispatchEvent(
-            addCurrentValueToEvent(
-                event,
-                this.field,
-                this.field[event.detail.propertyName]
-            )
-        );
+        this.dispatchEvent(addCurrentValueToEvent(event, this.field, this.field[event.detail.propertyName]));
         event.stopPropagation();
     };
 
     handleDataTypeChanged(event) {
         event.stopPropagation();
-        const newFieldDataType = this.getFlowDataTypeFromInputType(
-            event.detail.value.dataType
-        );
+        const newFieldDataType = this.getFlowDataTypeFromInputType(event.detail.value.dataType);
         this.dispatchEvent(
             new PropertyChangedEvent(
                 'dataType',
@@ -102,12 +94,9 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
             // If the choice value didn't actually change, don't do anything.
             if (
                 this.field.choiceReferences[event.detail.listIndex] &&
-                this.field.choiceReferences[event.detail.listIndex]
-                    .choiceReference &&
-                this.field.choiceReferences[event.detail.listIndex]
-                    .choiceReference.value === event.detail.guid &&
-                this.field.choiceReferences[event.detail.listIndex]
-                    .choiceReference.error === event.detail.error
+                this.field.choiceReferences[event.detail.listIndex].choiceReference &&
+                this.field.choiceReferences[event.detail.listIndex].choiceReference.value === event.detail.guid &&
+                this.field.choiceReferences[event.detail.listIndex].choiceReference.error === event.detail.error
             ) {
                 return;
             }
@@ -127,19 +116,12 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
 
     handleChoiceDeleted = event => {
         event.stopPropagation();
-        this.dispatchEvent(
-            createChoiceDeletedEvent(this.field, event.detail.index)
-        );
+        this.dispatchEvent(createChoiceDeletedEvent(this.field, event.detail.index));
     };
 
     handleChoiceAdded = event => {
         event.stopPropagation();
-        this.dispatchEvent(
-            createChoiceAddedEvent(
-                this.field,
-                this.field.choiceReferences.length
-            )
-        );
+        this.dispatchEvent(createChoiceAddedEvent(this.field, this.field.choiceReferences.length));
     };
 
     get fieldChoices() {
@@ -164,19 +146,14 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     get isDataTypeDisabled() {
         // For certain choice based fields, dataType will always be disabled because there is no option.
         return (
-            !this.field.isNewField ||
-            isMultiSelectCheckboxField(this.field) ||
-            isMultiSelectPicklistField(this.field)
+            !this.field.isNewField || isMultiSelectCheckboxField(this.field) || isMultiSelectPicklistField(this.field)
         );
     }
 
     get isDataTypeRequired() {
         // These field types don't offer a dataType option. We just display the only valid setting
         // available. For the the rest, dataType is a configurable and required setting.
-        return (
-            !isMultiSelectCheckboxField(this.field) &&
-            !isMultiSelectPicklistField(this.field)
-        );
+        return !isMultiSelectCheckboxField(this.field) && !isMultiSelectPicklistField(this.field);
     }
 
     get showIsRequired() {
@@ -185,9 +162,7 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     }
 
     get dataTypePickerValue() {
-        return this.field.dataType
-            ? this.getInputTypeFromFieldDataType
-            : { dataType: null };
+        return this.field.dataType ? this.getInputTypeFromFieldDataType : { dataType: null };
     }
 
     get dataTypeList() {
@@ -206,8 +181,7 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
             }
         }
         throw new Error(
-            'Screen field data type is set, but unable to find corresponding flow data type: ' +
-                this.field.dataType
+            'Screen field data type is set, but unable to find corresponding flow data type: ' + this.field.dataType
         );
     }
 
@@ -223,10 +197,7 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
                 return key;
             }
         }
-        throw new Error(
-            'Unable to find Flow data type for provided screen field input type: ' +
-                newValue
-        );
+        throw new Error('Unable to find Flow data type for provided screen field input type: ' + newValue);
     }
 
     // Used to figure out which choices are available as possible values for the default value setting.
@@ -247,10 +218,7 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     }
 
     get defaultValue() {
-        if (
-            this.field.defaultSelectedChoiceReference &&
-            this.field.defaultSelectedChoiceReference.value
-        ) {
+        if (this.field.defaultSelectedChoiceReference && this.field.defaultSelectedChoiceReference.value) {
             return this.field.defaultSelectedChoiceReference;
         }
         // Select the 'nothing selected' option (i.e. no default set).

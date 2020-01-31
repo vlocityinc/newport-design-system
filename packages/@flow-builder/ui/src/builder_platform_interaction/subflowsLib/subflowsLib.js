@@ -1,8 +1,5 @@
 import { getMergedInputOutputVariables } from './subflowVariablesMerger';
-import {
-    fetchOnce,
-    SERVER_ACTION_TYPE
-} from 'builder_platform_interaction/serverDataLib';
+import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { LABELS } from './subflowsLibLabels';
 import { MERGE_VARIABLES_WARNING_TYPE } from './subflowVariablesWarnings';
 import { format } from 'builder_platform_interaction/commonUtils';
@@ -35,15 +32,11 @@ export function fetchFlowInputOutputVariables(
         return Promise.resolve(cachedInputOutputVariables[flowName]);
     }
     const serverActionParams = { flowName };
-    return fetchOnce(
-        SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES,
-        serverActionParams,
-        {
-            background,
-            disableErrorModal,
-            messageForErrorModal
-        }
-    ).then(inputOutputVariables => {
+    return fetchOnce(SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES, serverActionParams, {
+        background,
+        disableErrorModal,
+        messageForErrorModal
+    }).then(inputOutputVariables => {
         cachedInputOutputVariables[flowName] = inputOutputVariables;
         return inputOutputVariables;
     });
@@ -113,9 +106,7 @@ export function getMergedFlowInputVariables(flowName) {
     if (!flowInputOutputVariables) {
         return undefined;
     }
-    cachedMergedInputOutputVariables[flowName] = getMergedInputOutputVariables(
-        flowInputOutputVariables
-    );
+    cachedMergedInputOutputVariables[flowName] = getMergedInputOutputVariables(flowInputOutputVariables);
     return cachedMergedInputOutputVariables[flowName].inputVariables;
 }
 
@@ -132,9 +123,7 @@ export function getMergedFlowOutputVariables(flowName) {
     if (!flowInputOutputVariables) {
         return undefined;
     }
-    cachedMergedInputOutputVariables[flowName] = getMergedInputOutputVariables(
-        flowInputOutputVariables
-    );
+    cachedMergedInputOutputVariables[flowName] = getMergedInputOutputVariables(flowInputOutputVariables);
     return cachedMergedInputOutputVariables[flowName].outputVariables;
 }
 
@@ -147,16 +136,10 @@ export function getSubflowVariableLabelWithWarning(variable) {
     if (variable.mergeWarning) {
         switch (variable.mergeWarning) {
             case MERGE_VARIABLES_WARNING_TYPE.ONLY_AVAILABLE_IN_LATEST:
-                return format(
-                    LABELS.variableInLatestVersionOnly,
-                    variable.apiName
-                );
+                return format(LABELS.variableInLatestVersionOnly, variable.apiName);
             case MERGE_VARIABLES_WARNING_TYPE.ONLY_AVAILABLE_IN_ACTIVE:
             case MERGE_VARIABLES_WARNING_TYPE.DATA_TYPE_CHANGED:
-                return format(
-                    LABELS.variableInActiveVersionOnly,
-                    variable.apiName
-                );
+                return format(LABELS.variableInActiveVersionOnly, variable.apiName);
             default:
                 return variable.apiName;
         }

@@ -3,10 +3,7 @@ import { createElement } from 'lwc';
 import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
 
 function createComponentForTest() {
-    const el = createElement(
-        'builder_platform_interaction-screen-editor-palette',
-        { is: ScreenPalette }
-    );
+    const el = createElement('builder_platform_interaction-screen-editor-palette', { is: ScreenPalette });
     // Using the setter for screenFieldTypes triggers buildModel which populates the palette.
     el.screenFieldTypes = [];
     document.body.appendChild(el);
@@ -15,9 +12,8 @@ function createComponentForTest() {
 
 jest.mock('builder_platform_interaction/flowExtensionLib', () => ({
     getAllCachedExtensionTypes: () => {
-        const componentInstanceFieldType = require.requireActual(
-            'builder_platform_interaction/screenEditorUtils'
-        ).COMPONENT_INSTANCE;
+        const componentInstanceFieldType = require.requireActual('builder_platform_interaction/screenEditorUtils')
+            .COMPONENT_INSTANCE;
         return [
             {
                 name: 'flowruntime:fileUpload',
@@ -79,9 +75,7 @@ describe('Screen Editor Palette', () => {
         element = createComponentForTest();
         eventCallback = jest.fn();
         return Promise.resolve().then(() => {
-            basePalette = element.shadowRoot.querySelector(
-                'builder_platform_interaction-palette'
-            );
+            basePalette = element.shadowRoot.querySelector('builder_platform_interaction-palette');
             guid = basePalette.data[3].key;
         });
     });
@@ -96,10 +90,7 @@ describe('Screen Editor Palette', () => {
         expect(basePalette.data[6].label).toBe('Custom Comp');
     });
     it('should fire an event when clicking a field type', () => {
-        element.addEventListener(
-            SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED,
-            eventCallback
-        );
+        element.addEventListener(SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED, eventCallback);
         const paletteClickEvent = new CustomEvent('paletteitemclicked', {
             detail: { guid }
         });
@@ -130,9 +121,7 @@ describe('Screen Editor Palette', () => {
         dragStartEvent.dataTransfer.setData('text', guid);
         basePalette.dispatchEvent(dragStartEvent);
 
-        expect(dragStartEvent.dataTransfer.getData('text')).toBe(
-            'LargeTextArea'
-        );
+        expect(dragStartEvent.dataTransfer.getData('text')).toBe('LargeTextArea');
         expect(dragStartEvent.dataTransfer.effectAllowed).toBe('copy');
     });
 });

@@ -53,9 +53,7 @@ export default class CanvasContainer extends LightningElement {
      * @param {String} canvasElementGuid - guid of the canvas element that needs to be highlighted
      */
     @api panElementToView = (canvasElementGuid = '') => {
-        const canvas = this.template.querySelector(
-            'builder_platform_interaction-canvas'
-        );
+        const canvas = this.template.querySelector('builder_platform_interaction-canvas');
         if (canvas && canvas.panElementToViewIfNeeded) {
             canvas.panElementToViewIfNeeded(canvasElementGuid);
         }
@@ -79,11 +77,7 @@ export default class CanvasContainer extends LightningElement {
             const payload = {
                 guid: event.detail.canvasElementGUID
             };
-            updateStoreOnSelection(
-                storeInstance,
-                payload,
-                event.detail.isMultiSelectKeyPressed
-            );
+            updateStoreOnSelection(storeInstance, payload, event.detail.isMultiSelectKeyPressed);
         }
     };
 
@@ -99,11 +93,7 @@ export default class CanvasContainer extends LightningElement {
             const payload = {
                 guid: event.detail.connectorGUID
             };
-            updateStoreOnSelection(
-                storeInstance,
-                payload,
-                event.detail.isMultiSelectKeyPressed
-            );
+            updateStoreOnSelection(storeInstance, payload, event.detail.isMultiSelectKeyPressed);
         }
     };
 
@@ -142,34 +132,19 @@ export default class CanvasContainer extends LightningElement {
             const { sourceGuid, targetGuid } = event.detail;
             if (sourceGuid && targetGuid) {
                 if (shouldCreateStartConnection(storeInstance, sourceGuid)) {
-                    addConnection(storeInstance, sourceGuid, targetGuid)(
-                        CONNECTOR_TYPE.START
-                    );
+                    addConnection(storeInstance, sourceGuid, targetGuid)(CONNECTOR_TYPE.START);
                     return;
                 }
-                if (
-                    shouldOpenConnectorSelectionModal(storeInstance, sourceGuid)
-                ) {
+                if (shouldOpenConnectorSelectionModal(storeInstance, sourceGuid)) {
                     const mode = event.type;
-                    openConnectorSelectionModal(
-                        storeInstance,
-                        sourceGuid,
-                        targetGuid,
-                        mode
-                    );
+                    openConnectorSelectionModal(storeInstance, sourceGuid, targetGuid, mode);
                     return;
                 }
                 if (hasOneAvailableConnection(storeInstance, sourceGuid)) {
-                    createConnectorWhenOneConnectionAvailable(
-                        storeInstance,
-                        sourceGuid,
-                        targetGuid
-                    );
+                    createConnectorWhenOneConnectionAvailable(storeInstance, sourceGuid, targetGuid);
                     return;
                 }
-                addConnection(storeInstance, sourceGuid, targetGuid)(
-                    CONNECTOR_TYPE.REGULAR
-                );
+                addConnection(storeInstance, sourceGuid, targetGuid)(CONNECTOR_TYPE.REGULAR);
             }
         }
     };
@@ -182,10 +157,8 @@ export default class CanvasContainer extends LightningElement {
     handleMarqueeSelection = event => {
         if (event && event.detail) {
             const payload = {
-                canvasElementGuidsToSelect:
-                    event.detail.canvasElementGuidsToSelect,
-                canvasElementGuidsToDeselect:
-                    event.detail.canvasElementGuidsToDeselect,
+                canvasElementGuidsToSelect: event.detail.canvasElementGuidsToSelect,
+                canvasElementGuidsToDeselect: event.detail.canvasElementGuidsToDeselect,
                 connectorGuidsToSelect: event.detail.connectorGuidsToSelect,
                 connectorGuidsToDeselect: event.detail.connectorGuidsToDeselect
             };
@@ -198,15 +171,9 @@ export default class CanvasContainer extends LightningElement {
         const currentState = storeInstance.getCurrentState();
         const updatedCanvasElementsFromStore = getNodesFromStore(currentState);
         const updatedConnectorsFromStore = getConnectorsFromStore(currentState);
-        const canvasTemplate = this.template.querySelector(
-            'builder_platform_interaction-canvas'
-        );
+        const canvasTemplate = this.template.querySelector('builder_platform_interaction-canvas');
 
-        calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(
-            this.nodes,
-            updatedCanvasElementsFromStore,
-            canvasTemplate
-        );
+        calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(this.nodes, updatedCanvasElementsFromStore, canvasTemplate);
 
         // The if check is not moved into the calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance as what the
         // calculateDeletedNodeIdsAndCleanUpDrawingLibInstance does since it won't work correctly for Strategy Builder,

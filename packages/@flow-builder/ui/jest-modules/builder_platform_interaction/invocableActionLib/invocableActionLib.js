@@ -13,150 +13,141 @@ let notLoadedActionKey;
 
 // TODO This evil stuff needs to be removed when W-7013783 is fixed
 const lightningWithApexContainsSObjectDetails = {
-  "configurationEditor":null,
-  "parameters":[
-    {
-      "isRequired":false,
-      "isInput":true,
-      "dataType":"Apex",
-      "description":null,
-      "label":"ApexWithSObject",
-      "isOutput":false,
-      "name":"apexWithSObject",
-      "apexClass":"ApexComplexTypeTestOne216",
-      "maxOccurs":1,
-      "id":null,
-      "isSystemGeneratedOutput":false,
-      "durableId":"component-c:LightningWithApexContainsSObject-input-apexWithSObject",
-      "sobjectType":null
-    },
-    {
-      "isRequired":false,
-      "isInput":false,
-      "dataType":"Apex",
-      "description":null,
-      "label":"ApexWithSObject",
-      "isOutput":true,
-      "name":"apexWithSObject",
-      "apexClass":"ApexComplexTypeTestOne216",
-      "maxOccurs":1,
-      "id":null,
-      "isSystemGeneratedOutput":false,
-      "durableId":"component-c:LightningWithApexContainsSObject-output-apexWithSObject",
-      "sobjectType":null
-    }
-  ]
+    configurationEditor: null,
+    parameters: [
+        {
+            isRequired: false,
+            isInput: true,
+            dataType: 'Apex',
+            description: null,
+            label: 'ApexWithSObject',
+            isOutput: false,
+            name: 'apexWithSObject',
+            apexClass: 'ApexComplexTypeTestOne216',
+            maxOccurs: 1,
+            id: null,
+            isSystemGeneratedOutput: false,
+            durableId: 'component-c:LightningWithApexContainsSObject-input-apexWithSObject',
+            sobjectType: null
+        },
+        {
+            isRequired: false,
+            isInput: false,
+            dataType: 'Apex',
+            description: null,
+            label: 'ApexWithSObject',
+            isOutput: true,
+            name: 'apexWithSObject',
+            apexClass: 'ApexComplexTypeTestOne216',
+            maxOccurs: 1,
+            id: null,
+            isSystemGeneratedOutput: false,
+            durableId: 'component-c:LightningWithApexContainsSObject-output-apexWithSObject',
+            sobjectType: null
+        }
+    ]
 };
 
 const lightningWithApexDoesNotContainSObjectDetails = {
-  "configurationEditor":null,
-  "parameters":[
-    {
-      "isRequired":false,
-      "isInput":true,
-      "dataType":"Apex",
-      "description":null,
-      "label":"ApexWithoutSObject",
-      "isOutput":false,
-      "name":"apexWithoutSObject",
-      "apexClass":"Car",
-      "maxOccurs":1,
-      "id":null,
-      "isSystemGeneratedOutput":false,
-      "durableId":"component-c:LightningComponentWithApexNoSObject-input-apexWithoutSObject",
-      "sobjectType":null
-    },
-    {
-      "isRequired":false,
-      "isInput":false,
-      "dataType":"Apex",
-      "description":null,
-      "label":"ApexWithoutSObject",
-      "isOutput":true,
-      "name":"apexWithoutSObject",
-      "apexClass":"Car",
-      "maxOccurs":1,
-      "id":null,
-      "isSystemGeneratedOutput":false,
-      "durableId":"component-c:LightningComponentWithApexNoSObject-output-apexWithoutSObject",
-      "sobjectType":null
+    configurationEditor: null,
+    parameters: [
+        {
+            isRequired: false,
+            isInput: true,
+            dataType: 'Apex',
+            description: null,
+            label: 'ApexWithoutSObject',
+            isOutput: false,
+            name: 'apexWithoutSObject',
+            apexClass: 'Car',
+            maxOccurs: 1,
+            id: null,
+            isSystemGeneratedOutput: false,
+            durableId: 'component-c:LightningComponentWithApexNoSObject-input-apexWithoutSObject',
+            sobjectType: null
+        },
+        {
+            isRequired: false,
+            isInput: false,
+            dataType: 'Apex',
+            description: null,
+            label: 'ApexWithoutSObject',
+            isOutput: true,
+            name: 'apexWithoutSObject',
+            apexClass: 'Car',
+            maxOccurs: 1,
+            id: null,
+            isSystemGeneratedOutput: false,
+            durableId: 'component-c:LightningComponentWithApexNoSObject-output-apexWithoutSObject',
+            sobjectType: null
+        }
+    ]
+};
+
+const mockImplementationForGetDetailsForInvocableAction = ({ actionName, actionType }) => {
+    const key = `${actionType}-${actionName}`;
+    switch (key) {
+        case notLoadedActionKey:
+            return undefined;
+        case 'chatterPost-chatterPost':
+            return chatterPostActionDetails;
+        case 'quickAction-Case.LogACall':
+            return logACallActionDetails;
+        case 'apex-getAccounts':
+            return getAccountFromApexAnonymousOutputActionDetails;
+        case 'apex-InvocableGetAccountName':
+            return getAccountNameFromApexAnonymousOutputActionDetails;
+        case 'apex-generateDraftAccount':
+            return getAccountFromApexActionDetails;
+        case 'apex-GetAccountName':
+            return getStringFromApexActionDetails;
+        case 'apex-GetAccounts':
+            return getAccountsFromApexAnonymousOutputActionDetails;
+        case 'apex-InvocableGetAccountsNames':
+            return getAccountsNamesFromApexAnonymousOutputActionDetails;
+        case 'apex-GetCarAction':
+            return getCarFromApexActionDetails;
+        case 'apex-ApexTypeCollectionAction':
+            return getCarsFromApexActionDetails;
+        case 'component-c:LightningWithApexContainsSObject':
+            return lightningWithApexContainsSObjectDetails;
+        case 'component-c:LightningComponentWithApexNoSObject':
+            return lightningWithApexDoesNotContainSObjectDetails;
+        default:
+            return undefined;
     }
-  ]
 };
 
-const mockImplementationForGetDetailsForInvocableAction = ({
-  actionName,
-  actionType
-}) => {
-  const key = `${actionType}-${actionName}`;
-  switch (key) {
-    case notLoadedActionKey:
-      return undefined;
-    case 'chatterPost-chatterPost':
-      return chatterPostActionDetails;
-    case 'quickAction-Case.LogACall':
-      return logACallActionDetails;
-    case 'apex-getAccounts':
-      return getAccountFromApexAnonymousOutputActionDetails;
-    case 'apex-InvocableGetAccountName':
-      return getAccountNameFromApexAnonymousOutputActionDetails;
-    case 'apex-generateDraftAccount':
-      return getAccountFromApexActionDetails;
-    case 'apex-GetAccountName':
-      return getStringFromApexActionDetails;
-    case 'apex-GetAccounts':
-      return getAccountsFromApexAnonymousOutputActionDetails;
-    case 'apex-InvocableGetAccountsNames':
-      return getAccountsNamesFromApexAnonymousOutputActionDetails;
-    case 'apex-GetCarAction':
-      return getCarFromApexActionDetails;
-    case 'apex-ApexTypeCollectionAction':
-      return getCarsFromApexActionDetails;
-    case 'component-c:LightningWithApexContainsSObject':
-     return lightningWithApexContainsSObjectDetails;
-     case 'component-c:LightningComponentWithApexNoSObject':
-     return lightningWithApexDoesNotContainSObjectDetails;
-    default:
-      return undefined;
-  }
+const mockImplementationForGetParametersForInvocableAction = ({ actionName, actionType }) => {
+    const actionDetails = mockImplementationForGetDetailsForInvocableAction({
+        actionName,
+        actionType
+    });
+    return actionDetails ? actionDetails.parameters : actionDetails;
 };
 
-const mockImplementationForGetParametersForInvocableAction = ({
-  actionName,
-  actionType
-}) => {
-  const actionDetails = mockImplementationForGetDetailsForInvocableAction({
-    actionName,
-    actionType
-  });
-  return actionDetails ? actionDetails.parameters : actionDetails;
-};
-
-export const getParametersForInvocableAction = jest
-  .fn()
-  .mockImplementation(({ actionName, actionType }) =>
+export const getParametersForInvocableAction = jest.fn().mockImplementation(({ actionName, actionType }) =>
     mockImplementationForGetParametersForInvocableAction({
-      actionName,
-      actionType
+        actionName,
+        actionType
     })
-  );
+);
 
 export const fetchDetailsForInvocableAction = jest.fn().mockImplementation(({ actionName, actionType }) => {
-	const result = mockImplementationForGetDetailsForInvocableAction({
-    actionName,
-    actionType
-  });
-	if (!result) {
-		return Promise.reject(`Cannot load details for invocable action ${actionType}-${actionName}`);
-	}
-	return Promise.resolve(result);
-}
-);
+    const result = mockImplementationForGetDetailsForInvocableAction({
+        actionName,
+        actionType
+    });
+    if (!result) {
+        return Promise.reject(`Cannot load details for invocable action ${actionType}-${actionName}`);
+    }
+    return Promise.resolve(result);
+});
 
 /**
  * To fake that the given action is not yet loaded
  * @param {*} action
  */
 export const setNotLoadedAction = ({ actionType, actionName } = {}) => {
-  notLoadedActionKey = `${actionType}-${actionName}`;
+    notLoadedActionKey = `${actionType}-${actionName}`;
 };

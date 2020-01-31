@@ -1,5 +1,3 @@
 import { LightningElement } from 'lwc';
 
-
-export default class RightPanel extends LightningElement {
-}
+export default class RightPanel extends LightningElement {}

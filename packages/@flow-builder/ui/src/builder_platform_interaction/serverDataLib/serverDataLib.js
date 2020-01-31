@@ -28,8 +28,7 @@ export const SERVER_ACTION_TYPE = {
     GET_FLOW_ACTIVE_OR_LATEST_RUN_IN_MODE: 'getFlowActiveOrLatestRunInMode',
     GET_EVENT_TYPES: 'getEventTypes',
     GET_EVENT_TYPE_PARAMETERS: 'getParametersForEventType',
-    GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR:
-        'getPeripheralDataForPropertyEditor',
+    GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR: 'getPeripheralDataForPropertyEditor',
     GET_APEX_TYPES: 'getApexTypes',
     GET_TEMPLATES: 'getTemplates',
     GET_TEMPLATE_DATA: 'getTemplateData',
@@ -45,14 +44,11 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.SAVE_FLOW]: 'c.saveFlow',
     [SERVER_ACTION_TYPE.GET_RULES]: 'c.retrieveAllRules',
     [SERVER_ACTION_TYPE.GET_LEFT_PANEL_ELEMENTS]: 'c.retrieveElementsPalette',
-    [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS]:
-        'c.getAllInvocableActionsForType',
+    [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS]: 'c.getAllInvocableActionsForType',
     [SERVER_ACTION_TYPE.GET_APEX_PLUGINS]: 'c.getApexPlugins',
     [SERVER_ACTION_TYPE.GET_SUBFLOWS]: 'c.getSubflows',
-    [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS]:
-        'c.getInvocableActionParameters',
-    [SERVER_ACTION_TYPE.GET_APEX_PLUGIN_PARAMETERS]:
-        'c.getApexPluginParameters',
+    [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS]: 'c.getInvocableActionParameters',
+    [SERVER_ACTION_TYPE.GET_APEX_PLUGIN_PARAMETERS]: 'c.getApexPluginParameters',
     [SERVER_ACTION_TYPE.GET_ENTITIES]: 'c.getEntities',
     [SERVER_ACTION_TYPE.GET_ENTITY_FIELDS]: 'c.getFieldsForEntity',
     [SERVER_ACTION_TYPE.GET_ALL_GLOBAL_VARIABLES]: 'c.getAllGlobalVariables',
@@ -63,31 +59,23 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_RESOURCE_TYPES]: 'c.getResourceTypes',
     [SERVER_ACTION_TYPE.GET_FLOW_EXTENSIONS]: 'c.getFlowExtensions',
     [SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_PARAMS]: 'c.getFlowExtensionParams',
-    [SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_LIST_PARAMS]:
-        'c.getFlowExtensionListParams',
+    [SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_LIST_PARAMS]: 'c.getFlowExtensionListParams',
     [SERVER_ACTION_TYPE.SET_USER_PREFERENCES]: 'c.setUserPreferences',
     [SERVER_ACTION_TYPE.GET_CONTEXT]: 'c.getContext',
     [SERVER_ACTION_TYPE.GET_OPERATORS]: 'c.getOperators',
-    [SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES]:
-        'c.getFlowInputOutputVariables',
-    [SERVER_ACTION_TYPE.GET_FLOW_ACTIVE_OR_LATEST_RUN_IN_MODE]:
-        'c.getFlowActiveOrLatestRunInMode',
+    [SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES]: 'c.getFlowInputOutputVariables',
+    [SERVER_ACTION_TYPE.GET_FLOW_ACTIVE_OR_LATEST_RUN_IN_MODE]: 'c.getFlowActiveOrLatestRunInMode',
     [SERVER_ACTION_TYPE.GET_EVENT_TYPES]: 'c.getEventTypes',
-    [SERVER_ACTION_TYPE.GET_EVENT_TYPE_PARAMETERS]:
-        'c.getParametersForEventType',
-    [SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR]:
-        'c.getPeripheralDataForPropertyEditor',
+    [SERVER_ACTION_TYPE.GET_EVENT_TYPE_PARAMETERS]: 'c.getParametersForEventType',
+    [SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR]: 'c.getPeripheralDataForPropertyEditor',
     [SERVER_ACTION_TYPE.GET_APEX_TYPES]: 'c.getApexTypes',
     [SERVER_ACTION_TYPE.GET_TEMPLATES]: 'c.getTemplates',
     [SERVER_ACTION_TYPE.GET_TEMPLATE_DATA]: 'c.getTemplateData',
-    [SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES]:
-        'c.getSupportedFeaturesList',
+    [SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES]: 'c.getSupportedFeaturesList',
     [SERVER_ACTION_TYPE.TOGGLE_FLOW_STATUS]: 'c.toggleFlowStatus',
-    [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_DETAILS]:
-        'c.getInvocableActionDetails',
+    [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_DETAILS]: 'c.getInvocableActionDetails',
     [SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS]: 'c.getBuilderConfigs',
-    [SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES]:
-        'c.getWorkflowEnabledEntities'
+    [SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES]: 'c.getWorkflowEnabledEntities'
 };
 
 let auraFetch;
@@ -126,12 +114,7 @@ export function fetch(
     serverActionType,
     callback,
     params,
-    {
-        background = false,
-        storable = false,
-        disableErrorModal = false,
-        messageForErrorModal
-    } = {}
+    { background = false, storable = false, disableErrorModal = false, messageForErrorModal } = {}
 ) {
     let executeCallback = true;
 
@@ -163,45 +146,28 @@ const KEY_PROVIDER = {
     [SERVER_ACTION_TYPE.GET_RULES]: () => SERVER_ACTION_TYPE.GET_RULES,
     [SERVER_ACTION_TYPE.GET_OPERATORS]: () => SERVER_ACTION_TYPE.GET_OPERATORS,
     [SERVER_ACTION_TYPE.GET_ENTITIES]: () => SERVER_ACTION_TYPE.GET_ENTITIES,
-    [SERVER_ACTION_TYPE.GET_RESOURCE_TYPES]: () =>
-        SERVER_ACTION_TYPE.GET_RESOURCE_TYPES,
-    [SERVER_ACTION_TYPE.GET_EVENT_TYPES]: () =>
-        SERVER_ACTION_TYPE.GET_EVENT_TYPES,
-    [SERVER_ACTION_TYPE.GET_ALL_GLOBAL_VARIABLES]: () =>
-        SERVER_ACTION_TYPE.GET_ALL_GLOBAL_VARIABLES,
-    [SERVER_ACTION_TYPE.GET_SYSTEM_VARIABLES]: () =>
-        SERVER_ACTION_TYPE.GET_SYSTEM_VARIABLES,
-    [SERVER_ACTION_TYPE.GET_HEADER_URLS]: () =>
-        SERVER_ACTION_TYPE.GET_HEADER_URLS,
-    [SERVER_ACTION_TYPE.GET_PROCESS_TYPES]: () =>
-        SERVER_ACTION_TYPE.GET_PROCESS_TYPES,
-    [SERVER_ACTION_TYPE.GET_RUN_IN_MODES]: () =>
-        SERVER_ACTION_TYPE.GET_RUN_IN_MODES,
+    [SERVER_ACTION_TYPE.GET_RESOURCE_TYPES]: () => SERVER_ACTION_TYPE.GET_RESOURCE_TYPES,
+    [SERVER_ACTION_TYPE.GET_EVENT_TYPES]: () => SERVER_ACTION_TYPE.GET_EVENT_TYPES,
+    [SERVER_ACTION_TYPE.GET_ALL_GLOBAL_VARIABLES]: () => SERVER_ACTION_TYPE.GET_ALL_GLOBAL_VARIABLES,
+    [SERVER_ACTION_TYPE.GET_SYSTEM_VARIABLES]: () => SERVER_ACTION_TYPE.GET_SYSTEM_VARIABLES,
+    [SERVER_ACTION_TYPE.GET_HEADER_URLS]: () => SERVER_ACTION_TYPE.GET_HEADER_URLS,
+    [SERVER_ACTION_TYPE.GET_PROCESS_TYPES]: () => SERVER_ACTION_TYPE.GET_PROCESS_TYPES,
+    [SERVER_ACTION_TYPE.GET_RUN_IN_MODES]: () => SERVER_ACTION_TYPE.GET_RUN_IN_MODES,
     [SERVER_ACTION_TYPE.GET_SUBFLOWS]: params => params.flowProcessType,
-    [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS]: params =>
-        params.flowProcessType,
-    [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS]: params =>
-        `${params.actionName}-${params.actionType}`,
-    [SERVER_ACTION_TYPE.GET_APEX_PLUGIN_PARAMETERS]: params =>
-        `${params.apexClass}`,
+    [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS]: params => params.flowProcessType,
+    [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS]: params => `${params.actionName}-${params.actionType}`,
+    [SERVER_ACTION_TYPE.GET_APEX_PLUGIN_PARAMETERS]: params => `${params.apexClass}`,
     [SERVER_ACTION_TYPE.GET_ENTITY_FIELDS]: params => params.entityApiName,
-    [SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES]: params =>
-        params.flowName,
-    [SERVER_ACTION_TYPE.GET_FLOW_ACTIVE_OR_LATEST_RUN_IN_MODE]: params =>
-        params.flowName,
-    [SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR]: params =>
-        params.flowProcessType,
+    [SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES]: params => params.flowName,
+    [SERVER_ACTION_TYPE.GET_FLOW_ACTIVE_OR_LATEST_RUN_IN_MODE]: params => params.flowName,
+    [SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR]: params => params.flowProcessType,
     [SERVER_ACTION_TYPE.GET_APEX_TYPES]: params => params.flowProcessType,
     [SERVER_ACTION_TYPE.GET_TEMPLATES]: params => params.processTypes,
     [SERVER_ACTION_TYPE.GET_TEMPLATE_DATA]: params => params.versionIdOrEnum,
-    [SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES]: params =>
-        params.flowProcessType,
-    [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_DETAILS]: params =>
-        `${params.actionName}-${params.actionType}`,
-    [SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS]: () =>
-        SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS,
-    [SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES]: () =>
-        SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES
+    [SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES]: params => params.flowProcessType,
+    [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_DETAILS]: params => `${params.actionName}-${params.actionType}`,
+    [SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS]: () => SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS,
+    [SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES]: () => SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES
 };
 
 const fetchOnceCache = {};
@@ -233,10 +199,7 @@ export function fetchOnce(
     let serverActionTypeCache = fetchOnceCache[serverActionType];
     if (serverActionTypeCache) {
         // we retry fetching if rejected
-        if (
-            serverActionTypeCache[key] &&
-            !serverActionTypeCache[key].isRejected()
-        ) {
+        if (serverActionTypeCache[key] && !serverActionTypeCache[key].isRejected()) {
             return serverActionTypeCache[key];
         }
     } else {
@@ -254,11 +217,7 @@ export function fetchOnce(
                 if (error) {
                     rejected = true;
                     const errorMessage =
-                        Array.isArray(error) &&
-                        error.length === 1 &&
-                        error[0].message
-                            ? error[0].message
-                            : error;
+                        Array.isArray(error) && error.length === 1 && error[0].message ? error[0].message : error;
                     const newError = new Error(errorMessage);
                     if (typeof error === 'object') {
                         newError.cause = error;

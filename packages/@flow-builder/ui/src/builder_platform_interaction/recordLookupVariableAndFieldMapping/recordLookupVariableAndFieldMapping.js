@@ -1,8 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import {
-    LABELS,
-    VARIABLE_AND_FIELD_MAPPING_OPTIONS
-} from './recordLookupVariableAndFieldMappingLabels';
+import { LABELS, VARIABLE_AND_FIELD_MAPPING_OPTIONS } from './recordLookupVariableAndFieldMappingLabels';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import { VariableAndFieldMappingChangedEvent } from 'builder_platform_interaction/events';
 import { VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_interaction/recordEditorLib';
@@ -33,11 +30,7 @@ export default class RecordLookupVariableAndFieldMapping extends LightningElemen
                     buttonVariant: LABELS.confirm,
                     buttonLabel: LABELS.confirm,
                     buttonCallback: () =>
-                        this.dispatchEvent(
-                            new VariableAndFieldMappingChangedEvent(
-                                event.detail.value
-                            )
-                        )
+                        this.dispatchEvent(new VariableAndFieldMappingChangedEvent(event.detail.value))
                 }
             }
         });
@@ -53,15 +46,10 @@ export default class RecordLookupVariableAndFieldMapping extends LightningElemen
         radioButtonGroup.value = this.value;
 
         if (this.value !== event.detail.value) {
-            if (
-                event.detail.value ===
-                VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC
-            ) {
+            if (event.detail.value === VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC) {
                 this.askConfirmation(event);
             } else {
-                this.dispatchEvent(
-                    new VariableAndFieldMappingChangedEvent(event.detail.value)
-                );
+                this.dispatchEvent(new VariableAndFieldMappingChangedEvent(event.detail.value));
             }
         }
     }

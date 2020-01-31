@@ -3,10 +3,7 @@ import { filterMatches } from 'builder_platform_interaction/expressionUtils';
 import { isCollectionRequired } from 'builder_platform_interaction/ruleLib';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
 import { saveResourcePicker } from 'builder_platform_interaction/expressionValidator';
-import {
-    isUndefinedOrNull,
-    sanitizeBoolean
-} from 'builder_platform_interaction/commonUtils';
+import { isUndefinedOrNull, sanitizeBoolean } from 'builder_platform_interaction/commonUtils';
 
 /**
  * The base resource picker that contains one flow combobox
@@ -199,17 +196,11 @@ export default class BaseResourcePicker extends LightningElement {
         if (!this.allowedParamTypes) {
             return isLiteralsAllowed;
         }
-        return (
-            isLiteralsAllowed &&
-            !isCollectionRequired(this.allowedParamTypes, type)
-        );
+        return isLiteralsAllowed && !isCollectionRequired(this.allowedParamTypes, type);
     }
 
     get effectivePlaceholder() {
-        if (
-            this.comboboxConfig &&
-            !isUndefinedOrNull(this.comboboxConfig.placeholder)
-        ) {
+        if (this.comboboxConfig && !isUndefinedOrNull(this.comboboxConfig.placeholder)) {
             return this.comboboxConfig.placeholder;
         }
         return this.placeholder;
@@ -219,11 +210,7 @@ export default class BaseResourcePicker extends LightningElement {
 
     handleFilterMatches(event) {
         event.stopPropagation();
-        this.state.menuData = filterMatches(
-            event.detail.value,
-            this._fullMenuData,
-            event.detail.isMergeField
-        );
+        this.state.menuData = filterMatches(event.detail.value, this._fullMenuData, event.detail.isMergeField);
     }
 }
 

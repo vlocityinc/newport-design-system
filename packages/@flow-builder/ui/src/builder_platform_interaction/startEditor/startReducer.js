@@ -1,20 +1,13 @@
 import { startValidation, getRules } from './startValidation';
 
-import {
-    deleteItem,
-    set,
-    updateProperties
-} from 'builder_platform_interaction/dataMutationLib';
+import { deleteItem, set, updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import { isScheduledTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
-import {
-    ELEMENT_TYPE,
-    FLOW_TRIGGER_SAVE_TYPE
-} from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     AddRecordFilterEvent,
     DeleteRecordFilterEvent,
@@ -39,10 +32,7 @@ const PROPS = {
     recordTriggerType: 'recordTriggerType'
 };
 
-const NON_HYDRATABLE_PROPS = new Set([
-    ...elementTypeToConfigMap[ELEMENT_TYPE.START_ELEMENT]
-        .nonHydratableProperties
-]);
+const NON_HYDRATABLE_PROPS = new Set([...elementTypeToConfigMap[ELEMENT_TYPE.START_ELEMENT].nonHydratableProperties]);
 
 const emptyFilterItem = () => {
     return {
@@ -61,10 +51,7 @@ const addRecordFilter = state => {
 
 const updateRecordFilter = (state, event) => {
     const path = [PROPS.filters, event.detail.index];
-    const item = updateProperties(
-        state.filters[event.detail.index],
-        event.detail.value
-    );
+    const item = updateProperties(state.filters[event.detail.index], event.detail.value);
     return set(state, path, item);
 };
 
@@ -127,12 +114,7 @@ const startPropertyChanged = (state, event) => {
     if (!event.detailignoreValidate) {
         event.detail.error =
             event.detail.error === null
-                ? startValidation.validateProperty(
-                      event.detail.propertyName,
-                      event.detail.value,
-                      null,
-                      state
-                  )
+                ? startValidation.validateProperty(event.detail.propertyName, event.detail.value, null, state)
                 : event.detail.error;
     }
 
@@ -162,10 +144,7 @@ const startPropertyChanged = (state, event) => {
             }
         }
     } else if (event.detail.propertyName === PROPS.object) {
-        if (
-            state.triggerType.value !== FLOW_TRIGGER_TYPE.BEFORE_SAVE &&
-            event.detail.error
-        ) {
+        if (state.triggerType.value !== FLOW_TRIGGER_TYPE.BEFORE_SAVE && event.detail.error) {
             state = resetSubSections(state);
         }
     } else if (event.detail.propertyName === PROPS.filterType) {

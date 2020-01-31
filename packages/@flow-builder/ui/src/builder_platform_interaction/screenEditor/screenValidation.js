@@ -1,14 +1,8 @@
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
-import {
-    Validation,
-    defaultRules
-} from 'builder_platform_interaction/validation';
+import { Validation, defaultRules } from 'builder_platform_interaction/validation';
 
 import { getCachedExtension, getCachedExtensionType } from 'builder_platform_interaction/flowExtensionLib';
-import {
-    isExtensionField,
-    isChoiceField
-} from 'builder_platform_interaction/screenEditorUtils';
+import { isExtensionField, isChoiceField } from 'builder_platform_interaction/screenEditorUtils';
 import { isReference } from 'builder_platform_interaction/commonUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
@@ -53,13 +47,9 @@ const addCommonFieldRules = (rules, { defaultValueIndex }) => {
         ValidationRules.validateResourcePicker(defaultValueIndex)
     ]);
 
-    addRules('errorMessage', rules, [
-        ValidationRules.maximumCharactersLimit(LONG_STRING_LEN)
-    ]);
+    addRules('errorMessage', rules, [ValidationRules.maximumCharactersLimit(LONG_STRING_LEN)]);
 
-    addRules('helpText', rules, [
-        ValidationRules.maximumCharactersLimit(LONG_STRING_LEN)
-    ]);
+    addRules('helpText', rules, [ValidationRules.maximumCharactersLimit(LONG_STRING_LEN)]);
 };
 
 const getDescriptorForExtension = extName => {
@@ -70,9 +60,7 @@ const getDescriptorForExtension = extName => {
         }
     }
 
-    throw new Error(
-        'Error found trying to determine the descriptor for ' + extName
-    );
+    throw new Error('Error found trying to determine the descriptor for ' + extName);
 };
 
 const getGenericTypesForExtension = extName => {
@@ -129,10 +117,7 @@ const createTypeValidationRule = (/* type */) => {
 const getExtensionParameterRules = (type, required, rowIndex) => {
     const rules = [];
     if (required) {
-        rules.push(
-            ValidationRules.shouldNotBeBlank,
-            ValidationRules.shouldNotBeNullOrUndefined
-        );
+        rules.push(ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined);
     }
 
     if (type) {
@@ -144,7 +129,7 @@ const getExtensionParameterRules = (type, required, rowIndex) => {
     return rules;
 };
 
-const getDynamicTypeMappingRules = (rowIndex) => {
+const getDynamicTypeMappingRules = rowIndex => {
     return [
         ValidationRules.shouldNotBeBlank,
         ValidationRules.shouldNotBeNullOrUndefined,
@@ -164,11 +149,9 @@ const getRulesForExtensionField = (field, rules) => {
     const genericTypes = getGenericTypesForExtension(extensionName);
 
     if (genericTypes) {
-        rules.dynamicTypeMappings = function (dynamicTypeMapping) {
+        rules.dynamicTypeMappings = function(dynamicTypeMapping) {
             return {
-                typeValue: getDynamicTypeMappingRules(
-                    dynamicTypeMapping.rowIndex
-                )
+                typeValue: getDynamicTypeMappingRules(dynamicTypeMapping.rowIndex)
             };
         };
     }
@@ -183,11 +166,7 @@ const getRulesForExtensionField = (field, rules) => {
             const type = attributeDescriptor.dataType;
             const required = attributeDescriptor.isRequired && !attributeDescriptor.hasDefaultValue;
             return {
-                value: getExtensionParameterRules(
-                    type,
-                    required,
-                    param.rowIndex
-                )
+                value: getExtensionParameterRules(type, required, param.rowIndex)
             };
         }
     };
@@ -195,23 +174,13 @@ const getRulesForExtensionField = (field, rules) => {
     rules.outputParameters = param => {
         // Find attribute description in the definition of the extension
         const outputName = param.name.value ? param.name.value : param.name;
-        const attributeDescriptors = descriptor.outputParameters.filter(
-            p => p.apiName === outputName
-        );
+        const attributeDescriptors = descriptor.outputParameters.filter(p => p.apiName === outputName);
         if (attributeDescriptors.length < 1) {
-            throw new Error(
-                'Cannot find parameter ' +
-                    outputName +
-                    ' in the description of ' +
-                    extensionName
-            );
+            throw new Error('Cannot find parameter ' + outputName + ' in the description of ' + extensionName);
         } else {
             const type = attributeDescriptors[0].dataType;
             return {
-                value: [
-                    createTypeValidationRule(type),
-                    ValidationRules.validateResourcePicker(param.rowIndex)
-                ]
+                value: [createTypeValidationRule(type), ValidationRules.validateResourcePicker(param.rowIndex)]
             };
         }
     };
@@ -224,16 +193,10 @@ const getRulesForExtensionField = (field, rules) => {
  */
 const createConditionalRuleForTextProperty = dependentValue => {
     return propertyValue => {
-        if (
-            dependentValue &&
-            dependentValue.value &&
-            dependentValue.value.length
-        ) {
+        if (dependentValue && dependentValue.value && dependentValue.value.length) {
             let error = ValidationRules.shouldNotBeBlank(propertyValue);
             if (!error) {
-                error = ValidationRules.shouldNotBeNullOrUndefined(
-                    propertyValue
-                );
+                error = ValidationRules.shouldNotBeNullOrUndefined(propertyValue);
             }
 
             return error;
@@ -271,30 +234,21 @@ const getRulesForInputField = (field, rules, newValueIsReference = false) => {
         // Number based fields
         if (typeName === 'Number' || typeName === 'Currency') {
             addRules('scale', rules, [
-                createReferenceSafeRule(
-                    ValidationRules.shouldBeAPositiveIntegerOrZero
-                ),
-                createReferenceSafeRule(
-                    ValidationRules.shouldBeUnderMaxValue(MAX_SCALE_VALUE)
-                )
+                createReferenceSafeRule(ValidationRules.shouldBeAPositiveIntegerOrZero),
+                createReferenceSafeRule(ValidationRules.shouldBeUnderMaxValue(MAX_SCALE_VALUE))
             ]);
         }
 
         // Date
         if (typeName === 'Date') {
             addRules('defaultValue', rules, [
-                createReferenceSafeRule(
-                    ValidationRules.shouldBeADate,
-                    field.defaultValueDataType
-                )
+                createReferenceSafeRule(ValidationRules.shouldBeADate, field.defaultValueDataType)
             ]);
         }
 
         // Date/Time
         if (typeName === FLOW_DATA_TYPE.DATE_TIME.value) {
-            addRules('defaultValue', rules, [
-                createReferenceSafeRule(ValidationRules.shouldBeADateTime)
-            ]);
+            addRules('defaultValue', rules, [createReferenceSafeRule(ValidationRules.shouldBeADateTime)]);
         }
     }
 
@@ -312,17 +266,13 @@ const getRulesForInputField = (field, rules, newValueIsReference = false) => {
 
     // LargeTextArea
     if (typeName === 'LargeTextArea') {
-        addRules('defaultValue', rules, [
-            ValidationRules.isValidResourcedTextArea
-        ]);
+        addRules('defaultValue', rules, [ValidationRules.isValidResourcedTextArea]);
     }
 
     // DisplayText
     if (typeName === 'DisplayText') {
         addRules('fieldText', rules, [
-            createReferenceSafeRule(
-                ValidationRules.maximumCharactersLimit(LONG_STRING_LEN)
-            ),
+            createReferenceSafeRule(ValidationRules.maximumCharactersLimit(LONG_STRING_LEN)),
             ValidationRules.isValidResourcedTextArea
         ]);
     }
@@ -330,15 +280,11 @@ const getRulesForInputField = (field, rules, newValueIsReference = false) => {
     // Error message and formulaExpression are dependent on each other
     rules.validationRule = {
         formulaExpression: [
-            createConditionalRuleForTextProperty(
-                field.validationRule.errorMessage
-            ),
+            createConditionalRuleForTextProperty(field.validationRule.errorMessage),
             ValidationRules.isValidResourcedTextArea
         ],
         errorMessage: [
-            createConditionalRuleForTextProperty(
-                field.validationRule.formulaExpression
-            ),
+            createConditionalRuleForTextProperty(field.validationRule.formulaExpression),
             ValidationRules.isValidResourcedTextArea
         ]
     };
@@ -376,10 +322,7 @@ const getScreenAdditionalRules = () => {
     addCommonRules(rules);
 
     rules.fields = field => {
-        return getRulesForField(
-            field,
-            field.defaultValueDataType === 'reference'
-        );
+        return getRulesForField(field, field.defaultValueDataType === 'reference');
     };
 
     return rules;
@@ -392,11 +335,7 @@ class ScreenValidation extends Validation {
      * @param {string} currentFieldGuid - guid of the current field whose devname is tested for uniquness
      * @returns {string|null} errorString or null
      */
-    validateFieldNameUniquenessLocally = (
-        state,
-        devNameToBeValidated,
-        currentFieldGuid
-    ) => {
+    validateFieldNameUniquenessLocally = (state, devNameToBeValidated, currentFieldGuid) => {
         const stateGuidToDevName = [
             {
                 guid: state.guid,
@@ -409,25 +348,13 @@ class ScreenValidation extends Validation {
                 name: field.name.value
             };
         });
-        const finalListOfGuidToDevNames = stateGuidToDevName.concat(
-            fieldsDevNameToGuidList
-        );
-        return this.validateDevNameUniquenessLocally(
-            finalListOfGuidToDevNames,
-            devNameToBeValidated,
-            currentFieldGuid
-        );
+        const finalListOfGuidToDevNames = stateGuidToDevName.concat(fieldsDevNameToGuidList);
+        return this.validateDevNameUniquenessLocally(finalListOfGuidToDevNames, devNameToBeValidated, currentFieldGuid);
     };
 }
-export const screenValidation = new ScreenValidation(
-    getScreenAdditionalRules()
-);
+export const screenValidation = new ScreenValidation(getScreenAdditionalRules());
 
-export const getExtensionParameterValidation = (
-    propertyName,
-    type,
-    required
-) => {
+export const getExtensionParameterValidation = (propertyName, type, required) => {
     const rules = getExtensionParameterRules(type, required);
     return new Validation({ [propertyName]: rules });
 };

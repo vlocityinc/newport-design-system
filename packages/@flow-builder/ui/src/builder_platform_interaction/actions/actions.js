@@ -1,19 +1,13 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    UNDO,
-    REDO,
-    CLEAR_UNDO_REDO
-} from 'builder_platform_interaction/undoRedoLib';
+import { UNDO, REDO, CLEAR_UNDO_REDO } from 'builder_platform_interaction/undoRedoLib';
 
 export const UPDATE_ENTITIES = 'UPDATE_ENTITIES';
 export const UPDATE_FLOW = 'UPDATE_FLOW';
 
 export const UPDATE_PROPERTIES = 'UPDATE_PROPERTIES';
-export const UPDATE_PROPERTIES_AFTER_SAVE_FAILED =
-    'UPDATE_PROPERTIES_AFTER_SAVE_FAILED';
+export const UPDATE_PROPERTIES_AFTER_SAVE_FAILED = 'UPDATE_PROPERTIES_AFTER_SAVE_FAILED';
 export const UPDATE_PROPERTIES_AFTER_SAVING = 'UPDATE_PROPERTIES_AFTER_SAVING';
-export const UPDATE_PROPERTIES_AFTER_ACTIVATING =
-    'UPDATE_PROPERTIES_AFTER_ACTIVATING';
+export const UPDATE_PROPERTIES_AFTER_ACTIVATING = 'UPDATE_PROPERTIES_AFTER_ACTIVATING';
 export const UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE =
     'UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE';
 export const UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE =
@@ -55,11 +49,9 @@ export const MODIFY_SCREEN_WITH_FIELDS = 'MODIFY_SCREEN_WITH_FIELDS';
 
 export const ADD_START_ELEMENT = 'ADD_START_ELEMENT';
 
-export const UPDATE_INLINE_RESOURCE_PROPERTIES =
-    'UPDATE_INLINE_RESOURCE_PROPERTIES';
+export const UPDATE_INLINE_RESOURCE_PROPERTIES = 'UPDATE_INLINE_RESOURCE_PROPERTIES';
 
-export const REMOVE_LAST_CREATED_INLINE_RESOURCE =
-    'REMOVE_LAST_CREATED_INLINE_RESOURCE';
+export const REMOVE_LAST_CREATED_INLINE_RESOURCE = 'REMOVE_LAST_CREATED_INLINE_RESOURCE';
 
 export const PROPERTY_EDITOR_ACTION = {
     UPDATE_ELEMENT_PROPERTY: 'UPDATE_ELEMENT_PROPERTY',
@@ -120,8 +112,7 @@ export const clearUndoRedo = createAction(CLEAR_UNDO_REDO);
  * @param {Object} payload - contains new flow information
  * @returns {Object} action new action based on type and payload
  */
-export const updateProperties = payload =>
-    createAction(UPDATE_PROPERTIES, payload);
+export const updateProperties = payload => createAction(UPDATE_PROPERTIES, payload);
 
 /**
  * Action for updating flow properties in the store, when the save flow call is failed.
@@ -130,16 +121,14 @@ export const updateProperties = payload =>
  * @returns {Object} action new action based on type and payload
  */
 
-export const updatePropertiesAfterSaveFailed = payload =>
-    createAction(UPDATE_PROPERTIES_AFTER_SAVE_FAILED, payload);
+export const updatePropertiesAfterSaveFailed = payload => createAction(UPDATE_PROPERTIES_AFTER_SAVE_FAILED, payload);
 /**
  * Action for updating flow properties in the store after saving a flow.
  *
  * @param {Object} payload - contains new flow information
  * @returns {Object} action new action based on type and payload
  */
-export const updatePropertiesAfterSaving = payload =>
-    createAction(UPDATE_PROPERTIES_AFTER_SAVING, payload);
+export const updatePropertiesAfterSaving = payload => createAction(UPDATE_PROPERTIES_AFTER_SAVING, payload);
 /**
  * Action for updating flow properties in the store after activating a flow.
  *
@@ -165,10 +154,7 @@ export const updatePropertiesAfterCreatingFlowFromTemplate = payload =>
  * @returns {Object} action new action based on type and payload
  */
 export const updatePropertiesAfterCreatingFlowFromProcessType = payload =>
-    createAction(
-        UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE,
-        payload
-    );
+    createAction(UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE, payload);
 
 /**
  * Action for duplicating canvas elements and connectors.
@@ -311,8 +297,7 @@ export const addConnector = payload => createAction(ADD_CONNECTOR, payload);
  * @param {Object} payload - contains GUID of the element to be selected
  * @returns {Object} action new action based on type and payload
  */
-export const selectOnCanvas = payload =>
-    createAction(SELECT_ON_CANVAS, payload);
+export const selectOnCanvas = payload => createAction(SELECT_ON_CANVAS, payload);
 
 /**
  * Action for toggling the isSelected property of a canvas element or connector.
@@ -320,8 +305,7 @@ export const selectOnCanvas = payload =>
  * @param {Object} payload - contains GUID of the element to be toggled
  * @returns {Object} action new action based on type and payload
  */
-export const toggleOnCanvas = payload =>
-    createAction(TOGGLE_ON_CANVAS, payload);
+export const toggleOnCanvas = payload => createAction(TOGGLE_ON_CANVAS, payload);
 
 /**
  * Action for deselecting all the selected canvas elements and connectors.
@@ -335,8 +319,7 @@ export const deselectOnCanvas = createAction(DESELECT_ON_CANVAS);
  * @param {Object} payload - contains arrays with the canvas elements and connectors to be selected/deselected
  * @returns {Object} action new action based on type and payload
  */
-export const marqueeSelectOnCanvas = payload =>
-    createAction(MARQUEE_SELECT_ON_CANVAS, payload);
+export const marqueeSelectOnCanvas = payload => createAction(MARQUEE_SELECT_ON_CANVAS, payload);
 
 /**
  * Action for setting the isHighlighted property of a canvas element to true
@@ -344,8 +327,7 @@ export const marqueeSelectOnCanvas = payload =>
  * @param {Object} payload - contains GUID of the element to be toggled
  * @returns {Object} action new action based on type and payload
  */
-export const highlightOnCanvas = payload =>
-    createAction(HIGHLIGHT_ON_CANVAS, payload);
+export const highlightOnCanvas = payload => createAction(HIGHLIGHT_ON_CANVAS, payload);
 
 /**
  * Action for updating the location of canvas element. This is needed in additon to updateElement
@@ -353,16 +335,13 @@ export const highlightOnCanvas = payload =>
  * @param {Object} payload - contains guid & position coordinates for the canvas element.
  * @returns {Object} action - updateCanvasElementLocation action
  */
-export const updateCanvasElementLocation = payload =>
-    createAction(UPDATE_CANVAS_ELEMENT_LOCATION, payload);
+export const updateCanvasElementLocation = payload => createAction(UPDATE_CANVAS_ELEMENT_LOCATION, payload);
 
 /**
  * Action for resetting the inline resource to null.
  * @returns {Object} action new action based on type
  */
-export const removeLastCreatedInlineResource = createAction(
-    REMOVE_LAST_CREATED_INLINE_RESOURCE
-);
+export const removeLastCreatedInlineResource = createAction(REMOVE_LAST_CREATED_INLINE_RESOURCE);
 
 /**
  * Action for setting the newly created inline resource properties. This is used so that the expressionBuilder knows:
@@ -371,13 +350,11 @@ export const removeLastCreatedInlineResource = createAction(
  * @param {Object} payload - contains a string `left` or `right` or null & the row index of the condition
  * @returns {Object} action - updateInlineResourceProperties action
  */
-export const updateInlineResourceProperties = payload =>
-    createAction(UPDATE_INLINE_RESOURCE_PROPERTIES, payload);
+export const updateInlineResourceProperties = payload => createAction(UPDATE_INLINE_RESOURCE_PROPERTIES, payload);
 
 /**
  * Action for updating a list of all apex classes.
  */
-export const updateApexClasses = payload =>
-    createAction(UPDATE_APEX_CLASSES, payload);
+export const updateApexClasses = payload => createAction(UPDATE_APEX_CLASSES, payload);
 
 export const updateEntities = payload => createAction(UPDATE_ENTITIES, payload);

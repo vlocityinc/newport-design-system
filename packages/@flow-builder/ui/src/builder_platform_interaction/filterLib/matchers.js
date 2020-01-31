@@ -1,7 +1,4 @@
-import {
-    escapeForRegExp,
-    isObject
-} from 'builder_platform_interaction/commonUtils';
+import { escapeForRegExp, isObject } from 'builder_platform_interaction/commonUtils';
 
 const validateMatcherArgs = (obj, key) => {
     if (!isObject(obj)) {
@@ -18,9 +15,7 @@ const validateMatcherArgs = (obj, key) => {
 const validateStringMatcherArgs = (obj, key, pattern) => {
     validateMatcherArgs(obj, key);
     if (typeof pattern !== 'string' || pattern.length === 0) {
-        throw new TypeError(
-            'string matcher pattern must be a non-empty pattern string'
-        );
+        throw new TypeError('string matcher pattern must be a non-empty pattern string');
     }
 };
 

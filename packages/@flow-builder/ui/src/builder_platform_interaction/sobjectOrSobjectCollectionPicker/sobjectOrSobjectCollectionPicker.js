@@ -14,8 +14,7 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
     state = {
         recordEntityName: '',
         value: '',
-        sobjectCollectionCriterion:
-            SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT,
+        sobjectCollectionCriterion: SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT,
         errorMessage: ''
     };
 
@@ -137,8 +136,7 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
                 ]
             },
             sObjectSelectorConfig: {
-                sobjectCollectionCriterion: this.state
-                    .sobjectCollectionCriterion,
+                sobjectCollectionCriterion: this.state.sobjectCollectionCriterion,
                 entityName: this.state.recordEntityName,
                 createable: this.createable,
                 updateable: this.updateable,
@@ -153,14 +151,9 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
      * @param {Object} event the comboboxstatechanged event
      */
     handleSObjectVariableChanged(event) {
-        const newValue = event.detail.item
-            ? event.detail.item.value
-            : event.detail.displayText;
+        const newValue = event.detail.item ? event.detail.item.value : event.detail.displayText;
 
-        const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(
-            newValue,
-            event.detail.error
-        );
+        const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(newValue, event.detail.error);
         this.dispatchEvent(sObjectReferenceChangedEvent);
     }
 }

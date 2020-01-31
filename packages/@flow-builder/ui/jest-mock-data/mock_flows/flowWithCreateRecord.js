@@ -97,8 +97,7 @@ export const flowWithCreateRecordUsingSObjectCollection = {
         decisions: [],
         dynamicChoiceSets: [],
         formulas: [],
-        interviewLabel:
-            'Flow Create Record Using SObject Collection {!$Flow.CurrentDateTime}',
+        interviewLabel: 'Flow Create Record Using SObject Collection {!$Flow.CurrentDateTime}',
         isTemplate: false,
         label: 'Flow Create Record Using SObject Collection',
         loops: [],
@@ -176,8 +175,7 @@ export const flowWithCreateRecordUsingFields = {
         decisions: [],
         dynamicChoiceSets: [],
         formulas: [],
-        interviewLabel:
-            'flowWithCreateRecordUsingFields {!$Flow.CurrentDateTime}',
+        interviewLabel: 'flowWithCreateRecordUsingFields {!$Flow.CurrentDateTime}',
         isTemplate: false,
         label: 'flowWithCreateRecordUsingFields',
         loops: [],
@@ -303,8 +301,7 @@ export const flowWithCreateRecordAutomatedOutput = {
         decisions: [],
         dynamicChoiceSets: [],
         formulas: [],
-        interviewLabel:
-            'flowWithCreateRecordAutomatedOutput {!$Flow.CurrentDateTime}',
+        interviewLabel: 'flowWithCreateRecordAutomatedOutput {!$Flow.CurrentDateTime}',
         isTemplate: false,
         label: 'flowWithCreateRecordAutomatedOutput',
         loops: [],

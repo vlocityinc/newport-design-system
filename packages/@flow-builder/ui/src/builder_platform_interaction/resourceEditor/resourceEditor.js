@@ -3,8 +3,7 @@ import { getResourceTypesMenuData } from 'builder_platform_interaction/expressio
 import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction/validationRules';
 import { LABELS } from './resourceEditorLabels';
 
-const CONTAINER_SELECTOR =
-    'builder_platform_interaction-resource-editor-container';
+const CONTAINER_SELECTOR = 'builder_platform_interaction-resource-editor-container';
 const COMBOBOX_SELECTOR = 'lightning-combobox';
 
 /**

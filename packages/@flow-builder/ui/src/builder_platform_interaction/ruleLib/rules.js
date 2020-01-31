@@ -120,12 +120,8 @@ const storeRulesForIncludeElems = rule => {
     });
 };
 
-const hasIncludeElems = rule =>
-    rule[RULE_PROPERTY.INCLUDE_ELEMS] &&
-    rule[RULE_PROPERTY.INCLUDE_ELEMS].length > 0;
-const hasExcludeElems = rule =>
-    rule[RULE_PROPERTY.EXCLUDE_ELEMS] &&
-    rule[RULE_PROPERTY.EXCLUDE_ELEMS].length > 0;
+const hasIncludeElems = rule => rule[RULE_PROPERTY.INCLUDE_ELEMS] && rule[RULE_PROPERTY.INCLUDE_ELEMS].length > 0;
+const hasExcludeElems = rule => rule[RULE_PROPERTY.EXCLUDE_ELEMS] && rule[RULE_PROPERTY.EXCLUDE_ELEMS].length > 0;
 
 /**
  * Build map in the opposite way the original assignment rules are structured.
@@ -135,16 +131,10 @@ const hasExcludeElems = rule =>
  * @param stringifiedInputsToOutputs {Object.map<param, param[]>}  Map that has been built thus far & can be added to
  * @param assignmentRulesWithExclusions {operatorRule[]} List of rules with excludeElems populated
  */
-const addToStringifiedOutputRuleMap = (
-    rule,
-    stringifiedInputsToOutputs,
-    assignmentRulesWithExclusions
-) => {
+const addToStringifiedOutputRuleMap = (rule, stringifiedInputsToOutputs, assignmentRulesWithExclusions) => {
     if (hasIncludeElems(rule)) {
         // this function only accounts for the EXCLUDE_ELEMS property. We don't have any instances of using INCLUDE_ELEMS yet
-        throw new Error(
-            'Output rules do not handle Assignment rules which only apply to certain elements.'
-        );
+        throw new Error('Output rules do not handle Assignment rules which only apply to certain elements.');
     }
 
     if (!hasExcludeElems(rule)) {
@@ -153,9 +143,7 @@ const addToStringifiedOutputRuleMap = (
             if (!stringifiedInputsToOutputs[rhs]) {
                 stringifiedInputsToOutputs[rhs] = new Set();
             }
-            stringifiedInputsToOutputs[rhs].add(
-                JSON.stringify(rule[RULE_PROPERTY.LEFT])
-            );
+            stringifiedInputsToOutputs[rhs].add(JSON.stringify(rule[RULE_PROPERTY.LEFT]));
         });
     } else {
         // rules that don't always apply will be treated differently
@@ -167,18 +155,15 @@ const addToStringifiedOutputRuleMap = (
  * @param stringifiedInputsToOutputs {Object.map<param, param[]>}  Map from a param to the list of params that can be assigned into it
  * @param assignmentRulesWithExclusions {operatorRule[]} List of rules with excludeElems populated
  */
-const buildRulesInstanceForOutputRules = (
-    stringifiedInputsToOutputs,
-    assignmentRulesWithExclusions
-) => {
+const buildRulesInstanceForOutputRules = (stringifiedInputsToOutputs, assignmentRulesWithExclusions) => {
     // parse the stringified params & build object in the same shape as the original rules, so that the same utility functions can be applied
     Object.keys(stringifiedInputsToOutputs).forEach(assignToParam => {
         outputRules.push({
             [RULE_PROPERTY.LEFT]: JSON.parse(assignToParam),
             [RULE_PROPERTY.OPERATOR]: RULE_OPERATOR.ASSIGN, // this can be hardcoded here because a rule would only be in this object if this were true
-            [RULE_PROPERTY.RHS_PARAMS]: Array.from(
-                stringifiedInputsToOutputs[assignToParam]
-            ).map(param => JSON.parse(param))
+            [RULE_PROPERTY.RHS_PARAMS]: Array.from(stringifiedInputsToOutputs[assignToParam]).map(param =>
+                JSON.parse(param)
+            )
         });
     });
 
@@ -217,8 +202,7 @@ export const setRules = (rules = null) => {
             const ruleTypeName = rule[RULE_PROPERTY.RULE_TYPE];
             // rules come in with two fields - assignmentOperator and comparisonOperator
             // this combines those into one operator field for easier use throughout the client
-            currentRule[RULE_PROPERTY.OPERATOR] =
-                rule[ruleTypeName + 'Operator'].value;
+            currentRule[RULE_PROPERTY.OPERATOR] = rule[ruleTypeName + 'Operator'].value;
             currentRule = readonly(currentRule);
             if (!hasIncludeElems(rule)) {
                 // add rules with no includeElems list to the main rule array for their type
@@ -229,17 +213,10 @@ export const setRules = (rules = null) => {
 
             // if it's an assignment rule, store it backwards to create output rules (rules for outputs from actions, etc)
             if (currentRule[RULE_PROPERTY.OPERATOR] === RULE_OPERATOR.ASSIGN) {
-                addToStringifiedOutputRuleMap(
-                    currentRule,
-                    stringifiedInputsToOutputs,
-                    assignmentRulesWithExclusions
-                );
+                addToStringifiedOutputRuleMap(currentRule, stringifiedInputsToOutputs, assignmentRulesWithExclusions);
             }
         });
-        buildRulesInstanceForOutputRules(
-            stringifiedInputsToOutputs,
-            assignmentRulesWithExclusions
-        );
+        buildRulesInstanceForOutputRules(stringifiedInputsToOutputs, assignmentRulesWithExclusions);
     }
 };
 
@@ -266,12 +243,8 @@ export const getOutputRules = () => {
 
 export const getRulesForElementType = (ruleType, elementType) => {
     let rules = rulesInstance[ruleType];
-    const ruleElementType =
-        UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[elementType] || elementType;
-    if (
-        rulesInstance[ruleElementType] &&
-        rulesInstance[ruleElementType][ruleType]
-    ) {
+    const ruleElementType = UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[elementType] || elementType;
+    if (rulesInstance[ruleElementType] && rulesInstance[ruleElementType][ruleType]) {
         rules = rules.concat(rulesInstance[ruleElementType][ruleType]);
     }
     return rules;

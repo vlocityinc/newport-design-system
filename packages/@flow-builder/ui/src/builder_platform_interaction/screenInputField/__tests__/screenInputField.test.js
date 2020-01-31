@@ -24,10 +24,7 @@ jest.mock('builder_platform_interaction/systemLib', () => {
 });
 
 function createComponentForTest(props) {
-    const el = createElement(
-        'builder_platform_interaction-screen-input-field',
-        { is: ScreenInputField }
-    );
+    const el = createElement('builder_platform_interaction-screen-input-field', { is: ScreenInputField });
     Object.assign(el, props);
     document.body.appendChild(el);
     return el;
@@ -46,25 +43,19 @@ describe('Currency screen field', () => {
     });
     it('Type should be number', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.INPUT
-            );
+            const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
             expect(input.type).toEqual(LIGHTNING_INPUT_TYPES.NUMBER);
         });
     });
     it('Formatter should be set to currency', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.INPUT
-            );
+            const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
             expect(input.formatter).toEqual(CURRENCY_FORMAT);
         });
     });
     it('Label should be standard', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.INPUT
-            );
+            const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
             expect(input.variant).toEqual(LIGHTNING_INPUT_VARIANTS.STANDARD);
         });
     });
@@ -83,25 +74,19 @@ describe('Number screen field', () => {
     });
     it('Type should be number', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.INPUT
-            );
+            const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
             expect(input.type).toEqual(LIGHTNING_INPUT_TYPES.NUMBER);
         });
     });
     it('Formatter should be set to undefined', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.INPUT
-            );
+            const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
             expect(input.formatter).toBeUndefined();
         });
     });
     it('Label should be standard', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.INPUT
-            );
+            const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
             expect(input.variant).toEqual(LIGHTNING_INPUT_VARIANTS.STANDARD);
         });
     });
@@ -120,25 +105,19 @@ describe('Textbox screen field', () => {
     });
     it('Type should be null', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.INPUT
-            );
+            const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
             expect(input.type).toBeNull();
         });
     });
     it('Formatter should be set to undefined', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.INPUT
-            );
+            const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
             expect(input.formatter).toBeUndefined();
         });
     });
     it('Label should be standard', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.INPUT
-            );
+            const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
             expect(input.variant).toEqual(LIGHTNING_INPUT_VARIANTS.STANDARD);
         });
     });
@@ -157,9 +136,7 @@ describe('Checkbox field with global constant true for its default value', () =>
     });
     it('Checkbox should be checked', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.INPUT
-            );
+            const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
             expect(input.checked).toBeTruthy();
         });
     });
@@ -178,9 +155,7 @@ describe('Checkbox field with global constant false for its default value', () =
     });
     it('Checkbox should not be checked', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.INPUT
-            );
+            const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
             expect(input.checked).toBeFalsy();
         });
     });
@@ -199,9 +174,7 @@ describe('Checkbox field with reference for its default value', () => {
     });
     it('Checkbox should not be checked', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.INPUT
-            );
+            const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
             expect(input.checked).toBeFalsy();
         });
     });
@@ -220,20 +193,14 @@ describe('Screen input field with no label', () => {
     });
     it('Label should be shown even when empty because we display a placeholder label', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.INPUT
-            );
+            const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
             expect(input.variant).toEqual(LIGHTNING_INPUT_VARIANTS.STANDARD);
         });
     });
     it('Label displayed should be a placeholder', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.INPUT
-            );
-            expect(input.label).toEqual(
-                '[' + LABELS.fieldTypeLabelNumber + ']'
-            );
+            const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
+            expect(input.label).toEqual('[' + LABELS.fieldTypeLabelNumber + ']');
         });
     });
 });
@@ -251,12 +218,8 @@ describe('Screen input field with empty space only should not be displayed', () 
     });
     it('Label should be hidden when it is empty', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.INPUT
-            );
-            expect(input.variant).toEqual(
-                LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN
-            );
+            const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
+            expect(input.variant).toEqual(LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN);
         });
     });
 });
@@ -274,17 +237,13 @@ describe('DateTime screen input field', () => {
     });
     it('Lightning input type should be dateTime', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.INPUT
-            );
+            const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
             expect(input.type).toEqual(LIGHTNING_INPUT_TYPES.DATE_TIME);
         });
     });
     it('Value should be converted to ISO string format', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.INPUT
-            );
+            const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
             expect(input.value).toEqual(new Date(dateTimeValue).toISOString());
         });
     });
@@ -302,9 +261,7 @@ describe('DateTime screen input field with default value set to a reference', ()
     });
     it('Value should display empty string because it is a merge field', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.INPUT
-            );
+            const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
             expect(input.value).toEqual('');
         });
     });
@@ -323,17 +280,13 @@ describe('Date screen input field', () => {
     });
     it('Lightning input type should be date', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.INPUT
-            );
+            const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
             expect(input.type).toEqual(LIGHTNING_INPUT_TYPES.DATE);
         });
     });
     it('Value should be converted to ISO string format', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.INPUT
-            );
+            const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
             expect(input.value).toEqual(new Date(dateValue).toISOString());
         });
     });
@@ -351,9 +304,7 @@ describe('Date screen input field with default value to set a reference', () => 
     });
     it('Value should display empty string because it is a merge field', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.INPUT
-            );
+            const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
             expect(input.value).toEqual('');
         });
     });
@@ -372,9 +323,7 @@ describe('Field with help text', () => {
     });
     it('Help text should be passed through', () => {
         return Promise.resolve().then(() => {
-            const input = inputWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.INPUT
-            );
+            const input = inputWrapperCmp.shadowRoot.querySelector(SELECTORS.INPUT);
             expect(input.fieldLevelHelp).toEqual(helpTextValue);
         });
     });

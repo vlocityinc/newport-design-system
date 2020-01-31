@@ -1,10 +1,7 @@
 import { createElement } from 'lwc';
 import RecordChoiceSetEditor from '../recordChoiceSetEditor';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    recordChoiceSetValidation,
-    getRules
-} from '../recordChoiceSetValidation';
+import { recordChoiceSetValidation, getRules } from '../recordChoiceSetValidation';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
@@ -31,12 +28,9 @@ jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
 );
 
 const setupComponentUnderTest = recordChoiceSetObject => {
-    const element = createElement(
-        'builder_platform_interaction-picklist-choice-set-editor',
-        {
-            is: RecordChoiceSetEditor
-        }
-    );
+    const element = createElement('builder_platform_interaction-picklist-choice-set-editor', {
+        is: RecordChoiceSetEditor
+    });
     element.node = recordChoiceSetObject;
     document.body.appendChild(element);
     return element;
@@ -143,12 +137,7 @@ describe('Record Choice Set Validation', () => {
 
     describe('validateAll', () => {
         const validate = node => {
-            return getErrorsFromHydratedElement(
-                recordChoiceSetValidation.validateAll(
-                    node,
-                    getRules(node, true)
-                )
-            );
+            return getErrorsFromHydratedElement(recordChoiceSetValidation.validateAll(node, getRules(node, true)));
         };
         const recordChoice = setupComponentUnderTest(recordChoiceObject);
         const node = recordChoice.node;
@@ -176,9 +165,7 @@ describe('Record Choice Set Validation', () => {
 
     describe('getRules', () => {
         describe('when second section is hidden/ object field is not filled', () => {
-            const recordChoice = setupComponentUnderTest(
-                recordChoiceObjectWithoutObject
-            );
+            const recordChoice = setupComponentUnderTest(recordChoiceObjectWithoutObject);
             const node = recordChoice.node;
             const rules = getRules(node, false);
             const keysFromRules = Object.keys(rules);
@@ -189,9 +176,7 @@ describe('Record Choice Set Validation', () => {
             });
 
             it('rules object should contain rule for key:', () => {
-                expect(keysFromRules).toEqual(
-                    expect.arrayContaining(expectedKeysFromRules)
-                );
+                expect(keysFromRules).toEqual(expect.arrayContaining(expectedKeysFromRules));
             });
         });
 
@@ -217,9 +202,7 @@ describe('Record Choice Set Validation', () => {
             });
 
             it('rules object should contain rule for key:', () => {
-                expect(keysFromRules).toEqual(
-                    expect.arrayContaining(expectedKeysFromRules)
-                );
+                expect(keysFromRules).toEqual(expect.arrayContaining(expectedKeysFromRules));
             });
         });
     });

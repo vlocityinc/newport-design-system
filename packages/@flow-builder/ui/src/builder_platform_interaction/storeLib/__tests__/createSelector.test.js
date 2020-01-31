@@ -63,32 +63,23 @@ describe('Create Selectors', () => {
     });
     it('when selectors {array} value is NULL should return as error string - {string} could not transform the null.', done => {
         try {
-            createSelector(
-                null,
-                () => {}
-            )();
+            createSelector(null, () => {})();
         } catch (e) {
             expect(e.message).toEqual('could not transform the null.');
             done();
         }
     });
     it('when one selectors {array} values instead of two are passed in should return as two arguments to resulted function.', done => {
-        const canvasSelector = createSelector(
-            [elementsSelector],
-            (elements, canvasElements) => {
-                expect(elements).toEqual(state.elements);
-                expect(canvasElements).toBeUndefined();
-                done();
-            }
-        );
+        const canvasSelector = createSelector([elementsSelector], (elements, canvasElements) => {
+            expect(elements).toEqual(state.elements);
+            expect(canvasElements).toBeUndefined();
+            done();
+        });
         canvasSelector();
     });
     it('when selectors {array} value is empty then should return as error string - {string} could not transform the null.', done => {
         try {
-            createSelector(
-                [],
-                () => {}
-            )();
+            createSelector([], () => {})();
         } catch (e) {
             expect(e.message).toEqual('could not transform the .');
             done();
@@ -96,14 +87,9 @@ describe('Create Selectors', () => {
     });
     it('when selectors value is an OBJECT then should return as error string - {string} could not transform the [object Object].', done => {
         try {
-            createSelector(
-                {},
-                () => {}
-            )();
+            createSelector({}, () => {})();
         } catch (e) {
-            expect(e.message).toEqual(
-                'could not transform the [object Object].'
-            );
+            expect(e.message).toEqual('could not transform the [object Object].');
             done();
         }
     });
@@ -123,13 +109,13 @@ describe('Create Selectors', () => {
         }
 
         const selector = createSelector(
-                [selector0, selector1],
-                (v0, v1) => {
-                    transformCounter++;
-                    return '' + v0 + '_' + v1;
-                },
-                true
-            );
+            [selector0, selector1],
+            (v0, v1) => {
+                transformCounter++;
+                return '' + v0 + '_' + v1;
+            },
+            true
+        );
 
         it('invokes original selectors and the transform (functions) if invoked for the first time', () => {
             const result = selector('0');

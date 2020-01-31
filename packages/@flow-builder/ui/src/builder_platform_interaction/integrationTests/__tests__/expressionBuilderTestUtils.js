@@ -38,10 +38,7 @@ export const getRhsCombobox = expressionBuilder => {
     ]);
 };
 
-export const validateExpression = async (
-    expressionBuilder,
-    { lhs, rhs, operator }
-) => {
+export const validateExpression = async (expressionBuilder, { lhs, rhs, operator }) => {
     const lhsCombobox = getLhsCombobox(expressionBuilder);
     const rhsCombobox = getRhsCombobox(expressionBuilder);
     await typeReferenceOrValueInCombobox(lhsCombobox, lhs);

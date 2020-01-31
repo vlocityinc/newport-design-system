@@ -1,7 +1,4 @@
-import {
-    translateFlowToUIModel,
-    getFlowStartElementReference
-} from '../flowToUiTranslator';
+import { translateFlowToUIModel, getFlowStartElementReference } from '../flowToUiTranslator';
 
 const flowWithDummyElement = {
     metadata: {
@@ -21,9 +18,7 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
                 name: 'Test Flow'
             };
         }),
-        getDataTypeKey: require.requireActual(
-            'builder_platform_interaction/elementFactory'
-        ).getDataTypeKey
+        getDataTypeKey: require.requireActual('builder_platform_interaction/elementFactory').getDataTypeKey
     };
 });
 
@@ -110,55 +105,41 @@ describe('Flow to ui translator tests', () => {
     describe('translateFlowToUIModel function', () => {
         describe('return properties', () => {
             it('which has name prop', () => {
-                const { properties } = translateFlowToUIModel(
-                    flowWithDummyElement
-                );
+                const { properties } = translateFlowToUIModel(flowWithDummyElement);
                 expect(properties.name).toBe('Test Flow');
             });
         });
         describe('returns elements object', () => {
             it('which has two elements', () => {
-                const { elements } = translateFlowToUIModel(
-                    flowWithDummyElement
-                );
+                const { elements } = translateFlowToUIModel(flowWithDummyElement);
                 const elementKeys = Object.keys(elements);
                 expect(elementKeys).toHaveLength(2);
             });
             it('which has one element with name prop', () => {
-                const { elements } = translateFlowToUIModel(
-                    flowWithDummyElement
-                );
+                const { elements } = translateFlowToUIModel(flowWithDummyElement);
                 const { guid1 } = elements;
                 expect(guid1.name).toBe('dummyElementName');
             });
             it('which has second element with name prop', () => {
-                const { elements } = translateFlowToUIModel(
-                    flowWithDummyElement
-                );
+                const { elements } = translateFlowToUIModel(flowWithDummyElement);
                 const { startGuid } = elements;
                 expect(startGuid.name).toBe('startElementName');
             });
         });
         describe('return connectors array', () => {
             it('which has two connectors', () => {
-                const { connectors } = translateFlowToUIModel(
-                    flowWithDummyElement
-                );
+                const { connectors } = translateFlowToUIModel(flowWithDummyElement);
                 expect(connectors).toHaveLength(1);
             });
             it('which has a connector with guid', () => {
-                const { connectors } = translateFlowToUIModel(
-                    flowWithDummyElement
-                );
+                const { connectors } = translateFlowToUIModel(flowWithDummyElement);
                 const { guid } = connectors[0];
                 expect(guid).toBe('connector1');
             });
         });
         describe('return canvas element array', () => {
             it('which has one canvas element guid', () => {
-                const { canvasElements } = translateFlowToUIModel(
-                    flowWithDummyElement
-                );
+                const { canvasElements } = translateFlowToUIModel(flowWithDummyElement);
                 expect(canvasElements).toHaveLength(2);
             });
         });
@@ -167,25 +148,19 @@ describe('Flow to ui translator tests', () => {
         const startElementReference = 'dummyElementName';
         let flowStartElementReference;
         it('returns "undefined" when no startElementReference property (neither at metadata level nor root level of flow)', () => {
-            flowStartElementReference = getFlowStartElementReference(
-                flowWithDummyElement
-            );
+            flowStartElementReference = getFlowStartElementReference(flowWithDummyElement);
             expect(flowStartElementReference).toBeUndefined();
         });
         it('returns flow "startElementReference" property when flow "startElementReference" property', () => {
             const flowWithStartElementReference = { startElementReference };
-            flowStartElementReference = getFlowStartElementReference(
-                flowWithStartElementReference
-            );
+            flowStartElementReference = getFlowStartElementReference(flowWithStartElementReference);
             expect(flowStartElementReference).toBe(startElementReference);
         });
         it('returns flow metadata "startElementReference" property when flow metadata "startElementReference" property ', () => {
             const flowWithMetadataStartElementReference = {
                 metadata: { startElementReference }
             };
-            flowStartElementReference = getFlowStartElementReference(
-                flowWithMetadataStartElementReference
-            );
+            flowStartElementReference = getFlowStartElementReference(flowWithMetadataStartElementReference);
             expect(flowStartElementReference).toBe(startElementReference);
         });
     });

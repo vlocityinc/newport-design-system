@@ -1,19 +1,19 @@
 import { api, LightningElement } from 'lwc';
 
 export default class FieldPicker extends LightningElement {
-@api label;
+    @api label;
 
-@api placeholder;
+    @api placeholder;
 
-@api value;
+    @api value;
 
-@api errorMessage;
+    @api errorMessage;
 
-@api fields;
+    @api fields;
 
-@api required;
+    @api required;
 
-@api disabled;
+    @api disabled;
 
-@api showActivityIndicator;
+    @api showActivityIndicator;
 }

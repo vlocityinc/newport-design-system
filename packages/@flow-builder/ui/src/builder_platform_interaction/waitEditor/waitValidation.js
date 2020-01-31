@@ -1,8 +1,5 @@
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
-import {
-    Validation,
-    defaultRules
-} from 'builder_platform_interaction/validation';
+import { Validation, defaultRules } from 'builder_platform_interaction/validation';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     CONDITION_LOGIC,
@@ -18,11 +15,7 @@ import { LABELS } from './waitEditorLabels';
  * @returns {string|null} errorString or null
  */
 export const shouldBeHoursDaysOrBlank = value => {
-    if (
-        value &&
-        value !== WAIT_TIME_EVENT_OFFSET_UNIT.HOURS &&
-        value !== WAIT_TIME_EVENT_OFFSET_UNIT.DAYS
-    ) {
+    if (value && value !== WAIT_TIME_EVENT_OFFSET_UNIT.HOURS && value !== WAIT_TIME_EVENT_OFFSET_UNIT.DAYS) {
         return LABELS.shouldBeHoursOrDays;
     }
 
@@ -47,9 +40,7 @@ const conditionRule = {
 // TODO: This will work properly when this story (W-5568291) is completed
 const outputParameterRules = outputParameter => {
     const opRules = {};
-    opRules.value = [
-        ValidationRules.validateResourcePicker(outputParameter.rowIndex)
-    ];
+    opRules.value = [ValidationRules.validateResourcePicker(outputParameter.rowIndex)];
     return opRules;
 };
 
@@ -58,20 +49,12 @@ const absoluteTimeRules = () => {
         inputParameters: inputParameter => {
             const ipRules = {};
 
-            if (
-                inputParameter.name.value ===
-                WAIT_TIME_EVENT_PARAMETER_NAMES.ABSOLUTE_BASE_TIME
-            ) {
+            if (inputParameter.name.value === WAIT_TIME_EVENT_PARAMETER_NAMES.ABSOLUTE_BASE_TIME) {
                 ipRules.value = [
                     ValidationRules.shouldNotBeBlank,
-                    ValidationRules.validateResourcePicker(
-                        inputParameter.rowIndex
-                    )
+                    ValidationRules.validateResourcePicker(inputParameter.rowIndex)
                 ];
-            } else if (
-                inputParameter.name.value ===
-                WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT
-            ) {
+            } else if (inputParameter.name.value === WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT) {
                 ipRules.value = [shouldBeHoursDaysOrBlank];
             }
 
@@ -95,22 +78,14 @@ const directTimeRules = () => {
                 ipRules.value = [ValidationRules.shouldNotBeBlank];
             }
 
-            if (
-                inputParameter.name.value ===
-                WAIT_TIME_EVENT_PARAMETER_NAMES.RECORD_ID
-            ) {
+            if (inputParameter.name.value === WAIT_TIME_EVENT_PARAMETER_NAMES.RECORD_ID) {
                 ipRules.value = [
                     ValidationRules.shouldNotBeBlank,
-                    ValidationRules.validateResourcePicker(
-                        inputParameter.rowIndex
-                    )
+                    ValidationRules.validateResourcePicker(inputParameter.rowIndex)
                 ];
             }
 
-            if (
-                inputParameter.name.value ===
-                WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT
-            ) {
+            if (inputParameter.name.value === WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT) {
                 ipRules.value = [shouldBeHoursDaysOrBlank];
             }
 
@@ -122,10 +97,7 @@ const directTimeRules = () => {
 
 const platformEventParametersRule = eventTypeIndex => {
     return {
-        eventType: [
-            ValidationRules.shouldNotBeBlank,
-            ValidationRules.validateResourcePicker(eventTypeIndex)
-        ],
+        eventType: [ValidationRules.shouldNotBeBlank, ValidationRules.validateResourcePicker(eventTypeIndex)],
         inputParameters: () => {
             return {
                 name: [ValidationRules.shouldNotBeBlank]
@@ -149,28 +121,18 @@ class WaitValidation extends Validation {
         return waitEvent => {
             let rules = Object.assign({}, defaultRules);
 
-            if (
-                waitEvent.conditionLogic.value !== CONDITION_LOGIC.NO_CONDITIONS
-            ) {
+            if (waitEvent.conditionLogic.value !== CONDITION_LOGIC.NO_CONDITIONS) {
                 rules = Object.assign(rules, conditionRule);
             }
 
             // Resume validation based on event type
-            if (
-                waitEvent.eventType.value === WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME
-            ) {
+            if (waitEvent.eventType.value === WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME) {
                 rules = Object.assign(rules, absoluteTimeRules());
-            } else if (
-                waitEvent.eventType.value ===
-                WAIT_TIME_EVENT_TYPE.DIRECT_RECORD_TIME
-            ) {
+            } else if (waitEvent.eventType.value === WAIT_TIME_EVENT_TYPE.DIRECT_RECORD_TIME) {
                 rules = Object.assign(rules, directTimeRules());
             } else {
                 // Platform events
-                rules = Object.assign(
-                    rules,
-                    platformEventParametersRule(waitEvent.eventTypeIndex)
-                );
+                rules = Object.assign(rules, platformEventParametersRule(waitEvent.eventTypeIndex));
             }
 
             return rules;
@@ -184,11 +146,7 @@ class WaitValidation extends Validation {
      * @param {string} currentWaitEventGuid - guid of the current waitevent whose devname is tested for uniquness
      * @returns {string|null} errorString or null
      */
-    validateWaitEventNameUniquenessLocally = (
-        state,
-        devNameToBeValidated,
-        currentWaitEventGuid
-    ) => {
+    validateWaitEventNameUniquenessLocally = (state, devNameToBeValidated, currentWaitEventGuid) => {
         const stateGuidToDevName = [
             {
                 guid: state.guid,
@@ -201,9 +159,7 @@ class WaitValidation extends Validation {
                 name: waitEvent.name.value
             };
         });
-        const finalListOfGuidToDevNames = stateGuidToDevName.concat(
-            waitEventsDevNameToGuidList
-        );
+        const finalListOfGuidToDevNames = stateGuidToDevName.concat(waitEventsDevNameToGuidList);
         return this.validateDevNameUniquenessLocally(
             finalListOfGuidToDevNames,
             devNameToBeValidated,

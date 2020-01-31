@@ -1,8 +1,5 @@
 import { createElement } from 'lwc';
-import {
-    PaletteItemChevronClickedEvent,
-    LocatorIconClickedEvent
-} from 'builder_platform_interaction/events';
+import { PaletteItemChevronClickedEvent, LocatorIconClickedEvent } from 'builder_platform_interaction/events';
 import Palette from 'builder_platform_interaction/palette';
 import { LABELS } from '../paletteLabels';
 
@@ -10,11 +7,7 @@ jest.mock('builder_platform_interaction/loggingUtils', () => ({
     logInteraction: jest.fn()
 }));
 
-const createComponentUnderTest = (
-    data,
-    detailsButton,
-    showLocatorIcon = 'false'
-) => {
+const createComponentUnderTest = (data, detailsButton, showLocatorIcon = 'false') => {
     const el = createElement('builder_platform_interaction-palette', {
         is: Palette
     });
@@ -112,9 +105,7 @@ describe('Palette', () => {
         it('checks that there is no chevron button when detailsButton is false', () => {
             const palette = createComponentUnderTest(ELEMENT_DATA);
             return Promise.resolve().then(() => {
-                const chevron = palette.shadowRoot.querySelector(
-                    selectors.detailsChevron
-                );
+                const chevron = palette.shadowRoot.querySelector(selectors.detailsChevron);
                 expect(chevron).toBeNull();
             });
         });
@@ -122,9 +113,7 @@ describe('Palette', () => {
         it('checks that there is a chevron button when detailsButton is true', () => {
             const palette = createComponentUnderTest(ELEMENT_DATA, 'true');
             return Promise.resolve().then(() => {
-                const chevron = palette.shadowRoot.querySelector(
-                    selectors.detailsChevron
-                );
+                const chevron = palette.shadowRoot.querySelector(selectors.detailsChevron);
                 expect(chevron).not.toBeNull();
                 expect(chevron.iconName).toEqual('utility:chevronright');
                 expect(chevron.alternativeText).toEqual(LABELS.detailsText);
@@ -135,13 +124,8 @@ describe('Palette', () => {
             const palette = createComponentUnderTest(ELEMENT_DATA, 'true');
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
-                palette.addEventListener(
-                    PaletteItemChevronClickedEvent.EVENT_NAME,
-                    eventCallback
-                );
-                const chevron = palette.shadowRoot.querySelector(
-                    selectors.detailsChevron
-                );
+                palette.addEventListener(PaletteItemChevronClickedEvent.EVENT_NAME, eventCallback);
+                const chevron = palette.shadowRoot.querySelector(selectors.detailsChevron);
                 chevron.click();
 
                 expect(eventCallback).toHaveBeenCalled();
@@ -155,52 +139,29 @@ describe('Palette', () => {
         });
 
         it('checks that there is no locator icon when showLocatorIcon is false', () => {
-            const palette = createComponentUnderTest(
-                ELEMENT_DATA,
-                'true',
-                false
-            );
+            const palette = createComponentUnderTest(ELEMENT_DATA, 'true', false);
             return Promise.resolve().then(() => {
-                const locatorIcon = palette.shadowRoot.querySelector(
-                    selectors.locatorIcon
-                );
+                const locatorIcon = palette.shadowRoot.querySelector(selectors.locatorIcon);
                 expect(locatorIcon).toBeNull();
             });
         });
 
         it('checks that there is a locator icon when showLocatorIcon is true', () => {
-            const palette = createComponentUnderTest(
-                ELEMENT_DATA,
-                'true',
-                true
-            );
+            const palette = createComponentUnderTest(ELEMENT_DATA, 'true', true);
             return Promise.resolve().then(() => {
-                const locatorIcon = palette.shadowRoot.querySelector(
-                    selectors.locatorIcon
-                );
+                const locatorIcon = palette.shadowRoot.querySelector(selectors.locatorIcon);
                 expect(locatorIcon).not.toBeNull();
                 expect(locatorIcon.iconName).toEqual('utility:search');
-                expect(locatorIcon.alternativeText).toEqual(
-                    LABELS.locatorIconText
-                );
+                expect(locatorIcon.alternativeText).toEqual(LABELS.locatorIconText);
             });
         });
 
         it('clicks the locator icon to dispatch a LocatorIconClickedEvent with the guid', () => {
-            const palette = createComponentUnderTest(
-                ELEMENT_DATA,
-                'true',
-                true
-            );
+            const palette = createComponentUnderTest(ELEMENT_DATA, 'true', true);
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
-                palette.addEventListener(
-                    LocatorIconClickedEvent.EVENT_NAME,
-                    eventCallback
-                );
-                const locatorIcon = palette.shadowRoot.querySelector(
-                    selectors.locatorIcon
-                );
+                palette.addEventListener(LocatorIconClickedEvent.EVENT_NAME, eventCallback);
+                const locatorIcon = palette.shadowRoot.querySelector(selectors.locatorIcon);
                 locatorIcon.click();
 
                 expect(eventCallback).toHaveBeenCalled();

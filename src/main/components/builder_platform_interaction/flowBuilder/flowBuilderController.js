@@ -1,5 +1,5 @@
 ({
-    onInit : function(cmp, event, helper) {
+    onInit: function(cmp, event, helper) {
         helper.init(cmp);
     }
-})
+});

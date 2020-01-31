@@ -3,17 +3,12 @@ import PicklistChoiceSetEditor from '../picklistChoiceSetEditor';
 import { picklistChoiceSetValidation } from '../picklistChoiceSetValidation';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const setupComponentUnderTest = picklistChoiceSetObject => {
-    const element = createElement(
-        'builder_platform_interaction-picklist-choice-set-editor',
-        {
-            is: PicklistChoiceSetEditor
-        }
-    );
+    const element = createElement('builder_platform_interaction-picklist-choice-set-editor', {
+        is: PicklistChoiceSetEditor
+    });
     element.node = picklistChoiceSetObject;
     document.body.appendChild(element);
     return element;
@@ -60,9 +55,7 @@ describe('Picklist Choice Set Validation', () => {
     };
 
     const validate = node => {
-        return getErrorsFromHydratedElement(
-            picklistChoiceSetValidation.validateAll(node)
-        );
+        return getErrorsFromHydratedElement(picklistChoiceSetValidation.validateAll(node));
     };
 
     let errors;

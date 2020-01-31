@@ -19,15 +19,11 @@ jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
-jest.mock('builder_platform_interaction/fieldPicker', () =>
-    require('builder_platform_interaction_mocks/fieldPicker')
-);
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/fieldPicker', () => require('builder_platform_interaction_mocks/fieldPicker'));
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/storeLib', () => {
-    const getCurrentState = function () {
+    const getCurrentState = function() {
         return {
             properties: {
                 processType: 'flow'
@@ -35,7 +31,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
             elements: {}
         };
     };
-    const getStore = function () {
+    const getStore = function() {
         return {
             getCurrentState
         };
@@ -46,26 +42,16 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     return storeLib;
 });
 
-function createComponentForTest(
-    node,
-    mode = EditElementEvent.EVENT_NAME,
-    processType = 'Flow'
-) {
-    const el = createElement(
-        'builder_platform_interaction-record-lookup-editor',
-        { is: RecordLookupEditor }
-    );
+function createComponentForTest(node, mode = EditElementEvent.EVENT_NAME, processType = 'Flow') {
+    const el = createElement('builder_platform_interaction-record-lookup-editor', { is: RecordLookupEditor });
     Object.assign(el, { node, processType, mode });
     document.body.appendChild(el);
     return el;
 }
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/processTypeLib'
-    );
-    const FLOW_AUTOMATIC_OUTPUT_HANDLING =
-        actual.FLOW_AUTOMATIC_OUTPUT_HANDLING;
+    const actual = require.requireActual('builder_platform_interaction/processTypeLib');
+    const FLOW_AUTOMATIC_OUTPUT_HANDLING = actual.FLOW_AUTOMATIC_OUTPUT_HANDLING;
     return {
         FLOW_AUTOMATIC_OUTPUT_HANDLING,
         getProcessTypeAutomaticOutPutHandlingSupport: jest
@@ -79,13 +65,8 @@ describe('record-lookup-reducerAutomatic Mode', () => {
     const storeLib = require('builder_platform_interaction/storeLib');
     storeLib.generateGuid = jest.fn().mockReturnValue(mockGuid);
     beforeAll(() => {
-        recordLookupNode = getElementForPropertyEditor(
-            lookupRecordAutomaticOutput
-        );
-        recordLookupEditor = createComponentForTest(
-            recordLookupNode,
-            EditElementEvent.EVENT_NAME
-        );
+        recordLookupNode = getElementForPropertyEditor(lookupRecordAutomaticOutput);
+        recordLookupEditor = createComponentForTest(recordLookupNode, EditElementEvent.EVENT_NAME);
     });
     describe('handle property object changed event', () => {
         beforeEach(() => {
@@ -108,8 +89,7 @@ describe('record-lookup-reducerAutomatic Mode', () => {
                 const event = {
                     type: VariableAndFieldMappingChangedEvent.EVENT_NAME,
                     detail: {
-                        variableAndFieldMapping:
-                            VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS
+                        variableAndFieldMapping: VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS
                     }
                 };
                 newState = recordLookupReducer(recordLookupEditor.node, event);
@@ -129,22 +109,16 @@ describe('record-lookup-reducerAutomatic Mode', () => {
                     const event = {
                         type: VariableAndFieldMappingChangedEvent.EVENT_NAME,
                         detail: {
-                            variableAndFieldMapping:
-                                VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC
+                            variableAndFieldMapping: VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC
                         }
                     };
-                    stateAutoWithFieldsToAuto = recordLookupReducer(
-                        newState,
-                        event
-                    );
+                    stateAutoWithFieldsToAuto = recordLookupReducer(newState, event);
                 });
                 it('it reset the queriedFields to null', () => {
                     expect(stateAutoWithFieldsToAuto.queriedFields).toBeNull();
                 });
                 it('storeOutputAutomatically should be true', () => {
-                    expect(
-                        stateAutoWithFieldsToAuto.storeOutputAutomatically
-                    ).toBe(true);
+                    expect(stateAutoWithFieldsToAuto.storeOutputAutomatically).toBe(true);
                 });
             });
             describe('From automatic with fields to manual', () => {
@@ -159,27 +133,18 @@ describe('record-lookup-reducerAutomatic Mode', () => {
                             index: 1
                         }
                     };
-                    stateAutoWithFieldsToManual = recordLookupReducer(
-                        newState,
-                        eventUpdateField
-                    );
+                    stateAutoWithFieldsToManual = recordLookupReducer(newState, eventUpdateField);
                     // 2nd change the VariableAndFieldMapping to manual
                     const event = {
                         type: VariableAndFieldMappingChangedEvent.EVENT_NAME,
                         detail: {
-                            variableAndFieldMapping:
-                                VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL
+                            variableAndFieldMapping: VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL
                         }
                     };
-                    stateAutoWithFieldsToManual = recordLookupReducer(
-                        stateAutoWithFieldsToManual,
-                        event
-                    );
+                    stateAutoWithFieldsToManual = recordLookupReducer(stateAutoWithFieldsToManual, event);
                 });
                 it('it should not reset the queriedFields to null', () => {
-                    expect(
-                        stateAutoWithFieldsToManual.queriedFields
-                    ).toMatchObject([
+                    expect(stateAutoWithFieldsToManual.queriedFields).toMatchObject([
                         {
                             field: { error: null, value: 'Id' },
                             rowIndex: mockGuid
@@ -191,9 +156,7 @@ describe('record-lookup-reducerAutomatic Mode', () => {
                     ]);
                 });
                 it('storeOutputAutomatically should be false', () => {
-                    expect(
-                        stateAutoWithFieldsToManual.storeOutputAutomatically
-                    ).toBe(false);
+                    expect(stateAutoWithFieldsToManual.storeOutputAutomatically).toBe(false);
                 });
             });
         });
@@ -202,8 +165,7 @@ describe('record-lookup-reducerAutomatic Mode', () => {
                 const event = {
                     type: VariableAndFieldMappingChangedEvent.EVENT_NAME,
                     detail: {
-                        variableAndFieldMapping:
-                            VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL
+                        variableAndFieldMapping: VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL
                     }
                 };
                 newState = recordLookupReducer(recordLookupEditor.node, event);
@@ -229,27 +191,18 @@ describe('record-lookup-reducerAutomatic Mode', () => {
                             index: 1
                         }
                     };
-                    stateManualToAutoWithFields = recordLookupReducer(
-                        newState,
-                        eventUpdateField
-                    );
+                    stateManualToAutoWithFields = recordLookupReducer(newState, eventUpdateField);
                     // 2nd change the VariableAndFieldMapping to automatic with fields
                     const event = {
                         type: VariableAndFieldMappingChangedEvent.EVENT_NAME,
                         detail: {
-                            variableAndFieldMapping:
-                                VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS
+                            variableAndFieldMapping: VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS
                         }
                     };
-                    stateManualToAutoWithFields = recordLookupReducer(
-                        stateManualToAutoWithFields,
-                        event
-                    );
+                    stateManualToAutoWithFields = recordLookupReducer(stateManualToAutoWithFields, event);
                 });
                 it('it should not reset the queriedFields to null', () => {
-                    expect(
-                        stateManualToAutoWithFields.queriedFields
-                    ).toMatchObject([
+                    expect(stateManualToAutoWithFields.queriedFields).toMatchObject([
                         {
                             field: { error: null, value: 'Id' },
                             rowIndex: mockGuid
@@ -261,9 +214,7 @@ describe('record-lookup-reducerAutomatic Mode', () => {
                     ]);
                 });
                 it('storeOutputAutomatically should be true', () => {
-                    expect(
-                        stateManualToAutoWithFields.storeOutputAutomatically
-                    ).toBe(true);
+                    expect(stateManualToAutoWithFields.storeOutputAutomatically).toBe(true);
                 });
             });
             describe('From manual to automatic', () => {
@@ -272,8 +223,7 @@ describe('record-lookup-reducerAutomatic Mode', () => {
                     const event = {
                         type: VariableAndFieldMappingChangedEvent.EVENT_NAME,
                         detail: {
-                            variableAndFieldMapping:
-                                VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC
+                            variableAndFieldMapping: VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC
                         }
                     };
                     stateManualToAuto = recordLookupReducer(newState, event);
@@ -282,9 +232,7 @@ describe('record-lookup-reducerAutomatic Mode', () => {
                     expect(stateManualToAuto.queriedFields).toBeNull();
                 });
                 it('storeOutputAutomatically should be true', () => {
-                    expect(stateManualToAuto.storeOutputAutomatically).toBe(
-                        true
-                    );
+                    expect(stateManualToAuto.storeOutputAutomatically).toBe(true);
                 });
             });
         });

@@ -1,10 +1,4 @@
-import {
-    addItem,
-    insertItem,
-    replaceItem,
-    deleteItem,
-    shallowCopyArray
-} from '../arrayMutation';
+import { addItem, insertItem, replaceItem, deleteItem, shallowCopyArray } from '../arrayMutation';
 
 const arr = [
     {

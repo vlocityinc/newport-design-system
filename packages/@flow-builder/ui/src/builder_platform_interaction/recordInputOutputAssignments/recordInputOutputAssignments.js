@@ -6,11 +6,7 @@ import {
     DeleteRecordFieldAssignmentEvent
 } from 'builder_platform_interaction/events';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
-import {
-    getOutputRules,
-    getRulesForElementType,
-    RULE_TYPES
-} from 'builder_platform_interaction/ruleLib';
+import { getOutputRules, getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 
 export default class RecordInputOutputAssignments extends LightningElement {
     labels = LABELS;
@@ -107,18 +103,11 @@ export default class RecordInputOutputAssignments extends LightningElement {
 
         this.inputOutputAssignmentsItems.forEach(item => {
             const itemApiName = this.getLeftHandSideFieldName(item);
-            const fields =
-                this.recordFields && Object.values(this.recordFields);
+            const fields = this.recordFields && Object.values(this.recordFields);
             const entityFilteredFields = {};
             fields.forEach(field => {
                 // The field list Should not contains the already selected field
-                if (
-                    this.includeField(
-                        excludedFields,
-                        field.apiName,
-                        itemApiName
-                    )
-                ) {
+                if (this.includeField(excludedFields, field.apiName, itemApiName)) {
                     entityFilteredFields[field.apiName] = field;
                 }
             });
@@ -139,10 +128,7 @@ export default class RecordInputOutputAssignments extends LightningElement {
      * if a field has already been select then it should not be possible to select it again.
      */
     includeField(excludedFields, fieldApiName, itemApiName) {
-        return (
-            !excludedFields.includes(fieldApiName) ||
-            fieldApiName === itemApiName
-        );
+        return !excludedFields.includes(fieldApiName) || fieldApiName === itemApiName;
     }
 
     /**
@@ -175,9 +161,7 @@ export default class RecordInputOutputAssignments extends LightningElement {
      */
     handleDeleteAssignment(event) {
         event.stopPropagation();
-        const deleteRecordFieldAssignmentEvent = new DeleteRecordFieldAssignmentEvent(
-            event.detail.index
-        );
+        const deleteRecordFieldAssignmentEvent = new DeleteRecordFieldAssignmentEvent(event.detail.index);
         this.dispatchEvent(deleteRecordFieldAssignmentEvent);
     }
 }

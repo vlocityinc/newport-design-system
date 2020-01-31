@@ -37,9 +37,7 @@ import {
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 beforeAll(() => {
     Store.setMockState(flowWithAllElementsUIModel);
@@ -55,12 +53,7 @@ const getElement = (guid, name) => {
     };
 };
 
-const getElementWithConfigProp = (
-    guid,
-    isCanvasElement,
-    isSelected,
-    isHighlighted
-) => {
+const getElementWithConfigProp = (guid, isCanvasElement, isSelected, isHighlighted) => {
     return {
         guid,
         isCanvasElement,
@@ -131,9 +124,7 @@ describe('elements-reducer', () => {
 
             const originalChildElement = newState[decision1Outcome1.guid];
             const duplicateChildElement = newState[duplicateOutcomeGuid];
-            expect(duplicateChildElement.name).not.toEqual(
-                originalChildElement.name
-            );
+            expect(duplicateChildElement.name).not.toEqual(originalChildElement.name);
             expect(duplicateChildElement.guid).toEqual(duplicateOutcomeGuid);
         });
 
@@ -168,9 +159,7 @@ describe('elements-reducer', () => {
 
             const duplicateElement = newState[duplicateDecisionGuid];
             expect(duplicateElement.availableConnections).toHaveLength(1);
-            expect(duplicateElement.availableConnections[0]).toMatchObject(
-                expectedAvailableConnection
-            );
+            expect(duplicateElement.availableConnections[0]).toMatchObject(expectedAvailableConnection);
             expect(duplicateElement.connectorCount).toEqual(1);
         });
 
@@ -205,9 +194,7 @@ describe('elements-reducer', () => {
 
             const duplicateElement = newState[duplicateDecisionGuid];
             expect(duplicateElement.availableConnections).toHaveLength(1);
-            expect(duplicateElement.availableConnections[0]).toMatchObject(
-                expectedAvailableConnection
-            );
+            expect(duplicateElement.availableConnections[0]).toMatchObject(expectedAvailableConnection);
             expect(duplicateElement.connectorCount).toEqual(1);
         });
 
@@ -229,22 +216,10 @@ describe('elements-reducer', () => {
             const duplicateDecision2 = newState[duplicateDecision2Guid];
             expect(duplicateDecision1.name).not.toBeUndefined();
             expect(duplicateDecision2.name).not.toBeUndefined();
-            const elementNamesExceptDuplicateDecision1Name = [
-                decision1.name,
-                decision2.name,
-                duplicateDecision2.name
-            ];
-            const elementNamesExceptDuplicateDecision2Name = [
-                decision1.name,
-                decision2.name,
-                duplicateDecision1.name
-            ];
-            expect(elementNamesExceptDuplicateDecision1Name).not.toContain(
-                duplicateDecision1.name
-            );
-            expect(elementNamesExceptDuplicateDecision2Name).not.toContain(
-                duplicateDecision2.name
-            );
+            const elementNamesExceptDuplicateDecision1Name = [decision1.name, decision2.name, duplicateDecision2.name];
+            const elementNamesExceptDuplicateDecision2Name = [decision1.name, decision2.name, duplicateDecision1.name];
+            expect(elementNamesExceptDuplicateDecision1Name).not.toContain(duplicateDecision1.name);
+            expect(elementNamesExceptDuplicateDecision2Name).not.toContain(duplicateDecision2.name);
         });
 
         it('duplicates child element and sets unique name correctly in case of name conflict with existing element', () => {
@@ -282,12 +257,8 @@ describe('elements-reducer', () => {
                 decision2Outcome1.name,
                 duplicateOutcome1.name
             ];
-            expect(elementNamesExceptDuplicateOutcome1Name).not.toContain(
-                duplicateOutcome1.name
-            );
-            expect(elementNamesExceptDuplicateOutcome2Name).not.toContain(
-                duplicateOutcome2.name
-            );
+            expect(elementNamesExceptDuplicateOutcome1Name).not.toContain(duplicateOutcome1.name);
+            expect(elementNamesExceptDuplicateOutcome2Name).not.toContain(duplicateOutcome2.name);
         });
     });
 
@@ -681,20 +652,10 @@ describe('elements-reducer', () => {
         describe('Canvas element that has been clicked upon', () => {
             it('Clicking on a canvas element that is neither selected nor highlighted, Canvas element should get selected and should stay unhighlighted.', () => {
                 const oldElement = {
-                    selectedGUID: getElementWithConfigProp(
-                        'selectedGUID',
-                        true,
-                        false,
-                        false
-                    )
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, false, false)
                 };
                 const updatedElements = {
-                    selectedGUID: getElementWithConfigProp(
-                        'selectedGUID',
-                        true,
-                        true,
-                        false
-                    )
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, true, false)
                 };
                 const newElementState = elementReducer(oldElement, {
                     type: SELECT_ON_CANVAS,
@@ -705,20 +666,10 @@ describe('elements-reducer', () => {
 
             it('Clicking on a canvas element that is not selected but is highlighted, Canvas element should get selected and should stay highlighted.', () => {
                 const oldElement = {
-                    selectedGUID: getElementWithConfigProp(
-                        'selectedGUID',
-                        true,
-                        false,
-                        true
-                    )
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, false, true)
                 };
                 const updatedElements = {
-                    selectedGUID: getElementWithConfigProp(
-                        'selectedGUID',
-                        true,
-                        true,
-                        true
-                    )
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, true, true)
                 };
                 const newElementState = elementReducer(oldElement, {
                     type: SELECT_ON_CANVAS,
@@ -729,20 +680,10 @@ describe('elements-reducer', () => {
 
             it('Clicking on a canvas element that is selected but is not highlighted, Canvas element should stay selected and unhighlighted.', () => {
                 const oldElement = {
-                    selectedGUID: getElementWithConfigProp(
-                        'selectedGUID',
-                        true,
-                        true,
-                        false
-                    )
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, true, false)
                 };
                 const updatedElements = {
-                    selectedGUID: getElementWithConfigProp(
-                        'selectedGUID',
-                        true,
-                        true,
-                        false
-                    )
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, true, false)
                 };
                 const newElementState = elementReducer(oldElement, {
                     type: SELECT_ON_CANVAS,
@@ -753,20 +694,10 @@ describe('elements-reducer', () => {
 
             it('Clicking on a canvas element that is selected and highlighted, Canvas element should stay selected and highlighted.', () => {
                 const oldElement = {
-                    selectedGUID: getElementWithConfigProp(
-                        'selectedGUID',
-                        true,
-                        true,
-                        true
-                    )
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, true, true)
                 };
                 const updatedElements = {
-                    selectedGUID: getElementWithConfigProp(
-                        'selectedGUID',
-                        true,
-                        true,
-                        true
-                    )
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, true, true)
                 };
                 const newElementState = elementReducer(oldElement, {
                     type: SELECT_ON_CANVAS,
@@ -779,21 +710,11 @@ describe('elements-reducer', () => {
         describe('Other canvas elements that have not been clicked upon', () => {
             it('When the other canvas element is neither selected nor highlighted, the other canvas element should stay deselected and unhighlighted.', () => {
                 const oldElement = {
-                    selectedGUID: getElementWithConfigProp(
-                        'selectedGUID',
-                        true,
-                        true,
-                        true
-                    ),
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, true, true),
                     guid2: getElementWithConfigProp('guid2', true, false, false)
                 };
                 const updatedElements = {
-                    selectedGUID: getElementWithConfigProp(
-                        'selectedGUID',
-                        true,
-                        true,
-                        true
-                    ),
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, true, true),
                     guid2: getElementWithConfigProp('guid2', true, false, false)
                 };
                 const newElementState = elementReducer(oldElement, {
@@ -805,21 +726,11 @@ describe('elements-reducer', () => {
 
             it('When the other canvas element is seletced but not highlighted, the other canvas element should get deselected and stay unhighlighted.', () => {
                 const oldElement = {
-                    selectedGUID: getElementWithConfigProp(
-                        'selectedGUID',
-                        true,
-                        true,
-                        true
-                    ),
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, true, true),
                     guid2: getElementWithConfigProp('guid2', true, true, false)
                 };
                 const updatedElements = {
-                    selectedGUID: getElementWithConfigProp(
-                        'selectedGUID',
-                        true,
-                        true,
-                        true
-                    ),
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, true, true),
                     guid2: getElementWithConfigProp('guid2', true, false, false)
                 };
                 const newElementState = elementReducer(oldElement, {
@@ -831,21 +742,11 @@ describe('elements-reducer', () => {
 
             it('When the other canvas element is not selected but is highlighted, the other canvas element should get unhighlighted and stay deselected.', () => {
                 const oldElement = {
-                    selectedGUID: getElementWithConfigProp(
-                        'selectedGUID',
-                        true,
-                        true,
-                        true
-                    ),
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, true, true),
                     guid2: getElementWithConfigProp('guid2', true, false, true)
                 };
                 const updatedElements = {
-                    selectedGUID: getElementWithConfigProp(
-                        'selectedGUID',
-                        true,
-                        true,
-                        true
-                    ),
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, true, true),
                     guid2: getElementWithConfigProp('guid2', true, false, false)
                 };
                 const newElementState = elementReducer(oldElement, {
@@ -857,21 +758,11 @@ describe('elements-reducer', () => {
 
             it('When the other canvas element is both selected and highlighted, the other canvas element should get both deselected and unhighlighted.', () => {
                 const oldElement = {
-                    selectedGUID: getElementWithConfigProp(
-                        'selectedGUID',
-                        true,
-                        true,
-                        true
-                    ),
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, true, true),
                     guid2: getElementWithConfigProp('guid2', true, true, true)
                 };
                 const updatedElements = {
-                    selectedGUID: getElementWithConfigProp(
-                        'selectedGUID',
-                        true,
-                        true,
-                        true
-                    ),
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, true, true),
                     guid2: getElementWithConfigProp('guid2', true, false, false)
                 };
                 const newElementState = elementReducer(oldElement, {
@@ -896,20 +787,10 @@ describe('elements-reducer', () => {
         describe('Toggling selected canvas element', () => {
             it('When the canvas element is selected and unhighlighted, the canvas element gets deselected and stays unhighlighted.', () => {
                 const oldElement = {
-                    toggledGUID: getElementWithConfigProp(
-                        'toggledGUID',
-                        true,
-                        true,
-                        false
-                    )
+                    toggledGUID: getElementWithConfigProp('toggledGUID', true, true, false)
                 };
                 const updatedElements = {
-                    toggledGUID: getElementWithConfigProp(
-                        'toggledGUID',
-                        true,
-                        false,
-                        false
-                    )
+                    toggledGUID: getElementWithConfigProp('toggledGUID', true, false, false)
                 };
                 const newElementState = elementReducer(oldElement, {
                     type: TOGGLE_ON_CANVAS,
@@ -920,20 +801,10 @@ describe('elements-reducer', () => {
 
             it('When the canvas element is selected and highlighted, the canvas element gets deselected and stays highlighted.', () => {
                 const oldElement = {
-                    toggledGUID: getElementWithConfigProp(
-                        'toggledGUID',
-                        true,
-                        true,
-                        true
-                    )
+                    toggledGUID: getElementWithConfigProp('toggledGUID', true, true, true)
                 };
                 const updatedElements = {
-                    toggledGUID: getElementWithConfigProp(
-                        'toggledGUID',
-                        true,
-                        false,
-                        true
-                    )
+                    toggledGUID: getElementWithConfigProp('toggledGUID', true, false, true)
                 };
                 const newElementState = elementReducer(oldElement, {
                     type: TOGGLE_ON_CANVAS,
@@ -946,20 +817,10 @@ describe('elements-reducer', () => {
         describe('Toggling deselected canvas element', () => {
             it('When the canvas element is deselected and unhighlighted, the canvas element gets selected and stays unhighlighted.', () => {
                 const oldElement = {
-                    toggledGUID: getElementWithConfigProp(
-                        'toggledGUID',
-                        true,
-                        false,
-                        false
-                    )
+                    toggledGUID: getElementWithConfigProp('toggledGUID', true, false, false)
                 };
                 const updatedElements = {
-                    toggledGUID: getElementWithConfigProp(
-                        'toggledGUID',
-                        true,
-                        true,
-                        false
-                    )
+                    toggledGUID: getElementWithConfigProp('toggledGUID', true, true, false)
                 };
                 const newElementState = elementReducer(oldElement, {
                     type: TOGGLE_ON_CANVAS,
@@ -970,20 +831,10 @@ describe('elements-reducer', () => {
 
             it('When the canvas element is deselected and highlighted, The canvas element gets selected and stays highlighted.', () => {
                 const oldElement = {
-                    toggledGUID: getElementWithConfigProp(
-                        'toggledGUID',
-                        true,
-                        false,
-                        true
-                    )
+                    toggledGUID: getElementWithConfigProp('toggledGUID', true, false, true)
                 };
                 const updatedElements = {
-                    toggledGUID: getElementWithConfigProp(
-                        'toggledGUID',
-                        true,
-                        true,
-                        true
-                    )
+                    toggledGUID: getElementWithConfigProp('toggledGUID', true, true, true)
                 };
                 const newElementState = elementReducer(oldElement, {
                     type: TOGGLE_ON_CANVAS,
@@ -1006,23 +857,13 @@ describe('elements-reducer', () => {
 
         it('Clicking on the white space with multiple canvas elements, all canvas elements should get deselected and unhighlighted.', () => {
             const oldElement = {
-                deselectGUID: getElementWithConfigProp(
-                    'deselectGUID',
-                    true,
-                    false,
-                    true
-                ),
+                deselectGUID: getElementWithConfigProp('deselectGUID', true, false, true),
                 guid2: getElementWithConfigProp('guid2', true, true, false),
                 guid3: getElementWithConfigProp('guid3', true, false, false),
                 guid4: getElementWithConfigProp('guid4', true, true, true)
             };
             const updatedElements = {
-                deselectGUID: getElementWithConfigProp(
-                    'deselectGUID',
-                    true,
-                    false,
-                    false
-                ),
+                deselectGUID: getElementWithConfigProp('deselectGUID', true, false, false),
                 guid2: getElementWithConfigProp('guid2', true, false, false),
                 guid3: getElementWithConfigProp('guid3', true, false, false),
                 guid4: getElementWithConfigProp('guid4', true, false, false)
@@ -1132,20 +973,10 @@ describe('elements-reducer', () => {
         describe('Canvas element that has been searched', () => {
             it('Searching a canvas element that is neither selected nor highlighted, canvas element should stay deselected and get highlighted.', () => {
                 const oldElement = {
-                    highlightGUID: getElementWithConfigProp(
-                        'highlightGUID',
-                        true,
-                        false,
-                        false
-                    )
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, false, false)
                 };
                 const updatedElements = {
-                    highlightGUID: getElementWithConfigProp(
-                        'highlightGUID',
-                        true,
-                        false,
-                        true
-                    )
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, false, true)
                 };
                 const newElementState = elementReducer(oldElement, {
                     type: HIGHLIGHT_ON_CANVAS,
@@ -1156,20 +987,10 @@ describe('elements-reducer', () => {
 
             it('Searching a canvas element that is not selected but is highlighted, canvas element should stay deselected and highlighted.', () => {
                 const oldElement = {
-                    highlightGUID: getElementWithConfigProp(
-                        'highlightGUID',
-                        true,
-                        false,
-                        true
-                    )
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, false, true)
                 };
                 const updatedElements = {
-                    highlightGUID: getElementWithConfigProp(
-                        'highlightGUID',
-                        true,
-                        false,
-                        true
-                    )
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, false, true)
                 };
                 const newElementState = elementReducer(oldElement, {
                     type: HIGHLIGHT_ON_CANVAS,
@@ -1180,20 +1001,10 @@ describe('elements-reducer', () => {
 
             it('Searching a canvas element that is selected but is not highlighted, canvas element should stay selected and get highlighted.', () => {
                 const oldElement = {
-                    highlightGUID: getElementWithConfigProp(
-                        'highlightGUID',
-                        true,
-                        true,
-                        false
-                    )
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, true, false)
                 };
                 const updatedElements = {
-                    highlightGUID: getElementWithConfigProp(
-                        'highlightGUID',
-                        true,
-                        true,
-                        true
-                    )
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true)
                 };
                 const newElementState = elementReducer(oldElement, {
                     type: HIGHLIGHT_ON_CANVAS,
@@ -1204,20 +1015,10 @@ describe('elements-reducer', () => {
 
             it('Searching a canvas element that is selected and highlighted, canvas element should stay selected and stay highlighted.', () => {
                 const oldElement = {
-                    highlightGUID: getElementWithConfigProp(
-                        'highlightGUID',
-                        true,
-                        true,
-                        true
-                    )
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true)
                 };
                 const updatedElements = {
-                    highlightGUID: getElementWithConfigProp(
-                        'highlightGUID',
-                        true,
-                        true,
-                        true
-                    )
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true)
                 };
                 const newElementState = elementReducer(oldElement, {
                     type: HIGHLIGHT_ON_CANVAS,
@@ -1230,21 +1031,11 @@ describe('elements-reducer', () => {
         describe('Other canvas elements that have not been searched', () => {
             it('When the other canvas element is neither selected nor highlighted, the other canvas element should stay deselected and unhighlighted.', () => {
                 const oldElement = {
-                    highlightGUID: getElementWithConfigProp(
-                        'highlightGUID',
-                        true,
-                        true,
-                        true
-                    ),
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true),
                     guid2: getElementWithConfigProp('guid2', true, false, false)
                 };
                 const updatedElements = {
-                    highlightGUID: getElementWithConfigProp(
-                        'highlightGUID',
-                        true,
-                        true,
-                        true
-                    ),
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true),
                     guid2: getElementWithConfigProp('guid2', true, false, false)
                 };
                 const newElementState = elementReducer(oldElement, {
@@ -1256,21 +1047,11 @@ describe('elements-reducer', () => {
 
             it('When the other canvas element is seletced but not highlighted, The other canvas element should stay selected and stay unhighlighted.', () => {
                 const oldElement = {
-                    highlightGUID: getElementWithConfigProp(
-                        'highlightGUID',
-                        true,
-                        true,
-                        true
-                    ),
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true),
                     guid2: getElementWithConfigProp('guid2', true, true, false)
                 };
                 const updatedElements = {
-                    highlightGUID: getElementWithConfigProp(
-                        'highlightGUID',
-                        true,
-                        true,
-                        true
-                    ),
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true),
                     guid2: getElementWithConfigProp('guid2', true, true, false)
                 };
                 const newElementState = elementReducer(oldElement, {
@@ -1282,21 +1063,11 @@ describe('elements-reducer', () => {
 
             it('When the other canvas element is not selected but is highlighted, the other canvas element should stay deselected and get unhighlighted.', () => {
                 const oldElement = {
-                    highlightGUID: getElementWithConfigProp(
-                        'highlightGUID',
-                        true,
-                        true,
-                        true
-                    ),
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true),
                     guid2: getElementWithConfigProp('guid2', true, false, true)
                 };
                 const updatedElements = {
-                    highlightGUID: getElementWithConfigProp(
-                        'highlightGUID',
-                        true,
-                        true,
-                        true
-                    ),
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true),
                     guid2: getElementWithConfigProp('guid2', true, false, false)
                 };
                 const newElementState = elementReducer(oldElement, {
@@ -1308,21 +1079,11 @@ describe('elements-reducer', () => {
 
             it('When the other canvas element is both selected and highlighted, the other canvas element should stay selected and get unhighlighted.', () => {
                 const oldElement = {
-                    highlightGUID: getElementWithConfigProp(
-                        'highlightGUID',
-                        true,
-                        true,
-                        true
-                    ),
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true),
                     guid2: getElementWithConfigProp('guid2', true, true, true)
                 };
                 const updatedElements = {
-                    highlightGUID: getElementWithConfigProp(
-                        'highlightGUID',
-                        true,
-                        true,
-                        true
-                    ),
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true),
                     guid2: getElementWithConfigProp('guid2', true, true, false)
                 };
                 const newElementState = elementReducer(oldElement, {

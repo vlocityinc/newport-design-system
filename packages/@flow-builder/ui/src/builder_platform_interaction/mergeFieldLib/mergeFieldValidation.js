@@ -1,9 +1,6 @@
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    FLOW_DATA_TYPE,
-    isComplexType
-} from 'builder_platform_interaction/dataTypeLib';
+import { FLOW_DATA_TYPE, isComplexType } from 'builder_platform_interaction/dataTypeLib';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
 import {
     GLOBAL_CONSTANT_PREFIX,
@@ -12,14 +9,8 @@ import {
     getGlobalConstantOrSystemVariable
 } from 'builder_platform_interaction/systemLib';
 import { splitStringBySeparator } from 'builder_platform_interaction/commonUtils';
-import {
-    isElementAllowed,
-    getScreenElement
-} from 'builder_platform_interaction/expressionUtils';
-import {
-    elementToParam,
-    getDataType
-} from 'builder_platform_interaction/ruleLib';
+import { isElementAllowed, getScreenElement } from 'builder_platform_interaction/expressionUtils';
+import { elementToParam, getDataType } from 'builder_platform_interaction/ruleLib';
 import {
     getPropertiesForClass,
     getApexClasses,
@@ -31,11 +22,7 @@ import {
     getInvocableActionParamDescriptionAsComplexTypeFieldDescription
 } from 'builder_platform_interaction/complexTypeLib';
 import * as validationErrors from './mergeFieldValidationErrors';
-import {
-    getEntityFieldWithRelationshipName,
-    getPolymorphicRelationShipName,
-    getReferenceToName
-} from './mergeField';
+import { getEntityFieldWithRelationshipName, getPolymorphicRelationShipName, getReferenceToName } from './mergeField';
 import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { getMergedFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
 
@@ -83,13 +70,7 @@ export class MergeFieldsValidation {
         try {
             const match = MERGEFIELD_REGEX.exec(mergeField);
             if (match === null || match[0] !== mergeField) {
-                return [
-                    validationErrors.invalidMergeField(
-                        mergeField,
-                        0,
-                        mergeField.length - 1
-                    )
-                ];
+                return [validationErrors.invalidMergeField(mergeField, 0, mergeField.length - 1)];
             }
             return this._validateMergeFieldReferenceValue(match[1], 2);
         } finally {
@@ -131,15 +112,11 @@ export class MergeFieldsValidation {
     }
 
     _isSystemVariableMergeField(mergeFieldReferenceValue) {
-        return mergeFieldReferenceValue.startsWith(
-            SYSTEM_VARIABLE_PREFIX + '.'
-        );
+        return mergeFieldReferenceValue.startsWith(SYSTEM_VARIABLE_PREFIX + '.');
     }
 
     _isSystemVariableClientMergeField(mergeFieldReferenceValue) {
-        return mergeFieldReferenceValue.startsWith(
-            SYSTEM_VARIABLE_CLIENT_PREFIX + '.'
-        );
+        return mergeFieldReferenceValue.startsWith(SYSTEM_VARIABLE_CLIENT_PREFIX + '.');
     }
 
     _isSystemVariableRecordMergeField(mergeFieldReferenceValue) {
@@ -158,54 +135,33 @@ export class MergeFieldsValidation {
 
     _validateMergeFieldReferenceValue(mergeFieldReferenceValue, index) {
         if (this._isGlobalConstantMergeField(mergeFieldReferenceValue)) {
-            return this._validateGlobalConstant(
-                mergeFieldReferenceValue,
-                index
-            );
+            return this._validateGlobalConstant(mergeFieldReferenceValue, index);
         }
         if (this._isGlobalVariableMergeField(mergeFieldReferenceValue)) {
-            return this._validateGlobalVariable(
-                mergeFieldReferenceValue,
-                index
-            );
+            return this._validateGlobalVariable(mergeFieldReferenceValue, index);
         }
         if (this._isSystemVariableMergeField(mergeFieldReferenceValue)) {
-            return this._validateSystemVariable(
-                mergeFieldReferenceValue,
-                index
-            );
+            return this._validateSystemVariable(mergeFieldReferenceValue, index);
         }
         if (this._isSystemVariableClientMergeField(mergeFieldReferenceValue)) {
-            return this._validateSystemVariable(
-                mergeFieldReferenceValue,
-                index
-            );
+            return this._validateSystemVariable(mergeFieldReferenceValue, index);
         }
         if (mergeFieldReferenceValue.indexOf('.') !== -1) {
-            return this._validateComplexTypeFieldMergeField(
-                mergeFieldReferenceValue,
-                index
-            );
+            return this._validateComplexTypeFieldMergeField(mergeFieldReferenceValue, index);
         }
         return this._validateElementMergeField(mergeFieldReferenceValue, index);
     }
 
     _validateGlobalConstant(mergeFieldReferenceValue, index) {
         const endIndex = index + mergeFieldReferenceValue.length - 1;
-        const globalConstant = getGlobalConstantOrSystemVariable(
-            mergeFieldReferenceValue
-        );
+        const globalConstant = getGlobalConstantOrSystemVariable(mergeFieldReferenceValue);
         if (!this.allowGlobalConstants) {
-            return [
-                validationErrors.globalConstantsNotAllowed(index, endIndex)
-            ];
+            return [validationErrors.globalConstantsNotAllowed(index, endIndex)];
         }
         if (!globalConstant) {
             return [
                 validationErrors.invalidGlobalConstant(
-                    MERGE_FIELD_START_CHARS +
-                        mergeFieldReferenceValue +
-                        MERGE_FIELD_END_CHARS,
+                    MERGE_FIELD_START_CHARS + mergeFieldReferenceValue + MERGE_FIELD_END_CHARS,
                     index,
                     endIndex
                 )
@@ -219,15 +175,11 @@ export class MergeFieldsValidation {
 
     _validateSystemVariable(mergeFieldReferenceValue, index) {
         const endIndex = index + mergeFieldReferenceValue.length - 1;
-        const systemVariable = getGlobalConstantOrSystemVariable(
-            mergeFieldReferenceValue
-        );
+        const systemVariable = getGlobalConstantOrSystemVariable(mergeFieldReferenceValue);
         if (!systemVariable) {
             return [
                 validationErrors.invalidGlobalVariable(
-                    MERGE_FIELD_START_CHARS +
-                        mergeFieldReferenceValue +
-                        MERGE_FIELD_END_CHARS,
+                    MERGE_FIELD_START_CHARS + mergeFieldReferenceValue + MERGE_FIELD_END_CHARS,
                     index,
                     endIndex
                 )
@@ -248,10 +200,7 @@ export class MergeFieldsValidation {
         if (!this.allowedParamTypes) {
             return true;
         }
-        return isElementAllowed(
-            this.allowedParamTypes,
-            elementToParam(element)
-        );
+        return isElementAllowed(this.allowedParamTypes, elementToParam(element));
     }
 
     _validateElementMergeField(mergeFieldReferenceValue, index) {
@@ -260,17 +209,10 @@ export class MergeFieldsValidation {
         // if element is not present in store get element from screen variable as it may have been
         // just created and not yet committed to store (user hasn't pressed 'Done' yet)
         const element =
-            getElementByDevName(mergeFieldReferenceValue) ||
-            this._getUncommittedElement(mergeFieldReferenceValue);
+            getElementByDevName(mergeFieldReferenceValue) || this._getUncommittedElement(mergeFieldReferenceValue);
 
         if (!element) {
-            return [
-                validationErrors.unknownResource(
-                    mergeFieldReferenceValue,
-                    index,
-                    endIndex
-                )
-            ];
+            return [validationErrors.unknownResource(mergeFieldReferenceValue, index, endIndex)];
         }
 
         if (this.allowedParamTypes) {
@@ -279,17 +221,8 @@ export class MergeFieldsValidation {
             }
         } else {
             const elementType = this._getElementType(element);
-            if (
-                elementType.dataType === null ||
-                (!this.allowCollectionVariables && elementType.isCollection)
-            ) {
-                return [
-                    validationErrors.resourceCannotBeUsedAsMergeField(
-                        mergeFieldReferenceValue,
-                        index,
-                        endIndex
-                    )
-                ];
+            if (elementType.dataType === null || (!this.allowCollectionVariables && elementType.isCollection)) {
+                return [validationErrors.resourceCannotBeUsedAsMergeField(mergeFieldReferenceValue, index, endIndex)];
             }
         }
         return [];
@@ -328,41 +261,20 @@ export class MergeFieldsValidation {
             };
         }
         const properties = getPropertiesForClass(apexClassName);
-        const property =
-            properties && getApexPropertyWithName(properties, fieldName);
+        const property = properties && getApexPropertyWithName(properties, fieldName);
         if (!property) {
             return {
-                error: validationErrors.unknownRecordField(
-                    apexClassName,
-                    fieldName,
-                    index,
-                    endIndex
-                )
+                error: validationErrors.unknownRecordField(apexClassName, fieldName, index, endIndex)
             };
         }
         if (remainingFieldNames.length > 0) {
             if (property.dataType === FLOW_DATA_TYPE.APEX.value) {
-                return this._validateApexMergeField(
-                    property.subtype,
-                    remainingFieldNames,
-                    index,
-                    endIndex
-                );
+                return this._validateApexMergeField(property.subtype, remainingFieldNames, index, endIndex);
             } else if (property.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
-                return this._validateSObjectMergeField(
-                    property.subtype,
-                    remainingFieldNames,
-                    index,
-                    endIndex
-                );
+                return this._validateSObjectMergeField(property.subtype, remainingFieldNames, index, endIndex);
             }
             return {
-                error: validationErrors.unknownRecordField(
-                    apexClassName,
-                    fieldName,
-                    index,
-                    endIndex
-                )
+                error: validationErrors.unknownRecordField(apexClassName, fieldName, index, endIndex)
             };
         }
         return { field: property };
@@ -379,28 +291,14 @@ export class MergeFieldsValidation {
             };
         }
         if (remainingFieldNames.length > 0) {
-            const {
-                relationshipName,
-                specificEntityName
-            } = getPolymorphicRelationShipName(fieldName);
-            field = getEntityFieldWithRelationshipName(
-                fields,
-                relationshipName
-            );
+            const { relationshipName, specificEntityName } = getPolymorphicRelationShipName(fieldName);
+            field = getEntityFieldWithRelationshipName(fields, relationshipName);
             if (!field) {
                 return {
-                    error: validationErrors.unknownRecordField(
-                        entityName,
-                        relationshipName,
-                        index,
-                        endIndex
-                    )
+                    error: validationErrors.unknownRecordField(entityName, relationshipName, index, endIndex)
                 };
             }
-            const referenceToName = getReferenceToName(
-                field,
-                specificEntityName
-            );
+            const referenceToName = getReferenceToName(field, specificEntityName);
             if (!referenceToName) {
                 return {
                     error: validationErrors.invalidPolymorphicRecordFieldReference(
@@ -411,22 +309,12 @@ export class MergeFieldsValidation {
                     )
                 };
             }
-            return this._validateSObjectMergeField(
-                referenceToName,
-                remainingFieldNames,
-                index,
-                endIndex
-            );
+            return this._validateSObjectMergeField(referenceToName, remainingFieldNames, index, endIndex);
         }
         field = sobjectLib.getEntityFieldWithApiName(fields, fieldName);
         if (!field) {
             return {
-                error: validationErrors.unknownRecordField(
-                    entityName,
-                    fieldName,
-                    index,
-                    endIndex
-                )
+                error: validationErrors.unknownRecordField(entityName, fieldName, index, endIndex)
             };
         }
         return { field };
@@ -442,59 +330,28 @@ export class MergeFieldsValidation {
         endIndex
     ) {
         if (dataType === FLOW_DATA_TYPE.APEX.value) {
-            return this._validateApexMergeField(
-                subtype,
-                fieldNames,
-                index,
-                endIndex
-            );
+            return this._validateApexMergeField(subtype, fieldNames, index, endIndex);
         } else if (dataType === FLOW_DATA_TYPE.SOBJECT.value) {
-            return this._validateSObjectMergeField(
-                subtype,
-                fieldNames,
-                index,
-                endIndex
-            );
+            return this._validateSObjectMergeField(subtype, fieldNames, index, endIndex);
         }
         return {
-            error: validationErrors.unknownRecordField(
-                currentObjectName,
-                currentFieldName,
-                index,
-                endIndex
-            )
+            error: validationErrors.unknownRecordField(currentObjectName, currentFieldName, index, endIndex)
         };
     }
 
-    _validateLightningComponentOutputMergeField(
-        element,
-        fieldNames,
-        index,
-        endIndex
-    ) {
+    _validateLightningComponentOutputMergeField(element, fieldNames, index, endIndex) {
         const [fieldName, ...remainingFieldNames] = fieldNames;
-        const extension = getCachedExtension(
-            element.extensionName,
-            element.dynamicTypeMappings
-        );
+        const extension = getCachedExtension(element.extensionName, element.dynamicTypeMappings);
         if (!extension) {
             // this lib is synchronous, we check the field only if already cached.
             return {
                 field: undefined // we don't know if it is valid or not
             };
         }
-        const parameter = this._getOutputParameterForExtension(
-            extension,
-            fieldName
-        );
+        const parameter = this._getOutputParameterForExtension(extension, fieldName);
         if (!parameter) {
             return {
-                error: validationErrors.unknownRecordField(
-                    element.extensionName,
-                    fieldName,
-                    index,
-                    endIndex
-                )
+                error: validationErrors.unknownRecordField(element.extensionName, fieldName, index, endIndex)
             };
         }
         if (remainingFieldNames.length > 0) {
@@ -520,18 +377,10 @@ export class MergeFieldsValidation {
                 field: undefined // we don't know if it is valid or not
             };
         }
-        const outputVariable = this._getSubflowOutputVariable(
-            outputVariables,
-            fieldName
-        );
+        const outputVariable = this._getSubflowOutputVariable(outputVariables, fieldName);
         if (!outputVariable) {
             return {
-                error: validationErrors.unknownRecordField(
-                    element.flowName,
-                    fieldName,
-                    index,
-                    endIndex
-                )
+                error: validationErrors.unknownRecordField(element.flowName, fieldName, index, endIndex)
             };
         }
         if (remainingFieldNames.length > 0) {
@@ -561,12 +410,7 @@ export class MergeFieldsValidation {
         const objectName = `${element.actionType}-${element.actionName}`;
         if (!parameter) {
             return {
-                error: validationErrors.unknownRecordField(
-                    objectName,
-                    fieldName,
-                    index,
-                    endIndex
-                )
+                error: validationErrors.unknownRecordField(objectName, fieldName, index, endIndex)
             };
         }
         if (remainingFieldNames.length > 0) {
@@ -591,48 +435,28 @@ export class MergeFieldsValidation {
             return [validationErrors.mergeFieldNotAllowed(index, endIndex)];
         }
         if (fieldNames.length >= MAXIMUM_NUMBER_OF_LEVELS) {
-            return [
-                validationErrors.maximumNumberOfLevelsReached(index, endIndex)
-            ];
+            return [validationErrors.maximumNumberOfLevelsReached(index, endIndex)];
         }
-        const element =
-            getElementByDevName(elementName) ||
-            this._getUncommittedElement(elementName);
+        const element = getElementByDevName(elementName) || this._getUncommittedElement(elementName);
 
         if (!element) {
-            return [
-                validationErrors.unknownResource(elementName, index, endIndex)
-            ];
+            return [validationErrors.unknownResource(elementName, index, endIndex)];
         }
         if (!element.dataType) {
             return [
                 validationErrors.invalidMergeField(
-                    MERGE_FIELD_START_CHARS +
-                        mergeFieldReferenceValue +
-                        MERGE_FIELD_END_CHARS,
+                    MERGE_FIELD_START_CHARS + mergeFieldReferenceValue + MERGE_FIELD_END_CHARS,
                     index,
                     endIndex
                 )
             ];
         }
-        if (
-            !isComplexType(element.dataType) ||
-            (!this.allowCollectionVariables && element.isCollection)
-        ) {
-            return [
-                validationErrors.resourceCannotBeUsedAsMergeField(
-                    mergeFieldReferenceValue,
-                    index,
-                    endIndex
-                )
-            ];
+        if (!isComplexType(element.dataType) || (!this.allowCollectionVariables && element.isCollection)) {
+            return [validationErrors.resourceCannotBeUsedAsMergeField(mergeFieldReferenceValue, index, endIndex)];
         }
         let field;
         if (element.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
-            const {
-                field: sobjectField,
-                error
-            } = this._validateSObjectMergeField(
+            const { field: sobjectField, error } = this._validateSObjectMergeField(
                 element.subtype,
                 fieldNames,
                 index,
@@ -653,13 +477,8 @@ export class MergeFieldsValidation {
                 return [error];
             }
             field = apexField;
-        } else if (
-            element.dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
-        ) {
-            const {
-                field: lightningComponentField,
-                error
-            } = this._validateLightningComponentOutputMergeField(
+        } else if (element.dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value) {
+            const { field: lightningComponentField, error } = this._validateLightningComponentOutputMergeField(
                 element,
                 fieldNames,
                 index,
@@ -670,10 +489,7 @@ export class MergeFieldsValidation {
             }
             field = lightningComponentField;
         } else if (element.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
-            const {
-                field: actionField,
-                error
-            } = this._validateActionOutputMergeField(
+            const { field: actionField, error } = this._validateActionOutputMergeField(
                 element,
                 fieldNames,
                 index,
@@ -684,10 +500,7 @@ export class MergeFieldsValidation {
             }
             field = actionField;
         } else if (element.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value) {
-            const {
-                field: subflowField,
-                error
-            } = this._validateSubflowOutputMergeField(
+            const { field: subflowField, error } = this._validateSubflowOutputMergeField(
                 element,
                 fieldNames,
                 index,
@@ -706,37 +519,21 @@ export class MergeFieldsValidation {
 
     _getOutputParameterForExtension(extension, parameterName) {
         parameterName = parameterName.toLowerCase();
-        const outputParam = extension.outputParameters.find(
-            param => parameterName === param.apiName.toLowerCase()
-        );
-        return (
-            outputParam &&
-            getExtensionParamDescriptionAsComplexTypeFieldDescription(
-                outputParam
-            )
-        );
+        const outputParam = extension.outputParameters.find(param => parameterName === param.apiName.toLowerCase());
+        return outputParam && getExtensionParamDescriptionAsComplexTypeFieldDescription(outputParam);
     }
 
     _getActionOutputParameter(parameters, parameterName) {
         parameterName = parameterName.toLowerCase();
         const outputParam = parameters.find(
-            param =>
-                param.isOutput === true &&
-                parameterName === param.name.toLowerCase()
+            param => param.isOutput === true && parameterName === param.name.toLowerCase()
         );
-        return (
-            outputParam &&
-            getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
-                outputParam
-            )
-        );
+        return outputParam && getInvocableActionParamDescriptionAsComplexTypeFieldDescription(outputParam);
     }
 
     _getSubflowOutputVariable(outputVariables, variableName) {
         variableName = variableName.toLowerCase();
-        return outputVariables.find(
-            variable => variableName === variable.name.toLowerCase()
-        );
+        return outputVariables.find(variable => variableName === variable.name.toLowerCase());
     }
 }
 
@@ -760,12 +557,7 @@ export function validateTextWithMergeFields(
     let match;
     try {
         while ((match = MERGEFIELD_REGEX.exec(textWithMergeFields)) !== null) {
-            results.push(
-                validation._validateMergeFieldReferenceValue(
-                    match[1],
-                    match.index + 2
-                )
-            );
+            results.push(validation._validateMergeFieldReferenceValue(match[1], match.index + 2));
         }
         return [].concat.apply([], results);
     } finally {

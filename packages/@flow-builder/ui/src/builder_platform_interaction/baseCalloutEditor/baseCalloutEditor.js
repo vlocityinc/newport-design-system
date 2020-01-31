@@ -82,9 +82,7 @@ export default class BaseCalloutEditor extends LightningElement {
     @api displaySpinner;
 
     get warnings() {
-        return this.parameterListConfig.warnings
-            ? this.parameterListConfig.warnings
-            : {};
+        return this.parameterListConfig.warnings ? this.parameterListConfig.warnings : {};
     }
 
     /**
@@ -112,9 +110,7 @@ export default class BaseCalloutEditor extends LightningElement {
     }
 
     get systemModeText() {
-        return this.runinmode
-            ? format(this.labels.runInMode, this.runinmode.value)
-            : '';
+        return this.runinmode ? format(this.labels.runInMode, this.runinmode.value) : '';
     }
 
     get learnMoreText() {
@@ -133,9 +129,7 @@ export default class BaseCalloutEditor extends LightningElement {
     @api
     validate() {
         if (this.configurationEditor) {
-            const parameterList = this.template.querySelector(
-                'builder_platform_interaction-parameter-list'
-            );
+            const parameterList = this.template.querySelector('builder_platform_interaction-parameter-list');
             if (parameterList) {
                 return parameterList.validate();
             }
@@ -151,15 +145,11 @@ export default class BaseCalloutEditor extends LightningElement {
     hideParameters = false;
 
     handleDataTypeMappingChange(event) {
-        const dataTypeMapping = this.state.typeMappings.find(
-            ({ rowIndex }) => rowIndex === event.target.rowIndex
-        );
+        const dataTypeMapping = this.state.typeMappings.find(({ rowIndex }) => rowIndex === event.target.rowIndex);
         this.dispatchEvent(
             new DynamicTypeMappingChangeEvent({
                 typeName: getValueFromHydratedItem(dataTypeMapping.typeName),
-                typeValue: event.detail.item
-                    ? getValueFromHydratedItem(event.detail.item.value)
-                    : '',
+                typeValue: event.detail.item ? getValueFromHydratedItem(event.detail.item.value) : '',
                 rowIndex: event.target.rowIndex,
                 error: event.detail.error
             })

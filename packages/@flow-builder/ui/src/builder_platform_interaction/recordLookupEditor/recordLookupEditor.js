@@ -1,10 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import { recordLookupReducer } from './recordLookupReducer';
-import {
-    ENTITY_TYPE,
-    fetchFieldsForEntity,
-    getEntity
-} from 'builder_platform_interaction/sobjectLib';
+import { ENTITY_TYPE, fetchFieldsForEntity, getEntity } from 'builder_platform_interaction/sobjectLib';
 import {
     LABELS,
     NUMBER_RECORDS_OPTIONS,
@@ -14,10 +10,7 @@ import {
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import {
-    AddElementEvent,
-    PropertyChangedEvent
-} from 'builder_platform_interaction/events';
+import { AddElementEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import {
     NUMBER_RECORDS_TO_STORE,
@@ -44,8 +37,7 @@ export default class RecordLookupEditor extends LightningElement {
         fields: {}
     };
 
-    processTypeAutomaticOutPutHandlingSupport =
-        FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
+    processTypeAutomaticOutPutHandlingSupport = FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
 
     processTypeValue = '';
 
@@ -88,9 +80,7 @@ export default class RecordLookupEditor extends LightningElement {
 
     set processType(newValue) {
         this.processTypeValue = newValue;
-        this.processTypeAutomaticOutPutHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(
-            newValue
-        );
+        this.processTypeAutomaticOutPutHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(newValue);
     }
 
     /**
@@ -103,21 +93,13 @@ export default class RecordLookupEditor extends LightningElement {
 
     set mode(newValue) {
         this._mode = newValue;
-        if (
-            this.isInAddElementMode &&
-            this.isAutomaticOutputHandlingSupported
-        ) {
+        if (this.isInAddElementMode && this.isAutomaticOutputHandlingSupported) {
             // initiate the component can't be done in the factory because the processType features are not yet retrieved.
-            this.state.recordLookupElement = Object.assign(
-                {},
-                this.state.recordLookupElement,
-                {
-                    variableAndFieldMapping:
-                        VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC,
-                    storeOutputAutomatically: true,
-                    queriedFields: null
-                }
-            );
+            this.state.recordLookupElement = Object.assign({}, this.state.recordLookupElement, {
+                variableAndFieldMapping: VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC,
+                storeOutputAutomatically: true,
+                queriedFields: null
+            });
         } else if (
             // If the element has none of those properties, it means that the user saved the flow from a processType that supports the automatic output handling
             // to a process type that does not support automatic output handling. outputReference is undefined but it should be empty to validate it.
@@ -126,29 +108,20 @@ export default class RecordLookupEditor extends LightningElement {
             !this.hasOutputReference &&
             !this.hasOutputAssignmentValue
         ) {
-            this.state.recordLookupElement = Object.assign(
-                {},
-                this.state.recordLookupElement,
-                {
-                    wayToStoreFields: WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE,
-                    storeOutputAutomatically: false,
-                    outputReference: { value: '' }
-                }
-            );
+            this.state.recordLookupElement = Object.assign({}, this.state.recordLookupElement, {
+                wayToStoreFields: WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE,
+                storeOutputAutomatically: false,
+                outputReference: { value: '' }
+            });
         } else {
-            this.state.recordLookupElement = Object.assign(
-                {},
-                this.state.recordLookupElement,
-                { wayToStoreFields: this.initialWayToStoreFields }
-            );
+            this.state.recordLookupElement = Object.assign({}, this.state.recordLookupElement, {
+                wayToStoreFields: this.initialWayToStoreFields
+            });
         }
     }
 
     get initialWayToStoreFields() {
-        if (
-            this.variableAndFieldMappingValue ===
-            VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL
-        ) {
+        if (this.variableAndFieldMappingValue === VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL) {
             return this.hasOutputReference
                 ? WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE
                 : WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES;
@@ -170,10 +143,7 @@ export default class RecordLookupEditor extends LightningElement {
      * @returns {Object[]} list of errors
      */
     @api validate() {
-        this.state.recordLookupElement = recordLookupReducer(
-            this.state.recordLookupElement,
-            { type: VALIDATE_ALL }
-        );
+        this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, { type: VALIDATE_ALL });
         return getErrorsFromHydratedElement(this.state.recordLookupElement);
     }
 
@@ -241,8 +211,7 @@ export default class RecordLookupEditor extends LightningElement {
      */
     get outputReferenceValue() {
         return (
-            (this.state.recordLookupElement.outputReference &&
-                this.state.recordLookupElement.outputReference.value) ||
+            (this.state.recordLookupElement.outputReference && this.state.recordLookupElement.outputReference.value) ||
             ''
         );
     }
@@ -263,8 +232,7 @@ export default class RecordLookupEditor extends LightningElement {
      */
     get outputReferenceErrorMessage() {
         return (
-            (this.state.recordLookupElement.outputReference &&
-                this.state.recordLookupElement.outputReference.error) ||
+            (this.state.recordLookupElement.outputReference && this.state.recordLookupElement.outputReference.error) ||
             ''
         );
     }
@@ -296,9 +264,7 @@ export default class RecordLookupEditor extends LightningElement {
      * @returns {boolean} true if record lookup element in sobject mode false otherwise
      */
     get isSObjectMode() {
-        return (
-            this.wayToStoreFieldsValue === WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE
-        );
+        return this.wayToStoreFieldsValue === WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE;
     }
 
     /**
@@ -316,30 +282,21 @@ export default class RecordLookupEditor extends LightningElement {
      * @returns {string} dynamic output assignment title (based on current entity label)
      */
     get assignmentTitle() {
-        return format(
-            this.labels.lookupAssignmentTitleFormat,
-            this.resourceDisplayText
-        );
+        return format(this.labels.lookupAssignmentTitleFormat, this.resourceDisplayText);
     }
 
     /**
      * @return {Boolean} true : if the user chooses to select the fields manually and assigns variable
      */
     get isManualMode() {
-        return (
-            this.variableAndFieldMappingValue ===
-            VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL
-        );
+        return this.variableAndFieldMappingValue === VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL;
     }
 
     /**
      * @return {Boolean} true : if the user chooses to select the fields manually
      */
     get isAutomaticAdvancedMode() {
-        return (
-            this.variableAndFieldMappingValue ===
-            VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS
-        );
+        return this.variableAndFieldMappingValue === VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS;
     }
 
     /**
@@ -353,10 +310,7 @@ export default class RecordLookupEditor extends LightningElement {
      * @return {Boolean} true : the process type supports the automatic output handling
      */
     get isAutomaticOutputHandlingSupported() {
-        return (
-            this.processTypeAutomaticOutPutHandlingSupport ===
-            FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
-        );
+        return this.processTypeAutomaticOutPutHandlingSupport === FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED;
     }
 
     get assignNullValuesIfNoRecordsFound() {
@@ -400,10 +354,7 @@ export default class RecordLookupEditor extends LightningElement {
      */
     handlePropertyOrListItemChanged(event) {
         event.stopPropagation();
-        this.state.recordLookupElement = recordLookupReducer(
-            this.state.recordLookupElement,
-            event
-        );
+        this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, event);
     }
 
     /**
@@ -429,13 +380,7 @@ export default class RecordLookupEditor extends LightningElement {
         const oldRecordEntityName = this.recordEntityName;
         const newRecordEntityName = (item && item.value) || '';
         if (newRecordEntityName !== oldRecordEntityName) {
-            this.updateProperty(
-                'object',
-                newRecordEntityName,
-                error,
-                false,
-                oldRecordEntityName
-            );
+            this.updateProperty('object', newRecordEntityName, error, false, oldRecordEntityName);
             this.recordEntityName = newRecordEntityName;
         }
     }
@@ -445,10 +390,7 @@ export default class RecordLookupEditor extends LightningElement {
      */
     handleRecordStoreOptionsChanged(event) {
         event.stopPropagation();
-        this.state.recordLookupElement = recordLookupReducer(
-            this.state.recordLookupElement,
-            event
-        );
+        this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, event);
     }
 
     /**
@@ -472,13 +414,7 @@ export default class RecordLookupEditor extends LightningElement {
     handleFilterTypeChanged(event) {
         event.stopPropagation();
         const { filterType, error } = event.detail;
-        this.updateProperty(
-            'filterType',
-            filterType,
-            error,
-            true,
-            this.state.recordLookupElement.filterType
-        );
+        this.updateProperty('filterType', filterType, error, true, this.state.recordLookupElement.filterType);
     }
 
     /**
@@ -487,10 +423,7 @@ export default class RecordLookupEditor extends LightningElement {
      */
     handleRecordInputOutputAssignmentsChanged(event) {
         event.stopPropagation();
-        this.state.recordLookupElement = recordLookupReducer(
-            this.state.recordLookupElement,
-            event
-        );
+        this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, event);
     }
 
     /**
@@ -499,33 +432,20 @@ export default class RecordLookupEditor extends LightningElement {
      */
     handleNumberRecordsToStoreChange(event) {
         event.stopPropagation();
-        this.state.recordLookupElement = recordLookupReducer(
-            this.state.recordLookupElement,
-            event
-        );
+        this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, event);
     }
 
     handleWayToStoreFieldsChange(event) {
         event.stopPropagation();
         const wayToStoreFields = event.detail.value;
         if (this.wayToStoreFieldsValue !== wayToStoreFields) {
-            this.updateProperty(
-                'wayToStoreFields',
-                wayToStoreFields,
-                null,
-                true
-            );
+            this.updateProperty('wayToStoreFields', wayToStoreFields, null, true);
         }
     }
 
     handleAssignNullValuesIfNoRecordsFoundChange(event) {
         event.stopPropagation();
-        this.updateProperty(
-            'assignNullValuesIfNoRecordsFound',
-            event.detail.checked,
-            null,
-            true
-        );
+        this.updateProperty('assignNullValuesIfNoRecordsFound', event.detail.checked, null, true);
     }
 
     /**
@@ -534,10 +454,7 @@ export default class RecordLookupEditor extends LightningElement {
      */
     handleVariableAndFieldMappingChange(event) {
         event.stopPropagation();
-        this.state.recordLookupElement = recordLookupReducer(
-            this.state.recordLookupElement,
-            event
-        );
+        this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, event);
     }
 
     /**
@@ -549,17 +466,8 @@ export default class RecordLookupEditor extends LightningElement {
      * @param {Object|string|boolean} oldValue - property's previous value
      */
     updateProperty(propertyName, newValue, error, ignoreValidate, oldValue) {
-        const propChangedEvent = new PropertyChangedEvent(
-            propertyName,
-            newValue,
-            error,
-            null,
-            oldValue
-        );
+        const propChangedEvent = new PropertyChangedEvent(propertyName, newValue, error, null, oldValue);
         propChangedEvent.detail.ignoreValidate = ignoreValidate;
-        this.state.recordLookupElement = recordLookupReducer(
-            this.state.recordLookupElement,
-            propChangedEvent
-        );
+        this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, propChangedEvent);
     }
 }

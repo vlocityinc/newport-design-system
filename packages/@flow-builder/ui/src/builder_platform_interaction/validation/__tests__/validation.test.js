@@ -1,26 +1,19 @@
 import { Validation } from 'builder_platform_interaction/validation';
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
-const TRAILING_UNDERSCORE_ERROR =
-    ValidationRules.LABELS.shouldNotBeginOrEndWithUnderscores;
+const TRAILING_UNDERSCORE_ERROR = ValidationRules.LABELS.shouldNotBeginOrEndWithUnderscores;
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 describe('Default Validations', () => {
     const validation = new Validation();
 
     describe('when props set to LABEL', () => {
         it('and when valid string is passed should return - null', () => {
-            expect(
-                validation.validateProperty('label', 'valid string')
-            ).toBeNull();
+            expect(validation.validateProperty('label', 'valid string')).toBeNull();
         });
 
         it('and when a empty string is passed should return the error message - {string} Cannot be blank.', () => {
-            expect(validation.validateProperty('label', '')).toBe(
-                ValidationRules.LABELS.cannotBeBlank
-            );
+            expect(validation.validateProperty('label', '')).toBe(ValidationRules.LABELS.cannotBeBlank);
         });
 
         it('and when string length more than 255 characters should return - {string} Cannot accept more than 255 characters.', () => {
@@ -35,43 +28,29 @@ describe('Default Validations', () => {
 
     describe('when props set to NAME', () => {
         it('and when valid string is passed should return - null', () => {
-            expect(
-                validation.validateProperty('name', 'valid_devName')
-            ).toBeNull();
+            expect(validation.validateProperty('name', 'valid_devName')).toBeNull();
         });
 
         it('and when a empty string is passed should return the error message - {string} Cannot be blank.', () => {
-            expect(validation.validateProperty('name', '')).toBe(
-                ValidationRules.LABELS.cannotBeBlank
-            );
+            expect(validation.validateProperty('name', '')).toBe(ValidationRules.LABELS.cannotBeBlank);
         });
 
         it('and when a string has trailing underscores at the end should return the error message- {string} Should not have trailing empty spaces at the beginning or ending.', () => {
-            expect(validation.validateProperty('name', 'valid_string_')).toBe(
-                TRAILING_UNDERSCORE_ERROR
-            );
+            expect(validation.validateProperty('name', 'valid_string_')).toBe(TRAILING_UNDERSCORE_ERROR);
         });
 
         it('and when a string has trailing underscores at the beginning should return the error message - {string} Should not have trailing underscores to begin with (or) end with (or) should not have consecutive underscores.', () => {
-            expect(validation.validateProperty('name', '_valid_string')).toBe(
-                TRAILING_UNDERSCORE_ERROR
-            );
+            expect(validation.validateProperty('name', '_valid_string')).toBe(TRAILING_UNDERSCORE_ERROR);
         });
 
         it('and when string has special or numeric characters at start, should return the error meessage - {string} no starting with numeric or special characters', () => {
             expect(validation.validateProperty('name', '#$$%@adsf')).toBe(
-                ValidationRules.LABELS
-                    .shouldNotBeginWithNumericOrSpecialCharacters
+                ValidationRules.LABELS.shouldNotBeginWithNumericOrSpecialCharacters
             );
         });
 
         it('and when invalid string is passed should return - {string} Cannot accept any Special Characters.', () => {
-            expect(
-                validation.validateProperty(
-                    'name',
-                    'Special Characters $#$@&^%!$()'
-                )
-            ).toBe(
+            expect(validation.validateProperty('name', 'Special Characters $#$@&^%!$()')).toBe(
                 ValidationRules.LABELS.shouldAcceptOnlyAlphanumericCharacters
             );
         });
@@ -117,28 +96,18 @@ describe('validateDevNameUniquenessLocally method', () => {
         }
     ];
     it('returns null if the dev name is unique locally i.e. within the guidToDevNameList passed', () => {
-        const result = validation.validateDevNameUniquenessLocally(
-            mockGuidToNameList,
-            'testDevName',
-            'testGuid'
-        );
+        const result = validation.validateDevNameUniquenessLocally(mockGuidToNameList, 'testDevName', 'testGuid');
         expect(result).toBeNull();
     });
     it('returns an error if the dev name is not unique locally', () => {
-        const result = validation.validateDevNameUniquenessLocally(
-            mockGuidToNameList,
-            'childDevName1',
-            'testGuid'
-        );
+        const result = validation.validateDevNameUniquenessLocally(mockGuidToNameList, 'childDevName1', 'testGuid');
         expect(result).toBe(ValidationRules.LABELS.fieldNotUnique);
     });
 });
 describe('getMergedRules method', () => {
     const validation = new Validation();
     it('returns the existing/default rules if no additional rules are specified', () => {
-        expect(validation.getMergedRules({ name: ['rule1', 'rule2'] })).toEqual(
-            { name: ['rule1', 'rule2'] }
-        );
+        expect(validation.getMergedRules({ name: ['rule1', 'rule2'] })).toEqual({ name: ['rule1', 'rule2'] });
     });
     it('returns the appended set of rules (and inner subkeys) for the same key', () => {
         const ruleSet1 = {
@@ -163,9 +132,7 @@ describe('getMergedRules method', () => {
                 rightHandSide: ['rhsRule1']
             }
         };
-        expect(validation.getMergedRules(ruleSet1, ruleSet2)).toEqual(
-            expectedRuleSet
-        );
+        expect(validation.getMergedRules(ruleSet1, ruleSet2)).toEqual(expectedRuleSet);
     });
     it('returns the appended keys in rules object if there are different keys in exisitng and additional rules', () => {});
 });
@@ -332,11 +299,7 @@ describe('validateAll method', () => {
                 }
             ]
         };
-        const validationClassWithAdditionalRules = new Validation(
-            additionalRules
-        );
-        expect(validationClassWithAdditionalRules.validateAll(testObj)).toEqual(
-            expectedObjectAfterValidateAll
-        );
+        const validationClassWithAdditionalRules = new Validation(additionalRules);
+        expect(validationClassWithAdditionalRules.validateAll(testObj)).toEqual(expectedObjectAfterValidateAll);
     });
 });

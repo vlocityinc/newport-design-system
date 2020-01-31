@@ -1,8 +1,4 @@
-import {
-    filterAndMutateMenuData,
-    filterFieldsForChosenElement,
-    getChildrenItemsPromise
-} from './menuDataRetrieval';
+import { filterAndMutateMenuData, filterFieldsForChosenElement, getChildrenItemsPromise } from './menuDataRetrieval';
 import { getStoreElements } from './storeElementsFilter';
 
 /**
@@ -36,9 +32,7 @@ const getFieldMenuData = (
         allowSObjectFields
     };
     if (entityFields) {
-        return Promise.resolve(
-            filterFieldsForChosenElement(parentItem, entityFields, options)
-        );
+        return Promise.resolve(filterFieldsForChosenElement(parentItem, entityFields, options));
     }
     return getChildrenItemsPromise(parentItem).then(fields =>
         filterFieldsForChosenElement(parentItem, fields, options)
@@ -114,11 +108,8 @@ export const getMenuData = (
         return getFieldMenuData(populateParamTypesFn, parentItem, fields, {
             allowSObjectFields,
             allowSObjectFieldsTraversal,
-            shouldBeWritable: !!(
-                elementConfig && elementConfig.shouldBeWritable
-            ),
-            sObjectSelectorConfig:
-                elementConfig && elementConfig.sObjectSelectorConfig
+            shouldBeWritable: !!(elementConfig && elementConfig.shouldBeWritable),
+            sObjectSelectorConfig: elementConfig && elementConfig.sObjectSelectorConfig
         });
     }
     return Promise.resolve(

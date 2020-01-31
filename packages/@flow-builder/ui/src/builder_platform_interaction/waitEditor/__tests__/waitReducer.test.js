@@ -11,17 +11,12 @@ import {
 } from 'builder_platform_interaction/events';
 import { createCondition } from 'builder_platform_interaction/elementFactory';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
-import {
-    FLOW_DATA_TYPE,
-    FEROV_DATA_TYPE
-} from 'builder_platform_interaction/dataTypeLib';
+import { FLOW_DATA_TYPE, FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { checkExpressionForDeletedElem } from 'builder_platform_interaction/expressionUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
@@ -163,28 +158,16 @@ describe('wait-reducer', () => {
         expect(resultObj.label.error).toBe('errorForThisProperty');
     });
     it('adds a condition', () => {
-        const addConditionEvent = new AddConditionEvent(
-            absoluteBaseTimeTypeWaitEventGUID
-        );
-        expect(
-            initState.waitEvents[absoluteBaseTimeTypeWaitEventIndex].conditions
-        ).toHaveLength(1);
+        const addConditionEvent = new AddConditionEvent(absoluteBaseTimeTypeWaitEventGUID);
+        expect(initState.waitEvents[absoluteBaseTimeTypeWaitEventIndex].conditions).toHaveLength(1);
         const resultObj = waitReducer(initState, addConditionEvent);
-        expect(
-            resultObj.waitEvents[absoluteBaseTimeTypeWaitEventIndex].conditions
-        ).toHaveLength(2);
+        expect(resultObj.waitEvents[absoluteBaseTimeTypeWaitEventIndex].conditions).toHaveLength(2);
     });
     it('hydrates a new condition', () => {
-        const addConditionEvent = new AddConditionEvent(
-            absoluteBaseTimeTypeWaitEventGUID
-        );
-        expect(
-            initState.waitEvents[absoluteBaseTimeTypeWaitEventIndex].conditions
-        ).toHaveLength(1);
+        const addConditionEvent = new AddConditionEvent(absoluteBaseTimeTypeWaitEventGUID);
+        expect(initState.waitEvents[absoluteBaseTimeTypeWaitEventIndex].conditions).toHaveLength(1);
         const resultObj = waitReducer(initState, addConditionEvent);
-        const newCondition =
-            resultObj.waitEvents[absoluteBaseTimeTypeWaitEventIndex]
-                .conditions[1];
+        const newCondition = resultObj.waitEvents[absoluteBaseTimeTypeWaitEventIndex].conditions[1];
         expect(newCondition).toHaveProperty('operator.value');
         expect(newCondition).toHaveProperty('operator.error');
     });
@@ -197,12 +180,8 @@ describe('wait-reducer', () => {
             { operator }
         );
         const resultObj = waitReducer(initState, updateConditionEvent);
-        expect(
-            resultObj.waitEvents[absoluteBaseTimeTypeWaitEventIndex].conditions
-        ).toHaveLength(1);
-        const resultCondition =
-            resultObj.waitEvents[absoluteBaseTimeTypeWaitEventIndex]
-                .conditions[0];
+        expect(resultObj.waitEvents[absoluteBaseTimeTypeWaitEventIndex].conditions).toHaveLength(1);
+        const resultCondition = resultObj.waitEvents[absoluteBaseTimeTypeWaitEventIndex].conditions[0];
         expect(resultCondition).toEqual(currCondition);
         expect(checkExpressionForDeletedElem).toHaveBeenCalledTimes(1);
     });
@@ -212,9 +191,7 @@ describe('wait-reducer', () => {
             absoluteBaseTimeTypeWaitEventIndex
         );
         const resultObj = waitReducer(initState, deleteConditionEvent);
-        expect(
-            resultObj.waitEvents[absoluteBaseTimeTypeWaitEventIndex].conditions
-        ).toHaveLength(0);
+        expect(resultObj.waitEvents[absoluteBaseTimeTypeWaitEventIndex].conditions).toHaveLength(0);
     });
     describe('inputParameter', () => {
         it('updates absolute basetime inputParameter', () => {
@@ -231,20 +208,14 @@ describe('wait-reducer', () => {
                 true
             );
             const resultObj = waitReducer(initState, waitEventParameterChanged);
-            const inputParameters =
-                resultObj.waitEvents[absoluteBaseTimeTypeWaitEventIndex]
-                    .inputParameters;
+            const inputParameters = resultObj.waitEvents[absoluteBaseTimeTypeWaitEventIndex].inputParameters;
             expect(Object.keys(inputParameters)).toHaveLength(1);
-            expect(inputParameters[0].name.value).toEqual(
-                absoluteBaseTime.value
-            );
+            expect(inputParameters[0].name.value).toEqual(absoluteBaseTime.value);
             expect(inputParameters[0].value).toEqual({
                 value: newValue.value,
                 error: nullError
             });
-            expect(inputParameters[0].valueDataType.value).toEqual(
-                stringDataType.value
-            );
+            expect(inputParameters[0].valueDataType.value).toEqual(stringDataType.value);
         });
 
         it('updates directRecordRecordId aka EntityObjectId inputParameter when a new value is provided', () => {
@@ -261,9 +232,7 @@ describe('wait-reducer', () => {
                 true
             );
             const resultObj = waitReducer(initState, waitEventParameterChanged);
-            const inputParameters =
-                resultObj.waitEvents[directRecordTimeTypeWaitEventIndex]
-                    .inputParameters;
+            const inputParameters = resultObj.waitEvents[directRecordTimeTypeWaitEventIndex].inputParameters;
             const recordIdIndex = inputParameters.findIndex(param => {
                 return param.name.value === directRecordRecordId.value;
             });
@@ -271,9 +240,7 @@ describe('wait-reducer', () => {
                 value: newValue.value,
                 error: nullError
             });
-            expect(inputParameters[recordIdIndex].valueDataType.value).toEqual(
-                stringDataType.value
-            );
+            expect(inputParameters[recordIdIndex].valueDataType.value).toEqual(stringDataType.value);
         });
 
         it('updates directRecordSalesforceObject aka TimeTableColumnEnumOrId inputParameter when a new value is provided', () => {
@@ -290,9 +257,7 @@ describe('wait-reducer', () => {
                 true
             );
             const resultObj = waitReducer(initState, waitEventParameterChanged);
-            const inputParameters =
-                resultObj.waitEvents[directRecordTimeTypeWaitEventIndex]
-                    .inputParameters;
+            const inputParameters = resultObj.waitEvents[directRecordTimeTypeWaitEventIndex].inputParameters;
             const salesforceObjectIndex = inputParameters.findIndex(param => {
                 return param.name.value === directRecordSalesforceObject.value;
             });
@@ -300,9 +265,7 @@ describe('wait-reducer', () => {
                 value: newValue.value,
                 error: nullError
             });
-            expect(
-                inputParameters[salesforceObjectIndex].valueDataType.value
-            ).toEqual(stringDataType.value);
+            expect(inputParameters[salesforceObjectIndex].valueDataType.value).toEqual(stringDataType.value);
         });
 
         it('updates directRecordBaseTime aka TimeFieldColumnEnumOrId inputParameter when a new value is provided', () => {
@@ -320,21 +283,15 @@ describe('wait-reducer', () => {
                 true
             );
             const resultObj = waitReducer(initState, waitEventParameterChanged);
-            const inputParameters =
-                resultObj.waitEvents[directRecordTimeTypeWaitEventIndex]
-                    .inputParameters;
-            const directRecordBaseTimeIndex = inputParameters.findIndex(
-                param => {
-                    return param.name.value === directRecordBaseTime.value;
-                }
-            );
+            const inputParameters = resultObj.waitEvents[directRecordTimeTypeWaitEventIndex].inputParameters;
+            const directRecordBaseTimeIndex = inputParameters.findIndex(param => {
+                return param.name.value === directRecordBaseTime.value;
+            });
             expect(inputParameters[directRecordBaseTimeIndex].value).toEqual({
                 value: newValue.value,
                 error: nullError
             });
-            expect(
-                inputParameters[directRecordBaseTimeIndex].valueDataType.value
-            ).toEqual(stringDataType.value);
+            expect(inputParameters[directRecordBaseTimeIndex].valueDataType.value).toEqual(stringDataType.value);
         });
 
         it('updates inputParameter if a new name is provided', () => {
@@ -370,9 +327,7 @@ describe('wait-reducer', () => {
                 value: newValue.value,
                 error
             });
-            expect(inputParameters[0].valueDataType.value).toEqual(
-                newValueDataType.value
-            );
+            expect(inputParameters[0].valueDataType.value).toEqual(newValueDataType.value);
         });
 
         it('updates inputParameter when index is null but name is found', () => {
@@ -399,27 +354,20 @@ describe('wait-reducer', () => {
             );
 
             const resultObj = waitReducer(initState, waitEventParameterChanged);
-            const inputParameters =
-                resultObj.waitEvents[actualExpectedIndex].inputParameters;
+            const inputParameters = resultObj.waitEvents[actualExpectedIndex].inputParameters;
 
-            expect(inputParameters[0].name.value).toEqual(
-                absoluteBaseTime.value
-            );
+            expect(inputParameters[0].name.value).toEqual(absoluteBaseTime.value);
             expect(inputParameters[0].value).toEqual({
                 value: newValue.value,
                 error
             });
-            expect(inputParameters[0].valueDataType.value).toEqual(
-                newValueDataType.value
-            );
+            expect(inputParameters[0].valueDataType.value).toEqual(newValueDataType.value);
         });
     });
 
     describe('Delete Wait event', () => {
         it('with a valid guid deletes the outcome', () => {
-            const deleteWaitEventEvent = new DeleteWaitEventEvent(
-                initState.waitEvents[0].guid
-            );
+            const deleteWaitEventEvent = new DeleteWaitEventEvent(initState.waitEvents[0].guid);
 
             const newState = waitReducer(initState, deleteWaitEventEvent);
 
@@ -428,9 +376,7 @@ describe('wait-reducer', () => {
         });
 
         it('with an invalid guid does nothing', () => {
-            const deleteWaitEventEvent = new DeleteWaitEventEvent(
-                'this.guid.does.not.exist'
-            );
+            const deleteWaitEventEvent = new DeleteWaitEventEvent('this.guid.does.not.exist');
 
             const newState = waitReducer(initState, deleteWaitEventEvent);
 
@@ -439,17 +385,11 @@ describe('wait-reducer', () => {
 
         describe('used by another element', () => {
             it('invoke the UsedBy alert modal', () => {
-                const deleteWaitEventEvent = new DeleteWaitEventEvent(
-                    initState.waitEvents[0].guid
-                );
+                const deleteWaitEventEvent = new DeleteWaitEventEvent(initState.waitEvents[0].guid);
 
-                const usedByLib = require.requireActual(
-                    'builder_platform_interaction/usedByLib'
-                );
+                const usedByLib = require.requireActual('builder_platform_interaction/usedByLib');
                 // An element is found which uses the outcome
-                usedByLib.usedByStoreAndElementState = jest
-                    .fn()
-                    .mockReturnValue([{ guid: 'someElement' }]);
+                usedByLib.usedByStoreAndElementState = jest.fn().mockReturnValue([{ guid: 'someElement' }]);
                 usedByLib.invokeUsedByAlertModal = jest.fn();
 
                 const newState = waitReducer(initState, deleteWaitEventEvent);
@@ -469,13 +409,9 @@ describe('wait-reducer', () => {
                 null,
                 absoluteBaseTimeTypeWaitEventGUID
             );
-            expect(initState.waitEvents[0].conditionLogic.value).toEqual(
-                CONDITION_LOGIC.AND
-            );
+            expect(initState.waitEvents[0].conditionLogic.value).toEqual(CONDITION_LOGIC.AND);
             const resultObj = waitReducer(initState, propertyChangedEvent);
-            expect(resultObj.waitEvents[0].conditionLogic.value).toEqual(
-                newConditionLogic
-            );
+            expect(resultObj.waitEvents[0].conditionLogic.value).toEqual(newConditionLogic);
         });
 
         it('other logic to no condition', () => {
@@ -486,19 +422,14 @@ describe('wait-reducer', () => {
                 null,
                 absoluteBaseTimeTypeWaitEventGUID
             );
-            expect(initState.waitEvents[0].conditionLogic.value).toEqual(
-                CONDITION_LOGIC.AND
-            );
+            expect(initState.waitEvents[0].conditionLogic.value).toEqual(CONDITION_LOGIC.AND);
             const resultObj = waitReducer(initState, propertyChangedEvent);
-            expect(resultObj.waitEvents[0].conditionLogic.value).toEqual(
-                newConditionLogic
-            );
+            expect(resultObj.waitEvents[0].conditionLogic.value).toEqual(newConditionLogic);
             expect(resultObj.waitEvents[0].conditions).toHaveLength(0);
         });
 
         it('no condition to other logic adds a condition', () => {
-            initState.waitEvents[0].conditionLogic.value =
-                CONDITION_LOGIC.NO_CONDITION;
+            initState.waitEvents[0].conditionLogic.value = CONDITION_LOGIC.NO_CONDITION;
             initState.waitEvents[0].conditions = [];
             const newConditionLogic = CONDITION_LOGIC.OR;
             const propertyChangedEvent = new WaitEventPropertyChangedEvent(
@@ -507,13 +438,9 @@ describe('wait-reducer', () => {
                 null,
                 absoluteBaseTimeTypeWaitEventGUID
             );
-            expect(initState.waitEvents[0].conditionLogic.value).toEqual(
-                CONDITION_LOGIC.NO_CONDITION
-            );
+            expect(initState.waitEvents[0].conditionLogic.value).toEqual(CONDITION_LOGIC.NO_CONDITION);
             const resultObj = waitReducer(initState, propertyChangedEvent);
-            expect(resultObj.waitEvents[0].conditionLogic.value).toEqual(
-                newConditionLogic
-            );
+            expect(resultObj.waitEvents[0].conditionLogic.value).toEqual(newConditionLogic);
             expect(resultObj.waitEvents[0].conditions).toHaveLength(1);
         });
     });

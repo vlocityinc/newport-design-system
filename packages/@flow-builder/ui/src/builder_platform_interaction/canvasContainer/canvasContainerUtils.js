@@ -1,14 +1,7 @@
 import { canvasSelector } from 'builder_platform_interaction/selectors';
-import {
-    selectOnCanvas,
-    toggleOnCanvas,
-    addConnector
-} from 'builder_platform_interaction/actions';
+import { selectOnCanvas, toggleOnCanvas, addConnector } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    invokePropertyEditor,
-    PROPERTY_EDITOR
-} from 'builder_platform_interaction/builderUtils';
+import { invokePropertyEditor, PROPERTY_EDITOR } from 'builder_platform_interaction/builderUtils';
 import {
     sortConnectorPickerComboboxOptions,
     getLabelAndValueForConnectorPickerOptions,
@@ -80,20 +73,12 @@ export const getConnectorsFromStore = currentStoreState => {
  * @param {Object} payload contains element which get selected by the user
  * @param {Boolean} isMultiSelection whether operation was multiselection or not
  */
-export const updateStoreOnSelection = (
-    storeInstance,
-    payload,
-    isMultiSelection = false
-) => {
+export const updateStoreOnSelection = (storeInstance, payload, isMultiSelection = false) => {
     if (!storeInstance) {
-        throw new Error(
-            'Store instance is not defined while selecting an element in canvas'
-        );
+        throw new Error('Store instance is not defined while selecting an element in canvas');
     }
     if (!payload) {
-        throw new Error(
-            'Payload is not defined while selecting an element in canvas'
-        );
+        throw new Error('Payload is not defined while selecting an element in canvas');
     }
     if (isMultiSelection) {
         storeInstance.dispatch(toggleOnCanvas(payload));
@@ -109,10 +94,7 @@ export const updateStoreOnSelection = (
  * @returns true if element is start element and has no available connections
  */
 export const shouldCreateStartConnection = (storeInstance, sourceGuid) => {
-    const { availableConnections, elementType } = getElement(
-        storeInstance,
-        sourceGuid
-    );
+    const { availableConnections, elementType } = getElement(storeInstance, sourceGuid);
     if (!availableConnections && elementType === ELEMENT_TYPE.START_ELEMENT) {
         return true;
     }
@@ -136,14 +118,8 @@ export const hasOneAvailableConnection = (storeInstance, sourceGuid) => {
  * @param {String} sourceGuid Guid of the source element
  * @returns true if element has more than one available connections and element type is decision, loop and wait.
  */
-export const shouldOpenConnectorSelectionModal = (
-    storeInstance,
-    sourceGuid
-) => {
-    const { availableConnections, elementType } = getElement(
-        storeInstance,
-        sourceGuid
-    );
+export const shouldOpenConnectorSelectionModal = (storeInstance, sourceGuid) => {
+    const { availableConnections, elementType } = getElement(storeInstance, sourceGuid);
     if (
         availableConnections &&
         availableConnections.length > 1 &&
@@ -164,21 +140,12 @@ export const shouldOpenConnectorSelectionModal = (
  * @param {String} targetGuid - Contains the target guid
  * @return {Function} - Creates the connector object based on the selected or remaining availableConnection value
  */
-export const addConnection = (
-    storeInstance,
-    sourceGuid,
-    targetGuid
-) => valueFromCombobox => {
+export const addConnection = (storeInstance, sourceGuid, targetGuid) => valueFromCombobox => {
     if (!storeInstance) {
         throw new Error('Store instance is not defined');
     }
     const elements = storeInstance.getCurrentState().elements;
-    const connectorObject = createNewConnector(
-        elements,
-        sourceGuid,
-        targetGuid,
-        valueFromCombobox
-    );
+    const connectorObject = createNewConnector(elements, sourceGuid, targetGuid, valueFromCombobox);
     storeInstance.dispatch(addConnector(connectorObject));
 };
 
@@ -189,11 +156,7 @@ export const addConnection = (
  * @param {String} targetGuid Guid of the target element
  * @return {object} detail of source and target elements.
  */
-export const getSourceAndTargetElement = (
-    storeInstance,
-    sourceGuid,
-    targetGuid
-) => {
+export const getSourceAndTargetElement = (storeInstance, sourceGuid, targetGuid) => {
     const sourceElement = getElement(storeInstance, sourceGuid);
     const targetElement = getElement(storeInstance, targetGuid);
     return {
@@ -208,18 +171,12 @@ export const getSourceAndTargetElement = (
  * @param {String} sourceGuid Guid of the source element
  * @param {String} targetGuid Guid of the target element
  */
-export const createConnectorWhenOneConnectionAvailable = (
-    storeInstance,
-    sourceGuid,
-    targetGuid
-) => {
+export const createConnectorWhenOneConnectionAvailable = (storeInstance, sourceGuid, targetGuid) => {
     const { availableConnections } = getElement(storeInstance, sourceGuid);
     if (availableConnections && availableConnections.length === 1) {
         const { childReference, type } = availableConnections[0];
         const remainingConnectionValue = childReference || type;
-        addConnection(storeInstance, sourceGuid, targetGuid)(
-            remainingConnectionValue
-        );
+        addConnection(storeInstance, sourceGuid, targetGuid)(remainingConnectionValue);
     }
 };
 
@@ -230,56 +187,34 @@ export const createConnectorWhenOneConnectionAvailable = (
  * @param {String} targetGuid Guid of the target element
  * @param {String} mode Mode for invoking property editor
  */
-export const openConnectorSelectionModal = (
-    storeInstance,
-    sourceGuid,
-    targetGuid,
-    mode
-) => {
+export const openConnectorSelectionModal = (storeInstance, sourceGuid, targetGuid, mode) => {
     if (!storeInstance) {
         throw new Error('Store instance is not defined');
     }
     const elements = storeInstance.getCurrentState().elements;
-    const { sourceElement, targetElement } = getSourceAndTargetElement(
-        storeInstance,
-        sourceGuid,
-        targetGuid
-    );
+    const { sourceElement, targetElement } = getSourceAndTargetElement(storeInstance, sourceGuid, targetGuid);
     if (sourceElement && targetElement) {
         const targetElementLabel = targetElement.label;
         const sourceElementType = sourceElement.elementType;
         const { availableConnections } = sourceElement;
         if (availableConnections && availableConnections.length > 0) {
-            let comboboxOptions = availableConnections.reduce(
-                (acc, availableConnection) => {
-                    const { type, childReference } = availableConnection;
-                    const {
-                        label,
-                        value
-                    } = getLabelAndValueForConnectorPickerOptions(
-                        elements,
-                        sourceElement,
-                        childReference,
-                        type
-                    );
-                    acc.push({
-                        label,
-                        value
-                    });
-                    return acc;
-                },
-                []
-            );
+            let comboboxOptions = availableConnections.reduce((acc, availableConnection) => {
+                const { type, childReference } = availableConnection;
+                const { label, value } = getLabelAndValueForConnectorPickerOptions(
+                    elements,
+                    sourceElement,
+                    childReference,
+                    type
+                );
+                acc.push({
+                    label,
+                    value
+                });
+                return acc;
+            }, []);
             // Sorting the options in the right order
-            comboboxOptions = sortConnectorPickerComboboxOptions(
-                sourceElement,
-                comboboxOptions
-            );
-            const nodeUpdate = addConnection(
-                storeInstance,
-                sourceGuid,
-                targetGuid
-            );
+            comboboxOptions = sortConnectorPickerComboboxOptions(sourceElement, comboboxOptions);
+            const nodeUpdate = addConnection(storeInstance, sourceGuid, targetGuid);
             invokePropertyEditor(PROPERTY_EDITOR, {
                 mode,
                 nodeUpdate,
@@ -304,27 +239,16 @@ export const calculateDeletedNodeIdsAndCleanUpDrawingLibInstance = (
     canvasTemplate
 ) => {
     if (!existingCanvasElements) {
-        throw new Error(
-            'existingCanvasElements is not defined. It must be defined.'
-        );
+        throw new Error('existingCanvasElements is not defined. It must be defined.');
     }
 
     if (!updatedCanvasElements) {
-        throw new Error(
-            'updatedCanvasElements is not defined. It must be defined.'
-        );
+        throw new Error('updatedCanvasElements is not defined. It must be defined.');
     }
 
-    if (
-        existingCanvasElements.length !== 0 &&
-        updatedCanvasElements.length < existingCanvasElements.length
-    ) {
-        const existingCanvasElementGuids = existingCanvasElements.map(
-            node => node.guid
-        );
-        const updatedCanvasElementGuids = updatedCanvasElements.map(
-            node => node.guid
-        );
+    if (existingCanvasElements.length !== 0 && updatedCanvasElements.length < existingCanvasElements.length) {
+        const existingCanvasElementGuids = existingCanvasElements.map(node => node.guid);
+        const updatedCanvasElementGuids = updatedCanvasElements.map(node => node.guid);
         const canvasElementGuidsToBeDeleted = existingCanvasElementGuids.filter(
             guid => !updatedCanvasElementGuids.includes(guid)
         );
@@ -352,26 +276,16 @@ export const calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance = (
     canvasTemplate
 ) => {
     if (!existingConnectors) {
-        throw new Error(
-            'existingConnectors is not defined. It must be defined.'
-        );
+        throw new Error('existingConnectors is not defined. It must be defined.');
     }
 
     if (!updatedConnectors) {
-        throw new Error(
-            'updatedConnectors is not defined. It must be defined.'
-        );
+        throw new Error('updatedConnectors is not defined. It must be defined.');
     }
 
-    const existingConnectorGuids = existingConnectors.map(
-        connector => connector.guid
-    );
-    const updatedConnectorGuids = updatedConnectors.map(
-        connector => connector.guid
-    );
-    const connectorGuidsToBeDeleted = existingConnectorGuids.filter(
-        guid => !updatedConnectorGuids.includes(guid)
-    );
+    const existingConnectorGuids = existingConnectors.map(connector => connector.guid);
+    const updatedConnectorGuids = updatedConnectors.map(connector => connector.guid);
+    const connectorGuidsToBeDeleted = existingConnectorGuids.filter(guid => !updatedConnectorGuids.includes(guid));
     connectorGuidsToBeDeleted.forEach(connectorGuid => {
         // remove jsPlumbConnector instance from drawingLib
         const connectorToBeDeleted =

@@ -6,8 +6,7 @@ import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLi
  * Validate the assignment item.
  * @return {function} the function to be called with each filter item to return the array of rules.
  */
-const validateAssignments = () =>
-    ValidationRules.validateExpressionWith2Properties();
+const validateAssignments = () => ValidationRules.validateExpressionWith2Properties();
 
 /**
  * Validate the inputReference item.
@@ -33,40 +32,23 @@ export const recordCreateValidation = new Validation();
  * @return {Object} the overridden rules
  */
 export const getRules = (
-    {
-        getFirstRecordOnly,
-        object,
-        objectIndex,
-        inputAssignments,
-        inputReferenceIndex,
-        assignRecordIdToReferenceIndex
-    },
+    { getFirstRecordOnly, object, objectIndex, inputAssignments, inputReferenceIndex, assignRecordIdToReferenceIndex },
     wayToStoreFields
 ) => {
-    const overriddenRules = Object.assign(
-        {},
-        recordCreateValidation.finalizedRules
-    );
+    const overriddenRules = Object.assign({}, recordCreateValidation.finalizedRules);
     // case where a sObject has been selected
-    if (
-        getFirstRecordOnly &&
-        wayToStoreFields === WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES
-    ) {
+    if (getFirstRecordOnly && wayToStoreFields === WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES) {
         overriddenRules.object = validateInputReference(objectIndex);
         if (object.value !== '' && !object.error) {
             if (inputAssignments.length > 1) {
                 overriddenRules.inputAssignments = validateAssignments();
             }
             overriddenRules.assignRecordIdToReference = [
-                ValidationRules.validateResourcePicker(
-                    assignRecordIdToReferenceIndex
-                )
+                ValidationRules.validateResourcePicker(assignRecordIdToReferenceIndex)
             ];
         }
     } else {
-        overriddenRules.inputReference = validateInputReference(
-            inputReferenceIndex
-        );
+        overriddenRules.inputReference = validateInputReference(inputReferenceIndex);
     }
 
     return overriddenRules;

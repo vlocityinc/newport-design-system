@@ -1,8 +1,5 @@
 import { resolveReferenceFromIdentifier } from './mergeFieldLib';
-import {
-    recursiveSwap,
-    getSwapValueFunction
-} from 'builder_platform_interaction/translatorLib';
+import { recursiveSwap, getSwapValueFunction } from 'builder_platform_interaction/translatorLib';
 
 /**
  * Resolve all references present in given object (generally a flowElement in UI model format)

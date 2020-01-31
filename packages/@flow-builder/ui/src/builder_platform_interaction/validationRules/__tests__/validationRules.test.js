@@ -4,18 +4,13 @@ import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntit
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { LABELS } from '../validationRulesLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
-import {
-    isValidMetadataDateTime,
-    getFormat
-} from 'builder_platform_interaction/dateTimeUtils';
+import { isValidMetadataDateTime, getFormat } from 'builder_platform_interaction/dateTimeUtils';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { validatePicker } from 'builder_platform_interaction/expressionValidator';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/expressionValidator', () =>
     require('builder_platform_interaction_mocks/expressionValidator')
 );
@@ -46,9 +41,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
                 data: mockAccountFields
             });
         }),
-        SERVER_ACTION_TYPE: require.requireActual(
-            '../../serverDataLib/serverDataLib.js'
-        ).SERVER_ACTION_TYPE
+        SERVER_ACTION_TYPE: require.requireActual('../../serverDataLib/serverDataLib.js').SERVER_ACTION_TYPE
     };
 });
 
@@ -76,24 +69,16 @@ describe('shouldNotBeBlank method', () => {
 });
 describe('shouldNotBeginOrEndWithUnderscores method', () => {
     it('should return null when valid string ( with single underscore in between ) is passed.', () => {
-        expect(
-            rules.shouldNotBeginOrEndWithUnderscores('test_value')
-        ).toBeNull();
+        expect(rules.shouldNotBeginOrEndWithUnderscores('test_value')).toBeNull();
     });
     it('should return an error message when invalid string ( starts with underscore ) is passed.', () => {
-        expect(rules.shouldNotBeginOrEndWithUnderscores('_test_value')).toBe(
-            LABELS.shouldNotBeginOrEndWithUnderscores
-        );
+        expect(rules.shouldNotBeginOrEndWithUnderscores('_test_value')).toBe(LABELS.shouldNotBeginOrEndWithUnderscores);
     });
     it('should return an error message when invalid string ( ends with underscore ) is passed.', () => {
-        expect(rules.shouldNotBeginOrEndWithUnderscores('test_value_')).toBe(
-            LABELS.shouldNotBeginOrEndWithUnderscores
-        );
+        expect(rules.shouldNotBeginOrEndWithUnderscores('test_value_')).toBe(LABELS.shouldNotBeginOrEndWithUnderscores);
     });
     it('should return an error message when invalid string ( consecutive underscores in the middle ) is passed.', () => {
-        expect(rules.shouldNotBeginOrEndWithUnderscores('test__value')).toBe(
-            LABELS.shouldNotBeginOrEndWithUnderscores
-        );
+        expect(rules.shouldNotBeginOrEndWithUnderscores('test__value')).toBe(LABELS.shouldNotBeginOrEndWithUnderscores);
     });
     it('should return an error message when invalid string ( starts with consecutive underscores ) is passed.', () => {
         expect(rules.shouldNotBeginOrEndWithUnderscores('__test_value')).toBe(
@@ -108,9 +93,7 @@ describe('shouldNotBeginOrEndWithUnderscores method', () => {
 });
 describe('shouldNotBeginWithNumericOrSpecialCharacters method', () => {
     it('should return null when valid string ( does not begin with numeric or special characters) is passed.', () => {
-        expect(
-            rules.shouldNotBeginWithNumericOrSpecialCharacters('s123#')
-        ).toBeNull();
+        expect(rules.shouldNotBeginWithNumericOrSpecialCharacters('s123#')).toBeNull();
     });
     it('should return an error message when invalid string ( begins with numeric characters) is passed.', () => {
         expect(rules.shouldNotBeginWithNumericOrSpecialCharacters('123s')).toBe(
@@ -118,16 +101,14 @@ describe('shouldNotBeginWithNumericOrSpecialCharacters method', () => {
         );
     });
     it('should return an error message when invalid string ( begins with special characters) is passed. ', () => {
-        expect(
-            rules.shouldNotBeginWithNumericOrSpecialCharacters('#123s')
-        ).toBe(LABELS.shouldNotBeginWithNumericOrSpecialCharacters);
+        expect(rules.shouldNotBeginWithNumericOrSpecialCharacters('#123s')).toBe(
+            LABELS.shouldNotBeginWithNumericOrSpecialCharacters
+        );
     });
 });
 describe('shouldAcceptOnlyAlphanumericCharacters method', () => {
     it('should return null when valid string ( contains only alphanumeric characters ) is passed.', () => {
-        expect(
-            rules.shouldAcceptOnlyAlphanumericCharacters('AlphanumericOnly1234')
-        ).toBeNull();
+        expect(rules.shouldAcceptOnlyAlphanumericCharacters('AlphanumericOnly1234')).toBeNull();
     });
     it('should return null when valid string ( contains underscores ) is passed.', () => {
         expect(rules.shouldAcceptOnlyAlphanumericCharacters('_')).toBeNull();
@@ -154,15 +135,9 @@ describe('shouldBeAPositiveIntegerOrZero method', () => {
         expect(rules.shouldBeAPositiveIntegerOrZero('0')).toBeNull();
     });
     it('should return an error when the input contains a negative integer, a float or NaN', () => {
-        expect(rules.shouldBeAPositiveIntegerOrZero('-1')).toBe(
-            LABELS.shouldBeAPositiveIntegerOrZero
-        );
-        expect(rules.shouldBeAPositiveIntegerOrZero('1.01')).toBe(
-            LABELS.shouldBeAPositiveIntegerOrZero
-        );
-        expect(rules.shouldBeAPositiveIntegerOrZero('1AF')).toBe(
-            LABELS.shouldBeAPositiveIntegerOrZero
-        );
+        expect(rules.shouldBeAPositiveIntegerOrZero('-1')).toBe(LABELS.shouldBeAPositiveIntegerOrZero);
+        expect(rules.shouldBeAPositiveIntegerOrZero('1.01')).toBe(LABELS.shouldBeAPositiveIntegerOrZero);
+        expect(rules.shouldBeAPositiveIntegerOrZero('1AF')).toBe(LABELS.shouldBeAPositiveIntegerOrZero);
     });
 });
 
@@ -174,10 +149,7 @@ describe('shouldBeADate method', () => {
     it('calls isValidMetadataDateTime', () => {
         const date = new Date();
         rules.shouldBeADate(date.toISOString());
-        expect(isValidMetadataDateTime).toHaveBeenCalledWith(
-            date.toISOString(),
-            false
-        );
+        expect(isValidMetadataDateTime).toHaveBeenCalledWith(date.toISOString(), false);
     });
     it('should return null when the input contains a valid date string', () => {
         isValidMetadataDateTime.mockReturnValueOnce(true);
@@ -190,10 +162,7 @@ describe('shouldBeADate method', () => {
         expect(rules.shouldBeADate('')).toBeNull();
     });
     it('should return an error when the input contains non-alphanumeric characters', () => {
-        const expectedErrorMessage = format(
-            LABELS.dateErrorMessage,
-            getFormat()
-        );
+        const expectedErrorMessage = format(LABELS.dateErrorMessage, getFormat());
         isValidMetadataDateTime.mockReturnValueOnce(false);
         isValidMetadataDateTime.mockReturnValueOnce(false);
         expect(rules.shouldBeADate('aaa')).toBe(expectedErrorMessage);
@@ -209,10 +178,7 @@ describe('shouldBeADateTime method', () => {
     it('calls isValidMetadataDateTime', () => {
         const date = new Date();
         rules.shouldBeADateTime(date.toISOString());
-        expect(isValidMetadataDateTime).toHaveBeenCalledWith(
-            date.toISOString(),
-            true
-        );
+        expect(isValidMetadataDateTime).toHaveBeenCalledWith(date.toISOString(), true);
     });
     it('should return null when the input contains a valid date time string', () => {
         isValidMetadataDateTime.mockReturnValueOnce(true);
@@ -225,10 +191,7 @@ describe('shouldBeADateTime method', () => {
         expect(rules.shouldBeADateTime('')).toBeNull();
     });
     it('should return an error when the input contains non-alphanumeric characters', () => {
-        const expectedErrorMessage = format(
-            LABELS.datetimeErrorMessage,
-            getFormat(true)
-        );
+        const expectedErrorMessage = format(LABELS.datetimeErrorMessage, getFormat(true));
         isValidMetadataDateTime.mockReturnValueOnce(false);
         isValidMetadataDateTime.mockReturnValueOnce(false);
         expect(rules.shouldBeADateTime('aaa')).toBe(expectedErrorMessage);
@@ -239,16 +202,12 @@ describe('shouldBeADateTime method', () => {
 describe('maximumCharactersLimit method', () => {
     const charLimit = 12;
     it('should return null if the input is within the character limit', () => {
-        expect(
-            rules.maximumCharactersLimit(charLimit)('right input')
-        ).toBeNull();
+        expect(rules.maximumCharactersLimit(charLimit)('right input')).toBeNull();
     });
     it('should return an error message if the input exceeds the character limit', () => {
-        expect(
-            rules.maximumCharactersLimit(charLimit)(
-                'wrong input which exceeds character limit'
-            )
-        ).toBe(LABELS.maximumCharactersLimit);
+        expect(rules.maximumCharactersLimit(charLimit)('wrong input which exceeds character limit')).toBe(
+            LABELS.maximumCharactersLimit
+        );
     });
 });
 describe('validateExpressionWith3Properties', () => {
@@ -269,15 +228,9 @@ describe('validateExpressionWith3Properties', () => {
             [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {}
         });
         // rules.lhsShouldBeValid comes in as an anonymous function here
-        expect(
-            rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]
-        ).toHaveLength(2);
-        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toContain(
-            rules.shouldNotBeBlank
-        );
-        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.OPERATOR]).toEqual([
-            rules.shouldNotBeBlank
-        ]);
+        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toHaveLength(2);
+        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toContain(rules.shouldNotBeBlank);
+        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.OPERATOR]).toEqual([rules.shouldNotBeBlank]);
     });
     it('should not contain RHS rule if LHS, operator, and RHS are all populated', () => {
         const rulesObject = rules.validateExpressionWith3Properties()({
@@ -286,45 +239,25 @@ describe('validateExpressionWith3Properties', () => {
             [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: 'populated' }
         });
         // rules.lhsShouldBeValid comes in as an anonymous function here
-        expect(
-            rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]
-        ).toHaveLength(2);
-        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toContain(
-            rules.shouldNotBeBlank
-        );
-        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.OPERATOR]).toEqual([
-            rules.shouldNotBeBlank
-        ]);
+        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toHaveLength(2);
+        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toContain(rules.shouldNotBeBlank);
+        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.OPERATOR]).toEqual([rules.shouldNotBeBlank]);
         // rules.rhsShouldBeValid comes in as an anonymous function here
-        expect(
-            rulesObject[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]
-        ).toHaveLength(1);
+        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]).toHaveLength(1);
     });
 });
 
 describe('validateExpressionWith3PropertiesWithNoEmptyRHS', () => {
-    const rulesObject = rules.validateExpressionWith3PropertiesWithNoEmptyRHS()(
-        {
-            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: 'populated' },
-            [EXPRESSION_PROPERTY_TYPE.OPERATOR]: { value: 'populated' },
-            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {}
-        }
-    );
-    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toHaveLength(
-        2
-    );
-    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toContain(
-        rules.shouldNotBeBlank
-    );
-    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.OPERATOR]).toEqual([
-        rules.shouldNotBeBlank
-    ]);
-    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]).toHaveLength(
-        2
-    );
-    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]).toContain(
-        rules.shouldNotBeBlank
-    );
+    const rulesObject = rules.validateExpressionWith3PropertiesWithNoEmptyRHS()({
+        [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: 'populated' },
+        [EXPRESSION_PROPERTY_TYPE.OPERATOR]: { value: 'populated' },
+        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {}
+    });
+    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toHaveLength(2);
+    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toContain(rules.shouldNotBeBlank);
+    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.OPERATOR]).toEqual([rules.shouldNotBeBlank]);
+    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]).toHaveLength(2);
+    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]).toContain(rules.shouldNotBeBlank);
 });
 
 describe('validateExpressionWith2Properties', () => {
@@ -332,36 +265,20 @@ describe('validateExpressionWith2Properties', () => {
         [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: 'populated' },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: 'populated' }
     });
-    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toHaveLength(
-        2
-    );
-    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toContain(
-        rules.shouldNotBeBlank
-    );
-    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]).toHaveLength(
-        1
-    );
+    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toHaveLength(2);
+    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toContain(rules.shouldNotBeBlank);
+    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]).toHaveLength(1);
 });
 
 describe('validateExpressionWith2PropertiesWithNoEmptyRHS', () => {
-    const rulesObject = rules.validateExpressionWith2PropertiesWithNoEmptyRHS()(
-        {
-            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: 'populated' },
-            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: 'populated' }
-        }
-    );
-    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toHaveLength(
-        2
-    );
-    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toContain(
-        rules.shouldNotBeBlank
-    );
-    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]).toHaveLength(
-        2
-    );
-    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]).toContain(
-        rules.shouldNotBeBlank
-    );
+    const rulesObject = rules.validateExpressionWith2PropertiesWithNoEmptyRHS()({
+        [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: 'populated' },
+        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: 'populated' }
+    });
+    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toHaveLength(2);
+    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toContain(rules.shouldNotBeBlank);
+    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]).toHaveLength(2);
+    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]).toContain(rules.shouldNotBeBlank);
 });
 
 describe('validateResourcePicker', () => {
@@ -376,31 +293,21 @@ describe('isUniqueDevNameInStore method', () => {
         expect(rules.isUniqueDevNameInStore(uniqueName)).toBeNull();
     });
     it('returns null when a unique dev name is tested against store data while using the listOfGuidsToSkip param', () => {
-        expect(
-            rules.isUniqueDevNameInStore(assignmentElement.name, [
-                assignmentElement.guid
-            ])
-        ).toBeNull();
+        expect(rules.isUniqueDevNameInStore(assignmentElement.name, [assignmentElement.guid])).toBeNull();
     });
     it('returns an error when the dev name is not unique (uniqueness is case insensitive)', () => {
-        expect(
-            rules.isUniqueDevNameInStore(assignmentElement.name.toUpperCase())
-        ).toBe(LABELS.fieldNotUnique);
+        expect(rules.isUniqueDevNameInStore(assignmentElement.name.toUpperCase())).toBe(LABELS.fieldNotUnique);
     });
 });
 
 describe('checkDevNameUniqueness method', () => {
     it('returns null if a unique dev name is passed', () => {
-        expect(
-            rules.checkDevNameUniqueness('mockUniqueName', ['mockGuid'])
-        ).toBeNull();
+        expect(rules.checkDevNameUniqueness('mockUniqueName', ['mockGuid'])).toBeNull();
     });
     it('returns an error if dev name passed is not unique', () => {
-        expect(
-            rules.checkDevNameUniqueness(assignmentElement.name.toUpperCase(), [
-                assignmentElement.guid
-            ])
-        ).toBe(LABELS.fieldNotUnique);
+        expect(rules.checkDevNameUniqueness(assignmentElement.name.toUpperCase(), [assignmentElement.guid])).toBe(
+            LABELS.fieldNotUnique
+        );
     });
 });
 
@@ -409,14 +316,10 @@ describe('shouldBeUnderMaxValue method', () => {
         expect(rules.shouldBeUnderMaxValue(100)(100)).toBeNull();
     });
     it('should return an error message when a number over the limit is passed in', () => {
-        expect(rules.shouldBeUnderMaxValue(100)(101)).toBe(
-            format(LABELS.overMaxIntegerValue, 100)
-        );
+        expect(rules.shouldBeUnderMaxValue(100)(101)).toBe(format(LABELS.overMaxIntegerValue, 100));
     });
     it('should return an error message when non-number value is passed in', () => {
-        expect(rules.shouldBeUnderMaxValue(100)('a')).toBe(
-            LABELS.shouldBeAPositiveIntegerOrZero
-        );
+        expect(rules.shouldBeUnderMaxValue(100)('a')).toBe(LABELS.shouldBeAPositiveIntegerOrZero);
     });
 });
 
@@ -426,16 +329,10 @@ describe('isUniqueOrderNumberInStore method', () => {
         expect(rules.isUniqueOrderNumberInStore(uniqueNumber)).toBeNull();
     });
     it('returns null when a unique order number is tested against store data while using the listOfGuidsToSkip param', () => {
-        expect(
-            rules.isUniqueOrderNumberInStore(stageElement.stageOrder, [
-                stageElement.guid
-            ])
-        ).toBeNull();
+        expect(rules.isUniqueOrderNumberInStore(stageElement.stageOrder, [stageElement.guid])).toBeNull();
     });
     it('returns an error when the order number is not unique', () => {
-        expect(rules.isUniqueOrderNumberInStore(stageElement.stageOrder)).toBe(
-            LABELS.orderNumberNotUnique
-        );
+        expect(rules.isUniqueOrderNumberInStore(stageElement.stageOrder)).toBe(LABELS.orderNumberNotUnique);
     });
 });
 
@@ -449,20 +346,14 @@ describe('isValidTextWithMergeFields', () => {
         const rule = rules.isValidTextWithMergeFields();
         const text = 'some merge {!field}';
         rule(text);
-        expect(validateTextWithMergeFields).toHaveBeenCalledWith(
-            text,
-            undefined
-        );
+        expect(validateTextWithMergeFields).toHaveBeenCalledWith(text, undefined);
     });
 
     it('calls validateTextWithMergeFields with given options', () => {
         const options = { globalConstantsAllowed: false };
         const rule = rules.isValidTextWithMergeFields(options);
         rule(undefined, options);
-        expect(validateTextWithMergeFields).toHaveBeenCalledWith(
-            undefined,
-            options
-        );
+        expect(validateTextWithMergeFields).toHaveBeenCalledWith(undefined, options);
     });
 
     it('returns null when no errors are found', () => {
@@ -472,10 +363,7 @@ describe('isValidTextWithMergeFields', () => {
     });
 
     it('returns the first error message when errors are found', () => {
-        const mockErrors = [
-            { message: 'firstError' },
-            { message: 'secondError' }
-        ];
+        const mockErrors = [{ message: 'firstError' }, { message: 'secondError' }];
         validateTextWithMergeFields.mockReturnValueOnce(mockErrors);
         const rule = rules.isValidTextWithMergeFields();
         const result = rule();

@@ -8,20 +8,9 @@ import {
     INTERACTION_COMPONENTS_SELECTORS,
     selectEvent
 } from 'builder_platform_interaction/builderTestUtils';
-import {
-    resetState,
-    getLabelDescriptionLabelElement,
-    getLabelDescriptionNameElement
-} from '../integrationTestUtils';
-import {
-    getSubflows,
-    getFlowInputOutputVariables,
-    initializeAuraFetch
-} from '../serverDataTestUtils';
-import {
-    ELEMENT_TYPE,
-    FLOW_PROCESS_TYPE
-} from 'builder_platform_interaction/flowMetadata';
+import { resetState, getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../integrationTestUtils';
+import { getSubflows, getFlowInputOutputVariables, initializeAuraFetch } from '../serverDataTestUtils';
+import { ELEMENT_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { mockSubflows, mockSubflowAllTypesVariables } from 'mock/calloutData';
@@ -50,17 +39,11 @@ const getActionSelectorElement = actionEditor => {
 };
 
 const getActionSelectorComboboxElement = actionSelector => {
-    return deepQuerySelector(actionSelector, [
-        SELECTORS.COMBOBOX,
-        SELECTORS.LIGHTNING_GROUPED_COMBOBOX
-    ]);
+    return deepQuerySelector(actionSelector, [SELECTORS.COMBOBOX, SELECTORS.LIGHTNING_GROUPED_COMBOBOX]);
 };
 
 const getSubflowEditorElement = calloutEditor => {
-    return deepQuerySelector(calloutEditor, [
-        SELECTORS.CALLOUT_EDITOR_CONTAINER,
-        SELECTORS.SUBFLOW_EDITOR
-    ]);
+    return deepQuerySelector(calloutEditor, [SELECTORS.CALLOUT_EDITOR_CONTAINER, SELECTORS.SUBFLOW_EDITOR]);
 };
 
 describe('Subflow Editor (new subflow)', () => {
@@ -93,45 +76,28 @@ describe('Subflow Editor (new subflow)', () => {
     });
     it('shows subflows in the action selector combobox', () => {
         const actionSelectorElement = getActionSelectorElement(propertyEditor);
-        const actionComboboxElement = getActionSelectorComboboxElement(
-            actionSelectorElement
-        );
-        expect(actionComboboxElement.items.map(item => item.text)).toEqual(
-            expect.arrayContaining(['my subflow'])
-        );
+        const actionComboboxElement = getActionSelectorComboboxElement(actionSelectorElement);
+        expect(actionComboboxElement.items.map(item => item.text)).toEqual(expect.arrayContaining(['my subflow']));
     });
     describe('When a subflow is selected', () => {
         let subflowElement;
         beforeEach(async () => {
-            const actionSelectorElement = getActionSelectorElement(
-                propertyEditor
-            );
-            const actionComboboxElement = getActionSelectorComboboxElement(
-                actionSelectorElement
-            );
-            actionComboboxElement.dispatchEvent(
-                selectEvent('mynamespace__subflow')
-            );
+            const actionSelectorElement = getActionSelectorElement(propertyEditor);
+            const actionComboboxElement = getActionSelectorComboboxElement(actionSelectorElement);
+            actionComboboxElement.dispatchEvent(selectEvent('mynamespace__subflow'));
             await ticks(50);
             subflowElement = getSubflowEditorElement(propertyEditor);
         });
         it('let the user enter label, api name and description', () => {
             const baseCalloutElement = getBaseCalloutElement(subflowElement);
-            const labelInput = getLabelDescriptionLabelElement(
-                baseCalloutElement
-            );
+            const labelInput = getLabelDescriptionLabelElement(baseCalloutElement);
             expect(labelInput).toBeDefined();
-            const devNameInput = getLabelDescriptionNameElement(
-                baseCalloutElement
-            );
+            const devNameInput = getLabelDescriptionNameElement(baseCalloutElement);
             expect(devNameInput).toBeDefined();
         });
         it('displays parameters for the subflow if any', () => {
             const inputAssignments = getInputParameterItems(subflowElement);
-            verifyOptionalInputParameterNoValue(
-                inputAssignments[0],
-                'inputAccountColVar'
-            );
+            verifyOptionalInputParameterNoValue(inputAssignments[0], 'inputAccountColVar');
         });
     });
 });

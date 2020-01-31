@@ -2,10 +2,7 @@ import { createElement } from 'lwc';
 import UsedByContentItem from '../usedByContentItem';
 
 function createComponentForTest(listItem, showLocatorIcon) {
-    const el = createElement(
-        'builder_platform_interaction-used-by-content-item',
-        { is: UsedByContentItem }
-    );
+    const el = createElement('builder_platform_interaction-used-by-content-item', { is: UsedByContentItem });
     el.listItem = listItem;
     el.showLocatorIcon = showLocatorIcon;
     document.body.appendChild(el);
@@ -27,10 +24,7 @@ describe('Used-By-Content-Item component', () => {
                 elementGuidsReferenced: ['OUTCOME_3'],
                 iconName: undefined
             };
-            const usedByContentItemComponent = createComponentForTest(
-                expectedResult,
-                true
-            );
+            const usedByContentItemComponent = createComponentForTest(expectedResult, true);
             return Promise.resolve().then(() => {
                 const usedBySectionItemElementIcon = usedByContentItemComponent.shadowRoot.querySelector(
                     selectors.usedBySectionElementIcon
@@ -45,10 +39,7 @@ describe('Used-By-Content-Item component', () => {
                 elementGuidsReferenced: ['OUTCOME_3'],
                 iconName: 'standard:formula'
             };
-            const usedByContentItemComponent = createComponentForTest(
-                expectedResult,
-                true
-            );
+            const usedByContentItemComponent = createComponentForTest(expectedResult, true);
             return Promise.resolve().then(() => {
                 const usedBySectionItemElementIcon = usedByContentItemComponent.shadowRoot.querySelector(
                     selectors.usedBySectionElementIcon
@@ -67,10 +58,7 @@ describe('Used-By-Content-Item component', () => {
                 isChildElement: true,
                 iconName: 'standard:formula'
             };
-            const usedByContentItemComponent = createComponentForTest(
-                expectedResult,
-                true
-            );
+            const usedByContentItemComponent = createComponentForTest(expectedResult, true);
             return Promise.resolve().then(() => {
                 const usedBySectionItemName = usedByContentItemComponent.shadowRoot.querySelector(
                     selectors.usedBySectionItemName
@@ -88,10 +76,7 @@ describe('Used-By-Content-Item component', () => {
                 elementGuidsReferenced: ['OUTCOME_3'],
                 iconName: 'standard:outcome'
             };
-            const usedByContentItemComponent = createComponentForTest(
-                expectedResult,
-                true
-            );
+            const usedByContentItemComponent = createComponentForTest(expectedResult, true);
             return Promise.resolve().then(() => {
                 const usedBySectionLocatorIcon = usedByContentItemComponent.shadowRoot.querySelector(
                     selectors.usedBySectionLocatorIcon
@@ -106,10 +91,7 @@ describe('Used-By-Content-Item component', () => {
                 elementGuidsReferenced: ['OUTCOME_3'],
                 iconName: 'standard:formula'
             };
-            const usedByContentItemComponent = createComponentForTest(
-                expectedResult,
-                false
-            );
+            const usedByContentItemComponent = createComponentForTest(expectedResult, false);
             return Promise.resolve().then(() => {
                 const usedBySectionLocatorIcon = usedByContentItemComponent.shadowRoot.querySelector(
                     selectors.usedBySectionLocatorIcon
@@ -125,10 +107,7 @@ describe('Used-By-Content-Item component', () => {
                 isCanvasElement: true,
                 iconName: 'standard:assignment'
             };
-            const usedByContentItemComponent = createComponentForTest(
-                expectedResult,
-                false
-            );
+            const usedByContentItemComponent = createComponentForTest(expectedResult, false);
             return Promise.resolve().then(() => {
                 const usedBySectionLocatorIcon = usedByContentItemComponent.shadowRoot.querySelector(
                     selectors.usedBySectionLocatorIcon
@@ -144,10 +123,7 @@ describe('Used-By-Content-Item component', () => {
                 isCanvasElement: true,
                 iconName: 'standard:assignment'
             };
-            const usedByContentItemComponent = createComponentForTest(
-                expectedResult,
-                true
-            );
+            const usedByContentItemComponent = createComponentForTest(expectedResult, true);
             return Promise.resolve().then(() => {
                 const usedBySectionLocatorIcon = usedByContentItemComponent.shadowRoot.querySelector(
                     selectors.usedBySectionLocatorIcon

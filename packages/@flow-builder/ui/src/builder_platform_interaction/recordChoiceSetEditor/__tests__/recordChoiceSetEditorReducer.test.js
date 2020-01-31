@@ -57,10 +57,7 @@ describe('Record Choice Set Reducer', () => {
                     doValidateProperty: true
                 }
             };
-            const resultObj = recordChoiceSetReducer(
-                recordChoiceObject,
-                action
-            );
+            const resultObj = recordChoiceSetReducer(recordChoiceObject, action);
 
             expect(resultObj.name).toEqual({
                 value: 'recChoice',
@@ -78,10 +75,7 @@ describe('Record Choice Set Reducer', () => {
                     doValidateProperty: true
                 }
             };
-            const resultObj = recordChoiceSetReducer(
-                recordChoiceObject,
-                action
-            );
+            const resultObj = recordChoiceSetReducer(recordChoiceObject, action);
 
             it('empty outputAssignment is added', () => {
                 expect(resultObj.outputAssignments).toMatchObject([
@@ -103,10 +97,7 @@ describe('Record Choice Set Reducer', () => {
                     doValidateProperty: true
                 }
             };
-            const resultObj = recordChoiceSetReducer(
-                recordChoiceObject,
-                action
-            );
+            const resultObj = recordChoiceSetReducer(recordChoiceObject, action);
 
             it('filterType is set to none', () => {
                 expect(resultObj.filterType).toEqual({

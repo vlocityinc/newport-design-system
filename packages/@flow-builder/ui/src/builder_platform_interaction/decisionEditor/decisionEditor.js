@@ -52,9 +52,7 @@ export default class DecisionEditor extends LightningElement {
     }
 
     get activeOutcome() {
-        return this.decisionElement.outcomes.find(
-            outcome => outcome.guid === this.activeOutcomeId
-        );
+        return this.decisionElement.outcomes.find(outcome => outcome.guid === this.activeOutcomeId);
     }
 
     // getter and setter for nodes don't work well with mixins
@@ -76,19 +74,14 @@ export default class DecisionEditor extends LightningElement {
     // getErrorsFromHydratedElement recursively walks the object structure and there could be performance issues by calling it in a getter
     // (and thus on every render) depending on the object depth
     get outcomesWithDefaultOutcome() {
-        const outcomesWithDefaultOutcome = this.decisionElement.outcomes.map(
-            outcome => {
-                return {
-                    element: outcome,
-                    label:
-                        outcome.label && outcome.label.value
-                            ? outcome.label.value
-                            : EMPTY_OUTCOME_LABEL,
-                    isDraggable: true,
-                    hasErrors: getErrorsFromHydratedElement(outcome).length > 0
-                };
-            }
-        );
+        const outcomesWithDefaultOutcome = this.decisionElement.outcomes.map(outcome => {
+            return {
+                element: outcome,
+                label: outcome.label && outcome.label.value ? outcome.label.value : EMPTY_OUTCOME_LABEL,
+                isDraggable: true,
+                hasErrors: getErrorsFromHydratedElement(outcome).length > 0
+            };
+        });
 
         // Add the default outcome
         const defaultLabel = this.decisionElement.defaultConnectorLabel;
@@ -97,10 +90,7 @@ export default class DecisionEditor extends LightningElement {
             element: {
                 guid: DEFAULT_OUTCOME_ID
             },
-            label:
-                defaultLabel && defaultLabel.value
-                    ? defaultLabel.value
-                    : EMPTY_DEFAULT_OUTCOME_LABEL,
+            label: defaultLabel && defaultLabel.value ? defaultLabel.value : EMPTY_DEFAULT_OUTCOME_LABEL,
             isDraggable: false,
             hasErrors: defaultLabel && defaultLabel.error
         });
@@ -145,15 +135,9 @@ export default class DecisionEditor extends LightningElement {
     handleDefaultOutcomeChangedEvent(event) {
         event.stopPropagation();
 
-        const defaultOutcomeChangedEvent = new PropertyChangedEvent(
-            'defaultConnectorLabel',
-            event.detail.value
-        );
+        const defaultOutcomeChangedEvent = new PropertyChangedEvent('defaultConnectorLabel', event.detail.value);
 
-        this.decisionElement = decisionReducer(
-            this.decisionElement,
-            defaultOutcomeChangedEvent
-        );
+        this.decisionElement = decisionReducer(this.decisionElement, defaultOutcomeChangedEvent);
     }
 
     /**

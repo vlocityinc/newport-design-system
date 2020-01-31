@@ -1,8 +1,5 @@
 import { LightningElement, api, track, unwrap } from 'lwc';
-import {
-    createAction,
-    PROPERTY_EDITOR_ACTION
-} from 'builder_platform_interaction/actions';
+import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { picklistChoiceSetReducer } from './picklistChoiceSetReducer';
@@ -87,10 +84,7 @@ export default class PicklistChoiceSetEditor extends LightningElement {
         // NOTE: if we find there is a case where an error can happen on a field without touching on it,
         // we might have to go through reducer to stuff the errors and call get errors method
         const event = { type: VALIDATE_ALL };
-        this.picklistChoiceSetResource = picklistChoiceSetReducer(
-            this.picklistChoiceSetResource,
-            event
-        );
+        this.picklistChoiceSetResource = picklistChoiceSetReducer(this.picklistChoiceSetResource, event);
         return getErrorsFromHydratedElement(this.picklistChoiceSetResource);
     }
 
@@ -151,14 +145,13 @@ export default class PicklistChoiceSetEditor extends LightningElement {
      * @param {Boolean} doValidateProperty If false, doesn't validate the property on blur
      */
     updateProperty(propertyName, value, error, doValidateProperty = true) {
-        const action = createAction(
-            PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-            { propertyName, value, error, doValidateProperty }
-        );
-        this.picklistChoiceSetResource = picklistChoiceSetReducer(
-            this.picklistChoiceSetResource,
-            action
-        );
+        const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+            propertyName,
+            value,
+            error,
+            doValidateProperty
+        });
+        this.picklistChoiceSetResource = picklistChoiceSetReducer(this.picklistChoiceSetResource, action);
     }
 
     /**
@@ -190,15 +183,10 @@ export default class PicklistChoiceSetEditor extends LightningElement {
      */
     getEntityFields() {
         sobjectLib
-            .fetchFieldsForEntity(
-                this.picklistChoiceSetResource.picklistObject.value
-            )
+            .fetchFieldsForEntity(this.picklistChoiceSetResource.picklistObject.value)
             .then(fields => {
                 this._entityFields = fields;
-                if (
-                    this.picklistChoiceSetResource.dataType &&
-                    this.picklistChoiceSetResource.dataType.value
-                ) {
+                if (this.picklistChoiceSetResource.dataType && this.picklistChoiceSetResource.dataType.value) {
                     this.filterEntityFields();
                 }
             })
@@ -220,11 +208,7 @@ export default class PicklistChoiceSetEditor extends LightningElement {
         // Updating the property only if newValue !== oldValue
         if (value !== this.picklistChoiceSetResource.picklistObject.value) {
             this.menuDataFields = [];
-            this.updateProperty(
-                PICKLIST_CHOICE_SET_FIELDS.PICKLIST_OBJECT,
-                value,
-                error
-            );
+            this.updateProperty(PICKLIST_CHOICE_SET_FIELDS.PICKLIST_OBJECT, value, error);
 
             if (value && !error) {
                 // Getting the entityFields only when a valid value is entered.
@@ -233,23 +217,13 @@ export default class PicklistChoiceSetEditor extends LightningElement {
 
             if (!this.showPicklistSection && !error) {
                 // Resetting dataType to null and ensuring that it doesn't get validated yet.
-                this.updateProperty(
-                    PICKLIST_CHOICE_SET_FIELDS.DATA_TYPE,
-                    null,
-                    null,
-                    false
-                );
+                this.updateProperty(PICKLIST_CHOICE_SET_FIELDS.DATA_TYPE, null, null, false);
                 this.showPicklistSection = true;
             }
 
             if (this.showPicklistSection) {
                 // Resetting picklistField to null and ensuring that it doesn't get validated yet.
-                this.updateProperty(
-                    PICKLIST_CHOICE_SET_FIELDS.PICKLIST_FIELD,
-                    null,
-                    null,
-                    false
-                );
+                this.updateProperty(PICKLIST_CHOICE_SET_FIELDS.PICKLIST_FIELD, null, null, false);
             }
         }
     }
@@ -278,15 +252,12 @@ export default class PicklistChoiceSetEditor extends LightningElement {
             return;
         }
 
-        this.menuDataFields = Object.keys(this._entityFields).reduce(
-            (menuData, fieldName) => {
-                if (this._entityFields[fieldName].dataType === this.dataType) {
-                    menuData[fieldName] = this._entityFields[fieldName];
-                }
-                return menuData;
-            },
-            {}
-        );
+        this.menuDataFields = Object.keys(this._entityFields).reduce((menuData, fieldName) => {
+            if (this._entityFields[fieldName].dataType === this.dataType) {
+                menuData[fieldName] = this._entityFields[fieldName];
+            }
+            return menuData;
+        }, {});
     }
 
     /**
@@ -299,20 +270,11 @@ export default class PicklistChoiceSetEditor extends LightningElement {
 
         // Updating the property only if newValue !== oldValue
         if (value.dataType !== this.dataType) {
-            this.updateProperty(
-                PICKLIST_CHOICE_SET_FIELDS.DATA_TYPE,
-                value.dataType,
-                event.detail.error
-            );
+            this.updateProperty(PICKLIST_CHOICE_SET_FIELDS.DATA_TYPE, value.dataType, event.detail.error);
             // Filtering entityFields based on selected dataType
             this.filterEntityFields();
             // Resetting picklistField to null and ensuring that it doesn't get hydrated yet.
-            this.updateProperty(
-                PICKLIST_CHOICE_SET_FIELDS.PICKLIST_FIELD,
-                null,
-                null,
-                false
-            );
+            this.updateProperty(PICKLIST_CHOICE_SET_FIELDS.PICKLIST_FIELD, null, null, false);
         }
     }
 
@@ -326,11 +288,7 @@ export default class PicklistChoiceSetEditor extends LightningElement {
         const value = itemOrDisplayText.value || itemOrDisplayText;
 
         if (value !== this.picklistChoiceSetResource.picklistField.value) {
-            this.updateProperty(
-                PICKLIST_CHOICE_SET_FIELDS.PICKLIST_FIELD,
-                value,
-                event.detail.error
-            );
+            this.updateProperty(PICKLIST_CHOICE_SET_FIELDS.PICKLIST_FIELD, value, event.detail.error);
         }
     }
 
@@ -343,11 +301,7 @@ export default class PicklistChoiceSetEditor extends LightningElement {
         const value = event.detail.value;
 
         if (value !== this.picklistChoiceSetResource.sortOrder.value) {
-            this.updateProperty(
-                PICKLIST_CHOICE_SET_FIELDS.SORT_ORDER,
-                value,
-                null
-            );
+            this.updateProperty(PICKLIST_CHOICE_SET_FIELDS.SORT_ORDER, value, null);
         }
     }
 }

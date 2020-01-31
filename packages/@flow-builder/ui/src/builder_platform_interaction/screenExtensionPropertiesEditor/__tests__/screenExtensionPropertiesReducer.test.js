@@ -1,11 +1,15 @@
-import { screenExtensionPropertiesEventReducer, screenExtensionPropertiesPropsToStateReducer } from '../screenExtensionPropertiesReducer';
+import {
+    screenExtensionPropertiesEventReducer,
+    screenExtensionPropertiesPropsToStateReducer
+} from '../screenExtensionPropertiesReducer';
 import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
-import { createScreenFieldWithDynamicTypes, createFlowExtensionWithDynamicTypes } from './screenExtensionDynamicTypesMocks';
+import {
+    createScreenFieldWithDynamicTypes,
+    createFlowExtensionWithDynamicTypes
+} from './screenExtensionDynamicTypesMocks';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 
-const selectAdvancedModeEvent = new UseAdvancedOptionsSelectionChangedEvent(
-    false
-);
+const selectAdvancedModeEvent = new UseAdvancedOptionsSelectionChangedEvent(false);
 const selectManualModeEvent = new UseAdvancedOptionsSelectionChangedEvent(true);
 
 describe('Screen extension properties reducer', () => {
@@ -108,11 +112,7 @@ describe('Screen extension properties reducer', () => {
                 expect(state.outputParameters[0].attribute).not.toBeDefined();
             });
             it('does not reset output parameter when advanced option true', () => {
-                const state = screenExtensionPropertiesEventReducer(
-                    { outputParameters },
-                    props,
-                    selectManualModeEvent
-                );
+                const state = screenExtensionPropertiesEventReducer({ outputParameters }, props, selectManualModeEvent);
 
                 expect(state.outputParameters).toEqual(outputParameters);
             });
@@ -140,110 +140,124 @@ describe('Screen extension properties reducer', () => {
             };
             const newState = screenExtensionPropertiesPropsToStateReducer(state, props);
             expect(newState).toMatchObject({
-                "dynamicTypeMappings": [{
-                    "comboboxConfig": {
-                        "allowSObjectFields": false,
-                        "disabled": false,
-                        "enableFieldDrilldown": false,
-                        "errorMessage": null,
-                        "fieldLevelHelp": "This is the first object",
-                        "label": "First sobject",
-                        "literalsAllowed": false,
-                        "placeholder": undefined,
-                        "required": true,
-                        "type": "SObject",
-                        "variant": "standard",
+                dynamicTypeMappings: [
+                    {
+                        comboboxConfig: {
+                            allowSObjectFields: false,
+                            disabled: false,
+                            enableFieldDrilldown: false,
+                            errorMessage: null,
+                            fieldLevelHelp: 'This is the first object',
+                            label: 'First sobject',
+                            literalsAllowed: false,
+                            placeholder: undefined,
+                            required: true,
+                            type: 'SObject',
+                            variant: 'standard'
+                        },
+                        name: 'T',
+                        rowIndex: expect.anything(),
+                        value: 'Asset'
                     },
-                    "name": "T",
-                    "rowIndex": expect.anything(),
-                    "value": "Asset",
-                }, {
-                    "comboboxConfig": {
-                        "allowSObjectFields": false,
-                        "disabled": false,
-                        "enableFieldDrilldown": false,
-                        "errorMessage": null,
-                        "fieldLevelHelp": "This is the second object",
-                        "label": "Second sobject",
-                        "literalsAllowed": false,
-                        "placeholder": undefined,
-                        "required": true,
-                        "type": "SObject",
-                        "variant": "standard",
+                    {
+                        comboboxConfig: {
+                            allowSObjectFields: false,
+                            disabled: false,
+                            enableFieldDrilldown: false,
+                            errorMessage: null,
+                            fieldLevelHelp: 'This is the second object',
+                            label: 'Second sobject',
+                            literalsAllowed: false,
+                            placeholder: undefined,
+                            required: true,
+                            type: 'SObject',
+                            variant: 'standard'
+                        },
+                        name: 'S',
+                        rowIndex: expect.anything(),
+                        value: ''
+                    }
+                ],
+                inputParameters: [
+                    {
+                        attribute: undefined,
+                        descriptor: {
+                            apiName: 'selectedRecordA',
+                            dataType: 'sobject',
+                            description: 'The A object to process',
+                            hasDefaultValue: false,
+                            isInput: true,
+                            isOutput: false,
+                            isRequired: false,
+                            label: 'Selected Record A',
+                            maxOccurs: 1,
+                            subtype: 'Asset'
+                        },
+                        disabled: false,
+                        key: 'selectedRecordA'
                     },
-                    "name": "S",
-                    "rowIndex": expect.anything(),
-                    "value": "",
-                }],
-                "inputParameters": [{
-                    "attribute": undefined,
-                    "descriptor": {
-                        "apiName": "selectedRecordA",
-                        "dataType": "sobject",
-                        "description": "The A object to process",
-                        "hasDefaultValue": false,
-                        "isInput": true,
-                        "isOutput": false,
-                        "isRequired": false,
-                        "label": "Selected Record A",
-                        "maxOccurs": 1,
-                        "subtype": "Asset",
-                    },
-                    "disabled": false,
-                    "key": "selectedRecordA",
-                }, {
-                    "attribute": undefined,
-                    "descriptor": {
-                        "apiName": "selectedRecordB",
-                        "dataType": "sobject",
-                        "description": "The B object to process",
-                        "hasDefaultValue": false,
-                        "isInput": true,
-                        "isOutput": false,
-                        "isRequired": false,
-                        "label": "Selected Record B",
-                        "maxOccurs": 1,
-                        "subtype": "{S}",
-                    },
-                    "disabled": false,
-                    "key": "selectedRecordB",
-                }],
-                "outputParameters": [{
-                    "attribute": undefined,
-                    "descriptor": {
-                        "apiName": "computeA",
-                        "dataType": "string",
-                        "description": "Result of the first object procecssing",
-                        "hasDefaultValue": false,
-                        "isInput": false,
-                        "isOutput": true,
-                        "isRequired": false,
-                        "label": "Compute result A",
-                        "maxOccurs": 1,
-                    },
-                    "disabled": false,
-                    "key": "computeA",
-                }],
-                "storeOutputAutomatically": true,
+                    {
+                        attribute: undefined,
+                        descriptor: {
+                            apiName: 'selectedRecordB',
+                            dataType: 'sobject',
+                            description: 'The B object to process',
+                            hasDefaultValue: false,
+                            isInput: true,
+                            isOutput: false,
+                            isRequired: false,
+                            label: 'Selected Record B',
+                            maxOccurs: 1,
+                            subtype: '{S}'
+                        },
+                        disabled: false,
+                        key: 'selectedRecordB'
+                    }
+                ],
+                outputParameters: [
+                    {
+                        attribute: undefined,
+                        descriptor: {
+                            apiName: 'computeA',
+                            dataType: 'string',
+                            description: 'Result of the first object procecssing',
+                            hasDefaultValue: false,
+                            isInput: false,
+                            isOutput: true,
+                            isRequired: false,
+                            label: 'Compute result A',
+                            maxOccurs: 1
+                        },
+                        disabled: false,
+                        key: 'computeA'
+                    }
+                ],
+                storeOutputAutomatically: true
             });
         });
 
         it('clears state when no props', () => {
             const state = {
-                inputParameters: [{
-                    attribute: {},
-                    rowIndex: 'abc321'
-                }],
-                outputParameters: [{
-                    attribute: {},
-                    rowIndex: 'abc123'
-                }],
-                dynamicTypeMappings: [{
-                    name: 'T',
-                    value: 'V',
-                    rowIndex: 'abc',
-                    comboboxConfig: {}
-                }],
+                inputParameters: [
+                    {
+                        attribute: {},
+                        rowIndex: 'abc321'
+                    }
+                ],
+                outputParameters: [
+                    {
+                        attribute: {},
+                        rowIndex: 'abc123'
+                    }
+                ],
+                dynamicTypeMappings: [
+                    {
+                        name: 'T',
+                        value: 'V',
+                        rowIndex: 'abc',
+                        comboboxConfig: {}
+                    }
+                ],
                 storeOutputAutomatically: true
             };
             let newState = screenExtensionPropertiesPropsToStateReducer(state, {});

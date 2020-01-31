@@ -5,10 +5,9 @@ import { LABELS } from '../recordLookupVariableAndFieldMappingLabels';
 import { VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_interaction/recordEditorLib';
 
 function createComponentForTest(variableAndFieldMapping) {
-    const el = createElement(
-        'builder_platform_interaction-record-lookup-variable-and-field-mapping',
-        { is: RecordLookupVariableAndFieldMapping }
-    );
+    const el = createElement('builder_platform_interaction-record-lookup-variable-and-field-mapping', {
+        is: RecordLookupVariableAndFieldMapping
+    });
     Object.assign(el, { variableAndFieldMapping });
     document.body.appendChild(el);
     return el;
@@ -31,9 +30,7 @@ const selectors = {
 };
 
 const getRadioGroup = variableAndFieldMappingElement => {
-    return variableAndFieldMappingElement.shadowRoot.querySelector(
-        selectors.lightningRadioGroup
-    );
+    return variableAndFieldMappingElement.shadowRoot.querySelector(selectors.lightningRadioGroup);
 };
 
 describe('record-lookup-variable-and-field-mapping', () => {
@@ -45,9 +42,7 @@ describe('record-lookup-variable-and-field-mapping', () => {
             );
         });
         it('should display an alert when user select automatic', () => {
-            const variableAndFieldMappingRadioGroup = getRadioGroup(
-                variableAndFieldMappingElement
-            );
+            const variableAndFieldMappingRadioGroup = getRadioGroup(variableAndFieldMappingElement);
             variableAndFieldMappingRadioGroup.dispatchEvent(
                 new OnChangeEvent(VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC)
             );
@@ -73,9 +68,7 @@ describe('record-lookup-variable-and-field-mapping', () => {
             });
         });
         it('should not display an alert when the user select manual', () => {
-            const variableAndFieldMappingRadioGroup = getRadioGroup(
-                variableAndFieldMappingElement
-            );
+            const variableAndFieldMappingRadioGroup = getRadioGroup(variableAndFieldMappingElement);
             variableAndFieldMappingRadioGroup.dispatchEvent(
                 new OnChangeEvent(VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL)
             );
@@ -86,14 +79,10 @@ describe('record-lookup-variable-and-field-mapping', () => {
     });
     describe('Manual is selected', () => {
         beforeEach(() => {
-            variableAndFieldMappingElement = createComponentForTest(
-                VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL
-            );
+            variableAndFieldMappingElement = createComponentForTest(VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL);
         });
         it('should display an alert when the user select automatic', () => {
-            const variableAndFieldMappingRadioGroup = getRadioGroup(
-                variableAndFieldMappingElement
-            );
+            const variableAndFieldMappingRadioGroup = getRadioGroup(variableAndFieldMappingElement);
             variableAndFieldMappingRadioGroup.dispatchEvent(
                 new OnChangeEvent(VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC)
             );
@@ -119,13 +108,9 @@ describe('record-lookup-variable-and-field-mapping', () => {
             });
         });
         it('should not display an alert when user select automatic with fields', () => {
-            const variableAndFieldMappingRadioGroup = getRadioGroup(
-                variableAndFieldMappingElement
-            );
+            const variableAndFieldMappingRadioGroup = getRadioGroup(variableAndFieldMappingElement);
             variableAndFieldMappingRadioGroup.dispatchEvent(
-                new OnChangeEvent(
-                    VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS
-                )
+                new OnChangeEvent(VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS)
             );
             return Promise.resolve().then(() => {
                 expect(invokeModal).not.toHaveBeenCalled();
@@ -134,14 +119,10 @@ describe('record-lookup-variable-and-field-mapping', () => {
     });
     describe('Automatic is selected', () => {
         beforeEach(() => {
-            variableAndFieldMappingElement = createComponentForTest(
-                VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC
-            );
+            variableAndFieldMappingElement = createComponentForTest(VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC);
         });
         it('should not display an alert when the user select manual', () => {
-            const variableAndFieldMappingRadioGroup = getRadioGroup(
-                variableAndFieldMappingElement
-            );
+            const variableAndFieldMappingRadioGroup = getRadioGroup(variableAndFieldMappingElement);
             variableAndFieldMappingRadioGroup.dispatchEvent(
                 new OnChangeEvent(VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL)
             );
@@ -150,13 +131,9 @@ describe('record-lookup-variable-and-field-mapping', () => {
             });
         });
         it('should not display an alert when the user select automatic with fields', () => {
-            const variableAndFieldMappingRadioGroup = getRadioGroup(
-                variableAndFieldMappingElement
-            );
+            const variableAndFieldMappingRadioGroup = getRadioGroup(variableAndFieldMappingElement);
             variableAndFieldMappingRadioGroup.dispatchEvent(
-                new OnChangeEvent(
-                    VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS
-                )
+                new OnChangeEvent(VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS)
             );
             return Promise.resolve().then(() => {
                 expect(invokeModal).not.toHaveBeenCalled();

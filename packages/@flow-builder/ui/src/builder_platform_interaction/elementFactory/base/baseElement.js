@@ -1,18 +1,14 @@
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import {
-    ELEMENT_TYPE,
-    CONNECTOR_TYPE
-} from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { createFEROV } from '../ferov';
-import {
-    createListRowItem,
-    RHS_DATA_TYPE_PROPERTY,
-    RHS_PROPERTY
-} from './baseList';
+import { createListRowItem, RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from './baseList';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { FLOW_AUTOMATIC_OUTPUT_HANDLING, getProcessTypeAutomaticOutPutHandlingSupport } from 'builder_platform_interaction/processTypeLib';
+import {
+    FLOW_AUTOMATIC_OUTPUT_HANDLING,
+    getProcessTypeAutomaticOutPutHandlingSupport
+} from 'builder_platform_interaction/processTypeLib';
 
 export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
 
@@ -29,21 +25,14 @@ export function createAvailableConnection(availableConnection = {}) {
     return { type };
 }
 
-function createCanvasElementConfig(
-    config = { isSelected: false, isHighlighted: false }
-) {
+function createCanvasElementConfig(config = { isSelected: false, isHighlighted: false }) {
     const { isSelected, isHighlighted } = config;
     return { isSelected, isHighlighted };
 }
 
 export function baseCanvasElement(canvasElement = {}) {
     const newCanvasElement = baseResource(canvasElement);
-    const {
-        label = '',
-        locationX = 0,
-        locationY = 0,
-        connectorCount = 0
-    } = canvasElement;
+    const { label = '', locationX = 0, locationY = 0, connectorCount = 0 } = canvasElement;
     let { config } = canvasElement;
     config = createCanvasElementConfig(config);
     return Object.assign(newCanvasElement, {
@@ -131,11 +120,7 @@ export function duplicateCanvasElementWithChildElements(
     childReferenceKey,
     defaultAvailableConnections = []
 ) {
-    const { duplicatedElement } = duplicateCanvasElement(
-        canvasElement,
-        newGuid,
-        newName
-    );
+    const { duplicatedElement } = duplicateCanvasElement(canvasElement, newGuid, newName);
     const childReferences = canvasElement[childReferencesKey];
 
     const additionalAvailableConnections = [];
@@ -152,9 +137,7 @@ export function duplicateCanvasElementWithChildElements(
             childReferenceKey
         );
 
-        duplicatedChildElements[
-            duplicatedChildElement.guid
-        ] = duplicatedChildElement;
+        duplicatedChildElements[duplicatedChildElement.guid] = duplicatedChildElement;
 
         additionalAvailableConnections.push({
             type: CONNECTOR_TYPE.REGULAR,
@@ -166,10 +149,7 @@ export function duplicateCanvasElementWithChildElements(
         };
     });
 
-    const availableConnections = [
-        ...defaultAvailableConnections,
-        ...additionalAvailableConnections
-    ];
+    const availableConnections = [...defaultAvailableConnections, ...additionalAvailableConnections];
     return {
         duplicatedElement,
         duplicatedChildElements,
@@ -186,11 +166,7 @@ export function duplicateCanvasElementWithChildElements(
 export function createCondition(condition = {}) {
     let newCondition = {};
     if (condition.hasOwnProperty('leftValueReference')) {
-        const ferov = createFEROV(
-            condition.rightValue,
-            RHS_PROPERTY,
-            RHS_DATA_TYPE_PROPERTY
-        );
+        const ferov = createFEROV(condition.rightValue, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY);
         newCondition = Object.assign({}, ferov, {
             leftHandSide: condition.leftValueReference,
             operator: condition.operator
@@ -222,20 +198,10 @@ export function createCondition(condition = {}) {
  * @return {ChildElement}
  */
 export function baseChildElement(childElement = {}, elementType) {
-    if (
-        elementType !== ELEMENT_TYPE.OUTCOME &&
-        elementType !== ELEMENT_TYPE.WAIT_EVENT
-    ) {
-        throw new Error(
-            'baseChildElement should only be used for outcomes and wait events'
-        );
-    } else if (
-        childElement.dataType &&
-        childElement.dataType !== FLOW_DATA_TYPE.BOOLEAN.value
-    ) {
-        throw new Error(
-            `dataType ${childElement.dataType} is invalid for baseChildElement`
-        );
+    if (elementType !== ELEMENT_TYPE.OUTCOME && elementType !== ELEMENT_TYPE.WAIT_EVENT) {
+        throw new Error('baseChildElement should only be used for outcomes and wait events');
+    } else if (childElement.dataType && childElement.dataType !== FLOW_DATA_TYPE.BOOLEAN.value) {
+        throw new Error(`dataType ${childElement.dataType} is invalid for baseChildElement`);
     }
     const newChildElement = baseElement(childElement);
     const { label = '' } = childElement;
@@ -246,10 +212,7 @@ export function baseChildElement(childElement = {}, elementType) {
     });
 }
 
-export function baseCanvasElementsArrayToMap(
-    elementList = [],
-    connectors = []
-) {
+export function baseCanvasElementsArrayToMap(elementList = [], connectors = []) {
     const elements = baseElementsArrayToMap(elementList);
     return Object.assign(elements, {
         connectors
@@ -274,13 +237,7 @@ export function baseElement(element = {}) {
 }
 
 export const automaticOutputHandlingSupport = () => {
-    const processType = Store.getStore().getCurrentState().properties
-        .processType;
-    const processTypeAutomaticOutPutHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(
-        processType
-    );
-    return (
-        processTypeAutomaticOutPutHandlingSupport !==
-        FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED
-    );
+    const processType = Store.getStore().getCurrentState().properties.processType;
+    const processTypeAutomaticOutPutHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(processType);
+    return processTypeAutomaticOutPutHandlingSupport !== FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
 };

@@ -1,9 +1,5 @@
 import { recordDeleteValidation, getRules } from './recordDeleteValidation';
-import {
-    updateProperties,
-    set,
-    deleteItem
-} from 'builder_platform_interaction/dataMutationLib';
+import { updateProperties, set, deleteItem } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import {
@@ -103,10 +99,7 @@ const resetRecordDelete = (state, resetObject) => {
 /**
  * Update the way the user store the records
  */
-const recordStoreOptionAndWayToStoreChanged = (
-    state,
-    { getFirstRecordOnly }
-) => {
+const recordStoreOptionAndWayToStoreChanged = (state, { getFirstRecordOnly }) => {
     if (state.getFirstRecordOnly !== getFirstRecordOnly) {
         state = updateProperties(state, { useSobject: getFirstRecordOnly });
         return resetRecordDelete(state, true);
@@ -125,15 +118,9 @@ const recordStoreOptionAndWayToStoreChanged = (
  * @param {string} event.detail.oldValue current property value
  * @returns {object} updated state
  */
-const managePropertyChanged = (
-    state,
-    { propertyName: propName, ignoreValidate, error, value, oldValue }
-) => {
+const managePropertyChanged = (state, { propertyName: propName, ignoreValidate, error, value, oldValue }) => {
     if (!ignoreValidate) {
-        error =
-            error === null
-                ? recordDeleteValidation.validateProperty(propName, value)
-                : error;
+        error = error === null ? recordDeleteValidation.validateProperty(propName, value) : error;
     }
     if (state[propName]) {
         state = updateProperties(state, { [propName]: { value, error } });
@@ -167,10 +154,7 @@ export const recordDeleteReducer = (state, event) => {
         case PropertyChangedEvent.EVENT_NAME:
             return managePropertyChanged(state, event.detail);
         case VALIDATE_ALL:
-            return recordDeleteValidation.validateAll(
-                state,
-                getRules(state, event)
-            );
+            return recordDeleteValidation.validateAll(state, getRules(state, event));
         default:
             return state;
     }

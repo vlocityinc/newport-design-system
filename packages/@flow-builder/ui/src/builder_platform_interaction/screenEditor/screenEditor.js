@@ -11,10 +11,7 @@ import { screenReducer } from './screenReducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import {
-    usedByStoreAndElementState,
-    invokeUsedByAlertModal
-} from 'builder_platform_interaction/usedByLib';
+import { usedByStoreAndElementState, invokeUsedByAlertModal } from 'builder_platform_interaction/usedByLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { hidePopover } from 'builder_platform_interaction/builderUtils';
@@ -173,9 +170,7 @@ export default class ScreenEditor extends LightningElement {
         this.screen = screenReducer(this.screen, event);
 
         // select the new field on the canvas.
-        const position = Number.isInteger(event.position)
-            ? event.position
-            : this.screen.fields.length - 1;
+        const position = Number.isInteger(event.position) ? event.position : this.screen.fields.length - 1;
         this.setSelectedNode(this.screen.fields[position]);
     };
 
@@ -185,17 +180,9 @@ export default class ScreenEditor extends LightningElement {
      */
     handleDeleteScreenElement = event => {
         const state = this.screen;
-        const usedElements = usedByStoreAndElementState(
-            event.detail.screenElement.guid,
-            state.guid,
-            state.fields
-        );
+        const usedElements = usedByStoreAndElementState(event.detail.screenElement.guid, state.guid, state.fields);
         if (usedElements && usedElements.length > 0) {
-            invokeUsedByAlertModal(
-                usedElements,
-                [event.detail.screenElement.guid],
-                ELEMENT_TYPE.SCREEN_FIELD
-            );
+            invokeUsedByAlertModal(usedElements, [event.detail.screenElement.guid], ELEMENT_TYPE.SCREEN_FIELD);
         } else {
             const deleteCallBack = () => {
                 this.screen = screenReducer(this.screen, event);
@@ -239,9 +226,7 @@ export default class ScreenEditor extends LightningElement {
         if (isScreen(this.selectedNode)) {
             this.setSelectedNode(this.screen);
         } else {
-            this.setSelectedNode(
-                this.screen.getFieldByGUID(this.selectedNode.guid)
-            );
+            this.setSelectedNode(this.screen.getFieldByGUID(this.selectedNode.guid));
         }
     };
 

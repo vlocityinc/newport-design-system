@@ -1,18 +1,9 @@
-import {
-    isMatch,
-    PARAM_PROPERTY,
-    SUBTYPE,
-    getDataType
-} from 'builder_platform_interaction/ruleLib';
+import { isMatch, PARAM_PROPERTY, SUBTYPE, getDataType } from 'builder_platform_interaction/ruleLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
-import {
-    FLOW_DATA_TYPE,
-    getResourceTypes,
-    isComplexType
-} from 'builder_platform_interaction/dataTypeLib';
+import { FLOW_DATA_TYPE, getResourceTypes, isComplexType } from 'builder_platform_interaction/dataTypeLib';
 import {
     getMenuItemsForField,
     mutateFlowResourceToComboboxShape,
@@ -47,10 +38,7 @@ import { getScreenElement } from './resourceUtils';
 import { getStoreElements } from './storeElementsFilter';
 import { canContainSObjectElements } from 'builder_platform_interaction/selectors';
 
-const {
-    SOBJECT_FIELD_REQUIREMENT,
-    SYSTEM_VARIABLE_REQUIREMENT
-} = PARAM_PROPERTY;
+const { SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;
 
 const isPicklistFieldAllowed = allowedTypes => {
     // we need a param to represent picklist values so we can check if they are allowed based on the given param types
@@ -156,18 +144,15 @@ export function isElementAllowed(
         const paramTypeKey = Object.keys(allowedParamTypes).find(key => {
             return key.toLowerCase() === property.toLowerCase();
         });
-        const allowedType = paramTypeKey
-            ? allowedParamTypes[paramTypeKey]
-            : undefined;
+        const allowedType = paramTypeKey ? allowedParamTypes[paramTypeKey] : undefined;
         return allowedType && elementMatchesRule(allowedType, element);
     };
     if (!allowedParamTypes) {
         return true;
     }
     const ruleElementType =
-        UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[
-            element[PARAM_PROPERTY.ELEMENT_TYPE]
-        ] || element[PARAM_PROPERTY.ELEMENT_TYPE];
+        UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[element[PARAM_PROPERTY.ELEMENT_TYPE]] ||
+        element[PARAM_PROPERTY.ELEMENT_TYPE];
     if (
         isElementMatchForProperty(getDataType(element)) ||
         isElementMatchForProperty(ruleElementType) ||
@@ -176,10 +161,7 @@ export function isElementAllowed(
         return true;
     }
     if (showComplexObjectsForFields && !element.isCollection) {
-        if (
-            element.dataType === FLOW_DATA_TYPE.SOBJECT.value &&
-            !allowedParamTypes[SOBJECT_FIELD_REQUIREMENT]
-        ) {
+        if (element.dataType === FLOW_DATA_TYPE.SOBJECT.value && !allowedParamTypes[SOBJECT_FIELD_REQUIREMENT]) {
             return false;
         }
         if (element.isSpanningAllowed === true) {
@@ -187,10 +169,7 @@ export function isElementAllowed(
             return true;
         }
         // do not allow complex objects without children
-        return (
-            isComplexType(element.dataType) &&
-            !isAutomaticOutputElementWithoutChildren(element)
-        );
+        return isComplexType(element.dataType) && !isAutomaticOutputElementWithoutChildren(element);
     }
     return false;
 }
@@ -218,9 +197,7 @@ function getNewResourceItem() {
  */
 export const getPicklistMenuData = picklist => {
     if (!Array.isArray(picklist)) {
-        throw new Error(
-            `Picklist field values must be an array but instead was: ${typeof picklist}`
-        );
+        throw new Error(`Picklist field values must be an array but instead was: ${typeof picklist}`);
     }
     const picklistLabel = format(picklistValuesLabel, '' + picklist.length);
     const picklistGroup = {
@@ -314,10 +291,7 @@ export function filterAndMutateMenuData(
             const menuItem = mutateFlowResourceToComboboxShape(element);
             if (disableHasNext) {
                 disableHasNextOnMenuItem(menuItem);
-            } else if (
-                allowSObjectField === false &&
-                menuItem.dataType === FLOW_DATA_TYPE.SOBJECT.value
-            ) {
+            } else if (allowSObjectField === false && menuItem.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
                 disableHasNextOnMenuItem(menuItem);
             }
             return menuItem;
@@ -328,8 +302,7 @@ export function filterAndMutateMenuData(
     // Add system and global variables, if requested
     let systemAndGlobalVariableMenuItem;
     const systemVariablesAllowed =
-        showSystemVariables &&
-        (!allowedParamTypes || allowedParamTypes[SYSTEM_VARIABLE_REQUIREMENT]);
+        showSystemVariables && (!allowedParamTypes || allowedParamTypes[SYSTEM_VARIABLE_REQUIREMENT]);
     if (systemVariablesAllowed || showGlobalVariables) {
         const systemAndGlobalVariableMenuData = getSystemAndGlobalVariableMenuData(
             systemVariablesAllowed,
@@ -353,9 +326,7 @@ export function filterAndMutateMenuData(
     );
     if (startElement) {
         // Create a menu item for the start element
-        const startElementMenuItem = mutateFlowResourceToComboboxShape(
-            startElement
-        );
+        const startElementMenuItem = mutateFlowResourceToComboboxShape(startElement);
         if (disableHasNext) {
             disableHasNextOnMenuItem(startElementMenuItem);
         }
@@ -373,21 +344,12 @@ export function filterAndMutateMenuData(
     }
 
     // Sort menu items in the Global Variables menu group
-    if (
-        systemAndGlobalVariableMenuItem &&
-        systemAndGlobalVariableMenuItem.items
-    ) {
-        systemAndGlobalVariableMenuItem.items.sort(
-            (a, b) => a.displayText - b.displayText
-        );
+    if (systemAndGlobalVariableMenuItem && systemAndGlobalVariableMenuItem.items) {
+        systemAndGlobalVariableMenuItem.items.sort((a, b) => a.displayText - b.displayText);
     }
 
     // Add picklist values to the top of the menu under the Picklist Values category
-    if (
-        activePicklistValues &&
-        activePicklistValues.length > 0 &&
-        isPicklistFieldAllowed(allowedParamTypes)
-    ) {
+    if (activePicklistValues && activePicklistValues.length > 0 && isPicklistFieldAllowed(allowedParamTypes)) {
         // if the picklist is allowed we want to include those in the menu data
         const picklistMenuData = getPicklistMenuData(activePicklistValues);
         menuData.unshift(picklistMenuData);
@@ -470,12 +432,7 @@ export function filterFieldsForChosenElement(
             .filter(field => {
                 return (
                     (shouldBeWritable ? isWritable(field) : true) &&
-                    isElementAllowed(
-                        allowedParamTypes,
-                        field,
-                        allowSObjectFieldsTraversal,
-                        sObjectSelectorConfig
-                    )
+                    isElementAllowed(allowedParamTypes, field, allowSObjectFieldsTraversal, sObjectSelectorConfig)
                 );
             })
             .reduce(
@@ -493,11 +450,7 @@ export function filterFieldsForChosenElement(
             )
             .filter(field =>
                 // filter a second time because several menu items may be generated, some of them possibly not with the expected dataType
-                isElementAllowed(
-                    allowedParamTypes,
-                    field,
-                    allowSObjectFieldsTraversal
-                )
+                isElementAllowed(allowedParamTypes, field, allowSObjectFieldsTraversal)
             )
             .sort((menuItem1, menuItem2) => {
                 // display elements with children first
@@ -539,10 +492,7 @@ export function getChildrenItemsPromise(parentItem) {
 export function getChildrenItems(parentItem) {
     const { dataType, subtype } = parentItem;
     let result;
-    if (
-        subtype === SYSTEM_VARIABLE_PREFIX ||
-        subtype === SYSTEM_VARIABLE_CLIENT_PREFIX
-    ) {
+    if (subtype === SYSTEM_VARIABLE_PREFIX || subtype === SYSTEM_VARIABLE_CLIENT_PREFIX) {
         result = getSystemVariables(subtype);
     } else if (getGlobalVariables(subtype)) {
         result = getGlobalVariables(subtype);
@@ -552,10 +502,7 @@ export function getChildrenItems(parentItem) {
         const resourceGuid = parentItem.value;
         const element = getScreenFieldElementByGuid(resourceGuid);
         result = retrieveResourceComplexTypeFields(element);
-    } else if (
-        dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value ||
-        dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value
-    ) {
+    } else if (dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value || dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value) {
         const resourceGuid = parentItem.value;
         const element = getElementByGuid(resourceGuid);
         result = retrieveResourceComplexTypeFields(element);
@@ -568,10 +515,7 @@ export function getChildrenItems(parentItem) {
 }
 
 function getScreenFieldElementByGuid(guid) {
-    return (
-        getElementByGuid(guid) ||
-        getScreenElement().fields.find(field => field.guid === guid)
-    );
+    return getElementByGuid(guid) || getScreenElement().fields.find(field => field.guid === guid);
 }
 
 /**

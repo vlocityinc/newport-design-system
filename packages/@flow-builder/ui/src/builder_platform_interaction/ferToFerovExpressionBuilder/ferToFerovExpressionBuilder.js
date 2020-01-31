@@ -1,8 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
-import {
-    updateProperties,
-    sanitizeGuid
-} from 'builder_platform_interaction/dataMutationLib';
+import { updateProperties, sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 import {
     EXPRESSION_PROPERTY_TYPE,
     getResourceByUniqueIdentifier,
@@ -107,10 +104,7 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
     _containerElement;
 
     isLookupTraversalSupported() {
-        return isLookupTraversalSupported(
-            Store.getStore().getCurrentState().properties.processType,
-            getTriggerType()
-        );
+        return isLookupTraversalSupported(Store.getStore().getCurrentState().properties.processType, getTriggerType());
     }
 
     populateLhsState() {
@@ -133,8 +127,7 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
 
             if (fer) {
                 if (this.isFieldOnVariable(lhs.value)) {
-                    this.state.lhsDisplayOption =
-                        LHS_DISPLAY_OPTION.FIELD_ON_VARIABLE;
+                    this.state.lhsDisplayOption = LHS_DISPLAY_OPTION.FIELD_ON_VARIABLE;
                 }
                 const normalizedFer = normalizeFEROV(lhs.value, {
                     allowSObjectFieldsTraversal: this.isLookupTraversalSupported()
@@ -149,13 +142,11 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
                             })
                         );
                     } else {
-                        this.state.lhsDescribe.value =
-                            normalizedFer.itemOrDisplayText;
+                        this.state.lhsDescribe.value = normalizedFer.itemOrDisplayText;
                         this.state.lhsDescribe.param = elementToParam(fer);
                     }
                 } else {
-                    this.state.lhsDescribe.value =
-                        normalizedFer.itemOrDisplayText;
+                    this.state.lhsDescribe.value = normalizedFer.itemOrDisplayText;
                 }
             }
         }

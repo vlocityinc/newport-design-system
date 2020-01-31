@@ -8,38 +8,19 @@ import {
     getScreenFieldType
 } from 'builder_platform_interaction/screenEditorUtils';
 import { createFEROV, createFEROVMetadataObject } from './ferov';
-import {
-    createInputParameter,
-    createInputParameterMetadataObject
-} from './inputParameter';
-import {
-    createOutputParameter,
-    createOutputParameterMetadataObject
-} from './outputParameter';
-import {
-    baseElement,
-    createCondition,
-    automaticOutputHandlingSupport
-} from './base/baseElement';
+import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
+import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
+import { baseElement, createCondition, automaticOutputHandlingSupport } from './base/baseElement';
 
 import { createConditionMetadataObject } from './base/baseMetadata';
 
-import {
-    CONDITION_LOGIC,
-    ELEMENT_TYPE
-} from 'builder_platform_interaction/flowMetadata';
-import {
-    DEFAULT_VALUE_PROPERTY,
-    DEFAULT_VALUE_DATA_TYPE_PROPERTY
-} from './variable';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY } from './variable';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { createValidationRuleObject } from './base/baseValidationInput';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import {
-    createDataTypeMappingsMetadataObject,
-    createDynamicTypeMappings
-} from './dynamicTypeMapping';
+import { createDataTypeMappingsMetadataObject, createDynamicTypeMappings } from './dynamicTypeMapping';
 
 const elementType = ELEMENT_TYPE.SCREEN_FIELD;
 
@@ -76,9 +57,7 @@ export function createScreenField(screenField = {}, isNewField = false) {
             getScreenFieldTypeByName(screenField.extensionName) ||
             getLocalExtensionFieldType(screenField.extensionName);
         isRequired = true;
-        dynamicTypeMappings = createDynamicTypeMappings(
-            dataTypeMappings || dynamicTypeMappings
-        );
+        dynamicTypeMappings = createDynamicTypeMappings(dataTypeMappings || dynamicTypeMappings);
         inputParameters = inputParameters
             .filter(inputParameter => !!inputParameter.value)
             .map(inputParameter => createInputParameter(inputParameter));
@@ -89,9 +68,7 @@ export function createScreenField(screenField = {}, isNewField = false) {
         } else {
             storeOutputAutomatically = false;
             dataType = undefined;
-            outputParameters = outputParameters.map(outputParameter =>
-                createOutputParameter(outputParameter)
-            );
+            outputParameters = outputParameters.map(outputParameter => createOutputParameter(outputParameter));
         }
     } else {
         storeOutputAutomatically = undefined;
@@ -111,11 +88,7 @@ export function createScreenField(screenField = {}, isNewField = false) {
         // Temporary workaround to fix W-5886211
         // Todo: Update this as a part of W-5902485
         let updatedDefaultValue = defaultValue;
-        if (
-            isTextAreaField(screenField) &&
-            defaultValue &&
-            defaultValue.elementReference
-        ) {
+        if (isTextAreaField(screenField) && defaultValue && defaultValue.elementReference) {
             updatedDefaultValue = {
                 stringValue: `{!${defaultValue.elementReference}}`
             };
@@ -128,9 +101,7 @@ export function createScreenField(screenField = {}, isNewField = false) {
         );
     }
 
-    choiceReferences = choiceReferences.map(choiceReference =>
-        createChoiceReference(choiceReference)
-    );
+    choiceReferences = choiceReferences.map(choiceReference => createChoiceReference(choiceReference));
 
     // Convert scale property to string, which is needed for validation purposes.
     // Saving it as a string allows it be hydrated.
@@ -179,9 +150,7 @@ export function createScreenField(screenField = {}, isNewField = false) {
             visibilityRule
         },
         dynamicTypeMappings,
-        storeOutputAutomatically !== undefined
-            ? { storeOutputAutomatically }
-            : {},
+        storeOutputAutomatically !== undefined ? { storeOutputAutomatically } : {},
         defaultValueFerovObject
     );
 }
@@ -268,16 +237,11 @@ export function createScreenFieldMetadataObject(screenField) {
 
     let dataTypeMappings;
     if (isExtensionField(screenField)) {
-        inputParameters = inputParameters.map(inputParameter =>
-            createInputParameterMetadataObject(inputParameter)
-        );
+        inputParameters = inputParameters.map(inputParameter => createInputParameterMetadataObject(inputParameter));
         if (storeOutputAutomatically && automaticOutputHandlingSupport()) {
             outputParameters = [];
             dataType = undefined;
-        } else if (
-            storeOutputAutomatically &&
-            !automaticOutputHandlingSupport()
-        ) {
+        } else if (storeOutputAutomatically && !automaticOutputHandlingSupport()) {
             // if the user save the flow and change the process type which doesn't support the automatic output handling,
             // then we need to set the property storeOutputAutomatically to undefined.
             outputParameters = [];
@@ -289,14 +253,10 @@ export function createScreenFieldMetadataObject(screenField) {
             );
             storeOutputAutomatically = undefined;
         }
-        dataTypeMappings = createDataTypeMappingsMetadataObject(
-            dynamicTypeMappings
-        );
+        dataTypeMappings = createDataTypeMappingsMetadataObject(dynamicTypeMappings);
     }
 
-    choiceReferences = choiceReferences.map(choiceReference =>
-        createChoiceReferenceMetadatObject(choiceReference)
-    );
+    choiceReferences = choiceReferences.map(choiceReference => createChoiceReferenceMetadatObject(choiceReference));
 
     if (dataTypeMappings) {
         dataTypeMappings = { dataTypeMappings };
@@ -317,18 +277,14 @@ export function createScreenFieldMetadataObject(screenField) {
             scale
         },
         dataTypeMappings,
-        storeOutputAutomatically !== undefined
-            ? { storeOutputAutomatically }
-            : {},
+        storeOutputAutomatically !== undefined ? { storeOutputAutomatically } : {},
         defaultValueMetadataObject
     );
 
     let { conditions } = visibilityRule;
 
     if (conditions.length > 0) {
-        conditions = conditions.map(condition =>
-            createConditionMetadataObject(condition)
-        );
+        conditions = conditions.map(condition => createConditionMetadataObject(condition));
         Object.assign(mdScreenField, {
             visibilityRule: {
                 conditionLogic: visibilityRule.conditionLogic,
@@ -343,9 +299,7 @@ export function createScreenFieldMetadataObject(screenField) {
     }
 
     if (validationRule && validationRule.formulaExpression) {
-        mdScreenField.validationRule = createValidationRuleObject(
-            validationRule
-        );
+        mdScreenField.validationRule = createValidationRuleObject(validationRule);
     }
 
     if (isChoiceField(screenField)) {

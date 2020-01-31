@@ -6,10 +6,7 @@ import {
 } from '../recordLookup';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
-import {
-    ELEMENT_TYPE,
-    CONNECTOR_TYPE
-} from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
 import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
@@ -18,14 +15,10 @@ import {
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/processTypeLib'
-    );
+    const actual = require.requireActual('builder_platform_interaction/processTypeLib');
     return Object.assign({}, actual, {
         getProcessTypeAutomaticOutPutHandlingSupport: jest.fn()
     });
@@ -318,27 +311,19 @@ describe('recordLookup', () => {
         describe('when empty recordLookup is created', () => {
             it('has dataType of boolean', () => {
                 recordLookup = createRecordLookup();
-                expect(recordLookup.dataType).toEqual(
-                    FLOW_DATA_TYPE.BOOLEAN.value
-                );
+                expect(recordLookup.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
             });
         });
 
         describe('when flow recordLookup is passed', () => {
             beforeEach(() => {
-                recordLookup = createRecordLookup(
-                    recordLookupSObjectMetadata()
-                );
+                recordLookup = createRecordLookup(recordLookupSObjectMetadata());
             });
             it('has dataType of boolean', () => {
-                expect(recordLookup.dataType).toEqual(
-                    FLOW_DATA_TYPE.BOOLEAN.value
-                );
+                expect(recordLookup.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
             });
             it('has no common mutable object with record lookup metadata passed as parameter', () => {
-                expect(recordLookup).toHaveNoCommonMutableObjectWith(
-                    recordLookupSObjectMetadata()
-                );
+                expect(recordLookup).toHaveNoCommonMutableObjectWith(recordLookupSObjectMetadata());
             });
         });
 
@@ -347,19 +332,13 @@ describe('recordLookup', () => {
                 recordLookup = createRecordLookup(recordLookupSObjectStore());
             });
             it('has dataType of boolean', () => {
-                expect(recordLookup.dataType).toEqual(
-                    FLOW_DATA_TYPE.BOOLEAN.value
-                );
+                expect(recordLookup.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
             });
             it('has no common mutable object with ecord lookup from store passed as parameter', () => {
-                expect(recordLookup).toHaveNoCommonMutableObjectWith(
-                    recordLookupSObjectStore()
-                );
+                expect(recordLookup).toHaveNoCommonMutableObjectWith(recordLookupSObjectStore());
             });
             it('has the "how many records" property set from the passed object', () => {
-                const valueFromCreation = createRecordLookup(
-                    recordLookupSObjectCollectionStore()
-                ).getFirstRecordOnly;
+                const valueFromCreation = createRecordLookup(recordLookupSObjectCollectionStore()).getFirstRecordOnly;
                 expect(valueFromCreation).toEqual(false);
             });
         });
@@ -410,14 +389,10 @@ describe('recordLookup', () => {
             expect(duplicatedElement.name).toEqual('duplicatedName');
         });
         it('has the updated locationX', () => {
-            expect(duplicatedElement.locationX).toEqual(
-                originalRecordLookup.locationX + DUPLICATE_ELEMENT_XY_OFFSET
-            );
+            expect(duplicatedElement.locationX).toEqual(originalRecordLookup.locationX + DUPLICATE_ELEMENT_XY_OFFSET);
         });
         it('has the updated locationY', () => {
-            expect(duplicatedElement.locationY).toEqual(
-                originalRecordLookup.locationY + DUPLICATE_ELEMENT_XY_OFFSET
-            );
+            expect(duplicatedElement.locationY).toEqual(originalRecordLookup.locationY + DUPLICATE_ELEMENT_XY_OFFSET);
         });
         it('has isSelected set to true', () => {
             expect(duplicatedElement.config.isSelected).toBeTruthy();
@@ -432,9 +407,7 @@ describe('recordLookup', () => {
             expect(duplicatedElement.maxConnections).toEqual(2);
         });
         it('has the right elementType', () => {
-            expect(duplicatedElement.elementType).toEqual(
-                ELEMENT_TYPE.RECORD_LOOKUP
-            );
+            expect(duplicatedElement.elementType).toEqual(ELEMENT_TYPE.RECORD_LOOKUP);
         });
         it('has default availableConnections', () => {
             expect(duplicatedElement.availableConnections).toEqual([
@@ -458,9 +431,7 @@ describe('recordLookup', () => {
             it('has no common mutable object with record lookup metadata passed as parameter', () => {
                 const recordLookupMetadata = recordLookupFieldsMetadata();
                 const actualResult = createRecordLookup(recordLookupMetadata);
-                expect(actualResult).toHaveNoCommonMutableObjectWith(
-                    recordLookupMetadata
-                );
+                expect(actualResult).toHaveNoCommonMutableObjectWith(recordLookupMetadata);
             });
         });
         describe('recordLookup function using Fields', () => {
@@ -471,55 +442,32 @@ describe('recordLookup', () => {
                 uiModelRecordLookupWithFields = recordLookupFieldsStore();
             });
             it('outputAssignments with value should return the expression (RHS/LHS)', () => {
-                recordLookupUsingFields.outputAssignments = [
-                    outputAssignmentFieldValue
-                ];
-                const actualResult = createRecordLookup(
-                    recordLookupUsingFields
-                );
-                uiModelRecordLookupWithFields.outputAssignments = [
-                    uiModelOutputAssignmentFieldValue
-                ];
-                expect(actualResult).toMatchObject(
-                    uiModelRecordLookupWithFields
-                );
+                recordLookupUsingFields.outputAssignments = [outputAssignmentFieldValue];
+                const actualResult = createRecordLookup(recordLookupUsingFields);
+                uiModelRecordLookupWithFields.outputAssignments = [uiModelOutputAssignmentFieldValue];
+                expect(actualResult).toMatchObject(uiModelRecordLookupWithFields);
             });
             it('outputAssignments with multiple values should return the expression (RHS/LHS)', () => {
-                recordLookupUsingFields.outputAssignments = [
-                    outputAssignmentFieldValue,
-                    outputAssignmentField
-                ];
-                const actualResult = createRecordLookup(
-                    recordLookupUsingFields
-                );
+                recordLookupUsingFields.outputAssignments = [outputAssignmentFieldValue, outputAssignmentField];
+                const actualResult = createRecordLookup(recordLookupUsingFields);
                 uiModelRecordLookupWithFields.outputAssignments = [
                     uiModelOutputAssignmentFieldValue,
                     uiModelOutputAssignmentField
                 ];
-                expect(actualResult).toMatchObject(
-                    uiModelRecordLookupWithFields
-                );
+                expect(actualResult).toMatchObject(uiModelRecordLookupWithFields);
             });
             it('has no common mutable object with record lookup with fields metadata passed as parameter', () => {
-                const actualResult = createRecordLookup(
-                    recordLookupUsingFields
-                );
-                expect(actualResult).toHaveNoCommonMutableObjectWith(
-                    recordLookupUsingFields
-                );
+                const actualResult = createRecordLookup(recordLookupUsingFields);
+                expect(actualResult).toHaveNoCommonMutableObjectWith(recordLookupUsingFields);
             });
             it('should have an "outputReference" undefined', () => {
-                const actualResult = createRecordLookup(
-                    recordLookupUsingFields
-                );
+                const actualResult = createRecordLookup(recordLookupUsingFields);
                 // this is not the same thing than expect(actualResult).toHaveProperty('outputReference', undefined); !
                 expect(actualResult).toHaveProperty('outputReference');
                 expect(actualResult.outputReference).toBeUndefined();
             });
             it('"queriedFields" should be an empty array', () => {
-                const actualResult = createRecordLookup(
-                    recordLookupUsingFields
-                );
+                const actualResult = createRecordLookup(recordLookupUsingFields);
                 expect(actualResult).toHaveProperty('queriedFields', []);
             });
         });
@@ -530,9 +478,7 @@ describe('recordLookup', () => {
             });
             it('has no common mutable object with record lookup with fields metadata passed as parameter', () => {
                 const actualResult = createRecordLookup(recordLookupAutomatic);
-                expect(actualResult).toHaveNoCommonMutableObjectWith(
-                    recordLookupAutomatic
-                );
+                expect(actualResult).toHaveNoCommonMutableObjectWith(recordLookupAutomatic);
             });
             it('should have an "outputReference" undefined', () => {
                 const actualResult = createRecordLookup(recordLookupAutomatic);
@@ -542,9 +488,7 @@ describe('recordLookup', () => {
             });
             it('should have a sobject datatype', () => {
                 const actualResult = createRecordLookup(recordLookupAutomatic);
-                expect(actualResult.dataType).toBe(
-                    FLOW_DATA_TYPE.SOBJECT.value
-                );
+                expect(actualResult.dataType).toBe(FLOW_DATA_TYPE.SOBJECT.value);
                 expect(actualResult.isCollection).toBeFalsy();
                 expect(actualResult.subtype).toBe('Account');
             });
@@ -557,21 +501,13 @@ describe('recordLookup', () => {
     describe('recordLookup UI model => flow metadata', () => {
         describe('recordLookup function using sObject', () => {
             it('record lookup using sObject', () => {
-                const actualResult = createRecordLookupMetadataObject(
-                    recordLookupSObjectStore()
-                );
-                expect(actualResult).toMatchObject(
-                    recordLookupSObjectMetadata()
-                );
+                const actualResult = createRecordLookupMetadataObject(recordLookupSObjectStore());
+                expect(actualResult).toMatchObject(recordLookupSObjectMetadata());
             });
             it('has no common mutable object with record create store passed as parameter', () => {
                 const recordCreateSObjectStore = recordLookupSObjectStore();
-                const actualResult = createRecordLookupMetadataObject(
-                    recordCreateSObjectStore
-                );
-                expect(actualResult).toHaveNoCommonMutableObjectWith(
-                    recordCreateSObjectStore
-                );
+                const actualResult = createRecordLookupMetadataObject(recordCreateSObjectStore);
+                expect(actualResult).toHaveNoCommonMutableObjectWith(recordCreateSObjectStore);
             });
         });
         describe('recordLookup function using Fields', () => {
@@ -582,15 +518,9 @@ describe('recordLookup', () => {
                 uiModelRecordLookupWithFields = recordLookupFieldsStore();
             });
             it('outputAssignments with value', () => {
-                uiModelRecordLookupWithFields.outputAssignments = [
-                    uiModelOutputAssignmentFieldValue
-                ];
-                recordLookupUsingFields.outputAssignments = [
-                    outputAssignmentFieldValue
-                ];
-                const actualResult = createRecordLookupMetadataObject(
-                    uiModelRecordLookupWithFields
-                );
+                uiModelRecordLookupWithFields.outputAssignments = [uiModelOutputAssignmentFieldValue];
+                recordLookupUsingFields.outputAssignments = [outputAssignmentFieldValue];
+                const actualResult = createRecordLookupMetadataObject(uiModelRecordLookupWithFields);
                 expect(actualResult).toMatchObject(recordLookupUsingFields);
             });
             it('outputAssignments with multiple values', () => {
@@ -598,64 +528,37 @@ describe('recordLookup', () => {
                     uiModelOutputAssignmentFieldValue,
                     uiModelOutputAssignmentField
                 ];
-                recordLookupUsingFields.outputAssignments = [
-                    outputAssignmentFieldValue,
-                    outputAssignmentField
-                ];
-                const actualResult = createRecordLookupMetadataObject(
-                    uiModelRecordLookupWithFields
-                );
+                recordLookupUsingFields.outputAssignments = [outputAssignmentFieldValue, outputAssignmentField];
+                const actualResult = createRecordLookupMetadataObject(uiModelRecordLookupWithFields);
                 expect(actualResult).toMatchObject(recordLookupUsingFields);
             });
             it('has no common mutable object with record lookup store passed as parameter', () => {
-                const actualResult = createRecordLookupMetadataObject(
-                    uiModelRecordLookupWithFields
-                );
-                expect(actualResult).toHaveNoCommonMutableObjectWith(
-                    uiModelRecordLookupWithFields
-                );
+                const actualResult = createRecordLookupMetadataObject(uiModelRecordLookupWithFields);
+                expect(actualResult).toHaveNoCommonMutableObjectWith(uiModelRecordLookupWithFields);
             });
             it('outputAssignments with empty values', () => {
-                uiModelRecordLookupWithFields.outputAssignments = [
-                    uiModelOutputAssignmentFieldEmptyValue
-                ];
+                uiModelRecordLookupWithFields.outputAssignments = [uiModelOutputAssignmentFieldEmptyValue];
                 recordLookupUsingFields.outputAssignments = [];
-                const actualResult = createRecordLookupMetadataObject(
-                    uiModelRecordLookupWithFields
-                );
+                const actualResult = createRecordLookupMetadataObject(uiModelRecordLookupWithFields);
                 expect(actualResult).toMatchObject(recordLookupUsingFields);
             });
         });
         describe('recordLookup function with automatic handled output', () => {
             beforeEach(() => {
-                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
-                    FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
-                );
+                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED);
             });
             it('record lookup using automatic handled output', () => {
-                const actualResult = createRecordLookupMetadataObject(
-                    recordLookupAutomaticStore()
-                );
-                expect(actualResult).toMatchObject(
-                    recordLookupAutomaticMetadata()
-                );
+                const actualResult = createRecordLookupMetadataObject(recordLookupAutomaticStore());
+                expect(actualResult).toMatchObject(recordLookupAutomaticMetadata());
             });
             it('record lookup using automatic handled output with collection', () => {
-                const actualResult = createRecordLookupMetadataObject(
-                    recordLookupAutomaticStore(false)
-                );
-                expect(actualResult).toMatchObject(
-                    recordLookupAutomaticMetadata(false)
-                );
+                const actualResult = createRecordLookupMetadataObject(recordLookupAutomaticStore(false));
+                expect(actualResult).toMatchObject(recordLookupAutomaticMetadata(false));
             });
             it('has no common mutable object with record create store passed as parameter', () => {
                 const recordLookupStore = recordLookupAutomaticStore();
-                const actualResult = createRecordLookupMetadataObject(
-                    recordLookupStore
-                );
-                expect(actualResult).toHaveNoCommonMutableObjectWith(
-                    recordLookupStore
-                );
+                const actualResult = createRecordLookupMetadataObject(recordLookupStore);
+                expect(actualResult).toHaveNoCommonMutableObjectWith(recordLookupStore);
             });
         });
         describe('recordLookup function with automatic handled output and saved with a process type that does not support automatic output handling', () => {
@@ -665,12 +568,8 @@ describe('recordLookup', () => {
                 );
             });
             it('Should not have storeOutputAutomatically', () => {
-                const actualResult = createRecordLookupMetadataObject(
-                    recordLookupAutomaticStore()
-                );
-                expect(actualResult).toMatchObject(
-                    recordLookupAutomaticProcessTypeChangedOnSaveMetadata()
-                );
+                const actualResult = createRecordLookupMetadataObject(recordLookupAutomaticStore());
+                expect(actualResult).toMatchObject(recordLookupAutomaticProcessTypeChangedOnSaveMetadata());
                 expect(actualResult.storeOutputAutomatically).toBe(undefined);
             });
         });

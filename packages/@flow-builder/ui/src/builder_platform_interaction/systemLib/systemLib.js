@@ -1,7 +1,4 @@
-import {
-    GLOBAL_CONSTANT_OBJECTS,
-    GLOBAL_CONSTANT_PREFIX
-} from './globalConstants';
+import { GLOBAL_CONSTANT_OBJECTS, GLOBAL_CONSTANT_PREFIX } from './globalConstants';
 import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import {
     getSystemVariables,
@@ -15,10 +12,7 @@ const GLOBAL_CONSTANTS_AND_SYSTEM_VARIABLES = [
     SYSTEM_VARIABLE_PREFIX,
     SYSTEM_VARIABLE_CLIENT_PREFIX
 ];
-const SYSTEM_VARIABLES = [
-    SYSTEM_VARIABLE_PREFIX,
-    SYSTEM_VARIABLE_CLIENT_PREFIX
-];
+const SYSTEM_VARIABLES = [SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX];
 
 /**
  * Checks if the id passed in might point to a non-element resource such as
@@ -28,20 +22,12 @@ const SYSTEM_VARIABLES = [
  * @returns {Boolean}    true if the id might point to a non-element resource, false otherwise
  */
 export const isGlobalConstantOrSystemVariableId = id =>
-    !!id &&
-    GLOBAL_CONSTANTS_AND_SYSTEM_VARIABLES.indexOf(
-        removeCurlyBraces(id).split('.')[0]
-    ) >= 0;
-export const isSystemVariableId = id =>
-    !!id && SYSTEM_VARIABLES.indexOf(removeCurlyBraces(id).split('.')[0]) >= 0;
+    !!id && GLOBAL_CONSTANTS_AND_SYSTEM_VARIABLES.indexOf(removeCurlyBraces(id).split('.')[0]) >= 0;
+export const isSystemVariableId = id => !!id && SYSTEM_VARIABLES.indexOf(removeCurlyBraces(id).split('.')[0]) >= 0;
 export const isRecordSystemVariableIdentifier = id =>
-    !!id &&
-    typeof id === 'string' &&
-    id.toUpperCase() === SYSTEM_VARIABLE_RECORD_PREFIX.toUpperCase();
+    !!id && typeof id === 'string' && id.toUpperCase() === SYSTEM_VARIABLE_RECORD_PREFIX.toUpperCase();
 export const isRecordSystemVariableCompositeIdentifier = id =>
-    !!id &&
-    typeof id === 'string' &&
-    isRecordSystemVariableIdentifier(removeCurlyBraces(id).split('.')[0]);
+    !!id && typeof id === 'string' && isRecordSystemVariableIdentifier(removeCurlyBraces(id).split('.')[0]);
 
 /**
  * Returns Global Constant or System Variable referenced by id
@@ -51,16 +37,10 @@ export const isRecordSystemVariableCompositeIdentifier = id =>
  */
 export const getGlobalConstantOrSystemVariable = id => {
     const reference = removeCurlyBraces(id);
-    return (
-        GLOBAL_CONSTANT_OBJECTS[reference] || getSystemVariables()[reference]
-    );
+    return GLOBAL_CONSTANT_OBJECTS[reference] || getSystemVariables()[reference];
 };
 
-export {
-    GLOBAL_CONSTANT_PREFIX,
-    GLOBAL_CONSTANTS,
-    GLOBAL_CONSTANT_OBJECTS
-} from './globalConstants';
+export { GLOBAL_CONSTANT_PREFIX, GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS } from './globalConstants';
 export {
     setSystemVariables,
     getSystemVariables,
@@ -71,21 +51,8 @@ export {
     SYSTEM_VARIABLE_RECORD_PREFIX,
     SYSTEM_VARIABLES
 } from './systemVariables';
-export {
-    setGlobalVariables,
-    getGlobalVariableTypes,
-    getGlobalVariables,
-    getGlobalVariable
-} from './globalVariables';
-export {
-    setProcessTypes,
-    getProcessTypes,
-    getProcessFeatures,
-    setProcessTypeFeature
-} from './processTypes';
+export { setGlobalVariables, getGlobalVariableTypes, getGlobalVariables, getGlobalVariable } from './globalVariables';
+export { setProcessTypes, getProcessTypes, getProcessFeatures, setProcessTypeFeature } from './processTypes';
 export { setRunInModes, getRunInModes } from './runInModes';
-export {
-    getSupportedFeatures,
-    setSupportedFeatures
-} from './supportedFeatures';
+export { getSupportedFeatures, setSupportedFeatures } from './supportedFeatures';
 export { getBuilderConfig, setBuilderConfigs } from './builderConfigs';

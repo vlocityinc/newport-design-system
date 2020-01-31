@@ -34,11 +34,7 @@ const ITEMS = [
     }
 ];
 
-function createComponentForTest({
-    items = ITEMS,
-    numberOfColumns = 2,
-    allowMultipleSelection = false
-} = {}) {
+function createComponentForTest({ items = ITEMS, numberOfColumns = 2, allowMultipleSelection = false } = {}) {
     const el = createElement('builder_platform_interaction-visual-picker', {
         is: VisualPickerList
     });
@@ -58,9 +54,7 @@ const SELECTORS = {
 };
 
 function getVisualPickerItems(visualPicker) {
-    return visualPicker.shadowRoot.querySelectorAll(
-        SELECTORS.VISUAL_PICKER_ITEM
-    );
+    return visualPicker.shadowRoot.querySelectorAll(SELECTORS.VISUAL_PICKER_ITEM);
 }
 
 function getRows(visualPicker) {
@@ -107,10 +101,7 @@ describe('visual-picker-list', () => {
 
     it('should fire VisualPickerListChangedEvent when selecting another item', async () => {
         const eventCallback = jest.fn();
-        visualPickerCmp.addEventListener(
-            VisualPickerListChangedEvent.EVENT_NAME,
-            eventCallback
-        );
+        visualPickerCmp.addEventListener(VisualPickerListChangedEvent.EVENT_NAME, eventCallback);
         const visualPickerItem = getVisualPickerItems(visualPickerCmp)[1];
         const checkbox = getCheckbox(visualPickerItem);
         checkbox.checked = true;
@@ -131,10 +122,7 @@ describe('visual-picker-list', () => {
             allowMultipleSelection: true
         });
         const eventCallback = jest.fn();
-        visualPickerCmp.addEventListener(
-            VisualPickerListChangedEvent.EVENT_NAME,
-            eventCallback
-        );
+        visualPickerCmp.addEventListener(VisualPickerListChangedEvent.EVENT_NAME, eventCallback);
         const visualPickerItems = getVisualPickerItems(visualPickerCmp);
         const checkbox = getCheckbox(visualPickerItems[1]);
         checkbox.checked = true;

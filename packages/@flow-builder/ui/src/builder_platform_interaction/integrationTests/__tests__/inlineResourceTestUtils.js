@@ -10,17 +10,11 @@ const newResourceEventListener = () => {
 };
 
 export const addNewResourceEventListener = () => {
-    document.addEventListener(
-        NewResourceEvent.EVENT_NAME,
-        newResourceEventListener
-    );
+    document.addEventListener(NewResourceEvent.EVENT_NAME, newResourceEventListener);
 };
 
 export const removeNewResourceEventListener = () => {
-    document.removeEventListener(
-        NewResourceEvent.EVENT_NAME,
-        newResourceEventListener
-    );
+    document.removeEventListener(NewResourceEvent.EVENT_NAME, newResourceEventListener);
 };
 
 /**

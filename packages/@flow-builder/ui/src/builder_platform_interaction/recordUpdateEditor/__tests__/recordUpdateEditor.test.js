@@ -17,38 +17,30 @@ import {
 } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { allEntities as mockEntities } from "serverData/GetEntities/allEntities.json";
+import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
 );
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
 
 function createComponentForTest(node) {
-    const el = createElement(
-        'builder_platform_interaction-record-update-editor',
-        { is: RecordUpdateEditor }
-    );
+    const el = createElement('builder_platform_interaction-record-update-editor', { is: RecordUpdateEditor });
     el.node = node;
     document.body.appendChild(el);
     return el;
 }
 
 const selectors = {
-    sObjectOrSObjectCollectionPicker:
-        'builder_platform_interaction-sobject-or-sobject-collection-picker',
+    sObjectOrSObjectCollectionPicker: 'builder_platform_interaction-sobject-or-sobject-collection-picker',
     entityResourcePicker: 'builder_platform_interaction-entity-resource-picker',
     recordFilter: 'builder_platform_interaction-record-filter',
     recordStoreOption: 'builder_platform_interaction-record-store-options',
-    inputOutputAssignments:
-        'builder_platform_interaction-record-input-output-assignments',
-    fieldToFerovExpBuilder:
-        'builder_platform_interaction-field-to-ferov-expression-builder'
+    inputOutputAssignments: 'builder_platform_interaction-record-input-output-assignments',
+    fieldToFerovExpBuilder: 'builder_platform_interaction-field-to-ferov-expression-builder'
 };
 
 const defaultRecordUpdateElement = () => {
@@ -137,33 +129,24 @@ const inputAssignmentElement = {
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
-        fetchFieldsForEntity: jest
-            .fn()
-            .mockImplementation(() => Promise.resolve(mockAccountFields)),
+        fetchFieldsForEntity: jest.fn().mockImplementation(() => Promise.resolve(mockAccountFields)),
         getUpdateableEntities: jest.fn().mockImplementation(() => {
             return mockEntities;
         }),
-        ENTITY_TYPE: require.requireActual('builder_platform_interaction/sobjectLib')
-            .ENTITY_TYPE
+        ENTITY_TYPE: require.requireActual('builder_platform_interaction/sobjectLib').ENTITY_TYPE
     };
 });
 
 const getSObjectOrSObjectCollectionPicker = recordUpdateEditor => {
-    return recordUpdateEditor.shadowRoot.querySelector(
-        selectors.sObjectOrSObjectCollectionPicker
-    );
+    return recordUpdateEditor.shadowRoot.querySelector(selectors.sObjectOrSObjectCollectionPicker);
 };
 
 const getEntityResourcePicker = recordUpdateEditor => {
-    return recordUpdateEditor.shadowRoot.querySelector(
-        selectors.entityResourcePicker
-    );
+    return recordUpdateEditor.shadowRoot.querySelector(selectors.entityResourcePicker);
 };
 
 const getRecordStoreOption = recordUpdateEditor => {
-    return recordUpdateEditor.shadowRoot.querySelector(
-        selectors.recordStoreOption
-    );
+    return recordUpdateEditor.shadowRoot.querySelector(selectors.recordStoreOption);
 };
 
 const getRecordFilter = recordUpdateEditor => {
@@ -171,9 +154,7 @@ const getRecordFilter = recordUpdateEditor => {
 };
 
 const getInputOutputAssignments = recordUpdateEditor => {
-    return recordUpdateEditor.shadowRoot.querySelector(
-        selectors.inputOutputAssignments
-    );
+    return recordUpdateEditor.shadowRoot.querySelector(selectors.inputOutputAssignments);
 };
 
 describe('record-update-editor', () => {
@@ -186,14 +167,10 @@ describe('record-update-editor', () => {
     describe('with default values', () => {
         let recordUpdateEditor;
         beforeEach(() => {
-            recordUpdateEditor = createComponentForTest(
-                defaultRecordUpdateElement()
-            );
+            recordUpdateEditor = createComponentForTest(defaultRecordUpdateElement());
         });
         it('contains an entity resource picker for sobject', () => {
-            const sObjectPicker = getSObjectOrSObjectCollectionPicker(
-                recordUpdateEditor
-            );
+            const sObjectPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);
             expect(sObjectPicker).not.toBeNull();
         });
         it('contains an record store option component', () => {
@@ -217,37 +194,20 @@ describe('record-update-editor using sObject', () => {
     });
     describe('Edit existing record element', () => {
         it('Selected sObject should be the same', () => {
-            const recordUpdateEditor = createComponentForTest(
-                recordUpdateElementWithSObject()
-            );
-            const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(
-                recordUpdateEditor
-            );
-            expect(sObjectOrSObjectCollectionPicker.value).toBe(
-                storeMockedData.accountSObjectVariable.guid
-            );
+            const recordUpdateEditor = createComponentForTest(recordUpdateElementWithSObject());
+            const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);
+            expect(sObjectOrSObjectCollectionPicker.value).toBe(storeMockedData.accountSObjectVariable.guid);
         });
     });
     describe('Handle Events', () => {
         it('handle Input Reference Changed', () => {
-            const recordUpdateEditor = createComponentForTest(
-                recordUpdateElementWithSObject()
-            );
-            const event = new SObjectReferenceChangedEvent(
-                storeMockedData.accountSObjectVariable.guid,
-                null
-            );
-            let sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(
-                recordUpdateEditor
-            );
+            const recordUpdateEditor = createComponentForTest(recordUpdateElementWithSObject());
+            const event = new SObjectReferenceChangedEvent(storeMockedData.accountSObjectVariable.guid, null);
+            let sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);
             sObjectOrSObjectCollectionPicker.dispatchEvent(event);
             return Promise.resolve().then(() => {
-                sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(
-                    recordUpdateEditor
-                );
-                expect(sObjectOrSObjectCollectionPicker.value).toBe(
-                    storeMockedData.accountSObjectVariable.guid
-                );
+                sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);
+                expect(sObjectOrSObjectCollectionPicker.value).toBe(storeMockedData.accountSObjectVariable.guid);
             });
         });
     });
@@ -261,25 +221,17 @@ describe('record-update-editor usung fields', () => {
         Store.resetStore();
     });
     beforeEach(() => {
-        recordUpdateEditor = createComponentForTest(
-            recordUpdateElementWithFields()
-        );
+        recordUpdateEditor = createComponentForTest(recordUpdateElementWithFields());
     });
     describe('Edit existing record element using fields assignment', () => {
         it('entity resource picker should be visible & sObject picker should not be visible', () => {
-            const entityResourcePicker = getEntityResourcePicker(
-                recordUpdateEditor
-            );
-            const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(
-                recordUpdateEditor
-            );
+            const entityResourcePicker = getEntityResourcePicker(recordUpdateEditor);
+            const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);
             expect(sObjectOrSObjectCollectionPicker).toBeNull();
             expect(entityResourcePicker).not.toBeNull();
         });
         it('it should only display editable fields', () => {
-            const inputOutputAssignments = getInputOutputAssignments(
-                recordUpdateEditor
-            );
+            const inputOutputAssignments = getInputOutputAssignments(recordUpdateEditor);
             expect(inputOutputAssignments.recordFields).not.toBeNull();
             const fields = Object.values(inputOutputAssignments.recordFields);
             expect(fields).toContainEqual(
@@ -299,54 +251,36 @@ describe('record-update-editor usung fields', () => {
             const event = new RecordStoreOptionChangedEvent(true, '', false);
             getRecordStoreOption(recordUpdateEditor).dispatchEvent(event);
             return Promise.resolve().then(() => {
-                const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(
-                    recordUpdateEditor
-                );
+                const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);
                 expect(sObjectOrSObjectCollectionPicker.value).toBe('');
             });
         });
         it('handle UpdateRecordFilterEvent should update the filter element', () => {
-            const updateRecordFilterEvent = new UpdateRecordFilterEvent(
-                0,
-                filterElement,
-                null
-            );
-            getRecordFilter(recordUpdateEditor).dispatchEvent(
-                updateRecordFilterEvent
-            );
+            const updateRecordFilterEvent = new UpdateRecordFilterEvent(0, filterElement, null);
+            getRecordFilter(recordUpdateEditor).dispatchEvent(updateRecordFilterEvent);
             return Promise.resolve().then(() => {
-                expect(recordUpdateEditor.node.filters[0]).toMatchObject(
-                    filterElement
-                );
+                expect(recordUpdateEditor.node.filters[0]).toMatchObject(filterElement);
             });
         });
         it('handle AddRecordFilterEvent should add a filter element', () => {
             const addRecordFilterEvent = new AddRecordFilterEvent(); // This is using the numerical rowIndex not the property rowIndex
-            getRecordFilter(recordUpdateEditor).dispatchEvent(
-                addRecordFilterEvent
-            );
+            getRecordFilter(recordUpdateEditor).dispatchEvent(addRecordFilterEvent);
             return Promise.resolve().then(() => {
                 expect(recordUpdateEditor.node.filters).toHaveLength(1);
             });
         });
         it('record filter fire DeleteRecordFilterEvent', () => {
             const deleteRecordFilterEvent = new DeleteRecordFilterEvent(0); // This is using the numerical rowIndex not the property rowIndex
-            getRecordFilter(recordUpdateEditor).dispatchEvent(
-                deleteRecordFilterEvent
-            );
+            getRecordFilter(recordUpdateEditor).dispatchEvent(deleteRecordFilterEvent);
             return Promise.resolve().then(() => {
                 expect(recordUpdateEditor.node.filters).toHaveLength(0);
             });
         });
         it('handle AddRecordFieldAssignmentEvent should add an input Assignments element', () => {
             const addRecordFieldAssignmentEvent = new AddRecordFieldAssignmentEvent();
-            getInputOutputAssignments(recordUpdateEditor).dispatchEvent(
-                addRecordFieldAssignmentEvent
-            );
+            getInputOutputAssignments(recordUpdateEditor).dispatchEvent(addRecordFieldAssignmentEvent);
             return Promise.resolve().then(() => {
-                expect(recordUpdateEditor.node.inputAssignments).toHaveLength(
-                    2
-                );
+                expect(recordUpdateEditor.node.inputAssignments).toHaveLength(2);
             });
         });
         it('handle UpdateRecordFieldAssignmentEvent should update the input Assignments element', () => {
@@ -355,39 +289,23 @@ describe('record-update-editor usung fields', () => {
                 inputAssignmentElement,
                 null
             );
-            getInputOutputAssignments(recordUpdateEditor).dispatchEvent(
-                updateRecordFieldAssignmentEvent
-            );
+            getInputOutputAssignments(recordUpdateEditor).dispatchEvent(updateRecordFieldAssignmentEvent);
             return Promise.resolve().then(() => {
-                expect(
-                    recordUpdateEditor.node.inputAssignments[0]
-                ).toMatchObject(inputAssignmentElement);
+                expect(recordUpdateEditor.node.inputAssignments[0]).toMatchObject(inputAssignmentElement);
             });
         });
         it('handle DeleteRecordFieldAssignmentEvent should delete the input assignment', () => {
-            const deleteRecordFieldAssignmentEvent = new DeleteRecordFieldAssignmentEvent(
-                0
-            ); // This is using the numerical rowIndex not the property rowIndex
-            getInputOutputAssignments(recordUpdateEditor).dispatchEvent(
-                deleteRecordFieldAssignmentEvent
-            );
+            const deleteRecordFieldAssignmentEvent = new DeleteRecordFieldAssignmentEvent(0); // This is using the numerical rowIndex not the property rowIndex
+            getInputOutputAssignments(recordUpdateEditor).dispatchEvent(deleteRecordFieldAssignmentEvent);
             return Promise.resolve().then(() => {
-                expect(recordUpdateEditor.node.inputAssignments).toHaveLength(
-                    0
-                );
+                expect(recordUpdateEditor.node.inputAssignments).toHaveLength(0);
             });
         });
         it('handle record filter type Change event', () => {
-            const recordUpdateFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(
-                RECORD_FILTER_CRITERIA.ALL
-            );
-            getRecordFilter(recordUpdateEditor).dispatchEvent(
-                recordUpdateFilterTypeChangedEvent
-            );
+            const recordUpdateFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(RECORD_FILTER_CRITERIA.ALL);
+            getRecordFilter(recordUpdateEditor).dispatchEvent(recordUpdateFilterTypeChangedEvent);
             return Promise.resolve().then(() => {
-                expect(recordUpdateEditor.node.filterType.value).toBe(
-                    RECORD_FILTER_CRITERIA.ALL
-                );
+                expect(recordUpdateEditor.node.filterType.value).toBe(RECORD_FILTER_CRITERIA.ALL);
             });
         });
     });

@@ -1,7 +1,4 @@
-import {
-    CommandRegistry,
-    KeyboardShortcutServiceImpl
-  } from 'builder_framework/command';
+import { CommandRegistry, KeyboardShortcutServiceImpl } from 'builder_framework/command';
 
 export class KeyboardInteractions {
     commandRegistry;
@@ -24,9 +21,11 @@ export class KeyboardInteractions {
 
     setupCommandAndShortcut(command, shortcutKeys) {
         this.commandRegistry.registerCommands([command]);
-        this.keyboardService.registerShortcuts([{
-          shortcut: shortcutKeys,
-          commandId: command.id
-        }]);
+        this.keyboardService.registerShortcuts([
+            {
+                shortcut: shortcutKeys,
+                commandId: command.id
+            }
+        ]);
     }
 }

@@ -1,14 +1,6 @@
 import { isPlainObject } from 'builder_platform_interaction/storeLib';
-import {
-    TEMPLATE_FIELDS,
-    REFERENCE_FIELDS,
-    EXPRESSION_RE
-} from 'builder_platform_interaction/flowMetadata';
-import {
-    splitStringBySeparator,
-    isReference,
-    removeCurlyBraces
-} from 'builder_platform_interaction/commonUtils';
+import { TEMPLATE_FIELDS, REFERENCE_FIELDS, EXPRESSION_RE } from 'builder_platform_interaction/flowMetadata';
+import { splitStringBySeparator, isReference, removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getDataTypeKey } from 'builder_platform_interaction/elementFactory';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -34,9 +26,7 @@ export const getDataType = (object, fieldName) => {
  */
 export const isTemplateField = (object, fieldName) => {
     const dataType = getDataType(object, fieldName);
-    return (
-        dataType === FEROV_DATA_TYPE.STRING || TEMPLATE_FIELDS.has(fieldName)
-    );
+    return dataType === FEROV_DATA_TYPE.STRING || TEMPLATE_FIELDS.has(fieldName);
 };
 
 /**
@@ -47,10 +37,7 @@ export const isTemplateField = (object, fieldName) => {
 export const isReferenceField = (object, fieldName) => {
     const dataType = getDataType(object, fieldName);
     // rightHandSide is in REFERENCE_FIELDS but should only be treated as a reference field in the cases when it doesn't have a data type
-    return (
-        dataType === FEROV_DATA_TYPE.REFERENCE ||
-        (!dataType && REFERENCE_FIELDS.has(fieldName))
-    );
+    return dataType === FEROV_DATA_TYPE.REFERENCE || (!dataType && REFERENCE_FIELDS.has(fieldName));
 };
 
 /**
@@ -58,17 +45,12 @@ export const isReferenceField = (object, fieldName) => {
  * @param {*} propertyValue value of the property
  * @return true if swapping needs to happen, else it returns false.
  */
-export const shouldCallSwapFunction = (
-    parentObject,
-    propertyName,
-    propertyValue
-) => {
+export const shouldCallSwapFunction = (parentObject, propertyName, propertyValue) => {
     return (
         propertyName &&
         propertyValue &&
         (typeof propertyValue === 'string' ||
-            (Array.isArray(propertyValue) &&
-                isReferenceField(parentObject, propertyName)))
+            (Array.isArray(propertyValue) && isReferenceField(parentObject, propertyName)))
     );
 };
 
@@ -107,10 +89,7 @@ const swapReferenceField = (swapFunction, value) => {
  *                 fieldName is the name of the field,
  *                 value is the value containing ids for swapping (ex: 'hi', 'accountVar', 'accountVar.name', 'hi {!accountVar.name} ')
  */
-export const getSwapValueFunction = (
-    swapFunction,
-    checkReferenceFields = true
-) => (object, fieldName, value) => {
+export const getSwapValueFunction = (swapFunction, checkReferenceFields = true) => (object, fieldName, value) => {
     if (isTemplateField(object, fieldName)) {
         return swapTemplateField(swapFunction, value);
     } else if (checkReferenceFields && isReferenceField(object, fieldName)) {

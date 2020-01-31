@@ -29,12 +29,10 @@ export const addToParentElementCache = (key, value) => {
  */
 export const getElementFromParentElementCache = key => {
     if (!parentElementCache[key] && !apexClassesCached) {
-        apexScalarVariablesSelector(Store.getStore().getCurrentState()).forEach(
-            el => {
-                const menuItem = mutateFlowResourceToComboboxShape(el);
-                parentElementCache[menuItem.displayText] = menuItem;
-            }
-        );
+        apexScalarVariablesSelector(Store.getStore().getCurrentState()).forEach(el => {
+            const menuItem = mutateFlowResourceToComboboxShape(el);
+            parentElementCache[menuItem.displayText] = menuItem;
+        });
         apexClassesCached = true;
     }
     return parentElementCache[key];

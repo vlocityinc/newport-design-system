@@ -38,11 +38,8 @@ const createComponentUnderTest = props => {
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = FLOW_PROCESS_TYPE.FLOW;
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/processTypeLib'
-    );
-    const FLOW_AUTOMATIC_OUTPUT_HANDLING =
-        actual.FLOW_AUTOMATIC_OUTPUT_HANDLING;
+    const actual = require.requireActual('builder_platform_interaction/processTypeLib');
+    const FLOW_AUTOMATIC_OUTPUT_HANDLING = actual.FLOW_AUTOMATIC_OUTPUT_HANDLING;
     return {
         FLOW_AUTOMATIC_OUTPUT_HANDLING,
         isLookupTraversalSupported: jest.fn(() => {
@@ -61,46 +58,36 @@ jest.mock('builder_platform_interaction/screenComponentVisibilitySection', () =>
 );
 
 const getScreenPropertiesEditorContainerElement = screenEditor => {
-    return screenEditor.shadowRoot.querySelector(
-        SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER
-    );
+    return screenEditor.shadowRoot.querySelector(SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER);
 };
 
 const getEditorCanvasElement = screenEditor => {
-    return screenEditor.shadowRoot.querySelector(
-        SELECTORS.SCREEN_EDITOR_CANVAS
-    );
+    return screenEditor.shadowRoot.querySelector(SELECTORS.SCREEN_EDITOR_CANVAS);
 };
 
 const getExtensionPropertiesEditorElement = screenEditor => {
-    return getScreenPropertiesEditorContainerElement(
-        screenEditor
-    ).shadowRoot.querySelector(SELECTORS.SCREEN_EXTENSION_PROPERTIES_EDITOR);
-};
-
-const getAdvancedOptionsCheckbox = screenEditor => {
-    return getExtensionPropertiesEditorElement(
-        screenEditor
-    ).shadowRoot.querySelector(SELECTORS.USE_ADVANCED_OPTIONS_CHECKBOX);
-};
-
-const getAdvancedOptionsCheckboxLightningInput = screenEditor => {
-    return getAdvancedOptionsCheckbox(screenEditor).shadowRoot.querySelector(
-        SELECTORS.LIGHTNING_INPUT
+    return getScreenPropertiesEditorContainerElement(screenEditor).shadowRoot.querySelector(
+        SELECTORS.SCREEN_EXTENSION_PROPERTIES_EDITOR
     );
 };
 
+const getAdvancedOptionsCheckbox = screenEditor => {
+    return getExtensionPropertiesEditorElement(screenEditor).shadowRoot.querySelector(
+        SELECTORS.USE_ADVANCED_OPTIONS_CHECKBOX
+    );
+};
+
+const getAdvancedOptionsCheckboxLightningInput = screenEditor => {
+    return getAdvancedOptionsCheckbox(screenEditor).shadowRoot.querySelector(SELECTORS.LIGHTNING_INPUT);
+};
+
 const getTitleFromExtensionPropertiesEditorElement = screenEditor => {
-    return getExtensionPropertiesEditorElement(
-        screenEditor
-    ).shadowRoot.querySelector('h3');
+    return getExtensionPropertiesEditorElement(screenEditor).shadowRoot.querySelector('h3');
 };
 
 const getCanvasScreenFieldElement = (screenEditor, elementTitle) => {
     const screenEditorCanvas = getEditorCanvasElement(screenEditor);
-    const screenEditorHighlight = screenEditorCanvas.shadowRoot.querySelectorAll(
-        SELECTORS.SCREEN_EDITOR_HIGHLIGHT
-    );
+    const screenEditorHighlight = screenEditorCanvas.shadowRoot.querySelectorAll(SELECTORS.SCREEN_EDITOR_HIGHLIGHT);
     let elementAddress;
     screenEditorHighlight.forEach(element => {
         if (element.title === elementTitle) {
@@ -133,9 +120,7 @@ describe('ScreenEditor', () => {
                 })
             });
             store = Store.getStore(reducer);
-            uiFlow = translateFlowToUIModel(
-                flowWithScreenAndLightningComponentAddress
-            );
+            uiFlow = translateFlowToUIModel(flowWithScreenAndLightningComponentAddress);
             store.dispatch(updateFlow(uiFlow));
         });
         afterAll(() => {
@@ -150,24 +135,16 @@ describe('ScreenEditor', () => {
                     node: screenNode
                 });
                 await ticks(50);
-                const addressElement = getCanvasScreenFieldElement(
-                    screenEditor,
-                    'Address'
-                );
+                const addressElement = getCanvasScreenFieldElement(screenEditor, 'Address');
                 addressElement.click();
                 await ticks(50);
             });
             it('Advanced Option checkbox should be unchecked', async () => {
                 expect(getAdvancedOptionsCheckbox(screenEditor)).toBeDefined();
-                expect(
-                    getAdvancedOptionsCheckboxLightningInput(screenEditor)
-                        .checked
-                ).toBe(false);
+                expect(getAdvancedOptionsCheckboxLightningInput(screenEditor).checked).toBe(false);
             });
             it('Output value should not be visible', async () => {
-                expect(
-                    getTitleFromExtensionPropertiesEditorElement(screenEditor)
-                ).toBeNull();
+                expect(getTitleFromExtensionPropertiesEditorElement(screenEditor)).toBeNull();
             });
         });
         describe('modify from automatic to advanced', () => {
@@ -179,27 +156,18 @@ describe('ScreenEditor', () => {
                     processType: MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
                 });
                 await ticks(50);
-                const addressElement = getCanvasScreenFieldElement(
-                    screenEditor,
-                    'Address'
-                );
+                const addressElement = getCanvasScreenFieldElement(screenEditor, 'Address');
                 addressElement.click();
                 await ticks(50);
             });
             it('should display the outputs', async () => {
-                const advancedOptionCheckbox = getAdvancedOptionsCheckboxLightningInput(
-                    screenEditor
-                );
+                const advancedOptionCheckbox = getAdvancedOptionsCheckboxLightningInput(screenEditor);
                 advancedOptionCheckbox.dispatchEvent(new ToggleOnChangeEvent());
                 await ticks(50);
-                expect(
-                    getAdvancedOptionsCheckboxLightningInput(screenEditor)
-                        .checked
-                ).toBe(true);
-                expect(
-                    getTitleFromExtensionPropertiesEditorElement(screenEditor)
-                        .textContent
-                ).toBe('FlowBuilderScreenEditor.extensionOutputsHeader');
+                expect(getAdvancedOptionsCheckboxLightningInput(screenEditor).checked).toBe(true);
+                expect(getTitleFromExtensionPropertiesEditorElement(screenEditor).textContent).toBe(
+                    'FlowBuilderScreenEditor.extensionOutputsHeader'
+                );
             });
         });
     });

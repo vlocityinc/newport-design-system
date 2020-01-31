@@ -17,8 +17,7 @@ const validateAgainstBlankNullOrUndefined = index => {
  * Validates the record filter item.
  * @returns {function} the function to be called with each filter item to return the array of rules.
  */
-const validateFilters = () =>
-    ValidationRules.validateExpressionWith3PropertiesWithNoEmptyRHS();
+const validateFilters = () => ValidationRules.validateExpressionWith3PropertiesWithNoEmptyRHS();
 
 export const recordDeleteValidation = new Validation();
 
@@ -31,13 +30,9 @@ export const getRules = (nodeElement, { isSObjectMode }) => {
     const overrideRules = { ...recordDeleteValidation.finalizedRules };
     // case where an sObject has been selected
     if (isSObjectMode) {
-        overrideRules.inputReference = validateAgainstBlankNullOrUndefined(
-            nodeElement.inputReferenceIndex
-        );
+        overrideRules.inputReference = validateAgainstBlankNullOrUndefined(nodeElement.inputReferenceIndex);
     } else {
-        overrideRules.object = validateAgainstBlankNullOrUndefined(
-            nodeElement.objectIndex
-        );
+        overrideRules.object = validateAgainstBlankNullOrUndefined(nodeElement.objectIndex);
         if (nodeElement.object.value !== '' && !nodeElement.object.error) {
             overrideRules.filters = validateFilters();
         }

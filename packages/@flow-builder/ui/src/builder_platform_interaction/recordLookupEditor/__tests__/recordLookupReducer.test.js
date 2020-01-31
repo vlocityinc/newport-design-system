@@ -15,11 +15,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import * as store from 'mock/storeData';
-import {
-    SORT_ORDER,
-    RECORD_FILTER_CRITERIA,
-    WAY_TO_STORE_FIELDS
-} from 'builder_platform_interaction/recordEditorLib';
+import { SORT_ORDER, RECORD_FILTER_CRITERIA, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 
 const recordLookupUsingSobjectState = () => ({
         description: { value: '', error: null },
@@ -287,9 +283,7 @@ describe('record-lookup-reducer', () => {
                 };
                 newState = recordLookupReducer(originalState, event);
                 expect(newState).toBeDefined();
-                expect(newState.outputReference.error).toBe(
-                    'errorFromChildComponent'
-                );
+                expect(newState.outputReference.error).toBe('errorFromChildComponent');
                 expect(newState).not.toBe(originalState);
             });
             it('fetch the error from the entity resource picker change event instead of rerunning validation', () => {
@@ -318,9 +312,7 @@ describe('record-lookup-reducer', () => {
                 };
                 newState = recordLookupReducer(originalState, event);
                 expect(newState).toBeDefined();
-                expect(newState.sortField.error).toBe(
-                    'errorFromChildComponent'
-                );
+                expect(newState.sortField.error).toBe('errorFromChildComponent');
                 expect(newState).not.toBe(originalState);
             });
         });
@@ -356,9 +348,7 @@ describe('record-lookup-reducer', () => {
                     };
                     newState = recordLookupReducer(originalState, event);
                     expect(newState.queriedFields).toHaveLength(2);
-                    expect(newState.queriedFields[1].field.value).toBe(
-                        'Description'
-                    );
+                    expect(newState.queriedFields[1].field.value).toBe('Description');
                     expect(newState).not.toBe(originalState);
                 });
                 it('delete a field and reset the blank error of the last field', () => {
@@ -414,9 +404,7 @@ describe('record-lookup-reducer', () => {
                     };
                     newState = recordLookupReducer(originalState, event);
                     expect(newState.filters).toHaveLength(1);
-                    expect(newState.filters[0].leftHandSide.value).toBe(
-                        'Account.Description'
-                    );
+                    expect(newState.filters[0].leftHandSide.value).toBe('Account.Description');
                     expect(newState).not.toBe(originalState);
                 });
             });
@@ -448,9 +436,7 @@ describe('record-lookup-reducer', () => {
                     expect(newState.sortField.value).toBe('');
                 });
                 it('should reset "filterType"', () => {
-                    expect(newState.filterType).toBe(
-                        RECORD_FILTER_CRITERIA.ALL
-                    );
+                    expect(newState.filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
                 });
                 it('should reset "filters"', () => {
                     expect(newState.filters).toHaveLength(1);
@@ -464,14 +450,10 @@ describe('record-lookup-reducer', () => {
                     expect(newState.getFirstRecordOnly).toBe(true);
                 });
                 it('should reset "wayToStoreFields"', () => {
-                    expect(newState.wayToStoreFields).toBe(
-                        WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE
-                    );
+                    expect(newState.wayToStoreFields).toBe(WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE);
                 });
                 it('should reset "assignNullValuesIfNoRecordsFound"', () => {
-                    expect(newState.assignNullValuesIfNoRecordsFound).toBe(
-                        false
-                    );
+                    expect(newState.assignNullValuesIfNoRecordsFound).toBe(false);
                 });
             });
             describe('update sobject variable', () => {
@@ -486,9 +468,7 @@ describe('record-lookup-reducer', () => {
                     newState = recordLookupReducer(originalState, event);
                 });
                 it('should update "outputReference" (sobject variable name)', () => {
-                    expect(newState.outputReference.value).toBe(
-                        'NewOutputReference'
-                    );
+                    expect(newState.outputReference.value).toBe('NewOutputReference');
                     expect(newState).not.toBe(originalState);
                 });
                 it('should reset "queriedFields"', () => {
@@ -496,8 +476,7 @@ describe('record-lookup-reducer', () => {
                     expect(newState.queriedFields[1].field.value).toBe('');
                 });
                 it('with same current value it should NOT reset "queriedFields"', () => {
-                    const currentOutputReferenceValue = recordLookupUsingSobjectState()
-                        .outputReference.value;
+                    const currentOutputReferenceValue = recordLookupUsingSobjectState().outputReference.value;
                     const propChangedEvent = new PropertyChangedEvent(
                         'outputReference',
                         currentOutputReferenceValue,
@@ -505,56 +484,33 @@ describe('record-lookup-reducer', () => {
                         null,
                         currentOutputReferenceValue
                     );
-                    newState = recordLookupReducer(
-                        originalState,
-                        propChangedEvent
-                    );
+                    newState = recordLookupReducer(originalState, propChangedEvent);
                     expect(newState.queriedFields).toHaveLength(2);
-                    expect(newState.queriedFields[1].field.value).toBe(
-                        'BillingAddress'
-                    );
+                    expect(newState.queriedFields[1].field.value).toBe('BillingAddress');
                 });
             });
             describe('update getFirstRecordOnly', () => {
                 describe('from true to false', () => {
                     beforeAll(() => {
                         originalState = recordLookupUsingSobjectState();
-                        const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(
-                            false,
-                            '',
-                            false
-                        );
-                        newState = recordLookupReducer(
-                            originalState,
-                            recordStoreOptionChangedEvent
-                        );
+                        const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(false, '', false);
+                        newState = recordLookupReducer(originalState, recordStoreOptionChangedEvent);
                     });
                     it('should reset "outputReference"', () => {
                         expect(newState.outputReference.value).toBe('');
                     });
                     it('should NOT reset "sortOrder"', () => {
-                        expect(newState.sortOrder.value).toBe(
-                            originalState.sortOrder.value
-                        );
+                        expect(newState.sortOrder.value).toBe(originalState.sortOrder.value);
                     });
                     it('should NOT reset "sortField"', () => {
-                        expect(newState.sortField.value).toBe(
-                            originalState.sortField.value
-                        );
+                        expect(newState.sortField.value).toBe(originalState.sortField.value);
                     });
                 });
                 describe('from false to true', () => {
                     beforeAll(() => {
                         originalState = recordLookupUsingSobjectCollectionState();
-                        const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(
-                            true,
-                            '',
-                            false
-                        );
-                        newState = recordLookupReducer(
-                            originalState,
-                            recordStoreOptionChangedEvent
-                        );
+                        const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(true, '', false);
+                        newState = recordLookupReducer(originalState, recordStoreOptionChangedEvent);
                     });
                     it('should reset outputReference', () => {
                         expect(newState.outputReference.value).toBe('');
@@ -568,10 +524,7 @@ describe('record-lookup-reducer', () => {
                         WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES,
                         false
                     );
-                    newState = recordLookupReducer(
-                        originalState,
-                        recordStoreOptionChangedEvent
-                    );
+                    newState = recordLookupReducer(originalState, recordStoreOptionChangedEvent);
                 });
                 it('should reset inputReference', () => {
                     expect(newState.outputReference.value).toBe('');
@@ -591,8 +544,7 @@ describe('record-lookup-reducer', () => {
                         }
                     };
                     originalState.sortField.value = 'invalidValue';
-                    originalState.sortField.error =
-                        'You have entered an invalid value';
+                    originalState.sortField.error = 'You have entered an invalid value';
                     newState = recordLookupReducer(originalState, event);
                 });
                 it('should update sortOrder', () => {
@@ -605,9 +557,7 @@ describe('record-lookup-reducer', () => {
                 });
                 it('should not reset filters', () => {
                     expect(newState.filters).toHaveLength(1);
-                    expect(newState.filters[0].leftHandSide.value).toBe(
-                        'Account.BillingAddress'
-                    );
+                    expect(newState.filters[0].leftHandSide.value).toBe('Account.BillingAddress');
                 });
             });
             describe('update filterType to none', () => {
@@ -619,16 +569,12 @@ describe('record-lookup-reducer', () => {
                             value: RECORD_FILTER_CRITERIA.NONE
                         }
                     };
-                    originalState.filters[0].leftHandSide.value =
-                        'invalidValue';
-                    originalState.filters[0].leftHandSide.error =
-                        'You have entered an invalid value';
+                    originalState.filters[0].leftHandSide.value = 'invalidValue';
+                    originalState.filters[0].leftHandSide.error = 'You have entered an invalid value';
                     newState = recordLookupReducer(originalState, event);
                 });
                 it('should update filterType', () => {
-                    expect(newState.filterType).toBe(
-                        RECORD_FILTER_CRITERIA.NONE
-                    );
+                    expect(newState.filterType).toBe(RECORD_FILTER_CRITERIA.NONE);
                     expect(newState).not.toBe(originalState);
                 });
                 it('should reset filter errors and value', () => {
@@ -679,9 +625,7 @@ describe('record-lookup-reducer', () => {
                 };
                 newState = recordLookupReducer(originalState, event);
                 expect(newState.outputAssignments).toHaveLength(1);
-                expect(newState.outputAssignments[0].leftHandSide.value).toBe(
-                    'Account.Description'
-                );
+                expect(newState.outputAssignments[0].leftHandSide.value).toBe('Account.Description');
                 expect(newState).not.toBe(originalState);
             });
         });
@@ -773,16 +717,12 @@ describe('record-lookup-reducer', () => {
                 beforeAll(() => {
                     originalState = recordLookupAutomaticModeSingle();
                     const changeFromAutomaticToAdvancedModeEvent = {
-                        type:
-                            UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME,
+                        type: UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME,
                         detail: {
                             useAdvancedOptions: true
                         }
                     };
-                    newState = recordLookupReducer(
-                        originalState,
-                        changeFromAutomaticToAdvancedModeEvent
-                    );
+                    newState = recordLookupReducer(originalState, changeFromAutomaticToAdvancedModeEvent);
                 });
                 it('new state different than original one', () => {
                     expect(newState).not.toBe(originalState);
@@ -797,9 +737,7 @@ describe('record-lookup-reducer', () => {
                     expect(newState.storeOutputAutomatically).toBe(false);
                 });
                 it('should NOT reset "queriedFields"', () => {
-                    expect(newState.queriedFields).toEqual(
-                        originalState.queriedFields
-                    );
+                    expect(newState.queriedFields).toEqual(originalState.queriedFields);
                 });
                 it('should NOT reset "assignNullValuesIfNoRecordsFound"', () => {
                     expect(newState.assignNullValuesIfNoRecordsFound).toBe(
@@ -807,9 +745,7 @@ describe('record-lookup-reducer', () => {
                     );
                 });
                 it('should NOT reset "wayToStoreFields"', () => {
-                    expect(newState.wayToStoreFields).toBe(
-                        originalState.wayToStoreFields
-                    );
+                    expect(newState.wayToStoreFields).toBe(originalState.wayToStoreFields);
                 });
             });
         });
@@ -820,16 +756,12 @@ describe('record-lookup-reducer', () => {
                 beforeAll(() => {
                     originalState = recordLookupAutomaticModeCollection();
                     const changeFromAutomaticToAdvancedModeEvent = {
-                        type:
-                            UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME,
+                        type: UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME,
                         detail: {
                             useAdvancedOptions: true
                         }
                     };
-                    newState = recordLookupReducer(
-                        originalState,
-                        changeFromAutomaticToAdvancedModeEvent
-                    );
+                    newState = recordLookupReducer(originalState, changeFromAutomaticToAdvancedModeEvent);
                 });
                 it('new state different than original one', () => {
                     expect(newState).not.toBe(originalState);
@@ -844,9 +776,7 @@ describe('record-lookup-reducer', () => {
                     expect(newState.storeOutputAutomatically).toBe(false);
                 });
                 it('should NOT reset "queriedFields"', () => {
-                    expect(newState.queriedFields).toEqual(
-                        originalState.queriedFields
-                    );
+                    expect(newState.queriedFields).toEqual(originalState.queriedFields);
                 });
                 it('should NOT reset "assignNullValuesIfNoRecordsFound"', () => {
                     expect(newState.assignNullValuesIfNoRecordsFound).toBe(
@@ -854,9 +784,7 @@ describe('record-lookup-reducer', () => {
                     );
                 });
                 it('should NOT reset "wayToStoreFields"', () => {
-                    expect(newState.wayToStoreFields).toBe(
-                        originalState.wayToStoreFields
-                    );
+                    expect(newState.wayToStoreFields).toBe(originalState.wayToStoreFields);
                 });
             });
         });

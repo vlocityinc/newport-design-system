@@ -8,14 +8,9 @@ export const validateParameter = () => {
     return parameter => {
         const rules = { value: [] };
         if (parameter.isRequired) {
-            rules.value = [
-                ValidationRules.shouldNotBeNullOrUndefined,
-                ValidationRules.shouldNotBeBlank
-            ];
+            rules.value = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
         }
-        rules.value.push(
-            ValidationRules.validateResourcePicker(parameter.rowIndex)
-        );
+        rules.value.push(ValidationRules.validateResourcePicker(parameter.rowIndex));
         return rules;
     };
 };

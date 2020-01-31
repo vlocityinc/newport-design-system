@@ -14,9 +14,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     function createSelector() {
-        const actual = require.requireActual(
-            'builder_platform_interaction/storeLib'
-        );
+        const actual = require.requireActual('builder_platform_interaction/storeLib');
         return actual.createSelector;
     }
     const storeMockLib = require('builder_platform_interaction_mocks/storeLib');
@@ -45,9 +43,7 @@ describe('field-picker', () => {
     it('defaults requiredness to false', () => {
         const fieldPicker = setupComponentUnderTest();
         return Promise.resolve().then(() => {
-            const baseResourcePicker = fieldPicker.shadowRoot.querySelector(
-                BaseResourcePicker.SELECTOR
-            );
+            const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
             expect(baseResourcePicker.comboboxConfig.required).toBe(false);
         });
     });
@@ -56,9 +52,7 @@ describe('field-picker', () => {
             required: true
         });
         return Promise.resolve().then(() => {
-            const baseResourcePicker = fieldPicker.shadowRoot.querySelector(
-                BaseResourcePicker.SELECTOR
-            );
+            const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
             expect(baseResourcePicker.comboboxConfig.required).toBe(true);
         });
     });
@@ -68,9 +62,7 @@ describe('field-picker', () => {
             label
         });
         return Promise.resolve().then(() => {
-            const baseResourcePicker = fieldPicker.shadowRoot.querySelector(
-                BaseResourcePicker.SELECTOR
-            );
+            const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
             expect(baseResourcePicker.comboboxConfig.label).toBe(label);
         });
     });
@@ -80,12 +72,8 @@ describe('field-picker', () => {
             placeholder
         });
         return Promise.resolve().then(() => {
-            const baseResourcePicker = fieldPicker.shadowRoot.querySelector(
-                BaseResourcePicker.SELECTOR
-            );
-            expect(baseResourcePicker.comboboxConfig.placeholder).toBe(
-                placeholder
-            );
+            const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
+            expect(baseResourcePicker.comboboxConfig.placeholder).toBe(placeholder);
         });
     });
     it('sets error message', () => {
@@ -94,9 +82,7 @@ describe('field-picker', () => {
             errorMessage
         });
         return Promise.resolve().then(() => {
-            const baseResourcePicker = fieldPicker.shadowRoot.querySelector(
-                BaseResourcePicker.SELECTOR
-            );
+            const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
             expect(baseResourcePicker.errorMessage).toBe(errorMessage);
         });
     });
@@ -107,15 +93,11 @@ describe('field-picker', () => {
             fields
         });
         return Promise.resolve().then(() => {
-            expect(filterFieldsForChosenElement).toHaveBeenCalledWith(
-                null,
-                fields,
-                {
-                    showAsFieldReference: false,
-                    showSubText: true,
-                    allowSObjectFieldsTraversal: true
-                }
-            );
+            expect(filterFieldsForChosenElement).toHaveBeenCalledWith(null, fields, {
+                showAsFieldReference: false,
+                showSubText: true,
+                allowSObjectFieldsTraversal: true
+            });
         });
     });
     it('populates menuData with passed in fields no traversal support', () => {
@@ -125,15 +107,11 @@ describe('field-picker', () => {
             fields
         });
         return Promise.resolve().then(() => {
-            expect(filterFieldsForChosenElement).toHaveBeenCalledWith(
-                null,
-                fields,
-                {
-                    showAsFieldReference: false,
-                    showSubText: true,
-                    allowSObjectFieldsTraversal: false
-                }
-            );
+            expect(filterFieldsForChosenElement).toHaveBeenCalledWith(null, fields, {
+                showAsFieldReference: false,
+                showSubText: true,
+                allowSObjectFieldsTraversal: false
+            });
         });
     });
     it('does not attempt to process menu data if no fields are passed', () => {

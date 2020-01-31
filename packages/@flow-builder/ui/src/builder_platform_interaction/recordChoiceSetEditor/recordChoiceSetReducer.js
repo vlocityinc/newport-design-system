@@ -1,18 +1,8 @@
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import {
-    recordChoiceSetValidation,
-    getRules
-} from './recordChoiceSetValidation';
+import { recordChoiceSetValidation, getRules } from './recordChoiceSetValidation';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import {
-    set,
-    deleteItem,
-    hydrateWithErrors
-} from 'builder_platform_interaction/dataMutationLib';
-import {
-    createFilter,
-    createOutputAssignment
-} from 'builder_platform_interaction/elementFactory';
+import { set, deleteItem, hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
+import { createFilter, createOutputAssignment } from 'builder_platform_interaction/elementFactory';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import {
     AddRecordFieldAssignmentEvent,
@@ -25,28 +15,16 @@ const addRecordFilter = recordChoice => {
     return set(
         recordChoice,
         path,
-        hydrateWithErrors(
-            createFilter(
-                { rightHandSideDataType: '' },
-                recordChoice.object.value
-            )
-        )
+        hydrateWithErrors(createFilter({ rightHandSideDataType: '' }, recordChoice.object.value))
     );
 };
 const updateRecordFilter = (recordChoice, action) => {
     const path = ['filters', action.payload.index];
-    const item = Object.assign(
-        {},
-        recordChoice.filters[action.payload.index],
-        action.payload.value
-    );
+    const item = Object.assign({}, recordChoice.filters[action.payload.index], action.payload.value);
     return set(recordChoice, path, item);
 };
 const deleteRecordFilter = (recordChoice, action) => {
-    const updatedFiltersList = deleteItem(
-        recordChoice.filters,
-        action.payload.index
-    );
+    const updatedFiltersList = deleteItem(recordChoice.filters, action.payload.index);
     return set(recordChoice, 'filters', updatedFiltersList);
 };
 
@@ -56,20 +34,13 @@ const addRecordRecordFieldAssignment = recordChoice => {
 };
 
 const deleteRecordRecordFieldAssignment = (recordChoice, action) => {
-    const updatedItems = deleteItem(
-        recordChoice.outputAssignments,
-        action.payload.index
-    );
+    const updatedItems = deleteItem(recordChoice.outputAssignments, action.payload.index);
     return set(recordChoice, 'outputAssignments', updatedItems);
 };
 
 const updateRecordRecordFieldAssignment = (recordChoice, action) => {
     const path = ['outputAssignments', action.payload.index];
-    const item = Object.assign(
-        {},
-        recordChoice.outputAssignments[action.payload.index],
-        action.payload.value
-    );
+    const item = Object.assign({}, recordChoice.outputAssignments[action.payload.index], action.payload.value);
     return set(recordChoice, path, item);
 };
 
@@ -81,15 +52,9 @@ const addEmptyOutputAssignment = recordChoice => {
 
 const updateOutputAssignmentsBeforeClose = recordChoice => {
     // Filtering out the valid outputAssignments, i.e. the ones that have both LHS and RHS
-    const updatedItems = recordChoice.outputAssignments.filter(
-        outputAssignment => {
-            return (
-                outputAssignment.leftHandSide.value &&
-                outputAssignment.rightHandSide.value &&
-                outputAssignment
-            );
-        }
-    );
+    const updatedItems = recordChoice.outputAssignments.filter(outputAssignment => {
+        return outputAssignment.leftHandSide.value && outputAssignment.rightHandSide.value && outputAssignment;
+    });
 
     return set(recordChoice, 'outputAssignments', updatedItems);
 };
@@ -104,10 +69,7 @@ const manageUpdateProperty = (recordChoice, action) => {
     if (action.payload.propertyName === 'filterType') {
         if (action.payload.value === RECORD_FILTER_CRITERIA.NONE) {
             recordChoice = Object.assign({}, recordChoice, { filters: [] });
-        } else if (
-            action.payload.value === RECORD_FILTER_CRITERIA.ALL &&
-            recordChoice.filters.length === 0
-        ) {
+        } else if (action.payload.value === RECORD_FILTER_CRITERIA.ALL && recordChoice.filters.length === 0) {
             recordChoice = addRecordFilter(recordChoice, action);
         }
     }
@@ -118,10 +80,7 @@ const manageUpdateProperty = (recordChoice, action) => {
     } else {
         action.payload.error =
             action.payload.error === null
-                ? recordChoiceSetValidation.validateProperty(
-                      action.payload.propertyName,
-                      action.payload.value
-                  )
+                ? recordChoiceSetValidation.validateProperty(action.payload.propertyName, action.payload.value)
                 : action.payload.error;
     }
 

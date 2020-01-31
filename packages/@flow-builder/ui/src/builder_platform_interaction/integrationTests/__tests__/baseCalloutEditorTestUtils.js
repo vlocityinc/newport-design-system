@@ -14,8 +14,7 @@ const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
     INPUT_DIV: '.inputs',
     OUTPUT_DIV: '.outputs',
-    HIDDENT_FEROV_RESOURCE_PICKER:
-        'builder_platform_interaction-ferov-resource-picker.slds-hide',
+    HIDDENT_FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker.slds-hide',
     LIGHTNING_TOGGLE: 'lightning-input',
     PARAMETER_LABEL: 'label',
     WARNING_ICON: 'builder_platform_interaction-status-icon',
@@ -28,9 +27,7 @@ export const getBaseCalloutElement = actionEditor => {
 };
 
 const getParameterList = actionEditor => {
-    return getBaseCalloutElement(actionEditor).shadowRoot.querySelector(
-        SELECTORS.PARAMETER_LIST
-    );
+    return getBaseCalloutElement(actionEditor).shadowRoot.querySelector(SELECTORS.PARAMETER_LIST);
 };
 
 export const getInputParameterItems = actionEditor => {
@@ -40,21 +37,15 @@ export const getInputParameterItems = actionEditor => {
 };
 
 export const getParameterListOutputDiv = actionEditor => {
-    return getParameterList(actionEditor).shadowRoot.querySelector(
-        SELECTORS.OUTPUT_DIV
-    );
+    return getParameterList(actionEditor).shadowRoot.querySelector(SELECTORS.OUTPUT_DIV);
 };
 
 export const getOutputParameterItems = actionEditor => {
-    return getParameterListOutputDiv(actionEditor).querySelectorAll(
-        SELECTORS.PARAMETER_ITEM
-    );
+    return getParameterListOutputDiv(actionEditor).querySelectorAll(SELECTORS.PARAMETER_ITEM);
 };
 
 const getFerovResourcePicker = parameterItem => {
-    return parameterItem.shadowRoot.querySelector(
-        SELECTORS.FEROV_RESOURCE_PICKER
-    );
+    return parameterItem.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
 };
 
 export const getInputParameterComboboxElement = parameterItem => {
@@ -127,11 +118,7 @@ export const verifyRequiredInputParameter = (parameter, label, value) => {
     expect(icon.iconName).toEqual(iconName);
 };
 
-export const verifyOptionalInputParameterWithValue = (
-    parameter,
-    label,
-    value
-) => {
+export const verifyOptionalInputParameterWithValue = (parameter, label, value) => {
     const inputComboboxElement = getInputParameterComboboxElement(parameter);
     const toggleInput = getLightningInputToggle(parameter);
     const icon = getParameterIcon(parameter);
@@ -167,19 +154,14 @@ export const verifyOutputParameter = (parameter, label, value) => {
     expect(icon.iconName).toEqual(iconName);
 };
 
-export const getParameter = (parameters, name) =>
-    parameters.find(parameter => parameter.name === name);
+export const getParameter = (parameters, name) => parameters.find(parameter => parameter.name === name);
 
 export const findParameterElement = (parameterElements, name) => {
-    return Array.from(parameterElements).find(
-        parameter => parameter.item.name === name
-    );
+    return Array.from(parameterElements).find(parameter => parameter.item.name === name);
 };
 
 export const filterParameterElements = (parameterElements, name) => {
-    return Array.from(parameterElements).filter(
-        parameter => parameter.item.name === name
-    );
+    return Array.from(parameterElements).filter(parameter => parameter.item.name === name);
 };
 
 export const findIndex = (parameters, rowIndex) => {

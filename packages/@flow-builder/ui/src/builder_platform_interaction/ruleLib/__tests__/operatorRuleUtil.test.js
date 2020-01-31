@@ -60,10 +60,7 @@ const mockApexProperty = {
 describe('Operator Rule Util', () => {
     describe('isMatch util', () => {
         it('should return true if rule param and store element hydrated with errors match', () => {
-            const isEqual = isMatch(
-                stringParam,
-                stringVariableForPropertyEditor()
-            );
+            const isEqual = isMatch(stringParam, stringVariableForPropertyEditor());
             expect(isEqual).toBeTruthy();
         });
 
@@ -93,10 +90,7 @@ describe('Operator Rule Util', () => {
         it('rule with collection undefined should match noncollection or collection elements', () => {
             let isEqual = isMatch(dateParamMissingCollection, dateVariable);
             expect(isEqual).toBeTruthy();
-            isEqual = isMatch(
-                dateParamMissingCollection,
-                dateCollectionVariable
-            );
+            isEqual = isMatch(dateParamMissingCollection, dateCollectionVariable);
             expect(isEqual).toBeTruthy();
         });
         it('for dataType param, elementType can be in canBe or mustBe list', () => {
@@ -124,10 +118,7 @@ describe('Operator Rule Util', () => {
             expect(isEqual).toBeTruthy();
         });
         it('property should not be allowed if operator param says cannotBe apexProperty', () => {
-            const isEqual = isMatch(
-                numberParamCannotBeProperty,
-                mockApexProperty
-            );
+            const isEqual = isMatch(numberParamCannotBeProperty, mockApexProperty);
             expect(isEqual).toBeFalsy();
         });
         it('field should be allowed if operator param says canBe or mustBe apexProperty', () => {
@@ -140,20 +131,12 @@ describe('Operator Rule Util', () => {
 
     describe('get left hand side types util', () => {
         it('should return an object', () => {
-            const rules = getLHSTypes(
-                ELEMENT_TYPE.ASSIGNMENT,
-                mockRules,
-                ASSIGNMENT
-            );
+            const rules = getLHSTypes(ELEMENT_TYPE.ASSIGNMENT, mockRules, ASSIGNMENT);
             expect(rules).toEqual(expect.any(Object));
         });
 
         it('should return an object with data type to param type mapping', () => {
-            const rules = getLHSTypes(
-                ELEMENT_TYPE.ASSIGNMENT,
-                mockRules,
-                ASSIGNMENT
-            );
+            const rules = getLHSTypes(ELEMENT_TYPE.ASSIGNMENT, mockRules, ASSIGNMENT);
             const keys = Object.keys(rules);
             expect(rules).toMatchObject({
                 [keys[0]]: expect.any(Array)
@@ -161,11 +144,7 @@ describe('Operator Rule Util', () => {
         });
 
         it('should return all the left hand side types for assignment rules, excluding appropriately', () => {
-            const rules = getLHSTypes(
-                ELEMENT_TYPE.ASSIGNMENT,
-                mockRules,
-                ASSIGNMENT
-            );
+            const rules = getLHSTypes(ELEMENT_TYPE.ASSIGNMENT, mockRules, ASSIGNMENT);
             const expectedDate = mockRules[0][LEFT];
             const expectedStage = mockRules[2][LEFT];
             const expectedSObject = mockRules[5][LEFT];
@@ -177,11 +156,7 @@ describe('Operator Rule Util', () => {
         });
 
         it('should return all the left hand side types for assignment rules', () => {
-            const rules = getLHSTypes(
-                ELEMENT_TYPE.RECORD_CREATE,
-                mockRules,
-                ASSIGNMENT
-            );
+            const rules = getLHSTypes(ELEMENT_TYPE.RECORD_CREATE, mockRules, ASSIGNMENT);
             const expectedDate = mockRules[0][LEFT];
             const expectedDateTime = mockRules[1][LEFT];
             const expectedStage = mockRules[2][LEFT];
@@ -195,11 +170,7 @@ describe('Operator Rule Util', () => {
         });
 
         it('should return all the left hand side types for comparison rules', () => {
-            const rules = getLHSTypes(
-                ELEMENT_TYPE.ASSIGNMENT,
-                mockRules,
-                COMPARISON
-            );
+            const rules = getLHSTypes(ELEMENT_TYPE.ASSIGNMENT, mockRules, COMPARISON);
             const expectedStage1 = mockRules[3][LEFT];
             const expectedStage2 = mockRules[7][LEFT];
             expect(rules).toMatchObject({
@@ -208,11 +179,7 @@ describe('Operator Rule Util', () => {
         });
 
         it('should remove duplicates from list of left hand side types', () => {
-            const rules = getLHSTypes(
-                ELEMENT_TYPE.ASSIGNMENT,
-                mockRules,
-                COMPARISON
-            );
+            const rules = getLHSTypes(ELEMENT_TYPE.ASSIGNMENT, mockRules, COMPARISON);
             expect(Object.keys(rules)).toHaveLength(4); // 1 for the dataType, 3 for canBeSobjectField, canBeSystemVariable, canBeApexProperty
         });
 
@@ -230,81 +197,40 @@ describe('Operator Rule Util', () => {
 
         it('throws an error when given an invalid rule type', () => {
             expect(() => {
-                getLHSTypes(
-                    ELEMENT_TYPE.ASSIGNMENT,
-                    mockRules,
-                    'invalidRuleType'
-                );
+                getLHSTypes(ELEMENT_TYPE.ASSIGNMENT, mockRules, 'invalidRuleType');
             }).toThrow();
         });
 
         it('should store RHS param under "sobject" if LHS does not have subtype', () => {
-            const rhsTypes = getRHSTypes(
-                ELEMENT_TYPE.ASSIGNMENT,
-                numberVariable,
-                ASSIGN_COUNT,
-                mockAssignCount
-            );
+            const rhsTypes = getRHSTypes(ELEMENT_TYPE.ASSIGNMENT, numberVariable, ASSIGN_COUNT, mockAssignCount);
             expect(rhsTypes[FLOW_DATA_TYPE.SOBJECT.value]).toBeDefined();
             expect(rhsTypes[FLOW_DATA_TYPE.SOBJECT.value]).toHaveLength(1);
-            expect(
-                rhsTypes[FLOW_DATA_TYPE.SOBJECT.value][0][DATA_TYPE]
-            ).toEqual(FLOW_DATA_TYPE.SOBJECT.value);
+            expect(rhsTypes[FLOW_DATA_TYPE.SOBJECT.value][0][DATA_TYPE]).toEqual(FLOW_DATA_TYPE.SOBJECT.value);
         });
     });
 
     describe('get operator types util', () => {
         it('should only return results from the given rule type', () => {
-            let operators = getOperators(
-                ELEMENT_TYPE.ASSIGNMENT,
-                dateVariable,
-                mockRules,
-                ASSIGNMENT
-            );
+            let operators = getOperators(ELEMENT_TYPE.ASSIGNMENT, dateVariable, mockRules, ASSIGNMENT);
             expect(operators).toHaveLength(1);
-            operators = getOperators(
-                ELEMENT_TYPE.ASSIGNMENT,
-                stageElement,
-                mockRules,
-                COMPARISON
-            );
+            operators = getOperators(ELEMENT_TYPE.ASSIGNMENT, stageElement, mockRules, COMPARISON);
             expect(operators).toHaveLength(1);
         });
 
         it('should return an empty array if given no lhs information', () => {
-            const operators = getOperators(
-                ELEMENT_TYPE.ASSIGNMENT,
-                undefined,
-                mockRules,
-                ASSIGNMENT
-            );
+            const operators = getOperators(ELEMENT_TYPE.ASSIGNMENT, undefined, mockRules, ASSIGNMENT);
             expect(operators).toHaveLength(0);
         });
 
         it('should return all the operators per rule type', () => {
-            let operators = getOperators(
-                ELEMENT_TYPE.ASSIGNMENT,
-                dateVariable,
-                mockRules,
-                ASSIGNMENT
-            );
+            let operators = getOperators(ELEMENT_TYPE.ASSIGNMENT, dateVariable, mockRules, ASSIGNMENT);
             expect(operators[0]).toEqual(ASSIGNMENT_OPERATOR);
-            operators = getOperators(
-                ELEMENT_TYPE.ASSIGNMENT,
-                stageElement,
-                mockRules,
-                COMPARISON
-            );
+            operators = getOperators(ELEMENT_TYPE.ASSIGNMENT, stageElement, mockRules, COMPARISON);
             expect(operators[0]).toEqual(EQUALS_OPERATOR);
         });
 
         it('should remove duplicates from the list of operators', () => {
-            const operators = getOperators(
-                ELEMENT_TYPE.ASSIGNMENT,
-                stageElement,
-                mockRules,
-                COMPARISON
-            );
+            const operators = getOperators(ELEMENT_TYPE.ASSIGNMENT, stageElement, mockRules, COMPARISON);
             expect(operators).toHaveLength(1);
         });
 
@@ -316,23 +242,13 @@ describe('Operator Rule Util', () => {
 
         it('throws an error when the give rules are not an Array', () => {
             expect(() => {
-                getOperators(
-                    ELEMENT_TYPE.ASSIGNMENT,
-                    dateVariable,
-                    42,
-                    ASSIGNMENT
-                );
+                getOperators(ELEMENT_TYPE.ASSIGNMENT, dateVariable, 42, ASSIGNMENT);
             }).toThrow();
         });
 
         it('throws an error when given an invalid rule type', () => {
             expect(() => {
-                getOperators(
-                    ELEMENT_TYPE.ASSIGNMENT,
-                    dateVariable,
-                    mockRules,
-                    'invalidRuleType'
-                );
+                getOperators(ELEMENT_TYPE.ASSIGNMENT, dateVariable, mockRules, 'invalidRuleType');
             }).toThrow();
         });
     });
@@ -350,28 +266,18 @@ describe('Operator Rule Util', () => {
         it('returns a menu item with label from operator label map', () => {
             const result = transformOperatorsForCombobox(mockOperators);
             expect(result).toEqual(expect.any(Array));
-            expect(result).toEqual([
-                { value: mockOperators[0], label: mockMap[mockOperators[0]] }
-            ]);
+            expect(result).toEqual([{ value: mockOperators[0], label: mockMap[mockOperators[0]] }]);
         });
 
         it('returns an array of objects with value and label properties', () => {
             const result = transformOperatorsForCombobox(mockOperators);
-            expect(result).toEqual([
-                { value: expect.anything(), label: expect.anything() }
-            ]);
+            expect(result).toEqual([{ value: expect.anything(), label: expect.anything() }]);
         });
     });
 
     describe('get right hand side types util', () => {
         it('should return an empty object if given no lhs information', () => {
-            const rhsTypes = getRHSTypes(
-                ELEMENT_TYPE.ASSIGNMENT,
-                undefined,
-                'someOperator',
-                mockRules,
-                ASSIGNMENT
-            );
+            const rhsTypes = getRHSTypes(ELEMENT_TYPE.ASSIGNMENT, undefined, 'someOperator', mockRules, ASSIGNMENT);
             expect(Object.keys(rhsTypes)).toHaveLength(0);
         });
 
@@ -393,13 +299,7 @@ describe('Operator Rule Util', () => {
             });
         });
         it('should return an object with data type to param type mapping for all rules that match', () => {
-            const rhsTypes = getRHSTypes(
-                ELEMENT_TYPE.ASSIGNMENT,
-                stageElement,
-                EQUALS_OPERATOR,
-                mockRules,
-                COMPARISON
-            );
+            const rhsTypes = getRHSTypes(ELEMENT_TYPE.ASSIGNMENT, stageElement, EQUALS_OPERATOR, mockRules, COMPARISON);
             expect(Object.keys(rhsTypes)).toHaveLength(5);
             // the Stage param & DateTime param come from two different rules that match the LHS & operator pair
             expect(rhsTypes).toMatchObject({
@@ -428,13 +328,7 @@ describe('Operator Rule Util', () => {
         });
 
         it('should return all the rhsTypes for the comparison rules, excluding appropriately', () => {
-            const rhsTypes = getRHSTypes(
-                ELEMENT_TYPE.DECISION,
-                stageElement,
-                EQUALS_OPERATOR,
-                mockRules,
-                COMPARISON
-            );
+            const rhsTypes = getRHSTypes(ELEMENT_TYPE.DECISION, stageElement, EQUALS_OPERATOR, mockRules, COMPARISON);
             const expectedDateTime = mockRules[4][RHS_PARAMS][0];
             expect(rhsTypes).toMatchObject({
                 DateTime: [expectedDateTime]
@@ -468,36 +362,19 @@ describe('Operator Rule Util', () => {
 
         it('throws an error when given an invalid rule type', () => {
             expect(() => {
-                getRHSTypes(
-                    ELEMENT_TYPE.ASSIGNMENT,
-                    dateVariable,
-                    ASSIGNMENT_OPERATOR,
-                    mockRules,
-                    'invalidRuleType'
-                );
+                getRHSTypes(ELEMENT_TYPE.ASSIGNMENT, dateVariable, ASSIGNMENT_OPERATOR, mockRules, 'invalidRuleType');
             }).toThrow();
         });
 
         it('does not throw an error when given an undefined rule type', () => {
             expect(() => {
-                getRHSTypes(
-                    ELEMENT_TYPE.ASSIGNMENT,
-                    dateVariable,
-                    ASSIGNMENT_OPERATOR,
-                    mockRules
-                );
+                getRHSTypes(ELEMENT_TYPE.ASSIGNMENT, dateVariable, ASSIGNMENT_OPERATOR, mockRules);
             }).not.toThrow();
         });
 
         it('throws an error when the give rules are not an Array', () => {
             expect(() => {
-                getRHSTypes(
-                    ELEMENT_TYPE.ASSIGNMENT,
-                    dateVariable,
-                    ASSIGNMENT_OPERATOR,
-                    42,
-                    ASSIGNMENT
-                );
+                getRHSTypes(ELEMENT_TYPE.ASSIGNMENT, dateVariable, ASSIGNMENT_OPERATOR, 42, ASSIGNMENT);
             }).toThrow();
         });
     });
@@ -520,10 +397,7 @@ describe('Operator Rule Util', () => {
                 [mockDataType]: [mockParam]
             };
 
-            const isRequired = isCollectionRequired(
-                mockAllowedParams,
-                mockDataType
-            );
+            const isRequired = isCollectionRequired(mockAllowedParams, mockDataType);
             expect(isRequired).toEqual(false);
         });
 
@@ -535,10 +409,7 @@ describe('Operator Rule Util', () => {
                 [mockDataType]: [mockParamOne, mockParamTwo]
             };
 
-            const isRequired = isCollectionRequired(
-                mockAllowedParams,
-                mockDataType
-            );
+            const isRequired = isCollectionRequired(mockAllowedParams, mockDataType);
             expect(isRequired).toEqual(true);
         });
     });

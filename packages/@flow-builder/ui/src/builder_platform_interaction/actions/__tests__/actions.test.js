@@ -12,8 +12,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 describe('updateElement', () => {
     it('handles modify decision with outcomes', () => {
         const payload = {
-            elementType:
-                ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES,
+            elementType: ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES,
             decision: { x: 6 },
             modified: [{ a: 1 }, { b: 2 }],
             deleted: [{ c: 3 }]
@@ -40,8 +39,7 @@ describe('updateElement', () => {
 describe('addElement', () => {
     it('handles add decision with outcomes', () => {
         const payload = {
-            elementType:
-                ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES,
+            elementType: ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES,
             decision: { x: 6 },
             modified: [{ a: 1 }, { b: 2 }]
         };
@@ -53,8 +51,6 @@ describe('addElement', () => {
     });
     describe('remove last created resource ', () => {
         expect(removeLastCreatedInlineResource.payload).toEqual({});
-        expect(removeLastCreatedInlineResource.type).toBe(
-            REMOVE_LAST_CREATED_INLINE_RESOURCE
-        );
+        expect(removeLastCreatedInlineResource.type).toBe(REMOVE_LAST_CREATED_INLINE_RESOURCE);
     });
 });

@@ -18,21 +18,17 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
  * @returns {DynamicTypeMapping}
  */
 function createDynamicTypeMapping(dynamicTypeMapping) {
-    const {
-        typeName,
-        typeValue,
-        rowIndex
-    } = dynamicTypeMapping;
+    const { typeName, typeValue, rowIndex } = dynamicTypeMapping;
 
     return {
         typeName,
         typeValue,
-        rowIndex : rowIndex || generateGuid()
+        rowIndex: rowIndex || generateGuid()
     };
 }
 
-export const createDynamicTypeMappings = (dynamicTypeMappings) =>
-    (dynamicTypeMappings ? dynamicTypeMappings.map(createDynamicTypeMapping) : undefined);
+export const createDynamicTypeMappings = dynamicTypeMappings =>
+    dynamicTypeMappings ? dynamicTypeMappings.map(createDynamicTypeMapping) : undefined;
 
 /**
  * Creates a dynamic type mapping metadata object from an internal representation
@@ -40,11 +36,10 @@ export const createDynamicTypeMappings = (dynamicTypeMappings) =>
  * @param {DynamicTypeMapping[]} [dynamicTypeMappings]
  * @returns {DynamicTypeMappingMetadataObject|undefined}
  */
-export const createDataTypeMappingsMetadataObject = dynamicTypeMappings => (
-    dynamicTypeMappings && dynamicTypeMappings.length > 0 ?
-        dynamicTypeMappings.map(dynamicTypeMapping => ({
-            typeName: getValueFromHydratedItem(dynamicTypeMapping.typeName),
-            typeValue: getValueFromHydratedItem(dynamicTypeMapping.typeValue)
-        }))
-        : undefined
-);
+export const createDataTypeMappingsMetadataObject = dynamicTypeMappings =>
+    dynamicTypeMappings && dynamicTypeMappings.length > 0
+        ? dynamicTypeMappings.map(dynamicTypeMapping => ({
+              typeName: getValueFromHydratedItem(dynamicTypeMapping.typeName),
+              typeValue: getValueFromHydratedItem(dynamicTypeMapping.typeValue)
+          }))
+        : undefined;

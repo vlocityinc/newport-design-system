@@ -29,10 +29,7 @@ export const getProcessTypes = () => {
  * @param {Array} features - list of available features
  */
 export const setProcessTypeFeature = (processTypeName, features) => {
-    const supportedFeaturesSet = (features || []).reduce(
-        (acc, feature) => acc.add(feature),
-        new Set()
-    );
+    const supportedFeaturesSet = (features || []).reduce((acc, feature) => acc.add(feature), new Set());
     setSupportedFeatures(supportedFeaturesSet);
 
     processTypesFeatures.set(processTypeName, features);

@@ -8,8 +8,7 @@ const defaultRules = {};
  * Validate the filter item. Here we can't use the ValidationRules.validateExpressionWith3Properties because this function allows empty RHS
  * @return {function} the function to be called with each filter item to return the array of rules.
  */
-const validateFilter = () =>
-    ValidationRules.validateExpressionWith3PropertiesWithNoEmptyRHS();
+const validateFilter = () => ValidationRules.validateExpressionWith3PropertiesWithNoEmptyRHS();
 
 const additionalRules = {
     object: [ValidationRules.shouldNotBeBlank]
@@ -33,11 +32,7 @@ export const getRules = ({ filterType, object, triggerType }) => {
     }
 
     // validate filters if filter type is ALL and there is a valid Object
-    if (
-        filterType === RECORD_FILTER_CRITERIA.ALL &&
-        object.value !== '' &&
-        !object.error
-    ) {
+    if (filterType === RECORD_FILTER_CRITERIA.ALL && object.value !== '' && !object.error) {
         overriddenRules.filters = validateFilter();
     }
     return overriddenRules;

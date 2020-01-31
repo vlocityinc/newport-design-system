@@ -31,9 +31,7 @@ jest.mock('builder_platform_interaction/selectors', () => {
             return mockSobjectElement;
         }),
         readableElementsSelector: jest.fn(() => {
-            return mockReadableSelectorValue
-                ? mockReadableSelectorValue
-                : mockReadableElement;
+            return mockReadableSelectorValue ? mockReadableSelectorValue : mockReadableElement;
         })
     };
 });

@@ -4,9 +4,7 @@ import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_intera
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 
 function advancedOptionsSelectionChangeCallBack(event) {
-    this.dispatchEvent(
-        new UseAdvancedOptionsSelectionChangedEvent(event.detail.checked)
-    );
+    this.dispatchEvent(new UseAdvancedOptionsSelectionChangedEvent(event.detail.checked));
 }
 
 function confirmationModalParameter(event) {
@@ -24,10 +22,7 @@ function confirmationModalParameter(event) {
             buttonTwo: {
                 buttonVariant: LABELS.confirm,
                 buttonLabel: LABELS.confirm,
-                buttonCallback: advancedOptionsSelectionChangeCallBack.bind(
-                    this,
-                    event
-                )
+                buttonCallback: advancedOptionsSelectionChangeCallBack.bind(this, event)
             }
         }
     };

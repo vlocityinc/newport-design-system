@@ -5,15 +5,8 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
-import {
-    NUMBER_RECORDS_TO_STORE,
-    RECORD_FILTER_CRITERIA
-} from 'builder_platform_interaction/recordEditorLib';
-import {
-    ENTITY_TYPE,
-    getDeletableEntities,
-    fetchFieldsForEntity
-} from 'builder_platform_interaction/sobjectLib';
+import { NUMBER_RECORDS_TO_STORE, RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
+import { ENTITY_TYPE, getDeletableEntities, fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
@@ -45,8 +38,7 @@ export default class RecordDeleteEditor extends LightningElement {
      */
     filterType = RECORD_FILTER_CRITERIA.ALL;
 
-    sobjectCollectionCriterion =
-        SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_OR_SOBJECT_COLLECTION;
+    sobjectCollectionCriterion = SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_OR_SOBJECT_COLLECTION;
 
     // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
     @api
@@ -117,9 +109,7 @@ export default class RecordDeleteEditor extends LightningElement {
      * @returns {string} entity display name or empty string if none found
      */
     get entityDisplayText() {
-        const entityToDisplay = getDeletableEntities().find(
-            entity => entity.apiName === this.recordEntityName
-        );
+        const entityToDisplay = getDeletableEntities().find(entity => entity.apiName === this.recordEntityName);
         return (entityToDisplay && entityToDisplay.entityLabel) || '';
     }
 
@@ -180,18 +170,9 @@ export default class RecordDeleteEditor extends LightningElement {
      * @param {string} oldValue - old value
      */
     updateProperty(propertyName, newValue, error, ignoreValidate, oldValue) {
-        const propChangedEvent = new PropertyChangedEvent(
-            propertyName,
-            newValue,
-            error,
-            null,
-            oldValue
-        );
+        const propChangedEvent = new PropertyChangedEvent(propertyName, newValue, error, null, oldValue);
         propChangedEvent.detail.ignoreValidate = ignoreValidate;
-        this.state.recordDeleteElement = recordDeleteReducer(
-            this.state.recordDeleteElement,
-            propChangedEvent
-        );
+        this.state.recordDeleteElement = recordDeleteReducer(this.state.recordDeleteElement, propChangedEvent);
     }
 
     /**
@@ -200,10 +181,10 @@ export default class RecordDeleteEditor extends LightningElement {
      */
     @api
     validate() {
-        this.state.recordDeleteElement = recordDeleteReducer(
-            this.state.recordDeleteElement,
-            { type: VALIDATE_ALL, isSObjectMode: this.isSObjectMode }
-        );
+        this.state.recordDeleteElement = recordDeleteReducer(this.state.recordDeleteElement, {
+            type: VALIDATE_ALL,
+            isSObjectMode: this.isSObjectMode
+        });
         return getErrorsFromHydratedElement(this.state.recordDeleteElement);
     }
 
@@ -213,11 +194,7 @@ export default class RecordDeleteEditor extends LightningElement {
      */
     handleInputReferenceChangedEvent(event) {
         event.stopPropagation();
-        this.updateProperty(
-            'inputReference',
-            event.detail.value,
-            event.detail.error
-        );
+        this.updateProperty('inputReference', event.detail.value, event.detail.error);
     }
 
     /**
@@ -226,10 +203,7 @@ export default class RecordDeleteEditor extends LightningElement {
      */
     handleRecordStoreOptionChanged(event) {
         event.stopPropagation();
-        this.state.recordDeleteElement = recordDeleteReducer(
-            this.state.recordDeleteElement,
-            event
-        );
+        this.state.recordDeleteElement = recordDeleteReducer(this.state.recordDeleteElement, event);
     }
 
     /**
@@ -238,17 +212,10 @@ export default class RecordDeleteEditor extends LightningElement {
     handleResourceChanged(event) {
         event.stopPropagation();
         const oldRecordEntityName = this.recordEntityName;
-        const newRecordEntityName =
-            (event.detail.item && event.detail.item.value) || '';
+        const newRecordEntityName = (event.detail.item && event.detail.item.value) || '';
 
         if (newRecordEntityName !== oldRecordEntityName) {
-            this.updateProperty(
-                'object',
-                newRecordEntityName,
-                event.detail.error,
-                false,
-                oldRecordEntityName
-            );
+            this.updateProperty('object', newRecordEntityName, event.detail.error, false, oldRecordEntityName);
             this.recordEntityName = newRecordEntityName;
         }
     }
@@ -259,9 +226,6 @@ export default class RecordDeleteEditor extends LightningElement {
      */
     handlePropertyOrListItemChanged(event) {
         event.stopPropagation();
-        this.state.recordDeleteElement = recordDeleteReducer(
-            this.state.recordDeleteElement,
-            event
-        );
+        this.state.recordDeleteElement = recordDeleteReducer(this.state.recordDeleteElement, event);
     }
 }

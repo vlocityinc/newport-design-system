@@ -1,16 +1,9 @@
-import {
-    createRecordUpdate,
-    createDuplicateRecordUpdate,
-    createRecordUpdateMetadataObject
-} from '../recordUpdate';
+import { createRecordUpdate, createDuplicateRecordUpdate, createRecordUpdateMetadataObject } from '../recordUpdate';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
-import {
-    ELEMENT_TYPE,
-    CONNECTOR_TYPE
-} from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
 
 expect.extend(deepFindMatchers);
@@ -126,9 +119,7 @@ describe('recordUpdate Mutation', () => {
         });
         it('has no common mutable object with subflow metadata passed as parameter', () => {
             const actualResult = createRecordUpdate(recordUpdateUsingSobject);
-            expect(actualResult).toHaveNoCommonMutableObjectWith(
-                recordUpdateUsingSobject
-            );
+            expect(actualResult).toHaveNoCommonMutableObjectWith(recordUpdateUsingSobject);
         });
     });
     describe('recordUpdate function using Fields', () => {
@@ -141,40 +132,26 @@ describe('recordUpdate Mutation', () => {
         it('filter with value should return same with calculated numberRecordsToStore', () => {
             recordUpdateUsingFields.filters = [filterWithValueFieldAndOperator];
             const actualResult = createRecordUpdate(recordUpdateUsingFields);
-            mutatedRecordUpdateWithFields.filters = [
-                mutatedFilterWithValueFieldAndOperator
-            ];
+            mutatedRecordUpdateWithFields.filters = [mutatedFilterWithValueFieldAndOperator];
             expect(actualResult).toMatchObject(mutatedRecordUpdateWithFields);
         });
         it('filter with and without value should return same with calculated numberRecordsToStore', () => {
-            recordUpdateUsingFields.filters = [
-                filterWithValueFieldAndOperator,
-                filterWithField
-            ];
+            recordUpdateUsingFields.filters = [filterWithValueFieldAndOperator, filterWithField];
             const actualResult = createRecordUpdate(recordUpdateUsingFields);
-            mutatedRecordUpdateWithFields.filters = [
-                mutatedFilterWithValueFieldAndOperator,
-                mutatedFilterWithField
-            ];
-            mutatedRecordUpdateWithFields.filterType =
-                RECORD_FILTER_CRITERIA.ALL;
+            mutatedRecordUpdateWithFields.filters = [mutatedFilterWithValueFieldAndOperator, mutatedFilterWithField];
+            mutatedRecordUpdateWithFields.filterType = RECORD_FILTER_CRITERIA.ALL;
             expect(actualResult).toMatchObject(mutatedRecordUpdateWithFields);
         });
         it('default filtering mode for a new update element is all', () => {
             recordUpdateUsingFields.isNewElement = true;
             const actualResult = createRecordUpdate(recordUpdateUsingFields);
-            mutatedRecordUpdateWithFields.filterType =
-                RECORD_FILTER_CRITERIA.ALL;
+            mutatedRecordUpdateWithFields.filterType = RECORD_FILTER_CRITERIA.ALL;
             expect(actualResult).toMatchObject(mutatedRecordUpdateWithFields);
         });
         it('inputAssignments with value should return the expression (RHS/LHS)', () => {
-            recordUpdateUsingFields.inputAssignments = [
-                inputAssignmentFieldValue
-            ];
+            recordUpdateUsingFields.inputAssignments = [inputAssignmentFieldValue];
             const actualResult = createRecordUpdate(recordUpdateUsingFields);
-            mutatedRecordUpdateWithFields.inputAssignments = [
-                mutatedInputAssignmentFieldValue
-            ];
+            mutatedRecordUpdateWithFields.inputAssignments = [mutatedInputAssignmentFieldValue];
             expect(actualResult).toMatchObject(mutatedRecordUpdateWithFields);
         });
         it('inputAssignments with multiple values should return the expression (RHS/LHS)', () => {
@@ -197,9 +174,7 @@ describe('recordUpdate Mutation', () => {
         });
         it('has no common mutable object with record update metadata passed as parameter', () => {
             const actualResult = createRecordUpdate(recordUpdateUsingFields);
-            expect(actualResult).toHaveNoCommonMutableObjectWith(
-                recordUpdateUsingFields
-            );
+            expect(actualResult).toHaveNoCommonMutableObjectWith(recordUpdateUsingFields);
         });
     });
 });
@@ -224,11 +199,7 @@ describe('createDuplicateRecordUpdate function', () => {
             }
         ]
     };
-    const { duplicatedElement } = createDuplicateRecordUpdate(
-        originalRecordUpdate,
-        'duplicatedGuid',
-        'duplicatedName'
-    );
+    const { duplicatedElement } = createDuplicateRecordUpdate(originalRecordUpdate, 'duplicatedGuid', 'duplicatedName');
 
     it('has the new guid', () => {
         expect(duplicatedElement.guid).toEqual('duplicatedGuid');
@@ -237,14 +208,10 @@ describe('createDuplicateRecordUpdate function', () => {
         expect(duplicatedElement.name).toEqual('duplicatedName');
     });
     it('has the updated locationX', () => {
-        expect(duplicatedElement.locationX).toEqual(
-            originalRecordUpdate.locationX + DUPLICATE_ELEMENT_XY_OFFSET
-        );
+        expect(duplicatedElement.locationX).toEqual(originalRecordUpdate.locationX + DUPLICATE_ELEMENT_XY_OFFSET);
     });
     it('has the updated locationY', () => {
-        expect(duplicatedElement.locationY).toEqual(
-            originalRecordUpdate.locationY + DUPLICATE_ELEMENT_XY_OFFSET
-        );
+        expect(duplicatedElement.locationY).toEqual(originalRecordUpdate.locationY + DUPLICATE_ELEMENT_XY_OFFSET);
     });
     it('has isSelected set to true', () => {
         expect(duplicatedElement.config.isSelected).toBeTruthy();
@@ -259,9 +226,7 @@ describe('createDuplicateRecordUpdate function', () => {
         expect(duplicatedElement.maxConnections).toEqual(2);
     });
     it('has the right elementType', () => {
-        expect(duplicatedElement.elementType).toEqual(
-            ELEMENT_TYPE.RECORD_UPDATE
-        );
+        expect(duplicatedElement.elementType).toEqual(ELEMENT_TYPE.RECORD_UPDATE);
     });
     it('has default availableConnections', () => {
         expect(duplicatedElement.availableConnections).toEqual([
@@ -278,9 +243,7 @@ describe('createDuplicateRecordUpdate function', () => {
 describe('recordUpdate Demutation', () => {
     describe('recordUpdate function using sObject', () => {
         it('demutate record update using sObject', () => {
-            const actualResult = createRecordUpdateMetadataObject(
-                mutatedRecordUpdateUsingSobject
-            );
+            const actualResult = createRecordUpdateMetadataObject(mutatedRecordUpdateUsingSobject);
             expect(actualResult).toMatchObject(recordUpdateUsingSobject);
         });
     });
@@ -292,43 +255,23 @@ describe('recordUpdate Demutation', () => {
             mutatedRecordUpdateWithFields = mutatedRecordUpdateWithFieldsTemplate();
         });
         it('demutated filter with value', () => {
-            mutatedRecordUpdateWithFields.filters = [
-                mutatedFilterWithValueFieldAndOperator
-            ];
-            mutatedRecordUpdateWithFields.filterType =
-                RECORD_FILTER_CRITERIA.ALL;
+            mutatedRecordUpdateWithFields.filters = [mutatedFilterWithValueFieldAndOperator];
+            mutatedRecordUpdateWithFields.filterType = RECORD_FILTER_CRITERIA.ALL;
             recordUpdateUsingFields.filters = [filterWithValueFieldAndOperator];
-            const actualResult = createRecordUpdateMetadataObject(
-                mutatedRecordUpdateWithFields
-            );
+            const actualResult = createRecordUpdateMetadataObject(mutatedRecordUpdateWithFields);
             expect(actualResult).toMatchObject(recordUpdateUsingFields);
         });
         it('demutate 1 filter with value and 1 filter without value', () => {
-            mutatedRecordUpdateWithFields.filters = [
-                mutatedFilterWithValueFieldAndOperator,
-                mutatedFilterWithField
-            ];
-            mutatedRecordUpdateWithFields.filterType =
-                RECORD_FILTER_CRITERIA.ALL;
-            recordUpdateUsingFields.filters = [
-                filterWithValueFieldAndOperator,
-                filterWithField
-            ];
-            const actualResult = createRecordUpdateMetadataObject(
-                mutatedRecordUpdateWithFields
-            );
+            mutatedRecordUpdateWithFields.filters = [mutatedFilterWithValueFieldAndOperator, mutatedFilterWithField];
+            mutatedRecordUpdateWithFields.filterType = RECORD_FILTER_CRITERIA.ALL;
+            recordUpdateUsingFields.filters = [filterWithValueFieldAndOperator, filterWithField];
+            const actualResult = createRecordUpdateMetadataObject(mutatedRecordUpdateWithFields);
             expect(actualResult).toMatchObject(recordUpdateUsingFields);
         });
         it('demutate inputAssignments with value', () => {
-            mutatedRecordUpdateWithFields.inputAssignments = [
-                mutatedInputAssignmentFieldValue
-            ];
-            recordUpdateUsingFields.inputAssignments = [
-                inputAssignmentFieldValue
-            ];
-            const actualResult = createRecordUpdateMetadataObject(
-                mutatedRecordUpdateWithFields
-            );
+            mutatedRecordUpdateWithFields.inputAssignments = [mutatedInputAssignmentFieldValue];
+            recordUpdateUsingFields.inputAssignments = [inputAssignmentFieldValue];
+            const actualResult = createRecordUpdateMetadataObject(mutatedRecordUpdateWithFields);
             expect(actualResult).toMatchObject(recordUpdateUsingFields);
         });
         it('demutate inputAssignments with multiple values', () => {
@@ -342,9 +285,7 @@ describe('recordUpdate Demutation', () => {
                 inputAssignmentField,
                 inputAssignmentFieldBooleanValue
             ];
-            const actualResult = createRecordUpdateMetadataObject(
-                mutatedRecordUpdateWithFields
-            );
+            const actualResult = createRecordUpdateMetadataObject(mutatedRecordUpdateWithFields);
             expect(actualResult).toMatchObject(recordUpdateUsingFields);
         });
     });

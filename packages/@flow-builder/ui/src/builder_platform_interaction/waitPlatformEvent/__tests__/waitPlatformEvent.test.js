@@ -1,10 +1,6 @@
 import { createElement } from 'lwc';
 import WaitPlatformEvent from '../waitPlatformEvent';
-import {
-    CONDITION_LOGIC,
-    ELEMENT_TYPE,
-    WAIT_EVENT_FIELDS
-} from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE, WAIT_EVENT_FIELDS } from 'builder_platform_interaction/flowMetadata';
 import { getInputParametersForEventType } from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from '../waitPlatformEventLabels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -29,32 +25,23 @@ jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
-        getEventTypes: require.requireActual(
-            'builder_platform_interaction/sobjectLib'
-        ).getEventTypes,
-        getInputParametersForEventType: jest
-            .fn()
-            .mockName('getInputParametersForEventType')
+        getEventTypes: require.requireActual('builder_platform_interaction/sobjectLib').getEventTypes,
+        getInputParametersForEventType: jest.fn().mockName('getInputParametersForEventType')
     };
 });
 
 const SELECTORS = {
     CONDITION_LIST: 'builder_platform_interaction-condition-list',
-    ENTITY_RESOURCE_PICKER:
-        'builder_platform_interaction-entity-resource-picker',
+    ENTITY_RESOURCE_PICKER: 'builder_platform_interaction-entity-resource-picker',
     PARAMETER_ITEM: 'builder_platform_interaction-parameter-item',
-    FILTER_EXPRESSION_BUILDER:
-        'builder_platform_interaction-field-to-ferov-expression-builder',
+    FILTER_EXPRESSION_BUILDER: 'builder_platform_interaction-field-to-ferov-expression-builder',
     ROW: 'builder_platform_interaction-row'
 };
 
 const setupComponentUnderTest = props => {
-    let element = createElement(
-        'builder_platform_interaction-wait-platform-event',
-        {
-            is: WaitPlatformEvent
-        }
-    );
+    let element = createElement('builder_platform_interaction-wait-platform-event', {
+        is: WaitPlatformEvent
+    });
     element = Object.assign(element, props);
 
     document.body.appendChild(element);
@@ -66,17 +53,11 @@ describe('wait-platform-event', () => {
         const updateWaitEventTypeHandler = jest.fn();
 
         beforeEach(() => {
-            window.addEventListener(
-                UpdateWaitEventEventTypeEvent.EVENT_NAME,
-                updateWaitEventTypeHandler
-            );
+            window.addEventListener(UpdateWaitEventEventTypeEvent.EVENT_NAME, updateWaitEventTypeHandler);
         });
 
         afterEach(() => {
-            window.removeEventListener(
-                UpdateWaitEventEventTypeEvent.EVENT_NAME,
-                updateWaitEventTypeHandler
-            );
+            window.removeEventListener(UpdateWaitEventEventTypeEvent.EVENT_NAME, updateWaitEventTypeHandler);
         });
 
         it('is not set for a wait time event type', () => {
@@ -84,8 +65,7 @@ describe('wait-platform-event', () => {
                 eventType: 'foo__e'
             });
 
-            waitPlatformEventElement.eventType =
-                WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME;
+            waitPlatformEventElement.eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME;
             expect(waitPlatformEventElement.eventType).toBe('foo__e');
         });
 
@@ -104,11 +84,9 @@ describe('wait-platform-event', () => {
                 b: {}
             };
 
-            getInputParametersForEventType.mockImplementationOnce(
-                (eventType, callback) => {
-                    callback(filterFields);
-                }
-            );
+            getInputParametersForEventType.mockImplementationOnce((eventType, callback) => {
+                callback(filterFields);
+            });
 
             const someEventType = { value: 'foo', error: null };
 
@@ -125,10 +103,7 @@ describe('wait-platform-event', () => {
                 ]
             });
 
-            expect(getInputParametersForEventType).toHaveBeenCalledWith(
-                someEventType.value,
-                expect.any(Function)
-            );
+            expect(getInputParametersForEventType).toHaveBeenCalledWith(someEventType.value, expect.any(Function));
 
             return Promise.resolve().then(() => {
                 const filterExpressionBuilder = waitPlatformEventElement.shadowRoot.querySelector(
@@ -153,18 +128,10 @@ describe('wait-platform-event', () => {
                     displayText: 'foo1'
                 })
             );
-            expect(
-                updateWaitEventTypeHandler.mock.calls[0][0].detail.oldValue
-            ).toBe(platformEvent);
-            expect(
-                updateWaitEventTypeHandler.mock.calls[0][0].detail.value
-            ).toBe(platformEventUpdated);
-            expect(
-                updateWaitEventTypeHandler.mock.calls[0][0].detail.propertyName
-            ).toBe(WAIT_EVENT_FIELDS.EVENT_TYPE);
-            expect(
-                updateWaitEventTypeHandler.mock.calls[0][0].detail.error
-            ).toBeNull();
+            expect(updateWaitEventTypeHandler.mock.calls[0][0].detail.oldValue).toBe(platformEvent);
+            expect(updateWaitEventTypeHandler.mock.calls[0][0].detail.value).toBe(platformEventUpdated);
+            expect(updateWaitEventTypeHandler.mock.calls[0][0].detail.propertyName).toBe(WAIT_EVENT_FIELDS.EVENT_TYPE);
+            expect(updateWaitEventTypeHandler.mock.calls[0][0].detail.error).toBeNull();
         });
     });
 
@@ -183,9 +150,7 @@ describe('wait-platform-event', () => {
                 ]
             });
 
-            const conditionList = waitPlatformEventElement.shadowRoot.querySelector(
-                SELECTORS.CONDITION_LIST
-            );
+            const conditionList = waitPlatformEventElement.shadowRoot.querySelector(SELECTORS.CONDITION_LIST);
             const filterLogicOptions = conditionList.conditionLogicOptions;
 
             expect(filterLogicOptions).toMatchObject([
@@ -208,9 +173,7 @@ describe('wait-platform-event', () => {
                     inputFilterParameters: []
                 });
 
-                const conditionList = waitPlatformEventElement.shadowRoot.querySelector(
-                    SELECTORS.CONDITION_LIST
-                );
+                const conditionList = waitPlatformEventElement.shadowRoot.querySelector(SELECTORS.CONDITION_LIST);
                 const filterLogic = conditionList.conditionLogic;
 
                 expect(filterLogic).toEqual({
@@ -232,9 +195,7 @@ describe('wait-platform-event', () => {
                     ]
                 });
 
-                const conditionList = waitPlatformEventElement.shadowRoot.querySelector(
-                    SELECTORS.CONDITION_LIST
-                );
+                const conditionList = waitPlatformEventElement.shadowRoot.querySelector(SELECTORS.CONDITION_LIST);
                 const filterLogic = conditionList.conditionLogic;
 
                 expect(filterLogic).toEqual({ value: CONDITION_LOGIC.AND });
@@ -261,9 +222,7 @@ describe('wait-platform-event', () => {
                 ]
             });
 
-            const rows = waitPlatformEventElement.shadowRoot.querySelectorAll(
-                SELECTORS.ROW
-            );
+            const rows = waitPlatformEventElement.shadowRoot.querySelectorAll(SELECTORS.ROW);
             expect(rows).toHaveLength(2);
         });
 
@@ -282,9 +241,7 @@ describe('wait-platform-event', () => {
                     ]
                 });
 
-                const row = waitPlatformEventElement.shadowRoot.querySelector(
-                    SELECTORS.ROW
-                );
+                const row = waitPlatformEventElement.shadowRoot.querySelector(SELECTORS.ROW);
 
                 expect(row.showDelete).toBeFalsy();
             });
@@ -309,9 +266,7 @@ describe('wait-platform-event', () => {
                     ]
                 });
 
-                const row = waitPlatformEventElement.shadowRoot.querySelector(
-                    SELECTORS.ROW
-                );
+                const row = waitPlatformEventElement.shadowRoot.querySelector(SELECTORS.ROW);
 
                 expect(row.showDelete).toBeTruthy();
             });
@@ -398,18 +353,9 @@ describe('wait-platform-event', () => {
                     ]
                 });
 
-                window.addEventListener(
-                    WaitEventAddParameterEvent.EVENT_NAME,
-                    waitEventAddParameterSpy
-                );
-                window.addEventListener(
-                    WaitEventDeleteParameterEvent.EVENT_NAME,
-                    waitEventDeleteParameterSpy
-                );
-                window.addEventListener(
-                    WaitEventParameterChangedEvent.EVENT_NAME,
-                    waitEventParameterChangedSpy
-                );
+                window.addEventListener(WaitEventAddParameterEvent.EVENT_NAME, waitEventAddParameterSpy);
+                window.addEventListener(WaitEventDeleteParameterEvent.EVENT_NAME, waitEventDeleteParameterSpy);
+                window.addEventListener(WaitEventParameterChangedEvent.EVENT_NAME, waitEventParameterChangedSpy);
 
                 filterExpressionBuilder = waitPlatformEventElement.shadowRoot.querySelector(
                     SELECTORS.FILTER_EXPRESSION_BUILDER
@@ -417,54 +363,24 @@ describe('wait-platform-event', () => {
             });
 
             afterEach(() => {
-                window.removeEventListener(
-                    WaitEventAddParameterEvent.EVENT_NAME,
-                    waitEventAddParameterSpy
-                );
-                window.removeEventListener(
-                    WaitEventDeleteParameterEvent.EVENT_NAME,
-                    waitEventDeleteParameterSpy
-                );
-                window.removeEventListener(
-                    WaitEventParameterChangedEvent.EVENT_NAME,
-                    waitEventParameterChangedSpy
-                );
+                window.removeEventListener(WaitEventAddParameterEvent.EVENT_NAME, waitEventAddParameterSpy);
+                window.removeEventListener(WaitEventDeleteParameterEvent.EVENT_NAME, waitEventDeleteParameterSpy);
+                window.removeEventListener(WaitEventParameterChangedEvent.EVENT_NAME, waitEventParameterChangedSpy);
             });
 
             it('fires WaitEventAddParameterEvent on add condition', () => {
-                filterExpressionBuilder.dispatchEvent(
-                    new AddConditionEvent(parentGuid)
-                );
-                expect(
-                    waitEventAddParameterSpy.mock.calls[0][0].detail.name
-                ).toBeNull();
-                expect(
-                    waitEventAddParameterSpy.mock.calls[0][0].detail.parentGUID
-                ).toBe(parentGuid);
-                expect(
-                    waitEventAddParameterSpy.mock.calls[0][0].detail
-                        .isInputParameter
-                ).toBe(true);
+                filterExpressionBuilder.dispatchEvent(new AddConditionEvent(parentGuid));
+                expect(waitEventAddParameterSpy.mock.calls[0][0].detail.name).toBeNull();
+                expect(waitEventAddParameterSpy.mock.calls[0][0].detail.parentGUID).toBe(parentGuid);
+                expect(waitEventAddParameterSpy.mock.calls[0][0].detail.isInputParameter).toBe(true);
             });
 
             it('fires WaitEventDeleteParameterEvent on delete condition', () => {
-                filterExpressionBuilder.dispatchEvent(
-                    new DeleteConditionEvent(parentGuid, 0)
-                );
-                expect(
-                    waitEventDeleteParameterSpy.mock.calls[0][0].detail.name
-                ).toBeNull();
-                expect(
-                    waitEventDeleteParameterSpy.mock.calls[0][0].detail
-                        .parentGUID
-                ).toBe(parentGuid);
-                expect(
-                    waitEventDeleteParameterSpy.mock.calls[0][0].detail
-                        .isInputParameter
-                ).toBe(true);
-                expect(
-                    waitEventDeleteParameterSpy.mock.calls[0][0].detail.index
-                ).toBe(0);
+                filterExpressionBuilder.dispatchEvent(new DeleteConditionEvent(parentGuid, 0));
+                expect(waitEventDeleteParameterSpy.mock.calls[0][0].detail.name).toBeNull();
+                expect(waitEventDeleteParameterSpy.mock.calls[0][0].detail.parentGUID).toBe(parentGuid);
+                expect(waitEventDeleteParameterSpy.mock.calls[0][0].detail.isInputParameter).toBe(true);
+                expect(waitEventDeleteParameterSpy.mock.calls[0][0].detail.index).toBe(0);
             });
 
             it('fires WaitEventParameterChangedEvent on update condition', () => {
@@ -473,27 +389,14 @@ describe('wait-platform-event', () => {
                     rightHandSide: { value: 'rhs', error: null },
                     rightHandSideDataType: { value: 'rhsdt', error: null }
                 };
-                filterExpressionBuilder.dispatchEvent(
-                    new UpdateConditionEvent(parentGuid, 0, updatedValue)
+                filterExpressionBuilder.dispatchEvent(new UpdateConditionEvent(parentGuid, 0, updatedValue));
+                expect(waitEventParameterChangedSpy.mock.calls[0][0].detail.name).toEqual(updatedValue.leftHandSide);
+                expect(waitEventParameterChangedSpy.mock.calls[0][0].detail.value).toEqual(updatedValue.rightHandSide);
+                expect(waitEventParameterChangedSpy.mock.calls[0][0].detail.valueDataType).toEqual(
+                    updatedValue.rightHandSideDataType
                 );
-                expect(
-                    waitEventParameterChangedSpy.mock.calls[0][0].detail.name
-                ).toEqual(updatedValue.leftHandSide);
-                expect(
-                    waitEventParameterChangedSpy.mock.calls[0][0].detail.value
-                ).toEqual(updatedValue.rightHandSide);
-                expect(
-                    waitEventParameterChangedSpy.mock.calls[0][0].detail
-                        .valueDataType
-                ).toEqual(updatedValue.rightHandSideDataType);
-                expect(
-                    waitEventParameterChangedSpy.mock.calls[0][0].detail
-                        .parentGUID
-                ).toBe(parentGuid);
-                expect(
-                    waitEventParameterChangedSpy.mock.calls[0][0].detail
-                        .isInputParameter
-                ).toBe(true);
+                expect(waitEventParameterChangedSpy.mock.calls[0][0].detail.parentGUID).toBe(parentGuid);
+                expect(waitEventParameterChangedSpy.mock.calls[0][0].detail.isInputParameter).toBe(true);
             });
         });
     });
@@ -520,9 +423,7 @@ describe('wait-platform-event', () => {
                 }
             });
 
-            const parameterItem = waitPlatformEventElement.shadowRoot.querySelector(
-                SELECTORS.PARAMETER_ITEM
-            );
+            const parameterItem = waitPlatformEventElement.shadowRoot.querySelector(SELECTORS.PARAMETER_ITEM);
 
             // output parameter item is not present initially
             expect(parameterItem).toBeNull();
@@ -550,12 +451,8 @@ describe('wait-platform-event', () => {
                     SELECTORS.PARAMETER_ITEM
                 );
                 expect(parameterItemUpdated).not.toBeNull();
-                expect(parameterItemUpdated.elementType).toBe(
-                    ELEMENT_TYPE.WAIT
-                );
-                expect(parameterItemUpdated.item).toEqual(
-                    expectedParameterItem
-                );
+                expect(parameterItemUpdated.elementType).toBe(ELEMENT_TYPE.WAIT);
+                expect(parameterItemUpdated.item).toEqual(expectedParameterItem);
             });
         });
 
@@ -583,12 +480,8 @@ describe('wait-platform-event', () => {
                     SELECTORS.PARAMETER_ITEM
                 );
                 expect(parameterItemUpdated).not.toBeNull();
-                expect(parameterItemUpdated.item.subtype).toEqual(
-                    updatedPlatformEventName
-                );
-                expect(parameterItemUpdated.item.name).toEqual(
-                    updatedPlatformEventName
-                );
+                expect(parameterItemUpdated.item.subtype).toEqual(updatedPlatformEventName);
+                expect(parameterItemUpdated.item.name).toEqual(updatedPlatformEventName);
             });
         });
     });

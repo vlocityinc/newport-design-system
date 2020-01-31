@@ -78,11 +78,5 @@ export const logInteraction = (
     eventSource,
     eventType = 'user'
 ) => {
-    metricsService.interaction(
-        `${getAppName()}: ${target}`,
-        scope,
-        context,
-        'synthetic-' + eventSource,
-        eventType
-    );
+    metricsService.interaction(`${getAppName()}: ${target}`, scope, context, 'synthetic-' + eventSource, eventType);
 };

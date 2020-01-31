@@ -35,8 +35,7 @@ const RTE_FORMATS = [
 const SELECTORS = {
     INPUT_RICH_TEXT: 'lightning-input-rich-text',
     FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker',
-    INPUT_RICH_TEXT_UPLOAD_IMG_BUTTON:
-        '.slds-button.slds-button_icon-border-filled.ql-image'
+    INPUT_RICH_TEXT_UPLOAD_IMG_BUTTON: '.slds-button.slds-button_icon-border-filled.ql-image'
 };
 
 /**
@@ -122,14 +121,11 @@ export default class ResourcedRichTextEditor extends LightningElement {
 
     @api
     get value() {
-        return this.hydrated
-            ? { value: this.state.value, error: this.state.error }
-            : this.state.value;
+        return this.hydrated ? { value: this.state.value, error: this.state.error } : this.state.value;
     }
 
     set value(val) {
-        this.hydrated =
-            val && val.hasOwnProperty('value') && val.hasOwnProperty('error');
+        this.hydrated = val && val.hasOwnProperty('value') && val.hasOwnProperty('error');
 
         if (this.hydrated) {
             this.state.value = val.value;
@@ -149,10 +145,7 @@ export default class ResourcedRichTextEditor extends LightningElement {
     }
 
     get classList() {
-        return (
-            'container slds-grid slds-grid_vertical' +
-            (this.state.error ? ' has-error' : '')
-        );
+        return 'container slds-grid slds-grid_vertical' + (this.state.error ? ' has-error' : '');
     }
 
     /**
@@ -160,9 +153,7 @@ export default class ResourcedRichTextEditor extends LightningElement {
      * to allow mode selection button menu if needed
      */
     get computedDivResourcePickerClass() {
-        return this.plainTextAvailable
-            ? 'divResourcePickerPartialWidth'
-            : 'divResourcePickerFulllWidth';
+        return this.plainTextAvailable ? 'divResourcePickerPartialWidth' : 'divResourcePickerFulllWidth';
     }
 
     get orgId() {
@@ -201,10 +192,7 @@ export default class ResourcedRichTextEditor extends LightningElement {
             allowGlobalConstants: false,
             allowCollectionVariables: true
         };
-        const errors = validateTextWithMergeFields(
-            textWithMergeFields,
-            options
-        );
+        const errors = validateTextWithMergeFields(textWithMergeFields, options);
         return errors;
     }
 
@@ -220,9 +208,7 @@ export default class ResourcedRichTextEditor extends LightningElement {
 
     handleResourcePickerFocusout() {
         Promise.resolve().then(() => {
-            const ferovResourcePicker = this.template.querySelector(
-                SELECTORS.FEROV_RESOURCE_PICKER
-            );
+            const ferovResourcePicker = this.template.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
             ferovResourcePicker.value = null;
             ferovResourcePicker.errorMessage = null;
         });
@@ -233,9 +219,7 @@ export default class ResourcedRichTextEditor extends LightningElement {
         if (event && event.detail && event.detail.item) {
             const text = event.detail.item.displayText;
             if (text) {
-                const inputRichText = this.template.querySelector(
-                    SELECTORS.INPUT_RICH_TEXT
-                );
+                const inputRichText = this.template.querySelector(SELECTORS.INPUT_RICH_TEXT);
                 inputRichText.insertTextAtCursor(text);
                 inputRichText.focus();
             }
@@ -256,16 +240,13 @@ export default class ResourcedRichTextEditor extends LightningElement {
         if (!this.state.isPlainTextMode) {
             if (!this.initialized) {
                 // Temp "BETA" tooltip addition for lightning rich text input upload img button
-                const inputRichText = this.template.querySelector(
-                    SELECTORS.INPUT_RICH_TEXT
-                );
+                const inputRichText = this.template.querySelector(SELECTORS.INPUT_RICH_TEXT);
                 if (inputRichText && inputRichText.shadowRoot) {
                     const uploadImgBtn = inputRichText.shadowRoot.querySelector(
                         SELECTORS.INPUT_RICH_TEXT_UPLOAD_IMG_BUTTON
                     );
                     if (uploadImgBtn) {
-                        uploadImgBtn.title =
-                            LABELS.richTextInputUploadImgBtnBetaTitle;
+                        uploadImgBtn.title = LABELS.richTextInputUploadImgBtnBetaTitle;
                     }
                 }
                 this.initialized = true;

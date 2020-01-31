@@ -1,9 +1,6 @@
 import { createElement } from 'lwc';
 import ChoiceEditor from '../choiceEditor';
-import {
-    createAction,
-    PROPERTY_EDITOR_ACTION
-} from 'builder_platform_interaction/actions';
+import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { choiceReducer } from '../choiceReducer';
 import {
     PropertyChangedEvent,
@@ -32,20 +29,15 @@ const SELECTORS = {
     REQUIRED_CHECKBOX: '.test-required-checkbox',
     VALIDATE_CHECKBOX: '.test-validate-checkbox',
     VALIDATION_EDITOR: 'builder_platform_interaction-validation-editor',
-    RESOURCE_RICH_TEXT_EDITOR:
-        'builder_platform_interaction-resourced-rich-text-editor',
+    RESOURCE_RICH_TEXT_EDITOR: 'builder_platform_interaction-resourced-rich-text-editor',
     LIGHTNING_INPUT_RICH_TEXT: 'lightning-input-rich-text',
-    RICH_TEXT_PLAIN_TEXT_SWITCH:
-        'builder_platform_interaction-rich-text-plain-text-switch'
+    RICH_TEXT_PLAIN_TEXT_SWITCH: 'builder_platform_interaction-rich-text-plain-text-switch'
 };
 
 const setupComponentUnderTest = choiceObject => {
-    const element = createElement(
-        'builder_platform_interaction-choice-editor',
-        {
-            is: ChoiceEditor
-        }
-    );
+    const element = createElement('builder_platform_interaction-choice-editor', {
+        is: ChoiceEditor
+    });
     element.node = choiceObject;
     document.body.appendChild(element);
     return element;
@@ -66,18 +58,14 @@ const blurEvent = new FocusEvent('blur', {
 jest.mock('builder_platform_interaction/actions', () => {
     return {
         createAction: jest.fn().mockImplementation((type, payload) => payload),
-        PROPERTY_EDITOR_ACTION: require.requireActual(
-            'builder_platform_interaction/actions'
-        ).PROPERTY_EDITOR_ACTION
+        PROPERTY_EDITOR_ACTION: require.requireActual('builder_platform_interaction/actions').PROPERTY_EDITOR_ACTION
     };
 });
 
 // helps remove dependency of the editor tests on the reducer functionality
 jest.mock('../choiceReducer', () => {
     return {
-        choiceReducer: jest
-            .fn()
-            .mockImplementation(obj => Object.assign({}, obj))
+        choiceReducer: jest.fn().mockImplementation(obj => Object.assign({}, obj))
     };
 });
 
@@ -85,12 +73,9 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         getResourceByUniqueIdentifier: jest.fn(),
         getFerovDataTypeForValidId: jest.fn(),
-        getItemOrDisplayText: require.requireActual(
-            'builder_platform_interaction/expressionUtils'
-        ).getItemOrDisplayText,
-        getFerovInfoAndErrorFromEvent: jest
-            .fn()
-            .mockName('getFerovInfoAndErrorFromEvent')
+        getItemOrDisplayText: require.requireActual('builder_platform_interaction/expressionUtils')
+            .getItemOrDisplayText,
+        getFerovInfoAndErrorFromEvent: jest.fn().mockName('getFerovInfoAndErrorFromEvent')
     };
 });
 
@@ -162,9 +147,7 @@ describe('choice-editor', () => {
         let labelDescription;
         beforeEach(() => {
             choiceEditor = setupComponentUnderTest(defaultChoiceObject);
-            labelDescription = choiceEditor.shadowRoot.querySelector(
-                SELECTORS.LABEL_DESCRIPTION
-            );
+            labelDescription = choiceEditor.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION);
         });
 
         it('Label-Description should be defined', () => {
@@ -176,42 +159,27 @@ describe('choice-editor', () => {
         });
 
         it('Description should be same as the description of the choiceObject', () => {
-            expect(labelDescription.description).toEqual(
-                defaultChoiceObject.description
-            );
+            expect(labelDescription.description).toEqual(defaultChoiceObject.description);
         });
     });
 
     it('"rich text/plain text switch" NOT displayed inside the resourced rich text editor', () => {
         const choiceEditor = setupComponentUnderTest(defaultChoiceObject);
-        const choiceTextResourcedRichText = choiceEditor.shadowRoot.querySelector(
-            SELECTORS.RESOURCE_RICH_TEXT_EDITOR
-        );
-        expect(
-            choiceTextResourcedRichText.shadowRoot.querySelector(
-                SELECTORS.RICH_TEXT_PLAIN_TEXT_SWITCH
-            )
-        ).toBeNull();
+        const choiceTextResourcedRichText = choiceEditor.shadowRoot.querySelector(SELECTORS.RESOURCE_RICH_TEXT_EDITOR);
+        expect(choiceTextResourcedRichText.shadowRoot.querySelector(SELECTORS.RICH_TEXT_PLAIN_TEXT_SWITCH)).toBeNull();
     });
     it('Handles the property changed event and updates the property', () => {
         const choiceEditor = setupComponentUnderTest(defaultChoiceObject);
         return Promise.resolve().then(() => {
-            const event = new PropertyChangedEvent(
-                'description',
-                'new desc',
-                null
-            );
+            const event = new PropertyChangedEvent('description', 'new desc', null);
             choiceEditor.shadowRoot
                 .querySelector('builder_platform_interaction-label-description')
                 .dispatchEvent(event);
-            expect(createAction).toHaveBeenCalledWith(
-                PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-                {
-                    propertyName: 'description',
-                    value: 'new desc',
-                    error: null
-                }
-            );
+            expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+                propertyName: 'description',
+                value: 'new desc',
+                error: null
+            });
         });
     });
 
@@ -239,14 +207,11 @@ describe('choice-editor', () => {
                     })
                 );
 
-                expect(createAction).toHaveBeenCalledWith(
-                    PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-                    {
-                        propertyName: 'choiceText',
-                        value: newValue,
-                        error: null
-                    }
-                );
+                expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+                    propertyName: 'choiceText',
+                    value: newValue,
+                    error: null
+                });
             } finally {
                 window.XMLSerializer = previousXMLSerializer;
             }
@@ -273,14 +238,11 @@ describe('choice-editor', () => {
                     })
                 );
 
-                expect(createAction).toHaveBeenCalledWith(
-                    PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-                    {
-                        propertyName: 'choiceText',
-                        value: newValue,
-                        error: LABELS.cannotBeBlank
-                    }
-                );
+                expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+                    propertyName: 'choiceText',
+                    value: newValue,
+                    error: LABELS.cannotBeBlank
+                });
             } finally {
                 window.XMLSerializer = previousXMLSerializer;
             }
@@ -294,17 +256,13 @@ describe('choice-editor', () => {
         });
 
         const dispatchValueChangedEvent = (editor, payload) => {
-            const dataTypePicker = editor.shadowRoot.querySelector(
-                'builder_platform_interaction-data-type-picker'
-            );
+            const dataTypePicker = editor.shadowRoot.querySelector('builder_platform_interaction-data-type-picker');
             const mockChangeEvent = new ValueChangedEvent(payload);
             dataTypePicker.dispatchEvent(mockChangeEvent);
         };
 
         it('Has a data type picker', () => {
-            const dataTypePicker = choiceEditor.shadowRoot.querySelector(
-                'lightning-combobox'
-            );
+            const dataTypePicker = choiceEditor.shadowRoot.querySelector('lightning-combobox');
             expect(dataTypePicker).toBeDefined();
         });
 
@@ -318,10 +276,7 @@ describe('choice-editor', () => {
         it('Handles change event when data type option is selected', () => {
             const eventPayload = { dataType: 'Number' };
             dispatchValueChangedEvent(choiceEditor, eventPayload);
-            expect(createAction).toHaveBeenCalledWith(
-                PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE,
-                { value: eventPayload }
-            );
+            expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, { value: eventPayload });
         });
 
         describe('Clears the default value when switching data type', () => {
@@ -332,9 +287,7 @@ describe('choice-editor', () => {
             });
 
             it('storedValue should get updated', () => {
-                expect(createAction.mock.calls[1][1].propertyName).toEqual(
-                    'storedValue'
-                );
+                expect(createAction.mock.calls[1][1].propertyName).toEqual('storedValue');
             });
 
             it('storedValue should be updated to null', () => {
@@ -358,27 +311,18 @@ describe('choice-editor', () => {
             getResourceByUniqueIdentifier.mockReturnValueOnce({});
             getFerovInfoAndErrorFromEvent.mockReturnValueOnce(mockFerovInfo);
 
-            const valueChangedEvent = new ComboboxStateChangedEvent(
-                selectedMenuItem,
-                null,
-                null
-            );
-            const flowCombobox = choiceEditor.shadowRoot.querySelector(
-                SELECTORS.FEROV_RESOURCE_PICKER
-            );
+            const valueChangedEvent = new ComboboxStateChangedEvent(selectedMenuItem, null, null);
+            const flowCombobox = choiceEditor.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
             flowCombobox.dispatchEvent(valueChangedEvent);
             expect(getFerovInfoAndErrorFromEvent).toHaveBeenCalledWith(
                 valueChangedEvent,
                 defaultChoiceObject.dataType.value
             );
-            expect(createAction).toHaveBeenCalledWith(
-                PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-                {
-                    propertyName: STORED_VALUE_DATA_TYPE_PROPERTY,
-                    value: mockFerovInfo.dataType,
-                    error: null
-                }
-            );
+            expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+                propertyName: STORED_VALUE_DATA_TYPE_PROPERTY,
+                value: mockFerovInfo.dataType,
+                error: null
+            });
         });
     });
 
@@ -393,12 +337,8 @@ describe('choice-editor', () => {
             let inputSelectionCheckbox;
             beforeEach(() => {
                 checked = true;
-                inputSelectionCheckbox = choiceEditor.shadowRoot.querySelector(
-                    SELECTORS.INPUT_SELECTION_CHECKBOX
-                );
-                inputSelectionCheckbox.dispatchEvent(
-                    new CustomEvent('change', { detail: { checked } })
-                );
+                inputSelectionCheckbox = choiceEditor.shadowRoot.querySelector(SELECTORS.INPUT_SELECTION_CHECKBOX);
+                inputSelectionCheckbox.dispatchEvent(new CustomEvent('change', { detail: { checked } }));
             });
 
             const userInputPayload = {
@@ -415,14 +355,11 @@ describe('choice-editor', () => {
             };
 
             it('updateElementProperty action should be fired with the right values', () => {
-                expect(createAction).toHaveBeenCalledWith(
-                    PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-                    {
-                        propertyName: 'isShowInputSelected',
-                        value: checked,
-                        error: null
-                    }
-                );
+                expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+                    propertyName: 'isShowInputSelected',
+                    value: checked,
+                    error: null
+                });
             });
 
             it('isShowInputSelected should be set to true', () => {
@@ -434,9 +371,7 @@ describe('choice-editor', () => {
             });
 
             it('userInput object should have the right structure', () => {
-                expect(choiceReducer.mock.calls[1][1]).toEqual(
-                    userInputPayload
-                );
+                expect(choiceReducer.mock.calls[1][1]).toEqual(userInputPayload);
             });
         });
 
@@ -445,23 +380,16 @@ describe('choice-editor', () => {
             let inputSelectionCheckbox;
             beforeEach(() => {
                 checked = false;
-                inputSelectionCheckbox = choiceEditor.shadowRoot.querySelector(
-                    SELECTORS.INPUT_SELECTION_CHECKBOX
-                );
-                inputSelectionCheckbox.dispatchEvent(
-                    new CustomEvent('change', { detail: { checked } })
-                );
+                inputSelectionCheckbox = choiceEditor.shadowRoot.querySelector(SELECTORS.INPUT_SELECTION_CHECKBOX);
+                inputSelectionCheckbox.dispatchEvent(new CustomEvent('change', { detail: { checked } }));
             });
 
             it('updateElementProperty action should be fired with the right values', () => {
-                expect(createAction).toHaveBeenCalledWith(
-                    PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-                    {
-                        propertyName: 'isShowInputSelected',
-                        value: checked,
-                        error: null
-                    }
-                );
+                expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+                    propertyName: 'isShowInputSelected',
+                    value: checked,
+                    error: null
+                });
             });
 
             it('isShowInputSelected should be set to false', () => {
@@ -497,89 +425,65 @@ describe('choice-editor', () => {
         });
 
         it('inputSelection checkbox should show up', () => {
-            const inputSelectionCheckbox = choiceEditor.shadowRoot.querySelector(
-                SELECTORS.INPUT_SELECTION_CHECKBOX
-            );
+            const inputSelectionCheckbox = choiceEditor.shadowRoot.querySelector(SELECTORS.INPUT_SELECTION_CHECKBOX);
             expect(inputSelectionCheckbox).toBeDefined();
         });
 
         it('inputSelection checkbox should be checked', () => {
-            const inputSelectionCheckbox = choiceEditor.shadowRoot.querySelector(
-                SELECTORS.INPUT_SELECTION_CHECKBOX
-            );
+            const inputSelectionCheckbox = choiceEditor.shadowRoot.querySelector(SELECTORS.INPUT_SELECTION_CHECKBOX);
             expect(inputSelectionCheckbox.checked).toBeTruthy();
         });
 
         it('promptText input field should show up', () => {
-            const promptTextInput = choiceEditor.shadowRoot.querySelector(
-                SELECTORS.PROMPT_TEXT
-            );
+            const promptTextInput = choiceEditor.shadowRoot.querySelector(SELECTORS.PROMPT_TEXT);
             expect(promptTextInput).toBeDefined();
         });
 
         it('Required field should show up', () => {
-            const requiredCheckbox = choiceEditor.shadowRoot.querySelector(
-                SELECTORS.REQUIRED_CHECKBOX
-            );
+            const requiredCheckbox = choiceEditor.shadowRoot.querySelector(SELECTORS.REQUIRED_CHECKBOX);
             expect(requiredCheckbox).toBeDefined();
         });
 
         it('Required field should be checked', () => {
-            const requiredCheckbox = choiceEditor.shadowRoot.querySelector(
-                SELECTORS.REQUIRED_CHECKBOX
-            );
+            const requiredCheckbox = choiceEditor.shadowRoot.querySelector(SELECTORS.REQUIRED_CHECKBOX);
             expect(requiredCheckbox.checked).toBeTruthy();
         });
 
         it('Validate field should show up', () => {
-            const validateCheckbox = choiceEditor.shadowRoot.querySelector(
-                SELECTORS.VALIDATE_CHECKBOX
-            );
+            const validateCheckbox = choiceEditor.shadowRoot.querySelector(SELECTORS.VALIDATE_CHECKBOX);
             expect(validateCheckbox).toBeDefined();
         });
 
         it('Validate should not be checked', () => {
-            const validateCheckbox = choiceEditor.shadowRoot.querySelector(
-                SELECTORS.VALIDATE_CHECKBOX
-            );
+            const validateCheckbox = choiceEditor.shadowRoot.querySelector(SELECTORS.VALIDATE_CHECKBOX);
             expect(validateCheckbox.checked).toBeFalsy();
         });
 
         describe('Handles focus out for Prompt Text input field', () => {
             it('When input is valid', () => {
                 const newValue = 'newValue';
-                const promptTextInput = choiceEditor.shadowRoot.querySelector(
-                    SELECTORS.PROMPT_TEXT
-                );
+                const promptTextInput = choiceEditor.shadowRoot.querySelector(SELECTORS.PROMPT_TEXT);
                 promptTextInput.value = newValue;
                 promptTextInput.dispatchEvent(focusoutEvent);
 
-                expect(createAction).toHaveBeenCalledWith(
-                    PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-                    {
-                        propertyName: 'promptText',
-                        value: newValue,
-                        error: null
-                    }
-                );
+                expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+                    propertyName: 'promptText',
+                    value: newValue,
+                    error: null
+                });
             });
 
             it('When input is invalid', () => {
                 const newValue = '';
-                const promptTextInput = choiceEditor.shadowRoot.querySelector(
-                    SELECTORS.PROMPT_TEXT
-                );
+                const promptTextInput = choiceEditor.shadowRoot.querySelector(SELECTORS.PROMPT_TEXT);
                 promptTextInput.value = newValue;
                 promptTextInput.dispatchEvent(focusoutEvent);
 
-                expect(createAction).toHaveBeenCalledWith(
-                    PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-                    {
-                        propertyName: 'promptText',
-                        value: newValue,
-                        error: LABELS.cannotBeBlank
-                    }
-                );
+                expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+                    propertyName: 'promptText',
+                    value: newValue,
+                    error: LABELS.cannotBeBlank
+                });
             });
         });
 
@@ -612,9 +516,7 @@ describe('choice-editor', () => {
 
                 choiceTextResourcedRichText.dispatchEvent(blurEvent);
 
-                expect(choiceEditor.getNode().choiceText.value).toBe(
-                    'my value'
-                );
+                expect(choiceEditor.getNode().choiceText.value).toBe('my value');
             });
             it('When input contains a p tag in the middle', () => {
                 const choiceObject = {
@@ -644,49 +546,33 @@ describe('choice-editor', () => {
 
                 choiceTextResourcedRichText.dispatchEvent(blurEvent);
 
-                expect(choiceEditor.getNode().choiceText.value).toBe(
-                    'my <p>value</p>'
-                );
+                expect(choiceEditor.getNode().choiceText.value).toBe('my <p>value</p>');
             });
         });
 
         describe('isRequired checkbox', () => {
             it('When isRequired checkbox is checked', () => {
                 const checked = true;
-                const isRequiredCheckbox = choiceEditor.shadowRoot.querySelector(
-                    SELECTORS.REQUIRED_CHECKBOX
-                );
-                isRequiredCheckbox.dispatchEvent(
-                    new CustomEvent('change', { detail: { checked } })
-                );
+                const isRequiredCheckbox = choiceEditor.shadowRoot.querySelector(SELECTORS.REQUIRED_CHECKBOX);
+                isRequiredCheckbox.dispatchEvent(new CustomEvent('change', { detail: { checked } }));
 
-                expect(createAction).toHaveBeenCalledWith(
-                    PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-                    {
-                        propertyName: 'isRequired',
-                        value: checked,
-                        error: null
-                    }
-                );
+                expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+                    propertyName: 'isRequired',
+                    value: checked,
+                    error: null
+                });
             });
 
             it('When isRequired checkbox is unchecked', () => {
                 const checked = false;
-                const isRequiredCheckbox = choiceEditor.shadowRoot.querySelector(
-                    SELECTORS.REQUIRED_CHECKBOX
-                );
-                isRequiredCheckbox.dispatchEvent(
-                    new CustomEvent('change', { detail: { checked } })
-                );
+                const isRequiredCheckbox = choiceEditor.shadowRoot.querySelector(SELECTORS.REQUIRED_CHECKBOX);
+                isRequiredCheckbox.dispatchEvent(new CustomEvent('change', { detail: { checked } }));
 
-                expect(createAction).toHaveBeenCalledWith(
-                    PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-                    {
-                        propertyName: 'isRequired',
-                        value: checked,
-                        error: null
-                    }
-                );
+                expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+                    propertyName: 'isRequired',
+                    value: checked,
+                    error: null
+                });
             });
         });
     });
@@ -702,12 +588,8 @@ describe('choice-editor', () => {
             let isValidateCheckbox;
             beforeEach(() => {
                 checked = true;
-                isValidateCheckbox = choiceEditor.shadowRoot.querySelector(
-                    SELECTORS.VALIDATE_CHECKBOX
-                );
-                isValidateCheckbox.dispatchEvent(
-                    new CustomEvent('change', { detail: { checked } })
-                );
+                isValidateCheckbox = choiceEditor.shadowRoot.querySelector(SELECTORS.VALIDATE_CHECKBOX);
+                isValidateCheckbox.dispatchEvent(new CustomEvent('change', { detail: { checked } }));
             });
 
             const validationRulePayload = {
@@ -726,20 +608,15 @@ describe('choice-editor', () => {
             };
 
             it('isValidateSelected should be updated to true', () => {
-                expect(createAction).toHaveBeenCalledWith(
-                    PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-                    {
-                        propertyName: 'isValidateSelected',
-                        value: checked,
-                        error: null
-                    }
-                );
+                expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+                    propertyName: 'isValidateSelected',
+                    value: checked,
+                    error: null
+                });
             });
 
             it('validationRule object should have the right structure', () => {
-                expect(choiceReducer.mock.calls[2][1]).toEqual(
-                    validationRulePayload
-                );
+                expect(choiceReducer.mock.calls[2][1]).toEqual(validationRulePayload);
             });
         });
 
@@ -748,23 +625,16 @@ describe('choice-editor', () => {
             let isValidateCheckbox;
             beforeEach(() => {
                 checked = false;
-                isValidateCheckbox = choiceEditor.shadowRoot.querySelector(
-                    SELECTORS.VALIDATE_CHECKBOX
-                );
-                isValidateCheckbox.dispatchEvent(
-                    new CustomEvent('change', { detail: { checked } })
-                );
+                isValidateCheckbox = choiceEditor.shadowRoot.querySelector(SELECTORS.VALIDATE_CHECKBOX);
+                isValidateCheckbox.dispatchEvent(new CustomEvent('change', { detail: { checked } }));
             });
 
             it('isValidateSelected should be updated to false', () => {
-                expect(createAction).toHaveBeenCalledWith(
-                    PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
-                    {
-                        propertyName: 'isValidateSelected',
-                        value: checked,
-                        error: null
-                    }
-                );
+                expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+                    propertyName: 'isValidateSelected',
+                    value: checked,
+                    error: null
+                });
             });
 
             it('validationRule should be set to undefined', () => {
@@ -779,21 +649,15 @@ describe('choice-editor', () => {
 
     describe('validationRule section', () => {
         it('Validation-Editor should show up', () => {
-            const choiceEditor = setupComponentUnderTest(
-                validationRuleChoiceObject
-            );
-            const validationEditor = choiceEditor.shadowRoot.querySelector(
-                SELECTORS.VALIDATION_EDITOR
-            );
+            const choiceEditor = setupComponentUnderTest(validationRuleChoiceObject);
+            const validationEditor = choiceEditor.shadowRoot.querySelector(SELECTORS.VALIDATION_EDITOR);
             expect(validationEditor).toBeDefined();
         });
     });
 
     describe('Validation', () => {
         it('Calls reducer with validate all event', () => {
-            const choiceEditor = setupComponentUnderTest(
-                validationRuleChoiceObject
-            );
+            const choiceEditor = setupComponentUnderTest(validationRuleChoiceObject);
             choiceEditor.validate();
             expect(choiceReducer.mock.calls[1][1]).toEqual({
                 type: VALIDATE_ALL

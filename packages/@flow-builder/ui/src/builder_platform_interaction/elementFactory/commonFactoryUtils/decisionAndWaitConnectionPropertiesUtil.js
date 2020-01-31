@@ -21,16 +21,10 @@ function _getChildReferencesWithAssociatedConnectors(
     const usedChildReferences = [];
     for (let i = 0; i < originalChildReferences.length; i++) {
         if (
-            !flatOriginalAvailableConnections.includes(
-                originalChildReferences[i][childReferenceKey]
-            ) &&
-            !deletedChildElementGuids.includes(
-                originalChildReferences[i][childReferenceKey]
-            )
+            !flatOriginalAvailableConnections.includes(originalChildReferences[i][childReferenceKey]) &&
+            !deletedChildElementGuids.includes(originalChildReferences[i][childReferenceKey])
         ) {
-            usedChildReferences.push(
-                originalChildReferences[i][childReferenceKey]
-            );
+            usedChildReferences.push(originalChildReferences[i][childReferenceKey]);
         }
     }
 
@@ -76,9 +70,7 @@ function _getAvailableConnectionsContainingChildReferences(
  * @returns {{additionalConnectorCount: number, defaultAvailableConnection: Array, addFaultConnection: Boolean}} - Any additional connector
  * count, available connection corresponding to Default Connection and addFaultConnection to track if we need to add Fault Connection
  */
-function _calculateForDefaultAndFaultAvailableConnections(
-    flatOriginalAvailableConnections = []
-) {
+function _calculateForDefaultAndFaultAvailableConnections(flatOriginalAvailableConnections = []) {
     let additionalConnectorCount = 0;
     const defaultAvailableConnection = [];
 
@@ -131,11 +123,9 @@ export function getConnectionProperties(
         originalCanvasElement[childReferencesKey]
     ) {
         const flatOriginalAvailableConnections = originalCanvasElement.availableConnections.map(
-            availableConnection =>
-                availableConnection.childReference || availableConnection.type
+            availableConnection => availableConnection.childReference || availableConnection.type
         );
-        const originalChildReferences =
-            originalCanvasElement[childReferencesKey];
+        const originalChildReferences = originalCanvasElement[childReferencesKey];
 
         // Gets the childReferences that already have a connector associated. These should not be included in our availableConnections
         const usedChildReferences = _getChildReferencesWithAssociatedConnectors(
@@ -159,15 +149,10 @@ export function getConnectionProperties(
             additionalConnectorCount,
             defaultAvailableConnection,
             addFaultConnection
-        } = _calculateForDefaultAndFaultAvailableConnections(
-            flatOriginalAvailableConnections
-        );
+        } = _calculateForDefaultAndFaultAvailableConnections(flatOriginalAvailableConnections);
 
         connectorCount = usedChildReferences.length + additionalConnectorCount;
-        availableConnections = [
-            ...childAvailableConnections,
-            ...defaultAvailableConnection
-        ];
+        availableConnections = [...childAvailableConnections, ...defaultAvailableConnection];
         addFaultConnectionForWaitElement = addFaultConnection;
     }
 

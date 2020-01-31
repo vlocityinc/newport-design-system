@@ -28,9 +28,7 @@ describe('ScreenFieldCard with errors', () => {
     it('should have has-error class in its CONTAINER', () => {
         const element = createComponentUnderTest(fieldProps);
         const container = element.shadowRoot.querySelector(SELECTORS.CONTAINER);
-        expect(container.className).toEqual(
-            expect.stringContaining('has-error')
-        );
+        expect(container.className).toEqual(expect.stringContaining('has-error'));
     });
     it('should display an error icon on error', () => {
         const element = createComponentUnderTest(fieldProps);
@@ -53,15 +51,11 @@ describe('ScreenFieldCard without errors', () => {
     it('should have bordered class in its CONTAINER', () => {
         const element = createComponentUnderTest(fieldProps);
         const container = element.shadowRoot.querySelector(SELECTORS.CONTAINER);
-        expect(container.className).toEqual(
-            expect.stringContaining('bordered')
-        );
+        expect(container.className).toEqual(expect.stringContaining('bordered'));
     });
     it('should display the title', () => {
         const element = createComponentUnderTest(fieldProps);
-        const headerBody = element.shadowRoot.querySelector(
-            SELECTORS.HEADER_TEXT
-        );
+        const headerBody = element.shadowRoot.querySelector(SELECTORS.HEADER_TEXT);
         expect(headerBody.textContent).toBe('component header');
     });
     it('should display the text if set', () => {

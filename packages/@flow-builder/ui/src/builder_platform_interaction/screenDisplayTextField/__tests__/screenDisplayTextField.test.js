@@ -11,10 +11,7 @@ function createComponentForTest({
     title = 'display1',
     typeName = 'DisplayText'
 } = {}) {
-    const el = createElement(
-        'builder_platform_interaction-screen-display-text-field',
-        { is: ScreenDisplayField }
-    );
+    const el = createElement('builder_platform_interaction-screen-display-text-field', { is: ScreenDisplayField });
     Object.assign(el, { value, title, typeName });
     document.body.appendChild(el);
     return el;
@@ -27,9 +24,7 @@ describe('Rich text display field', () => {
             value: { value: 'Poshe Text', error: null }
         });
         return Promise.resolve().then(() => {
-            const disp = displayWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.RICH
-            );
+            const disp = displayWrapperCmp.shadowRoot.querySelector(SELECTORS.RICH);
             expect(disp.value).toEqual('Poshe Text');
         });
     });
@@ -38,9 +33,7 @@ describe('Rich text display field', () => {
             value: { value: 'first line\nsecond line', error: null }
         });
         return Promise.resolve().then(() => {
-            const disp = displayWrapperCmp.shadowRoot.querySelector(
-                SELECTORS.RICH
-            );
+            const disp = displayWrapperCmp.shadowRoot.querySelector(SELECTORS.RICH);
             expect(disp.value).toEqual('first line<br />second line');
         });
     });

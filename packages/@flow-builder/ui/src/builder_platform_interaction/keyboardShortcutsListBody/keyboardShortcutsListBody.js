@@ -15,42 +15,42 @@ export default class KeyboardShortcutsListBody extends LightningElement {
     };
 
     get keyboardHelpShortcut() {
-        return "/";
+        return '/';
     }
 
     get zoomInShortcut() {
         if (this.isMacPlatform()) {
-            return KEYS.CMD_KEY + "+=";
+            return KEYS.CMD_KEY + '+=';
         }
-        return KEYS.CTRL_KEY + "+=";
+        return KEYS.CTRL_KEY + '+=';
     }
 
     get zoomOutShortcut() {
         if (this.isMacPlatform()) {
-            return KEYS.CMD_KEY + "+-";
+            return KEYS.CMD_KEY + '+-';
         }
-        return KEYS.CTRL_KEY + "+-";
+        return KEYS.CTRL_KEY + '+-';
     }
 
     get zoomToFitShortcut() {
         if (this.isMacPlatform()) {
-            return KEYS.CMD_KEY + "+0";
+            return KEYS.CMD_KEY + '+0';
         }
-        return KEYS.CTRL_KEY + "+0";
+        return KEYS.CTRL_KEY + '+0';
     }
 
     get zoomToViewShortcut() {
         if (this.isMacPlatform()) {
-            return KEYS.CMD_KEY + "+1";
+            return KEYS.CMD_KEY + '+1';
         }
-        return KEYS.CTRL_KEY + "+1";
+        return KEYS.CTRL_KEY + '+1';
     }
 
     get switchPanelFocusShortcut() {
         if (this.isMacPlatform()) {
             return KEYS.F6_KEY;
         }
-        return KEYS.CTRL_KEY + "+" + KEYS.F6_KEY;
+        return KEYS.CTRL_KEY + '+' + KEYS.F6_KEY;
     }
 
     get deleteShortcut() {

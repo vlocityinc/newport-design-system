@@ -1,21 +1,11 @@
 import { LightningElement, api, track } from 'lwc';
-import {
-    getMenuData,
-    normalizeFEROV
-} from 'builder_platform_interaction/expressionUtils';
-import {
-    getOutputRules,
-    getRHSTypes,
-    RULE_OPERATOR
-} from 'builder_platform_interaction/ruleLib';
+import { getMenuData, normalizeFEROV } from 'builder_platform_interaction/expressionUtils';
+import { getOutputRules, getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import { isObject } from 'builder_platform_interaction/commonUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import outputPlaceholder from '@salesforce/label/FlowBuilderCombobox.outputPlaceholder';
-import {
-    removeLastCreatedInlineResource,
-    updateInlineResourceProperties
-} from 'builder_platform_interaction/actions';
+import { removeLastCreatedInlineResource, updateInlineResourceProperties } from 'builder_platform_interaction/actions';
 import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 
@@ -169,12 +159,7 @@ export default class OutputResourcePicker extends LightningElement {
      * Update the store and save the rowIndex of the comobobox
      */
     handleAddInlineResource = event => {
-        if (
-            event &&
-            event.detail &&
-            event.detail.position &&
-            typeof event.detail.position === 'string'
-        ) {
+        if (event && event.detail && event.detail.position && typeof event.detail.position === 'string') {
             storeInstance.dispatch(
                 updateInlineResourceProperties({
                     lastInlineResourceRowIndex: event.detail.position
@@ -187,9 +172,7 @@ export default class OutputResourcePicker extends LightningElement {
     constructor() {
         super();
         storeInstance = Store.getStore();
-        this._unsubscribeStore = storeInstance.subscribe(
-            this.handleStoreChange
-        );
+        this._unsubscribeStore = storeInstance.subscribe(this.handleStoreChange);
     }
 
     disconnectedCallback() {
@@ -200,13 +183,9 @@ export default class OutputResourcePicker extends LightningElement {
 
     renderedCallback() {
         if (!this._isInitialized) {
-            this._baseResourcePicker = this.template.querySelector(
-                BaseResourcePicker.SELECTOR
-            );
+            this._baseResourcePicker = this.template.querySelector(BaseResourcePicker.SELECTOR);
 
-            const identifier = isObject(this.value)
-                ? this.value.value
-                : this.value;
+            const identifier = isObject(this.value) ? this.value.value : this.value;
             this.initializeResourcePicker(this.normalizeValue(identifier));
         }
     }

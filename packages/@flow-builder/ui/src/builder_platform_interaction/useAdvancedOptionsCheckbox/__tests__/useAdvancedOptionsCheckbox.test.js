@@ -4,10 +4,9 @@ import { LABELS } from '../useAdvancedOptionsCheckboxLabels';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 
 function createComponentForTest(isAdvancedMode) {
-    const el = createElement(
-        'builder_platform_interaction-use-advanced-options-checkbox',
-        { is: UseAdvancedOptionsCheckbox }
-    );
+    const el = createElement('builder_platform_interaction-use-advanced-options-checkbox', {
+        is: UseAdvancedOptionsCheckbox
+    });
     Object.assign(el, { isAdvancedMode });
     document.body.appendChild(el);
     return el;
@@ -36,31 +35,21 @@ const selectors = {
 };
 
 const getAdvancedOptionCheckbox = useAdvancedOptionsCheckboxElement => {
-    return useAdvancedOptionsCheckboxElement.shadowRoot.querySelector(
-        selectors.lightningInput
-    );
+    return useAdvancedOptionsCheckboxElement.shadowRoot.querySelector(selectors.lightningInput);
 };
 
 describe('Use-advanced-options-checkbox', () => {
     let useAdvancedOptionsCheckboxElement;
     describe('On uncheck', () => {
         beforeEach(() => {
-            useAdvancedOptionsCheckboxElement = createComponentForTest(
-                true
-            );
+            useAdvancedOptionsCheckboxElement = createComponentForTest(true);
         });
         it('should display an alert', () => {
-            const advancedOptionCheckbox = getAdvancedOptionCheckbox(
-                useAdvancedOptionsCheckboxElement
-            );
+            const advancedOptionCheckbox = getAdvancedOptionCheckbox(useAdvancedOptionsCheckboxElement);
             advancedOptionCheckbox.dispatchEvent(new ToggleOffChangeEvent());
             return Promise.resolve().then(() => {
-                expect(
-                    invokeModal.mock.calls[0][0].headerData.headerTitle
-                ).toBe(LABELS.areYouSure);
-                expect(invokeModal.mock.calls[0][0].bodyData.bodyTextOne).toBe(
-                    LABELS.clearVariableConfirmation
-                );
+                expect(invokeModal.mock.calls[0][0].headerData.headerTitle).toBe(LABELS.areYouSure);
+                expect(invokeModal.mock.calls[0][0].bodyData.bodyTextOne).toBe(LABELS.clearVariableConfirmation);
                 expect(invokeModal.mock.calls[0][0].footerData).toMatchObject({
                     buttonOne: { buttonLabel: LABELS.cancelButton },
                     buttonTwo: {
@@ -73,14 +62,10 @@ describe('Use-advanced-options-checkbox', () => {
     });
     describe('On check', () => {
         beforeEach(() => {
-            useAdvancedOptionsCheckboxElement = createComponentForTest(
-                false
-            );
+            useAdvancedOptionsCheckboxElement = createComponentForTest(false);
         });
         it('should not display an alert', () => {
-            const advancedOptionCheckbox = getAdvancedOptionCheckbox(
-                useAdvancedOptionsCheckboxElement
-            );
+            const advancedOptionCheckbox = getAdvancedOptionCheckbox(useAdvancedOptionsCheckboxElement);
             advancedOptionCheckbox.dispatchEvent(new ToggleOnChangeEvent());
             return Promise.resolve().then(() => {
                 expect(invokeModal).not.toHaveBeenCalled();

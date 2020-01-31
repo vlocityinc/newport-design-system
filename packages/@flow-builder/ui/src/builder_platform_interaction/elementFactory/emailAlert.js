@@ -19,11 +19,7 @@ export function createDuplicateEmailAlert(emailAlert, newGuid, newName) {
     Object.assign(newEmailAlert, {
         availableConnections: getDefaultAvailableConnections()
     });
-    const duplicateEmailAlert = duplicateCanvasElement(
-        newEmailAlert,
-        newGuid,
-        newName
-    );
+    const duplicateEmailAlert = duplicateCanvasElement(newEmailAlert, newGuid, newName);
 
     return duplicateEmailAlert;
 }

@@ -2,7 +2,7 @@ import { contactRequestFlowUIModel } from './contactRequestFlowUIModel';
 export * from './contactRequestFlowUIModel';
 
 export const getElementByName = name => {
-	const elements = contactRequestFlowUIModel.elements;
+    const elements = contactRequestFlowUIModel.elements;
     for (const guid in elements) {
         if (elements.hasOwnProperty(guid)) {
             if (elements[guid].name === name) {

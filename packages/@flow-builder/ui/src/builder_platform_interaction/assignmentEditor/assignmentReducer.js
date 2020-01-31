@@ -1,10 +1,6 @@
 import { assignmentValidation } from './assignmentValidation';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import {
-    updateProperties,
-    set,
-    deleteItem
-} from 'builder_platform_interaction/dataMutationLib';
+import { updateProperties, set, deleteItem } from 'builder_platform_interaction/dataMutationLib';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import {
@@ -39,20 +35,14 @@ const deleteAssignmentItem = (state, event) => {
 const updateAssignmentItem = (state, event) => {
     const path = ['assignmentItems', event.detail.index];
 
-    const item = updateProperties(
-        state.assignmentItems[event.detail.index],
-        event.detail.value
-    );
+    const item = updateProperties(state.assignmentItems[event.detail.index], event.detail.value);
     return set(state, path, item);
 };
 
 const assignmentPropertyChanged = (state, event) => {
     event.detail.error =
         event.detail.error === null
-            ? assignmentValidation.validateProperty(
-                  event.detail.propertyName,
-                  event.detail.value
-              )
+            ? assignmentValidation.validateProperty(event.detail.propertyName, event.detail.value)
             : event.detail.error;
     return updateProperties(state, {
         [event.detail.propertyName]: {

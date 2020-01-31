@@ -7,17 +7,9 @@ export const goldObjectMatchers = {
                 message: () => ''
             };
         }
-        const diffString = this.utils.printDiffOrStringify(
-            expected,
-            received,
-            'Expected',
-            'Received',
-            this.expand
-        );
+        const diffString = this.utils.printDiffOrStringify(expected, received, 'Expected', 'Received', this.expand);
         const receivedColor = this.utils.RECEIVED_COLOR;
-        const stringifiedReceived = receivedColor(
-            JSON.stringify(received, null, 2)
-        );
+        const stringifiedReceived = receivedColor(JSON.stringify(received, null, 2));
         return {
             pass: false,
             message: () =>

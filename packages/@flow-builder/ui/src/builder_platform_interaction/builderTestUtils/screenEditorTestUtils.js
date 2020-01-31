@@ -1,8 +1,5 @@
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import {
-    getScreenFieldTypeByName,
-    getLocalExtensionFieldType
-} from 'builder_platform_interaction/screenEditorUtils';
+import { getScreenFieldTypeByName, getLocalExtensionFieldType } from 'builder_platform_interaction/screenEditorUtils';
 import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
@@ -57,10 +54,7 @@ function check(value = '', expectedValue, operator) {
     } else if (operator === ATT_SELECTOR_OPERATORS.STARTS_WITH) {
         return value.startsWith(expectedValue);
     } else if (operator === ATT_SELECTOR_OPERATORS.STARTS_WITH_WORD) {
-        return (
-            value.startsWith(expectedValue) ||
-            value.startsWith(expectedValue + '-')
-        );
+        return value.startsWith(expectedValue) || value.startsWith(expectedValue + '-');
     } else if (operator === ATT_SELECTOR_OPERATORS.ENDS_WITH) {
         return value.endsWith(expectedValue);
     }
@@ -166,9 +160,7 @@ function createScreen(name, fieldsProducer, config = {}) {
     }
 
     if (hydrateValues) {
-        const blacklistedProperties = getConfigForElementType(
-            ELEMENT_TYPE.SCREEN
-        ).nonHydratableProperties;
+        const blacklistedProperties = getConfigForElementType(ELEMENT_TYPE.SCREEN).nonHydratableProperties;
         hydrateWithErrors(screen, blacklistedProperties);
     }
 
@@ -186,18 +178,9 @@ function createScreen(name, fieldsProducer, config = {}) {
  * @param {boolean} storeOutputAutomatically - Whether or not this field uses automatic output. Defaulted to false
  * @returns {object} - The screen field
  */
-export function createTestScreenField(
-    name,
-    type,
-    value,
-    config = {},
-    storeOutputAutomatically = false
-) {
+export function createTestScreenField(name, type, value, config = {}, storeOutputAutomatically = false) {
     const hydrateValues = booleanValue(config, 'hydrateValues', true);
-    const fieldType =
-        type === 'Extension'
-            ? getLocalExtensionFieldType(value)
-            : getScreenFieldTypeByName(type);
+    const fieldType = type === 'Extension' ? getLocalExtensionFieldType(value) : getScreenFieldTypeByName(type);
 
     // If the dataType was specified, use it. (This should only happen for fields where dataType is undefined by default).
     const dataType = getStringValue(config.dataType, undefined, false);
@@ -211,11 +194,7 @@ export function createTestScreenField(
         dataType: fieldType.dataType,
         fieldType: fieldType.fieldType,
         fieldText: getStringValue(null, name, hydrateValues),
-        helpText: getStringValue(
-            'Screen field ' + name + ' help text',
-            null,
-            hydrateValues
-        ),
+        helpText: getStringValue('Screen field ' + name + ' help text', null, hydrateValues),
         name: getStringValue(null, name, hydrateValues),
         isRequired: booleanValue(config, 'required', false),
         isVisible: true,
@@ -251,18 +230,11 @@ export function createTestScreenField(
             field.defaultValue = null;
         } else if (value === null) {
             // Generate value based in type
-            field.defaultValue = getDefaultValue(
-                type,
-                config.defaultValueType || VALUE_TYPE_STATIC
-            );
+            field.defaultValue = getDefaultValue(type, config.defaultValueType || VALUE_TYPE_STATIC);
         } else if (typeof value !== 'object') {
             // Set the string version of the default value, and the internal version, which
             // specifies what type of field value this is.
-            if (
-                type === 'TextBox' ||
-                type === 'LargeTextArea' ||
-                type === 'Password'
-            ) {
+            if (type === 'TextBox' || type === 'LargeTextArea' || type === 'Password') {
                 field.defaultValue = { stringValue: value };
             } else if (type === 'Number' || type === 'Currency') {
                 field.defaultValue = { numberValue: value };
@@ -277,13 +249,7 @@ export function createTestScreenField(
         }
     }
 
-    field = addConfigOptionsToField(
-        field,
-        name,
-        config,
-        fieldType,
-        hydrateValues
-    );
+    field = addConfigOptionsToField(field, name, config, fieldType, hydrateValues);
 
     return createScreenField(field);
 }
@@ -297,32 +263,17 @@ export function createTestScreenField(
  * @param hydrateValues
  * @returns {*}
  */
-function addConfigOptionsToField(
-    field,
-    name,
-    config,
-    fieldType,
-    hydrateValues
-) {
+function addConfigOptionsToField(field, name, config, fieldType, hydrateValues) {
     // If the field type is Radio, create some choice references.
-    if (
-        fieldType.name === 'RadioButtons' &&
-        booleanValue(config, 'createChoices', false)
-    ) {
+    if (fieldType.name === 'RadioButtons' && booleanValue(config, 'createChoices', false)) {
         for (let i = 0; i < 3; i++) {
             const choiceGuid = 'choice' + i;
-            field.choiceReferences[i] = hydrateWithErrors(
-                createChoiceReference(choiceGuid)
-            );
+            field.choiceReferences[i] = hydrateWithErrors(createChoiceReference(choiceGuid));
         }
     }
 
     if (booleanValue(config, 'helpText', true)) {
-        field.helpText = getStringValue(
-            'Screen field ' + name + ' help text',
-            null,
-            hydrateValues
-        );
+        field.helpText = getStringValue('Screen field ' + name + ' help text', null, hydrateValues);
     }
 
     if (booleanValue(config, 'validation', true)) {
@@ -332,18 +283,12 @@ function addConfigOptionsToField(
                 null,
                 hydrateValues
             ),
-            formulaExpression: getStringValue(
-                "{!Var1} == 'text'",
-                null,
-                hydrateValues
-            )
+            formulaExpression: getStringValue("{!Var1} == 'text'", null, hydrateValues)
         };
     } else {
         field.validationRule = {
             errorMessage: hydrateValues ? { value: null, error: null } : null,
-            formulaExpression: hydrateValues
-                ? { value: null, error: null }
-                : null
+            formulaExpression: hydrateValues ? { value: null, error: null } : null
         };
     }
 
@@ -364,15 +309,9 @@ function addConfigOptionsToField(
  */
 export function createTestScreen(name, screenFieldTypeNames = [], config = {}) {
     const fieldsProducer = () => {
-        const includeNonMDValues = booleanValue(
-            config,
-            'includeNonMDValues',
-            true
-        );
+        const includeNonMDValues = booleanValue(config, 'includeNonMDValues', true);
         const fields = [];
-        const types = screenFieldTypeNames
-            ? screenFieldTypeNames
-            : Object.keys(SCREEN_FIELD_TYPES_AND_VALUES);
+        const types = screenFieldTypeNames ? screenFieldTypeNames : Object.keys(SCREEN_FIELD_TYPES_AND_VALUES);
         for (let i = 0; i < types.length; i++) {
             let defaultValueType = VALUE_TYPE_STATIC;
             if (i % 3 === 1) {
@@ -388,16 +327,8 @@ export function createTestScreen(name, screenFieldTypeNames = [], config = {}) {
                 includeNonMDValues,
                 defaultValueType
             };
-            const val =
-                types[i] === 'Extension'
-                    ? 'c:cmpAvailableForFlowScreens'
-                    : null;
-            const field = createTestScreenField(
-                'screenField ' + i,
-                types[i],
-                val,
-                fieldConfig
-            );
+            const val = types[i] === 'Extension' ? 'c:cmpAvailableForFlowScreens' : null;
+            const field = createTestScreenField('screenField ' + i, types[i], val, fieldConfig);
             fields.push(field);
         }
 
@@ -414,11 +345,7 @@ export function createTestScreen(name, screenFieldTypeNames = [], config = {}) {
  * @param {object} config - {allowBack = true, allowFinish = true, allowPause = true, showFooter = true, showHeader = true, hydrateValues = true, includeNonMDValues = true, mutateScreen = true}
  * @returns {object} - The screen
  */
-export function createTestScreenWithFields(
-    name,
-    screenFields = [],
-    config = {}
-) {
+export function createTestScreenWithFields(name, screenFields = [], config = {}) {
     const fieldsProducer = () => {
         return screenFields;
     };
@@ -440,14 +367,7 @@ export function query(element, selector, returnList) {
     SELECTOR_REGEX.lastIndex = 0;
     const res = SELECTOR_REGEX.exec(selector);
     if (res && res.length === 5) {
-        return find(
-            element,
-            res[1],
-            res[2],
-            res[4],
-            ATT_SELECTOR_OPERATORS.parse(res[3]),
-            returnList
-        );
+        return find(element, res[1], res[2], res[4], ATT_SELECTOR_OPERATORS.parse(res[3]), returnList);
     } else if (selector) {
         return find(element, selector, null, null, null, returnList);
     }
@@ -468,24 +388,12 @@ export function query(element, selector, returnList) {
  * @param {boolean} returnList - If you want a list of matching results returned (vs first one found).
  * @return {Element} the element or null
  */
-export function find(
-    element,
-    childName,
-    attributeName,
-    attributeValue,
-    operator,
-    returnList = false
-) {
+export function find(element, childName, attributeName, attributeValue, operator, returnList = false) {
     const results = [];
     for (const child of element.shadowRoot.querySelectorAll(childName)) {
         if (
             !attributeName ||
-            (child[attributeName] &&
-                check(
-                    child[attributeName],
-                    attributeValue,
-                    ATT_SELECTOR_OPERATORS[operator]
-                ))
+            (child[attributeName] && check(child[attributeName], attributeValue, ATT_SELECTOR_OPERATORS[operator]))
         ) {
             if (!returnList) {
                 return child;

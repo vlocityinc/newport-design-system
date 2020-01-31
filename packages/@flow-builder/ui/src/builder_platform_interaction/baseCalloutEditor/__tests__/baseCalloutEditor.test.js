@@ -2,10 +2,7 @@ import { createElement } from 'lwc';
 import BaseCalloutEditor from '../baseCalloutEditor';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import {
-    ComboboxStateChangedEvent,
-    DynamicTypeMappingChangeEvent
-} from 'builder_platform_interaction/events';
+import { ComboboxStateChangedEvent, DynamicTypeMappingChangeEvent } from 'builder_platform_interaction/events';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -111,9 +108,7 @@ const selectors = {
 };
 
 const getLabelDescription = baseCalloutEditor => {
-    return baseCalloutEditor.shadowRoot.querySelector(
-        selectors.labelDescription
-    );
+    return baseCalloutEditor.shadowRoot.querySelector(selectors.labelDescription);
 };
 
 const getParameterList = baseCalloutEditor => {
@@ -131,10 +126,7 @@ function createComponentForTest({
     typeMappings = [],
     parameterListConfig = {}
 } = {}) {
-    const el = createElement(
-        'builder_platform_interaction-base-callout-editor',
-        { is: BaseCalloutEditor }
-    );
+    const el = createElement('builder_platform_interaction-base-callout-editor', { is: BaseCalloutEditor });
     Object.assign(el, {
         elementType,
         subtitle,
@@ -176,16 +168,12 @@ describe('base-callout-editor', () => {
     describe('with default values', () => {
         let baseCalloutEditor;
         beforeEach(() => {
-            baseCalloutEditor = createComponentForTest(
-                defaultBaseCalloutElement
-            );
+            baseCalloutEditor = createComponentForTest(defaultBaseCalloutElement);
         });
         it('contains label description with values', () => {
             const labelDescription = getLabelDescription(baseCalloutEditor);
             const { label, devName, description, guid } = labelDescription;
-            expect({ label, name: devName, description, guid }).toEqual(
-                defaultLabelDescriptionConfig
-            );
+            expect({ label, name: devName, description, guid }).toEqual(defaultLabelDescriptionConfig);
         });
         it('contains parameter list component', () => {
             const parameterListCmp = getParameterList(baseCalloutEditor);
@@ -212,9 +200,7 @@ describe('base-callout-editor', () => {
     describe('with type mappings', () => {
         let baseCalloutEditor;
         beforeEach(() => {
-            baseCalloutEditor = createComponentForTest(
-                defaultBaseCalloutElement
-            );
+            baseCalloutEditor = createComponentForTest(defaultBaseCalloutElement);
         });
         it('contains type mappings list component', () => {
             const typeMappings = getTypeMappings(baseCalloutEditor);
@@ -229,9 +215,7 @@ describe('base-callout-editor', () => {
         });
     });
     it('handles the combobox state changed event and fires the dynamic type mapping changed event', async () => {
-        const baseCalloutEditor = createComponentForTest(
-            defaultBaseCalloutElement
-        );
+        const baseCalloutEditor = createComponentForTest(defaultBaseCalloutElement);
         const event = new ComboboxStateChangedEvent(
             {
                 value: 'lead',
@@ -241,13 +225,8 @@ describe('base-callout-editor', () => {
             null
         );
         const handler = jest.fn();
-        baseCalloutEditor.addEventListener(
-            DynamicTypeMappingChangeEvent.EVENT_NAME,
-            handler
-        );
-        baseCalloutEditor.shadowRoot
-            .querySelectorAll(selectors.typeMapping)[0]
-            .dispatchEvent(event);
+        baseCalloutEditor.addEventListener(DynamicTypeMappingChangeEvent.EVENT_NAME, handler);
+        baseCalloutEditor.shadowRoot.querySelectorAll(selectors.typeMapping)[0].dispatchEvent(event);
         await Promise.resolve();
         expect(handler).toHaveBeenCalled();
         expect(handler.mock.calls[0][0].detail).toMatchObject({

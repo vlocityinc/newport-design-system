@@ -22,10 +22,7 @@ export default function canvasElementsReducer(state = [], action) {
         case UPDATE_FLOW:
             return [...action.payload.canvasElements];
         case DO_DUPLICATE:
-            return [
-                ...state,
-                ...Object.values(action.payload.canvasElementGuidMap)
-            ];
+            return [...state, ...Object.values(action.payload.canvasElementGuidMap)];
         case ADD_DECISION_WITH_OUTCOMES:
         case ADD_WAIT_WITH_WAIT_EVENTS:
             return addItem(state, action.payload.canvasElement.guid);
@@ -35,10 +32,7 @@ export default function canvasElementsReducer(state = [], action) {
         case ADD_SCREEN_WITH_FIELDS:
             return addItem(state, action.payload.screen.guid);
         case DELETE_ELEMENT:
-            return _deleteCanvasElements(
-                state,
-                action.payload.selectedElements
-            );
+            return _deleteCanvasElements(state, action.payload.selectedElements);
         default:
             return state;
     }
@@ -56,9 +50,7 @@ function _deleteCanvasElements(canvasElements, selectedCanvasElements) {
     if (selectedCanvasElements && selectedCanvasElements.length > 0) {
         return selectedCanvasElements.reduce(
             (newCanvasElements, element) => {
-                return newCanvasElements.filter(
-                    canvasElement => canvasElement !== element.guid
-                );
+                return newCanvasElements.filter(canvasElement => canvasElement !== element.guid);
             },
             [...canvasElements]
         );

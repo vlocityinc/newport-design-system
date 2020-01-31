@@ -26,10 +26,7 @@ describe('mergeWithInputOutputParameters', () => {
         const currentState = {
             ...actionCallAutomaticOutput
         };
-        const newState = mergeWithInputOutputParameters(
-            currentState,
-            chatterPostActionDetails.parameters
-        );
+        const newState = mergeWithInputOutputParameters(currentState, chatterPostActionDetails.parameters);
         expect(newState.storeOutputAutomatically).toBe(true);
     });
 });

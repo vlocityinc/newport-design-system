@@ -1,12 +1,5 @@
-import {
-    ELEMENT_TYPE,
-    CONNECTOR_TYPE
-} from 'builder_platform_interaction/flowMetadata';
-import {
-    baseCanvasElement,
-    duplicateCanvasElement,
-    baseCanvasElementsArrayToMap
-} from './base/baseElement';
+import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { baseCanvasElement, duplicateCanvasElement, baseCanvasElementsArrayToMap } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
@@ -62,10 +55,7 @@ export function createLoopWithConnectors(loop) {
     const connectors = createConnectorObjects(loop, newLoop.guid);
     const connectorCount = connectors ? connectors.length : 0;
     const defaultAvailableConnections = getDefaultAvailableConnections();
-    const availableConnections = removeFromAvailableConnections(
-        defaultAvailableConnections,
-        connectors
-    );
+    const availableConnections = removeFromAvailableConnections(defaultAvailableConnections, connectors);
 
     const loopObject = Object.assign(newLoop, {
         connectorCount,
@@ -81,11 +71,7 @@ export function createLoopMetadataObject(loop, config = {}) {
     }
 
     const newLoop = baseCanvasElementMetadataObject(loop, config);
-    const {
-        assignNextValueToReference,
-        collectionReference,
-        iterationOrder
-    } = loop;
+    const { assignNextValueToReference, collectionReference, iterationOrder } = loop;
 
     return Object.assign(newLoop, {
         assignNextValueToReference,

@@ -1,15 +1,10 @@
-import {
-    usedBy,
-    usedByStoreAndElementState
-} from 'builder_platform_interaction/usedByLib';
+import { usedBy, usedByStoreAndElementState } from 'builder_platform_interaction/usedByLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { decision1Outcome1 } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const elements = {
     WAIT_1: {
@@ -378,66 +373,41 @@ describe('Used by library', () => {
     });
 
     it('returns an empty array in case the references are cyclic', () => {
-        const elementGuids = [
-            'DECISION_1',
-            'OUTCOME_3',
-            'WAIT_EVENT_3',
-            'FORMULA_1'
-        ];
+        const elementGuids = ['DECISION_1', 'OUTCOME_3', 'WAIT_EVENT_3', 'FORMULA_1'];
         const actualResult = usedBy(elementGuids, elements);
         expect(actualResult).toHaveLength(0);
     });
 
     describe('usedByStoreAndElementState', () => {
         it('returns an empty array if an element is only referenced by the parent element', () => {
-            const decisionOneOutcomes = elements.DECISION_1.outcomeReferences.map(
-                ref => {
-                    return {
-                        guid: ref.outcomeReference,
-                        name: elements[ref.outcomeReference].name
-                    };
-                }
-            );
+            const decisionOneOutcomes = elements.DECISION_1.outcomeReferences.map(ref => {
+                return {
+                    guid: ref.outcomeReference,
+                    name: elements[ref.outcomeReference].name
+                };
+            });
 
-            const actualResult = usedByStoreAndElementState(
-                'OUTCOME_4',
-                'DECISION_1',
-                decisionOneOutcomes
-            );
+            const actualResult = usedByStoreAndElementState('OUTCOME_4', 'DECISION_1', decisionOneOutcomes);
             expect(actualResult).toHaveLength(0);
         });
         it('returns the referencing element if an element is referenced by an element other than the parent', () => {
-            const actualResult = usedByStoreAndElementState(
-                decision1Outcome1.guid,
-                'DECISION_1',
-                []
-            );
+            const actualResult = usedByStoreAndElementState(decision1Outcome1.guid, 'DECISION_1', []);
             expect(actualResult).not.toHaveLength(0);
         });
 
         it('returns an empty array if an screen field element is only referenced by the screen element', () => {
-            const screenOneFields = elements.SCREEN_1.fieldReferences.map(
-                ref => {
-                    return {
-                        guid: ref.fieldReference,
-                        name: elements[ref.fieldReference].name
-                    };
-                }
-            );
+            const screenOneFields = elements.SCREEN_1.fieldReferences.map(ref => {
+                return {
+                    guid: ref.fieldReference,
+                    name: elements[ref.fieldReference].name
+                };
+            });
 
-            const actualResult = usedByStoreAndElementState(
-                'FIELD_3',
-                'SCREEN_1',
-                screenOneFields
-            );
+            const actualResult = usedByStoreAndElementState('FIELD_3', 'SCREEN_1', screenOneFields);
             expect(actualResult).toHaveLength(0);
         });
         it('returns the referencing screen field element if an element is referenced by any element other than the parent screen element', () => {
-            const actualResult = usedByStoreAndElementState(
-                decision1Outcome1.guid,
-                'SCREEN_1',
-                []
-            );
+            const actualResult = usedByStoreAndElementState(decision1Outcome1.guid, 'SCREEN_1', []);
             expect(actualResult).not.toHaveLength(0);
         });
     });

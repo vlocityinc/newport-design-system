@@ -7,12 +7,7 @@ import {
 
 import { checkExpressionForDeletedElem } from 'builder_platform_interaction/expressionUtils';
 
-import {
-    updateProperties,
-    addItem,
-    deleteItem,
-    replaceItem
-} from 'builder_platform_interaction/dataMutationLib';
+import { updateProperties, addItem, deleteItem, replaceItem } from 'builder_platform_interaction/dataMutationLib';
 import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { createCondition } from 'builder_platform_interaction/elementFactory';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
@@ -23,19 +18,12 @@ import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
  * @param {*} event - The UpdateConditionEvent
  */
 const updateCondition = (conditionList, event, deletedGuids, label) => {
-    const newCondition = updateProperties(
-        conditionList.conditions[event.detail.index],
-        event.detail.value
-    );
+    const newCondition = updateProperties(conditionList.conditions[event.detail.index], event.detail.value);
 
     checkExpressionForDeletedElem(deletedGuids, newCondition, label);
 
     return updateProperties(conditionList, {
-        conditions: replaceItem(
-            conditionList.conditions,
-            newCondition,
-            event.detail.index
-        )
+        conditions: replaceItem(conditionList.conditions, newCondition, event.detail.index)
     });
 };
 
@@ -81,10 +69,7 @@ const addCondition = conditionList => {
 const updateConditionLogic = (conditionList, event) => {
     const newConditionLogic = event.detail.value;
 
-    if (
-        newConditionLogic !== CONDITION_LOGIC.NO_CONDITIONS &&
-        conditionList.conditions.length === 0
-    ) {
+    if (newConditionLogic !== CONDITION_LOGIC.NO_CONDITIONS && conditionList.conditions.length === 0) {
         conditionList = addCondition(conditionList);
     } else if (newConditionLogic === CONDITION_LOGIC.NO_CONDITIONS) {
         conditionList = updateProperties(conditionList, {

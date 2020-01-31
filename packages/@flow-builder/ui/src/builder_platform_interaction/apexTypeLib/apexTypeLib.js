@@ -60,9 +60,7 @@ export const getApexClasses = () => apexClasses;
  * @param {String} name     name of the apex class
  */
 export const cachePropertiesForClass = name => {
-    const apexClass = (apexClasses || []).find(
-        clazz => clazz.durableId === name
-    );
+    const apexClass = (apexClasses || []).find(clazz => clazz.durableId === name);
     apexFieldsForClass[name] = {};
     if (apexClass && apexClass.properties) {
         apexClass.properties.records.forEach(prop => {

@@ -4,14 +4,8 @@ import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { updateFlow } from 'builder_platform_interaction/actions';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import {
-    validateExpression,
-    getLhsCombobox
-} from '../expressionBuilderTestUtils';
-import {
-    createComponentForTest,
-    getFerToFerovExpressionBuilder
-} from './decisionEditorTestUtils';
+import { validateExpression, getLhsCombobox } from '../expressionBuilderTestUtils';
+import { createComponentForTest, getFerToFerovExpressionBuilder } from './decisionEditorTestUtils';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { setupStateForProcessType, resetState } from '../integrationTestUtils';
 import { selectComboboxItemBy } from '../comboboxTestUtils';
@@ -49,29 +43,23 @@ describe('Decision Editor expression builder', () => {
             ${'{!feedItemVariable.CreatedBy:User.DigestFrequency}'}      | ${'EqualTo'}     | ${'D'}         | ${undefined}
             ${'{!feedItemVariable.CreatedBy:User.NumberOfFailedLogins}'} | ${'GreaterThan'} | ${'2'}         | ${undefined}
             ${'{!feedItemVariable.CreatedBy:User.NumberOfFailedLogins}'} | ${'GreaterThan'} | ${'myString'}  | ${'FlowBuilderCombobox.numberErrorMessage'}
-        `(
-            '"$lhs $operator $rhs" should be $rhsErrorMessage',
-            async ({ lhs, operator, rhs, rhsErrorMessage }) => {
-                expect(
-                    await validateExpression(expressionBuilder, {
-                        lhs,
-                        operator,
-                        rhs
-                    })
-                ).toEqual({ rhsErrorMessage });
-            }
-        );
+        `('"$lhs $operator $rhs" should be $rhsErrorMessage', async ({ lhs, operator, rhs, rhsErrorMessage }) => {
+            expect(
+                await validateExpression(expressionBuilder, {
+                    lhs,
+                    operator,
+                    rhs
+                })
+            ).toEqual({ rhsErrorMessage });
+        });
         it('can select account field of apex type', async () => {
             // Given
             const lhsCombobox = getLhsCombobox(expressionBuilder);
 
             // When
-            const selectedItem = await selectComboboxItemBy(
-                lhsCombobox,
-                'text',
-                ['apexComplexTypeVariable', 'acct'],
-                { blur: true }
-            );
+            const selectedItem = await selectComboboxItemBy(lhsCombobox, 'text', ['apexComplexTypeVariable', 'acct'], {
+                blur: true
+            });
 
             // Then
             expect(selectedItem).toBeDefined();

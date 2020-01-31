@@ -1,27 +1,15 @@
 import { createElement } from 'lwc';
 import OutputResourcePicker from '../outputResourcePicker';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    getMenuData,
-    getMenuItemForField,
-    normalizeFEROV
-} from 'builder_platform_interaction/expressionUtils';
+import { getMenuData, getMenuItemForField, normalizeFEROV } from 'builder_platform_interaction/expressionUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
-import {
-    updateInlineResourceProperties,
-    removeLastCreatedInlineResource
-} from 'builder_platform_interaction/actions';
+import { updateInlineResourceProperties, removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
 
-import {
-    getRHSTypes,
-    RULE_OPERATOR
-} from 'builder_platform_interaction/ruleLib';
+import { getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/inlineResourceUtils', () => {
     return {
@@ -36,12 +24,9 @@ jest.mock('builder_platform_interaction/actions', () => {
 });
 
 const setupComponentUnderTest = props => {
-    const element = createElement(
-        'builder_platform_interaction-output-resource-picker',
-        {
-            is: OutputResourcePicker
-        }
-    );
+    const element = createElement('builder_platform_interaction-output-resource-picker', {
+        is: OutputResourcePicker
+    });
     Object.assign(element, props);
     document.body.appendChild(element);
     return element;
@@ -58,9 +43,7 @@ const parentRecordVar = {
 };
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/ruleLib'
-    );
+    const actual = require.requireActual('builder_platform_interaction/ruleLib');
     return {
         RULE_OPERATOR: actual.RULE_OPERATOR,
         PARAM_PROPERTY: actual.PARAM_PROPERTY,
@@ -116,9 +99,7 @@ describe('output-resource-picker', () => {
         it('exists', () => {
             const outputResourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                const baseResourcePicker = outputResourcePicker.shadowRoot.querySelector(
-                    BaseResourcePicker.SELECTOR
-                );
+                const baseResourcePicker = outputResourcePicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
                 expect(baseResourcePicker).toBeDefined();
             });
         });
@@ -131,21 +112,15 @@ describe('output-resource-picker', () => {
             };
             const outputResourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                const baseResourcePicker = outputResourcePicker.shadowRoot.querySelector(
-                    BaseResourcePicker.SELECTOR
-                );
-                expect(baseResourcePicker.comboboxConfig).toEqual(
-                    props.comboboxConfig
-                );
+                const baseResourcePicker = outputResourcePicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
+                expect(baseResourcePicker.comboboxConfig).toEqual(props.comboboxConfig);
             });
         });
         it('has the value set', () => {
             props.value = 'testValue';
             const outputResourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                const baseResourcePicker = outputResourcePicker.shadowRoot.querySelector(
-                    BaseResourcePicker.SELECTOR
-                );
+                const baseResourcePicker = outputResourcePicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
                 expect(baseResourcePicker.value).toEqual(props.value);
             });
         });
@@ -301,20 +276,15 @@ describe('output-resource-picker', () => {
                 Store.setMockState({
                     properties: {
                         lastInlineResourceRowIndex: idx,
-                        lastInlineResourceGuid:
-                            '6f346269-409c-422e-9e8c-3898d164298q'
+                        lastInlineResourceGuid: '6f346269-409c-422e-9e8c-3898d164298q'
                     }
                 });
                 const cmp = setupComponentUnderTest(props);
-                const picker = cmp.shadowRoot.querySelector(
-                    'builder_platform_interaction-base-resource-picker'
-                );
+                const picker = cmp.shadowRoot.querySelector('builder_platform_interaction-base-resource-picker');
                 picker.dispatchEvent(fetchMenuData());
 
                 return Promise.resolve().then(() => {
-                    expect(spy).toHaveBeenCalledWith(
-                        removeLastCreatedInlineResource
-                    );
+                    expect(spy).toHaveBeenCalledWith(removeLastCreatedInlineResource);
                 });
             });
             it('calls getMenuData when an inline resource is set and fetchMenuData is triggered', () => {
@@ -324,14 +294,11 @@ describe('output-resource-picker', () => {
                 Store.setMockState({
                     properties: {
                         lastInlineResourceRowIndex: idx,
-                        lastInlineResourceGuid:
-                            '6f346269-409c-422e-9e8c-3898d164298m'
+                        lastInlineResourceGuid: '6f346269-409c-422e-9e8c-3898d164298m'
                     }
                 });
                 const cmp = setupComponentUnderTest(props);
-                const picker = cmp.shadowRoot.querySelector(
-                    'builder_platform_interaction-base-resource-picker'
-                );
+                const picker = cmp.shadowRoot.querySelector('builder_platform_interaction-base-resource-picker');
                 picker.dispatchEvent(fetchMenuData());
                 return Promise.resolve().then(() => {
                     expect(menuDataSpy).toHaveBeenCalled();
@@ -342,9 +309,7 @@ describe('output-resource-picker', () => {
                 const spy = Store.getStore().dispatch;
 
                 const cmp = setupComponentUnderTest(props);
-                const picker = cmp.shadowRoot.querySelector(
-                    'builder_platform_interaction-base-resource-picker'
-                );
+                const picker = cmp.shadowRoot.querySelector('builder_platform_interaction-base-resource-picker');
 
                 picker.dispatchEvent(handleAddInlineResource());
                 return Promise.resolve().then(() => {

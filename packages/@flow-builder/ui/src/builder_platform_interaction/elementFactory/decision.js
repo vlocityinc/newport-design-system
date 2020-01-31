@@ -1,8 +1,4 @@
-import {
-    ELEMENT_TYPE,
-    CONNECTOR_TYPE,
-    CONDITION_LOGIC
-} from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, CONNECTOR_TYPE, CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
     duplicateCanvasElementWithChildElements,
@@ -31,10 +27,7 @@ const childReferenceKeys = {
 export function createDecisionWithOutcomes(decision = {}) {
     const newDecision = baseCanvasElement(decision);
     let { outcomes } = decision;
-    const {
-        defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel,
-        outcomeReferences
-    } = decision;
+    const { defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel, outcomeReferences } = decision;
 
     if (outcomeReferences && outcomeReferences.length > 0) {
         // decision with outcome references
@@ -67,13 +60,7 @@ export function createDecisionWithOutcomes(decision = {}) {
  * the duplicated child elements
  * @return {Object} Returns an object containing the duplicated element and the duplicated childElements
  */
-export function createDuplicateDecision(
-    decision,
-    newGuid,
-    newName,
-    childElementGuidMap,
-    childElementNameMap
-) {
+export function createDuplicateDecision(decision, newGuid, newName, childElementGuidMap, childElementNameMap) {
     const defaultAvailableConnections = [
         {
             type: CONNECTOR_TYPE.DEFAULT
@@ -100,8 +87,7 @@ export function createDuplicateDecision(
     const updatedDuplicatedElement = Object.assign(duplicatedElement, {
         [childReferenceKeys.childReferencesKey]: updatedChildReferences,
         availableConnections,
-        defaultConnectorLabel:
-            decision.defaultConnectorLabel || LABELS.emptyDefaultOutcomeLabel
+        defaultConnectorLabel: decision.defaultConnectorLabel || LABELS.emptyDefaultOutcomeLabel
     });
     return {
         duplicatedElement: updatedDuplicatedElement,
@@ -109,24 +95,16 @@ export function createDuplicateDecision(
     };
 }
 
-export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
-    decision
-) {
+export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision) {
     const newDecision = baseCanvasElement(decision);
-    const {
-        defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel,
-        outcomes
-    } = decision;
+    const { defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel, outcomes } = decision;
     let outcomeReferences = [];
     let newOutcomes = [];
 
     for (let i = 0; i < outcomes.length; i++) {
         const outcome = outcomes[i];
         const newOutcome = createOutcome(outcome);
-        outcomeReferences = updateOutcomeReferences(
-            outcomeReferences,
-            newOutcome
-        );
+        outcomeReferences = updateOutcomeReferences(outcomeReferences, newOutcome);
         newOutcomes = [...newOutcomes, newOutcome];
     }
 
@@ -177,34 +155,21 @@ export function createDecisionWithOutcomeReferences(decision = {}) {
     let outcomes = [],
         outcomeReferences = [],
         availableConnections = [];
-    const {
-        defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel,
-        rules = []
-    } = decision;
+    const { defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel, rules = [] } = decision;
     // create connectors for decision which is default value. This can be refactor to update available connection as well.
     let connectors = createConnectorObjects(decision, newDecision.guid);
     for (let i = 0; i < rules.length; i++) {
         const rule = rules[i];
         const outcome = createOutcome(rule);
-        const connector = createConnectorObjects(
-            rule,
-            outcome.guid,
-            newDecision.guid
-        );
+        const connector = createConnectorObjects(rule, outcome.guid, newDecision.guid);
         outcomes = [...outcomes, outcome];
         // updating outcomeReferences
         outcomeReferences = updateOutcomeReferences(outcomeReferences, outcome);
-        availableConnections = addRegularConnectorToAvailableConnections(
-            availableConnections,
-            rule
-        );
+        availableConnections = addRegularConnectorToAvailableConnections(availableConnections, rule);
         // connector is an array. FIX it.
         connectors = [...connectors, ...connector];
     }
-    availableConnections = addDefaultConnectorToAvailableConnections(
-        availableConnections,
-        decision
-    );
+    availableConnections = addDefaultConnectorToAvailableConnections(availableConnections, decision);
     const connectorCount = connectors ? connectors.length : 0;
     const maxConnections = calculateMaxConnections(decision);
     Object.assign(newDecision, {
@@ -239,26 +204,18 @@ export function createDecisionMetadataObject(decision, config = {}) {
         throw new Error('Decision is not defined');
     }
     const newDecision = baseCanvasElementMetadataObject(decision, config);
-    const {
-        outcomeReferences,
-        defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel
-    } = decision;
+    const { outcomeReferences, defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel } = decision;
     let outcomes;
     if (outcomeReferences && outcomeReferences.length > 0) {
         outcomes = outcomeReferences.map(({ outcomeReference }) => {
             const outcome = getElementByGuid(outcomeReference);
-            const metadataOutcome = baseChildElementMetadataObject(
-                outcome,
-                config
-            );
+            const metadataOutcome = baseChildElementMetadataObject(outcome, config);
 
             let { conditions = [] } = outcome;
             const { conditionLogic } = outcome;
 
             if (conditions.length > 0) {
-                conditions = conditions.map(condition =>
-                    createConditionMetadataObject(condition)
-                );
+                conditions = conditions.map(condition => createConditionMetadataObject(condition));
             }
             return Object.assign(metadataOutcome, {
                 conditions,
@@ -274,9 +231,7 @@ export function createDecisionMetadataObject(decision, config = {}) {
 
 function calculateMaxConnections(decision) {
     if (!decision) {
-        throw new Error(
-            'Max connection cannot be calculated because decision object is not defined'
-        );
+        throw new Error('Max connection cannot be calculated because decision object is not defined');
     }
     let length = 1;
     if (decision.outcomes) {
@@ -289,14 +244,9 @@ function calculateMaxConnections(decision) {
     return length;
 }
 
-function addRegularConnectorToAvailableConnections(
-    availableConnections = [],
-    outcomeOrRule
-) {
+function addRegularConnectorToAvailableConnections(availableConnections = [], outcomeOrRule) {
     if (!availableConnections || !outcomeOrRule || !outcomeOrRule.name) {
-        throw new Error(
-            'Either availableConnections, outcome or rule is not defined'
-        );
+        throw new Error('Either availableConnections, outcome or rule is not defined');
     }
     const { name, connector } = outcomeOrRule;
 
@@ -313,14 +263,9 @@ function addRegularConnectorToAvailableConnections(
     return availableConnections;
 }
 
-function addDefaultConnectorToAvailableConnections(
-    availableConnections = [],
-    decision
-) {
+function addDefaultConnectorToAvailableConnections(availableConnections = [], decision) {
     if (!availableConnections || !decision) {
-        throw new Error(
-            'Either availableConnections or decision is not defined'
-        );
+        throw new Error('Either availableConnections or decision is not defined');
     }
     const { defaultConnector } = decision;
     if (!defaultConnector) {

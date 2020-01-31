@@ -7,10 +7,7 @@ import {
     createScreenWithFieldReferences,
     createScreenMetadataObject
 } from '../screen';
-import {
-    createScreenField,
-    createScreenFieldMetadataObject
-} from '../screenField';
+import { createScreenField, createScreenFieldMetadataObject } from '../screenField';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
@@ -18,10 +15,7 @@ import {
     baseChildElement,
     baseCanvasElementsArrayToMap
 } from '../base/baseElement';
-import {
-    baseCanvasElementMetadataObject,
-    baseChildElementMetadataObject
-} from '../base/baseMetadata';
+import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from '../base/baseMetadata';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
@@ -33,10 +27,7 @@ const newScreenGuid = 'newScreen';
 const existingScreenGuid = 'existingScreen';
 const existingScreen = {
     guid: existingScreenGuid,
-    fieldReferences: [
-        { fieldReference: 'existingScreenField1' },
-        { fieldReference: 'existingScreenField2' }
-    ]
+    fieldReferences: [{ fieldReference: 'existingScreenField1' }, { fieldReference: 'existingScreenField2' }]
 };
 
 const foundElementGuidPrefix = 'found';
@@ -85,9 +76,7 @@ baseChildElement
         return Object.assign({}, field);
     })
     .mockName('baseChildElementMock');
-baseCanvasElementsArrayToMap.mockImplementation(
-    jest.requireActual('../base/baseElement').baseCanvasElementsArrayToMap
-);
+baseCanvasElementsArrayToMap.mockImplementation(jest.requireActual('../base/baseElement').baseCanvasElementsArrayToMap);
 
 jest.mock('../base/baseMetadata');
 baseCanvasElementMetadataObject.mockImplementation(element => {
@@ -119,11 +108,7 @@ describe('screen', () => {
         });
         describe('fields', () => {
             it('includes fields for all field references present', () => {
-                const fieldReferences = [
-                    { fieldReference: 'a' },
-                    { fieldReference: 'b' },
-                    { fieldReference: 'c' }
-                ];
+                const fieldReferences = [{ fieldReference: 'a' }, { fieldReference: 'b' }, { fieldReference: 'c' }];
                 const screen = createScreenWithFields({
                     fieldReferences
                 });
@@ -133,10 +118,7 @@ describe('screen', () => {
     });
 
     describe('createDuplicateScreen function', () => {
-        const {
-            duplicatedElement,
-            duplicatedChildElements
-        } = createDuplicateScreen(
+        const { duplicatedElement, duplicatedChildElements } = createDuplicateScreen(
             {},
             'duplicatedGuid',
             'duplicatedName',
@@ -183,10 +165,7 @@ describe('screen', () => {
 
         it('includes the return value of a call to baseCanvasElementMetadataObject', () => {
             createScreenMetadataObject(screenFromStore);
-            expect(baseCanvasElementMetadataObject).toHaveBeenCalledWith(
-                screenFromStore,
-                {}
-            );
+            expect(baseCanvasElementMetadataObject).toHaveBeenCalledWith(screenFromStore, {});
         });
 
         describe('fields', () => {
@@ -234,15 +213,9 @@ describe('screen', () => {
 
             it('are included in element map for all fields present', () => {
                 const result = createScreenWithFieldReferences(screenFromFlow);
-                expect(result.elements[screenFromFlow.fields[0].guid]).toEqual(
-                    screenFromFlow.fields[0]
-                );
-                expect(result.elements[screenFromFlow.fields[1].guid]).toEqual(
-                    screenFromFlow.fields[1]
-                );
-                expect(result.elements[screenFromFlow.fields[2].guid]).toEqual(
-                    screenFromFlow.fields[2]
-                );
+                expect(result.elements[screenFromFlow.fields[0].guid]).toEqual(screenFromFlow.fields[0]);
+                expect(result.elements[screenFromFlow.fields[1].guid]).toEqual(screenFromFlow.fields[1]);
+                expect(result.elements[screenFromFlow.fields[2].guid]).toEqual(screenFromFlow.fields[2]);
             });
         });
     });
@@ -261,18 +234,12 @@ describe('screen', () => {
         });
 
         it('element type is SCREEN_WITH_MODIFIED_AND_DELETED_SCREEN_FIELDS', () => {
-            const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(
-                screenFromPropertyEditor
-            );
-            expect(result.elementType).toEqual(
-                ELEMENT_TYPE.SCREEN_WITH_MODIFIED_AND_DELETED_SCREEN_FIELDS
-            );
+            const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screenFromPropertyEditor);
+            expect(result.elementType).toEqual(ELEMENT_TYPE.SCREEN_WITH_MODIFIED_AND_DELETED_SCREEN_FIELDS);
         });
 
         it('screen element type is SCREEN', () => {
-            const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(
-                screenFromPropertyEditor
-            );
+            const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screenFromPropertyEditor);
             expect(result.screen.elementType).toEqual(ELEMENT_TYPE.SCREEN);
         });
 
@@ -280,9 +247,7 @@ describe('screen', () => {
             it('screen includes field references for all fields present', () => {
                 const fields = [{ guid: 'a' }, { guid: 'b' }, { guid: 'c' }];
                 screenFromPropertyEditor.fields = fields;
-                const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(
-                    screenFromPropertyEditor
-                );
+                const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screenFromPropertyEditor);
                 expect(result.screen.fieldReferences).toHaveLength(3);
             });
             it('includes fields for all fields present', () => {
@@ -290,9 +255,7 @@ describe('screen', () => {
 
                 screenFromPropertyEditor.fields = fields;
 
-                const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(
-                    screenFromPropertyEditor
-                );
+                const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screenFromPropertyEditor);
 
                 expect(result.fields).toHaveLength(3);
                 expect(result.fields[0].guid).toEqual(fields[0].guid);
@@ -310,9 +273,7 @@ describe('screen', () => {
                         }
                     ]
                 };
-                const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(
-                    screenFromPropertyEditor
-                );
+                const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screenFromPropertyEditor);
                 expect(result.screen.fieldReferences).toHaveLength(1);
             });
             it('includes all deleted fields', () => {
@@ -324,9 +285,7 @@ describe('screen', () => {
                         }
                     ]
                 };
-                const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(
-                    screenFromPropertyEditor
-                );
+                const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screenFromPropertyEditor);
                 expect(result.deletedFields).toHaveLength(2);
             });
         });

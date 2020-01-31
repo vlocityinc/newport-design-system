@@ -1,10 +1,7 @@
 import { createElement } from 'lwc';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    ComboboxStateChangedEvent,
-    SObjectReferenceChangedEvent
-} from 'builder_platform_interaction/events';
+import { ComboboxStateChangedEvent, SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
 import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction/sobjectOrSobjectCollectionPicker';
 import { sObjectOrSObjectCollectionByEntitySelector } from 'builder_platform_interaction/selectors';
 import * as store from 'mock/storeData';
@@ -12,9 +9,7 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
@@ -28,18 +23,13 @@ const selectors = {
 };
 
 const getFerovResourcePicker = sobjectPickerComponent => {
-    return sobjectPickerComponent.shadowRoot.querySelector(
-        selectors.ferovResourcePicker
-    );
+    return sobjectPickerComponent.shadowRoot.querySelector(selectors.ferovResourcePicker);
 };
 
 const createComponentUnderTest = props => {
-    const el = createElement(
-        'builder_platform_interaction-sobject-or-sobject-collection-picker',
-        {
-            is: SObjectOrSObjectCollectionPicker
-        }
-    );
+    const el = createElement('builder_platform_interaction-sobject-or-sobject-collection-picker', {
+        is: SObjectOrSObjectCollectionPicker
+    });
     Object.assign(el, mockDefaultConfig, props);
     document.body.appendChild(el);
     return el;
@@ -61,13 +51,9 @@ describe('sobject-or-sobject-collection-picker', () => {
     describe('base resource picker', () => {
         let ferovPicker, sobjectOrSobjectCollectionPicker;
         beforeAll(() => {
-            sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
-                jest.fn().mockReturnValue([])
-            );
+            sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(jest.fn().mockReturnValue([]));
             sobjectOrSobjectCollectionPicker = createComponentUnderTest();
-            ferovPicker = getFerovResourcePicker(
-                sobjectOrSobjectCollectionPicker
-            );
+            ferovPicker = getFerovResourcePicker(sobjectOrSobjectCollectionPicker);
         });
 
         it('contains a ferov resource picker', () => {
@@ -75,9 +61,9 @@ describe('sobject-or-sobject-collection-picker', () => {
         });
 
         it('defaults sObjectCollectionCriterion to SOBJECT', () => {
-            expect(
-                sobjectOrSobjectCollectionPicker.sobjectCollectionCriterion
-            ).toBe(SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT);
+            expect(sobjectOrSobjectCollectionPicker.sobjectCollectionCriterion).toBe(
+                SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT
+            );
         });
     });
 
@@ -93,21 +79,15 @@ describe('sobject-or-sobject-collection-picker', () => {
                     value: store.accountSObjectVariable.guid
                 })
             );
-            expect(ferovPicker.value.value).toEqual(
-                store.accountSObjectVariable.guid
-            );
-            expect(ferovPicker.value.displayText).toEqual(
-                addCurlyBraces(store.accountSObjectVariable.name)
-            );
+            expect(ferovPicker.value.value).toEqual(store.accountSObjectVariable.guid);
+            expect(ferovPicker.value.displayText).toEqual(addCurlyBraces(store.accountSObjectVariable.name));
         });
     });
 
     describe('sobject collection variables', () => {
         beforeAll(() => {
             sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
-                jest
-                    .fn()
-                    .mockReturnValue([store.accountSObjectCollectionVariable])
+                jest.fn().mockReturnValue([store.accountSObjectCollectionVariable])
             );
         });
         it('should set the value', () => {
@@ -116,24 +96,15 @@ describe('sobject-or-sobject-collection-picker', () => {
                     value: store.accountSObjectCollectionVariable.guid
                 })
             );
-            expect(ferovPicker.value.value).toEqual(
-                store.accountSObjectCollectionVariable.guid
-            );
-            expect(ferovPicker.value.displayText).toEqual(
-                addCurlyBraces(store.accountSObjectCollectionVariable.name)
-            );
+            expect(ferovPicker.value.value).toEqual(store.accountSObjectCollectionVariable.guid);
+            expect(ferovPicker.value.displayText).toEqual(addCurlyBraces(store.accountSObjectCollectionVariable.name));
         });
     });
 
     describe('sobject and sobject collection variables', () => {
         beforeAll(() => {
             sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
-                jest
-                    .fn()
-                    .mockReturnValue([
-                        store.accountSObjectVariable,
-                        store.accountSObjectCollectionVariable
-                    ])
+                jest.fn().mockReturnValue([store.accountSObjectVariable, store.accountSObjectCollectionVariable])
             );
         });
         it('should set the value as sobject collection variable', () => {
@@ -142,12 +113,8 @@ describe('sobject-or-sobject-collection-picker', () => {
                     value: store.accountSObjectCollectionVariable.guid
                 })
             );
-            expect(ferovPicker.value.value).toEqual(
-                store.accountSObjectCollectionVariable.guid
-            );
-            expect(ferovPicker.value.displayText).toEqual(
-                addCurlyBraces(store.accountSObjectCollectionVariable.name)
-            );
+            expect(ferovPicker.value.value).toEqual(store.accountSObjectCollectionVariable.guid);
+            expect(ferovPicker.value.displayText).toEqual(addCurlyBraces(store.accountSObjectCollectionVariable.name));
         });
 
         it('should set the value as sobject variable', () => {
@@ -156,12 +123,8 @@ describe('sobject-or-sobject-collection-picker', () => {
                     value: store.accountSObjectVariable.guid
                 })
             );
-            expect(ferovPicker.value.value).toEqual(
-                store.accountSObjectVariable.guid
-            );
-            expect(ferovPicker.value.displayText).toEqual(
-                addCurlyBraces(store.accountSObjectVariable.name)
-            );
+            expect(ferovPicker.value.value).toEqual(store.accountSObjectVariable.guid);
+            expect(ferovPicker.value.displayText).toEqual(addCurlyBraces(store.accountSObjectVariable.name));
         });
     });
 
@@ -174,13 +137,8 @@ describe('sobject-or-sobject-collection-picker', () => {
             const newParamValue = store.accountSObjectVariable.guid;
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
-                sobjectPicker.addEventListener(
-                    SObjectReferenceChangedEvent.EVENT_NAME,
-                    eventCallback
-                );
-                ferovResourcePicker.dispatchEvent(
-                    new ComboboxStateChangedEvent(null, newParamValue)
-                );
+                sobjectPicker.addEventListener(SObjectReferenceChangedEvent.EVENT_NAME, eventCallback);
+                ferovResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(null, newParamValue));
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({
                     detail: { value: newParamValue }

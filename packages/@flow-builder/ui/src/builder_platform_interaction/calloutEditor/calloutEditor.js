@@ -1,19 +1,12 @@
 import { LightningElement, api, track } from 'lwc';
-import {
-    ELEMENT_TYPE,
-    ACTION_TYPE
-} from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, ACTION_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction/validationRules';
-import {
-    fetchOnce,
-    SERVER_ACTION_TYPE
-} from 'builder_platform_interaction/serverDataLib';
+import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './calloutEditorLabels';
 
-const CONTAINER_SELECTOR =
-    'builder_platform_interaction-callout-editor-container';
+const CONTAINER_SELECTOR = 'builder_platform_interaction-callout-editor-container';
 
 export default class CalloutEditor extends LightningElement {
     /**
@@ -78,8 +71,7 @@ export default class CalloutEditor extends LightningElement {
         this.calloutNode = newValue || {};
         this.location.locationX = this.calloutNode.locationX;
         this.location.locationY = this.calloutNode.locationY;
-        this.showLeftPanel =
-            this.calloutNode.elementType !== ELEMENT_TYPE.SUBFLOW;
+        this.showLeftPanel = this.calloutNode.elementType !== ELEMENT_TYPE.SUBFLOW;
         this.updateSelectedAction();
     }
 
@@ -156,23 +148,12 @@ export default class CalloutEditor extends LightningElement {
 
     validateSelectedAction() {
         if (this.selectedActionError === null) {
-            if (
-                this.selectedAction.elementType ===
-                ELEMENT_TYPE.APEX_PLUGIN_CALL
-            ) {
-                this.selectedActionError = shouldNotBeNullOrUndefined(
-                    this.selectedAction.apexClass
-                );
-            } else if (
-                this.selectedAction.elementType === ELEMENT_TYPE.SUBFLOW
-            ) {
-                this.selectedActionError = shouldNotBeNullOrUndefined(
-                    this.selectedAction.flowName
-                );
+            if (this.selectedAction.elementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
+                this.selectedActionError = shouldNotBeNullOrUndefined(this.selectedAction.apexClass);
+            } else if (this.selectedAction.elementType === ELEMENT_TYPE.SUBFLOW) {
+                this.selectedActionError = shouldNotBeNullOrUndefined(this.selectedAction.flowName);
             } else {
-                this.selectedActionError = shouldNotBeNullOrUndefined(
-                    this.selectedAction.actionName
-                );
+                this.selectedActionError = shouldNotBeNullOrUndefined(this.selectedAction.actionName);
             }
         }
     }
@@ -190,32 +171,22 @@ export default class CalloutEditor extends LightningElement {
             typeOptions.push(getTypeOption(ELEMENT_TYPE.APEX_CALL));
             typeOptions.push(getTypeOption(ELEMENT_TYPE.APEX_PLUGIN_CALL));
             typeOptions.push(getTypeOption(ELEMENT_TYPE.EMAIL_ALERT));
-            if (
-                this.invocableActions.some(
-                    action => action.type === ACTION_TYPE.EXTERNAL_SERVICE
-                )
-            ) {
+            if (this.invocableActions.some(action => action.type === ACTION_TYPE.EXTERNAL_SERVICE)) {
                 typeOptions.push(getTypeOption(ELEMENT_TYPE.EXTERNAL_SERVICE));
             }
             this.categoryOptions = typeOptions;
         } else {
             const duplicateCategories = new Set();
-            this.categoryOptions = this.invocableActions.reduce(
-                (result, action) => {
-                    if (
-                        action.category &&
-                        !duplicateCategories.has(action.category)
-                    ) {
-                        duplicateCategories.add(action.category);
-                        result.push({
-                            label: action.category,
-                            name: action.category
-                        });
-                    }
-                    return result;
-                },
-                []
-            );
+            this.categoryOptions = this.invocableActions.reduce((result, action) => {
+                if (action.category && !duplicateCategories.has(action.category)) {
+                    duplicateCategories.add(action.category);
+                    result.push({
+                        label: action.category,
+                        name: action.category
+                    });
+                }
+                return result;
+            }, []);
 
             this.categoryOptions.push({
                 label: LABELS.unCategorizedInvocableActions,

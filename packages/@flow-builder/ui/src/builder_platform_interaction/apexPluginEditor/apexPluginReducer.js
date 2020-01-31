@@ -18,10 +18,7 @@ import {
 const apexPluginPropertyChanged = (state, event) => {
     const error =
         event.detail.error === null
-            ? apexPluginValidation.validateProperty(
-                  event.detail.propertyName,
-                  event.detail.value
-              )
+            ? apexPluginValidation.validateProperty(event.detail.propertyName, event.detail.value)
             : event.detail.error;
     return updateProperties(state, {
         [event.detail.propertyName]: { value: event.detail.value, error }

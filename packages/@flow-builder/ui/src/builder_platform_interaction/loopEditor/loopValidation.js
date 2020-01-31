@@ -7,14 +7,8 @@ import { Validation } from 'builder_platform_interaction/validation';
 const additionalRules = {
     label: [ValidationRules.shouldNotBeNullOrUndefined],
     name: [ValidationRules.shouldNotBeNullOrUndefined],
-    assignNextValueToReference: [
-        ValidationRules.shouldNotBeBlank,
-        ValidationRules.shouldNotBeNullOrUndefined
-    ],
-    collectionReference: [
-        ValidationRules.shouldNotBeBlank,
-        ValidationRules.shouldNotBeNullOrUndefined
-    ]
+    assignNextValueToReference: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined],
+    collectionReference: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined]
 };
 
 export const loopValidation = new Validation(additionalRules);
@@ -24,16 +18,11 @@ export const loopValidation = new Validation(additionalRules);
  * @param {Object} state get the assignNextValueToReferenceIndex & collectionReferenceIndex from the loop
  * @returns {Object} the overridden rules
  */
-export const getRules = ({
-    assignNextValueToReferenceIndex,
-    collectionReferenceIndex
-}) => {
+export const getRules = ({ assignNextValueToReferenceIndex, collectionReferenceIndex }) => {
     const overrideRules = Object.assign({}, loopValidation.finalizedRules);
     overrideRules.assignNextValueToReference.push(
         ValidationRules.validateResourcePicker(assignNextValueToReferenceIndex)
     );
-    overrideRules.collectionReference.push(
-        ValidationRules.validateResourcePicker(collectionReferenceIndex)
-    );
+    overrideRules.collectionReference.push(ValidationRules.validateResourcePicker(collectionReferenceIndex));
     return overrideRules;
 };

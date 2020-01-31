@@ -162,10 +162,7 @@ describe('Base canvas element metadata function', () => {
             }
         };
 
-        const actualResult = baseCanvasElementMetadataObject(
-            canvasElement,
-            config
-        );
+        const actualResult = baseCanvasElementMetadataObject(canvasElement, config);
         expect(actualResult).toMatchObject(expectedResult);
     });
 });
@@ -184,11 +181,7 @@ describe('createConditionMetadataObject', () => {
     it('calls createFEROVMetadataObject with the given condition', () => {
         const condition = { foo: 'bar' };
         createConditionMetadataObject(condition);
-        expect(createFEROVMetadataObject).toHaveBeenCalledWith(
-            condition,
-            RHS_PROPERTY,
-            RHS_DATA_TYPE_PROPERTY
-        );
+        expect(createFEROVMetadataObject).toHaveBeenCalledWith(condition, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY);
     });
 
     it('creates a metadata condition', () => {

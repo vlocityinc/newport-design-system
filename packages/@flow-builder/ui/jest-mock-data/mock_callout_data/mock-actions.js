@@ -2,8 +2,7 @@ export const mockActions = [
     {
         isStandard: false,
         name: 'mynamespace__ActionTest',
-        description:
-            'Given a list of Account IDs, return a list of Account names.',
+        description: 'Given a list of Account IDs, return a list of Account names.',
         label: 'Action Test',
         type: 'apex',
         durableId: 'apex-mynamespace__ActionTest',
@@ -12,8 +11,7 @@ export const mockActions = [
     {
         isStandard: true,
         name: 'activateSessionPermSet',
-        description:
-            'Activates a session-based permission set for the running user.',
+        description: 'Activates a session-based permission set for the running user.',
         label: 'Activate Session-Based Permission Set',
         type: 'activateSessionPermSet',
         durableId: 'activateSessionPermSet-activateSessionPermSet',
@@ -85,8 +83,7 @@ export const mockActions = [
     {
         isStandard: true,
         name: 'deactivateSessionPermSet',
-        description:
-            'Deactivate a session-based permission set for the running user.',
+        description: 'Deactivate a session-based permission set for the running user.',
         label: 'Deactivate Session-Based Permission Set',
         type: 'deactivateSessionPermSet',
         durableId: 'deactivateSessionPermSet-deactivateSessionPermSet',
@@ -104,12 +101,10 @@ export const mockActions = [
     {
         isStandard: true,
         name: 'contentWorkspaceEnableFolders',
-        description:
-            'Enable Folder Support for the specified a Content Workspace (Library)',
+        description: 'Enable Folder Support for the specified a Content Workspace (Library)',
         label: 'Enable Folder Support for a Content Workspace (Library)',
         type: 'contentWorkspaceEnableFolders',
-        durableId:
-            'contentWorkspaceEnableFolders-contentWorkspaceEnableFolders',
+        durableId: 'contentWorkspaceEnableFolders-contentWorkspaceEnableFolders',
         category: 'Service'
     },
     {
@@ -132,13 +127,11 @@ export const mockActions = [
     },
     {
         isStandard: false,
-        name:
-            'mynamespace__img_src_http_foo_bar_foo_jpg__c.mynamespace__My_Email_Alert',
+        name: 'mynamespace__img_src_http_foo_bar_foo_jpg__c.mynamespace__My_Email_Alert',
         description: 'My Email Alert',
         label: 'My Email Alert',
         type: 'emailAlert',
-        durableId:
-            'emailAlert-mynamespace__img_src_http_foo_bar_foo_jpg__c.mynamespace__My_Email_Alert',
+        durableId: 'emailAlert-mynamespace__img_src_http_foo_bar_foo_jpg__c.mynamespace__My_Email_Alert',
         category: 'Service'
     },
     {
@@ -234,8 +227,7 @@ export const mockActions = [
     {
         isStandard: true,
         name: 'chatterPost',
-        description:
-            'Post to the feed for a specific record, user, or Chatter group.',
+        description: 'Post to the feed for a specific record, user, or Chatter group.',
         label: 'Post to Chatter',
         type: 'chatterPost',
         durableId: 'chatterPost-chatterPost',
@@ -253,8 +245,7 @@ export const mockActions = [
     {
         isStandard: true,
         name: 'emailSimple',
-        description:
-            'Send an email where you specify the subject, body, and recipients.',
+        description: 'Send an email where you specify the subject, body, and recipients.',
         label: 'Send Email',
         type: 'emailSimple',
         durableId: 'emailSimple-emailSimple',

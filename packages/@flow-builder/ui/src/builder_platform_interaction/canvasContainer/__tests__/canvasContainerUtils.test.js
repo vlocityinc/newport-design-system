@@ -13,9 +13,7 @@ import {
     calculateDeletedNodeIdsAndCleanUpDrawingLibInstance,
     calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance
 } from '../canvasContainerUtils';
-jest.mock('builder_platform_interaction/drawingLib', () =>
-    require('builder_platform_interaction_mocks/drawingLib')
-);
+jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
@@ -71,24 +69,18 @@ jest.mock('builder_platform_interaction/connectorUtils', () => {
         createNewConnector: jest.fn().mockImplementation(() => {
             return {};
         }),
-        getLabelAndValueForConnectorPickerOptions: jest
-            .fn()
-            .mockImplementation(() => {
-                return {
-                    label: 'label1',
-                    value: 'value1'
-                };
-            }),
+        getLabelAndValueForConnectorPickerOptions: jest.fn().mockImplementation(() => {
+            return {
+                label: 'label1',
+                value: 'value1'
+            };
+        }),
         sortConnectorPickerComboboxOptions: jest.fn()
     };
 });
 
-const {
-    invokePropertyEditor
-} = require('builder_platform_interaction/builderUtils');
-const {
-    drawingLibInstance
-} = require('builder_platform_interaction/drawingLib');
+const { invokePropertyEditor } = require('builder_platform_interaction/builderUtils');
+const { drawingLibInstance } = require('builder_platform_interaction/drawingLib');
 
 describe('Canvas container utils test', () => {
     describe('isEmptyArray function', () => {
@@ -113,9 +105,7 @@ describe('Canvas container utils test', () => {
         it('returns canvas element array if store state is defined', () => {
             const currentStoreState = {};
             expect(getNodesFromStore(currentStoreState)).toHaveLength(1);
-            expect(getNodesFromStore(currentStoreState)[0]).toBe(
-                'canvasElement1'
-            );
+            expect(getNodesFromStore(currentStoreState)[0]).toBe('canvasElement1');
         });
     });
     describe('getConnectorsFromStore function', () => {
@@ -127,9 +117,7 @@ describe('Canvas container utils test', () => {
                 connectors: ['connector1']
             };
             expect(getConnectorsFromStore(currentStoreState)).toHaveLength(1);
-            expect(getConnectorsFromStore(currentStoreState)).toBe(
-                currentStoreState.connectors
-            );
+            expect(getConnectorsFromStore(currentStoreState)).toBe(currentStoreState.connectors);
         });
     });
     describe('updateStoreOnSelection function', () => {
@@ -195,9 +183,7 @@ describe('Canvas container utils test', () => {
             const storeInstance = {
                 getCurrentState
             };
-            expect(shouldCreateStartConnection(storeInstance, 'guid1')).toBe(
-                false
-            );
+            expect(shouldCreateStartConnection(storeInstance, 'guid1')).toBe(false);
         });
         it('return false if avaiable connections are not defined', () => {
             const getCurrentState = jest.fn().mockImplementation(() => {
@@ -212,9 +198,7 @@ describe('Canvas container utils test', () => {
             const storeInstance = {
                 getCurrentState
             };
-            expect(shouldCreateStartConnection(storeInstance, 'guid1')).toBe(
-                false
-            );
+            expect(shouldCreateStartConnection(storeInstance, 'guid1')).toBe(false);
         });
         it('return true if avaiable connections are not defined and element is a start element', () => {
             const getCurrentState = jest.fn().mockImplementation(() => {
@@ -229,9 +213,7 @@ describe('Canvas container utils test', () => {
             const storeInstance = {
                 getCurrentState
             };
-            expect(shouldCreateStartConnection(storeInstance, 'guid1')).toBe(
-                true
-            );
+            expect(shouldCreateStartConnection(storeInstance, 'guid1')).toBe(true);
         });
     });
     describe('hasOneAvailableConnection function', () => {
@@ -248,9 +230,7 @@ describe('Canvas container utils test', () => {
             const storeInstance = {
                 getCurrentState
             };
-            expect(hasOneAvailableConnection(storeInstance, 'guid1')).toBe(
-                false
-            );
+            expect(hasOneAvailableConnection(storeInstance, 'guid1')).toBe(false);
         });
         it('returns true if there is one available connections', () => {
             const getCurrentState = jest.fn().mockImplementation(() => {
@@ -265,9 +245,7 @@ describe('Canvas container utils test', () => {
             const storeInstance = {
                 getCurrentState
             };
-            expect(hasOneAvailableConnection(storeInstance, 'guid1')).toBe(
-                true
-            );
+            expect(hasOneAvailableConnection(storeInstance, 'guid1')).toBe(true);
         });
     });
     describe('shouldOpenConnectorSelectionModal function', () => {
@@ -284,19 +262,14 @@ describe('Canvas container utils test', () => {
             const storeInstance = {
                 getCurrentState
             };
-            expect(
-                shouldOpenConnectorSelectionModal(storeInstance, 'guid1')
-            ).toBe(false);
+            expect(shouldOpenConnectorSelectionModal(storeInstance, 'guid1')).toBe(false);
         });
         it('returns false if element type is not decision, wait or loop', () => {
             const getCurrentState = jest.fn().mockImplementation(() => {
                 return {
                     elements: {
                         guid1: {
-                            availableConnections: [
-                                'connection1',
-                                'connection2'
-                            ],
+                            availableConnections: ['connection1', 'connection2'],
                             elementType: 'not decision, wait or loop'
                         }
                     }
@@ -305,19 +278,14 @@ describe('Canvas container utils test', () => {
             const storeInstance = {
                 getCurrentState
             };
-            expect(
-                shouldOpenConnectorSelectionModal(storeInstance, 'guid1')
-            ).toBe(false);
+            expect(shouldOpenConnectorSelectionModal(storeInstance, 'guid1')).toBe(false);
         });
         it('returns true if there are more than 1 available connections and element type is decision', () => {
             const getCurrentState = jest.fn().mockImplementation(() => {
                 return {
                     elements: {
                         guid1: {
-                            availableConnections: [
-                                'connection1',
-                                'connection2'
-                            ],
+                            availableConnections: ['connection1', 'connection2'],
                             elementType: 'DECISION'
                         }
                     }
@@ -326,19 +294,14 @@ describe('Canvas container utils test', () => {
             const storeInstance = {
                 getCurrentState
             };
-            expect(
-                shouldOpenConnectorSelectionModal(storeInstance, 'guid1')
-            ).toBe(true);
+            expect(shouldOpenConnectorSelectionModal(storeInstance, 'guid1')).toBe(true);
         });
         it('returns true if there are more than 1 available connections and element type is loop', () => {
             const getCurrentState = jest.fn().mockImplementation(() => {
                 return {
                     elements: {
                         guid1: {
-                            availableConnections: [
-                                'connection1',
-                                'connection2'
-                            ],
+                            availableConnections: ['connection1', 'connection2'],
                             elementType: 'LOOP'
                         }
                     }
@@ -347,19 +310,14 @@ describe('Canvas container utils test', () => {
             const storeInstance = {
                 getCurrentState
             };
-            expect(
-                shouldOpenConnectorSelectionModal(storeInstance, 'guid1')
-            ).toBe(true);
+            expect(shouldOpenConnectorSelectionModal(storeInstance, 'guid1')).toBe(true);
         });
         it('returns true if there are more than 1 available connections and element type is wait', () => {
             const getCurrentState = jest.fn().mockImplementation(() => {
                 return {
                     elements: {
                         guid1: {
-                            availableConnections: [
-                                'connection1',
-                                'connection2'
-                            ],
+                            availableConnections: ['connection1', 'connection2'],
                             elementType: 'WAIT'
                         }
                     }
@@ -368,9 +326,7 @@ describe('Canvas container utils test', () => {
             const storeInstance = {
                 getCurrentState
             };
-            expect(
-                shouldOpenConnectorSelectionModal(storeInstance, 'guid1')
-            ).toBe(true);
+            expect(shouldOpenConnectorSelectionModal(storeInstance, 'guid1')).toBe(true);
         });
     });
     describe('addConnection function', () => {
@@ -418,11 +374,7 @@ describe('Canvas container utils test', () => {
             const storeInstance = {
                 getCurrentState
             };
-            const { sourceElement, targetElement } = getSourceAndTargetElement(
-                storeInstance,
-                sourceGuid,
-                targetGuid
-            );
+            const { sourceElement, targetElement } = getSourceAndTargetElement(storeInstance, sourceGuid, targetGuid);
             expect(sourceElement.name).toBe(sourceName);
             expect(targetElement.name).toBe(targetName);
         });
@@ -456,11 +408,7 @@ describe('Canvas container utils test', () => {
                 dispatch,
                 getCurrentState
             };
-            createConnectorWhenOneConnectionAvailable(
-                storeInstance,
-                sourceGuid,
-                targetGuid
-            );
+            createConnectorWhenOneConnectionAvailable(storeInstance, sourceGuid, targetGuid);
             expect(dispatch).toHaveBeenCalledWith({
                 type: 'addConnection',
                 payload: {}
@@ -503,147 +451,75 @@ describe('Canvas container utils test', () => {
     describe('calculateDeletedNodeIdsAndCleanUpDrawingLibInstance function', () => {
         it('throws an error if existingCanvasElements is undefined', () => {
             expect(() => {
-                calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(
-                    undefined,
-                    [],
-                    {}
-                );
+                calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(undefined, [], {});
             }).toThrow();
         });
         it('throws an error if updatedCanvasElements is undefined', () => {
             expect(() => {
-                calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(
-                    [],
-                    undefined,
-                    {}
-                );
+                calculateDeletedNodeIdsAndCleanUpDrawingLibInstance([], undefined, {});
             }).toThrow();
         });
         it('should not call the removeNodeFromLib in the init phase when existing nodes list is empty', () => {
             const existingCanvasElements = [];
             const updatedCanvasElements = [{ guid: 'guid1' }];
-            calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(
-                existingCanvasElements,
-                updatedCanvasElements,
-                {}
-            );
+            calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(existingCanvasElements, updatedCanvasElements, {});
             expect(drawingLibInstance.removeNodeFromLib).not.toHaveBeenCalled();
         });
         it('should not call the removeNodeFromLib when new elements are added', () => {
             const existingCanvasElements = [{ guid: 'guid1' }];
-            const updatedCanvasElements = [
-                { guid: 'guid1' },
-                { guid: 'guid2' }
-            ];
-            calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(
-                existingCanvasElements,
-                updatedCanvasElements,
-                {}
-            );
+            const updatedCanvasElements = [{ guid: 'guid1' }, { guid: 'guid2' }];
+            calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(existingCanvasElements, updatedCanvasElements, {});
             expect(drawingLibInstance.removeNodeFromLib).not.toHaveBeenCalled();
         });
         it('deleting a single canvas element - calls the drawing libs removeNodeFromLib fn once', () => {
-            const existingCanvasElements = [
-                { guid: 'guid1' },
-                { guid: 'guid2' }
-            ];
+            const existingCanvasElements = [{ guid: 'guid1' }, { guid: 'guid2' }];
             const updatedCanvasElements = [{ guid: 'guid1' }];
-            calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(
-                existingCanvasElements,
-                updatedCanvasElements,
-                {}
-            );
-            expect(drawingLibInstance.removeNodeFromLib).toHaveBeenCalledTimes(
-                1
-            );
-            expect(drawingLibInstance.removeNodeFromLib).toHaveBeenCalledWith(
-                'guid2',
-                undefined
-            );
+            calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(existingCanvasElements, updatedCanvasElements, {});
+            expect(drawingLibInstance.removeNodeFromLib).toHaveBeenCalledTimes(1);
+            expect(drawingLibInstance.removeNodeFromLib).toHaveBeenCalledWith('guid2', undefined);
         });
         it('deleting n canvas elements - calls the drawing libs removeNodeFromLib fn n times', () => {
-            const existingCanvasElements = [
-                { guid: 'guid1' },
-                { guid: 'guid2' }
-            ];
+            const existingCanvasElements = [{ guid: 'guid1' }, { guid: 'guid2' }];
             const updatedCanvasElements = [];
-            calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(
-                existingCanvasElements,
-                updatedCanvasElements,
-                {}
-            );
-            expect(drawingLibInstance.removeNodeFromLib).toHaveBeenCalledTimes(
-                2
-            );
+            calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(existingCanvasElements, updatedCanvasElements, {});
+            expect(drawingLibInstance.removeNodeFromLib).toHaveBeenCalledTimes(2);
         });
     });
 
     describe('calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance function', () => {
         it('throws an error if existingConnectors is undefined', () => {
             expect(() => {
-                calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance(
-                    undefined,
-                    [],
-                    {}
-                );
+                calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance(undefined, [], {});
             }).toThrow();
         });
         it('throws an error if updatedConnectors is undefined', () => {
             expect(() => {
-                calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance(
-                    [],
-                    undefined,
-                    {}
-                );
+                calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance([], undefined, {});
             }).toThrow();
         });
         it('should not call the removeConnectorFromLib in the init phase when existing connector list is empty', () => {
             const existingConnectors = [];
             const updatedConnectors = [{ guid: 'guid1' }];
-            calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance(
-                existingConnectors,
-                updatedConnectors,
-                {}
-            );
-            expect(
-                drawingLibInstance.removeConnectorFromLib
-            ).not.toHaveBeenCalled();
+            calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance(existingConnectors, updatedConnectors, {});
+            expect(drawingLibInstance.removeConnectorFromLib).not.toHaveBeenCalled();
         });
         it('should not call the removeConnectorFromLib when new connectors are added', () => {
             const existingConnectors = [{ guid: 'guid1' }];
             const updatedConnectors = [{ guid: 'guid1' }, { guid: 'guid2' }];
-            calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance(
-                existingConnectors,
-                updatedConnectors,
-                {}
-            );
-            expect(
-                drawingLibInstance.removeConnectorFromLib
-            ).not.toHaveBeenCalled();
+            calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance(existingConnectors, updatedConnectors, {});
+            expect(drawingLibInstance.removeConnectorFromLib).not.toHaveBeenCalled();
         });
         it('deleting a single connector - calls the drawing libs removeConnectorFromLib fn once', () => {
             const existingConnectors = [{ guid: 'guid1' }, { guid: 'guid2' }];
             const updatedConnectors = [{ guid: 'guid1' }];
-            calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance(
-                existingConnectors,
-                updatedConnectors,
-                {}
-            );
-            expect(
-                drawingLibInstance.removeConnectorFromLib
-            ).toHaveBeenCalledTimes(1);
+            calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance(existingConnectors, updatedConnectors, {});
+            expect(drawingLibInstance.removeConnectorFromLib).toHaveBeenCalledTimes(1);
         });
         it('deleting n connectors - calls the drawing libs removeConnectorFromLib fn n times', () => {
             const existingConnectors = [{ guid: 'guid1' }, { guid: 'guid2' }];
             const updatedConnectors = [];
-            calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance(
-                existingConnectors,
-                updatedConnectors,
-                {}
-            );
-            expect(
-                drawingLibInstance.removeConnectorFromLib
-            ).toHaveBeenCalledTimes(2);
+            calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance(existingConnectors, updatedConnectors, {});
+            expect(drawingLibInstance.removeConnectorFromLib).toHaveBeenCalledTimes(2);
         });
     });
 });

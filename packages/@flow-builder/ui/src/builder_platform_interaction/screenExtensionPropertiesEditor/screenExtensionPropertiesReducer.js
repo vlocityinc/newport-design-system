@@ -6,22 +6,19 @@ import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_plat
 import { applyDynamicTypeMappings } from 'builder_platform_interaction/flowExtensionLib';
 import EntityResourcePicker from 'builder_platform_interaction/entityResourcePicker';
 
-const resetOuputParameters = (state, { extensionDescription }) => updateProperties(state, {
-    outputParameters: (extensionDescription.outputParameters || []).map(descriptor => ({
+const resetOuputParameters = (state, { extensionDescription }) =>
+    updateProperties(state, {
+        outputParameters: (extensionDescription.outputParameters || []).map(descriptor => ({
             attribute: undefined,
             descriptor,
             key: descriptor.apiName
         }))
-});
+    });
 
 /**
  * Update the property storeOutputAutomatically and reset ouput parameters if needed
  */
-const useAdvancedOptionsSelectionChanged = (
-    state,
-    props,
-    { useAdvancedOptions }
-) => {
+const useAdvancedOptionsSelectionChanged = (state, props, { useAdvancedOptions }) => {
     state = updateProperties(state, {
         storeOutputAutomatically: !useAdvancedOptions
     });
@@ -31,10 +28,10 @@ const useAdvancedOptionsSelectionChanged = (
 
 export function screenExtensionPropertiesEventReducer(state, props, event) {
     switch (event.type) {
-    case UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME:
-        return useAdvancedOptionsSelectionChanged(state, props, event.detail);
-    default:
-        return state;
+        case UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME:
+            return useAdvancedOptionsSelectionChanged(state, props, event.detail);
+        default:
+            return state;
     }
 }
 
@@ -54,16 +51,15 @@ function createParametersMapping(descriptors, paramsIn, filteringProperty, sortB
         .forEach(descriptor => {
             let value;
             if (descriptor.availableValues && dynamicTypeMappings) {
-                const dynamicTypeMapping = dynamicTypeMappings.find(item =>
-                    getValueFromHydratedItem(item.typeName) === descriptor.availableValues);
+                const dynamicTypeMapping = dynamicTypeMappings.find(
+                    item => getValueFromHydratedItem(item.typeName) === descriptor.availableValues
+                );
                 if (dynamicTypeMapping) {
                     value = getValueFromHydratedItem(dynamicTypeMapping.typeValue);
                 }
             }
 
-            const params = paramsIn.filter(
-                param => descriptor.apiName === param.name.value
-            );
+            const params = paramsIn.filter(param => descriptor.apiName === param.name.value);
             if (params && params.length > 0) {
                 for (let j = 0; j < params.length; j++) {
                     result.push({
@@ -87,43 +83,34 @@ function createParametersMapping(descriptors, paramsIn, filteringProperty, sortB
 
     // Sort by isRequired and label/apiName
     result.sort((p1, p2) => {
-        if (
-            sortByRequiredness &&
-            p1.descriptor.isRequired !== p2.descriptor.isRequired
-        ) {
+        if (sortByRequiredness && p1.descriptor.isRequired !== p2.descriptor.isRequired) {
             return p1.descriptor.isRequired ? -1 : 1;
         }
-        const p1Label = (
-            p1.descriptor.label ||
-            p1.descriptor.apiName ||
-            ''
-        ).toLowerCase();
-        const p2Label = (
-            p2.descriptor.label ||
-            p2.descriptor.apiName ||
-            ''
-        ).toLowerCase();
+        const p1Label = (p1.descriptor.label || p1.descriptor.apiName || '').toLowerCase();
+        const p2Label = (p2.descriptor.label || p2.descriptor.apiName || '').toLowerCase();
         return p1Label.localeCompare(p2Label);
     });
 
     return result;
 }
 
-const createInputParameters = ({ extensionDescription, field }) => createParametersMapping(
-    applyDynamicTypeMappings(extensionDescription.inputParameters, field.dynamicTypeMappings),
-    field.inputParameters,
-    'isInput',
-    true,
-    field.dynamicTypeMappings
-);
+const createInputParameters = ({ extensionDescription, field }) =>
+    createParametersMapping(
+        applyDynamicTypeMappings(extensionDescription.inputParameters, field.dynamicTypeMappings),
+        field.inputParameters,
+        'isInput',
+        true,
+        field.dynamicTypeMappings
+    );
 
-const createOutputParameters = ({ extensionDescription, field }) => createParametersMapping(
-    applyDynamicTypeMappings(extensionDescription.outputParameters, field.dynamicTypeMappings),
-    field.outputParameters,
-    'isOutput',
-    false,
-    field.dynamicTypeMappings
-);
+const createOutputParameters = ({ extensionDescription, field }) =>
+    createParametersMapping(
+        applyDynamicTypeMappings(extensionDescription.outputParameters, field.dynamicTypeMappings),
+        field.outputParameters,
+        'isOutput',
+        false,
+        field.dynamicTypeMappings
+    );
 
 /**
  * Creates a list of dynamic type mappings internal to this component. Its main job is to create comboboxConfig.
@@ -133,40 +120,43 @@ const createOutputParameters = ({ extensionDescription, field }) => createParame
  * @returns {[{ name, value, rowIndex, comboboxConfig }]} - Collection of dynamic type mapping data
  *  for rendering entity pickers
  */
-const createDynamicTypeMappings = (genericTypes, dynamicTypeMappings = [], disabled) => (genericTypes || [])
-    // Add a flow type for a super type
-    .map(genericType => ({
-        genericType,
-        flowDataType: superTypeToFlowDataType(genericType.superType)
-    }))
-    // Add a flow data type and a current dynamic type mapping
-    .map(({ genericType, flowDataType }) => ({
-        genericType,
-        flowDataTypeName: flowDataType ? flowDataType.value : undefined,
-        dynamicTypeMapping: dynamicTypeMappings.find(item => getValueFromHydratedItem(item.typeName) === genericType.name)
-    }))
-    // Create dynamic type mapping for rendering the entity picker
-    .map(({ genericType, flowDataTypeName, dynamicTypeMapping }) => ({
-        comboboxConfig: getComboboxConfig({
-            label: genericType.label,
-            errorMessage: getErrorFromHydratedItem(dynamicTypeMapping.typeValue),
-            required: true,
-            disabled,
-            type: flowDataTypeName,
-            allowSObjectFields: false,
-            fieldLevelHelp: genericType.description
-        }),
-        mode: EntityResourcePicker.flowDataTypeNameToMode(flowDataTypeName),
-        name: genericType.name,
-        rowIndex: dynamicTypeMapping.rowIndex,
-        value: getValueFromHydratedItem(dynamicTypeMapping.typeValue)
-    }));
+const createDynamicTypeMappings = (genericTypes, dynamicTypeMappings = [], disabled) =>
+    (genericTypes || [])
+        // Add a flow type for a super type
+        .map(genericType => ({
+            genericType,
+            flowDataType: superTypeToFlowDataType(genericType.superType)
+        }))
+        // Add a flow data type and a current dynamic type mapping
+        .map(({ genericType, flowDataType }) => ({
+            genericType,
+            flowDataTypeName: flowDataType ? flowDataType.value : undefined,
+            dynamicTypeMapping: dynamicTypeMappings.find(
+                item => getValueFromHydratedItem(item.typeName) === genericType.name
+            )
+        }))
+        // Create dynamic type mapping for rendering the entity picker
+        .map(({ genericType, flowDataTypeName, dynamicTypeMapping }) => ({
+            comboboxConfig: getComboboxConfig({
+                label: genericType.label,
+                errorMessage: getErrorFromHydratedItem(dynamicTypeMapping.typeValue),
+                required: true,
+                disabled,
+                type: flowDataTypeName,
+                allowSObjectFields: false,
+                fieldLevelHelp: genericType.description
+            }),
+            mode: EntityResourcePicker.flowDataTypeNameToMode(flowDataTypeName),
+            name: genericType.name,
+            rowIndex: dynamicTypeMapping.rowIndex,
+            value: getValueFromHydratedItem(dynamicTypeMapping.typeValue)
+        }));
 
 const createDynamicTypeMappingsReducer = ({ field, extensionDescription }) =>
     createDynamicTypeMappings(extensionDescription.genericTypes, field.dynamicTypeMappings, !field.isNewField);
 
 const screenExtensionPropertiesStoreOutputAutomaticallyReducer = (state, { field }) =>
-    ((field && state.storeOutputAutomatically === undefined ? field : state).storeOutputAutomatically);
+    (field && state.storeOutputAutomatically === undefined ? field : state).storeOutputAutomatically;
 
 export function screenExtensionPropertiesPropsToStateReducer(state, { field, extensionDescription }) {
     if (!field || !extensionDescription || extensionDescription.name === field.name) {
@@ -180,7 +170,10 @@ export function screenExtensionPropertiesPropsToStateReducer(state, { field, ext
 
     return updateProperties(state, {
         // Set storeOutputAutomatically, but only once
-        storeOutputAutomatically: screenExtensionPropertiesStoreOutputAutomaticallyReducer(state, { field, extensionDescription }),
+        storeOutputAutomatically: screenExtensionPropertiesStoreOutputAutomaticallyReducer(state, {
+            field,
+            extensionDescription
+        }),
 
         // Create a list of dynamic type mappings for the list of comboboxes
         dynamicTypeMappings: createDynamicTypeMappingsReducer({ field, extensionDescription }),

@@ -1,23 +1,11 @@
 import { LightningElement, track, api } from 'lwc';
-import {
-    getDataTypeIcons,
-    FLOW_DATA_TYPE
-} from 'builder_platform_interaction/dataTypeLib';
+import { getDataTypeIcons, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
-import {
-    isUndefinedOrNull,
-    sanitizeBoolean
-} from 'builder_platform_interaction/commonUtils';
-import {
-    getErrorFromHydratedItem,
-    getValueFromHydratedItem
-} from 'builder_platform_interaction/dataMutationLib';
+import { isUndefinedOrNull, sanitizeBoolean } from 'builder_platform_interaction/commonUtils';
+import { getErrorFromHydratedItem, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { PARAM_PROPERTY } from 'builder_platform_interaction/ruleLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import {
-    UpdateParameterItemEvent,
-    DeleteParameterItemEvent
-} from 'builder_platform_interaction/events';
+import { UpdateParameterItemEvent, DeleteParameterItemEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './parameterItemLabels';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 
@@ -103,10 +91,7 @@ export default class ParameterItem extends LightningElement {
      */
     set item(parameter) {
         this.state.parameterItem = parameter;
-        this.state.toggleStatus =
-            !this.state.isInput ||
-            this.state.parameterItem.isRequired ||
-            this.checked;
+        this.state.toggleStatus = !this.state.isInput || this.state.parameterItem.isRequired || this.checked;
     }
 
     @api
@@ -116,10 +101,7 @@ export default class ParameterItem extends LightningElement {
 
     set isInput(value) {
         this.state.isInput = sanitizeBoolean(value);
-        this.state.toggleStatus =
-            !this.state.isInput ||
-            this.state.parameterItem.isRequired ||
-            this.checked;
+        this.state.toggleStatus = !this.state.isInput || this.state.parameterItem.isRequired || this.checked;
     }
 
     @api
@@ -135,22 +117,14 @@ export default class ParameterItem extends LightningElement {
      * true if this parameter is optional input parameter and it has a value
      */
     get checked() {
-        return (
-            this.isOptionalInput() &&
-            !isUndefinedOrNull(
-                getValueFromHydratedItem(this.state.parameterItem.value)
-            )
-        );
+        return this.isOptionalInput() && !isUndefinedOrNull(getValueFromHydratedItem(this.state.parameterItem.value));
     }
 
     /**
      * true if data type of this parameter is a collection
      */
     get isCollection() {
-        return (
-            this.state.parameterItem.hasOwnProperty('maxOccurs') &&
-            this.state.parameterItem.maxOccurs > 1
-        );
+        return this.state.parameterItem.hasOwnProperty('maxOccurs') && this.state.parameterItem.maxOccurs > 1;
     }
 
     /**
@@ -164,10 +138,7 @@ export default class ParameterItem extends LightningElement {
      * show divider
      */
     get itemClass() {
-        return (
-            'slds-p-around_x-small slds-m-bottom_x-small ' +
-            (this.itemIndex > 0 ? 'slds-item' : '')
-        );
+        return 'slds-p-around_x-small slds-m-bottom_x-small ' + (this.itemIndex > 0 ? 'slds-item' : '');
     }
 
     get comboboxAriaHidden() {
@@ -181,9 +152,7 @@ export default class ParameterItem extends LightningElement {
 
     get parameterLabel() {
         const label = getValueFromHydratedItem(this.state.parameterItem.label);
-        return label
-            ? label
-            : getValueFromHydratedItem(this.state.parameterItem.name);
+        return label ? label : getValueFromHydratedItem(this.state.parameterItem.name);
     }
     /**
      * @return {String|Object} returns the default value for the combobox or null
@@ -235,10 +204,7 @@ export default class ParameterItem extends LightningElement {
      * icon for parameter
      */
     get iconName() {
-        return (
-            this.state.parameterItem.iconName ||
-            getDataTypeIcons(this.getDataType(), 'utility')
-        );
+        return this.state.parameterItem.iconName || getDataTypeIcons(this.getDataType(), 'utility');
     }
 
     /**
@@ -299,19 +265,14 @@ export default class ParameterItem extends LightningElement {
      */
     handleUpdateParameter(event) {
         event.stopPropagation();
-        const { value, dataType, error } = getFerovInfoAndErrorFromEvent(
-            event,
-            this.getDataType()
-        );
+        const { value, dataType, error } = getFerovInfoAndErrorFromEvent(event, this.getDataType());
         // the first time loading the parameter, if value is null, the combobox will set displayText to ''
         // if the parameter item is a collection, the combobox will fire a comboboxStateChangedEvent. So to make the combobox invisible, we should not dispatch the UpdateParameterItemEvent to update the value to ''
         if (
             !this.isCollection ||
             !(
                 this.isOptionalInput() &&
-                isUndefinedOrNull(
-                    getValueFromHydratedItem(this.state.parameterItem.value)
-                ) &&
+                isUndefinedOrNull(getValueFromHydratedItem(this.state.parameterItem.value)) &&
                 value === ''
             )
         ) {

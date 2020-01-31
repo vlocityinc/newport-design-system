@@ -53,9 +53,7 @@ export default class ScreenExtensionAttributeEditor extends LightningElement {
                 this.isInput &&
                 !collection &&
                 this.descriptor.dataType &&
-                !['sobject', 'apex'].includes(
-                    this.descriptor.dataType.toLowerCase()
-                ),
+                !['sobject', 'apex'].includes(this.descriptor.dataType.toLowerCase()),
             collection,
             elementConfig: null,
             hideGlobalConstants: this.isOutput,
@@ -99,13 +97,9 @@ export default class ScreenExtensionAttributeEditor extends LightningElement {
      */
     handlePropertyChanged = event => {
         const input = this.isInput;
-        const prefix = input
-            ? EXTENSION_PARAM_PREFIX.INPUT
-            : EXTENSION_PARAM_PREFIX.OUTPUT;
+        const prefix = input ? EXTENSION_PARAM_PREFIX.INPUT : EXTENSION_PARAM_PREFIX.OUTPUT;
         event.detail.propertyName = prefix + '.' + event.detail.propertyName;
-        event.detail.valueDataType =
-            getFerovTypeFromTypeName(this.descriptor.dataType) ||
-            this.descriptor.dataType;
+        event.detail.valueDataType = getFerovTypeFromTypeName(this.descriptor.dataType) || this.descriptor.dataType;
         event.detail.required = input && this.descriptor.isRequired;
         if (!input && this.attributeIndex > 0) {
             event.detail.attributeIndex = this.attributeIndex;

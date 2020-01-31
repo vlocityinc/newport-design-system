@@ -1,13 +1,6 @@
-import {
-    createRecordCreate,
-    createDuplicateRecordCreate,
-    createRecordCreateMetadataObject
-} from '../recordCreate';
+import { createRecordCreate, createDuplicateRecordCreate, createRecordCreateMetadataObject } from '../recordCreate';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import {
-    ELEMENT_TYPE,
-    CONNECTOR_TYPE
-} from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
@@ -21,24 +14,17 @@ import {
     createWithApexDefSingleSObjectVariable,
     createWithApexDefSObjectCollectionVariable
 } from 'mock/storeData';
-import {
-    setApexClasses,
-    cachePropertiesForClass
-} from 'builder_platform_interaction/apexTypeLib';
+import { setApexClasses, cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
-    const actual = require.requireActual(
-        'builder_platform_interaction/processTypeLib'
-    );
+    const actual = require.requireActual('builder_platform_interaction/processTypeLib');
     return Object.assign({}, actual, {
         getProcessTypeAutomaticOutPutHandlingSupport: jest.fn()
     });
 });
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 expect.extend(deepFindMatchers);
 const MOCK_GUID = 'mockGuid',
@@ -245,9 +231,7 @@ describe('recordCreate', () => {
             });
 
             it('has dataType of boolean', () => {
-                expect(recordCreate.dataType).toEqual(
-                    FLOW_DATA_TYPE.BOOLEAN.value
-                );
+                expect(recordCreate.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
             });
         });
 
@@ -267,13 +251,10 @@ describe('recordCreate', () => {
             mode        | mockStore                            | dataType
             ${'manual'} | ${flowRecordCreateFieldsStoreManual} | ${FLOW_DATA_TYPE.BOOLEAN.value}
             ${'auto'}   | ${flowRecordCreateFieldsStoreAuto}   | ${FLOW_DATA_TYPE.STRING.value}
-        `(
-            'should return datatype: $dataType for store recordCreate in $mode mode',
-            ({ mockStore, dataType }) => {
-                recordCreate = createRecordCreate(mockStore());
-                expect(recordCreate.dataType).toEqual(dataType);
-            }
-        );
+        `('should return datatype: $dataType for store recordCreate in $mode mode', ({ mockStore, dataType }) => {
+            recordCreate = createRecordCreate(mockStore());
+            expect(recordCreate.dataType).toEqual(dataType);
+        });
     });
 });
 describe('recordCreate using Apex-Defined Variable', () => {
@@ -291,24 +272,18 @@ describe('recordCreate using Apex-Defined Variable', () => {
             const loadCreateWithApexDefSingleSObjectVariable = createRecordCreate(
                 createWithApexDefSingleSObjectVariable
             );
-            expect(
-                loadCreateWithApexDefSingleSObjectVariable.getFirstRecordOnly
-            ).toBe(true);
+            expect(loadCreateWithApexDefSingleSObjectVariable.getFirstRecordOnly).toBe(true);
         });
     });
     describe('Collection Variable', () => {
         beforeEach(() => {
-            cachePropertiesForClass(
-                'apexContainsOnlyAnSObjectCollectionVariable'
-            );
+            cachePropertiesForClass('apexContainsOnlyAnSObjectCollectionVariable');
         });
         it('has getFirstRecordOnly = false', () => {
             const loadCreateWithApexDefSObjectCollectionVariable = createRecordCreate(
                 createWithApexDefSObjectCollectionVariable
             );
-            expect(
-                loadCreateWithApexDefSObjectCollectionVariable.getFirstRecordOnly
-            ).toBe(false);
+            expect(loadCreateWithApexDefSObjectCollectionVariable.getFirstRecordOnly).toBe(false);
         });
     });
 });
@@ -346,11 +321,7 @@ describe('createDuplicateRecordCreate function', () => {
             }
         ]
     };
-    const { duplicatedElement } = createDuplicateRecordCreate(
-        originalRecordCreate,
-        'duplicatedGuid',
-        'duplicatedName'
-    );
+    const { duplicatedElement } = createDuplicateRecordCreate(originalRecordCreate, 'duplicatedGuid', 'duplicatedName');
 
     it('has the new guid', () => {
         expect(duplicatedElement.guid).toEqual('duplicatedGuid');
@@ -359,14 +330,10 @@ describe('createDuplicateRecordCreate function', () => {
         expect(duplicatedElement.name).toEqual('duplicatedName');
     });
     it('has the updated locationX', () => {
-        expect(duplicatedElement.locationX).toEqual(
-            originalRecordCreate.locationX + DUPLICATE_ELEMENT_XY_OFFSET
-        );
+        expect(duplicatedElement.locationX).toEqual(originalRecordCreate.locationX + DUPLICATE_ELEMENT_XY_OFFSET);
     });
     it('has the updated locationY', () => {
-        expect(duplicatedElement.locationY).toEqual(
-            originalRecordCreate.locationY + DUPLICATE_ELEMENT_XY_OFFSET
-        );
+        expect(duplicatedElement.locationY).toEqual(originalRecordCreate.locationY + DUPLICATE_ELEMENT_XY_OFFSET);
     });
     it('has isSelected set to true', () => {
         expect(duplicatedElement.config.isSelected).toBeTruthy();
@@ -381,9 +348,7 @@ describe('createDuplicateRecordCreate function', () => {
         expect(duplicatedElement.maxConnections).toEqual(2);
     });
     it('has the right elementType', () => {
-        expect(duplicatedElement.elementType).toEqual(
-            ELEMENT_TYPE.RECORD_CREATE
-        );
+        expect(duplicatedElement.elementType).toEqual(ELEMENT_TYPE.RECORD_CREATE);
     });
     it('has default availableConnections', () => {
         expect(duplicatedElement.availableConnections).toEqual([
@@ -401,19 +366,13 @@ describe('recordCreate flow metadata => UI model', () => {
     describe('recordCreate function using sObject', () => {
         it('returns a new record update object with same value and the numberRecordsToStore calculated from the inputReference', () => {
             const recordCreateSObjectMetadata = flowRecordCreateSObjectMetadata();
-            const actualResult = createRecordCreate(
-                recordCreateSObjectMetadata
-            );
+            const actualResult = createRecordCreate(recordCreateSObjectMetadata);
             expect(actualResult).toMatchObject(flowRecordCreateSObjectStore());
         });
         it('has no common mutable object with record create metadata passed as parameter', () => {
             const recordCreateSObjectMetadata = flowRecordCreateSObjectMetadata();
-            const actualResult = createRecordCreate(
-                recordCreateSObjectMetadata
-            );
-            expect(actualResult).toHaveNoCommonMutableObjectWith(
-                recordCreateSObjectMetadata
-            );
+            const actualResult = createRecordCreate(recordCreateSObjectMetadata);
+            expect(actualResult).toHaveNoCommonMutableObjectWith(recordCreateSObjectMetadata);
         });
     });
     describe('recordCreate function using Fields', () => {
@@ -460,129 +419,91 @@ describe('recordCreate flow metadata => UI model', () => {
 describe('recordCreate UI model => flow metadata', () => {
     describe('recordCreate function using sObject', () => {
         it('record update using sObject', () => {
-            const actualResult = createRecordCreateMetadataObject(
-                flowRecordCreateSObjectStore()
-            );
-            expect(actualResult).toMatchObject(
-                flowRecordCreateSObjectMetadata()
-            );
+            const actualResult = createRecordCreateMetadataObject(flowRecordCreateSObjectStore());
+            expect(actualResult).toMatchObject(flowRecordCreateSObjectMetadata());
         });
         it('has no common mutable object with record create store passed as parameter', () => {
             const recordCreateSObjectStore = flowRecordCreateSObjectStore();
-            const actualResult = createRecordCreateMetadataObject(
-                recordCreateSObjectStore
-            );
-            expect(actualResult).toHaveNoCommonMutableObjectWith(
-                recordCreateSObjectStore
-            );
+            const actualResult = createRecordCreateMetadataObject(recordCreateSObjectStore);
+            expect(actualResult).toHaveNoCommonMutableObjectWith(recordCreateSObjectStore);
         });
     });
     describe('recordCreate function using Fields', () => {
         let actualResult;
 
-        RECORD_CREATE_MOCKS.forEach(
-            ({ mode, metadata, store, isInManualMode = mode === 'manual' }) => {
-                it(`inputAssignments without value in ${mode} mode`, () => {
-                    store.inputAssignments = [uiModelEmptyInputAssignmentField];
-                    metadata.inputAssignments = [];
-                    actualResult = createRecordCreateMetadataObject(store);
-                    expect(actualResult).toHaveProperty(
-                        'inputAssignments',
-                        metadata.inputAssignments
-                    );
-                });
-                it(`inputAssignments with value in ${mode} mode`, () => {
-                    store.inputAssignments = [uiModelInputAssignmentFieldValue];
-                    metadata.inputAssignments = [inputAssignmentFieldValue];
-                    actualResult = createRecordCreateMetadataObject(store);
-                    expect(actualResult).toHaveProperty(
-                        'inputAssignments',
-                        metadata.inputAssignments
-                    );
-                });
-                it(`inputAssignments with multiple values in ${mode} mode`, () => {
-                    store.inputAssignments = [
-                        uiModelInputAssignmentFieldValue,
-                        uiModelInputAssignmentField,
-                        uiModelInputAssignmentFieldBooleanValue
-                    ];
-                    metadata.inputAssignments = [
-                        inputAssignmentFieldValue,
-                        inputAssignmentField,
-                        inputAssignmentFieldBooleanValue
-                    ];
-                    actualResult = createRecordCreateMetadataObject(store);
-                    expect(actualResult).toHaveProperty(
-                        'inputAssignments',
-                        metadata.inputAssignments
-                    );
-                });
-                it(`"storeOutputAutomatically" value in ${mode} mode`, () => {
-                    actualResult = createRecordCreateMetadataObject(store);
-                    expect(actualResult).toHaveProperty(
-                        'storeOutputAutomatically',
-                        !isInManualMode
-                    );
-                });
+        RECORD_CREATE_MOCKS.forEach(({ mode, metadata, store, isInManualMode = mode === 'manual' }) => {
+            it(`inputAssignments without value in ${mode} mode`, () => {
+                store.inputAssignments = [uiModelEmptyInputAssignmentField];
+                metadata.inputAssignments = [];
+                actualResult = createRecordCreateMetadataObject(store);
+                expect(actualResult).toHaveProperty('inputAssignments', metadata.inputAssignments);
+            });
+            it(`inputAssignments with value in ${mode} mode`, () => {
+                store.inputAssignments = [uiModelInputAssignmentFieldValue];
+                metadata.inputAssignments = [inputAssignmentFieldValue];
+                actualResult = createRecordCreateMetadataObject(store);
+                expect(actualResult).toHaveProperty('inputAssignments', metadata.inputAssignments);
+            });
+            it(`inputAssignments with multiple values in ${mode} mode`, () => {
+                store.inputAssignments = [
+                    uiModelInputAssignmentFieldValue,
+                    uiModelInputAssignmentField,
+                    uiModelInputAssignmentFieldBooleanValue
+                ];
+                metadata.inputAssignments = [
+                    inputAssignmentFieldValue,
+                    inputAssignmentField,
+                    inputAssignmentFieldBooleanValue
+                ];
+                actualResult = createRecordCreateMetadataObject(store);
+                expect(actualResult).toHaveProperty('inputAssignments', metadata.inputAssignments);
+            });
+            it(`"storeOutputAutomatically" value in ${mode} mode`, () => {
+                actualResult = createRecordCreateMetadataObject(store);
+                expect(actualResult).toHaveProperty('storeOutputAutomatically', !isInManualMode);
+            });
 
-                it(`has no common mutable object with record create store passed as parameter in ${mode} mode`, () => {
-                    actualResult = createRecordCreateMetadataObject(store);
-                    expect(actualResult).toHaveNoCommonMutableObjectWith(store);
-                });
+            it(`has no common mutable object with record create store passed as parameter in ${mode} mode`, () => {
+                actualResult = createRecordCreateMetadataObject(store);
+                expect(actualResult).toHaveNoCommonMutableObjectWith(store);
+            });
 
-                if (isInManualMode) {
-                    it(`"assignRecordIdToReference" with value (not empty string) in ${mode} mode`, () => {
-                        actualResult = createRecordCreateMetadataObject(store);
-                        expect(actualResult).toHaveProperty(
-                            'assignRecordIdToReference',
-                            MOCK_ASSIGN_RECORD_ID_TO_REFERENCE
-                        );
-                    });
-                    it(`no "assignRecordIdToReference" with empty string value in ${mode} mode`, () => {
-                        store.assignRecordIdToReference = '';
-                        actualResult = createRecordCreateMetadataObject(store);
-                        expect(actualResult).not.toHaveProperty(
-                            'assignRecordIdToReference'
-                        );
-                    });
-                } else {
-                    it(`"assignRecordIdToReference" with empty string value in ${mode} mode`, () => {
-                        store.assignRecordIdToReference = '';
-                        actualResult = createRecordCreateMetadataObject(store);
-                        expect(actualResult).not.toHaveProperty(
-                            'assignRecordIdToReference',
-                            ''
-                        );
-                    });
-                }
+            if (isInManualMode) {
+                it(`"assignRecordIdToReference" with value (not empty string) in ${mode} mode`, () => {
+                    actualResult = createRecordCreateMetadataObject(store);
+                    expect(actualResult).toHaveProperty(
+                        'assignRecordIdToReference',
+                        MOCK_ASSIGN_RECORD_ID_TO_REFERENCE
+                    );
+                });
+                it(`no "assignRecordIdToReference" with empty string value in ${mode} mode`, () => {
+                    store.assignRecordIdToReference = '';
+                    actualResult = createRecordCreateMetadataObject(store);
+                    expect(actualResult).not.toHaveProperty('assignRecordIdToReference');
+                });
+            } else {
+                it(`"assignRecordIdToReference" with empty string value in ${mode} mode`, () => {
+                    store.assignRecordIdToReference = '';
+                    actualResult = createRecordCreateMetadataObject(store);
+                    expect(actualResult).not.toHaveProperty('assignRecordIdToReference', '');
+                });
             }
-        );
+        });
     });
     describe('undefined/null recordCreate', () => {
-        test.each([undefined, null])(
-            'Passing with %s recordCreate should throw error',
-            recordCreate => {
-                expect(() =>
-                    createRecordCreateMetadataObject(recordCreate)
-                ).toThrowError();
-            }
-        );
+        test.each([undefined, null])('Passing with %s recordCreate should throw error', recordCreate => {
+            expect(() => createRecordCreateMetadataObject(recordCreate)).toThrowError();
+        });
     });
 });
 
 describe('recordLookup function with automatic handled output and saved with a process type that does not support automatic output handling', () => {
     beforeEach(() => {
-        getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
-            FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED
-        );
+        getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED);
     });
     it('Should not have storeOutputAutomatically', () => {
-        const actualResult = createRecordCreateMetadataObject(
-            flowRecordCreateFieldsStoreAuto()
-        );
-        expect(actualResult).toMatchObject(
-            flowRecordCreateFieldsMetadataManualFromAuto()
-        );
+        const actualResult = createRecordCreateMetadataObject(flowRecordCreateFieldsStoreAuto());
+        expect(actualResult).toMatchObject(flowRecordCreateFieldsMetadataManualFromAuto());
         expect(actualResult.storeOutputAutomatically).toBe(undefined);
     });
 });

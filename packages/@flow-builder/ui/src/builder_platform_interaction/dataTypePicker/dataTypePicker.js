@@ -1,10 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import { LABELS } from './dataTypePickerLabels';
-import {
-    FLOW_DATA_TYPE,
-    SCALE_RANGE,
-    SCALE_DEFAULT
-} from 'builder_platform_interaction/dataTypeLib';
+import { FLOW_DATA_TYPE, SCALE_RANGE, SCALE_DEFAULT } from 'builder_platform_interaction/dataTypeLib';
 import { ValueChangedEvent } from 'builder_platform_interaction/events';
 
 export default class DataTypePicker extends LightningElement {

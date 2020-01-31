@@ -4,7 +4,7 @@ export * from './flowWithAllElementsUIModel';
 export * from './elementsForPropertyEditors';
 
 export const getElementByName = name => {
-	const elements = flowWithAllElementsUIModel.elements;
+    const elements = flowWithAllElementsUIModel.elements;
     for (const guid in elements) {
         if (elements.hasOwnProperty(guid)) {
             if (elements[guid].name === name) {
@@ -20,7 +20,7 @@ export const getElementByGuid = guid => {
 };
 
 const getStartElement = () => {
-	const elements = flowWithAllElementsUIModel.elements;
+    const elements = flowWithAllElementsUIModel.elements;
     for (const guid in elements) {
         if (elements.hasOwnProperty(guid)) {
             if (elements[guid].elementType === 'START_ELEMENT') {
@@ -52,7 +52,9 @@ export const apexCallAutomaticAnonymousAccountOutput = getElementByName('apexCal
 export const apexCallAutomaticAnonymousAccountsOutput = getElementByName('apexCall_anonymous_accounts');
 export const apexCallAutomaticAnonymousStringOutput = getElementByName('apexCall_anonymous_string');
 export const apexCallAutomaticAnonymousStringsOutput = getElementByName('apexCall_anonymous_strings');
-export const apexCallAutomaticAnonymousApexTypeCollectionOutput = getElementByName('apexCall_anonymous_apex_collection');
+export const apexCallAutomaticAnonymousApexTypeCollectionOutput = getElementByName(
+    'apexCall_anonymous_apex_collection'
+);
 export const apexCallManualAccountOutput = getElementByName('apexCall_action_account_manual_output');
 export const apexCallAccountAutomaticOutput = getElementByName('apexCall_account_automatic_output');
 export const apexCallStringAutomaticOutput = getElementByName('apexCall_String_automatic_output');
@@ -61,7 +63,7 @@ export const emailAlertOnAccount = getElementByName('emailAlertOnAccount');
 export const externalServiceAutomaticOutput = getElementByName('addAccountExternalService');
 export const stringCollectionVariable1 = getElementByName('stringCollectionVariable1');
 export const stringCollectionVariable2 = getElementByName('stringCollectionVariable2');
-export const apexSampleVariable = getElementByName( 'apexSampleVariable');
+export const apexSampleVariable = getElementByName('apexSampleVariable');
 export const caseSObjectCollectionVariable = getElementByName('caseSObjectCollectionVariable');
 export const accountSObjectCollectionVariable = getElementByName('accountSObjectCollectionVariable');
 export const apexSampleCollectionVariable = getElementByName('apexSampleCollectionVariable');
@@ -83,9 +85,15 @@ export const createWithApexDefSingleSObjectVariable = getElementByName('withApex
 export const createWithApexDefSObjectCollectionVariable = getElementByName('withApexDefSObjectCollectionVariable');
 export const lightningCompAutomaticOutputContainsAccountExtension = getElementByName('lightningCompWithAccountOutput');
 export const lightningCompAutomaticOutputNoSObjectExtension = getElementByName('lightningCompWithNoAccountOutput');
-export const lightningCompAutomaticOutputSObjectCollectionExtension = getElementByName('lightningCompWithAccountsOutput');
-export const localActionApexDoesNotContainSObjectAutomaticOutput = getElementByName('actionCallLC_apex_no_sobject_auto');
-export const localActionApexDoesContainsSObjectAutomaticOutput = getElementByName('actionCallLC_apex_with_sobject_auto');
+export const lightningCompAutomaticOutputSObjectCollectionExtension = getElementByName(
+    'lightningCompWithAccountsOutput'
+);
+export const localActionApexDoesNotContainSObjectAutomaticOutput = getElementByName(
+    'actionCallLC_apex_no_sobject_auto'
+);
+export const localActionApexDoesContainsSObjectAutomaticOutput = getElementByName(
+    'actionCallLC_apex_with_sobject_auto'
+);
 export const feedItemVariable = getElementByName('feedItemVariable');
 export const caseSObjectVariable = getElementByName('caseSObjectVariable');
 export const contactSObjectVariable = getElementByName('contactSObjectVariable');
@@ -97,10 +105,11 @@ export const screenWithAddress = getElementByName('screenWithAddress');
 export const screenWithAddressAddress = getElementByName('Address');
 
 // elements after getElementForPropertyEditor
-const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));
+const deepCopy = obj => JSON.parse(JSON.stringify(obj));
 export const numberVariableForPropertyEditor = () => deepCopy(elementsForPropertyEditors[numberVariable.name]);
 export const stringVariableForPropertyEditor = () => deepCopy(elementsForPropertyEditors[stringVariable.name]);
 export const dateVariableForPropertyEditor = () => deepCopy(elementsForPropertyEditors[dateVariable.name]);
 export const stringConstantForPropertyEditor = () => deepCopy(elementsForPropertyEditors[stringConstant.name]);
-export const accountSObjectVariableForPropertyEditor = () => deepCopy(elementsForPropertyEditors[accountSObjectVariable.name]);
+export const accountSObjectVariableForPropertyEditor = () =>
+    deepCopy(elementsForPropertyEditors[accountSObjectVariable.name]);
 export const textTemplate1ForPropertyEditor = () => deepCopy(elementsForPropertyEditors[textTemplate1.name]);

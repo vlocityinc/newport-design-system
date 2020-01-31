@@ -7,10 +7,10 @@ import newFieldServiceMobileDescription from '@salesforce/label/FlowBuilderProce
 import newFieldServiceWebDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newFieldServiceWebDescription';
 import newProcessTypeDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newProcessTypeDescription';
 import newContactRequestFlowDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newContactRequestFlowDescription';
-import newScheduledFlowDescription from  '@salesforce/label/FlowBuilderProcessTypeTemplates.newScheduledFlowDescription';
-import newBeforeSaveFlowDescription from  '@salesforce/label/FlowBuilderProcessTypeTemplates.newBeforeSaveFlowDescription';
-import newScheduledFlowLabel from  '@salesforce/label/FlowBuilderProcessTypeTemplates.newScheduledFlowLabel';
-import newBeforeSaveFlowLabel from  '@salesforce/label/FlowBuilderProcessTypeTemplates.newBeforeSaveFlowLabel';
+import newScheduledFlowDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newScheduledFlowDescription';
+import newBeforeSaveFlowDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newBeforeSaveFlowDescription';
+import newScheduledFlowLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newScheduledFlowLabel';
+import newBeforeSaveFlowLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newBeforeSaveFlowLabel';
 
 export const LABELS = {
     newProcessTypeDescription,

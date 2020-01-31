@@ -14,14 +14,8 @@ import {
     createCondition
 } from './base/baseElement';
 import { getConnectionProperties } from './commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil';
-import {
-    createInputParameter,
-    createInputParameterMetadataObject
-} from './inputParameter';
-import {
-    createOutputParameter,
-    createOutputParameterMetadataObject
-} from './outputParameter';
+import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
+import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
 import { createConnectorObjects } from './connector';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import {
@@ -29,10 +23,7 @@ import {
     baseChildElementMetadataObject,
     createConditionMetadataObject
 } from './base/baseMetadata';
-import {
-    isObject,
-    isUndefinedOrNull
-} from 'builder_platform_interaction/commonUtils';
+import { isObject, isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementFactoryLabels';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 
@@ -58,9 +49,7 @@ export const isWaitTimeEventType = eventTypeName => {
  * @param {Boolean} isInputParameter whether input or output param, true for input.
  */
 export const getParametersPropertyName = isInputParameter => {
-    return isInputParameter
-        ? WAIT_EVENT_FIELDS.INPUT_PARAMETERS
-        : WAIT_EVENT_FIELDS.OUTPUT_PARAMETERS;
+    return isInputParameter ? WAIT_EVENT_FIELDS.INPUT_PARAMETERS : WAIT_EVENT_FIELDS.OUTPUT_PARAMETERS;
 };
 
 /**
@@ -108,10 +97,7 @@ const getAdditionalParameters = (eventType, parameters, isInput = false) => {
             });
         // for platform event additional params needed only for output parameters, since input parameters is a condition list
         // the eventType is the output parameter namefor platform event type
-    } else if (
-        paramType === WAIT_EVENT_FIELDS.OUTPUT_PARAMETERS &&
-        !existingParameterNames[eventType]
-    ) {
+    } else if (paramType === WAIT_EVENT_FIELDS.OUTPUT_PARAMETERS && !existingParameterNames[eventType]) {
         return [{ name: eventType }];
     }
     return [];
@@ -123,20 +109,11 @@ const getAdditionalParameters = (eventType, parameters, isInput = false) => {
  * @param {String} eventType The event type.
  * @param {Array} inputParameters input parameters array
  */
-export const createWaitEventInputParameters = (
-    eventType,
-    inputParameters = []
-) => {
-    const additionalInputParameters = getAdditionalParameters(
-        eventType,
-        inputParameters,
-        true
-    );
-    return [...inputParameters, ...additionalInputParameters].map(
-        inputParameter => {
-            return createInputParameter(inputParameter);
-        }
-    );
+export const createWaitEventInputParameters = (eventType, inputParameters = []) => {
+    const additionalInputParameters = getAdditionalParameters(eventType, inputParameters, true);
+    return [...inputParameters, ...additionalInputParameters].map(inputParameter => {
+        return createInputParameter(inputParameter);
+    });
 };
 
 /**
@@ -145,16 +122,10 @@ export const createWaitEventInputParameters = (
  * @param {String} eventType The event type.
  * @param {Array} outputParameters output parameters array
  */
-export const createWaitEventOutputParameters = (
-    eventType,
-    outputParameters = []
-) => {
+export const createWaitEventOutputParameters = (eventType, outputParameters = []) => {
     // if output parameters is empty object convert it to empty array
     // so that additional empty parameters can be added to it
-    if (
-        isObject(outputParameters) &&
-        Object.keys(outputParameters).length === 0
-    ) {
+    if (isObject(outputParameters) && Object.keys(outputParameters).length === 0) {
         outputParameters = [];
     }
 
@@ -164,22 +135,13 @@ export const createWaitEventOutputParameters = (
     };
 
     if (Array.isArray(outputParameters)) {
-        const additionalOutputParameters = getAdditionalParameters(
-            eventType,
-            outputParameters
-        );
-        return [...outputParameters, ...additionalOutputParameters].reduce(
-            arrayToMap,
-            {}
-        );
+        const additionalOutputParameters = getAdditionalParameters(eventType, outputParameters);
+        return [...outputParameters, ...additionalOutputParameters].reduce(arrayToMap, {});
     }
 
     // store already has output parameters as object map, return a copy
     // TODO: convert output parameters to Map. W-5568291
-    const outputParametersCopy = Object.values(outputParameters).reduce(
-        arrayToMap,
-        {}
-    );
+    const outputParametersCopy = Object.values(outputParameters).reduce(arrayToMap, {});
     return outputParametersCopy;
 };
 
@@ -216,17 +178,12 @@ export const createWaitEventOutputParameters = (
 export function createWaitWithWaitEvents(wait = {}) {
     const newWait = baseCanvasElement(wait);
     let { waitEvents } = wait;
-    const {
-        defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel,
-        waitEventReferences
-    } = wait;
+    const { defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, waitEventReferences } = wait;
 
     if (waitEventReferences && waitEventReferences.length > 0) {
         // Decouple waitEvent from store.
         waitEvents = waitEventReferences.map(waitEventReference =>
-            createWaitEvent(
-                getElementByGuid(waitEventReference.waitEventReference)
-            )
+            createWaitEvent(getElementByGuid(waitEventReference.waitEventReference))
         );
     } else {
         const newWaitEvent = createWaitEvent();
@@ -254,13 +211,7 @@ export function createWaitWithWaitEvents(wait = {}) {
  * the duplicated child elements
  * @return {Object} Returns an object containing the duplicated element and the duplicated childElements
  */
-export function createDuplicateWait(
-    wait,
-    newGuid,
-    newName,
-    childElementGuidMap,
-    childElementNameMap
-) {
+export function createDuplicateWait(wait, newGuid, newName, childElementGuidMap, childElementNameMap) {
     const defaultAvailableConnections = [
         {
             type: CONNECTOR_TYPE.DEFAULT
@@ -290,8 +241,7 @@ export function createDuplicateWait(
     const updatedDuplicatedElement = Object.assign(duplicatedElement, {
         [childReferenceKeys.childReferencesKey]: updatedChildReferences,
         availableConnections,
-        defaultConnectorLabel:
-            wait.defaultConnectorLabel || LABELS.emptyDefaultWaitPathLabel
+        defaultConnectorLabel: wait.defaultConnectorLabel || LABELS.emptyDefaultWaitPathLabel
     });
     return {
         duplicatedElement: updatedDuplicatedElement,
@@ -306,10 +256,7 @@ export function createDuplicateWait(
  */
 export function createWaitEvent(waitEvent = {}) {
     const newWaitEvent = baseChildElement(waitEvent, ELEMENT_TYPE.WAIT_EVENT);
-    const {
-        eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME,
-        eventTypeIndex = generateGuid()
-    } = waitEvent;
+    const { eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME, eventTypeIndex = generateGuid() } = waitEvent;
     let {
         conditions = [],
         conditionLogic = CONDITION_LOGIC.NO_CONDITIONS,
@@ -317,24 +264,15 @@ export function createWaitEvent(waitEvent = {}) {
         outputParameters = {}
     } = waitEvent;
 
-    if (
-        conditions.length > 0 &&
-        conditionLogic !== CONDITION_LOGIC.NO_CONDITIONS
-    ) {
+    if (conditions.length > 0 && conditionLogic !== CONDITION_LOGIC.NO_CONDITIONS) {
         conditions = conditions.map(condition => createCondition(condition));
     } else {
         // wait events from metadata have NO CONDITIONS as condition logic even when they have no conditions
         conditionLogic = CONDITION_LOGIC.NO_CONDITIONS;
     }
 
-    inputParameters = createWaitEventInputParameters(
-        eventType,
-        inputParameters
-    );
-    outputParameters = createWaitEventOutputParameters(
-        eventType,
-        outputParameters
-    );
+    inputParameters = createWaitEventInputParameters(eventType, inputParameters);
+    outputParameters = createWaitEventOutputParameters(eventType, outputParameters);
 
     return Object.assign(newWaitEvent, {
         conditions,
@@ -357,36 +295,20 @@ export function createWaitMetadataObject(wait, config = {}) {
         throw new Error('Wait is not defined');
     }
     const newWait = baseCanvasElementMetadataObject(wait, config);
-    const {
-        waitEventReferences,
-        defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel
-    } = wait;
+    const { waitEventReferences, defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel } = wait;
     let waitEvents;
     if (waitEventReferences && waitEventReferences.length > 0) {
         waitEvents = waitEventReferences.map(({ waitEventReference }) => {
             const waitEvent = getElementByGuid(waitEventReference);
-            const metadataWaitEvent = baseChildElementMetadataObject(
-                waitEvent,
-                config
-            );
+            const metadataWaitEvent = baseChildElementMetadataObject(waitEvent, config);
             const { eventType } = waitEvent;
-            let {
-                inputParameters = [],
-                outputParameters,
-                conditions = [],
-                conditionLogic
-            } = waitEvent;
+            let { inputParameters = [], outputParameters, conditions = [], conditionLogic } = waitEvent;
 
-            if (
-                conditions.length === 0 ||
-                conditionLogic === CONDITION_LOGIC.NO_CONDITIONS
-            ) {
+            if (conditions.length === 0 || conditionLogic === CONDITION_LOGIC.NO_CONDITIONS) {
                 conditions = [];
                 conditionLogic = CONDITION_LOGIC.AND;
             } else {
-                conditions = conditions.map(condition =>
-                    createConditionMetadataObject(condition)
-                );
+                conditions = conditions.map(condition => createConditionMetadataObject(condition));
             }
 
             inputParameters = inputParameters.map(inputParameter => {
@@ -421,34 +343,21 @@ export function createWaitMetadataObject(wait, config = {}) {
  *     deletedWaitEvents: waitEvent[] , waitEvents: Array, elementType: string}
  *   }
  */
-export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
-    wait
-) {
+export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(wait) {
     const newWait = baseCanvasElement(wait);
-    const {
-        defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel,
-        waitEvents
-    } = wait;
+    const { defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, waitEvents } = wait;
     let waitEventReferences = [];
     let newWaitEvents = [];
     for (let i = 0; i < waitEvents.length; i++) {
         const waitEvent = waitEvents[i];
         const newWaitEvent = createWaitEvent(waitEvent);
-        waitEventReferences = updateWaitEventReferences(
-            waitEventReferences,
-            newWaitEvent
-        );
+        waitEventReferences = updateWaitEventReferences(waitEventReferences, newWaitEvent);
         newWaitEvents = [...newWaitEvents, newWaitEvent];
     }
 
     const maxConnections = newWaitEvents.length + 2;
-    const deletedWaitEvents = getDeletedWaitEventsUsingStore(
-        wait,
-        newWaitEvents
-    );
-    const deletedWaitEventGuids = deletedWaitEvents.map(
-        waitEvent => waitEvent.guid
-    );
+    const deletedWaitEvents = getDeletedWaitEventsUsingStore(wait, newWaitEvents);
+    const deletedWaitEventGuids = deletedWaitEvents.map(waitEvent => waitEvent.guid);
 
     let originalWait = getElementByGuid(wait.guid);
 
@@ -474,10 +383,7 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
         childReferenceKeys.childReferenceKey
     );
     let { connectorCount } = connectionProperties;
-    const {
-        availableConnections,
-        addFaultConnectionForWaitElement
-    } = connectionProperties;
+    const { availableConnections, addFaultConnectionForWaitElement } = connectionProperties;
 
     // If addFaultConnectionForWaitElement is false, it means that the Fault Connector has already been established and
     // the connector count needs to be incremented
@@ -515,41 +421,22 @@ export function createWaitWithWaitEventReferences(wait = {}) {
     let newWaitEvents = [],
         waitEventReferences = [],
         availableConnections = [];
-    const {
-        defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel,
-        waitEvents = []
-    } = wait;
+    const { defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, waitEvents = [] } = wait;
     // create connectors for wait, which initially are the default and fault ones.
     let connectors = createConnectorObjects(wait, newWait.guid);
     for (let i = 0; i < waitEvents.length; i++) {
         const waitEvent = createWaitEvent(waitEvents[i]);
-        const connectorsFromWaitEvent = createConnectorObjects(
-            waitEvents[i],
-            waitEvent.guid,
-            newWait.guid
-        );
+        const connectorsFromWaitEvent = createConnectorObjects(waitEvents[i], waitEvent.guid, newWait.guid);
         // add the wait event connector to the list of connectors
         connectors = [...connectors, ...connectorsFromWaitEvent];
         newWaitEvents = [...newWaitEvents, waitEvent];
         // updating waitEventReferences
-        waitEventReferences = updateWaitEventReferences(
-            waitEventReferences,
-            waitEvent
-        );
+        waitEventReferences = updateWaitEventReferences(waitEventReferences, waitEvent);
         // updating availableConnections
-        availableConnections = addRegularConnectorToAvailableConnections(
-            availableConnections,
-            waitEvents[i]
-        );
+        availableConnections = addRegularConnectorToAvailableConnections(availableConnections, waitEvents[i]);
     }
-    availableConnections = addDefaultConnectorToAvailableConnections(
-        availableConnections,
-        wait
-    );
-    availableConnections = addFaultConnectorToAvailableConnections(
-        availableConnections,
-        wait
-    );
+    availableConnections = addDefaultConnectorToAvailableConnections(availableConnections, wait);
+    availableConnections = addFaultConnectorToAvailableConnections(availableConnections, wait);
     const connectorCount = connectors ? connectors.length : 0;
     const maxConnections = calculateMaxWaitConnections(wait);
     Object.assign(newWait, {
@@ -560,17 +447,12 @@ export function createWaitWithWaitEventReferences(wait = {}) {
         maxConnections,
         availableConnections
     });
-    return baseCanvasElementsArrayToMap(
-        [newWait, ...newWaitEvents],
-        connectors
-    );
+    return baseCanvasElementsArrayToMap([newWait, ...newWaitEvents], connectors);
 }
 
 function calculateMaxWaitConnections(wait) {
     if (!wait) {
-        throw new Error(
-            'Max connection cannot be calculated because wait object is not defined'
-        );
+        throw new Error('Max connection cannot be calculated because wait object is not defined');
     }
 
     // TODO: Change this to get the value from connectorUtils when the connector utils are refactored:
@@ -583,10 +465,7 @@ function calculateMaxWaitConnections(wait) {
     return length;
 }
 
-function addDefaultConnectorToAvailableConnections(
-    availableConnections = [],
-    wait
-) {
+function addDefaultConnectorToAvailableConnections(availableConnections = [], wait) {
     if (!availableConnections || !wait) {
         throw new Error('Either availableConnections or wait is not defined');
     }
@@ -602,10 +481,7 @@ function addDefaultConnectorToAvailableConnections(
     return availableConnections;
 }
 
-function addFaultConnectorToAvailableConnections(
-    availableConnections = [],
-    wait
-) {
+function addFaultConnectorToAvailableConnections(availableConnections = [], wait) {
     if (!availableConnections || !wait) {
         throw new Error('Either availableConnections or wait is not defined');
     }
@@ -621,14 +497,9 @@ function addFaultConnectorToAvailableConnections(
     return availableConnections;
 }
 
-function addRegularConnectorToAvailableConnections(
-    availableConnections = [],
-    waitEvent
-) {
+function addRegularConnectorToAvailableConnections(availableConnections = [], waitEvent) {
     if (!availableConnections || !waitEvent || !waitEvent.name) {
-        throw new Error(
-            'Either availableConnections or wait event is not defined'
-        );
+        throw new Error('Either availableConnections or wait event is not defined');
     }
     const { name, connector } = waitEvent;
 
@@ -670,9 +541,7 @@ function getDeletedWaitEventsUsingStore(originalWait, newWaitEvents = []) {
         );
     }
     if (waitEventReferencesFromStore) {
-        const newWaitEventGuids = newWaitEvents.map(
-            newWaitEvent => newWaitEvent.guid
-        );
+        const newWaitEventGuids = newWaitEvents.map(newWaitEvent => newWaitEvent.guid);
         return waitEventReferencesFromStore
             .filter(waitEventReferenceGuid => {
                 return !newWaitEventGuids.includes(waitEventReferenceGuid);
