@@ -1,0 +1,19 @@
+{
+    "emailAlertParameters": [
+        {
+            "isRequired": true,
+            "isInput": true,
+            "dataType": "id",
+            "description": "Required. The ID of a record such as an Account or a custom object.",
+            "label": "Record ID",
+            "isOutput": false,
+            "name": "SObjectRowId",
+            "apexClass": null,
+            "maxOccurs": 1,
+            "id": null,
+            "isSystemGeneratedOutput": false,
+            "durableId": "emailAlert-Account.someEmailTemplate-input-SObjectRowId",
+            "sobjectType": null
+        }
+    ]
+}

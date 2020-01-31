@@ -1,0 +1,64 @@
+{
+    "logACallActionParameters": [
+        {
+            "isRequired": false,
+            "isInput": true,
+            "dataType": "textarea",
+            "description": null,
+            "label": "Description",
+            "isOutput": false,
+            "name": "Description",
+            "apexClass": null,
+            "maxOccurs": 1,
+            "id": null,
+            "isSystemGeneratedOutput": false,
+            "durableId": "quickAction-Case.LogACall-input-Description",
+            "sobjectType": null
+        },
+        {
+            "isRequired": false,
+            "isInput": true,
+            "dataType": "combobox",
+            "description": null,
+            "label": "Subject",
+            "isOutput": false,
+            "name": "Subject",
+            "apexClass": null,
+            "maxOccurs": 1,
+            "id": null,
+            "isSystemGeneratedOutput": false,
+            "durableId": "quickAction-Case.LogACall-input-Subject",
+            "sobjectType": null
+        },
+        {
+            "isRequired": false,
+            "isInput": true,
+            "dataType": "reference",
+            "description": null,
+            "label": "Name ID",
+            "isOutput": false,
+            "name": "WhoId",
+            "apexClass": null,
+            "maxOccurs": 1,
+            "id": null,
+            "isSystemGeneratedOutput": false,
+            "durableId": "quickAction-Case.LogACall-input-WhoId",
+            "sobjectType": null
+        },
+        {
+            "isRequired": true,
+            "isInput": true,
+            "dataType": "reference",
+            "description": null,
+            "label": "Related Record ID",
+            "isOutput": false,
+            "name": "contextId",
+            "apexClass": null,
+            "maxOccurs": 1,
+            "id": null,
+            "isSystemGeneratedOutput": false,
+            "durableId": "quickAction-Case.LogACall-input-contextId",
+            "sobjectType": null
+        }
+    ]
+}

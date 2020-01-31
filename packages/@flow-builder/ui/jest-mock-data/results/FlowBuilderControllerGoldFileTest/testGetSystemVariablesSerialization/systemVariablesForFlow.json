@@ -1,0 +1,70 @@
+{
+    "systemVariablesForFlow": [
+        {
+            "category": "Flow",
+            "dataType": "String",
+            "devName": "ActiveStages",
+            "elementType": "STAGE",
+            "isAssignable": true,
+            "isAvailableInBuilder": true,
+            "isCollection": true
+        },
+        {
+            "category": "Flow",
+            "dataType": "Date",
+            "devName": "CurrentDate",
+            "isAssignable": false,
+            "isAvailableInBuilder": true,
+            "isCollection": false
+        },
+        {
+            "category": "Flow",
+            "dataType": "DateTime",
+            "devName": "CurrentDateTime",
+            "isAssignable": false,
+            "isAvailableInBuilder": true,
+            "isCollection": false
+        },
+        {
+            "category": "Flow",
+            "dataType": "String",
+            "devName": "CurrentRecord",
+            "isAssignable": true,
+            "isAvailableInBuilder": true,
+            "isCollection": false
+        },
+        {
+            "category": "Flow",
+            "dataType": "String",
+            "devName": "CurrentStage",
+            "elementType": "STAGE",
+            "isAssignable": true,
+            "isAvailableInBuilder": true,
+            "isCollection": false
+        },
+        {
+            "category": "Flow",
+            "dataType": "String",
+            "devName": "FaultMessage",
+            "isAssignable": false,
+            "isAvailableInBuilder": true,
+            "isCollection": false
+        },
+        {
+            "category": "Flow",
+            "dataType": "String",
+            "devName": "InterviewGuid",
+            "isAssignable": false,
+            "isAvailableInBuilder": true,
+            "isCollection": false
+        },
+        {
+            "category": "Flow",
+            "dataType": "DateTime",
+            "devName": "InterviewStartTime",
+            "isAssignable": false,
+            "isAvailableInBuilder": true,
+            "isCollection": false
+        }
+    ]
+}

@@ -1,0 +1,59 @@
+{
+    "subflowsForFlow": [
+        {
+            "masterLabel": "Debug options",
+            "fullName": "FtestSfdcOnly__TestFileBasedTranslated",
+            "description": "Enter values for the flow's input variables. For each value left blank, the flow starts with the variable's default value. You can't enter values for collection or record variables."
+        },
+        {
+            "masterLabel": "FTest-TestFileBased",
+            "fullName": "FtestSfdcOnly__TestFileBased",
+            "description": "FTEST - File Based Flow Basic"
+        },
+        {
+            "masterLabel": "FTest-TestFileBasedCrud",
+            "fullName": "FtestSfdcOnly__TestFileBasedCrud",
+            "description": "FTEST - File Based Flow CRUD"
+        },
+        {
+            "masterLabel": "FTest-TestFileBasedInactive",
+            "fullName": "FtestSfdcOnly__TestFileBasedInactive",
+            "description": "FTEST - File Based Flow Basic"
+        },
+        {
+            "masterLabel": "FTest-TestFileBasedScreen",
+            "fullName": "FtestSfdcOnly__TestFileBasedScreen",
+            "description": "FTEST - File Based Flow Screen Flow"
+        },
+        {
+            "masterLabel": "FTest-TestFileBasedSubflow",
+            "fullName": "FtestSfdcOnly__TestFileBasedSubflow",
+            "description": "FTEST - File Based Flow Subflow Flow"
+        },
+        {
+            "masterLabel": "FTEST-TestFileBasedT",
+            "fullName": "FtestSfdcOnly__TestFileBasedT",
+            "description": "FTEST - File Based Flow Template Basic"
+        },
+        {
+            "masterLabel": "SomeFlow",
+            "fullName": "autoLaunchedFlow",
+            "description": "I didn't know description is required field?!"
+        },
+        {
+            "masterLabel": "SomeFlow",
+            "fullName": "flowWithActiveAndLatest",
+            "description": "I didn't know description is required field?!"
+        },
+        {
+            "masterLabel": "SomeFlow",
+            "fullName": "flowWithNoActiveVersion",
+            "description": "I didn't know description is required field?!"
+        },
+        {
+            "masterLabel": "TestFileBase",
+            "fullName": "BusOp__TestFileBasedInaccessible",
+            "description": null
+        }
+    ]
+}

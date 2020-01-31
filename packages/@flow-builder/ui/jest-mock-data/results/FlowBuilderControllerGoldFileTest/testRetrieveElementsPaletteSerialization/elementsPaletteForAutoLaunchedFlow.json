@@ -1,0 +1,53 @@
+{
+    "elementsPaletteForAutoLaunchedFlow": [
+        {
+            "name": "Assignment",
+            "attributes": null,
+            "classification": "Node",
+            "elementType": "Assignment"
+        },
+        {
+            "name": "Decision",
+            "attributes": null,
+            "classification": "Node",
+            "elementType": "Decision"
+        },
+        {
+            "name": "Loop",
+            "attributes": null,
+            "classification": "Node",
+            "elementType": "Loop"
+        },
+        {
+            "name": "RecordLookup",
+            "attributes": [
+                {
+                    "name": "isCollection",
+                    "source": "UserDefined",
+                    "type": "Boolean",
+                    "value": {
+                        "values": [true, false],
+                        "constraint": "oneOf"
+                    }
+                },
+                {
+                    "name": "dataType",
+                    "source": "UserDefined",
+                    "type": "FlowDataType",
+                    "value": {
+                        "values": ["Boolean", "SObject"],
+                        "constraint": "oneOf"
+                    }
+                }
+            ],
+            "classification": "Node",
+            "elementType": "RecordQuery"
+        },
+        {
+            "name": "Start",
+            "attributes": null,
+            "classification": "Node",
+            "elementType": "Start"
+        }
+    ]
+}

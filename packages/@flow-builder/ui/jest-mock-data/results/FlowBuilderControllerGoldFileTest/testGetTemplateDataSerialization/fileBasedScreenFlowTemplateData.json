@@ -1,0 +1,176 @@
+{
+    "fileBasedScreenFlowTemplateData": {
+        "actionCalls": [],
+        "apexPluginCalls": [],
+        "assignments": [
+            {
+                "assignmentItems": [
+                    {
+                        "assignToReference": "$Flow.CurrentStage",
+                        "operator": "Assign",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "MyStage"
+                        }
+                    }
+                ],
+                "connector": {
+                    "processMetadataValues": [],
+                    "targetReference": "screen1"
+                },
+                "label": "SetTheStage",
+                "locationX": 188,
+                "locationY": 70,
+                "name": "SetTheStage",
+                "processMetadataValues": []
+            }
+        ],
+        "choices": [
+            {
+                "choiceText": "Test that these can load",
+                "dataType": "String",
+                "name": "ChoiceWithUserInput",
+                "processMetadataValues": [],
+                "userInput": {
+                    "isRequired": true,
+                    "processMetadataValues": [],
+                    "promptText": "Hey!"
+                }
+            }
+        ],
+        "constants": [],
+        "decisions": [],
+        "description": "FTEST - File Based Flow Screen Flow",
+        "dynamicChoiceSets": [
+            {
+                "dataType": "String",
+                "displayField": "Label",
+                "filters": [
+                    {
+                        "field": "EntityParticleId",
+                        "operator": "EqualTo",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "Account.Industry"
+                        }
+                    }
+                ],
+                "name": "MyRCS",
+                "object": "PicklistValueInfo",
+                "outputAssignments": [],
+                "processMetadataValues": [],
+                "valueField": "Value"
+            }
+        ],
+        "formulas": [],
+        "interviewLabel": "TestFileBasedScreen {!$Flow.CurrentDateTime}",
+        "isAdditionalPermissionRequiredToRun": false,
+        "isTemplate": true,
+        "label": "FTest-TestFileBasedScreen",
+        "loops": [],
+        "processMetadataValues": [
+            {
+                "name": "BuilderType",
+                "value": {
+                    "stringValue": "LightningFlowBuilder"
+                }
+            }
+        ],
+        "processType": "Flow",
+        "recordCreates": [],
+        "recordDeletes": [],
+        "recordLookups": [],
+        "recordUpdates": [],
+        "screens": [
+            {
+                "allowBack": true,
+                "allowFinish": true,
+                "allowPause": true,
+                "fields": [
+                    {
+                        "choiceReferences": [],
+                        "dataTypeMappings": [],
+                        "fieldText": "Welcome!",
+                        "fieldType": "DisplayText",
+                        "inputParameters": [],
+                        "isRequired": false,
+                        "name": "display1",
+                        "outputParameters": [],
+                        "processMetadataValues": [],
+                        "scale": 0,
+                        "storeOutputAutomatically": false
+                    },
+                    {
+                        "choiceReferences": [],
+                        "dataTypeMappings": [],
+                        "extensionName": "flowruntime:slider",
+                        "fieldType": "ComponentInstance",
+                        "inputParameters": [
+                            {
+                                "name": "label",
+                                "processMetadataValues": [],
+                                "value": {
+                                    "stringValue": "Second!"
+                                }
+                            }
+                        ],
+                        "isRequired": true,
+                        "name": "SlideIntoSecond",
+                        "outputParameters": [],
+                        "processMetadataValues": [],
+                        "scale": 0,
+                        "storeOutputAutomatically": true
+                    },
+                    {
+                        "choiceReferences": ["ChoiceWithUserInput"],
+                        "dataType": "String",
+                        "dataTypeMappings": [],
+                        "defaultSelectedChoiceReference": "ChoiceWithUserInput",
+                        "fieldText": "No Choice",
+                        "fieldType": "RadioButtons",
+                        "inputParameters": [],
+                        "isRequired": false,
+                        "name": "NoChoice",
+                        "outputParameters": [],
+                        "processMetadataValues": [],
+                        "scale": 0,
+                        "storeOutputAutomatically": false
+                    }
+                ],
+                "label": "screen1",
+                "locationX": 356,
+                "locationY": 89,
+                "name": "screen1",
+                "processMetadataValues": [],
+                "rules": [],
+                "showFooter": true,
+                "showHeader": true
+            }
+        ],
+        "stages": [
+            {
+                "isActive": true,
+                "label": "MyStage",
+                "name": "MyStage",
+                "processMetadataValues": [],
+                "stageOrder": 1
+            }
+        ],
+        "start": {
+            "connector": {
+                "processMetadataValues": [],
+                "targetReference": "SetTheStage"
+            },
+            "filters": [],
+            "locationX": 50,
+            "locationY": 50,
+            "processMetadataValues": []
+        },
+        "status": "Active",
+        "steps": [],
+        "subflows": [],
+        "textTemplates": [],
+        "variables": [],
+        "waits": []
+    }
+}

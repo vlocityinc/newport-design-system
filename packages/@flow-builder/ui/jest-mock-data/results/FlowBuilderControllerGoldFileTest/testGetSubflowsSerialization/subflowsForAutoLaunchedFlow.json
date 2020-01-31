@@ -1,0 +1,19 @@
+{
+    "subflowsForAutoLaunchedFlow": [
+        {
+            "masterLabel": "FTest-TestFileBased",
+            "fullName": "FtestSfdcOnly__TestFileBased",
+            "description": "FTEST - File Based Flow Basic"
+        },
+        {
+            "masterLabel": "FTEST-TestFileBasedT",
+            "fullName": "FtestSfdcOnly__TestFileBasedT",
+            "description": "FTEST - File Based Flow Template Basic"
+        },
+        {
+            "masterLabel": "SomeFlow",
+            "fullName": "autoLaunchedFlow",
+            "description": "I didn't know description is required field?!"
+        }
+    ]
+}

@@ -1,0 +1,37 @@
+{
+    "getCarFromApexActionDetails": {
+        "configurationEditor": null,
+        "parameters": [
+            {
+                "isRequired": false,
+                "isInput": true,
+                "dataType": "string",
+                "description": null,
+                "label": "models",
+                "isOutput": false,
+                "name": "models",
+                "apexClass": null,
+                "maxOccurs": 1,
+                "id": null,
+                "isSystemGeneratedOutput": false,
+                "durableId": "apex-InvocableGetCar-input-models",
+                "sobjectType": null
+            },
+            {
+                "isRequired": false,
+                "isInput": false,
+                "dataType": "Apex",
+                "description": null,
+                "label": "car",
+                "isOutput": true,
+                "name": "car",
+                "apexClass": "Car",
+                "maxOccurs": 1,
+                "id": null,
+                "isSystemGeneratedOutput": false,
+                "durableId": "apex-InvocableGetCar-output-car",
+                "sobjectType": null
+            }
+        ]
+    }
+}

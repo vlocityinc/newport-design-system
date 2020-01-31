@@ -1,0 +1,102 @@
+{
+    "flowWithNoActiveVersion": [
+        {
+            "variables": [
+                {
+                    "dataType": "SObject",
+                    "isCollection": false,
+                    "isInput": false,
+                    "isOutput": true,
+                    "name": "accountOutput",
+                    "objectType": "Account",
+                    "processMetadataValues": [],
+                    "scale": 0
+                },
+                {
+                    "dataType": "SObject",
+                    "isCollection": true,
+                    "isInput": false,
+                    "isOutput": true,
+                    "name": "accountOutputCollection",
+                    "objectType": "Account",
+                    "processMetadataValues": [],
+                    "scale": 0
+                },
+                {
+                    "dataType": "String",
+                    "isCollection": false,
+                    "isInput": true,
+                    "isOutput": false,
+                    "name": "input1",
+                    "processMetadataValues": [],
+                    "scale": 0
+                },
+                {
+                    "dataType": "String",
+                    "isCollection": false,
+                    "isInput": true,
+                    "isOutput": false,
+                    "name": "input2",
+                    "processMetadataValues": [],
+                    "scale": 0
+                },
+                {
+                    "dataType": "String",
+                    "isCollection": false,
+                    "isInput": true,
+                    "isOutput": false,
+                    "name": "input3",
+                    "processMetadataValues": [],
+                    "scale": 0
+                },
+                {
+                    "dataType": "String",
+                    "isCollection": false,
+                    "isInput": true,
+                    "isOutput": true,
+                    "name": "inputOutput1",
+                    "processMetadataValues": [],
+                    "scale": 0
+                },
+                {
+                    "dataType": "String",
+                    "isCollection": false,
+                    "isInput": true,
+                    "isOutput": true,
+                    "name": "inputOutput2",
+                    "processMetadataValues": [],
+                    "scale": 0
+                },
+                {
+                    "dataType": "String",
+                    "isCollection": false,
+                    "isInput": false,
+                    "isOutput": true,
+                    "name": "output1",
+                    "processMetadataValues": [],
+                    "scale": 0
+                },
+                {
+                    "dataType": "String",
+                    "isCollection": false,
+                    "isInput": false,
+                    "isOutput": true,
+                    "name": "output2",
+                    "processMetadataValues": [],
+                    "scale": 0
+                },
+                {
+                    "dataType": "String",
+                    "isCollection": false,
+                    "isInput": false,
+                    "isOutput": true,
+                    "name": "output3",
+                    "processMetadataValues": [],
+                    "scale": 0
+                }
+            ],
+            "isLatestVersion": true,
+            "isActiveVersion": false
+        }
+    ]
+}

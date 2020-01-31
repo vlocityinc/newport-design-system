@@ -1,0 +1,29 @@
+{
+    "operators": {
+        "Add": "Add",
+        "NotEqualTo": "Does Not Equal",
+        "AddItem": "Add Item",
+        "StartsWith": "Starts With",
+        "GreaterThanOrEqualTo": "Greater Than or Equal",
+        "LessThan": "Less Than",
+        "GreaterThan": "Greater Than",
+        "WasSet": "Was Set",
+        "RemoveUncommon": "Remove Uncommon",
+        "LessThanOrEqualTo": "Less Than or Equal",
+        "RemovePosition": "Remove Position",
+        "AssignCount": "Equals Count",
+        "RemoveBeforeFirst": "Remove Before First",
+        "RemoveFirst": "Remove First",
+        "AddAtStart": "Add At Start",
+        "WasSelected": "Was Selected",
+        "EqualTo": "Equals",
+        "WasVisited": "Was Visited",
+        "Contains": "Contains",
+        "Subtract": "Subtract",
+        "RemoveAfterFirst": "Remove After First",
+        "IsNull": "Is Null",
+        "Assign": "Equals",
+        "RemoveAll": "Remove All",
+        "EndsWith": "Ends With"
+    }
+}

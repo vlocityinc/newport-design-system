@@ -1,0 +1,37 @@
+{
+    "getAccountNameFromApexAnonymousOutputActionDetails": {
+        "configurationEditor": null,
+        "parameters": [
+            {
+                "isRequired": false,
+                "isInput": true,
+                "dataType": "id",
+                "description": null,
+                "label": "accountIds",
+                "isOutput": false,
+                "name": "accountIds",
+                "apexClass": null,
+                "maxOccurs": 1,
+                "id": null,
+                "isSystemGeneratedOutput": false,
+                "durableId": "apex-InvocableGetAccountName-input-accountIds",
+                "sobjectType": null
+            },
+            {
+                "isRequired": false,
+                "isInput": false,
+                "dataType": "string",
+                "description": null,
+                "label": "output",
+                "isOutput": true,
+                "name": "output",
+                "apexClass": null,
+                "maxOccurs": 1,
+                "id": null,
+                "isSystemGeneratedOutput": true,
+                "durableId": "apex-InvocableGetAccountName-output-output",
+                "sobjectType": null
+            }
+        ]
+    }
+}
