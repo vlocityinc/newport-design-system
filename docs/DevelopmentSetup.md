@@ -23,7 +23,6 @@ To update your node version do: `nvm install v10.16.3 && nvm use v10.16.3)`
 
 To update your yarn version do: `brew unlink yarn && brew install yarn@1.19.1`
 
-
 3. Clone this repo somewhere on your filesystem (using `~projects` in this doc as an example):
 
 ```sh
@@ -53,7 +52,6 @@ git clone git@git.soma.salesforce.com:automation-platform/ui-interaction-builder
 
 7.  Install the npm modules for the repo:
 
-    
     `yarn install`
 
     (if you have issues with this command run `rm yarn.lock` or run `git clean -xfd` and make sure you have no file changed with `git status`)
@@ -147,6 +145,7 @@ When doing development you need to configure core and point it to where you clon
       </properties>
   </workspace>
 ```
+
 4.  Clean, Sync, Build
 
 Before going further, make sure to stash or save any uncommitted changes you have done in core. Then clean and sync:
