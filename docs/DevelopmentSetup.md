@@ -68,6 +68,8 @@ git clone git@git.soma.salesforce.com:automation-platform/ui-interaction-builder
     mvn compile
     ```
 
+    If you have any auth errors here, make sure the file `~/.m2/settings.xml` has your valid nexus tokens.
+
 10. Run this watch command so that when you modify files, they are picked up by core:
 
 ```sh
