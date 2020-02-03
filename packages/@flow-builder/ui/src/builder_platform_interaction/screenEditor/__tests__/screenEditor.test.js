@@ -22,9 +22,10 @@ import {
 } from 'builder_platform_interaction/events';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import { ELEMENT_TYPE, FLOW_SUPPORTED_FEATURES } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
-import { setSupportedFeatures } from 'builder_platform_interaction/systemLib';
+import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
+import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -113,9 +114,7 @@ jest.mock('../screenReducer', () => {
 describe('Event handling on editor', () => {
     let screenEditorElement;
     beforeEach(() => {
-        const features = new Set();
-        features.add(FLOW_SUPPORTED_FEATURES.CONDITIONAL_FIELD_VISIBILITY);
-        setSupportedFeatures(features);
+        setProcessTypeFeature('flow', supportedFeaturesListForFlow);
 
         const screen = createTestScreen('Screen1', null);
         screen.showHeader = true;

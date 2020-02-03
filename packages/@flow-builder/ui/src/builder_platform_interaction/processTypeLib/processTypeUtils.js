@@ -45,7 +45,8 @@ export const FLOW_AUTOMATIC_OUTPUT_HANDLING = {
 export const FLOW_PROCESS_TYPE_FEATURE = {
     STORE_OUTPUT_AUTOMATICALLY: 'StoreOutputAutomatically',
     CONFIGURABLE_START: 'ConfigurableStart',
-    LOOKUP_TRAVERSAL: 'LookupTraversal'
+    LOOKUP_TRAVERSAL: 'LookupTraversal',
+    CONDITIONAL_FIELD_VISIBILITY: 'ConditionalFieldVisibility'
 };
 
 export const getProcessTypeIcon = processType => PROCESS_TYPES_ICONS.get(processType) || PROCESS_TYPE_DEFAULT_ICON;
@@ -120,4 +121,13 @@ export const isLookupTraversalSupported = processType => {
  */
 export const isStartMetadataSupported = processType => {
     return processType !== FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE && processType !== FLOW_PROCESS_TYPE.DIGITAL_FORM;
+};
+
+/**
+ * Determines whether the given process type supports conditional field visibility in screens
+ * @param {String} processType
+ * @returns {Boolean}
+ */
+export const isConditionalFieldVisibilitySupported = processType => {
+    return hasProcessTypeFeature(processType, FLOW_PROCESS_TYPE_FEATURE.CONDITIONAL_FIELD_VISIBILITY);
 };

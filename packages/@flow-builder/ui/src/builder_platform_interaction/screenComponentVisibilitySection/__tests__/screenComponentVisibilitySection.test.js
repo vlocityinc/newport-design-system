@@ -1,13 +1,19 @@
 import { createElement } from 'lwc';
 import ScreenComponentVisiblitySection from 'builder_platform_interaction/screenComponentVisibilitySection';
-
 import { query } from 'builder_platform_interaction/builderTestUtils';
-import { getSupportedFeatures } from 'builder_platform_interaction/systemLib';
-import { FLOW_SUPPORTED_FEATURES } from 'builder_platform_interaction/flowMetadata';
+import { isConditionalFieldVisibilitySupported } from 'builder_platform_interaction/processTypeLib';
 
 jest.mock('builder_platform_interaction/componentVisibility', () =>
     require('builder_platform_interaction_mocks/componentVisibility')
 );
+
+jest.mock('builder_platform_interaction/processTypeLib');
+
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        getProcessType: jest.fn()
+    };
+});
 
 const SELECTOR_COMPONENT_VISIBILITY = 'builder_platform_interaction-component-visibility';
 
@@ -23,27 +29,18 @@ const createComponentUnderTest = props => {
     return el;
 };
 
-jest.mock('builder_platform_interaction/systemLib', () => {
-    return {
-        getSupportedFeatures: jest.fn()
-    };
-});
-
 describe('Screen Component Visibility Section', () => {
     it('Component Visibility is not displayed when ConditionalFieldVisibility feature not present', () => {
-        getSupportedFeatures.mockImplementation(() => new Set());
+        isConditionalFieldVisibilitySupported.mockImplementation(() => false);
 
         const element = createComponentUnderTest();
-
         const componentVisibility = query(element, SELECTOR_COMPONENT_VISIBILITY);
 
         expect(componentVisibility).toBeFalsy();
     });
 
     it('Component Visibility is displayed when ConditionalFieldVisibility feature present', () => {
-        getSupportedFeatures.mockImplementation(() =>
-            new Set().add(FLOW_SUPPORTED_FEATURES.CONDITIONAL_FIELD_VISIBILITY)
-        );
+        isConditionalFieldVisibilitySupported.mockImplementation(() => true);
 
         const element = createComponentUnderTest();
         const componentVisibility = query(element, SELECTOR_COMPONENT_VISIBILITY);

@@ -98,3 +98,11 @@ export const getTriggerType = () => {
 
     return startElement ? startElement.triggerType : undefined;
 };
+
+/**
+ * Returns the process type for the current flow
+ * @returns {String}
+ */
+export const getProcessType = () => {
+    return Store.getStore().getCurrentState().properties.processType;
+};
