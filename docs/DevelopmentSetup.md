@@ -69,7 +69,7 @@ git clone git@git.soma.salesforce.com:automation-platform/ui-interaction-builder
     ```
 
     If you have any auth errors here, make sure the file `~/.m2/settings.xml` has your valid nexus tokens.
-    If you don't have a `!/.m2/settings.xml` see this setting up maven doc: https://git.soma.salesforce.com/modularization-team/maven-settings/blob/master/QuickStart.md
+    If you don't have a `~/.m2/settings.xml` see this setting up maven doc: https://git.soma.salesforce.com/modularization-team/maven-settings/blob/master/QuickStart.md
 
 10. Run this watch command so that when you modify files, they are picked up by core:
 
