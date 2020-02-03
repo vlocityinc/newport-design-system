@@ -97,10 +97,10 @@
             "prettier --write",
             "git add"
         ],
-        "*.{ts}": [
+        "*.ts": [
             "tslint -p ./tsconfig.json"
         ],
-        "*.{js}": [
+        "*.js": [
             "eslint --fix --max-warnings 0"
         ],
         "packages/@flow-builder/ui/jsconfig.json": [
