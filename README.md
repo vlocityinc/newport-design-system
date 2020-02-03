@@ -4,6 +4,11 @@ Welcome to the Vlocity Newport Design System brought to you by [Vlocity](https:/
 
 Tailored for building Vlocity Newport apps: Using the Newport Design System markup and CSS framework results in UIs that reflect the Vlocity Newport look and feel. Includes Storybook.js previewer to help you customize and rebrand all of Vlocity's newport based templates in one place.
 
+## About origin/v107-dc-reference-app branch
+
+This branch is created to maintain and showcase customized css capability using `Vlocity Newport Design System` for Digital Commerce reference app. 
+`Version v107` | [via_ui_partner (Reference App Repository)](https://github.com/sf-industries/via_ui_partner/branch/feature/reference-v107) 
+
 ## Quick start
 
 1. Clone the project with `git clone https://github.com/vlocityinc/newport-design-system.git`
