@@ -2,7 +2,7 @@
 
 # Copies over jest-mock-data, jest-modules, builder_platform_interaction and results from core
 
-source scripts/setupEnv.sh
+. scripts/setupEnv.sh
 
 SRC=$CORE_HOME/ui-interaction-builder-components
 DEST=./packages/@flow-builder/ui

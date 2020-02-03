@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source scripts/setupEnv.sh
+. scripts/setupEnv.sh
 
 if [ ! -h "${NBA_HOME}/ui-interaction-builder-components-git" ]; then
     ln -s "$(pwd)/packages/@flow-builder/ui" ${NBA_HOME}/ui-interaction-builder-components-git

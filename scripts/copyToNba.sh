@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source scripts/setupEnv.sh
+. scripts/setupEnv.sh
 
 CL=$1
 
