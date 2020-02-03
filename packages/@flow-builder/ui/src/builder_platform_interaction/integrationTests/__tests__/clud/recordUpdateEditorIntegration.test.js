@@ -2,19 +2,13 @@ import { createElement } from 'lwc';
 import RecordUpdateEditor from 'builder_platform_interaction/recordUpdateEditor';
 import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
-    expectGroupedComboboxItem,
     getChildComponent,
-    getEntityResourcePicker,
-    getBaseExpressionBuilder,
-    getFieldToFerovExpressionBuilders,
-    getRecordVariablePickerChildGroupedComboboxComponent,
-    getEntityResourcePickerChildGroupedComboboxComponent,
-    newFilterItem,
     changeComboboxValue,
     changeInputValue,
     resetState,
     setupStateForProcessType
 } from '../integrationTestUtils';
+import { getGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
 import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { updateFlow } from 'builder_platform_interaction/actions';
@@ -30,6 +24,14 @@ import {
     INTERACTION_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    newFilterItem,
+    getRecordVariablePickerChildGroupedComboboxComponent,
+    getEntityResourcePickerChildGroupedComboboxComponent,
+    getEntityResourcePicker,
+    getFieldToFerovExpressionBuilders
+} from './cludEditorTestUtils';
+import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
 
 const createComponentForTest = node => {
     const el = createElement('builder_platform_interaction-record-update-editor', { is: RecordUpdateEditor });
@@ -205,7 +207,13 @@ describe('Record Update Editor', () => {
                 it('Should contain "New Resource" entry', () => {
                     const groupedCombobox = getRecordVariablePickerChildGroupedComboboxComponent(recordVariablePicker);
                     return Promise.resolve().then(() => {
-                        expectGroupedComboboxItem(groupedCombobox, 'FlowBuilderExpressionUtils.newResourceLabel');
+                        expect(
+                            getGroupedComboboxItemBy(
+                                groupedCombobox,
+                                'text',
+                                'FlowBuilderExpressionUtils.newResourceLabel'
+                            )
+                        ).toBeDefined();
                     });
                 });
                 it('Should contain all record variables', () => {

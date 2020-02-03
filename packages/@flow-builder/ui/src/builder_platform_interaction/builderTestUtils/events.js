@@ -38,3 +38,11 @@ export const clickEvent = () => {
         cancelable: false
     });
 };
+
+export const checkboxChangeEvent = (checked = true) => {
+    return new CustomEvent('change', {
+        bubbles: true,
+        cancelable: false,
+        detail: { checked }
+    });
+};

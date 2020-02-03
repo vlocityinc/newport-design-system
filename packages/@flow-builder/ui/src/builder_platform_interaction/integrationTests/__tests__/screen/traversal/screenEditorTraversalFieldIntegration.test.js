@@ -17,7 +17,7 @@ import {
     deepQuerySelector
 } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { selectGroupedComboboxItemBy } from '../../comboboxTestUtils';
+import { selectGroupedComboboxItemBy } from '../../groupedComboboxTestUtils';
 import { initializeLoader, loadOnProcessTypeChange } from 'builder_platform_interaction/preloadLib';
 
 const SELECTORS = {

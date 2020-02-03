@@ -2,7 +2,7 @@ import { createElement } from 'lwc';
 import RecordLookupEditor from 'builder_platform_interaction/recordLookupEditor';
 import { resolveRenderCycles } from '../resolveRenderCycles';
 
-import { resetState, getEntityResourcePicker, setupStateForProcessType } from '../integrationTestUtils';
+import { resetState, setupStateForProcessType } from '../integrationTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { EditElementEvent, AddElementEvent } from 'builder_platform_interaction/events';
 import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
@@ -20,6 +20,7 @@ import {
     changeEvent
 } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getEntityResourcePicker } from './cludEditorTestUtils';
 
 const PROCESS_TYPE_FLOW = 'Flow';
 

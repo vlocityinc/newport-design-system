@@ -12,20 +12,13 @@ import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { updateFlow } from 'builder_platform_interaction/actions';
-import {
-    FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
-    expectGroupedComboboxItem,
-    expectGroupedComboboxItemInGroup,
-    getGroupedComboboxItemInGroup,
-    getGroupedComboboxItem,
-    resetState,
-    setupStateForProcessType
-} from '../integrationTestUtils';
+import { FLOW_BUILDER_VALIDATION_ERROR_MESSAGES, resetState, setupStateForProcessType } from '../integrationTestUtils';
 import { getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
 import { resetFetchOnceCache } from 'builder_platform_interaction/serverDataLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { loadFieldsForComplexTypesInFlow } from 'builder_platform_interaction/preloadLib';
+import { getGroupedComboboxItemInGroup, getGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
 
 const createComponentForTest = (node, { isNewMode = false } = {}) => {
     const el = createElement('builder_platform_interaction-formula-editor', {
@@ -158,36 +151,56 @@ describe('Formula Editor', () => {
             };
             it('contains "New Resource"', () => {
                 const groupedCombobox = getResourceGroupedCombobox(propertyEditor);
-                expectGroupedComboboxItem(groupedCombobox, 'FlowBuilderExpressionUtils.newResourceLabel');
+                expect(
+                    getGroupedComboboxItemBy(groupedCombobox, 'text', 'FlowBuilderExpressionUtils.newResourceLabel')
+                ).toBeDefined();
             });
             it('contains a "Record Variables" group containing "accountSObjectVariable"', () => {
                 const groupedCombobox = getResourceGroupedCombobox(propertyEditor);
-                expectGroupedComboboxItemInGroup(
-                    groupedCombobox,
-                    GROUP_LABELS.RECORD_VARIABLES,
-                    'accountSObjectVariable'
-                );
+                expect(
+                    getGroupedComboboxItemInGroup(
+                        groupedCombobox,
+                        GROUP_LABELS.RECORD_VARIABLES,
+                        'text',
+                        'accountSObjectVariable'
+                    )
+                ).toBeDefined();
             });
             it('contains a "Global Variables" group containing $Flow, $Api, $Organization, $Profile, $System, $User', () => {
                 const groupedCombobox = getResourceGroupedCombobox(propertyEditor);
-                expectGroupedComboboxItemInGroup(groupedCombobox, GROUP_LABELS.GLOBAL_VARIABLES, '$Flow');
-                expectGroupedComboboxItemInGroup(groupedCombobox, GROUP_LABELS.GLOBAL_VARIABLES, '$Api');
-                expectGroupedComboboxItemInGroup(groupedCombobox, GROUP_LABELS.GLOBAL_VARIABLES, '$Organization');
-                expectGroupedComboboxItemInGroup(groupedCombobox, GROUP_LABELS.GLOBAL_VARIABLES, '$Profile');
-                expectGroupedComboboxItemInGroup(groupedCombobox, GROUP_LABELS.GLOBAL_VARIABLES, '$System');
-                expectGroupedComboboxItemInGroup(groupedCombobox, GROUP_LABELS.GLOBAL_VARIABLES, '$User');
+                expect(
+                    getGroupedComboboxItemInGroup(groupedCombobox, GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Flow')
+                ).toBeDefined();
+                expect(
+                    getGroupedComboboxItemInGroup(groupedCombobox, GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Api')
+                ).toBeDefined();
+                expect(
+                    getGroupedComboboxItemInGroup(
+                        groupedCombobox,
+                        GROUP_LABELS.GLOBAL_VARIABLES,
+                        'text',
+                        '$Organization'
+                    )
+                ).toBeDefined();
+                expect(
+                    getGroupedComboboxItemInGroup(groupedCombobox, GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Profile')
+                ).toBeDefined();
+                expect(
+                    getGroupedComboboxItemInGroup(groupedCombobox, GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$User')
+                ).toBeDefined();
             });
             it('displays the record properties when selecting a record variable', async () => {
                 const groupedCombobox = getResourceGroupedCombobox(propertyEditor);
                 const item = getGroupedComboboxItemInGroup(
                     groupedCombobox,
                     GROUP_LABELS.RECORD_VARIABLES,
+                    'text',
                     'accountSObjectVariable'
                 );
                 groupedCombobox.dispatchEvent(selectEvent(item.value));
                 await ticks();
-                expectGroupedComboboxItem(groupedCombobox, 'Description');
-                expectGroupedComboboxItem(groupedCombobox, 'ShippingLongitude');
+                expect(getGroupedComboboxItemBy(groupedCombobox, 'text', 'Description')).toBeDefined();
+                expect(getGroupedComboboxItemBy(groupedCombobox, 'text', 'ShippingLongitude')).toBeDefined();
             });
             it('inserts the resource in the textarea when we select a resource', async () => {
                 const textArea = getFormulaTextArea(propertyEditor);
@@ -196,11 +209,12 @@ describe('Formula Editor', () => {
                 const item = getGroupedComboboxItemInGroup(
                     groupedCombobox,
                     GROUP_LABELS.RECORD_VARIABLES,
+                    'text',
                     'accountSObjectVariable'
                 );
                 groupedCombobox.dispatchEvent(selectEvent(item.value));
                 await ticks();
-                const subItem = getGroupedComboboxItem(groupedCombobox, 'Description');
+                const subItem = getGroupedComboboxItemBy(groupedCombobox, 'text', 'Description');
                 groupedCombobox.dispatchEvent(selectEvent(subItem.value));
                 await ticks();
                 expect(textArea.value).toEqual(

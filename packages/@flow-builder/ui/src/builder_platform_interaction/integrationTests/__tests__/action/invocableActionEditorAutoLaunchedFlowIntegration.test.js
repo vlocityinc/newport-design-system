@@ -9,8 +9,8 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { flowWithApexActionSubmitForApproval } from 'mock/flows/flowWithApexActionSubmitForApproval';
-import { ticks, focusoutEvent } from 'builder_platform_interaction/builderTestUtils';
-import { resetState, ToggleOnChangeEvent } from '../integrationTestUtils';
+import { ticks, focusoutEvent, checkboxChangeEvent } from 'builder_platform_interaction/builderTestUtils';
+import { resetState } from '../integrationTestUtils';
 import { getLabelDescriptionNameElement, getLabelDescriptionLabelElement } from '../labelDescriptionTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
@@ -145,7 +145,7 @@ describe('Invocable Action Editor', () => {
         describe('modify from automatic to advanced', () => {
             beforeEach(async () => {
                 const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckbox(coreActionElement);
-                advancedOptionCheckbox.dispatchEvent(new ToggleOnChangeEvent());
+                advancedOptionCheckbox.dispatchEvent(checkboxChangeEvent(true));
                 await ticks(50);
             });
             it('"useAdvancedOptionsCheckbox" should checked', () => {

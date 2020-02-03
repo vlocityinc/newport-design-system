@@ -12,6 +12,10 @@ export const EXPRESSION_BUILDER_SELECTORS = {
     OPERATOR_COMBOBOX: 'lightning-combobox.operator'
 };
 
+export const getBaseExpressionBuilder = expressionBuilder => {
+    return expressionBuilder.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER);
+};
+
 export const selectOperator = (expressionBuilder, operator) => {
     const operatorCombobox = deepQuerySelector(expressionBuilder, [
         INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER,

@@ -3,8 +3,7 @@ import {
     deepQuerySelector,
     LIGHTNING_COMPONENTS_SELECTORS,
     blurEvent,
-    textInputEvent,
-    selectEvent
+    textInputEvent
 } from 'builder_platform_interaction/builderTestUtils';
 import {
     addCurlyBraces,
@@ -12,16 +11,20 @@ import {
     splitStringBySeparator,
     isReference
 } from 'builder_platform_interaction/commonUtils';
+import { getGroupedComboboxGroupLabel, selectGroupedComboboxItemBy } from './groupedComboboxTestUtils';
+
+export const getGroupedComboboxFromCombobox = combobox =>
+    deepQuerySelector(combobox, [LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX]);
 
 export const typeLiteralValueInCombobox = async (combobox, value) => {
-    const groupedCombobox = deepQuerySelector(combobox, [LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX]);
+    const groupedCombobox = getGroupedComboboxFromCombobox(combobox);
     groupedCombobox.dispatchEvent(textInputEvent(value));
     await ticks(50);
     groupedCombobox.dispatchEvent(blurEvent);
 };
 
 export const typeMergeFieldInCombobox = async (combobox, mergeField) => {
-    const groupedCombobox = deepQuerySelector(combobox, [LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX]);
+    const groupedCombobox = getGroupedComboboxFromCombobox(combobox);
     const parts = splitStringBySeparator(removeCurlyBraces(mergeField));
     let promise = Promise.resolve();
     for (let i = 0; i < parts.length; i++) {
@@ -44,69 +47,17 @@ export const typeReferenceOrValueInCombobox = async (combobox, referenceOrValue)
     }
 };
 
-export const getGroupedComboboxItemBy = (groupedCombobox, propertyName, propertyValue) => {
-    if (groupedCombobox.items) {
-        for (const item of groupedCombobox.items) {
-            if (item.items) {
-                for (const subItem of item.items) {
-                    if (subItem[propertyName] === propertyValue) {
-                        return subItem;
-                    }
-                }
-            } else if (item[propertyName] === propertyValue) {
-                return item;
-            }
-        }
-    }
-    return undefined;
-};
-
-export const getGroupedComboboxGroupLabel = (groupedCombobox, propertyName, propertyValue) => {
-    if (groupedCombobox.items) {
-        for (const item of groupedCombobox.items) {
-            if (item.items) {
-                for (const subItem of item.items) {
-                    if (subItem[propertyName] === propertyValue) {
-                        return item.label;
-                    }
-                }
-            }
-        }
-    }
-    return undefined;
-};
-
 export const getComboboxGroupLabel = (combobox, propertyName, propertyValue) => {
-    const groupedCombobox = deepQuerySelector(combobox, [LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX]);
+    const groupedCombobox = getGroupedComboboxFromCombobox(combobox);
     return getGroupedComboboxGroupLabel(groupedCombobox, propertyName, propertyValue);
 };
 
-export const selectGroupedComboboxItemBy = async (combobox, propertyName, propertyValues, { blur = true } = {}) => {
-    let promise = ticks(50);
-    for (const propertyValue of propertyValues) {
-        promise = promise.then(() => {
-            const comboboxItem = getGroupedComboboxItemBy(combobox, propertyName, propertyValue);
-            if (!comboboxItem) {
-                return undefined;
-            }
-            combobox.dispatchEvent(selectEvent(comboboxItem.value));
-            return ticks(50).then(() => comboboxItem);
-        });
-    }
-    const comboboxItem = await promise;
-    if (blur) {
-        combobox.dispatchEvent(blurEvent);
-    }
-    await ticks(50);
-    return comboboxItem;
-};
-
 export const selectComboboxItemBy = async (combobox, propertyName, propertyValues, { blur = true } = {}) => {
-    const groupedCombobox = deepQuerySelector(combobox, [LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX]);
+    const groupedCombobox = getGroupedComboboxFromCombobox(combobox);
     return selectGroupedComboboxItemBy(groupedCombobox, propertyName, propertyValues, { blur });
 };
 
 export const getComboboxItems = combobox => {
-    const groupedCombobox = deepQuerySelector(combobox, [LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX]);
+    const groupedCombobox = getGroupedComboboxFromCombobox(combobox);
     return groupedCombobox.items;
 };

@@ -9,12 +9,7 @@ import { updateFlow } from 'builder_platform_interaction/actions';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { flowWithSubflows } from 'mock/flows/flowWithSubflows';
-import {
-    changeComboboxValue,
-    resetState,
-    setupStateForProcessType,
-    ToggleOnChangeEvent
-} from '../integrationTestUtils';
+import { changeComboboxValue, resetState, setupStateForProcessType } from '../integrationTestUtils';
 import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
@@ -39,7 +34,13 @@ import {
     getAutomaticOutputAdvancedOptionCheckbox,
     getAutomaticOutputAdvancedOptionComponent
 } from '../baseCalloutEditorTestUtils';
-import { ticks, focusoutEvent, textInputEvent, blurEvent } from 'builder_platform_interaction/builderTestUtils';
+import {
+    ticks,
+    focusoutEvent,
+    textInputEvent,
+    blurEvent,
+    checkboxChangeEvent
+} from 'builder_platform_interaction/builderTestUtils';
 import { getFlowInputOutputVariables, initializeAuraFetch } from '../serverDataTestUtils';
 import { EditElementEvent } from 'builder_platform_interaction/events';
 import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
@@ -96,7 +97,7 @@ describe('Subflow Editor with automatic ouput', () => {
             beforeAll(async () => {
                 await ticks(50);
                 const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckbox(subflowElement);
-                advancedOptionCheckbox.dispatchEvent(new ToggleOnChangeEvent());
+                advancedOptionCheckbox.dispatchEvent(checkboxChangeEvent(true));
                 await ticks(50);
             });
             it('"useAdvancedOptionsCheckbox" should checked', () => {

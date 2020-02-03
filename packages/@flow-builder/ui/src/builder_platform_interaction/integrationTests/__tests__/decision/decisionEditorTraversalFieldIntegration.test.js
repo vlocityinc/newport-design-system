@@ -15,7 +15,7 @@ import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getLhsCombobox, getRhsCombobox } from '../expressionBuilderTestUtils';
-import { selectGroupedComboboxItemBy } from '../comboboxTestUtils';
+import { selectGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
 import { createComponentForTest, getFerToFerovExpressionBuilder } from './decisionEditorTestUtils';
 import { initializeLoader, loadOnProcessTypeChange } from 'builder_platform_interaction/preloadLib';
 

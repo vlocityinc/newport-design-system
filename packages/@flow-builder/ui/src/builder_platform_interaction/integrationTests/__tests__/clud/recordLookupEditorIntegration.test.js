@@ -4,15 +4,9 @@ import { resolveRenderCycles } from '../resolveRenderCycles';
 
 import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
-    expectGroupedComboboxItem,
-    getFieldToFerovExpressionBuilders,
-    getBaseExpressionBuilder,
-    getEntityResourcePicker,
-    getRadioGroup,
     getChildComponent,
     changeInputValue,
     changeComboboxValue,
-    newFilterItem,
     resetState,
     setupStateForProcessType
 } from '../integrationTestUtils';
@@ -38,10 +32,20 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { selectGroupedComboboxItemBy } from '../comboboxTestUtils';
+import { selectGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
-import { SELECTORS, getResourceGroupedCombobox, getResourceCombobox } from './cludEditorTestUtils';
+import {
+    SELECTORS,
+    getResourceGroupedCombobox,
+    getResourceCombobox,
+    newFilterItem,
+    getRadioGroups,
+    getEntityResourcePicker,
+    getFieldToFerovExpressionBuilders
+} from './cludEditorTestUtils';
+import { getGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
+import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
 
 const getRecordSobjectAndQueryFieldElement = recordLookupEditor => {
     return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_SOBJECT_AND_QUERY_FIELDS_COMPONENT);
@@ -285,7 +289,13 @@ describe('Record Lookup Editor', () => {
             it('SObject Or SObject Collection Picker contains "New Resource"', () => {
                 const rhsGroupedCombobox = getRecordObjectAndQueryFieldResourceGroupedCombobox(recordLookupElement);
                 return resolveRenderCycles(() => {
-                    expectGroupedComboboxItem(rhsGroupedCombobox, 'FlowBuilderExpressionUtils.newResourceLabel');
+                    expect(
+                        getGroupedComboboxItemBy(
+                            rhsGroupedCombobox,
+                            'text',
+                            'FlowBuilderExpressionUtils.newResourceLabel'
+                        )
+                    ).toBeDefined();
                 });
             });
         });
@@ -305,11 +315,11 @@ describe('Record Lookup Editor', () => {
             });
             it('record store option should have "All records" selected and the second radio group element should be hidden', () => {
                 const recordStoreElement = getRecordStoreOption(recordLookupElement);
-                const radioGroupElement = getRadioGroup(recordStoreElement);
+                const radioGroupElements = getRadioGroups(recordStoreElement);
                 return resolveRenderCycles(() => {
                     expect(recordStoreElement.numberOfRecordsToStore).toBe('allRecords');
                     expect(recordStoreElement.assignNullValuesIfNoRecordsFound).toBe(true);
-                    expect(radioGroupElement).toHaveLength(1);
+                    expect(radioGroupElements).toHaveLength(1);
                 });
             });
             it('The variable vAccountCollection should be displayed', () => {
@@ -325,7 +335,13 @@ describe('Record Lookup Editor', () => {
             it('SObject Or SObject Collection Picker contains "New Resource"', () => {
                 const rhsGroupedCombobox = getRecordObjectAndQueryFieldResourceGroupedCombobox(recordLookupElement);
                 return resolveRenderCycles(() => {
-                    expectGroupedComboboxItem(rhsGroupedCombobox, 'FlowBuilderExpressionUtils.newResourceLabel');
+                    expect(
+                        getGroupedComboboxItemBy(
+                            rhsGroupedCombobox,
+                            'text',
+                            'FlowBuilderExpressionUtils.newResourceLabel'
+                        )
+                    ).toBeDefined();
                 });
             });
         });
@@ -345,12 +361,12 @@ describe('Record Lookup Editor', () => {
             });
             it('record store option should have "Only the first record" and "In separate variables" selected and the second radio group should be visible', () => {
                 const recordStoreElement = getRecordStoreOption(recordLookupElement);
-                const radioGroupElement = getRadioGroup(recordStoreElement);
+                const radioGroupElements = getRadioGroups(recordStoreElement);
                 return resolveRenderCycles(() => {
                     expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
                     expect(recordStoreElement.wayToStoreFields).toBe('separateVariables');
                     expect(recordStoreElement.assignNullValuesIfNoRecordsFound).toBe(false);
-                    expect(radioGroupElement).toHaveLength(2);
+                    expect(radioGroupElements).toHaveLength(2);
                 });
             });
             it('Selected entity is correctly displayed ', () => {

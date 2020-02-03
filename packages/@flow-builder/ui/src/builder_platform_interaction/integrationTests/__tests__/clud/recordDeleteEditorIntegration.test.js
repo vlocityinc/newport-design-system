@@ -2,16 +2,9 @@ import { createElement } from 'lwc';
 import RecordDeleteEditor from 'builder_platform_interaction/recordDeleteEditor';
 import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
-    expectGroupedComboboxItem,
     getChildComponent,
-    getEntityResourcePicker,
-    getRecordVariablePickerChildGroupedComboboxComponent,
-    getEntityResourcePickerChildGroupedComboboxComponent,
-    newFilterItem,
     changeComboboxValue,
     changeInputValue,
-    getBaseExpressionBuilder,
-    getFieldToFerovExpressionBuilders,
     resetState,
     setupStateForProcessType
 } from '../integrationTestUtils';
@@ -36,8 +29,17 @@ import { initializeAuraFetch } from '../serverDataTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { EditElementEvent } from 'builder_platform_interaction/events';
-import { selectGroupedComboboxItemBy } from '../comboboxTestUtils';
-import { SELECTORS, getResourceGroupedCombobox } from './cludEditorTestUtils';
+import { selectGroupedComboboxItemBy, getGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
+import {
+    SELECTORS,
+    getResourceGroupedCombobox,
+    newFilterItem,
+    getRecordVariablePickerChildGroupedComboboxComponent,
+    getEntityResourcePickerChildGroupedComboboxComponent,
+    getEntityResourcePicker,
+    getFieldToFerovExpressionBuilders
+} from './cludEditorTestUtils';
+import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
 
 const createComponentForTest = (node, mode, processType) => {
     const el = createElement('builder_platform_interaction-record-delete-editor', { is: RecordDeleteEditor });
@@ -187,7 +189,13 @@ describe('Record Delete Editor', () => {
                 it('Should contain "New Resource" entry', () => {
                     const groupedCombobox = getRecordVariablePickerChildGroupedComboboxComponent(recordVariablePicker);
                     return Promise.resolve().then(() => {
-                        expectGroupedComboboxItem(groupedCombobox, 'FlowBuilderExpressionUtils.newResourceLabel');
+                        expect(
+                            getGroupedComboboxItemBy(
+                                groupedCombobox,
+                                'text',
+                                'FlowBuilderExpressionUtils.newResourceLabel'
+                            )
+                        ).toBeDefined();
                     });
                 });
                 it('Should contain all record variables', () => {

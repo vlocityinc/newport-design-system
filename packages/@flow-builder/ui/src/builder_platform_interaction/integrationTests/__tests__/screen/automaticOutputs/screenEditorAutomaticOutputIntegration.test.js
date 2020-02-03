@@ -8,13 +8,13 @@ import { translateFlowToUIModel } from 'builder_platform_interaction/translatorL
 import { updateFlow } from 'builder_platform_interaction/actions';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib/';
-import { ToggleOnChangeEvent } from '../../integrationTestUtils';
 import { initializeAuraFetch, createGetterByProcessType } from '../../serverDataTestUtils';
 import { flowExtensionListParams } from 'serverData/GetFlowExtensionListParams/flowExtensionListParams.json';
 import {
     ticks,
     LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS
+    INTERACTION_COMPONENTS_SELECTORS,
+    checkboxChangeEvent
 } from 'builder_platform_interaction/builderTestUtils';
 import { flowExtensionsForFlow as mockFlowExtensions } from 'serverData/GetFlowExtensions/flowExtensionsForFlow.json';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -162,7 +162,7 @@ describe('ScreenEditor', () => {
             });
             it('should display the outputs', async () => {
                 const advancedOptionCheckbox = getAdvancedOptionsCheckboxLightningInput(screenEditor);
-                advancedOptionCheckbox.dispatchEvent(new ToggleOnChangeEvent());
+                advancedOptionCheckbox.dispatchEvent(checkboxChangeEvent(true));
                 await ticks(50);
                 expect(getAdvancedOptionsCheckboxLightningInput(screenEditor).checked).toBe(true);
                 expect(getTitleFromExtensionPropertiesEditorElement(screenEditor).textContent).toBe(

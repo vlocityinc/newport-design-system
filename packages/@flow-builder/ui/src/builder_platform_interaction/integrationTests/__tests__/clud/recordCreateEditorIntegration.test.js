@@ -4,11 +4,6 @@ import { resolveRenderCycles } from '../resolveRenderCycles';
 import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
     changeComboboxValue,
-    expectGroupedComboboxItem,
-    getEntityResourcePicker,
-    getFieldToFerovExpressionBuilders,
-    getBaseExpressionBuilder,
-    getRadioGroup,
     setupStateForProcessType,
     resetState
 } from '../integrationTestUtils';
@@ -35,18 +30,18 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getLhsCombobox } from '../expressionBuilderTestUtils';
-import {
-    selectComboboxItemBy,
-    getComboboxItems,
-    selectGroupedComboboxItemBy,
-    typeReferenceOrValueInCombobox
-} from '../comboboxTestUtils';
+import { selectComboboxItemBy, getComboboxItems, typeReferenceOrValueInCombobox } from '../comboboxTestUtils';
+import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
+import { selectGroupedComboboxItemBy, getGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
 import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import {
     SELECTORS,
     getResourceGroupedCombobox,
     getResourceCombobox,
-    getOutputResourcePickerCombobox
+    getOutputResourcePickerCombobox,
+    getRadioGroups,
+    getEntityResourcePicker,
+    getFieldToFerovExpressionBuilders
 } from './cludEditorTestUtils';
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'Flow';
@@ -197,12 +192,12 @@ describe('Record Create Editor', () => {
             });
             it('record Store Option should have firstRecord and sObjectVariable selected', () => {
                 const recordStoreElement = getRecordStoreOption(recordCreateElement);
-                const radioGroupElement = getRadioGroup(recordStoreElement);
+                const radioGroupElements = getRadioGroups(recordStoreElement);
                 return resolveRenderCycles(() => {
                     expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
                     expect(recordStoreElement.wayToStoreFields).toBe('sObjectVariable');
                     expect(recordStoreElement.assignNullValuesIfNoRecordsFound).toBe(false);
-                    expect(radioGroupElement).toHaveLength(2);
+                    expect(radioGroupElements).toHaveLength(2);
                 });
             });
         });
@@ -223,12 +218,12 @@ describe('Record Create Editor', () => {
                 });
                 it('store option should have sObjectVariable and firstRecord selected', () => {
                     const recordStoreElement = getRecordStoreOption(recordCreateElement);
-                    const radioGroupElement = getRadioGroup(recordStoreElement);
+                    const radioGroupElements = getRadioGroups(recordStoreElement);
                     return resolveRenderCycles(() => {
                         expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
                         expect(recordStoreElement.wayToStoreFields).toBe('sObjectVariable');
                         expect(recordStoreElement.assignNullValuesIfNoRecordsFound).toBe(false);
-                        expect(radioGroupElement).toHaveLength(2);
+                        expect(radioGroupElements).toHaveLength(2);
                     });
                 });
                 it('inputReference should be display ', () => {
@@ -240,7 +235,13 @@ describe('Record Create Editor', () => {
                 it('sObject Or SObject Collection Picker should contain "New Resource"', () => {
                     const rhsGroupedCombobox = getResourceGroupedCombobox(recordCreateElement);
                     return resolveRenderCycles(() => {
-                        expectGroupedComboboxItem(rhsGroupedCombobox, 'FlowBuilderExpressionUtils.newResourceLabel');
+                        expect(
+                            getGroupedComboboxItemBy(
+                                rhsGroupedCombobox,
+                                'text',
+                                'FlowBuilderExpressionUtils.newResourceLabel'
+                            )
+                        ).toBeDefined();
                     });
                 });
             });
@@ -260,10 +261,10 @@ describe('Record Create Editor', () => {
                 });
                 it('record store option should have "All records" selected and the second radio group element should be hidden', () => {
                     const recordStoreElement = getRecordStoreOption(recordCreateElement);
-                    const radioGroupElement = getRadioGroup(recordStoreElement);
+                    const radioGroupElements = getRadioGroups(recordStoreElement);
                     return resolveRenderCycles(() => {
                         expect(recordStoreElement.numberOfRecordsToStore).toBe('allRecords');
-                        expect(radioGroupElement).toHaveLength(1);
+                        expect(radioGroupElements).toHaveLength(1);
                     });
                 });
                 it('input reference should display The variable "vAccountCollection"', () => {
@@ -279,7 +280,13 @@ describe('Record Create Editor', () => {
                 it('sObject Or SObject Collection Picker should contain "New Resource"', () => {
                     const rhsGroupedCombobox = getResourceGroupedCombobox(recordCreateElement);
                     return resolveRenderCycles(() => {
-                        expectGroupedComboboxItem(rhsGroupedCombobox, 'FlowBuilderExpressionUtils.newResourceLabel');
+                        expect(
+                            getGroupedComboboxItemBy(
+                                rhsGroupedCombobox,
+                                'text',
+                                'FlowBuilderExpressionUtils.newResourceLabel'
+                            )
+                        ).toBeDefined();
                     });
                 });
             });
@@ -315,12 +322,12 @@ describe('Record Create Editor', () => {
                 });
                 it('record store option should have "Only the first record" and "In separate variables" selected and the second radio group should be visible', () => {
                     const recordStoreElement = getRecordStoreOption(recordCreateElement);
-                    const radioGroupElement = getRadioGroup(recordStoreElement);
+                    const radioGroupElements = getRadioGroups(recordStoreElement);
                     return resolveRenderCycles(() => {
                         expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
                         expect(recordStoreElement.wayToStoreFields).toBe('separateVariables');
                         expect(recordStoreElement.assignNullValuesIfNoRecordsFound).toBe(false);
-                        expect(radioGroupElement).toHaveLength(2);
+                        expect(radioGroupElements).toHaveLength(2);
                     });
                 });
                 it('entity Resource picker should display the entity', () => {
@@ -350,11 +357,11 @@ describe('Record Create Editor', () => {
                         expect(recordCreateElement.node.object.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
                         expect(getInputOutputAssignments(recordCreateElement)).toBeNull();
                         const recordStoreElement = getRecordStoreOption(recordCreateElement);
-                        const radioGroupElement = getRadioGroup(recordStoreElement);
+                        const radioGroupElements = getRadioGroups(recordStoreElement);
                         expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
                         expect(recordStoreElement.wayToStoreFields).toBe('separateVariables');
                         expect(recordStoreElement.assignNullValuesIfNoRecordsFound).toBe(false);
-                        expect(radioGroupElement).toHaveLength(2);
+                        expect(radioGroupElements).toHaveLength(2);
                     });
                 });
                 it('enter an invalid value in the entity resource picker should not display other element but should display an error', async () => {
@@ -516,11 +523,11 @@ describe('Record Create Editor', () => {
             });
             it('record store option should have "Only the first record" and "In separate variables" selected and the second radio group should be visible', () => {
                 const recordStoreElement = getRecordStoreOption(recordCreateElement);
-                const radioGroupElement = getRadioGroup(recordStoreElement);
+                const radioGroupElements = getRadioGroups(recordStoreElement);
                 expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
                 expect(recordStoreElement.wayToStoreFields).toBe('separateVariables');
                 expect(recordStoreElement.assignNullValuesIfNoRecordsFound).toBe(false);
-                expect(radioGroupElement).toHaveLength(2);
+                expect(radioGroupElements).toHaveLength(2);
             });
             it('assigns Record Id To Reference should not be displayed', () => {
                 const outputResource = getOutputResourcePicker(recordCreateElement);
