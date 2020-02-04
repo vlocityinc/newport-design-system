@@ -6,8 +6,8 @@ Tailored for building Vlocity Newport apps: Using the Newport Design System mark
 
 ## About origin/v107-dc-reference-app branch
 
-This branch is created to maintain and showcase customized css capabilities using `Vlocity Newport Design System` for Digital Commerce reference app. 
-`Version v107` | [via_ui_partner (Reference App Repository)](https://github.com/sf-industries/via_ui_partner/branch/feature/reference-v107) 
+This branch is created to maintain and showcase customized css capabilities using `Vlocity Newport Design System` for Digital Commerce reference app. Contact your Vlocity support rep for further details. 
+`Version v107`
 
 ## Quick start
 
