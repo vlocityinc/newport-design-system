@@ -190,7 +190,7 @@ function mvUiModule(src, dest, options) {
     if (options.watch) {
         fs.watch(sourcePath, { recursive: true }, (event, filename) => {
             // Check not a temp file generated (intellij)
-            if (filename.indexOf('___') === -1) {
+            if (filename.indexOf('___') === -1 && !filename.endsWith('~')) {
                 const fullSourcePath = resolve(sourcePath, filename);
                 const modulePath = resolve(dest, filename);
                 printInfo(
