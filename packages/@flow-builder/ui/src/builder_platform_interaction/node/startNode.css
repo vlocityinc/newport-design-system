@@ -1,0 +1,95 @@
+.hiddenText {
+    border: 0;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.start-node-container {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+
+.start-button {
+    z-index: 300;
+}
+
+.start-node-container.jtk-drag-selected,
+.start-node-container.jtk-drag.jtk-dragged,
+.start-node-container.highlighted-container {
+    z-index: 400;
+}
+
+.start-node-box {
+    border-radius: var(--lwc-borderRadiusMedium, 0.25rem);
+    border: var(--lwc-borderWidth, 1.4px) solid var(--lwc-colorBorder, rgb(221, 219, 218));
+    background-color: var(--lwc-colorGray2);
+    box-shadow: var(--lwc-cardShadow);
+    width: 300px;
+}
+
+.start-node-box.selected {
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
+}
+
+.start-context {
+    background-color: white;
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
+
+.icon {
+    transition: transform 0.12s ease, box-shadow 0.1s ease-in;
+    transform-origin: 50% 100%;
+    padding: var(--lwc-spacingNone);
+    border: none;
+}
+
+.icon-section.selected .icon {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
+}
+
+.targetHover .icon {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
+}
+
+.icon:hover {
+    transform: scale(1.05);
+}
+
+.icon:focus {
+    outline: none;
+}
+
+.end-point {
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    border: var(--lwc-borderWidthThick) solid white;
+    box-shadow: inset 0px 0px 0px 2px var(--lwc-colorBackgroundToggleHover);
+    background-color: var(--lwc-colorBackgroundButtonDefault);
+    transition: box-shadow 0.1s ease, background-color 0.25s ease-out;
+    top: -10px;
+}
+
+.end-point:hover {
+    background-color: var(--lwc-colorBackgroundAlt2);
+    transform: scale(1.1);
+}
+
+.end-point:active,
+.end-point:focus {
+    box-shadow: inset 0px 0px 0px 2px var(--lwc-colorBrandDark), var(--lwc-shadowButtonFocus);
+    transform: scale(1.2);
+}
+
+.end-point:focus {
+    outline: none;
+}

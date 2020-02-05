@@ -119,7 +119,6 @@ const BUILDER_TYPE_FLOW_BUILDER = 'FlowBuilder';
  * flow builder. It is responsible for maintaining the overall state of app and
  * handle event from various child components.
  *
- *
  * @ScrumTeam Process UI
  * @since 214
  */
@@ -194,6 +193,9 @@ export default class Editor extends LightningElement {
 
     @track
     builderConfigLoading = false;
+
+    @track
+    processTypeLoading = false;
 
     /** Builder configuration for the current builder type */
     get builderConfig() {
@@ -283,6 +285,18 @@ export default class Editor extends LightningElement {
             fetch(SERVER_ACTION_TYPE.GET_FLOW, this.getFlowCallback, params, {
                 background: true
             });
+            // should fetch process types here if they aren't fetched
+            if (!getProcessTypes()) {
+                this.processTypeLoading = true;
+                fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES, {})
+                    .then(data => {
+                        setProcessTypes(data);
+                        loadAllSupportedFeatures(getProcessTypes());
+                    })
+                    .then(() => {
+                        this.processTypeLoading = false;
+                    });
+            }
             this.isFlowServerCallInProgress = true;
             this.spinners.showFlowMetadataSpinner = true;
         }
@@ -301,7 +315,8 @@ export default class Editor extends LightningElement {
         return (
             this.spinners.showFlowMetadataSpinner ||
             this.spinners.showPropertyEditorSpinner ||
-            this.builderConfigLoading
+            this.builderConfigLoading ||
+            this.processTypeLoading
         );
     }
 
@@ -329,14 +344,6 @@ export default class Editor extends LightningElement {
         }
         this.properties = currentState.properties;
         this.showWarningIfUnsavedChanges();
-        // should fetch process types here if they aren't fetched
-        if (!getProcessTypes()) {
-            const getProcessTypesCall = fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES, {}).then(data => {
-                setProcessTypes(data);
-                loadAllSupportedFeatures(getProcessTypes());
-            });
-            this.propertyEditorBlockerCalls.push(getProcessTypesCall);
-        }
         if (!getRunInModes()) {
             const getRunInModesCall = fetchOnce(SERVER_ACTION_TYPE.GET_RUN_IN_MODES, {}).then(data => {
                 setRunInModes(data);

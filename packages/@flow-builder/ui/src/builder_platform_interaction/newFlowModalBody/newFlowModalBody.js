@@ -3,6 +3,7 @@ import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serv
 import { ALL_PROCESS_TYPE, createRecommendedItems } from 'builder_platform_interaction/processTypeLib';
 import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLib';
 import { LABELS } from './newFlowModalBodyLabels';
+import { setProcessTypes } from 'builder_platform_interaction/systemLib';
 
 const TAB_RECOMMENDED = 'recommended';
 const TAB_TEMPLATES = 'templates';
@@ -76,6 +77,7 @@ export default class NewFlowModalBody extends LightningElement {
         this.state.processTypesLoading = true;
         fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES)
             .then(processTypes => {
+                setProcessTypes(processTypes);
                 loadAllSupportedFeatures(processTypes);
                 this.state.processTypesLoading = false;
                 this.state.processTypes = processTypes;

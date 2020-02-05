@@ -15,6 +15,12 @@ import { format, getPropertyOrDefaultToTrue } from 'builder_platform_interaction
 import { isTestMode } from 'builder_platform_interaction/contextLib';
 import { clamp } from 'builder_platform_interaction/clampLib';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
+import { getProcessTypes } from 'builder_platform_interaction/systemLib';
+import { TRIGGER_TYPE_LABELS } from 'builder_platform_interaction/processTypeLib';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
+
+import startNode from './startNode.html';
+import nodeElement from './node.html';
 
 /**
  * Node component for flow builder.
@@ -65,6 +71,15 @@ export default class Node extends LightningElement {
             classes = `${classes} selected`;
         }
 
+        return classes;
+    }
+
+    get startBoxClasses() {
+        let classes = 'start-node-box';
+
+        if (this.node.config.isSelected) {
+            classes = `${classes} selected`;
+        }
         return classes;
     }
 
@@ -130,6 +145,27 @@ export default class Node extends LightningElement {
         );
     }
 
+    get startIconFlowType() {
+        if (
+            this.node.triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE ||
+            this.node.triggerType === FLOW_TRIGGER_TYPE.SCHEDULED
+        ) {
+            return TRIGGER_TYPE_LABELS[this.node.triggerType];
+        }
+        const processType = getProcessType();
+        // Grab the label of the current processType flow type
+        const processTypes = getProcessTypes();
+        if (processTypes) {
+            for (const item of processTypes) {
+                if (item.name === processType) {
+                    return item.label;
+                }
+            }
+        }
+
+        return undefined;
+    }
+
     formatStartSaveType(saveType) {
         switch (saveType) {
             case CREATE:
@@ -176,6 +212,24 @@ export default class Node extends LightningElement {
      */
     get parentDivComputedClass() {
         let classes = 'node-container slds-is-absolute slds-text-align_center';
+
+        if (!this.isSelectable()) {
+            classes = `${classes} nonselectable-cursor-style`;
+        }
+
+        if (this.node.config.isHighlighted) {
+            classes = `${classes} highlighted-container`;
+        }
+
+        if (isTestMode()) {
+            classes = `${classes} test-node-${(this.node.elementType || '').toLowerCase()}`;
+        }
+
+        return classes;
+    }
+
+    get parentStartDivComputedClass() {
+        let classes = 'start-node-container slds-is-absolute slds-text-align_center';
 
         if (!this.isSelectable()) {
             classes = `${classes} nonselectable-cursor-style`;
@@ -298,6 +352,33 @@ export default class Node extends LightningElement {
 
     @api focus() {
         this.template.querySelector('button.icon').focus();
+    }
+
+    get isTrigger() {
+        switch (this.node.triggerType) {
+            case NONE:
+                return false;
+            default:
+                return true;
+        }
+    }
+
+    // TODO add new checks when future features come out
+    get isContext() {
+        switch (this.node.triggerType) {
+            case NONE:
+                return false;
+            default:
+                return true;
+        }
+    }
+
+    render() {
+        // Has to be the StartElement and set a processType i.e. not NBA
+        if (this.node.elementType === ELEMENT_TYPE.START_ELEMENT && getProcessType()) {
+            return startNode;
+        }
+        return nodeElement;
     }
 
     renderedCallback() {

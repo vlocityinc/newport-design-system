@@ -46,6 +46,10 @@ jest.mock('builder_platform_interaction/contextLib', () => ({
     isTestMode: jest.fn()
 }));
 
+jest.mock('builder_platform_interaction/storeUtils', () => ({
+    getProcessType: jest.fn()
+}));
+
 jest.mock('builder_platform_interaction/loggingUtils', () => ({
     logInteraction: jest.fn()
 }));

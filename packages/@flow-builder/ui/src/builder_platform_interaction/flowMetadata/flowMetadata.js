@@ -14,6 +14,7 @@ export const FLOW_PROCESS_TYPE = {
     INVOCABLE_PROCESS: 'InvocableProcess',
     LOGIN_FLOW: 'LoginFlow',
     JOURNEY_BUILDER_INTEGRATION: 'JourneyBuilderIntegration',
+    JOURNEY: 'Journey',
     MANAGED_CONTENT_FLOW: 'ManagedContentFlow',
     ORCHESTRATION_FLOW: 'OrchestrationFlow',
     SURVEY: 'Survey',

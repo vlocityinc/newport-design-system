@@ -1,0 +1,64 @@
+<template>
+    <div class={parentStartDivComputedClass} title={nodeIconTitle} style={nodeLocation}>
+        <div class={nodeClasses}>
+            <!--Node icon TODO will changes when trigger/context work is completed -->
+            <div class="start-button slds-is-absolute">
+                <button
+                    title={nodeIconTitle}
+                    tabindex="0"
+                    class="icon slds-icon__container_circle"
+                    onfocus={handleNodeClick}
+                    onmousedown={handleMouseDown}
+                    onclick={handleNodeClick}
+                    ondblclick={handleDblClick}
+                >
+                    <span class="hiddenText">{nodeIconA11yTitle}</span>
+                    <builder_platform_interaction-element-icon
+                        icon-name={iconName}
+                        icon-size={iconSize}
+                        icon-shape={iconShape}
+                        background-color={iconBackgroundColor}
+                        is-canvas-element-icon
+                    >
+                    </builder_platform_interaction-element-icon>
+                </button>
+            </div>
+        </div>
+
+        <div class={startBoxClasses}>
+            <div class="slds-p-top_x-large slds-p-bottom_x-small">
+                <div class="slds-text-heading_small slds-truncate slds-m-bottom_xx-small">
+                    {nodeTypeLabel}
+                </div>
+                <div class="slds-text-body_regular slds-truncate slds-m-top_xx-small">
+                    {startIconFlowType}
+                </div>
+            </div>
+            <div class="slds-text-align_left">
+                <div
+                    if:true={isTrigger}
+                    class="slds-border_top slds-var-p-around_x-small slds-border_bottom"
+                    style="background-color: white;"
+                >
+                    <!-- TODO -->
+                    Trigger
+                </div>
+                <div if:true={isContext} class="slds-var-p-around_x-small start-context">
+                    <!-- TODO -->
+                    Context
+                </div>
+            </div>
+        </div>
+        <div>
+            <!--End Point-->
+            <button
+                if:true={hasAvailableConnections}
+                title={endPointTitle}
+                tabindex="0"
+                class="end-point slds-is-relative"
+            >
+                <span class="hiddenText">{endPointA11yTitle}</span>
+            </button>
+        </div>
+    </div>
+</template>
