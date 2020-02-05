@@ -74,13 +74,13 @@ git clone git@git.soma.salesforce.com:automation-platform/ui-interaction-builder
 10. Run this watch command so that when you modify files, they are picked up by core:
 
 ```sh
- yarn run watch:core
+ yarn watch:core
 ```
 
 11. (Optional) Run the unit tests:
 
 ```sh
-yarn run test:unit
+yarn test:unit
 ```
 
 Once core is up and running, if you make changes in your git repo, they should be reflected in the your running core instance after a few seconds.
