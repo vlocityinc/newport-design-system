@@ -805,6 +805,29 @@ export default class BaseExpressionBuilder extends LightningElement {
         return isLookupTraversalSupported(storeInstance.getCurrentState().properties.processType, getTriggerType());
     }
 
+    getFieldsPromise(parentMenuItem, preFetchedFields, objectType = undefined) {
+        let preFetchedFieldsSubtype;
+        // get the sobject type from the first field
+        for (const prop in this.state[preFetchedFields]) {
+            if (this.state[preFetchedFields].hasOwnProperty(prop)) {
+                preFetchedFieldsSubtype = this.state[preFetchedFields][prop].sobjectName;
+                break;
+            }
+        }
+        let promise;
+        // get fields if preFetchedFields is empty or of the wrong sobject
+        if (
+            !objectType &&
+            parentMenuItem &&
+            (!this.state[preFetchedFields] || preFetchedFieldsSubtype !== parentMenuItem.subtype)
+        ) {
+            promise = getChildrenItemsPromise(parentMenuItem);
+        } else {
+            promise = Promise.resolve(this.state[preFetchedFields]);
+        }
+        return promise;
+    }
+
     /**
      * Generic helper function to handle populating fields for LHS or RHS
      *
@@ -856,48 +879,23 @@ export default class BaseExpressionBuilder extends LightningElement {
             return this.updateStatePromise;
         };
         if (getFields) {
-            const filterFields = fields =>
-                filterFieldsForChosenElement(parentMenuItem, fields, {
-                    allowedParamTypes: paramTypes,
-                    showAsFieldReference: isDisplayedAsFieldReference,
-                    showSubText: SHOW_SUBTEXT,
-                    shouldBeWritable,
-                    allowSObjectFieldsTraversal: !shouldBeWritable && allowSObjectFieldsTraversal,
-                    allowApexTypeFieldsTraversal
-                });
-            let preFetchedFieldsSubtype;
-            // get the sobject type from the first field
-            for (const prop in this.state[preFetchedFields]) {
-                if (this.state[preFetchedFields].hasOwnProperty(prop)) {
-                    preFetchedFieldsSubtype = this.state[preFetchedFields][prop].sobjectName;
-                    break;
-                }
-            }
-            // get fields if preFetchedFields is empty or of the wrong sobject
-            if (
-                !objectType &&
-                parentMenuItem &&
-                (!this.state[preFetchedFields] || preFetchedFieldsSubtype !== parentMenuItem.subtype)
-            ) {
-                updateState(
-                    getChildrenItemsPromise(parentMenuItem).then(items => {
-                        const menuData = filterFields(items);
-                        return {
-                            [preFetchedFields]: items,
-                            [fullMenuData]: menuData,
-                            [filteredMenuData]: menuData
-                        };
-                    })
-                );
-            } else {
-                const fields = this.state[preFetchedFields];
-                const menuData = filterFields(fields);
-                updateState({
-                    [preFetchedFields]: fields,
-                    [fullMenuData]: menuData,
-                    [filteredMenuData]: menuData
-                });
-            }
+            updateState(
+                this.getFieldsPromise(parentMenuItem, preFetchedFields, objectType).then(retrievedFields => {
+                    const menuData = filterFieldsForChosenElement(parentMenuItem, retrievedFields, {
+                        allowedParamTypes: paramTypes,
+                        showAsFieldReference: isDisplayedAsFieldReference,
+                        showSubText: SHOW_SUBTEXT,
+                        shouldBeWritable,
+                        allowSObjectFieldsTraversal: !shouldBeWritable && allowSObjectFieldsTraversal,
+                        allowApexTypeFieldsTraversal
+                    });
+                    return {
+                        [preFetchedFields]: retrievedFields,
+                        [fullMenuData]: menuData,
+                        [filteredMenuData]: menuData
+                    };
+                })
+            );
         } else {
             const menuDataElements = getStoreElements(storeInstance.getCurrentState(), config);
             const menuData = filterAndMutateMenuData(
@@ -944,25 +942,21 @@ export default class BaseExpressionBuilder extends LightningElement {
      * @returns {Object}           Object representing the field or the FER represented by the guid
      */
     getElementOrField(value, fields) {
-        const elementOrField = getResourceByUniqueIdentifier(value);
-        if (!elementOrField) {
-            const fieldNames = sanitizeGuid(value).fieldNames;
-            if (fieldNames) {
-                const fieldName = fieldNames[fieldNames.length - 1];
-                return fields[fieldName];
-            }
+        const fieldNames = sanitizeGuid(value).fieldNames;
+        if (fieldNames) {
+            const fieldName = fieldNames[fieldNames.length - 1];
+            return fields[fieldName];
         }
-        return elementOrField;
+
+        return getResourceByUniqueIdentifier(value);
     }
 
     /**
      * Clears RHS if it has become invalid
      *
      * @param {Object} expressionUpdates    represents any changes that are already being made to the expression
-     * @param {rules/param} lhsParam        representation of the lhs value that can be used with the rules
-     * @param {String} operator             operator value
      */
-    clearRhsIfNecessary(expressionUpdates, lhsParam, operator, rhsTypes) {
+    clearRhsIfNecessary(expressionUpdates, rhsTypes) {
         if (this.rhsValue && this.rhsValue.value) {
             const rhsElementOrField = this.getElementOrField(this.rhsValue.value, this.rhsFields);
             const rhsValid = isElementAllowed(rhsTypes, elementToParam(rhsElementOrField));
@@ -974,7 +968,7 @@ export default class BaseExpressionBuilder extends LightningElement {
 
     resetRhsProperties(expressionUpdates, lhsParam, operator) {
         const rhsTypes = getRHSTypes(this.containerElement, lhsParam, operator, this._rules);
-        this.clearRhsIfNecessary(expressionUpdates, lhsParam, operator, rhsTypes);
+        this.clearRhsIfNecessary(expressionUpdates, rhsTypes);
 
         const rhsDataType = operator ? this.getRhsDataType(lhsParam, rhsTypes) : CLEAR_VALUE;
         if (!this.rhsIsFer && rhsDataType !== this._rhsDataType) {
@@ -985,24 +979,14 @@ export default class BaseExpressionBuilder extends LightningElement {
         }
     }
 
-    /**
-     * Creates new object representing the updates for the operator, and checks updated operator and RHS validity
-     *
-     * @param {Object} event  ComboboxStateChangedEvent that was fired from the LHS combobox
-     */
-    handleLhsValueChanged(event) {
-        event.stopPropagation();
+    updateExpressionOnLhsChanged({ item, displayText, error }, lhsElementOrField) {
         const expressionUpdates = {};
         let newLhsParam;
-        let newValue = event.detail.displayText || CLEAR_VALUE;
-        let newError = event.detail.error || CLEAR_ERROR;
+        let newValue = displayText || CLEAR_VALUE;
+        let newError = error || CLEAR_ERROR;
 
-        // update LHS value & error
-        const lhsElementOrField = event.detail.item
-            ? this.getElementOrField(event.detail.item.value, this.lhsFields)
-            : null;
         if (lhsElementOrField && !newError) {
-            newValue = event.detail.item.value;
+            newValue = item.value;
             newLhsParam = elementToParam(lhsElementOrField);
         } else if (newValue && !newError) {
             newError = genericErrorMessage;
@@ -1027,6 +1011,47 @@ export default class BaseExpressionBuilder extends LightningElement {
         this.resetRhsProperties(expressionUpdates, newLhsParam, this.operatorForRules());
 
         this.fireRowContentsChangedEvent(expressionUpdates);
+    }
+
+    /**
+     * Creates new object representing the updates for the operator, and checks updated operator and RHS validity
+     *
+     * @param {Object} event  ComboboxStateChangedEvent that was fired from the LHS combobox
+     */
+    handleLhsValueChanged(event) {
+        event.stopPropagation();
+
+        // update LHS value & error
+        const lhsElementOrField = event.detail.item
+            ? this.getElementOrField(event.detail.item.value, this.lhsFields)
+            : null;
+        if (event.detail.item && event.detail.item.parent && !lhsElementOrField) {
+            // if field wasn't find in prefetched fields - load LHS fields and try again
+            const isDisplayedAsFieldReference = this.lhsDisplayOption !== LHS_DISPLAY_OPTION.SOBJECT_FIELD;
+            const allowFieldsTraversal =
+                this.isLookupTraversalSupported() && this.objectType == null && !this.lhsMustBeWritable;
+            this.getFieldsPromise(event.detail.item.parent, LHS_FIELDS, this.objectType).then(fields => {
+                const menuData = filterFieldsForChosenElement(event.detail.item.parent, fields, {
+                    allowedParamTypes: this.lhsParamTypes,
+                    showAsFieldReference: isDisplayedAsFieldReference,
+                    showSubText: SHOW_SUBTEXT,
+                    shouldBeWritable: this.lhsMustBeWritable,
+                    allowSObjectFieldsTraversal: !this.lhsMustBeWritable && allowFieldsTraversal,
+                    allowApexTypeFieldsTraversal: true
+                });
+                Object.assign(this.state, {
+                    [LHS_FIELDS]: fields,
+                    [LHS_FULL_MENU_DATA]: menuData,
+                    [LHS_FILTERED_MENU_DATA]: menuData
+                });
+                this.updateExpressionOnLhsChanged(
+                    event.detail,
+                    this.getElementOrField(event.detail.item.value, this.lhsFields)
+                );
+            });
+        } else {
+            this.updateExpressionOnLhsChanged(event.detail, lhsElementOrField);
+        }
     }
 
     /**

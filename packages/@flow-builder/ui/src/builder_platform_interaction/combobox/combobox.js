@@ -714,7 +714,7 @@ export default class Combobox extends LightningElement {
             this.state.displayText = this.state.displayText.substring(0, this.state.displayText.length - 2) + '}';
             // TODO check _mergeFieldLevel before setting to null if/when we have fields that have hasNext = true
             this._base = null;
-            this.fireFetchMenuDataEvent();
+            this.fireFetchMenuDataEvent(this.item ? this.item.parent : null);
         }
 
         // If value is null, check if there is one item associated with displayText

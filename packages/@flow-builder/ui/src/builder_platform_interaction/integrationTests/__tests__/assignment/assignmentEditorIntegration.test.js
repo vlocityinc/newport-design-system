@@ -9,7 +9,13 @@ import {
     INTERACTION_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { validateExpression, getLhsCombobox, getRhsCombobox, selectOperator } from '../expressionBuilderTestUtils';
+import {
+    validateExpression,
+    getLhsCombobox,
+    getRhsCombobox,
+    selectOperator,
+    getOperatorCombobox
+} from '../expressionBuilderTestUtils';
 import {
     selectComboboxItemBy,
     typeMergeFieldInCombobox,
@@ -183,6 +189,35 @@ describe('Assignment Editor', () => {
                 ${'{!numberVariable}'}                         | ${'Assign'} | ${'{!feedItemVariable.Parent:Account.BillingLatitude}'} | ${undefined}
                 ${'{!numberVariable}'}                         | ${'Assign'} | ${'{!feedItemVariable.Parent:Account.Name}'}            | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
                 `();
+            });
+            describe('Operator reset when changing LHS value if new value does not support previous operator', () => {
+                let lhsCombobox;
+                beforeEach(() => {
+                    lhsCombobox = getLhsCombobox(expressionBuilder);
+                });
+                function isOperatorReset(originalOperator) {
+                    return getOperatorCombobox(expressionBuilder).value !== originalOperator;
+                }
+                it.each`
+                    originalLhs                                    | originalOperator | newLhs                                          | resetOperator
+                    ${'{!numberVariable}'}                         | ${'Subtract'}    | ${'{!accountSObjectVariable.BillingLongitude}'} | ${false}
+                    ${'{!numberVariable}'}                         | ${'Add'}         | ${'{!stringVariable}'}                          | ${false}
+                    ${'{!numberVariable}'}                         | ${'Subtract'}    | ${'{!stringVariable}'}                          | ${true}
+                    ${'{!accountSObjectVariable.BillingLatitude}'} | ${'Add'}         | ${'{!accountSObjectVariable.BillingLongitude}'} | ${false}
+                    ${'{!accountSObjectVariable.BillingLatitude}'} | ${'Subtract'}    | ${'{!numberVariable}'}                          | ${false}
+                    ${'{!accountSObjectVariable.BillingLatitude}'} | ${'Subtract'}    | ${'{!accountSObjectVariable.Name}'}             | ${true}
+                    ${'{!accountSObjectVariable.BillingLatitude}'} | ${'Subtract'}    | ${'{!accountSObjectVariable.Name}'}             | ${true}
+                    ${'{!accountSObjectVariable.BillingLatitude}'} | ${'Subtract'}    | ${'{!accountSObjectVariable}'}                  | ${true}
+                `(
+                    'Should reset operator when switching LHS from $originalLhs to $newLhs: $resetOperator',
+                    async ({ originalLhs, originalOperator, newLhs, resetOperator }) => {
+                        await typeReferenceOrValueInCombobox(lhsCombobox, originalLhs);
+                        expect(selectOperator(expressionBuilder, originalOperator)).toBe(true);
+                        await typeReferenceOrValueInCombobox(lhsCombobox, newLhs);
+
+                        expect(isOperatorReset(originalOperator)).toBe(resetOperator);
+                    }
+                );
             });
         });
         describe('When using Apex types on LHS or RHS', () => {
