@@ -3,10 +3,12 @@
     color: $kashmir-blue;
     font-size: 0.875rem;
     line-height: 1.25rem;
+    display: none;
   }
   .nds-dc-offer-round-button-set {
     margin-top: 0.1875rem;
     padding: 0.3125rem;
+    display: inline-block;
     .nds-dc-offer-attribute {
       height: 1.25rem;
       width: 1.25rem;
@@ -20,13 +22,19 @@
     padding-top: 0.1875rem;
     display: flex;
     overflow: auto;
+    display: inline-block;
+    float: right;
     .nds-dc-offer-attribute {
       padding: 0.125rem;
       margin: 0.1875rem 0.375rem 0.1875rem 0;
       border: 1px solid $newport-border-gray;
       display: inline-block;
       height: inherit;
-      width: 4rem
+      width: 4rem;
+
+      &:last-child{
+        margin-right: 0;
+      }
     }
     .nds-dc-tile-text-small {
       color: $kashmir-blue;

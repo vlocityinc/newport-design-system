@@ -18,11 +18,13 @@
   }
   h3 {
     font-size: 0.875rem;
+    display: none;
   }
   .nds-dc-underline-title {
     width: 3.125rem;
     display: inline-block;
     border-bottom: 3px solid $newport-color-brand-orange;
+    display: none;
   }
 }
 

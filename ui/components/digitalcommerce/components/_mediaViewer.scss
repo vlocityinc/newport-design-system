@@ -70,18 +70,18 @@
     flex-wrap: nowrap;
     overflow-x: auto;
     max-width: 80%;
-    margin: 1.25rem auto 0 auto;
+    margin: 4.5rem auto 0 auto;
     text-align: center;
     .nds-dc-media-preview {
       display: inline-block;
       position: relative;
       flex: 0 0 auto;
-      margin-right: 0.313rem;
+      margin-right: 1rem;
       video.nds-dc-corousel-video,
       img.nds-dc-corousel-img,
       .nds-dc-media-overlay {
-        height: 3.75rem;
-        width: 3.438rem;
+        height: 5rem;
+        width: 3.813rem;
       }
       video.nds-dc-corousel-video,
       img.nds-dc-corousel-img {
@@ -101,7 +101,7 @@
         height: 1.563rem;
         margin-top: 0.938rem;
         position: absolute;
-        top: 0.25rem;
+        top: .70rem;
         right: 0.938rem;
         width: 1.563rem;
         fill: $sky-blue-100;
@@ -137,7 +137,7 @@
   @media only screen and (min-width: 48rem) {
     img,
     .nds-dc-media_view-wrapper {
-      height: 26rem;
+      height: 32rem;
     }
     .nds-dc-media_view-wrapper {
       max-width: 75%;

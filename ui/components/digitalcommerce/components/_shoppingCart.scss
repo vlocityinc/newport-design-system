@@ -70,13 +70,10 @@
       width: 1.25rem;
       height: 1.25rem;
       float: right;
-      position: absolute;
       padding-top: 0.25rem;
       color: $white;
       text-align: center;
-      margin-top: -0.938rem;
       position: relative;
-      margin-left: -1.875rem;
     }
   }
   .nds-dc-cart_offer-item-list {
@@ -84,6 +81,8 @@
     border: 1px solid $newport-border-gray;
     display: flex;
     box-shadow: 0 0.125rem 0 0 $black-transparent-10;
+    background-color: $white;
+    width: 100%;
     .nds-dc-offer_item-list-ul {
       width: 100%;
     }
@@ -152,6 +151,12 @@
 
   @media only screen and (min-width: 48rem) {
     padding: 3.125rem 0.625rem;
+    .nds-dc-cart_offer-board {
+      .nds-dc-edit-icon {
+        left: 0.5rem;
+        top: 0.25rem;
+      }
+    }
     .nds-dc-cart_heading .nds-dc-button {
       padding: 0 1rem;
       font-size: 1rem;

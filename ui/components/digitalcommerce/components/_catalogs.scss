@@ -1,5 +1,8 @@
 .nds-dc-catalog-wrapper {
   display: none;
+  .nds-dc-catalog-scrollable{
+    background-color: $white;
+  }
 }
 .nds-dc-mobile-catalog-wrapper {
   padding: 1.25rem 0.625rem;
@@ -56,7 +59,6 @@
   }
   .nds-dc-catalog-wrapper {
     display: block;
-    height: 9.375rem;
     -ms-overflow-style: none;
     background-color: $newport-card-background-light-blue;
     margin: 1.25rem 0 2.5rem 0;
@@ -65,22 +67,23 @@
       display: flex;
       overflow: auto;
       overflow-y: hidden;
-      height: 11rem;
       .nds-dc-catalog-item {
         padding: 1.25rem;
-        height: 9.375rem;
-        border: 0.5px solid $newport-border-gray;
+        height: 64px;
+        border-left: 0.5px solid $newport-border-gray;
         text-align: center;
         min-width: 8.875rem;
         &.nds-dc-active-catalog {
           background-color: $newport-color-brand-orange;
-          height: 11rem;
           color: $white;
         }
+        div {
+          display: inline-block;
+        }
         svg, img {
-          height: 3.75rem;
-          width: 3.75rem;
-          margin-bottom: 0.625rem;
+          width: 24px;
+          height: 24px;
+          margin-bottom: 0px;
           vertical-align: middle;
         }
       }

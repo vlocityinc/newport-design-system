@@ -25,10 +25,6 @@
   .nds-dc-checkout_body-container {
     margin: 4rem 0 8rem 0;
   }
-  .nds-dc-payment_container {
-    width: 100%;
-    height: 34.5rem;
-  }
   .nds-dc-checkbox {
     .nds-checkbox_faux {
       margin-right: 0.4rem;
@@ -44,6 +40,29 @@
     box-shadow: 3px 3px 0 0 $black-transparent-10;
     padding: .8rem .8rem 1.3rem 1.5rem;
     background-color: $newport-card-background-light-blue;
+  }
+  .nds-dc-checkout-os_container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin-top: 1rem;
+    margin-bottom: 4rem;
+    .nds-dc-checkout-os {
+      width: 100%;
+      height: 70vh;
+      border: none;
+      .nds-p-vertical_large {
+        padding: 0;
+      }
+      .nds-card {
+        border: none;
+        box-shadow: none;
+      }
+    }
+  }
+  .nds-dc-payment_container {
+    width: 100%;
+    height: 34.5rem;
   }
   @media only screen and (min-width: 48rem) {
     padding: 4rem;
