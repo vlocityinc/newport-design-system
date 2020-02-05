@@ -1,9 +1,28 @@
 import { getMergedInputOutputVariables } from '../subflowVariablesMerger';
 import { flowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
+import { flowWithNoActiveVersion } from 'serverData/GetFlowInputOutputVariables/flowWithNoActiveVersion.json';
 
 describe('subflowVariablesMerger', () => {
+    const getVariableWithApiName = (variables, apiName) => variables.find(variable => variable.apiName === apiName);
+    describe('merges when there is no active version', () => {
+        let inputOutputVariables;
+        beforeAll(() => {
+            inputOutputVariables = getMergedInputOutputVariables(flowWithNoActiveVersion);
+        });
+        it('returns no warnings when there is no active version', () => {
+            const variable = getVariableWithApiName(inputOutputVariables.outputVariables, 'output1');
+            expect(variable).toEqual({
+                apiName: 'output1',
+                dataType: 'String',
+                isCollection: false,
+                isInput: false,
+                isOutput: true,
+                name: 'output1',
+                scale: 0
+            });
+        });
+    });
     describe('merges latest and active version', () => {
-        const getVariableWithApiName = (variables, apiName) => variables.find(variable => variable.apiName === apiName);
         let inputOutputVariables;
         beforeAll(() => {
             inputOutputVariables = getMergedInputOutputVariables(flowWithActiveAndLatest);

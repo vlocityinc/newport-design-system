@@ -66,10 +66,12 @@ export function getMergedInputOutputVariables(inputOutputVariablesVersions) {
     const activeInputOutputVariables = getActiveInputOutputVariables(inputOutputVariablesVersions);
     const latestInputVariables = latestInputOutputVariables.filter(variable => variable.isInput === true);
     const latestOutputVariables = latestInputOutputVariables.filter(variable => variable.isOutput === true);
-    const activeInputVariables =
-        flowHasActiveVersion && activeInputOutputVariables.filter(variable => variable.isInput === true);
-    const activeOutputVariables =
-        flowHasActiveVersion && activeInputOutputVariables.filter(variable => variable.isOutput === true);
+    const activeInputVariables = flowHasActiveVersion
+        ? activeInputOutputVariables.filter(variable => variable.isInput === true)
+        : undefined;
+    const activeOutputVariables = flowHasActiveVersion
+        ? activeInputOutputVariables.filter(variable => variable.isOutput === true)
+        : undefined;
 
     const mergedInputVariables = mergeSubflowVariables(activeInputVariables, latestInputVariables);
     const mergedOutputVariables = mergeSubflowVariables(activeOutputVariables, latestOutputVariables);
