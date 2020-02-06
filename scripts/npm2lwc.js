@@ -4,13 +4,7 @@ const { copySync, ensureDirSync, removeSync } = require('fs-extra');
 const argv = require('yargs').argv;
 const { transformFileSync } = require('@babel/core');
 const transformNamespace = require('./babel/babel-plugin-npm2lwc/index');
-const {
-    camelCase,
-    findAllPackages,
-    printWarning,
-    printInfo,
-    getDirectories
-} = require('./utils');
+const { camelCase, findAllPackages, printWarning, printInfo, getDirectories } = require('./utils');
 
 const modulesArg = argv._[0] || 'src/main/modules';
 const npmPackagesArg = argv._[1] || 'packages'; // force passing in args for now
@@ -52,14 +46,10 @@ function npm2lwc(coreModulePath, npmPackagesPath, options) {
     const foundPkgs = findAllPackages(npmPackagesPath);
 
     if (options.watch) {
-        printInfo(
-            `Watching files in ${npmPackagesPath}. Pushing file changes to ${coreModulePath}`
-        );
+        printInfo(`Watching files in ${npmPackagesPath}. Pushing file changes to ${coreModulePath}`);
         process.setMaxListeners(foundPkgs.length);
     } else {
-        printInfo(
-            `Exporting NPM packages in ${npmPackagesPath} to ${coreModulePath}`
-        );
+        printInfo(`Exporting NPM packages in ${npmPackagesPath} to ${coreModulePath}`);
     }
 
     const npm2lwcNameMap = {};
@@ -76,11 +66,9 @@ function npm2lwc(coreModulePath, npmPackagesPath, options) {
         if (npm2lwcConfig) {
             const pkgName = relative(npmPackagesPath, pkgPath);
             // Check for module name override in package.json sfdc property, otherwise default to camelCase of package name
-            const moduleName =
-                npm2lwcConfig.name || camelCase(basename(pkgPath));
+            const moduleName = npm2lwcConfig.name || camelCase(basename(pkgPath));
             // Check for namespace override in package.json sfdc property, otherwise default to builder_platform_interaction
-            const namespace =
-                npm2lwcConfig.namespace || 'builder_platform_interaction';
+            const namespace = npm2lwcConfig.namespace || 'builder_platform_interaction';
             npm2lwcNameMap[pkgName] = `${namespace}/${moduleName}`;
         }
     });
@@ -90,41 +78,21 @@ function npm2lwc(coreModulePath, npmPackagesPath, options) {
         if (npm2lwcConfig) {
             const pkg = relative(npmPackagesPath, pkgPath);
             if (npm2lwcConfig.ui) {
-                mvUiModule(
-                    resolve(npmPackagesPath, pkg),
-                    coreModulePath,
-                    options
-                );
+                mvUiModule(resolve(npmPackagesPath, pkg), coreModulePath, options);
             } else {
                 if (options.core && !npm2lwcConfig.deployToCore) {
-                    printWarning(
-                        `Core deployment skipped for ${basename(pkgPath)}`
-                    );
+                    printWarning(`Core deployment skipped for ${basename(pkgPath)}`);
                     return;
                 }
-                exportPackageToLwcModule(
-                    npmPackagesPath,
-                    pkg,
-                    coreModulePath,
-                    npm2lwcNameMap,
-                    options
-                );
+                exportPackageToLwcModule(npmPackagesPath, pkg, coreModulePath, npm2lwcNameMap, options);
             }
         } else {
-            printWarning(
-                `Npm2lwc config not set: Skipped for ${basename(pkgPath)}`
-            );
+            printWarning(`Npm2lwc config not set: Skipped for ${basename(pkgPath)}`);
         }
     });
 }
 
-function exportPackageToLwcModule(
-    packageRootPath,
-    pkg,
-    modulesPath,
-    npm2lwcNameMap,
-    options
-) {
+function exportPackageToLwcModule(packageRootPath, pkg, modulesPath, npm2lwcNameMap, options) {
     const packagePath = resolve(packageRootPath, pkg);
     const packageName = basename(packagePath);
 
@@ -134,10 +102,7 @@ function exportPackageToLwcModule(
     const moduleName = basename(fqn);
 
     const modulePath = resolve(modulesPath, fqn);
-    const sourcePath = resolve(
-        packagePath,
-        npm2lwcConfig.dist || 'dist/index.esNext.js'
-    );
+    const sourcePath = resolve(packagePath, npm2lwcConfig.dist || 'dist/index.esNext.js');
 
     const lwcSourcePath = resolve(modulePath, `${moduleName}.js`);
 
@@ -147,9 +112,7 @@ function exportPackageToLwcModule(
         }
 
         fs.watchFile(sourcePath, () => {
-            printInfo(
-                `File change detected at ${sourcePath}. Pushing changes to ${lwcSourcePath}`
-            );
+            printInfo(`File change detected at ${sourcePath}. Pushing changes to ${lwcSourcePath}`);
             if (fs.existsSync(lwcSourcePath)) {
                 fs.unlinkSync(lwcSourcePath);
             }
@@ -166,9 +129,7 @@ function exportPackageToLwcModule(
         writeMetaXMLFile(dirname(lwcSourcePath));
 
         if (!fs.existsSync(sourcePath)) {
-            printWarning(
-                `${packageName}: Source file missing. Expected to be in ${sourcePath}`
-            );
+            printWarning(`${packageName}: Source file missing. Expected to be in ${sourcePath}`);
             return;
         }
 
@@ -177,10 +138,7 @@ function exportPackageToLwcModule(
     // Copy typings if exists
     const typingsSrcPath = resolve(packagePath, 'build/types/index.d.ts');
     if (fs.existsSync(typingsSrcPath)) {
-        fs.copyFileSync(
-            typingsSrcPath,
-            resolve(modulePath, `${moduleName}.d.ts`)
-        );
+        fs.copyFileSync(typingsSrcPath, resolve(modulePath, `${moduleName}.d.ts`));
     }
 }
 
@@ -193,9 +151,7 @@ function mvUiModule(src, dest, options) {
             if (filename.indexOf('___') === -1 && !filename.endsWith('~')) {
                 const fullSourcePath = resolve(sourcePath, filename);
                 const modulePath = resolve(dest, filename);
-                printInfo(
-                    `File change detected at ${fullSourcePath}. Pushing changes to ${modulePath}`
-                );
+                printInfo(`File change detected at ${fullSourcePath}. Pushing changes to ${modulePath}`);
                 fs.copyFileSync(fullSourcePath, modulePath);
             }
         });
@@ -225,11 +181,7 @@ function mvUiModule(src, dest, options) {
 }
 
 function writePackageToLwcModule(lwcSourcePath, sourcePath, packageNameMap) {
-    fs.writeFileSync(
-        lwcSourcePath,
-        transformPackageNamespaceToLWC(sourcePath, packageNameMap),
-        { flag: 'w' }
-    );
+    fs.writeFileSync(lwcSourcePath, transformPackageNamespaceToLWC(sourcePath, packageNameMap), { flag: 'w' });
 }
 
 /**

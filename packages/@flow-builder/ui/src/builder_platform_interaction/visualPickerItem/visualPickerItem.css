@@ -1,5 +1,5 @@
 /*set the icon's color to the parent's background color*/
-.slds-icon-utility-check  {
+.slds-icon-utility-check {
     color: var(--lwc-colorBackgroundAlt);
 }
 
@@ -13,9 +13,9 @@
 
 /*truncate the text to 3 lines*/
 .text-content {
-/* Over flow hidden hides the text if it is more than N lines  */
+    /* Over flow hidden hides the text if it is more than N lines  */
     line-height: 1.2em;
-    max-height: 3.6em; 
+    max-height: 3.6em;
     overflow: hidden;
     position: relative;
     text-align: justify;
@@ -24,7 +24,7 @@
     padding-right: 1em;
 }
 
- /* create the ... */
+/* create the ... */
 .text-content:before {
     content: '...';
     position: absolute;
@@ -43,4 +43,3 @@
     margin-top: 0.2em;
     background: var(--lwc-colorBackgroundAlt);
 }
-

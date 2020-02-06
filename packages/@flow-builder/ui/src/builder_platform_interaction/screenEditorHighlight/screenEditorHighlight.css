@@ -1,13 +1,14 @@
 * {
-    outline:none;
-} 
+    outline: none;
+}
 
 .highlight {
     z-index: 3; /* lightning-datepicker has an icon with z-index: 2, this makes sure that icon can't be clicked when preventing events */
     margin-bottom: var(--lwc-borderWidthThin);
 }
 
-.highlight.selected .highlight-header, .highlight.selected .highlight-icons-container {
+.highlight.selected .highlight-header,
+.highlight.selected .highlight-icons-container {
     background-color: var(--lwc-colorBrandDarker);
 }
 
@@ -20,16 +21,22 @@
     box-shadow: var(--lwc-shadowButtonFocus);
 }
 
-.highlight:not(.dragging).selected .highlight-header, .highlight:not(.dragging):hover .highlight-header, .highlight:not(.dragging):focus .highlight-header {
+.highlight:not(.dragging).selected .highlight-header,
+.highlight:not(.dragging):hover .highlight-header,
+.highlight:not(.dragging):focus .highlight-header {
     visibility: visible;
     z-index: 4; /* Or the frame border (with the shadow) will appear on top of the header */
 }
 
-.highlight:not(.dragging).selected .highlight-frame, .highlight:not(.dragging):hover .highlight-frame, .highlight:not(.dragging):focus .highlight-frame {
+.highlight:not(.dragging).selected .highlight-frame,
+.highlight:not(.dragging):hover .highlight-frame,
+.highlight:not(.dragging):focus .highlight-frame {
     border-style: solid;
 }
 
-.highlight:not(.dragging).selected .highlight-icons-container, .highlight:not(.dragging):hover .highlight-icons-container, .highlight:not(.dragging):focus .highlight-icons-container {
+.highlight:not(.dragging).selected .highlight-icons-container,
+.highlight:not(.dragging):hover .highlight-icons-container,
+.highlight:not(.dragging):focus .highlight-icons-container {
     visibility: visible;
 }
 
@@ -37,7 +44,7 @@
     visibility: hidden;
     left: 50%;
     transform: translateX(-50%);
-    top: calc(-1 * var(--lwc-varSpacingVerticalLarge));    
+    top: calc(-1 * var(--lwc-varSpacingVerticalLarge));
     line-height: var(--lwc-varSpacingVerticalLarge);
     background-color: var(--lwc-colorBrandDark);
     border-radius: var(--lwc-borderRadiusMedium) var(--lwc-borderRadiusMedium) 0 0;
@@ -53,25 +60,26 @@
 
 .highlight-icons-container {
     visibility: hidden;
-    background-color:var(--lwc-colorBrandDark);    
+    background-color: var(--lwc-colorBrandDark);
     top: 0; /* for preventevents false, as in that case this div is absolute */
     right: 0; /* for preventevents false, as in that case this div is absolute */
 }
 
 .highlight-icon-container {
-    width: 1rem;    
+    width: 1rem;
     height: 1rem;
 }
 
-.highlight-icon {    
+.highlight-icon {
     position: absolute;
     top: -2px;
     display: inline-flex;
     border-radius: 0;
 }
 
-.highlight-icon-container:focus, .highlight-icon-container:focus-within {
-    box-shadow:none;
+.highlight-icon-container:focus,
+.highlight-icon-container:focus-within {
+    box-shadow: none;
     outline: 5px auto rgb(128, 185, 252);
 }
 

@@ -1,6 +1,6 @@
 .property-editor-scroll {
     height: calc(100vh - 195px);
     -webkit-overflow-scrolling: touch;
-    overflow:hidden;
-    overflow-y:auto;
+    overflow: hidden;
+    overflow-y: auto;
 }

@@ -10,8 +10,7 @@
     border-right: none;
     border-bottom: none;
     border-top: var(--lwc-borderWidthThin) solid var(--lwc-colorGray5);
-    border-radius: 0 0 var(--lwc-borderRadiusMedium)
-        var(--lwc-borderRadiusMedium);
+    border-radius: 0 0 var(--lwc-borderRadiusMedium) var(--lwc-borderRadiusMedium);
 }
 
 .has-error {

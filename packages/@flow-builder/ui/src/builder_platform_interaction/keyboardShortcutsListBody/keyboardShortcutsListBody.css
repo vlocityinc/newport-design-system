@@ -3,14 +3,14 @@
     text-align: left;
 }
 
- .group-header {
+.group-header {
     margin: var(--lwc-spacingSmall) var(--lwc-spacingXSmall) 0;
     font-size: var(--lwc-fontSizeLarge);
     border-top-right-radius: var(--lwc-borderRadiusMedium);
     border-top-left-radius: var(--lwc-borderRadiusMedium);
 }
 
- .group-container .group-item {
+.group-container .group-item {
     display: inline-block;
     width: 100%;
     padding: var(--lwc-spacingMedium) 0;
@@ -21,12 +21,12 @@
     list-style-type: none;
 }
 
- .group-container .group-item .label {
-    width:30%;
+.group-container .group-item .label {
+    width: 30%;
     float: left;
 }
 
- .group-container .group-item .text {
+.group-container .group-item .text {
     width: 65%;
     float: right;
 }

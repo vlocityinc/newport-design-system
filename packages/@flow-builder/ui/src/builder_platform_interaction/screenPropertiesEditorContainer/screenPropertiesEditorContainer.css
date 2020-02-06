@@ -3,12 +3,12 @@
 }
 
 .slds-panel__header {
-    padding-left: .75rem;
-    padding-right: .75rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
 }
 
 .slds-panel {
-    border-radius: 0;    
+    border-radius: 0;
 }
 
 .toggle-animated {

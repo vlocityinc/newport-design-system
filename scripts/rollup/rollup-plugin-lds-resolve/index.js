@@ -1,14 +1,14 @@
 const path = require('path');
-const fs = require("fs");
+const fs = require('fs');
 
 /*
  * Trys to resolve in the following order:
  *      * Append ".js"
  *      * Append "index.js" to path
  */
-module.exports = function () {
+module.exports = function() {
     return {
-        name: "lds-resolve",
+        name: 'lds-resolve',
         resolveId(importee, importer) {
             // Disregard entry module
             if (!importer) {
@@ -22,10 +22,7 @@ module.exports = function () {
 
             const basename = path.basename(importer);
             const directory = importer.split(basename)[0];
-            const paths = [
-                path.join(directory + importee) + ".js",
-                path.join(directory + importee, "index.js"),
-            ];
+            const paths = [path.join(directory + importee) + '.js', path.join(directory + importee, 'index.js')];
 
             return firstInSequence(paths, fileExistsAsync).catch(() => {
                 return null;
@@ -43,15 +40,19 @@ function firstInSequence(values, asyncFn) {
             return;
         }
         // Try the first value
-        asyncFn(values[0]).then(val => {
-            // Resolved, we're all done
-            resolve(val);
-        }).catch(() => {
-            // Rejected, remove the first item from the array and recursively
-            // try the next one
-            values.shift();
-            firstInSequence(values, asyncFn).then(resolve).catch(reject);
-        });
+        asyncFn(values[0])
+            .then(val => {
+                // Resolved, we're all done
+                resolve(val);
+            })
+            .catch(() => {
+                // Rejected, remove the first item from the array and recursively
+                // try the next one
+                values.shift();
+                firstInSequence(values, asyncFn)
+                    .then(resolve)
+                    .catch(reject);
+            });
     });
 }
 

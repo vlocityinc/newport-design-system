@@ -11,16 +11,16 @@
  */
 
 module.exports = config => {
-  const nameMapper = config.nameMapper;
+    const nameMapper = config.nameMapper;
 
-  return {
-    visitor: {
-      ImportDeclaration: path => {
-        let source = path.node.source.value;
-        if (nameMapper[source]) {
-          path.node.source.value = nameMapper[source];
+    return {
+        visitor: {
+            ImportDeclaration: path => {
+                const source = path.node.source.value;
+                if (nameMapper[source]) {
+                    path.node.source.value = nameMapper[source];
+                }
+            }
         }
-      },
-    },
-  };
+    };
 };
