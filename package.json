@@ -101,7 +101,7 @@
         "*.ts": [
             "tslint -p ./tsconfig.json"
         ],
-        "!(scripts)/**/*.js": [
+        "!(scripts|src)/**/*.js": [
             "eslint --fix --max-warnings 0"
         ],
         "packages/@flow-builder/ui/jsconfig.json": [
