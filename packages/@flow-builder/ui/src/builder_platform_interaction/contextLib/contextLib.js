@@ -43,3 +43,7 @@ export function canUserVAD() {
 export function orgHasBeforeSaveEnabled() {
     return context.access.orgHasBeforeSaveEnabled;
 }
+
+export function orgHasFlowBuilderGuardrails() {
+    return context.access && context.access.orgHasFlowBuilderGuardrails;
+}

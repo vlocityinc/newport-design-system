@@ -22,7 +22,7 @@ import {
     createStartElement as createBasicStartElement
 } from 'builder_platform_interaction/elementFactory';
 
-import { canUserVAD } from 'builder_platform_interaction/contextLib';
+import { canUserVAD, orgHasFlowBuilderGuardrails } from 'builder_platform_interaction/contextLib';
 
 /**
  * Helper method to determine if the connector is an associated connector or not
@@ -555,4 +555,11 @@ export const canRunDebugWith = (runInMode, status) => {
         status === 'Active' ||
         !((runInMode === 'SystemModeWithSharing' || runInMode === 'SystemModeWithoutSharing') && !canUserVAD())
     );
+};
+
+/**
+ * Is Guardrails enabled for this org
+ */
+export const isGuardrailsEnabled = () => {
+    return orgHasFlowBuilderGuardrails();
 };
