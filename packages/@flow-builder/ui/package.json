@@ -9,6 +9,8 @@
     },
     "scripts": {
         "test": "lwc-test src",
+        "coverage": "lwc-test src -- --coverage",
+        "coverage:clean": "rm -rf ./coverage",
         "lint": "eslint --max-warnings 0 src"
     },
     "files": [
