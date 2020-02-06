@@ -24,7 +24,8 @@
         "^lightning/textarea$": "<rootDir>/jest-modules/lightning/textarea/textarea",
         "^lightning/groupedCombobox$": "<rootDir>/jest-modules/lightning/groupedCombobox/groupedCombobox",
         "^lightning/baseCombobox$": "<rootDir>/jest-modules/lightning/baseCombobox/baseCombobox",
-        "^lightning/inputRichText$": "<rootDir>/jest-modules/lightning/inputRichText/inputRichText"
+        "^lightning/inputRichText$": "<rootDir>/jest-modules/lightning/inputRichText/inputRichText",
+        "^analyzer_framework/(.+)$": "<rootDir>/jest-modules/analyzer_framework/$1/$1"
     },
     "setupFilesAfterEnv": ["<rootDir>/jestSetup.js"],
     "clearMocks": true

@@ -16,6 +16,7 @@ import { translateUIModelToFlow } from 'builder_platform_interaction/translatorL
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { mockEngineExecute } from 'analyzer_framework/engine';
 
 jest.mock('builder_platform_interaction/preloadLib', () => {
     return {
@@ -233,15 +234,20 @@ const mockStoreState = {
     }
 };
 
+let mockSubscribers = [];
 jest.mock('builder_platform_interaction/storeLib', () => {
-    const dispatchSpy = jest.fn().mockImplementation(() => {});
+    const dispatchSpy = jest.fn().mockImplementation(() => {
+        mockSubscribers.forEach(subscriber => {
+            subscriber();
+        });
+    });
 
     return {
         Store: {
             getStore: () => {
                 return {
                     subscribe: mapAppStateToStore => {
-                        mapAppStateToStore(mockStoreState);
+                        mockSubscribers.push(mapAppStateToStore);
                         return jest.fn().mockImplementation(() => {
                             return 'Testing';
                         });
@@ -335,6 +341,10 @@ const connectorElement = {
     },
     type: 'ADD_CONNECTOR'
 };
+
+beforeEach(() => {
+    mockSubscribers = [];
+});
 
 // TODO: Since we are doing lot of refactoring in canvas, commenting these tests. Will clean up as part of this work item:
 // https://gus.my.salesforce.com/apex/ADM_WorkView?id=a07B00000058VlnIAE&sfdc.override=1
@@ -667,7 +677,9 @@ describeSkip('editor', () => {
 describe('editor property editor', () => {
     it('is opened in a modal by default', () => {
         const editorComponent = createComponentUnderTest();
-
+        Store.getStore().dispatch({
+            type: 'init'
+        });
         const elementType = 'ASSIGNMENT';
 
         const event = new AddElementEvent(elementType, 0, 0);
@@ -778,6 +790,106 @@ describe('editor property editor', () => {
                 expect(Store.getStore().dispatch).toHaveBeenCalledWith({
                     updateValue: elementToUpdate
                 });
+            });
+        });
+    });
+});
+
+describe('editor guardrails', () => {
+    let storeInstance;
+    const guardrailResult = jest.fn();
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+        storeInstance = Store.getStore();
+
+        const flow = { fullName: 'flowId' };
+        translateUIModelToFlow.mockReturnValue(flow);
+    });
+    const setupGuardrails = function(enabled, running, mockResult = []) {
+        const editorComponent = createComponentUnderTest({
+            guardrailsParams: {
+                enabled,
+                running
+            }
+        });
+        editorComponent.addEventListener('guardrailresult', guardrailResult);
+
+        const results = new Map();
+        results.set('flowId', mockResult);
+        mockEngineExecute.mockReturnValue({ results });
+
+        return editorComponent;
+    };
+
+    it('guardrails disabled', () => {
+        expect.assertions(1);
+
+        setupGuardrails(false, false);
+
+        storeInstance.dispatch({
+            type: 'actionThatTriggerGuardrails'
+        });
+
+        return Promise.resolve().then(() => {
+            return Promise.resolve().then(() => {
+                expect(guardrailResult).toHaveBeenCalledTimes(0);
+            });
+        });
+    });
+
+    it('guardrails enabled but not running', () => {
+        expect.assertions(1);
+
+        setupGuardrails(true, false);
+
+        storeInstance.dispatch({
+            type: 'actionThatTriggerGuardrails'
+        });
+
+        return Promise.resolve().then(() => {
+            return Promise.resolve().then(() => {
+                expect(guardrailResult).toHaveBeenCalledTimes(0);
+            });
+        });
+    });
+
+    it('guardrails running - no result', () => {
+        expect.assertions(2);
+
+        setupGuardrails(true, true, []);
+
+        storeInstance.dispatch({
+            type: 'actionThatTriggerGuardrails'
+        });
+
+        return Promise.resolve().then(() => {
+            return Promise.resolve().then(() => {
+                expect(guardrailResult).toHaveBeenCalledTimes(1);
+                const actualResult = guardrailResult.mock.calls[0][0].detail.guardrailsResult;
+                expect(actualResult).toEqual([]);
+            });
+        });
+    });
+
+    it('guardrails running - result', () => {
+        expect.assertions(2);
+
+        const mockResult = [{ data: 'result1' }, { data: 'result2' }];
+        setupGuardrails(true, true, mockResult);
+
+        storeInstance.dispatch({
+            type: 'actionThatTriggerGuardrails'
+        });
+
+        return Promise.resolve().then(() => {
+            return Promise.resolve().then(() => {
+                expect(guardrailResult).toHaveBeenCalledTimes(1);
+                const actualResult = guardrailResult.mock.calls[0][0].detail.guardrailsResult;
+                expect(actualResult).toEqual([
+                    { data: 'result1', id: 0 },
+                    { data: 'result2', id: 1 }
+                ]);
             });
         });
     });

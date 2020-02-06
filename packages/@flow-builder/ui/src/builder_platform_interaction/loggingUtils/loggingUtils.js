@@ -20,27 +20,30 @@ const getAppName = () => {
 /**
  * Wrapper function for logging Error transaction in metrics service
  * @param {String} errorMessage error message
+ * @param {String} source source of the message
  */
-export const logMetricsServiceErrorTransaction = errorMessage => {
-    metricsService.error({ error: errorMessage });
+export const logMetricsServiceErrorTransaction = (errorMessage, source) => {
+    metricsService.error({ error: errorMessage }, source);
 };
 
 /**
  * Wrapper function for Perf Start in metrics Service
  * @param {String} name - name of perf transaction.
  * @param {Object} config - payload of the transaction.
+ * @param {String} source source of the message.
  */
-export const logPerfTransactionStart = (name, config) => {
-    metricsService.perfStart(getAppName() + ':' + name, config);
+export const logPerfTransactionStart = (name, config, source) => {
+    metricsService.perfStart(getAppName() + ':' + name, config, source);
 };
 
 /**
  * Wrapper function for Perf End in metrics Service
  * @param {String} name - name of perf transaction.
  * @param {Object} config - payload of the transaction.
+ * @param {String} source source of the message.
  */
-export const logPerfTransactionEnd = (name, config) => {
-    metricsService.perfEnd(getAppName() + ':' + name, config);
+export const logPerfTransactionEnd = (name, config, source) => {
+    metricsService.perfEnd(getAppName() + ':' + name, config, source);
 };
 
 /**
@@ -61,6 +64,17 @@ export const logPerfMarkStart = (name, context) => {
  */
 export const logPerfMarkEnd = (name, context) => {
     metricsService.markEnd(getAppName(), name, context);
+};
+
+/**
+ * Wrapper function for mark in metrics Service
+ * @param {String} namespace - namespace of perf transaction.
+ * @param {String} name - name of perf transaction.
+ * @param {Object} context - payload of the mark.
+ * Note: A mark will only appear in the log line if it falls inside the time range of an existing transaction.
+ */
+export const logPerfMark = (namespace, name, context) => {
+    metricsService.mark(namespace, name, context);
 };
 
 /**

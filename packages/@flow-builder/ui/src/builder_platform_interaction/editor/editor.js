@@ -95,6 +95,7 @@ import {
 import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
 import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLib';
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
+import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
 
 let unsubscribeStore;
 let storeInstance;
@@ -126,6 +127,9 @@ export default class Editor extends LightningElement {
     @api
     builderType;
 
+    @api
+    guardrailsParams;
+
     @track
     flowStatus;
 
@@ -138,6 +142,8 @@ export default class Editor extends LightningElement {
     originalFlowDescription;
     originalFlowInterviewLabel;
     keyboardInteractions;
+
+    guardrailsEngine;
 
     @track
     properties = {};
@@ -250,6 +256,9 @@ export default class Editor extends LightningElement {
             DESELECT_ON_CANVAS, // is dispatched when user clicks on the blank space in canvas.
             MARQUEE_SELECT_ON_CANVAS // is dispatched when the user is marquee selecting on the canvas.
         ];
+
+        this.guardrailsEngine = new FlowGuardrailsExecutor();
+
         // Initialising store
         storeInstance = Store.getStore(
             undoRedo(reducer, {
@@ -350,7 +359,17 @@ export default class Editor extends LightningElement {
             });
             this.propertyEditorBlockerCalls.push(getRunInModesCall);
         }
+        this.executeGuardrails(currentState);
     };
+
+    executeGuardrails(flowState) {
+        if (this.guardrailsParams && this.guardrailsParams.enabled && this.guardrailsParams.running) {
+            const flow = translateUIModelToFlow(flowState);
+            this.guardrailsEngine.evaluate(flow).then(results => {
+                this.dispatchEvent(new GuardrailsResultEvent(results));
+            });
+        }
+    }
 
     /**
      * Callback which gets executed once we get the flow from java controller
