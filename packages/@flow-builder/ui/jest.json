@@ -28,5 +28,6 @@
         "^analyzer_framework/(.+)$": "<rootDir>/jest-modules/analyzer_framework/$1/$1"
     },
     "setupFilesAfterEnv": ["<rootDir>/jestSetup.js"],
-    "clearMocks": true
+    "clearMocks": true,
+    "collectCoverageFrom": ["<rootDir>/src/**/*.js", "!**/*Labels.js"]
 }
