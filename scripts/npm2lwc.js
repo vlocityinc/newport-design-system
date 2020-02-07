@@ -5,6 +5,7 @@ const argv = require('yargs').argv;
 const { transformFileSync } = require('@babel/core');
 const transformNamespace = require('./babel/babel-plugin-npm2lwc/index');
 const { camelCase, findAllPackages, printWarning, printInfo, getDirectories } = require('./utils');
+const watch = require('node-watch');
 
 const modulesArg = argv._[0] || 'src/main/modules';
 const npmPackagesArg = argv._[1] || 'packages'; // force passing in args for now
@@ -146,11 +147,12 @@ function mvUiModule(src, dest, options) {
     const npm2lwcConfig = require(resolve(src, 'package.json')).npm2lwc;
     const sourcePath = resolve(src, 'src/');
     if (options.watch) {
-        fs.watch(sourcePath, { recursive: true }, (event, filename) => {
+        watch(sourcePath, { recursive: true }, (event, filename) => {
             // Check not a temp file generated (intellij)
             if (filename.indexOf('___') === -1 && !filename.endsWith('~')) {
                 const fullSourcePath = resolve(sourcePath, filename);
-                const modulePath = resolve(dest, filename);
+                const relativePath = relative(sourcePath, fullSourcePath);
+                const modulePath = resolve(dest, relativePath);
                 printInfo(`File change detected at ${fullSourcePath}. Pushing changes to ${modulePath}`);
                 fs.copyFileSync(fullSourcePath, modulePath);
             }
