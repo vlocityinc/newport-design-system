@@ -1,6 +1,7 @@
 import { createElement } from 'lwc';
 import CalloutEditorContainer from '../calloutEditorContainer';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/translatorLib', () => ({
     translateUIModelToFlow: jest.fn(),
@@ -45,6 +46,11 @@ const mockSelectedAction = {
     actionName: 'chatterPost',
     actionType: 'chatterPost',
     elementType: ELEMENT_TYPE.ACTION_CALL
+};
+
+const mockSelectedSubflow = {
+    flowName: 'mySubFlow',
+    elementType: ELEMENT_TYPE.SUBFLOW
 };
 
 describe('callout-editor-container', () => {
@@ -117,6 +123,27 @@ describe('callout-editor-container', () => {
             expect(innerNode.name.value).toEqual('test name');
             expect(innerNode.label.value).toEqual('test label');
             expect(innerNode.description.value).toEqual('test description');
+        });
+    });
+    describe('When a subflow is selected', () => {
+        let container;
+        beforeEach(() => {
+            container = setupComponentUnderTest({
+                selectedAction: mockSelectedSubflow,
+                location: { locationX: 100, locationY: 100 },
+                hasActions: { value: true },
+                processType: FLOW_PROCESS_TYPE.USER_PROVISIONING_FLOW
+            });
+        });
+        it('should accept the selected subflow', () => {
+            expect(container.selectedAction).toEqual(mockSelectedSubflow);
+        });
+        it('should create inner editor for subflow', () => {
+            const innerEditor = container.shadowRoot.querySelector(EDITOR_SELECTOR);
+            const node = innerEditor.getNode();
+            expect(node.flowName).toEqual(mockSelectedSubflow.flowName);
+            expect(node.elementType).toEqual(mockSelectedSubflow.elementType);
+            expect(innerEditor.processType).toEqual(FLOW_PROCESS_TYPE.USER_PROVISIONING_FLOW);
         });
     });
 });
