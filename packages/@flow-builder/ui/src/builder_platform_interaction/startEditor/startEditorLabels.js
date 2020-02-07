@@ -4,12 +4,12 @@ import triggerTypeSectionHeader from '@salesforce/label/FlowBuilderStartEditor.t
 import triggerTypeSectionDescription from '@salesforce/label/FlowBuilderStartEditor.triggerTypeSectionDescription';
 import triggerTypeInputLabel from '@salesforce/label/FlowBuilderStartEditor.triggerTypeInputLabel';
 import triggerTypeAutomatically from '@salesforce/label/FlowBuilderStartEditor.triggerTypeAutomatically';
-import triggerTypeBeforeSaveInputLabel from '@salesforce/label/FlowBuilderStartEditor.triggerTypeBeforeSaveInputLabel';
+import createOrUpdateInputLabel from '@salesforce/label/FlowBuilderStartEditor.createOrUpdateInputLabel';
 import triggerTypeScheduled from '@salesforce/label/FlowBuilderStartEditor.triggerTypeScheduled';
 import triggerTypeScheduledJourney from '@salesforce/label/FlowBuilderStartEditor.triggerTypeScheduledJourney';
-import triggerTypeUpdated from '@salesforce/label/FlowBuilderStartEditor.triggerTypeUpdated';
-import triggerTypeCreated from '@salesforce/label/FlowBuilderStartEditor.triggerTypeCreated';
-import triggerTypeCreatedOrUpdated from '@salesforce/label/FlowBuilderStartEditor.triggerTypeCreatedOrUpdated';
+import recordTriggerTypeUpdated from '@salesforce/label/FlowBuilderStartEditor.recordTriggerTypeUpdated';
+import recordTriggerTypeCreated from '@salesforce/label/FlowBuilderStartEditor.recordTriggerTypeCreated';
+import recordTriggerTypeCreatedOrUpdated from '@salesforce/label/FlowBuilderStartEditor.recordTriggerTypeCreatedOrUpdated';
 import triggerTypeRecordUpdateOrCreate from '@salesforce/label/FlowBuilderStartEditor.triggerTypeRecordUpdateOrCreate';
 import scheduleSectionHeader from '@salesforce/label/FlowBuilderStartEditor.scheduleSectionHeader';
 import filterRecordsDescription from '@salesforce/label/FlowBuilderStartEditor.filterRecordsDescription';
@@ -35,14 +35,14 @@ export const LABELS = {
     createOrUpdateSectionHeader,
     triggerTypeSectionHeader,
     triggerTypeSectionDescription,
-    triggerTypeBeforeSaveInputLabel,
+    createOrUpdateInputLabel,
     triggerTypeInputLabel,
     triggerTypeAutomatically,
     triggerTypeScheduled,
     triggerTypeScheduledJourney,
-    triggerTypeUpdated,
-    triggerTypeCreated,
-    triggerTypeCreatedOrUpdated,
+    recordTriggerTypeUpdated,
+    recordTriggerTypeCreated,
+    recordTriggerTypeCreatedOrUpdated,
     triggerTypeRecordUpdateOrCreate,
     scheduleSectionHeader,
     filterRecordsDescription,

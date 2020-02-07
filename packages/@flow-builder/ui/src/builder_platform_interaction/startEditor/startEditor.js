@@ -185,15 +185,15 @@ export default class StartEditor extends LightningElement {
     get createOrUpdateOptions() {
         return [
             {
-                label: LABELS.triggerTypeCreated,
+                label: LABELS.recordTriggerTypeCreated,
                 value: CREATE
             },
             {
-                label: LABELS.triggerTypeUpdated,
+                label: LABELS.recordTriggerTypeUpdated,
                 value: UPDATE
             },
             {
-                label: LABELS.triggerTypeCreatedOrUpdated,
+                label: LABELS.recordTriggerTypeCreatedOrUpdated,
                 value: CREATE_AND_UPDATE
             }
         ];

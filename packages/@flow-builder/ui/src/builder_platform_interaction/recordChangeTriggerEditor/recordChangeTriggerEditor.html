@@ -1,0 +1,44 @@
+<template>
+    <!-- Choose record save trigger (on create vs update) -->
+    <div class="slds-p-horizontal_small slds-p-top_small">
+        <h3 class="slds-text-heading_small slds-p-bottom_small">
+            {labels.createOrUpdateSectionHeader}
+        </h3>
+
+        <div class="slds-form slds-p-bottom_small slds-size_1-of-2">
+            <lightning-radio-group
+                class="recordCreateOrUpdate slds-form-element slds-col slds-grow"
+                name="recordCreateOrUpdate"
+                label={labels.createOrUpdateInputLabel}
+                options={createOrUpdateOptions}
+                onchange={handleTriggerSaveTypeChange}
+                value={saveType}
+                required
+                type="radio"
+            ></lightning-radio-group>
+        </div>
+    </div>
+
+    <!-- choose trigger type (before vs. after save) -->
+    <div class="slds-p-horizontal_small slds-p-top_small">
+        <h3 class="slds-text-heading_small slds-p-bottom_small">
+            {labels.recordChangeTriggerTypeSectionHeader}
+        </h3>
+
+        <div class="slds-form slds-p-bottom_small slds-size_1-of-2">
+            <lightning-radio-group
+                class="triggerType slds-form-element slds-col slds-grow"
+                name="triggerType"
+                label={labels.recordChangeTriggerTypeInputLabel}
+                onchange={handleTriggerTypeChange}
+                options={triggerTypeOptions}
+                value={triggerType}
+                required
+                type="radio"
+            ></lightning-radio-group>
+        </div>
+        <div class="slds-p-bottom_small">
+            {triggerTypeDescription}
+        </div>
+    </div>
+</template>
