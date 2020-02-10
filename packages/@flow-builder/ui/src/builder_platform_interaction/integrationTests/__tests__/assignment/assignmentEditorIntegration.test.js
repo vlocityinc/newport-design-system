@@ -21,7 +21,8 @@ import {
     typeMergeFieldInCombobox,
     getComboboxItems,
     typeReferenceOrValueInCombobox,
-    getComboboxGroupLabel
+    getComboboxGroupLabel,
+    expectCanSelectInCombobox
 } from '../comboboxTestUtils';
 import { createVariable } from 'builder_platform_interaction/elementFactory';
 import {
@@ -345,21 +346,15 @@ describe('Assignment Editor', () => {
         });
     });
     describe('Selection using comboboxes', () => {
-        const expectCanSelectInCombobox = async (combobox, propertyValues, expectedItem = {}) => {
-            const selectedItem = await selectComboboxItemBy(combobox, 'text', propertyValues, { blur: true });
-            expect(selectedItem).toBeDefined();
-            expect(combobox.errorMessage).toBeNull();
-            expect(selectedItem).toMatchObject(expectedItem);
-        };
         const itCanSelectInLhs = (lhs, expectedItem = {}) =>
             it(`can select [${lhs}] on lhs`, async () => {
                 const lhsCombobox = getLhsCombobox(expressionBuilder);
-                await expectCanSelectInCombobox(lhsCombobox, lhs, expectedItem);
+                await expectCanSelectInCombobox(lhsCombobox, 'text', lhs, expectedItem);
             });
         const itCanSelectInRhs = (rhs, expectedItem = {}) =>
             it(`can select [${rhs}] on rhs`, async () => {
                 const rhsCombobox = getRhsCombobox(expressionBuilder);
-                await expectCanSelectInCombobox(rhsCombobox, rhs, expectedItem);
+                await expectCanSelectInCombobox(rhsCombobox, 'text', rhs, expectedItem);
             });
         describe('groups', () => {
             it.each`
@@ -377,15 +372,21 @@ describe('Assignment Editor', () => {
         });
         describe('apex variables', () => {
             itCanSelectInLhs(['apexComplexTypeVariable', 'acct'], {
-                iconName: 'utility:sobject'
+                iconName: 'utility:sobject',
+                displayText: '{!apexComplexTypeVariable.acct}'
             });
-            itCanSelectInLhs(['apexComplexTypeVariable', 'acct', 'Name']);
+            itCanSelectInLhs(['apexComplexTypeVariable', 'acct', 'Name'], {
+                displayText: '{!apexComplexTypeVariable.acct.Name}'
+            });
         });
         describe('lookup records automatic output', () => {
             itCanSelectInLhs(['Account from lookupRecordAutomaticOutput'], {
-                iconName: 'utility:sobject'
+                iconName: 'utility:sobject',
+                displayText: '{!lookupRecordAutomaticOutput}'
             });
-            itCanSelectInLhs(['Account from lookupRecordAutomaticOutput', 'Name']);
+            itCanSelectInLhs(['Account from lookupRecordAutomaticOutput', 'Name'], {
+                displayText: '{!lookupRecordAutomaticOutput.Name}'
+            });
             itCanSelectInRhs(['Account from lookupRecordAutomaticOutput', 'Name'], {
                 displayText: '{!lookupRecordAutomaticOutput.Name}'
             });
@@ -403,12 +404,21 @@ describe('Assignment Editor', () => {
             });
         });
         describe('action automatic output', () => {
-            itCanSelectInLhs(['Outputs from apexCall_Car_automatic_output', 'car'], { iconName: 'utility:apex' });
+            itCanSelectInLhs(['Outputs from apexCall_Car_automatic_output', 'car'], {
+                iconName: 'utility:apex',
+                displayText: '{!apexCall_Car_automatic_output.car}'
+            });
         });
         describe('subflow automatic output', () => {
-            itCanSelectInLhs(['Outputs from subflowAutomaticOutput', 'output2 (Active Version Only)']);
-            itCanSelectInLhs(['Outputs from subflowAutomaticOutput', 'accountOutput']);
-            itCanSelectInLhs(['Outputs from subflowAutomaticOutput', 'accountOutput', 'Name']);
+            itCanSelectInLhs(['Outputs from subflowAutomaticOutput', 'output2 (Active Version Only)'], {
+                displayText: '{!subflowAutomaticOutput.output2}'
+            });
+            itCanSelectInLhs(['Outputs from subflowAutomaticOutput', 'accountOutput'], {
+                displayText: '{!subflowAutomaticOutput.accountOutput}'
+            });
+            itCanSelectInLhs(['Outputs from subflowAutomaticOutput', 'accountOutput', 'Name'], {
+                displayText: '{!subflowAutomaticOutput.accountOutput.Name}'
+            });
             itCanSelectInLhs(
                 ['Outputs from subflowAutomaticOutput', 'carOutput (Latest Version Only)', 'wheel', 'type'],
                 {

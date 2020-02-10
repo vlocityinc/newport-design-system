@@ -44,7 +44,8 @@ const MAXIMUM_NUMBER_OF_LEVELS = 10;
 export class MergeFieldsValidation {
     allowGlobalConstants = true;
     allowCollectionVariables = false;
-    allowLookupTraversal = true;
+    allowSObjectFieldsTraversal = true;
+    allowApexTypeFieldsTraversal = true;
 
     // The allowed param types for merge field based on rule service.
     // If present, this is used to validate the element merge field.
@@ -254,6 +255,9 @@ export class MergeFieldsValidation {
 
     _validateApexMergeField(apexClassName, fieldNames, index, endIndex) {
         const [fieldName, ...remainingFieldNames] = fieldNames;
+        if (this.allowApexTypeFieldsTraversal === false && fieldNames.length > 1) {
+            return { error: validationErrors.mergeFieldNotAllowed(index, endIndex) };
+        }
         if (getApexClasses() === null) {
             // apex classes not yet set
             return {
@@ -283,6 +287,11 @@ export class MergeFieldsValidation {
     _validateSObjectMergeField(entityName, fieldNames, index, endIndex) {
         const [fieldName, ...remainingFieldNames] = fieldNames;
         let field;
+        if (this.allowSObjectFieldsTraversal === false && fieldNames.length > 1) {
+            return {
+                error: validationErrors.mergeFieldNotAllowed(index, endIndex)
+            };
+        }
         const fields = sobjectLib.getFieldsForEntity(entityName);
         if (!fields) {
             // entity not cached or no entity with this name ...
@@ -427,17 +436,20 @@ export class MergeFieldsValidation {
         return { field: parameter };
     }
 
+    _getElement(elementName) {
+        return getElementByDevName(elementName) || this._getUncommittedElement(elementName);
+    }
+
     _validateComplexTypeFieldMergeField(mergeFieldReferenceValue, index) {
         const endIndex = index + mergeFieldReferenceValue.length - 1;
         const parts = splitStringBySeparator(mergeFieldReferenceValue);
         const [elementName, ...fieldNames] = parts;
-        if (this.allowLookupTraversal === false && fieldNames.length > 1) {
-            return [validationErrors.mergeFieldNotAllowed(index, endIndex)];
-        }
+
         if (fieldNames.length >= MAXIMUM_NUMBER_OF_LEVELS) {
             return [validationErrors.maximumNumberOfLevelsReached(index, endIndex)];
         }
-        const element = getElementByDevName(elementName) || this._getUncommittedElement(elementName);
+
+        const element = this._getElement(elementName);
 
         if (!element) {
             return [validationErrors.unknownResource(elementName, index, endIndex)];
@@ -571,14 +583,16 @@ export function validateMergeField(
         allowGlobalConstants = true,
         allowedParamTypes = null,
         allowCollectionVariables = false,
-        allowLookupTraversal = true
+        allowSObjectFieldsTraversal = true,
+        allowApexTypeFieldsTraversal = true
     } = {}
 ) {
     const validation = new MergeFieldsValidation();
     validation.allowGlobalConstants = allowGlobalConstants;
     validation.allowedParamTypes = allowedParamTypes;
     validation.allowCollectionVariables = allowCollectionVariables;
-    validation.allowLookupTraversal = allowLookupTraversal;
+    validation.allowSObjectFieldsTraversal = allowSObjectFieldsTraversal;
+    validation.allowApexTypeFieldsTraversal = allowApexTypeFieldsTraversal;
     return validation.validateMergeField(mergeField);
 }
 

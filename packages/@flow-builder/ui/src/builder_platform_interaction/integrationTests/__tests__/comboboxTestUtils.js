@@ -61,3 +61,10 @@ export const getComboboxItems = combobox => {
     const groupedCombobox = getGroupedComboboxFromCombobox(combobox);
     return groupedCombobox.items;
 };
+
+export const expectCanSelectInCombobox = async (combobox, propertyName, propertyValues, expectedItem = {}) => {
+    const selectedItem = await selectComboboxItemBy(combobox, propertyName, propertyValues, { blur: true });
+    expect(selectedItem).toBeDefined();
+    expect(combobox.errorMessage).toBeNull();
+    expect(selectedItem).toMatchObject(expectedItem);
+};

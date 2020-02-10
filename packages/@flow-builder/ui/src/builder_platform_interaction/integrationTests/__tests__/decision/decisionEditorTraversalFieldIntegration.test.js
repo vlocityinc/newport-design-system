@@ -5,19 +5,13 @@ import {
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
-import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
-import { updateFlow } from 'builder_platform_interaction/actions';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { resetState } from '../integrationTestUtils';
-import { initializeAuraFetch } from '../serverDataTestUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { reducer } from 'builder_platform_interaction/reducers';
+import { setupState, resetState, loadFlow } from '../integrationTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getLhsCombobox, getRhsCombobox } from '../expressionBuilderTestUtils';
 import { selectGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
 import { createComponentForTest, getFerToFerovExpressionBuilder } from './decisionEditorTestUtils';
-import { initializeLoader, loadOnProcessTypeChange } from 'builder_platform_interaction/preloadLib';
+import { typeReferenceOrValueInCombobox, expectCanSelectInCombobox } from '../comboboxTestUtils';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -37,20 +31,16 @@ const getRHSGroupedCombobox = decision => {
 };
 
 describe('Decision Editor', () => {
-    let decisionForPropertyEditor, decisionEditor, store, uiFlow;
+    let decisionForPropertyEditor, decisionEditor, store;
     beforeAll(() => {
-        store = Store.getStore(reducer);
-        initializeAuraFetch();
-        initializeLoader(store);
+        store = setupState();
     });
     afterAll(() => {
         resetState();
     });
     describe('Process type that supports lookup traversal', () => {
         beforeEach(async () => {
-            uiFlow = translateFlowToUIModel(flowWithAllElements);
-            store.dispatch(updateFlow(uiFlow));
-            await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.FLOW);
+            await loadFlow(flowWithAllElements, store);
 
             const element = getElementByDevName('decision');
             decisionForPropertyEditor = getElementForPropertyEditor(element);
@@ -82,9 +72,7 @@ describe('Decision Editor', () => {
     describe('AutoLaunched flow : does not support traversal if trigger type set', () => {
         describe('Trigger type is set', () => {
             beforeEach(async () => {
-                uiFlow = translateFlowToUIModel(autoLaunchedFlow);
-                store.dispatch(updateFlow(uiFlow));
-                await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
+                await loadFlow(autoLaunchedFlow, store);
 
                 const element = getElementByDevName('decision');
                 decisionForPropertyEditor = getElementForPropertyEditor(element);
@@ -132,13 +120,48 @@ describe('Decision Editor', () => {
                 expect(accountCreatedByIdItem).toBeDefined();
                 expect(accountCreatedByIdItem.rightIconName).toBeUndefined();
             });
+            describe('Validation', () => {
+                let expressionBuilder;
+                beforeEach(() => {
+                    expressionBuilder = getFerToFerovExpressionBuilder(decisionEditor);
+                });
+                describe('Selection using comboboxes', () => {
+                    const itCanSelectInLhs = (lhs, expectedItem = {}) =>
+                        it(`can select [${lhs}] on lhs`, async () => {
+                            const lhsCombobox = getLhsCombobox(expressionBuilder);
+                            lhsCombobox.value = null;
+                            await expectCanSelectInCombobox(lhsCombobox, 'text', lhs, expectedItem);
+                        });
+                    describe('apex variables', () => {
+                        itCanSelectInLhs(['apexComplexTypeVariable', 'acct'], {
+                            iconName: 'utility:sobject',
+                            displayText: '{!apexComplexTypeVariable.acct}'
+                        });
+                        itCanSelectInLhs(['apexComplexTypeVariable', 'acct', 'Name'], {
+                            displayText: '{!apexComplexTypeVariable.acct.Name}'
+                        });
+                    });
+                });
+                describe('Typing values', () => {
+                    it.each`
+                        lhs                                           | expectedErrorMessage
+                        ${'{!apexComplexTypeVariable.acct}'}          | ${null}
+                        ${'{!apexComplexTypeVariable.acct.Name}'}     | ${null}
+                        ${'{!apex.acct.CreatedBy.AboutMe} '}          | ${'FlowBuilderCombobox.genericErrorMessage'}
+                        ${'{!apexComplexTypeVariable.doesNotExist}'}  | ${'FlowBuilderMergeFieldValidation.unknownRecordField'}
+                        ${'{!apexComplexTypeVariable.doesNotExist.}'} | ${'FlowBuilderCombobox.genericErrorMessage'}
+                    `('error for "$lhs should be : $expectedErrorMessage', async ({ lhs, expectedErrorMessage }) => {
+                        const lhsCombobox = getLhsCombobox(expressionBuilder);
+                        await typeReferenceOrValueInCombobox(lhsCombobox, lhs);
+                        expect(lhsCombobox.errorMessage).toEqual(expectedErrorMessage);
+                    });
+                });
+            });
         });
     });
     describe('Process type that does not support lookup traversal', () => {
         beforeEach(async () => {
-            uiFlow = translateFlowToUIModel(contactRequestFlow);
-            store.dispatch(updateFlow(uiFlow));
-            await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW);
+            await loadFlow(contactRequestFlow, store);
 
             const element = getElementByDevName('decision');
             decisionForPropertyEditor = getElementForPropertyEditor(element);

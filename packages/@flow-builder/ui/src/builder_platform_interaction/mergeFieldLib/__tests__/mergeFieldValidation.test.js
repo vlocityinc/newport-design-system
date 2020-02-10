@@ -402,19 +402,34 @@ describe('Merge field validation', () => {
             });
             expect(validationErrors).toHaveLength(0);
         });
-        it('Returns validation error if traversal level more than 1 when allowLookupTraversal is false', () => {
-            const validationErrors = validateMergeField('{!accountSObjectVariable.Parent.Id}', {
-                allowLookupTraversal: false
-            });
+        describe('allow lookup traversal and allow lookup traversal in Apex', () => {
+            it.each`
+                mergeField                                             | allowSObjectFieldsTraversal | allowApexTypeFieldsTraversal | expectedErrorMessage
+                ${'{!accountSObjectVariable.Parent.Id}'}               | ${false}                    | ${null}                      | ${'Enter a valid value.'}
+                ${'{!accountSObjectVariable.ParentId}'}                | ${false}                    | ${null}                      | ${null}
+                ${'{!apexComplexTypeVariable.acct}'}                   | ${false}                    | ${false}                     | ${null}
+                ${'{!apexComplexTypeVariable.acct.Name}'}              | ${false}                    | ${false}                     | ${'Enter a valid value.'}
+                ${'{!accountSObjectVariable.ParentId}'}                | ${false}                    | ${true}                      | ${null}
+                ${'{!accountSObjectVariable.Parent.Id}'}               | ${false}                    | ${true}                      | ${'Enter a valid value.'}
+                ${'{!apexComplexTypeVariable.acct.Name}'}              | ${false}                    | ${true}                      | ${null}
+                ${'{!apexComplexTypeVariable.acct.CreatedBy.AboutMe}'} | ${false}                    | ${true}                      | ${'Enter a valid value.'}
+                ${'{!accountSObjectVariable.Parent.Id}'}               | ${true}                     | ${false}                     | ${null}
+                ${'{!apexComplexTypeVariable.acct.Name}'}              | ${true}                     | ${false}                     | ${'Enter a valid value.'}
+            `(
+                '$mergeField with allowSObjectFieldsTraversal $allowSObjectFieldsTraversal and allowApexTypeFieldsTraversal $allowApexTypeFieldsTraversal should return validation error: $expectedErrorMessage',
+                ({ mergeField, allowSObjectFieldsTraversal, allowApexTypeFieldsTraversal, expectedErrorMessage }) => {
+                    const validationErrors = validateMergeField(mergeField, {
+                        allowSObjectFieldsTraversal,
+                        allowApexTypeFieldsTraversal
+                    });
 
-            expect(validationErrors[0].message).toBe('Enter a valid value.');
-        });
-        it('Allows one level of traversal when allowLookupTraversal is false', () => {
-            const validationErrors = validateMergeField('{!accountSObjectVariable.ParentId}', {
-                allowLookupTraversal: false
-            });
-
-            expect(validationErrors).toHaveLength(0);
+                    if (expectedErrorMessage) {
+                        expect(validationErrors[0].message).toBe(expectedErrorMessage);
+                    } else {
+                        expect(validationErrors).toHaveLength(0);
+                    }
+                }
+            );
         });
         describe('Apex types', () => {
             it('Allows apex which matches class type', () => {

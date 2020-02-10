@@ -213,6 +213,22 @@ export const autolaunchedFlowUIModel = {
         },
         'a35e28e0-3d3b-44b1-9638-9caba6ef3820': {
             guid: 'a35e28e0-3d3b-44b1-9638-9caba6ef3820',
+            name: 'apexComplexTypeVariable',
+            description: '',
+            elementType: 'Variable',
+            isCollection: false,
+            isInput: false,
+            isOutput: false,
+            dataType: 'Apex',
+            subtype: 'ApexComplexTypeTestOne216',
+            subtypeIndex: 'e12af1ed-86ee-4f2f-8de8-9dc3cc64dca1',
+            scale: 2,
+            defaultValue: null,
+            defaultValueDataType: null,
+            defaultValueIndex: '3f1c4d9a-ea88-4c6c-85ac-6aa009601964'
+        },
+        '2f00ca0d-743f-4639-a084-272bbc548f8b': {
+            guid: '2f00ca0d-743f-4639-a084-272bbc548f8b',
             name: 'lookupRecord',
             description: '',
             label: 'lookupRecord',
@@ -225,11 +241,11 @@ export const autolaunchedFlowUIModel = {
                 isHighlighted: false
             },
             object: 'Account',
-            objectIndex: 'e12af1ed-86ee-4f2f-8de8-9dc3cc64dca1',
+            objectIndex: 'a18b3d06-504c-4e47-9f44-6663c42703cf',
             filterType: 'none',
             filters: [
                 {
-                    rowIndex: '2f00ca0d-743f-4639-a084-272bbc548f8b',
+                    rowIndex: '20336b8d-01e4-49eb-bb24-87deba5f6ef8',
                     leftHandSide: '',
                     rightHandSide: '',
                     rightHandSideDataType: '',
@@ -249,7 +265,7 @@ export const autolaunchedFlowUIModel = {
                 }
             ],
             elementType: 'RecordQuery',
-            outputReferenceIndex: '3f1c4d9a-ea88-4c6c-85ac-6aa009601964',
+            outputReferenceIndex: '5383bf9b-8314-42bd-a51e-cbee56ec3570',
             dataType: 'SObject',
             isCollection: false,
             subtype: 'Account',
@@ -274,7 +290,7 @@ export const autolaunchedFlowUIModel = {
             guid: '0ecd3000-0adc-4d34-bdc1-acd331740de0',
             source: 'fe30ada4-6781-4ffd-84d1-9efbadaa29ab',
             childSource: 'bf05168b-6bd9-483a-8ea8-5e4d73a1c717',
-            target: 'a35e28e0-3d3b-44b1-9638-9caba6ef3820',
+            target: '2f00ca0d-743f-4639-a084-272bbc548f8b',
             label: 'waitEvent1',
             type: 'REGULAR',
             config: {
@@ -287,7 +303,7 @@ export const autolaunchedFlowUIModel = {
         '3f91c315-f597-4dc0-bd4e-1f27a8fa59e3',
         'e682f03e-925a-4d84-adc3-f1c5ceea0201',
         'fe30ada4-6781-4ffd-84d1-9efbadaa29ab',
-        'a35e28e0-3d3b-44b1-9638-9caba6ef3820'
+        '2f00ca0d-743f-4639-a084-272bbc548f8b'
     ],
     properties: {
         canOnlySaveAsNewDefinition: false,

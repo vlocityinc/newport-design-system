@@ -133,6 +133,16 @@
                 "isInput": false,
                 "isOutput": false,
                 "scale": 2
+            },
+            {
+                "name": "apexComplexTypeVariable",
+                "description": "",
+                "apexClass": "ApexComplexTypeTestOne216",
+                "dataType": "Apex",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 2
             }
         ],
         "recordLookups": [
@@ -168,6 +178,7 @@
             }
         ],
         "processType": "AutoLaunchedFlow",
+        "runInMode": null,
         "status": "Draft"
     },
     "processType": "AutoLaunchedFlow",

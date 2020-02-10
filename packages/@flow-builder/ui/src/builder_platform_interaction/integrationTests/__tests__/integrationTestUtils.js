@@ -14,12 +14,12 @@ import {
     loadOnStart,
     loadOnProcessTypeChange,
     clearLoader,
-    loadApexClasses
+    loadApexClasses,
+    loadFieldsForComplexTypesInFlow
 } from 'builder_platform_interaction/preloadLib';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { updateFlow } from 'builder_platform_interaction/actions';
-import { loadFieldsForComplexTypesInFlow } from 'builder_platform_interaction/preloadLib';
 
 export const FLOW_BUILDER_VALIDATION_ERROR_MESSAGES = {
     CANNOT_BE_BLANK: 'FlowBuilderValidation.cannotBeBlank',
@@ -40,21 +40,32 @@ export const changeInputValue = (input, newValue) => {
     input.dispatchEvent(focusoutEvent);
 };
 
-export const setupStateForProcessType = async processType => {
+export const setupState = () => {
     const store = Store.getStore(reducer);
     initializeAuraFetch();
     initializeLoader(store);
     loadOnStart();
+    return store;
+};
+
+export const setupStateForProcessType = async processType => {
+    const store = setupState();
     await loadOnProcessTypeChange(processType);
     await loadApexClasses();
     return store;
 };
 
-export const setupStateForFlow = async flow => {
-    const store = await setupStateForProcessType(flow.processType);
+export const loadFlow = async (flow, store) => {
+    await loadOnProcessTypeChange(flow.processType);
     const uiFlow = translateFlowToUIModel(flow);
     store.dispatch(updateFlow(uiFlow));
     await loadFieldsForComplexTypesInFlow(uiFlow);
+};
+
+export const setupStateForFlow = async flow => {
+    const store = await setupState();
+    await loadFlow(flow, store);
+    await loadApexClasses();
     return store;
 };
 
