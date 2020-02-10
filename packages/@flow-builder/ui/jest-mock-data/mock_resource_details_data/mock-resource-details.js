@@ -2,7 +2,8 @@ import {
     emailScreenFieldAutomaticOutput,
     screenElement,
     actionCallAutomaticOutput,
-    actionCallLocalActionAutomaticOutput
+    actionCallLocalActionAutomaticOutput,
+    subflowAutomaticOutput
 } from 'mock/storeData';
 
 /**
@@ -352,4 +353,29 @@ export const mockApexActionInAutomaticOutputsModeAnonymousStringResourceDetails 
     asResource: true,
     storeOutputAutomatically: true,
     isSystemGeneratedOutput: true
+};
+
+/**
+ * Subflow mocked resource details in output automatic mode
+ */
+export const mockSubflowInAutomaticOutputModeResourceDetails = {
+    title: 'Outputs from subflow1',
+    elementType: 'Subflow',
+    elementGuid: subflowAutomaticOutput.guid,
+    typeLabel: 'Subflow',
+    typeIconName: 'utility:flow',
+    apiName: 'subflow1',
+    editable: false,
+    deletable: false,
+    createdByElement: {
+        guid: subflowAutomaticOutput.guid,
+        label: 'subflow1',
+        name: 'subflow1',
+        elementGuidsReferenced: [subflowAutomaticOutput.guid],
+        iconName: 'standard:flow',
+        isCanvasElement: true
+    },
+    usedByElements: [],
+    asResource: true,
+    storeOutputAutomatically: true
 };

@@ -12,7 +12,8 @@ import {
     mockAccountRecordVariable,
     mockCreateRecordAutomaticOutputModeResourceDetails,
     mockCreateRecordNotInAutomaticOutputModeResourceDetails,
-    mockApexActionInAutomaticOutputsModeAnonymousStringResourceDetails
+    mockApexActionInAutomaticOutputsModeAnonymousStringResourceDetails,
+    mockSubflowInAutomaticOutputModeResourceDetails
 } from 'mock/resourceDetailsData';
 import { LABELS } from '../resourceDetailsLabels';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
@@ -326,6 +327,38 @@ describe('Resource Details', () => {
                 expect(apiName).not.toBeDefined();
             });
         });
+        describe('Subflow as a resource', () => {
+            let resourceDetailsComponent;
+            beforeEach(() => {
+                resourceDetailsComponent = createComponentUnderTest(mockSubflowInAutomaticOutputModeResourceDetails);
+            });
+            it('should not display Edit and Delete buttons', () => {
+                const footerButtons = resourceDetailsComponent.shadowRoot.querySelectorAll(SELECTORS.footerButtons);
+                expect(footerButtons).toHaveLength(0);
+            });
+            it('should display the element that created the automatic output (createdBy section) with correct title and list elements', () => {
+                const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(SELECTORS.createdBySection);
+                expect(createdBySection).toBeDefined();
+                const createdByList = createdBySection.querySelector(SELECTORS.createdByList);
+                expect(createdByList.listSectionHeader).toBe('FlowBuilderResourceDetailsPanel.createdByText');
+                expect(createdByList.listSectionItems).toEqual([
+                    mockSubflowInAutomaticOutputModeResourceDetails.createdByElement
+                ]);
+                expect(resourceDetailsComponent.createdByElements).toEqual([
+                    mockSubflowInAutomaticOutputModeResourceDetails.createdByElement
+                ]);
+            });
+            it('should display "Parameters" section (element type supported)', () => {
+                const resourceDetailsParametersComponent = resourceDetailsComponent.shadowRoot.querySelector(
+                    SELECTORS.resourceDetailsParameters
+                );
+                expect(resourceDetailsParametersComponent).not.toBeNull();
+            });
+            it('should display API Name', () => {
+                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
+                expect(apiName).toContain(mockSubflowInAutomaticOutputModeResourceDetails.apiName);
+            });
+        });
     });
     describe("'Resource NOT in automatic output handling mode", () => {
         let resourceDetailsComponent;
@@ -434,8 +467,24 @@ describe('Resource Details', () => {
             });
             it('should display API Name', () => {
                 const apiName = getApiNameLineTextContent(resourceDetailsComponent);
-
                 expect(apiName).toContain(mockCreateRecordNotInAutomaticOutputModeResourceDetails.apiName);
+            });
+        });
+        describe('Subflow as a resource', () => {
+            it('should NOT display "Parameters" section (element type that supports automatic output mode but "storeOutputAutomatically: false")', () => {
+                resourceDetailsComponent = createComponentUnderTest(
+                    Object.assign(mockSubflowInAutomaticOutputModeResourceDetails, {
+                        storeOutputAutomatically: false
+                    })
+                );
+                const resourceDetailsParametersComponent = resourceDetailsComponent.shadowRoot.querySelector(
+                    SELECTORS.resourceDetailsParameters
+                );
+                expect(resourceDetailsParametersComponent).toBeNull();
+            });
+            it('should display API Name', () => {
+                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
+                expect(apiName).toContain(mockSubflowInAutomaticOutputModeResourceDetails.apiName);
             });
         });
     });

@@ -133,6 +133,191 @@ exports[`Resource Details parameters Extension (ie: ligthning component) screenf
 </builder_platform_interaction-resource-details-parameters>
 `;
 
+exports[`Resource Details parameters Subflow in automatic outputs mode No fetch exception Parameters fetch server call OK and NO error check UI: icon names, tooltip, labels...(snapshot) parameters displayed 1`] = `
+<builder_platform_interaction-resource-details-parameters>
+  #shadow-root(open)
+    <div
+      class="resource-detail-parameters-body"
+    >
+      <div
+        class="slds-text-title_caps slds-text-color_weak slds-p-vertical_x-small"
+      >
+        FlowBuilderResourceDetailsParameters.header
+      </div>
+      <ul
+        class="slds-has-block-links test-list-section-items"
+      >
+        <li
+          class="slds-item"
+        >
+          <div
+            class="slds-grid"
+          >
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span>
+              accountOutput
+            </span>
+          </div>
+        </li>
+        <li
+          class="slds-item"
+        >
+          <div
+            class="slds-grid"
+          >
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span>
+              accountOutputCollection
+            </span>
+          </div>
+        </li>
+        <li
+          class="slds-item"
+        >
+          <div
+            class="slds-grid"
+          >
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span>
+              carOutput (Latest Version Only)
+            </span>
+          </div>
+        </li>
+        <li
+          class="slds-item"
+        >
+          <div
+            class="slds-grid"
+          >
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span>
+              carOutputCollection (Latest Version Only)
+            </span>
+          </div>
+        </li>
+        <li
+          class="slds-item"
+        >
+          <div
+            class="slds-grid"
+          >
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span>
+              inputOutput1
+            </span>
+          </div>
+        </li>
+        <li
+          class="slds-item"
+        >
+          <div
+            class="slds-grid"
+          >
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span>
+              inputOutput2 (Active Version Only)
+            </span>
+          </div>
+        </li>
+        <li
+          class="slds-item"
+        >
+          <div
+            class="slds-grid"
+          >
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span>
+              output1
+            </span>
+          </div>
+        </li>
+        <li
+          class="slds-item"
+        >
+          <div
+            class="slds-grid"
+          >
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span>
+              output2 (Active Version Only)
+            </span>
+          </div>
+        </li>
+        <li
+          class="slds-item"
+        >
+          <div
+            class="slds-grid"
+          >
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span>
+              output3 (Active Version Only)
+            </span>
+          </div>
+        </li>
+        <li
+          class="slds-item"
+        >
+          <div
+            class="slds-grid"
+          >
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span>
+              output4 (Latest Version Only)
+            </span>
+          </div>
+        </li>
+      </ul>
+    </div>
+</builder_platform_interaction-resource-details-parameters>
+`;
+
+exports[`Resource Details parameters Subflow in automatic outputs mode No fetch exception Parameters fetch server call OK but error check UI: icon names, tooltip, labels (snapshot) no parameters displayed 1`] = `
+<builder_platform_interaction-resource-details-parameters>
+  #shadow-root(open)
+</builder_platform_interaction-resource-details-parameters>
+`;
+
 exports[`Resource Details parameters core action "Local action" in automatic outputs mode No fetch exception Parameters fetch server call OK and NO error check UI: icon names, tooltip, labels...(snapshot) parameters displayed 1`] = `
 <builder_platform_interaction-resource-details-parameters>
   #shadow-root(open)

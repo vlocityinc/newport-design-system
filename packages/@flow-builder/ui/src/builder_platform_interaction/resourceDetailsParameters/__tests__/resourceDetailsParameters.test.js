@@ -1,16 +1,19 @@
 import { createElement } from 'lwc';
 import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
+import { fetchMergedFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { mockSubmitForApprovalActionParameters, mockLocalActionParameters } from 'mock/calloutData';
 import ResourceDetailsParameters from 'builder_platform_interaction/resourceDetailsParameters';
 import {
     mockExtensionScreenfieldAutomaticOutputsModeResourceDetails,
     mockActionSubmitForApprovalAutomaticOutputsModeResourceDetails,
-    mockActionLocalActionInAutomaticOutputsModeResourceDetails
+    mockActionLocalActionInAutomaticOutputsModeResourceDetails,
+    mockSubflowInAutomaticOutputModeResourceDetails
 } from 'mock/resourceDetailsData';
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 
 const createComponentUnderTest = resourceDetails => {
     const el = createElement('builder_platform_interaction-resource-details-parameters', {
@@ -29,7 +32,34 @@ jest.mock('builder_platform_interaction/invocableActionLib', () => ({
     fetchDetailsForInvocableAction: jest.fn(() => Promise.resolve(mockSubmitForApprovalActionParameters))
 }));
 
+jest.mock('builder_platform_interaction/subflowsLib', () => {
+    const actual = require.requireActual('builder_platform_interaction/subflowsLib');
+    return {
+        fetchMergedFlowOutputVariables: jest.fn(flowName => {
+            if (flowName === 'flowWithActiveAndLatest') {
+                return Promise.resolve(
+                    actual.getMergedInputOutputVariables(mockFlowWithActiveAndLatest).outputVariables
+                );
+            }
+            return Promise.reject(`No flow with name ${flowName}`);
+        }),
+        getSubflowVariableLabelWithWarning: actual.getSubflowVariableLabelWithWarning
+    };
+});
+
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
+jest.mock(
+    '@salesforce/label/FlowBuilderSubflows.variableInLatestVersionOnly',
+    () => ({ default: '{0} (Latest Version Only)' }),
+    { virtual: true }
+);
+
+jest.mock(
+    '@salesforce/label/FlowBuilderSubflows.variableInActiveVersionOnly',
+    () => ({ default: '{0} (Active Version Only)' }),
+    { virtual: true }
+);
 
 const SELECTORS = { SPINNER: '.spinner' };
 
@@ -121,6 +151,23 @@ const EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_ACTION_LOCAL_ACTION_IN_AUTO_MODE = [
         description: null,
         typeIconName: 'utility:text'
     }
+];
+
+const EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_SUBFLOW_IN_AUTO_MODE = [
+    { apiName: 'accountOutput', label: 'accountOutput', typeIconName: 'utility:sobject' },
+    { apiName: 'accountOutputCollection', label: 'accountOutputCollection', typeIconName: 'utility:sobject' },
+    { apiName: 'carOutput', label: 'carOutput (Latest Version Only)', typeIconName: 'utility:apex' },
+    {
+        apiName: 'carOutputCollection',
+        label: 'carOutputCollection (Latest Version Only)',
+        typeIconName: 'utility:apex'
+    },
+    { apiName: 'inputOutput1', label: 'inputOutput1', typeIconName: 'utility:text' },
+    { apiName: 'inputOutput2', label: 'inputOutput2 (Active Version Only)', typeIconName: 'utility:text' },
+    { apiName: 'output1', label: 'output1', typeIconName: 'utility:text' },
+    { apiName: 'output2', label: 'output2 (Active Version Only)', typeIconName: 'utility:text' },
+    { apiName: 'output3', label: 'output3 (Active Version Only)', typeIconName: 'utility:text' },
+    { apiName: 'output4', label: 'output4 (Latest Version Only)', typeIconName: 'utility:text' }
 ];
 
 describe('Resource Details parameters', () => {
@@ -247,6 +294,51 @@ describe('Resource Details parameters', () => {
                         expect(resourceDetailsParametersComponent).toMatchSnapshot();
                     });
                 });
+            });
+        });
+    });
+
+    describe('Subflow in automatic outputs mode', () => {
+        describe('No fetch exception', () => {
+            beforeEach(() => {
+                resourceDetailsParametersComponent = createComponentUnderTest(
+                    mockSubflowInAutomaticOutputModeResourceDetails
+                );
+            });
+            describe('Parameters fetch server call OK and NO error', () => {
+                test('check "Parameters" details (via API)', () => {
+                    const parameters = resourceDetailsParametersComponent.parameters;
+                    expect(parameters).toEqual(EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_SUBFLOW_IN_AUTO_MODE);
+                });
+                test('check UI: icon names, tooltip, labels...(snapshot) parameters displayed', () => {
+                    expect(resourceDetailsParametersComponent).toMatchSnapshot();
+                });
+            });
+            describe('Parameters fetch server call OK but error', () => {
+                beforeAll(() => {
+                    fetchMergedFlowOutputVariables.mockImplementation(() =>
+                        Promise.reject(new Error('An error occured during subflow parameters fetching'))
+                    );
+                });
+                test('check "Parameters" details (via API)', () => {
+                    const parameters = resourceDetailsParametersComponent.parameters;
+                    expect(parameters).toHaveLength(0);
+                });
+                test('check UI: icon names, tooltip, labels (snapshot) no parameters displayed', () => {
+                    expect(resourceDetailsParametersComponent).toMatchSnapshot();
+                });
+            });
+        });
+        describe('Fetch exception', () => {
+            test('spinner should not be displayed)', () => {
+                describeExtension.mockImplementation(() => {
+                    throw new Error('Runtime exception this time');
+                });
+                resourceDetailsParametersComponent = createComponentUnderTest(
+                    mockSubflowInAutomaticOutputModeResourceDetails
+                );
+                const spinner = resourceDetailsParametersComponent.shadowRoot.querySelector(SELECTORS.spinner);
+                expect(spinner).toBeNull();
             });
         });
     });

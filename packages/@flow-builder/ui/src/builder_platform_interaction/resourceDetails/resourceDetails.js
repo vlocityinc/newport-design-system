@@ -13,7 +13,7 @@ export default class ResourceDetails extends LightningElement {
         hasAutomaticOutputParameters: false
     };
     _isAutomaticOutputParametersSupported = undefined;
-    _automaticOuputParameters = [];
+
     labels = LABELS;
 
     get hasIcon() {

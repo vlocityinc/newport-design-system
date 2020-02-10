@@ -2,6 +2,7 @@ import { LightningElement, api, track } from 'lwc';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import ResourceDetailsParametersExtensionConfig from './resourceDetailsParametersExtension';
 import ResourceDetailsParametersActionConfig from './resourceDetailsParametersAction';
+import ResourceDetailsParametersSubflowConfig from './resourceDetailsParametersSubflow';
 
 import { LABELS } from './resourceDetailsParametersLabels';
 
@@ -13,7 +14,8 @@ import { LABELS } from './resourceDetailsParametersLabels';
 export const RESOURCES_TYPE_WITH_AUTOMATIC_OUTPUT_PARAMETERS_CONFIGURATION = new Map([
     [ELEMENT_TYPE.SCREEN_FIELD, ResourceDetailsParametersExtensionConfig],
     [ELEMENT_TYPE.ACTION_CALL, ResourceDetailsParametersActionConfig],
-    [ELEMENT_TYPE.APEX_CALL, ResourceDetailsParametersActionConfig]
+    [ELEMENT_TYPE.APEX_CALL, ResourceDetailsParametersActionConfig],
+    [ELEMENT_TYPE.SUBFLOW, ResourceDetailsParametersSubflowConfig]
 ]);
 
 export default class ResourceDetailParameters extends LightningElement {

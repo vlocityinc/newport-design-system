@@ -84,7 +84,7 @@ const FLOW_DATA_TYPE = {
         label: DATA_TYPE_LABELS.subflowOutputDataTypeLabel,
         value: 'SubflowOutput',
         iconName: 'standard:output',
-        utilityIconName: 'utility:fallback'
+        utilityIconName: 'utility:flow'
     }
 };
 
