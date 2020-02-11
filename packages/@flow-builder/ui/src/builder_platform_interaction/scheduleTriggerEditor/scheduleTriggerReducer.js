@@ -1,4 +1,4 @@
-import { recordChangeTriggerValidation } from './recordChangeTriggerValidation';
+import { scheduleTriggerValidation } from './scheduleTriggerValidation';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
@@ -11,12 +11,7 @@ const propertyChanged = (state, event) => {
     if (!event.detailignoreValidate) {
         event.detail.error =
             event.detail.error === null
-                ? recordChangeTriggerValidation.validateProperty(
-                      event.detail.propertyName,
-                      event.detail.value,
-                      null,
-                      state
-                  )
+                ? scheduleTriggerValidation.validateProperty(event.detail.propertyName, event.detail.value, null, state)
                 : event.detail.error;
     }
 
@@ -34,17 +29,17 @@ const propertyChanged = (state, event) => {
 };
 
 /**
- * Record change trigger reducer function
+ * Schedule trigger reducer function
  * @param {object} state - element / start node
  * @param {object} event - object containing type and payload eg: {type:'xyz', payload: {propertyName: '', value: '' , error: ''}}
  * @returns {object} start - new start node instance with mutations
  */
-export const recordChangeTriggerReducer = (state, event) => {
+export const scheduleTriggerReducer = (state, event) => {
     switch (event.type) {
         case PropertyChangedEvent.EVENT_NAME:
             return propertyChanged(state, event);
         case VALIDATE_ALL: {
-            return recordChangeTriggerValidation.validateAll(state);
+            return scheduleTriggerValidation.validateAll(state);
         }
         default:
             return state;
