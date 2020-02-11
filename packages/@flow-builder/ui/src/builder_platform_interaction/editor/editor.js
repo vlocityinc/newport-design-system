@@ -67,7 +67,8 @@ import {
     getSelectedFlowEntry,
     setErrorMessage,
     closeModalAndNavigateTo,
-    createStartElement
+    createStartElement,
+    isGuardrailsEnabled
 } from './editorUtils';
 import { cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import {
@@ -363,7 +364,7 @@ export default class Editor extends LightningElement {
     };
 
     executeGuardrails(flowState) {
-        if (this.guardrailsParams && this.guardrailsParams.enabled && this.guardrailsParams.running) {
+        if (isGuardrailsEnabled() && this.guardrailsParams && this.guardrailsParams.running) {
             const flow = translateUIModelToFlow(flowState);
             this.guardrailsEngine.evaluate(flow).then(results => {
                 this.dispatchEvent(new GuardrailsResultEvent(results));

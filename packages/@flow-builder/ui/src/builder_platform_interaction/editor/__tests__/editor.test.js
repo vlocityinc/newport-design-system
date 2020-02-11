@@ -4,6 +4,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { addElement, updateElement } from 'builder_platform_interaction/actions';
 import { PROPERTY_EDITOR, invokePropertyEditor } from 'builder_platform_interaction/builderUtils';
 import Editor from '../editor';
+import { isGuardrailsEnabled } from '../editorUtils';
 import {
     CANVAS_EVENT,
     AddElementEvent,
@@ -57,6 +58,12 @@ jest.mock('builder_platform_interaction/elementLabelLib', () => {
 jest.mock('builder_platform_interaction/builderUtils', () => {
     return Object.assign(require.requireActual('builder_platform_interaction/builderUtils'), {
         invokePropertyEditor: jest.fn()
+    });
+});
+
+jest.mock('../editorUtils', () => {
+    return Object.assign(require.requireActual('../editorUtils'), {
+        isGuardrailsEnabled: jest.fn()
     });
 });
 
@@ -798,25 +805,27 @@ describe('editor property editor', () => {
 describe('editor guardrails', () => {
     let storeInstance;
     const guardrailResult = jest.fn();
+    const FLOW_ID = 'flowId';
 
     beforeEach(() => {
         jest.clearAllMocks();
         storeInstance = Store.getStore();
 
-        const flow = { fullName: 'flowId' };
+        const flow = { fullName: FLOW_ID };
         translateUIModelToFlow.mockReturnValue(flow);
+
+        isGuardrailsEnabled.mockReturnValue(true);
     });
-    const setupGuardrails = function(enabled, running, mockResult = []) {
+    const setupGuardrails = function(running, mockResult = []) {
         const editorComponent = createComponentUnderTest({
             guardrailsParams: {
-                enabled,
                 running
             }
         });
         editorComponent.addEventListener('guardrailresult', guardrailResult);
 
         const results = new Map();
-        results.set('flowId', mockResult);
+        results.set(FLOW_ID, mockResult);
         mockEngineExecute.mockReturnValue({ results });
 
         return editorComponent;
@@ -825,7 +834,8 @@ describe('editor guardrails', () => {
     it('guardrails disabled', () => {
         expect.assertions(1);
 
-        setupGuardrails(false, false);
+        isGuardrailsEnabled.mockReturnValue(false);
+        setupGuardrails(true);
 
         storeInstance.dispatch({
             type: 'actionThatTriggerGuardrails'
@@ -841,7 +851,7 @@ describe('editor guardrails', () => {
     it('guardrails enabled but not running', () => {
         expect.assertions(1);
 
-        setupGuardrails(true, false);
+        setupGuardrails(false);
 
         storeInstance.dispatch({
             type: 'actionThatTriggerGuardrails'
@@ -857,7 +867,7 @@ describe('editor guardrails', () => {
     it('guardrails running - no result', () => {
         expect.assertions(2);
 
-        setupGuardrails(true, true, []);
+        setupGuardrails(true, []);
 
         storeInstance.dispatch({
             type: 'actionThatTriggerGuardrails'
@@ -867,7 +877,7 @@ describe('editor guardrails', () => {
             return Promise.resolve().then(() => {
                 expect(guardrailResult).toHaveBeenCalledTimes(1);
                 const actualResult = guardrailResult.mock.calls[0][0].detail.guardrailsResult;
-                expect(actualResult).toEqual([]);
+                expect(actualResult.results.get(FLOW_ID)).toEqual([]);
             });
         });
     });
@@ -876,7 +886,7 @@ describe('editor guardrails', () => {
         expect.assertions(2);
 
         const mockResult = [{ data: 'result1' }, { data: 'result2' }];
-        setupGuardrails(true, true, mockResult);
+        setupGuardrails(true, mockResult);
 
         storeInstance.dispatch({
             type: 'actionThatTriggerGuardrails'
@@ -886,10 +896,7 @@ describe('editor guardrails', () => {
             return Promise.resolve().then(() => {
                 expect(guardrailResult).toHaveBeenCalledTimes(1);
                 const actualResult = guardrailResult.mock.calls[0][0].detail.guardrailsResult;
-                expect(actualResult).toEqual([
-                    { data: 'result1', id: 0 },
-                    { data: 'result2', id: 1 }
-                ]);
+                expect(actualResult.results.get(FLOW_ID)).toEqual([{ data: 'result1' }, { data: 'result2' }]);
             });
         });
     });

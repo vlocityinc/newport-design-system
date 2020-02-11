@@ -37,23 +37,21 @@ describe('guardrails execute', () => {
     it('executing with result', () => {
         const flow = { fullName: 'flowId' };
 
-        expect.assertions(8);
+        expect.assertions(4);
 
         const results = new Map();
-        results.set('flowId', [{ data: 'result1' }, { data: 'result2' }]);
+        const resultData = [{ data: 'result1' }, { data: 'result2' }];
+        results.set(flow.fullName, resultData);
         mockEngineExecute.mockReturnValue({ results });
 
-        return executeInstance.evaluate(flow).then(result => {
-            expect(flowDataProviderMock.updateFlow).toHaveBeenCalledWith(flow);
+        return executeInstance.evaluate(flow).then(guardrailResults => {
             expect(flowDataProviderMock.updateFlow).toHaveBeenCalledTimes(1);
+            expect(flowDataProviderMock.updateFlow).toHaveBeenCalledWith(flow);
 
             expect(mockEngineExecute).toHaveBeenCalledWith(['FLOW']);
 
-            expect(result).toHaveLength(2);
-            expect(result[0].id).toEqual(0);
-            expect(result[0].data).toEqual('result1');
-            expect(result[1].id).toEqual(1);
-            expect(result[1].data).toEqual('result2');
+            const result = guardrailResults.results.get(flow.fullName);
+            expect(result).toEqual(resultData);
         });
     });
 });

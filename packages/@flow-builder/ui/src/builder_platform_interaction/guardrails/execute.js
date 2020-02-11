@@ -48,21 +48,6 @@ export class FlowGuardrailsExecutor {
 
         this.flowDataProvider.updateFlow(flow);
 
-        const guardrailsResult = await this.engine.execute([CONTEXT]);
-
-        // TODO move to guardrails UI handling W-7119448
-        // Parse the result and convert it into needed form
-        const data = Array.from(guardrailsResult.results.keys());
-        let results = null;
-        for (let i = 0; i < data.length; i++) {
-            if (data[i] === flow.fullName) {
-                results = guardrailsResult.results.get(data[i]);
-                for (let j = 0; j < results.length; ++j) {
-                    results[j].id = j;
-                }
-                break;
-            }
-        }
-        return results;
+        return this.engine.execute([CONTEXT]);
     }
 }
