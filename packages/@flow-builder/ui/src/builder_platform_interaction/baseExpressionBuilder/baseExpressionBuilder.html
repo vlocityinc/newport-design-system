@@ -4,7 +4,6 @@
             class={lhsClasses}
             enable-field-drilldown
             error-message={_lhsEffectiveError}
-            field-level-help={lhsLabelHelpText}
             inline-item={_lhsInlineResource}
             label={lhsLabel}
             literals-allowed="false"
@@ -33,12 +32,9 @@
         >
         </lightning-combobox>
         <div if:true={showOperatorIcon} class="slds-col slds-grow-none">
-            <span class="slds-form-element__label slds-is-visually-empty"
-                >&nbsp;</span
-            >
+            <span class="slds-form-element__label slds-is-visually-empty">&nbsp;</span>
             <div class="slds-line-height_reset slds-p-vertical_x-small">
-                <lightning-icon icon-name={operatorIconName} size="x-small">
-                </lightning-icon>
+                <lightning-icon icon-name={operatorIconName} size="x-small"> </lightning-icon>
             </div>
         </div>
         <builder_platform_interaction-combobox

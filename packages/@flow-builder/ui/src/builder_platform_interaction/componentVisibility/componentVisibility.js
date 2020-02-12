@@ -252,9 +252,7 @@ export default class ComponentVisibility extends LightningElement {
             'builder_platform_interaction:conditionEditorPopover',
             {
                 condition: this.visibilityRule.conditions[index],
-                handleDone: condition => this.handleDone(index, condition),
-                lhsLabelHelpText: this.labels.resourcePickerLabelHelpText,
-                rhsLabelHelpText: this.labels.resourcePickerLabelHelpText
+                handleDone: condition => this.handleDone(index, condition)
             },
             {
                 referenceElement,

@@ -124,12 +124,6 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     @api
-    lhsLabelHelpText;
-
-    @api
-    rhsLabelHelpText;
-
-    @api
     lhsPlaceholder;
 
     @api
