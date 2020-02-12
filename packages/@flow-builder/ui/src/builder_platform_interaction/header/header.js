@@ -85,7 +85,7 @@ export default class Header extends LightningElement {
     get badgeClasses() {
         let classes = 'slds-align-middle slds-m-left_xx-small';
         if (!this.grayPill) {
-            classes = `${classes} slds-theme_info`;
+            classes = `${classes} slds-badge_lightest`;
         }
         return classes;
     }
