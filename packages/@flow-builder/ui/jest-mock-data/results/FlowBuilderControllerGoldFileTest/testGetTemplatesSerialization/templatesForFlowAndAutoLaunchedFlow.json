@@ -1,34 +1,34 @@
 {
-    "templatesForFlowAndAutoLaunchedFlow": [
-        {
-            "Status": "Active",
-            "IsTemplate": true,
-            "ProcessType": "Flow",
-            "IsSwingFlow": false,
-            "Description": "Enter values for the flow's input variables. For each value left blank, the flow starts with the variable's default value. You can't enter values for collection or record variables.",
-            "EnumOrID": "FtestSfdcOnly__TestFileBasedTranslated-1",
-            "Label": "Debug options",
-            "VersionNumber": 1
-        },
-        {
-            "Status": "Active",
-            "IsTemplate": true,
-            "ProcessType": "Flow",
-            "IsSwingFlow": false,
-            "Description": "FTEST - File Based Flow Screen Flow",
-            "EnumOrID": "FtestSfdcOnly__TestFileBasedScreen-1",
-            "Label": "FTest-TestFileBasedScreen",
-            "VersionNumber": 1
-        },
-        {
-            "Status": "Active",
-            "IsTemplate": true,
-            "ProcessType": "AutoLaunchedFlow",
-            "IsSwingFlow": false,
-            "Description": "FTEST - File Based Flow Template Basic",
-            "EnumOrID": "FtestSfdcOnly__TestFileBasedT-1",
-            "Label": "FTEST-TestFileBasedT",
-            "VersionNumber": 1
-        }
-    ]
+  "templatesForFlowAndAutoLaunchedFlow":[
+    {
+      "Status":"Active",
+      "IsTemplate":true,
+      "ProcessType":"Flow",
+      "IsSwingFlow":false,
+      "Description":"Enter values for the flow's input variables. For each value left blank, the flow starts with the variable's default value. You can't enter values for collection or record variables.",
+      "EnumOrID":"FtestSfdcOnly__TestFileBasedTranslated-1",
+      "Label":"Debug options",
+      "VersionNumber":1
+    },
+    {
+      "Status":"Active",
+      "IsTemplate":true,
+      "ProcessType":"Flow",
+      "IsSwingFlow":false,
+      "Description":"FTEST - File Based Flow Screen Flow",
+      "EnumOrID":"FtestSfdcOnly__TestFileBasedScreen-1",
+      "Label":"FTest-TestFileBasedScreen",
+      "VersionNumber":1
+    },
+    {
+      "Status":"Active",
+      "IsTemplate":true,
+      "ProcessType":"AutoLaunchedFlow",
+      "IsSwingFlow":false,
+      "Description":"FTEST - File Based Flow Template Basic",
+      "EnumOrID":"FtestSfdcOnly__TestFileBasedT-1",
+      "Label":"FTEST-TestFileBasedT",
+      "VersionNumber":1
+    }
+  ]
 }

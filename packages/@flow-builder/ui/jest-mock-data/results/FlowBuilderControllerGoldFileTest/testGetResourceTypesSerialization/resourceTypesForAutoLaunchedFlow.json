@@ -1,115 +1,139 @@
 {
-    "resourceTypesForAutoLaunchedFlow": [
+  "resourceTypesForAutoLaunchedFlow":[
+    {
+      "name":"Variable",
+      "attributes":[
         {
-            "name": "Variable",
-            "attributes": [
-                {
-                    "name": "isCollection",
-                    "source": "UserDefined",
-                    "type": "Boolean",
-                    "value": {
-                        "values": [true, false],
-                        "constraint": "oneOf"
-                    }
-                },
-                {
-                    "name": "dataType",
-                    "source": "UserDefined",
-                    "type": "FlowDataType",
-                    "value": {
-                        "values": [
-                            "String",
-                            "Number",
-                            "Currency",
-                            "Date",
-                            "DateTime",
-                            "Boolean",
-                            "SObject",
-                            "Picklist",
-                            "Multipicklist",
-                            "Apex"
-                        ],
-                        "constraint": "oneOf"
-                    }
-                }
+          "name":"isCollection",
+          "source":"UserDefined",
+          "type":"Boolean",
+          "value":{
+            "values":[
+              true,
+              false
             ],
-            "classification": "Resource",
-            "elementType": "Variable"
+            "constraint":"oneOf"
+          }
         },
         {
-            "name": "Constant",
-            "attributes": [
-                {
-                    "name": "isCollection",
-                    "source": "Inferred",
-                    "type": "Boolean",
-                    "value": {
-                        "values": [false],
-                        "constraint": "thisValue"
-                    }
-                },
-                {
-                    "name": "dataType",
-                    "source": "UserDefined",
-                    "type": "FlowDataType",
-                    "value": {
-                        "values": ["String", "Number", "Currency", "Date", "Boolean"],
-                        "constraint": "oneOf"
-                    }
-                }
+          "name":"dataType",
+          "source":"UserDefined",
+          "type":"FlowDataType",
+          "value":{
+            "values":[
+              "String",
+              "Number",
+              "Currency",
+              "Date",
+              "DateTime",
+              "Boolean",
+              "SObject",
+              "Picklist",
+              "Multipicklist",
+              "Apex"
             ],
-            "classification": "Resource",
-            "elementType": "Constant"
-        },
-        {
-            "name": "Formula",
-            "attributes": [
-                {
-                    "name": "isCollection",
-                    "source": "Inferred",
-                    "type": "Boolean",
-                    "value": {
-                        "values": [false],
-                        "constraint": "thisValue"
-                    }
-                },
-                {
-                    "name": "dataType",
-                    "source": "UserDefined",
-                    "type": "FlowDataType",
-                    "value": {
-                        "values": ["String", "Number", "Currency", "Date", "DateTime", "Boolean"],
-                        "constraint": "oneOf"
-                    }
-                }
-            ],
-            "classification": "Resource",
-            "elementType": "Formula"
-        },
-        {
-            "name": "TextTemplate",
-            "attributes": [
-                {
-                    "name": "isCollection",
-                    "source": "Inferred",
-                    "type": "Boolean",
-                    "value": {
-                        "values": [false],
-                        "constraint": "thisValue"
-                    }
-                },
-                {
-                    "name": "dataType",
-                    "source": "Inferred",
-                    "type": "FlowDataType",
-                    "value": {
-                        "values": ["String"],
-                        "constraint": "thisValue"
-                    }
-                }
-            ],
-            "classification": "Resource",
-            "elementType": "TextTemplate"
+            "constraint":"oneOf"
+          }
         }
-    ]
+      ],
+      "classification":"Resource",
+      "elementType":"Variable"
+    },
+    {
+      "name":"Constant",
+      "attributes":[
+        {
+          "name":"isCollection",
+          "source":"Inferred",
+          "type":"Boolean",
+          "value":{
+            "values":[
+              false
+            ],
+            "constraint":"thisValue"
+          }
+        },
+        {
+          "name":"dataType",
+          "source":"UserDefined",
+          "type":"FlowDataType",
+          "value":{
+            "values":[
+              "String",
+              "Number",
+              "Currency",
+              "Date",
+              "Boolean"
+            ],
+            "constraint":"oneOf"
+          }
+        }
+      ],
+      "classification":"Resource",
+      "elementType":"Constant"
+    },
+    {
+      "name":"Formula",
+      "attributes":[
+        {
+          "name":"isCollection",
+          "source":"Inferred",
+          "type":"Boolean",
+          "value":{
+            "values":[
+              false
+            ],
+            "constraint":"thisValue"
+          }
+        },
+        {
+          "name":"dataType",
+          "source":"UserDefined",
+          "type":"FlowDataType",
+          "value":{
+            "values":[
+              "String",
+              "Number",
+              "Currency",
+              "Date",
+              "DateTime",
+              "Boolean"
+            ],
+            "constraint":"oneOf"
+          }
+        }
+      ],
+      "classification":"Resource",
+      "elementType":"Formula"
+    },
+    {
+      "name":"TextTemplate",
+      "attributes":[
+        {
+          "name":"isCollection",
+          "source":"Inferred",
+          "type":"Boolean",
+          "value":{
+            "values":[
+              false
+            ],
+            "constraint":"thisValue"
+          }
+        },
+        {
+          "name":"dataType",
+          "source":"Inferred",
+          "type":"FlowDataType",
+          "value":{
+            "values":[
+              "String"
+            ],
+            "constraint":"thisValue"
+          }
+        }
+      ],
+      "classification":"Resource",
+      "elementType":"TextTemplate"
+    }
+  ]
 }

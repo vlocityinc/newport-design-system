@@ -1,34 +1,34 @@
 {
-    "getAccountFromApexActionParameters": [
-        {
-            "isRequired": false,
-            "isInput": true,
-            "dataType": "string",
-            "description": null,
-            "label": "name",
-            "isOutput": false,
-            "name": "name",
-            "apexClass": null,
-            "maxOccurs": 1,
-            "id": null,
-            "isSystemGeneratedOutput": false,
-            "durableId": "apex-GenerateDraftAccount-input-name",
-            "sobjectType": null
-        },
-        {
-            "isRequired": false,
-            "isInput": false,
-            "dataType": "sobject",
-            "description": null,
-            "label": "generatedAccount",
-            "isOutput": true,
-            "name": "generatedAccount",
-            "apexClass": null,
-            "maxOccurs": 1,
-            "id": null,
-            "isSystemGeneratedOutput": false,
-            "durableId": "apex-GenerateDraftAccount-output-generatedAccount",
-            "sobjectType": "Account"
-        }
-    ]
+  "getAccountFromApexActionParameters":[
+    {
+      "isRequired":false,
+      "isInput":true,
+      "dataType":"string",
+      "description":null,
+      "label":"name",
+      "isOutput":false,
+      "name":"name",
+      "apexClass":null,
+      "maxOccurs":1,
+      "id":null,
+      "isSystemGeneratedOutput":false,
+      "durableId":"apex-GenerateDraftAccount-input-name",
+      "sobjectType":null
+    },
+    {
+      "isRequired":false,
+      "isInput":false,
+      "dataType":"sobject",
+      "description":null,
+      "label":"generatedAccount",
+      "isOutput":true,
+      "name":"generatedAccount",
+      "apexClass":null,
+      "maxOccurs":1,
+      "id":null,
+      "isSystemGeneratedOutput":false,
+      "durableId":"apex-GenerateDraftAccount-output-generatedAccount",
+      "sobjectType":"Account"
+    }
+  ]
 }

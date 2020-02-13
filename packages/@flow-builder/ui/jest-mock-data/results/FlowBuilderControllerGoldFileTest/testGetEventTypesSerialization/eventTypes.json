@@ -1,32 +1,32 @@
 {
-    "eventTypes": [
-        {
-            "description": "BatchApexErrorEvent",
-            "eventType": "StandardPlatformEvent",
-            "fieldsToNull": [],
-            "label": "Batch Apex Error Platform Event",
-            "qualifiedApiName": "BatchApexErrorEvent"
-        },
-        {
-            "description": "FlowExecutionErrorEvent",
-            "eventType": "StandardPlatformEvent",
-            "fieldsToNull": [],
-            "label": "Flow Execution Error Event",
-            "qualifiedApiName": "FlowExecutionErrorEvent"
-        },
-        {
-            "description": "FTestStandardEvent",
-            "eventType": "StandardPlatformEvent",
-            "fieldsToNull": [],
-            "label": "FTest Standard Event",
-            "qualifiedApiName": "FTestStandardEvent"
-        },
-        {
-            "description": "PlatformStatusAlertEvent",
-            "eventType": "StandardPlatformEvent",
-            "fieldsToNull": [],
-            "label": "Platform Status Alert Event",
-            "qualifiedApiName": "PlatformStatusAlertEvent"
-        }
-    ]
+  "eventTypes":[
+    {
+  "description" : "BatchApexErrorEvent",
+  "eventType" : "StandardPlatformEvent",
+  "fieldsToNull" : [ ],
+  "label" : "Batch Apex Error Platform Event",
+  "qualifiedApiName" : "BatchApexErrorEvent"
+},
+    {
+  "description" : "FlowExecutionErrorEvent",
+  "eventType" : "StandardPlatformEvent",
+  "fieldsToNull" : [ ],
+  "label" : "Flow Execution Error Event",
+  "qualifiedApiName" : "FlowExecutionErrorEvent"
+},
+    {
+  "description" : "FTestStandardEvent",
+  "eventType" : "StandardPlatformEvent",
+  "fieldsToNull" : [ ],
+  "label" : "FTest Standard Event",
+  "qualifiedApiName" : "FTestStandardEvent"
+},
+    {
+  "description" : "PlatformStatusAlertEvent",
+  "eventType" : "StandardPlatformEvent",
+  "fieldsToNull" : [ ],
+  "label" : "Platform Status Alert Event",
+  "qualifiedApiName" : "PlatformStatusAlertEvent"
+}
+  ]
 }

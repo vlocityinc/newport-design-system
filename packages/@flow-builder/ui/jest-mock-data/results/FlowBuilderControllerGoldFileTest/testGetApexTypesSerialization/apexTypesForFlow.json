@@ -1,485 +1,429 @@
 {
-    "apexTypesForFlow": [
-        {
-            "durableId": "ApexComplexTypeTestOne216",
-            "fieldsToNull": [],
-            "innerTypes": {
-                "done": true,
-                "entityTypeName": "FlowApexClassDescriptor",
-                "records": [
-                    {
-                        "durableId": "ApexComplexTypeTestOne216$innerClass",
-                        "fieldsToNull": [],
-                        "name": "ApexComplexTypeTestOne216$innerClass",
-                        "parentId": "ApexComplexTypeTestOne216"
-                    }
-                ],
-                "size": 1,
-                "totalSize": 1
-            },
-            "name": "ApexComplexTypeTestOne216",
-            "properties": {
-                "done": true,
-                "entityTypeName": "FlowApexClassPropertyDesc",
-                "records": [
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.acct",
-                        "fieldsToNull": [],
-                        "isCollection": false,
-                        "name": "acct",
-                        "objectType": "account",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "SObject"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.acctListField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "acctListField",
-                        "objectType": "account",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "SObject"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.arrayField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "arrayField",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "String"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.booleanArrayField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "booleanArrayField",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "Boolean"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.booleanField",
-                        "fieldsToNull": [],
-                        "isCollection": false,
-                        "name": "booleanField",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "Boolean"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.booleanListField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "booleanListField",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "Boolean"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.dateField",
-                        "fieldsToNull": [],
-                        "isCollection": false,
-                        "name": "dateField",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "Date"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.datetimeField",
-                        "fieldsToNull": [],
-                        "isCollection": false,
-                        "name": "datetimeField",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "DateTime"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.decimalArrayField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "decimalArrayField",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "Number"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.decimalListField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "decimalListField",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "Number"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.decimalNumberField",
-                        "fieldsToNull": [],
-                        "isCollection": false,
-                        "name": "decimalNumberField",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "Number"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.doubleArrayField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "doubleArrayField",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "Number"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.doubleListField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "doubleListField",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "Number"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.doubleNumber",
-                        "fieldsToNull": [],
-                        "isCollection": false,
-                        "name": "doubleNumber",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "Number"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.idField",
-                        "fieldsToNull": [],
-                        "isCollection": false,
-                        "name": "idField",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "String"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.intArrayField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "intArrayField",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "Number"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.integerField",
-                        "fieldsToNull": [],
-                        "isCollection": false,
-                        "name": "integerField",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "Number"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.intListField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "intListField",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "Number"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.listField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "listField",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "String"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.longArrayField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "longArrayField",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "Number"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.longField",
-                        "fieldsToNull": [],
-                        "isCollection": false,
-                        "name": "longField",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "Number"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.longListField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "longListField",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "Number"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.name",
-                        "fieldsToNull": [],
-                        "isCollection": false,
-                        "name": "name",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "String"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.strArrayField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "strArrayField",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "String"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.string_with_underscore",
-                        "fieldsToNull": [],
-                        "isCollection": false,
-                        "name": "string_with_underscore",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "String"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.stringArrayField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "stringArrayField",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "String"
-                    },
-                    {
-                        "durableId": "ApexComplexTypeTestOne216.stringListField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "stringListField",
-                        "parentId": "ApexComplexTypeTestOne216",
-                        "type": "String"
-                    }
-                ],
-                "size": 28,
-                "totalSize": 28
-            }
-        },
-        {
-            "durableId": "ApexContainsOnlyASingleSObject",
-            "fieldsToNull": [],
-            "name": "ApexContainsOnlyASingleSObject",
-            "properties": {
-                "done": true,
-                "entityTypeName": "FlowApexClassPropertyDesc",
-                "records": [
-                    {
-                        "durableId": "ApexContainsOnlyASingleSObject.account",
-                        "fieldsToNull": [],
-                        "isCollection": false,
-                        "name": "account",
-                        "objectType": "account",
-                        "parentId": "ApexContainsOnlyASingleSObject",
-                        "type": "SObject"
-                    }
-                ],
-                "size": 1,
-                "totalSize": 1
-            }
-        },
-        {
-            "durableId": "ApexContainsOnlyAnSObjectCollection",
-            "fieldsToNull": [],
-            "name": "ApexContainsOnlyAnSObjectCollection",
-            "properties": {
-                "done": true,
-                "entityTypeName": "FlowApexClassPropertyDesc",
-                "records": [
-                    {
-                        "durableId": "ApexContainsOnlyAnSObjectCollection.accounts",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "accounts",
-                        "objectType": "account",
-                        "parentId": "ApexContainsOnlyAnSObjectCollection",
-                        "type": "SObject"
-                    }
-                ],
-                "size": 1,
-                "totalSize": 1
-            }
-        },
-        {
-            "durableId": "ApexPrimitiveTypes",
-            "fieldsToNull": [],
-            "name": "ApexPrimitiveTypes",
-            "properties": {
-                "done": true,
-                "entityTypeName": "FlowApexClassPropertyDesc",
-                "records": [
-                    {
-                        "durableId": "ApexPrimitiveTypes.BooleanArrField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "BooleanArrField",
-                        "parentId": "ApexPrimitiveTypes",
-                        "type": "Boolean"
-                    },
-                    {
-                        "durableId": "ApexPrimitiveTypes.BooleanField",
-                        "fieldsToNull": [],
-                        "isCollection": false,
-                        "name": "BooleanField",
-                        "parentId": "ApexPrimitiveTypes",
-                        "type": "Boolean"
-                    },
-                    {
-                        "durableId": "ApexPrimitiveTypes.BooleanListField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "BooleanListField",
-                        "parentId": "ApexPrimitiveTypes",
-                        "type": "Boolean"
-                    },
-                    {
-                        "durableId": "ApexPrimitiveTypes.DateArrField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "DateArrField",
-                        "parentId": "ApexPrimitiveTypes",
-                        "type": "Date"
-                    },
-                    {
-                        "durableId": "ApexPrimitiveTypes.DateField",
-                        "fieldsToNull": [],
-                        "isCollection": false,
-                        "name": "DateField",
-                        "parentId": "ApexPrimitiveTypes",
-                        "type": "Date"
-                    },
-                    {
-                        "durableId": "ApexPrimitiveTypes.DateListField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "DateListField",
-                        "parentId": "ApexPrimitiveTypes",
-                        "type": "Date"
-                    },
-                    {
-                        "durableId": "ApexPrimitiveTypes.DatetimeArrField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "DatetimeArrField",
-                        "parentId": "ApexPrimitiveTypes",
-                        "type": "DateTime"
-                    },
-                    {
-                        "durableId": "ApexPrimitiveTypes.DatetimeField",
-                        "fieldsToNull": [],
-                        "isCollection": false,
-                        "name": "DatetimeField",
-                        "parentId": "ApexPrimitiveTypes",
-                        "type": "DateTime"
-                    },
-                    {
-                        "durableId": "ApexPrimitiveTypes.DatetimeListField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "DatetimeListField",
-                        "parentId": "ApexPrimitiveTypes",
-                        "type": "DateTime"
-                    },
-                    {
-                        "durableId": "ApexPrimitiveTypes.integerField",
-                        "fieldsToNull": [],
-                        "isCollection": false,
-                        "name": "integerField",
-                        "parentId": "ApexPrimitiveTypes",
-                        "type": "Number"
-                    },
-                    {
-                        "durableId": "ApexPrimitiveTypes.NumberArrField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "NumberArrField",
-                        "parentId": "ApexPrimitiveTypes",
-                        "type": "Number"
-                    },
-                    {
-                        "durableId": "ApexPrimitiveTypes.NumberField",
-                        "fieldsToNull": [],
-                        "isCollection": false,
-                        "name": "NumberField",
-                        "parentId": "ApexPrimitiveTypes",
-                        "type": "Number"
-                    },
-                    {
-                        "durableId": "ApexPrimitiveTypes.NumberListField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "NumberListField",
-                        "parentId": "ApexPrimitiveTypes",
-                        "type": "Number"
-                    },
-                    {
-                        "durableId": "ApexPrimitiveTypes.StringArrField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "StringArrField",
-                        "parentId": "ApexPrimitiveTypes",
-                        "type": "String"
-                    },
-                    {
-                        "durableId": "ApexPrimitiveTypes.StringField",
-                        "fieldsToNull": [],
-                        "isCollection": false,
-                        "name": "StringField",
-                        "parentId": "ApexPrimitiveTypes",
-                        "type": "String"
-                    },
-                    {
-                        "durableId": "ApexPrimitiveTypes.StringListField",
-                        "fieldsToNull": [],
-                        "isCollection": true,
-                        "name": "StringListField",
-                        "parentId": "ApexPrimitiveTypes",
-                        "type": "String"
-                    }
-                ],
-                "size": 16,
-                "totalSize": 16
-            }
-        },
-        {
-            "durableId": "Car",
-            "fieldsToNull": [],
-            "name": "Car",
-            "properties": {
-                "done": true,
-                "entityTypeName": "FlowApexClassPropertyDesc",
-                "records": [
-                    {
-                        "durableId": "Car.model",
-                        "fieldsToNull": [],
-                        "isCollection": false,
-                        "name": "model",
-                        "parentId": "Car",
-                        "type": "String"
-                    },
-                    {
-                        "apexClass": "Wheel",
-                        "durableId": "Car.wheel",
-                        "fieldsToNull": [],
-                        "isCollection": false,
-                        "name": "wheel",
-                        "parentId": "Car",
-                        "type": "Apex"
-                    }
-                ],
-                "size": 2,
-                "totalSize": 2
-            }
-        },
-        {
-            "durableId": "Wheel",
-            "fieldsToNull": [],
-            "name": "Wheel",
-            "properties": {
-                "done": true,
-                "entityTypeName": "FlowApexClassPropertyDesc",
-                "records": [
-                    {
-                        "durableId": "Wheel.type",
-                        "fieldsToNull": [],
-                        "isCollection": false,
-                        "name": "type",
-                        "parentId": "Wheel",
-                        "type": "String"
-                    }
-                ],
-                "size": 1,
-                "totalSize": 1
-            }
-        }
-    ]
+  "apexTypesForFlow":[
+    {
+  "durableId" : "ApexComplexTypeTestOne216",
+  "fieldsToNull" : [ ],
+  "innerTypes" : {
+    "done" : true,
+    "entityTypeName" : "FlowApexClassDescriptor",
+    "records" : [ {
+      "durableId" : "ApexComplexTypeTestOne216$innerClass",
+      "fieldsToNull" : [ ],
+      "name" : "ApexComplexTypeTestOne216$innerClass",
+      "parentId" : "ApexComplexTypeTestOne216"
+    } ],
+    "size" : 1,
+    "totalSize" : 1
+  },
+  "name" : "ApexComplexTypeTestOne216",
+  "properties" : {
+    "done" : true,
+    "entityTypeName" : "FlowApexClassPropertyDesc",
+    "records" : [ {
+      "durableId" : "ApexComplexTypeTestOne216.acct",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "acct",
+      "objectType" : "account",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "SObject"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.acctListField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "acctListField",
+      "objectType" : "account",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "SObject"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.arrayField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "arrayField",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "String"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.booleanArrayField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "booleanArrayField",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "Boolean"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.booleanField",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "booleanField",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "Boolean"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.booleanListField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "booleanListField",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "Boolean"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.dateField",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "dateField",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "Date"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.datetimeField",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "datetimeField",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "DateTime"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.decimalArrayField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "decimalArrayField",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "Number"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.decimalListField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "decimalListField",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "Number"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.decimalNumberField",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "decimalNumberField",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "Number"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.doubleArrayField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "doubleArrayField",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "Number"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.doubleListField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "doubleListField",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "Number"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.doubleNumber",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "doubleNumber",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "Number"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.idField",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "idField",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "String"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.intArrayField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "intArrayField",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "Number"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.integerField",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "integerField",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "Number"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.intListField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "intListField",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "Number"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.listField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "listField",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "String"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.longArrayField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "longArrayField",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "Number"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.longField",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "longField",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "Number"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.longListField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "longListField",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "Number"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.name",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "name",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "String"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.strArrayField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "strArrayField",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "String"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.string_with_underscore",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "string_with_underscore",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "String"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.stringArrayField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "stringArrayField",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "String"
+    }, {
+      "durableId" : "ApexComplexTypeTestOne216.stringListField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "stringListField",
+      "parentId" : "ApexComplexTypeTestOne216",
+      "type" : "String"
+    } ],
+    "size" : 28,
+    "totalSize" : 28
+  }
+},
+    {
+  "durableId" : "ApexContainsOnlyASingleSObject",
+  "fieldsToNull" : [ ],
+  "name" : "ApexContainsOnlyASingleSObject",
+  "properties" : {
+    "done" : true,
+    "entityTypeName" : "FlowApexClassPropertyDesc",
+    "records" : [ {
+      "durableId" : "ApexContainsOnlyASingleSObject.account",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "account",
+      "objectType" : "account",
+      "parentId" : "ApexContainsOnlyASingleSObject",
+      "type" : "SObject"
+    } ],
+    "size" : 1,
+    "totalSize" : 1
+  }
+},
+    {
+  "durableId" : "ApexContainsOnlyAnSObjectCollection",
+  "fieldsToNull" : [ ],
+  "name" : "ApexContainsOnlyAnSObjectCollection",
+  "properties" : {
+    "done" : true,
+    "entityTypeName" : "FlowApexClassPropertyDesc",
+    "records" : [ {
+      "durableId" : "ApexContainsOnlyAnSObjectCollection.accounts",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "accounts",
+      "objectType" : "account",
+      "parentId" : "ApexContainsOnlyAnSObjectCollection",
+      "type" : "SObject"
+    } ],
+    "size" : 1,
+    "totalSize" : 1
+  }
+},
+    {
+  "durableId" : "ApexPrimitiveTypes",
+  "fieldsToNull" : [ ],
+  "name" : "ApexPrimitiveTypes",
+  "properties" : {
+    "done" : true,
+    "entityTypeName" : "FlowApexClassPropertyDesc",
+    "records" : [ {
+      "durableId" : "ApexPrimitiveTypes.BooleanArrField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "BooleanArrField",
+      "parentId" : "ApexPrimitiveTypes",
+      "type" : "Boolean"
+    }, {
+      "durableId" : "ApexPrimitiveTypes.BooleanField",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "BooleanField",
+      "parentId" : "ApexPrimitiveTypes",
+      "type" : "Boolean"
+    }, {
+      "durableId" : "ApexPrimitiveTypes.BooleanListField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "BooleanListField",
+      "parentId" : "ApexPrimitiveTypes",
+      "type" : "Boolean"
+    }, {
+      "durableId" : "ApexPrimitiveTypes.DateArrField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "DateArrField",
+      "parentId" : "ApexPrimitiveTypes",
+      "type" : "Date"
+    }, {
+      "durableId" : "ApexPrimitiveTypes.DateField",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "DateField",
+      "parentId" : "ApexPrimitiveTypes",
+      "type" : "Date"
+    }, {
+      "durableId" : "ApexPrimitiveTypes.DateListField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "DateListField",
+      "parentId" : "ApexPrimitiveTypes",
+      "type" : "Date"
+    }, {
+      "durableId" : "ApexPrimitiveTypes.DatetimeArrField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "DatetimeArrField",
+      "parentId" : "ApexPrimitiveTypes",
+      "type" : "DateTime"
+    }, {
+      "durableId" : "ApexPrimitiveTypes.DatetimeField",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "DatetimeField",
+      "parentId" : "ApexPrimitiveTypes",
+      "type" : "DateTime"
+    }, {
+      "durableId" : "ApexPrimitiveTypes.DatetimeListField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "DatetimeListField",
+      "parentId" : "ApexPrimitiveTypes",
+      "type" : "DateTime"
+    }, {
+      "durableId" : "ApexPrimitiveTypes.integerField",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "integerField",
+      "parentId" : "ApexPrimitiveTypes",
+      "type" : "Number"
+    }, {
+      "durableId" : "ApexPrimitiveTypes.NumberArrField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "NumberArrField",
+      "parentId" : "ApexPrimitiveTypes",
+      "type" : "Number"
+    }, {
+      "durableId" : "ApexPrimitiveTypes.NumberField",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "NumberField",
+      "parentId" : "ApexPrimitiveTypes",
+      "type" : "Number"
+    }, {
+      "durableId" : "ApexPrimitiveTypes.NumberListField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "NumberListField",
+      "parentId" : "ApexPrimitiveTypes",
+      "type" : "Number"
+    }, {
+      "durableId" : "ApexPrimitiveTypes.StringArrField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "StringArrField",
+      "parentId" : "ApexPrimitiveTypes",
+      "type" : "String"
+    }, {
+      "durableId" : "ApexPrimitiveTypes.StringField",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "StringField",
+      "parentId" : "ApexPrimitiveTypes",
+      "type" : "String"
+    }, {
+      "durableId" : "ApexPrimitiveTypes.StringListField",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "StringListField",
+      "parentId" : "ApexPrimitiveTypes",
+      "type" : "String"
+    } ],
+    "size" : 16,
+    "totalSize" : 16
+  }
+},
+    {
+  "durableId" : "Car",
+  "fieldsToNull" : [ ],
+  "name" : "Car",
+  "properties" : {
+    "done" : true,
+    "entityTypeName" : "FlowApexClassPropertyDesc",
+    "records" : [ {
+      "durableId" : "Car.model",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "model",
+      "parentId" : "Car",
+      "type" : "String"
+    }, {
+      "apexClass" : "Wheel",
+      "durableId" : "Car.wheel",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "wheel",
+      "parentId" : "Car",
+      "type" : "Apex"
+    } ],
+    "size" : 2,
+    "totalSize" : 2
+  }
+},
+    {
+  "durableId" : "Wheel",
+  "fieldsToNull" : [ ],
+  "name" : "Wheel",
+  "properties" : {
+    "done" : true,
+    "entityTypeName" : "FlowApexClassPropertyDesc",
+    "records" : [ {
+      "durableId" : "Wheel.type",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "type",
+      "parentId" : "Wheel",
+      "type" : "String"
+    } ],
+    "size" : 1,
+    "totalSize" : 1
+  }
+}
+  ]
 }

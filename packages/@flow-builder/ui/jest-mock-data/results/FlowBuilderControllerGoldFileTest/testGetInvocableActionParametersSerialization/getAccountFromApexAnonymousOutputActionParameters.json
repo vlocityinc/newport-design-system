@@ -1,34 +1,34 @@
 {
-    "getAccountFromApexAnonymousOutputActionParameters": [
-        {
-            "isRequired": false,
-            "isInput": true,
-            "dataType": "string",
-            "description": null,
-            "label": "accountNames",
-            "isOutput": false,
-            "name": "accountNames",
-            "apexClass": null,
-            "maxOccurs": 1,
-            "id": null,
-            "isSystemGeneratedOutput": false,
-            "durableId": "apex-InvocableGetAccount-input-accountNames",
-            "sobjectType": null
-        },
-        {
-            "isRequired": false,
-            "isInput": false,
-            "dataType": "sobject",
-            "description": null,
-            "label": "output",
-            "isOutput": true,
-            "name": "output",
-            "apexClass": null,
-            "maxOccurs": 1,
-            "id": null,
-            "isSystemGeneratedOutput": true,
-            "durableId": "apex-InvocableGetAccount-output-output",
-            "sobjectType": "Account"
-        }
-    ]
+  "getAccountFromApexAnonymousOutputActionParameters":[
+    {
+      "isRequired":false,
+      "isInput":true,
+      "dataType":"string",
+      "description":null,
+      "label":"accountNames",
+      "isOutput":false,
+      "name":"accountNames",
+      "apexClass":null,
+      "maxOccurs":1,
+      "id":null,
+      "isSystemGeneratedOutput":false,
+      "durableId":"apex-InvocableGetAccount-input-accountNames",
+      "sobjectType":null
+    },
+    {
+      "isRequired":false,
+      "isInput":false,
+      "dataType":"sobject",
+      "description":null,
+      "label":"output",
+      "isOutput":true,
+      "name":"output",
+      "apexClass":null,
+      "maxOccurs":1,
+      "id":null,
+      "isSystemGeneratedOutput":true,
+      "durableId":"apex-InvocableGetAccount-output-output",
+      "sobjectType":"Account"
+    }
+  ]
 }

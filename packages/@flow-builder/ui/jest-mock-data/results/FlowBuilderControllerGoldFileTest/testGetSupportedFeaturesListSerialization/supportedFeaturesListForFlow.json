@@ -1,8 +1,8 @@
 {
-    "supportedFeaturesListForFlow": [
-        "ConditionalFieldVisibility",
-        "StoreOutputAutomatically",
-        "LookupTraversal",
-        "DynamicTypes"
-    ]
+  "supportedFeaturesListForFlow":[
+    "ConditionalFieldVisibility",
+    "StoreOutputAutomatically",
+    "LookupTraversal",
+    "DynamicTypes"
+  ]
 }

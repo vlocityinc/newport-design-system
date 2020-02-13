@@ -1,37 +1,37 @@
 {
-    "getStringFromApexActionDetails": {
-        "configurationEditor": null,
-        "parameters": [
-            {
-                "isRequired": false,
-                "isInput": true,
-                "dataType": "id",
-                "description": null,
-                "label": "accountId",
-                "isOutput": false,
-                "name": "accountId",
-                "apexClass": null,
-                "maxOccurs": 1,
-                "id": null,
-                "isSystemGeneratedOutput": false,
-                "durableId": "apex-GetAccountName-input-accountId",
-                "sobjectType": null
-            },
-            {
-                "isRequired": false,
-                "isInput": false,
-                "dataType": "string",
-                "description": null,
-                "label": "accountName",
-                "isOutput": true,
-                "name": "accountName",
-                "apexClass": null,
-                "maxOccurs": 1,
-                "id": null,
-                "isSystemGeneratedOutput": false,
-                "durableId": "apex-GetAccountName-output-accountName",
-                "sobjectType": null
-            }
-        ]
-    }
+  "getStringFromApexActionDetails":{
+    "configurationEditor":null,
+    "parameters":[
+      {
+        "isRequired":false,
+        "isInput":true,
+        "dataType":"id",
+        "description":null,
+        "label":"accountId",
+        "isOutput":false,
+        "name":"accountId",
+        "apexClass":null,
+        "maxOccurs":1,
+        "id":null,
+        "isSystemGeneratedOutput":false,
+        "durableId":"apex-GetAccountName-input-accountId",
+        "sobjectType":null
+      },
+      {
+        "isRequired":false,
+        "isInput":false,
+        "dataType":"string",
+        "description":null,
+        "label":"accountName",
+        "isOutput":true,
+        "name":"accountName",
+        "apexClass":null,
+        "maxOccurs":1,
+        "id":null,
+        "isSystemGeneratedOutput":false,
+        "durableId":"apex-GetAccountName-output-accountName",
+        "sobjectType":null
+      }
+    ]
+  }
 }

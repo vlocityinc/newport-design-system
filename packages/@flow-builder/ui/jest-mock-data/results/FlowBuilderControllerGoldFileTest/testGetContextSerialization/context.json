@@ -1,12 +1,12 @@
 {
-    "context": {
-        "access": {
-            "orgHasFlowBuilderDebug": false,
-            "orgHasBeforeSaveEnabled": true
-        },
-        "devMode": false,
-        "testMode": true,
-        "orgId": "00Dxx0000000000",
-        "canVAD": true
-    }
+  "context":{
+    "access":{
+      "orgHasFlowBuilderDebug":false,
+      "orgHasBeforeSaveEnabled":true
+    },
+    "devMode":false,
+    "testMode":true,
+    "orgId":"00Dxx0000000000",
+    "canVAD":true
+  }
 }

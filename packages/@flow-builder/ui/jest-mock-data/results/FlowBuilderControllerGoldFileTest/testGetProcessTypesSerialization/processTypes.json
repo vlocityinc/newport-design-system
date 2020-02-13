@@ -1,24 +1,24 @@
 {
-    "processTypes": [
-        {
-            "fieldsToNull": [],
-            "label": "Autolaunched Flow",
-            "name": "AutoLaunchedFlow"
-        },
-        {
-            "fieldsToNull": [],
-            "label": "Screen Flow",
-            "name": "Flow"
-        },
-        {
-            "fieldsToNull": [],
-            "label": "User Provisioning Flow",
-            "name": "UserProvisioningFlow"
-        },
-        {
-            "fieldsToNull": [],
-            "label": "Contact Request Flow",
-            "name": "ContactRequestFlow"
-        }
-    ]
+  "processTypes":[
+    {
+  "fieldsToNull" : [ ],
+  "label" : "Autolaunched Flow",
+  "name" : "AutoLaunchedFlow"
+},
+    {
+  "fieldsToNull" : [ ],
+  "label" : "Screen Flow",
+  "name" : "Flow"
+},
+    {
+  "fieldsToNull" : [ ],
+  "label" : "User Provisioning Flow",
+  "name" : "UserProvisioningFlow"
+},
+    {
+  "fieldsToNull" : [ ],
+  "label" : "Contact Request Flow",
+  "name" : "ContactRequestFlow"
+}
+  ]
 }

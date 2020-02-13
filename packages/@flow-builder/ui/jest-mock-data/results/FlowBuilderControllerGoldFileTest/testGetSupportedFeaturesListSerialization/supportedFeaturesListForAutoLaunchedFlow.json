@@ -1,9 +1,9 @@
 {
-    "supportedFeaturesListForAutoLaunchedFlow": [
-        "StoreOutputAutomatically",
-        "ConfigurableStart",
-        "LookupTraversal",
-        "DynamicTypes",
-        "RollbackModeInDebug"
-    ]
+  "supportedFeaturesListForAutoLaunchedFlow":[
+    "StoreOutputAutomatically",
+    "ConfigurableStart",
+    "LookupTraversal",
+    "DynamicTypes",
+    "RollbackModeInDebug"
+  ]
 }
