@@ -4,6 +4,7 @@ import {
 } from 'builder_platform_interaction/expressionUtils';
 import { normalizeDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { transformOperatorsForCombobox } from 'builder_platform_interaction/ruleLib';
+import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 
 /**
  * Returns the formatted LHS value as displayText and the dataType used for the RHS
@@ -69,7 +70,7 @@ function resourceToDisplayText(unformattedValue, comboxShape) {
     let returnText = comboxShape.displayText;
     if (rxMatch) {
         if (rxMatch.length > 2) {
-            returnText = '{!' + comboxShape.text + rxMatch[2] + '}';
+            returnText = '{!' + removeCurlyBraces(comboxShape.displayText) + rxMatch[2] + '}';
         }
     }
     return returnText;
