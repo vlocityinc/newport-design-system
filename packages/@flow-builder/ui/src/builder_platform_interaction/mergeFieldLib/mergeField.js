@@ -12,7 +12,7 @@ import { fetchFieldsForEntity, getEntityFieldWithApiName } from 'builder_platfor
 import { isLookupTraversalSupported as isLookupTraversalSupportedByProcessType } from 'builder_platform_interaction/processTypeLib';
 import { isLookupTraversalSupported as isLookupTraversalSupportedByTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
-import { fetchMergedFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
+import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
 
 /**
  * Whether or not lookup traversal is supported in this flow
@@ -174,7 +174,7 @@ function resolveSubflowOutputReference({ flowName }, fieldNames) {
         return Promise.resolve([]);
     }
     const [fieldName, ...remainingFieldNames] = fieldNames;
-    return fetchMergedFlowOutputVariables(flowName).then(variables => {
+    return fetchActiveOrLatestFlowOutputVariables(flowName).then(variables => {
         const field = variables.find(variable => variable.name === fieldName);
         if (!field) {
             return undefined;

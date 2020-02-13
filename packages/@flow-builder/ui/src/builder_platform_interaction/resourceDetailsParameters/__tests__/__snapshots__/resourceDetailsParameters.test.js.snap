@@ -191,7 +191,7 @@ exports[`Resource Details parameters Subflow in automatic outputs mode No fetch 
               #shadow-root(open)
             </lightning-icon>
             <span>
-              carOutput (Latest Version Only)
+              carOutput
             </span>
           </div>
         </li>
@@ -207,7 +207,7 @@ exports[`Resource Details parameters Subflow in automatic outputs mode No fetch 
               #shadow-root(open)
             </lightning-icon>
             <span>
-              carOutputCollection (Latest Version Only)
+              carOutputCollection
             </span>
           </div>
         </li>
@@ -239,7 +239,7 @@ exports[`Resource Details parameters Subflow in automatic outputs mode No fetch 
               #shadow-root(open)
             </lightning-icon>
             <span>
-              inputOutput2 (Active Version Only)
+              inputOutput2
             </span>
           </div>
         </li>
@@ -271,7 +271,7 @@ exports[`Resource Details parameters Subflow in automatic outputs mode No fetch 
               #shadow-root(open)
             </lightning-icon>
             <span>
-              output2 (Active Version Only)
+              output2
             </span>
           </div>
         </li>
@@ -287,23 +287,7 @@ exports[`Resource Details parameters Subflow in automatic outputs mode No fetch 
               #shadow-root(open)
             </lightning-icon>
             <span>
-              output3 (Active Version Only)
-            </span>
-          </div>
-        </li>
-        <li
-          class="slds-item"
-        >
-          <div
-            class="slds-grid"
-          >
-            <lightning-icon
-              class="slds-m-right_xx-small slds-m-top_xx-small"
-            >
-              #shadow-root(open)
-            </lightning-icon>
-            <span>
-              output4 (Latest Version Only)
+              output3
             </span>
           </div>
         </li>

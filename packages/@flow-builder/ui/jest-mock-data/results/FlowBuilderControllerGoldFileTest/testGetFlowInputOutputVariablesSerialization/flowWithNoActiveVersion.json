@@ -23,6 +23,26 @@
                     "scale": 0
                 },
                 {
+                    "dataType": "Apex",
+                    "isCollection": false,
+                    "isInput": false,
+                    "isOutput": true,
+                    "name": "carOutput",
+                    "objectType": "Car",
+                    "processMetadataValues": [],
+                    "scale": 0
+                },
+                {
+                    "dataType": "Apex",
+                    "isCollection": true,
+                    "isInput": false,
+                    "isOutput": true,
+                    "name": "carOutputCollection",
+                    "objectType": "Car",
+                    "processMetadataValues": [],
+                    "scale": 0
+                },
+                {
                     "dataType": "String",
                     "isCollection": false,
                     "isInput": true,

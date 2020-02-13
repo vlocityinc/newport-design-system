@@ -5,7 +5,7 @@ import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLi
 import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { getFlowDataTypeByName } from 'builder_platform_interaction/screenEditorUtils';
 import { getFlowDataType } from 'builder_platform_interaction/dataTypeLib';
-import { getMergedFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
+import { getActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
 
 /**
  * Get the extension parameter description as a complex type field description
@@ -58,7 +58,7 @@ export function getAutomaticOutputParameters(flowResource) {
             }
             automaticOutputParameters = parameters.filter(parameter => parameter.isOutput);
         } else if (flowResource.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value) {
-            return getMergedFlowOutputVariables(flowResource.flowName);
+            return getActiveOrLatestFlowOutputVariables(flowResource.flowName);
         }
     }
     return automaticOutputParameters;
@@ -117,7 +117,7 @@ const isSingleAnonymousOutput = parameter => {
 };
 
 function getSubflowComplexTypeOutputFields({ flowName }) {
-    const outputVariables = getMergedFlowOutputVariables(flowName);
+    const outputVariables = getActiveOrLatestFlowOutputVariables(flowName);
     const fields =
         outputVariables &&
         outputVariables.reduce((acc, outputVariable) => {

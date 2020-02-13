@@ -24,7 +24,7 @@ import {
 import * as validationErrors from './mergeFieldValidationErrors';
 import { getEntityFieldWithRelationshipName, getPolymorphicRelationShipName, getReferenceToName } from './mergeField';
 import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
-import { getMergedFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
+import { getActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
 
 const MERGE_FIELD_START_CHARS = '{!';
 const MERGE_FIELD_END_CHARS = '}';
@@ -379,7 +379,7 @@ export class MergeFieldsValidation {
 
     _validateSubflowOutputMergeField(element, fieldNames, index, endIndex) {
         const [fieldName, ...remainingFieldNames] = fieldNames;
-        const outputVariables = getMergedFlowOutputVariables(element.flowName);
+        const outputVariables = getActiveOrLatestFlowOutputVariables(element.flowName);
         if (!outputVariables) {
             // this lib is synchronous, we check the field only if already cached.
             return {

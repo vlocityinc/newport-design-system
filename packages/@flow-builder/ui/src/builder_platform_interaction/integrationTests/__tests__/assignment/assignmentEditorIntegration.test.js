@@ -43,18 +43,6 @@ jest.mock('@salesforce/label/FlowBuilderElementLabels.subflowAsResourceText', ()
     virtual: true
 });
 
-jest.mock(
-    '@salesforce/label/FlowBuilderSubflows.variableInLatestVersionOnly',
-    () => ({ default: '{0} (Latest Version Only)' }),
-    { virtual: true }
-);
-
-jest.mock(
-    '@salesforce/label/FlowBuilderSubflows.variableInActiveVersionOnly',
-    () => ({ default: '{0} (Active Version Only)' }),
-    { virtual: true }
-);
-
 jest.mock('@salesforce/label/FlowBuilderElementConfig.variablePluralLabel', () => ({ default: 'Variables' }), {
     virtual: true
 });
@@ -410,7 +398,24 @@ describe('Assignment Editor', () => {
             });
         });
         describe('subflow automatic output', () => {
-            itCanSelectInLhs(['Outputs from subflowAutomaticOutput', 'output2 (Active Version Only)'], {
+            it('The items in the combobox are the output variables from the active version', async () => {
+                const lhsCombobox = getLhsCombobox(expressionBuilder);
+                await selectComboboxItemBy(lhsCombobox, 'text', ['Outputs from subflowAutomaticOutput'], {
+                    blur: false
+                });
+                expect(getComboboxItems(lhsCombobox)).toEqual([
+                    expect.objectContaining({ text: 'accountOutput' }),
+                    expect.objectContaining({ text: 'carOutput' }),
+                    expect.objectContaining({ text: 'accountOutputCollection' }),
+                    expect.objectContaining({ text: 'carOutputCollection' }),
+                    expect.objectContaining({ text: 'inputOutput1' }),
+                    expect.objectContaining({ text: 'inputOutput2' }),
+                    expect.objectContaining({ text: 'output1' }),
+                    expect.objectContaining({ text: 'output2' }),
+                    expect.objectContaining({ text: 'output3' })
+                ]);
+            });
+            itCanSelectInLhs(['Outputs from subflowAutomaticOutput', 'output2'], {
                 displayText: '{!subflowAutomaticOutput.output2}'
             });
             itCanSelectInLhs(['Outputs from subflowAutomaticOutput', 'accountOutput'], {
@@ -419,12 +424,9 @@ describe('Assignment Editor', () => {
             itCanSelectInLhs(['Outputs from subflowAutomaticOutput', 'accountOutput', 'Name'], {
                 displayText: '{!subflowAutomaticOutput.accountOutput.Name}'
             });
-            itCanSelectInLhs(
-                ['Outputs from subflowAutomaticOutput', 'carOutput (Latest Version Only)', 'wheel', 'type'],
-                {
-                    displayText: '{!subflowAutomaticOutput.carOutput.wheel.type}'
-                }
-            );
+            itCanSelectInLhs(['Outputs from subflowAutomaticOutput', 'carOutput', 'wheel', 'type'], {
+                displayText: '{!subflowAutomaticOutput.carOutput.wheel.type}'
+            });
         });
     });
 });

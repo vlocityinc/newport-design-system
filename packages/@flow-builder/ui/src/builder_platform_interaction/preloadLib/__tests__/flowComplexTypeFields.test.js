@@ -30,7 +30,7 @@ import { describeExtensions } from 'builder_platform_interaction/flowExtensionLi
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { getActionCallsByNames } from 'mock/flows/mock-flow.js';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { fetchMergedFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
+import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
 
 jest.mock('builder_platform_interaction/sobjectLib', () => ({
     fetchFieldsForEntity: jest.fn().mockImplementation(() => Promise.resolve())
@@ -53,7 +53,7 @@ jest.mock('builder_platform_interaction/preloadLib', () => ({
 }));
 
 jest.mock('builder_platform_interaction/subflowsLib', () => ({
-    fetchMergedFlowOutputVariables: jest.fn().mockImplementation(() => Promise.resolve())
+    fetchActiveOrLatestFlowOutputVariables: jest.fn().mockImplementation(() => Promise.resolve())
 }));
 
 describe('flowComplexTypeFields', () => {
@@ -152,8 +152,8 @@ describe('flowComplexTypeFields', () => {
     describe('loadFieldsForSubflowsInFlow', () => {
         it('Load subflow output variables for subflows in automatic output mode', async () => {
             await loadFieldsForSubflowsInFlow(stateWithElements([subflowAutomaticOutput]));
-            expect(fetchMergedFlowOutputVariables.mock.calls).toHaveLength(1);
-            expect(fetchMergedFlowOutputVariables.mock.calls[0][0]).toBe('flowWithActiveAndLatest');
+            expect(fetchActiveOrLatestFlowOutputVariables.mock.calls).toHaveLength(1);
+            expect(fetchActiveOrLatestFlowOutputVariables.mock.calls[0][0]).toBe('flowWithActiveAndLatest');
         });
     });
     describe('loadParametersForInvocableApexActionsInFlowFromMetadata', () => {

@@ -175,9 +175,9 @@ jest.mock('builder_platform_interaction/elementLabelLib', () => {
 jest.mock('builder_platform_interaction/subflowsLib', () => {
     const actual = require.requireActual('builder_platform_interaction/subflowsLib');
     return {
-        getMergedFlowOutputVariables: jest.fn().mockImplementation(flowName => {
+        getActiveOrLatestFlowOutputVariables: jest.fn().mockImplementation(flowName => {
             if (flowName === 'flowWithActiveAndLatest') {
-                return actual.getMergedInputOutputVariables(mockFlowWithActiveAndLatest).outputVariables;
+                return actual.getActiveOrLatestInputOutputVariables(mockFlowWithActiveAndLatest).outputVariables;
             }
             return undefined;
         })
@@ -766,14 +766,13 @@ describe('Menu data retrieval', () => {
             expect(Object.keys(items)).toEqual([
                 'accountOutput',
                 'accountOutputCollection',
+                'carOutput',
+                'carOutputCollection',
                 'inputOutput1',
                 'inputOutput2',
                 'output1',
                 'output2',
-                'output3',
-                'carOutput',
-                'carOutputCollection',
-                'output4'
+                'output3'
             ]);
             expectFieldsAreComplexTypeFieldDescriptions(items);
         });

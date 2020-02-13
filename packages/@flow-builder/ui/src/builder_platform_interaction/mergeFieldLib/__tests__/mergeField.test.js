@@ -57,10 +57,10 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
 jest.mock('builder_platform_interaction/subflowsLib', () => {
     const actual = require.requireActual('builder_platform_interaction/subflowsLib');
     return {
-        fetchMergedFlowOutputVariables: jest.fn().mockImplementation(flowName => {
+        fetchActiveOrLatestFlowOutputVariables: jest.fn().mockImplementation(flowName => {
             if (flowName === 'flowWithActiveAndLatest') {
                 return Promise.resolve(
-                    actual.getMergedInputOutputVariables(mockFlowWithActiveAndLatest).outputVariables
+                    actual.getActiveOrLatestInputOutputVariables(mockFlowWithActiveAndLatest).outputVariables
                 );
             }
             return Promise.reject(`No flow with name ${flowName}`);

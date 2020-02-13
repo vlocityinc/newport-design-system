@@ -1,8 +1,5 @@
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import {
-    getSubflowVariableLabelWithWarning,
-    fetchMergedFlowOutputVariables
-} from 'builder_platform_interaction/subflowsLib';
+import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
 import { ResourceDetailsParametersConfig } from './resourceDetailsParametersConfig';
 import { getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import { labelComparator } from 'builder_platform_interaction/sortLib';
@@ -18,7 +15,7 @@ class ResourceDetailsParametersSubflowConfig extends ResourceDetailsParametersCo
             }
             return {
                 apiName: rawParameter.apiName,
-                label: getSubflowVariableLabelWithWarning(rawParameter),
+                label: rawParameter.apiName,
                 description: rawParameter.description,
                 typeIconName: getDataTypeIcons(rawParameter.dataType, 'utility')
             };
@@ -30,7 +27,7 @@ class ResourceDetailsParametersSubflowConfig extends ResourceDetailsParametersCo
             if (!resource) {
                 callback([], `No resource found for GUID: ${resourceGuid}`);
             } else {
-                fetchMergedFlowOutputVariables(resource.flowName)
+                fetchActiveOrLatestFlowOutputVariables(resource.flowName)
                     .then(outputVariables => {
                         callback(outputVariables.map(this.map()).sort(labelComparator));
                     })

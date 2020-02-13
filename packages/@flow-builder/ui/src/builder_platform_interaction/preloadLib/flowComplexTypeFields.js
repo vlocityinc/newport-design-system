@@ -10,7 +10,7 @@ import {
 import { ELEMENT_TYPE, ACTION_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { loadApexClasses } from './preloadLib';
-import { fetchMergedFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
+import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
 /**
  * This is called once the flow has been loaded, so that complex types in the flow have their fields loaded and cached.
  */
@@ -67,7 +67,7 @@ export function loadFieldsForSubflowsInFlow(state) {
     for (let i = 0; i < subFlowNames.length; i++) {
         // fetch fields and cache them
         promises.push(
-            fetchMergedFlowOutputVariables(subFlowNames[i], {
+            fetchActiveOrLatestFlowOutputVariables(subFlowNames[i], {
                 disableErrorModal: true
             }).catch(() => {})
         );

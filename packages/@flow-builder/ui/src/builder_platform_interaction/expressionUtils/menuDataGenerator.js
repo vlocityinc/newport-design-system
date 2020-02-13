@@ -18,7 +18,6 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { apexClassesSelector } from 'builder_platform_interaction/selectors';
 import { createSelector } from 'builder_platform_interaction/storeLib';
 import { getIconNameFromDataType } from 'builder_platform_interaction/screenEditorUtils';
-import { getSubflowVariableLabelWithWarning } from 'builder_platform_interaction/subflowsLib';
 import { LABELS } from './expressionUtilsLabels';
 
 export const MAXIMUM_NUMBER_OF_LEVELS = 10;
@@ -369,12 +368,7 @@ export function getMenuItemForField(
         allowApexTypeFields
     });
     const { dataType, isCollection, subtype } = field;
-    let text;
-    if (parent && parent.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value) {
-        text = getSubflowVariableLabelWithWarning(field);
-    } else {
-        text = apiName;
-    }
+    const text = apiName;
     const comboboxItem = createMenuItemForField({
         iconName: getDataTypeIcons(field.dataType, ICON_TYPE),
         iconAlternativeText: dataType,

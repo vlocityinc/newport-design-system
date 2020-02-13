@@ -104,9 +104,9 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 jest.mock('builder_platform_interaction/subflowsLib', () => {
     const actual = require.requireActual('builder_platform_interaction/subflowsLib');
     return {
-        getMergedFlowOutputVariables: jest.fn().mockImplementation(flowName => {
+        getActiveOrLatestFlowOutputVariables: jest.fn().mockImplementation(flowName => {
             if (flowName === 'flowWithActiveAndLatest') {
-                return actual.getMergedInputOutputVariables(mockFlowWithActiveAndLatest).outputVariables;
+                return actual.getActiveOrLatestInputOutputVariables(mockFlowWithActiveAndLatest).outputVariables;
             }
             return undefined;
         })

@@ -1,6 +1,6 @@
 import { createElement } from 'lwc';
 import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
-import { fetchMergedFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
+import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { mockSubmitForApprovalActionParameters, mockLocalActionParameters } from 'mock/calloutData';
 import ResourceDetailsParameters from 'builder_platform_interaction/resourceDetailsParameters';
@@ -35,31 +35,18 @@ jest.mock('builder_platform_interaction/invocableActionLib', () => ({
 jest.mock('builder_platform_interaction/subflowsLib', () => {
     const actual = require.requireActual('builder_platform_interaction/subflowsLib');
     return {
-        fetchMergedFlowOutputVariables: jest.fn(flowName => {
+        fetchActiveOrLatestFlowOutputVariables: jest.fn(flowName => {
             if (flowName === 'flowWithActiveAndLatest') {
                 return Promise.resolve(
-                    actual.getMergedInputOutputVariables(mockFlowWithActiveAndLatest).outputVariables
+                    actual.getActiveOrLatestInputOutputVariables(mockFlowWithActiveAndLatest).outputVariables
                 );
             }
             return Promise.reject(`No flow with name ${flowName}`);
-        }),
-        getSubflowVariableLabelWithWarning: actual.getSubflowVariableLabelWithWarning
+        })
     };
 });
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
-
-jest.mock(
-    '@salesforce/label/FlowBuilderSubflows.variableInLatestVersionOnly',
-    () => ({ default: '{0} (Latest Version Only)' }),
-    { virtual: true }
-);
-
-jest.mock(
-    '@salesforce/label/FlowBuilderSubflows.variableInActiveVersionOnly',
-    () => ({ default: '{0} (Active Version Only)' }),
-    { virtual: true }
-);
 
 const SELECTORS = { SPINNER: '.spinner' };
 
@@ -156,18 +143,17 @@ const EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_ACTION_LOCAL_ACTION_IN_AUTO_MODE = [
 const EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_SUBFLOW_IN_AUTO_MODE = [
     { apiName: 'accountOutput', label: 'accountOutput', typeIconName: 'utility:sobject' },
     { apiName: 'accountOutputCollection', label: 'accountOutputCollection', typeIconName: 'utility:sobject' },
-    { apiName: 'carOutput', label: 'carOutput (Latest Version Only)', typeIconName: 'utility:apex' },
+    { apiName: 'carOutput', label: 'carOutput', typeIconName: 'utility:apex' },
     {
         apiName: 'carOutputCollection',
-        label: 'carOutputCollection (Latest Version Only)',
+        label: 'carOutputCollection',
         typeIconName: 'utility:apex'
     },
     { apiName: 'inputOutput1', label: 'inputOutput1', typeIconName: 'utility:text' },
-    { apiName: 'inputOutput2', label: 'inputOutput2 (Active Version Only)', typeIconName: 'utility:text' },
+    { apiName: 'inputOutput2', label: 'inputOutput2', typeIconName: 'utility:text' },
     { apiName: 'output1', label: 'output1', typeIconName: 'utility:text' },
-    { apiName: 'output2', label: 'output2 (Active Version Only)', typeIconName: 'utility:text' },
-    { apiName: 'output3', label: 'output3 (Active Version Only)', typeIconName: 'utility:text' },
-    { apiName: 'output4', label: 'output4 (Latest Version Only)', typeIconName: 'utility:text' }
+    { apiName: 'output2', label: 'output2', typeIconName: 'utility:text' },
+    { apiName: 'output3', label: 'output3', typeIconName: 'utility:text' }
 ];
 
 describe('Resource Details parameters', () => {
@@ -316,7 +302,7 @@ describe('Resource Details parameters', () => {
             });
             describe('Parameters fetch server call OK but error', () => {
                 beforeAll(() => {
-                    fetchMergedFlowOutputVariables.mockImplementation(() =>
+                    fetchActiveOrLatestFlowOutputVariables.mockImplementation(() =>
                         Promise.reject(new Error('An error occured during subflow parameters fetching'))
                     );
                 });
