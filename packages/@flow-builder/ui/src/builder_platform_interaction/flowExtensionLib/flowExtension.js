@@ -205,16 +205,18 @@ function transformDefaultValue(value) {
 }
 
 function createDescription(name, data) {
+    const { parameters, configurationEditor } = data;
     const desc = {
         name,
         inputParameters: [],
-        outputParameters: []
+        outputParameters: [],
+        configurationEditor
     };
 
     // Remove LWC properties, which store values of generic type bindings (aka dynamic type mappings)
     // data = data.filter(param => !param.availableValues);
 
-    for (const param of data) {
+    for (const param of parameters) {
         const newParam = {
             apiName: param.apiName,
             dataType: param.dataType || FLOW_DATA_TYPE.APEX.value, // LC parameters that accept apex classes have no data type set
@@ -264,7 +266,7 @@ export function describeExtensions(
     } else {
         promise = new Promise((resolve, reject) => {
             fetch(
-                SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_LIST_PARAMS,
+                SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_DETAILS,
                 ({ data, error }) => {
                     if (error) {
                         reject(new Error(error));

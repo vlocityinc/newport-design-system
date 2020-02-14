@@ -36,7 +36,8 @@ export const SERVER_ACTION_TYPE = {
     TOGGLE_FLOW_STATUS: 'toggleFlowStatus',
     GET_INVOCABLE_ACTION_DETAILS: 'getInvocableActionDetails',
     GET_BUILDER_CONFIGS: 'getBuilderConfigs',
-    GET_WORKFLOW_ENABLED_ENTITIES: 'getWorkflowEnabledEntities'
+    GET_WORKFLOW_ENABLED_ENTITIES: 'getWorkflowEnabledEntities',
+    GET_FLOW_EXTENSION_DETAILS: 'getFlowExtensionDetails'
 };
 
 const actionConfig = {
@@ -75,7 +76,8 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.TOGGLE_FLOW_STATUS]: 'c.toggleFlowStatus',
     [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_DETAILS]: 'c.getInvocableActionDetails',
     [SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS]: 'c.getBuilderConfigs',
-    [SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES]: 'c.getWorkflowEnabledEntities'
+    [SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES]: 'c.getWorkflowEnabledEntities',
+    [SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_DETAILS]: 'c.getFlowExtensionDetails'
 };
 
 let auraFetch;

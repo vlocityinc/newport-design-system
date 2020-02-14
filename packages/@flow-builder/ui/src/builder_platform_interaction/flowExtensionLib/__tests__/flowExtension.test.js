@@ -5,7 +5,7 @@ import {
     getCachedExtension,
     listExtensions
 } from '../flowExtension';
-import { flowExtensionListParams } from 'serverData/GetFlowExtensionListParams/flowExtensionListParams.json';
+import { flowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
 import { flowExtensionsForFlow as mockFlowExtensions } from 'serverData/GetFlowExtensions/flowExtensionsForFlow.json';
 
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
@@ -22,27 +22,30 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
-// Extend flowExtensionListParams to include <c:lookup/>
-const mockFlowExtensionListParams = Object.assign(
+// Extend flowExtensionDetails to include <c:lookup/>
+const mockFlowExtensionDetails = Object.assign(
     {
-        'c:lookup': [
-            {
-                apiName: 'selectedRecord',
-                dataType: 'sobject',
-                objectType: '{T}',
-                defaultValue: 'false',
-                description: 'Selected record.',
-                fieldsToNull: [],
-                hasDefaultValue: true,
-                isInput: false,
-                isOutput: true,
-                isRequired: false,
-                label: 'Selected Record',
-                maxOccurs: 1
-            }
-        ]
+        'c:lookup': {
+            configurationEditor: null,
+            parameters: [
+                {
+                    apiName: 'selectedRecord',
+                    dataType: 'sobject',
+                    objectType: '{T}',
+                    defaultValue: 'false',
+                    description: 'Selected record.',
+                    fieldsToNull: [],
+                    hasDefaultValue: true,
+                    isInput: false,
+                    isOutput: true,
+                    isRequired: false,
+                    label: 'Selected Record',
+                    maxOccurs: 1
+                }
+            ]
+        }
     },
-    flowExtensionListParams
+    flowExtensionDetails
 );
 
 function mockServerResponse(serverActionType, params) {
@@ -63,11 +66,11 @@ function mockServerResponse(serverActionType, params) {
         ].concat(mockFlowExtensions);
     }
 
-    expect(serverActionType).toEqual(SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_LIST_PARAMS);
+    expect(serverActionType).toEqual(SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_DETAILS);
     const s = params.names.reduce(
         (obj, name) =>
             Object.assign(obj, {
-                [name]: mockFlowExtensionListParams[name]
+                [name]: mockFlowExtensionDetails[name]
             }),
         {}
     );

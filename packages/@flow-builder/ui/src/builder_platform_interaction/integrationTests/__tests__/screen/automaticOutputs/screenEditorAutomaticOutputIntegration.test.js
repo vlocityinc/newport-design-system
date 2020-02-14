@@ -9,7 +9,7 @@ import { updateFlow } from 'builder_platform_interaction/actions';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib/';
 import { initializeAuraFetch, createGetterByProcessType } from '../../serverDataTestUtils';
-import { flowExtensionListParams } from 'serverData/GetFlowExtensionListParams/flowExtensionListParams.json';
+import { flowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
 import {
     ticks,
     LIGHTNING_COMPONENTS_SELECTORS,
@@ -109,9 +109,9 @@ describe('ScreenEditor', () => {
     describe('existing flow with a screen lightning component : Address and automatic value output', () => {
         beforeAll(() => {
             initializeAuraFetch({
-                'c.getFlowExtensionListParams': params => ({
+                'c.getFlowExtensionDetails': params => ({
                     data: params.names.reduce((obj, name) => {
-                        obj[name] = flowExtensionListParams[name];
+                        obj[name] = flowExtensionDetails[name];
                         return obj;
                     }, {})
                 }),

@@ -39,6 +39,7 @@ import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { flowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 import { flowWithNoActiveVersion } from 'serverData/GetFlowInputOutputVariables/flowWithNoActiveVersion.json';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import { flowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
 
 const auraFetch = actions => async (actionName, shouldExecuteCallback, callback, params) => {
     await ticks(10);
@@ -115,6 +116,13 @@ const getFlowExtensionListParams = flowExtensionListParameters => params => ({
     }, {})
 });
 
+const getFlowExtensionDetails = flowExtDetails => params => ({
+    data: params.names.reduce((obj, name) => {
+        obj[name] = flowExtDetails[name];
+        return obj;
+    }, {})
+});
+
 const retrieveFlow = flowIdToFlow => ({ flowId }) => {
     const flow = flowIdToFlow[flowId];
     if (flow != null) {
@@ -174,6 +182,7 @@ const allAuraActions = {
         'quickAction-Case.LogACall': logACallActionDetails
     }),
     'c.getFlowExtensionListParams': getFlowExtensionListParams(flowExtensionListParams),
+    'c.getFlowExtensionDetails': getFlowExtensionDetails(flowExtensionDetails),
     'c.getFlowExtensions': createGetterByProcessType({
         [FLOW_PROCESS_TYPE.FLOW]: flowExtensionsForFlow,
         [FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW]: flowExtensionsForContactRequestFlow
