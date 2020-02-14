@@ -1,0 +1,23 @@
+<template>
+    <div class={computedButtonContainerClass}>
+        <button
+            accesskey={computedAccessKey}
+            aria-expanded={computedAriaExpanded}
+            aria-haspopup="true"
+            class={computedButtonClass}
+            disabled={disabled}
+            title={computedTitle}
+            type="button"
+            value={value}
+            onblur={handleBlur}
+            onclick={handleButtonClick}
+            onfocus={handleFocus}
+            onkeydown={handleButtonKeyDown}
+            onmousedown={handleButtonMouseDown}
+        >
+            <slot name="trigger"></slot>
+        </button>
+
+        <slot name="selection-checkbox"></slot>
+    </div>
+</template>

@@ -22,6 +22,7 @@ import {
 import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
 
 import { removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
+import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
 let storeInstance;
 let unsubscribeStore;
@@ -68,6 +69,10 @@ export default class LeftPanel extends LightningElement {
         unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
     }
 
+    get useFixedLayoutCanvas() {
+        return useFixedLayoutCanvas();
+    }
+
     /**
      * Callback which gets executed after getting elements for left panel
      * palette
@@ -101,8 +106,13 @@ export default class LeftPanel extends LightningElement {
             this.processType = flowProcessType;
             this.triggerType = flowTriggerType;
 
-            logPerfTransactionStart(LEFT_PANEL_ELEMENTS);
-            fetch(SERVER_ACTION_TYPE.GET_LEFT_PANEL_ELEMENTS, this.setElements, { flowProcessType, flowTriggerType });
+            if (!this.useFixedLayoutCanvas) {
+                logPerfTransactionStart(LEFT_PANEL_ELEMENTS);
+                fetch(SERVER_ACTION_TYPE.GET_LEFT_PANEL_ELEMENTS, this.setElements, {
+                    flowProcessType,
+                    flowTriggerType
+                });
+            }
         }
     };
 

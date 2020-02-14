@@ -1,0 +1,17 @@
+<template>
+    <!-- TODO: Remove the button when integrating in core -->
+    <div class="select-button">
+        <lightning-button
+            label="Select"
+            title="Select"
+            onclick={handleSelectClick}
+            class="slds-m-left_x-small"
+        ></lightning-button>
+    </div>
+    <builder_platform_interaction-flc-builder
+        flow-model={flowModel}
+        elements-metadata={elementsMetadata}
+        is-selection-mode={isSelectionMode}
+        onflcselection={handleSelectionOnFixedCanvas}
+    ></builder_platform_interaction-flc-builder>
+</template>

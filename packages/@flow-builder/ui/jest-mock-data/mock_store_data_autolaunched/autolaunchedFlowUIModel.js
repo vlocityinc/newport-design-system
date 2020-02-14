@@ -12,7 +12,8 @@ export const autolaunchedFlowUIModel = {
             connectorCount: 1,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             elementType: 'START_ELEMENT',
             maxConnections: 1,
@@ -40,7 +41,8 @@ export const autolaunchedFlowUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             actionType: 'chatterPost',
             actionName: 'chatterPost',
@@ -84,7 +86,8 @@ export const autolaunchedFlowUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             outcomeReferences: [
                 {
@@ -132,7 +135,8 @@ export const autolaunchedFlowUIModel = {
             connectorCount: 1,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             waitEventReferences: [
                 {
@@ -238,7 +242,8 @@ export const autolaunchedFlowUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             object: 'Account',
             objectIndex: 'a18b3d06-504c-4e47-9f44-6663c42703cf',

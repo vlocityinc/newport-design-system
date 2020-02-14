@@ -1,0 +1,11 @@
+{
+    "extends": "../../../tsconfig.json",
+
+    "compilerOptions": {
+        "outDir": "build/esNext",
+        "declarationDir": "dist/types",
+        "experimentalDecorators": true
+    },
+
+    "include": ["src/", "typings/"]
+}

@@ -1,0 +1,86 @@
+<template>
+    <builder_platform_interaction-flc-menu>
+        <div slot="header" class="slds-dropdown__header slds-truncate" title="Menu Sub Heading" role="separator">
+            <h3 class="slds-m-vertical_small slds-text-heading_small">
+                Add Element
+            </h3>
+            <div class="slds-form-element__control">
+                <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                    <input
+                        aria-controls="listbox-id-4"
+                        autocomplete="off"
+                        class="slds-input slds-combobox__input"
+                        id="combobox-id-3"
+                        placeholder="Search elements..."
+                        role="textbox"
+                        type="text"
+                    />
+                    <span class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
+                        <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                        </svg>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div slot="body" class="slds-scrollable_y body-scroll">
+            <template for:each={menuConfiguration.sections} for:item="section">
+                <ul
+                    aria-label={section.label}
+                    class="slds-listbox slds-listbox_vertical"
+                    key={section.label}
+                    role="group"
+                >
+                    <li
+                        class="slds-dropdown__header slds-truncate padding-medium"
+                        if:true={section.heading}
+                        role="separator"
+                        title={section.label}
+                    >
+                        <span>{section.heading}</span>
+                    </li>
+                    <template for:each={section.items} for:item="item">
+                        <div key={item.description}>
+                            <li
+                                class="slds-dropdown__item padding-medium"
+                                onclick={handleSelectMenuItem}
+                                role="presentation"
+                            >
+                                <a
+                                    aria-expanded="true"
+                                    aria-haspopup="true"
+                                    class="padding-medium"
+                                    data-value={item.title}
+                                    onclick={handleSelectMenuItem}
+                                    role="menuitem"
+                                    tabindex="0"
+                                >
+                                    <span class="slds-media__figure slds-listbox__option-icon">
+                                        <span class={item.style}>
+                                            <svg data-value={item.title} class={item.iconClass} aria-hidden="true">
+                                                <use xlink:href={item.icon}></use>
+                                            </svg>
+                                        </span>
+                                    </span>
+                                    <span class="slds-media__body">
+                                        <span
+                                            class="slds-listbox__option-text slds-listbox__option-text_entity"
+                                            data-value={item.title}
+                                            >{item.title}</span
+                                        >
+                                        <span
+                                            class="slds-listbox__option-meta slds-listbox__option-meta_entity"
+                                            data-value={item.title}
+                                            >{item.description}</span
+                                        >
+                                    </span>
+                                </a>
+                            </li>
+                            <li if:true={item.separator} class="slds-has-divider_top-space" role="separator"></li>
+                        </div>
+                    </template>
+                </ul>
+            </template>
+        </div>
+    </builder_platform_interaction-flc-menu>
+</template>

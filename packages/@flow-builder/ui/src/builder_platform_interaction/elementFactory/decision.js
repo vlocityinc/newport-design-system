@@ -26,6 +26,7 @@ const childReferenceKeys = {
 // For Opening Property editor or copying a decision
 export function createDecisionWithOutcomes(decision = {}) {
     const newDecision = baseCanvasElement(decision);
+    const { prev, next } = decision;
     let { outcomes } = decision;
     const { defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel, outcomeReferences } = decision;
 
@@ -40,8 +41,12 @@ export function createDecisionWithOutcomes(decision = {}) {
         const newOutcome = createOutcome();
         outcomes = [newOutcome];
     }
-    // Add maxConnections for new/existing decision if needed.
+
+    // Add maxConnections for new/existing decision  if needed.
     return Object.assign(newDecision, {
+        children: [],
+        next,
+        prev,
         outcomes,
         defaultConnectorLabel,
         elementType
@@ -139,7 +144,10 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
         elementType,
         maxConnections,
         connectorCount,
-        availableConnections
+        availableConnections,
+        children: decision.children,
+        next: decision.next,
+        prev: decision.prev
     });
 
     return {

@@ -1,5 +1,6 @@
 import { Store } from 'builder_platform_interaction_mocks/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
+
+window.runningJestTest = true;
 
 jest.mock('builder_platform_interaction/loggingUtils', () =>
     require('builder_platform_interaction_mocks/loggingUtils')

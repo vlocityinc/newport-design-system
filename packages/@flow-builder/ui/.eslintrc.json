@@ -7,7 +7,10 @@
                 "whitelist": {
                     "complexity": ["**/builder_platform_interaction/reducers/elementsReducer.js"],
                     "@lwc/lwc/no-async-operation": [
-                        "**/builder_platform_interaction/conditionEditorPopover/conditionEditorPopover.js"
+                        "**/builder_platform_interaction/conditionEditorPopover/conditionEditorPopover.js",
+                        "**/builder_platform_interaction/flcBuilder/flcBuilder.js",
+                        "**/builder_platform_interaction/flcBuilderContainer/flcBuilderContainer.js",
+                        "**/builder_platform_interaction/flcButtonMenu/keyboard.js"
                     ],
                     "@lwc/lwc/no-document-query": ["**/builder_platform_interaction/drawingLib/drawingLib.js"],
                     "@lwc/lwc/no-inner-html": [
@@ -17,6 +20,7 @@
                         "**/builder_platform_interaction/connectorPicker/connectorPicker.js",
                         "**/builder_platform_interaction/palette/palette.js"
                     ],
+                    "no-empty-function": ["**/builder_platform_interaction/flcConnectorMenu/flcConnectorMenu.js"],
                     "lwc-core/no-aura": ["**/builder_platform_interaction/builderUtils/builderUtils.js"],
                     "lwc-core/no-interop-create": ["**/builder_platform_interaction/builderUtils/builderUtils.js"],
                     "lwc-core/no-interop-dispatch": ["**/builder_platform_interaction/builderUtils/builderUtils.js"],

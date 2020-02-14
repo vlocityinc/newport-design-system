@@ -1,0 +1,40 @@
+{
+    "name": "pocs",
+    "version": "0.0.1",
+    "private": true,
+    "description": "Builder POCs",
+    "scripts": {
+        "lint:poc": "eslint src/main/modules/** --ext .js --max-warnings 0",
+        "debug": "node --inspect-brk ./node_modules/.bin/jest -i",
+        "coverage": "yarn test --coverage",
+        "ready": "yarn lint && yarn coverage",
+        "git:clean": "git fetch -p && for branch in `git branch -vv | grep ': gone]' | awk '{print $1}'`; do git branch -D $branch; done",
+        "clean": "rm -rf build/",
+        "build:poc": "rollup -c rollup.config.demo-app.js",
+        "serve": "node src/demo-app/server.js",
+        "watch": "yarn build:poc --watch",
+        "start": "yarn serve",
+        "test:poc": "jest src/demo-app/modules --config demo.jest.config.json",
+        "test:poc:coverage": "jest --coverage src/demo-app/modules --config demo.jest.config.json",
+        "docs:generate": "for filename in node_modules/biblio/templates/*.md; do pandoc docs/biblio.md --template $filename -t gfm -o docs/$(basename $filename); done"
+    },
+    "devDependencies": {
+        "@lwc/compiler": "1.0.2-222.18",
+        "@lwc/engine": "1.0.2-222.18",
+        "@lwc/errors": "1.0.2-222.18",
+        "@lwc/jest-preset": "2.2.0",
+        "@lwc/module-resolver": "1.0.2-222.18",
+        "@lwc/rollup-plugin": "1.0.2-222.18",
+        "@lwc/synthetic-shadow": "1.0.2-222.18",
+        "@lwc/wire-service": "1.0.2-222.18",
+        "@salesforce-ux/design-system": "^2.7.5",
+        "biblio": "^218.1.0",
+        "eslint": "5.8.0",
+        "eslint-plugin-lwc": "~0.5.1",
+        "express": "^4.16.4",
+        "lwc-components-lightning": "^1.4.4-alpha",
+        "npm-run-all": "^4.1.5",
+        "rollup-plugin-commonjs": "^9.2.1",
+        "rollup-plugin-node-resolve": "^4.0.1"
+    }
+}

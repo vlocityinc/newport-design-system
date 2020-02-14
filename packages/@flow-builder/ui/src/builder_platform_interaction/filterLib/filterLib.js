@@ -31,7 +31,9 @@ export const labelFilter = pattern => {
 export const resourceFilter = pattern => {
     return obj => {
         let result = false;
-        if (booleanMatcher(obj, 'isCanvasElement', false)) {
+        if (obj.elementType === ELEMENT_TYPE.ROOT_ELEMENT || obj.elementType === ELEMENT_TYPE.END_ELEMENT) {
+            result = false;
+        } else if (booleanMatcher(obj, 'isCanvasElement', false)) {
             result = true;
         } else if (booleanMatcher(obj, 'storeOutputAutomatically', true)) {
             // if fields have not been retrieved yet, consider it as a resource for now
@@ -59,6 +61,8 @@ export const canvasElementFilter = pattern => {
         // first class element.
         let result =
             notEqualsMatcher(obj, 'elementType', ELEMENT_TYPE.START_ELEMENT) &&
+            notEqualsMatcher(obj, 'elementType', ELEMENT_TYPE.END_ELEMENT) &&
+            notEqualsMatcher(obj, 'elementType', ELEMENT_TYPE.ROOT_ELEMENT) &&
             booleanMatcher(obj, 'isCanvasElement', true);
         if (pattern) {
             result = result && containsMatcher(obj, 'name', pattern);

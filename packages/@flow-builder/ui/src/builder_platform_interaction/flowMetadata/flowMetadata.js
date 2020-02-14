@@ -52,6 +52,8 @@ export const ELEMENT_TYPE = {
     STEP: 'Step',
     SUBFLOW: 'Subflow',
     START_ELEMENT: 'START_ELEMENT',
+    ROOT_ELEMENT: 'root',
+    END_ELEMENT: 'END_ELEMENT',
     WAIT: 'Wait',
     WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS: 'WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS',
     WAIT_EVENT: 'WAIT_EVENT',
@@ -310,3 +312,14 @@ export const START_ELEMENT_FIELDS = {
     START_TIME: 'startTime',
     FILTER_TYPE: 'filterType'
 };
+
+export function isSystemElement(elementType) {
+    switch (elementType) {
+        case ELEMENT_TYPE.ROOT_ELEMENT:
+        case ELEMENT_TYPE.START_ELEMENT:
+        case ELEMENT_TYPE.END_ELEMENT:
+            return true;
+        default:
+            return false;
+    }
+}

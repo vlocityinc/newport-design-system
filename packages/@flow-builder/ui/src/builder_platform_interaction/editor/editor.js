@@ -30,7 +30,7 @@ import {
     UPDATE_APEX_CLASSES,
     UPDATE_ENTITIES
 } from 'builder_platform_interaction/actions';
-import { ELEMENT_TYPE, FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FLOW_STATUS, isSystemElement } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
@@ -94,8 +94,10 @@ import {
     DisplayShortcutsCommand
 } from 'builder_platform_interaction/commands';
 import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
+import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLib';
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
+import { addRootAndEndElements, addConnectorsForNewElement } from 'builder_platform_interaction/flcConversionUtils';
 import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
 
 let unsubscribeStore;
@@ -200,6 +202,10 @@ export default class Editor extends LightningElement {
 
     @track
     builderConfigLoading = false;
+
+    get useFixedLayoutCanvas() {
+        return useFixedLayoutCanvas();
+    }
 
     @track
     processTypeLoading = false;
@@ -836,10 +842,11 @@ export default class Editor extends LightningElement {
         if (event && event.type && event.detail) {
             logPerfTransactionStart('PropertyEditor');
             const mode = event.type;
-
+            const { prev, next, childIndex, parent } = event.detail;
             const nodeUpdate = this.deMutateAndAddNodeCollection;
             const newResourceCallback = this.newResourceCallback;
             const processType = this.properties.processType;
+
             this.queueOpenPropertyEditor(() => {
                 // getElementForPropertyEditor need to be called after propertyEditorBlockerCalls
                 // has been resolved
@@ -847,8 +854,13 @@ export default class Editor extends LightningElement {
                     locationX: event.detail.locationX,
                     locationY: event.detail.locationY,
                     elementType: event.detail.elementType,
-                    isNewElement: true
+                    isNewElement: true,
+                    prev,
+                    next,
+                    childIndex,
+                    parent
                 });
+
                 return {
                     mode,
                     node,
@@ -875,7 +887,10 @@ export default class Editor extends LightningElement {
             const nodeUpdate = this.deMutateAndUpdateNodeCollection;
             const newResourceCallback = this.newResourceCallback;
             const processType = this.properties.processType;
-            if (element.elementType !== ELEMENT_TYPE.START_ELEMENT || isConfigurableStartSupported(processType)) {
+            if (
+                !isSystemElement(element.elementType) ||
+                (element.elementType === ELEMENT_TYPE.START_ELEMENT && isConfigurableStartSupported(processType))
+            ) {
                 logPerfTransactionStart('PropertyEditor');
                 this.queueOpenPropertyEditor(() => {
                     const node = getElementForPropertyEditor(element);
@@ -1056,6 +1071,11 @@ export default class Editor extends LightningElement {
         const nodeForStore = getElementForStore(node);
         this.cacheNewComplexObjectFields(nodeForStore);
         storeInstance.dispatch(addElement(nodeForStore));
+
+        if (useFixedLayoutCanvas()) {
+            addConnectorsForNewElement(storeInstance, node);
+        }
+
         logInteraction(`add-node-of-type-${node.elementType}`, 'modal', null, 'click');
     };
 
@@ -1236,7 +1256,13 @@ export default class Editor extends LightningElement {
     createFlowFromProcessType = (processType, triggerType) => {
         const payload = { processType };
         storeInstance.dispatch(updatePropertiesAfterCreatingFlowFromProcessType(payload));
-        createStartElement(storeInstance, triggerType);
+
+        const startElement = createStartElement(storeInstance, triggerType);
+
+        if (useFixedLayoutCanvas()) {
+            addRootAndEndElements(storeInstance, startElement.guid);
+        }
+
         this.disableSave = false;
     };
 
@@ -1258,3 +1284,5 @@ export default class Editor extends LightningElement {
         );
     };
 }
+
+export { createStartElement, getElementsToBeDeleted };

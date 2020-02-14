@@ -3,7 +3,7 @@ import { TEMPLATE_FIELDS, REFERENCE_FIELDS, EXPRESSION_RE } from 'builder_platfo
 import { splitStringBySeparator, isReference, removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getDataTypeKey } from 'builder_platform_interaction/elementFactory';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { isSystemElement } from 'builder_platform_interaction/flowMetadata';
 
 /**
  * @param {*} object complex object(eg: it can assignment, decision or outcome etc)
@@ -216,7 +216,7 @@ export const swapDevNamesToGuids = (elementUidMap, flow) => {
     const nameToUid = {};
     for (let i = 0; i < elementGuids.length; i++) {
         const element = elementUidMap[elementGuids[i]];
-        if (element.elementType !== ELEMENT_TYPE.START_ELEMENT) {
+        if (!isSystemElement(element.elementType)) {
             const devname = element.name.toLowerCase();
             nameToUid[devname] = element.guid;
         }

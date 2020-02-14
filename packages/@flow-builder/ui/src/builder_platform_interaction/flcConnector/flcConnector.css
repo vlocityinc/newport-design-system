@@ -1,0 +1,57 @@
+.canvas-path {
+    stroke: var(--lwc-colorGray6);
+    stroke-width: 6;
+    fill: none;
+}
+
+.canvas-path.fault {
+    stroke: var(--lwc-colorBorderError);
+    stroke-dasharray: 7;
+    stroke-width: 3;
+    fill: none;
+}
+
+svg {
+    position: absolute;
+    z-index: -1;
+}
+
+.combobox-label {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 96px;
+    z-index: 1;
+}
+
+.fault-label {
+    background-color: var(--lwc-colorBorderError);
+    color: var(--lwc-colorTextBrandPrimary);
+    height: 24px;
+    position: absolute;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    width: 48px;
+    z-index: 1;
+}
+
+builder_platform_interaction-flc-button-menu {
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+.circle-text {
+    transition: transform 0.25s ease;
+}
+
+builder_platform_interaction-flc-button-menu.slds-is-open .circle-text {
+    transform: rotate(-135deg);
+}
+
+.connector {
+    position: absolute;
+    transition: opacity 1s;
+}
+
+.connector.is-new {
+    opacity: 0;
+}

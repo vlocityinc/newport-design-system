@@ -1,0 +1,23 @@
+:host {
+    display: flex;
+    flex: auto;
+    height: 100%;
+    position: relative;
+
+    /* offset by canvas icon height */
+    margin-top: 48px;
+}
+
+builder_platform_interaction-flc-builder {
+    display: flex;
+    flex: auto;
+}
+
+/* TODO: Remove the button when integrating in core */
+.select-button {
+    margin-top: 16px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 20;
+}

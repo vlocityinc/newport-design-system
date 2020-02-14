@@ -1,0 +1,39 @@
+<template>
+    <builder_platform_interaction-flc-menu>
+        <div slot="header" class="slds-dropdown__header node-menu-header" title="Menu Sub Heading" role="separator">
+            <button class="slds-button slds-is-absolute slds-m-right_small" style="right:0;">Cancel</button>
+            <div class="slds-m-top_x-large">
+                <h3 class="slds-text-heading_small slds-truncate">{menuConfiguration.Header.title}</h3>
+                <p class="slds-text-body_regular slds-truncate">
+                    {menuConfiguration.Header.description}
+                </p>
+            </div>
+        </div>
+
+        <ul slot="body" class="body slds-dropdown__divst" role="menu" aria-label="Show More">
+            <template for:each={menuConfiguration.Body.NodeActions} for:item="item">
+                <li
+                    key={item.value}
+                    onclick={handleSelectMenuItem}
+                    value={item.value}
+                    class="slds-dropdown__item"
+                    role="none"
+                >
+                    <a data-value={item.value} role="menuitem" onclick={handleSelectMenuItem}>
+                        <span data-value={item.value} class="slds-truncate" title={item.label}>
+                            <svg class={item.class} aria-hidden="true">
+                                <use xlink:href={item.assetLocation}></use></svg
+                            >{item.label}</span
+                        >
+                    </a>
+                </li>
+            </template>
+        </ul>
+
+        <div class="footer footer slds-p-around_small" slot="footer">
+            <button class="slds-button slds-button_brand slds-button_stretch">
+                {menuConfiguration.Footer.buttonText}
+            </button>
+        </div>
+    </builder_platform_interaction-flc-menu>
+</template>

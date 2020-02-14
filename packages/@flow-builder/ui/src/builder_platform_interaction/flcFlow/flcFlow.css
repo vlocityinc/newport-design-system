@@ -1,0 +1,24 @@
+.wrapper {
+    position: absolute;
+}
+
+.root-flow {
+    position: relative;
+}
+
+builder_platform_interaction-flc-flow {
+    position: absolute;
+    flex: auto;
+}
+
+builder_platform_interaction-flc-connector {
+    position: absolute;
+    top: 0;
+}
+builder_platform_interaction-flc-node {
+    position: relative;
+}
+
+.hidden {
+    display: none;
+}

@@ -914,6 +914,32 @@ export const elementTypeToConfigMap = {
             propertyEditor: createScreenField
         }
     },
+    [ELEMENT_TYPE.END_ELEMENT]: {
+        descriptor: 'builder_platform_interaction:defaultEditor',
+        nodeConfig: {
+            iconName: 'standard:custom',
+            maxConnections: 1
+        },
+        bodyCssClass: '',
+        labels: {
+            singular: '',
+            newModal: '',
+            editModal: ''
+        }
+    },
+    [ELEMENT_TYPE.ROOT_ELEMENT]: {
+        descriptor: 'builder_platform_interaction:defaultEditor',
+        nodeConfig: {
+            iconName: 'standard:custom',
+            maxConnections: 1
+        },
+        bodyCssClass: '',
+        labels: {
+            singular: '',
+            newModal: '',
+            editModal: ''
+        }
+    },
     [ELEMENT_TYPE.DEFAULT]: {
         // defaultEditor doesn't exist but should lead here making it easier to debug the issue
         descriptor: 'builder_platform_interaction:defaultEditor',

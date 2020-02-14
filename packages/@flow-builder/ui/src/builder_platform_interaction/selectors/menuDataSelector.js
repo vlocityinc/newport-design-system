@@ -1,5 +1,5 @@
 import { createSelector } from 'builder_platform_interaction/storeLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, isSystemElement } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE, getFlowDataType } from 'builder_platform_interaction/dataTypeLib';
 import {
     getQueryableEntities,
@@ -237,7 +237,7 @@ export const writableElementsSelector = filteredElementsSelector(
 );
 
 export const readableElementsSelector = filteredElementsSelector(
-    element => element.elementType !== ELEMENT_TYPE.START_ELEMENT || !!element.object
+    element => !isSystemElement(element.elementType) || !!element.object
 );
 
 export const collectionElementsSelector = filteredElementsSelector(element => element.isCollection);

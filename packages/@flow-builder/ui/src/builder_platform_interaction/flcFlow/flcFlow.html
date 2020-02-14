@@ -1,0 +1,68 @@
+<template>
+    <template if:true={flow}>
+        <div class="root-flow" style={flow.style}>
+            <template for:each={flow.nodes} for:item="node" if:true={node.shouldRender}>
+                <div key={node.guid} class="wrapper" style={node.style}>
+                    <builder_platform_interaction-flc-node
+                        is-selection-mode={isSelectionMode}
+                        node-info={node}
+                    ></builder_platform_interaction-flc-node>
+
+                    <template for:each={node.flows} for:item="nestedFlow" if:true={nestedFlow.shouldRender}>
+                        <template if:true={nestedFlow.preConnector}>
+                            <builder_platform_interaction-flc-connector
+                                key={nestedFlow.preConnector.key}
+                                class="pre-flow"
+                                connector-info={nestedFlow.preConnector}
+                                is-new={node.isNew}
+                                is-selection-mode={isSelectionMode}
+                            ></builder_platform_interaction-flc-connector>
+                        </template>
+                        <builder_platform_interaction-flc-flow
+                            key={nestedFlow.key}
+                            flow={nestedFlow}
+                            is-selection-mode={isSelectionMode}
+                        ></builder_platform_interaction-flc-flow>
+                        <template if:true={nestedFlow.postConnector}>
+                            <builder_platform_interaction-flc-connector
+                                key={nestedFlow.postConnector.key}
+                                connector-info={nestedFlow.postConnector}
+                                is-new={node.isNew}
+                                is-selection-mode={isSelectionMode}
+                            ></builder_platform_interaction-flc-connector>
+                        </template>
+                    </template>
+
+                    <template if:true={node.nextConnector}>
+                        <builder_platform_interaction-flc-connector
+                            key={node.nextConnector.key}
+                            connector-info={node.nextConnector}
+                            is-new={node.isNew}
+                            is-selection-mode={isSelectionMode}
+                        ></builder_platform_interaction-flc-connector>
+                    </template>
+                </div>
+            </template>
+
+            <div class="hidden">{force}</div>
+            <template if:true={menu}>
+                <div class="menu slds-dropdown " style={menu.style}>
+                    <template if:true={menu.connectorMenu}>
+                        <builder_platform_interaction-flc-connector-menu
+                            prev={menu.prev}
+                            next={menu.next}
+                            parent={menu.parent}
+                            child-index={menu.childIndex}
+                        ></builder_platform_interaction-flc-connector-menu>
+                    </template>
+                    <template if:false={menu.connectorMenu}>
+                        <builder_platform_interaction-flc-node-menu
+                            guid={menu.guid}
+                            element-metadata={menu.elementMetadata}
+                        ></builder_platform_interaction-flc-node-menu>
+                    </template>
+                </div>
+            </template>
+        </div>
+    </template>
+</template>

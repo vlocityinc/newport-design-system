@@ -18,6 +18,7 @@ export function getElementForPropertyEditor(element = {}) {
     if (!propertyEditor) {
         throw new Error('property editor factory is not defined to create new element');
     }
+
     const newElement = propertyEditor(element);
     // Find a better way to do this and don't couple store with this library
     const elements = Store.getStore().getCurrentState().elements;

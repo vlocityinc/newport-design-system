@@ -1,6 +1,9 @@
 import { isMatch, PARAM_PROPERTY, SUBTYPE, getDataType } from 'builder_platform_interaction/ruleLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    ELEMENT_TYPE,
+    UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE,
+    isSystemElement
+} from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
 import { FLOW_DATA_TYPE, getResourceTypes, isComplexType } from 'builder_platform_interaction/dataTypeLib';
@@ -285,7 +288,7 @@ export function filterAndMutateMenuData(
             element =>
                 isElementAllowed(allowedParamTypes, element, !disableHasNext) &&
                 // exclude the start element so that it is easier to add back as a global var below
-                element.elementType !== ELEMENT_TYPE.START_ELEMENT
+                !isSystemElement(element.elementType)
         )
         .map(element => {
             const menuItem = mutateFlowResourceToComboboxShape(element);

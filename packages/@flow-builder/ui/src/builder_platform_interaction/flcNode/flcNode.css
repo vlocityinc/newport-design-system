@@ -1,0 +1,45 @@
+.node {
+    width: 240px;
+    position: absolute;
+    transform: translate(-24px, -50%);
+    opacity: 1;
+    transition: opacity 1s;
+    z-index: 1;
+    margin-right: 24px;
+}
+
+.node.is-new {
+    opacity: 0;
+}
+
+.node.menu-opened {
+    z-index: 10;
+}
+
+.selection-checkbox {
+    bottom: 0;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, 50%);
+}
+
+.text-container {
+    height: 50px;
+    left: 60px;
+    line-height: 1rem;
+    top: 0px;
+    width: 180px;
+    word-break: break-word;
+}
+
+.shifted-text-container {
+    transform: translate(0%, -55%);
+}
+
+.text-container .text-element-label {
+    font-weight: var(--lwc-fontWeightBold);
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}

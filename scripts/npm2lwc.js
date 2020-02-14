@@ -159,7 +159,10 @@ function mvUiModule(src, dest, options) {
         });
     } else {
         printInfo(`Moving UI modules: ${sourcePath} -> ${dest}`);
-        copySync(sourcePath, dest);
+        copySync(sourcePath, dest, {
+            // TODO: remove this hardcoded filter
+            filter: src => !src.endsWith('flowUtils.js')
+        });
 
         // TODO: Remove. Do not expose every ui cmp by default, Can remove namespace from ui package src path
         const uiDest = resolve(dest, npm2lwcConfig.namespace);

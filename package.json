@@ -50,6 +50,14 @@
     "devDependencies": {
         "@babel/core": "^7.8.0",
         "@babel/preset-env": "^7.8.2",
+        "@lwc/compiler": "1.1.15",
+        "@lwc/engine": "1.1.15",
+        "@lwc/errors": "1.1.15",
+        "@lwc/jest-preset": "2.2.0",
+        "@lwc/module-resolver": "1.1.15",
+        "@lwc/rollup-plugin": "1.1.15",
+        "@lwc/synthetic-shadow": "1.1.15",
+        "@lwc/wire-service": "1.1.15",
         "@salesforce/eslint-config-lwc": "^0.3.0",
         "concurrently": "^5.0.2",
         "dotenv": "^8.2.0",
@@ -61,8 +69,6 @@
         "eslint-plugin-prettier": "^3.1.2",
         "fs-extra": "^8.1.0",
         "husky": "^4.2.1",
-        "jest": "^24.9.0",
-        "jest-extended": "^0.11.2",
         "jest-html-reporter": "^2.8.0",
         "lerna": "3.20.2",
         "lint-staged": "^10.0.7",
@@ -81,7 +87,9 @@
         "yargs": "^15.1.0"
     },
     "workspaces": [
-        "packages/@flow-builder/ui"
+        "packages/@flow-builder/flow-utils",
+        "packages/@flow-builder/ui",
+        "packages/flow-builder-pocs"
     ],
     "engines": {},
     "volta": {},
@@ -103,7 +111,7 @@
             "tslint -p ./tsconfig.json"
         ],
         "!(scripts|src)/**/*.js": [
-            "eslint --fix --max-warnings 0"
+            "eslint --fix --max-warnings 1"
         ],
         "packages/@flow-builder/ui/jsconfig.json": [
             "node ./scripts/genJsConfig.js > packages/@flow-builder/ui/jsconfig.json",

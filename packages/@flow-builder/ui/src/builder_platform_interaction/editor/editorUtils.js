@@ -22,7 +22,7 @@ import {
     createStartElement as createBasicStartElement
 } from 'builder_platform_interaction/elementFactory';
 
-import { canUserVAD, orgHasFlowBuilderGuardrails } from 'builder_platform_interaction/contextLib';
+import { canUserVAD, orgHasFlowBuilderGuardrails, useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
 /**
  * Helper method to determine if the connector is an associated connector or not
@@ -500,7 +500,14 @@ export const createStartElement = (storeInstance, triggerType) => {
         elementType: ELEMENT_TYPE.START_ELEMENT,
         triggerType
     });
+
+    // TODO: FLC TEMP CODE
+    if (useFixedLayoutCanvas()) {
+        startElement.locationX = 500;
+    }
+
     storeInstance.dispatch(addElement(startElement));
+    return startElement;
 };
 
 /**

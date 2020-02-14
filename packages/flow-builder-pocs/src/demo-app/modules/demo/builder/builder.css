@@ -1,0 +1,11 @@
+builder_platform_interaction-flc-builder-container {
+    display: flex;
+}
+
+.buttons {
+    position: absolute;
+    margin-top: 16px;
+    top: 0;
+    right: 0;
+    z-index: 20;
+}

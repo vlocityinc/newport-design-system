@@ -50,6 +50,9 @@ jest.mock('builder_platform_interaction/flowMetadata', () => {
             UPDATE: 'Update',
             CREATE: 'Create',
             CREATE_AND_UPDATE: 'CreateAndUpdate'
+        },
+        isSystemElement: elementType => {
+            return elementType === 'ROOT_ELEMENT' || elementType === 'END_ELEMENT' || elementType === 'START_ELEMENT';
         }
     };
 });

@@ -1,0 +1,27 @@
+.builder {
+    display: flex;
+    flex: auto;
+    outline: none;
+}
+
+.menu {
+    position: absolute;
+    z-index: 1;
+}
+
+.hidden {
+    display: none;
+}
+
+builder_platform_interaction-flc-flow {
+    flex: auto;
+}
+
+builder_platform_interaction-zoom-panel {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    /* offset by canvas icon height */
+    margin-bottom: 48px;
+}

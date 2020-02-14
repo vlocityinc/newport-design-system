@@ -138,6 +138,7 @@ export default class Node extends LightningElement {
                     return '';
             }
         }
+
         return format(
             LABELS.nodeIconTitle,
             getConfigForElementType(this.node.elementType).labels.singular,

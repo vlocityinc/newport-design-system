@@ -10,7 +10,8 @@ export const contactRequestFlowUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             elementType: 'START_ELEMENT',
             maxConnections: 1,
@@ -39,7 +40,8 @@ export const contactRequestFlowUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             outcomeReferences: [
                 {
@@ -151,7 +153,8 @@ export const contactRequestFlowUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             object: 'Account',
             objectIndex: '53329036-32e6-4965-a1d2-b12cd0344f99',
@@ -208,7 +211,8 @@ export const contactRequestFlowUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             object: 'Account',
             objectIndex: '2f00ca0d-743f-4639-a084-272bbc548f8b',
@@ -263,7 +267,8 @@ export const contactRequestFlowUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             object: 'Account',
             objectIndex: 'c5fd40ed-f8bb-4cea-a00d-8f3697b5731c',
@@ -318,7 +323,8 @@ export const contactRequestFlowUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             allowBack: true,
             allowFinish: true,

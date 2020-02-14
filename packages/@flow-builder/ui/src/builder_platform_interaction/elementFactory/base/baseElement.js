@@ -25,9 +25,9 @@ export function createAvailableConnection(availableConnection = {}) {
     return { type };
 }
 
-function createCanvasElementConfig(config = { isSelected: false, isHighlighted: false }) {
-    const { isSelected, isHighlighted } = config;
-    return { isSelected, isHighlighted };
+function createCanvasElementConfig(config = { isSelected: false, isHighlighted: false, canSelect: true }) {
+    const { isSelected, isHighlighted, canSelect } = config;
+    return { isSelected, isHighlighted, canSelect };
 }
 
 export function baseCanvasElement(canvasElement = {}) {

@@ -1,9 +1,6 @@
 <template>
     <div if:true={showSpinner} class="slds-spinner_container">
-        <lightning-spinner
-            variant="brand"
-            alternative-text={spinnerAlternativeText}
-        ></lightning-spinner>
+        <lightning-spinner variant="brand" alternative-text={spinnerAlternativeText}></lightning-spinner>
     </div>
     <div class="slds-grid slds-grid_vertical slds-is-fixed slds-grid_frame">
         <div class="slds-builder-header_container slds-is-relative">
@@ -51,20 +48,30 @@
                 onlocatoriconclicked={handleHighlightOnCanvas}
             ></builder_platform_interaction-left-panel>
             <div class="slds-col">
-                <builder_platform_interaction-canvas-container
+                <builder_platform_interaction-flc-builder-container
+                    if:true={useFixedLayoutCanvas}
                     onaddelement={handleAddCanvasElement}
                     oneditelement={handleEditElement}
                     ondeleteelement={handleElementDelete}
-                ></builder_platform_interaction-canvas-container>
+                >
+                </builder_platform_interaction-flc-builder-container>
+                <builder_platform_interaction-canvas-container
+                    if:false={useFixedLayoutCanvas}
+                    onaddelement={handleAddCanvasElement}
+                    oneditelement={handleEditElement}
+                    ondeleteelement={handleElementDelete}
+                >
+                </builder_platform_interaction-canvas-container>
             </div>
-            <builder_platform_interaction-right-panel if:true={showPropertyEditorRightPanel}
+            <builder_platform_interaction-right-panel
+                if:true={showPropertyEditorRightPanel}
                 onaddnewresource={handleAddResourceElement}
                 onclosepropertyeditor={handleClosePropertyEditor}
                 onaddnode={handleAddNode}
                 onupdatenode={handleUpdateNode}
             >
                 <builder_platform_interaction-property-editor-panel
-                        params={propertyEditorParams}
+                    params={propertyEditorParams}
                 ></builder_platform_interaction-property-editor-panel>
             </builder_platform_interaction-right-panel>
         </div>

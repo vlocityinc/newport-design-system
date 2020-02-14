@@ -1,0 +1,21 @@
+<template>
+    <div class="builder" ondblclick={hideMenu} ontogglemenu={handleToggleMenu} onzoomelement={handleZoomElement}>
+        <template if:true={shouldRenderFlow}>
+            <builder_platform_interaction-flc-flow
+                menu={menu}
+                force={_forceRender}
+                flow={flowRenderInfo}
+                is-selection-mode={isSelectionMode}
+                onflcselectdeselectnode={handleNodeSelectionDeselection}
+            ></builder_platform_interaction-flc-flow>
+
+            <builder_platform_interaction-zoom-panel
+                is-zoom-in-disabled={isZoomInDisabled}
+                is-zoom-out-disabled={isZoomOutDisabled}
+                is-zoom-to-view={isZoomToView}
+                onclicktozoom={handleClickToZoom}
+            ></builder_platform_interaction-zoom-panel>
+        </template>
+    </div>
+    <div class="hidden">{_forceRender}</div>
+</template>

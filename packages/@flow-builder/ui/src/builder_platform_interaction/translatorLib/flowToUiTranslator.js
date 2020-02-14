@@ -1,7 +1,9 @@
 import { swapDevNamesToUids } from './uidSwapping';
-import { ELEMENT_TYPE, METADATA_KEY } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, METADATA_KEY, isSystemElement } from 'builder_platform_interaction/flowMetadata';
 import { createFlowProperties } from 'builder_platform_interaction/elementFactory';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
+import { useFixedLayoutCanvas, setUseFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
+import { toFlc } from 'builder_platform_interaction/flcConversionUtils';
 
 /**
  * Get the flow startElementReference property if any
@@ -28,6 +30,13 @@ export function translateFlowToUIModel(flow) {
     );
 
     let { storeElements = {} } = storeDataAndConfig;
+
+    // TODO: FLC TEMP CODE
+    const startElement = Object.values(storeElements).find(ele => ele.elementType === ELEMENT_TYPE.START_ELEMENT);
+    if (startElement) {
+        setUseFixedLayoutCanvas(startElement.locationX === 500);
+    }
+
     const { storeConnectors = [] } = storeDataAndConfig;
 
     const { translateX } = storeDataAndConfig;
@@ -46,6 +55,10 @@ export function translateFlowToUIModel(flow) {
         storeConnectors,
         properties
     });
+
+    if (useFixedLayoutCanvas()) {
+        toFlc(storeConnectors, storeElements, canvasElementGuids);
+    }
 
     return {
         elements: storeElements,
@@ -91,7 +104,7 @@ function updateCanvasElementGuidsAndNameToGuidMap(elements = {}, translateX = 0,
     for (let j = 0; j < elementGuids.length; j++) {
         const element = elements[elementGuids[j]];
 
-        if (element.elementType !== ELEMENT_TYPE.START_ELEMENT) {
+        if (!isSystemElement(element.elementType)) {
             const devname = element.name.toLowerCase();
             nameToGuid[devname] = element.guid;
         }
@@ -143,7 +156,7 @@ function isElementOverlappingStartElement(element = {}, translateX = 0, properti
         !properties.isLightningFlowBuilder &&
         element &&
         element.elementType &&
-        element.elementType !== ELEMENT_TYPE.START_ELEMENT
+        !isSystemElement(element.elementType)
     );
 }
 

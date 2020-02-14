@@ -34,6 +34,8 @@ export const DESELECT_ON_CANVAS = 'DESELECT_ON_CANVAS';
 
 export const MARQUEE_SELECT_ON_CANVAS = 'MARQUEE_SELECT_ON_CANVAS';
 
+export const SELECTION_ON_FIXED_CANVAS = 'SELECTION_ON_FIXED_CANVAS';
+
 export const HIGHLIGHT_ON_CANVAS = 'HIGHLIGHT_ON_CANVAS';
 
 export const ADD_DECISION_WITH_OUTCOMES = 'ADD_DECISION_WITH_OUTCOMES';
@@ -70,6 +72,8 @@ export const PROPERTY_EDITOR_ACTION = {
     ADD_EMPTY_OUTPUT_ASSIGNMENT: 'addemptyoutputassignment',
     UPDATE_OUTPUT_ASSIGNMENTS_BEFORE_CLOSE: 'updateoutputassignmentbeforeclose'
 };
+
+export const ADD_END_ELEMENT = 'ADD_END_ELEMENT';
 
 export const UPDATE_APEX_CLASSES = 'UPDATE_APEX_CLASSES';
 
@@ -190,6 +194,8 @@ export const addElement = payload => {
                 return createAction(ADD_SCREEN_WITH_FIELDS, payload);
             case ELEMENT_TYPE.START_ELEMENT:
                 return createAction(ADD_START_ELEMENT, payload);
+            case ELEMENT_TYPE.END_ELEMENT:
+                return createAction(ADD_END_ELEMENT, payload);
             default:
                 if (payload.isCanvasElement) {
                     return createAction(ADD_CANVAS_ELEMENT, payload);
@@ -320,6 +326,14 @@ export const deselectOnCanvas = createAction(DESELECT_ON_CANVAS);
  * @returns {Object} action new action based on type and payload
  */
 export const marqueeSelectOnCanvas = payload => createAction(MARQUEE_SELECT_ON_CANVAS, payload);
+
+/**
+ * Action for selecting/desecting multiple canvas elements on the Fixed Canvas.
+ * @param {Object} payload - contains arrays with the canvas elements to be selected/deselected and those that
+ * can be selected next
+ * @returns {Object} action new action based on type and payload
+ */
+export const selectionOnFixedCanvas = payload => createAction(SELECTION_ON_FIXED_CANVAS, payload);
 
 /**
  * Action for setting the isHighlighted property of a canvas element to true

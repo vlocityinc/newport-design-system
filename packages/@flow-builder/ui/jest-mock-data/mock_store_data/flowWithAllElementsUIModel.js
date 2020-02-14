@@ -10,7 +10,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             elementType: 'START_ELEMENT',
             maxConnections: 1,
@@ -39,7 +40,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             actionType: 'quickAction',
             actionName: 'LogACall',
@@ -70,7 +72,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             actionType: 'chatterPost',
             actionName: 'chatterPost',
@@ -114,7 +117,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             actionType: 'component',
             actionName: 'c:localActionSample',
@@ -158,7 +162,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             actionType: 'quickAction',
             actionName: 'Case.LogACall',
@@ -196,7 +201,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             actionType: 'apex',
             actionName: 'getAccounts',
@@ -231,7 +237,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             actionType: 'externalService',
             actionName: 'BankServiceNew.addAccount',
@@ -262,7 +269,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             actionType: 'emailAlert',
             actionName: 'Account.my_email_alert',
@@ -300,7 +308,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             actionType: 'apex',
             actionName: 'InvocableGetAccountName',
@@ -342,7 +351,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             actionType: 'apex',
             actionName: 'generateDraftAccount',
@@ -380,7 +390,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             actionType: 'apex',
             actionName: 'generateDraftAccount',
@@ -411,7 +422,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             actionType: 'apex',
             actionName: 'GetAccountName',
@@ -442,7 +454,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             actionType: 'apex',
             actionName: 'GetAccounts',
@@ -477,7 +490,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             actionType: 'apex',
             actionName: 'InvocableGetAccountsNames',
@@ -512,7 +526,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             actionType: 'apex',
             actionName: 'GetCarAction',
@@ -550,7 +565,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             actionType: 'apex',
             actionName: 'ApexTypeCollectionAction',
@@ -585,7 +601,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             actionType: 'component',
             actionName: 'c:LightningComponentWithApexNoSObject',
@@ -616,7 +633,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             actionType: 'component',
             actionName: 'c:LightningWithApexContainsSObject',
@@ -647,7 +665,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             assignmentItems: [
                 {
@@ -672,7 +691,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             outcomeReferences: [
                 {
@@ -720,7 +740,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             outcomeReferences: [
                 {
@@ -1179,7 +1200,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             flowName: 'flowWithActiveAndLatest',
             inputAssignments: [
@@ -1207,7 +1229,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             object: 'Account',
             objectIndex: 'b3a76739-4414-41d2-984e-e44bca6402c6',
@@ -1254,7 +1277,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             object: 'Account',
             objectIndex: 'c9f73d4d-7d65-41bd-b1b6-f6e8b47cef56',
@@ -1301,7 +1325,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             object: '',
             objectIndex: '583e40d5-e735-4d8c-8f30-097d48de7ec8',
@@ -1332,7 +1357,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             object: '',
             objectIndex: 'aa0ba870-d79b-48cb-a7ec-bc9441a7b635',
@@ -1363,7 +1389,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             object: '',
             objectIndex: 'f317c423-f755-4d64-bd4a-e218107b57db',
@@ -1394,7 +1421,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             object: '',
             objectIndex: 'f94a6136-8394-445d-a2f1-1ef06f109cb5',
@@ -1425,7 +1453,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             object: 'Account',
             objectIndex: '0c77e4b9-7c32-4ce0-862d-ab58bb5b7553',
@@ -1471,7 +1500,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             object: 'Account',
             objectIndex: 'fff17adf-4565-4360-91b9-64f7fd54a9d7',
@@ -1517,7 +1547,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             object: 'Account',
             objectIndex: '8ca8f838-4af4-4ae6-89fd-abdcc075a85e',
@@ -1568,7 +1599,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             object: 'Account',
             objectIndex: 'ac66cdf6-9167-4628-8faa-079f39e2e32b',
@@ -1630,7 +1662,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             inputReference: '90da6513-4272-44d6-9f80-4cfc29acc5a3',
             inputReferenceIndex: 'e7dfb0f5-be90-4dcd-9841-da7bd989dee5',
@@ -1661,7 +1694,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             allowBack: true,
             allowFinish: true,
@@ -1896,7 +1930,8 @@ export const flowWithAllElementsUIModel = {
             connectorCount: 0,
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: false,
+                canSelect: true
             },
             allowBack: true,
             allowFinish: true,

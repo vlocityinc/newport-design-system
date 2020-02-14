@@ -201,7 +201,11 @@ export function createScreenElement(screen) {
         helpText = '',
         pausedText = '',
         showFooter = true,
-        showHeader = true
+        showHeader = true,
+        next,
+        prev,
+        parent,
+        childIndex
     } = screen;
 
     const getFieldIndex = function(field) {
@@ -238,7 +242,11 @@ export function createScreenElement(screen) {
         showHeader,
         getFieldIndexByGUID,
         getFieldByGUID,
-        getFieldIndex
+        getFieldIndex,
+        next,
+        prev,
+        parent,
+        childIndex
     });
     return screenObject;
 }

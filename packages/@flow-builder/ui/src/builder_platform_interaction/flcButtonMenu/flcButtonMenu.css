@@ -1,0 +1,59 @@
+.button-container {
+    height: 48px;
+    padding: 12px;
+    width: 48px;
+}
+
+button.border-none {
+    border: none;
+}
+
+button.connector {
+    background-color: white;
+    border: 2px solid var(--lwc-colorGray8);
+    border-radius: 50%;
+    height: 24px;
+    width: 24px;
+}
+
+/* Beware that changing the order of hover and focus can break the current styles  */
+button:hover {
+    transform: scale(1.05);
+}
+
+button.node-in-selection-mode:hover {
+    cursor: default;
+    transform: scale(1);
+}
+
+button.connector:hover {
+    background-color: #f4f6f9;
+    transform: scale(1);
+}
+
+button:focus {
+    background-color: #f4f6f9;
+    border-color: var(--lwc-colorBrandDark);
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
+    transform: scale(1.1);
+}
+
+button.node-in-selection-mode:focus {
+    box-shadow: none;
+    transform: scale(1);
+}
+
+button.connector:focus {
+    background-color: #f4f6f9;
+    border-color: var(--lwc-colorBrandDark);
+    box-shadow: 0 0 3px var(--lwc-colorBrandDark);
+    transform: scale(1);
+}
+
+:host(.slds-is-open) {
+    z-index: 10;
+}
+
+:host(.slds-is-open) button.connector {
+    background-color: rgb(54, 117, 224);
+}
