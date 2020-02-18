@@ -167,7 +167,7 @@ export const getSaveType = (eventType, flowId, canOnlySaveAsNewDefinition) => {
 
 export const updateStoreAfterSaveFlowIsSuccessful = (
     storeInstance,
-    { versionNumber, status, lastModifiedDate, lastModifiedBy }
+    { versionNumber, status, lastModifiedDate, lastModifiedBy, fullName }
 ) => {
     if (!storeInstance) {
         throw new Error('Store instance is not defined');
@@ -179,7 +179,8 @@ export const updateStoreAfterSaveFlowIsSuccessful = (
             lastModifiedDate,
             isLightningFlowBuilder: true,
             lastModifiedBy,
-            canOnlySaveAsNewDefinition: false
+            canOnlySaveAsNewDefinition: false,
+            name: fullName
         })
     );
 };
