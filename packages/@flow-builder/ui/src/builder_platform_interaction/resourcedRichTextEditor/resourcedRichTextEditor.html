@@ -2,16 +2,8 @@
     <div class="property-input slds-form-element">
         <div class="slds-grid slds-grid_vertical">
             <div class="slds-col slds-order_1 slds-size_1-of-1">
-                <span
-                    id="resourcedRichTextEditorLabel"
-                    class="slds-form-element__label"
-                >
-                    <abbr
-                        if:true={isRequired}
-                        title={labels.inputRequiredTitle}
-                        class="slds-required"
-                        >*</abbr
-                    >
+                <span id="resourcedRichTextEditorLabel" class="slds-form-element__label">
+                    <abbr if:true={isRequired} title={labels.inputRequiredTitle} class="slds-required">*</abbr>
                     {label}
                 </span>
                 <lightning-helptext
@@ -44,9 +36,7 @@
                         >
                         </builder_platform_interaction-ferov-resource-picker>
                     </div>
-                    <builder_platform_interaction-rich-text-plain-text-switch
-                        if:true={plainTextAvailable}
-                    >
+                    <builder_platform_interaction-rich-text-plain-text-switch if:true={plainTextAvailable}>
                     </builder_platform_interaction-rich-text-plain-text-switch>
                 </div>
 

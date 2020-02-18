@@ -10,10 +10,7 @@
                     id="section"
                     class="slds-text-heading_small slds-accordion__summary-heading"
                 >
-                    <button
-                        aria-expanded="true"
-                        class="slds-button slds-button_reset"
-                    >
+                    <button aria-expanded="true" class="slds-button slds-button_reset">
                         <lightning-icon
                             icon-name="utility:chevrondown"
                             variant="base"
@@ -25,11 +22,7 @@
                     <slot name="accordion-header"></slot>
                 </h3>
             </div>
-            <div
-                aria-hidden="false"
-                class="slds-accordion__content"
-                id="accordion-details-01"
-            >
+            <div aria-hidden="false" class="slds-accordion__content" id="accordion-details-01">
                 <slot name="accordion-body"></slot>
             </div>
         </section>

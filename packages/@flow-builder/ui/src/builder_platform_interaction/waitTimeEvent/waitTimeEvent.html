@@ -1,7 +1,5 @@
 <template>
-    <div
-        class="slds-form slds-form_compound slds-p-top_small slds-p-bottom-small"
-    >
+    <div class="slds-form slds-form_compound slds-p-top_small slds-p-bottom-small">
         <lightning-radio-group
             class="slds-p-bottom_small"
             label={labels.timeTypeLabel}
@@ -18,10 +16,7 @@
             {labels.resumeTimeHeader}
         </h3>
 
-        <div
-            if:true={isAbsoluteTime}
-            class="slds-form-element__row slds-p-top_small"
-        >
+        <div if:true={isAbsoluteTime} class="slds-form-element__row slds-p-top_small">
             <builder_platform_interaction-ferov-resource-picker
                 class="slds-size_1-of-2 absolute-basetime"
                 value={absoluteBaseTime}
@@ -35,10 +30,7 @@
             >
             </builder_platform_interaction-ferov-resource-picker>
         </div>
-        <div
-            if:false={isAbsoluteTime}
-            class="slds-form-element slds-p-top_small"
-        >
+        <div if:false={isAbsoluteTime} class="slds-form-element slds-p-top_small">
             <div class="slds-size_medium">
                 <lightning-input
                     type="text"
@@ -100,9 +92,7 @@
         >
         </lightning-input>
 
-        <h3
-            class="slds-border_top slds-m-top_medium slds-p-top_medium slds-text-heading_small"
-        >
+        <h3 class="slds-border_top slds-m-top_medium slds-p-top_medium slds-text-heading_small">
             {labels.assignOutputsToVariablesLabel}
         </h3>
 

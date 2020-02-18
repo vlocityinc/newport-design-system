@@ -47,49 +47,30 @@
                     </template>
                 </section>
 
-                <template
-                    if:false={hasUnboundDynamicTypeMappings}
-                >
+                <template if:false={hasUnboundDynamicTypeMappings}>
                     <lightning-accordion
                         allow-multiple-sections-open
                         class="slds-has-divider slds-p-top_none slds-border_bottom"
                     >
-                        <builder_platform_interaction-screen-component-visibility-section
-                            field={field}
-                        >
+                        <builder_platform_interaction-screen-component-visibility-section field={field}>
                         </builder_platform_interaction-screen-component-visibility-section>
                     </lightning-accordion>
 
                     <!--  validation text -->
 
-                    <div
-                        if:true={isAdvancedCheckboxDisplayed}
-                        class="slds-m-top_small"
-                    >
+                    <div if:true={isAdvancedCheckboxDisplayed} class="slds-m-top_small">
                         <builder_platform_interaction-use-advanced-options-checkbox
                             is-advanced-mode={isAdvancedMode}
                             onuseadvancedoptionsselectionchanged={handleAdvancedOptionsSelectionChange}
                         >
                         </builder_platform_interaction-use-advanced-options-checkbox>
                     </div>
-                    <div
-                        if:true={isManualOutputDisplayed}
-                        class="slds-m-bottom_small slds-m-top_small"
-                    >
-                        <h3
-                            class="slds-p-left_medium"
-                            style="font-size:3;font-weight:bold"
-                        >
+                    <div if:true={isManualOutputDisplayed} class="slds-m-bottom_small slds-m-top_small">
+                        <h3 class="slds-p-left_medium" style="font-size:3;font-weight:bold">
                             {labels.extensionOutputsHeader}
                         </h3>
-                        <div
-                            class="slds-p-left_medium slds-p-right_small slds-m-top_small"
-                        >
-                            <template
-                                for:each={state.outputParameters}
-                                for:item="param"
-                                for:index="index"
-                            >
+                        <div class="slds-p-left_medium slds-p-right_small slds-m-top_small">
+                            <template for:each={state.outputParameters} for:item="param" for:index="index">
                                 <builder_platform_interaction-screen-extension-attribute-editor
                                     key={param.key}
                                     row-index={param.rowIndex}
@@ -109,10 +90,7 @@
         </div>
     </template>
 
-    <div
-        if:true={_displaySpinner}
-        class="slds-is-relative full-height slds-shrink"
-    >
+    <div if:true={_displaySpinner} class="slds-is-relative full-height slds-shrink">
         <lightning-spinner
             alternative-text={labels.spinnerAlternativeText}
             size="medium"
@@ -120,5 +98,4 @@
             class="spinner"
         ></lightning-spinner>
     </div>
-
 </template>

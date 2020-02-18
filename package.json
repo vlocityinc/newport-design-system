@@ -15,8 +15,8 @@
     "scripts": {
         "clean": "rm -rf src/main/modules && lerna run clean",
         "ci:lint": "lerna run lint",
-        "format": "prettier --write '{docs,src,packages}/**/*.{css,js,json,ts,md}'",
-        "ci:prettify": "prettier --check '{docs,src}/**/*.{css,js,json,ts,md}'",
+        "format": "prettier --write '{docs,src,packages}/**/*.{css,js,json,ts,md,html}'",
+        "ci:prettify": "prettier --check '{docs,src}/**/*.{css,js,json,ts,md,html}'",
         "build:packages": "lerna run build --stream",
         "build:core": "node ./scripts/npm2lwc.js src/main/modules packages --core ",
         "build:poc": "node ./scripts/npm2lwc.js packages/flow-builder-pocs/build packages && lerna run build:poc",

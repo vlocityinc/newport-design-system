@@ -10,27 +10,15 @@
         <div
             class="highlight-header has-box-shadow slds-is-absolute slds-p-horizontal_x-small slds-align_absolute-center"
         >
-            <lightning-icon
-                icon-name={highlightIcon}
-                size="x-small"
-                variant="inverse"
-            ></lightning-icon>
-            <div
-                class="slds-p-left_xx-small slds-text-body_small slds-truncate"
-            >
+            <lightning-icon icon-name={highlightIcon} size="x-small" variant="inverse"></lightning-icon>
+            <div class="slds-p-left_xx-small slds-text-body_small slds-truncate">
                 {title}
             </div>
         </div>
 
-        <div
-            if:false={shouldPreventEvents}
-            class="highlight-frame has-box-shadow"
-        >
+        <div if:false={shouldPreventEvents} class="highlight-frame has-box-shadow">
             <slot name="screen-element"></slot>
-            <div
-                if:true={shouldDisplayIcons}
-                class="highlight-icons-container slds-grid slds-is-absolute"
-            >
+            <div if:true={shouldDisplayIcons} class="highlight-icons-container slds-grid slds-is-absolute">
                 <div class="highlight-icon-container slds-text-align_center">
                     <lightning-button-icon
                         class="highlight-icon left"
@@ -54,16 +42,12 @@
 
         <div if:true={shouldPreventEvents} class="slds-grid slds-is-relative">
             <slot name="screen-element"></slot>
-            <div
-                class="slds-size_full highlight-frame has-box-shadow slds-is-absolute"
-            >
+            <div class="slds-size_full highlight-frame has-box-shadow slds-is-absolute">
                 <div
                     if:true={shouldDisplayIcons}
                     class="highlight-icons-container slds-grid slds-is-relative slds-float_right"
                 >
-                    <div
-                        class="highlight-icon-container slds-text-align_center"
-                    >
+                    <div class="highlight-icon-container slds-text-align_center">
                         <lightning-button-icon
                             class="highlight-icon left"
                             icon-name="utility:move"
@@ -71,9 +55,7 @@
                             size="small"
                         ></lightning-button-icon>
                     </div>
-                    <div
-                        class="highlight-icon-container slds-text-align_center"
-                    >
+                    <div class="highlight-icon-container slds-text-align_center">
                         <lightning-button-icon
                             class="highlight-icon right has-box-shadow"
                             icon-name="utility:delete"

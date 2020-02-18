@@ -7,12 +7,8 @@
         ondrop={handleDrop}
         onscroll={handleScroll}
     >
-        <div
-            class="slds-grow screen-editor-canvas-content slds-p-top_small slds-grid"
-        >
-            <div
-                class="slds-card slds-card_boundary slds-grow slds-grid slds-grid_vertical"
-            >
+        <div class="slds-grow screen-editor-canvas-content slds-p-top_small slds-grid">
+            <div class="slds-card slds-card_boundary slds-grow slds-grid slds-grid_vertical">
                 <!--  header -->
                 <builder_platform_interaction-screen-editor-highlight
                     if:true={screen.showHeader}
@@ -42,13 +38,10 @@
                             if:false={screenConfigurationHasErrors}
                             class="slds-card__header slds-grid slds-grow slds-border_bottom"
                         >
-                            <header
-                                class="slds-media slds-media_center slds-has-flexi-truncate slds-p-bottom_small"
-                            >
+                            <header class="slds-media slds-media_center slds-has-flexi-truncate slds-p-bottom_small">
                                 <div class="slds-media__body">
                                     <h2>
-                                        <span
-                                            class="slds-card__header-link slds-text-heading_small"
+                                        <span class="slds-card__header-link slds-text-heading_small"
                                             >{screenTitle}</span
                                         >
                                     </h2>
@@ -93,11 +86,10 @@
                         </builder_platform_interaction-screen-editor-highlight>
                     </template>
 
-                    <div
-                        class="screen-editor-canvas-dragging-region slds-hide slds-is-absolute"
-                    >
+                    <div class="screen-editor-canvas-dragging-region slds-hide slds-is-absolute">
                         <hr
-                            class="screen-editor-canvas-insertion-line slds-is-relative slds-m-around_none slds-p-around_none">
+                            class="screen-editor-canvas-insertion-line slds-is-relative slds-m-around_none slds-p-around_none"
+                        />
                     </div>
                 </div>
 

@@ -62,11 +62,8 @@
                         value={currentDate}
                     ></lightning-relative-date-time
                 ></span>
-                <span if:true={isDoingOperation}
-                      style='padding-left: 5px;'
-                      aria-hidden
-                >
-                    <div  class="slds-spinner slds-spinner_x-small slds-spinner_brand slds-is-relative" >
+                <span if:true={isDoingOperation} style="padding-left: 5px;" aria-hidden>
+                    <div class="slds-spinner slds-spinner_x-small slds-spinner_brand slds-is-relative">
                         <div class="slds-spinner__dot-a"></div>
                         <div class="slds-spinner__dot-b"></div>
                     </div>
@@ -74,9 +71,7 @@
             </button>
 
             <div class="inline-display slds-m-left_xx-small">
-                <builder_platform_interaction-toolbar-status-icons
-                    flow-errors-and-warnings={flowErrorsAndWarnings}
-                >
+                <builder_platform_interaction-toolbar-status-icons flow-errors-and-warnings={flowErrorsAndWarnings}>
                 </builder_platform_interaction-toolbar-status-icons>
             </div>
             <lightning-button-group class="slds-m-left_xx-small">

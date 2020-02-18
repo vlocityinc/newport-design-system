@@ -1,9 +1,7 @@
 <template>
     <div class="slds-builder-header flow-builder-header_border_icon">
         <div class="slds-builder-header__item">
-            <div
-                class="slds-builder-header__item-label slds-media slds-media_center"
-            >
+            <div class="slds-builder-header__item-label slds-media slds-media_center">
                 <lightning-icon
                     variant="inverse"
                     size="x-small"
@@ -19,28 +17,17 @@
             title={flowNameAndVersionTitle}
             class="slds-builder-header__item custom-item-width test-flow-name-version-title"
         >
-            <span
-                class="custom-builder-header__item-label slds-p-left_medium slds-truncate test-flow-name"
+            <span class="custom-builder-header__item-label slds-p-left_medium slds-truncate test-flow-name"
                 >{currentFlowName}</span
             >
             &nbsp;
-            <span class="custom-builder-header__item-label test-flow-version"
-                >{flowVersionNumber}</span
-            >
+            <span class="custom-builder-header__item-label test-flow-version">{flowVersionNumber}</span>
         </div>
-        <lightning-badge
-            if:true={isSystemMode}
-            label={systemModeLabel}
-            title={systemModeLabel}
-            class={badgeClasses}
-        >
+        <lightning-badge if:true={isSystemMode} label={systemModeLabel} title={systemModeLabel} class={badgeClasses}>
         </lightning-badge>
         <div class="slds-builder-header__item slds-builder-header__utilities">
             <div class="slds-builder-header__utilities-item">
-                <a
-                    href={backUrl}
-                    class="slds-builder-header__item-action slds-media slds-media_center test-back-url"
-                >
+                <a href={backUrl} class="slds-builder-header__item-action slds-media slds-media_center test-back-url">
                     <div class="slds-media__figure">
                         <lightning-icon
                             variant="inverse"

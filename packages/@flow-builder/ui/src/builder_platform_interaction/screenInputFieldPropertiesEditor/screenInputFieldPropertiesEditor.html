@@ -50,31 +50,18 @@
             </builder_platform_interaction-screen-property-field>
         </div>
         <div>
-            <lightning-accordion
-                allow-multiple-sections-open
-                class="slds-has-divider slds-p-top_none"
-            >
-                <builder_platform_interaction-screen-component-visibility-section
-                    field={field}
-                >
+            <lightning-accordion allow-multiple-sections-open class="slds-has-divider slds-p-top_none">
+                <builder_platform_interaction-screen-component-visibility-section field={field}>
                 </builder_platform_interaction-screen-component-visibility-section>
 
                 <!--  validation rule -->
-                <lightning-accordion-section
-                    name="validationOptions"
-                    label={labels.fieldValidation}
-                >
-                    <builder_platform_interaction-validation-editor
-                        element={field.validationRule}
-                    >
+                <lightning-accordion-section name="validationOptions" label={labels.fieldValidation}>
+                    <builder_platform_interaction-validation-editor element={field.validationRule}>
                     </builder_platform_interaction-validation-editor>
                 </lightning-accordion-section>
 
                 <!--  help text -->
-                <lightning-accordion-section
-                    name="helpText"
-                    label={labels.helpTextForAccordion}
-                >
+                <lightning-accordion-section name="helpText" label={labels.helpTextForAccordion}>
                     <builder_platform_interaction-screen-property-field
                         name="helpText"
                         label={labels.helpSectionHeader}

@@ -1,8 +1,5 @@
 <template>
-    <span class="slds-hide"
-        >HACK TO FORCE
-        RERENDER:{label.error}{devName.error}{description.error}</span
-    >
+    <span class="slds-hide">HACK TO FORCE RERENDER:{label.error}{devName.error}{description.error}</span>
     <div class="slds-form slds-form_compound">
         <div class={computedNameAndDevContainerClass}>
             <lightning-input
@@ -30,10 +27,7 @@
             >
             </lightning-input>
         </div>
-        <div
-            if:false={hideDescription}
-            class="slds-form-element__group slds-form-element__row"
-        >
+        <div if:false={hideDescription} class="slds-form-element__group slds-form-element__row">
             <lightning-textarea
                 label={labels.descriptionLabel}
                 disabled={disableDescription}

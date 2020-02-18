@@ -1,10 +1,7 @@
 <template>
     <div class={topDivCss}>
         <h3 class={titleCss}>{title}</h3>
-        <div
-            if:true={subtitle}
-            class="slds-text-color_weak slds-p-horizontal_small slds-p-bottom_small"
-        >
+        <div if:true={subtitle} class="slds-text-color_weak slds-p-horizontal_small slds-p-bottom_small">
             {subtitle}
         </div>
         <div class={listCss}>
@@ -22,14 +19,8 @@
                         for:index="itemIndex"
                         slot="listBody"
                     >
-                        <div
-                            class="slds-list__item slds-is-relative"
-                            key={item.data.rowIndex}
-                        >
-                            <builder_platform_interaction-row
-                                item-index={itemIndex}
-                                show-delete={showDelete}
-                            >
+                        <div class="slds-list__item slds-is-relative" key={item.data.rowIndex}>
+                            <builder_platform_interaction-row item-index={itemIndex} show-delete={showDelete}>
                                 <div slot="rowBody">
                                     <builder_platform_interaction-field-to-ferov-expression-builder
                                         object-type={recordEntityName}

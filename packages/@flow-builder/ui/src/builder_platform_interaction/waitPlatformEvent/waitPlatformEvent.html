@@ -30,15 +30,8 @@
             onupdatecondition={handlePlatformInputFilterEvent}
         >
             <div slot="conditions">
-                <template
-                    for:each={filters}
-                    for:item="filter"
-                    for:index="filterIndex"
-                >
-                    <div
-                        class="slds-list__item slds-is-relative"
-                        key={filter.rowIndex}
-                    >
+                <template for:each={filters} for:item="filter" for:index="filterIndex">
+                    <div class="slds-list__item slds-is-relative" key={filter.rowIndex}>
                         <builder_platform_interaction-row
                             show-prefix="false"
                             item-index={filterIndex}

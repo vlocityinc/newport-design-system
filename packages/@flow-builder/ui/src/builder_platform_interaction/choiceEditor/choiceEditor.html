@@ -23,9 +23,7 @@
             >
             </builder_platform_interaction-resourced-rich-text-editor>
 
-            <div
-                class="slds-grid slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
-            >
+            <div class="slds-grid slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small">
                 <!--Choice Data Type Picker -->
                 <div class="slds-col slds-grow slds-size_1-of-2">
                     <builder_platform_interaction-data-type-picker
@@ -69,10 +67,7 @@
             </lightning-input>
         </div>
 
-        <div
-            if:true={choiceResource.isShowInputSelected}
-            class="slds-border_top slds-p-around_small"
-        >
+        <div if:true={choiceResource.isShowInputSelected} class="slds-border_top slds-p-around_small">
             <h3 class="slds-text-heading_small slds-p-bottom_small">
                 {labels.inputSectionHeader}
             </h3>

@@ -13,11 +13,7 @@
             role="tablist"
             aria-orientation="vertical"
         >
-            <template
-                for:each={decoratedMenuItems}
-                for:item="item"
-                for:index="itemIndex"
-            >
+            <template for:each={decoratedMenuItems} for:item="item" for:index="itemIndex">
                 <builder_platform_interaction-reorderable-vertical-navigation-item
                     has-front-icon={item.isDraggable}
                     key={item.guid}
@@ -38,18 +34,11 @@
                         ></lightning-icon>
                     </div>
                     <div slot="end-icon" class="slds-col_bump-left">
-                        <lightning-icon
-                            icon-name="utility:error"
-                            size="x-small"
-                            variant="error"
-                        ></lightning-icon>
+                        <lightning-icon icon-name="utility:error" size="x-small" variant="error"></lightning-icon>
                     </div>
                 </builder_platform_interaction-reorderable-vertical-navigation-item>
             </template>
-            <div
-                if:false={hideFooter}
-                class="slds-vertical-tabs__nav-item slds-p-around_small"
-            >
+            <div if:false={hideFooter} class="slds-vertical-tabs__nav-item slds-p-around_small">
                 <slot name="footer">
                     <!-- Example: -->
                     Default Item

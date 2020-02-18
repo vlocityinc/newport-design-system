@@ -7,10 +7,7 @@
             {title}
         </legend>
         <template for:each={itemsPerRow} for:item="row">
-            <div
-                key={row.rowIndex}
-                class="slds-col slds-grid slds-m-bottom_medium"
-            >
+            <div key={row.rowIndex} class="slds-col slds-grid slds-m-bottom_medium">
                 <template for:each={row.items} for:item="item">
                     <builder_platform_interaction-visual-picker-item
                         class="slds-col slds-size_large slds-col slds-size_large slds-m-right_medium"

@@ -1,8 +1,5 @@
 <template>
-    <div
-        if:true={state.displaySpinner}
-        class="slds-is-relative full-height slds-shrink"
-    >
+    <div if:true={state.displaySpinner} class="slds-is-relative full-height slds-shrink">
         <lightning-spinner
             alternative-text={labels.spinnerAlternativeText}
             size="medium"
@@ -11,9 +8,7 @@
         ></lightning-spinner>
     </div>
     <div if:true={state.hasParameters} class="resource-detail-parameters-body">
-        <div
-            class="slds-text-title_caps slds-text-color_weak slds-p-vertical_x-small"
-        >
+        <div class="slds-text-title_caps slds-text-color_weak slds-p-vertical_x-small">
             {labels.header}
         </div>
         <ul class="slds-has-block-links test-list-section-items">
@@ -27,9 +22,7 @@
                             size="xx-small"
                             alternative-text={parameter.dataType}
                         ></lightning-icon>
-                        <span title={parameter.description}
-                            >{parameter.label}</span
-                        >
+                        <span title={parameter.description}>{parameter.label}</span>
                     </div>
                 </li>
             </template>

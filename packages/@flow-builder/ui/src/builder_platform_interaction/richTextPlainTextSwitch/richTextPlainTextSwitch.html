@@ -1,10 +1,6 @@
 <template>
     <div class="divButtonMenuPlainRichText">
-        <lightning-button-menu
-            menu-alignment="auto-right"
-            onselect={handlePlainTextModeChange}
-            value={selectedMode}
-        >
+        <lightning-button-menu menu-alignment="auto-right" onselect={handlePlainTextModeChange} value={selectedMode}>
             <lightning-menu-item
                 value={textModes.richText}
                 label={labels.richText}

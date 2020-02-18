@@ -2,7 +2,7 @@
     <div class="configuration-editor" lwc:dom="manual" if:false={hasErrors}></div>
     <template if:true={hasErrors}>
         <ul class="slds-is-nested slds-list_vertical-space-medium slds-list_dotted slds-p-bottom_small">
-            <template for:each={errors} for:item="error" >
+            <template for:each={errors} for:item="error">
                 <li key={error.key} class="slds-item slds-text-color_error">{error.errorString}</li>
             </template>
         </ul>

@@ -10,31 +10,20 @@
                 onchange={handleChange}
             />
             <label for={itemId}>
-                <span
-                    class="slds-media slds-visual-picker__figure slds-visual-picker__text"
-                >
+                <span class="slds-media slds-visual-picker__figure slds-visual-picker__text">
                     <slot name="figure">
                         <div
                             class="slds-media__figure slds-media__figure_fixed-width slds-align_absolute-center slds-m-left_xx-small"
                         >
                             <span if:true={iconName}>
-                                <lightning-icon icon-name={iconName} size="x-large">
-                                </lightning-icon>
+                                <lightning-icon icon-name={iconName} size="x-large"> </lightning-icon>
                             </span>
                         </div>
-                        <div
-                            class="slds-media__body slds-border_left slds-p-left_small"
-                        >
-                            <h2
-                                class="slds-truncate slds-text-heading_small"
-                                title={label}
-                            >
+                        <div class="slds-media__body slds-border_left slds-p-left_small">
+                            <h2 class="slds-truncate slds-text-heading_small" title={label}>
                                 {label}
                             </h2>
-                            <span
-                                title={description}
-                                class="slds-p-right_none slds-m-top_small slds-m-left_none"
-                            >
+                            <span title={description} class="slds-p-right_none slds-m-top_small slds-m-left_none">
                                 <span class="text-content">{description}</span>
                             </span>
                         </div>

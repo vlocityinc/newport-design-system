@@ -27,9 +27,7 @@
             <h3 class="slds-text-heading_small slds-p-around_small">
                 {labels.selectRecordsToUpdate}
             </h3>
-            <div
-                class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
-            >
+            <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small">
                 <builder_platform_interaction-sobject-or-sobject-collection-picker
                     label={labels.recordVariableOrRecordCollectionVariable}
                     placeholder={labels.searchRecords}
@@ -53,18 +51,13 @@
             ></lightning-helptext>
         </div>
     </div>
-    <div
-        if:false={isSObjectMode}
-        class="slds-m-bottom_small slds-border_top fieldAssignmentNotSupported"
-    >
+    <div if:false={isSObjectMode} class="slds-m-bottom_small slds-border_top fieldAssignmentNotSupported">
         <!-- sobject picker -->
         <div class="slds-m-bottom_small slds-border_top">
             <h3 class="slds-text-heading_small slds-p-around_small">
                 {labels.updateRecordOfThisObject}
             </h3>
-            <div
-                class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
-            >
+            <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2">
                 <builder_platform_interaction-entity-resource-picker
                     combobox-config={entityComboboxConfig}
                     value={state.recordEntityName}

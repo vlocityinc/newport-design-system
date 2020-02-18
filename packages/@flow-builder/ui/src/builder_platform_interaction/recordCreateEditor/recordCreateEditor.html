@@ -27,9 +27,7 @@
             <h3 class="slds-text-heading_small slds-p-around_small">
                 {sObjectVariableTitle}
             </h3>
-            <div
-                class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
-            >
+            <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small">
                 <builder_platform_interaction-sobject-or-sobject-collection-picker
                     label={sObjectVariablePickerLabel}
                     placeholder={sObjectVariablePickerPlaceholder}
@@ -37,7 +35,7 @@
                     row-index={state.recordCreateElement.inputReferenceIndex.value}
                     error-message={inputReferenceError}
                     sobject-collection-criterion={sobjectCollectionCriterion}
-                    createable=true
+                    createable="true"
                     onsobjectreferencechanged={handleInputReferenceChangedEvent}
                 >
                 </builder_platform_interaction-sobject-or-sobject-collection-picker>
@@ -45,29 +43,19 @@
         </div>
         <div class="slds-p-horizontal_small slds-m-bottom_small slds-grid">
             <div class="slds-m-top_xx-small">
-                <span if:true={isCollection}
-                    >{labels.helpSObjectCollectionText}</span
-                >
+                <span if:true={isCollection}>{labels.helpSObjectCollectionText}</span>
                 <span if:false={isCollection}>{labels.helpSObjectText}</span>
             </div>
-            <lightning-helptext
-                class="slds-m-left_xx-small"
-                content={sObjectAltText}
-            ></lightning-helptext>
+            <lightning-helptext class="slds-m-left_xx-small" content={sObjectAltText}></lightning-helptext>
         </div>
     </div>
-    <div
-        if:false={isSObjectMode}
-        class="slds-m-bottom_small slds-border_top fieldAssignmentNotSupported"
-    >
+    <div if:false={isSObjectMode} class="slds-m-bottom_small slds-border_top fieldAssignmentNotSupported">
         <!-- sobject picker -->
         <div class="slds-m-bottom_small slds-border_top">
             <h3 class="slds-text-heading_small slds-p-around_small">
                 {labels.createRecordOfThisObject}
             </h3>
-            <div
-                class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
-            >
+            <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2">
                 <builder_platform_interaction-entity-resource-picker
                     combobox-config={entityComboboxConfig}
                     value={state.recordEntityName}
@@ -101,16 +89,11 @@
                 onuseadvancedoptionsselectionchanged={handleAdvancedOptionsSelectionChange}
             >
             </builder_platform_interaction-use-advanced-options-checkbox>
-            <div
-                if:true={isAdvancedModeOrAutomaticOutputNotSupported}
-                class={storeNewIdCss}
-            >
+            <div if:true={isAdvancedModeOrAutomaticOutputNotSupported} class={storeNewIdCss}>
                 <h3 class="slds-text-heading_small slds-p-around_small">
                     {storeNewIdTitle}
                 </h3>
-                <div
-                    class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
-                >
+                <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2">
                     <builder_platform_interaction-output-resource-picker
                         class={comboboxClass}
                         value={assignRecordIDValue}

@@ -18,15 +18,8 @@
             add-label={labels.addFieldButtonLabel}
         >
             <div slot="listBody">
-                <template
-                    for:each={queriedFields}
-                    for:item="queriedField"
-                    for:index="fieldIndex"
-                >
-                    <div
-                        class="slds-list__item slds-is-relative"
-                        key={queriedField.rowIndex}
-                    >
+                <template for:each={queriedFields} for:item="queriedField" for:index="fieldIndex">
+                    <div class="slds-list__item slds-is-relative" key={queriedField.rowIndex}>
                         <builder_platform_interaction-record-field-picker-row
                             field-index={fieldIndex}
                             record-entity-name={recordEntityName}

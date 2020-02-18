@@ -25,9 +25,7 @@
                 hide-footer
             >
                 <div slot="header" class="slds-grid">
-                    <span class="waitEventListHeader"
-                        >{labels.waitEventListHeader}</span
-                    >
+                    <span class="waitEventListHeader">{labels.waitEventListHeader}</span>
                     <lightning-helptext
                         class="slds-p-top_xx-small slds-p-left_xx-small"
                         content={labels.waitEventListHelptext}
@@ -42,10 +40,7 @@
                     ></lightning-button-icon>
                 </div>
             </builder_platform_interaction-reorderable-vertical-navigation>
-            <div
-                class="slds-vertical-tabs__content slds-show slds-scrollable_y"
-                role="tabpanel"
-            >
+            <div class="slds-vertical-tabs__content slds-show slds-scrollable_y" role="tabpanel">
                 <builder_platform_interaction-wait-event
                     if:false={isDefaultPath}
                     wait-event={activeWaitEvent}
@@ -65,9 +60,7 @@
                 <div if:true={isDefaultPath}>
                     <div class="slds-grid slds-m-bottom_x-small">
                         <h3 class="slds-text-title_caps">
-                            <span class="slds-truncate"
-                                >{labels.waitEventsDetailsHeader}</span
-                            >
+                            <span class="slds-truncate">{labels.waitEventsDetailsHeader}</span>
                         </h3>
                     </div>
                     <builder_platform_interaction-label-description
@@ -81,14 +74,10 @@
                     </builder_platform_interaction-label-description>
                     <div class="slds-text-align_center">
                         <img src="/img/LakeMountainSimplified.svg" />
-                        <div
-                            class="slds-text-heading_medium slds-text-color_weak"
-                        >
+                        <div class="slds-text-heading_medium slds-text-color_weak">
                             {labels.defaultPathNoConditionsNeeded}
                         </div>
-                        <div
-                            class="slds-text-body_regular slds-text-color_weak"
-                        >
+                        <div class="slds-text-body_regular slds-text-color_weak">
                             {labels.defaultPathDescription}
                         </div>
                     </div>

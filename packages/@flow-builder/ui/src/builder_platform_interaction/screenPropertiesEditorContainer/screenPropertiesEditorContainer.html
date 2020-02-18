@@ -16,10 +16,7 @@
             >
             </lightning-button-icon>
             <div class={panelHeaderTextClasses}>
-                <h2
-                    class="slds-panel__header-title slds-text-heading_small slds-truncate"
-                    title={getPanelTitle}
-                >
+                <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate" title={getPanelTitle}>
                     {getPanelTitle}
                 </h2>
             </div>
@@ -41,10 +38,7 @@
             >
             </lightning-button-icon>
         </div>
-        <div
-            if:true={displaySpinner}
-            class="slds-is-relative full-height slds-shrink"
-        >
+        <div if:true={displaySpinner} class="slds-is-relative full-height slds-shrink">
             <lightning-spinner
                 alternative-text={labels.spinnerAlternativeText}
                 size="medium"

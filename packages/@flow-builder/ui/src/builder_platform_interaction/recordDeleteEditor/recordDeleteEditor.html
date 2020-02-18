@@ -25,9 +25,7 @@
             <h3 class="slds-text-heading_small slds-p-around_small">
                 {labels.selectRecordsToDelete}
             </h3>
-            <div
-                class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
-            >
+            <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small">
                 <builder_platform_interaction-sobject-or-sobject-collection-picker
                     label={labels.recordVariableOrRecordCollectionVariable}
                     placeholder={labels.searchRecords}
@@ -35,7 +33,7 @@
                     row-index={state.recordDeleteElement.inputReferenceIndex.value}
                     error-message={state.recordDeleteElement.inputReference.error}
                     sobject-collection-criterion={sobjectCollectionCriterion}
-                    deleteable=true
+                    deleteable="true"
                     onsobjectreferencechanged={handleInputReferenceChangedEvent}
                 >
                 </builder_platform_interaction-sobject-or-sobject-collection-picker>
@@ -51,18 +49,13 @@
             ></lightning-helptext>
         </div>
     </div>
-    <div
-        if:false={isSObjectMode}
-        class="slds-m-bottom_small slds-border_top fieldAssignmentNotSupported"
-    >
+    <div if:false={isSObjectMode} class="slds-m-bottom_small slds-border_top fieldAssignmentNotSupported">
         <!-- Entity picker (Object)-->
         <div class="slds-m-bottom_small slds-border_top">
             <h3 class="slds-text-heading_small slds-p-around_small">
                 {labels.deleteRecordOfThisObjectType}
             </h3>
-            <div
-                class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
-            >
+            <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2">
                 <builder_platform_interaction-entity-resource-picker
                     combobox-config={entityComboboxConfig}
                     value={recordEntityName}

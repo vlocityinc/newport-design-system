@@ -1,13 +1,8 @@
 <template>
     <div class="callout_editor slds-grid">
         <template if:true={showLeftPanel}>
-            <div
-                class="slds-panel slds-size_small slds-panel_docked-left slds-is-open"
-                aria-hidden="false"
-            >
-                <div
-                    class="slds-shrink-none slds-grid_vertical-align-end slds-p-horizontal_small slds-p-top_small"
-                >
+            <div class="slds-panel slds-size_small slds-panel_docked-left slds-is-open" aria-hidden="false">
+                <div class="slds-shrink-none slds-grid_vertical-align-end slds-p-horizontal_small slds-p-top_small">
                     <lightning-combobox
                         label={labels.filterByTitle}
                         onchange={handleFilterByChange}
@@ -20,14 +15,8 @@
                 <div
                     class="slds-scrollable_y slds-grid slds-grid_vertical slds-grow slds-m-top_medium navigation-content"
                 >
-                    <lightning-vertical-navigation
-                        selected-item={selectedCategory}
-                        onselect={handleCategorySelect}
-                    >
-                        <template
-                            for:each={categoryOptions}
-                            for:item="categoryOption"
-                        >
+                    <lightning-vertical-navigation selected-item={selectedCategory} onselect={handleCategorySelect}>
+                        <template for:each={categoryOptions} for:item="categoryOption">
                             <lightning-vertical-navigation-item
                                 key={categoryOption.name}
                                 label={categoryOption.label}

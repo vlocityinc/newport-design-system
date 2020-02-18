@@ -1,15 +1,11 @@
 <template>
     <div class="resource-detail-panel-body slds-scrollable_y">
         <ul class="slds-p-around_small">
-            <li
-                class="slds-text-title_caps slds-p-left_none slds-m-bottom_x_small"
-            >
+            <li class="slds-text-title_caps slds-p-left_none slds-m-bottom_x_small">
                 {labels.detailsText}
             </li>
             <li class="slds-item slds-truncate_container">
-                <span class="slds-form-element__label slds-no-flex"
-                    >{labels.typeText}</span
-                >
+                <span class="slds-form-element__label slds-no-flex">{labels.typeText}</span>
                 <lightning-icon
                     if:true={hasIcon}
                     class="slds-m-right_xx-small"
@@ -17,46 +13,28 @@
                     size="xx-small"
                     alternative-text={resourceDetails.typeLabel}
                 ></lightning-icon>
-                <span
-                    class="slds-text-body_regular slds-align-middle slds-truncate"
-                    title={resourceDetails.typeLabel}
+                <span class="slds-text-body_regular slds-align-middle slds-truncate" title={resourceDetails.typeLabel}
                     >{resourceDetails.typeLabel}</span
                 >
             </li>
             <li if:true={hasApiName} class="slds-item slds-truncate_container">
-                <span class="slds-form-element__label slds-no-flex"
-                    >{labels.uniqueNameText}</span
-                >
-                <span
-                    class="slds-text-body_regular slds-align-middle slds-truncate"
-                    title={resourceDetails.apiName}
+                <span class="slds-form-element__label slds-no-flex">{labels.uniqueNameText}</span>
+                <span class="slds-text-body_regular slds-align-middle slds-truncate" title={resourceDetails.apiName}
                     >{resourceDetails.apiName}</span
                 >
             </li>
             <li if:true={hasDescription} class="slds-item slds-hyphenate">
-                <span class="slds-form-element__label"
-                    >{labels.descriptionText}</span
-                >
-                <span
-                    class="slds-text-body_regular slds-align-middle"
-                    title={resourceDetails.description}
+                <span class="slds-form-element__label">{labels.descriptionText}</span>
+                <span class="slds-text-body_regular slds-align-middle" title={resourceDetails.description}
                     >{resourceDetails.description}</span
                 >
             </li>
         </ul>
-        <div
-            if:true={isAutomaticOutputParametersSupported}
-            class="slds-p-horizontal_small"
-        >
-            <builder_platform_interaction-resource-details-parameters
-                resource-details={resourceDetails}
-            >
+        <div if:true={isAutomaticOutputParametersSupported} class="slds-p-horizontal_small">
+            <builder_platform_interaction-resource-details-parameters resource-details={resourceDetails}>
             </builder_platform_interaction-resource-details-parameters>
         </div>
-        <div
-            if:true={hasCreatedByElement}
-            class="slds-p-horizontal_small test-created-by-section"
-        >
+        <div if:true={hasCreatedByElement} class="slds-p-horizontal_small test-created-by-section">
             <builder_platform_interaction-used-by-content
                 list-section-items={createdByElements}
                 list-section-header={labels.createdByText}
@@ -64,10 +42,7 @@
             >
             </builder_platform_interaction-used-by-content>
         </div>
-        <div
-            if:true={hasUsedByContent}
-            class="slds-p-horizontal_small test-used-by-section"
-        >
+        <div if:true={hasUsedByContent} class="slds-p-horizontal_small test-used-by-section">
             <builder_platform_interaction-used-by-content
                 list-section-items={resourceDetails.usedByElements}
                 list-section-header={labels.usageText}

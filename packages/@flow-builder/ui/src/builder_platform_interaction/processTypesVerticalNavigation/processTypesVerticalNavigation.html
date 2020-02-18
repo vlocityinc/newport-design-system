@@ -4,15 +4,9 @@
         aria-hidden="false"
     >
         <div class="slds-scrollable_y slds-grid slds-grid_vertical slds-grow">
-            <lightning-vertical-navigation
-                selected-item={selectedProcessType}
-                onselect={handleSelectProcessType}
-            >
+            <lightning-vertical-navigation selected-item={selectedProcessType} onselect={handleSelectProcessType}>
                 <!-- Featured process types section -->
-                <template
-                    for:each={items}
-                    for:item="processType"
-                >
+                <template for:each={items} for:item="processType">
                     <lightning-vertical-navigation-item-icon
                         key={processType.name}
                         label={processType.label}

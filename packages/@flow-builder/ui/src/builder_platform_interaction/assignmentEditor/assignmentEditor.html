@@ -16,9 +16,7 @@
             <h3 class="slds-text-heading_small slds-p-bottom_small">
                 {labels.assignmentsSectionHeader}
             </h3>
-            <div
-                class="slds-text-body_small slds-text-color_weak slds-m-bottom_medium"
-            >
+            <div class="slds-text-body_small slds-text-color_weak slds-m-bottom_medium">
                 {labels.assignmentsSectionDescription}
             </div>
             <builder_platform_interaction-list
@@ -35,14 +33,8 @@
                         for:index="itemIndex"
                         slot="listBody"
                     >
-                        <div
-                            class="slds-list__item slds-is-relative"
-                            key={item.rowIndex}
-                        >
-                            <builder_platform_interaction-row
-                                item-index={itemIndex}
-                                show-delete={showDelete}
-                            >
+                        <div class="slds-list__item slds-is-relative" key={item.rowIndex}>
+                            <builder_platform_interaction-row item-index={itemIndex} show-delete={showDelete}>
                                 <div slot="rowBody">
                                     <builder_platform_interaction-fer-to-ferov-expression-builder
                                         expression={item}

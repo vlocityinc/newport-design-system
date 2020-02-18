@@ -83,7 +83,7 @@
                 output-reference-index={state.recordLookupElement.outputReferenceIndex.value}
                 sobject-variable-error-message={outputReferenceErrorMessage}
                 sobject-collection-criterion={sObjectCollectionCriterion}
-                queryable=true
+                queryable="true"
                 onsobjectreferencechanged={handleSObjectReferenceChanged}
                 onaddrecordlookupfield={handlePropertyOrListItemChanged}
                 onupdaterecordlookupfield={handlePropertyOrListItemChanged}
@@ -124,10 +124,7 @@
             >
             </builder_platform_interaction-record-lookup-variable-and-field-mapping>
 
-            <div
-                if:true={isAutomaticAdvancedMode}
-                class="slds-p-left_xx-large slds-p-right_small"
-            >
+            <div if:true={isAutomaticAdvancedMode} class="slds-p-left_xx-large slds-p-right_small">
                 <!-- Selection list of fields -->
                 <builder_platform_interaction-record-query-fields
                     record-entity-name={recordEntityName}
@@ -143,10 +140,7 @@
                 </builder_platform_interaction-record-query-fields>
             </div>
 
-            <div
-                if:true={isManualMode}
-                class="slds-p-left_xx-large slds-p-right_small"
-            >
+            <div if:true={isManualMode} class="slds-p-left_xx-large slds-p-right_small">
                 <builder_platform_interaction-rich-label
                     label={labels.storeFieldsSelectionLabel}
                     args={resourceDisplayText}
@@ -182,7 +176,7 @@
                     output-reference-index={state.recordLookupElement.outputReferenceIndex.value}
                     sobject-variable-error-message={outputReferenceErrorMessage}
                     sobject-collection-criterion={sobjectCollectionCriterion}
-                    queryable=true
+                    queryable="true"
                     onsobjectreferencechanged={handleSObjectReferenceChanged}
                     onaddrecordlookupfield={handlePropertyOrListItemChanged}
                     onupdaterecordlookupfield={handlePropertyOrListItemChanged}
