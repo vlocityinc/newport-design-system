@@ -9,4 +9,93 @@
     	#auraLoadingBox{display:none;}
         .flow-builder-loading-box{position:absolute;overflow:hidden;top:0;left:0;width:100%;height:100%;padding:0;margin:0 auto;display:block;background:#FFFFFF;border-radius:0;z-index:0;display: flex;align-items: center;justify-content: center;}.flow-builder-loading-box img {zoom:.25;margin:0;}
     </style>
+
+    <!--  FORCE doesn't exist outside of one.app so let's put it in here since docking panel has a dependency on it
+          TD to remove workaround: TD-0080862 Remove dependency on global window.FORCE in force:dockingPanel -->
+    <aura:set attribute="auraInitBlock">
+        <script>
+            $A.log("visualEditor/template.cmp: aura.js and app.js not loaded yet");
+            window.FORCE = $A.one = (function (Aura) {
+                //global closures
+
+                var CONTAINER_CLASS = '.center',
+                    PREFIX = (function () {
+                    var styles = window.getComputedStyle(document.documentElement, '');
+                    var br, pre, dom;
+                    if (styles) {
+                        br = Array.prototype.slice
+                                .call(styles)
+                                .join('')
+                                .match(/-(moz|webkit|ms)-/) || (styles.OLink === '' &amp;&amp; ['', 'o']);
+                    }
+                    if (br) {
+                        pre = br[1];
+                    } else {
+                        pre = "moz";
+                    }
+                    dom = ('WebKit|Moz|MS|O').match(new RegExp('(' + pre + ')', 'i'))[1];
+
+                    return {
+                        dom: dom,
+                        lowercase: pre,
+                        css: '-' + pre + '-',
+                        js: pre[0].toUpperCase() + pre.substr(1)
+                    };
+                })();
+
+                var ANIMATION_END_EVENT_NAMES = {
+                    webkit : 'webkitAnimationEnd',
+                    o : 'oAnimationEnd',
+                    moz : 'animationend',
+                    ms : 'animationend' // IE 10 or above
+                };
+
+                var TRANSITION_END_EVENT_NAMES = {
+                    webkit : 'webkitTransitionEnd',
+                    o : 'oTransitionEnd',
+                    moz : 'transitionend',
+                    ms : 'transitionend' // IE 10 or above
+                };
+                
+                // capture the initial ComponentDefStorage size. If it has something we know we have a warm boot.
+                var componentDefStorage = $A.storageService.getStorage('ComponentDefStorage');
+
+                var storages = $A.storageService.getStorages();
+                var sizePromises = [];
+                for (var name in storages) {
+                    sizePromises.push({name: name, promise: storages[name].getSize() });
+                }
+
+                //public methods
+                var ONE_OBJ = {
+                    getInitialStorageSizePromises: function () {
+                        return sizePromises;
+                    },
+                    getPrefixCSS: function () {
+                        return PREFIX.css;
+                    },
+                    getPrefixJS: function () {
+                        return PREFIX.js;
+                    },
+                    getPrefix: function (upperCase) {
+                        var prefix = PREFIX.lowercase,
+                            up     = $A.util.isIE &amp;&amp; upperCase;
+
+                        return up ? prefix.toUpperCase() : prefix;
+                    },
+                    getAnimationEndEventName: function () {
+                        var eventName = ANIMATION_END_EVENT_NAMES[this.getPrefix()];
+                        return eventName ? eventName : 'animationend';
+                    },
+                    getTransitionEndEventName: function () {
+                        var eventName = TRANSITION_END_EVENT_NAMES[this.getPrefix()];
+                        return eventName ? eventName : 'transitionend';
+                    }
+                };
+
+                //return "singleton"
+                return ONE_OBJ;
+            }($A));
+        </script>
+    </aura:set>
 </aura:component>

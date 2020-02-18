@@ -5,3 +5,23 @@
 .THIS .uiPanelManager2 .restrictWidthToSldsMedium .panel .modal-container {
     max-width: 75rem;
 }
+
+.THIS .forceDockingPanel.guardrails .slds-docked-composer {
+    width: 350px;
+}
+.THIS .forceDockingPanel.guardrails .slds-docked-composer.slds-is-open {
+    height: unset; /* Firstly, unsetting the height, so that the height is not inherited from .slds-docked-composer which is 2.5rem  */
+    /* Min height set to 12rem to accommodate spinner */
+    min-height: t(sizeXSmall);
+    /* Max height is 2/3 of the property editor heights, which is total visible height minus (height of header + height of sub navigation) */
+    max-height: t('calc( (100vh - (' + heightHeader + ' + ' + heightSubNavigation + '))*2/3)');
+}
+
+/* DockingPanel does not support minimized state during initialization. 
+   This is a workaround to prevent users from seeing it expanded docked and wider for a split second  */
+.THIS .forceDockingPanel--launchMinimized.guardrails .slds-docked-composer__body {
+    flex-shrink: unset;
+}
+.THIS .forceDockingPanel--launchMinimized.fromNEW .slds-docked-composer {
+    display: none;
+}
