@@ -866,7 +866,7 @@ export const elementTypeToConfigMap = {
             singular: LABELS.stageSingularLabel,
             plural: LABELS.stagePluralLabel,
             menuData: LABELS.stageLabel,
-            editModal: LABELS.editVariableLabel
+            editModal: LABELS.editStageLabel
         },
         canvasElement: false,
         factory: {

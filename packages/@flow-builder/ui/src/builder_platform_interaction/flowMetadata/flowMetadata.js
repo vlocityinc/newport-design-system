@@ -274,9 +274,13 @@ export const EXPRESSION_RE = /\{!([^}]+)\}/g;
 
 export const FLOW_STATUS = {
     ACTIVE: 'Active',
-    OBSOLETE: 'Obsolete',
+    ACTIVATING: 'Activating',
+    DEACTIVATING: 'Deactivating',
     DRAFT: 'Draft',
-    INVALID_DRAFT: 'InvalidDraft'
+    INVALID_DRAFT: 'InvalidDraft',
+    OBSOLETE: 'Obsolete',
+    SAVED: 'Saved',
+    SAVING: 'Saving'
 };
 
 export const FLOW_SUPPORTED_FEATURES = {

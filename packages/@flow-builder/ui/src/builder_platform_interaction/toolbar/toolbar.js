@@ -15,6 +15,7 @@ import { orgHasFlowBuilderDebug } from 'builder_platform_interaction/contextLib'
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { LABELS } from './toolbarLabels';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
+import { format } from 'builder_platform_interaction/commonUtils';
 
 /**
  * Toolbar component for flow builder.
@@ -26,6 +27,9 @@ import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
 export default class Toolbar extends LightningElement {
     @api
     flowStatus;
+
+    @api
+    flowVersion;
 
     @api
     isEditFlowPropertiesDisabled;
@@ -77,6 +81,15 @@ export default class Toolbar extends LightningElement {
         },
         [FLOW_STATUS.INVALID_DRAFT]: {
             label: this.labels.draftLabel
+        },
+        [FLOW_STATUS.SAVING]: {
+            label: this.labels.savingStatus
+        },
+        [FLOW_STATUS.ACTIVATING]: {
+            label: this.labels.activating
+        },
+        [FLOW_STATUS.DEACTIVATING]: {
+            label: this.labels.deactivating
         }
     };
 
@@ -97,34 +110,41 @@ export default class Toolbar extends LightningElement {
 
     get isDoingOperation() {
         return (
-            this.saveAndPendingOperationStatus === this.labels.savingStatus ||
-            this.saveAndPendingOperationStatus === this.labels.activating ||
-            this.saveAndPendingOperationStatus === this.labels.deactivating
+            this.saveAndPendingOperationStatus === FLOW_STATUS.SAVING ||
+            this.saveAndPendingOperationStatus === FLOW_STATUS.ACTIVATING ||
+            this.saveAndPendingOperationStatus === FLOW_STATUS.DEACTIVATING
         );
     }
 
     get statusIndicatorTitle() {
         if (this.isDoingOperation) {
-            return this.saveAndPendingOperationStatus;
+            return (
+                this.statusLabelFromStatus[this.saveAndPendingOperationStatus] &&
+                this.statusLabelFromStatus[this.saveAndPendingOperationStatus].label
+            );
         }
-        return this.statusLabelFromStatus[this.flowStatus] && this.statusLabelFromStatus[this.flowStatus].label;
+        return format(
+            this.labels.toolbarStatusTitle,
+            this.flowVersion,
+            this.statusLabelFromStatus[this.flowStatus] && this.statusLabelFromStatus[this.flowStatus].label
+        );
     }
 
-    get activationStatus() {
+    get isDoneOperation() {
+        return this.saveAndPendingOperationStatus === FLOW_STATUS.SAVED && this.lastModifiedDate;
+    }
+
+    get toolbarStatus() {
         if (this.isDoingOperation) {
-            return this.saveAndPendingOperationStatus;
+            return (
+                this.statusLabelFromStatus[this.saveAndPendingOperationStatus] &&
+                this.statusLabelFromStatus[this.saveAndPendingOperationStatus].label
+            );
         }
-        const activationStatusLabel =
-            this.statusLabelFromStatus[this.flowStatus] && this.statusLabelFromStatus[this.flowStatus].label;
-        return activationStatusLabel && `${activationStatusLabel}\u2014`;
-    }
-
-    get showDate() {
-        return (
-            this.saveAndPendingOperationStatus === LABELS.savedStatus &&
-            this.lastModifiedDate &&
-            this.saveAndPendingOperationStatus !== this.labels.savingStatus &&
-            this.saveAndPendingOperationStatus !== this.labels.activating
+        return format(
+            this.labels.toolbarStatus,
+            this.flowVersion,
+            this.statusLabelFromStatus[this.flowStatus] && this.statusLabelFromStatus[this.flowStatus].label
         );
     }
 

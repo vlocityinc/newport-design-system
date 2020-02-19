@@ -137,7 +137,6 @@ import editTextTemplateLabel from '@salesforce/label/FlowBuilderElementConfig.ed
 import editChoiceLabel from '@salesforce/label/FlowBuilderElementConfig.editChoiceLabel';
 import editRecordChoiceSetLabel from '@salesforce/label/FlowBuilderElementConfig.editRecordChoiceSetLabel';
 import editPicklistChoiceSetLabel from '@salesforce/label/FlowBuilderElementConfig.editPicklistChoiceSetLabel';
-import editStage from '@salesforce/label/FlowBuilderElementConfig.editStage';
 import editStartElementLabel from '@salesforce/label/FlowBuilderElementConfig.editStartElementLabel';
 import newScreenLabel from '@salesforce/label/FlowBuilderElementConfig.newScreenLabel';
 import newActionLabel from '@salesforce/label/FlowBuilderElementConfig.newActionLabel';
@@ -295,7 +294,6 @@ export const LABELS = {
     editChoiceLabel,
     editRecordChoiceSetLabel,
     editPicklistChoiceSetLabel,
-    editStage,
     editStartElementLabel,
     newScreenLabel,
     newActionLabel,

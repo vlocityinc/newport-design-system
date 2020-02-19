@@ -3,7 +3,6 @@ import redoTitle from '@salesforce/label/FlowBuilderToolbar.redoTitle';
 import duplicateTitle from '@salesforce/label/FlowBuilderToolbar.duplicateTitle';
 import flowPropertiesTitle from '@salesforce/label/FlowBuilderToolbar.flowPropertiesTitle';
 import savingStatus from '@salesforce/label/FlowBuilderToolbar.savingStatus';
-import savedStatus from '@salesforce/label/FlowBuilderToolbar.savedStatus';
 import runTitle from '@salesforce/label/FlowBuilderToolbar.runTitle';
 import debugTitle from '@salesforce/label/FlowBuilderToolbar.debugTitle';
 import diffFlowTitle from '@salesforce/label/FlowBuilderToolbar.diffFlowTitle';
@@ -18,6 +17,8 @@ import activeLabel from '@salesforce/label/FlowStatus.activeLabel';
 import draftLabel from '@salesforce/label/FlowStatus.draftLabel';
 import errorPopOverHeader from '@salesforce/label/FlowBuilderValidation.errorPopOverHeader';
 import warningPopOverHeader from '@salesforce/label/FlowBuilderValidation.warningPopOverHeader';
+import toolbarStatus from '@salesforce/label/FlowBuilderToolbar.toolbarStatus';
+import toolbarStatusTitle from '@salesforce/label/FlowBuilderToolbar.toolbarStatusTitle';
 
 export const LABELS = {
     undoTitle,
@@ -25,7 +26,6 @@ export const LABELS = {
     duplicateTitle,
     flowPropertiesTitle,
     savingStatus,
-    savedStatus,
     runTitle,
     debugTitle,
     diffFlowTitle,
@@ -39,5 +39,7 @@ export const LABELS = {
     warningPopOverHeader,
     draftLabel,
     activeLabel,
-    deactivatedLabel
+    deactivatedLabel,
+    toolbarStatus,
+    toolbarStatusTitle
 };

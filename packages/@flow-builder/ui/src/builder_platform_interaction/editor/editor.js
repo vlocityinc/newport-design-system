@@ -523,7 +523,7 @@ export default class Editor extends LightningElement {
 
         if (this.currentFlowId) {
             this.hasNotBeenSaved = false;
-            this.saveAndPendingOperationStatus = LABELS.savedStatus;
+            this.saveAndPendingOperationStatus = FLOW_STATUS.SAVED;
         } else {
             this.hasNotBeenSaved = true;
             this.saveAndPendingOperationStatus = null;
@@ -755,9 +755,9 @@ export default class Editor extends LightningElement {
         const params = { flowId: this.flowId };
         fetch(SERVER_ACTION_TYPE.TOGGLE_FLOW_STATUS, this.toggleFlowStatusCallBack, params);
         if (this.flowStatus === FLOW_STATUS.ACTIVE) {
-            this.saveAndPendingOperationStatus = LABELS.deactivating;
+            this.saveAndPendingOperationStatus = FLOW_STATUS.DEACTIVATING;
         } else {
-            this.saveAndPendingOperationStatus = LABELS.activating;
+            this.saveAndPendingOperationStatus = FLOW_STATUS.ACTIVATING;
         }
         this.hasNotBeenSaved = true;
         this.isUndoDisabled = true;
@@ -784,7 +784,7 @@ export default class Editor extends LightningElement {
             );
             this.clearUndoRedoStack();
         }
-        this.saveAndPendingOperationStatus = LABELS.savedStatus;
+        this.saveAndPendingOperationStatus = FLOW_STATUS.SAVED;
         this.hasNotBeenSaved = false;
     };
 
@@ -1045,7 +1045,7 @@ export default class Editor extends LightningElement {
         fetch(SERVER_ACTION_TYPE.SAVE_FLOW, this.saveFlowCallback, params);
         this.saveType = saveType;
         logInteraction(`saveas-menu-done-button`, 'modal', { saveType }, 'click');
-        this.saveAndPendingOperationStatus = LABELS.savingStatus;
+        this.saveAndPendingOperationStatus = FLOW_STATUS.SAVING;
         this.hasNotBeenSaved = true;
         this.disableSave = true;
         this.isUndoDisabled = true;
@@ -1160,7 +1160,7 @@ export default class Editor extends LightningElement {
             });
 
             if (this.flowId) {
-                this.saveAndPendingOperationStatus = LABELS.savedStatus;
+                this.saveAndPendingOperationStatus = FLOW_STATUS.SAVED;
                 this.hasNotBeenSaved = false;
             }
             this.disableSave = false;

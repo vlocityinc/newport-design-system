@@ -23,6 +23,7 @@ const createComponentUnderTest = (props = {}) => {
     el.saveAndPendingOperationStatus = props.saveAndPendingOperationStatus;
     el.flowStatus = props.flowStatus;
     el.hasUnsavedChanges = props.hasUnsavedChanges;
+    el.flowVersion = props.flowVersion;
 
     document.body.appendChild(el);
     return el;
@@ -188,14 +189,15 @@ describe('toolbar', () => {
             parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
             const toolbarComponent = createComponentUnderTest({
                 lastModifiedDate: currentDate.toISOString(),
-                saveAndPendingOperationStatus: LABELS.savedStatus,
-                flowStatus: FLOW_STATUS.DRAFT
+                saveAndPendingOperationStatus: FLOW_STATUS.SAVED,
+                flowStatus: FLOW_STATUS.DRAFT,
+                flowVersion: 1
             });
 
             return Promise.resolve().then(() => {
                 const lastSavedButton = toolbarComponent.shadowRoot.querySelector(selectors.lastSave);
                 const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(selectors.relativedatetime);
-                expect(lastSavedButton.textContent.trim()).toEqual(LABELS.draftLabel + '\u2014' + LABELS.savedStatus);
+                expect(lastSavedButton.textContent.trim()).toEqual(LABELS.toolbarStatus);
                 expect(relativeDateTimeComponent).not.toBeNull();
                 expect(relativeDateTimeComponent.value).toEqual(currentDate);
                 expect(parseMetadataDateTime).toHaveBeenCalledWith(currentDate.toISOString(), true);
@@ -207,15 +209,16 @@ describe('toolbar', () => {
             parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
             const toolbarComponent = createComponentUnderTest({
                 lastModifiedDate: currentDate.toISOString(),
-                saveAndPendingOperationStatus: LABELS.savedStatus,
-                flowStatus: FLOW_STATUS.INVALID_DRAFT
+                saveAndPendingOperationStatus: FLOW_STATUS.SAVED,
+                flowStatus: FLOW_STATUS.INVALID_DRAFT,
+                flowVersion: 1
             });
 
             return Promise.resolve().then(() => {
                 const lastSavedButton = toolbarComponent.shadowRoot.querySelector(selectors.lastSave);
                 const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(selectors.relativedatetime);
 
-                expect(lastSavedButton.textContent.trim()).toEqual(LABELS.draftLabel + '\u2014' + LABELS.savedStatus);
+                expect(lastSavedButton.textContent.trim()).toEqual(LABELS.toolbarStatus);
                 expect(relativeDateTimeComponent).not.toBeNull();
             });
         });
@@ -225,15 +228,16 @@ describe('toolbar', () => {
             parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
             const toolbarComponent = createComponentUnderTest({
                 lastModifiedDate: currentDate.toISOString(),
-                saveAndPendingOperationStatus: LABELS.savedStatus,
-                flowStatus: FLOW_STATUS.ACTIVE
+                saveAndPendingOperationStatus: FLOW_STATUS.SAVED,
+                flowStatus: FLOW_STATUS.ACTIVE,
+                flowVersion: 1
             });
 
             return Promise.resolve().then(() => {
                 const lastSavedButton = toolbarComponent.shadowRoot.querySelector(selectors.lastSave);
                 const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(selectors.relativedatetime);
 
-                expect(lastSavedButton.textContent.trim()).toEqual(LABELS.activeLabel + '\u2014' + LABELS.savedStatus);
+                expect(lastSavedButton.textContent.trim()).toEqual(LABELS.toolbarStatus);
                 expect(relativeDateTimeComponent).not.toBeNull();
             });
         });
@@ -243,17 +247,16 @@ describe('toolbar', () => {
             parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
             const toolbarComponent = createComponentUnderTest({
                 lastModifiedDate: currentDate.toISOString(),
-                saveAndPendingOperationStatus: LABELS.savedStatus,
-                flowStatus: FLOW_STATUS.OBSOLETE
+                saveAndPendingOperationStatus: FLOW_STATUS.SAVED,
+                flowStatus: FLOW_STATUS.OBSOLETE,
+                flowVersion: 1
             });
 
             return Promise.resolve().then(() => {
                 const lastSavedButton = toolbarComponent.shadowRoot.querySelector(selectors.lastSave);
                 const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(selectors.relativedatetime);
 
-                expect(lastSavedButton.textContent.trim()).toEqual(
-                    LABELS.deactivatedLabel + '\u2014' + LABELS.savedStatus
-                );
+                expect(lastSavedButton.textContent.trim()).toEqual(LABELS.toolbarStatus);
                 expect(relativeDateTimeComponent).not.toBeNull();
             });
         });
@@ -263,8 +266,9 @@ describe('toolbar', () => {
             parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
             const toolbarComponent = createComponentUnderTest({
                 lastModifiedDate: currentDate.toISOString(),
-                saveAndPendingOperationStatus: LABELS.activating,
-                flowStatus: FLOW_STATUS.DRAFT
+                saveAndPendingOperationStatus: FLOW_STATUS.ACTIVATING,
+                flowStatus: FLOW_STATUS.DRAFT,
+                flowVersion: 1
             });
 
             return Promise.resolve().then(() => {
@@ -278,8 +282,9 @@ describe('toolbar', () => {
 
         it('Displays "Saving..." in the toolbar when saveAndPendingOperationStatus is set to the same flowStatus is draft', () => {
             const toolbarComponent = createComponentUnderTest({
-                saveAndPendingOperationStatus: LABELS.savingStatus,
-                flowStatus: FLOW_STATUS.DRAFT
+                saveAndPendingOperationStatus: FLOW_STATUS.SAVING,
+                flowStatus: FLOW_STATUS.DRAFT,
+                flowVersion: 1
             });
 
             return Promise.resolve().then(() => {
