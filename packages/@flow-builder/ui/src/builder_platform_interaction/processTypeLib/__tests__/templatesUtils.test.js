@@ -6,6 +6,7 @@ import {
     cacheTemplates,
     getTemplates
 } from 'builder_platform_interaction/processTypeLib';
+import { orgHasBeforeSaveEnabled } from 'builder_platform_interaction/contextLib';
 import { MOCK_ALL_TEMPLATES, MOCK_AUTO_TEMPLATE, MOCK_SCREEN_TEMPLATE_1, MOCK_SCREEN_TEMPLATE_2 } from 'mock/templates';
 import { MOCK_ALL_PROCESS_TYPES } from 'mock/processTypesData';
 
@@ -14,6 +15,12 @@ jest.mock('builder_platform_interaction/systemLib', () => {
         getProcessTypes: jest.fn().mockImplementation(() => {
             return require('mock/processTypesData').MOCK_ALL_PROCESS_TYPES;
         })
+    };
+});
+
+jest.mock('builder_platform_interaction/contextLib', () => {
+    return {
+        orgHasBeforeSaveEnabled: jest.fn().mockReturnValue(true)
     };
 });
 
@@ -45,6 +52,7 @@ describe('templatesUtils', () => {
             const autolaunchedProcessType = getProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
             expect(autolaunchedProcessType).not.toBeUndefined();
             const autolaunchedProcessTypeTiles = createFlowEntryTilesForProcessTypes([autolaunchedProcessType]);
+            expect(orgHasBeforeSaveEnabled).toHaveBeenCalled();
             expect(autolaunchedProcessTypeTiles).toEqual([
                 {
                     description: 'FlowBuilderProcessTypeTemplates.newBeforeSaveFlowDescription',

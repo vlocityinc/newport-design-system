@@ -3,7 +3,6 @@ import {
     ALL_PROCESS_TYPE,
     getTemplates,
     cacheTemplates,
-    createFlowEntryTilesForProcessTypes,
     createFlowEntryTilesForTemplates
 } from 'builder_platform_interaction/processTypeLib';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
@@ -24,6 +23,17 @@ export default class ProcessTypesTemplates extends LightningElement {
 
     set processTypes(value) {
         this.state.processTypes = value;
+        this.selectedItem = null;
+        this.updateTiles();
+    }
+
+    @api
+    get blankItems() {
+        return this.state.blankItems;
+    }
+
+    set blankItems(value) {
+        this.state.blankItems = value;
         this.selectedItem = null;
         this.updateTiles();
     }
@@ -67,10 +77,11 @@ export default class ProcessTypesTemplates extends LightningElement {
 
     @track
     state = {
-        displaySpinner: false,
         processTypes: null,
         processType: null,
+        blankItems: [],
         templates: [], // an array of Template that are fetched for the selected process type
+        templatesLoading: false,
         processTypesTiles: [] // an array of process type tiles
     };
 
@@ -89,12 +100,12 @@ export default class ProcessTypesTemplates extends LightningElement {
     }
 
     updateBlankTiles() {
-        let processTypes = this.processTypes;
-        if (processTypes && processTypes.length > 0 && this.processType) {
+        let blankItems = this.state.blankItems;
+        if (blankItems && blankItems.length > 0 && this.processType) {
             if (this.processType !== ALL_PROCESS_TYPE.name) {
-                processTypes = processTypes.filter(processType => processType.name === this.processType);
+                blankItems = blankItems.filter(item => item.processType === this.processType);
             }
-            this.state.processTypesTiles = createFlowEntryTilesForProcessTypes(processTypes);
+            this.state.processTypesTiles = blankItems.map(item => ({ ...item }));
         } else {
             this.state.processTypesTiles = [];
         }
@@ -123,17 +134,22 @@ export default class ProcessTypesTemplates extends LightningElement {
         if (!processTypes || processTypes.length === 0) {
             return;
         }
-        this.state.displaySpinner = true;
+
+        if (this.state.templatesLoading) {
+            return;
+        }
+
+        this.state.templatesLoading = true;
         fetchOnce(SERVER_ACTION_TYPE.GET_TEMPLATES, { processTypes }, { disableErrorModal: true })
             .then(data => {
-                this.state.displaySpinner = false;
+                this.state.templatesLoading = false;
                 // caches the returned templates to avoid calling to server when changing the process type
                 cacheTemplates(this.state.processTypes, this.processType, data);
                 this.updateTemplateTiles();
                 this.updateSelectedItem();
             })
             .catch(() => {
-                this.state.displaySpinner = false;
+                this.state.templatesLoading = false;
                 this.dispatchEvent(new CannotRetrieveTemplatesEvent());
             });
     }

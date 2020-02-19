@@ -50,7 +50,7 @@ const getChangedEvent = () => {
 const SELECTORS = {
     VISUAL_PICKER_ITEM: 'builder_platform_interaction-visual-picker-item',
     GRID: '.slds-grid_vertical .slds-grid',
-    CHECKBOX: 'input[type="checkbox"]'
+    CHECKBOX: 'input[type="radio"]'
 };
 
 function getVisualPickerItems(visualPicker) {

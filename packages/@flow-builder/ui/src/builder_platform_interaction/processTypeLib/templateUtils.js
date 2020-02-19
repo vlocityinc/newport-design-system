@@ -2,6 +2,7 @@ import { LABELS, TRIGGER_TYPE_LABELS } from './processTypeLibLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { ALL_PROCESS_TYPE, getProcessTypeIcon, getTriggerTypeIcon } from './processTypeUtils';
 import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { orgHasBeforeSaveEnabled } from 'builder_platform_interaction/contextLib';
 
 let allTemplates = {};
 
@@ -37,11 +38,13 @@ const createTriggerTypeTile = (processType, triggerType) => ({
 function createFlowEntryTilesForProcessType(processType) {
     if (processType.name === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW) {
         // Create one tile per trigger type for auto-launched flows
-        return [
-            createTriggerTypeTile(processType.name, FLOW_TRIGGER_TYPE.BEFORE_SAVE),
-            createTriggerTypeTile(processType.name, FLOW_TRIGGER_TYPE.SCHEDULED),
-            createProcessTypeTile(processType)
-        ];
+        const result = [];
+        if (orgHasBeforeSaveEnabled()) {
+            result.push(createTriggerTypeTile(processType.name, FLOW_TRIGGER_TYPE.BEFORE_SAVE));
+        }
+        result.push(createTriggerTypeTile(processType.name, FLOW_TRIGGER_TYPE.SCHEDULED));
+        result.push(createProcessTypeTile(processType));
+        return result;
     }
     return [createProcessTypeTile(processType)];
 }

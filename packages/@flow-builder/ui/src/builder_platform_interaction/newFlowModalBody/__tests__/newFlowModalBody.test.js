@@ -5,12 +5,14 @@ import { ProcessTypeSelectedEvent, TemplateChangedEvent } from 'builder_platform
 import { ALL_PROCESS_TYPE, resetCacheTemplates } from 'builder_platform_interaction/processTypeLib';
 import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { MOCK_ALL_PROCESS_TYPES } from 'mock/processTypesData';
+import { MOCK_ALL_FLOW_ENTRIES } from 'mock/flowEntryData';
 import { MOCK_ALL_TEMPLATES, MOCK_AUTO_TEMPLATE } from 'mock/templates';
 import { setProcessTypes } from 'builder_platform_interaction/systemLib';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 let mockProcessTypesPromise = Promise.resolve(MOCK_ALL_PROCESS_TYPES);
 let mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);
+let mockFlowEntriesPromise = Promise.resolve(MOCK_ALL_FLOW_ENTRIES);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = require.requireActual('builder_platform_interaction/serverDataLib');
@@ -25,6 +27,8 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
                     return mockTemplatesPromise;
                 case SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES:
                     return Promise.resolve([]);
+                case SERVER_ACTION_TYPE.GET_FLOW_ENTRIES:
+                    return mockFlowEntriesPromise;
                 default:
                     return Promise.reject(new Error('Unexpected server action ' + serverActionType));
             }
@@ -35,6 +39,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-new-flow-modal-body', { is: NewFlowModalBody });
     Object.assign(el, {
+        builderType: 'test_builder_type',
         showRecommended: true,
         showAll: true
     });
@@ -77,39 +82,67 @@ describe('new-flow-modal-body', () => {
         afterAll(() => {
             resetProcessTypesCache();
         });
-        it('shows correct number of process types in navigation', () => {
+        it('shows correct number of tiles', () => {
+            const houseForSale = {
+                bath: true,
+                bedrooms: 4,
+                kitchen: {
+                    amenities: ['oven', 'stove', 'washer'],
+                    area: 20,
+                    wallColor: 'white'
+                }
+            };
+            const desiredHouse = {
+                bath: true,
+                kitchen: {
+                    amenities: ['oven', 'stove', 'washer'],
+                    wallColor: expect.stringMatching(/white|yellow/)
+                }
+            };
+
+            expect([houseForSale]).toMatchObject([desiredHouse]);
+
             const recommendedTiles = getRecommended(newFlowModalBody);
-            expect(recommendedTiles.items).toEqual([
+            expect(recommendedTiles.items).toMatchObject([
                 {
-                    description: 'FlowBuilderProcessTypeTemplates.newFlowDescription',
+                    description: 'Screen Flow Description',
                     iconName: 'utility:desktop',
                     itemId: FLOW_PROCESS_TYPE.FLOW,
                     label: getProcessType(FLOW_PROCESS_TYPE.FLOW).label,
                     processType: FLOW_PROCESS_TYPE.FLOW,
+                    recommended: true,
                     isSelected: true
                 },
                 {
-                    description: 'FlowBuilderProcessTypeTemplates.newBeforeSaveFlowDescription',
+                    description: 'Before Save Description',
                     iconName: 'utility:record_update',
                     itemId: 'AutoLaunchedFlow-RecordBeforeSave',
-                    label: 'FlowBuilderProcessTypeTemplates.newBeforeSaveFlowLabel',
+                    label: 'Before Save',
                     processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-                    triggerType: FLOW_TRIGGER_TYPE.BEFORE_SAVE
+                    triggerType: FLOW_TRIGGER_TYPE.BEFORE_SAVE,
+                    recommended: true
                 },
                 {
-                    description: 'FlowBuilderProcessTypeTemplates.newScheduledFlowDescription',
+                    description: 'Scheduled Autolaunch Flow Description',
                     iconName: 'utility:clock',
                     itemId: 'AutoLaunchedFlow-Scheduled',
-                    label: 'FlowBuilderProcessTypeTemplates.newScheduledFlowLabel',
+                    label: 'Scheduled',
                     processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-                    triggerType: FLOW_TRIGGER_TYPE.SCHEDULED
+                    triggerType: FLOW_TRIGGER_TYPE.SCHEDULED,
+                    recommended: true
                 },
                 {
-                    description: 'FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription',
+                    description: 'Autolaunch Flow Description',
                     iconName: 'utility:magicwand',
                     itemId: 'AutoLaunchedFlow',
                     label: getProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW).label,
-                    processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
+                    processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
+                    recommended: true
+                },
+                {
+                    description: 'Flow by value entry Description',
+                    iconName: 'utility:flow',
+                    label: 'Flow by value entry'
                 }
             ]);
         });
@@ -133,37 +166,40 @@ describe('new-flow-modal-body', () => {
             expect(processTypesNavigation.selectedProcessType).toEqual(ALL_PROCESS_TYPE.name);
         });
 
-        it('should change templates when select the process type', async () => {
+        it('should change templates after selecting a different process type', async () => {
             const processTypesNavigation = getProcessTypesNavigation(newFlowModalBody);
             processTypesNavigation.dispatchEvent(new ProcessTypeSelectedEvent(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW));
             await Promise.resolve();
             const processTypesTemplates = getProcessTypesTemplates(newFlowModalBody);
             expect(processTypesTemplates.processType).toEqual(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
             const templates = getTemplates(processTypesTemplates);
-            expect(templates.items).toEqual([
+            expect(templates.items).toMatchObject([
                 {
-                    description: 'FlowBuilderProcessTypeTemplates.newBeforeSaveFlowDescription',
+                    description: 'Before Save Description',
                     iconName: 'utility:record_update',
                     itemId: 'AutoLaunchedFlow-RecordBeforeSave',
-                    label: 'FlowBuilderProcessTypeTemplates.newBeforeSaveFlowLabel',
+                    label: 'Before Save',
                     processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
                     triggerType: FLOW_TRIGGER_TYPE.BEFORE_SAVE,
                     isSelected: true
                 },
                 {
-                    description: 'FlowBuilderProcessTypeTemplates.newScheduledFlowDescription',
+                    description: 'Scheduled Autolaunch Flow Description',
                     iconName: 'utility:clock',
                     itemId: 'AutoLaunchedFlow-Scheduled',
-                    label: 'FlowBuilderProcessTypeTemplates.newScheduledFlowLabel',
+                    label: 'Scheduled',
                     processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
                     triggerType: FLOW_TRIGGER_TYPE.SCHEDULED
                 },
                 {
-                    description: 'FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription',
+                    description: 'Autolaunch Flow Description',
                     iconName: 'utility:magicwand',
                     itemId: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
                     label: getProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW).label,
                     processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
+                },
+                {
+                    description: 'Flow by value entry Description'
                 },
                 {
                     description: MOCK_AUTO_TEMPLATE.Description,
@@ -189,8 +225,8 @@ describe('new-flow-modal-body', () => {
 
         it('shows process types templates', () => {
             const processTypesTemplates = getProcessTypesTemplates(newFlowModalBody);
-            expect(newFlowModalBody.selectedItem).toEqual({
-                description: 'FlowBuilderProcessTypeTemplates.newFlowDescription',
+            expect(newFlowModalBody.selectedItem).toMatchObject({
+                description: 'Screen Flow Description',
                 iconName: 'utility:desktop',
                 isSelected: true,
                 itemId: 'Flow',
@@ -203,44 +239,55 @@ describe('new-flow-modal-body', () => {
         it('shows 8 process types and 3 templates', () => {
             const processTypesTemplates = getProcessTypesTemplates(newFlowModalBody);
             const processTypeTiles = getTemplates(processTypesTemplates);
-            expect(processTypeTiles.items).toEqual([
+            expect(processTypeTiles.items).toMatchObject([
                 {
-                    description: 'FlowBuilderProcessTypeTemplates.newBeforeSaveFlowDescription',
-                    iconName: 'utility:record_update',
-                    itemId: 'AutoLaunchedFlow-RecordBeforeSave',
-                    label: 'FlowBuilderProcessTypeTemplates.newBeforeSaveFlowLabel',
-                    processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-                    triggerType: FLOW_TRIGGER_TYPE.BEFORE_SAVE,
+                    description: 'Screen Flow Description',
+                    iconName: 'utility:desktop',
+                    itemId: FLOW_PROCESS_TYPE.FLOW,
+                    label: getProcessType(FLOW_PROCESS_TYPE.FLOW).label,
+                    processType: FLOW_PROCESS_TYPE.FLOW,
                     isSelected: true
                 },
                 {
-                    description: 'FlowBuilderProcessTypeTemplates.newScheduledFlowDescription',
+                    description: 'Before Save Description',
+                    iconName: 'utility:record_update',
+                    itemId: 'AutoLaunchedFlow-RecordBeforeSave',
+                    label: 'Before Save',
+                    processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
+                    triggerType: FLOW_TRIGGER_TYPE.BEFORE_SAVE
+                },
+                {
+                    description: 'Scheduled Autolaunch Flow Description',
                     iconName: 'utility:clock',
                     itemId: 'AutoLaunchedFlow-Scheduled',
-                    label: 'FlowBuilderProcessTypeTemplates.newScheduledFlowLabel',
+                    label: 'Scheduled',
                     processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
                     triggerType: FLOW_TRIGGER_TYPE.SCHEDULED
                 },
                 {
-                    description: 'FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription',
+                    description: 'Autolaunch Flow Description',
                     iconName: 'utility:magicwand',
                     itemId: 'AutoLaunchedFlow',
                     label: 'Autolaunched Flow',
                     processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
                 },
                 {
-                    description: 'FlowBuilderProcessTypeTemplates.newFlowDescription',
-                    iconName: 'utility:desktop',
-                    itemId: FLOW_PROCESS_TYPE.FLOW,
-                    label: getProcessType(FLOW_PROCESS_TYPE.FLOW).label,
-                    processType: FLOW_PROCESS_TYPE.FLOW
-                },
-                {
-                    description: 'FlowBuilderProcessTypeTemplates.newProcessTypeDescription',
+                    description: 'Checkout Flow Description',
                     iconName: 'utility:cart',
                     itemId: 'CheckoutFlow',
                     label: 'Checkout Flow',
                     processType: 'CheckoutFlow'
+                },
+                {
+                    description: 'Flow by value entry Description',
+                    flow: {
+                        start: {
+                            triggerType: FLOW_TRIGGER_TYPE.BEFORE_SAVE
+                        },
+                        processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
+                    },
+                    iconName: 'utility:flow',
+                    label: 'Flow by value entry'
                 },
                 {
                     description: 'FlowBuilderProcessTypeTemplates.newContactRequestFlowDescription',
@@ -319,6 +366,8 @@ describe('new-flow-modal-body', () => {
             expect(errorMessage.textContent).toEqual(ERROR_MESSAGE);
         });
         it('should reset error message when changing the process type', async () => {
+            const templatesTab = getTemplatesTab(newFlowModalBody);
+            templatesTab.dispatchEvent(new CustomEvent('active'));
             newFlowModalBody.errorMessage = ERROR_MESSAGE;
             await Promise.resolve();
             const processTypesNavigation = getProcessTypesNavigation(newFlowModalBody);
@@ -346,6 +395,7 @@ describe('fetch server data error cases', () => {
     let newFlowModalBody;
     describe('process types', () => {
         beforeAll(() => {
+            resetProcessTypesCache();
             mockProcessTypesPromise = Promise.reject();
         });
         beforeEach(async () => {
@@ -358,16 +408,40 @@ describe('fetch server data error cases', () => {
         });
         afterAll(() => {
             mockProcessTypesPromise = Promise.resolve(MOCK_ALL_PROCESS_TYPES);
-            resetProcessTypesCache();
         });
         it('should show process types error message', async () => {
             const errorMessage = newFlowModalBody.errorMessage;
             expect(errorMessage).toEqual(LABELS.errorLoadingProcessTypes);
         });
-
         it('should show process types error close button that when clicked reset errors', async () => {
             const errorClosingButton = getErrorClosingButton(newFlowModalBody);
-            expect(errorClosingButton).toBeDefined();
+            expect(errorClosingButton).toBeTruthy();
+            errorClosingButton.dispatchEvent(new CustomEvent('click'));
+            expect(newFlowModalBody.errorMessage).toHaveLength(0);
+        });
+    });
+    describe('flow entries', () => {
+        beforeAll(() => {
+            mockFlowEntriesPromise = Promise.reject();
+        });
+        beforeEach(async () => {
+            newFlowModalBody = createComponentForTest({
+                footer: {
+                    disableButtons() {}
+                }
+            });
+            await ticks(10);
+        });
+        afterAll(() => {
+            mockFlowEntriesPromise = Promise.resolve(MOCK_ALL_FLOW_ENTRIES);
+        });
+        it('should show flow entries error message', async () => {
+            const errorMessage = newFlowModalBody.errorMessage;
+            expect(errorMessage).toEqual(LABELS.errorLoadingFlowEntries);
+        });
+        it('should show flow entries error close button that when clicked reset errors', async () => {
+            const errorClosingButton = getErrorClosingButton(newFlowModalBody);
+            expect(errorClosingButton).toBeTruthy();
             errorClosingButton.dispatchEvent(new CustomEvent('click'));
             expect(newFlowModalBody.errorMessage).toHaveLength(0);
         });
@@ -390,7 +464,7 @@ describe('fetch server data error cases', () => {
         });
         it('should show templates error close button that when clicked reset errors', async () => {
             const errorClosingButton = getErrorClosingButton(newFlowModalBody);
-            expect(errorClosingButton).toBeDefined();
+            expect(errorClosingButton).toBeTruthy();
             errorClosingButton.dispatchEvent(new CustomEvent('click'));
             expect(newFlowModalBody.errorMessage).toHaveLength(0);
         });

@@ -37,7 +37,8 @@ export const SERVER_ACTION_TYPE = {
     GET_INVOCABLE_ACTION_DETAILS: 'getInvocableActionDetails',
     GET_BUILDER_CONFIGS: 'getBuilderConfigs',
     GET_WORKFLOW_ENABLED_ENTITIES: 'getWorkflowEnabledEntities',
-    GET_FLOW_EXTENSION_DETAILS: 'getFlowExtensionDetails'
+    GET_FLOW_EXTENSION_DETAILS: 'getFlowExtensionDetails',
+    GET_FLOW_ENTRIES: 'getFlowEntries'
 };
 
 const actionConfig = {
@@ -77,7 +78,8 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_DETAILS]: 'c.getInvocableActionDetails',
     [SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS]: 'c.getBuilderConfigs',
     [SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES]: 'c.getWorkflowEnabledEntities',
-    [SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_DETAILS]: 'c.getFlowExtensionDetails'
+    [SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_DETAILS]: 'c.getFlowExtensionDetails',
+    [SERVER_ACTION_TYPE.GET_FLOW_ENTRIES]: 'c.getFlowEntries'
 };
 
 let auraFetch;
@@ -169,7 +171,8 @@ const KEY_PROVIDER = {
     [SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES]: params => params.flowProcessType,
     [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_DETAILS]: params => `${params.actionName}-${params.actionType}`,
     [SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS]: () => SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS,
-    [SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES]: () => SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES
+    [SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES]: () => SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES,
+    [SERVER_ACTION_TYPE.GET_FLOW_ENTRIES]: params => `${params.builderType}`
 };
 
 const fetchOnceCache = {};

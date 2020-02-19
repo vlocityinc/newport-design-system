@@ -1,30 +1,30 @@
 import { createElement } from 'lwc';
-import { getProcessTypesMenuData } from 'builder_platform_interaction/expressionUtils';
 import FlowPropertiesEditor from '../flowPropertiesEditor';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { LABELS } from '../flowPropertiesEditorLabels';
 import normalizeDateTime from 'builder_platform_interaction/dateTimeUtils';
 import format from 'builder_platform_interaction/commonUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { MOCK_ALL_FLOW_ENTRIES } from 'mock/flowEntryData';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
 
+jest.mock('builder_platform_interaction/systemLib', () => {
+    const actual = require.requireActual('builder_platform_interaction/systemLib');
+    return {
+        getBuilderType() {
+            return 'abc';
+        },
+
+        SYSTEM_VARIABLES: actual.SYSTEM_VARIABLES,
+        getGlobalConstantOrSystemVariable: actual.getGlobalConstantOrSystemVariable
+    };
+});
+
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
-        getProcessTypesMenuData() {
-            return [
-                {
-                    value: 'processType1',
-                    label: 'processTypeLabel1'
-                },
-                {
-                    value: 'processType2',
-                    label: 'processTypeLabel2'
-                }
-            ];
-        },
         getRunInModesMenuData() {
             return [
                 {
@@ -40,6 +40,22 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
                     lable: 'systemModeWithoutSharing'
                 }
             ];
+        }
+    };
+});
+
+jest.mock('builder_platform_interaction/serverDataLib', () => {
+    const actual = require.requireActual('builder_platform_interaction/serverDataLib');
+    const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
+    return {
+        SERVER_ACTION_TYPE,
+        fetchOnce: serverActionType => {
+            switch (serverActionType) {
+                case SERVER_ACTION_TYPE.GET_FLOW_ENTRIES:
+                    return Promise.resolve(MOCK_ALL_FLOW_ENTRIES);
+                default:
+                    return Promise.reject(new Error('Unexpected server action ' + serverActionType));
+            }
         }
     };
 });
@@ -207,7 +223,7 @@ describe('FlowPropertiesEditor', () => {
                     expect(getShowAdvancedButton(flowPropertiesEditor)).not.toBeNull();
                     expect(getAdvancedProperties(flowPropertiesEditor)).not.toBeNull();
                     expect(getProcessType(flowPropertiesEditor)).toBeDefined();
-                    expect(getProcessType(flowPropertiesEditor).value).toBe('process type');
+                    expect(getProcessType(flowPropertiesEditor).value).toBe('process type None');
                     const recourcedTextArea = getResourceTextArea(flowPropertiesEditor);
                     expect(recourcedTextArea.value.value).toBe('');
                     expect(recourcedTextArea.value.error).toBeNull();
@@ -307,13 +323,12 @@ describe('FlowPropertiesEditor', () => {
             });
         });
 
-        it('displays the label associated with the current process type', () => {
-            const processTypes = getProcessTypesMenuData();
+        it('displays the label associated with the current process type', async () => {
             flowProperties = {
                 label: { value: '', error: null },
                 name: { value: '', error: null },
                 description: { value: '', error: null },
-                processType: { value: processTypes[1].value },
+                processType: { value: 'AutoLaunchedFlow' },
                 interviewLabel: { value: '', error: null },
                 status: { value: 'Active' },
                 lastModifiedBy: { value: 'some user' },
@@ -323,10 +338,31 @@ describe('FlowPropertiesEditor', () => {
             };
             flowPropertiesEditor = createComponentUnderTest(flowProperties);
             getShowAdvancedButton(flowPropertiesEditor).click();
-            return Promise.resolve().then(() => {
-                expect(getLastProcessType(flowPropertiesEditor).textContent).toEqual(processTypes[1].label);
-            });
+            await Promise.resolve();
+            expect(getLastProcessType(flowPropertiesEditor).textContent).toEqual('Autolaunched Flow');
         });
+
+        it('displays the label associated with the current process and trigger type', async () => {
+            flowProperties = {
+                label: { value: '', error: null },
+                name: { value: '', error: null },
+                description: { value: '', error: null },
+                processType: { value: 'AutoLaunchedFlow' },
+                triggerType: { value: 'RecordBeforeSave' },
+                interviewLabel: { value: '', error: null },
+                status: { value: 'Active' },
+                lastModifiedBy: { value: 'some user' },
+                lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
+                saveType: SaveType.UPDATE,
+                runInMode: { value: null, error: null }
+            };
+            flowPropertiesEditor = createComponentUnderTest(flowProperties);
+            getShowAdvancedButton(flowPropertiesEditor).click();
+            await Promise.resolve();
+            expect(getLastProcessType(flowPropertiesEditor).textContent).toEqual('Before Save');
+        });
+
+        it('changes process type and trigger type', async () => {});
 
         describe('versionNumber', () => {
             let defaultNode;

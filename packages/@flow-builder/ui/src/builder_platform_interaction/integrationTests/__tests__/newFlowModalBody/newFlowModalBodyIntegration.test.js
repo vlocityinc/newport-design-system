@@ -6,6 +6,7 @@ import { resetState } from '../integrationTestUtils';
 import { getTemplates, initializeAuraFetch } from '../serverDataTestUtils';
 import { ALL_PROCESS_TYPE } from 'builder_platform_interaction/processTypeLib';
 import { processTypes } from 'serverData/GetProcessTypes/processTypes.json';
+import { flowEntries } from 'serverData/GetFlowEntries/flowBuilderFlowEntries.json';
 import { templatesForFlowAndAutoLaunchedFlow } from 'serverData/GetTemplates/templatesForFlowAndAutoLaunchedFlow.json';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { reducer } from 'builder_platform_interaction/reducers';
@@ -17,7 +18,6 @@ import {
 
 const SELECTORS = {
     ERROR_MESSAGE: '.errorMessage .slds-notify__content',
-    FEATURED_SECTION: '.featured',
     TEMPLATES_SECTION: '.templates',
     ...INTERACTION_COMPONENTS_SELECTORS,
     ...LIGHTNING_COMPONENTS_SELECTORS
@@ -58,6 +58,11 @@ const getExploreFlowTemplateTile = processTypeTemplates =>
 
 const createComponentForTest = () => {
     const el = createElement('builder_platform_interaction-new-Flow-modal-body', { is: NewFlowModalBody });
+    Object.assign(el, {
+        builderType: 'FlowBuilder',
+        showAll: true,
+        showRecommended: true
+    });
     document.body.appendChild(el);
     return el;
 };
@@ -88,18 +93,16 @@ describe('new Flow Modal Body', () => {
                     expect(newFlowModalBody.selectedProcessType).toBe('all');
                 });
             });
-            it('should shows the correct number of process types in navigation', () => {
+            it('should show the correct number of process types in navigation', () => {
                 const processTypesNavigationItems = getProcessTypesNavigationItems(newFlowModalBody);
                 expect(processTypesNavigationItems).toHaveLength(processTypes.length + 1);
             });
-            it('should shows the correct number of templates in navigation', () => {
+            it('should show the correct number of templates in navigation', () => {
                 return resolveRenderCycles(() => {
                     const processTypesTemplates = getProcessTypesTemplates(newFlowModalBody);
                     const templatesTiles = getTemplateList(processTypesTemplates, SELECTORS.TEMPLATES_SECTION);
                     const templateItems = getTemplateItems(templatesTiles);
-                    expect(templateItems).toHaveLength(
-                        templatesForFlowAndAutoLaunchedFlow.length + processTypes.length + 2
-                    );
+                    expect(templateItems).toHaveLength(templatesForFlowAndAutoLaunchedFlow.length + flowEntries.length);
                 });
             });
             describe('select a Process Type', () => {
@@ -110,7 +113,8 @@ describe('new Flow Modal Body', () => {
                     const processTypesTemplates = getProcessTypesTemplates(newFlowModalBody);
                     const templateList = getTemplateList(processTypesTemplates, SELECTORS.TEMPLATES_SECTION);
                     const templateItems = getTemplateItems(templateList);
-                    expect(templateItems).toHaveLength(4); // process type AutoLaunched + 1 template
+                    expect(templateItems).toHaveLength(5);
+                    // 5 = Blanks(AutoLaunched + BeforeSave + Scheduled + FlowByValue) + 1 template
 
                     const templateItemTitles = Array.from(templateItems).map(templateItem =>
                         getTemplateItemTitle(templateItem)
@@ -162,7 +166,7 @@ describe('new Flow Modal Body', () => {
                 expect(exploreFlowTemplate).not.toBeNull();
                 const templatesTiles = getTemplateList(processTypesTemplates, SELECTORS.TEMPLATES_SECTION);
                 const templateItems = getTemplateItems(templatesTiles);
-                expect(templateItems).toHaveLength(processTypes.length + 2);
+                expect(templateItems).toHaveLength(flowEntries.length);
             });
         });
     });

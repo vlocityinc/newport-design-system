@@ -1,4 +1,5 @@
 let builderConfigs;
+let builderType;
 
 /**
  * Sets the builder type -> builder config map. This should be done during app initialization.
@@ -16,4 +17,10 @@ export const setBuilderConfigs = data => {
  * @param {string} builderType builder type
  * @returns {Object} builder config
  */
-export const getBuilderConfig = builderType => (builderConfigs ? builderConfigs[builderType] : null);
+export const getBuilderConfig = () => (builderConfigs && builderType ? builderConfigs[builderType] : null);
+
+export function setBuilderType(value) {
+    builderType = value;
+}
+
+export const getBuilderType = () => builderType;

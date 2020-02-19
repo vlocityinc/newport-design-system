@@ -97,7 +97,15 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
         fetch: jest.fn(),
         fetchOnce: jest.fn(action => {
             if (action === 'getBuilderConfigs') {
-                return Promise.resolve({});
+                return Promise.resolve({
+                    old: {
+                        supportedProcessTypes: ['right']
+                    },
+                    new: {
+                        supportedProcessTypes: ['right'],
+                        usePanelForPropertyEditor: true
+                    }
+                });
             }
             return {
                 then: () => {}
@@ -105,23 +113,6 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
         }),
         SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE
     };
-});
-
-jest.mock('builder_platform_interaction/systemLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/systemLib');
-
-    return Object.assign({}, actual, {
-        getBuilderConfig: builderType => {
-            return builderType === 'old'
-                ? {
-                      supportedProcessTypes: ['right']
-                  }
-                : {
-                      supportedProcessTypes: ['right'],
-                      usePanelForPropertyEditor: true
-                  };
-        }
-    });
 });
 
 jest.mock('builder_platform_interaction/actions', () => {

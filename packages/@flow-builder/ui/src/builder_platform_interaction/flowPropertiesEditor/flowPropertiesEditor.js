@@ -10,12 +10,14 @@ import { flowPropertiesEditorReducer } from './flowPropertiesEditorReducer';
 import { format, addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { normalizeDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { SaveType } from 'builder_platform_interaction/saveType';
-import { getProcessTypesMenuData, getRunInModesMenuData } from 'builder_platform_interaction/expressionUtils';
+import { getRunInModesMenuData } from 'builder_platform_interaction/expressionUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { SYSTEM_VARIABLES } from 'builder_platform_interaction/systemLib';
+import { SYSTEM_VARIABLES, getBuilderType } from 'builder_platform_interaction/systemLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { isRunInModeSupported } from 'builder_platform_interaction/triggerTypeLib';
 import { getTriggerType } from 'builder_platform_interaction/storeUtils';
+import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 /**
  * Flow Properties property editor for Flow Builder
@@ -63,7 +65,8 @@ export default class FlowPropertiesEditor extends LightningElement {
      * public api function to return the node
      * @returns {object} node - node
      */
-    @api getNode() {
+    @api
+    getNode() {
         return this.flowProperties;
     }
 
@@ -71,7 +74,8 @@ export default class FlowPropertiesEditor extends LightningElement {
      * public api function to run the rules from flow properties validation library
      * @returns {object} list of errors
      */
-    @api validate() {
+    @api
+    validate() {
         const event = {
             type: VALIDATE_ALL,
             isSavingExistingFlow: this.savingExistingFlow
@@ -95,7 +99,9 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     labels = LABELS;
 
-    _processTypes = getProcessTypesMenuData();
+    @track
+    _processTypes = [];
+
     _runInModes = getRunInModesMenuData();
     _originalLabel;
     _originalApiName;
@@ -131,6 +137,11 @@ export default class FlowPropertiesEditor extends LightningElement {
         let retVal = null;
         if (this.flowProperties.processType) {
             retVal = this.flowProperties.processType.value;
+            if (this.flowProperties.triggerType) {
+                retVal += ' ' + this.flowProperties.triggerType.value;
+            } else {
+                retVal += ' ' + FLOW_TRIGGER_TYPE.NONE;
+            }
         }
         return retVal;
     }
@@ -149,10 +160,15 @@ export default class FlowPropertiesEditor extends LightningElement {
     get processTypeLabel() {
         let label = null;
         if (this.flowProperties.processType) {
-            const processType = this._processTypes.find(pt => {
-                return pt.value === this.flowProperties.processType.value;
-            });
-
+            const processType = this._processTypes.find(
+                item =>
+                    item.value ===
+                    this.flowProperties.processType.value +
+                        ' ' +
+                        (this.flowProperties.triggerType
+                            ? this.flowProperties.triggerType.value
+                            : FLOW_TRIGGER_TYPE.NONE)
+            );
             label = processType ? processType.label : null;
         }
         return label;
@@ -202,18 +218,6 @@ export default class FlowPropertiesEditor extends LightningElement {
     }
 
     /**
-     * Returns the process types
-     * @returns {module:builder_platform_interaction/expressionUtils.MenuItem[]} Menu items representing allowed process types
-     */
-    get processTypes() {
-        return this._processTypes;
-    }
-
-    get runInModes() {
-        return this._runInModes;
-    }
-
-    /**
      * Returns the localized string representing the last saved info
      * E.g. something like: '1/1/2018 by Jane Smith'
      * @return {string}
@@ -240,6 +244,19 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     get showRunInModeCombobox() {
         return isRunInModeSupported(getTriggerType());
+    }
+
+    connectedCallback() {
+        fetchOnce(SERVER_ACTION_TYPE.GET_FLOW_ENTRIES, {
+            builderType: getBuilderType()
+        }).then(items => {
+            this._processTypes = items
+                .filter(item => !(item.recommended && typeof item.flow === 'string'))
+                .map(({ label, processType, triggerType = null }) => ({
+                    label,
+                    value: processType + ' ' + (triggerType || FLOW_TRIGGER_TYPE.NONE)
+                }));
+        });
     }
 
     /**
@@ -316,7 +333,17 @@ export default class FlowPropertiesEditor extends LightningElement {
      */
     handleProcessTypeChange(event) {
         event.stopPropagation();
-        this.updateProperty('processType', event.detail.value);
+        let processType = event.detail.value;
+        let triggerType;
+        if (event.detail.value) {
+            const i = event.detail.value.indexOf(' ');
+            if (i !== -1) {
+                processType = event.detail.value.substring(0, i);
+                triggerType = event.detail.value.substring(i + 1);
+            }
+        }
+        this.updateProperty('processType', processType);
+        this.updateProperty('triggerType', triggerType);
     }
 
     handleRunInModeChange(event) {

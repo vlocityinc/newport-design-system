@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import ProcessTypesTemplates from 'builder_platform_interaction/processTypesTemplates';
 import { TemplateChangedEvent, CannotRetrieveTemplatesEvent } from 'builder_platform_interaction/events';
 import { ALL_PROCESS_TYPE, resetCacheTemplates } from 'builder_platform_interaction/processTypeLib';
@@ -42,7 +41,15 @@ function createComponentForTest({ processType = ALL_PROCESS_TYPE.name } = {}) {
     const el = createElement('builder_platform_interaction-process-types-templates', { is: ProcessTypesTemplates });
     Object.assign(el, {
         processType,
-        processTypes: MOCK_ALL_PROCESS_TYPES
+        processTypes: MOCK_ALL_PROCESS_TYPES,
+        blankItems: [
+            {
+                label: 'process type a',
+                description: 'process type a description',
+                iconName: 'some:icon',
+                itemId: 'abc'
+            }
+        ]
     });
     document.body.appendChild(el);
     return el;
@@ -52,7 +59,7 @@ const SELECTORS = {
     TEMPLATES_SECTION: '.templates',
     VISUAL_PICKER_LIST: 'builder_platform_interaction-visual-picker-list',
     VISUAL_PICKER_ITEM: 'builder_platform_interaction-visual-picker-item',
-    CHECKBOX: 'input[type="checkbox"]'
+    CHECKBOX: 'input[type="radio"]'
 };
 
 const getVisualPickerList = processTypeTemplates => {
@@ -88,80 +95,12 @@ describe('process-type-templates', () => {
 
     it('shows 3 templates: two screens and one autolaunched', () => {
         const templates = getVisualPickerListItems(processTypeTemplates);
-        expect(templates).toHaveLength(13); // MOCK_ALL_PROCESS_TYPES.length + MOCK_ALL_TEMPLATES.length + 2 (scheduled + before save)
-        expect(templates).toEqual([
+        expect(templates).toHaveLength(4); // MOCK_ALL_TEMPLATES.length
+        expect(templates).toMatchObject([
             {
-                description: 'FlowBuilderProcessTypeTemplates.newBeforeSaveFlowDescription',
-                iconName: 'utility:record_update',
-                isSelected: true,
-                itemId: 'AutoLaunchedFlow-RecordBeforeSave',
-                label: 'FlowBuilderProcessTypeTemplates.newBeforeSaveFlowLabel',
-                processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-                triggerType: FLOW_TRIGGER_TYPE.BEFORE_SAVE
-            },
-            {
-                description: 'FlowBuilderProcessTypeTemplates.newScheduledFlowDescription',
-                iconName: 'utility:clock',
-                itemId: 'AutoLaunchedFlow-Scheduled',
-                label: 'FlowBuilderProcessTypeTemplates.newScheduledFlowLabel',
-                processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-                triggerType: FLOW_TRIGGER_TYPE.SCHEDULED
-            },
-            {
-                itemId: 'AutoLaunchedFlow',
-                label: 'Autolaunched Flow',
-                description: 'FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription',
-                iconName: 'utility:magicwand',
-                processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
-            },
-            {
-                itemId: 'Flow',
-                label: 'Screen Flow',
-                description: 'FlowBuilderProcessTypeTemplates.newFlowDescription',
-                iconName: 'utility:desktop',
-                processType: FLOW_PROCESS_TYPE.FLOW
-            },
-            {
-                itemId: 'CheckoutFlow',
-                label: 'Checkout Flow',
-                description: 'FlowBuilderProcessTypeTemplates.newProcessTypeDescription(Checkout Flow)',
-                iconName: 'utility:cart',
-                processType: 'CheckoutFlow'
-            },
-            {
-                itemId: 'ContactRequestFlow',
-                label: 'Contact Request Flow',
-                description: 'FlowBuilderProcessTypeTemplates.newContactRequestFlowDescription',
-                iconName: 'utility:contact_request',
-                processType: 'ContactRequestFlow'
-            },
-            {
-                itemId: 'FieldServiceWeb',
-                label: 'Embedded Appointment Management Flow',
-                description: 'FlowBuilderProcessTypeTemplates.newFieldServiceWebDescription',
-                iconName: 'utility:insert_tag_field',
-                processType: 'FieldServiceWeb'
-            },
-            {
-                itemId: 'FieldServiceMobile',
-                label: 'Field Service Mobile Flow',
-                description: 'FlowBuilderProcessTypeTemplates.newFieldServiceMobileDescription',
-                iconName: 'utility:phone_portrait',
-                processType: 'FieldServiceMobile'
-            },
-            {
-                itemId: 'UserProvisioningFlow',
-                label: 'User Provisioning Flow',
-                description: 'FlowBuilderProcessTypeTemplates.newUserProvisioningFlowDescription',
-                iconName: 'utility:user',
-                processType: 'UserProvisioningFlow'
-            },
-            {
-                itemId: 'WeDoNotKnowYou',
-                label: 'Well no icon yet',
-                description: 'FlowBuilderProcessTypeTemplates.newProcessTypeDescription(Well no icon yet)',
-                iconName: 'utility:flow',
-                processType: 'WeDoNotKnowYou'
+                itemId: 'abc',
+                label: 'process type a',
+                iconName: 'some:icon'
             },
             {
                 description: MOCK_AUTO_TEMPLATE.Description,

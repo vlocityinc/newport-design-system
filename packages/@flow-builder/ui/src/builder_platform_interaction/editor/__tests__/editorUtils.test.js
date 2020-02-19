@@ -583,8 +583,23 @@ describe('Editor Utils Test', () => {
 
         it('saveFlowFn is called with appropriate save type', () => {
             const dispatch = jest.fn();
+            const getCurrentState = jest.fn().mockImplementation(() => {
+                return {
+                    elements: {
+                        startElement: {
+                            guid: 'startElement',
+                            elementType: ELEMENT_TYPE.START_ELEMENT,
+                            config: {
+                                isSelected: true,
+                                isHighlighted: false
+                            }
+                        }
+                    }
+                };
+            });
             const storeInstance = {
-                dispatch
+                dispatch,
+                getCurrentState
             };
             const flowProperties = {
                 saveType: SaveType.CREATE,

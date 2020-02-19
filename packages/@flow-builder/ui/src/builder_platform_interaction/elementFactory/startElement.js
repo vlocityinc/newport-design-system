@@ -37,7 +37,7 @@ export function createStartElement(startElement = {}) {
     const {
         locationX = START_ELEMENT_LOCATION.x,
         locationY = START_ELEMENT_LOCATION.y,
-        triggerType = FLOW_TRIGGER_TYPE.NONE,
+        triggerType = (startElement && startElement.triggerType) || FLOW_TRIGGER_TYPE.NONE,
         object = '',
         objectIndex = generateGuid(),
         filters = []

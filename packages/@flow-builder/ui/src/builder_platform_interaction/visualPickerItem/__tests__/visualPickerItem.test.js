@@ -30,7 +30,7 @@ const SELECTORS = {
     LABEL: '.slds-media__body .slds-text-heading_small',
     DESCRIPTION: '.slds-media__body .text-content',
     LIGHTNING_ICON: 'lightning-icon',
-    CHECKBOX: 'input[type="checkbox"]'
+    CHECKBOX: 'input[type="radio"]'
 };
 
 function getTemplateIcon(visualPickerItem) {

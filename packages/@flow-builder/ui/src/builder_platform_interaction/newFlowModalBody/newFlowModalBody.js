@@ -1,12 +1,31 @@
 import { LightningElement, api, track } from 'lwc';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { ALL_PROCESS_TYPE, createRecommendedItems } from 'builder_platform_interaction/processTypeLib';
+import { ALL_PROCESS_TYPE } from 'builder_platform_interaction/processTypeLib';
 import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLib';
 import { LABELS } from './newFlowModalBodyLabels';
 import { setProcessTypes } from 'builder_platform_interaction/systemLib';
 
 const TAB_RECOMMENDED = 'recommended';
 const TAB_TEMPLATES = 'templates';
+
+const enrichItems = items =>
+    items.map(item => {
+        let itemId;
+        if (item.flow) {
+            if (typeof item.flow === 'string') {
+                itemId = item.flow;
+            } else {
+                itemId = JSON.stringify(item.flow);
+            }
+        } else {
+            itemId = item.processType + (item.triggerType ? '-' + item.triggerType : '');
+        }
+        return {
+            itemId,
+            iconName: item.icon,
+            ...item
+        };
+    });
 
 export default class NewFlowModalBody extends LightningElement {
     labels = LABELS;
@@ -20,6 +39,8 @@ export default class NewFlowModalBody extends LightningElement {
         errorMessage: null,
         processTypes: [],
         processTypesLoading: false,
+        items: null,
+        itemsLoading: false,
         recommendedItems: null,
         selectedRecommendedItem: null,
         activeTab: TAB_RECOMMENDED,
@@ -27,7 +48,16 @@ export default class NewFlowModalBody extends LightningElement {
     };
 
     @api
-    builderType;
+    get builderType() {
+        return this.state.builderType;
+    }
+
+    set builderType(value) {
+        if (this.state.builderType !== value) {
+            this.state.builderType = value;
+            this.fetchFlowEntries();
+        }
+    }
 
     @api
     showRecommended;
@@ -73,24 +103,16 @@ export default class NewFlowModalBody extends LightningElement {
         return this.showAll || !this.showRecommended; // Always show the All/Templates tab if all other tabs are hidden
     }
 
+    get showSpinner() {
+        return this.state.processTypesLoading || this.state.itemsLoading;
+    }
+
+    get showErrorMessage() {
+        return !this.showSpinner && !!this.errorMessage;
+    }
+
     connectedCallback() {
-        this.state.processTypesLoading = true;
-        fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES)
-            .then(processTypes => {
-                setProcessTypes(processTypes);
-                loadAllSupportedFeatures(processTypes);
-                this.state.processTypesLoading = false;
-                this.state.processTypes = processTypes;
-                this.state.recommendedItems = createRecommendedItems(processTypes);
-                if (this.state.recommendedItems && this.state.recommendedItems.length > 0) {
-                    this.state.selectedRecommendedItem = this.state.recommendedItems[0];
-                    this.state.selectedRecommendedItem.isSelected = true;
-                }
-            })
-            .catch(() => {
-                this.state.processTypesLoading = false;
-                this.handleCannotRetrieveProcessTypes();
-            });
+        this.fetchProcessTypes();
     }
 
     /**
@@ -100,7 +122,7 @@ export default class NewFlowModalBody extends LightningElement {
     handleSelectProcessType(event) {
         event.stopPropagation();
         this.state.selectedProcessType = event.detail.name;
-        if (this.isResetErrorMessageNeeded()) {
+        if (this.isResetErrorMessageNeeded() && this.state.activeTab === TAB_TEMPLATES) {
             this.resetErrorMessage();
         }
     }
@@ -112,7 +134,7 @@ export default class NewFlowModalBody extends LightningElement {
     handleSelectTemplatesItem(event) {
         event.stopPropagation();
         this.state.selectedTemplatesItem = event.detail;
-        if (this.isResetErrorMessageNeeded()) {
+        if (this.isResetErrorMessageNeeded() && this.state.activeTab === TAB_TEMPLATES) {
             this.resetErrorMessage();
         }
     }
@@ -138,7 +160,7 @@ export default class NewFlowModalBody extends LightningElement {
             this.setRecommendedItemIsSelected(selectedItem.id, true);
         }
         this.state.selectedRecommendedItem = selectedRecommendedItem;
-        if (this.isResetErrorMessageNeeded()) {
+        if (this.isResetErrorMessageNeeded() && this.state.activeTab === TAB_RECOMMENDED) {
             this.resetErrorMessage();
         }
     }
@@ -174,15 +196,56 @@ export default class NewFlowModalBody extends LightningElement {
         this.state.errorMessage = '';
     }
 
-    /**
-     * Handle the error when fetching process types
-     */
-    handleCannotRetrieveProcessTypes() {
-        this.state.errorMessage = LABELS.errorLoadingProcessTypes;
-        this.footer.disableButtons();
-    }
-
     handleTabActive(event) {
         this.state.activeTab = event.target.value;
+    }
+
+    fetchProcessTypes() {
+        this.state.processTypesLoading = true;
+        fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES)
+            .then(processTypes => {
+                setProcessTypes(processTypes);
+                loadAllSupportedFeatures(processTypes);
+                this.state.processTypesLoading = false;
+                this.state.processTypes = processTypes;
+            })
+            .catch(() => {
+                this.state.processTypesLoading = false;
+                this.state.errorMessage = LABELS.errorLoadingProcessTypes;
+                this.footer.disableButtons();
+            });
+    }
+
+    fetchFlowEntries() {
+        this.state.itemsLoading = true;
+        fetchOnce(SERVER_ACTION_TYPE.GET_FLOW_ENTRIES, {
+            builderType: this.builderType
+        })
+            .then(items => {
+                this.state.itemsLoading = false;
+                this.state.items = enrichItems(items);
+
+                // Collect all items for the Recommended tab
+                this.state.recommendedItems = this.state.items
+                    .filter(item => item.recommended)
+                    .map(item => ({ ...item }));
+
+                // Select the first recommended item
+                if (this.state.recommendedItems && this.state.recommendedItems.length > 0) {
+                    this.state.selectedRecommendedItem = this.state.recommendedItems[0];
+                    this.state.selectedRecommendedItem.isSelected = true;
+                }
+
+                // Remove recommended templates:
+                // they will be shown along with other templates on the Templates tab.
+                this.state.items = this.state.items.filter(
+                    item => !(item.recommended && typeof item.flow === 'string')
+                );
+            })
+            .catch(() => {
+                this.state.itemsLoading = false;
+                this.state.errorMessage = LABELS.errorLoadingFlowEntries;
+                this.footer.disableButtons();
+            });
     }
 }

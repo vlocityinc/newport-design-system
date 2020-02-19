@@ -1,6 +1,6 @@
 <template>
     <!-- should be replaced by stencil placeholder: W-5921905 -->
-    <div class="slds-grid slds-grid_align-center" if:true={state.processTypesLoading}>
+    <div class="slds-grid slds-grid_align-center" if:true={showSpinner}>
         <div class="slds-col spinner">
             <lightning-spinner
                 size="medium"
@@ -10,7 +10,29 @@
             ></lightning-spinner>
         </div>
     </div>
-    <lightning-tabset if:false={state.processTypesLoading}>
+    <div if:true={showErrorMessage} class="slds-notify_container slds-is-relative errorMessage">
+        <div class="slds-notify slds-notify_toast slds-theme_error" role="status">
+            <lightning-icon
+                icon-name="utility:error"
+                class="slds-m-right_small slds-no-flex slds-align-top"
+                variant="inverse"
+                size="x-small"
+            >
+            </lightning-icon>
+            <div class="slds-notify__content">
+                <span>{errorMessage}</span>
+            </div>
+            <div class="slds-notify__close">
+                <lightning-button-icon
+                    icon-name="utility:close"
+                    variant="bare-inverse"
+                    class="slds-m-left_xx-small"
+                    onclick={handleCloseErrorMessage}
+                ></lightning-button-icon>
+            </div>
+        </div>
+    </div>
+    <lightning-tabset if:false={showSpinner}>
         <lightning-tab
             if:true={showRecommended}
             label={labels.recommended}
@@ -41,30 +63,9 @@
                     </builder_platform_interaction-process-types-vertical-navigation>
                 </div>
                 <div class="slds-col canvas-container slds-grow slds-shrink slds-scrollable slds-is-relative">
-                    <div if:true={state.errorMessage} class="slds-notify_container slds-is-relative errorMessage">
-                        <div class="slds-notify slds-notify_toast slds-theme_error" role="status">
-                            <lightning-icon
-                                icon-name="utility:error"
-                                class="slds-m-right_small slds-no-flex slds-align-top"
-                                variant="inverse"
-                                size="x-small"
-                            >
-                            </lightning-icon>
-                            <div class="slds-notify__content">
-                                <span>{errorMessage}</span>
-                            </div>
-                            <div class="slds-notify__close">
-                                <lightning-button-icon
-                                    icon-name="utility:close"
-                                    variant="bare-inverse"
-                                    class="slds-m-left_xx-small"
-                                    onclick={handleCloseErrorMessage}
-                                ></lightning-button-icon>
-                            </div>
-                        </div>
-                    </div>
                     <builder_platform_interaction-process-types-templates
                         process-types={state.processTypes}
+                        blank-items={state.items}
                         process-type={state.selectedProcessType}
                         ontemplatechanged={handleSelectTemplatesItem}
                         oncannotretrievetemplates={handleCannotRetrieveTemplates}

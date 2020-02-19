@@ -1,0 +1,54 @@
+{
+    "flowEntries": [
+        {
+            "icon": "utility:desktop",
+            "description": "Collect information from users through screens.",
+            "label": "Screen Flow",
+            "processType": "Flow",
+            "recommended": true
+        },
+        {
+            "icon": "utility:contact_request",
+            "description": "Create self-service forms to collect contact details.",
+            "label": "Contact Request Flow",
+            "processType": "ContactRequestFlow"
+        },
+        {
+            "icon": "utility:user",
+            "description": "Create a user account and link it to a third-party service or app.",
+            "label": "User Provisioning Flow",
+            "processType": "UserProvisioningFlow"
+        },
+        {
+            "icon": "utility:magicwand",
+            "description": "Automate repetitive tasks.",
+            "label": "Autolaunched Flow",
+            "processType": "AutoLaunchedFlow",
+            "recommended": true
+        },
+        {
+            "icon": "utility:record_update",
+            "description": "Create a flow that starts before a record change is saved.",
+            "label": "Record\u2014Before-Save Updates",
+            "processType": "AutoLaunchedFlow",
+            "triggerType": "RecordBeforeSave",
+            "recommended": true
+        },
+        {
+            "icon": "utility:clock",
+            "description": "Create a flow that starts at a scheduled time.",
+            "label": "Schedule",
+            "processType": "AutoLaunchedFlow",
+            "triggerType": "Scheduled",
+            "recommended": true
+        },
+        {
+            "icon": "utility:magicwand",
+            "description": "Automate repetitive tasks.",
+            "label": "Platform Events",
+            "processType": "AutoLaunchedFlow",
+            "triggerType": "PlatformEvent",
+            "recommended": true
+        }
+    ]
+}

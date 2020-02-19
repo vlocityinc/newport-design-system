@@ -11,6 +11,7 @@
         "^mock/calloutData$": "<rootDir>/jest-mock-data/mock_callout_data/mock-callout-data.js",
         "^mock/flows/(.+)$": "<rootDir>/jest-mock-data/mock_flows/$1",
         "^mock/processTypesData": "<rootDir>/jest-mock-data/mock_process_types_data/mock-process-types-data.js",
+        "^mock/flowEntryData": "<rootDir>/jest-mock-data/mock_flow_entry_data/mock-flow-entry-data.js",
         "^mock/flowExtensionsData": "<rootDir>/jest-mock-data/mock_flow_extensions_data/mock-flow-extensions-data.js",
         "^mock/resourceDetailsData": "<rootDir>/jest-mock-data/mock_resource_details_data/mock-resource-details-data.js",
         "^mock/apexTypesData": "<rootDir>/jest-mock-data/mock_apex_types_data/mock-apex-types-data.js",

@@ -39,7 +39,7 @@
                 if:true={showRunInModeCombobox}
                 class="slds-col slds-grow"
                 label={labels.runInSystemModeLabel}
-                options={runInModes}
+                options={_runInModes}
                 value={runInMode}
                 disabled={systemModeDisabled}
                 placeholder={labels.processTypePlaceholderLabel}
@@ -51,7 +51,7 @@
             <lightning-combobox
                 class="process-type slds-col slds-grow"
                 label={labels.processTypeLabel}
-                options={processTypes}
+                options={_processTypes}
                 value={processTypeValue}
                 required
                 disabled={savingExistingFlow}

@@ -14,7 +14,7 @@ import { SaveFlowEvent } from 'builder_platform_interaction/events';
 import { getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 import {
@@ -110,12 +110,18 @@ const doDeleteOrInvokeAlert = (storeInstance, selectedElementGUIDs, connectorsTo
     }
 };
 
-const resetStartElementIfNeeded = (storeInstance, processType) => {
-    if (!isConfigurableStartSupported(processType)) {
-        const startElement = Object.values(storeInstance.getCurrentState().elements).find(
-            element => element.elementType === ELEMENT_TYPE.START_ELEMENT
+const resetStartElementIfNeeded = (storeInstance, processType, triggerType) => {
+    const startElement = Object.values(storeInstance.getCurrentState().elements).find(
+        element => element.elementType === ELEMENT_TYPE.START_ELEMENT
+    );
+    if (
+        !isConfigurableStartSupported(processType) ||
+        triggerType !== startElement.triggerType ||
+        (triggerType && startElement.triggerType === FLOW_TRIGGER_TYPE.NONE)
+    ) {
+        storeInstance.dispatch(
+            updateElement(createBasicStartElement({ ...baseCanvasElement(startElement), triggerType }))
         );
-        storeInstance.dispatch(updateElement(createBasicStartElement(baseCanvasElement(startElement))));
     }
 };
 
@@ -254,9 +260,13 @@ export const saveAsFlowCallback = (storeInstance, saveFlowFn) => flowProperties 
     if (!saveFlowFn) {
         throw new Error('Save flow function is not defined');
     }
-    const { saveType, processType } = flowProperties;
+    const { saveType, processType, triggerType } = flowProperties;
     flowPropertiesCallback(storeInstance)(flowProperties);
-    resetStartElementIfNeeded(storeInstance, processType.value || processType);
+    resetStartElementIfNeeded(
+        storeInstance,
+        processType.value || processType,
+        triggerType ? triggerType.value || triggerType : undefined
+    );
     saveFlowFn(saveType);
 };
 

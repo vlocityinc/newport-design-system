@@ -40,6 +40,7 @@ import { flowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/
 import { flowWithNoActiveVersion } from 'serverData/GetFlowInputOutputVariables/flowWithNoActiveVersion.json';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { flowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
+import { flowEntries } from 'serverData/GetFlowEntries/flowBuilderFlowEntries.json';
 
 const auraFetch = actions => async (actionName, shouldExecuteCallback, callback, params) => {
     await ticks(10);
@@ -201,7 +202,8 @@ const allAuraActions = {
     'c.retrieveElementsPalette': createGetter([]),
     'c.retrieveHeaderUrls': createGetter([]),
     'c.getProcessTypes': createGetter([]),
-    'c.getRunInModes': createGetter([])
+    'c.getRunInModes': createGetter([]),
+    'c.getFlowEntries': createGetter(flowEntries)
 };
 
 export function initializeAuraFetch(actions = {}) {

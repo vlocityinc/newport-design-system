@@ -77,7 +77,9 @@ import {
     getRunInModes,
     setRunInModes,
     getBuilderConfig,
-    setBuilderConfigs
+    setBuilderConfigs,
+    getBuilderType,
+    setBuilderType
 } from 'builder_platform_interaction/systemLib';
 import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
 import { removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
@@ -99,6 +101,7 @@ import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLi
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 import { addRootAndEndElements, addConnectorsForNewElement } from 'builder_platform_interaction/flcConversionUtils';
 import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
+import { getTriggerType } from 'builder_platform_interaction/storeUtils';
 
 let unsubscribeStore;
 let storeInstance;
@@ -128,7 +131,13 @@ const BUILDER_TYPE_FLOW_BUILDER = 'FlowBuilder';
  */
 export default class Editor extends LightningElement {
     @api
-    builderType;
+    get builderType() {
+        return getBuilderType();
+    }
+
+    set builderType(value) {
+        setBuilderType(value);
+    }
 
     @api
     guardrailsParams;
@@ -212,7 +221,7 @@ export default class Editor extends LightningElement {
 
     /** Builder configuration for the current builder type */
     get builderConfig() {
-        return getBuilderConfig(this.builderType || BUILDER_TYPE_FLOW_BUILDER) || {};
+        return getBuilderConfig() || {};
     }
 
     /** Indicates if the component has a flow to edit (now or in future) */
@@ -249,6 +258,8 @@ export default class Editor extends LightningElement {
         super();
         // Setting the app name to differenciate between FLOW_BUILDER or STRATEGY_BUILDER
         setAppName(APP_NAME);
+        // Set default builder type
+        setBuilderType(BUILDER_TYPE_FLOW_BUILDER);
         logPerfTransactionStart(EDITOR);
         const blacklistedActionsForUndoRedoLib = [
             INIT,
@@ -655,11 +666,11 @@ export default class Editor extends LightningElement {
 
         // Pop flow properties editor and do the following on callback.
         const flowProperties = storeInstance.getCurrentState().properties;
-
+        const triggerType = getTriggerType();
         const nodeUpdate = flowPropertiesCallback(storeInstance);
         const newResourceCallback = this.newResourceCallback;
         this.queueOpenPropertyEditor(() => {
-            const node = getElementForPropertyEditor(flowProperties);
+            const node = getElementForPropertyEditor(Object.assign({}, flowProperties, { triggerType }));
             node.saveType = SaveType.UPDATE;
             return {
                 mode,
@@ -713,6 +724,7 @@ export default class Editor extends LightningElement {
         if (event && event.detail && event.detail.type) {
             const eventType = event.detail.type;
             let flowProperties = storeInstance.getCurrentState().properties;
+            const triggerType = getTriggerType();
             const saveType = getSaveType(eventType, this.currentFlowId, flowProperties.canOnlySaveAsNewDefinition);
             if (saveType === SaveType.UPDATE) {
                 this.saveFlow(SaveType.UPDATE);
@@ -720,7 +732,7 @@ export default class Editor extends LightningElement {
                 const nodeUpdate = saveAsFlowCallback(storeInstance, this.saveFlow);
                 const newResourceCallback = this.newResourceCallback;
                 this.queueOpenPropertyEditor(() => {
-                    flowProperties = getElementForPropertyEditor(flowProperties);
+                    flowProperties = getElementForPropertyEditor(Object.assign({}, flowProperties, { triggerType }));
                     flowProperties.saveType = saveType;
                     return {
                         mode: eventType,
@@ -1135,7 +1147,7 @@ export default class Editor extends LightningElement {
         if (this.showNewFlowDialog && !this.newFlowModalActive) {
             this.newFlowModalActive = true;
             invokeNewFlowModal(
-                this.builderType,
+                getBuilderType(),
                 (this.builderConfig && this.builderConfig.newFlowConfig) || undefined,
                 this.closeFlowModalCallback,
                 this.createFlowFromTemplateCallback
@@ -1218,18 +1230,19 @@ export default class Editor extends LightningElement {
 
     /**
      * Callback passed when user clicks on Create button from new flow modal
-     * @param modal the flow modal
+     *  @param modal the flow modal
      */
     createFlowFromTemplateCallback = modal => {
         const item = getSelectedFlowEntry(modal);
-        // Template id
         if (typeof item === 'string') {
+            // Create a new flow from a template referenced by a salesforce id
             logInteraction(`create-new-flow-button`, 'editor-component', { devNameOrId: item }, 'click', 'user');
             // create the flow from the template
             this.createFlowFromTemplate(item, modal);
             this.isFlowServerCallInProgress = true;
             this.spinners.showFlowMetadataSpinner = true;
         } else {
+            // Create a blank flow of the specified process type and started by a specified trigger.
             const { processType, triggerType } = item;
             if (processType) {
                 logInteraction(
