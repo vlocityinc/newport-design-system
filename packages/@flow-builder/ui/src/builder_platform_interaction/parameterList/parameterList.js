@@ -41,20 +41,6 @@ export default class ParameterList extends LightningElement {
     emptyInputsBody;
 
     /**
-     * Title when there is no output.
-     *
-     */
-    @api
-    emptyOutputsTitle;
-
-    /**
-     * Body when there is no output.
-     *
-     */
-    @api
-    emptyOutputsBody;
-
-    /**
      * Body when there is no input and no output.
      *
      */
@@ -151,10 +137,6 @@ export default class ParameterList extends LightningElement {
 
     get emptyOutputs() {
         return this.state.outputs.length === 0;
-    }
-
-    get emptyOutputsWithInputs() {
-        return this.emptyOutputs && !this.emptyInputs;
     }
 
     get emptyInputsAndOutputs() {

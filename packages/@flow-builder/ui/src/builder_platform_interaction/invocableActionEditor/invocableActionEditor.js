@@ -266,8 +266,6 @@ export default class InvocableActionEditor extends LightningElement {
             outputHeader: this.labels.outputHeader,
             emptyInputsTitle: this.labels.emptyInputsTitle,
             emptyInputsBody: format(this.labels.emptyInputsBody, ACTION_TYPE_LABEL[this.elementType]),
-            emptyOutputsTitle: this.labels.emptyOutputsTitle,
-            emptyOutputsBody: format(this.labels.emptyOutputsBody, ACTION_TYPE_LABEL[this.elementType]),
             sortInputs: true,
             sortOutputs: true,
             inputs,

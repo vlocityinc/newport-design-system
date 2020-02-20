@@ -20,8 +20,6 @@ const defaultInputHeader = 'Send to action';
 const defaultOutputHeader = 'Received from action';
 const defaultEmptyInputsTitle = 'No inputs';
 const defaultEmptyInputsBody = 'No variables to define';
-const defaultEmptyOutputsTitle = 'No outputs';
-const defaultEmptyOutputsBody = 'This action doesn’t return any data';
 const defaultEmptyInputsOutputsTitle = 'No inputs and No outputs';
 const defaultEmptyInputsOutputsBody = 'This action doesn’t have or return any data';
 
@@ -158,9 +156,7 @@ function createComponentForTest({
     inputHeader = defaultInputHeader,
     outputHeader = defaultOutputHeader,
     emptyInputsTitle = defaultEmptyInputsTitle,
-    emptyOutputsTitle = defaultEmptyOutputsTitle,
     emptyInputsBody = defaultEmptyInputsBody,
-    emptyOutputsBody = defaultEmptyOutputsBody,
     emptyInputsOutputsBody = defaultEmptyInputsOutputsBody,
     emptyInputsOutputsTitle = defaultEmptyInputsOutputsTitle,
     inputs = [],
@@ -181,9 +177,7 @@ function createComponentForTest({
         inputs,
         outputs,
         emptyInputsTitle,
-        emptyOutputsTitle,
         emptyInputsBody,
-        emptyOutputsBody,
         emptyInputsOutputsBody,
         emptyInputsOutputsTitle,
         sortInputs,
