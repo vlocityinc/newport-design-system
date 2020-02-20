@@ -29,7 +29,7 @@
         "watch": "lerna run watch --parallel",
         "watch:core": "yarn build:core && node ./scripts/npm2lwc.js src/main/modules packages --watch --core",
         "test:unit": "lerna run test",
-        "test:unit:coverage": "lerna exec -- yarn run coverage",
+        "test:unit:coverage": "lerna exec --scope @flow-builder/ui -- yarn run coverage",
         "test:unit:coverage:clean": "lerna run coverage:clean",
         "test:unit:ci": "lerna run --no-bail test:coverage",
         "test:integration": "lerna run test:integration:dev",
