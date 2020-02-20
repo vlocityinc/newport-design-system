@@ -1191,7 +1191,7 @@ export default class Editor extends LightningElement {
         }
 
         // Create a default flow.
-        if (!this.hasFlow && this.defaultNewFlow && !this.isFlowServerCallInProgress) {
+        if (!this.hasFlow && this.defaultFlow && !this.isFlowServerCallInProgress) {
             this.isFlowServerCallInProgress = true;
             this.spinners.showFlowMetadataSpinner = true;
             this.getFlowCallback({
