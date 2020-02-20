@@ -1,7 +1,11 @@
 import { LightningElement, track, api } from 'lwc';
 import { FlowRenderer, animate, MenuType, getStyle, panzoom } from 'builder_platform_interaction/flowUtils';
 import { ZOOM_ACTION, FlcSelectionEvent } from 'builder_platform_interaction/events';
-import { getCanvasElementSelectionData, getCanvasElementDeselectionData } from './flcBuilderUtils';
+import {
+    getCanvasElementSelectionData,
+    getCanvasElementDeselectionData,
+    getCanvasElementDeselectionDataOnToggleOff
+} from './flcBuilderUtils';
 
 const RENDER_BUFFER_SIZE = 200;
 
@@ -103,9 +107,10 @@ export default class FlcBuilder extends LightningElement {
     _flowElement;
     _flowModel;
     _flowRenderer;
+    _isSelectionMode;
     _observer;
     _scale = 1;
-    _topSelectedGuid; // TODO reset this to null when stepping into or out of selection mode
+    _topSelectedGuid;
 
     @track
     isZoomToView = true;
@@ -138,7 +143,30 @@ export default class FlcBuilder extends LightningElement {
     elementsMetadata;
 
     @api
-    isSelectionMode;
+    set isSelectionMode(isSelectionMode) {
+        this._isSelectionMode = isSelectionMode;
+        if (!this._isSelectionMode && this._topSelectedGuid) {
+            const {
+                canvasElementGuidsToSelect,
+                canvasElementGuidsToDeselect,
+                selectableCanvasElementGuids,
+                topSelectedGuid
+            } = getCanvasElementDeselectionDataOnToggleOff(this.flowModel, this._topSelectedGuid);
+
+            this._topSelectedGuid = topSelectedGuid;
+
+            const flcSelectionEvent = new FlcSelectionEvent(
+                canvasElementGuidsToSelect,
+                canvasElementGuidsToDeselect,
+                selectableCanvasElementGuids
+            );
+            this.dispatchEvent(flcSelectionEvent);
+        }
+    }
+
+    get isSelectionMode() {
+        return this._isSelectionMode;
+    }
 
     @api
     set flowModel(flowModel) {

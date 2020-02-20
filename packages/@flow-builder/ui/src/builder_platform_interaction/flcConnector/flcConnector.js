@@ -143,7 +143,7 @@ export default class FlcConnector extends LightningElement {
         // The params  for getPathForStraightConnector are in the order startLocation and endLocation
         let path = getPathForStraightConnector(
             getLocation(HALF_BASE_CONNECTOR_WIDTH, 0),
-            getLocation(HALF_BASE_CONNECTOR_WIDTH, svgHeight)
+            getLocation(HALF_BASE_CONNECTOR_WIDTH, BASE_HALF_STROKE_WIDTH + svgHeight)
         );
 
         // The params for getPathForTopBentConnector are in the order startLocation, curveStartLocation,
@@ -173,10 +173,11 @@ export default class FlcConnector extends LightningElement {
         }
 
         return {
-            w: Math.abs(svgWidth) + HALF_BASE_CONNECTOR_WIDTH,
+            w: svgWidth !== 0 ? Math.abs(svgWidth) + HALF_BASE_CONNECTOR_WIDTH : BASE_CONNECTOR_WIDTH,
             h: svgHeight + BASE_HALF_STROKE_WIDTH,
             style: getStyle({
-                left: svgWidth < 0 ? svgWidth - HALF_BASE_CONNECTOR_WIDTH : 0,
+                left:
+                    svgWidth < 0 ? svgWidth - HALF_BASE_CONNECTOR_WIDTH : svgWidth > 0 ? 0 : -HALF_BASE_CONNECTOR_WIDTH,
                 top: sourceY - BASE_HALF_STROKE_WIDTH
             }),
             path,

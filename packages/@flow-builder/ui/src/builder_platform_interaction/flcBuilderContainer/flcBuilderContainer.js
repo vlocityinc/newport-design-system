@@ -1,5 +1,4 @@
-import { LightningElement, track, api } from 'lwc';
-
+import { LightningElement, api, track } from 'lwc';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { selectionOnFixedCanvas } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -21,15 +20,8 @@ export default class FlcBuilderContainer extends LightningElement {
 
     rootElement = null;
 
-    // TODO: Remove this when integrating in core
-    @track
-    isSelectionMode = false;
-
-    // TODO: Remove this button when integrating in core
-    handleSelectClick = event => {
-        event.stopPropagation();
-        this.isSelectionMode = !this.isSelectionMode;
-    };
+    @api
+    isSelectionMode;
 
     handleSelectionOnFixedCanvas = event => {
         if (event && event.detail) {

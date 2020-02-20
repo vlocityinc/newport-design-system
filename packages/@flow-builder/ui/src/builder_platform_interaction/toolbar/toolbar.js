@@ -8,13 +8,15 @@ import {
     UndoEvent,
     RedoEvent,
     DuplicateEvent,
-    ToggleFlowStatusEvent
+    ToggleFlowStatusEvent,
+    ToggleSelectionModeEvent
 } from 'builder_platform_interaction/events';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { orgHasFlowBuilderDebug } from 'builder_platform_interaction/contextLib';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { LABELS } from './toolbarLabels';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
+import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 import { format } from 'builder_platform_interaction/commonUtils';
 
 /**
@@ -62,6 +64,9 @@ export default class Toolbar extends LightningElement {
     flowErrorsAndWarnings;
 
     @api
+    isSelectionMode;
+
+    @api
     isUndoDisabled;
 
     @api
@@ -102,6 +107,14 @@ export default class Toolbar extends LightningElement {
             }
             toolbarFocusableElements[index].focus();
         }
+    }
+
+    get useFixedLayoutCanvas() {
+        return useFixedLayoutCanvas();
+    }
+
+    get selectButtonVariant() {
+        return this.isSelectionMode ? 'brand' : 'neutral';
     }
 
     get showLastSavedPill() {
@@ -190,6 +203,12 @@ export default class Toolbar extends LightningElement {
 
     get isDiffFlowAllowed() {
         return orgHasFlowBuilderDebug();
+    }
+
+    handleSelectButtonClick(event) {
+        event.stopPropagation();
+        const toggleSelectionModeEvent = new ToggleSelectionModeEvent();
+        this.dispatchEvent(toggleSelectionModeEvent);
     }
 
     handleUndo(event) {

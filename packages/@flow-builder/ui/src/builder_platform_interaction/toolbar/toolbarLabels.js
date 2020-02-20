@@ -20,6 +20,12 @@ import errorPopOverHeader from '@salesforce/label/FlowBuilderValidation.errorPop
 import warningPopOverHeader from '@salesforce/label/FlowBuilderValidation.warningPopOverHeader';
 import toolbarStatus from '@salesforce/label/FlowBuilderToolbar.toolbarStatus';
 import toolbarStatusTitle from '@salesforce/label/FlowBuilderToolbar.toolbarStatusTitle';
+import selectLabel from '@salesforce/label/FlcFlowBuilderToolbar.selectLabel';
+import selectTitle from '@salesforce/label/FlcFlowBuilderToolbar.selectTitle';
+import cutAltText from '@salesforce/label/FlcFlowBuilderToolbar.cutAltText';
+import cutTitle from '@salesforce/label/FlcFlowBuilderToolbar.cutTitle';
+import copyAltText from '@salesforce/label/FlcFlowBuilderToolbar.copyAltText';
+import copyTitle from '@salesforce/label/FlcFlowBuilderToolbar.copyTitle';
 
 export const LABELS = {
     undoTitle,
@@ -43,5 +49,11 @@ export const LABELS = {
     deactivatedLabel,
     assistiveName,
     toolbarStatus,
-    toolbarStatusTitle
+    toolbarStatusTitle,
+    selectLabel,
+    selectTitle,
+    cutAltText,
+    cutTitle,
+    copyAltText,
+    copyTitle
 };

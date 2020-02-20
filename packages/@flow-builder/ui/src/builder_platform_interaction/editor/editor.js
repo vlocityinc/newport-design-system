@@ -221,6 +221,8 @@ export default class Editor extends LightningElement {
     builderConfigLoading = false;
 
     @track
+    isSelectionMode = false;
+
     processTypeLoading = false;
 
     /** Whether to use the FLC canvas */
@@ -653,6 +655,13 @@ export default class Editor extends LightningElement {
         } else {
             window.removeEventListener('beforeunload', this.beforeUnloadCallback);
         }
+    };
+
+    /**
+     * Handles the toggleSelectionMode event and toggles the isSelectionMode
+     */
+    handleToggleSelectionMode = () => {
+        this.isSelectionMode = !this.isSelectionMode;
     };
 
     /**

@@ -107,9 +107,6 @@
         "*.{js,ts,css,json,yaml,md,html}": [
             "prettier --write"
         ],
-        "*.ts": [
-            "tslint -p ./tsconfig.json"
-        ],
         "!(scripts|src)/**/*.js": [
             "eslint --fix --max-warnings 0"
         ],

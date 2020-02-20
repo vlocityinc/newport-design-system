@@ -32,6 +32,7 @@ export { MarqueeSelectEvent } from './canvasEvents/marqueeSelectEvent';
 export { FlcSelectDeselectNodeEvent } from './canvasEvents/flcSelectDeselectNodeEvent';
 export { FlcSelectionEvent } from './canvasEvents/flcSelectionEvent';
 export { ClickToZoomEvent } from './canvasEvents/zoomPanelEvent/zoomEvent';
+export { ToggleSelectionModeEvent } from './toolbarEvents/toggleSelectionModeEvent';
 export { DuplicateEvent } from './toolbarEvents/duplicateEvent';
 export { EditFlowPropertiesEvent } from './toolbarEvents/editFlowPropertiesEvent';
 export { UndoEvent } from './toolbarEvents/undoEvent';

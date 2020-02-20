@@ -1,4 +1,5 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { supportsChildren } from 'builder_platform_interaction/flcConversionUtils';
 
 const ELEMENT_SELECTED_ACTION = 'element_selected_action';
 const ELEMENT_DESELECTED_ACTION = 'element_deselected_action';
@@ -38,8 +39,8 @@ const _getSubtreeElements = (action, parentElement, flowModel) => {
             while (_shouldTraverseDown(action, currentBranchElement)) {
                 branchElementGuidsToSelectOrDeselect.push(currentBranchElement.guid);
 
-                // In case of Decision, grab the elements from it's branches as well
-                if (currentBranchElement.elementType === ELEMENT_TYPE.DECISION) {
+                // In case the element supports children, grab the elements from it's branches as well
+                if (supportsChildren(currentBranchElement.elementType)) {
                     branchElementGuidsToSelectOrDeselect = branchElementGuidsToSelectOrDeselect.concat(
                         _getSubtreeElements(action, currentBranchElement, flowModel)
                     );
@@ -64,34 +65,34 @@ const _getSelectableCanvasElementGuids = (topSelectedGuid, flowModel) => {
     let selectableCanvasElementGuids = [];
     if (topSelectedGuid) {
         const topSelectedElement = flowModel[topSelectedGuid];
-        let currentElement = topSelectedElement;
+        let currentCanvasElement = topSelectedElement;
 
         // All the elements in the chain above (excluding the Start Element) should be selectable
         while (
-            currentElement &&
-            currentElement.elementType !== ELEMENT_TYPE.START_ELEMENT &&
-            currentElement.elementType !== ELEMENT_TYPE.END_ELEMENT
+            currentCanvasElement &&
+            currentCanvasElement.elementType !== ELEMENT_TYPE.START_ELEMENT &&
+            currentCanvasElement.elementType !== ELEMENT_TYPE.END_ELEMENT
         ) {
-            selectableCanvasElementGuids.push(currentElement.guid);
-            currentElement = flowModel[currentElement.prev || currentElement.parent];
+            selectableCanvasElementGuids.push(currentCanvasElement.guid);
+            currentCanvasElement = flowModel[currentCanvasElement.prev || currentCanvasElement.parent];
         }
 
         // Resetting the currentElement to the topSelectedElement to start going down the chain
-        currentElement = topSelectedElement;
+        currentCanvasElement = topSelectedElement;
 
         // All the elements in the vertical chain below (such as element.next is not null) should be selectable
-        while (currentElement) {
-            if (currentElement.guid !== topSelectedElement.guid) {
-                selectableCanvasElementGuids.push(currentElement.guid);
+        while (currentCanvasElement) {
+            if (currentCanvasElement.guid !== topSelectedElement.guid) {
+                selectableCanvasElementGuids.push(currentCanvasElement.guid);
             }
 
-            // In case of a Decision, all it's branches should also be selectable
-            if (currentElement.elementType === ELEMENT_TYPE.DECISION) {
+            // In case the element supports children, all it's branches should also be selectable
+            if (supportsChildren(currentCanvasElement.elementType)) {
                 selectableCanvasElementGuids = selectableCanvasElementGuids.concat(
-                    _getSubtreeElements(ELEMENT_SELECTED_ACTION, currentElement, flowModel)
+                    _getSubtreeElements(ELEMENT_SELECTED_ACTION, currentCanvasElement, flowModel)
                 );
             }
-            currentElement = flowModel[currentElement.next];
+            currentCanvasElement = flowModel[currentCanvasElement.next];
         }
     }
 
@@ -125,8 +126,8 @@ export const getCanvasElementSelectionData = (flowModel, selectedCanvasElementGu
             if (currentCanvasElement.prev) {
                 currentCanvasElement = flowModel[currentCanvasElement.prev];
 
-                // In case of a Decision Element, all it's branches need to be marked as selected as well
-                if (currentCanvasElement.elementType === ELEMENT_TYPE.DECISION) {
+                // In case the element supports children, all it's branches need to be marked as selected as well
+                if (supportsChildren(currentCanvasElement.elementType)) {
                     canvasElementGuidsToSelect = canvasElementGuidsToSelect.concat(
                         _getSubtreeElements(ELEMENT_SELECTED_ACTION, currentCanvasElement, flowModel)
                     );
@@ -159,8 +160,8 @@ export const getCanvasElementSelectionData = (flowModel, selectedCanvasElementGu
                 if (currentCanvasElement.prev) {
                     currentCanvasElement = flowModel[currentCanvasElement.prev];
 
-                    // In case of a Decision Element, all it's branches need to be marked as selected as well
-                    if (currentCanvasElement.elementType === ELEMENT_TYPE.DECISION) {
+                    // In case the element supports children, all it's branches need to be marked as selected as well
+                    if (supportsChildren(currentCanvasElement.elementType)) {
                         canvasElementGuidsToSelect = canvasElementGuidsToSelect.concat(
                             _getSubtreeElements(ELEMENT_SELECTED_ACTION, currentCanvasElement, flowModel)
                         );
@@ -187,7 +188,7 @@ export const getCanvasElementSelectionData = (flowModel, selectedCanvasElementGu
 };
 
 /**
- * Funnction to get all the deselection data which includes canvasElementGuidsToSelect, canvasElementGuidsToDeselect,
+ * Function to get all the deselection data which includes canvasElementGuidsToSelect, canvasElementGuidsToDeselect,
  * selectableCanvasElementGuids and the updated topSelectedGuid
  *
  * @param {Object} flowModel - Representation of the flow as presented in the Canvas
@@ -196,14 +197,14 @@ export const getCanvasElementSelectionData = (flowModel, selectedCanvasElementGu
  * @returns {canvasElementGuidsToSelect: String[], canvasElementGuidsToDeselect: String[], selectableCanvasElementGuids: String[], topSelectedGuid: String} - Deselection Data as needed by the store
  */
 export const getCanvasElementDeselectionData = (flowModel, deselectedCanvasElementGuid, topSelectedGuid) => {
-    const deselectedElement = flowModel[deselectedCanvasElementGuid];
+    const deselectedCanvasElement = flowModel[deselectedCanvasElementGuid];
     let canvasElementGuidsToDeselect = [];
 
     if (deselectedCanvasElementGuid === topSelectedGuid) {
         // Top-most element is being deselected, we don't need to deselect anything else. Just have to reset the
         // topSelectedGuid to the next selected element (if any). In case the next element is not selected, reset
         // topSelectedGuid to null
-        const nextCanvasElement = flowModel[deselectedElement.next];
+        const nextCanvasElement = flowModel[deselectedCanvasElement.next];
         if (nextCanvasElement && nextCanvasElement.config && nextCanvasElement.config.isSelected) {
             topSelectedGuid = nextCanvasElement.guid;
         } else {
@@ -213,21 +214,21 @@ export const getCanvasElementDeselectionData = (flowModel, deselectedCanvasEleme
         // Pushing the deselected element to the canvasElementGuidsToDeselect array
         canvasElementGuidsToDeselect.push(deselectedCanvasElementGuid);
 
-        // In case of a Decision Element, all it's branches need to be marked as deselected as well
-        if (deselectedElement.elementType === ELEMENT_TYPE.DECISION) {
+        // In case the element supports children, all it's branches need to be marked as deselected as well
+        if (supportsChildren(deselectedCanvasElement.elementType)) {
             canvasElementGuidsToDeselect = canvasElementGuidsToDeselect.concat(
-                _getSubtreeElements(ELEMENT_DESELECTED_ACTION, deselectedElement, flowModel)
+                _getSubtreeElements(ELEMENT_DESELECTED_ACTION, deselectedCanvasElement, flowModel)
             );
         }
     } else {
-        let currentCanvasElement = deselectedElement;
+        let currentCanvasElement = deselectedCanvasElement;
         // Deselecting one of the middle elements, should deselect everything else in the vertical chain
         // (i.e. till the the point element.next is not null) below as well
         while (currentCanvasElement && currentCanvasElement.config && currentCanvasElement.config.isSelected) {
             canvasElementGuidsToDeselect.push(currentCanvasElement.guid);
 
-            // In case of a Decision Element, all it's branches need to be marked as deselected as well
-            if (currentCanvasElement.elementType === ELEMENT_TYPE.DECISION) {
+            // In case the element supports children, all it's branches need to be marked as deselected as well
+            if (supportsChildren(currentCanvasElement.elementType)) {
                 canvasElementGuidsToDeselect = canvasElementGuidsToDeselect.concat(
                     _getSubtreeElements(ELEMENT_DESELECTED_ACTION, currentCanvasElement, flowModel)
                 );
@@ -244,6 +245,42 @@ export const getCanvasElementDeselectionData = (flowModel, deselectedCanvasEleme
         selectableCanvasElementGuids: topSelectedGuid
             ? _getSelectableCanvasElementGuids(topSelectedGuid, flowModel)
             : [],
+        topSelectedGuid
+    };
+};
+
+/**
+ * Function to get the guids of all the canvas elements that need to be deselected when toggling off the selection mode.
+ * Also setting the topSelectedGuid to null.
+ *
+ * @param {Object} flowModel - Representation of the flow as presented in the Canvas
+ * @param {String} topSelectedGuid - Guid of the top-most selected element
+ */
+export const getCanvasElementDeselectionDataOnToggleOff = (flowModel, topSelectedGuid) => {
+    const topSelectedElement = flowModel[topSelectedGuid];
+    let canvasElementGuidsToDeselect = [];
+
+    let currentCanvasElement = topSelectedElement;
+    // When toggling out of the selection mode, everything needs to be deselected
+    while (currentCanvasElement && currentCanvasElement.config && currentCanvasElement.config.isSelected) {
+        canvasElementGuidsToDeselect.push(currentCanvasElement.guid);
+
+        // In case the element supports children, all it's branches need to be marked as deselected as well
+        if (supportsChildren(currentCanvasElement.elementType)) {
+            canvasElementGuidsToDeselect = canvasElementGuidsToDeselect.concat(
+                _getSubtreeElements(ELEMENT_DESELECTED_ACTION, currentCanvasElement, flowModel)
+            );
+        }
+        currentCanvasElement = flowModel[currentCanvasElement.next];
+    }
+
+    // TopSelectedGuid needs to be set back to null
+    topSelectedGuid = null;
+
+    return {
+        canvasElementGuidsToSelect: [],
+        canvasElementGuidsToDeselect,
+        selectableCanvasElementGuids: [],
         topSelectedGuid
     };
 };
