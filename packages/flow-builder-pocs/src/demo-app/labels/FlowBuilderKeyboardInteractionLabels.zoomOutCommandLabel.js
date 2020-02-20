@@ -1,0 +1,1 @@
+export default 'Zoom out';

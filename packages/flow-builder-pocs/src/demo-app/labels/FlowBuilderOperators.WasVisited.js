@@ -1,0 +1,1 @@
+export default 'Was Visited';

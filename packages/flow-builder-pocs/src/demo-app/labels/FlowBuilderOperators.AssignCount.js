@@ -1,0 +1,1 @@
+export default 'Equals Count';

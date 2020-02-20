@@ -1,0 +1,1 @@
+export default 'Decimal Places';

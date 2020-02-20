@@ -37,6 +37,7 @@
         "generate:sfdc-components-package": "node ./scripts/generateNpmPackage.js",
         "release:sfdc-components-package": "cd dist/builder-platform-interaction-components && npm publish --verbose --registry=https://nexus-proxy-prd.soma.salesforce.com/nexus/content/repositories/npmjs-internal/",
         "update:auraPomVersion": "mvn versions:update-property -Dproperty=aura.version -DnewVersion=[$npm_package_config_auraVersion] -DallowDowngrade=true -DgenerateBackupPoms=false",
+        "update:labels": "node ./scripts/labels/update-labels.js --labelFile ~/blt/app/main/core/shared-labels/java/resources/sfdc/i18n/shared_core_ui_labels/ui-interaction-builder-components.xml --targetDir ./packages/flow-builder-pocs/src/demo-app/labels/ --jsonDir ./labels/ && node ./scripts/labels/update-labels.js --labelFile ~/blt/app/main/core/shared-labels/java/resources/sfdc/i18n/shared_core_ui_labels/lightning-global-components.xml --targetDir ./packages/flow-builder-pocs/src/demo-app/labels/ --jsonDir ./labels/",
         "update:lwcPomVersion": "mvn versions:update-property -Dproperty=lwc.version -DnewVersion=[$npm_package_config_lwcVersion] -DallowDowngrade=true -DgenerateBackupPoms=false",
         "update:lwcPackages": "node ./scripts/updateLwcVersions && yarn install",
         "update:versions": "yarn update:lwcPomVersion && yarn update:auraPomVersion && yarn update:lwcPackages",

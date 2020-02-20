@@ -1,0 +1,1 @@
+export default 'This flow runs after the record is saved to the database. You can use any flow elements (except for Pause) and update any records. $Record is the record that triggers the flow, and you can query and update any record.';

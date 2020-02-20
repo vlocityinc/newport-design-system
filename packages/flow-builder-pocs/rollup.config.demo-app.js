@@ -19,7 +19,7 @@ const moduleNameMapper = {
     '^(aura)$': './src/demo-app/stubs/$1.js',
     '^(instrumentation/service)$': './src/demo-app/stubs/metricsService.js',
     '^siteforce:quarterbackLibrary$': './src/demo-app/stubs/siteforceQuarterbackLibrary.js',
-    '^@salesforce/label/(.+)$': './src/demo-app/labels/dummy-label.js',
+     '^@salesforce/label/(.+)$': './src/demo-app/labels/$1.js',
     '^(builder_platform_interaction)/(.+)$': './build//$1/$2/$2.js',
     '^(runtime_sales_templatebuilder)/(.+)$': './src/$1/$2/$2.js'
 };

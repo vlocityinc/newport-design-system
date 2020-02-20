@@ -1,0 +1,1 @@
+export default 'Some of this action’s parameters work with any object. Specify an object for each of these parameters. The object determines the type of record variable or record collection variable that works with the parameter.';

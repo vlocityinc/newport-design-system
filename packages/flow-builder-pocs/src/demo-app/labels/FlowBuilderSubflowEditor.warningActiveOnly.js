@@ -1,0 +1,1 @@
+export default 'This variable is available only in the active version of the referenced flow.\n\nWhen running this flow in debug mode, don’t select the option to run the latest version of each referenced flow.';

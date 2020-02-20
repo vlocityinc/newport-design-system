@@ -1,0 +1,1 @@
+export default 'Before you change the type, make sure that the flow contains only elements, resources, and functionality that are supported in the new flow type. Not all compatibility issues can be fixed in the new flow.';

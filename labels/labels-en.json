@@ -1,1 +1,263 @@
-{}
+{
+    "LightningErrorMessage": {
+        "validityBadInput": "Enter a valid value.",
+        "validityPatternMismatch": "Your entry does not match the allowed pattern.",
+        "validityTypeMismatch": "You have entered an invalid format.",
+        "validityValueMissing": "Complete this field.",
+        "validityRangeOverflow": "The number is too high.",
+        "validityRangeUnderflow": "The number is too low.",
+        "validityStepMismatch": "Your entry isn't a valid increment.",
+        "validityTooLong": "Your entry is too long.",
+        "validityTooShort": "Your entry is too short."
+    },
+    "LightningCarousel": { "tabString": "Tab", "autoPlay": "Stop auto-play" },
+    "LightningInputFile": {
+        "buttonLabel": "Upload Files",
+        "bodyText": "Or drop files"
+    },
+    "LightningInputLocation": {
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "invalidLatitude": "Latitude should be a decimal number in a range [-90, 90]",
+        "invalidLongitude": "Longitude should be a decimal number in a range [-180, 180]",
+        "coordinateIsRequired": "Coordinate is required"
+    },
+    "LightningFormattedEmail": { "emailIconLabel": "Email" },
+    "LightningRichTextAssist": {
+        "chooseFont": "Choose a font",
+        "chooseSize": "Choose a font size",
+        "composeText": "Compose text"
+    },
+    "LightningRichTextButton": {
+        "bold": "Bold",
+        "italic": "Italic",
+        "underline": "Underline",
+        "strike": "Strikethrough",
+        "bullet": "Bulleted list",
+        "number": "Numbered list",
+        "indent": "Indent",
+        "outdent": "Outdent",
+        "leftAlign": "Left align text",
+        "centerAlign": "Center align text",
+        "rightAlign": "Right align text",
+        "moreActions": "More actions",
+        "link": "Link",
+        "image": "Image",
+        "removeFormatting": "Remove formatting"
+    },
+    "LightningRichTextEditor": {
+        "formatText": "Format text",
+        "formatBackground": "Format background and text color",
+        "formatBody": "Format body",
+        "alignText": "Align text",
+        "insertContent": "Insert content",
+        "removeFormatting": "Remove formatting",
+        "formatFont": "Format font family and size",
+        "font": "Font",
+        "fontSize": "Font Size",
+        "linkInput": "Link URL",
+        "linkSave": "Save",
+        "linkCancel": "Cancel",
+        "imageSizeExceeded": "The image exceeded the maximum size of 1 MB.",
+        "imageUploadFailed": "There was a problem uploading the file.",
+        "imageUploadNotSupported": "Uploading images isn't supported for guest users."
+    },
+    "LightningControl": {
+        "required": "required",
+        "active": "active",
+        "activeCapitalized": "Active",
+        "inactive": "inactive",
+        "inactiveCapitalized": "Inactive",
+        "loading": "Loading",
+        "clear": "Clear"
+    },
+    "LightningInputNumber": {
+        "incrementCounter": "Increase number",
+        "decrementCounter": "Decrease number"
+    },
+    "LightningPill": {
+        "warning": "Warning",
+        "remove": "Remove",
+        "error": "Error",
+        "delete": "Press delete or backspace to remove",
+        "deleteAndNavigate": "Press delete or backspace to remove, press enter to navigate"
+    },
+    "LightningPillContainer": {
+        "label": "Selected Options:",
+        "more": "+{0} more"
+    },
+    "LightningProgressBar": { "progress": "Progress" },
+    "LightningClickToDial": {
+        "enabled": "Click to dial",
+        "disabled": "Click to dial disabled"
+    },
+    "LightningDualListbox": {
+        "componentAssistiveText": "Press Ctrl (Cmd on Mac) + Left Arrow or Ctrl (Cmd on Mac) + Right Arrow to move items between lists.",
+        "moveSelectionToAssistiveText": "Move selection to {0}",
+        "upButtonAssistiveText": "Move selection up",
+        "downButtonAssistiveText": "Move selection down",
+        "optionLockAssistiveText": ": item cannot be removed from {0}",
+        "maxHelp": " [and a maximum of {0}]",
+        "minHelp": " [and a minimum of {0}]",
+        "maxError": "Select at most {0} options",
+        "minErrorPlural": "Select at least {0} options",
+        "minErrorSingular": "Select at least 1 option",
+        "requiredError": "An option must be selected",
+        "minRequiredErrorPlural": "At least {0} options must be selected",
+        "minRequiredErrorSingular": "At least 1 option must be selected",
+        "requiredOptionError": "{0} must be selected"
+    },
+    "LightningProgressIndicator": {
+        "stageComplete": "Stage Complete",
+        "currentStage": "Current Stage"
+    },
+    "LightningListView": { "loadMore": "Load More" },
+    "LightningDatatable": {
+        "selectAll": "Select All",
+        "selectItem": "Select Item",
+        "columnWidth": "column width",
+        "sort": "Sort by:",
+        "sortAsc": "Sorted Ascending",
+        "sortDesc": "Sorted Descending",
+        "sortNone": "Sorted: None",
+        "loading": "Loading",
+        "showActions": "Show actions",
+        "wrapText": "Wrap text",
+        "clipText": "Clip text",
+        "edit": "Edit",
+        "editHasError": "has error",
+        "chooseARow": "Choose a Row to Select",
+        "save": "Save",
+        "apply": "Apply",
+        "cancel": "Cancel",
+        "error": "Fix the errors and try saving again",
+        "closeButtonAssistiveText": "Close dialog",
+        "rowLevelErrorAssistiveText": "{0} has {1} errors",
+        "updateSelectedItems": "Update {0} selected items",
+        "rowActionsDefaultAriaLabel": "Actions",
+        "ariaLiveNavigationMode": "Navigation Mode",
+        "ariaLiveActionMode": "Action Mode"
+    },
+    "LightningVerticalNavigation": {
+        "newItems": "New Items",
+        "showLess": "Show Less",
+        "showMore": "Show More",
+        "subPage": "Sub page"
+    },
+    "LightningNoticeFooter": { "okButton": "OK" },
+    "LightningSlider": { "slider": "Slider" },
+    "LightningCombobox": {
+        "placeholder": "Select an Option",
+        "pillCloseButtonAlternativeText": "Clear Selection",
+        "selectedLabelSingle": "1 Option Selected",
+        "selectedLabelMore": "{0} Options Selected",
+        "currentSelection": "Current Selection:",
+        "ariaSelectedOptions": "Selected Options:",
+        "loadingText": "Loading",
+        "deselectOptionKeyboard": "Press delete or backspace to remove"
+    },
+    "LightningColorPickerPanel": {
+        "defaultTab": "Default",
+        "customTab": "Custom"
+    },
+    "LightningColorPicker": {
+        "colorPickerInstructions": "Use arrow keys to select a saturation and brightness, on an x and y axis.",
+        "a11yTriggerText": "Choose a color. Current color: ",
+        "hueInput": "Select Hue",
+        "hexLabel": "Hex",
+        "redAbbr": "Red",
+        "rInput": "R",
+        "greenAbbr": "Green",
+        "gInput": "G",
+        "blueAbbr": "Blue",
+        "bInput": "B",
+        "doneButton": "Done",
+        "cancelButton": "Cancel",
+        "errorMessage": "Enter a valid hexadecimal value."
+    },
+    "LightningHelptext": { "buttonAlternativeText": "Help" },
+    "LightningTree": {
+        "expandBranch": "Expand Tree Branch",
+        "collapseBranch": "Collapse Tree Branch"
+    },
+    "LightningDateTimePicker": {
+        "previousMonth": "Previous Month",
+        "nextMonth": "Next Month",
+        "yearSelector": "Pick a Year",
+        "today": "Today",
+        "ariaLabelMonth": "Date picker: ",
+        "selectDate": "Select a date",
+        "dateLabel": "Date",
+        "timeLabel": "Time",
+        "invalidDate": "Your entry does not match the allowed format {0}.",
+        "rangeOverflow": "Value must be {0} or earlier.",
+        "rangeUnderflow": "Value must be {0} or later."
+    },
+    "LightningPrimitiveCellActions": {
+        "showActions": "Show actions",
+        "loadingActions": "Loading actions"
+    },
+    "LightningInputName": {
+        "salutation": "Salutation",
+        "firstName": "First Name",
+        "middleName": "Middle Name",
+        "informalName": "Informal Name",
+        "lastName": "Last Name",
+        "suffix": "Suffix",
+        "none": "None"
+    },
+    "LightningPrimitiveCellTree": {
+        "expandBranch": "Expand {0}",
+        "collapseBranch": "Collapse {0}"
+    },
+    "LightningRecordEditForm": {
+        "apiNameMismatch": "API Name {0} is invalid, did you mean \"{1}?\"",
+        "genericError": "Error in fetching record or record metadata.",
+        "invalidID": "Error in fetching record: invalid record id.",
+        "invalidActionAsHandler": "Value provided for attribute {0} is not a valid Aura.Action."
+    },
+    "LightningRecordForm": {
+        "save": "Save",
+        "cancel": "Cancel",
+        "loading": "Loading"
+    },
+    "LightningLookup": {
+        "add": "Add",
+        "createNewObject": "New {0}",
+        "currentSelection": "Current Selection",
+        "messageWhenBadInputDefault": "Select an option or remove the search term.",
+        "recentObject": "Recent {0}",
+        "search": "Search",
+        "searchObjectsPlaceholder": "Search {0}...",
+        "searchPlaceholder": "Search...",
+        "searchForInObject": "\"{0}\" in {1}",
+        "selectObject": "Choose an object",
+        "none": "None"
+    },
+    "LightningPicklist": {
+        "available": "Available",
+        "chosen": "Chosen",
+        "noneLabel": "--None--"
+    },
+    "LightningMap": {
+        "coordinatesTitle": "Markers",
+        "openInGoogleMaps": "Open in Google Maps",
+        "iframeTitle": "Map Container"
+    },
+    "LightningPrimitiveCoordinate": { "selected": "is currently selected" },
+    "LightningButtonMenu": {
+        "loading": "Loading menu items...",
+        "showMenu": "Show menu"
+    },
+    "LightningTabs": {
+        "overflowMore": "More",
+        "overflowMoreTitle": "More Tabs",
+        "overflowMoreAlternativeText": "Tabs",
+        "errorStateAlternativeText": "This item has an error"
+    },
+    "Duration": {
+        "secondsLater": "in a few seconds",
+        "secondsAgo": "a few seconds ago"
+    },
+    "LightningDialog": { "close": "Close" }
+}

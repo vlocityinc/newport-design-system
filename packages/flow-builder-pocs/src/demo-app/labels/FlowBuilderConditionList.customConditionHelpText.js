@@ -1,0 +1,1 @@
+export default 'Use parentheses, AND, OR, and NOT to customize the logic. For example, if you enter “(1 AND 2 AND 3) OR 4”, the flow evaluates whether the first three conditions are true or only the fourth condition is true.';

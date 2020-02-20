@@ -1,0 +1,1 @@
+export default 'Add a pause configuration for each event that can resume the flow. Such an event can be a specified time or a platform event message. Pause conditions determine whether to pause the flow until the event occurs. When no pause conditions are met, the flow takes the default path without pausing.';

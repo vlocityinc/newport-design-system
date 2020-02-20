@@ -1,0 +1,1 @@
+export default 'This variable is available only in the latest version of the referenced flow.\n\nTo test this flow, run it in debug mode and select the option to run the latest version of each referenced flow. To avoid runtime errors when you activate this flow, also activate the latest version of the referenced flow.';

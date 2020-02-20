@@ -1,0 +1,1 @@
+export default 'To reference each collection item in elements along the loop path, use the loop variable. To keep any changes made along the loop path, add the loop variable as an item in a new collection variable.';

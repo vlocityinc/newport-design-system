@@ -1,0 +1,1 @@
+export default 'If you choose not to manually assign variables, we delete all existing variable assignments in this element. You can still use these values later in the flow by referencing the name of this element. Be sure to update references to the previously assigned variables.';

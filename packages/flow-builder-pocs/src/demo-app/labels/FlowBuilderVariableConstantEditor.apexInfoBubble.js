@@ -1,0 +1,1 @@
+export default 'Select the Apex class that includes the Apex-defined data type. The available options are Apex classes that have @AuraEnabled fields. Apex classes can take a while to load depending on the number or complexity of classes in your org.';
