@@ -18,6 +18,7 @@ export * from './recordDelete';
 export * from './screen';
 export * from './screenField';
 export * from './startElement';
+export * from './endElement';
 export * from './subflow';
 export * from './variable';
 export * from './textTemplate';

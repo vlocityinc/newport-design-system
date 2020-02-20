@@ -28,7 +28,7 @@
                 <ul
                     aria-label={section.label}
                     class="slds-listbox slds-listbox_vertical"
-                    key={section.label}
+                    key={section.guid}
                     role="group"
                 >
                     <li
@@ -40,7 +40,7 @@
                         <span>{section.heading}</span>
                     </li>
                     <template for:each={section.items} for:item="item">
-                        <div key={item.description}>
+                        <div key={item.guid}>
                             <li
                                 class="slds-dropdown__item padding-medium"
                                 onclick={handleSelectMenuItem}
@@ -50,14 +50,18 @@
                                     aria-expanded="true"
                                     aria-haspopup="true"
                                     class="padding-medium"
-                                    data-value={item.title}
+                                    data-value={item.elementType}
                                     onclick={handleSelectMenuItem}
                                     role="menuitem"
                                     tabindex="0"
                                 >
                                     <span class="slds-media__figure slds-listbox__option-icon">
                                         <span class={item.style}>
-                                            <svg data-value={item.title} class={item.iconClass} aria-hidden="true">
+                                            <svg
+                                                data-value={item.elementType}
+                                                class="slds-icon slds-icon_small utility_icon icon-padding"
+                                                aria-hidden="true"
+                                            >
                                                 <use xlink:href={item.icon}></use>
                                             </svg>
                                         </span>
@@ -65,12 +69,12 @@
                                     <span class="slds-media__body">
                                         <span
                                             class="slds-listbox__option-text slds-listbox__option-text_entity"
-                                            data-value={item.title}
-                                            >{item.title}</span
+                                            data-value={item.elementType}
+                                            >{item.label}</span
                                         >
                                         <span
                                             class="slds-listbox__option-meta slds-listbox__option-meta_entity"
-                                            data-value={item.title}
+                                            data-value={item.elementType}
                                             >{item.description}</span
                                         >
                                     </span>

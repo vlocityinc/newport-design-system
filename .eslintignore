@@ -2,5 +2,5 @@ scripts/*.js
 src/main/modules/
 **/build/
 packages/flow-builder-pocs/
-packages/flow-builder-pocs/src/demo-app/public/downCount/
+FlowBuilderControllerGoldFileTest/
 rollup/*.js

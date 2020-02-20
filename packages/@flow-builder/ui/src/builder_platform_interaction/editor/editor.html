@@ -47,13 +47,15 @@
                 oneditelement={handleEditElement}
                 ondeleteelement={handleElementDelete}
                 onlocatoriconclicked={handleHighlightOnCanvas}
+                elements={toolboxElements}
             ></builder_platform_interaction-left-panel>
-            <div class="slds-col">
+            <div if:true={hasCanvasElements} class="slds-col">
                 <builder_platform_interaction-flc-builder-container
                     if:true={useFixedLayoutCanvas}
                     onaddelement={handleAddCanvasElement}
                     oneditelement={handleEditElement}
                     ondeleteelement={handleElementDelete}
+                    elements-metadata={elementsMetadata}
                 >
                 </builder_platform_interaction-flc-builder-container>
                 <builder_platform_interaction-canvas-container

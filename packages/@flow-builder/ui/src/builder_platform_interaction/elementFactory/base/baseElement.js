@@ -9,6 +9,7 @@ import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
+import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
 export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
 
@@ -30,11 +31,29 @@ function createCanvasElementConfig(config = { isSelected: false, isHighlighted: 
     return { isSelected, isHighlighted, canSelect };
 }
 
+function supportsChildren({ elementType }) {
+    return elementType === ELEMENT_TYPE.DECISION || elementType === ELEMENT_TYPE.WAIT;
+}
+
+/**
+ *  Adds FLC specific ui model properties
+ */
+function addBaseCanvasElementProperties(canvasElement, newCanvasElement) {
+    const { next, prev, childIndex, parent } = canvasElement;
+    const children = supportsChildren(canvasElement) ? canvasElement.children || [] : null;
+    Object.assign(newCanvasElement, { next, prev, children, childIndex, parent });
+}
+
 export function baseCanvasElement(canvasElement = {}) {
     const newCanvasElement = baseResource(canvasElement);
     const { label = '', locationX = 0, locationY = 0, connectorCount = 0 } = canvasElement;
     let { config } = canvasElement;
     config = createCanvasElementConfig(config);
+
+    if (useFixedLayoutCanvas()) {
+        addBaseCanvasElementProperties(canvasElement, newCanvasElement);
+    }
+
     return Object.assign(newCanvasElement, {
         label,
         locationX,

@@ -21,8 +21,15 @@ import {
     baseCanvasElement,
     createStartElement as createBasicStartElement
 } from 'builder_platform_interaction/elementFactory';
-
+import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import { setUseFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 import { canUserVAD, orgHasFlowBuilderGuardrails, useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
+import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
+import { getFlcElementType } from 'builder_platform_interaction/flcConversionUtils';
+import { ElementType } from 'builder_platform_interaction/flowUtils';
+import { getElementSections } from 'builder_platform_interaction/editorElementsUtils';
+
+const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
 
 /**
  * Helper method to determine if the connector is an associated connector or not
@@ -514,6 +521,7 @@ export const createStartElement = (storeInstance, triggerType) => {
 
     // TODO: FLC TEMP CODE
     if (useFixedLayoutCanvas()) {
+        setUseFixedLayoutCanvas(true);
         startElement.locationX = 500;
     }
 
@@ -581,3 +589,80 @@ export const canRunDebugWith = (runInMode, status) => {
 export const isGuardrailsEnabled = () => {
     return orgHasFlowBuilderGuardrails();
 };
+
+/**
+ * Get the flc left-pane toolbox / flc connector menu elements
+ *
+ * @param {String} flowProcessType
+ * @param {String} flowTriggerType
+ */
+export function getToolboxElements(flowProcessType, flowTriggerType) {
+    logPerfTransactionStart(LEFT_PANEL_ELEMENTS);
+    return new Promise(resolve => {
+        // TODO: fetch should return a promise
+        fetch(SERVER_ACTION_TYPE.GET_LEFT_PANEL_ELEMENTS, resolve, {
+            flowProcessType,
+            flowTriggerType
+        });
+    })
+        .then(({ data, error }) => {
+            if (error) {
+                throw error;
+            }
+            logPerfTransactionEnd(LEFT_PANEL_ELEMENTS, {
+                numOfElements: data.length
+            });
+            return data;
+        })
+        .catch((/* error */) => {
+            // Handle error case here if something is needed beyond our automatic generic error modal popup
+        });
+}
+
+/**
+ *  Get the elements metadata for the flc editor
+ */
+export function getElementsMetadata(toolboxElements) {
+    const elementsMetadata = [
+        {
+            section: null,
+            type: ElementType.ROOT,
+            icon: 'standard:default',
+            label: '',
+            elementType: ELEMENT_TYPE.ROOT_ELEMENT,
+            value: ELEMENT_TYPE.ROOT_ELEMENT
+        },
+        {
+            section: null,
+            type: ElementType.END,
+            icon: 'standard:first_non_empty',
+            label: 'End',
+            value: ELEMENT_TYPE.END_ELEMENT,
+            elementType: ELEMENT_TYPE.END_ELEMENT
+        },
+        {
+            section: null,
+            type: ElementType.START,
+            icon: 'standard:default',
+            label: 'Start',
+            value: ELEMENT_TYPE.START_ELEMENT,
+            elementType: ELEMENT_TYPE.START_ELEMENT
+        }
+    ];
+
+    getElementSections(toolboxElements).forEach(section => {
+        (section._children || []).forEach(({ iconName, label, description, elementType }) => {
+            elementsMetadata.push({
+                section: section.label,
+                label,
+                icon: iconName,
+                elementType,
+                value: elementType, // TODO: FLC remove this property and just use elementType
+                type: getFlcElementType(elementType),
+                description
+            });
+        });
+    });
+
+    return elementsMetadata;
+}

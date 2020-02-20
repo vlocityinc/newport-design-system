@@ -185,6 +185,7 @@ export default class FlcBuilder extends LightningElement {
             : {
                   ...detail,
                   connectorMenu,
+                  elementsMetadata: this.elementsMetadata,
                   style
               };
 
@@ -237,7 +238,13 @@ export default class FlcBuilder extends LightningElement {
         }
 
         if (this._flowRenderer == null) {
-            this._flowRenderer = new FlowRenderer(this.elementsMetadata).setFlowModel(flowModel);
+            // create an elementType => elementMetadata map
+            const flowElementsMetadata = this.elementsMetadata.reduce((acc, elementMetadata) => {
+                acc[elementMetadata.elementType] = elementMetadata;
+                return acc;
+            }, {});
+
+            this._flowRenderer = new FlowRenderer(flowElementsMetadata).setFlowModel(flowModel);
 
             // first render, no animation
             this.renderFlow(1);
@@ -362,7 +369,7 @@ export default class FlcBuilder extends LightningElement {
                 break;
             case ZOOM_ACTION.ZOOM_TO_FIT:
                 scale = Math.min(
-                    /* TODO: remove hardcoded 50 */
+                    /* TODO: FLC remove hardcoded 50 */
                     (this._builderElement.clientHeight - 50) / this.getFlowHeight(),
                     1
                 );

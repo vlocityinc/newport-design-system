@@ -68,7 +68,9 @@ import {
     setErrorMessage,
     closeModalAndNavigateTo,
     createStartElement,
-    isGuardrailsEnabled
+    isGuardrailsEnabled,
+    getToolboxElements,
+    getElementsMetadata
 } from './editorUtils';
 import { cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import {
@@ -145,6 +147,12 @@ export default class Editor extends LightningElement {
     @track
     flowStatus;
 
+    @track
+    toolboxElements;
+
+    @track
+    elementsMetadata;
+
     currentFlowId;
     currentFlowDefId;
     runDebugUrl;
@@ -154,7 +162,7 @@ export default class Editor extends LightningElement {
     originalFlowDescription;
     originalFlowInterviewLabel;
     keyboardInteractions;
-
+    triggerType;
     guardrailsEngine;
 
     @track
@@ -212,16 +220,22 @@ export default class Editor extends LightningElement {
     @track
     builderConfigLoading = false;
 
+    @track
+    processTypeLoading = false;
+
+    /** Whether to use the FLC canvas */
     get useFixedLayoutCanvas() {
         return useFixedLayoutCanvas();
     }
 
-    @track
-    processTypeLoading = false;
-
     /** Builder configuration for the current builder type */
     get builderConfig() {
         return getBuilderConfig() || {};
+    }
+
+    /** Whether canvas elements are available. Don't render the canvas until then. */
+    get hasCanvasElements() {
+        return this.hasFlow && storeInstance.getCurrentState().canvasElements.length > 0;
     }
 
     /** Indicates if the component has a flow to edit (now or in future) */
@@ -362,13 +376,26 @@ export default class Editor extends LightningElement {
         const currentState = storeInstance.getCurrentState();
         this.isUndoDisabled = !isUndoAvailable();
         this.isRedoDisabled = !isRedoAvailable();
-        this.flowStatus = currentState.properties.status;
-        if (
-            currentState.properties.processType &&
-            currentState.properties.processType !== this.properties.processType
-        ) {
-            this.propertyEditorBlockerCalls.push(loadOnProcessTypeChange(currentState.properties.processType));
+        const { status, processType: flowProcessType } = currentState.properties;
+        this.flowStatus = status;
+
+        const flowProcessTypeChanged = flowProcessType && flowProcessType !== this.properties.processType;
+        if (flowProcessTypeChanged) {
+            this.propertyEditorBlockerCalls.push(loadOnProcessTypeChange(flowProcessType));
         }
+
+        const flowTriggerType = getTriggerType();
+
+        if (flowProcessTypeChanged || (flowTriggerType && this.triggerType !== flowTriggerType)) {
+            this.triggerType = flowTriggerType;
+            getToolboxElements(flowProcessType, flowTriggerType).then(toolboxElements => {
+                this.toolboxElements = toolboxElements;
+                if (useFixedLayoutCanvas()) {
+                    this.elementsMetadata = getElementsMetadata(toolboxElements);
+                }
+            });
+        }
+
         this.properties = currentState.properties;
         this.showWarningIfUnsavedChanges();
         if (!getRunInModes()) {

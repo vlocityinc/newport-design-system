@@ -2,13 +2,14 @@ import { ElementType } from 'builder_platform_interaction/flowUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { addElement, addConnector, deleteElements } from 'builder_platform_interaction/actions';
+import { createEndElement } from 'builder_platform_interaction/elementFactory';
 
 function isRootOrEndElement({ elementType }) {
     return elementType === ELEMENT_TYPE.END_ELEMENT || elementType === ELEMENT_TYPE.ROOT_ELEMENT;
 }
 
-function supportsChildren({ elementType }) {
-    return elementType === ELEMENT_TYPE.DECISION;
+export function supportsChildren({ elementType }) {
+    return elementType === ELEMENT_TYPE.DECISION || ELEMENT_TYPE.WAIT;
 }
 
 function createConnector(source, target, type = CONNECTOR_TYPE.REGULAR, childSource = null) {
@@ -25,8 +26,29 @@ function createConnector(source, target, type = CONNECTOR_TYPE.REGULAR, childSou
     };
 }
 
+function newConnector(storeInstance, source, target, connectorType, childSource) {
+    storeInstance.dispatch(addConnector(createConnector(source, target, connectorType, childSource)));
+}
+
+function deleteConnectors(connectors, predicate) {
+    const connectorsToDelete = Object.values(connectors).filter(predicate);
+
+    if (connectorsToDelete.length > 0) {
+        deleteElements({
+            selectedElements: [],
+            connectorsToDelete,
+            elementType: null
+        });
+    }
+}
+
 export function addConnectorsForNewElement(storeInstance, { next, prev, guid, parent, childIndex }) {
     const { elements, connectors } = storeInstance.getCurrentState();
+
+    // unpack references
+    prev = prev && prev.value;
+    next = next && next.value;
+    parent = parent && parent.value;
 
     if (prev) {
         const prevElement = elements[prev];
@@ -34,17 +56,7 @@ export function addConnectorsForNewElement(storeInstance, { next, prev, guid, pa
             // This is a merge element, so we need to reconnect all merging elements
 
             // first remove all incoming connections that are not from the splitting element
-            const connectorsToDelete = Object.values(connectors).filter(
-                conn => conn.next === guid && conn.prev !== prevElement.guid
-            );
-
-            if (connectorsToDelete.length > 0) {
-                deleteElements({
-                    selectedElements: [],
-                    connectorsToDelete,
-                    elementType: null
-                });
-            }
+            deleteConnectors(connectors, conn => conn.target === guid && conn.source !== prevElement.guid);
 
             // now add connections to the tips of all the branches that are not end nodes, and thus are
             // merging into join element
@@ -56,28 +68,39 @@ export function addConnectorsForNewElement(storeInstance, { next, prev, guid, pa
                 }
 
                 if (childElement.elementType !== ELEMENT_TYPE.END_ELEMENT) {
-                    storeInstance.dispatch(addConnector(createConnector(childElement.guid, guid)));
+                    newConnector(storeInstance, childElement.guid, guid);
                 }
 
-                storeInstance.dispatch(addConnector(createConnector(childElement.guid, guid)));
+                newConnector(storeInstance, childElement.guid, guid);
             });
         } else {
-            storeInstance.dispatch(addConnector(createConnector(prev, guid)));
+            deleteConnectors(connectors, conn => conn.source === prev && conn.target === next);
+            newConnector(storeInstance, prev, guid);
         }
     }
 
     if (next && elements[next].elementType !== ELEMENT_TYPE.END_ELEMENT) {
-        storeInstance.dispatch(addConnector(createConnector(guid, next)));
+        newConnector(storeInstance, guid, next);
     }
 
     if (parent) {
+        const parentElement = elements[parent];
+
         // TODO_FLC: fix hardcoding reference position
-        if (childIndex === 0) {
-            storeInstance.dispatch(addConnector(createConnector(parent, guid, CONNECTOR_TYPE.DEFAULT)));
+        if (childIndex === 0 && parentElement.elementType === ELEMENT_TYPE.DECISION) {
+            newConnector(storeInstance, parent, guid, CONNECTOR_TYPE.DEFAULT);
         } else {
-            const { outcomeReferences } = elements[parent];
-            const childSource = outcomeReferences[childIndex - 1].outcomeReference;
-            storeInstance.dispatch(addConnector(createConnector(parent, guid, CONNECTOR_TYPE.REGULAR, childSource)));
+            let childSource;
+
+            if (parentElement.elementType === ELEMENT_TYPE.DECISION) {
+                childIndex -= 1;
+                const { outcomeReferences } = elements[parent];
+                childSource = outcomeReferences[childIndex].outcomeReference;
+            } else if (parentElement.elementType === ELEMENT_TYPE.WAIT) {
+                const { waitEventReferences } = elements[parent];
+                childSource = waitEventReferences[childIndex].waitEventReference;
+            }
+            newConnector(storeInstance, parent, guid, CONNECTOR_TYPE.REGULAR, childSource);
         }
     }
 }
@@ -101,37 +124,6 @@ export const createRootElement = startElementGuid => {
         children: [startElementGuid]
     };
 };
-
-export const createEndElement = prev => {
-    return {
-        ...createElementHelper(ELEMENT_TYPE.END_ELEMENT, generateGuid()),
-        prev
-    };
-};
-
-// function prettyPrint(storeState) {
-//     const { printLabel, elements, canvasElements, connectors } = storeState;
-//     let res = canvasElements.map(guid => {
-//         const { label, next, prev, children } = elements[guid];
-//         let nextLabel = next ? elements[next] : null;
-//         let prevLabel = prev ? elements[prev] : null;
-
-//         nextLabel = nextLabel ? nextLabel.label || nextLabel.guid : next;
-//         prevLabel = prevLabel ? prevLabel.label || prevLabel.guid : prev;
-
-//         return `${label}: next: ${nextLabel}, prev: ${prevLabel}, children: ${children}`;
-//     });
-
-//     res = res.concat(
-//         connectors.map(({ source, target }) => {
-//             return `source: ${elements[source].label}, target: ${elements[target].label}`;
-//         })
-//     );
-
-//     console.log(printLabel);
-//     console.log(res.join('\n'));
-//     console.log(JSON.parse(JSON.stringify([canvasElements.map(guid => elements[guid]), connectors])));
-// }
 
 /**
  * Augments the FFC UI model with extra properties needed by the FLC
@@ -183,19 +175,7 @@ export function toFlc(storeConnectors, storeElements, canvasElementGuids) {
         }
     });
 
-    // prettyPrint({
-    //     printLabel: 'before fixFlcProperties',
-    //     connectors: storeConnectors,
-    //     elements: storeElements,
-    //     canvasElements: canvasElementGuids
-    // });
     fixFlcProperties(storeElements, startElement);
-    // prettyPrint({
-    //     printLabel: 'after fixFlcProperties',
-    //     connectors: storeConnectors,
-    //     elements: storeElements,
-    //     canvasElements: canvasElementGuids
-    // });
 
     const rootElement = createRootElement(startElement.guid);
     storeElements[rootElement.guid] = rootElement;
@@ -300,5 +280,68 @@ function fixFlcProperties(elements, element, header, visited = {}) {
             header.next = element.guid;
             element = null;
         }
+    }
+}
+
+/**
+ * Maps a flow ELEMENT_TYPE to an FLC ElementType
+ */
+export function getFlcElementType(elementType) {
+    let type;
+
+    switch (elementType) {
+        case ELEMENT_TYPE.DECISION:
+        case ELEMENT_TYPE.WAIT:
+            type = ElementType.DECISION;
+            break;
+        case ELEMENT_TYPE.LOOP:
+            type = ElementType.LOOP;
+            break;
+        case ELEMENT_TYPE.START_ELEMENT:
+            type = ElementType.START;
+            break;
+        case ELEMENT_TYPE.END_ELEMENT:
+            type = ElementType.END;
+            break;
+        case ELEMENT_TYPE.ROOT_ELEMENT:
+            type = ElementType.ROOT;
+            break;
+        default:
+            type = ElementType.DEFAULT;
+    }
+
+    return type;
+}
+
+/**
+ * Stringify Store State for debugging
+ * @param {*} storeState
+ */
+export function prettyPrintStoreState(storeState) {
+    if (storeState) {
+        const { elements, canvasElements, connectors } = storeState;
+        let res = (canvasElements || []).map(guid => {
+            const { label, next, prev, children, parent, childIndex } = elements[guid];
+            let nextLabel = next ? elements[next] : null;
+            let prevLabel = prev ? elements[prev] : null;
+            let parentLabel = parent ? elements[parent] : null;
+
+            nextLabel = nextLabel ? nextLabel.label || nextLabel.guid : next;
+            prevLabel = prevLabel ? prevLabel.label || prevLabel.guid : prev;
+            parentLabel = parentLabel ? parentLabel.label || parentLabel.guid : parent;
+
+            return `${label}: next: ${nextLabel}, prev: ${prevLabel}, children: ${children}, parent: ${parentLabel}, childIndex: ${childIndex}`;
+        });
+
+        res = res.concat(
+            (connectors || []).map(
+                ({ source, target }) => `source: ${elements[source].label}, target: ${elements[target].label}`
+            )
+        );
+
+        // eslint-disable-next-line
+        console.log(res.join('\n'));
+        // eslint-disable-next-line
+        console.log(JSON.parse(JSON.stringify({ elements, connectors })));
     }
 }

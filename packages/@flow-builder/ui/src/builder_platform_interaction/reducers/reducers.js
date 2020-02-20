@@ -8,22 +8,26 @@ import flcElementsReducer from './flcElementsReducer';
 import flcCanvasElementsReducer from './flcCanvasElementsReducer';
 import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
-const elementsReducer = useFixedLayoutCanvas() ? flcElementsReducer : ffcElementsReducer;
-const canvasElementsReducer = useFixedLayoutCanvas() ? flcCanvasElementsReducer : ffcCanvasElementsReducer;
-
-const reducer = combinedReducer({
-    elements: elementsReducer,
+const flcCombinedReducer = combinedReducer({
+    elements: flcElementsReducer,
     properties: flowPropertiesReducer,
-    canvasElements: canvasElementsReducer,
+    canvasElements: flcCanvasElementsReducer,
     connectors: connectorsReducer,
     peripheralData: peripheralDataReducer
 });
 
-export {
-    reducer,
-    elementsReducer,
-    flowPropertiesReducer,
-    canvasElementsReducer,
-    connectorsReducer,
-    peripheralDataReducer
+const ffcCombinedReducer = combinedReducer({
+    elements: ffcElementsReducer,
+    properties: flowPropertiesReducer,
+    canvasElements: ffcCanvasElementsReducer,
+    connectors: connectorsReducer,
+    peripheralData: peripheralDataReducer
+});
+
+const reducer = (state, action) => {
+    // need to resolve the reducer dynamically, since we don't know if we are using
+    // the flc until after the module initialization time
+    return (useFixedLayoutCanvas() ? flcCombinedReducer : ffcCombinedReducer)(state, action);
 };
+
+export { reducer };

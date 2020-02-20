@@ -10,23 +10,18 @@ import { isChildElement } from 'builder_platform_interaction/elementConfig';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { LABELS } from './leftPanelLabels';
-import { getTriggerType } from 'builder_platform_interaction/storeUtils';
 import { getResourceSections, getElementSections, getResourceIconName } from './resourceLib';
 import { usedBy, createUsedByElement } from 'builder_platform_interaction/usedByLib';
-import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import {
     getResourceLabel,
     getElementTypeLabel,
     getResourceTypeLabel
 } from 'builder_platform_interaction/elementLabelLib';
-import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
-
 import { removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
 import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
 let storeInstance;
 let unsubscribeStore;
-const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
 
 export default class LeftPanel extends LightningElement {
     @track
@@ -41,15 +36,13 @@ export default class LeftPanel extends LightningElement {
     @track
     nonCanvasElements = [];
 
-    @track
-    elements = [];
-
     labels = LABELS;
     searchString;
-    processType;
-    triggerType;
 
     _addInlineResourceFromManagerTab = false;
+
+    @api
+    elements = [];
 
     @api focus() {
         // Ideally, we should not use shadowRoot to access the child components. The base components
@@ -73,46 +66,18 @@ export default class LeftPanel extends LightningElement {
         return useFixedLayoutCanvas();
     }
 
-    /**
-     * Callback which gets executed after getting elements for left panel
-     * palette
-     *
-     * @param {Object}
-     *            has error property if there is error fetching the data else
-     *            has data property
-     */
-    setElements = ({ data, error }) => {
-        if (error) {
-            // Handle error case here if something is needed beyond our automatic generic error modal popup
-        } else {
-            this.elements = data;
-        }
-    };
+    /** Only show elements tab if we are not using the FLC */
+    get showElements() {
+        return !this.useFixedLayoutCanvas;
+    }
 
     mapAppStateToStore = () => {
-        const { properties = {}, elements = {} } = storeInstance.getCurrentState();
-        const { processType: flowProcessType } = properties;
+        const { elements = {} } = storeInstance.getCurrentState();
         this.canvasElements = getElementSections(elements, this.searchString);
         this.nonCanvasElements = getResourceSections(elements, this.searchString);
         if (this.showResourceDetailsPanel) {
             const currentElementState = elements[this.resourceDetails.elementGuid];
             this.retrieveResourceDetailsFromStore(currentElementState, this.resourceDetails.asResource);
-        }
-        const flowTriggerType = getTriggerType();
-        if (
-            (flowProcessType && this.processType !== flowProcessType) ||
-            (flowTriggerType && this.triggerType !== flowTriggerType)
-        ) {
-            this.processType = flowProcessType;
-            this.triggerType = flowTriggerType;
-
-            if (!this.useFixedLayoutCanvas) {
-                logPerfTransactionStart(LEFT_PANEL_ELEMENTS);
-                fetch(SERVER_ACTION_TYPE.GET_LEFT_PANEL_ELEMENTS, this.setElements, {
-                    flowProcessType,
-                    flowTriggerType
-                });
-            }
         }
     };
 
@@ -248,11 +213,6 @@ export default class LeftPanel extends LightningElement {
         if (this._addInlineResourceFromManagerTab && storeInstance) {
             this._addInlineResourceFromManagerTab = false;
             storeInstance.dispatch(removeLastCreatedInlineResource);
-        }
-        if (this.elements.length) {
-            logPerfTransactionEnd(LEFT_PANEL_ELEMENTS, {
-                numOfElements: this.elements.length
-            });
         }
     }
 }

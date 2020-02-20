@@ -1,7 +1,9 @@
-import { api } from 'lwc';
+import { api, track } from 'lwc';
 import { AddElementEvent, ToggleMenuEvent } from 'builder_platform_interaction/events';
 import Menu from 'builder_platform_interaction/menu';
-import { MenuConfiguration } from './flcConnectorMenuConfig';
+
+import { configureMenu } from './flcConnectorMenuConfig';
+
 /**
  * The connector menu overlay. It is displayed when clicking on a connector.
  */
@@ -10,7 +12,14 @@ export default class FlcConnectorMenu extends Menu {
     childIndex;
 
     @api
-    menuConfiguration = MenuConfiguration;
+    set elementsMetadata(elementsMetadata) {
+        this.menuConfiguration = configureMenu(elementsMetadata);
+        this._elementsMetadata = elementsMetadata;
+    }
+
+    get elementsMetadata() {
+        return this._elementsMetadata;
+    }
 
     @api
     next;
@@ -20,6 +29,11 @@ export default class FlcConnectorMenu extends Menu {
 
     @api
     prev;
+
+    @track
+    menuConfiguration = [];
+
+    _elementsMetadata = [];
 
     handleSelectMenuItem(event) {
         this.dispatchEvent(new ToggleMenuEvent({}));

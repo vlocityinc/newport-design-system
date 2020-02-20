@@ -1,4 +1,4 @@
-import { getElementSections } from '../elementLib';
+import { getElementSections } from 'builder_platform_interaction/editorElementsUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => {

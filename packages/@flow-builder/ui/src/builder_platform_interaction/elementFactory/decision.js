@@ -44,7 +44,6 @@ export function createDecisionWithOutcomes(decision = {}) {
 
     // Add maxConnections for new/existing decision  if needed.
     return Object.assign(newDecision, {
-        children: [],
         next,
         prev,
         outcomes,
@@ -144,10 +143,7 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
         elementType,
         maxConnections,
         connectorCount,
-        availableConnections,
-        children: decision.children,
-        next: decision.next,
-        prev: decision.prev
+        availableConnections
     });
 
     return {

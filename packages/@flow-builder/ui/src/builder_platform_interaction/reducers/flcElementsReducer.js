@@ -2,7 +2,9 @@ import {
     ADD_DECISION_WITH_OUTCOMES,
     ADD_SCREEN_WITH_FIELDS,
     ADD_END_ELEMENT,
-    SELECTION_ON_FIXED_CANVAS
+    SELECTION_ON_FIXED_CANVAS,
+    ADD_WAIT_WITH_WAIT_EVENTS,
+    MODIFY_WAIT_WITH_WAIT_EVENTS
 } from 'builder_platform_interaction/actions';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
@@ -106,6 +108,8 @@ export default function elementsReducer(state = {}, action) {
         case ADD_SCREEN_WITH_FIELDS:
         case ADD_DECISION_WITH_OUTCOMES:
         case ADD_END_ELEMENT:
+        case ADD_WAIT_WITH_WAIT_EVENTS:
+        case MODIFY_WAIT_WITH_WAIT_EVENTS:
             element = action.payload.screen || action.payload.canvasElement || action.payload;
             linkElement(state, element);
 

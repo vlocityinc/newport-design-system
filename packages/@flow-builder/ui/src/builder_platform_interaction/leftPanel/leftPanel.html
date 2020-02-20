@@ -18,6 +18,7 @@
             <div class="flow-resource-list">
                 <lightning-tabset>
                     <lightning-tab
+                        if:true={showElements}
                         value="left-panel-tabitem-elements"
                         label={labels.elementTabText}
                         class="slds-p-around_none"

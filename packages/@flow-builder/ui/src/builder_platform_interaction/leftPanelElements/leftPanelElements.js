@@ -1,7 +1,8 @@
 import { LightningElement, track, api } from 'lwc';
-import { getElementSections } from './elementLib';
+
 import { LABELS } from './leftPanelElementsLabels';
 import { APP_EXCHANGE_LINK } from 'builder_platform_interaction/commonUtils';
+import { getElementSections } from 'builder_platform_interaction/editorElementsUtils';
 
 export default class LeftPanelElements extends LightningElement {
     /**
