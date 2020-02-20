@@ -96,9 +96,11 @@ export default class FlowRenderer {
 
         const metadata = getElementMetadata(this.elementsMetadata, node.elementType);
 
+        const label =
+            metadata.type === ElementType.END || metadata.type === ElementType.START ? '' : node.label || node.guid;
         return {
             guid: node.guid,
-            label: node.label || node.guid,
+            label,
             metadata,
             style: getStyle({
                 top: y,

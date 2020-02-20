@@ -118,7 +118,9 @@
             "builder_platform_interaction/draggable": ["./src/builder_platform_interaction/draggable/draggable.js"],
             "builder_platform_interaction/drawingLib": ["./src/builder_platform_interaction/drawingLib/drawingLib.js"],
             "builder_platform_interaction/editor": ["./src/builder_platform_interaction/editor/editor.js"],
-
+            "builder_platform_interaction/editorElementsUtils": [
+                "./src/builder_platform_interaction/editorElementsUtils/editorElementsUtils.js"
+            ],
             "builder_platform_interaction/elementConfig": [
                 "./src/builder_platform_interaction/elementConfig/elementConfig.js"
             ],
@@ -170,6 +172,9 @@
             "builder_platform_interaction/flcConnectorMenu": [
                 "./src/builder_platform_interaction/flcConnectorMenu/flcConnectorMenu.js"
             ],
+            "builder_platform_interaction/flcConversionUtils": [
+                "./src/builder_platform_interaction/flcConversionUtils/flcConversionUtils.js"
+            ],
             "builder_platform_interaction/flcFlow": ["./src/builder_platform_interaction/flcFlow/flcFlow.js"],
             "builder_platform_interaction/flcMenu": ["./src/builder_platform_interaction/flcMenu/flcMenu.js"],
             "builder_platform_interaction/flcNode": ["./src/builder_platform_interaction/flcNode/flcNode.js"],
@@ -186,7 +191,6 @@
                 "./src/builder_platform_interaction/flowPropertiesEditor/flowPropertiesEditor.js"
             ],
             "builder_platform_interaction/flowStatus": ["./src/builder_platform_interaction/flowStatus/flowStatus.js"],
-            "builder_platform_interaction/flowUtils": ["../flow-utils/src/index.ts"],
             "builder_platform_interaction/formulaEditor": [
                 "./src/builder_platform_interaction/formulaEditor/formulaEditor.js"
             ],
@@ -196,6 +200,7 @@
             "builder_platform_interaction/goneCamping": [
                 "./src/builder_platform_interaction/goneCamping/goneCamping.js"
             ],
+            "builder_platform_interaction/guardrails": ["./src/builder_platform_interaction/guardrails/guardrails.js"],
             "builder_platform_interaction/header": ["./src/builder_platform_interaction/header/header.js"],
             "builder_platform_interaction/imageLib": ["./src/builder_platform_interaction/imageLib/imageLib.js"],
             "builder_platform_interaction/inlineResourceUtils": [
@@ -288,6 +293,9 @@
             "builder_platform_interaction/propertyEditorPanel": [
                 "./src/builder_platform_interaction/propertyEditorPanel/propertyEditorPanel.js"
             ],
+            "builder_platform_interaction/recordChangeTriggerEditor": [
+                "./src/builder_platform_interaction/recordChangeTriggerEditor/recordChangeTriggerEditor.js"
+            ],
             "builder_platform_interaction/recordChoiceSetEditor": [
                 "./src/builder_platform_interaction/recordChoiceSetEditor/recordChoiceSetEditor.js"
             ],
@@ -364,6 +372,9 @@
             "builder_platform_interaction/row": ["./src/builder_platform_interaction/row/row.js"],
             "builder_platform_interaction/ruleLib": ["./src/builder_platform_interaction/ruleLib/ruleLib.js"],
             "builder_platform_interaction/saveType": ["./src/builder_platform_interaction/saveType/saveType.js"],
+            "builder_platform_interaction/scheduleTriggerEditor": [
+                "./src/builder_platform_interaction/scheduleTriggerEditor/scheduleTriggerEditor.js"
+            ],
             "builder_platform_interaction/screenChoiceField": [
                 "./src/builder_platform_interaction/screenChoiceField/screenChoiceField.js"
             ],

@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const path = require('path');
 const lwcCompiler = require('@lwc/rollup-plugin');
 const syntheticShadow = require('./synthetic-shadow');

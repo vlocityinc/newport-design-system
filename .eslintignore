@@ -1,6 +1,5 @@
 scripts/*.js
 src/main/modules/
 **/build/
-packages/flow-builder-pocs/
 FlowBuilderControllerGoldFileTest/
 rollup/*.js

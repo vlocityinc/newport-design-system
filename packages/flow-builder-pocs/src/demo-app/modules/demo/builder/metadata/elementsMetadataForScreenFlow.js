@@ -6,28 +6,28 @@ export default [
         section: 'Logic',
         type: ElementType.DECISION,
         icon: 'standard:decision',
-        label: "decisionLogicLabel",
+        label: 'decisionLogicLabel',
         value: ELEMENT_TYPE.DECISION,
         elementType: ELEMENT_TYPE.DECISION,
-        description: "decisionLogicDescription"
+        description: 'decisionLogicDescription'
     },
     {
         section: 'Logic',
         type: ElementType.DECISION,
         icon: 'standard:waits',
-        label: "waitLogicLabel",
+        label: 'waitLogicLabel',
         value: ELEMENT_TYPE.WAIT,
         elementType: ELEMENT_TYPE.WAIT,
-        description: "waitLogicDescription"
+        description: 'waitLogicDescription'
     },
     {
         section: 'Interaction',
         type: ElementType.DEFAULT,
         icon: 'standard:screen',
-        label: "screenComponentLabel",
+        label: 'screenComponentLabel',
         value: ELEMENT_TYPE.SCREEN,
         elementType: ELEMENT_TYPE.SCREEN,
-        description: "screenComponentDescription"
+        description: 'screenComponentDescription'
     },
     {
         section: null,

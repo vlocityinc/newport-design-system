@@ -1,98 +1,93 @@
 <!DOCTYPE html>
 <html lang="en" data-framework="raptor">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Builder Framework - Email Editor Example</title>
+        <link rel="stylesheet" href="/assets/styles/salesforce-lightning-design-system.min.css" />
+        <link rel="stylesheet" href="/styles.css" />
+        <style>
+            @import url(http://fonts.googleapis.com/css?family=Open+Sans:300, 400);
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Builder Framework - Email Editor Example</title>
-    <link rel="stylesheet" href="/assets/styles/salesforce-lightning-design-system.min.css" />
-    <link rel="stylesheet" href="/styles.css" />
-    <style>
-        @import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400);
+            .countdown-wrapper {
+                font: normal 12px 'Open Sans', sans-serif;
+                color: white;
+                background: #363f48;
+                position: absolute;
+                top: -50px;
+                left: 40px;
+                margin: 75px 20px;
+                text-align: center;
+                border-radius: 20px;
+                padding: 10px;
+                font-size: 30px;
+            }
 
-        body {
-            font: normal 12px 'Open Sans', sans-serif;
-        }
+            ul.countdown {
+                list-style: none;
+                display: block;
+            }
 
-        .countdown-wrapper {
-            color: white;
-            background: #363f48;
-            position: absolute;
-            top: -50px;
-            left: 40px;
-            margin: 75px 20px;
-            text-align: center;
-            border-radius: 20px;
-            padding: 10px;
-            font-size: 30px;
-        }
+            ul.countdown li {
+                display: inline-block;
+            }
 
-        ul.countdown {
-            list-style: none;
-            display: block;
-        }
+            ul.countdown li span {
+                font-size: 50px;
+                font-weight: 300;
+                line-height: 50px;
+            }
 
-        ul.countdown li {
-            display: inline-block;
-        }
+            ul.countdown li.seperator {
+                font-size: 50px;
+                line-height: 70px;
+                vertical-align: top;
+            }
 
-        ul.countdown li span {
-            font-size: 50px;
-            font-weight: 300;
-            line-height: 50px;
-        }
+            ul.countdown li p {
+                color: #a7abb1;
+                font-size: 14px;
+            }
+        </style>
+    </head>
 
-        ul.countdown li.seperator {
-            font-size: 50px;
-            line-height: 70px;
-            vertical-align: top;
-        }
+    <body>
+        <div class="countdown-wrapper">
+            Coming soon ...
+            <ul class="countdown">
+                <li>
+                    <span class="days">00</span>
+                    <p class="days_ref">days</p>
+                </li>
+                <li class="seperator">.</li>
+                <li>
+                    <span class="hours">00</span>
+                    <p class="hours_ref">hours</p>
+                </li>
+                <li class="seperator">:</li>
+                <li>
+                    <span class="minutes">00</span>
+                    <p class="minutes_ref">minutes</p>
+                </li>
+                <li class="seperator">:</li>
+                <li>
+                    <span class="seconds">00</span>
+                    <p class="seconds_ref">seconds</p>
+                </li>
+            </ul>
+        </div>
 
-        ul.countdown li p {
-            color: #a7abb1;
-            font-size: 14px;
-        }
-    </style>
-</head>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript" src="downCount/jquery.downCount.js"></script>
 
-<body>
-    <div class='countdown-wrapper'>
-        Coming soon ...
-        <ul class="countdown">
-            <li>
-                <span class="days">00</span>
-                <p class="days_ref">days</p>
-            </li>
-            <li class="seperator">.</li>
-            <li>
-                <span class="hours">00</span>
-                <p class="hours_ref">hours</p>
-            </li>
-            <li class="seperator">:</li>
-            <li>
-                <span class="minutes">00</span>
-                <p class="minutes_ref">minutes</p>
-            </li>
-            <li class="seperator">:</li>
-            <li>
-                <span class="seconds">00</span>
-                <p class="seconds_ref">seconds</p>
-            </li>
-        </ul>
-    </div>
+        <script class="source" type="text/javascript">
+            $('.countdown').downCount({
+                date: '03/06/2020 17:00:00',
+                offset: -8
+            });
+        </script>
 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="downCount/jquery.downCount.js"></script>
-
-    <script class="source" type="text/javascript">
-        $('.countdown').downCount({
-            date: '03/06/2020 17:00:00',
-            offset: -8
-        });
-    </script>
-
-    <div id="main"></div>
-    <script src="/builder.js"></script>
-</body>
-
+        <div id="main"></div>
+        <script src="/builder.js"></script>
+    </body>
 </html>
