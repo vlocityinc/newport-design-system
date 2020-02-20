@@ -79,6 +79,10 @@ export default class Header extends LightningElement {
         return this.builderName || LABELS.appNameText;
     }
 
+    get assistiveName() {
+        return this.name + ': ';
+    }
+
     /**
      * @return {String} the css class for badge
      */

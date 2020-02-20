@@ -8,21 +8,22 @@
                     icon-name={iconName}
                     class="slds-media__figure test-flow-utility-icon"
                 ></lightning-icon>
-                <div class="slds-media__body test-app-name">
+                <div class="slds-media__body test-app-name" aria-hidden>
                     {name}
                 </div>
             </div>
         </div>
-        <div
+        <h1
             title={flowNameAndVersionTitle}
             class="slds-builder-header__item custom-item-width test-flow-name-version-title"
         >
+            <span class="slds-assistive-text">{assistiveName}</span>
             <span class="custom-builder-header__item-label slds-p-left_medium slds-truncate test-flow-name"
                 >{currentFlowName}</span
             >
             &nbsp;
             <span class="custom-builder-header__item-label test-flow-version">{flowVersionNumber}</span>
-        </div>
+        </h1>
         <lightning-badge if:true={isSystemMode} label={systemModeLabel} title={systemModeLabel} class={badgeClasses}>
         </lightning-badge>
         <div class="slds-builder-header__item slds-builder-header__utilities">
@@ -34,7 +35,8 @@
                             size="x-small"
                             icon-name="utility:back"
                             class="slds-icon_container slds-icon-utility-back slds-current-color test-back-utility-icon"
-                        ></lightning-icon>
+                        >
+                        </lightning-icon>
                     </div>
                     <div class="slds-media__body test-back-label">
                         {labels.backButtonText}
@@ -54,7 +56,8 @@
                             size="x-small"
                             icon-name="utility:help"
                             class="slds-icon_container slds-icon-utility-back slds-current-color test-help-utility-icon"
-                        ></lightning-icon>
+                        >
+                        </lightning-icon>
                     </div>
                     <div class="slds-media__body test-help-label">
                         {labels.helpButtonText}

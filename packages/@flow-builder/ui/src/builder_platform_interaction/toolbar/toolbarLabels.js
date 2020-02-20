@@ -12,6 +12,7 @@ import deactivateTitle from '@salesforce/label/FlowBuilderToolbar.deactivateTitl
 import deactivating from '@salesforce/label/FlowBuilderToolbar.deactivating';
 import saveTitle from '@salesforce/label/FlowBuilderToolbar.saveTitle';
 import saveAsTitle from '@salesforce/label/FlowBuilderToolbar.saveAsTitle';
+import assistiveName from '@salesforce/label/FlowBuilderToolbar.assistiveName';
 import deactivatedLabel from '@salesforce/label/FlowStatus.deactivatedLabel';
 import activeLabel from '@salesforce/label/FlowStatus.activeLabel';
 import draftLabel from '@salesforce/label/FlowStatus.draftLabel';
@@ -40,6 +41,7 @@ export const LABELS = {
     draftLabel,
     activeLabel,
     deactivatedLabel,
+    assistiveName,
     toolbarStatus,
     toolbarStatusTitle
 };
