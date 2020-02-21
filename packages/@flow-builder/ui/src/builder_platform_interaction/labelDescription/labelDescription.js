@@ -4,6 +4,7 @@ import { isUniqueDevNameInStore } from 'builder_platform_interaction/validationR
 import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { LABELS } from './labelDescriptionLabels';
+import { AddElementEvent } from 'builder_platform_interaction/events';
 
 const SELECTORS = {
     LABEL: '.label',
@@ -80,6 +81,11 @@ export default class LabelDescription extends LightningElement {
     @api
     labelOptional = false;
 
+    editPressed = false;
+
+    @api
+    mode;
+
     @api
     get label() {
         return this.state.label;
@@ -97,6 +103,62 @@ export default class LabelDescription extends LightningElement {
     @api
     get description() {
         return this.state.description;
+    }
+
+    @api
+    get isEditable() {
+        return this.editPressed || this.mode === AddElementEvent.EVENT_NAME || this.mode === undefined;
+    }
+
+    @api
+    get readOnlyLabel() {
+        if (this.hideLabel) {
+            return '';
+        }
+        return this.state.label.value;
+    }
+
+    @api
+    get readOnlyDevName() {
+        if (this.hideDevName) {
+            return '';
+        }
+        if (this.hideLabel) {
+            return this.state.devName.value;
+        }
+        return `(${this.state.devName.value})`;
+    }
+
+    @api
+    get editButtonClass() {
+        if (this.isVertical) {
+            return 'test-edit-button slds-m-left_xx-small slds-float_right';
+        }
+        return 'test-edit-button slds-m-left_xx-small slds-align_center slds-is-absolute';
+    }
+
+    @api
+    get readOnlyInfoClass() {
+        if (this.isVertical) {
+            return 'test-read-only-info slds-grid';
+        }
+        return 'test-read-only-info slds-grid';
+    }
+
+    @api
+    get conditionalColumnClassInfo() {
+        if (this.isVertical) {
+            return 'slds-text-heading_medium slds-truncate slds-col';
+        }
+        return 'slds-text-heading_medium slds-truncate_container_75 slds-grid';
+    }
+
+    @api
+    get conditionalColumnClassButton() {
+        if (this.isVertical) {
+            return 'slds-col';
+        }
+        return '';
     }
 
     /** @param {Object} label - object with {value, error} **/
@@ -274,6 +336,10 @@ export default class LabelDescription extends LightningElement {
         if (this.state.devName.value !== newDevName) {
             this.updateDevName(newDevName);
         }
+    }
+
+    handleEditButtonPress() {
+        this.editPressed = true;
     }
 
     handleDescriptionFocusOut(e) {

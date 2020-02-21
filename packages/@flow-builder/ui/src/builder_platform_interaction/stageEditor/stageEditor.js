@@ -26,6 +26,10 @@ export default class StageEditor extends LightningElement {
     // used to keep track of whether this is an existing stage resource
     @api
     isNewMode = false;
+
+    @api
+    mode;
+
     /**
      * Public api function to return the node
      * Called by the property editor controller on "OK"

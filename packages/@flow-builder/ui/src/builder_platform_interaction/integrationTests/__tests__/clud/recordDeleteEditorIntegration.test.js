@@ -28,7 +28,7 @@ import {
 import { initializeAuraFetch } from '../serverDataTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { reducer } from 'builder_platform_interaction/reducers';
-import { EditElementEvent } from 'builder_platform_interaction/events';
+import { EditElementEvent, AddElementEvent } from 'builder_platform_interaction/events';
 import { selectGroupedComboboxItemBy, getGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
 import {
     SELECTORS,
@@ -72,7 +72,7 @@ describe('Record Delete Editor', () => {
             recordDeleteNode = getElementForPropertyEditor(
                 getElementByDevName(DELETE_RECORDS_USING_SOBJECT_FLOW_ELEMENT)
             );
-            recordDeleteComponent = createComponentForTest(recordDeleteNode);
+            recordDeleteComponent = createComponentForTest(recordDeleteNode, AddElementEvent.EVENT_NAME);
         });
         it('do not change "dev name" if it already exists after the user modifies the "label"', () => {
             newLabel = 'new label';

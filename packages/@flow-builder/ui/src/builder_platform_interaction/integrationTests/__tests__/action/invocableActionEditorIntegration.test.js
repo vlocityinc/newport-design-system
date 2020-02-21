@@ -87,7 +87,9 @@ describe('Invocable Action Editor', () => {
         describe('name and dev name', () => {
             it('do not change devName if it already exists after the user modifies the name', () => {
                 const newLabel = 'new label';
-                const coreActionElement = createComponentForTest(actionNode);
+                const coreActionElement = createComponentForTest(actionNode, {
+                    isNewMode: true
+                });
                 return resolveRenderCycles(() => {
                     const labelInput = getLabelDescriptionLabelElement(getBaseCalloutElement(coreActionElement));
                     labelInput.value = newLabel;
@@ -100,7 +102,9 @@ describe('Invocable Action Editor', () => {
             });
             it('modify the dev name', () => {
                 const newDevName = 'newName';
-                const coreActionElement = createComponentForTest(actionNode);
+                const coreActionElement = createComponentForTest(actionNode, {
+                    isNewMode: true
+                });
                 return resolveRenderCycles(() => {
                     const devNameInput = getLabelDescriptionNameElement(getBaseCalloutElement(coreActionElement));
                     devNameInput.value = newDevName;
@@ -112,7 +116,9 @@ describe('Invocable Action Editor', () => {
             });
             it('display error if name is cleared', () => {
                 const newLabel = '';
-                const coreActionElement = createComponentForTest(actionNode);
+                const coreActionElement = createComponentForTest(actionNode, {
+                    isNewMode: true
+                });
                 return resolveRenderCycles(() => {
                     const labelInput = getLabelDescriptionLabelElement(getBaseCalloutElement(coreActionElement));
                     labelInput.value = newLabel;
@@ -124,7 +130,9 @@ describe('Invocable Action Editor', () => {
             });
             it('display error if devName is cleared', () => {
                 const newDevName = '';
-                const coreActionElement = createComponentForTest(actionNode);
+                const coreActionElement = createComponentForTest(actionNode, {
+                    isNewMode: true
+                });
                 return resolveRenderCycles(() => {
                     const devNameInput = getLabelDescriptionNameElement(getBaseCalloutElement(coreActionElement));
                     devNameInput.value = newDevName;

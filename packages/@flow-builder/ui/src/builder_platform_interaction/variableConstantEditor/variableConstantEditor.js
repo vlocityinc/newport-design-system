@@ -134,6 +134,9 @@ export default class VariableConstantEditor extends LightningElement {
         this.initializeExternalAccessValues();
     }
 
+    @api
+    mode;
+
     // used to keep track of whether this is an existing variable/constant resource
     @api
     isNewMode = false;

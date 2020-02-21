@@ -49,6 +49,9 @@ export default class PicklistChoiceSetEditor extends LightningElement {
     showPicklistSection = false;
 
     @api
+    mode;
+
+    @api
     get node() {
         return this.picklistChoiceSetResource;
     }

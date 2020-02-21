@@ -1,5 +1,6 @@
 import { createElement } from 'lwc';
 import RecordUpdateEditor from 'builder_platform_interaction/recordUpdateEditor';
+import { AddElementEvent } from 'builder_platform_interaction/events';
 import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
     getChildComponent,
@@ -33,9 +34,9 @@ import {
 } from './cludEditorTestUtils';
 import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
 
-const createComponentForTest = node => {
+const createComponentForTest = (node, mode) => {
     const el = createElement('builder_platform_interaction-record-update-editor', { is: RecordUpdateEditor });
-    Object.assign(el, { node });
+    Object.assign(el, { node, mode });
     document.body.appendChild(el);
     return el;
 };
@@ -69,7 +70,7 @@ describe('Record Update Editor', () => {
             recordUpdateNode = getElementForPropertyEditor(
                 getElementByDevName(UPDATE_RECORDS_USING_SOBJECT_FLOW_ELEMENT)
             );
-            recordUpdateComponent = createComponentForTest(recordUpdateNode);
+            recordUpdateComponent = createComponentForTest(recordUpdateNode, AddElementEvent.EVENT_NAME);
         });
         it('do not change "dev name" if it already exists after the user modifies the "label"', () => {
             newLabel = 'new label';

@@ -129,7 +129,7 @@ describe('Record Lookup Editor', () => {
         beforeEach(() => {
             const element = getElementByDevName('Get_Record_Using_SObject');
             recordLookupNode = getElementForPropertyEditor(element);
-            recordLookupElement = createComponentForTest(recordLookupNode);
+            recordLookupElement = createComponentForTest(recordLookupNode, AddElementEvent.EVENT_NAME);
         });
         it('do not change devName if it already exists after the user modifies the name', () => {
             newLabel = 'new label';

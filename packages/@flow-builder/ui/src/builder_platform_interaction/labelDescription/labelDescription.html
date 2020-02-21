@@ -1,6 +1,6 @@
 <template>
     <span class="slds-hide">HACK TO FORCE RERENDER:{label.error}{devName.error}{description.error}</span>
-    <div class="slds-form slds-form_compound">
+    <div class="slds-form slds-form_compound" if:true={isEditable}>
         <div class={computedNameAndDevContainerClass}>
             <lightning-input
                 if:false={hideLabel}
@@ -37,6 +37,30 @@
                 onclick={clickDescription}
             >
             </lightning-textarea>
+        </div>
+    </div>
+    <div if:false={isEditable}>
+        <div class={readOnlyInfoClass}>
+            <span class={conditionalColumnClassInfo}>
+                <span class="slds-col slds-truncate slds-p-right_xx-small" title={readOnlyLabel}>
+                    <b>{readOnlyLabel}</b>
+                </span>
+                <br if:true={isVertical} />
+                <span class="slds-col slds-truncate" title={readOnlyDevName}>{readOnlyDevName}</span>
+            </span>
+            <span class={conditionalColumnClassButton}>
+                <lightning-button-icon
+                    icon-name="utility:edit"
+                    alternative-text={labels.editButtonLabel}
+                    class={editButtonClass}
+                    onclick={handleEditButtonPress}
+                    size="small"
+                >
+                </lightning-button-icon>
+            </span>
+        </div>
+        <div>
+            <p class="slds-line-clamp_small">{description.value}</p>
         </div>
     </div>
 </template>

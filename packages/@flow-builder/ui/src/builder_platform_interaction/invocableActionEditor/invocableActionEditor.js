@@ -51,6 +51,9 @@ export default class InvocableActionEditor extends LightningElement {
     @track
     invocableActionParametersDescriptor;
 
+    @api
+    mode;
+
     connectedCallback() {
         this.connected = true;
         this.updatePropertyEditorTitle();

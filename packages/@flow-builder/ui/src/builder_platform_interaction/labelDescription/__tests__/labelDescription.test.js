@@ -1,13 +1,18 @@
 import { createElement } from 'lwc';
 import LabelDescription from 'builder_platform_interaction/labelDescription';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { PropertyChangedEvent, AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
-const createComponentUnderTest = () => {
+const createComponentUnderTest = (props = { label: '', devName: '', mode: undefined }) => {
     const el = createElement('builder_platform_interaction-label-description', {
         is: LabelDescription
     });
+
+    el.label.value = props.label;
+    el.devName.value = props.devName;
+    el.mode = props.mode;
+
     document.body.appendChild(el);
     return el;
 };
@@ -16,7 +21,9 @@ const selectors = {
     label: '.label',
     devName: '.devName',
     description: '.description',
-    container: '.container'
+    container: '.container',
+    editButton: '.test-edit-button',
+    readOnly: '.test-read-only-info'
 };
 
 const focusoutEvent = new FocusEvent('focusout', {
@@ -821,6 +828,81 @@ describe('label-description', () => {
             expect(labelLightningInput.disabled).toBeTruthy();
             expect(devNameLightningInput.disabled).toBeTruthy();
             expect(descriptionLightningInput.disabled).toBeTruthy();
+        });
+    });
+    describe('Edit Button', () => {
+        it('edit button should be present if element is not new', () => {
+            const labelDescription = createComponentUnderTest({
+                mode: EditElementEvent.EVENT_NAME
+            });
+            return Promise.resolve().then(() => {
+                const editButton = labelDescription.shadowRoot.querySelector(selectors.editButton);
+                expect(editButton).not.toBeNull();
+            });
+        });
+        it('edit button should not be present if element is new', () => {
+            const labelDescription = createComponentUnderTest({
+                mode: AddElementEvent.EVENT_NAME
+            });
+            return Promise.resolve().then(() => {
+                const editButton = labelDescription.shadowRoot.querySelector(selectors.editButton);
+                expect(editButton).toBeNull();
+            });
+        });
+        it('edit button should change label description to edit mode when clicked', () => {
+            const labelDescription = createComponentUnderTest({
+                mode: EditElementEvent.EVENT_NAME
+            });
+            return Promise.resolve().then(() => {
+                const editButton = labelDescription.shadowRoot.querySelector(selectors.editButton);
+                editButton.click();
+                const readOnly = labelDescription.shadowRoot.querySelector(selectors.readOnly);
+                expect(readOnly).not.toBeNull();
+            });
+        });
+    });
+    describe('Read only Label', () => {
+        it('is not included when hideLabel = true', () => {
+            const labelDescription = createComponentUnderTest({
+                label: 'label',
+                devName: 'devName',
+                mode: EditElementEvent.EVENT_NAME
+            });
+            labelDescription.hideLabel = true;
+            return Promise.resolve().then(() => {
+                const readOnly = labelDescription.shadowRoot.querySelector(selectors.readOnly);
+
+                expect(readOnly.contains('label')).not.toBeTruthy();
+            });
+        });
+    });
+    describe('Read only DevName', () => {
+        it('is not included when hideDevName = true', () => {
+            const labelDescription = createComponentUnderTest({
+                devName: 'devName',
+                mode: EditElementEvent.EVENT_NAME
+            });
+            labelDescription.hideDevName = true;
+            return Promise.resolve().then(() => {
+                const readOnly = labelDescription.shadowRoot.querySelector(selectors.readOnly);
+
+                expect(readOnly.contains('devName')).not.toBeTruthy();
+            });
+        });
+    });
+    describe('Read only Description', () => {
+        it('is not included when hideDescription = true', () => {
+            const labelDescription = createComponentUnderTest({
+                devName: 'devName',
+                mode: EditElementEvent.EVENT_NAME
+            });
+            labelDescription.hideDescription = true;
+            labelDescription.description.value = 'description';
+            return Promise.resolve().then(() => {
+                const readOnly = labelDescription.shadowRoot.querySelector(selectors.readOnly);
+
+                expect(readOnly.contains('description')).not.toBeTruthy();
+            });
         });
     });
 });

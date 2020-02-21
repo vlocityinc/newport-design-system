@@ -27,6 +27,9 @@ export default class TextTemplateEditor extends LightningElement {
     isNewMode = false;
 
     @api
+    mode;
+
+    @api
     get node() {
         return this.textTemplateResource;
     }

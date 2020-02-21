@@ -28,6 +28,9 @@ export default class FormulaEditor extends LightningElement {
     isNewMode = false;
 
     @api
+    mode;
+
+    @api
     get node() {
         return this.formulaResource;
     }

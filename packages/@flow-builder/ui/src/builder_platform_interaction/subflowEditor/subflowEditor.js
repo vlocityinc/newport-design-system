@@ -31,6 +31,9 @@ export default class SubflowEditor extends LightningElement {
     processTypeValue = FLOW_PROCESS_TYPE.FLOW;
     connected = false;
 
+    @api
+    mode;
+
     // true if we are creating a new subflow element, false if editing an existing subflow element
     @api
     isNewMode = false;

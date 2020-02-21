@@ -115,7 +115,7 @@ describe('Record Create Editor', () => {
             });
             it('do not change devName if it already exists after the user modifies the name', () => {
                 const newLabel = 'new label';
-                const recordCreateElement = createComponentForTest(recordCreateNode);
+                const recordCreateElement = createComponentForTest(recordCreateNode, AddElementEvent.EVENT_NAME);
                 return resolveRenderCycles(() => {
                     const labelInput = getLabelDescriptionLabelElement(recordCreateElement);
                     labelInput.value = newLabel;
@@ -128,7 +128,7 @@ describe('Record Create Editor', () => {
             });
             it('modify the dev name', () => {
                 const newDevName = 'newName';
-                const recordCreateElement = createComponentForTest(recordCreateNode);
+                const recordCreateElement = createComponentForTest(recordCreateNode, AddElementEvent.EVENT_NAME);
                 return resolveRenderCycles(() => {
                     const devNameInput = getLabelDescriptionNameElement(recordCreateElement);
                     devNameInput.value = newDevName;
@@ -140,7 +140,7 @@ describe('Record Create Editor', () => {
             });
             it('displays error if name is cleared', () => {
                 const newLabel = '';
-                const recordCreateElement = createComponentForTest(recordCreateNode);
+                const recordCreateElement = createComponentForTest(recordCreateNode, AddElementEvent.EVENT_NAME);
                 return resolveRenderCycles(() => {
                     const labelInput = getLabelDescriptionLabelElement(recordCreateElement);
                     labelInput.value = newLabel;
@@ -152,7 +152,7 @@ describe('Record Create Editor', () => {
             });
             it('displays error if devName is cleared', () => {
                 const newDevName = '';
-                const recordCreateElement = createComponentForTest(recordCreateNode);
+                const recordCreateElement = createComponentForTest(recordCreateNode, AddElementEvent.EVENT_NAME);
                 return resolveRenderCycles(() => {
                     const devNameInput = getLabelDescriptionNameElement(recordCreateElement);
                     devNameInput.value = newDevName;

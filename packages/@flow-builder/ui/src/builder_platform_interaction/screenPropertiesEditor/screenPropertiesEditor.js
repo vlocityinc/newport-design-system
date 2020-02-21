@@ -13,6 +13,9 @@ export default class ScreenPropertiesEditor extends LightningElement {
     screen;
     labels = LABELS;
 
+    @api
+    mode;
+
     get expandedSectionNames() {
         return EXPANDED_SECTION_NAMES;
     }

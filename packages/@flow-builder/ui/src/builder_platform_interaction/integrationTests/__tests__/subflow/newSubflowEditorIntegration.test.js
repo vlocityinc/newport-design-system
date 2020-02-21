@@ -21,11 +21,11 @@ import {
     getInputParameterItems
 } from '../baseCalloutEditorTestUtils';
 
-const createComponentForTest = (node, processType) => {
+const createComponentForTest = (node, processType, mode) => {
     const el = createElement('builder_platform_interaction-callout-editor', {
         is: CalloutEditor
     });
-    Object.assign(el, { node, processType });
+    Object.assign(el, { node, processType, mode });
     document.body.appendChild(el);
     return el;
 };
@@ -90,7 +90,9 @@ describe('Subflow Editor (new subflow)', () => {
             subflowElement = getSubflowEditorElement(propertyEditor);
         });
         it('let the user enter label, api name and description', () => {
-            const baseCalloutElement = getBaseCalloutElement(subflowElement);
+            const baseCalloutElement = getBaseCalloutElement(subflowElement, {
+                isEditMode: true
+            });
             const labelInput = getLabelDescriptionLabelElement(baseCalloutElement);
             expect(labelInput).toBeDefined();
             const devNameInput = getLabelDescriptionNameElement(baseCalloutElement);

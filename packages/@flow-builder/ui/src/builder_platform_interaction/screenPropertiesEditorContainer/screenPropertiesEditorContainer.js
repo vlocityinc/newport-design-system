@@ -96,6 +96,9 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
     @api
     extensionTypes;
 
+    @api
+    mode;
+
     handleToggleExpand = (/* event */) => {
         const container = this.template.querySelector('.properties-container');
 

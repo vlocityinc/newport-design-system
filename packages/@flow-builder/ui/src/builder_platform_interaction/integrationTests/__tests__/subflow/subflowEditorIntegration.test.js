@@ -42,7 +42,7 @@ import {
     checkboxChangeEvent
 } from 'builder_platform_interaction/builderTestUtils';
 import { getFlowInputOutputVariables, initializeAuraFetch } from '../serverDataTestUtils';
-import { EditElementEvent } from 'builder_platform_interaction/events';
+import { EditElementEvent, AddElementEvent } from 'builder_platform_interaction/events';
 import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
@@ -50,11 +50,11 @@ import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverDa
 
 const PROCESS_TYPE_FLOW = 'Flow';
 
-const createComponentForTest = node => {
+const createComponentForTest = (node, mode) => {
     const el = createElement('builder_platform_interaction-subflow-editor', {
         is: SubflowEditor
     });
-    Object.assign(el, { node, isNewMode: false });
+    Object.assign(el, { node, mode });
     document.body.appendChild(el);
     return el;
 };
@@ -127,7 +127,7 @@ describe('Subflow Editor', () => {
     describe('name and dev name', () => {
         it('do not change devName if it already exists after the user modifies the name', async () => {
             const newLabel = 'new label';
-            const subflowElement = createComponentForTest(subflowNode);
+            const subflowElement = createComponentForTest(subflowNode, AddElementEvent.EVENT_NAME);
             await ticks(2);
             const labelInput = getLabelDescriptionLabelElement(getBaseCalloutElement(subflowElement));
             labelInput.value = newLabel;
@@ -139,7 +139,7 @@ describe('Subflow Editor', () => {
         });
         it('modify the dev name', () => {
             const newDevName = 'newName';
-            const subflowElement = createComponentForTest(subflowNode);
+            const subflowElement = createComponentForTest(subflowNode, AddElementEvent.EVENT_NAME);
             return resolveRenderCycles(() => {
                 const devNameInput = getLabelDescriptionNameElement(getBaseCalloutElement(subflowElement));
                 devNameInput.value = newDevName;
@@ -151,7 +151,7 @@ describe('Subflow Editor', () => {
         });
         it('display error if name is cleared', () => {
             const newLabel = '';
-            const subflowElement = createComponentForTest(subflowNode);
+            const subflowElement = createComponentForTest(subflowNode, AddElementEvent.EVENT_NAME);
             return resolveRenderCycles(() => {
                 const labelInput = getLabelDescriptionLabelElement(getBaseCalloutElement(subflowElement));
                 labelInput.value = newLabel;
@@ -163,7 +163,7 @@ describe('Subflow Editor', () => {
         });
         it('display error if devName is cleared', () => {
             const newDevName = '';
-            const subflowElement = createComponentForTest(subflowNode);
+            const subflowElement = createComponentForTest(subflowNode, AddElementEvent.EVENT_NAME);
             return resolveRenderCycles(() => {
                 const devNameInput = getLabelDescriptionNameElement(getBaseCalloutElement(subflowElement));
                 devNameInput.value = newDevName;
