@@ -968,7 +968,7 @@ export default class Editor extends LightningElement {
      */
     handleEditElement = event => {
         if (event && event.detail && event.type) {
-            const mode = event.type;
+            const mode = event.detail.mode;
             const guid = event.detail.canvasElementGUID;
             const element = storeInstance.getCurrentState().elements[guid];
 

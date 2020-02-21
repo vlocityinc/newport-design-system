@@ -10,7 +10,6 @@
                     onfocus={handleNodeClick}
                     onmousedown={handleMouseDown}
                     onclick={handleNodeClick}
-                    ondblclick={handleDblClick}
                 >
                     <span class="hiddenText">{nodeIconA11yTitle}</span>
                     <builder_platform_interaction-element-icon
@@ -40,12 +39,14 @@
                     class="slds-border_top slds-var-p-around_x-small slds-border_bottom"
                     style="background-color: white;"
                 >
-                    <!-- TODO -->
-                    Trigger
+                    <button class="slds-button slds-button_neutral slds-button_stretch" ondblclick={handleTriggerClick}>
+                        Trigger/Schedule
+                    </button>
                 </div>
                 <div if:true={isContext} class="slds-var-p-around_x-small start-context">
-                    <!-- TODO -->
-                    Context
+                    <button class="slds-button slds-button_neutral slds-button_stretch" ondblclick={handleObjectClick}>
+                        Context
+                    </button>
                 </div>
             </div>
         </div>

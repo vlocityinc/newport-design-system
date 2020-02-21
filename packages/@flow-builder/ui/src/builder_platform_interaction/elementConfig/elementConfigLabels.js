@@ -138,6 +138,9 @@ import editChoiceLabel from '@salesforce/label/FlowBuilderElementConfig.editChoi
 import editRecordChoiceSetLabel from '@salesforce/label/FlowBuilderElementConfig.editRecordChoiceSetLabel';
 import editPicklistChoiceSetLabel from '@salesforce/label/FlowBuilderElementConfig.editPicklistChoiceSetLabel';
 import editStartElementLabel from '@salesforce/label/FlowBuilderElementConfig.editStartElementLabel';
+import editTriggerLabel from '@salesforce/label/FlowBuilderElementConfig.editTriggerLabel';
+import editObjectLabel from '@salesforce/label/FlowBuilderElementConfig.editObjectLabel';
+import editScheduleLabel from '@salesforce/label/FlowBuilderElementConfig.editScheduleLabel';
 import newScreenLabel from '@salesforce/label/FlowBuilderElementConfig.newScreenLabel';
 import newActionLabel from '@salesforce/label/FlowBuilderElementConfig.newActionLabel';
 import newSubflowLabel from '@salesforce/label/FlowBuilderElementConfig.newSubflowLabel';
@@ -295,6 +298,9 @@ export const LABELS = {
     editRecordChoiceSetLabel,
     editPicklistChoiceSetLabel,
     editStartElementLabel,
+    editTriggerLabel,
+    editObjectLabel,
+    editScheduleLabel,
     newScreenLabel,
     newActionLabel,
     newSubflowLabel,

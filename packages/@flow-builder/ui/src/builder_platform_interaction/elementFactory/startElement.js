@@ -42,8 +42,8 @@ export function createStartElement(startElement = {}) {
         objectIndex = generateGuid(),
         filters = []
     } = startElement;
-    const { startDate, startTime, frequency } = startElement.schedule || startElement;
-    let { filterType, recordTriggerType } = startElement;
+    const { startDate, startTime } = startElement.schedule || startElement;
+    let { filterType, recordTriggerType, frequency } = startElement.schedule || startElement;
 
     if (!filterType) {
         // If filter type is not set (eg. when loading from metadata), we can infer that it is NONE if object is set but no filters are set.
@@ -66,6 +66,9 @@ export function createStartElement(startElement = {}) {
         label = getBeforeSaveLabel(object, recordTriggerType);
     } else if (isScheduledTriggerType(triggerType)) {
         label = getscheduledLabel(startDate, isoStartTime, frequency);
+        if (!frequency) {
+            frequency = FLOW_TRIGGER_FREQUENCY.ONCE;
+        }
     }
 
     if (triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE && recordTriggerType === undefined) {

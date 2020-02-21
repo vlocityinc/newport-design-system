@@ -4,13 +4,14 @@
 const eventName = 'editelement';
 
 export class EditElementEvent {
-    constructor(canvasElementGUID) {
+    constructor(canvasElementGUID, mode = eventName) {
         return new CustomEvent(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,
             detail: {
-                canvasElementGUID
+                canvasElementGUID,
+                mode
             }
         });
     }

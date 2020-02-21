@@ -2,7 +2,8 @@ import {
     ACTION_TYPE,
     METADATA_KEY,
     ELEMENT_TYPE,
-    START_ELEMENT_FIELDS
+    START_ELEMENT_FIELDS,
+    FLOW_TRIGGER_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { ICONS_LARGE } from 'builder_platform_interaction/imageLib';
 import { LABELS } from './elementConfigLabels';
@@ -100,6 +101,8 @@ import {
     createStartElementMetadataObject
 } from 'builder_platform_interaction/elementFactory';
 
+export const EDIT_START_CONTEXT = 'editStartContext';
+
 /**
  * @constant
  * @type {string} MODAL_SIZE large or medium (default)
@@ -144,7 +147,13 @@ export const elementTypeToConfigMap = {
         }
     },
     [ELEMENT_TYPE.START_ELEMENT]: {
-        descriptor: 'builder_platform_interaction:startEditor',
+        descriptor: {
+            [FLOW_TRIGGER_TYPE.BEFORE_SAVE]: 'builder_platform_interaction:recordChangeTriggerEditor',
+            [FLOW_TRIGGER_TYPE.AFTER_SAVE]: 'builder_platform_interaction:recordChangeTriggerEditor',
+            [FLOW_TRIGGER_TYPE.SCHEDULED]: 'builder_platform_interaction:scheduleTriggerEditor',
+            [FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY]: 'builder_platform_interaction:scheduleTriggerEditor',
+            [EDIT_START_CONTEXT]: 'builder_platform_interaction:contextRecordEditor'
+        },
         modalSize: MODAL_SIZE.MEDIUM,
         nodeConfig: {
             iconName: 'utility:right',
@@ -167,7 +176,10 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.startElementSingularLabel,
             newModal: LABELS.editStartElementLabel,
-            editModal: LABELS.editStartElementLabel
+            editModal: LABELS.editStartElementLabel,
+            editTrigger: LABELS.editTriggerLabel,
+            editSchedule: LABELS.editScheduleLabel,
+            editObject: LABELS.editObjectLabel
         }
     },
     [ELEMENT_TYPE.SUBFLOW]: {

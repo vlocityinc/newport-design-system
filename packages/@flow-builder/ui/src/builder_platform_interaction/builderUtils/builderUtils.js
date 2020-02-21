@@ -9,9 +9,11 @@ import {
     AddConnectionEvent,
     SaveFlowEvent
 } from 'builder_platform_interaction/events';
+import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './builderUtilsLabels';
 import { isObject } from 'builder_platform_interaction/commonUtils';
 import { clearExpressions } from 'builder_platform_interaction/expressionValidator';
+import { EDIT_START_CONTEXT } from 'builder_platform_interaction/elementConfig';
 
 /**
  * @constant state of callback result
@@ -107,6 +109,17 @@ const getTitleForModalHeader = (mode, elementType) => {
             break;
         case AddConnectionEvent.EVENT_NAME:
             label = elementConfig.labels.connectorPickerHeader;
+            break;
+        case FLOW_TRIGGER_TYPE.BEFORE_SAVE:
+        case FLOW_TRIGGER_TYPE.AFTER_SAVE:
+            label = elementConfig.labels.editTrigger;
+            break;
+        case FLOW_TRIGGER_TYPE.SCHEDULED:
+        case FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY:
+            label = elementConfig.labels.editSchedule;
+            break;
+        case EDIT_START_CONTEXT:
+            label = elementConfig.labels.editObject;
             break;
         default:
             label = elementConfig.labels.singular;

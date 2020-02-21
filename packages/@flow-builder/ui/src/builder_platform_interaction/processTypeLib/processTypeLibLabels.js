@@ -26,5 +26,6 @@ export const LABELS = {
 
 export const TRIGGER_TYPE_LABELS = {
     [FLOW_TRIGGER_TYPE.SCHEDULED]: newScheduledFlowLabel,
-    [FLOW_TRIGGER_TYPE.BEFORE_SAVE]: newBeforeSaveFlowLabel
+    [FLOW_TRIGGER_TYPE.BEFORE_SAVE]: newBeforeSaveFlowLabel,
+    [FLOW_TRIGGER_TYPE.AFTER_SAVE]: newBeforeSaveFlowLabel // This should probably be changed to newRecordChangeFlow
 };

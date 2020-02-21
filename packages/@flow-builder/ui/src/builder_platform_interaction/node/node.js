@@ -18,6 +18,7 @@ import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { getProcessTypes } from 'builder_platform_interaction/systemLib';
 import { TRIGGER_TYPE_LABELS } from 'builder_platform_interaction/processTypeLib';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
+import { EDIT_START_CONTEXT } from 'builder_platform_interaction/elementConfig';
 
 import startNode from './startNode.html';
 import nodeElement from './node.html';
@@ -149,6 +150,7 @@ export default class Node extends LightningElement {
     get startIconFlowType() {
         if (
             this.node.triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE ||
+            this.node.triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE ||
             this.node.triggerType === FLOW_TRIGGER_TYPE.SCHEDULED
         ) {
             return TRIGGER_TYPE_LABELS[this.node.triggerType];
@@ -269,6 +271,26 @@ export default class Node extends LightningElement {
             this.dispatchEvent(nodeSelectedEvent);
         }
         this.isNodeDragging = false;
+    };
+
+    handleTriggerClick = event => {
+        event.stopPropagation();
+
+        if (this.isEditable()) {
+            const canvasElementGUID = this.node.guid;
+            const editElementEvent = new EditElementEvent(canvasElementGUID, this.node.triggerType);
+            this.dispatchEvent(editElementEvent);
+        }
+    };
+
+    handleObjectClick = event => {
+        event.stopPropagation();
+
+        if (this.isEditable()) {
+            const canvasElementGUID = this.node.guid;
+            const editElementEvent = new EditElementEvent(canvasElementGUID, EDIT_START_CONTEXT);
+            this.dispatchEvent(editElementEvent);
+        }
     };
 
     /**
