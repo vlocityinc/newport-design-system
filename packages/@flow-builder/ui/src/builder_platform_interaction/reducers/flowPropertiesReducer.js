@@ -6,6 +6,7 @@ import {
     SELECT_ON_CANVAS,
     UPDATE_INLINE_RESOURCE_PROPERTIES,
     TOGGLE_ON_CANVAS,
+    SELECTION_ON_FIXED_CANVAS,
     UPDATE_FLOW,
     UPDATE_PROPERTIES,
     UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE,
@@ -90,6 +91,7 @@ export default function flowPropertiesReducer(state = flowProperties, { payload,
         case INIT:
         case SELECT_ON_CANVAS:
         case TOGGLE_ON_CANVAS:
+        case SELECTION_ON_FIXED_CANVAS:
         case UPDATE_APEX_CLASSES:
         case UPDATE_ENTITIES:
             return state;

@@ -145,7 +145,9 @@ export default class FlcBuilder extends LightningElement {
     @api
     set isSelectionMode(isSelectionMode) {
         this._isSelectionMode = isSelectionMode;
-        if (!this._isSelectionMode && this._topSelectedGuid) {
+        if (this._isSelectionMode) {
+            this.hideMenu();
+        } else if (this._topSelectedGuid) {
             const {
                 canvasElementGuidsToSelect,
                 canvasElementGuidsToDeselect,
@@ -158,7 +160,8 @@ export default class FlcBuilder extends LightningElement {
             const flcSelectionEvent = new FlcSelectionEvent(
                 canvasElementGuidsToSelect,
                 canvasElementGuidsToDeselect,
-                selectableCanvasElementGuids
+                selectableCanvasElementGuids,
+                this._topSelectedGuid
             );
             this.dispatchEvent(flcSelectionEvent);
         }
@@ -252,7 +255,8 @@ export default class FlcBuilder extends LightningElement {
             const flcSelectionEvent = new FlcSelectionEvent(
                 canvasElementGuidsToSelect,
                 canvasElementGuidsToDeselect,
-                selectableCanvasElementGuids
+                selectableCanvasElementGuids,
+                this._topSelectedGuid
             );
             this.dispatchEvent(flcSelectionEvent);
         }

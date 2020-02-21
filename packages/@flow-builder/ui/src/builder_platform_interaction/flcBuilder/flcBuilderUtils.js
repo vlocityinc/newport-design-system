@@ -1,4 +1,4 @@
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, isSystemElement } from 'builder_platform_interaction/flowMetadata';
 import { supportsChildren } from 'builder_platform_interaction/flcConversionUtils';
 
 const ELEMENT_SELECTED_ACTION = 'element_selected_action';
@@ -68,11 +68,7 @@ const _getSelectableCanvasElementGuids = (topSelectedGuid, flowModel) => {
         let currentCanvasElement = topSelectedElement;
 
         // All the elements in the chain above (excluding the Start Element) should be selectable
-        while (
-            currentCanvasElement &&
-            currentCanvasElement.elementType !== ELEMENT_TYPE.START_ELEMENT &&
-            currentCanvasElement.elementType !== ELEMENT_TYPE.END_ELEMENT
-        ) {
+        while (currentCanvasElement && !isSystemElement(currentCanvasElement.elementType)) {
             selectableCanvasElementGuids.push(currentCanvasElement.guid);
             currentCanvasElement = flowModel[currentCanvasElement.prev || currentCanvasElement.parent];
         }
@@ -81,7 +77,7 @@ const _getSelectableCanvasElementGuids = (topSelectedGuid, flowModel) => {
         currentCanvasElement = topSelectedElement;
 
         // All the elements in the vertical chain below (such as element.next is not null) should be selectable
-        while (currentCanvasElement) {
+        while (currentCanvasElement && !isSystemElement(currentCanvasElement.elementType)) {
             if (currentCanvasElement.guid !== topSelectedElement.guid) {
                 selectableCanvasElementGuids.push(currentCanvasElement.guid);
             }

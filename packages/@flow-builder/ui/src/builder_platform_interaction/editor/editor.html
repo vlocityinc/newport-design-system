@@ -15,6 +15,7 @@
             ></builder_platform_interaction-header>
             <builder_platform_interaction-toolbar
                 ontoggleselectionmode={handleToggleSelectionMode}
+                oncopy={handleCopy}
                 onduplicate={handleDuplicate}
                 oneditflowproperties={handleEditFlowProperties}
                 onrunflow={handleRunFlow}
@@ -35,6 +36,7 @@
                 is-save-disabled={disableSave}
                 is-save-as-disabled={hasNotBeenSaved}
                 is-selection-mode={isSelectionMode}
+                is-cut-copy-disabled={isCutCopyDisabled}
                 is-undo-disabled={isUndoDisabled}
                 is-redo-disabled={isRedoDisabled}
                 is-lightning-flow-builder={properties.isLightningFlowBuilder}
@@ -54,11 +56,12 @@
             <div if:true={hasCanvasElements} class="slds-col">
                 <builder_platform_interaction-flc-builder-container
                     if:true={useFixedLayoutCanvas}
+                    elements-metadata={elementsMetadata}
                     is-selection-mode={isSelectionMode}
                     onaddelement={handleAddCanvasElement}
                     oneditelement={handleEditElement}
                     ondeleteelement={handleElementDelete}
-                    elements-metadata={elementsMetadata}
+                    onflcselection={handleSelectionOnFixedCanvas}
                 >
                 </builder_platform_interaction-flc-builder-container>
                 <builder_platform_interaction-canvas-container

@@ -16,9 +16,8 @@
         </lightning-button>
 
         <!-- Undo/Redo -->
-        <!--Undo/Redo-->
         <h2 class="slds-assistive-text">{labels.assistiveName}</h2>
-        <lightning-button-group class="slds-builder-toolbar__item-group">
+        <lightning-button-group if:false={isSelectionMode} class="slds-builder-toolbar__item-group">
             <lightning-button-icon
                 variant="border-filled"
                 icon-name="utility:undo"
@@ -43,6 +42,7 @@
         <lightning-button-group if:true={isSelectionMode} class="slds-builder-toolbar__item-group">
             <lightning-button-icon
                 alternative-text={labels.cutAltText}
+                disabled={isCutCopyDisabled}
                 icon-name="utility:cut"
                 title={labels.cutTitle}
                 variant="border-filled"
@@ -50,9 +50,11 @@
             </lightning-button-icon>
             <lightning-button-icon
                 alternative-text={labels.copyAltText}
+                disabled={isCutCopyDisabled}
                 icon-name="utility:copy_to_clipboard"
                 title={labels.copyTitle}
                 variant="border-filled"
+                onclick={handleCopyButtonClick}
             >
             </lightning-button-icon>
         </lightning-button-group>

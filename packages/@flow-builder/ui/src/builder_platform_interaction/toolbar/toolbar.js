@@ -7,6 +7,7 @@ import {
     DiffFlowEvent,
     UndoEvent,
     RedoEvent,
+    CopyEvent,
     DuplicateEvent,
     ToggleFlowStatusEvent,
     ToggleSelectionModeEvent
@@ -71,6 +72,9 @@ export default class Toolbar extends LightningElement {
 
     @api
     isRedoDisabled;
+
+    @api
+    isCutCopyDisabled;
 
     labels = LABELS;
 
@@ -224,6 +228,12 @@ export default class Toolbar extends LightningElement {
         this.dispatchEvent(redoEvent);
         logInteraction(`redo-button`, 'toolbar', null, 'click');
     }
+
+    handleCopyButtonClick() {
+        const copyEvent = new CopyEvent();
+        this.dispatchEvent(copyEvent);
+    }
+
     handleDuplicateButtonClick(event) {
         event.preventDefault();
         const duplicateEvent = new DuplicateEvent();

@@ -15,6 +15,7 @@ import {
     addElement,
     updateElement,
     selectOnCanvas,
+    selectionOnFixedCanvas,
     undo,
     redo,
     clearUndoRedo,
@@ -28,7 +29,8 @@ import {
     MARQUEE_SELECT_ON_CANVAS,
     ADD_START_ELEMENT,
     UPDATE_APEX_CLASSES,
-    UPDATE_ENTITIES
+    UPDATE_ENTITIES,
+    SELECTION_ON_FIXED_CANVAS
 } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE, FLOW_STATUS, isSystemElement } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
@@ -153,6 +155,7 @@ export default class Editor extends LightningElement {
     @track
     elementsMetadata;
 
+    copiedCanvasElements = {};
     currentFlowId;
     currentFlowDefId;
     runDebugUrl;
@@ -221,6 +224,9 @@ export default class Editor extends LightningElement {
     builderConfigLoading = false;
 
     @track
+    isCutCopyDisabled = true;
+
+    @track
     isSelectionMode = false;
 
     processTypeLoading = false;
@@ -272,7 +278,7 @@ export default class Editor extends LightningElement {
 
     constructor() {
         super();
-        // Setting the app name to differenciate between FLOW_BUILDER or STRATEGY_BUILDER
+        // Setting the app name to differentiate between FLOW_BUILDER or STRATEGY_BUILDER
         setAppName(APP_NAME);
         // Set default builder type
         setBuilderType(BUILDER_TYPE_FLOW_BUILDER);
@@ -283,7 +289,8 @@ export default class Editor extends LightningElement {
             ADD_START_ELEMENT,
             UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE,
             UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE,
-            UPDATE_ENTITIES
+            UPDATE_ENTITIES,
+            SELECTION_ON_FIXED_CANVAS
         ];
         const groupedActions = [
             TOGGLE_ON_CANVAS, // Used for shift-select elements on canvas.
@@ -293,7 +300,7 @@ export default class Editor extends LightningElement {
 
         this.guardrailsEngine = new FlowGuardrailsExecutor();
 
-        // Initialising store
+        // Initializing store
         storeInstance = Store.getStore(
             undoRedo(reducer, {
                 blacklistedActions: blacklistedActionsForUndoRedoLib,
@@ -662,6 +669,39 @@ export default class Editor extends LightningElement {
      */
     handleToggleSelectionMode = () => {
         this.isSelectionMode = !this.isSelectionMode;
+    };
+
+    /**
+     * Handles Selection on Fixed Layout Canvas
+     * @param {object} event Selection event coming from flcBuilder
+     */
+    handleSelectionOnFixedCanvas = event => {
+        if (event && event.detail) {
+            const { canvasElementGuidsToSelect, canvasElementGuidsToDeselect, selectableGuids } = event.detail;
+            const payload = {
+                canvasElementGuidsToSelect,
+                canvasElementGuidsToDeselect,
+                selectableGuids
+            };
+            storeInstance.dispatch(selectionOnFixedCanvas(payload));
+
+            this.isCutCopyDisabled = !event.detail.topSelectedGuid;
+        }
+    };
+
+    /**
+     * Handles the copy event and updates the copiedCanvasElements
+     */
+    handleCopy = () => {
+        const elements = storeInstance.getCurrentState() && storeInstance.getCurrentState().elements;
+        this.copiedCanvasElements = Object.values(elements)
+            .filter(elementData => {
+                return elementData.config && elementData.config.isSelected;
+            })
+            .reduce((element, elementData) => {
+                element[elementData.guid] = elements[elementData.guid];
+                return element;
+            }, {});
     };
 
     /**
