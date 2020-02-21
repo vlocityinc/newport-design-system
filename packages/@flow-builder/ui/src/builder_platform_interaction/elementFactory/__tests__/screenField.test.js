@@ -62,6 +62,7 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
 const componentAutomaticScreenFieldMetadata = () => ({
     choiceReferences: [],
     extensionName: 'flowruntime:email',
+    fields: [],
     fieldType: 'ComponentInstance',
     dataTypeMappings: [
         {
@@ -95,6 +96,7 @@ const componentAutomaticScreenFieldMetadata = () => ({
 const componentScreenFieldEmailMetadata = () => ({
     choiceReferences: [],
     extensionName: 'flowruntime:email',
+    fields: [],
     fieldType: 'ComponentInstance',
     inputParameters: [
         {
@@ -129,6 +131,7 @@ const componentScreenFieldEmailStore = () => ({
     defaultValueIndex: '60c55df3-dd55-49de-80ae-f1ed8c294e11',
     elementType: 'SCREEN_FIELD',
     extensionName: 'flowruntime:email',
+    fields: [],
     fieldText: '',
     fieldType: 'ComponentInstance',
     helpText: '',
@@ -168,6 +171,7 @@ const componentAutomaticScreenFieldStore = () => ({
         errorMessage: null
     },
     extensionName: 'flowruntime:email',
+    fields: [],
     fieldType: 'ComponentInstance',
     fieldText: '',
     helpText: '',

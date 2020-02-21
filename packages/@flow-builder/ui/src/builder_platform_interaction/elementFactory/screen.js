@@ -5,9 +5,15 @@ import {
     baseCanvasElementsArrayToMap
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
-import { createScreenField, createScreenFieldMetadataObject } from './screenField';
+import {
+    createScreenField,
+    createScreenFieldWithFields,
+    createScreenFieldWithFieldReferences,
+    createScreenFieldMetadataObject
+} from './screenField';
 import { createConnectorObjects } from './connector';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { isRegionContainerField } from 'builder_platform_interaction/screenEditorUtils';
 
 const elementType = ELEMENT_TYPE.SCREEN;
 const maxConnections = 1;
@@ -24,16 +30,15 @@ const childReferenceKeys = {
  */
 export function createScreenWithFields(screen = {}) {
     const newScreen = createScreenElement(screen);
-    const { fieldReferences } = screen;
+    const { fieldReferences = [] } = screen;
 
     let { fields = [] } = screen;
 
-    if (fieldReferences && fieldReferences.length > 0) {
-        // screen with field references
-        // Decouple field from store.
-        fields = fieldReferences.map(fieldReference =>
-            createScreenField(getElementByGuid(fieldReference.fieldReference))
-        );
+    for (let i = 0; i < fieldReferences.length; i++) {
+        const fieldReference = fieldReferences[i];
+        const field = getElementByGuid(fieldReference.fieldReference);
+        const newScreenField = createScreenFieldWithFields(field);
+        fields = [...fields, newScreenField];
     }
 
     return Object.assign(newScreen, {
@@ -94,12 +99,16 @@ export function createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(sc
     const newScreen = createScreenElement(screen);
     const { fields } = screen;
 
-    let fieldReferences = [];
-    let newFields = [];
+    let fieldReferences = [],
+        newFields = [],
+        regionContainerCount = 0;
 
     for (let i = 0; i < fields.length; i++) {
         const field = fields[i];
-        const newField = createScreenField(field);
+        if (isRegionContainerField(field)) {
+            regionContainerCount++;
+        }
+        const newField = createScreenFieldWithFieldReferences(field, newFields, newScreen.name, regionContainerCount);
         fieldReferences = updateScreenFieldReferences(fieldReferences, newField);
         newFields = [...newFields, newField];
     }
@@ -132,11 +141,21 @@ export function createScreenWithFieldReferences(screen = {}) {
     const connectorCount = connectors ? connectors.length : 0;
 
     let screenFields = [],
-        fieldReferences = [];
+        fieldReferences = [],
+        regionContainerCount = 0;
 
     for (let i = 0; i < fields.length; i++) {
         const field = fields[i];
-        const screenField = createScreenField(field);
+        if (isRegionContainerField(field)) {
+            regionContainerCount++;
+        }
+        const screenField = createScreenFieldWithFieldReferences(
+            field,
+            screenFields,
+            newScreen.name,
+            regionContainerCount
+        );
+
         screenFields = [...screenFields, screenField];
         // updating fieldReferences
         fieldReferences = updateScreenFieldReferences(fieldReferences, screenField);
@@ -216,22 +235,57 @@ export function createScreenElement(screen) {
         }
         return -1;
     };
+
     const getFieldByGUID = function(guid) {
-        if (this.fields) {
-            return this.fields.find(field => {
-                return field.guid === guid;
-            });
+        return this.findFieldByGUID(this.fields, guid);
+    };
+
+    const findFieldByGUID = function(fields = [], guid) {
+        let foundField = fields.find(field => {
+            return field.guid === guid;
+        });
+        if (foundField) {
+            return foundField;
+        }
+        for (const field of fields) {
+            if (field.fields) {
+                foundField = this.findFieldByGUID(field.fields, guid);
+                if (foundField) {
+                    return foundField;
+                }
+            }
         }
         return undefined;
     };
-    const getFieldIndexByGUID = function(guid) {
-        if (this.fields) {
-            return this.fields.findIndex(field => {
-                return field.guid === guid;
-            });
-        }
-        return -1;
+
+    // Returns an array containing a series of indexes that indicate where in the screen's
+    // tree of fields a particular field is located. The first item in the array is the
+    // index indicating the position of the field with the provided guid within its parent's
+    // fields array. The next item is the position of the parent in the grandparent's fields
+    // array, etc. etc.
+    const getFieldIndexesByGUID = function(guid) {
+        const indexes = this.findFieldIndexByGUID(this.fields, guid);
+        return indexes || -1;
     };
+
+    const findFieldIndexByGUID = function(fields = [], guid) {
+        let foundIndex = fields.findIndex(field => {
+            return field.guid === guid;
+        });
+        if (foundIndex >= 0) {
+            return [foundIndex];
+        }
+        for (let i = 0; i < fields.length; i++) {
+            if (fields[i].fields) {
+                foundIndex = this.findFieldIndexByGUID(fields[i].fields, guid);
+                if (foundIndex) {
+                    return foundIndex.concat(i);
+                }
+            }
+        }
+        return undefined;
+    };
+
     const screenObject = Object.assign(newScreen, {
         allowBack,
         allowFinish,
@@ -240,9 +294,11 @@ export function createScreenElement(screen) {
         pausedText,
         showFooter,
         showHeader,
-        getFieldIndexByGUID,
+        getFieldIndexesByGUID,
         getFieldByGUID,
         getFieldIndex,
+        findFieldByGUID,
+        findFieldIndexByGUID,
         next,
         prev,
         parent,

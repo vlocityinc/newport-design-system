@@ -201,7 +201,8 @@ export function createTestScreenField(name, type, value, config = {}, storeOutpu
         scale: getStringValue('0', '0', hydrateValues),
         inputParameters: [],
         outputParameters: [],
-        processMetadataValues: []
+        processMetadataValues: [],
+        fields: []
     };
 
     if (type === 'DisplayText' && value !== SCREEN_NO_DEF_VALUE) {

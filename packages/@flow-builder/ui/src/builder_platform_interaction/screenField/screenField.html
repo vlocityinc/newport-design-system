@@ -1,5 +1,5 @@
 <template>
-    <div class="slds-p-horizontal_small slds-p-vertical_x-small">
+    <div class={calculatedClass}>
         <div if:true={hasErrors}>
             <builder_platform_interaction-screen-field-card title={labels.invalidScreenfield} text={displayName} error>
             </builder_platform_interaction-screen-field-card>
@@ -33,6 +33,8 @@
                 if:true={isSectionType}
                 type-name={screenfield.type.name}
                 title={name}
+                section={screenfield}
+                selected-item-guid={selectedItemGuid}
             >
             </builder_platform_interaction-screen-section-field>
             <builder_platform_interaction-screen-textarea-field

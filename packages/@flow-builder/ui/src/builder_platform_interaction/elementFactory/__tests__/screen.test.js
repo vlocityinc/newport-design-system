@@ -7,7 +7,11 @@ import {
     createScreenWithFieldReferences,
     createScreenMetadataObject
 } from '../screen';
-import { createScreenField, createScreenFieldMetadataObject } from '../screenField';
+import {
+    createScreenField,
+    createScreenFieldMetadataObject,
+    createScreenFieldWithFieldReferences
+} from '../screenField';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
@@ -91,6 +95,9 @@ createScreenFieldMetadataObject.mockImplementation(element => {
     return Object.assign({}, element);
 });
 createScreenField.mockImplementation(element => {
+    return Object.assign({}, element);
+});
+createScreenFieldWithFieldReferences.mockImplementation(element => {
     return Object.assign({}, element);
 });
 

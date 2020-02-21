@@ -1,5 +1,6 @@
 export const SCREEN_EDITOR_EVENT_NAME = {
     SCREEN_FIELD_ADDED: 'addscreenfield',
+    SCREEN_FIELD_ADDED_TO_CONTAINER_FIELD: 'addscreenfieldtocontainerfield',
     SCREEN_ELEMENT_DELETED: 'screenelementdeleted',
     SCREEN_ELEMENT_DESELECTED: 'screenelementdeselected',
     SCREEN_ELEMENT_SELECTED: 'screenelementselected',
@@ -51,6 +52,33 @@ export function createScreenEditorEvent(type, detail = {}, cancelable = true, co
  */
 export function createAddScreenFieldEvent(typeName, position) {
     return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED, { typeName, position });
+}
+
+/**
+ * Creates an event to be fired when the user adds an element to a container field, i.e. a column within a section
+ * @param {string} typeName - The type of the field to add
+ * @param {number} position - The new field's position in its parent, i.e. in a column
+ * @param {object} parent - The new field's parent, i.e. a column
+ * @param {Array} ancestorPositions - An array of indexes indicating the position of the new field, the first being
+ * the most direct ancestor, the last being the most distant ancestor, i.e. [index of new field's column within the section,
+ * index of new field's section within the screen]
+ * @param {object} container - The container field to which we are adding the new field, i.e. the section
+ * @returns {event} The event
+ */
+export function createAddScreenFieldToContainerFieldEvent(
+    typeName,
+    position,
+    parent,
+    ancestorPositions,
+    container = null
+) {
+    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED_TO_CONTAINER_FIELD, {
+        typeName,
+        position,
+        parent,
+        ancestorPositions,
+        container
+    });
 }
 
 /**

@@ -86,7 +86,8 @@ export default class ScreenEditorCanvas extends LightningElement {
             } else {
                 // Existing field is being moved around.
                 const sourceGuid = event.dataTransfer.getData('text');
-                const sourceIndex = this.screen.getFieldIndexByGUID(sourceGuid);
+                const positions = this.screen.getFieldIndexesByGUID(sourceGuid);
+                const sourceIndex = positions[0];
                 const destIndex = range.index > sourceIndex ? range.index - 1 : range.index;
                 const destScreenField = this.screen.fields[destIndex];
                 if (destScreenField) {
@@ -115,11 +116,17 @@ export default class ScreenEditorCanvas extends LightningElement {
         this.template.querySelector(DRAGGING_REGION_SELECTOR).classList.remove('slds-hide');
         event.preventDefault();
         event.stopPropagation();
+
+        // TODO: dispatch an event telling the screen editor canvas body to remove its dragging region
     }
 
-    handleDragEnd(/* event */) {
+    handleDragEnd(event = null) {
         this.template.querySelector(DRAGGING_REGION_SELECTOR).classList.add('slds-hide');
         this.template.querySelector(INSERTION_LINE_SELECTOR).style.top = '0';
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
     }
 
     handleDragOver(event) {

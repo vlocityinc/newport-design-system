@@ -65,7 +65,14 @@ export const getResourceIconName = element => {
     const { elementType, dataType, storeOutputAutomatically } = element;
     if (elementType === ELEMENT_TYPE.SCREEN_FIELD) {
         const screenFieldDataType = getScreenFieldDataType(element);
-        return screenFieldDataType ? getDataTypeIcons(screenFieldDataType, 'utility') : 'utility:connected_apps';
+        if (screenFieldDataType) {
+            return getDataTypeIcons(screenFieldDataType, 'utility');
+        }
+        const screenFieldType = element.type;
+        if (screenFieldType.name === 'Section') {
+            return 'utility:display_text';
+        }
+        return 'utility:connected_apps';
     } else if (elementType === ELEMENT_TYPE.RECORD_CREATE && storeOutputAutomatically) {
         return getDataTypeIcons('String', 'utility');
     } else if (dataType) {

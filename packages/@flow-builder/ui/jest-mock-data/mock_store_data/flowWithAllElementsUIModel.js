@@ -1769,7 +1769,9 @@ export const flowWithAllElementsUIModel = {
                 conditionLogic: 'no_conditions',
                 conditions: []
             },
-            storeOutputAutomatically: true
+            fields: [],
+            storeOutputAutomatically: true,
+            fieldReferences: []
         },
         '5a8a33e6-d476-45dc-b263-b3bae11ee715': {
             guid: '5a8a33e6-d476-45dc-b263-b3bae11ee715',
@@ -1815,7 +1817,9 @@ export const flowWithAllElementsUIModel = {
                 conditionLogic: 'no_conditions',
                 conditions: []
             },
-            storeOutputAutomatically: false
+            fields: [],
+            storeOutputAutomatically: false,
+            fieldReferences: []
         },
         '8d06ba06-b0e4-4a15-ab56-651dc35a83a8': {
             guid: '8d06ba06-b0e4-4a15-ab56-651dc35a83a8',
@@ -1849,7 +1853,9 @@ export const flowWithAllElementsUIModel = {
                 conditionLogic: 'no_conditions',
                 conditions: []
             },
-            storeOutputAutomatically: true
+            fields: [],
+            storeOutputAutomatically: true,
+            fieldReferences: []
         },
         '0a3d0031-d1de-4f69-9a41-c302eecc0ea5': {
             guid: '0a3d0031-d1de-4f69-9a41-c302eecc0ea5',
@@ -1883,7 +1889,9 @@ export const flowWithAllElementsUIModel = {
                 conditionLogic: 'no_conditions',
                 conditions: []
             },
-            storeOutputAutomatically: true
+            fields: [],
+            storeOutputAutomatically: true,
+            fieldReferences: []
         },
         '3606994f-008f-4e3a-a353-cc4f7fa75086': {
             guid: '3606994f-008f-4e3a-a353-cc4f7fa75086',
@@ -1917,7 +1925,9 @@ export const flowWithAllElementsUIModel = {
                 conditionLogic: 'no_conditions',
                 conditions: []
             },
-            storeOutputAutomatically: true
+            fields: [],
+            storeOutputAutomatically: true,
+            fieldReferences: []
         },
         '123b2338-5cb1-4a98-966f-58a56114c1f6': {
             guid: '123b2338-5cb1-4a98-966f-58a56114c1f6',
@@ -1980,7 +1990,9 @@ export const flowWithAllElementsUIModel = {
                 conditionLogic: 'no_conditions',
                 conditions: []
             },
-            storeOutputAutomatically: true
+            fields: [],
+            storeOutputAutomatically: true,
+            fieldReferences: []
         },
         '37cfa784-b1db-4323-8baa-51d1da0c010f': {
             guid: '37cfa784-b1db-4323-8baa-51d1da0c010f',

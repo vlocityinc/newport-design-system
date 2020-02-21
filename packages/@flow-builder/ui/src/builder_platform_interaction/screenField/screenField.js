@@ -19,7 +19,17 @@ import {
  */
 export default class ScreenField extends LightningElement {
     @api screenfield;
+    @api selectedItemGuid;
+
     labels = LABELS;
+
+    get calculatedClass() {
+        let classString = 'slds-p-vertical_x-small';
+        if (!this.isSectionType) {
+            classString = classString.concat(' slds-p-horizontal_small');
+        }
+        return classString;
+    }
 
     get hasErrors() {
         const errors = this.screenfield && getErrorsFromHydratedElement(this.screenfield);
@@ -47,7 +57,7 @@ export default class ScreenField extends LightningElement {
     }
 
     get isSectionType() {
-        return this.screenfield.type.fieldType === 'Section';
+        return this.screenfield.type.name === 'Section';
     }
 
     get isRequired() {

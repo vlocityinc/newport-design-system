@@ -1,13 +1,35 @@
 import { LightningElement, api } from 'lwc';
+import { createAddScreenFieldToContainerFieldEvent } from 'builder_platform_interaction/events';
 /**
- * Wrapper used to represent visual preview of a screen section field.
+ * Wrapper used to represent visual preview of screen fields which are are display fields.
  */
 export default class ScreenSectionField extends LightningElement {
     @api title;
     @api typeName;
+    @api section;
+    @api selectedItemGuid;
 
-    // TODO: Temporary data provider. This is just here so the section
-    // isn't empty. When we do the factory work, the creation of the
-    // default column will happen there. W-7149680
-    columns = [{ name: 'Column 1', guid: '1' }];
+    handleAddScreenFieldToContainerField(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        const ancestorPositions = event.detail.ancestorPositions;
+        ancestorPositions.push(this.getIndexOfChildField(event.detail.container));
+        const addFieldEvent = createAddScreenFieldToContainerFieldEvent(
+            event.detail.typeName,
+            event.detail.position,
+            event.detail.parent,
+            ancestorPositions,
+            this.section
+        );
+        this.dispatchEvent(addFieldEvent);
+    }
+
+    getIndexOfChildField(field) {
+        if (this.section) {
+            return this.section.fields.findIndex(sfield => {
+                return sfield.guid === field.guid;
+            });
+        }
+        return -1;
+    }
 }

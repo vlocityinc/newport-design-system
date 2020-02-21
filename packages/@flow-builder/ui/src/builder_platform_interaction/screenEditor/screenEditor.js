@@ -175,11 +175,26 @@ export default class ScreenEditor extends LightningElement {
     };
 
     /**
+     * Handler for the add screen field to container field event
+     * @param {event} event - The event
+     */
+    handleAddScreenFieldToContainerField = event => {
+        // Add the new field to a column within a section.
+        event.detail.ancestorPositions.push(this.screen.getFieldIndex(event.container));
+        this.screen = screenReducer(this.screen, event);
+
+        // select the new field on canvas.
+        // TODO: need to select the field that is nested within the container
+    };
+
+    /**
      * Handler for the delete screen element event. Invokes the delete confirmation modal.
      * @param {event} event - The event
      */
     handleDeleteScreenElement = event => {
         const state = this.screen;
+        // TODO: Recurse over all the screen child fields, grand child fields, etc. and pass the results to the
+        // usedByStoreAndElementState function
         const usedElements = usedByStoreAndElementState(event.detail.screenElement.guid, state.guid, state.fields);
         if (usedElements && usedElements.length > 0) {
             invokeUsedByAlertModal(usedElements, [event.detail.screenElement.guid], ELEMENT_TYPE.SCREEN_FIELD);

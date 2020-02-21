@@ -3,6 +3,8 @@ import {
     isChoiceField,
     isExtensionField,
     isPicklistField,
+    isRegionContainerField,
+    isRegionField,
     getLocalExtensionFieldType,
     getScreenFieldTypeByName,
     getScreenFieldType
@@ -49,7 +51,8 @@ export function createScreenField(screenField = {}, isNewField = false) {
         choiceReferences = [],
         storeOutputAutomatically,
         visibilityRule,
-        dynamicTypeMappings
+        dynamicTypeMappings,
+        fields
     } = screenField;
     if (isExtensionField(screenField)) {
         // Assign local extension type (using a local version of the field type that will be replaced when the real one is retrieved from the server
@@ -70,6 +73,7 @@ export function createScreenField(screenField = {}, isNewField = false) {
             dataType = undefined;
             outputParameters = outputParameters.map(outputParameter => createOutputParameter(outputParameter));
         }
+        fields = [];
     } else {
         storeOutputAutomatically = undefined;
         type = getScreenFieldType(screenField);
@@ -147,7 +151,8 @@ export function createScreenField(screenField = {}, isNewField = false) {
             type,
             elementType,
             defaultSelectedChoiceReference,
-            visibilityRule
+            visibilityRule,
+            fields
         },
         dynamicTypeMappings,
         storeOutputAutomatically !== undefined ? { storeOutputAutomatically } : {},
@@ -156,14 +161,83 @@ export function createScreenField(screenField = {}, isNewField = false) {
 }
 
 /**
+ * Called when opening a property editor or copying a screen element. We are taking all the field
+ * references and converting them into full fledged field objects.
+ * @param {screenFieldInStore} screenField
+ * @return {screenFieldInPropertyEditor} Screen field in the shape expected by a property editor
+ */
+export function createScreenFieldWithFields(screenField = {}) {
+    const newScreenField = createScreenField(screenField);
+    const { fieldReferences = [] } = screenField;
+    const newChildFields = [];
+
+    for (let i = 0; i < fieldReferences.length; i++) {
+        const fieldReference = fieldReferences[i];
+        const field = getElementByGuid(fieldReference.fieldReference);
+        const childScreenField = createScreenFieldWithFields(field);
+        newChildFields.push(childScreenField);
+    }
+
+    Object.assign(newScreenField, {
+        fields: newChildFields,
+        hasNoChildren: newChildFields.length === 0
+    });
+
+    return newScreenField;
+}
+
+/**
+ * Create a screen field in the shape the store expects (with field references).  This is used when taking a
+ * flow element and converting it for use in the store (either when we're loading an existing flow or just we
+ * just clicked done on the property editor).
+ * @param {Object} screenField - screen field from metadata
+ * @param {Array} screenFields - An array for collecting all the screen fields that are contained, either directly or indirectly, by the current screen.
+ * @param {String} parentName - The name of this screen field's parent. Used for autogeneration of unique api names.
+ * @return {screenFieldInStore} screen field in the shape used by the store
+ */
+export function createScreenFieldWithFieldReferences(screenField = {}, screenFields = [], parentName, index) {
+    const newScreenField = createScreenField(screenField);
+
+    let fieldName = newScreenField.name;
+    // TODO: We should do this better. What happens when we have more than one region container field
+    // type? What should the naming convention be? Where should the '_Section' portion of the
+    // name come from, because having it hard coded here isn't right.
+    if (isRegionContainerField(newScreenField)) {
+        fieldName = parentName + '_Section' + index;
+    } else if (isRegionField(newScreenField)) {
+        fieldName = parentName + '_Column' + index;
+    }
+
+    const { fields = [] } = screenField;
+    let fieldReferences = [];
+
+    for (let i = 0; i < fields.length; i++) {
+        const field = fields[i];
+        const childScreenField = createScreenFieldWithFieldReferences(field, screenFields, fieldName, i + 1);
+        screenFields.push(childScreenField);
+        fieldReferences = updateScreenFieldReferences(fieldReferences, childScreenField);
+    }
+
+    Object.assign(newScreenField, {
+        fieldReferences,
+        fields: [],
+        name: fieldName
+    });
+
+    return newScreenField;
+}
+
+/**
  * Creates an empty screen field of the given type
  * @param {String} typeName - The field type
+ * @param {String} sectionCount - The number of sections in the current screen
  * @return {object} - The new screen field
  */
-export function createEmptyScreenFieldOfType(typeName) {
+export function createEmptyScreenFieldOfType(typeName, sectionCount = 0) {
     const type = getScreenFieldTypeByName(typeName);
 
     const newScreenField = {
+        name: type.name === 'Section' ? 'Section' + (sectionCount + 1) : undefined,
         isRequired: type.dataType === 'Boolean' ? true : false,
         defaultValue: '',
         dataType: type.dataType,
@@ -179,6 +253,20 @@ export function createEmptyScreenFieldOfType(typeName) {
         storeOutputAutomatically: automaticOutputHandlingSupport()
     };
 
+    // Add a single default column for section fields
+    if (type.name === 'Section') {
+        const newChildScreenField = createScreenField(
+            {
+                name: newScreenField.name + '_Column1',
+                fieldText: 'Column 1',
+                guid: generateGuid(),
+                fieldType: 'Region',
+                fields: []
+            },
+            true
+        );
+        newScreenField.fields = [newChildScreenField];
+    }
     // Always add a placeholder choice for any choice based fields.
     if (
         type.name === 'RadioButtons' ||
@@ -209,7 +297,8 @@ export function createScreenFieldMetadataObject(screenField) {
         validationRule,
         defaultSelectedChoiceReference,
         visibilityRule,
-        dynamicTypeMappings
+        dynamicTypeMappings,
+        fieldReferences
     } = screenField;
     let {
         dataType,
@@ -217,6 +306,7 @@ export function createScreenFieldMetadataObject(screenField) {
         inputParameters,
         outputParameters,
         choiceReferences,
+        fields,
         storeOutputAutomatically
     } = screenField;
 
@@ -257,6 +347,12 @@ export function createScreenFieldMetadataObject(screenField) {
     }
 
     choiceReferences = choiceReferences.map(choiceReference => createChoiceReferenceMetadatObject(choiceReference));
+    fields = fields.map(field => createScreenFieldMetadataObject(field));
+    if (fieldReferences && fieldReferences.length > 0) {
+        fields = fieldReferences.map(fieldReference => {
+            return createScreenFieldMetadataObject(getElementByGuid(fieldReference.fieldReference));
+        });
+    }
 
     if (dataTypeMappings) {
         dataTypeMappings = { dataTypeMappings };
@@ -274,7 +370,8 @@ export function createScreenFieldMetadataObject(screenField) {
             isRequired,
             name,
             outputParameters,
-            scale
+            scale,
+            fields
         },
         dataTypeMappings,
         storeOutputAutomatically !== undefined ? { storeOutputAutomatically } : {},
@@ -343,4 +440,16 @@ function createVisibilityRuleObject(visibilityRule) {
         conditions: conditions.map(condition => createCondition(condition)),
         conditionLogic
     };
+}
+
+function updateScreenFieldReferences(fieldReferences = [], field) {
+    if (!field || !field.guid) {
+        throw new Error('Either field or field.guid is not defined');
+    }
+    return [
+        ...fieldReferences,
+        {
+            fieldReference: field.guid
+        }
+    ];
 }

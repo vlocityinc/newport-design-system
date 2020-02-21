@@ -372,7 +372,9 @@ export const contactRequestFlowUIModel = {
                 conditionLogic: 'no_conditions',
                 conditions: []
             },
-            storeOutputAutomatically: false
+            fields: [],
+            storeOutputAutomatically: false,
+            fieldReferences: []
         }
     },
     connectors: [],

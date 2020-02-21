@@ -147,8 +147,7 @@ export function getAllScreenFieldTypes() {
     if (orgHasFlowScreenSections()) {
         const sectionFieldType = {
             name: 'Section',
-            fieldType: 'Section',
-            dataType: undefined,
+            fieldType: 'RegionContainer',
             label: LABELS.fieldTypeLabelSection,
             icon: 'standard:display_text',
             category: LABELS.fieldCategoryDisplay
@@ -170,6 +169,13 @@ export function getLocalExtensionFieldType(name) {
         label: name,
         icon: 'standard:lightning_component',
         source: EXTENSION_TYPE_SOURCE.LOCAL
+    };
+}
+
+export function getColumnFieldType() {
+    return {
+        name: 'Column',
+        fieldType: 'Region'
     };
 }
 
@@ -196,7 +202,10 @@ export function getScreenFieldType(field) {
     const fieldType = field.fieldType;
     const dataType = field.dataType;
 
-    for (const type of getAllScreenFieldTypes()) {
+    let allTypes = getAllScreenFieldTypes();
+    allTypes = allTypes.concat(getColumnFieldType());
+
+    for (const type of allTypes) {
         if (fieldType === type.fieldType && dataType === type.dataType) {
             return type;
         }
@@ -315,6 +324,22 @@ export function isMultiSelectPicklistField(field) {
  */
 export function isPicklistField(field) {
     return field && field.fieldType === 'DropdownBox';
+}
+
+/**
+ * @param {object} field - field to test
+ * @returns {boolean} Indicates if specified field is a region container (section) field
+ */
+export function isRegionContainerField(field) {
+    return field && field.fieldType === 'RegionContainer';
+}
+
+/**
+ * @param {object} field - field to test
+ * @returns {boolean} Indicates if specified field is a region (column) field
+ */
+export function isRegionField(field) {
+    return field && field.fieldType === 'Region';
 }
 
 /**

@@ -39,6 +39,7 @@ import {
     isMultiSelectPicklistField,
     isMultiSelectCheckboxField,
     isRadioField,
+    isRegionContainerField,
     compareValues,
     EXTENSION_PARAM_PREFIX,
     extendFlowExtensionScreenField
@@ -46,13 +47,19 @@ import {
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 
+const updateAncestors = (parent, positions, updatedChild) => {
+    const parentPosition = positions.pop();
+    if (positions.length > 0) {
+        updatedChild = updateAncestors(parent.fields[parentPosition], positions, updatedChild);
+    }
+    const updatedParentItems = replaceItem(parent.fields, updatedChild, parentPosition);
+    return set(parent, 'fields', updatedParentItems);
+};
+
 const updateFieldInScreen = (screen, field, newField) => {
     // Replace the field in the screen
-    const fieldPosition = screen.getFieldIndexByGUID(field.guid);
-    const updatedItems = replaceItem(screen.fields, newField, fieldPosition);
-
-    // Replace the fields in the screen
-    return set(screen, 'fields', updatedItems);
+    const positions = screen.getFieldIndexesByGUID(field.guid);
+    return updateAncestors(screen, positions, newField);
 };
 
 const updateField = (screen, field, properties) => {
@@ -189,11 +196,22 @@ function setDynamicTypeMappingTypeValue(screen, field, event) {
  * @param {event} event - The add screen field event
  * @returns {object} - A new screen with the changes applied
  */
-const addScreenField = (screen, event) => {
+const addScreenField = (parent, event) => {
     // Figure out if the field be added to the end or somewhere in between.
-    const position = Number.isInteger(event.position) ? event.position : screen.fields.length;
+    const position = Number.isInteger(event.position) ? event.position : parent.fields.length;
 
-    const field = createEmptyScreenFieldOfType(event.typeName);
+    // If it is a section, figure out how many sections the screen already has (needed to generate a
+    // a unique API name)
+    let sectionCount = 0;
+    if (event.typeName === 'Section') {
+        for (const field of parent.fields) {
+            if (isRegionContainerField(field)) {
+                sectionCount++;
+            }
+        }
+    }
+
+    const field = createEmptyScreenFieldOfType(event.typeName, sectionCount);
 
     hydrateWithErrors(field, elementTypeToConfigMap[ELEMENT_TYPE.SCREEN].nonHydratableProperties);
 
@@ -202,8 +220,19 @@ const addScreenField = (screen, event) => {
         extendFlowExtensionScreenField(field);
     }
 
-    const updatedItems = insertItem(screen.fields, field, position);
-    return set(screen, 'fields', updatedItems);
+    const updatedItems = insertItem(parent.fields, field, position);
+    return set(parent, 'fields', updatedItems);
+};
+
+/**
+ * Adds a screen field to a column within a section
+ * @param {object} screen - The screen
+ * @param {event} event - The add screen field event
+ * @returns {object} - A new screen with the changes applied
+ */
+const addScreenFieldToContainerField = (screen, event) => {
+    const updatedColumn = addScreenField(event.parent, event);
+    return updateAncestors(screen, event.detail.ancestorPositions, updatedColumn);
 };
 
 /**
@@ -224,9 +253,8 @@ const addChoice = (screen, event, field) => {
     const updatedField = set(field, 'choiceReferences', updatedChoices);
 
     // Replace the field in the screen
-    const fieldPosition = screen.getFieldIndexByGUID(field.guid);
-    const updatedFields = replaceItem(screen.fields, updatedField, fieldPosition);
-    return set(screen, 'fields', updatedFields);
+    const positions = screen.getFieldIndexesByGUID(field.guid);
+    return updateAncestors(screen, positions, updatedField);
 };
 
 /**
@@ -256,9 +284,8 @@ const changeChoice = (screen, event, field) => {
     }
 
     // Replace the field in the screen
-    const fieldPosition = screen.getFieldIndexByGUID(field.guid);
-    const updatedFields = replaceItem(screen.fields, updatedField, fieldPosition);
-    return set(screen, 'fields', updatedFields);
+    const positions = screen.getFieldIndexesByGUID(field.guid);
+    return updateAncestors(screen, positions, updatedField);
 };
 
 /**
@@ -281,9 +308,8 @@ const deleteChoice = (screen, event, field) => {
     }
 
     // Replace the field in the screen
-    const fieldPosition = screen.getFieldIndexByGUID(field.guid);
-    const updatedFields = replaceItem(screen.fields, updatedField, fieldPosition);
-    return set(screen, 'fields', updatedFields);
+    const positions = screen.getFieldIndexesByGUID(field.guid);
+    return updateAncestors(screen, positions, updatedField);
 };
 
 /**
@@ -306,7 +332,8 @@ const deleteScreenField = (screen, event) => {
 const reorderFields = (screen, event) => {
     let fields = screen.fields;
 
-    const destinationIndex = screen.getFieldIndexByGUID(event.detail.destinationGuid);
+    const positions = screen.getFieldIndexesByGUID(event.detail.destinationGuid);
+    const destinationIndex = positions[0];
     const movedField = screen.getFieldByGUID(event.detail.sourceGuid);
 
     if (destinationIndex >= 0 && movedField) {
@@ -648,6 +675,9 @@ export const screenReducer = (state, event, selectedNode) => {
 
         case SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED:
             return addScreenField(state, event);
+
+        case SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED_TO_CONTAINER_FIELD:
+            return addScreenFieldToContainerField(state, event);
 
         case SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_DELETED:
             return deleteScreenField(state, event);
