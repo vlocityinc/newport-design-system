@@ -2,7 +2,9 @@
   "context":{
     "access":{
       "orgHasFlowBuilderDebug":false,
-      "orgHasBeforeSaveEnabled":true
+      "orgHasBeforeSaveEnabled":true,
+      "orgHasFlowScreenSections":true,
+      "orgHasFlowBuilderGuardrails":false
     },
     "devMode":false,
     "testMode":true,
