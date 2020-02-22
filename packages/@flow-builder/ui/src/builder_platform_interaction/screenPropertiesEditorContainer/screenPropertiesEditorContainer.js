@@ -9,10 +9,20 @@ import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataM
  * Right hand side component, used to toggle between screen and field property editors.
  */
 export default class ScreenEditorPropertiesEditorContainer extends LightningElement {
-    @track _node;
-    @track extendedInfo;
-    @track toggleIconName = 'utility:expand_alt';
-    @track displaySpinner;
+    @track
+    _node;
+
+    @track
+    extendedInfo;
+
+    @track
+    toggleIconName = 'utility:expand_alt';
+
+    @track
+    displaySpinner;
+
+    @track
+    configurationEditor;
 
     labels = LABELS;
     processTypeValue = '';
@@ -99,6 +109,19 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
     @api
     mode;
 
+    @api
+    validate() {
+        if (this.configurationEditor) {
+            const screenExtensionPropertiesEditor = this.template.querySelector(
+                'builder_platform_interaction-screen-extension-properties-editor'
+            );
+            if (screenExtensionPropertiesEditor) {
+                return screenExtensionPropertiesEditor.validate();
+            }
+        }
+        return [];
+    }
+
     handleToggleExpand = (/* event */) => {
         const container = this.template.querySelector('.properties-container');
 
@@ -116,10 +139,13 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
         this.displaySpinner = true;
         const node = this.node; // closure
         const extensionName = node.extensionName.value;
+        // Needed to unrender the existing configuration editor
+        this.configurationEditor = undefined;
         describeExtension(extensionName)
             .then(desc => {
                 this.displaySpinner = false;
                 if (this.node === node) {
+                    this.configurationEditor = desc.configurationEditor;
                     const genericTypes = this.extensionTypes
                         ? this.extensionTypes.find(extensionType => extensionType.name === extensionName).genericTypes
                         : undefined;

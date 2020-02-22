@@ -65,7 +65,14 @@ export default class ScreenEditor extends LightningElement {
         processRequiredParamsForExtensionsInScreen(unwrap(this.screen));
         this.screen = screenReducer(this.screen, event);
         this.resetSelectedNode();
-        const errors = getErrorsFromHydratedElement(this.screen);
+        let errors = getErrorsFromHydratedElement(this.screen);
+        const screenPropertiesEditorContainer = this.template.querySelector(
+            'builder_platform_interaction-screen-properties-editor-container'
+        );
+        if (screenPropertiesEditorContainer) {
+            const customPropertyEditorErrors = screenPropertiesEditorContainer.validate();
+            errors = [...errors, ...customPropertyEditorErrors];
+        }
         return errors;
     }
 

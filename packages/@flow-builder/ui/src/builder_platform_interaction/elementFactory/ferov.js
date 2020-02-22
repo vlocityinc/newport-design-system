@@ -242,12 +242,12 @@ export const createFEROVMetadataObject = (element, valueProperty, dataTypeProper
             let ferovValue;
             if (isFerovReference(ferovDataTypeKey)) {
                 ferovValue = element[valuePropertyGuid] || value;
-            } else if (isFerovString(ferovDataTypeKey) && value === GLOBAL_CONSTANTS.EMPTY_STRING) {
+            } else if (isFerovString(ferovDataTypeKey) && (value === GLOBAL_CONSTANTS.EMPTY_STRING || value === '')) {
                 ferovValue = '';
             } else if (isFerovBoolean(ferovDataTypeKey)) {
-                if (value === GLOBAL_CONSTANTS.BOOLEAN_TRUE) {
+                if (value === GLOBAL_CONSTANTS.BOOLEAN_TRUE || value === true) {
                     ferovValue = true;
-                } else if (value === GLOBAL_CONSTANTS.BOOLEAN_FALSE) {
+                } else if (value === GLOBAL_CONSTANTS.BOOLEAN_FALSE || value === false) {
                     ferovValue = false;
                 }
             } else {

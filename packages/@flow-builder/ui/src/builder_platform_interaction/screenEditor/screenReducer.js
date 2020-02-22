@@ -480,7 +480,10 @@ const handleExtensionFieldPropertyChange = (data, attributeIndex) => {
     // Replace the property in the parameter
     let updatedParams = null;
     const index = field[parametersPropName].indexOf(param);
-    if (!data.newValue.value && !data.newValue.error) {
+
+    // Note: need to check data.newValue.value is only null/undefined here specifically,
+    // otherwise boolean type false or number type 0 could cause deleting the param
+    if ((data.newValue.value === null || data.newValue.value === undefined) && !data.newValue.error) {
         // User cleared the value and we are fine with that, let's remove the parameter
         updatedParams = deleteItem(field[parametersPropName], index);
     } else {

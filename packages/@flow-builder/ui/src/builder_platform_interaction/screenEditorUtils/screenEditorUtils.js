@@ -59,7 +59,8 @@ export function booleanValue(value, name) {
 function getNormalizedValue(value, propertyName = 'value') {
     const hydrated = value && value.hasOwnProperty('value');
     const val = hydrated ? value[propertyName] : value;
-    return !val || val === '' ? null : val;
+    // note: should differentiate boolean and number type
+    return val === undefined || val === null || val === '' ? null : val;
 }
 
 /**

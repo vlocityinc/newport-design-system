@@ -8,8 +8,11 @@ import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
-import { DynamicTypeMappingChangeEvent } from 'builder_platform_interaction/events';
-import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { translateUIModelToFlow, swapUidsForDevNames } from 'builder_platform_interaction/translatorLib';
+import { DynamicTypeMappingChangeEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { dehydrate, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { getFerovTypeFromTypeName, EXTENSION_PARAM_PREFIX } from 'builder_platform_interaction/screenEditorUtils';
 
 /*
  * Dynamic property editor for screen extensions.
@@ -47,6 +50,22 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         this._automaticOutputHandlingSupported =
             getProcessTypeAutomaticOutPutHandlingSupport(value) !== FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
     }
+
+    @api
+    validate() {
+        if (this.hasConfigurationEditor) {
+            const customPropertyEditor = this.template.querySelector(
+                'builder_platform_interaction-custom-property-editor'
+            );
+            if (customPropertyEditor) {
+                return customPropertyEditor.validate();
+            }
+        }
+        return [];
+    }
+
+    @api
+    configurationEditor;
 
     @track
     _field;
@@ -111,6 +130,90 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
     }
 
     /**
+     * configuration editor associated with a component. It is null if it is not defined
+     *
+     * @memberof ScreenExtensionPropertiesEditor
+     */
+    get hasConfigurationEditor() {
+        return !!this.configurationEditor;
+    }
+
+    /**
+     * Returns the values for configuration editor
+     * filter the input parameters with value from flow extension and create a new copy
+     * Dehydrate the new copy of input parameter and swap the guids with dev names
+     * then convert it into desired shape
+     */
+    get configurationEditorValues() {
+        if (this._field && this._field.inputParameters && this._shouldCreateConfigurationEditor()) {
+            const inputParameters = this._field.inputParameters
+                .filter(({ value }) => !!value)
+                .map(inputParameter => this._createInputParameter(inputParameter));
+            dehydrate(inputParameters);
+            swapUidsForDevNames(Store.getStore().getCurrentState().elements, inputParameters);
+            return inputParameters.map(({ name, value, valueDataType }) => ({
+                id: name,
+                value,
+                dataType: valueDataType
+            }));
+        }
+        return [];
+    }
+
+    /**
+     * Returns the current flow state. Shape is same as flow metadata.
+     */
+    get flowContext() {
+        if (this._shouldCreateConfigurationEditor()) {
+            const flow = translateUIModelToFlow(Store.getStore().getCurrentState());
+            const {
+                variables = [],
+                constants = [],
+                textTemplates = [],
+                stages = [],
+                screens = [],
+                recordUpdates = [],
+                recordLookups = [],
+                recordDeletes = [],
+                recordCreates = [],
+                formulas = [],
+                apexPluginCalls = [],
+                actionCalls = []
+            } = flow.metadata;
+            return {
+                variables,
+                constants,
+                textTemplates,
+                stages,
+                screens,
+                recordUpdates,
+                recordLookups,
+                recordDeletes,
+                recordCreates,
+                formulas,
+                apexPluginCalls,
+                actionCalls
+            };
+        }
+        return {};
+    }
+
+    /**
+     * @param {object} event - property changed event coming from parameter-item of custom property editor
+     */
+    handleCpePropertyChangeEvent(event) {
+        event.stopPropagation();
+        const { id, newValueDataType: valueDataType, newValue: value } = event && event.detail;
+        if (!id) {
+            throw new Error('id is not defined');
+        }
+
+        const inputParam = this.state && this.state.inputParameters.find(({ descriptor }) => descriptor.apiName === id);
+        const { isRequired, dataType } = inputParam && inputParam.descriptor;
+        this._updateInputParameter(id, value, getFerovTypeFromTypeName(valueDataType), dataType, isRequired);
+    }
+
+    /**
      * Handles selection/deselection of 'Use Advanced Options' checkbox
      * @param {Object} event - event
      */
@@ -135,5 +238,44 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
                 error: event.detail.error
             })
         );
+    }
+
+    _createInputParameter(inputParameter = {}) {
+        const { name = undefined, value = undefined, valueDataType = '' } = inputParameter;
+        return {
+            name,
+            value,
+            valueDataType
+        };
+    }
+
+    _shouldCreateConfigurationEditor() {
+        return (
+            this.configurationEditor &&
+            this.configurationEditor.name &&
+            (!this.configurationEditor.errors || this.configurationEditor.errors.length === 0)
+        );
+    }
+
+    _updateInputParameter(id, value, valueDataType, dataType, isRequired) {
+        const inputParam = this._field && this._field.inputParameters.find(({ name }) => name.value === id);
+
+        const oldValue = { value: null, error: null };
+        oldValue.value = inputParam ? inputParam.value.value : null;
+        const newValue = { value, error: null };
+
+        // By: screenReducer -> PropertyChangedEvent
+        const event = new PropertyChangedEvent(
+            `${EXTENSION_PARAM_PREFIX.INPUT}.${id}`,
+            newValue,
+            null,
+            null,
+            oldValue,
+            undefined,
+            valueDataType
+        );
+        event.detail.required = isRequired;
+        event.detail.valueDataType = getFerovTypeFromTypeName(dataType) || dataType;
+        this.dispatchEvent(event);
     }
 }
