@@ -5,11 +5,10 @@
  */
 
 import { Registry, RuleFilter, Engine } from 'analyzer_framework/engine';
+import { FLOW_CONTEXT } from './rules/constants';
 import { FlowDataProvider } from './flowDataProvider';
 import { FlowRuleFactory } from './flowRules';
 import { FlowMetricService } from './flowMetricsService';
-
-const CONTEXT = 'FLOW';
 
 /**
  * Flow impl to execute guardrails engine.
@@ -28,7 +27,7 @@ export class FlowGuardrailsExecutor {
 
         // Create registry which has data provider and rules
         const registry = new Registry(ruleFilter);
-        registry.addDataProvider(CONTEXT, this.flowDataProvider);
+        registry.addDataProvider(FLOW_CONTEXT, this.flowDataProvider);
         registry.registerRules(new FlowRuleFactory());
 
         // Create the engine
@@ -48,6 +47,6 @@ export class FlowGuardrailsExecutor {
 
         this.flowDataProvider.updateFlow(flow);
 
-        return this.engine.execute([CONTEXT]);
+        return this.engine.execute([FLOW_CONTEXT]);
     }
 }
