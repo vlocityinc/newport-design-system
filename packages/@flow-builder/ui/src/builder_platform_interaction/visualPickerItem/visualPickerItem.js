@@ -13,6 +13,13 @@ export default class VisualPickerItem extends LightningElement {
     @api
     itemId;
 
+    renderedCallback() {
+        const inputSelector = this.template.querySelector('input');
+        if (inputSelector && this.isSelected) {
+            inputSelector.focus();
+        }
+    }
+
     handleChange(event) {
         event.stopPropagation();
         this.dispatchEvent(new VisualPickerItemChangedEvent(this.itemId, event.currentTarget.checked));
