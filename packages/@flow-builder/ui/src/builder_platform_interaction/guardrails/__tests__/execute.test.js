@@ -1,9 +1,9 @@
 import { FlowGuardrailsExecutor } from '../execute';
-import { FlowDataProvider } from '../flowDataProvider';
+import { FlowDataProvider } from '../flowDataProvider/flowDataProvider';
 import { FlowRuleFactory } from '../flowRules';
 import { mockEngineExecute, mockRegistryAddDataProvider, mockRegistryRegisterRules } from 'analyzer_framework/engine';
 
-jest.mock('../flowDataProvider');
+jest.mock('../flowDataProvider/flowDataProvider');
 
 describe('guardrails init', () => {
     it('init registry', () => {

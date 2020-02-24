@@ -6,7 +6,7 @@
 
 import { Registry, RuleFilter, Engine } from 'analyzer_framework/engine';
 import { FLOW_CONTEXT } from './rules/constants';
-import { FlowDataProvider } from './flowDataProvider';
+import { FlowDataProvider } from './flowDataProvider/flowDataProvider';
 import { FlowRuleFactory } from './flowRules';
 import { FlowMetricService } from './flowMetricsService';
 
