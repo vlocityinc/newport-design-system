@@ -19,9 +19,6 @@ builder_platform_interaction-flc-flow {
 
 builder_platform_interaction-zoom-panel {
     position: absolute;
-    bottom: 0;
+    bottom: 48px; /* offset by canvas icon height */
     right: 0;
-
-    /* offset by canvas icon height */
-    margin-bottom: 48px;
 }

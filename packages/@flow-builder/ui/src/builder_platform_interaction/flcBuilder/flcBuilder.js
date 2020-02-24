@@ -12,7 +12,6 @@ const RENDER_BUFFER_SIZE = 200;
 const MAX_ZOOM = 1;
 const MIN_ZOOM = 0.1;
 const ZOOM_SCALE_STEP = 0.2;
-const ZOOM_THROTTLE_DELAY = 200;
 
 const CONNECTOR_ICON_SIZE = 20;
 const MENU_ICON_SIZE = 48;
@@ -38,25 +37,6 @@ function getTransformOriginOffset(ele, { x, y }) {
     return {
         x: width * x,
         y: height * y
-    };
-}
-
-function throttle(fct, wait) {
-    let last = 0;
-
-    return function(...args) {
-        const now = new Date().getTime();
-        const delay = wait - (now - last);
-        last = now;
-
-        if (delay > 0) {
-            // eslint-disable-next-line @lwc/lwc/no-async-operation
-            setTimeout(() => {
-                fct.apply(null, args);
-            }, delay);
-        } else {
-            fct.apply(null, args);
-        }
     };
 }
 
@@ -187,7 +167,6 @@ export default class FlcBuilder extends LightningElement {
         super();
 
         this.rerender = debounce(this.rerender, 10);
-        this.handleClickToZoom = throttle(this.handleClickToZoom, ZOOM_THROTTLE_DELAY);
     }
 
     hideMenu() {
@@ -315,7 +294,6 @@ export default class FlcBuilder extends LightningElement {
                 });
 
                 this._panzoom.moveTo(this._flowElement.clientWidth / 2, 0);
-                this._panzoom.on('zoom', this.handleOnZoom);
                 this._panzoom.on('pan', this.handleOnPan);
             }
         }
@@ -417,17 +395,17 @@ export default class FlcBuilder extends LightningElement {
             y = 0;
         }
         this._panzoom.smoothZoomAbs(x, y, scale);
+        this.updateScale(scale);
     };
 
     updateUiAfterPanzoom(scale) {
         this.isZoomInDisabled = scale >= MAX_ZOOM - FUDGE;
         this.isZoomOutDisabled = scale <= MIN_ZOOM + FUDGE;
-        this.isZoomToView = this.isZoomOutDisabled;
+        this.isZoomToView = this.isZoomInDisabled;
         this.updateElementsForViewport();
     }
 
-    handleOnZoom = e => {
-        const { scale } = e.getTransform();
+    updateScale = scale => {
         this._scale = scale;
         this.updateUiAfterPanzoom(scale);
     };

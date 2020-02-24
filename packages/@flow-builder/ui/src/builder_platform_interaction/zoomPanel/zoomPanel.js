@@ -33,7 +33,9 @@ export default class ZoomPanel extends LightningElement {
     /**
      * Handles click on the drag button and fires toggle marquee mode event.
      */
-    handleToggleMarqueeOn = () => {
+    handleToggleMarqueeOn = event => {
+        event.stopPropagation();
+
         const toggleMarqueeOnEvent = new ToggleMarqueeOnEvent();
         this.dispatchEvent(toggleMarqueeOnEvent);
         logInteraction(`marquee-select-button`, 'zoom-panel', null, 'click');
@@ -42,7 +44,9 @@ export default class ZoomPanel extends LightningElement {
     /**
      * Handles click on the zoom out button and fires click to zoom event.
      */
-    handleZoomOutClick = () => {
+    handleZoomOutClick = event => {
+        event.stopPropagation();
+
         const action = ZOOM_ACTION.ZOOM_OUT;
         const clickToZoomEvent = new ClickToZoomEvent(action);
         this.dispatchEvent(clickToZoomEvent);
@@ -52,7 +56,9 @@ export default class ZoomPanel extends LightningElement {
     /**
      * Handles click on the zoom to fit button and fires click to zoom event.
      */
-    handleZoomToFitClick = () => {
+    handleZoomToFitClick = event => {
+        event.stopPropagation();
+
         const action = ZOOM_ACTION.ZOOM_TO_FIT;
         const clickToZoomEvent = new ClickToZoomEvent(action);
         this.dispatchEvent(clickToZoomEvent);
@@ -62,7 +68,9 @@ export default class ZoomPanel extends LightningElement {
     /**
      * Handles click on the zoom to view button and fires click to zoom event.
      */
-    handleZoomToViewClick = () => {
+    handleZoomToViewClick = event => {
+        event.stopPropagation();
+
         const action = ZOOM_ACTION.ZOOM_TO_VIEW;
         const clickToZoomEvent = new ClickToZoomEvent(action);
         this.dispatchEvent(clickToZoomEvent);
@@ -72,7 +80,9 @@ export default class ZoomPanel extends LightningElement {
     /**
      * Handles click on the zoom in button and fires click to zoom event.
      */
-    handleZoomInClick = () => {
+    handleZoomInClick = event => {
+        event.stopPropagation();
+
         const action = ZOOM_ACTION.ZOOM_IN;
         const clickToZoomEvent = new ClickToZoomEvent(action);
         this.dispatchEvent(clickToZoomEvent);

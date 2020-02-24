@@ -1,5 +1,5 @@
 <template>
-    <div class="zoom-panel slds-is-absolute slds-p-around_large">
+    <div class="zoom-panel slds-p-around_large">
         <lightning-button-icon-stateful
             if:true={showMarqueeButton}
             variant="border-filled"
@@ -21,6 +21,7 @@
                 title={labels.zoomOutTitle}
                 alternative-text={labels.zoomOutTitle}
                 onclick={handleZoomOutClick}
+                ondblclick={handleZoomOutClick}
             ></lightning-button-icon>
             <lightning-button-icon
                 variant="border-filled"
@@ -48,6 +49,7 @@
                 title={labels.zoomInTitle}
                 alternative-text={labels.zoomInTitle}
                 onclick={handleZoomInClick}
+                ondblclick={handleZoomInClick}
             ></lightning-button-icon>
         </lightning-button-group>
     </div>
