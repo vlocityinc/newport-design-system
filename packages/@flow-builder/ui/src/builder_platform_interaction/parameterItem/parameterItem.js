@@ -7,12 +7,9 @@ import { PARAM_PROPERTY } from 'builder_platform_interaction/ruleLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { UpdateParameterItemEvent, DeleteParameterItemEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './parameterItemLabels';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 export default class ParameterItem extends LightningElement {
     labels = LABELS;
-    ferovId = generateGuid();
-    outputId = generateGuid();
 
     @track state = {
         toggleStatus: false,
@@ -160,6 +157,13 @@ export default class ParameterItem extends LightningElement {
     get parameterValue() {
         const value = getValueFromHydratedItem(this.state.parameterItem.value);
         return value ? value : null;
+    }
+
+    /**
+     * @return {Guid} returns the parameter rowIndex
+     */
+    get parameterRowIndex() {
+        return this.state.parameterItem.rowIndex;
     }
 
     /**

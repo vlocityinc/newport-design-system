@@ -148,9 +148,9 @@ describe('parameter-item', () => {
 
     describe('showing combobox, not showing input toggle for required input parameter', () => {
         describe('parameter has no value', () => {
-            let ferovResourcePicker, toggleInput;
+            let ferovResourcePicker, toggleInput, parameterItemCmp;
             beforeAll(() => {
-                const parameterItemCmp = createComponentForTest();
+                parameterItemCmp = createComponentForTest();
                 ferovResourcePicker = getFerovResourcePickerElement(parameterItemCmp);
                 toggleInput = getLightningInputToggle(parameterItemCmp);
             });
@@ -159,6 +159,9 @@ describe('parameter-item', () => {
             });
             it('combobox value should be null', () => {
                 expect(ferovResourcePicker.value).toBeNull();
+            });
+            it('combobox rowIndex should be equal to rowIndex of the parameter Item', () => {
+                expect(ferovResourcePicker.rowIndex).toBe(parameterItemCmp.item.rowIndex);
             });
             it('combobox should be required', () => {
                 expect(ferovResourcePicker.comboboxConfig.required).toBe(true);
