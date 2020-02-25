@@ -246,7 +246,6 @@ export const populateLhsStateForField = (fields, fieldName, fieldParent, isField
  * Populates the state values on an expression builder wrapper that represent the RHS of the expression.
  *
  * @param {Object} expression   rightHandSide - the display value of the rhs
- *                              rightHandSideDataType - the data type of the rhs
  * @param {rhsDescribe} callback   function to be called with the initialized state values
  */
 export const populateRhsState = ({ rightHandSide }, callback) => {
@@ -256,11 +255,8 @@ export const populateRhsState = ({ rightHandSide }, callback) => {
         error: rightHandSide.error,
         itemOrDisplayText: rightHandSide.value
     };
-
-    if (!rightHandSide.error) {
-        rhsState = Object.assign(rhsState, normalizeFEROV(rightHandSide.value));
-        rhsState.isField = !!rhsState.fields;
-    }
+    rhsState = Object.assign(rhsState, normalizeFEROV(rightHandSide.value));
+    rhsState.isField = !!rhsState.fields;
     callback(rhsState);
 };
 

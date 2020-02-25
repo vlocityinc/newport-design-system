@@ -116,7 +116,7 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
             fields: null
         };
 
-        if (lhs.value && !lhs.error) {
+        if (lhs.value) {
             const fer = getResourceByUniqueIdentifier(lhs.value);
 
             if (fer) {

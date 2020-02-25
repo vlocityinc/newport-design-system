@@ -297,6 +297,29 @@
                         }
                     }
                 ]
+            },
+            {
+                "name": "assign_W_7251820",
+                "description": "",
+                "label": "assign-W-7251820",
+                "locationX": 1275,
+                "locationY": 216.3125,
+                "assignmentItems": [
+                    {
+                        "assignToReference": "lookupRecordAutomaticOutput.AccountNumber",
+                        "operator": "Assign",
+                        "value": {
+                            "elementReference": "accountSObjectVariable.AccountNumber"
+                        }
+                    },
+                    {
+                        "assignToReference": "lookupRecordAutomaticOutput",
+                        "operator": "Assign",
+                        "value": {
+                            "elementReference": "accountSObjectVariable"
+                        }
+                    }
+                ]
             }
         ],
         "decisions": [
@@ -612,6 +635,26 @@
                 "text": "<p>Hello {!stringVariable}</p>"
             }
         ],
+        "subflows": [
+            {
+                "name": "subflowAutomaticOutput",
+                "description": "",
+                "label": "subflowAutomaticOutput",
+                "locationX": 966,
+                "locationY": 507.1062469482422,
+                "flowName": "flowWithActiveAndLatest",
+                "inputAssignments": [
+                    {
+                        "name": "input1",
+                        "value": {
+                            "stringValue": "a string"
+                        }
+                    }
+                ],
+                "outputAssignments": [],
+                "storeOutputAutomatically": true
+            }
+        ],
         "recordCreates": [
             {
                 "name": "createAccountWithAutomaticOutput",
@@ -803,6 +846,7 @@
                         "name": "emailScreenFieldAutomaticOutput",
                         "outputParameters": [],
                         "scale": 0,
+                        "fields": [],
                         "storeOutputAutomatically": true,
                         "extensionName": "flowruntime:email"
                     },
@@ -829,6 +873,7 @@
                         "name": "emailScreenField",
                         "outputParameters": [],
                         "scale": 0,
+                        "fields": [],
                         "extensionName": "flowruntime:email"
                     },
                     {
@@ -841,6 +886,7 @@
                         "name": "lightningCompWithAccountOutput",
                         "outputParameters": [],
                         "scale": 0,
+                        "fields": [],
                         "storeOutputAutomatically": true,
                         "extensionName": "c:HelloWorld"
                     },
@@ -854,6 +900,7 @@
                         "name": "lightningCompWithNoAccountOutput",
                         "outputParameters": [],
                         "scale": 0,
+                        "fields": [],
                         "storeOutputAutomatically": true,
                         "extensionName": "c:noSobjectOutputComp"
                     },
@@ -867,6 +914,7 @@
                         "name": "lightningCompWithAccountsOutput",
                         "outputParameters": [],
                         "scale": 0,
+                        "fields": [],
                         "storeOutputAutomatically": true,
                         "extensionName": "c:sobjectCollectionOutputComp"
                     }
@@ -896,6 +944,7 @@
                         "name": "Address",
                         "outputParameters": [],
                         "scale": 0,
+                        "fields": [],
                         "storeOutputAutomatically": true,
                         "extensionName": "flowruntime:address"
                     }
@@ -923,26 +972,6 @@
                 "description": "",
                 "dataType": "Number",
                 "choiceText": "Choice 1"
-            }
-        ],
-        "subflows": [
-            {
-                "name": "subflowAutomaticOutput",
-                "description": "",
-                "label": "subflowAutomaticOutput",
-                "locationX": 966,
-                "locationY": 507.1062469482422,
-                "flowName": "flowWithActiveAndLatest",
-                "inputAssignments": [
-                    {
-                        "name": "input1",
-                        "value": {
-                            "stringValue": "a string"
-                        }
-                    }
-                ],
-                "outputAssignments": [],
-                "storeOutputAutomatically": true
             }
         ],
         "description": "",

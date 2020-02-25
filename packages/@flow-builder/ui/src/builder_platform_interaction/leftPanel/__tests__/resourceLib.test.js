@@ -47,29 +47,25 @@ const sectionsMatchers = {
         let result = true;
         let previousSectionLabel;
         let previousItemLabel;
+        let message = 'sections and items are sorted in ascending order';
         forEachSection(sections, section => {
-            if (previousSectionLabel && !(section.label.toUpperCase() >= previousSectionLabel.toUpperCase())) {
+            if (previousSectionLabel && section.label.localeCompare(previousSectionLabel) < 0) {
                 result = false;
+                message = 'sections are not sorted in ascending order';
             }
             previousSectionLabel = section.label;
             previousItemLabel = undefined;
             forEachItemInSection(section, item => {
-                if (previousItemLabel && !(item.label.toUpperCase() >= previousItemLabel.toUpperCase())) {
+                if (previousItemLabel && item.label.localeCompare(previousItemLabel) < 0) {
                     result = false;
+                    message = `items are not sorted in ascending order : ${item.label} is before ${previousItemLabel}`;
                 }
                 previousItemLabel = item.label;
             });
         });
-
-        if (result) {
-            return {
-                message: () => 'sections and items are sorted in ascending order',
-                pass: true
-            };
-        }
         return {
-            message: () => 'sections and items are not sorted in ascending order',
-            pass: false
+            message: () => message,
+            pass: result
         };
     },
     toNotHaveEmptySection(sections) {
