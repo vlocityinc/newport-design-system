@@ -44,7 +44,8 @@ export function createFlowProperties(flowProperties = {}) {
         processMetadataValues,
         processType = null,
         runInMode = null,
-        status
+        status,
+        triggerType
     } = flowProperties.metadata || flowProperties;
 
     let {
@@ -81,6 +82,7 @@ export function createFlowProperties(flowProperties = {}) {
         processType,
         runInMode,
         status,
+        triggerType,
         versionNumber
     };
 }
