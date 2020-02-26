@@ -1,5 +1,5 @@
 import { RuleFactory, RuleFactoryItem } from 'analyzer_framework/api';
-import { NoDMLInLoop } from './rules/index';
+import { NoDMLInLoop, UnclosedLoop, LegacyElement } from './rules/index';
 
 /**
  * Register rules to be executed by Guardrails engine.
@@ -8,6 +8,10 @@ import { NoDMLInLoop } from './rules/index';
  */
 export class FlowRuleFactory extends RuleFactory {
     constructor() {
-        super([new RuleFactoryItem(NoDMLInLoop)]);
+        super([
+            new RuleFactoryItem(NoDMLInLoop),
+            new RuleFactoryItem(UnclosedLoop),
+            new RuleFactoryItem(LegacyElement)
+        ]);
     }
 }
