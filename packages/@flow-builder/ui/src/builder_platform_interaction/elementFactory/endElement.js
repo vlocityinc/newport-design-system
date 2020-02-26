@@ -6,11 +6,11 @@ import { baseCanvasElement } from './base/baseElement';
  * @param {Object} endElement end element object used to construct the new object
  * @returns {Object} endElement the new end element object
  */
-export function createEndElement(prev) {
+export function createEndElement(element = {}) {
     const elementType = ELEMENT_TYPE.END_ELEMENT;
 
     return {
-        ...baseCanvasElement({ prev }),
+        ...baseCanvasElement(element),
         elementType,
         label: elementType,
         value: elementType,

@@ -43,3 +43,7 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
 }
+
+.slds-icon-utility-right {
+    background-color: #53b6b4;
+}

@@ -4,9 +4,12 @@ import screenComponentDescription from '@salesforce/label/FlowBuilderLeftPanelEl
 import screenComponentLabel from '@salesforce/label/FlowBuilderLeftPanelElements.screenComponentLabel';
 import waitLogicDescription from '@salesforce/label/FlowBuilderLeftPanelElements.waitLogicDescription';
 import waitLogicLabel from '@salesforce/label/FlowBuilderLeftPanelElements.waitLogicLabel';
-
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { ElementType } from 'builder_platform_interaction/flowUtils';
+import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+
+const endElementConfig = getConfigForElementType(ELEMENT_TYPE.END_ELEMENT);
+
 
 export default [
     {
@@ -55,12 +58,12 @@ export default [
         description: null
     },
     {
-        section: null,
+        section: endElementConfig.nodeConfig.section,
         type: ElementType.END,
-        icon: 'standard:first_non_empty',
-        label: 'End',
+        icon: endElementConfig.nodeConfig.iconName,
+        label: endElementConfig.labels.singular,
         value: ELEMENT_TYPE.END_ELEMENT,
         elementType: ELEMENT_TYPE.END_ELEMENT,
-        description: null
+        description: endElementConfig.nodeConfig.description
     }
 ];

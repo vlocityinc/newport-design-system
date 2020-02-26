@@ -927,16 +927,18 @@ export const elementTypeToConfigMap = {
         }
     },
     [ELEMENT_TYPE.END_ELEMENT]: {
-        descriptor: 'builder_platform_interaction:defaultEditor',
         nodeConfig: {
-            iconName: 'standard:custom',
-            maxConnections: 1
+            iconName: 'standard:first_non_empty',
+            maxConnections: 0,
+            section: LABELS.flowControlLogicLabel,
+            description: LABELS.endElementDescription
         },
+        metadataKey: ELEMENT_TYPE.END_ELEMENT,
         bodyCssClass: '',
+        canvasElement: true,
         labels: {
-            singular: '',
-            newModal: '',
-            editModal: ''
+            singular: LABELS.endElementSingularLabel,
+            plural: LABELS.endElementPluralLabel
         }
     },
     [ELEMENT_TYPE.ROOT_ELEMENT]: {

@@ -103,9 +103,10 @@ import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInter
 import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLib';
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
-import { addRootAndEndElements, addConnectorsForNewElement } from 'builder_platform_interaction/flcConversionUtils';
 import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
 import { getTriggerType } from 'builder_platform_interaction/storeUtils';
+import { createEndElement } from 'builder_platform_interaction/elementFactory';
+import { addRootAndEndElements } from 'builder_platform_interaction/flcConversionUtils';
 
 let unsubscribeStore;
 let storeInstance;
@@ -930,10 +931,16 @@ export default class Editor extends LightningElement {
         if (event && event.type && event.detail) {
             logPerfTransactionStart('PropertyEditor');
             const mode = event.type;
-            const { prev, next, childIndex, parent } = event.detail;
+            const { prev, next, childIndex, parent, elementType } = event.detail;
             const nodeUpdate = this.deMutateAndAddNodeCollection;
             const newResourceCallback = this.newResourceCallback;
             const processType = this.properties.processType;
+
+            // skip the editor for elements that don't need one
+            if (elementType === ELEMENT_TYPE.END_ELEMENT) {
+                this.dispatchAddElement(createEndElement({ prev, next, childIndex, parent, elementType }));
+                return;
+            }
 
             this.queueOpenPropertyEditor(() => {
                 // getElementForPropertyEditor need to be called after propertyEditorBlockerCalls
@@ -1152,20 +1159,27 @@ export default class Editor extends LightningElement {
         logInteraction(`update-node-of-type-${node.elementType}`, 'modal', null, 'click');
     };
 
+    /**
+     * Method for talking to validation library and store for updating the node collection/flow data.
+     * @param {object} node - node object for the particular property editor update
+     */
     deMutateAndAddNodeCollection = node => {
         // TODO: This looks almost exactly like deMutateAndUpdateNodeCollection. Maybe we should
         // pass the node collection modification mode (CREATE, UPDATE, etc) and switch the store
         // action based on that.
         const nodeForStore = getElementForStore(node);
         this.cacheNewComplexObjectFields(nodeForStore);
-        storeInstance.dispatch(addElement(nodeForStore));
-
-        if (useFixedLayoutCanvas()) {
-            addConnectorsForNewElement(storeInstance, node);
-        }
-
-        logInteraction(`add-node-of-type-${node.elementType}`, 'modal', null, 'click');
+        this.dispatchAddElement(nodeForStore);
     };
+
+    /**
+     * Dispatch add element event and log it
+     * @param {Object} element - element to create
+     */
+    dispatchAddElement(element) {
+        storeInstance.dispatch(addElement(element));
+        logInteraction(`add-node-of-type-${element.elementType}`, 'modal', null, 'click');
+    }
 
     /**
      * Fetches & caches the fields/properties for new sobject/apex variable types. Shows spinner until this is done

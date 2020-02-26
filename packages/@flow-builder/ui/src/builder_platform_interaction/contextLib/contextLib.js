@@ -47,7 +47,9 @@ export function orgHasBeforeSaveEnabled() {
 // TODO: FLC TEMP
 let useFlc;
 export function setUseFixedLayoutCanvas(value) {
-    useFlc = value;
+    if (useFlc == null) {
+        useFlc = value;
+    }
 }
 
 export function useFixedLayoutCanvas() {

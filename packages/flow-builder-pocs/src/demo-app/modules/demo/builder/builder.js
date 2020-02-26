@@ -24,7 +24,7 @@ function translateEventToAction(event) {
             if (elementType !== ELEMENT_TYPE.END_ELEMENT) {
                 element = getElementForStore(
                     getElementForPropertyEditor({
-                        elementType: event.detail.elementType,
+                        elementType,
                         isNewElement: true,
                         prev,
                         next,
@@ -33,7 +33,12 @@ function translateEventToAction(event) {
                     })
                 );
             } else {
-                element = createEndElement(prev);
+                element = createEndElement({
+                    prev,
+                    next,
+                    childIndex,
+                    parent
+                 });
             }
             return element;
         default:

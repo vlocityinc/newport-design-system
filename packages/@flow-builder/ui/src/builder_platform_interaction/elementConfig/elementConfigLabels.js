@@ -316,5 +316,10 @@ export const LABELS = {
     newApexActionPluginLabel,
     newStageLabel,
     newWaitLabel,
-    newStepLabel
+    newStepLabel,
+
+    // TODO: FLC replace with imports once we have proper labels
+    endElementSingularLabel: 'End',
+    endElementPluralLabel: 'End',
+    endElementDescription: 'End Description'
 };

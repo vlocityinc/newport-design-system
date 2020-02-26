@@ -13,7 +13,8 @@ export default class FlcConnectorMenu extends Menu {
 
     @api
     set elementsMetadata(elementsMetadata) {
-        this.menuConfiguration = configureMenu(elementsMetadata);
+        const showEndElement = this.next == null;
+        this.menuConfiguration = configureMenu(elementsMetadata, showEndElement);
         this._elementsMetadata = elementsMetadata;
     }
 

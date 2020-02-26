@@ -8,8 +8,18 @@ import {
 } from 'builder_platform_interaction/actions';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
-
 import ffcElementsReducer from './elementsReducer';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    findLastElement,
+    findFirstElement,
+    getElementFromActionPayload,
+    supportsChildren,
+    linkElement,
+    linkBranch,
+    addElementToState,
+    initializeChildren
+} from 'builder_platform_interaction/flcConversionUtils';
 
 /**
  * FLC Reducer for elements
@@ -85,24 +95,79 @@ function _selectionOnFixedCanvas(elements, canvasElementGuidsToSelect, canvasEle
     return hasStateChanged ? newState : elements;
 }
 
-function linkElement(state, element) {
-    const { prev, next, guid } = element;
+function addCanvasElement(state, action) {
+    const element = getElementFromActionPayload(action.payload);
+    const { parent, childIndex } = element;
 
-    if (prev) {
-        state[prev] = { ...state[prev], next: guid };
+    addElementToState(element, state);
+
+    if (supportsChildren(element)) {
+        initializeChildren(element);
     }
 
-    if (next) {
-        state[next] = { ...state[next], prev: guid };
+    if (parent) {
+        // if the element has a parent, make it the new branch head
+        const parentElement = state[parent];
+        linkBranch(state, parentElement, childIndex, element);
+    } else {
+        linkElement(state, element);
     }
 
-    state[element.guid] = element;
+    // when adding an end element, we might need to restructure things
+    if (action.type === ADD_END_ELEMENT) {
+        restructureFlow(element, state);
+    }
+
+    return state;
+}
+
+/**
+ * When adding an end element we might need to restructure the flow
+ * @param {Object} element - end element
+ * @param {Object} state - current state of elements in the store
+ */
+function restructureFlow(element, state) {
+    const branchFirstElement = findFirstElement(element, state);
+    if (branchFirstElement.elementType === ELEMENT_TYPE.START_ELEMENT) {
+        // nothing to restructure
+        return;
+    }
+
+    // mark the branch as a terminal branch
+    branchFirstElement.isTerminal = true;
+
+    const parent = state[branchFirstElement.parent];
+    const children = parent.children;
+
+    // find the indexes of the non-terminal branches
+    // (there will always be at least one when adding an end element)
+    const nonTerminalBranchIndexes = children
+        .map((child, index) => (child == null || !state[child].isTerminal ? index : -1))
+        .filter(index => index !== -1);
+
+    if (nonTerminalBranchIndexes.length === 1) {
+        // we have one non-terminal branch, so we need to restructure
+        const [branchIndex] = nonTerminalBranchIndexes;
+        const branchHead = children[branchIndex];
+        const parentNext = state[parent.next];
+
+        const branchTail = branchHead && findLastElement(state[branchHead], state);
+
+        if (branchTail != null) {
+            //  reconnect the elements that follow the parent element to the tail of the branch
+            branchTail.next = parent.next;
+            linkElement(state, branchTail);
+        } else {
+            // its an empty branch, so make the elements that follow the parent element be the branch itself
+            parentNext.prev = null;
+            linkBranch(state, parent, branchIndex, parentNext);
+        }
+        parent.next = null;
+    }
 }
 
 export default function elementsReducer(state = {}, action) {
     state = deepCopy(ffcElementsReducer(state, action));
-
-    let element, parent, childIndex, guid;
 
     switch (action.type) {
         case ADD_SCREEN_WITH_FIELDS:
@@ -110,20 +175,7 @@ export default function elementsReducer(state = {}, action) {
         case ADD_END_ELEMENT:
         case ADD_WAIT_WITH_WAIT_EVENTS:
         case MODIFY_WAIT_WITH_WAIT_EVENTS:
-            element = action.payload.screen || action.payload.canvasElement || action.payload;
-            linkElement(state, element);
-
-            ({ parent, childIndex, guid } = element);
-
-            if (parent) {
-                const child = state[parent].children[childIndex];
-
-                if (child) {
-                    element.next = child;
-                    state[child].prev = guid;
-                }
-                state[parent].children[childIndex] = guid;
-            }
+            state = addCanvasElement(state, action);
             break;
         case SELECTION_ON_FIXED_CANVAS:
             state = _selectionOnFixedCanvas(

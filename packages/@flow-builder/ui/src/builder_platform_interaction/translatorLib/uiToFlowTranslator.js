@@ -4,7 +4,7 @@ import { getFlowBounds } from 'builder_platform_interaction/connectorUtils';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { isStartMetadataSupported } from 'builder_platform_interaction/processTypeLib';
 import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
-import { fromFlc } from 'builder_platform_interaction/flcConversionUtils';
+import { convertToFfc } from 'builder_platform_interaction/flcConversionUtils';
 
 const getXYTranslate = (canvasElements, isStartMetadataElementSupported = true) => {
     const EXTRA_SPACING = isStartMetadataElementSupported ? 50 : 180;
@@ -34,7 +34,7 @@ const getXYTranslate = (canvasElements, isStartMetadataElementSupported = true) 
  * @returns {Object} Flow object that can be deserialized into the Flow tooling object
  */
 export function translateUIModelToFlow(uiModel) {
-    uiModel = useFixedLayoutCanvas() ? fromFlc(uiModel) : uiModel;
+    uiModel = useFixedLayoutCanvas() ? convertToFfc(uiModel) : uiModel;
     const elements = uiModel.elements;
     const connectors = uiModel.connectors;
     const { name, versionNumber } = uiModel.properties;

@@ -1,4 +1,5 @@
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const SVG_UTILITY_SPRITE_PATH = '/assets/icons/utility-sprite/svg/symbols.svg';
 const SVG_STANDARD_SPRITE_PATH = '/_slds/icons/standard-sprite/svg/symbols.svg';
@@ -24,12 +25,12 @@ const pasteSection = {
  * Create FLC menu configuration from the elements metadata
  * @param {Object} elementsMetadata
  */
-export const configureMenu = elementsMetadata => {
+export const configureMenu = (elementsMetadata, showEndElement) => {
     const sectionDefinitionsMap = {};
 
     const sections = elementsMetadata.reduce(
         (acc, { section = null, description, icon, label, elementType }) => {
-            if (section == null) {
+            if (section == null || (elementType === ELEMENT_TYPE.END_ELEMENT && !showEndElement)) {
                 return acc;
             }
 

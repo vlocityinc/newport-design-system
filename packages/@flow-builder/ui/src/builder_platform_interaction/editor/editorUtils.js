@@ -522,7 +522,6 @@ export const createStartElement = (storeInstance, triggerType) => {
     // TODO: FLC TEMP CODE
     if (useFixedLayoutCanvas()) {
         setUseFixedLayoutCanvas(true);
-        startElement.locationX = 500;
     }
 
     storeInstance.dispatch(addElement(startElement));
@@ -623,32 +622,7 @@ export function getToolboxElements(flowProcessType, flowTriggerType) {
  *  Get the elements metadata for the flc editor
  */
 export function getElementsMetadata(toolboxElements) {
-    const elementsMetadata = [
-        {
-            section: null,
-            type: ElementType.ROOT,
-            icon: 'standard:default',
-            label: '',
-            elementType: ELEMENT_TYPE.ROOT_ELEMENT,
-            value: ELEMENT_TYPE.ROOT_ELEMENT
-        },
-        {
-            section: null,
-            type: ElementType.END,
-            icon: 'standard:first_non_empty',
-            label: 'End',
-            value: ELEMENT_TYPE.END_ELEMENT,
-            elementType: ELEMENT_TYPE.END_ELEMENT
-        },
-        {
-            section: null,
-            type: ElementType.START,
-            icon: 'standard:default',
-            label: 'Start',
-            value: ELEMENT_TYPE.START_ELEMENT,
-            elementType: ELEMENT_TYPE.START_ELEMENT
-        }
-    ];
+    const elementsMetadata = [];
 
     getElementSections(toolboxElements).forEach(section => {
         (section._children || []).forEach(({ iconName, label, description, elementType }) => {
@@ -664,5 +638,34 @@ export function getElementsMetadata(toolboxElements) {
         });
     });
 
-    return elementsMetadata;
+    const startElement = getConfigForElementType(ELEMENT_TYPE.START_ELEMENT);
+    const endElement = getConfigForElementType(ELEMENT_TYPE.END_ELEMENT);
+
+    return elementsMetadata.concat([
+        {
+            section: null,
+            type: ElementType.ROOT,
+            icon: '',
+            label: '',
+            elementType: ELEMENT_TYPE.ROOT_ELEMENT,
+            value: ELEMENT_TYPE.ROOT_ELEMENT
+        },
+        {
+            section: endElement.nodeConfig.section,
+            icon: endElement.nodeConfig.iconName,
+            description: endElement.nodeConfig.description,
+            label: endElement.labels.singular,
+            value: ELEMENT_TYPE.END_ELEMENT,
+            elementType: ELEMENT_TYPE.END_ELEMENT,
+            type: getFlcElementType(ELEMENT_TYPE.END_ELEMENT)
+        },
+        {
+            section: null,
+            icon: startElement.nodeConfig.iconName,
+            label: startElement.labels.singular,
+            value: ELEMENT_TYPE.START_ELEMENT,
+            elementType: ELEMENT_TYPE.START_ELEMENT,
+            type: getFlcElementType(ELEMENT_TYPE.START_ELEMENT)
+        }
+    ]);
 }
