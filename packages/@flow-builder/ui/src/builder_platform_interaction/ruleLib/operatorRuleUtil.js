@@ -286,11 +286,11 @@ export const getLHSTypes = (elementType, rules, ruleType) => {
 
 /**
  * Gets the allowed operators based on the given left hand side element and list of rules
- * @param {String} elementType      elementType where this rule is being used
+ * @param {String} elementType          elementType where this rule is being used
  * @param {Object} lhsElement           the element representing our left hand side that we are checking against the given rules. This element is taken from the store
- * @param {operatorRule[]} rules                 list of rules we are checking for operator types. These are taken from the FlowOperatorRuleUtil service
+ * @param {operatorRule[]} rules        array of rules we are checking for operator types. These must be from ruleLib#getRulesForElementType
  * @param {String} ruleType             the rule type of the given rules eg: assignment/comparator
- * @returns {Array}                     the allowed list of operators based on rules that matched the lhsElement
+ * @returns {Array}                     array of allowed operators based on rules that matched the lhsElement
  */
 export const getOperators = (elementType, lhsElement = {}, rules, ruleType) => {
     // sanity checks
@@ -336,7 +336,7 @@ export const transformOperatorsForCombobox = operators => {
  * @param {String} elementType      elementType where this rule is being used
  * @param {Object} lhsElement       the element that represents our left hand side that we are checking against the given rules. This element is taken from the store.
  * @param {String} operator         the value representing your operator eg: "ASSIGNMENT"
- * @param {operatorRule[]} rules             list of rules we are checking for right hand side types. These are taken from the FlowOperatorRuleUtil service
+ * @param {operatorRule[]} rules    array of rules we are checking for right hand side types. These must be from ruleLib#getRulesForElementType
  * @param {String} ruleType         the rule type of the given rules eg: assignment/comparator
  * @returns {allowedParamMap}       map of data types, element types, and object types to allowed right hand side types
  */
