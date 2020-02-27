@@ -1,0 +1,21 @@
+<template>
+    <div if:true={field} onscroll={handleScroll}>
+        <div>
+            <span>
+                {columnsLabel}
+            </span>
+            <span class="slds-float_right">
+                <lightning-button
+                    variant="Neutral"
+                    label={labels.addColumn}
+                    title={labels.addColumn}
+                    onclick={handleAdd}
+                    disabled={isAddDisabled}
+                ></lightning-button>
+            </span>
+        </div>
+        <div>
+            TODO: list of columns
+        </div>
+    </div>
+</template>

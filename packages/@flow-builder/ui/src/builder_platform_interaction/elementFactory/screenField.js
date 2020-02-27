@@ -5,6 +5,7 @@ import {
     isPicklistField,
     isRegionContainerField,
     isRegionField,
+    getColumnFieldType,
     getLocalExtensionFieldType,
     getScreenFieldTypeByName,
     getScreenFieldType
@@ -273,9 +274,17 @@ export function createEmptyScreenFieldOfType(typeName, sectionCount = 0) {
             true
         );
         newScreenField.fields = [newChildScreenField];
-    }
-    // Always add a placeholder choice for any choice based fields.
-    if (
+    } else if (type.name === getColumnFieldType().name) {
+        Object.assign(newScreenField, {
+            // TODO: correct name and fieldText
+            name: newScreenField.name + '_Column1',
+            fieldText: 'Column 1',
+            guid: generateGuid(),
+            fieldType: 'Region',
+            fields: []
+        });
+    } else if (
+        // Always add a placeholder choice for any choice based fields.
         type.name === 'RadioButtons' ||
         type.name === 'MultiSelectCheckboxes' ||
         type.name === 'DropdownBox' ||

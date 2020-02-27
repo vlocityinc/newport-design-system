@@ -3,41 +3,66 @@
         <div if:true={field} class="container full-height">
             <div if:true={extensionDescription}>
                 <section class="slds-p-horizontal_small">
-                    <builder_platform_interaction-screen-property-field label={labels.apiNameLabel} name="name"
-                        required="required" type="string" value={field.name}>
+                    <builder_platform_interaction-screen-property-field
+                        label={labels.apiNameLabel}
+                        name="name"
+                        required="required"
+                        type="string"
+                        value={field.name}
+                    >
                     </builder_platform_interaction-screen-property-field>
 
-                    <template if:true={hasDynamicTypeMappings} for:each={state.dynamicTypeMappings}
-                        for:item="dynamicTypeMapping">
-                        <builder_platform_interaction-entity-resource-picker key={dynamicTypeMapping.name}
-                            value={dynamicTypeMapping.value} row-index={dynamicTypeMapping.rowIndex}
-                            mode={dynamicTypeMapping.mode} combobox-config={dynamicTypeMapping.comboboxConfig}
+                    <template
+                        if:true={hasDynamicTypeMappings}
+                        for:each={state.dynamicTypeMappings}
+                        for:item="dynamicTypeMapping"
+                    >
+                        <builder_platform_interaction-entity-resource-picker
+                            key={dynamicTypeMapping.name}
+                            value={dynamicTypeMapping.value}
+                            row-index={dynamicTypeMapping.rowIndex}
+                            mode={dynamicTypeMapping.mode}
+                            combobox-config={dynamicTypeMapping.comboboxConfig}
                             onitemselected={handleDynamicTypeMappingChange}
-                            oncomboboxstatechanged={handleDynamicTypeMappingChange}>
+                            oncomboboxstatechanged={handleDynamicTypeMappingChange}
+                        >
                         </builder_platform_interaction-entity-resource-picker>
                     </template>
 
-                    <builder_platform_interaction-custom-property-editor if:true={hasConfigurationEditor}
+                    <builder_platform_interaction-custom-property-editor
+                        if:true={hasConfigurationEditor}
                         configuration-editor={configurationEditor}
-                        configuration-editor-values={configurationEditorValues} flow-context={flowContext}
-                        onvaluechanged={handleCpePropertyChangeEvent}>
+                        configuration-editor-values={configurationEditorValues}
+                        flow-context={flowContext}
+                        onvaluechanged={handleCpePropertyChangeEvent}
+                    >
                     </builder_platform_interaction-custom-property-editor>
 
                     <template if:false={hasConfigurationEditor}>
-                        <template if:false={hasUnboundDynamicTypeMappings} for:each={state.inputParameters}
-                            for:item="param">
+                        <template
+                            if:false={hasUnboundDynamicTypeMappings}
+                            for:each={state.inputParameters}
+                            for:item="param"
+                        >
                             <builder_platform_interaction-screen-extension-attribute-editor
-                                key={param.descriptor.apiName} row-index={param.rowIndex} index="-1"
-                                descriptor={param.descriptor} attribute={param.attribute} attribute-type="input"
-                                disabled={param.disabled}>
+                                key={param.descriptor.apiName}
+                                row-index={param.rowIndex}
+                                index="-1"
+                                descriptor={param.descriptor}
+                                attribute={param.attribute}
+                                attribute-type="input"
+                                disabled={param.disabled}
+                            >
                             </builder_platform_interaction-screen-extension-attribute-editor>
                         </template>
                     </template>
                 </section>
 
                 <template if:false={hasUnboundDynamicTypeMappings}>
-                    <lightning-accordion allow-multiple-sections-open
-                        class="slds-has-divider slds-p-top_none slds-border_bottom">
+                    <lightning-accordion
+                        allow-multiple-sections-open
+                        class="slds-has-divider slds-p-top_none slds-border_bottom"
+                    >
                         <builder_platform_interaction-screen-component-visibility-section field={field}>
                         </builder_platform_interaction-screen-component-visibility-section>
                     </lightning-accordion>
@@ -45,8 +70,10 @@
                     <!--  validation text -->
 
                     <div if:true={isAdvancedCheckboxDisplayed} class="slds-m-top_small">
-                        <builder_platform_interaction-use-advanced-options-checkbox is-advanced-mode={isAdvancedMode}
-                            onuseadvancedoptionsselectionchanged={handleAdvancedOptionsSelectionChange}>
+                        <builder_platform_interaction-use-advanced-options-checkbox
+                            is-advanced-mode={isAdvancedMode}
+                            onuseadvancedoptionsselectionchanged={handleAdvancedOptionsSelectionChange}
+                        >
                         </builder_platform_interaction-use-advanced-options-checkbox>
                     </div>
                     <div if:true={isManualOutputDisplayed} class="slds-m-bottom_small slds-m-top_small">
@@ -55,10 +82,16 @@
                         </h3>
                         <div class="slds-p-left_medium slds-p-right_small slds-m-top_small">
                             <template for:each={state.outputParameters} for:item="param" for:index="index">
-                                <builder_platform_interaction-screen-extension-attribute-editor key={param.key}
-                                    row-index={param.rowIndex} index={index} descriptor={param.descriptor}
-                                    attribute={param.attribute} attribute-index={param.index} attribute-type="output"
-                                    disabled={param.disabled}>
+                                <builder_platform_interaction-screen-extension-attribute-editor
+                                    key={param.key}
+                                    row-index={param.rowIndex}
+                                    index={index}
+                                    descriptor={param.descriptor}
+                                    attribute={param.attribute}
+                                    attribute-index={param.index}
+                                    attribute-type="output"
+                                    disabled={param.disabled}
+                                >
                                 </builder_platform_interaction-screen-extension-attribute-editor>
                             </template>
                         </div>
@@ -69,7 +102,11 @@
     </template>
 
     <div if:true={_displaySpinner} class="slds-is-relative full-height slds-shrink">
-        <lightning-spinner alternative-text={labels.spinnerAlternativeText} size="medium" variant="brand"
-            class="spinner"></lightning-spinner>
+        <lightning-spinner
+            alternative-text={labels.spinnerAlternativeText}
+            size="medium"
+            variant="brand"
+            class="spinner"
+        ></lightning-spinner>
     </div>
 </template>

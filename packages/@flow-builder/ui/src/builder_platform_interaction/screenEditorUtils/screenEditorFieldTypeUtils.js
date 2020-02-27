@@ -187,7 +187,7 @@ export function getColumnFieldType() {
  */
 export function getScreenFieldTypeByName(name) {
     name = name && name.toLowerCase();
-    return [...getAllScreenFieldTypes(), ...getAllCachedExtensionTypes()].find(
+    return [...getAllScreenFieldTypes(), ...getAllCachedExtensionTypes(), getColumnFieldType()].find(
         type => type.name.toLowerCase() === name
     );
 }

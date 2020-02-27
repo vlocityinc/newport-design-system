@@ -74,6 +74,10 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
         return screenEditorUtils.isChoiceField(this.node);
     }
 
+    get isRegionContainerField() {
+        return screenEditorUtils.isRegionContainerField(this.node);
+    }
+
     get hasErrors() {
         return getErrorsFromHydratedElement(this.node).length > 0;
     }

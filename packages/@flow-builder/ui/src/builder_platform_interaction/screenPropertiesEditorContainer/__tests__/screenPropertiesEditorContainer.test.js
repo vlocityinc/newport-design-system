@@ -4,6 +4,14 @@ import { getAllScreenFieldTypes } from 'builder_platform_interaction/screenEdito
 import { query } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
+jest.mock('builder_platform_interaction/contextLib', () => {
+    return Object.assign(require.requireActual('builder_platform_interaction/contextLib'), {
+        orgHasFlowScreenSections: () => {
+            return true;
+        }
+    });
+});
+
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
@@ -27,6 +35,7 @@ const createComponentUnderTest = props => {
 
 const headerSelector = '.slds-panel__header-title';
 const errorIconSelector = 'lightning-button-icon[iconName="utility:error"]';
+const screenSectionFieldPropertyEditor = 'builder_platform_interaction-screen-section-field-properties-editor';
 
 describe('screen-properties-editor-container', () => {
     it('displays the screen properties header by default', () => {
@@ -69,6 +78,27 @@ describe('screen-properties-editor-container', () => {
         return Promise.resolve().then(() => {
             const icon = query(screenPropertiesEditorContainerElement, errorIconSelector);
             expect(icon).toBeFalsy();
+        });
+    });
+    it('Displays the screen-section-field-properties-editor if isRegionContainerField', () => {
+        const screenPropertiesEditorContainerElement = createComponentUnderTest({
+            node: Object.assign(
+                {
+                    type: {},
+                    fields: []
+                },
+                getAllScreenFieldTypes().find(fieldType => fieldType.name === 'Section')
+            )
+        });
+
+        return Promise.resolve().then(() => {
+            return Promise.resolve().then(() => {
+                const sectionPropertyEditor = query(
+                    screenPropertiesEditorContainerElement,
+                    screenSectionFieldPropertyEditor
+                );
+                expect(sectionPropertyEditor).toBeTruthy();
+            });
         });
     });
 });

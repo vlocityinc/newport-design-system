@@ -183,6 +183,20 @@ export default class ScreenEditor extends LightningElement {
     };
 
     /**
+     * Handler for adding a screen field to a container.  The parent container
+     * will be set as the selected node
+     * @param {event} event - The event
+     */
+
+    handleAddScreenFieldToContainerFieldWithParentFocus = event => {
+        this.handleAddScreenField(event);
+
+        // Get the updated parent and select it
+        const parent = this.screen.getFieldByGUID(event.parent.guid);
+        this.setSelectedNode(parent);
+    };
+
+    /**
      * Handler for the delete screen element event. Invokes the delete confirmation modal.
      * @param {event} event - The event
      */
@@ -264,7 +278,7 @@ export default class ScreenEditor extends LightningElement {
 
     /**
      * Handles reordering a list of the screen fields
-     * @param {efvent} event - reorderListEvent
+     * @param {event} event - reorderListEvent
      */
     handleReorder = event => {
         this.screen = screenReducer(this.screen, event);

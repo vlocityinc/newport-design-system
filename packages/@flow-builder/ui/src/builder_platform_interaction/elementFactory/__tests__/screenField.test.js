@@ -2,6 +2,7 @@ import { createScreenField, createScreenFieldMetadataObject, createEmptyScreenFi
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getProcessTypeAutomaticOutPutHandlingSupport } from 'builder_platform_interaction/processTypeLib';
+import { getColumnFieldType } from 'builder_platform_interaction/screenEditorUtils';
 
 expect.extend(deepFindMatchers);
 
@@ -48,15 +49,14 @@ const mockGetScreenFieldTypeByNameEmail = () => ({
 
 jest.mock('builder_platform_interaction/screenEditorUtils', () => {
     const actual = require.requireActual('builder_platform_interaction/screenEditorUtils');
-    return {
-        getFlowDataTypeByName: actual.getFlowDataTypeByName,
-        isExtensionField: actual.isExtensionField,
-        isChoiceField: actual.isChoiceField,
-        isTextAreaField: actual.isTextAreaField,
-        getScreenFieldTypeByName: jest.fn().mockImplementation(() => {
+    return Object.assign({}, actual, {
+        getScreenFieldTypeByName: jest.fn().mockImplementation(name => {
+            if (name === 'Column') {
+                return actual.getScreenFieldTypeByName(name);
+            }
             return mockGetScreenFieldTypeByNameEmail();
         })
-    };
+    });
 });
 
 const componentAutomaticScreenFieldMetadata = () => ({
@@ -232,6 +232,18 @@ describe('screenField', () => {
             });
             it('"storeOutputAutomatically" should be false', () => {
                 expect(actualResult.storeOutputAutomatically).toBe(false);
+            });
+        });
+        describe('column field', () => {
+            it('is created for type with name "Column"', () => {
+                const result = createEmptyScreenFieldOfType(getColumnFieldType().name);
+
+                expect(result).toMatchObject({
+                    name: 'undefined_Column1',
+                    fieldText: 'Column 1',
+                    fieldType: 'Region',
+                    fields: []
+                });
             });
         });
     });

@@ -103,9 +103,8 @@ jest.mock('builder_platform_interaction/selectors', () => {
 });
 
 const actual = require.requireActual('../screenReducer.js');
-let mockScreenReducer = jest.fn((state, event, node) => {
-    return actual.screenReducer(state, event, node);
-});
+let mockScreenReducer;
+
 jest.mock('../screenReducer', () => {
     return {
         screenReducer: (state, event, node) => mockScreenReducer(state, event, node)
@@ -114,6 +113,10 @@ jest.mock('../screenReducer', () => {
 describe('Event handling on editor', () => {
     let screenEditorElement;
     beforeEach(() => {
+        mockScreenReducer = jest.fn((state, event, node) => {
+            return actual.screenReducer(state, event, node);
+        });
+
         setProcessTypeFeature('flow', supportedFeaturesListForFlow);
 
         const screen = createTestScreen('Screen1', null);
@@ -231,6 +234,7 @@ describe('Event handling on editor', () => {
 
 describe('Extension events', () => {
     let screenEditorElement;
+    let screen;
     const SCREEN_NAME = 'Screen1';
     const SCREEN_FIELD_NAME = 'Screenfield1';
     const origDisplayText = 'Display This Please';
@@ -238,7 +242,11 @@ describe('Extension events', () => {
     const newFieldName = { value: 'my new screen field name', error: null };
     let screenField;
     beforeEach(() => {
-        const screen = createTestScreen(SCREEN_NAME, null);
+        mockScreenReducer = jest.fn((state, event, node) => {
+            return actual.screenReducer(state, event, node);
+        });
+
+        screen = createTestScreen(SCREEN_NAME, null);
         screen.showHeader = true;
         screen.elementType = ELEMENT_TYPE.SCREEN;
         screen.fields = [];
@@ -292,6 +300,69 @@ describe('Extension events', () => {
                     )
                 );
                 expect(screenEditorElement.node.fields[0].name.value).toBe(newFieldName.value);
+            });
+        });
+
+        describe('addscreenfield from property editor container', () => {
+            const CONTAINER_INDEX = 100;
+            let getFieldIndexMock;
+            let newState;
+            let parent;
+
+            beforeEach(() => {
+                getFieldIndexMock = jest.fn().mockReturnValueOnce(CONTAINER_INDEX);
+
+                newState = {
+                    getFieldIndex: getFieldIndexMock,
+                    getFieldByGUID: jest.fn(guid => {
+                        return guid === parent.guid ? parent : null;
+                    })
+                };
+            });
+
+            it('updates screen based on screenReducer call', () => {
+                mockScreenReducer = jest.fn(() => {
+                    return newState;
+                });
+
+                return Promise.resolve().then(() => {
+                    parent = {
+                        guid: 123,
+                        fields: []
+                    };
+
+                    const originalNode = screenEditorElement.node;
+
+                    const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
+                    const event = createAddScreenFieldEvent('pausedText', 0, parent);
+
+                    editor.dispatchEvent(event);
+
+                    const reducerParams = mockScreenReducer.mock.calls[0];
+                    expect(reducerParams[0]).toEqual(originalNode);
+                    expect(reducerParams[1]).toMatchObject(event);
+
+                    expect(screenEditorElement.node).toEqual(newState);
+                });
+            });
+            it('sets the parent as selected', () => {
+                mockScreenReducer = jest.fn(() => {
+                    return newState;
+                });
+
+                return Promise.resolve().then(() => {
+                    parent = {
+                        guid: 123,
+                        fields: []
+                    };
+
+                    const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
+                    const event = createAddScreenFieldEvent('pausedText', 0, parent);
+
+                    editor.dispatchEvent(event);
+
+                    expect(screenEditorElement.getSelectedItemGuid()).toEqual(parent.guid);
+                });
             });
         });
     });

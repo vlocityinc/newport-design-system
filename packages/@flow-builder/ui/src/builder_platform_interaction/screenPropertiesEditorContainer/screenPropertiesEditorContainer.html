@@ -96,6 +96,13 @@
                 field={node}
             >
             </builder_platform_interaction-screen-choice-field-properties-editor>
+
+            <builder_platform_interaction-screen-section-field-properties-editor
+                if:true={isRegionContainerField}
+                class="full-height properties-editor-panel"
+                field={node}
+            >
+            </builder_platform_interaction-screen-section-field-properties-editor>
         </div>
     </div>
 </template>
