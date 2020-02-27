@@ -47,7 +47,18 @@ import {
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 
+/**
+ * Replaces the field at the specified position with the updatedChild and then updates the fields
+ * collection on the parent and returns the parent. Does this recursively, as long as there are entries
+ * in the positions array.
+ * @param {Object} parent - The parent of the updated child
+ * @param {Array} positions - An array of the positions or indexes. The first index in the array is the
+ * updated child's position in its parent's fields collection. The next index is that parent's position
+ * in it's parent fields collection (the updated child's grand parent, and so on and so forth.
+ * @param {Object} updatedChild - The field that was actually modified
+ */
 const updateAncestors = (parent, positions, updatedChild) => {
+    if (positions && positions.length === 0) return updatedChild;
     const parentPosition = positions.pop();
     if (positions.length > 0) {
         updatedChild = updateAncestors(parent.fields[parentPosition], positions, updatedChild);
@@ -65,6 +76,26 @@ const updateFieldInScreen = (screen, field, newField) => {
 const updateField = (screen, field, properties) => {
     const updatedField = updateProperties(field, properties);
     return updateFieldInScreen(screen, field, updatedField);
+};
+
+/**
+ * Returns the object that is the parent of the field that is located at the position indicated by the
+ * provided sequence of indexes.
+ * @param {Object} screen - The screen.
+ * @param {Array} ancestorPositions - An array of the positions or indexes. The first index in the array
+ * is the index of the child whose parent we are looking for. The next index is the parent's index in its
+ * parent's fields collection (the grand parent's) and so on and so forth.
+ */
+const findParentByAncestorPositions = (screen, ancestorPositions) => {
+    let parent = screen;
+    if (ancestorPositions && ancestorPositions.length > 0) {
+        let child = parent;
+        for (let i = ancestorPositions.length - 1; i >= 0; i--) {
+            parent = child;
+            child = parent.fields[ancestorPositions[i]];
+        }
+    }
+    return parent;
 };
 
 /**
@@ -191,14 +222,33 @@ function setDynamicTypeMappingTypeValue(screen, field, event) {
 }
 
 /**
+ * Inserts the field into the parent's fields collection at the position specified and returns an updated
+ * screen object.
+ * @param {Object} screen - The screen
+ * @param {Object} parent - The parent to which we are adding the field
+ * @param {Object} field - The field to be inserted
+ * @param {Number} position - The position at which the field should be added
+ * @returns {object} - A new screen with the changes applied
+ */
+const insertScreenFieldIntoParent = (screen, parent, field, position) => {
+    // Figure out if the field be added to the end or somewhere in between.
+    position = Number.isInteger(position) ? position : parent.fields.length;
+    const updatedItems = insertItem(parent.fields, field, position);
+    parent = set(parent, 'fields', updatedItems);
+    if (screen.name !== parent.name) {
+        parent = updateAncestors(screen, screen.getFieldIndexes(parent), parent);
+    }
+    return parent;
+};
+
+/**
  * Adds screen fields to a screen.
  * @param {object} screen - The screen
  * @param {event} event - The add screen field event
  * @returns {object} - A new screen with the changes applied
  */
-const addScreenField = (parent, event) => {
-    // Figure out if the field be added to the end or somewhere in between.
-    const position = Number.isInteger(event.position) ? event.position : parent.fields.length;
+const addScreenField = (screen, event) => {
+    const parent = event.parent ? event.parent : screen;
 
     // If it is a section, figure out how many sections the screen already has (needed to generate a
     // a unique API name)
@@ -220,19 +270,7 @@ const addScreenField = (parent, event) => {
         extendFlowExtensionScreenField(field);
     }
 
-    const updatedItems = insertItem(parent.fields, field, position);
-    return set(parent, 'fields', updatedItems);
-};
-
-/**
- * Adds a screen field to a column within a section
- * @param {object} screen - The screen
- * @param {event} event - The add screen field event
- * @returns {object} - A new screen with the changes applied
- */
-const addScreenFieldToContainerField = (screen, event) => {
-    const updatedColumn = addScreenField(event.parent, event);
-    return updateAncestors(screen, event.detail.ancestorPositions, updatedColumn);
+    return insertScreenFieldIntoParent(screen, parent, field, event.position);
 };
 
 /**
@@ -313,14 +351,35 @@ const deleteChoice = (screen, event, field) => {
 };
 
 /**
- * Deletes screen fields to a screen.
+ * Removes the specified field from the specified parent and then returns an updated screen object
+ * @param {object} screen - The screen
+ * @param {object} parent - The parent of the field to be removed
+ * @param {object} field - The field to be removed
+ * @returns {object} - A new screen with the changes applied
+ */
+const removeScreenFieldFromParent = (screen, parent, field) => {
+    const positions = screen.getFieldIndexes(field);
+    if (!parent) {
+        parent = findParentByAncestorPositions(screen, positions);
+    }
+    parent = parent ? parent : screen;
+    if (positions && positions.length > 0) {
+        const deletedItemIndex = positions.splice(0, 1);
+        const updatedItems = deleteItem(parent.fields, deletedItemIndex[0]);
+        parent = set(parent, 'fields', updatedItems);
+        return updateAncestors(screen, positions, parent);
+    }
+    return screen;
+};
+
+/**
+ * Deletes screen fields from the screen.
  * @param {object} screen - The screen
  * @param {event} event - The delete screen field event
  * @returns {object} - A new screen with the changes applied
  */
 const deleteScreenField = (screen, event) => {
-    const updatedItems = deleteItem(screen.fields, screen.getFieldIndex(event.screenElement));
-    return set(screen, 'fields', updatedItems);
+    return removeScreenFieldFromParent(screen, event.parent, event.screenElement);
 };
 
 /**
@@ -330,19 +389,18 @@ const deleteScreenField = (screen, event) => {
  * @returns {object} - A new screen with the changes applied
  */
 const reorderFields = (screen, event) => {
-    let fields = screen.fields;
-
-    const positions = screen.getFieldIndexesByGUID(event.detail.destinationGuid);
-    const destinationIndex = positions[0];
     const movedField = screen.getFieldByGUID(event.detail.sourceGuid);
-
+    const destinationPositions = screen.getFieldIndexesByGUID(event.detail.destinationGuid);
+    const destinationIndex = destinationPositions && destinationPositions.length > 0 ? destinationPositions[0] : -1;
     if (destinationIndex >= 0 && movedField) {
-        fields = fields.filter(field => {
-            return field.guid !== event.detail.sourceGuid;
-        });
-        fields.splice(destinationIndex, 0, movedField);
+        const updatedScreen = removeScreenFieldFromParent(screen, null, movedField);
+        // TODO: This needs some love. We should include the new parent as part of the event details.
+        // It will be the screen when we drop the field onto the canvas, it will be a column when we
+        // drop the field onto a column within a section.
+        const destinationParent = findParentByAncestorPositions(updatedScreen, destinationPositions);
+        return insertScreenFieldIntoParent(updatedScreen, destinationParent, movedField, destinationIndex);
     }
-    return updateProperties(screen, { fields });
+    return screen;
 };
 
 /**
@@ -678,9 +736,6 @@ export const screenReducer = (state, event, selectedNode) => {
 
         case SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED:
             return addScreenField(state, event);
-
-        case SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED_TO_CONTAINER_FIELD:
-            return addScreenFieldToContainerField(state, event);
 
         case SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_DELETED:
             return deleteScreenField(state, event);

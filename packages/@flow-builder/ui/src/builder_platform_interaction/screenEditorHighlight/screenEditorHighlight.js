@@ -57,6 +57,7 @@ export default class ScreenEditorHighlight extends LightningElement {
     };
 
     handleDragStart(event) {
+        event.stopPropagation();
         this.template.querySelector(CONTAINER_DIV_SELECTOR).classList.add(DRAGGING_CLASS);
         event.dataTransfer.effectAllowed = 'move';
         // Cannot use a different attribute here because only 'text' works in IE

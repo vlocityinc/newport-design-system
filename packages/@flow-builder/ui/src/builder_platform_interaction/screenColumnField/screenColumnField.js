@@ -1,5 +1,9 @@
 import { LightningElement, api } from 'lwc';
-import { createAddScreenFieldToContainerFieldEvent } from 'builder_platform_interaction/events';
+import {
+    createAddScreenFieldEvent,
+    createScreenElementDeletedEvent,
+    ReorderListEvent
+} from 'builder_platform_interaction/events';
 
 /**
  * Wrapper used to represent visual preview of screen fields which are are display fields.
@@ -45,14 +49,28 @@ export default class ScreenColumnField extends LightningElement {
         ) {
             // Field is being added from the palette.
             const fieldTypeName = event.dataTransfer.getData('text');
-            const addFieldEvent = createAddScreenFieldToContainerFieldEvent(
-                fieldTypeName,
-                index,
-                this.column,
-                [],
-                this.column
-            );
+            const addFieldEvent = createAddScreenFieldEvent(fieldTypeName, index, this.column);
             this.dispatchEvent(addFieldEvent);
+        } else {
+            // Existing field is being moved around.
+            const sourceGuid = event.dataTransfer.getData('text');
+            const destScreenField = this.column.fields[index - 1];
+            if (sourceGuid && destScreenField) {
+                this.fireReorder(sourceGuid, destScreenField.guid);
+            }
+        }
+    }
+
+    handleDeleteScreenElement(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.dispatchEvent(createScreenElementDeletedEvent(event.screenElement, event.property, this.column));
+    }
+
+    fireReorder(sourceIndex, destIndex) {
+        if (sourceIndex !== destIndex) {
+            const reorderListEvent = new ReorderListEvent(sourceIndex, destIndex);
+            this.dispatchEvent(reorderListEvent);
         }
     }
 }

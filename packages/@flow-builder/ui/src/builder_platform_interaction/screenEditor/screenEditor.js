@@ -177,21 +177,9 @@ export default class ScreenEditor extends LightningElement {
         this.screen = screenReducer(this.screen, event);
 
         // select the new field on the canvas.
-        const position = Number.isInteger(event.position) ? event.position : this.screen.fields.length - 1;
-        this.setSelectedNode(this.screen.fields[position]);
-    };
-
-    /**
-     * Handler for the add screen field to container field event
-     * @param {event} event - The event
-     */
-    handleAddScreenFieldToContainerField = event => {
-        // Add the new field to a column within a section.
-        event.detail.ancestorPositions.push(this.screen.getFieldIndex(event.container));
-        this.screen = screenReducer(this.screen, event);
-
-        // select the new field on canvas.
-        // TODO: need to select the field that is nested within the container
+        const parent = event.parent ? this.screen.getFieldByGUID(event.parent.guid) : this.screen;
+        const position = Number.isInteger(event.position) ? event.position : parent.fields.length - 1;
+        this.setSelectedNode(parent.fields[position]);
     };
 
     /**
@@ -200,9 +188,8 @@ export default class ScreenEditor extends LightningElement {
      */
     handleDeleteScreenElement = event => {
         const state = this.screen;
-        // TODO: Recurse over all the screen child fields, grand child fields, etc. and pass the results to the
-        // usedByStoreAndElementState function
-        const usedElements = usedByStoreAndElementState(event.detail.screenElement.guid, state.guid, state.fields);
+        const parent = event.parent ? event.parent : this.screen;
+        const usedElements = usedByStoreAndElementState(event.detail.screenElement.guid, parent.guid, state.fields);
         if (usedElements && usedElements.length > 0) {
             invokeUsedByAlertModal(usedElements, [event.detail.screenElement.guid], ELEMENT_TYPE.SCREEN_FIELD);
         } else {

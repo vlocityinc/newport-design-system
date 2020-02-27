@@ -188,11 +188,12 @@ export function createScreenFieldWithFields(screenField = {}) {
 
 /**
  * Create a screen field in the shape the store expects (with field references).  This is used when taking a
- * flow element and converting it for use in the store (either when we're loading an existing flow or just we
+ * flow element and converting it for use in the store (either when we're loading an existing flow or when we
  * just clicked done on the property editor).
  * @param {Object} screenField - screen field from metadata
  * @param {Array} screenFields - An array for collecting all the screen fields that are contained, either directly or indirectly, by the current screen.
  * @param {String} parentName - The name of this screen field's parent. Used for autogeneration of unique api names.
+ * @param {Number} index - The next available index. Used for autogeneration of unique api names.
  * @return {screenFieldInStore} screen field in the shape used by the store
  */
 export function createScreenFieldWithFieldReferences(screenField = {}, screenFields = [], parentName, index) {
@@ -233,10 +234,15 @@ export function createScreenFieldWithFieldReferences(screenField = {}, screenFie
  * @param {String} sectionCount - The number of sections in the current screen
  * @return {object} - The new screen field
  */
+// TODO: (W-7251970) This function has special logic for different types. We
+// should move the screen field type-specific logic to screen field type specific
+// locations so this function can remain generic.
 export function createEmptyScreenFieldOfType(typeName, sectionCount = 0) {
     const type = getScreenFieldTypeByName(typeName);
 
-    const newScreenField = {
+    // TODO: We need to replace all of the string literals with references to a
+    // constant in screenEditorFieldTypesUtils
+    let newScreenField = {
         name: type.name === 'Section' ? 'Section' + (sectionCount + 1) : undefined,
         isRequired: type.dataType === 'Boolean' ? true : false,
         defaultValue: '',
@@ -250,7 +256,8 @@ export function createEmptyScreenFieldOfType(typeName, sectionCount = 0) {
             formulaExpression: '',
             errorMessage: ''
         },
-        storeOutputAutomatically: automaticOutputHandlingSupport()
+        storeOutputAutomatically: automaticOutputHandlingSupport(),
+        fields: []
     };
 
     // Add a single default column for section fields
@@ -277,7 +284,9 @@ export function createEmptyScreenFieldOfType(typeName, sectionCount = 0) {
         newScreenField.choiceReferences = [''];
     }
 
-    return createScreenField(newScreenField, true);
+    newScreenField = createScreenField(newScreenField, true);
+    newScreenField.hasNoChildren = newScreenField.fields.length === 0;
+    return newScreenField;
 }
 
 export function createScreenFieldMetadataObject(screenField) {
