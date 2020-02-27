@@ -11,6 +11,7 @@ import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expr
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import WaitTimeEvent from '../waitTimeEvent';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
@@ -101,7 +102,7 @@ describe('waitTimeEvent', () => {
         });
 
         describe('absolute base time customValidity', () => {
-            it('is set if an error is present', () => {
+            it('is set if an error is present', async () => {
                 const someError = 'someError';
 
                 waitTimeEvent.resumeTimeParameters = [
@@ -114,13 +115,12 @@ describe('waitTimeEvent', () => {
                     }
                 ];
 
-                return Promise.resolve().then(() => {
-                    const absoluteBaseTimePicker = waitTimeEvent.shadowRoot.querySelector(selectors.picker);
-                    expect(absoluteBaseTimePicker.setCustomValidity).toHaveBeenCalledWith(someError);
-                });
+                await ticks(1);
+                const absoluteBaseTimePicker = waitTimeEvent.shadowRoot.querySelector(selectors.picker);
+                expect(absoluteBaseTimePicker.setCustomValidity).toHaveBeenCalledWith(someError);
             });
 
-            it('is set to an empty string if no error present', () => {
+            it('is set to an empty string if no error present', async () => {
                 waitTimeEvent.resumeTimeParameters = [
                     {
                         name: 'AlarmTime',
@@ -131,10 +131,9 @@ describe('waitTimeEvent', () => {
                     }
                 ];
 
-                return Promise.resolve().then(() => {
-                    const absoluteBaseTimePicker = waitTimeEvent.shadowRoot.querySelector(selectors.picker);
-                    expect(absoluteBaseTimePicker.setCustomValidity).toHaveBeenCalledWith('');
-                });
+                await ticks(1);
+                const absoluteBaseTimePicker = waitTimeEvent.shadowRoot.querySelector(selectors.picker);
+                expect(absoluteBaseTimePicker.setCustomValidity).toHaveBeenCalledWith('');
             });
         });
 
@@ -150,7 +149,7 @@ describe('waitTimeEvent', () => {
             expect(offsetUnit.value).toEqual('Days');
         });
 
-        it('dispatches UpdateWaitEventEventTypeEvent when event type changes', () => {
+        it('dispatches UpdateWaitEventEventTypeEvent when event type changes', async () => {
             const radio = waitTimeEvent.shadowRoot.querySelector(selectors.lightningRadioGroup);
             const mockPayload = {
                 value: WAIT_TIME_EVENT_TYPE.DIRECT_RECORD_TIME
@@ -160,15 +159,14 @@ describe('waitTimeEvent', () => {
             });
 
             radio.dispatchEvent(changedEvent);
-            return Promise.resolve().then(() => {
-                expect(updateWaitEventEventTypeSpy.mock.calls[0][0].detail.propertyName).toEqual(
-                    WAIT_EVENT_FIELDS.EVENT_TYPE
-                );
-                expect(updateWaitEventEventTypeSpy.mock.calls[0][0].detail.value).toEqual(mockPayload.value);
-            });
+            await ticks(1);
+            expect(updateWaitEventEventTypeSpy.mock.calls[0][0].detail.propertyName).toEqual(
+                WAIT_EVENT_FIELDS.EVENT_TYPE
+            );
+            expect(updateWaitEventEventTypeSpy.mock.calls[0][0].detail.value).toEqual(mockPayload.value);
         });
 
-        it('fires UpdateParameterItemEvent on base time combobox state changed', () => {
+        it('fires UpdateParameterItemEvent on base time combobox state changed', async () => {
             const mockFerov = { value: 'foo', dataType: 'sfdcDatType' };
             getFerovInfoAndErrorFromEvent.mockReturnValueOnce(mockFerov);
             const mockItem = { value: 'foo', displayText: 'foo bar' };
@@ -177,47 +175,44 @@ describe('waitTimeEvent', () => {
             const picker = waitTimeEvent.shadowRoot.querySelector(selectors.picker);
             picker.dispatchEvent(comboboxStateChanged);
 
-            return Promise.resolve().then(() => {
-                expect(updateParameterSpy.mock.calls[0][0].type).toEqual(UpdateParameterItemEvent.EVENT_NAME);
-                expect(updateParameterSpy.mock.calls[0][0].detail.value).toEqual(mockFerov.value);
-                expect(updateParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual(mockFerov.dataType);
-                expect(updateParameterSpy.mock.calls[0][0].detail.isInput).toEqual(true);
-            });
+            await ticks(1);
+            expect(updateParameterSpy.mock.calls[0][0].type).toEqual(UpdateParameterItemEvent.EVENT_NAME);
+            expect(updateParameterSpy.mock.calls[0][0].detail.value).toEqual(mockFerov.value);
+            expect(updateParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual(mockFerov.dataType);
+            expect(updateParameterSpy.mock.calls[0][0].detail.isInput).toEqual(true);
         });
 
-        it('fires UpdateParameterItemEvent on offset number focus out', () => {
+        it('fires UpdateParameterItemEvent on offset number focus out', async () => {
             const focusOut = new CustomEvent('focusout');
 
             const offsetNumber = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[0];
             offsetNumber.reportValidity = jest.fn();
             offsetNumber.dispatchEvent(focusOut);
 
-            return Promise.resolve().then(() => {
-                expect(updateParameterSpy.mock.calls[0][0].type).toEqual(UpdateParameterItemEvent.EVENT_NAME);
-                expect(updateParameterSpy.mock.calls[0][0].detail.isInput).toBe(true);
-                expect(updateParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual('Number');
-                expect(updateParameterSpy.mock.calls[0][0].detail.value).toEqual(-3);
-                expect(updateParameterSpy.mock.calls[0][0].detail.rowIndex).toEqual(null);
-                expect(updateParameterSpy.mock.calls[0][0].detail.name).toEqual('TimeOffset');
-                expect(updateParameterSpy.mock.calls[0][0].detail.error).toEqual(null);
-            });
+            await ticks(1);
+            expect(updateParameterSpy.mock.calls[0][0].type).toEqual(UpdateParameterItemEvent.EVENT_NAME);
+            expect(updateParameterSpy.mock.calls[0][0].detail.isInput).toBe(true);
+            expect(updateParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual('Number');
+            expect(updateParameterSpy.mock.calls[0][0].detail.value).toEqual(-3);
+            expect(updateParameterSpy.mock.calls[0][0].detail.rowIndex).toEqual(null);
+            expect(updateParameterSpy.mock.calls[0][0].detail.name).toEqual('TimeOffset');
+            expect(updateParameterSpy.mock.calls[0][0].detail.error).toEqual(null);
         });
 
-        it('fires UpdateParameterItemEvent on offset unit focus out', () => {
+        it('fires UpdateParameterItemEvent on offset unit focus out', async () => {
             const focusOut = new CustomEvent('focusout');
 
             const offsetUnit = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[1];
             offsetUnit.dispatchEvent(focusOut);
 
-            return Promise.resolve().then(() => {
-                expect(updateParameterSpy.mock.calls[0][0].type).toEqual(UpdateParameterItemEvent.EVENT_NAME);
-                expect(updateParameterSpy.mock.calls[0][0].detail.isInput).toBe(true);
-                expect(updateParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual('String');
-                expect(updateParameterSpy.mock.calls[0][0].detail.value).toEqual('Days');
-                expect(updateParameterSpy.mock.calls[0][0].detail.rowIndex).toEqual(null);
-                expect(updateParameterSpy.mock.calls[0][0].detail.name).toEqual('TimeOffsetUnit');
-                expect(updateParameterSpy.mock.calls[0][0].detail.error).toEqual(null);
-            });
+            await ticks(1);
+            expect(updateParameterSpy.mock.calls[0][0].type).toEqual(UpdateParameterItemEvent.EVENT_NAME);
+            expect(updateParameterSpy.mock.calls[0][0].detail.isInput).toBe(true);
+            expect(updateParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual('String');
+            expect(updateParameterSpy.mock.calls[0][0].detail.value).toEqual('Days');
+            expect(updateParameterSpy.mock.calls[0][0].detail.rowIndex).toEqual(null);
+            expect(updateParameterSpy.mock.calls[0][0].detail.name).toEqual('TimeOffsetUnit');
+            expect(updateParameterSpy.mock.calls[0][0].detail.error).toEqual(null);
         });
 
         it('rules are given to the input parameters', () => {
@@ -266,14 +261,13 @@ describe('waitTimeEvent', () => {
                     error: 'someError'
                 };
             });
-            it('does not set an error on initial render', () => {
+            it('does not set an error on initial render', async () => {
                 waitTimeEvent = createComponentUnderTest(props);
-                return Promise.resolve().then(() => {
-                    const salesforceObject = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[0];
-                    expect(salesforceObject.setCustomValidity).not.toHaveBeenCalled();
-                });
+                await ticks(1);
+                const salesforceObject = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[0];
+                expect(salesforceObject.setCustomValidity).not.toHaveBeenCalled();
             });
-            it('sets an error if one is present on record name field', () => {
+            it('sets an error if one is present on record name field', async () => {
                 value.error = 'someError';
                 waitTimeEvent.resumeTimeParameters = [
                     {
@@ -282,13 +276,12 @@ describe('waitTimeEvent', () => {
                     }
                 ];
 
-                return Promise.resolve().then(() => {
-                    const salesforceObject = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[0];
-                    expect(salesforceObject.setCustomValidity).toHaveBeenCalledWith(value.error);
-                });
+                await ticks(1);
+                const salesforceObject = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[0];
+                expect(salesforceObject.setCustomValidity).toHaveBeenCalledWith(value.error);
             });
 
-            it('sets an error if one is present on record date field', () => {
+            it('sets an error if one is present on record date field', async () => {
                 value.error = 'someError';
 
                 waitTimeEvent.resumeTimeParameters = [
@@ -298,13 +291,12 @@ describe('waitTimeEvent', () => {
                     }
                 ];
 
-                return Promise.resolve().then(() => {
-                    const dateField = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[1];
-                    expect(dateField.setCustomValidity).toHaveBeenCalledWith(value.error);
-                });
+                await ticks(1);
+                const dateField = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[1];
+                expect(dateField.setCustomValidity).toHaveBeenCalledWith(value.error);
             });
 
-            it('is set to an empty string if no error present and element was previously in error state', () => {
+            it('is set to an empty string if no error present and element was previously in error state', async () => {
                 const salesforceObject = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[0];
                 salesforceObject.validity = { customError: true };
                 value.error = null;
@@ -316,12 +308,11 @@ describe('waitTimeEvent', () => {
                     }
                 ];
 
-                return Promise.resolve().then(() => {
-                    expect(salesforceObject.setCustomValidity).toHaveBeenCalledWith('');
-                });
+                await ticks(1);
+                expect(salesforceObject.setCustomValidity).toHaveBeenCalledWith('');
             });
 
-            it('does not set an error if one is not present and element was previously in valid state', () => {
+            it('does not set an error if one is not present and element was previously in valid state', async () => {
                 const salesforceObject = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[0];
                 salesforceObject.validity = { customError: false };
                 value.error = null;
@@ -333,47 +324,44 @@ describe('waitTimeEvent', () => {
                     }
                 ];
 
-                return Promise.resolve().then(() => {
-                    expect(salesforceObject.setCustomValidity).not.toHaveBeenCalled();
-                });
+                await ticks(1);
+                expect(salesforceObject.setCustomValidity).not.toHaveBeenCalled();
             });
         });
 
-        it('fires UpdateParameterItemEvent on salesforceObject focus out', () => {
+        it('fires UpdateParameterItemEvent on salesforceObject focus out', async () => {
             const focusOut = new CustomEvent('focusout');
 
             const salesforceObject = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[0];
             salesforceObject.dispatchEvent(focusOut);
 
-            return Promise.resolve().then(() => {
-                expect(updateParameterSpy.mock.calls[0][0].type).toEqual(UpdateParameterItemEvent.EVENT_NAME);
-                expect(updateParameterSpy.mock.calls[0][0].detail.isInput).toBe(true);
-                expect(updateParameterSpy.mock.calls[0][0].detail.name).toEqual(directRecordSalesforceObject);
-                expect(updateParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual('String');
-                expect(updateParameterSpy.mock.calls[0][0].detail.value).toEqual('Account');
-                expect(updateParameterSpy.mock.calls[0][0].detail.rowIndex).toEqual(null);
-                expect(updateParameterSpy.mock.calls[0][0].detail.error).toEqual(null);
-            });
+            await ticks(1);
+            expect(updateParameterSpy.mock.calls[0][0].type).toEqual(UpdateParameterItemEvent.EVENT_NAME);
+            expect(updateParameterSpy.mock.calls[0][0].detail.isInput).toBe(true);
+            expect(updateParameterSpy.mock.calls[0][0].detail.name).toEqual(directRecordSalesforceObject);
+            expect(updateParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual('String');
+            expect(updateParameterSpy.mock.calls[0][0].detail.value).toEqual('Account');
+            expect(updateParameterSpy.mock.calls[0][0].detail.rowIndex).toEqual(null);
+            expect(updateParameterSpy.mock.calls[0][0].detail.error).toEqual(null);
         });
 
-        it('fires UpdateParameterItemEvent on basetime focus out', () => {
+        it('fires UpdateParameterItemEvent on basetime focus out', async () => {
             const focusOut = new CustomEvent('focusout');
 
             const baseTime = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[1];
             baseTime.dispatchEvent(focusOut);
 
-            return Promise.resolve().then(() => {
-                expect(updateParameterSpy.mock.calls[0][0].type).toEqual(UpdateParameterItemEvent.EVENT_NAME);
-                expect(updateParameterSpy.mock.calls[0][0].detail.isInput).toBe(true);
-                expect(updateParameterSpy.mock.calls[0][0].detail.name).toEqual(directRecordBaseTime);
-                expect(updateParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual('String');
-                expect(updateParameterSpy.mock.calls[0][0].detail.value).toEqual('LastModifiedDate');
-                expect(updateParameterSpy.mock.calls[0][0].detail.rowIndex).toEqual(null);
-                expect(updateParameterSpy.mock.calls[0][0].detail.error).toEqual(null);
-            });
+            await ticks(1);
+            expect(updateParameterSpy.mock.calls[0][0].type).toEqual(UpdateParameterItemEvent.EVENT_NAME);
+            expect(updateParameterSpy.mock.calls[0][0].detail.isInput).toBe(true);
+            expect(updateParameterSpy.mock.calls[0][0].detail.name).toEqual(directRecordBaseTime);
+            expect(updateParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual('String');
+            expect(updateParameterSpy.mock.calls[0][0].detail.value).toEqual('LastModifiedDate');
+            expect(updateParameterSpy.mock.calls[0][0].detail.rowIndex).toEqual(null);
+            expect(updateParameterSpy.mock.calls[0][0].detail.error).toEqual(null);
         });
 
-        it('fires UpdateParameterItemEvent on recordId combobox state changed', () => {
+        it('fires UpdateParameterItemEvent on recordId combobox state changed', async () => {
             const mockFerov = { value: 'recordId', dataType: 'String' };
             getFerovInfoAndErrorFromEvent.mockReturnValueOnce(mockFerov);
             const mockItem = {
@@ -385,12 +373,11 @@ describe('waitTimeEvent', () => {
             const picker = waitTimeEvent.shadowRoot.querySelector(selectors.picker);
             picker.dispatchEvent(comboboxStateChanged);
 
-            return Promise.resolve().then(() => {
-                expect(updateParameterSpy.mock.calls[0][0].type).toEqual(UpdateParameterItemEvent.EVENT_NAME);
-                expect(updateParameterSpy.mock.calls[0][0].detail.value).toEqual(mockFerov.value);
-                expect(updateParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual(mockFerov.dataType);
-                expect(updateParameterSpy.mock.calls[0][0].detail.isInput).toEqual(true);
-            });
+            await ticks(1);
+            expect(updateParameterSpy.mock.calls[0][0].type).toEqual(UpdateParameterItemEvent.EVENT_NAME);
+            expect(updateParameterSpy.mock.calls[0][0].detail.value).toEqual(mockFerov.value);
+            expect(updateParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual(mockFerov.dataType);
+            expect(updateParameterSpy.mock.calls[0][0].detail.isInput).toEqual(true);
         });
     });
     describe('output parameters', () => {
