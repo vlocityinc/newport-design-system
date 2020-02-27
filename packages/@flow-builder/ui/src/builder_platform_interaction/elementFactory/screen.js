@@ -1,6 +1,7 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
+    createPastedCanvasElement,
     duplicateCanvasElementWithChildElements,
     baseCanvasElementsArrayToMap
 } from './base/baseElement';
@@ -49,6 +50,50 @@ export function createScreenWithFields(screen = {}) {
 }
 
 /**
+ * Function to create the pasted Screen element
+ *
+ * @param {Object} dataForPasting - Data required to create the pasted element
+ */
+export function createPastedScreen({
+    canvasElementToPaste,
+    newGuid,
+    newName,
+    canvasElementGuidMap,
+    childElementGuidMap,
+    childElementNameMap,
+    topCutOrCopiedGuid,
+    bottomCutOrCopiedGuid,
+    prev,
+    next,
+    parent,
+    childIndex
+}) {
+    const { duplicatedElement, duplicatedChildElements } = createDuplicateScreen(
+        canvasElementToPaste,
+        newGuid,
+        newName,
+        childElementGuidMap,
+        childElementNameMap
+    );
+
+    const pastedCanvasElement = createPastedCanvasElement(
+        duplicatedElement,
+        canvasElementGuidMap,
+        topCutOrCopiedGuid,
+        bottomCutOrCopiedGuid,
+        prev,
+        next,
+        parent,
+        childIndex
+    );
+
+    return {
+        pastedCanvasElement,
+        pastedChildElements: duplicatedChildElements
+    };
+}
+
+/**
  * Function to create the duplicate Screen element
  *
  * @param {Object} screen - Screen element being copied
@@ -80,6 +125,7 @@ export function createDuplicateScreen(screen, newGuid, newName, childElementGuid
     const updatedDuplicatedElement = Object.assign(duplicateScreen, duplicatedElement, {
         [childReferenceKeys.childReferencesKey]: updatedChildReferences
     });
+
     return {
         duplicatedElement: updatedDuplicatedElement,
         duplicatedChildElements

@@ -58,10 +58,12 @@
                     if:true={useFixedLayoutCanvas}
                     elements-metadata={elementsMetadata}
                     is-selection-mode={isSelectionMode}
+                    is-paste-available={isPasteAvailable}
                     onaddelement={handleAddCanvasElement}
                     oneditelement={handleEditElement}
                     ondeleteelement={handleElementDelete}
                     onflcselection={handleSelectionOnFixedCanvas}
+                    onpaste={handlePasteOnCanvas}
                 >
                 </builder_platform_interaction-flc-builder-container>
                 <builder_platform_interaction-canvas-container

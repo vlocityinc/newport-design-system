@@ -15,6 +15,9 @@ export default class FlcBuilderContainer extends LightningElement {
     elementsMetadata;
 
     @api
+    isPasteAvailable;
+
+    @api
     isSelectionMode;
 
     @track

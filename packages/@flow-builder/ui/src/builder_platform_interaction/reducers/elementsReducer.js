@@ -140,7 +140,6 @@ function _duplicateElement(
         childElementGuidsToDuplicate,
         blacklistNames
     );
-    blacklistNames.push(Object.values(childElementNameMap));
 
     // Deselect all the unduplicated elements
     unduplicatedCanvasElementsGuids.forEach(guid => _deselectElement(newState[guid], newState));

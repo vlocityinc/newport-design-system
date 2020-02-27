@@ -10,9 +10,7 @@
 }
 
 .body {
-    overflow: scroll;
     background-color: #fff;
-    padding: 5px;
 }
 
 .footer {

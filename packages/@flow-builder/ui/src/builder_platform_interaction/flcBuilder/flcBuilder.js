@@ -123,6 +123,9 @@ export default class FlcBuilder extends LightningElement {
     elementsMetadata;
 
     @api
+    isPasteAvailable;
+
+    @api
     set isSelectionMode(isSelectionMode) {
         this._isSelectionMode = isSelectionMode;
         if (this._isSelectionMode) {

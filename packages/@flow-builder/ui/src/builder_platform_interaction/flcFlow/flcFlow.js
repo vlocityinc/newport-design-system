@@ -11,5 +11,8 @@ export default class FlcFlow extends LightningElement {
     force;
 
     @api
+    isPasteAvailable;
+
+    @api
     isSelectionMode;
 }

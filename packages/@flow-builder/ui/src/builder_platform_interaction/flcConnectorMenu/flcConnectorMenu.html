@@ -4,26 +4,24 @@
             <h3 class="slds-m-vertical_small slds-text-heading_small">
                 Add Element
             </h3>
-            <div class="slds-form-element__control">
-                <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
-                    <input
-                        aria-controls="listbox-id-4"
-                        autocomplete="off"
-                        class="slds-input slds-combobox__input"
-                        id="combobox-id-3"
-                        placeholder="Search elements..."
-                        role="textbox"
-                        type="text"
-                    />
-                    <span class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
-                        <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
-                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
-                        </svg>
-                    </span>
-                </div>
+            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right" role="none">
+                <input
+                    aria-controls="listbox-id-4"
+                    autocomplete="off"
+                    class="slds-input slds-combobox__input"
+                    id="combobox-id-3"
+                    placeholder="Search elements..."
+                    role="textbox"
+                    type="text"
+                />
+                <lightning-icon
+                    class="slds-input__icon slds-input__icon_right"
+                    icon-name="utility:search"
+                    size="x-small"
+                ></lightning-icon>
             </div>
         </div>
-        <div slot="body" class="slds-scrollable_y body-scroll">
+        <div slot="body" class="slds-scrollable_y body-fixed-height">
             <template for:each={menuConfiguration.sections} for:item="section">
                 <ul
                     aria-label={section.label}
@@ -31,54 +29,35 @@
                     key={section.guid}
                     role="group"
                 >
-                    <li
-                        class="slds-dropdown__header slds-truncate padding-medium"
-                        if:true={section.heading}
-                        role="separator"
-                        title={section.label}
-                    >
+                    <li class="slds-dropdown__header" if:true={section.heading} role="separator" title={section.label}>
                         <span>{section.heading}</span>
                     </li>
                     <template for:each={section.items} for:item="item">
                         <div key={item.guid}>
                             <li
-                                class="slds-dropdown__item padding-medium"
-                                onclick={handleSelectMenuItem}
+                                class="slds-listbox__item"
+                                data-value={item.elementType}
                                 role="presentation"
+                                onclick={handleSelectMenuItem}
                             >
-                                <a
-                                    aria-expanded="true"
-                                    aria-haspopup="true"
-                                    class="padding-medium"
-                                    data-value={item.elementType}
-                                    onclick={handleSelectMenuItem}
-                                    role="menuitem"
+                                <div
+                                    class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                    role="option"
                                     tabindex="0"
                                 >
                                     <span class="slds-media__figure slds-listbox__option-icon">
-                                        <span class={item.style}>
-                                            <svg
-                                                data-value={item.elementType}
-                                                class="slds-icon slds-icon_small utility_icon icon-padding"
-                                                aria-hidden="true"
-                                            >
-                                                <use xlink:href={item.icon}></use>
-                                            </svg>
-                                        </span>
+                                        <lightning-icon icon-name={item.icon} size="small"></lightning-icon>
                                     </span>
                                     <span class="slds-media__body">
-                                        <span
-                                            class="slds-listbox__option-text slds-listbox__option-text_entity"
-                                            data-value={item.elementType}
+                                        <span class="slds-listbox__option-text slds-listbox__option-text_entity"
                                             >{item.label}</span
                                         >
                                         <span
-                                            class="slds-listbox__option-meta slds-listbox__option-meta_entity"
-                                            data-value={item.elementType}
+                                            class="slds-listbox__option-meta slds-listbox__option-meta_entity slds-truncate"
                                             >{item.description}</span
                                         >
                                     </span>
-                                </a>
+                                </div>
                             </li>
                             <li if:true={item.separator} class="slds-has-divider_top-space" role="separator"></li>
                         </div>

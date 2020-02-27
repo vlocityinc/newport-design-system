@@ -98,7 +98,10 @@ import {
     createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor,
     createScreenWithFieldReferences,
     createScreenField,
-    createStartElementMetadataObject
+    createStartElementMetadataObject,
+    createPastedScreen,
+    createPastedDecision,
+    createPastedAssignment
 } from 'builder_platform_interaction/elementFactory';
 
 export const EDIT_START_CONTEXT = 'editStartContext';
@@ -399,6 +402,7 @@ export const elementTypeToConfigMap = {
         bodyCssClass: 'slds-p-around_none',
         factory: {
             propertyEditor: createAssignment,
+            pasteElement: createPastedAssignment,
             duplicateElement: createDuplicateAssignment,
             uiToFlow: createAssignmentMetadataObject,
             flowToUi: createAssignmentWithConnectors
@@ -441,6 +445,7 @@ export const elementTypeToConfigMap = {
         bodyCssClass: 'slds-scrollable_none',
         factory: {
             propertyEditor: createScreenWithFields,
+            pasteElement: createPastedScreen,
             duplicateElement: createDuplicateScreen,
             closePropertyEditor: createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor,
             uiToFlow: createScreenMetadataObject,
@@ -480,6 +485,7 @@ export const elementTypeToConfigMap = {
         factory: {
             propertyEditor: createDecisionWithOutcomes,
             closePropertyEditor: createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor,
+            pasteElement: createPastedDecision,
             duplicateElement: createDuplicateDecision,
             uiToFlow: createDecisionMetadataObject,
             flowToUi: createDecisionWithOutcomeReferences

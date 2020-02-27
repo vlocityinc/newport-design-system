@@ -1,4 +1,4 @@
-import { ADD_END_ELEMENT } from 'builder_platform_interaction/actions';
+import { ADD_END_ELEMENT, PASTE_ON_FIXED_CANVAS } from 'builder_platform_interaction/actions';
 import { addItem } from 'builder_platform_interaction/dataMutationLib';
 
 import canvasElementsReducer from './canvasElementsReducer';
@@ -16,6 +16,8 @@ export default function flcCanvasElementsReducer(state = [], action) {
     switch (action.type) {
         case ADD_END_ELEMENT:
             return addItem(state, action.payload.guid);
+        case PASTE_ON_FIXED_CANVAS:
+            return [...state, ...Object.values(action.payload.canvasElementGuidMap)];
         default:
             return state;
     }

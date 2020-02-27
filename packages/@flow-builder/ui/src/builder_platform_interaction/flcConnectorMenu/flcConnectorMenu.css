@@ -1,11 +1,3 @@
-.body-scroll {
+.body-fixed-height {
     height: 16rem;
-}
-
-.icon-padding {
-    padding: 4px;
-}
-
-.padding-medium {
-    padding: 0.25rem 0.75rem;
 }

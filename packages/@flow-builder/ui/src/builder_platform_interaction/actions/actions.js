@@ -35,6 +35,7 @@ export const DESELECT_ON_CANVAS = 'DESELECT_ON_CANVAS';
 export const MARQUEE_SELECT_ON_CANVAS = 'MARQUEE_SELECT_ON_CANVAS';
 
 export const SELECTION_ON_FIXED_CANVAS = 'SELECTION_ON_FIXED_CANVAS';
+export const PASTE_ON_FIXED_CANVAS = 'PASTE_ON_FIXED_CANVAS';
 
 export const HIGHLIGHT_ON_CANVAS = 'HIGHLIGHT_ON_CANVAS';
 
@@ -334,6 +335,12 @@ export const marqueeSelectOnCanvas = payload => createAction(MARQUEE_SELECT_ON_C
  * @returns {Object} action new action based on type and payload
  */
 export const selectionOnFixedCanvas = payload => createAction(SELECTION_ON_FIXED_CANVAS, payload);
+
+/**
+ * Action for pasting elements on the fixed canvas
+ * @param {Object} payload - Contains the data for pasting elements on the fixed canvas
+ */
+export const pasteOnFixedCanvas = payload => createAction(PASTE_ON_FIXED_CANVAS, payload);
 
 /**
  * Action for setting the isHighlighted property of a canvas element to true

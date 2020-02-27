@@ -16,6 +16,7 @@ import {
     updateElement,
     selectOnCanvas,
     selectionOnFixedCanvas,
+    pasteOnFixedCanvas,
     undo,
     redo,
     clearUndoRedo,
@@ -63,6 +64,8 @@ import {
     setFlowErrorsAndWarnings,
     flowPropertiesCallback,
     saveAsFlowCallback,
+    getCopiedData,
+    getPasteElementGuidMaps,
     getDuplicateElementGuidMaps,
     getConnectorToDuplicate,
     highlightCanvasElement,
@@ -156,7 +159,11 @@ export default class Editor extends LightningElement {
     @track
     elementsMetadata;
 
-    copiedCanvasElements = {};
+    topSelectedGuid = null;
+    cutOrCopiedCanvasElements = {};
+    cutOrCopiedChildElements = {};
+    topCutOrCopiedGuid = null;
+    bottomCutOrCopiedGuid = null;
     currentFlowId;
     currentFlowDefId;
     runDebugUrl;
@@ -226,6 +233,9 @@ export default class Editor extends LightningElement {
 
     @track
     isCutCopyDisabled = true;
+
+    @track
+    isPasteAvailable = false;
 
     @track
     isSelectionMode = false;
@@ -686,23 +696,55 @@ export default class Editor extends LightningElement {
             };
             storeInstance.dispatch(selectionOnFixedCanvas(payload));
 
+            this.topSelectedGuid = event.detail.topSelectedGuid;
             this.isCutCopyDisabled = !event.detail.topSelectedGuid;
         }
     };
 
     /**
-     * Handles the copy event and updates the copiedCanvasElements
+     * Handles the copy event and updates the cutOrCopiedCanvasElements
      */
     handleCopy = () => {
         const elements = storeInstance.getCurrentState() && storeInstance.getCurrentState().elements;
-        this.copiedCanvasElements = Object.values(elements)
-            .filter(elementData => {
-                return elementData.config && elementData.config.isSelected;
-            })
-            .reduce((element, elementData) => {
-                element[elementData.guid] = elements[elementData.guid];
-                return element;
-            }, {});
+        this.topCutOrCopiedGuid = this.topSelectedGuid;
+        const { copiedCanvasElements, copiedChildElements, bottomCutOrCopiedGuid } = getCopiedData(
+            elements,
+            this.topCutOrCopiedGuid
+        );
+        this.cutOrCopiedCanvasElements = copiedCanvasElements;
+        this.cutOrCopiedChildElements = copiedChildElements;
+        this.bottomCutOrCopiedGuid = bottomCutOrCopiedGuid;
+
+        this.isPasteAvailable = true;
+
+        // Toggling out of the selection mode on Copy
+        this.handleToggleSelectionMode();
+    };
+
+    /**
+     * Handles the paste event and dispatches the pasteOnFixedCanvas action to the store
+     */
+    handlePasteOnCanvas = event => {
+        const { prev, next, parent, childIndex } = event.detail;
+
+        const { canvasElementGuidMap, childElementGuidMap } = getPasteElementGuidMaps(
+            this.cutOrCopiedCanvasElements,
+            this.cutOrCopiedChildElements
+        );
+
+        const payload = {
+            canvasElementGuidMap,
+            childElementGuidMap,
+            cutOrCopiedCanvasElements: this.cutOrCopiedCanvasElements,
+            cutOrCopiedChildElements: this.cutOrCopiedChildElements,
+            topCutOrCopiedGuid: this.topCutOrCopiedGuid,
+            bottomCutOrCopiedGuid: this.bottomCutOrCopiedGuid,
+            prev,
+            next,
+            parent,
+            childIndex
+        };
+        storeInstance.dispatch(pasteOnFixedCanvas(payload));
     };
 
     /**

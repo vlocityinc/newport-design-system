@@ -34,6 +34,7 @@ export { FlcSelectionEvent } from './canvasEvents/flcSelectionEvent';
 export { ClickToZoomEvent } from './canvasEvents/zoomPanelEvent/zoomEvent';
 export { ToggleSelectionModeEvent } from './toolbarEvents/toggleSelectionModeEvent';
 export { CopyEvent } from './toolbarEvents/copyEvent';
+export { PasteEvent } from './canvasEvents/pasteEvent';
 export { DuplicateEvent } from './toolbarEvents/duplicateEvent';
 export { EditFlowPropertiesEvent } from './toolbarEvents/editFlowPropertiesEvent';
 export { UndoEvent } from './toolbarEvents/undoEvent';

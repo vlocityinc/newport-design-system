@@ -1,8 +1,7 @@
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
-const SVG_UTILITY_SPRITE_PATH = '/assets/icons/utility-sprite/svg/symbols.svg';
-const SVG_STANDARD_SPRITE_PATH = '/_slds/icons/standard-sprite/svg/symbols.svg';
+export const PASTE_ACTION = 'Paste';
 
 const pasteSection = {
     guid: generateGuid(),
@@ -11,11 +10,10 @@ const pasteSection = {
         {
             guid: generateGuid(),
             description: 'Paste copied element(s)',
-            icon: `${SVG_UTILITY_SPRITE_PATH}#paste`,
+            icon: 'standard:textbox',
             separator: true,
-            style: 'slds-icon_container slds-icon-standard-textbox',
             label: 'Paste',
-            elementType: 'Paste'
+            elementType: PASTE_ACTION
         }
     ],
     label: 'Paste Section'
@@ -24,8 +22,10 @@ const pasteSection = {
 /**
  * Create FLC menu configuration from the elements metadata
  * @param {Object} elementsMetadata
+ * @param {Boolean} showEndElement
+ * @param {Boolean} isPasteAvailable
  */
-export const configureMenu = (elementsMetadata, showEndElement) => {
+export const configureMenu = (elementsMetadata, showEndElement, isPasteAvailable) => {
     const sectionDefinitionsMap = {};
 
     const sections = elementsMetadata.reduce(
@@ -51,13 +51,12 @@ export const configureMenu = (elementsMetadata, showEndElement) => {
                 description,
                 label,
                 elementType,
-                style: `slds-icon_container slds-icon-${icon.replace(/[:_]/g, '-')}`,
-                icon: `${SVG_STANDARD_SPRITE_PATH}#${icon.split(':')[1]}`
+                icon
             });
 
             return acc;
         },
-        [pasteSection]
+        isPasteAvailable ? [pasteSection] : []
     );
 
     return { sections };

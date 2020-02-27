@@ -336,6 +336,96 @@ const hasChildElements = canvasElement => {
 };
 
 /**
+ * Helper function to get the bottom most cut or copied guid
+ *
+ * @param {Object} elementsInStore - State of the elements in store
+ * @param {String} topCutOrCopiedGuid - Guid of the top-most cut or copied element
+ * @returns {String} - Guid of the bottom most cut or copied element
+ */
+const getBottomCutOrCopiedGuid = (elementsInStore, topCutOrCopiedGuid) => {
+    const topCutOrCopiedElement = elementsInStore[topCutOrCopiedGuid];
+    let bottomCutOrCopiedElement = topCutOrCopiedElement;
+
+    // Traversing down the selected elements vertical chain to get the bottom-most selected element guid
+    while (bottomCutOrCopiedElement) {
+        if (
+            elementsInStore[bottomCutOrCopiedElement.next] &&
+            elementsInStore[bottomCutOrCopiedElement.next].config &&
+            elementsInStore[bottomCutOrCopiedElement.next].config.isSelected
+        ) {
+            bottomCutOrCopiedElement = elementsInStore[bottomCutOrCopiedElement.next];
+        } else {
+            break;
+        }
+    }
+
+    return bottomCutOrCopiedElement.guid;
+};
+
+/**
+ * Function to get all the copied data
+ *
+ * @param {Object} elementsInStore - State of the elements in store
+ * @param {String} topCopiedGuid - Guid of the top copied element
+ * @returns {Object} - Contains copiedCanvasElements, copiedChildElements and bottomCutOrCopiedGuid
+ */
+export const getCopiedData = (elementsInStore, topCopiedGuid) => {
+    const copiedCanvasElements = {};
+    const copiedChildElements = {};
+
+    // Calculating the copiedCanvasElements and copiedChildElements objects
+    for (let i = 0; i < Object.values(elementsInStore).length; i++) {
+        const canvasElement = Object.values(elementsInStore)[i];
+        if (canvasElement.config && canvasElement.config.isSelected) {
+            copiedCanvasElements[canvasElement.guid] = canvasElement;
+
+            if (hasChildElements(canvasElement)) {
+                const elementConfig = getConfigForElementType(canvasElement.elementType);
+                const childReferenceKey = elementConfig.childReferenceKey;
+                const childReferenceArray = canvasElement[childReferenceKey.plural];
+
+                for (let j = 0; j < childReferenceArray.length; j++) {
+                    const childReferenceObject = childReferenceArray[j];
+                    copiedChildElements[childReferenceObject[childReferenceKey.singular]] =
+                        elementsInStore[childReferenceObject[childReferenceKey.singular]];
+                }
+            }
+        }
+    }
+
+    // Getting the guid of the bottom most selected element
+    const bottomCutOrCopiedGuid = getBottomCutOrCopiedGuid(elementsInStore, topCopiedGuid);
+
+    return { copiedCanvasElements, copiedChildElements, bottomCutOrCopiedGuid };
+};
+
+// TODO: Move this to a common util
+/**
+ * Function to create a guid -> new guid map
+ *
+ * @param {Object} elements - Object containing element objects for which the maps needs to be created
+ */
+const createGuidMap = elements => {
+    return Object.keys(elements).reduce((acc, guid) => {
+        acc[guid] = generateGuid();
+        return acc;
+    }, {});
+};
+
+/**
+ * Function to get the guid -> pasted guid maps for canvas elements and child elements (like outcome, screen fields etc.)
+ * @param {Object} cutOrCopiedCanvasElements - Contains all the cut or copied Canvas Elements
+ * @param {Object} cutOrCopiedChildElements - contains all the cut or copied Child Elements
+ * @returns {Object} - Contains canvasElementGuidMap and childElementGuidMap
+ */
+export const getPasteElementGuidMaps = (cutOrCopiedCanvasElements, cutOrCopiedChildElements) => {
+    return {
+        canvasElementGuidMap: createGuidMap(cutOrCopiedCanvasElements),
+        childElementGuidMap: createGuidMap(cutOrCopiedChildElements)
+    };
+};
+
+/**
  * Iterates over the childReferences array present in the canvas element and uses it to create childElementGuidMap.
  *
  * @param {Object} canvasElement - canvas element being duplicated

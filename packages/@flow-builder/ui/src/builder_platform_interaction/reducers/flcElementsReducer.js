@@ -4,10 +4,13 @@ import {
     ADD_END_ELEMENT,
     SELECTION_ON_FIXED_CANVAS,
     ADD_WAIT_WITH_WAIT_EVENTS,
-    MODIFY_WAIT_WITH_WAIT_EVENTS
+    MODIFY_WAIT_WITH_WAIT_EVENTS,
+    PASTE_ON_FIXED_CANVAS
 } from 'builder_platform_interaction/actions';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
+import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
+import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import ffcElementsReducer from './elementsReducer';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
@@ -28,6 +31,110 @@ import {
  * @param {Object} action - with type and payload
  * @return {Object} new state after reduction
  */
+
+export default function elementsReducer(state = {}, action) {
+    state = deepCopy(ffcElementsReducer(state, action));
+
+    switch (action.type) {
+        case ADD_SCREEN_WITH_FIELDS:
+        case ADD_DECISION_WITH_OUTCOMES:
+        case ADD_END_ELEMENT:
+        case ADD_WAIT_WITH_WAIT_EVENTS:
+        case MODIFY_WAIT_WITH_WAIT_EVENTS:
+            state = _addCanvasElement(state, action);
+            break;
+        case SELECTION_ON_FIXED_CANVAS:
+            state = _selectionOnFixedCanvas(
+                state,
+                action.payload.canvasElementGuidsToSelect,
+                action.payload.canvasElementGuidsToDeselect,
+                action.payload.selectableGuids
+            );
+            break;
+        case PASTE_ON_FIXED_CANVAS:
+            state = _pasteOnFixedCanvas(state, action.payload);
+            break;
+        default:
+    }
+
+    return state;
+}
+
+/**
+ * When adding an end element we might need to restructure the flow
+ * @param {Object} element - end element
+ * @param {Object} state - current state of elements in the store
+ */
+function restructureFlow(element, state) {
+    const branchFirstElement = findFirstElement(element, state);
+    if (branchFirstElement.elementType === ELEMENT_TYPE.START_ELEMENT) {
+        // nothing to restructure
+        return;
+    }
+
+    // mark the branch as a terminal branch
+    branchFirstElement.isTerminal = true;
+
+    const parent = state[branchFirstElement.parent];
+    const children = parent.children;
+
+    // find the indexes of the non-terminal branches
+    // (there will always be at least one when adding an end element)
+    const nonTerminalBranchIndexes = children
+        .map((child, index) => (child == null || !state[child].isTerminal ? index : -1))
+        .filter(index => index !== -1);
+
+    if (nonTerminalBranchIndexes.length === 1) {
+        // we have one non-terminal branch, so we need to restructure
+        const [branchIndex] = nonTerminalBranchIndexes;
+        const branchHead = children[branchIndex];
+        const parentNext = state[parent.next];
+
+        const branchTail = branchHead && findLastElement(state[branchHead], state);
+
+        if (branchTail != null) {
+            //  reconnect the elements that follow the parent element to the tail of the branch
+            branchTail.next = parent.next;
+            linkElement(state, branchTail);
+        } else {
+            // its an empty branch, so make the elements that follow the parent element be the branch itself
+            parentNext.prev = null;
+            linkBranch(state, parent, branchIndex, parentNext);
+        }
+        parent.next = null;
+    }
+}
+
+/**
+ * Function to add a canvas element on the fixed canvas
+ * @param {Object} state - State of elements in the store
+ * @param {Object} action - Action dispatched to the store
+ */
+function _addCanvasElement(state, action) {
+    const element = getElementFromActionPayload(action.payload);
+    const { parent, childIndex } = element;
+
+    addElementToState(element, state);
+
+    if (supportsChildren(element)) {
+        initializeChildren(element);
+    }
+
+    if (parent) {
+        // if the element has a parent, make it the new branch head
+        const parentElement = state[parent];
+        linkBranch(state, parentElement, childIndex, element);
+    } else {
+        linkElement(state, element);
+    }
+
+    // when adding an end element, we might need to restructure things
+    if (action.type === ADD_END_ELEMENT) {
+        restructureFlow(element, state);
+    }
+
+    return state;
+}
 
 /**
  * Helper function to handle select mode in the Fixed Layout Canvas. Iterates over all the elements
@@ -95,98 +202,136 @@ function _selectionOnFixedCanvas(elements, canvasElementGuidsToSelect, canvasEle
     return hasStateChanged ? newState : elements;
 }
 
-function addCanvasElement(state, action) {
-    const element = getElementFromActionPayload(action.payload);
-    const { parent, childIndex } = element;
-
-    addElementToState(element, state);
-
-    if (supportsChildren(element)) {
-        initializeChildren(element);
+/**
+ * Helper function to get unique dev name that is not in the store or in the passed in blacklist
+ *
+ * @param {String} name - existing dev name to make unique
+ * @param {String[]} blacklistNames - blacklisted list of names to check against in addition to store
+ * @return {String} new unique dev name
+ */
+function _getUniquePastedElementName(name, blacklistNames = []) {
+    if (isDevNameInStore(name) || blacklistNames.includes(name)) {
+        return _getUniquePastedElementName(name + '_0', blacklistNames);
     }
 
-    if (parent) {
-        // if the element has a parent, make it the new branch head
-        const parentElement = state[parent];
-        linkBranch(state, parentElement, childIndex, element);
-    } else {
-        linkElement(state, element);
-    }
-
-    // when adding an end element, we might need to restructure things
-    if (action.type === ADD_END_ELEMENT) {
-        restructureFlow(element, state);
-    }
-
-    return state;
+    return name;
 }
 
 /**
- * When adding an end element we might need to restructure the flow
- * @param {Object} element - end element
- * @param {Object} state - current state of elements in the store
+ * Helper function to get unique dev names for child elements
+ *
+ * @param {Object} cutOrCopiedChildElements - list of guids of the child elements to paste
+ * @param {String[]} blacklistNames - blacklisted list of names to check against in addition to store
  */
-function restructureFlow(element, state) {
-    const branchFirstElement = findFirstElement(element, state);
-    if (branchFirstElement.elementType === ELEMENT_TYPE.START_ELEMENT) {
-        // nothing to restructure
-        return;
+function _getPastedChildElementNameMap(cutOrCopiedChildElements, blacklistNames) {
+    const childElementNameMap = {};
+    const cutOrCopiedChildElementsArray = Object.values(cutOrCopiedChildElements);
+    for (let i = 0; i < cutOrCopiedChildElementsArray.length; i++) {
+        const pastedChildElementName = _getUniquePastedElementName(
+            cutOrCopiedChildElementsArray[i].name,
+            blacklistNames
+        );
+        childElementNameMap[cutOrCopiedChildElementsArray[i].name] = pastedChildElementName;
+        blacklistNames.push(pastedChildElementName);
     }
 
-    // mark the branch as a terminal branch
-    branchFirstElement.isTerminal = true;
-
-    const parent = state[branchFirstElement.parent];
-    const children = parent.children;
-
-    // find the indexes of the non-terminal branches
-    // (there will always be at least one when adding an end element)
-    const nonTerminalBranchIndexes = children
-        .map((child, index) => (child == null || !state[child].isTerminal ? index : -1))
-        .filter(index => index !== -1);
-
-    if (nonTerminalBranchIndexes.length === 1) {
-        // we have one non-terminal branch, so we need to restructure
-        const [branchIndex] = nonTerminalBranchIndexes;
-        const branchHead = children[branchIndex];
-        const parentNext = state[parent.next];
-
-        const branchTail = branchHead && findLastElement(state[branchHead], state);
-
-        if (branchTail != null) {
-            //  reconnect the elements that follow the parent element to the tail of the branch
-            branchTail.next = parent.next;
-            linkElement(state, branchTail);
-        } else {
-            // its an empty branch, so make the elements that follow the parent element be the branch itself
-            parentNext.prev = null;
-            linkBranch(state, parent, branchIndex, parentNext);
-        }
-        parent.next = null;
-    }
+    return childElementNameMap;
 }
 
-export default function elementsReducer(state = {}, action) {
-    state = deepCopy(ffcElementsReducer(state, action));
+/**
+ * Function to paste elements on Fixed Canvas
+ * @param {Object} elements - State of elements in the store
+ * @param {Object} payload - Contains the data needed for pasting the cut or copied elements
+ * @returns newState - The updated state of elements in the store
+ */
+function _pasteOnFixedCanvas(
+    elements,
+    {
+        canvasElementGuidMap,
+        childElementGuidMap,
+        cutOrCopiedCanvasElements,
+        cutOrCopiedChildElements,
+        topCutOrCopiedGuid,
+        bottomCutOrCopiedGuid,
+        prev,
+        next,
+        parent,
+        childIndex
+    }
+) {
+    let newState = { ...elements };
 
-    switch (action.type) {
-        case ADD_SCREEN_WITH_FIELDS:
-        case ADD_DECISION_WITH_OUTCOMES:
-        case ADD_END_ELEMENT:
-        case ADD_WAIT_WITH_WAIT_EVENTS:
-        case MODIFY_WAIT_WITH_WAIT_EVENTS:
-            state = addCanvasElement(state, action);
-            break;
-        case SELECTION_ON_FIXED_CANVAS:
-            state = _selectionOnFixedCanvas(
-                state,
-                action.payload.canvasElementGuidsToSelect,
-                action.payload.canvasElementGuidsToDeselect,
-                action.payload.selectableGuids
-            );
-            break;
-        default:
+    const elementGuidsToPaste = Object.keys(canvasElementGuidMap);
+    const blacklistNames = [];
+    const childElementNameMap = _getPastedChildElementNameMap(cutOrCopiedChildElements, blacklistNames);
+
+    for (let i = 0; i < elementGuidsToPaste.length; i++) {
+        const pastedElementGuid = canvasElementGuidMap[elementGuidsToPaste[i]];
+        const pastedElementName = _getUniquePastedElementName(
+            cutOrCopiedCanvasElements[elementGuidsToPaste[i]].name,
+            blacklistNames
+        );
+        blacklistNames.push(pastedElementName);
+
+        const elementConfig = getConfigForElementType(cutOrCopiedCanvasElements[elementGuidsToPaste[i]].elementType);
+        const { pastedCanvasElement, pastedChildElements = {} } =
+            elementConfig &&
+            elementConfig.factory &&
+            elementConfig.factory.pasteElement &&
+            elementConfig.factory.pasteElement({
+                canvasElementToPaste: cutOrCopiedCanvasElements[elementGuidsToPaste[i]],
+                newGuid: pastedElementGuid,
+                newName: pastedElementName,
+                canvasElementGuidMap,
+                childElementGuidMap,
+                childElementNameMap,
+                topCutOrCopiedGuid,
+                bottomCutOrCopiedGuid,
+                prev,
+                next,
+                parent,
+                childIndex
+            });
+
+        newState[pastedCanvasElement.guid] = pastedCanvasElement;
+        newState = { ...newState, ...pastedChildElements };
     }
 
-    return state;
+    // Updating previous element's next to the guid of the top-most pasted element
+    if (prev) {
+        newState[prev] = Object.assign(newState[prev], {
+            next: canvasElementGuidMap[topCutOrCopiedGuid]
+        });
+    }
+
+    // Updating next element's prev to the guid of the bottom-most pasted element
+    if (next) {
+        newState[next] = Object.assign(newState[next], {
+            prev: canvasElementGuidMap[bottomCutOrCopiedGuid]
+        });
+
+        // Deleting the next element's parent and childIndex
+        delete newState[next].parent;
+        delete newState[next].childIndex;
+
+        // If the next element was a terminal element, then marking the topCutOrCopied element as the terminal element
+        if (newState[next].isTerminal) {
+            newState[canvasElementGuidMap[topCutOrCopiedGuid]] = Object.assign(
+                newState[canvasElementGuidMap[topCutOrCopiedGuid]],
+                {
+                    isTerminal: true
+                }
+            );
+        }
+
+        // Deleting next element's isTerminal property
+        delete newState[next].isTerminal;
+    }
+
+    // Updating the parent's children to include the top-most pasted element's guid at the right index
+    if (parent) {
+        newState[parent].children[childIndex] = canvasElementGuidMap[topCutOrCopiedGuid];
+    }
+
+    return newState;
 }

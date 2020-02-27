@@ -96,7 +96,7 @@ const _getSelectableCanvasElementGuids = (topSelectedGuid, flowModel) => {
 };
 
 /**
- * Funnction to get all the selection data which includes canvasElementGuidsToSelect, canvasElementGuidsToDeselect,
+ * Function to get all the selection data which includes canvasElementGuidsToSelect, canvasElementGuidsToDeselect,
  * selectableCanvasElementGuids and the updated topSelectedGuid
  *
  * @param {Object} flowModel - Representation of the flow as presented in the Canvas

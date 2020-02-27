@@ -1,8 +1,8 @@
 import { api, track } from 'lwc';
-import { AddElementEvent, ToggleMenuEvent } from 'builder_platform_interaction/events';
+import { AddElementEvent, PasteEvent, ToggleMenuEvent } from 'builder_platform_interaction/events';
 import Menu from 'builder_platform_interaction/menu';
 
-import { configureMenu } from './flcConnectorMenuConfig';
+import { configureMenu, PASTE_ACTION } from './flcConnectorMenuConfig';
 
 /**
  * The connector menu overlay. It is displayed when clicking on a connector.
@@ -14,7 +14,7 @@ export default class FlcConnectorMenu extends Menu {
     @api
     set elementsMetadata(elementsMetadata) {
         const showEndElement = this.next == null;
-        this.menuConfiguration = configureMenu(elementsMetadata, showEndElement);
+        this.menuConfiguration = configureMenu(elementsMetadata, showEndElement, this.isPasteAvailable);
         this._elementsMetadata = elementsMetadata;
     }
 
@@ -31,6 +31,9 @@ export default class FlcConnectorMenu extends Menu {
     @api
     prev;
 
+    @api
+    isPasteAvailable;
+
     @track
     menuConfiguration = [];
 
@@ -38,16 +41,21 @@ export default class FlcConnectorMenu extends Menu {
 
     handleSelectMenuItem(event) {
         this.dispatchEvent(new ToggleMenuEvent({}));
-        this.dispatchEvent(
-            new AddElementEvent(
-                event.target.getAttribute('data-value'),
-                0,
-                0,
-                this.prev,
-                this.next,
-                this.parent,
-                this.childIndex
-            )
-        );
+        if (event.currentTarget.getAttribute('data-value') === PASTE_ACTION) {
+            const pasteEvent = new PasteEvent(this.prev, this.next, this.parent, this.childIndex);
+            this.dispatchEvent(pasteEvent);
+        } else {
+            this.dispatchEvent(
+                new AddElementEvent(
+                    event.currentTarget.getAttribute('data-value'),
+                    0,
+                    0,
+                    this.prev,
+                    this.next,
+                    this.parent,
+                    this.childIndex
+                )
+            );
+        }
     }
 }

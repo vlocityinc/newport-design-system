@@ -65,6 +65,69 @@ export function baseCanvasElement(canvasElement = {}) {
 }
 
 /**
+ * Base function to create the Pasted Canvas Element
+ * @param {Object} duplicatedElement - Element object in it's duplicated state
+ * @param {Object} canvasElementGuidMap - Map containing element guids -> pasted element guids
+ * @param {String} topCutOrCopiedGuid - Guid of the top most cut or copied element
+ * @param {String} bottomCutOrCopiedGuid - Guid of the bottom most cut or copied element
+ * @param {String} prev - Guid of the element below which the cut/copied block will be pasted. This can be null when pasting at the top of a branch
+ * @param {String} next - Guid of the element above which the cut/copied block will be pasted. This can be null when pasting at the bottom of a branch
+ * @param {String} parent - Guid of the parent element. This has a value only when pasting at the top of a branch
+ * @param {Number} childIndex - Index of the branch. This has a value only when pasting at the top of a branch
+ * @returns pastedCanvasElement
+ */
+export function createPastedCanvasElement(
+    duplicatedElement,
+    canvasElementGuidMap,
+    topCutOrCopiedGuid,
+    bottomCutOrCopiedGuid,
+    prev,
+    next,
+    parent,
+    childIndex
+) {
+    const pastedCanvasElement = Object.assign(duplicatedElement, {
+        config: { isSelected: false, isHighlighted: false, canSelect: true },
+        prev: canvasElementGuidMap[duplicatedElement.prev],
+        next: canvasElementGuidMap[duplicatedElement.next]
+    });
+
+    // If the parent hasn't been cut or copied, and the pasted element is same as topCutOrCopiedElement, then update the prev, parent and childIndex properties.
+    if (pastedCanvasElement.guid === canvasElementGuidMap[topCutOrCopiedGuid]) {
+        pastedCanvasElement.prev = prev;
+
+        // If parent and childIndex are defined then update those properties or delete them
+        if (parent) {
+            pastedCanvasElement.parent = parent;
+            pastedCanvasElement.childIndex = childIndex;
+        } else {
+            delete pastedCanvasElement.parent;
+            delete pastedCanvasElement.childIndex;
+        }
+    } else if (canvasElementGuidMap[pastedCanvasElement.parent]) {
+        // If the parent element has also been cut or copied, then update the parent guid
+        pastedCanvasElement.parent = canvasElementGuidMap[pastedCanvasElement.parent];
+    }
+
+    // If the pasted canvas element is same as the bottomCutOrCopiedElement, then updating the next
+    if (pastedCanvasElement.guid === canvasElementGuidMap[bottomCutOrCopiedGuid]) {
+        pastedCanvasElement.next = next;
+    }
+
+    // Resetting the children array to include children guids that are being pasted or null for those that aren't
+    if (pastedCanvasElement.children) {
+        pastedCanvasElement.children = pastedCanvasElement.children.map(childGuid => {
+            return canvasElementGuidMap[childGuid] || null;
+        });
+    }
+
+    // Deleting the isTerminal property from the pastedCanvasElement. We reset it if needed in the reducer
+    delete pastedCanvasElement.isTerminal;
+
+    return pastedCanvasElement;
+}
+
+/**
  * Base function to duplicate canvas elements
  * @param {Object} canvasElement - canvas element to be duplicated
  * @param {string} newGuid - new guid for the duplicate element

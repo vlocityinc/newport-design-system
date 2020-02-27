@@ -2,6 +2,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
+    createPastedCanvasElement,
     duplicateCanvasElement,
     automaticOutputHandlingSupport
 } from './base/baseElement';
@@ -44,6 +45,46 @@ export function createSubflow(subflow = {}) {
     });
 
     return subflowObject;
+}
+
+/**
+ * Function to create the pasted Subflow element
+ *
+ * @param {Object} dataForPasting - Data required to create the pasted element
+ */
+export function createPastedSubflow(
+    canvasElementToPaste,
+    newGuid,
+    newName,
+    canvasElementGuidMap,
+    topCutOrCopiedGuid,
+    bottomCutOrCopiedGuid,
+    prev,
+    next,
+    parent,
+    childIndex
+) {
+    const { duplicatedElement, duplicatedChildElements } = createDuplicateSubflow(
+        canvasElementToPaste,
+        newGuid,
+        newName
+    );
+
+    const pastedCanvasElement = createPastedCanvasElement(
+        duplicatedElement,
+        canvasElementGuidMap,
+        topCutOrCopiedGuid,
+        bottomCutOrCopiedGuid,
+        prev,
+        next,
+        parent,
+        childIndex
+    );
+
+    return {
+        pastedCanvasElement,
+        pastedChildElements: duplicatedChildElements
+    };
 }
 
 export function createDuplicateSubflow(subflow, newGuid, newName) {
