@@ -223,15 +223,23 @@
     },
     "LightningLookup": {
         "add": "Add",
+        "advancedSearchMobile": "Show All Results for \"{0}\"",
         "createNewObject": "New {0}",
         "currentSelection": "Current Selection",
+        "emptyStateNoResultText": "​No results for \"{0}\"",
+        "emptyStateNoResultMRUText": "​No results yet...",
+        "emptyStateNoResultMRUWithoutText": "​Try entering a search term.",
         "messageWhenBadInputDefault": "Select an option or remove the search term.",
+        "panelHeaderMobile": "Relate {0} To",
         "recentObject": "Recent {0}",
+        "resultsListHeaderMobile": "All Results for \"{0}\"",
         "search": "Search",
         "searchObjectsPlaceholder": "Search {0}...",
+        "searchObjectsPlaceholderMobile": "Search {0}",
         "searchPlaceholder": "Search...",
         "searchForInObject": "\"{0}\" in {1}",
         "selectObject": "Choose an object",
+        "typeaheadResultsListHeaderMobile": "Initial Results for \"{0}\"",
         "none": "None"
     },
     "LightningPicklist": {
@@ -259,5 +267,9 @@
         "secondsLater": "in a few seconds",
         "secondsAgo": "a few seconds ago"
     },
-    "LightningDialog": { "close": "Close" }
+    "LightningDialog": { "close": "Close" },
+    "LightningMessageChannel": {
+        "publishWithoutContext": "Lightning Message Service - Your component must be rendered before you can publish to channel: {0}",
+        "invalidScope": "Lightning Message Service - Cannot subscribe to channel {0} with invalid scope: {1}"
+    }
 }
