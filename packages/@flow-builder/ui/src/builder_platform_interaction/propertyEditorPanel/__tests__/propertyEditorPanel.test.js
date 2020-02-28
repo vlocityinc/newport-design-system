@@ -40,7 +40,6 @@ describe('propertyEditorPanel', () => {
         });
     });
 
-    // TODO: Waitin on lwc team input on how to mock `lwc:dynamic` property on x-lazy
     describe('handleOK', () => {
         let props;
 
@@ -65,34 +64,38 @@ describe('propertyEditorPanel', () => {
         });
 
         it('validates the component', () => {
-            return createComponentUnderTest(props).then(component => {
-                const propertyEditor = component.shadowRoot.querySelector('.inline-property-editor');
+            return createComponentUnderTest(props).then(async component => {
+                ticks().then(() => {
+                    const propertyEditor = component.shadowRoot.querySelector('.inline-property-editor');
 
-                propertyEditor.validate = jest.fn(() => {
-                    return [];
+                    propertyEditor.validate = jest.fn(() => {
+                        return [];
+                    });
+
+                    const doneButton = component.shadowRoot.querySelector('.test-property-editor-footer-ok-button');
+                    doneButton.click();
+
+                    expect(propertyEditor.validate).toHaveBeenCalled();
                 });
-
-                const doneButton = component.shadowRoot.querySelector('.test-property-editor-footer-ok-button');
-                doneButton.click();
-
-                expect(propertyEditor.validate).toHaveBeenCalled();
             });
         });
 
         it('with validation errors does nothing', () => {
             return createComponentUnderTest(props).then(component => {
-                const propertyEditor = component.shadowRoot.querySelector('.inline-property-editor');
-                propertyEditor.validate = jest.fn(() => {
-                    return [0, 1];
+                ticks().then(() => {
+                    const propertyEditor = component.shadowRoot.querySelector('.inline-property-editor');
+                    propertyEditor.validate = jest.fn(() => {
+                        return [0, 1];
+                    });
+
+                    const eventCallback = jest.fn();
+                    component.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
+
+                    const doneButton = component.shadowRoot.querySelector('.test-property-editor-footer-ok-button');
+                    doneButton.click();
+
+                    expect(eventCallback).not.toHaveBeenCalled();
                 });
-
-                const eventCallback = jest.fn();
-                component.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
-
-                const doneButton = component.shadowRoot.querySelector('.test-property-editor-footer-ok-button');
-                doneButton.click();
-
-                expect(eventCallback).not.toHaveBeenCalled();
             });
         });
 
@@ -100,26 +103,28 @@ describe('propertyEditorPanel', () => {
             props.params.attr.bodyComponent.attr.mode = AddElementEvent.EVENT_NAME;
 
             return createComponentUnderTest(props).then(component => {
-                const propertyEditor = component.shadowRoot.querySelector('.inline-property-editor');
+                ticks().then(() => {
+                    const propertyEditor = component.shadowRoot.querySelector('.inline-property-editor');
 
-                const mockNode = { a: 1 };
-                propertyEditor.getNode = jest.fn(() => {
-                    return mockNode;
+                    const mockNode = { a: 1 };
+                    propertyEditor.getNode = jest.fn(() => {
+                        return mockNode;
+                    });
+
+                    const eventCallback = jest.fn();
+                    component.addEventListener(AddNodeEvent.EVENT_NAME, eventCallback);
+
+                    const closeCallback = jest.fn();
+                    component.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, closeCallback);
+
+                    const doneButton = component.shadowRoot.querySelector('.test-property-editor-footer-ok-button');
+                    doneButton.click();
+
+                    const addNodeEvent = eventCallback.mock.calls[0][0];
+                    expect(addNodeEvent.detail.node).toEqual(mockNode);
+
+                    expect(closeCallback).toHaveBeenCalled();
                 });
-
-                const eventCallback = jest.fn();
-                component.addEventListener(AddNodeEvent.EVENT_NAME, eventCallback);
-
-                const closeCallback = jest.fn();
-                component.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, closeCallback);
-
-                const doneButton = component.shadowRoot.querySelector('.test-property-editor-footer-ok-button');
-                doneButton.click();
-
-                const addNodeEvent = eventCallback.mock.calls[0][0];
-                expect(addNodeEvent.detail.node).toEqual(mockNode);
-
-                expect(closeCallback).toHaveBeenCalled();
             });
         });
 
@@ -127,26 +132,28 @@ describe('propertyEditorPanel', () => {
             props.params.attr.bodyComponent.attr.mode = EditElementEvent.EVENT_NAME;
 
             return createComponentUnderTest(props).then(component => {
-                const propertyEditor = component.shadowRoot.querySelector('.inline-property-editor');
+                ticks().then(() => {
+                    const propertyEditor = component.shadowRoot.querySelector('.inline-property-editor');
 
-                const mockNode = { a: 1 };
-                propertyEditor.getNode = jest.fn(() => {
-                    return mockNode;
+                    const mockNode = { a: 1 };
+                    propertyEditor.getNode = jest.fn(() => {
+                        return mockNode;
+                    });
+
+                    const eventCallback = jest.fn();
+                    component.addEventListener(UpdateNodeEvent.EVENT_NAME, eventCallback);
+
+                    const closeCallback = jest.fn();
+                    component.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, closeCallback);
+
+                    const doneButton = component.shadowRoot.querySelector('.test-property-editor-footer-ok-button');
+                    doneButton.click();
+
+                    const updateEvent = eventCallback.mock.calls[0][0];
+                    expect(updateEvent.detail.node).toEqual(mockNode);
+
+                    expect(closeCallback).toHaveBeenCalled();
                 });
-
-                const eventCallback = jest.fn();
-                component.addEventListener(UpdateNodeEvent.EVENT_NAME, eventCallback);
-
-                const closeCallback = jest.fn();
-                component.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, closeCallback);
-
-                const doneButton = component.shadowRoot.querySelector('.test-property-editor-footer-ok-button');
-                doneButton.click();
-
-                const updateEvent = eventCallback.mock.calls[0][0];
-                expect(updateEvent.detail.node).toEqual(mockNode);
-
-                expect(closeCallback).toHaveBeenCalled();
             });
         });
     });

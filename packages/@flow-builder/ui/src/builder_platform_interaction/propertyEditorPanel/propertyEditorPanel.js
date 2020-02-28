@@ -7,23 +7,7 @@ import {
     UpdateNodeEvent,
     ClosePropertyEditorEvent
 } from 'builder_platform_interaction/events';
-
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
-
 import { LABELS } from './propertyEditorPanelLabels';
-
-import ScreenEditor from 'builder_platform_interaction/screenEditor';
-import AssignmentEditor from 'builder_platform_interaction/assignmentEditor';
-import CalloutEditor from 'builder_platform_interaction/calloutEditor';
-import SubflowEditor from 'builder_platform_interaction/subflowEditor';
-import InvocableActionEditor from 'builder_platform_interaction/invocableActionEditor';
-import DecisionEditor from 'builder_platform_interaction/decisionEditor';
-import LoopEditor from 'builder_platform_interaction/loopEditor';
-import RecordCreateEditor from 'builder_platform_interaction/recordCreateEditor';
-import RecordUpdateEditor from 'builder_platform_interaction/recordUpdateEditor';
-import RecordLookupEditor from 'builder_platform_interaction/recordLookupEditor';
-import RecordDeleteEditor from 'builder_platform_interaction/recordDeleteEditor';
 
 const PROPERTY_EDITOR_CLASS = '.inline-property-editor';
 
@@ -44,7 +28,7 @@ export default class PropertyEditorPanel extends LightningElement {
     set params(params) {
         this.editorParams = params;
         this.title = params.panelConfig.titleForModal;
-        this.loadCtor(params.attr.bodyComponent.desc);
+        this.loadCtor(params.attr.bodyComponent.className);
     }
 
     @track
@@ -55,57 +39,10 @@ export default class PropertyEditorPanel extends LightningElement {
 
     @track messages = {};
 
-    loadCtor(descriptor) {
-        // TODO: Once dynamic import is supported in core (W-6985280)
-        // const module = await import(this.params.attr.bodyComponent.className);
+    async loadCtor(className) {
+        const module = await import(className);
 
-        let module;
-
-        // TODO: get rid of this once the dynamic import from a string variable is working
-        switch (descriptor) {
-            case elementTypeToConfigMap[ELEMENT_TYPE.SCREEN].descriptor:
-                module = ScreenEditor;
-                break;
-            case elementTypeToConfigMap[ELEMENT_TYPE.ASSIGNMENT].descriptor:
-                module = AssignmentEditor;
-                break;
-            case elementTypeToConfigMap[ELEMENT_TYPE.DECISION].descriptor:
-                module = DecisionEditor;
-                break;
-            case elementTypeToConfigMap[ELEMENT_TYPE.LOOP].descriptor:
-                module = LoopEditor;
-                break;
-            case elementTypeToConfigMap[ELEMENT_TYPE.RECORD_CREATE].descriptor:
-                module = RecordCreateEditor;
-                break;
-            case elementTypeToConfigMap[ELEMENT_TYPE.RECORD_UPDATE].descriptor:
-                module = RecordUpdateEditor;
-                break;
-            case elementTypeToConfigMap[ELEMENT_TYPE.RECORD_LOOKUP].descriptor:
-                module = RecordLookupEditor;
-                break;
-            case elementTypeToConfigMap[ELEMENT_TYPE.RECORD_DELETE].descriptor:
-                module = RecordDeleteEditor;
-                break;
-
-            case elementTypeToConfigMap[ELEMENT_TYPE.ACTION_CALL].descriptor[AddElementEvent.EVENT_NAME]:
-                module = CalloutEditor;
-                break;
-            case elementTypeToConfigMap[ELEMENT_TYPE.ACTION_CALL].descriptor[EditElementEvent.EVENT_NAME]:
-                module = InvocableActionEditor;
-                break;
-            case elementTypeToConfigMap[ELEMENT_TYPE.SUBFLOW].descriptor[AddElementEvent.EVENT_NAME]:
-                module = CalloutEditor;
-                break;
-            case elementTypeToConfigMap[ELEMENT_TYPE.SUBFLOW].descriptor[EditElementEvent.EVENT_NAME]:
-                module = SubflowEditor;
-                break;
-            default:
-                module = null;
-                break;
-        }
-
-        this.ctor = module;
+        this.ctor = module.default;
     }
 
     setPropertyEditorTitle(event) {
