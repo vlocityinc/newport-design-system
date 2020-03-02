@@ -1,6 +1,6 @@
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import * as autoLaunchedFlow from 'mock/flows/autolaunchedFlow.json';
-import * as contactRequestFlow from 'mock/flows/contactRequestFlow.json';
+import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS
@@ -161,7 +161,7 @@ describe('Decision Editor', () => {
     });
     describe('Process type that does not support lookup traversal', () => {
         beforeEach(async () => {
-            await loadFlow(contactRequestFlow, store);
+            await loadFlow(fieldServiceMobileFlow, store);
 
             const element = getElementByDevName('decision');
             decisionForPropertyEditor = getElementForPropertyEditor(element);

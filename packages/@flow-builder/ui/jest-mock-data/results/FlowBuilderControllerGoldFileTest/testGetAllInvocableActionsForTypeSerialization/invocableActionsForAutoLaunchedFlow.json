@@ -54,6 +54,19 @@
     },
     {
       "isStandard":true,
+      "name":"createServiceReport",
+      "description":"Create Service Report",
+      "configurationEditor":null,
+      "label":"Create Service Report from a standard or custom template.",
+      "type":"createServiceReport",
+      "category":"Field service",
+      "genericTypes":[
+
+      ],
+      "durableId":"createServiceReport-createServiceReport"
+    },
+    {
+      "isStandard":true,
       "name":"customNotificationAction",
       "description":"Send custom notifications to recipients through desktop or mobile",
       "configurationEditor":null,
@@ -90,6 +103,19 @@
 
       ],
       "durableId":"emailSimple-emailSimple"
+    },
+    {
+      "isStandard":true,
+      "name":"generateWorkOrders",
+      "description":"Generate work orders from a maintenance plan.",
+      "configurationEditor":null,
+      "label":"Generate Work Orders",
+      "type":"generateWorkOrders",
+      "category":"Field service",
+      "genericTypes":[
+
+      ],
+      "durableId":"generateWorkOrders-generateWorkOrders"
     },
     {
       "isStandard":false,

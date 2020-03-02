@@ -1,101 +1,129 @@
 {
   "flowExtensionsForContactRequestFlow":[
     {
-  "description" : "Address Component",
-  "fieldsToNull" : [ ],
-  "label" : "Address",
-  "qualifiedApiName" : "flowruntime:address",
-  "source" : "Standard"
-},
+      "description" : "Display available time slots for a Field Service appointment.",
+      "fieldsToNull" : [ ],
+      "label" : "Appointment Scheduling",
+      "qualifiedApiName" : "embeddedService:fieldServiceScheduling",
+      "source" : "Standard"
+    },
     {
-  "description" : "Dependent Picklists",
-  "fieldsToNull" : [ ],
-  "label" : "Dependent Picklists",
-  "qualifiedApiName" : "flowruntime:dependentPicklists",
-  "source" : "Standard"
-},
+      "description" : "Address Component",
+      "fieldsToNull" : [ ],
+      "label" : "Address",
+      "qualifiedApiName" : "flowruntime:address",
+      "source" : "Standard"
+    },
     {
-  "description" : "Email Component",
-  "fieldsToNull" : [ ],
-  "label" : "Email",
-  "qualifiedApiName" : "flowruntime:email",
-  "source" : "Standard"
-},
+      "description" : "Dependent Picklists",
+      "fieldsToNull" : [ ],
+      "label" : "Dependent Picklists",
+      "qualifiedApiName" : "flowruntime:dependentPicklists",
+      "source" : "Standard"
+    },
     {
-  "description" : "Display Image",
-  "fieldsToNull" : [ ],
-  "label" : "Display Image",
-  "qualifiedApiName" : "flowruntime:image",
-  "source" : "Standard"
-},
+      "description" : "Email Component",
+      "fieldsToNull" : [ ],
+      "label" : "Email",
+      "qualifiedApiName" : "flowruntime:email",
+      "source" : "Standard"
+    },
     {
-  "category" : "Input",
-  "description" : "Lookup Component",
-  "fieldsToNull" : [ ],
-  "label" : "Lookup",
-  "qualifiedApiName" : "flowruntime:lookup",
-  "source" : "Standard"
-},
+      "description" : "Display Image",
+      "fieldsToNull" : [ ],
+      "label" : "Display Image",
+      "qualifiedApiName" : "flowruntime:image",
+      "source" : "Standard"
+    },
     {
-  "description" : "Name Component",
-  "fieldsToNull" : [ ],
-  "label" : "Name",
-  "qualifiedApiName" : "flowruntime:name",
-  "source" : "Standard"
-},
+      "category" : "Input",
+      "description" : "Lookup Component",
+      "fieldsToNull" : [ ],
+      "label" : "Lookup",
+      "qualifiedApiName" : "flowruntime:lookup",
+      "source" : "Standard"
+    },
     {
-  "description" : "Phone",
-  "fieldsToNull" : [ ],
-  "label" : "Phone",
-  "qualifiedApiName" : "flowruntime:phone",
-  "source" : "Standard"
-},
+      "description" : "Name Component",
+      "fieldsToNull" : [ ],
+      "label" : "Name",
+      "qualifiedApiName" : "flowruntime:name",
+      "source" : "Standard"
+    },
     {
-  "description" : "Slider Component",
-  "fieldsToNull" : [ ],
-  "label" : "Slider",
-  "qualifiedApiName" : "flowruntime:slider",
-  "source" : "Standard"
-},
+      "description" : "Phone",
+      "fieldsToNull" : [ ],
+      "label" : "Phone",
+      "qualifiedApiName" : "flowruntime:phone",
+      "source" : "Standard"
+    },
     {
-  "description" : "Toggle",
-  "fieldsToNull" : [ ],
-  "label" : "Toggle",
-  "qualifiedApiName" : "flowruntime:toggle",
-  "source" : "Standard"
-},
+      "description" : "Slider Component",
+      "fieldsToNull" : [ ],
+      "label" : "Slider",
+      "qualifiedApiName" : "flowruntime:slider",
+      "source" : "Standard"
+    },
     {
-  "description" : "URL Component",
-  "fieldsToNull" : [ ],
-  "label" : "URL",
-  "qualifiedApiName" : "flowruntime:url",
-  "source" : "Standard"
-},
+      "description" : "Toggle",
+      "fieldsToNull" : [ ],
+      "label" : "Toggle",
+      "qualifiedApiName" : "flowruntime:toggle",
+      "source" : "Standard"
+    },
     {
-  "description" : "Upload and attach files to records.",
-  "fieldsToNull" : [ ],
-  "label" : "File Upload",
-  "qualifiedApiName" : "forceContent:fileUpload",
-  "source" : "Standard"
-},
+      "description" : "URL Component",
+      "fieldsToNull" : [ ],
+      "label" : "URL",
+      "qualifiedApiName" : "flowruntime:url",
+      "source" : "Standard"
+    },
     {
-  "fieldsToNull" : [ ],
-  "qualifiedApiName" : "interactiontest:flowMarkerIntfTestComponent",
-  "source" : "Standard"
-},
+      "description" : "Upload and attach files to records.",
+      "fieldsToNull" : [ ],
+      "label" : "File Upload",
+      "qualifiedApiName" : "forceContent:fileUpload",
+      "source" : "Standard"
+    },
     {
-  "fieldsToNull" : [ ],
-  "qualifiedApiName" : "interactiontest:LcInAllFlows",
-  "source" : "Standard"
-},
+      "fieldsToNull" : [ ],
+      "qualifiedApiName" : "interactiontest:flowMarkerIntfTestComponent",
+      "source" : "Standard"
+    },
     {
-  "category" : "Inputs",
-  "configurationEditor" : "c:cpeCmp",
-  "description" : "A raptor testing component",
-  "fieldsToNull" : [ ],
-  "label" : "LWC Test Component",
-  "qualifiedApiName" : "interactiontest:lwcScreensTestComponent",
-  "source" : "Standard"
-}
+      "fieldsToNull" : [ ],
+      "qualifiedApiName" : "interactiontest:LcInAllFlows",
+      "source" : "Standard"
+    },
+    {
+      "category" : "Inputs",
+      "configurationEditor" : "c:cpeCmp",
+      "description" : "A raptor testing component",
+      "fieldsToNull" : [ ],
+      "label" : "LWC Test Component",
+      "qualifiedApiName" : "interactiontest:lwcScreensTestComponent",
+      "source" : "Standard"
+    },
+    {
+      "description" : "Add Action Plan Template",
+      "fieldsToNull" : [ ],
+      "label" : "Add Action Plan Template",
+      "qualifiedApiName" : "runtime_industries_visit:addAPT",
+      "source" : "Standard"
+    },
+    {
+      "description" : "Add Visit details",
+      "fieldsToNull" : [ ],
+      "label" : "Add Visit details",
+      "qualifiedApiName" : "runtime_industries_visit:addVisitDetails",
+      "source" : "Standard"
+    },
+    {
+      "description" : "Add Visitors",
+      "fieldsToNull" : [ ],
+      "label" : "Add Visitors",
+      "qualifiedApiName" : "runtime_industries_visit:addVisitors",
+      "source" : "Standard"
+    }
   ]
 }

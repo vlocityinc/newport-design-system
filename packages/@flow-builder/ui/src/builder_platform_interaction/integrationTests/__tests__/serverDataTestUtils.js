@@ -26,12 +26,14 @@ import { allEntities } from 'serverData/GetEntities/allEntities.json';
 import { operators } from 'serverData/GetOperators/operators.json';
 import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
 import { supportedFeaturesListForAutoLaunchedFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForAutoLaunchedFlow.json';
+import { supportedFeaturesListForFieldServiceMobileFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFieldServiceMobileFlow.json';
 import { resourceTypesForFlow } from 'serverData/GetResourceTypes/resourceTypesForFlow.json';
 import { resourceTypesForAutoLaunchedFlow } from 'serverData/GetResourceTypes/resourceTypesForAutoLaunchedFlow.json';
 import { eventTypes } from 'serverData/GetEventTypes/eventTypes.json';
 import { flowExtensionListParams } from 'serverData/GetFlowExtensionListParams/flowExtensionListParams.json';
 import { flowExtensionsForFlow } from 'serverData/GetFlowExtensions/flowExtensionsForFlow.json';
 import { flowExtensionsForContactRequestFlow } from 'serverData/GetFlowExtensions/flowExtensionsForContactRequestFlow.json';
+import { flowExtensionsForFieldServiceMobile } from 'serverData/GetFlowExtensions/flowExtensionsForFieldServiceMobile.json';
 import { supportedFeaturesListForContactRequestFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForContactRequestFlow.json';
 import { setAuraFetch, setAuraGetCallback } from 'builder_platform_interaction/serverDataLib';
 import { mockSubflowAllTypesVariables, mockSubflows } from 'mock/calloutData';
@@ -155,7 +157,8 @@ const allAuraActions = {
     'c.getSupportedFeaturesList': createGetterByProcessType({
         [FLOW_PROCESS_TYPE.FLOW]: supportedFeaturesListForFlow,
         [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: supportedFeaturesListForAutoLaunchedFlow,
-        [FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW]: supportedFeaturesListForContactRequestFlow
+        [FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW]: supportedFeaturesListForContactRequestFlow,
+        [FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE]: supportedFeaturesListForFieldServiceMobileFlow
     }),
     'c.getFieldsForEntity': getFieldsForEntity({
         Account: accountFields,
@@ -186,7 +189,8 @@ const allAuraActions = {
     'c.getFlowExtensionDetails': getFlowExtensionDetails(flowExtensionDetails),
     'c.getFlowExtensions': createGetterByProcessType({
         [FLOW_PROCESS_TYPE.FLOW]: flowExtensionsForFlow,
-        [FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW]: flowExtensionsForContactRequestFlow
+        [FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW]: flowExtensionsForContactRequestFlow,
+        [FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE]: flowExtensionsForFieldServiceMobile
     }),
     'c.getApexPlugins': createGetter([]),
     'c.getApexTypes': createGetter(apexTypesForFlow),

@@ -1,5 +1,6 @@
 {
   "supportedFeaturesListForContactRequestFlow":[
-
+    "StoreOutputAutomatically",
+    "LookupTraversal"
   ]
 }

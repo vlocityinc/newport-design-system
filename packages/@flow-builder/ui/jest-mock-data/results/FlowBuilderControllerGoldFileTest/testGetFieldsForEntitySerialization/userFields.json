@@ -1208,7 +1208,7 @@
     "LanguageLocaleKey":{
       "filterable":true,
       "apiName":"LanguageLocaleKey",
-      "isAvailableForFormulas":false,
+      "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
       "dataType":"Picklist",
@@ -1219,7 +1219,7 @@
       "sobjectName":"User",
       "required":true,
       "relationshipName":null,
-      "isAvailableForMerge":false,
+      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
@@ -1591,7 +1591,7 @@
     "LocaleSidKey":{
       "filterable":true,
       "apiName":"LocaleSidKey",
-      "isAvailableForFormulas":false,
+      "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
       "dataType":"Picklist",
@@ -1602,7 +1602,7 @@
       "sobjectName":"User",
       "required":true,
       "relationshipName":null,
-      "isAvailableForMerge":false,
+      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
@@ -3530,7 +3530,7 @@
     "TimeZoneSidKey":{
       "filterable":true,
       "apiName":"TimeZoneSidKey",
-      "isAvailableForFormulas":false,
+      "isAvailableForFormulas":true,
       "isSpanningAllowed":false,
       "editable":true,
       "dataType":"Picklist",
@@ -3541,7 +3541,7 @@
       "sobjectName":"User",
       "required":true,
       "relationshipName":null,
-      "isAvailableForMerge":false,
+      "isAvailableForMerge":true,
       "referenceToNames":[
 
       ],
@@ -3835,7 +3835,7 @@
           "value":"America/Santiago"
         },
         {
-          "label":"(GMT-03:00) Brasilia Summer Time (America/Sao_Paulo)",
+          "label":"(GMT-03:00) Brasilia Standard Time (America/Sao_Paulo)",
           "value":"America/Sao_Paulo"
         },
         {
@@ -6018,54 +6018,6 @@
       "editable":true,
       "dataType":"Boolean",
       "label":"HideBiggerPhotoCallout",
-      "sortable":false,
-      "creatable":true,
-      "isCompound":false,
-      "sobjectName":"User",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false
-    },
-    "UserPreferencesHideCalendarAvailabilityViewPopover":{
-      "filterable":true,
-      "apiName":"UserPreferencesHideCalendarAvailabilityViewPopover",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":true,
-      "dataType":"Boolean",
-      "label":"HideCalendarAvailabilityViewPopover",
-      "sortable":false,
-      "creatable":true,
-      "isCompound":false,
-      "sobjectName":"User",
-      "required":true,
-      "relationshipName":null,
-      "isAvailableForMerge":false,
-      "referenceToNames":[
-
-      ],
-      "activePicklistValues":[
-
-      ],
-      "isPolymorphic":false,
-      "isCustom":false
-    },
-    "UserPreferencesHideCalendarListViewsPopover":{
-      "filterable":true,
-      "apiName":"UserPreferencesHideCalendarListViewsPopover",
-      "isAvailableForFormulas":false,
-      "isSpanningAllowed":false,
-      "editable":true,
-      "dataType":"Boolean",
-      "label":"HideCalendarListViewsPopover",
       "sortable":false,
       "creatable":true,
       "isCompound":false,

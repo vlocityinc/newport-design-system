@@ -1,0 +1,41 @@
+{
+  "flowExtensionsForFieldServiceMobile":[
+    {
+  "category" : "Input",
+  "description" : "Lookup Component",
+  "fieldsToNull" : [ ],
+  "label" : "Lookup",
+  "qualifiedApiName" : "flowruntime:lookup",
+  "source" : "Standard"
+},
+    {
+  "description" : "Upload and attach files to records.",
+  "fieldsToNull" : [ ],
+  "label" : "File Upload",
+  "qualifiedApiName" : "forceContent:fileUpload",
+  "source" : "Standard"
+},
+    {
+  "fieldsToNull" : [ ],
+  "qualifiedApiName" : "interactiontest:LcInFieldServiceMobileFlowOnly",
+  "source" : "Standard"
+},
+    {
+  "category" : "Inputs",
+  "description" : "A raptor testing component",
+  "fieldsToNull" : [ ],
+  "label" : "LWC Test Component",
+  "qualifiedApiName" : "interactiontest:lwcFieldServiceMobileTestComponent",
+  "source" : "Standard"
+},
+    {
+  "category" : "Inputs",
+  "configurationEditor" : "c:cpeCmp",
+  "description" : "A raptor testing component",
+  "fieldsToNull" : [ ],
+  "label" : "LWC Test Component",
+  "qualifiedApiName" : "interactiontest:lwcScreensTestComponent",
+  "source" : "Standard"
+}
+  ]
+}

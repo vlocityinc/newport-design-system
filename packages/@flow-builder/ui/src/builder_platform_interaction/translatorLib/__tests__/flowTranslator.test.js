@@ -17,6 +17,9 @@ import { autolaunchedFlowUIModel } from 'mock/storeDataAutolaunched';
 import * as contactRequestFlow from 'mock/flows/contactRequestFlow.json';
 import { contactRequestFlowUIModel } from 'mock/storeDataContactrequest';
 
+import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
+import { fieldServiceMobileFlowUIModel } from 'mock/storeDataFieldServiceMobile';
+
 expect.extend(deepFindMatchers);
 expect.extend(goldObjectMatchers);
 
@@ -256,6 +259,13 @@ describe('Flow Translator', () => {
         expect(uiFlow).toEqualGoldObject(
             contactRequestFlowUIModel,
             'contactRequestFlowUIModel in mock_store_data_contactrequest/contactRequestFlowUIModel.js'
+        );
+    });
+    it('returns expected ui model for a field service mobile flow', () => {
+        const uiFlow = translateFlowToUIModel(fieldServiceMobileFlow);
+        expect(uiFlow).toEqualGoldObject(
+            fieldServiceMobileFlowUIModel,
+            'fieldServiceMobileFlowUIModel in mock_store_data_contactrequest/fieldServiceMobileFlowUIModel.js'
         );
     });
 });

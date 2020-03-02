@@ -1451,6 +1451,30 @@
       "isPolymorphic":false,
       "isCustom":false
     },
+    "OperatingHoursId":{
+      "filterable":true,
+      "apiName":"OperatingHoursId",
+      "isAvailableForFormulas":true,
+      "isSpanningAllowed":true,
+      "editable":true,
+      "dataType":"String",
+      "label":"Operating Hour ID",
+      "sortable":true,
+      "creatable":true,
+      "isCompound":false,
+      "sobjectName":"Account",
+      "required":false,
+      "relationshipName":"OperatingHours",
+      "isAvailableForMerge":true,
+      "referenceToNames":[
+        "OperatingHours"
+      ],
+      "activePicklistValues":[
+
+      ],
+      "isPolymorphic":false,
+      "isCustom":false
+    },
     "OutstandingShares__c":{
       "filterable":true,
       "apiName":"OutstandingShares__c",
