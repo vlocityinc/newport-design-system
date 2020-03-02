@@ -29,7 +29,7 @@ export default class FlcNodeMenu extends Menu {
 
         switch (actionType) {
             case Actions.Delete:
-                customEvent = new DeleteElementEvent([this.guid], this.elementType);
+                customEvent = new DeleteElementEvent([this.guid], this.elementMetadata.elementType);
                 break;
             default:
                 customEvent = null;

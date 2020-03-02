@@ -5,6 +5,14 @@ export const Actions = {
     Delete: 'delete'
 };
 
+const deleteActionConfig = {
+    assetLocation: '/assets/icons/utility-sprite/svg/symbols.svg#delete',
+    class: 'slds-icon slds-icon-text-error slds-icon_x-small slds-icon-text-default slds-m-right_x-small',
+    icon: 'utility:delete',
+    label: DELETE_LABEL,
+    value: 'delete'
+};
+
 export const MenuConfiguration = {
     Start: {
         Header: {
@@ -24,7 +32,19 @@ export const MenuConfiguration = {
             description: 'Decision Description Here'
         },
         Body: {
-            NodeActions: []
+            NodeActions: [deleteActionConfig]
+        },
+        Footer: {
+            buttonText: 'Edit Details'
+        }
+    },
+    Pause: {
+        Header: {
+            title: 'Wait Element',
+            description: 'Wait Description Here'
+        },
+        Body: {
+            NodeActions: [deleteActionConfig]
         },
         Footer: {
             buttonText: 'Edit Details'
@@ -44,14 +64,7 @@ export const MenuConfiguration = {
                     label: COPY_LABEL,
                     value: 'copy'
                 },
-                {
-                    assetLocation: '/assets/icons/utility-sprite/svg/symbols.svg#delete',
-                    class:
-                        'slds-icon slds-icon-text-error slds-icon_x-small slds-icon-text-default slds-m-right_x-small',
-                    icon: 'utility:delete',
-                    label: DELETE_LABEL,
-                    value: 'delete'
-                }
+                deleteActionConfig
             ]
         },
         Footer: {

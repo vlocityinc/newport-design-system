@@ -21,6 +21,7 @@
         "build:core": "node ./scripts/npm2lwc.js src/main/modules packages --core ",
         "build:poc": "node ./scripts/npm2lwc.js packages/flow-builder-pocs/build packages && lerna run build:poc",
         "build:dev": "lerna run build:dev --stream && yarn build:core",
+        "build:all": "yarn build:packages && yarn build:core && yarn build:poc",
         "build": "yarn build:packages && yarn build:core",
         "serve": "lerna run start --stream",
         "start": "run-p watch:poc serve watch watch:core",

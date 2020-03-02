@@ -1,5 +1,4 @@
 import { ELEMENT_TYPE, isSystemElement } from 'builder_platform_interaction/flowMetadata';
-import { supportsChildren } from 'builder_platform_interaction/flcConversionUtils';
 
 const ELEMENT_SELECTED_ACTION = 'element_selected_action';
 const ELEMENT_DESELECTED_ACTION = 'element_deselected_action';
@@ -38,9 +37,8 @@ const _getSubtreeElements = (action, parentElement, flowModel) => {
             // Traversing down a given branch
             while (_shouldTraverseDown(action, currentBranchElement)) {
                 branchElementGuidsToSelectOrDeselect.push(currentBranchElement.guid);
-
                 // In case the element supports children, grab the elements from it's branches as well
-                if (supportsChildren(currentBranchElement.elementType)) {
+                if (supportsChildren(currentBranchElement)) {
                     branchElementGuidsToSelectOrDeselect = branchElementGuidsToSelectOrDeselect.concat(
                         _getSubtreeElements(action, currentBranchElement, flowModel)
                     );
@@ -83,7 +81,7 @@ const _getSelectableCanvasElementGuids = (topSelectedGuid, flowModel) => {
             }
 
             // In case the element supports children, all it's branches should also be selectable
-            if (supportsChildren(currentCanvasElement.elementType)) {
+            if (supportsChildren(currentCanvasElement)) {
                 selectableCanvasElementGuids = selectableCanvasElementGuids.concat(
                     _getSubtreeElements(ELEMENT_SELECTED_ACTION, currentCanvasElement, flowModel)
                 );
@@ -123,7 +121,7 @@ export const getCanvasElementSelectionData = (flowModel, selectedCanvasElementGu
                 currentCanvasElement = flowModel[currentCanvasElement.prev];
 
                 // In case the element supports children, all it's branches need to be marked as selected as well
-                if (supportsChildren(currentCanvasElement.elementType)) {
+                if (supportsChildren(currentCanvasElement)) {
                     canvasElementGuidsToSelect = canvasElementGuidsToSelect.concat(
                         _getSubtreeElements(ELEMENT_SELECTED_ACTION, currentCanvasElement, flowModel)
                     );
@@ -157,7 +155,7 @@ export const getCanvasElementSelectionData = (flowModel, selectedCanvasElementGu
                     currentCanvasElement = flowModel[currentCanvasElement.prev];
 
                     // In case the element supports children, all it's branches need to be marked as selected as well
-                    if (supportsChildren(currentCanvasElement.elementType)) {
+                    if (supportsChildren(currentCanvasElement)) {
                         canvasElementGuidsToSelect = canvasElementGuidsToSelect.concat(
                             _getSubtreeElements(ELEMENT_SELECTED_ACTION, currentCanvasElement, flowModel)
                         );
@@ -211,7 +209,7 @@ export const getCanvasElementDeselectionData = (flowModel, deselectedCanvasEleme
         canvasElementGuidsToDeselect.push(deselectedCanvasElementGuid);
 
         // In case the element supports children, all it's branches need to be marked as deselected as well
-        if (supportsChildren(deselectedCanvasElement.elementType)) {
+        if (supportsChildren(deselectedCanvasElement)) {
             canvasElementGuidsToDeselect = canvasElementGuidsToDeselect.concat(
                 _getSubtreeElements(ELEMENT_DESELECTED_ACTION, deselectedCanvasElement, flowModel)
             );
@@ -224,7 +222,7 @@ export const getCanvasElementDeselectionData = (flowModel, deselectedCanvasEleme
             canvasElementGuidsToDeselect.push(currentCanvasElement.guid);
 
             // In case the element supports children, all it's branches need to be marked as deselected as well
-            if (supportsChildren(currentCanvasElement.elementType)) {
+            if (supportsChildren(currentCanvasElement)) {
                 canvasElementGuidsToDeselect = canvasElementGuidsToDeselect.concat(
                     _getSubtreeElements(ELEMENT_DESELECTED_ACTION, currentCanvasElement, flowModel)
                 );
@@ -262,7 +260,7 @@ export const getCanvasElementDeselectionDataOnToggleOff = (flowModel, topSelecte
         canvasElementGuidsToDeselect.push(currentCanvasElement.guid);
 
         // In case the element supports children, all it's branches need to be marked as deselected as well
-        if (supportsChildren(currentCanvasElement.elementType)) {
+        if (supportsChildren(currentCanvasElement)) {
             canvasElementGuidsToDeselect = canvasElementGuidsToDeselect.concat(
                 _getSubtreeElements(ELEMENT_DESELECTED_ACTION, currentCanvasElement, flowModel)
             );
@@ -280,3 +278,162 @@ export const getCanvasElementDeselectionDataOnToggleOff = (flowModel, topSelecte
         topSelectedGuid
     };
 };
+
+/**
+ * @return true if an elementType is root or end
+ */
+export function isRootOrEndElement({ elementType }) {
+    return elementType === ELEMENT_TYPE.END_ELEMENT || elementType === ELEMENT_TYPE.ROOT_ELEMENT;
+}
+
+/**
+ * Adds an element to the elements hash and optionally to the canvasElements array
+ * @param {Object} element
+ * @param {Object} elements
+ * @param {Object} canvasElements
+ */
+export function addElementToState(element, elements, canvasElements) {
+    elements[element.guid] = element;
+    if (canvasElements) {
+        canvasElements.push(element.guid);
+    }
+}
+
+/**
+ * Updates the pointers of the elements pointed to by the element passed in
+ * @param {Object} state
+ * @param {Object} element
+ */
+export function linkElement(state, element) {
+    const { prev, next, guid } = element;
+
+    if (prev) {
+        state[prev] = { ...state[prev], next: guid };
+    }
+
+    if (next) {
+        state[next] = { ...state[next], prev: guid };
+    }
+
+    state[element.guid] = element;
+}
+
+/**
+ * Deletes all branch head properties
+ * @param {Object} headElement
+ */
+export function deleteBranchHeadProperties(headElement) {
+    delete headElement.parent;
+    delete headElement.childIndex;
+    delete headElement.isTerminal;
+}
+
+/**
+ * Inserts an element as child of a parent element and updates pointers
+ * @param {Object} state
+ * @param {Object} parentElement
+ * @param {number} index
+ * @param {Object} element
+ */
+export function linkBranch(state, parentElement, childIndex, element) {
+    // existing child
+    const child = parentElement.children[childIndex];
+
+    if (element) {
+        parentElement.children[childIndex] = element.guid;
+        delete element.prev;
+        Object.assign(element, { parent: parentElement.guid, childIndex });
+    } else {
+        parentElement.children[childIndex] = null;
+    }
+
+    // make the existing child the follow the insert element
+    if (child) {
+        const childElement = state[child];
+
+        Object.assign(element, { next: child, isTerminal: childElement.isTerminal });
+        linkElement(state, element);
+
+        // remove branch head properties
+        deleteBranchHeadProperties(childElement);
+    }
+}
+
+/**
+ * @return true iff an element can have children
+ */
+export function supportsChildren({ elementType }) {
+    return elementType === ELEMENT_TYPE.DECISION || elementType === ELEMENT_TYPE.WAIT;
+}
+
+/**
+ * Linked list interface to navigate a flow
+ */
+export class FlcList {
+    _elements;
+    _head;
+    _tailPredicate;
+
+    /**
+     *
+     * @param {Object} elements - a map of all elements by guid
+     * @param {string} head - the guid of the head
+     * @param {Object} config - tail: the guid of the tail or a tail predicate fct, down: whether to navigate up or down
+     */
+    constructor(elements, head, { tail, down = true } = {}) {
+        this._elements = elements;
+        this._head = head;
+        this._down = down;
+
+        if (tail) {
+            this._tailPredicate = typeof tail === 'function' ? tail : element => element.prev !== tail;
+        } else {
+            this._tailPredicate = guid => guid != null;
+        }
+    }
+
+    last() {
+        return this._map(null, false).last;
+    }
+
+    map(callback) {
+        return this._map(callback).results;
+    }
+
+    forEach(callback) {
+        this._map(callback, false);
+    }
+
+    _map(callback, accumulate = true) {
+        const results = [];
+
+        let curr = this._head;
+        let currElement;
+
+        let index = 0;
+        while (this._tailPredicate(curr)) {
+            currElement = this._elements[curr];
+
+            if (callback) {
+                const result = callback(this._elements[curr], index++);
+                if (accumulate) {
+                    result.push(result);
+                }
+            }
+
+            curr = this._down ? currElement.next : currElement.prev;
+        }
+
+        return { results, last: currElement };
+    }
+}
+
+// find the last element along the pointer chain
+export function findLastElement(element, state) {
+    return new FlcList(state, element.guid).last();
+}
+
+// find the first element along the pointer chain
+export function findFirstElement(element, state) {
+    return new FlcList(state, element.guid, { down: false }).last();
+}

@@ -1,1 +1,1 @@
-export default 'missing';
+export default 'MISSING';

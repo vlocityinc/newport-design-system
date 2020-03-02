@@ -1,8 +1,8 @@
 import { LightningElement } from 'lwc';
 
 import { Store } from 'builder_platform_interaction/storeLib';
-import { AddElementEvent } from 'builder_platform_interaction/events';
-import { addElement, updateFlow } from 'builder_platform_interaction/actions';
+import { AddElementEvent, DeleteElementEvent } from 'builder_platform_interaction/events';
+import { addElement, updateFlow, deleteElements } from 'builder_platform_interaction/actions';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { addRootAndEndElements } from 'builder_platform_interaction/flcConversionUtils';
 import { getElementForStore, getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
@@ -41,6 +41,12 @@ function translateEventToAction(event) {
                  });
             }
             return element;
+        case DeleteElementEvent.EVENT_NAME:
+            return {
+                selectedElements: event.detail.selectedElementGUID.map(guid => storeInstance.getCurrentState().elements[guid]),
+                connectorsToDelete: [],
+                elementType: event.detail.selectedElementType
+            };
         default:
             return null;
     }
@@ -71,7 +77,10 @@ export default class Builder extends LightningElement {
         storeInstance.dispatch(addElement(payload));
     }
 
-    handleDeleteElement(/* deleteEvent */) {}
+    handleDeleteElement(deleteEvent) {
+        const payload = translateEventToAction(deleteEvent);
+        storeInstance.dispatch(deleteElements(payload));
+    }
 
     handleSave() {
         localStorage.setItem('flow', JSON.stringify(storeInstance.getCurrentState()));

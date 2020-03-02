@@ -10,6 +10,7 @@ import {
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
 import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
+import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
 
 export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
 
@@ -29,10 +30,6 @@ export function createAvailableConnection(availableConnection = {}) {
 function createCanvasElementConfig(config = { isSelected: false, isHighlighted: false, canSelect: true }) {
     const { isSelected, isHighlighted, canSelect } = config;
     return { isSelected, isHighlighted, canSelect };
-}
-
-function supportsChildren({ elementType }) {
-    return elementType === ELEMENT_TYPE.DECISION || elementType === ELEMENT_TYPE.WAIT;
 }
 
 /**

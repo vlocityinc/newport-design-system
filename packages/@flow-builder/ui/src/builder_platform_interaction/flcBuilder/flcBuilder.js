@@ -5,7 +5,7 @@ import {
     getCanvasElementSelectionData,
     getCanvasElementDeselectionData,
     getCanvasElementDeselectionDataOnToggleOff
-} from './flcBuilderUtils';
+} from 'builder_platform_interaction/flcBuilderUtils';
 
 const RENDER_BUFFER_SIZE = 200;
 

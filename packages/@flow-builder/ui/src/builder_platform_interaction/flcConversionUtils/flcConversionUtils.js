@@ -4,6 +4,13 @@ import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowM
 import { addElement } from 'builder_platform_interaction/actions';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import {
+    supportsChildren,
+    linkBranch,
+    addElementToState,
+    isRootOrEndElement,
+    linkElement
+} from 'builder_platform_interaction/flcBuilderUtils';
 
 // TODO: FLC Hack: Temp magic number to identify an flc flow
 export const LOCATION_Y_FLC_FLOW = 500;
@@ -17,96 +24,6 @@ export function isFixedLayoutCanvas(startElement) {
     return startElement.locationY === LOCATION_Y_FLC_FLOW;
 }
 
-/**
- * @return true if an elementType is root or end
- */
-export function isRootOrEndElement({ elementType }) {
-    return elementType === ELEMENT_TYPE.END_ELEMENT || elementType === ELEMENT_TYPE.ROOT_ELEMENT;
-}
-
-/**
- * Adds an element to the elements hash and optionally to the canvasElements array
- * @param {Object} element
- * @param {Object} elements
- * @param {*} canvasElements
- */
-export function addElementToState(element, elements, canvasElements) {
-    elements[element.guid] = element;
-    if (canvasElements) {
-        canvasElements.push(element.guid);
-    }
-}
-
-/**
- * Updates the pointers of the elements pointed to by the element passed in
- * @param {*} state
- * @param {Object} element
- */
-export function linkElement(state, element) {
-    const { prev, next, guid } = element;
-
-    if (prev) {
-        state[prev] = { ...state[prev], next: guid };
-    }
-
-    if (next) {
-        state[next] = { ...state[next], prev: guid };
-    }
-
-    state[element.guid] = element;
-}
-
-/**
- * Inserts an element as child of a parent element and updates pointers
- * @param {*} state
- * @param {Object} parentElement
- * @param {number} index
- * @param {Object} element
- */
-export function linkBranch(state, parentElement, childIndex, element) {
-    // existing child
-    const child = parentElement.children[childIndex];
-
-    parentElement.children[childIndex] = element.guid;
-    element.parent = parentElement.guid;
-    element.childIndex = childIndex;
-
-    // make the existing child the follow the insert element
-    if (child) {
-        const childElement = state[child];
-
-        element.next = child;
-        element.isTerminal = childElement.isTerminal;
-        linkElement(state, element);
-
-        // remove branch head properties
-        delete childElement.parent;
-        delete childElement.childIndex;
-        delete childElement.isTerminal;
-    }
-}
-
-// find the last element along the pointer chain
-export function findLastElement(element, state, pointer = 'next') {
-    while (element[pointer]) {
-        element = state[element[pointer]];
-    }
-
-    return element;
-}
-
-// find the first element along the pointer chain
-export function findFirstElement(element, state) {
-    return findLastElement(element, state, 'prev');
-}
-
-/**
- * @return true iff an element can have children
- */
-export function supportsChildren({ elementType }) {
-    return elementType === ELEMENT_TYPE.DECISION || elementType === ELEMENT_TYPE.WAIT;
-}
-
 function createConnector({ source, target, type = CONNECTOR_TYPE.REGULAR, childSource = null }) {
     return {
         guid: generateGuid(),
@@ -116,10 +33,6 @@ function createConnector({ source, target, type = CONNECTOR_TYPE.REGULAR, childS
         label: '',
         childSource
     };
-}
-
-export function getElementFromActionPayload(payload) {
-    return payload.screen || payload.canvasElement || payload;
 }
 
 function getChildReferencesKey(parentElement) {
@@ -258,7 +171,7 @@ function createConnectorsForChildren(newElements, newConnectors, newCanvasElemen
 
         // branch connectors for the child's successors until they merge back
         if (child != null) {
-            convertToFfcHelper(newElements, newConnectors, newCanvasElements, newElements[child], parentElement);
+            convertFromFlcHelper(newElements, newConnectors, newCanvasElements, newElements[child], parentElement);
         }
     });
 
@@ -266,7 +179,7 @@ function createConnectorsForChildren(newElements, newConnectors, newCanvasElemen
 }
 
 // creates the connector for an element and its successors
-function convertToFfcHelper(newElements, newConnectors, newCanvasElements, element, parentElement) {
+function convertFromFlcHelper(newElements, newConnectors, newCanvasElements, element, parentElement) {
     let prevElement = null;
     let isChildless;
 
@@ -337,7 +250,7 @@ function convertToFfcHelper(newElements, newConnectors, newCanvasElements, eleme
  * @param {Object} uiModel - a flc ui model
  * @return {Object} a ffc ui model
  */
-export function convertToFfc(uiModel) {
+export function convertFromFlc(uiModel) {
     const { elements } = uiModel;
 
     const newConnectors = [];
@@ -353,7 +266,7 @@ export function convertToFfc(uiModel) {
     if (startElement) {
         startElement.locationY = LOCATION_Y_FLC_FLOW;
 
-        convertToFfcHelper(newElements, newConnectors, newCanvasElements, startElement);
+        convertFromFlcHelper(newElements, newConnectors, newCanvasElements, startElement);
 
         // filter out root and end elements
         newElements = Object.values(newElements)
