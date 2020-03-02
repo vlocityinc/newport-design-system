@@ -78,8 +78,13 @@ exports[`Resourced text area "rich text/ plain text mode switch" displayed if "p
           <builder_platform_interaction-rich-text-plain-text-switch>
             #shadow-root(open)
               <div
-                class="divButtonMenuPlainRichText"
+                class="divButtonMenuPlainRichText slds-grid slds-grid_vertical-align-center"
               >
+                <span
+                  class="spanSelectedModeLabel"
+                >
+                  FlowBuilderResourcedRichTextEditor.plainText
+                </span>
                 <lightning-button-menu>
                   #shadow-root(open)
                     <slot />

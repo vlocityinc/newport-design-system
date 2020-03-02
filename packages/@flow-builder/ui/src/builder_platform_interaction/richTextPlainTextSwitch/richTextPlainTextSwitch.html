@@ -1,5 +1,6 @@
 <template>
-    <div class="divButtonMenuPlainRichText">
+    <div class="divButtonMenuPlainRichText slds-grid slds-grid_vertical-align-center">
+        <span class="spanSelectedModeLabel">{selectedModeLabel}</span>
         <lightning-button-menu menu-alignment="auto-right" onselect={handlePlainTextModeChange} value={selectedMode}>
             <lightning-menu-item
                 value={textModes.richText}

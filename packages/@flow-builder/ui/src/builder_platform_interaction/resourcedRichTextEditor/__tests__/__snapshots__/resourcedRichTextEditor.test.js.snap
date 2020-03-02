@@ -36,8 +36,13 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via API Disable it 
             <builder_platform_interaction-rich-text-plain-text-switch>
               #shadow-root(open)
                 <div
-                  class="divButtonMenuPlainRichText"
+                  class="divButtonMenuPlainRichText slds-grid slds-grid_vertical-align-center"
                 >
+                  <span
+                    class="spanSelectedModeLabel"
+                  >
+                    FlowBuilderResourcedRichTextEditor.richText
+                  </span>
                   <lightning-button-menu>
                     #shadow-root(open)
                       <slot />
@@ -104,8 +109,13 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via API Enable it 1
                     <builder_platform_interaction-rich-text-plain-text-switch>
                       #shadow-root(open)
                         <div
-                          class="divButtonMenuPlainRichText"
+                          class="divButtonMenuPlainRichText slds-grid slds-grid_vertical-align-center"
                         >
+                          <span
+                            class="spanSelectedModeLabel"
+                          >
+                            FlowBuilderResourcedRichTextEditor.plainText
+                          </span>
                           <lightning-button-menu>
                             #shadow-root(open)
                               <slot />
@@ -169,8 +179,13 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu
             <builder_platform_interaction-rich-text-plain-text-switch>
               #shadow-root(open)
                 <div
-                  class="divButtonMenuPlainRichText"
+                  class="divButtonMenuPlainRichText slds-grid slds-grid_vertical-align-center"
                 >
+                  <span
+                    class="spanSelectedModeLabel"
+                  >
+                    FlowBuilderResourcedRichTextEditor.richText
+                  </span>
                   <lightning-button-menu>
                     #shadow-root(open)
                       <slot />
@@ -237,8 +252,13 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu
                     <builder_platform_interaction-rich-text-plain-text-switch>
                       #shadow-root(open)
                         <div
-                          class="divButtonMenuPlainRichText"
+                          class="divButtonMenuPlainRichText slds-grid slds-grid_vertical-align-center"
                         >
+                          <span
+                            class="spanSelectedModeLabel"
+                          >
+                            FlowBuilderResourcedRichTextEditor.plainText
+                          </span>
                           <lightning-button-menu>
                             #shadow-root(open)
                               <slot />

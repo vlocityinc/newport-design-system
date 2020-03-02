@@ -58,7 +58,7 @@ describe('text-template-editor', () => {
         textTemplateResource = mockStoreData.textTemplate1ForPropertyEditor();
     });
 
-    test('check UI (snapshot) - "RichTextPlainTextSwitch" displayed with "richText" mode checked by default and correct css class for resource picker', () => {
+    test('check UI (snapshot) - "RichTextPlainTextSwitch" displayed with "richText" mode checked by default, and correct css class for resource picker', () => {
         const textTemplateEditor = setupComponentUnderTest(textTemplateResource);
         expect(textTemplateEditor).toMatchSnapshot();
     });
