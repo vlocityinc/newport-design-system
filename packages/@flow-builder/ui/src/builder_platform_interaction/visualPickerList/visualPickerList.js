@@ -28,6 +28,9 @@ export default class VisualPickerList extends LightningElement {
     @api
     allowMultipleSelection = false;
 
+    @api
+    radioGroupName;
+
     /**
      * @typedef {Object} VisualPickerItem
      * @property {String} label  the item's label

@@ -17,6 +17,9 @@ export default class ProcessTypesTemplates extends LightningElement {
     };
 
     @api
+    radioGroupName;
+
+    @api
     get processTypes() {
         return this.state.processTypes;
     }

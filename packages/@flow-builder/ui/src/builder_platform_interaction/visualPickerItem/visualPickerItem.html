@@ -1,7 +1,14 @@
 <template>
     <div class="slds-form-element__control">
         <div class="slds-visual-picker slds-visual-picker_vertical">
-            <input type="radio" id={itemId} name={itemId} value={itemId} checked={isSelected} onchange={handleChange} />
+            <input
+                type="radio"
+                id={itemId}
+                name={radioGroupName}
+                value={itemId}
+                checked={isSelected}
+                onchange={handleChange}
+            />
             <label for={itemId}>
                 <span class="slds-media slds-visual-picker__figure slds-visual-picker__text">
                     <slot name="figure">

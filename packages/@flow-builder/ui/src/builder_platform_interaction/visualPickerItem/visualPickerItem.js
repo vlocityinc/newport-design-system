@@ -12,6 +12,8 @@ export default class VisualPickerItem extends LightningElement {
     description;
     @api
     itemId;
+    @api
+    radioGroupName;
 
     renderedCallback() {
         const inputSelector = this.template.querySelector('input');

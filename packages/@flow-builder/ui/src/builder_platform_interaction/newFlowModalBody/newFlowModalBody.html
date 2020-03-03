@@ -43,8 +43,10 @@
             <builder_platform_interaction-visual-picker-list
                 if:true={state.recommendedItems}
                 items={state.recommendedItems}
+                radio-group-name="recommended"
                 onvisualpickerlistchanged={handleSelectRecommendedItem}
-            ></builder_platform_interaction-visual-picker-list>
+            >
+            </builder_platform_interaction-visual-picker-list>
         </lightning-tab>
         <lightning-tab
             if:true={showAllTab}
@@ -67,9 +69,11 @@
                         process-types={state.processTypes}
                         blank-items={state.items}
                         process-type={state.selectedProcessType}
+                        radio-group-name="templates"
                         ontemplatechanged={handleSelectTemplatesItem}
                         oncannotretrievetemplates={handleCannotRetrieveTemplates}
-                    ></builder_platform_interaction-process-types-templates>
+                    >
+                    </builder_platform_interaction-process-types-templates>
                 </div>
             </div>
         </lightning-tab>

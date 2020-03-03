@@ -10,6 +10,7 @@
         <div class="templates slds-template__container" if:false={state.templatesLoading}>
             <builder_platform_interaction-visual-picker-list
                 items={items}
+                radio-group-name={radioGroupName}
                 onvisualpickerlistchanged={handleTemplateOrProcessTypeTileChanged}
             >
                 <builder_platform_interaction-get-templates-tile if:true={showGetTemplates}>
