@@ -18,4 +18,3 @@ Description of your changelist. Provide links to any design docs + UX specs or m
 
 -   [x] Update Core
 -   [ ] Set associated work items as "Fixed"
--   [ ] Publish npm package
