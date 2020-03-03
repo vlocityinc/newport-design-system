@@ -340,7 +340,8 @@ export const fieldServiceMobileFlowUIModel = {
                     type: 'LOOP_END'
                 }
             ],
-            elementType: 'Loop'
+            elementType: 'Loop',
+            storeOutputAutomatically: false
         },
         '956ee0bf-ff21-44f4-9917-65676160e094': {
             guid: '956ee0bf-ff21-44f4-9917-65676160e094',

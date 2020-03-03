@@ -13,6 +13,10 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { PropertyChangedEvent, LoopCollectionChangedEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './loopEditorLabels';
+import {
+    FLOW_AUTOMATIC_OUTPUT_HANDLING,
+    getProcessTypeAutomaticOutPutHandlingSupport
+} from 'builder_platform_interaction/processTypeLib';
 
 const LOOP_PROPERTIES = {
     COLLECTION_VARIABLE: 'collectionReference',
@@ -33,6 +37,7 @@ const COLLECTION_VAR_ELEMENT_CONFIG = {
 
 export default class LoopEditor extends LightningElement {
     labels = LABELS;
+    processTypeAutomaticOutPutHandlingSupport = FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
 
     /**
      * internal state for the loop editor
@@ -45,9 +50,18 @@ export default class LoopEditor extends LightningElement {
     @api
     mode;
 
-    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
+    /**
+     * @returns {FLOW_PROCESS_TYPE} Flow process Type supports automatic output handling
+     */
     @api
-    processType;
+    get processType() {
+        return this.processTypeValue;
+    }
+
+    set processType(newValue) {
+        this.processTypeValue = newValue;
+        this.processTypeAutomaticOutPutHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(newValue);
+    }
 
     @api
     get node() {
@@ -162,6 +176,24 @@ export default class LoopEditor extends LightningElement {
 
     get iterationOrderValue() {
         return this.loopElement.iterationOrder ? this.loopElement.iterationOrder.value : ITERATION_ORDER_ASCENDING;
+    }
+
+    /**
+     * @return {Boolean} true : the user chooses to use the Advanced Options
+     */
+    get isAdvancedMode() {
+        return !this.loopElement.storeOutputAutomatically;
+    }
+
+    /**
+     * @return {Boolean} true : the process type supports the automatic output handling
+     */
+    get isAutomaticOutputHandlingSupported() {
+        return this.processTypeAutomaticOutPutHandlingSupport === FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED;
+    }
+
+    get isAutomaticOutputNotSupported() {
+        return this.isAdvancedMode || !this.isAutomaticOutputHandlingSupported;
     }
 
     handleEvent(event) {

@@ -11,6 +11,7 @@ import loopVariableHelpText from '@salesforce/label/FlowBuilderLoopEditor.loopVa
 import loopVariableLabel from '@salesforce/label/FlowBuilderLoopEditor.loopVariableLabel';
 import loopVariablePlaceholder from '@salesforce/label/FlowBuilderLoopEditor.loopVariablePlaceholder';
 import loopVariableErrorMessage from '@salesforce/label/FlowBuilderLoopEditor.loopVariableErrorMessage';
+import loopVariableAutomaticMessage from '@salesforce/label/FlowBuilderLoopEditor.loopVariableAutomaticMessage';
 
 export const LABELS = {
     loopDescription,
@@ -25,5 +26,6 @@ export const LABELS = {
     loopVariableHelpText,
     loopVariableLabel,
     loopVariablePlaceholder,
-    loopVariableErrorMessage
+    loopVariableErrorMessage,
+    loopVariableAutomaticMessage
 };

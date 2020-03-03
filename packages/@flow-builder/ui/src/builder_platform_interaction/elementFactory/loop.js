@@ -25,7 +25,8 @@ export function createLoop(loop = {}) {
         collectionReference = null,
         collectionReferenceIndex = generateGuid(),
         iterationOrder = ITERATION_ORDER_ASCENDING,
-        availableConnections = getDefaultAvailableConnections()
+        availableConnections = getDefaultAvailableConnections(),
+        storeOutputAutomatically = assignNextValueToReference === null
     } = loop;
 
     return Object.assign(newLoop, {
@@ -36,7 +37,8 @@ export function createLoop(loop = {}) {
         iterationOrder,
         maxConnections,
         availableConnections,
-        elementType
+        elementType,
+        storeOutputAutomatically
     });
 }
 
@@ -71,11 +73,12 @@ export function createLoopMetadataObject(loop, config = {}) {
     }
 
     const newLoop = baseCanvasElementMetadataObject(loop, config);
-    const { assignNextValueToReference, collectionReference, iterationOrder } = loop;
+    const { assignNextValueToReference, collectionReference, iterationOrder, storeOutputAutomatically } = loop;
 
     return Object.assign(newLoop, {
         assignNextValueToReference,
         collectionReference,
-        iterationOrder
+        iterationOrder,
+        storeOutputAutomatically
     });
 }

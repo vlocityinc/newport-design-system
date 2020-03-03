@@ -10,7 +10,6 @@
                 description={loopElement.description}
                 guid={loopElement.guid}
                 onpropertychanged={handleEvent}
-                mode={mode}
             >
             </builder_platform_interaction-label-description>
         </div>
@@ -51,13 +50,24 @@
             >
             </lightning-radio-group>
         </div>
-        <div class="slds-border_top slds-grid slds-p-around_small">
+        <div class="slds-border_top slds-grid slds-p-around_small" if:true={isAutomaticOutputNotSupported}>
             <h3 class="slds-text-heading_small slds-section__title">
                 <span>{labels.loopVariableHeader}</span>
             </h3>
             <lightning-helptext content={labels.loopVariableHelpText}></lightning-helptext>
         </div>
-        <div class="slds-size_medium slds-m-bottom_small slds-m-left_small">
+        <div
+            if:false={isAutomaticOutputNotSupported}
+            class="slds-scoped-notification slds-media slds-media_center slds-color__background_gray-3 slds-m-left_small slds-m-right_small slds-m-bottom_small"
+        >
+            <div class="slds-media__figure">
+                <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
+            </div>
+            <div class="slds-media__body">
+                {labels.loopVariableAutomaticMessage}
+            </div>
+        </div>
+        <div class="slds-size_medium slds-m-bottom_small slds-m-left_small" if:true={isAutomaticOutputNotSupported}>
             <builder_platform_interaction-ferov-resource-picker
                 class="test-loop-variable"
                 value={loopVariable}

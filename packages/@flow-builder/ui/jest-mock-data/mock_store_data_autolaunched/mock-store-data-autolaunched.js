@@ -15,3 +15,8 @@ export const getElementByName = name => {
 
 export const waitEvent1 = getElementByName('waitEvent1');
 export const actionPostToChatter = getElementByName('postToChatter');
+
+export const accountVariable = getElementByName('accountVariable');
+export const accountsCollectionVariable = getElementByName('accounts');
+export const textCollection = getElementByName('textCollection');
+export const textVariable = getElementByName('textVariable');

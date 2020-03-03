@@ -135,6 +135,34 @@
                 "scale": 2
             },
             {
+                "name": "accounts",
+                "description": "",
+                "objectType": "Account",
+                "dataType": "SObject",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 2
+            },
+            {
+                "name": "textCollection",
+                "description": "",
+                "dataType": "String",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 2
+            },
+            {
+                "name": "textVariable",
+                "description": "",
+                "dataType": "String",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 2
+            },
+            {
                 "name": "apexComplexTypeVariable",
                 "description": "",
                 "apexClass": "ApexComplexTypeTestOne216",
@@ -157,6 +185,30 @@
                 "queriedFields": null,
                 "storeOutputAutomatically": true,
                 "getFirstRecordOnly": true
+            }
+        ],
+        "loops": [
+            {
+                "name": "loopAccountAutomaticOutput",
+                "description": "This is a test with automatic Output",
+                "label": "loopAccountAutomaticOutput",
+                "locationX": 1107,
+                "locationY": 405,
+                "assignNextValueToReference": null,
+                "collectionReference": "accounts",
+                "iterationOrder": "Asc",
+                "storeOutputAutomatically": true
+            },
+            {
+                "name": "loopOnTextCollection",
+                "description": "This is a test without automatic Output",
+                "label": "loopOnTextCollection",
+                "locationX": 1249,
+                "locationY": 403,
+                "assignNextValueToReference": "textVariable",
+                "collectionReference": "textCollection",
+                "iterationOrder": "Asc",
+                "storeOutputAutomatically": false
             }
         ],
         "description": "",
