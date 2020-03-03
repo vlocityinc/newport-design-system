@@ -78,7 +78,11 @@ export function createScreenField(screenField = {}, isNewField = false) {
     } else {
         storeOutputAutomatically = undefined;
         type = getScreenFieldType(screenField);
-        inputParameters = [];
+        if (isRegionField(screenField)) {
+            inputParameters = inputParameters.map(inputParameter => createInputParameter(inputParameter));
+        } else {
+            inputParameters = [];
+        }
         outputParameters = [];
         dynamicTypeMappings = undefined;
         // Picklist fields are always required at runtime since they always default to one of the options and there's no way to select a null or empty value option
@@ -263,20 +267,24 @@ export function createEmptyScreenFieldOfType(typeName, sectionCount = 0) {
 
     // Add a single default column for section fields
     if (type.name === 'Section') {
+        // TODO: Define the 'width' parameter name as a const somewhere
+        const columnWidthParameter = { name: 'width', value: 12, valueDataType: FLOW_DATA_TYPE.STRING.value };
         const newChildScreenField = createScreenField(
             {
                 name: newScreenField.name + '_Column1',
                 fieldText: 'Column 1',
                 guid: generateGuid(),
                 fieldType: 'Region',
-                fields: []
+                fields: [],
+                inputParameters: [columnWidthParameter]
             },
             true
         );
         newScreenField.fields = [newChildScreenField];
     } else if (type.name === getColumnFieldType().name) {
         Object.assign(newScreenField, {
-            // TODO: correct name and fieldText
+            // TODO: correct name and fieldText. Also, this code needs to be consolidated
+            // with the code above that creates the default column for a new section.
             name: newScreenField.name + '_Column1',
             fieldText: 'Column 1',
             guid: generateGuid(),
@@ -362,6 +370,8 @@ export function createScreenFieldMetadataObject(screenField) {
             storeOutputAutomatically = undefined;
         }
         dataTypeMappings = createDataTypeMappingsMetadataObject(dynamicTypeMappings);
+    } else if (isRegionField(screenField)) {
+        inputParameters = inputParameters.map(inputParameter => createInputParameterMetadataObject(inputParameter));
     }
 
     choiceReferences = choiceReferences.map(choiceReference => createChoiceReferenceMetadatObject(choiceReference));
