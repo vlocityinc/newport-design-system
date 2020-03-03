@@ -2,7 +2,7 @@
 
 [@W-xxxxxxxx](https://gus.lightning.force.com/lightning/r/ADM_Work__c/item_number/view)
 
-(Include a @P4CL:XXX@ annotation is PR title to bundle a shelved p4 CL, where XXX is the CL number)
+(Include a @P4CL:XXX@ annotation in the PR title to bundle a shelved p4 CL, where XXX is the CL number)
 
 ## Description
 
