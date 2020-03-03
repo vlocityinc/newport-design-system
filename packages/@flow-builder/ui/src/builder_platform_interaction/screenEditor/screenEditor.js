@@ -210,6 +210,10 @@ export default class ScreenEditor extends LightningElement {
             const deleteCallBack = () => {
                 this.screen = screenReducer(this.screen, event);
                 this.handleDeselectScreenElement();
+
+                if (event.callback) {
+                    event.callback();
+                }
             };
             // Invoking the delete confirmation modal
             invokeModal({

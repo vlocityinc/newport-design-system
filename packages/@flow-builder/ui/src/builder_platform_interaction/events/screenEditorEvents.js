@@ -59,13 +59,15 @@ export function createAddScreenFieldEvent(typeName, position, parent = null) {
  * @param {object} screenElement - The screen element, either a screen or a screen field
  * @param {string} property - Applies only for when screenElement is a SCREEN, and it marks the property to toggle (showHeader or showFooter)
  * @param {object} parent - The deleted field's parent, i.e. a column
+ * @param {function} callback - Function called after the delete occurs successfully
  * @returns {event} The event
  */
-export function createScreenElementDeletedEvent(screenElement, property, parent = null) {
+export function createScreenElementDeletedEvent(screenElement, property, parent = null, callback = () => {}) {
     return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_DELETED, {
         screenElement,
         property,
-        parent
+        parent,
+        callback
     });
 }
 

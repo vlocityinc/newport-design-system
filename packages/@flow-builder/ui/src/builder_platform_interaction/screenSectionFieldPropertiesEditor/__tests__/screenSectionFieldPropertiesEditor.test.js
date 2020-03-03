@@ -2,10 +2,12 @@ import { createElement } from 'lwc';
 import ScreenSectionFieldPropertiesEditor from '../screenSectionFieldPropertiesEditor';
 import { query } from 'builder_platform_interaction/builderTestUtils';
 import { getColumnFieldType } from 'builder_platform_interaction/screenEditorUtils';
-import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
+import { AddListItemEvent, DeleteListItemEvent, SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
 
 const SELECTORS = {
-    ADD_BUTTON: 'lightning-button'
+    LIST: 'builder_platform_interaction-list',
+    LIST_BODY: 'div[slot="listBody"]',
+    ROW: 'builder_platform_interaction-row'
 };
 
 const createComponentUnderTest = props => {
@@ -20,66 +22,109 @@ const createComponentUnderTest = props => {
 };
 
 describe('screen-section-field-properties-editor', () => {
-    describe('add button', () => {
-        it('is active if no columns present', () => {
+    it('add column dispatches an AddScreenField', () => {
+        const screenSectionFieldPropEditor = createComponentUnderTest({
+            field: {
+                fields: []
+            }
+        });
+
+        return Promise.resolve().then(() => {
+            const addCallback = jest.fn();
+            screenSectionFieldPropEditor.addEventListener(SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED, addCallback);
+
+            const list = query(screenSectionFieldPropEditor, SELECTORS.LIST);
+            list.dispatchEvent(new AddListItemEvent(0));
+
+            expect(addCallback).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    typeName: getColumnFieldType().name,
+                    position: 0,
+                    parent: screenSectionFieldPropEditor.field
+                })
+            );
+        });
+    });
+
+    describe('delete column', () => {
+        it('button is disabled if there is only one column', () => {
             const screenSectionFieldPropEditor = createComponentUnderTest({
                 field: {
-                    fields: []
+                    fields: [{ guid: '1' }]
                 }
             });
 
             return Promise.resolve().then(() => {
-                const addButton = query(screenSectionFieldPropEditor, SELECTORS.ADD_BUTTON);
-                expect(addButton.disabled).toBeFalsy();
+                const listBody = query(screenSectionFieldPropEditor, SELECTORS.LIST_BODY);
+                const row = listBody.querySelector(SELECTORS.ROW);
+                expect(row.showDelete).toBeFalsy();
             });
         });
-        it('is active if three columns present', () => {
+        it('button is enabled if there is more than one column', () => {
             const screenSectionFieldPropEditor = createComponentUnderTest({
                 field: {
-                    fields: [{}, {}, {}]
+                    fields: [{ guid: '1' }, { guid: '2' }]
                 }
             });
 
             return Promise.resolve().then(() => {
-                const addButton = query(screenSectionFieldPropEditor, SELECTORS.ADD_BUTTON);
-                expect(addButton.disabled).toBeFalsy();
+                const listBody = query(screenSectionFieldPropEditor, SELECTORS.LIST_BODY);
+                const row = listBody.querySelector(SELECTORS.ROW);
+                expect(row.showDelete).toBeTruthy();
             });
         });
-        it('is disabled if four columns present', () => {
+        it('fires ScreenElementDeletedEvent', () => {
+            const deleteCallback = jest.fn();
+
             const screenSectionFieldPropEditor = createComponentUnderTest({
                 field: {
-                    fields: [{}, {}, {}, {}]
+                    fields: [{ guid: '1' }, { guid: '2' }]
                 }
             });
 
-            return Promise.resolve().then(() => {
-                const addButton = query(screenSectionFieldPropEditor, SELECTORS.ADD_BUTTON);
-                expect(addButton.disabled).toBeTruthy();
+            screenSectionFieldPropEditor.addEventListener(
+                SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_DELETED,
+                deleteCallback
+            );
+
+            const list = query(screenSectionFieldPropEditor, SELECTORS.LIST);
+            list.dispatchEvent(new DeleteListItemEvent(0));
+
+            const deleteCallbackParam = deleteCallback.mock.calls[0][0];
+            expect(deleteCallbackParam.detail).toMatchObject({
+                screenElement: screenSectionFieldPropEditor.field.fields[0],
+                callback: expect.any(Function)
             });
         });
-        it('dispatches an AddScreenField', () => {
+        it('callback reselects section', () => {
+            const deleteCallback = jest.fn();
+            const selectedCallback = jest.fn();
+
             const screenSectionFieldPropEditor = createComponentUnderTest({
                 field: {
-                    fields: []
+                    fields: [{ guid: '1' }, { guid: '2' }]
                 }
             });
 
-            screenSectionFieldPropEditor.dispatchEvent = jest.fn();
+            screenSectionFieldPropEditor.addEventListener(
+                SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_DELETED,
+                deleteCallback
+            );
+            screenSectionFieldPropEditor.addEventListener(
+                SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_SELECTED,
+                selectedCallback
+            );
 
-            return Promise.resolve().then(() => {
-                const callback = jest.fn();
-                screenSectionFieldPropEditor.addEventListener(SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED, callback);
+            const list = query(screenSectionFieldPropEditor, SELECTORS.LIST);
+            list.dispatchEvent(new DeleteListItemEvent(0));
 
-                const addButton = query(screenSectionFieldPropEditor, SELECTORS.ADD_BUTTON);
-                addButton.click();
+            const deleteCallbackParam = deleteCallback.mock.calls[0][0];
 
-                expect(callback).toHaveBeenCalledWith(
-                    expect.objectContaining({
-                        typeName: getColumnFieldType().name,
-                        position: 0,
-                        parent: screenSectionFieldPropEditor.field
-                    })
-                );
+            deleteCallbackParam.detail.callback();
+
+            const selectCallbackParam = selectedCallback.mock.calls[0][0];
+            expect(selectCallbackParam.detail).toMatchObject({
+                screenElement: screenSectionFieldPropEditor.field
             });
         });
     });

@@ -147,16 +147,36 @@ describe('Event handling on editor', () => {
         });
     });
 
-    it('delete screen field event invokes the delete confirmation modal with the right data', () => {
-        // handleDeleteScreenElement - Field (onscreenelementdeleted)
-        return Promise.resolve().then(() => {
-            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
-            canvas.dispatchEvent(createScreenElementDeletedEvent(screenEditorElement.node.fields[1]));
-            expect(invokeModal.mock.calls[0][0].headerData.headerTitle).toBe(LABELS.deleteConfirmation);
-            expect(invokeModal.mock.calls[0][0].bodyData.bodyTextOne).toBe(LABELS.deleteConsequence);
-            expect(invokeModal.mock.calls[0][0].footerData.buttonOne.buttonLabel).toBe(LABELS.cancel);
-            expect(invokeModal.mock.calls[0][0].footerData.buttonTwo.buttonLabel).toBe(LABELS.deleteAlternativeText);
-            expect(invokeModal.mock.calls[0][0].footerData.buttonTwo.buttonVariant).toBe('destructive');
+    describe('delete screen field event', function() {
+        it('invokes the delete confirmation modal with the right data', () => {
+            // handleDeleteScreenElement - Field (onscreenelementdeleted)
+            return Promise.resolve().then(() => {
+                const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+                canvas.dispatchEvent(createScreenElementDeletedEvent(screenEditorElement.node.fields[1]));
+
+                const callParams = invokeModal.mock.calls[0][0];
+
+                expect(callParams.headerData.headerTitle).toBe(LABELS.deleteConfirmation);
+                expect(callParams.bodyData.bodyTextOne).toBe(LABELS.deleteConsequence);
+                expect(callParams.footerData.buttonOne.buttonLabel).toBe(LABELS.cancel);
+                expect(callParams.footerData.buttonTwo.buttonLabel).toBe(LABELS.deleteAlternativeText);
+                expect(callParams.footerData.buttonTwo.buttonVariant).toBe('destructive');
+            });
+        });
+        it('calls the provided callback post confirmation modal', () => {
+            // handleDeleteScreenElement - Field (onscreenelementdeleted)
+            return Promise.resolve().then(() => {
+                const callback = jest.fn();
+
+                const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+                canvas.dispatchEvent(
+                    createScreenElementDeletedEvent(screenEditorElement.node.fields[1], null, null, callback)
+                );
+
+                invokeModal.mock.calls[0][0].footerData.buttonTwo.buttonCallback();
+
+                expect(callback).toHaveBeenCalled();
+            });
         });
     });
 

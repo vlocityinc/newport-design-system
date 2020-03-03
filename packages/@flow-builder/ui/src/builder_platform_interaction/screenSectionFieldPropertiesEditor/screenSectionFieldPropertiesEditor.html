@@ -1,21 +1,36 @@
 <template>
-    <div if:true={field} onscroll={handleScroll}>
-        <div>
-            <span>
-                {columnsLabel}
-            </span>
-            <span class="slds-float_right">
-                <lightning-button
-                    variant="Neutral"
-                    label={labels.addColumn}
-                    title={labels.addColumn}
-                    onclick={handleAdd}
-                    disabled={isAddDisabled}
-                ></lightning-button>
-            </span>
-        </div>
-        <div>
-            TODO: list of columns
-        </div>
-    </div>
+        <lightning-accordion active-section-name="columns" allow-multiple-sections-open class="slds-p-top_none">
+            <lightning-accordion-section name="columns" label={columnsLabel}>
+                <builder_platform_interaction-list
+                    items={columns}
+                    onaddlistitem={handleAdd}
+                    ondeletelistitem={handleDeleteColumn}
+                    add-label={labels.addColumn}
+                    max-items={maxColumns}
+                    max-items-label={labels.maxColumnsLabel}
+                >
+                    <div slot="listBody">
+                        <template for:each={columns} for:item="column" for:index="index">
+                            <builder_platform_interaction-row
+                                is-vertical
+                                item-index={index}
+                                show-delete={isColumnDeleteEnabled}
+                                show-delete-button="true"
+                                key={column.guid}
+                            >
+                                <div slot="rowBody">
+                                    <lightning-combobox
+                                        label={column.widthLabel}
+                                        value={column.width}
+                                        options={columnWidthOptions}
+                                        onchange={column.handleWidthChange}
+                                    >
+                                    </lightning-combobox>
+                                </div>
+                            </builder_platform_interaction-row>
+                        </template>
+                    </div>
+                </builder_platform_interaction-list>
+            </lightning-accordion-section>
+        </lightning-accordion>
 </template>

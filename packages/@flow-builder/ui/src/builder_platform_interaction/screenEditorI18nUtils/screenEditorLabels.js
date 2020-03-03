@@ -80,7 +80,9 @@ import dateTimeDataType from '@salesforce/label/FlowBuilderDataTypes.dateTimeDat
 import dynamicRecordChoiceLabel from '@salesforce/label/FlowBuilderNewResource.dynamicRecordChoiceLabel';
 import appExchangeButtonLabel from '@salesforce/label/FlowBuilderScreenEditor.appExchangeButtonLabel';
 import columnsSectionTitle from '@salesforce/label/FlowBuilderScreenEditor.columnsSectionTitle';
+import maxColumns from '@salesforce/label/FlowBuilderScreenEditor.maxColumns';
 import addColumn from '@salesforce/label/FlowBuilderScreenEditor.addColumn';
+import columnsWidthTitle from '@salesforce/label/FlowBuilderScreenEditor.columnsWidthTitle';
 
 export const LABELS = {
     errorRequired,
@@ -164,5 +166,7 @@ export const LABELS = {
     appExchangeButtonLabel,
     componentVisbilitySectionTitle,
     columnsSectionTitle,
-    addColumn
+    maxColumns,
+    addColumn,
+    columnsWidthTitle
 };
