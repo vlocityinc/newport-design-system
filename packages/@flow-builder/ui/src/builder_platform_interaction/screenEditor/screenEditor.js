@@ -187,9 +187,12 @@ export default class ScreenEditor extends LightningElement {
      * will be set as the selected node
      * @param {event} event - The event
      */
-
     handleAddScreenFieldToContainerFieldWithParentFocus = event => {
         this.handleAddScreenField(event);
+
+        if (event.callback) {
+            event.callback();
+        }
 
         // Get the updated parent and select it
         const parent = this.screen.getFieldByGUID(event.parent.guid);

@@ -416,7 +416,21 @@ const processFerovValueChange = (valueField, ferovDataType, typePropertyName) =>
 };
 
 /**
- * Applies changes to a screen field
+ * Update all fields in a container screen field
+ *
+ * Currently, no validation is performed
+ *
+ * @param {*} data - {field, property, currentValue, newValue, hydrated, error, newValueGuid, dataType}
+ * @returns {screenfield} - The new screenfield after the change
+ */
+const handleFieldsPropertyChange = data => {
+    return updateProperties(data.field, {
+        fields: data.newValue
+    });
+};
+
+/**
+ * Applies changes to a screen field.
  *
  * @param {*} data - {field, property, currentValue, newValue, hydrated, error, newValueGuid, dataType}
  * @returns {screenfield} - The new screenfield after the change
@@ -586,6 +600,10 @@ const handleScreenFieldPropertyChange = (data, screen, event, screenfield) => {
     let newField = null;
     if (isExtensionField(screenfield) && data.property !== 'name') {
         newField = handleExtensionFieldPropertyChange(data, event.detail.attributeIndex);
+    } else if (data.property === 'fields') {
+        // TODO: Aniko: you might want to do this differently?  I'm just making it work for now
+        // Updates the children of a screen field
+        newField = handleFieldsPropertyChange(data);
     } else {
         newField = handleStandardScreenFieldPropertyChange(data);
     }

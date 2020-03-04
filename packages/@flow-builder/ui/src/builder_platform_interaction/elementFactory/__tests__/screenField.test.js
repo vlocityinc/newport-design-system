@@ -242,7 +242,14 @@ describe('screenField', () => {
                     name: 'undefined_Column1',
                     fieldText: 'Column 1',
                     fieldType: 'Region',
-                    fields: []
+                    fields: [],
+                    inputParameters: [
+                        expect.objectContaining({
+                            name: 'width',
+                            value: 12,
+                            valueDataType: FLOW_DATA_TYPE.STRING.value
+                        })
+                    ]
                 });
             });
         });

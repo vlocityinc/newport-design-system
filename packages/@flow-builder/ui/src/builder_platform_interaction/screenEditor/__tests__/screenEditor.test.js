@@ -128,23 +128,36 @@ describe('Event handling on editor', () => {
 
         expect(screen.fields).toHaveLength(8);
     });
-    it('add screen field event adds a field to the end by default', async () => {
-        // handleAddScreenField (onaddscreenfield)
-        await ticks(1);
-        const length = screenEditorElement.node.fields.length;
-        const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
-        canvas.dispatchEvent(createAddScreenFieldEvent('Currency'));
-        expect(screenEditorElement.node.fields).toHaveLength(length + 1);
-        expect(screenEditorElement.node.fields[length].guid).toBe(screenEditorElement.getSelectedNode().guid);
-    });
 
-    it('add screen field event can add a field to a specific position', async () => {
-        await ticks(1);
-        const length = screenEditorElement.node.fields.length;
-        const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
-        canvas.dispatchEvent(createAddScreenFieldEvent('Currency', 0));
-        expect(screenEditorElement.node.fields).toHaveLength(length + 1);
-        expect(screenEditorElement.node.fields[0].guid).toBe(screenEditorElement.getSelectedNode().guid);
+    describe('add screen field', () => {
+        it('event adds a field to the end by default', async () => {
+            // handleAddScreenField (onaddscreenfield)
+            await ticks(1);
+
+            const length = screenEditorElement.node.fields.length;
+            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+            canvas.dispatchEvent(createAddScreenFieldEvent('Currency'));
+            expect(screenEditorElement.node.fields).toHaveLength(length + 1);
+            expect(screenEditorElement.node.fields[length].guid).toBe(screenEditorElement.getSelectedNode().guid);
+        });
+        it('event can add a field to a specific position', async () => {
+            await ticks(1);
+            const length = screenEditorElement.node.fields.length;
+            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
+            canvas.dispatchEvent(createAddScreenFieldEvent('Currency', 0));
+            expect(screenEditorElement.node.fields).toHaveLength(length + 1);
+            expect(screenEditorElement.node.fields[0].guid).toBe(screenEditorElement.getSelectedNode().guid);
+        });
+        it('field calls the provided callback ', async () => {
+            await ticks(1);
+
+            const callback = jest.fn();
+
+            const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
+            editor.dispatchEvent(createAddScreenFieldEvent('Column', 0, screenEditorElement.node.fields[0], callback));
+
+            expect(callback).toHaveBeenCalled();
+        });
     });
 
     describe('delete screen field event', function() {

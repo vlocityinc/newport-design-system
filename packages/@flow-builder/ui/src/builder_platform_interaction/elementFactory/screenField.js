@@ -282,6 +282,7 @@ export function createEmptyScreenFieldOfType(typeName, sectionCount = 0) {
         );
         newScreenField.fields = [newChildScreenField];
     } else if (type.name === getColumnFieldType().name) {
+        const columnWidthParameter = { name: 'width', value: 12, valueDataType: FLOW_DATA_TYPE.STRING.value };
         Object.assign(newScreenField, {
             // TODO: correct name and fieldText. Also, this code needs to be consolidated
             // with the code above that creates the default column for a new section.
@@ -289,7 +290,8 @@ export function createEmptyScreenFieldOfType(typeName, sectionCount = 0) {
             fieldText: 'Column 1',
             guid: generateGuid(),
             fieldType: 'Region',
-            fields: []
+            fields: [],
+            inputParameters: [columnWidthParameter]
         });
     } else if (
         // Always add a placeholder choice for any choice based fields.

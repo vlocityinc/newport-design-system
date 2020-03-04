@@ -48,10 +48,16 @@ export function createScreenEditorEvent(type, detail = {}, cancelable = true, co
  * @param {string} typeName - The type of the field to add
  * @param {number} position - The position in the canvas
  * @param {object} parent - The new field's parent, i.e. a column
+ * @param {function} callback - Function called after the add occurs successfully
  * @returns {event} The event
  */
-export function createAddScreenFieldEvent(typeName, position, parent = null) {
-    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED, { typeName, position, parent });
+export function createAddScreenFieldEvent(typeName, position, parent = null, callback) {
+    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED, {
+        typeName,
+        position,
+        parent,
+        callback
+    });
 }
 
 /**
