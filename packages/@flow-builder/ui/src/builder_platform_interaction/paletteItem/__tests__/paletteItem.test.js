@@ -1,6 +1,7 @@
 import { createElement } from 'lwc';
 import { PaletteItemClickedEvent } from 'builder_platform_interaction/events';
 import PaletteItem from 'builder_platform_interaction/paletteItem';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const ELEMENT_TYPE = 'myElementType';
 const GUID = 'myGuid';
@@ -28,101 +29,91 @@ const selectors = {
 
 describe('PaletteItem', () => {
     describe('details button', () => {
-        it('checks that there is no details button when detailsButton is false', () => {
+        it('checks that there is no details button when detailsButton is false', async () => {
             const paletteItem = createComponentUnderTest();
-            return Promise.resolve().then(() => {
-                const rightChevron = paletteItem.shadowRoot.querySelector(selectors.lightningButtonIcon);
-                expect(rightChevron).toBeNull();
-            });
+            await ticks(1);
+            const rightChevron = paletteItem.shadowRoot.querySelector(selectors.lightningButtonIcon);
+            expect(rightChevron).toBeNull();
         });
     });
 
     describe('link', () => {
-        it('clicks the link to dispatch a PaletteItemClickedEvent with the elementType and guid', () => {
+        it('clicks the link to dispatch a PaletteItemClickedEvent with the elementType and guid', async () => {
             const paletteItem = createComponentUnderTest();
-            return Promise.resolve().then(() => {
-                const eventCallback = jest.fn();
-                paletteItem.addEventListener(PaletteItemClickedEvent.EVENT_NAME, eventCallback);
-                const link = paletteItem.shadowRoot.querySelector(selectors.link);
-                link.click();
+            await ticks(1);
+            const eventCallback = jest.fn();
+            paletteItem.addEventListener(PaletteItemClickedEvent.EVENT_NAME, eventCallback);
+            const link = paletteItem.shadowRoot.querySelector(selectors.link);
+            link.click();
 
-                expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                    detail: {
-                        elementType: ELEMENT_TYPE,
-                        guid: GUID
-                    }
-                });
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                detail: {
+                    elementType: ELEMENT_TYPE,
+                    guid: GUID
+                }
             });
         });
     });
 
     describe('elementIcon', () => {
-        it('does not render elementIcon when the iconName is undefined', () => {
+        it('does not render elementIcon when the iconName is undefined', async () => {
             const paletteItem = createComponentUnderTest(undefined);
-            return Promise.resolve().then(() => {
-                const elementIcon = paletteItem.shadowRoot.querySelector(selectors.elementIcon);
-                expect(elementIcon).toBeNull();
-            });
+            await ticks(1);
+            const elementIcon = paletteItem.shadowRoot.querySelector(selectors.elementIcon);
+            expect(elementIcon).toBeNull();
         });
 
-        it('does not render elementIcon when the iconName is null', () => {
+        it('does not render elementIcon when the iconName is null', async () => {
             const paletteItem = createComponentUnderTest(null);
-            return Promise.resolve().then(() => {
-                const elementIcon = paletteItem.shadowRoot.querySelector(selectors.elementIcon);
-                expect(elementIcon).toBeNull();
-            });
+            await ticks(1);
+            const elementIcon = paletteItem.shadowRoot.querySelector(selectors.elementIcon);
+            expect(elementIcon).toBeNull();
         });
 
-        it('does not render elementIcon when the iconName is empty', () => {
+        it('does not render elementIcon when the iconName is empty', async () => {
             const paletteItem = createComponentUnderTest('');
-            return Promise.resolve().then(() => {
-                const elementIcon = paletteItem.shadowRoot.querySelector(selectors.elementIcon);
-                expect(elementIcon).toBeNull();
-            });
+            await ticks(1);
+            const elementIcon = paletteItem.shadowRoot.querySelector(selectors.elementIcon);
+            expect(elementIcon).toBeNull();
         });
 
-        it('renders elementIcon when the iconName is non-empty', () => {
+        it('renders elementIcon when the iconName is non-empty', async () => {
             const paletteItem = createComponentUnderTest('iconName');
-            return Promise.resolve().then(() => {
-                const elementIcon = paletteItem.shadowRoot.querySelector(selectors.elementIcon);
-                expect(elementIcon).not.toBeNull();
-            });
+            await ticks(1);
+            const elementIcon = paletteItem.shadowRoot.querySelector(selectors.elementIcon);
+            expect(elementIcon).not.toBeNull();
         });
     });
 
     describe('dragImage', () => {
-        it('returns undefined when dragImageSrc is undefined', () => {
+        it('returns undefined when dragImageSrc is undefined', async () => {
             const paletteItem = createComponentUnderTest(undefined, undefined);
-            return Promise.resolve().then(() => {
-                expect(paletteItem.dragImage).toBeUndefined();
-            });
+            await ticks(1);
+            expect(paletteItem.dragImage).toBeUndefined();
         });
 
-        it('returns undefined when dragImageSrc is null', () => {
+        it('returns undefined when dragImageSrc is null', async () => {
             const paletteItem = createComponentUnderTest(undefined, null);
-            return Promise.resolve().then(() => {
-                expect(paletteItem.dragImage).toBeUndefined();
-            });
+            await ticks(1);
+            expect(paletteItem.dragImage).toBeUndefined();
         });
 
-        it('returns undefined when dragImageSrc is empty', () => {
+        it('returns undefined when dragImageSrc is empty', async () => {
             const paletteItem = createComponentUnderTest(undefined, '');
-            return Promise.resolve().then(() => {
-                expect(paletteItem.dragImage).toBeUndefined();
-            });
+            await ticks(1);
+            expect(paletteItem.dragImage).toBeUndefined();
         });
 
-        it('returns an img element when dragImageSrc is non-empty', () => {
+        it('returns an img element when dragImageSrc is non-empty', async () => {
             const dragImageSrc = '/flow/icons/large/assignment.png';
             const expected = expect.stringMatching(new RegExp(dragImageSrc + '$'));
             const paletteItem = createComponentUnderTest(undefined, dragImageSrc);
-            return Promise.resolve().then(() => {
-                const dragImage = paletteItem.dragImage;
-                expect(dragImage).not.toBeUndefined();
-                expect(dragImage.tagName).toEqual('IMG');
-                expect(dragImage.src).toEqual(expected);
-            });
+            await ticks(1);
+            const dragImage = paletteItem.dragImage;
+            expect(dragImage).not.toBeUndefined();
+            expect(dragImage.tagName).toEqual('IMG');
+            expect(dragImage.src).toEqual(expected);
         });
     });
 });

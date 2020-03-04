@@ -2,6 +2,7 @@ import { createElement } from 'lwc';
 import ResourcedRichTextEditor from '../resourcedRichTextEditor';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { RichTextPlainTextSwitchChangedEvent } from 'builder_platform_interaction/events';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -214,21 +215,19 @@ describe('ResourcedRichTextEditor', () => {
             inputRichTextElement = getChildElement(resourcedRichTextEditor, SELECTORS.INPUT_RICH_TEXT);
             resourcePicker = getChildElement(resourcedRichTextEditor, SELECTORS.FEROV_RESOURCE_PICKER);
         });
-        it('Should insert corresponding merge field in the text when an item is selected', () => {
+        it('Should insert corresponding merge field in the text when an item is selected', async () => {
             const itemSelectedEvent = new CustomEvent('itemselected', {
                 detail: { item: { displayText: '{$Flow.CurrentDate}' } }
             });
             resourcePicker.dispatchEvent(itemSelectedEvent);
-            return Promise.resolve().then(() => {
-                expect(inputRichTextElement.insertTextAtCursor).toHaveBeenCalledWith('{$Flow.CurrentDate}');
-            });
+            await ticks(1);
+            expect(inputRichTextElement.insertTextAtCursor).toHaveBeenCalledWith('{$Flow.CurrentDate}');
         });
-        it('Should reset value on focusout', () => {
+        it('Should reset value on focusout', async () => {
             resourcePicker.value = '';
             resourcePicker.dispatchEvent(focusoutEvent);
-            return Promise.resolve().then(() => {
-                expect(resourcePicker.value).toBeNull();
-            });
+            await ticks(1);
+            expect(resourcePicker.value).toBeNull();
         });
     });
     describe('Plain text mode', () => {
@@ -278,7 +277,7 @@ describe('ResourcedRichTextEditor', () => {
             });
         });
         describe('Change mode via UI (button menu)', () => {
-            it('Enable it', () => {
+            it('Enable it', async () => {
                 resourcedRichTextEditor = createComponentUnderTest({
                     plainTextAvailable: true
                 });
@@ -287,11 +286,10 @@ describe('ResourcedRichTextEditor', () => {
                     SELECTORS.RICH_TEXT_PLAIN_TEXT_SWITCH
                 );
                 richTextPlainTextSwitchCompo.dispatchEvent(new RichTextPlainTextSwitchChangedEvent(true));
-                return Promise.resolve().then(() => {
-                    expect(resourcedRichTextEditor).toMatchSnapshot();
-                });
+                await ticks(1);
+                expect(resourcedRichTextEditor).toMatchSnapshot();
             });
-            it('Disable it', () => {
+            it('Disable it', async () => {
                 resourcedRichTextEditor = createComponentUnderTest({
                     plainTextAvailable: true,
                     isPlainTextMode: true
@@ -302,9 +300,8 @@ describe('ResourcedRichTextEditor', () => {
                     SELECTORS.RICH_TEXT_PLAIN_TEXT_SWITCH
                 );
                 richTextPlainTextSwitchCompo.dispatchEvent(new RichTextPlainTextSwitchChangedEvent(false));
-                return Promise.resolve().then(() => {
-                    expect(resourcedRichTextEditor).toMatchSnapshot();
-                });
+                await ticks(1);
+                expect(resourcedRichTextEditor).toMatchSnapshot();
             });
         });
     });

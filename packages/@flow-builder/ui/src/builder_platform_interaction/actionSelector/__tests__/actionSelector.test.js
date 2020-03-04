@@ -4,6 +4,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { ValueChangedEvent, ComboboxStateChangedEvent, ActionsLoadedEvent } from 'builder_platform_interaction/events';
 import { mockActions, mockApexPlugins, mockSubflows } from 'mock/calloutData';
 import { LABELS } from '../actionSelectorLabels';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-action-selector', {
@@ -42,7 +43,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
                 case SERVER_ACTION_TYPE.GET_SUBFLOWS:
                     return mockSubflowsPromise;
                 default:
-                    return Promise.reject();
+                    return Promise.reject().catch(() => {});
             }
         }
     };
@@ -54,9 +55,9 @@ describe('Action selector', () => {
         actionSelectorComponent.shadowRoot.querySelector(selectors.lightningInteractionCombobox);
     const groupedCombobox = () => interactionCombobox().shadowRoot.querySelector(selectors.lightningGroupedCombobox);
     afterEach(() => {
-        mockActionsPromise = Promise.resolve(mockActions);
-        mockApexPluginsPromise = Promise.resolve(mockApexPlugins);
-        mockSubflowsPromise = Promise.resolve(mockSubflows);
+        mockActionsPromise = Promise.resolve(mockActions).catch(() => {});
+        mockApexPluginsPromise = Promise.resolve(mockApexPlugins).catch(() => {});
+        mockSubflowsPromise = Promise.resolve(mockSubflows).catch(() => {});
     });
     describe('By default', () => {
         beforeEach(() => {
@@ -89,7 +90,7 @@ describe('Action selector', () => {
             });
         };
         beforeEach(() => {
-            mockApexPluginsPromise = Promise.resolve([]);
+            mockApexPluginsPromise = Promise.resolve([]).catch(() => {});
             actionSelectorComponent = createComponentUnderTest();
             actionsChangedEventCallback = jest.fn();
             document.addEventListener(ActionsLoadedEvent.EVENT_NAME, actionsChangedEventCallback);
@@ -156,7 +157,7 @@ describe('Action selector', () => {
     });
     describe('When there are no actions for a given action type', () => {
         beforeEach(() => {
-            mockApexPluginsPromise = Promise.resolve([]);
+            mockApexPluginsPromise = Promise.resolve([]).catch(() => {});
             actionSelectorComponent = createComponentUnderTest();
         });
         it('the second combobox should be disabled', async () => {
@@ -169,9 +170,9 @@ describe('Action selector', () => {
     });
     describe('When error occurs when retrieving data from server', () => {
         beforeEach(() => {
-            mockApexPluginsPromise = Promise.reject(mockError);
-            mockActionsPromise = Promise.reject(mockError);
-            mockSubflowsPromise = Promise.reject(mockError);
+            mockApexPluginsPromise = Promise.reject(mockError).catch(() => {});
+            mockActionsPromise = Promise.reject(mockError).catch(() => {});
+            mockSubflowsPromise = Promise.reject(mockError).catch(() => {});
             actionSelectorComponent = createComponentUnderTest();
         });
         test('Second combobox should be disabled', () => {
@@ -284,7 +285,7 @@ describe('Action selector', () => {
                 value: { elementType: ELEMENT_TYPE.ACTION_CALL }
             });
         });
-        it('should remove errors after they are corrected', () => {
+        it('should remove errors after they are corrected', async () => {
             // set an error
             dispatchActionChangeEvent(null, '');
             expect(eventCallback).toHaveBeenCalled();
@@ -315,7 +316,7 @@ describe('Action selector', () => {
                 elementType: ELEMENT_TYPE.ACTION_CALL
             };
         });
-        it('should display the corresponding action label in the Action combobox', () => {
+        it('should display the corresponding action label in the Action combobox', async () => {
             expect(interactionCombobox().value.displayText).toBe('Send Email');
         });
     });
@@ -326,34 +327,30 @@ describe('Action selector', () => {
             actionSelectorComponent.invocableActions = mockActions;
             actionSelectorComponent.invocableActionsFetched = true;
         });
-        it('should be "{UniqueName}" for global quick actions', () => {
-            return Promise.resolve().then(() => {
-                const item = groupedComboboxItemWithValue('quickAction-mynamespace__LogACall');
-                expect(item.subText).toBe('quickAction-mynamespace__LogACall');
-            });
+        it('should be "{UniqueName}" for global quick actions', async () => {
+            await ticks(1);
+            const item = groupedComboboxItemWithValue('quickAction-mynamespace__LogACall');
+            expect(item.subText).toBe('quickAction-mynamespace__LogACall');
         });
-        it('should be "{Uniquename}" for object quick actions', () => {
-            return Promise.resolve().then(() => {
-                const item = groupedComboboxItemWithValue('quickAction-Case.mynamespace__LogACall');
-                expect(item.subText).toBe('quickAction-Case.mynamespace__LogACall');
-            });
+        it('should be "{Uniquename}" for object quick actions', async () => {
+            await ticks(1);
+            const item = groupedComboboxItemWithValue('quickAction-Case.mynamespace__LogACall');
+            expect(item.subText).toBe('quickAction-Case.mynamespace__LogACall');
         });
         it('should be "{Unique Name}" for subflows', async () => {
             actionSelectorComponent.selectedAction = {
                 elementType: ELEMENT_TYPE.SUBFLOW
             };
-            return Promise.resolve().then(() => {
-                const item = groupedComboboxItemWithValue('mynamespace__LFB_Sample_Huge_Flow');
-                expect(item.subText).toBe('mynamespace__LFB_Sample_Huge_Flow');
-            });
+            await ticks(1);
+            const item = groupedComboboxItemWithValue('mynamespace__LFB_Sample_Huge_Flow');
+            expect(item.subText).toBe('mynamespace__LFB_Sample_Huge_Flow');
         });
         it('should be "{Unique Name}" for apex plugins', async () => {
             actionSelectorComponent.selectedFilterBy = LABELS.filterByTypeOption;
             actionSelectorComponent.selectedCategory = ELEMENT_TYPE.APEX_PLUGIN_CALL;
-            return Promise.resolve().then(() => {
-                const item = groupedComboboxItemWithValue('mynamespace__lookUpAccountPlugin');
-                expect(item.subText).toBe('mynamespace__lookUpAccountPlugin');
-            });
+            await ticks(1);
+            const item = groupedComboboxItemWithValue('mynamespace__lookUpAccountPlugin');
+            expect(item.subText).toBe('mynamespace__lookUpAccountPlugin');
         });
     });
 });

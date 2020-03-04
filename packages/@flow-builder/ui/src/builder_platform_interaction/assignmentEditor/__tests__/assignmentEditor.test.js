@@ -10,6 +10,7 @@ import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -85,92 +86,84 @@ describe('assignment-editor', () => {
     afterAll(() => {
         Store.resetStore();
     });
-    it('handles the property changed event and updates the property', () => {
+    it('handles the property changed event and updates the property', async () => {
         const assignmentElement = createComponentForTest();
         assignmentElement.node = deepCopy(testObj);
-        return Promise.resolve().then(() => {
-            const event = new PropertyChangedEvent('description', 'new desc', null);
-            assignmentElement.shadowRoot
-                .querySelector('builder_platform_interaction-label-description')
-                .dispatchEvent(event);
-            expect(assignmentElement.node.description.value).toBe('new desc');
-        });
+        await ticks(1);
+        const event = new PropertyChangedEvent('description', 'new desc', null);
+        assignmentElement.shadowRoot
+            .querySelector('builder_platform_interaction-label-description')
+            .dispatchEvent(event);
+        expect(assignmentElement.node.description.value).toBe('new desc');
     });
-    it('handles the add list item changed event and updates the assignmentItems array', () => {
+    it('handles the add list item changed event and updates the assignmentItems array', async () => {
         const assignmentElement = createComponentForTest();
         assignmentElement.node = deepCopy(testObj);
-        return Promise.resolve().then(() => {
-            const event = new AddListItemEvent(1);
-            assignmentElement.shadowRoot.querySelector('builder_platform_interaction-list').dispatchEvent(event);
-            expect(assignmentElement.node.assignmentItems).toHaveLength(2);
-        });
+        await ticks(1);
+        const event = new AddListItemEvent(1);
+        assignmentElement.shadowRoot.querySelector('builder_platform_interaction-list').dispatchEvent(event);
+        expect(assignmentElement.node.assignmentItems).toHaveLength(2);
     });
-    it('handles the delete list item changed event and updates the assignmentItems array', () => {
+    it('handles the delete list item changed event and updates the assignmentItems array', async () => {
         const assignmentElement = createComponentForTest();
         assignmentElement.node = deepCopy(testObj);
-        return Promise.resolve().then(() => {
-            const event = new DeleteListItemEvent(0);
-            assignmentElement.shadowRoot.querySelector('builder_platform_interaction-list').dispatchEvent(event);
-            expect(assignmentElement.node.assignmentItems).toHaveLength(0);
-        });
+        await ticks(1);
+        const event = new DeleteListItemEvent(0);
+        assignmentElement.shadowRoot.querySelector('builder_platform_interaction-list').dispatchEvent(event);
+        expect(assignmentElement.node.assignmentItems).toHaveLength(0);
     });
-    it('handles the update list item changed event and updates the assignmentItems array', () => {
+    it('handles the update list item changed event and updates the assignmentItems array', async () => {
         const assignmentElement = createComponentForTest();
         assignmentElement.node = deepCopy(testObj);
-        return Promise.resolve().then(() => {
-            const event = new UpdateListItemEvent(0, {
-                leftHandSide: { value: 'val', error: 'err' }
-            });
-            assignmentElement.shadowRoot.querySelector('builder_platform_interaction-list').dispatchEvent(event);
-            expect(assignmentElement.node.assignmentItems[0].leftHandSide.value).toBe('val');
+        await ticks(1);
+        const event = new UpdateListItemEvent(0, {
+            leftHandSide: { value: 'val', error: 'err' }
         });
+        assignmentElement.shadowRoot.querySelector('builder_platform_interaction-list').dispatchEvent(event);
+        expect(assignmentElement.node.assignmentItems[0].leftHandSide.value).toBe('val');
     });
-    it('shows delete when more than 1 item', () => {
+    it('shows delete when more than 1 item', async () => {
         const assignmentElement = createComponentForTest();
         const node = deepCopy(testObj);
         node.assignmentItems = deepCopy(size2);
         assignmentElement.node = node;
-        return Promise.resolve().then(() => {
-            const rows = assignmentElement.shadowRoot.querySelectorAll('builder_platform_interaction-row');
-            rows.forEach(row => {
-                expect(row.showDelete).toBe(true);
-            });
+        await ticks(1);
+        const rows = assignmentElement.shadowRoot.querySelectorAll('builder_platform_interaction-row');
+        rows.forEach(row => {
+            expect(row.showDelete).toBe(true);
         });
     });
-    it('doesnt show delete when exactly 1 item', () => {
+    it('doesnt show delete when exactly 1 item', async () => {
         const assignmentElement = createComponentForTest();
         const node = deepCopy(testObj);
         node.assignmentItems = deepCopy(size1);
         assignmentElement.node = node;
-        return Promise.resolve().then(() => {
-            const rows = assignmentElement.shadowRoot.querySelectorAll('builder_platform_interaction-row');
-            rows.forEach(row => {
-                expect(row.showDelete).toBe(false);
-            });
+        await ticks(1);
+        const rows = assignmentElement.shadowRoot.querySelectorAll('builder_platform_interaction-row');
+        rows.forEach(row => {
+            expect(row.showDelete).toBe(false);
         });
     });
 
-    it('sets lhs to be writable', () => {
+    it('sets lhs to be writable', async () => {
         const assignmentElement = createComponentForTest();
         assignmentElement.node = deepCopy(testObj);
-        return Promise.resolve().then(() => {
-            const ferToFerov = assignmentElement.shadowRoot.querySelector(
-                'builder_platform_interaction-fer-to-ferov-expression-builder'
-            );
-            expect(ferToFerov.lhsMustBeWritable).toEqual(true);
-        });
+        await ticks(1);
+        const ferToFerov = assignmentElement.shadowRoot.querySelector(
+            'builder_platform_interaction-fer-to-ferov-expression-builder'
+        );
+        expect(ferToFerov.lhsMustBeWritable).toEqual(true);
     });
 
-    it('sets the default operator to Assign', () => {
+    it('sets the default operator to Assign', async () => {
         const assignmentEditor = createComponentForTest();
         const node = deepCopy(testObj);
         node.assignmentItems = deepCopy(size1);
         assignmentEditor.node = node;
-        return Promise.resolve().then(() => {
-            const ferToFerov = assignmentEditor.shadowRoot.querySelector(
-                'builder_platform_interaction-fer-to-ferov-expression-builder'
-            );
-            expect(ferToFerov.defaultOperator).toEqual(RULE_OPERATOR.ASSIGN);
-        });
+        await ticks(1);
+        const ferToFerov = assignmentEditor.shadowRoot.querySelector(
+            'builder_platform_interaction-fer-to-ferov-expression-builder'
+        );
+        expect(ferToFerov.defaultOperator).toEqual(RULE_OPERATOR.ASSIGN);
     });
 });

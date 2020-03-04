@@ -3,6 +3,7 @@ import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverDa
 import { subflowAutomaticOutput } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -36,15 +37,15 @@ describe('resource-details-parameters-subflow', () => {
             ${undefined}
             ${''}
             ${'GUID_NOT_IN_STORE'}
-        `('Invalid resource: "$resourceGuid"', ({ resourceGuid }) => {
+        `('Invalid resource: "$resourceGuid"', async ({ resourceGuid }) => {
             fetchSubflowOutputFetchFunc(resourceGuid, callback);
-            return Promise.resolve().then(() =>
-                expect(callback).toHaveBeenCalledWith([], `No resource found for GUID: ${resourceGuid}`)
-            );
+            await ticks(1);
+            expect(callback).toHaveBeenCalledWith([], `No resource found for GUID: ${resourceGuid}`);
         });
-        test('Existing resourceGuid', () => {
+        test('Existing resourceGuid', async () => {
             fetchSubflowOutputFetchFunc(subflowAutomaticOutput.guid, callback);
-            return Promise.resolve().then(() => expect(callback).not.toHaveBeenCalledWith([], expect.any(String)));
+            await ticks(1);
+            expect(callback).not.toHaveBeenCalledWith([], expect.any(String));
         });
     });
     describe('mapperSubflowOutputParameter', () => {

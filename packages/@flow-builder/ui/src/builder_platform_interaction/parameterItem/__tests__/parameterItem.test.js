@@ -10,6 +10,7 @@ import {
 import { stringVariable } from 'mock/storeData';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
@@ -318,17 +319,16 @@ describe('parameter-item', () => {
         });
     });
     describe('handling onchange from input toggle', () => {
-        it('should show the combobox for optional input parameter when toggle from OFF to ON ', () => {
+        it('should show the combobox for optional input parameter when toggle from OFF to ON ', async () => {
             const parameterItemCmp = createComponentForTest({
                 item: createMockParameterItem(false, FLOW_DATA_TYPE.STRING.value),
                 isInput: true
             });
             const toggleInput = getLightningInputToggle(parameterItemCmp);
             toggleInput.dispatchEvent(new ToggleOnChangeEvent());
-            return Promise.resolve().then(() => {
-                expect(getHiddenFerovResourcePickerElement(parameterItemCmp)).toBeNull();
-                expect(getFerovResourcePickerElement(parameterItemCmp)).not.toBeNull();
-            });
+            await ticks(1);
+            expect(getHiddenFerovResourcePickerElement(parameterItemCmp)).toBeNull();
+            expect(getFerovResourcePickerElement(parameterItemCmp)).not.toBeNull();
         });
         it('should hide the combobox for optional input parameter when toggle from ON to OFF ', () => {
             const parameterItemCmp = createComponentForTest({
@@ -349,7 +349,7 @@ describe('parameter-item', () => {
                     expect(getHiddenFerovResourcePickerElement(parameterItemCmp)).not.toBeNull();
                 });
         });
-        it('should hide the comboBox when toggle OFF ', () => {
+        it('should hide the comboBox when toggle OFF ', async () => {
             const parameterItemCmp = createComponentForTest({
                 item: createMockParameterItem(
                     false,
@@ -362,9 +362,8 @@ describe('parameter-item', () => {
             const toggleInput = getLightningInputToggle(parameterItemCmp);
             // from ON to OFF
             toggleInput.dispatchEvent(new ToggleOffChangeEvent());
-            return Promise.resolve().then(() => {
-                expect(getHiddenFerovResourcePickerElement(parameterItemCmp)).not.toBeNull();
-            });
+            await ticks(1);
+            expect(getHiddenFerovResourcePickerElement(parameterItemCmp)).not.toBeNull();
         });
         it('should preserve the value for optional input parameter when toggle OFF', () => {
             const parameterItemCmp = createComponentForTest({
@@ -437,7 +436,7 @@ describe('parameter-item', () => {
         });
     });
     describe('handling value change event from combobox', () => {
-        it('should fire UpdateParameterItemEvent', () => {
+        it('should fire UpdateParameterItemEvent', async () => {
             const parameterItemCmp = createComponentForTest({
                 item: createMockParameterItem(
                     false,
@@ -454,20 +453,19 @@ describe('parameter-item', () => {
             const cbChangeEvent = new ComboboxStateChangedEvent(null, newParamValue);
             const ferovResourcePicker = getFerovResourcePickerElement(parameterItemCmp);
             ferovResourcePicker.dispatchEvent(cbChangeEvent);
-            return Promise.resolve().then(() => {
-                expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                    detail: {
-                        isInput: true,
-                        name: parameterName,
-                        value: newParamValue,
-                        valueDataType: FEROV_DATA_TYPE.STRING,
-                        rowIndex: expect.any(String)
-                    }
-                });
+            await ticks(1);
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                detail: {
+                    isInput: true,
+                    name: parameterName,
+                    value: newParamValue,
+                    valueDataType: FEROV_DATA_TYPE.STRING,
+                    rowIndex: expect.any(String)
+                }
             });
         });
-        it('should not fire UpdateParameterItemEvent if parameter is an optional input collection and it has no value', () => {
+        it('should not fire UpdateParameterItemEvent if parameter is an optional input collection and it has no value', async () => {
             const parameterItemCmp = createComponentForTest({
                 item: createMockParameterItem(false, FLOW_DATA_TYPE.STRING.value, null, null, null, 5),
                 isInput: true
@@ -478,9 +476,8 @@ describe('parameter-item', () => {
             const cbChangeEvent = new ComboboxStateChangedEvent(null, newParamValue);
             const ferovResourcePicker = getFerovResourcePickerElement(parameterItemCmp);
             ferovResourcePicker.dispatchEvent(cbChangeEvent);
-            return Promise.resolve().then(() => {
-                expect(eventCallback).not.toHaveBeenCalled();
-            });
+            await ticks(1);
+            expect(eventCallback).not.toHaveBeenCalled();
         });
     });
     describe('showing badge and icon', () => {
@@ -583,19 +580,18 @@ describe('parameter-item', () => {
         it('should hide toggle input', () => {
             expect(getLightningInputToggle(parameterItemCmp)).toBeNull();
         });
-        it('should fire DeleteParameterItemEvent when delete button is clicked', () => {
+        it('should fire DeleteParameterItemEvent when delete button is clicked', async () => {
             const eventCallback = jest.fn();
             parameterItemCmp.addEventListener(DeleteParameterItemEvent.EVENT_NAME, eventCallback);
             deleteBtn.dispatchEvent(new DeleteButtonClickEvent());
-            return Promise.resolve().then(() => {
-                expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                    detail: {
-                        isInput: true,
-                        name: parameterName,
-                        rowIndex: expect.any(String)
-                    }
-                });
+            await ticks(1);
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                detail: {
+                    isInput: true,
+                    name: parameterName,
+                    rowIndex: expect.any(String)
+                }
             });
         });
     });

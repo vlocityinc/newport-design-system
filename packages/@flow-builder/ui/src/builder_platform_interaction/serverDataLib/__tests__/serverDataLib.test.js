@@ -6,6 +6,7 @@ import {
     resetFetchOnceCache,
     isAlreadyFetched
 } from '../serverDataLib';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 describe('Fetch function', () => {
     beforeEach(() => {
@@ -24,31 +25,28 @@ describe('Fetch function', () => {
             setAuraFetch(mockAuraFetch);
         });
 
-        it('executes callback', () => {
+        it('executes callback', async () => {
             const mockCallback = jest.fn();
             fetch(SERVER_ACTION_TYPE.GET_FLOW, mockCallback);
-            return Promise.resolve().then(() => {
-                expect(mockCallback).toHaveBeenCalled();
-            });
+            await ticks(1);
+            expect(mockCallback).toHaveBeenCalled();
         });
 
-        it('does not executes callback when stopCallbackExecution is called', () => {
+        it('does not executes callback when stopCallbackExecution is called', async () => {
             const mockCallback = jest.fn();
             const stopCallbackExecution = fetch(SERVER_ACTION_TYPE.GET_FLOW, mockCallback);
             stopCallbackExecution();
-            return Promise.resolve().then(() => {
-                expect(mockCallback).not.toHaveBeenCalled();
-            });
+            await ticks(1);
+            expect(mockCallback).not.toHaveBeenCalled();
         });
     });
 
     describe('auraFetch is undefined', () => {
-        it('does not executes callback', () => {
+        it('does not executes callback', async () => {
             const mockCallback = jest.fn();
             fetch(SERVER_ACTION_TYPE.GET_FLOW, mockCallback);
-            return Promise.resolve().then(() => {
-                expect(mockCallback).not.toHaveBeenCalled();
-            });
+            await ticks(1);
+            expect(mockCallback).not.toHaveBeenCalled();
         });
     });
 });

@@ -1,6 +1,7 @@
 import { createElement } from 'lwc';
 import ResourcedTextarea from '../resourcedTextarea';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -32,7 +33,7 @@ const selectors = {
     ferovResourcePicker: 'builder_platform_interaction-ferov-resource-picker'
 };
 
-function verifyItemInsertion(
+async function verifyItemInsertion(
     existingText,
     selectionStart,
     selectionEnd,
@@ -50,14 +51,13 @@ function verifyItemInsertion(
         detail: { item: { displayText: itemText } }
     });
     ferovResourcePicker.dispatchEvent(itemSelectedEvent);
-    return Promise.resolve().then(() => {
-        expect(element.value).toBe(existingText);
-        expect(textarea.value).toBe(expectedFinalText);
-        expect(textarea.selectionStart).toBe(expectedFinalCursorPosition);
-        expect(textarea.selectionEnd).toBe(expectedFinalCursorPosition);
-        expect(ferovResourcePicker.value).toBeNull();
-        expect(changeEventCallback).toHaveBeenCalled();
-    });
+    await ticks(1);
+    expect(element.value).toBe(existingText);
+    expect(textarea.value).toBe(expectedFinalText);
+    expect(textarea.selectionStart).toBe(expectedFinalCursorPosition);
+    expect(textarea.selectionEnd).toBe(expectedFinalCursorPosition);
+    expect(ferovResourcePicker.value).toBeNull();
+    expect(changeEventCallback).toHaveBeenCalled();
 }
 
 describe('Resourced text area label', () => {
@@ -129,7 +129,7 @@ describe('Item selection from the resource picker', () => {
         const finalText = 'Sample {!var}';
         return verifyItemInsertion(existingText, 7, existingText.length, finalText, finalText.length);
     });
-    it('Should not do anything if it has a next item', () => {
+    it('Should not do anything if it has a next item', async () => {
         const existingText = 'Sample Text';
         const element = createComponentUnderTest({ value: existingText });
         const textarea = element.shadowRoot.querySelector(selectors.textarea);
@@ -142,14 +142,13 @@ describe('Item selection from the resource picker', () => {
         element.addEventListener(changeEventName, changeEventCallback);
         ferovResourcePicker.value = resourcePickerVal;
         ferovResourcePicker.dispatchEvent(itemSelectedEvent2);
-        return Promise.resolve().then(() => {
-            expect(element.value).toBe(existingText);
-            expect(textarea.value).toBe(existingText);
-            expect(textarea.selectionStart).toBe(0);
-            expect(textarea.selectionEnd).toBe(0);
-            expect(ferovResourcePicker.value).toBe(resourcePickerVal);
-            expect(changeEventCallback).not.toHaveBeenCalled();
-        });
+        await ticks(1);
+        expect(element.value).toBe(existingText);
+        expect(textarea.value).toBe(existingText);
+        expect(textarea.selectionStart).toBe(0);
+        expect(textarea.selectionEnd).toBe(0);
+        expect(ferovResourcePicker.value).toBe(resourcePickerVal);
+        expect(changeEventCallback).not.toHaveBeenCalled();
     });
 });
 

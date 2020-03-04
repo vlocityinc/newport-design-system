@@ -2,6 +2,7 @@ import CustomPropertyEditor from '../customPropertyEditor';
 import { createElement } from 'lwc';
 import { createConfigurationEditor } from 'builder_platform_interaction/builderUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -95,7 +96,7 @@ describe('Custom Property Editor', () => {
 
         expect(cpe.flowContext).toMatchObject(mockFlowContext);
     });
-    it('creates the config editor when there is data and a configuration editor ', () => {
+    it('creates the config editor when there is data and a configuration editor ', async () => {
         const cpe = createComponentForTest({
             configurationEditor: {
                 name: 'c-test_editor',
@@ -106,21 +107,19 @@ describe('Custom Property Editor', () => {
         const proxy = new Proxy(mockConfgurationEditorProperties, {});
         cpe.configurationEditorProperties = proxy;
 
-        return Promise.resolve().then(() => {
-            expect(createConfigurationEditor).toHaveBeenCalled();
-        });
+        await ticks(1);
+        expect(createConfigurationEditor).toHaveBeenCalled();
     });
-    it('does not create a config editor when there is no configuration editor ', () => {
+    it('does not create a config editor when there is no configuration editor ', async () => {
         const cpe = createComponentForTest();
 
         const proxy = new Proxy(mockConfgurationEditorProperties, {});
         cpe.configurationEditorProperties = proxy;
 
-        return Promise.resolve().then(() => {
-            expect(createConfigurationEditor).not.toHaveBeenCalled();
-        });
+        await ticks(1);
+        expect(createConfigurationEditor).not.toHaveBeenCalled();
     });
-    it('does not creates the config editor when configuration editor is defined but there are errors', () => {
+    it('does not creates the config editor when configuration editor is defined but there are errors', async () => {
         const cpe = createComponentForTest({
             configurationEditor: {
                 name: 'c-test_editor',
@@ -131,8 +130,7 @@ describe('Custom Property Editor', () => {
         const proxy = new Proxy(mockConfgurationEditorProperties, {});
         cpe.configurationEditorProperties = proxy;
 
-        return Promise.resolve().then(() => {
-            expect(createConfigurationEditor).not.toHaveBeenCalled();
-        });
+        await ticks(1);
+        expect(createConfigurationEditor).not.toHaveBeenCalled();
     });
 });

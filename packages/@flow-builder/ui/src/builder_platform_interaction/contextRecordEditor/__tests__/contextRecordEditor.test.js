@@ -11,6 +11,7 @@ import StartEditor from '../contextRecordEditor';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import * as store from 'mock/storeData';
 import * as expressionUtilsMock from 'builder_platform_interaction/expressionUtils';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -198,40 +199,35 @@ describe('start-editor', () => {
             expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(store.accountSObjectVariable);
             startElement = createComponentForTest(scheduledNewStartElementWithFilters());
         });
-        it('handles "entityResourcePicker" value changed event', () => {
+        it('handles "entityResourcePicker" value changed event', async () => {
             entityResourcePicker = getEntityResourcePicker(startElement);
             entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
-            return Promise.resolve().then(() => {
-                expect(entityResourcePicker.value).toBe('guid1');
-            });
+            await ticks(1);
+            expect(entityResourcePicker.value).toBe('guid1');
         });
-        it('handle UpdateRecordFilterEvent should update the filter element', () => {
+        it('handle UpdateRecordFilterEvent should update the filter element', async () => {
             const updateRecordFilterEvent = new UpdateRecordFilterEvent(0, filterElement, null);
             getRecordFilter(startElement).dispatchEvent(updateRecordFilterEvent);
-            return Promise.resolve().then(() => {
-                expect(startElement.node.filters[0]).toMatchObject(filterElement);
-            });
+            await ticks(1);
+            expect(startElement.node.filters[0]).toMatchObject(filterElement);
         });
-        it('handle AddRecordFilterEvent should add a filter element', () => {
+        it('handle AddRecordFilterEvent should add a filter element', async () => {
             const addRecordFilterEvent = new AddRecordFilterEvent(); // This is using the numerical rowIndex not the property rowIndex
             getRecordFilter(startElement).dispatchEvent(addRecordFilterEvent);
-            return Promise.resolve().then(() => {
-                expect(startElement.node.filters).toHaveLength(2);
-            });
+            await ticks(1);
+            expect(startElement.node.filters).toHaveLength(2);
         });
-        it('handle record filter type Change event', () => {
+        it('handle record filter type Change event', async () => {
             const recordFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(RECORD_FILTER_CRITERIA.ALL);
             getRecordFilter(startElement).dispatchEvent(recordFilterTypeChangedEvent);
-            return Promise.resolve().then(() => {
-                expect(startElement.node.filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
-            });
+            await ticks(1);
+            expect(startElement.node.filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
         });
-        it('record filter fire DeleteRecordFilterEvent', () => {
+        it('record filter fire DeleteRecordFilterEvent', async () => {
             const deleteRecordFilterEvent = new DeleteRecordFilterEvent(0); // This is using the numerical rowIndex not the property rowIndex
             getRecordFilter(startElement).dispatchEvent(deleteRecordFilterEvent);
-            return Promise.resolve().then(() => {
-                expect(startElement.node.filters).toHaveLength(0);
-            });
+            await ticks(1);
+            expect(startElement.node.filters).toHaveLength(0);
         });
     });
 });

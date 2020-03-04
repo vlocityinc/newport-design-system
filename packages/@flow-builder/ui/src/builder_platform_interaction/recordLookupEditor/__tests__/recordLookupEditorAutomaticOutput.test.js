@@ -16,7 +16,7 @@ import {
     lookupRecordAutomaticOutputWithFields,
     lookupRecordOutputReference as lookupRecordManual
 } from 'mock/storeData';
-import { deepQuerySelector } from 'builder_platform_interaction/builderTestUtils';
+import { deepQuerySelector, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 
@@ -269,16 +269,15 @@ describe('record-lookup-editor', () => {
                 it(`entity picker (object) value should be "${defaultValueItem.item.value}"`, () => {
                     expect(getEntityResourcePicker(recordLookupEditor).value).toBe(defaultValueItem.item.value);
                 });
-                it('Variable and Field Mapping radiobutton group should be visible and Automatic should be selected', () => {
-                    return Promise.resolve().then(() => {
-                        const variableAndFieldMappingRadioButtonGroup = getVariableAndFieldMappingRadioButtonGroup(
-                            recordLookupEditor
-                        );
-                        expect(variableAndFieldMappingRadioButtonGroup).toBeDefined();
-                        expect(variableAndFieldMappingRadioButtonGroup.value).toBe(
-                            VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC
-                        );
-                    });
+                it('Variable and Field Mapping radiobutton group should be visible and Automatic should be selected', async () => {
+                    await ticks(1);
+                    const variableAndFieldMappingRadioButtonGroup = getVariableAndFieldMappingRadioButtonGroup(
+                        recordLookupEditor
+                    );
+                    expect(variableAndFieldMappingRadioButtonGroup).toBeDefined();
+                    expect(variableAndFieldMappingRadioButtonGroup.value).toBe(
+                        VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC
+                    );
                 });
             });
         });
@@ -313,28 +312,25 @@ describe('record-lookup-editor', () => {
                         new OnChangeEvent(VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL)
                     );
                 });
-                test('check UI - child components displayed or not (snapshot)', () => {
-                    return Promise.resolve().then(() => {
-                        expect(recordLookupEditor).toMatchSnapshot();
-                    });
+                test('check UI - child components displayed or not (snapshot)', async () => {
+                    await ticks(1);
+                    expect(recordLookupEditor).toMatchSnapshot();
                 });
-                it('Use adavanced checkbox should be checked', () => {
-                    return Promise.resolve().then(() => {
-                        expect(variableAndFieldMappingRadioButtonGroup.value).toBe(
-                            VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL
-                        );
-                    });
+                it('Use adavanced checkbox should be checked', async () => {
+                    await ticks(1);
+                    expect(variableAndFieldMappingRadioButtonGroup.value).toBe(
+                        VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL
+                    );
                 });
                 it('recordSobjectAndQueryFields should be displayed', () => {
                     const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(recordLookupEditor);
                     expect(recordSobjectAndQueryFields).toBeDefined();
                 });
-                it('"way to store" value should be "sobjectvariable"', () => {
-                    return Promise.resolve().then(() => {
-                        const wayToStoreFields = getManualWayToStoreFields(recordLookupEditor);
-                        expect(wayToStoreFields).toBeDefined();
-                        expect(wayToStoreFields.value).toBe(WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE);
-                    });
+                it('"way to store" value should be "sobjectvariable"', async () => {
+                    await ticks(1);
+                    const wayToStoreFields = getManualWayToStoreFields(recordLookupEditor);
+                    expect(wayToStoreFields).toBeDefined();
+                    expect(wayToStoreFields.value).toBe(WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE);
                 });
             });
         });
@@ -372,40 +368,35 @@ describe('record-lookup-editor', () => {
                         new OnChangeEvent(VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL)
                     );
                 });
-                test('check UI - child components displayed or not (snapshot)', () => {
-                    return Promise.resolve().then(() => {
-                        expect(recordLookupEditor).toMatchSnapshot();
-                    });
+                test('check UI - child components displayed or not (snapshot)', async () => {
+                    await ticks(1);
+                    expect(recordLookupEditor).toMatchSnapshot();
                 });
-                it('Selected value should be Manual (advanced)', () => {
-                    return Promise.resolve().then(() => {
-                        expect(variableAndFieldMappingRadioButtonGroup.value).toBe(
-                            VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL
-                        );
-                    });
+                it('Selected value should be Manual (advanced)', async () => {
+                    await ticks(1);
+                    expect(variableAndFieldMappingRadioButtonGroup.value).toBe(
+                        VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL
+                    );
                 });
-                it('should not reset query fields in place once you select an sobject variable', () => {
-                    return Promise.resolve().then(() => {
-                        const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(recordLookupEditor);
-                        const sObjectOrSObjectCollectionPicker = getsObjectOrSObjectCollectionPicker(
-                            recordSobjectAndQueryFields
-                        );
-                        sObjectOrSObjectCollectionPicker.dispatchEvent(
-                            new SObjectReferenceChangedEvent(store.accountSObjectVariable.guid)
-                        );
-                        return Promise.resolve().then(() => {
-                            expect(recordSobjectAndQueryFields.queriedFields[1].field.value).toBe('Name');
-                        });
-                    });
+                it('should not reset query fields in place once you select an sobject variable', async () => {
+                    await ticks(2);
+                    const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(recordLookupEditor);
+                    const sObjectOrSObjectCollectionPicker = getsObjectOrSObjectCollectionPicker(
+                        recordSobjectAndQueryFields
+                    );
+                    sObjectOrSObjectCollectionPicker.dispatchEvent(
+                        new SObjectReferenceChangedEvent(store.accountSObjectVariable.guid)
+                    );
+                    await ticks(1);
+                    expect(recordSobjectAndQueryFields.queriedFields[1].field.value).toBe('Name');
                 });
-                it('store option (number to store) value should be "FirstRecord"', () => {
-                    return Promise.resolve().then(() => {
-                        const numberRecordToStoreComponent = getNumberRecordToStoreComponent(recordLookupEditor);
-                        expect(numberRecordToStoreComponent).toBeDefined();
-                        expect(numberRecordToStoreComponent.numberRecordsToStoreValue).toBe(
-                            NUMBER_RECORDS_TO_STORE.FIRST_RECORD
-                        );
-                    });
+                it('store option (number to store) value should be "FirstRecord"', async () => {
+                    await ticks(1);
+                    const numberRecordToStoreComponent = getNumberRecordToStoreComponent(recordLookupEditor);
+                    expect(numberRecordToStoreComponent).toBeDefined();
+                    expect(numberRecordToStoreComponent.numberRecordsToStoreValue).toBe(
+                        NUMBER_RECORDS_TO_STORE.FIRST_RECORD
+                    );
                 });
             });
         });
@@ -418,10 +409,9 @@ describe('record-lookup-editor', () => {
                     MOCK_PROCESS_TYPE_NOT_SUPPORTING_AUTOMATIC_MODE
                 );
             });
-            it('Selected value should be Manual (advanced)', () => {
-                return Promise.resolve().then(() => {
-                    expect(getVariableAndFieldMappingComponent(recordLookupEditor)).toBeNull();
-                });
+            it('Selected value should be Manual (advanced)', async () => {
+                await ticks(1);
+                expect(getVariableAndFieldMappingComponent(recordLookupEditor)).toBeNull();
             });
             test('Store options (Way to store) should be "sObjectVariable"', () => {
                 expect(getRecordStoreOption(recordLookupEditor).wayToStoreFields).toBe(

@@ -25,6 +25,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/selectors', () => ({
     readableElementsSelector: jest.fn(data => Object.values(data.elements))
@@ -158,12 +159,11 @@ describe('variable-constant-editor', () => {
         sobjectVariable = mockStoreData.accountSObjectVariableForPropertyEditor();
     });
 
-    it('contains a variable element', () => {
+    it('contains a variable element', async () => {
         const variableEditor = setupComponentUnderTest(stringVariable);
-        return Promise.resolve().then(() => {
-            expect(variableEditor.node.elementType).toEqual(ELEMENT_TYPE.VARIABLE);
-            expect(variableEditor.getNode()).toEqual(stringVariable);
-        });
+        await ticks(1);
+        expect(variableEditor.node.elementType).toEqual(ELEMENT_TYPE.VARIABLE);
+        expect(variableEditor.getNode()).toEqual(stringVariable);
     });
 
     it('has label description component', () => {
@@ -174,16 +174,13 @@ describe('variable-constant-editor', () => {
         expect(labelDescription.devName).toEqual(stringVariable.name);
     });
 
-    it('handles the property changed event and updates the property', () => {
+    it('handles the property changed event and updates the property', async () => {
         const variableEditor = setupComponentUnderTest(stringVariable);
-        return Promise.resolve().then(() => {
-            const event = new PropertyChangedEvent('description', 'new desc', null);
-            variableEditor.shadowRoot
-                .querySelector('builder_platform_interaction-label-description')
-                .dispatchEvent(event);
-            expect(createAction.mock.calls[0][0]).toEqual(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY);
-            expect(variableConstantReducer.mock.calls[0][0]).toEqual(variableEditor.node);
-        });
+        await ticks(1);
+        const event = new PropertyChangedEvent('description', 'new desc', null);
+        variableEditor.shadowRoot.querySelector('builder_platform_interaction-label-description').dispatchEvent(event);
+        expect(createAction.mock.calls[0][0]).toEqual(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY);
+        expect(variableConstantReducer.mock.calls[0][0]).toEqual(variableEditor.node);
     });
 
     describe('variable data type picker', () => {
@@ -195,43 +192,40 @@ describe('variable-constant-editor', () => {
             dataTypePicker.dispatchEvent(mockChangeEvent);
         };
 
-        it('has a data type picker', () => {
+        it('has a data type picker', async () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
-            return Promise.resolve().then(() => {
-                const dataTypePicker = variableEditor.shadowRoot.querySelector('lightning-combobox');
-                expect(dataTypePicker).toBeDefined();
-            });
+            await ticks(1);
+            const dataTypePicker = variableEditor.shadowRoot.querySelector('lightning-combobox');
+            expect(dataTypePicker).toBeDefined();
         });
 
-        it('gives flow data type menu items to the data type combobox', () => {
+        it('gives flow data type menu items to the data type combobox', async () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
-            return Promise.resolve().then(() => {
-                const dataTypePicker = variableEditor.shadowRoot
-                    .querySelector('builder_platform_interaction-data-type-picker')
-                    .shadowRoot.querySelector('lightning-combobox');
-                // should not contain an entry for LIGHTNING_COMPONENT_OUTPUT, ACTION_OUTPUT nor SUBFLOW_OUTPUT
-                const expectedLength = Object.values(FLOW_DATA_TYPE).length - 3;
-                expect(dataTypePicker.options).toHaveLength(expectedLength);
-            });
+            await ticks(1);
+            const dataTypePicker = variableEditor.shadowRoot
+                .querySelector('builder_platform_interaction-data-type-picker')
+                .shadowRoot.querySelector('lightning-combobox');
+            // should not contain an entry for LIGHTNING_COMPONENT_OUTPUT, ACTION_OUTPUT nor SUBFLOW_OUTPUT
+            const expectedLength = Object.values(FLOW_DATA_TYPE).length - 3;
+            expect(dataTypePicker.options).toHaveLength(expectedLength);
         });
 
-        it('handles change event when data type option is selected', () => {
+        it('handles change event when data type option is selected', async () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
-            return Promise.resolve().then(() => {
-                const eventPayload = {
-                    dataType: 'Currency',
-                    isCollection: false,
-                    scale: 3
-                };
-                dispatchValueChangedEvent(variableEditor, eventPayload);
-                expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, {
-                    value: eventPayload
-                });
-                expect(variableConstantReducer.mock.calls[0][0]).toEqual(variableEditor.node);
+            await ticks(1);
+            const eventPayload = {
+                dataType: 'Currency',
+                isCollection: false,
+                scale: 3
+            };
+            dispatchValueChangedEvent(variableEditor, eventPayload);
+            expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, {
+                value: eventPayload
             });
+            expect(variableConstantReducer.mock.calls[0][0]).toEqual(variableEditor.node);
         });
 
-        it('clears the default value when switching data type', () => {
+        it('clears the default value when switching data type', async () => {
             stringVariable.defaultValue.value = 'mock default value';
             const variableEditor = setupComponentUnderTest(stringVariable);
             const oldDataType = 'String';
@@ -241,16 +235,15 @@ describe('variable-constant-editor', () => {
                 scale: null
             };
             dispatchValueChangedEvent(variableEditor, eventPayload);
-            return Promise.resolve().then(() => {
-                expect(createAction.mock.calls[0][1].propertyName).toEqual('defaultValueDataType');
-                expect(createAction.mock.calls[0][1].value).toEqual(oldDataType);
-                expect(createAction.mock.calls[1][1].propertyName).toEqual('defaultValue');
-                expect(createAction.mock.calls[1][1].value).toEqual(null);
-                expect(variableConstantReducer.mock.calls[0][1]).toEqual(createAction.mock.calls[0][1]);
-            });
+            await ticks(1);
+            expect(createAction.mock.calls[0][1].propertyName).toEqual('defaultValueDataType');
+            expect(createAction.mock.calls[0][1].value).toEqual(oldDataType);
+            expect(createAction.mock.calls[1][1].propertyName).toEqual('defaultValue');
+            expect(createAction.mock.calls[1][1].value).toEqual(null);
+            expect(variableConstantReducer.mock.calls[0][1]).toEqual(createAction.mock.calls[0][1]);
         });
 
-        it('clears the default value when switching collection status', () => {
+        it('clears the default value when switching collection status', async () => {
             stringVariable.defaultValue.value = 'mock default value';
             const variableEditor = setupComponentUnderTest(stringVariable);
             const oldDataType = 'String';
@@ -260,16 +253,15 @@ describe('variable-constant-editor', () => {
                 scale: null
             };
             dispatchValueChangedEvent(variableEditor, eventPayload);
-            return Promise.resolve().then(() => {
-                expect(createAction.mock.calls[0][1].propertyName).toEqual('defaultValueDataType');
-                expect(createAction.mock.calls[0][1].value).toEqual(oldDataType);
-                expect(createAction.mock.calls[1][1].propertyName).toEqual('defaultValue');
-                expect(createAction.mock.calls[1][1].value).toEqual(null);
-                expect(variableConstantReducer.mock.calls[0][1]).toEqual(createAction.mock.calls[0][1]);
-            });
+            await ticks(1);
+            expect(createAction.mock.calls[0][1].propertyName).toEqual('defaultValueDataType');
+            expect(createAction.mock.calls[0][1].value).toEqual(oldDataType);
+            expect(createAction.mock.calls[1][1].propertyName).toEqual('defaultValue');
+            expect(createAction.mock.calls[1][1].value).toEqual(null);
+            expect(variableConstantReducer.mock.calls[0][1]).toEqual(createAction.mock.calls[0][1]);
         });
 
-        it('clears the subtype when switching to data type without subtype', () => {
+        it('clears the subtype when switching to data type without subtype', async () => {
             const variableEditor = setupComponentUnderTest(sobjectVariable);
             const eventPayload = {
                 dataType: 'String',
@@ -277,13 +269,12 @@ describe('variable-constant-editor', () => {
                 scale: null
             };
             dispatchValueChangedEvent(variableEditor, eventPayload);
-            return Promise.resolve().then(() => {
-                expect(createAction.mock.calls[0][1].propertyName).toEqual('subtype');
-                expect(createAction.mock.calls[0][1].value).toEqual(null);
-                expect(variableConstantReducer.mock.calls[0][1]).toEqual(createAction.mock.calls[0][1]);
-            });
+            await ticks(1);
+            expect(createAction.mock.calls[0][1].propertyName).toEqual('subtype');
+            expect(createAction.mock.calls[0][1].value).toEqual(null);
+            expect(variableConstantReducer.mock.calls[0][1]).toEqual(createAction.mock.calls[0][1]);
         });
-        it('clears the subtype when switching from sobject type to apex type', () => {
+        it('clears the subtype when switching from sobject type to apex type', async () => {
             const variableEditor = setupComponentUnderTest(sobjectVariable);
             const eventPayload = {
                 dataType: 'Apex',
@@ -291,11 +282,10 @@ describe('variable-constant-editor', () => {
                 scale: null
             };
             dispatchValueChangedEvent(variableEditor, eventPayload);
-            return Promise.resolve().then(() => {
-                expect(createAction.mock.calls[0][1].propertyName).toEqual('subtype');
-                expect(createAction.mock.calls[0][1].value).toEqual(null);
-                expect(variableConstantReducer.mock.calls[0][1]).toEqual(createAction.mock.calls[0][1]);
-            });
+            await ticks(1);
+            expect(createAction.mock.calls[0][1].propertyName).toEqual('subtype');
+            expect(createAction.mock.calls[0][1].value).toEqual(null);
+            expect(variableConstantReducer.mock.calls[0][1]).toEqual(createAction.mock.calls[0][1]);
         });
     });
 
@@ -304,38 +294,34 @@ describe('variable-constant-editor', () => {
         beforeEach(() => {
             constantEditor = setupComponentUnderTest(stringConstant);
         });
-        it('has a data type picker', () => {
-            return Promise.resolve().then(() => {
-                const dataTypePicker = constantEditor.shadowRoot.querySelector('lightning-combobox');
-                expect(dataTypePicker).toBeDefined();
-            });
+        it('has a data type picker', async () => {
+            await ticks(1);
+            const dataTypePicker = constantEditor.shadowRoot.querySelector('lightning-combobox');
+            expect(dataTypePicker).toBeDefined();
         });
 
-        it('gives flow data type menu items to the data type combobox', () => {
-            return Promise.resolve().then(() => {
-                const dataTypePicker = constantEditor.shadowRoot
-                    .querySelector('builder_platform_interaction-data-type-picker')
-                    .shadowRoot.querySelector('lightning-combobox');
-                expect(dataTypePicker.options).toHaveLength(5);
-            });
+        it('gives flow data type menu items to the data type combobox', async () => {
+            await ticks(1);
+            const dataTypePicker = constantEditor.shadowRoot
+                .querySelector('builder_platform_interaction-data-type-picker')
+                .shadowRoot.querySelector('lightning-combobox');
+            expect(dataTypePicker.options).toHaveLength(5);
         });
 
-        it('does not allow scale', () => {
-            return Promise.resolve().then(() => {
-                const dataTypePicker = constantEditor.shadowRoot.querySelector(
-                    'builder_platform_interaction-data-type-picker'
-                );
-                expect(dataTypePicker.allowScale).toBe(false);
-            });
+        it('does not allow scale', async () => {
+            await ticks(1);
+            const dataTypePicker = constantEditor.shadowRoot.querySelector(
+                'builder_platform_interaction-data-type-picker'
+            );
+            expect(dataTypePicker.allowScale).toBe(false);
         });
 
-        it('does not allow collection', () => {
-            return Promise.resolve().then(() => {
-                const dataTypePicker = constantEditor.shadowRoot.querySelector(
-                    'builder_platform_interaction-data-type-picker'
-                );
-                expect(dataTypePicker.allowCollection).toBe(false);
-            });
+        it('does not allow collection', async () => {
+            await ticks(1);
+            const dataTypePicker = constantEditor.shadowRoot.querySelector(
+                'builder_platform_interaction-data-type-picker'
+            );
+            expect(dataTypePicker.allowCollection).toBe(false);
         });
     });
 
@@ -346,24 +332,22 @@ describe('variable-constant-editor', () => {
             { propertyName: 'isOutput', warning: null }
         ];
 
-        it('variable editor has external access checkboxes', () => {
+        it('variable editor has external access checkboxes', async () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
-            return Promise.resolve().then(() => {
-                const externalAccessCheckboxGroup = variableEditor.shadowRoot.querySelector(
-                    SELECTORS.EXTERNAL_ACCESS_CHECKBOX_GROUP
-                );
-                expect(externalAccessCheckboxGroup).toBeDefined();
-            });
+            await ticks(1);
+            const externalAccessCheckboxGroup = variableEditor.shadowRoot.querySelector(
+                SELECTORS.EXTERNAL_ACCESS_CHECKBOX_GROUP
+            );
+            expect(externalAccessCheckboxGroup).toBeDefined();
         });
 
-        it('constant editor does not have external access checkboxes', () => {
+        it('constant editor does not have external access checkboxes', async () => {
             const constantEditor = setupComponentUnderTest(stringConstant);
-            return Promise.resolve().then(() => {
-                const externalAccessCheckboxGroup = constantEditor.shadowRoot.querySelector(
-                    SELECTORS.EXTERNAL_ACCESS_CHECKBOX_GROUP
-                );
-                expect(externalAccessCheckboxGroup).toBeNull();
-            });
+            await ticks(1);
+            const externalAccessCheckboxGroup = constantEditor.shadowRoot.querySelector(
+                SELECTORS.EXTERNAL_ACCESS_CHECKBOX_GROUP
+            );
+            expect(externalAccessCheckboxGroup).toBeNull();
         });
 
         it('fires warning event on blur when previously selected input output is unselected', () => {
@@ -414,24 +398,23 @@ describe('variable-constant-editor', () => {
             });
         });
 
-        function testWarningEventForInputOutput(testConfig) {
+        async function testWarningEventForInputOutput(testConfig) {
             const propertyWarningHandler = jest.fn();
             const propertyChangedEvent = new PropertyChangedEvent('name', testConfig.name);
             stringVariable.isInput = testConfig.isInput;
             stringVariable.isOutput = testConfig.isOutput;
             const variableEditor = setupComponentUnderTest(stringVariable);
             variableEditor.addEventListener(PropertyEditorWarningEvent.EVENT_NAME, propertyWarningHandler);
-            return Promise.resolve().then(() => {
-                const labelDescription = variableEditor.shadowRoot.querySelector(
-                    'builder_platform_interaction-label-description'
-                );
-                variableEditor.node.name = testConfig.name;
-                labelDescription.dispatchEvent(propertyChangedEvent);
-                verifyWarningEvents(testConfig.expectedEventData, propertyWarningHandler);
-            });
+            await ticks(1);
+            const labelDescription = variableEditor.shadowRoot.querySelector(
+                'builder_platform_interaction-label-description'
+            );
+            variableEditor.node.name = testConfig.name;
+            labelDescription.dispatchEvent(propertyChangedEvent);
+            verifyWarningEvents(testConfig.expectedEventData, propertyWarningHandler);
         }
 
-        function testBlurEventForInputOutput(testConfig) {
+        async function testBlurEventForInputOutput(testConfig) {
             const propertyWarningHandler = jest.fn();
             // previous selection
             stringVariable.isInput = testConfig.isInput;
@@ -442,15 +425,14 @@ describe('variable-constant-editor', () => {
             });
             const blurEvent = new CustomEvent('blur');
             variableEditor.addEventListener(PropertyEditorWarningEvent.EVENT_NAME, propertyWarningHandler);
-            return Promise.resolve().then(() => {
-                // output unselected
-                const externalAccessCheckboxGroup = variableEditor.shadowRoot.querySelector(
-                    SELECTORS.EXTERNAL_ACCESS_CHECKBOX_GROUP
-                );
-                externalAccessCheckboxGroup.dispatchEvent(changeEvent);
-                externalAccessCheckboxGroup.dispatchEvent(blurEvent);
-                verifyWarningEvents(testConfig.expectedEventData, propertyWarningHandler);
-            });
+            await ticks(1);
+            // output unselected
+            const externalAccessCheckboxGroup = variableEditor.shadowRoot.querySelector(
+                SELECTORS.EXTERNAL_ACCESS_CHECKBOX_GROUP
+            );
+            externalAccessCheckboxGroup.dispatchEvent(changeEvent);
+            externalAccessCheckboxGroup.dispatchEvent(blurEvent);
+            verifyWarningEvents(testConfig.expectedEventData, propertyWarningHandler);
         }
 
         function verifyWarningEvents(expectedEventData, propertyWarningHandler) {
@@ -466,12 +448,11 @@ describe('variable-constant-editor', () => {
     });
 
     describe('default value combobox', () => {
-        function testDefaultValueExists(variable) {
+        async function testDefaultValueExists(variable) {
             const variableEditor = setupComponentUnderTest(variable);
-            return Promise.resolve().then(() => {
-                const defaultValueCombobox = variableEditor.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
-                expect(defaultValueCombobox).toBeDefined();
-            });
+            await ticks(1);
+            const defaultValueCombobox = variableEditor.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
+            expect(defaultValueCombobox).toBeDefined();
         }
 
         it('exists for string data type', () => {
@@ -490,53 +471,48 @@ describe('variable-constant-editor', () => {
             return testDefaultValueExists(stringConstant);
         });
 
-        it('should not exist for sobject data type', () => {
+        it('should not exist for sobject data type', async () => {
             const variableEditor = setupComponentUnderTest(mockStoreData.accountSObjectVariable);
-            return Promise.resolve().then(() => {
-                const defaultValueCombobox = variableEditor.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
-                expect(defaultValueCombobox).toBeNull();
-            });
+            await ticks(1);
+            const defaultValueCombobox = variableEditor.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
+            expect(defaultValueCombobox).toBeNull();
         });
 
-        it('should not exist for collection variables', () => {
+        it('should not exist for collection variables', async () => {
             const variableEditor = setupComponentUnderTest(mockStoreData.stringCollectionVariable1);
-            return Promise.resolve().then(() => {
-                const defaultValueCombobox = variableEditor.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
-                expect(defaultValueCombobox).toBeNull();
-            });
+            await ticks(1);
+            const defaultValueCombobox = variableEditor.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
+            expect(defaultValueCombobox).toBeNull();
         });
 
-        it('calls getRulesForElementType to fetch rules for default value', () => {
+        it('calls getRulesForElementType to fetch rules for default value', async () => {
             setupComponentUnderTest(stringVariable);
-            return Promise.resolve().then(() => {
-                expect(getRulesForElementType).toHaveBeenCalledWith(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.VARIABLE);
-            });
+            await ticks(1);
+            expect(getRulesForElementType).toHaveBeenCalledWith(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.VARIABLE);
         });
 
-        it('passes rules to the default value picker', () => {
+        it('passes rules to the default value picker', async () => {
             const mockRules = ['foo'];
             getRulesForElementType.mockReturnValueOnce(mockRules);
             const variableEditor = setupComponentUnderTest(stringVariable);
-            return Promise.resolve().then(() => {
-                const defaultValueCombobox = variableEditor.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
-                expect(defaultValueCombobox.rules).toEqual(mockRules);
-            });
+            await ticks(1);
+            const defaultValueCombobox = variableEditor.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
+            expect(defaultValueCombobox.rules).toEqual(mockRules);
         });
 
-        it('has variable reducer called for defaultValue', () => {
+        it('has variable reducer called for defaultValue', async () => {
             getResourceByUniqueIdentifier.mockReturnValueOnce({});
             getFerovDataTypeForValidId.mockReturnValueOnce(FEROV_DATA_TYPE.STRING.value);
             const variableEditor = setupComponentUnderTest(stringVariable);
-            return Promise.resolve().then(() => {
-                const defaultValueCombobox = variableEditor.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
-                defaultValueCombobox.dispatchEvent(getComboboxStateChangedEvent());
-                expect(variableConstantReducer).toHaveBeenCalledTimes(2);
-                expect(variableConstantReducer.mock.calls[0][0]).toEqual(variableEditor.node);
-                expect(variableConstantReducer.mock.calls[1][0]).toEqual(variableEditor.node);
-            });
+            await ticks(1);
+            const defaultValueCombobox = variableEditor.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
+            defaultValueCombobox.dispatchEvent(getComboboxStateChangedEvent());
+            expect(variableConstantReducer).toHaveBeenCalledTimes(2);
+            expect(variableConstantReducer.mock.calls[0][0]).toEqual(variableEditor.node);
+            expect(variableConstantReducer.mock.calls[1][0]).toEqual(variableEditor.node);
         });
 
-        it('has ferovDataType set to reference when default value changed from literal to reference', () => {
+        it('has ferovDataType set to reference when default value changed from literal to reference', async () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
             const selectedMenuItem = {
                 text: '{!someSobjectVar}',
@@ -553,12 +529,11 @@ describe('variable-constant-editor', () => {
             const valueChangedEvent = new ComboboxStateChangedEvent(selectedMenuItem, null, null);
             const flowCombobox = variableEditor.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
             flowCombobox.dispatchEvent(valueChangedEvent);
-            return Promise.resolve().then(() => {
-                expect(createAction.mock.calls[0][1]).toEqual(expectedUpdatePropPayload);
-            });
+            await ticks(1);
+            expect(createAction.mock.calls[0][1]).toEqual(expectedUpdatePropPayload);
         });
 
-        it('should allow global constants', () => {
+        it('should allow global constants', async () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
             const selectedMenuItem = {
                 value: GLOBAL_CONSTANTS.BOOLEAN_TRUE,
@@ -572,27 +547,24 @@ describe('variable-constant-editor', () => {
             getResourceByUniqueIdentifier.mockReturnValueOnce({});
 
             const valueChangedEvent = new ComboboxStateChangedEvent(selectedMenuItem, null, null);
-            return Promise.resolve().then(() => {
-                const flowCombobox = variableEditor.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
-                flowCombobox.dispatchEvent(valueChangedEvent);
-                expect(createAction.mock.calls[0][1]).toEqual(expectedUpdatePropPayload);
-            });
+            await ticks(1);
+            const flowCombobox = variableEditor.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
+            flowCombobox.dispatchEvent(valueChangedEvent);
+            expect(createAction.mock.calls[0][1]).toEqual(expectedUpdatePropPayload);
         });
 
-        it('has field drilldown disabled for constants', () => {
+        it('has field drilldown disabled for constants', async () => {
             const constantEditor = setupComponentUnderTest(stringConstant);
-            return Promise.resolve().then(() => {
-                const defaultValuePicker = constantEditor.shadowRoot.querySelector(FerovResourcePicker.SELECTOR);
-                expect(defaultValuePicker.comboboxConfig.enableFieldDrilldown).toEqual(false);
-            });
+            await ticks(1);
+            const defaultValuePicker = constantEditor.shadowRoot.querySelector(FerovResourcePicker.SELECTOR);
+            expect(defaultValuePicker.comboboxConfig.enableFieldDrilldown).toEqual(false);
         });
 
-        it('has field drilldown enabled for variables', () => {
+        it('has field drilldown enabled for variables', async () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
-            return Promise.resolve().then(() => {
-                const defaultValuePicker = variableEditor.shadowRoot.querySelector(FerovResourcePicker.SELECTOR);
-                expect(defaultValuePicker.comboboxConfig.enableFieldDrilldown).toEqual(true);
-            });
+            await ticks(1);
+            const defaultValuePicker = variableEditor.shadowRoot.querySelector(FerovResourcePicker.SELECTOR);
+            expect(defaultValuePicker.comboboxConfig.enableFieldDrilldown).toEqual(true);
         });
     });
 
@@ -602,41 +574,37 @@ describe('variable-constant-editor', () => {
             accountVariable = deepCopy(mockStoreData.accountSObjectVariable);
         });
 
-        it('contains an entity resource picker for sobject variables', () => {
+        it('contains an entity resource picker for sobject variables', async () => {
             const variableEditor = setupComponentUnderTest(accountVariable);
-            return Promise.resolve().then(() => {
-                const entityResourcePicker = variableEditor.shadowRoot.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
-                expect(entityResourcePicker).not.toBeNull();
-            });
+            await ticks(1);
+            const entityResourcePicker = variableEditor.shadowRoot.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
+            expect(entityResourcePicker).not.toBeNull();
         });
 
-        it('does not exist for non sobject data type', () => {
+        it('does not exist for non sobject data type', async () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
-            return Promise.resolve().then(() => {
-                const entityResourcePicker = variableEditor.shadowRoot.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
-                expect(entityResourcePicker).toBeNull();
-            });
+            await ticks(1);
+            const entityResourcePicker = variableEditor.shadowRoot.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
+            expect(entityResourcePicker).toBeNull();
         });
 
-        it('handles flow combobox value changed event', () => {
+        it('handles flow combobox value changed event', async () => {
             const variableEditor = setupComponentUnderTest(accountVariable);
             const entityResourcePicker = variableEditor.shadowRoot.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
             entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
-            return Promise.resolve().then(() => {
-                expect(createAction.mock.calls[0][1].propertyName).toEqual('subtype');
-                expect(variableConstantReducer.mock.calls[0][0]).toEqual(variableEditor.node);
-            });
+            await ticks(1);
+            expect(createAction.mock.calls[0][1].propertyName).toEqual('subtype');
+            expect(variableConstantReducer.mock.calls[0][0]).toEqual(variableEditor.node);
         });
     });
 
     describe('apex class picker', () => {
-        it('should show help icon', () => {
+        it('should show help icon', async () => {
             const apexVariable = deepCopy(mockStoreData.apexSampleVariable);
             const variableEditor = setupComponentUnderTest(apexVariable);
-            return Promise.resolve().then(() => {
-                const entityResourcePicker = variableEditor.shadowRoot.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
-                expect(entityResourcePicker.comboboxConfig.fieldLevelHelp).not.toBeNull();
-            });
+            await ticks(1);
+            const entityResourcePicker = variableEditor.shadowRoot.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
+            expect(entityResourcePicker.comboboxConfig.fieldLevelHelp).not.toBeNull();
         });
     });
 

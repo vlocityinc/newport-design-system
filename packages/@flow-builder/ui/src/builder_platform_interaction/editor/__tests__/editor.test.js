@@ -349,67 +349,61 @@ beforeEach(() => {
 const describeSkip = describe.skip;
 describeSkip('editor', () => {
     describe('saving', () => {
-        it('translates the ui model to flow data', () => {
+        it('translates the ui model to flow data', async () => {
             const editorComponent = createComponentUnderTest();
-            return Promise.resolve().then(() => {
-                editorComponent.shadowRoot.querySelector(selectors.save).click();
-
-                expect(translateUIModelToFlow.mock.calls).toHaveLength(1);
-                expect(translateUIModelToFlow.mock.calls[0][0]).toEqual(Store.getStore().getCurrentState());
-            });
+            await ticks(1);
+            editorComponent.shadowRoot.querySelector(selectors.save).click();
+            expect(translateUIModelToFlow.mock.calls).toHaveLength(1);
+            expect(translateUIModelToFlow.mock.calls[0][0]).toEqual(Store.getStore().getCurrentState());
         });
 
-        it('passes the translated value to fetch', () => {
+        it('passes the translated value to fetch', async () => {
             const editorComponent = createComponentUnderTest();
-            return Promise.resolve().then(() => {
-                const flow = { x: 1 };
+            await ticks(1);
+            const flow = { x: 1 };
 
-                translateUIModelToFlow.mockReturnValue(flow);
+            translateUIModelToFlow.mockReturnValue(flow);
 
-                editorComponent.shadowRoot.querySelector(selectors.save).click();
-                // Check against the last call to fetch.  The first is in editor.js constructor and thus
-                // unavoidable and other components included via editor.html may also have fetch calls
-                // (for example left-panel-elements
-                const saveFetchCallIndex = fetch.mock.calls.length - 1;
+            editorComponent.shadowRoot.querySelector(selectors.save).click();
+            // Check against the last call to fetch.  The first is in editor.js constructor and thus
+            // unavoidable and other components included via editor.html may also have fetch calls
+            // (for example left-panel-elements
+            const saveFetchCallIndex = fetch.mock.calls.length - 1;
 
-                expect(fetch.mock.calls[saveFetchCallIndex][0]).toEqual(SERVER_ACTION_TYPE.SAVE_FLOW);
-                expect(fetch.mock.calls[saveFetchCallIndex][2]).toEqual({
-                    flow
-                });
+            expect(fetch.mock.calls[saveFetchCallIndex][0]).toEqual(SERVER_ACTION_TYPE.SAVE_FLOW);
+            expect(fetch.mock.calls[saveFetchCallIndex][2]).toEqual({
+                flow
             });
         });
     });
 
     describe('Server side fetch', () => {
-        it('getting rules', () => {
+        it('getting rules', async () => {
             createComponentUnderTest();
-            return Promise.resolve().then(() => {
-                expect(fetch.mock.calls).toHaveLength(4);
-                expect(fetch.mock.calls[0][0]).toEqual(SERVER_ACTION_TYPE.GET_RULES);
-            });
+            await ticks(1);
+            expect(fetch.mock.calls).toHaveLength(4);
+            expect(fetch.mock.calls[0][0]).toEqual(SERVER_ACTION_TYPE.GET_RULES);
         });
-        it('getting flow metadata', () => {
+        it('getting flow metadata', async () => {
             createComponentUnderTest({
                 flowId: 'flow 123'
             });
-            return Promise.resolve().then(() => {
-                expect(fetch.mock.calls).toHaveLength(5);
-                expect(fetch.mock.calls[3][0]).toEqual(SERVER_ACTION_TYPE.GET_FLOW);
-            });
+            await ticks(1);
+            expect(fetch.mock.calls).toHaveLength(5);
+            expect(fetch.mock.calls[3][0]).toEqual(SERVER_ACTION_TYPE.GET_FLOW);
         });
-        it('getting header urls', () => {
+        it('getting header urls', async () => {
             createComponentUnderTest();
-            return Promise.resolve().then(() => {
-                expect(fetch.mock.calls).toHaveLength(4);
-                expect(fetch.mock.calls[2][0]).toEqual(SERVER_ACTION_TYPE.GET_HEADER_URLS);
-            });
+            await ticks(1);
+            expect(fetch.mock.calls).toHaveLength(4);
+            expect(fetch.mock.calls[2][0]).toEqual(SERVER_ACTION_TYPE.GET_HEADER_URLS);
         });
 
         // TODO: W-5403092 Add test case for fetching of sObject variable fields
     });
 
     describe('Canvas', () => {
-        it('Checks if node selection is handled correctly when an unselected node is clicked without multiSelect key', () => {
+        it('Checks if node selection is handled correctly when an unselected node is clicked without multiSelect key', async () => {
             const editorComponent = createComponentUnderTest();
             const event = new CustomEvent(CANVAS_EVENT.NODE_SELECTED, {
                 bubbles: true,
@@ -421,14 +415,13 @@ describeSkip('editor', () => {
                 }
             });
             editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                const spy = Store.getStore().dispatch;
-                expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(element('1', 'SELECT_ON_CANVAS'));
-            });
+            await ticks(1);
+            const spy = Store.getStore().dispatch;
+            expect(spy).toHaveBeenCalled();
+            expect(spy.mock.calls[0][0]).toEqual(element('1', 'SELECT_ON_CANVAS'));
         });
 
-        it('Checks if node selection is handled correctly when a selected node is clicked without multiSelect key', () => {
+        it('Checks if node selection is handled correctly when a selected node is clicked without multiSelect key', async () => {
             const editorComponent = createComponentUnderTest();
             const event = new CustomEvent(CANVAS_EVENT.NODE_SELECTED, {
                 bubbles: true,
@@ -440,14 +433,13 @@ describeSkip('editor', () => {
                 }
             });
             editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                const spy = Store.getStore().dispatch;
-                expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(element('2', 'SELECT_ON_CANVAS'));
-            });
+            await ticks(1);
+            const spy = Store.getStore().dispatch;
+            expect(spy).toHaveBeenCalled();
+            expect(spy.mock.calls[0][0]).toEqual(element('2', 'SELECT_ON_CANVAS'));
         });
 
-        it('Checks if node selection is handled correctly when an unselected node is clicked with multiSelect key', () => {
+        it('Checks if node selection is handled correctly when an unselected node is clicked with multiSelect key', async () => {
             const editorComponent = createComponentUnderTest();
             const event = new CustomEvent(CANVAS_EVENT.NODE_SELECTED, {
                 bubbles: true,
@@ -459,14 +451,13 @@ describeSkip('editor', () => {
                 }
             });
             editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                const spy = Store.getStore().dispatch;
-                expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(element('1', 'TOGGLE_ON_CANVAS'));
-            });
+            await ticks(1);
+            const spy = Store.getStore().dispatch;
+            expect(spy).toHaveBeenCalled();
+            expect(spy.mock.calls[0][0]).toEqual(element('1', 'TOGGLE_ON_CANVAS'));
         });
 
-        it('Checks if node selection is handled correctly when a selected node is clicked with multiSelect key', () => {
+        it('Checks if node selection is handled correctly when a selected node is clicked with multiSelect key', async () => {
             const editorComponent = createComponentUnderTest();
             const event = new CustomEvent(CANVAS_EVENT.NODE_SELECTED, {
                 bubbles: true,
@@ -478,14 +469,13 @@ describeSkip('editor', () => {
                 }
             });
             editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                const spy = Store.getStore().dispatch;
-                expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(element('2', 'TOGGLE_ON_CANVAS'));
-            });
+            await ticks(1);
+            const spy = Store.getStore().dispatch;
+            expect(spy).toHaveBeenCalled();
+            expect(spy.mock.calls[0][0]).toEqual(element('2', 'TOGGLE_ON_CANVAS'));
         });
 
-        it('Checks if node and connector deselection is handled correctly when a canvas is clicked', () => {
+        it('Checks if node and connector deselection is handled correctly when a canvas is clicked', async () => {
             const editorComponent = createComponentUnderTest();
             const event = new CustomEvent(CANVAS_EVENT.CANVAS_MOUSEUP, {
                 bubbles: true,
@@ -493,14 +483,13 @@ describeSkip('editor', () => {
                 cancelable: true
             });
             editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                const spy = Store.getStore().dispatch;
-                expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(deselectionAction);
-            });
+            await ticks(1);
+            const spy = Store.getStore().dispatch;
+            expect(spy).toHaveBeenCalled();
+            expect(spy.mock.calls[0][0]).toEqual(deselectionAction);
         });
 
-        it('Checks if connector selection is handled correctly when an unselected connector is clicked without multiSelect key', () => {
+        it('Checks if connector selection is handled correctly when an unselected connector is clicked without multiSelect key', async () => {
             const editorComponent = createComponentUnderTest();
             const event = new CustomEvent(CANVAS_EVENT.CONNECTOR_SELECTED, {
                 bubbles: true,
@@ -512,14 +501,13 @@ describeSkip('editor', () => {
                 }
             });
             editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                const spy = Store.getStore().dispatch;
-                expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(element('c1', 'SELECT_ON_CANVAS'));
-            });
+            await ticks(1);
+            const spy = Store.getStore().dispatch;
+            expect(spy).toHaveBeenCalled();
+            expect(spy.mock.calls[0][0]).toEqual(element('c1', 'SELECT_ON_CANVAS'));
         });
 
-        it('Checks if connector selection is handled correctly when a selected connector is clicked without multiSelect key', () => {
+        it('Checks if connector selection is handled correctly when a selected connector is clicked without multiSelect key', async () => {
             const editorComponent = createComponentUnderTest();
             const event = new CustomEvent(CANVAS_EVENT.CONNECTOR_SELECTED, {
                 bubbles: true,
@@ -531,14 +519,13 @@ describeSkip('editor', () => {
                 }
             });
             editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                const spy = Store.getStore().dispatch;
-                expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(element('c2', 'SELECT_ON_CANVAS'));
-            });
+            await ticks(1);
+            const spy = Store.getStore().dispatch;
+            expect(spy).toHaveBeenCalled();
+            expect(spy.mock.calls[0][0]).toEqual(element('c2', 'SELECT_ON_CANVAS'));
         });
 
-        it('Checks if connector selection is handled correctly when an unselected connector is clicked with multiSelect key', () => {
+        it('Checks if connector selection is handled correctly when an unselected connector is clicked with multiSelect key', async () => {
             const editorComponent = createComponentUnderTest();
             const event = new CustomEvent(CANVAS_EVENT.CONNECTOR_SELECTED, {
                 bubbles: true,
@@ -550,14 +537,13 @@ describeSkip('editor', () => {
                 }
             });
             editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                const spy = Store.getStore().dispatch;
-                expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(element('c1', 'TOGGLE_ON_CANVAS'));
-            });
+            await ticks(1);
+            const spy = Store.getStore().dispatch;
+            expect(spy).toHaveBeenCalled();
+            expect(spy.mock.calls[0][0]).toEqual(element('c1', 'TOGGLE_ON_CANVAS'));
         });
 
-        it('Checks if connector selection is handled correctly when a selected connector is clicked with multiSelect key', () => {
+        it('Checks if connector selection is handled correctly when a selected connector is clicked with multiSelect key', async () => {
             const editorComponent = createComponentUnderTest();
             const event = new CustomEvent(CANVAS_EVENT.CONNECTOR_SELECTED, {
                 bubbles: true,
@@ -569,15 +555,14 @@ describeSkip('editor', () => {
                 }
             });
             editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                const spy = Store.getStore().dispatch;
-                expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(element('c2', 'TOGGLE_ON_CANVAS'));
-            });
+            await ticks(1);
+            const spy = Store.getStore().dispatch;
+            expect(spy).toHaveBeenCalled();
+            expect(spy.mock.calls[0][0]).toEqual(element('c2', 'TOGGLE_ON_CANVAS'));
         });
 
         describe('delete of a single element', () => {
-            it('deletes associated connectors and updates associated nodes', () => {
+            it('deletes associated connectors and updates associated nodes', async () => {
                 const editorComponent = createComponentUnderTest();
                 const event = new CustomEvent(CANVAS_EVENT.DELETE_ON_CANVAS, {
                     bubbles: true,
@@ -588,14 +573,13 @@ describeSkip('editor', () => {
                     }
                 });
                 editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-                return Promise.resolve().then(() => {
-                    const spy = Store.getStore().dispatch;
-                    expect(spy).toHaveBeenCalled();
-                    expect(spy.mock.calls[0][0]).toEqual(deleteElementByGuid);
-                });
+                await ticks(1);
+                const spy = Store.getStore().dispatch;
+                expect(spy).toHaveBeenCalled();
+                expect(spy.mock.calls[0][0]).toEqual(deleteElementByGuid);
             });
 
-            it('decision with outcomes deletes associated connectors and updates associated nodes', () => {
+            it('decision with outcomes deletes associated connectors and updates associated nodes', async () => {
                 const editorComponent = createComponentUnderTest();
                 const event = new CustomEvent(CANVAS_EVENT.DELETE_ON_CANVAS, {
                     bubbles: true,
@@ -606,15 +590,14 @@ describeSkip('editor', () => {
                     }
                 });
                 editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-                return Promise.resolve().then(() => {
-                    const spy = Store.getStore().dispatch;
-                    expect(spy).toHaveBeenCalled();
-                    expect(spy.mock.calls[0][0]).toEqual(deleteDecision);
-                });
+                await ticks(1);
+                const spy = Store.getStore().dispatch;
+                expect(spy).toHaveBeenCalled();
+                expect(spy.mock.calls[0][0]).toEqual(deleteDecision);
             });
         });
 
-        it('Checks if node and connector deletion is handled correctly when delete key is pressed', () => {
+        it('Checks if node and connector deletion is handled correctly when delete key is pressed', async () => {
             const editorComponent = createComponentUnderTest();
             const event = new CustomEvent(CANVAS_EVENT.DELETE_ON_CANVAS, {
                 bubbles: true,
@@ -623,14 +606,13 @@ describeSkip('editor', () => {
                 detail: {}
             });
             editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                const spy = Store.getStore().dispatch;
-                expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(deleteElementByIsSelected);
-            });
+            await ticks(1);
+            const spy = Store.getStore().dispatch;
+            expect(spy).toHaveBeenCalled();
+            expect(spy.mock.calls[0][0]).toEqual(deleteElementByIsSelected);
         });
 
-        it('Checks if node location is updated correctly when a node stops dragging', () => {
+        it('Checks if node location is updated correctly when a node stops dragging', async () => {
             const editorComponent = createComponentUnderTest();
             const event = new CustomEvent(CANVAS_EVENT.DRAG_STOP, {
                 bubbles: true,
@@ -644,14 +626,13 @@ describeSkip('editor', () => {
                 }
             });
             editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                const spy = Store.getStore().dispatch;
-                expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(updateElementAction);
-            });
+            await ticks(1);
+            const spy = Store.getStore().dispatch;
+            expect(spy).toHaveBeenCalled();
+            expect(spy.mock.calls[0][0]).toEqual(updateElementAction);
         });
 
-        it('Checks if connections are added correctly', () => {
+        it('Checks if connections are added correctly', async () => {
             const editorComponent = createComponentUnderTest();
             const event = new CustomEvent(CANVAS_EVENT.ADD_CONNECTION, {
                 bubbles: true,
@@ -663,17 +644,16 @@ describeSkip('editor', () => {
                 }
             });
             editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                const spy = Store.getStore().dispatch;
-                expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(connectorElement);
-            });
+            await ticks(1);
+            const spy = Store.getStore().dispatch;
+            expect(spy).toHaveBeenCalled();
+            expect(spy.mock.calls[0][0]).toEqual(connectorElement);
         });
     });
 });
 
 describe('editor property editor', () => {
-    it('is opened in a modal by default', () => {
+    it('is opened in a modal by default', async () => {
         const editorComponent = createComponentUnderTest();
         Store.getStore().dispatch({
             type: 'init'
@@ -682,22 +662,20 @@ describe('editor property editor', () => {
 
         const event = new AddElementEvent(elementType, 0, 0);
 
-        return Promise.resolve().then(() => {
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-left-panel').dispatchEvent(event);
+        await ticks(1);
+        editorComponent.shadowRoot.querySelector('builder_platform_interaction-left-panel').dispatchEvent(event);
 
-            return ticks().then(() => {
-                expect(invokePropertyEditor).toHaveBeenCalledWith(PROPERTY_EDITOR, {
-                    mode: 'addelement',
-                    node: getElementForPropertyEditor(),
-                    nodeUpdate: expect.anything(),
-                    newResourceCallback: expect.anything(),
-                    processType: 'dummyProcessType'
-                });
-            });
+        await ticks();
+        expect(invokePropertyEditor).toHaveBeenCalledWith(PROPERTY_EDITOR, {
+            mode: 'addelement',
+            node: getElementForPropertyEditor(),
+            nodeUpdate: expect.anything(),
+            newResourceCallback: expect.anything(),
+            processType: 'dummyProcessType'
         });
     });
 
-    it('is opened in the right panel when builderConfig.usePanelForPropertyEditor = true', () => {
+    it('is opened in the right panel when builderConfig.usePanelForPropertyEditor = true', async () => {
         mockStoreState.properties.processType = 'right';
 
         const editorComponent = createComponentUnderTest({
@@ -708,86 +686,73 @@ describe('editor property editor', () => {
 
         const event = new AddElementEvent(elementType, 0, 0);
 
-        return Promise.resolve().then(() => {
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-left-panel').dispatchEvent(event);
+        await ticks(1);
+        editorComponent.shadowRoot.querySelector('builder_platform_interaction-left-panel').dispatchEvent(event);
 
-            return ticks().then(() => {
-                const rightPanel = editorComponent.shadowRoot.querySelector('builder_platform_interaction-right-panel');
-                expect(rightPanel).not.toBeNull();
-            });
-        });
+        await ticks(1);
+        const rightPanel = editorComponent.shadowRoot.querySelector('builder_platform_interaction-right-panel');
+        expect(rightPanel).not.toBeNull();
     });
 
     describe('in right panel', () => {
         let editorComponent;
         let rightPanel;
 
-        beforeEach(() => {
+        beforeEach(async () => {
             mockStoreState.properties.processType = 'right';
 
             editorComponent = createComponentUnderTest({
                 builderType: 'new'
             });
 
-            return Promise.resolve().then(() => {
-                const elementType = 'ASSIGNMENT';
-                const event = new AddElementEvent(elementType, 0, 0);
+            await ticks(2);
+            const elementType = 'ASSIGNMENT';
+            const event = new AddElementEvent(elementType, 0, 0);
 
-                return Promise.resolve().then(() => {
-                    editorComponent.shadowRoot
-                        .querySelector('builder_platform_interaction-left-panel')
-                        .dispatchEvent(event);
+            await ticks(1);
+            editorComponent.shadowRoot.querySelector('builder_platform_interaction-left-panel').dispatchEvent(event);
 
-                    return ticks().then(() => {
-                        rightPanel = editorComponent.shadowRoot.querySelector(
-                            'builder_platform_interaction-right-panel'
-                        );
-                    });
-                });
-            });
+            await ticks();
+            rightPanel = editorComponent.shadowRoot.querySelector('builder_platform_interaction-right-panel');
         });
 
-        it('closepropertyeditorevent closes the property editor', () => {
+        it('closepropertyeditorevent closes the property editor', async () => {
             const event = new ClosePropertyEditorEvent();
 
-            return Promise.resolve().then(() => {
-                rightPanel.dispatchEvent(event);
+            await ticks(2);
+            rightPanel.dispatchEvent(event);
 
-                return Promise.resolve().then(() => {
-                    rightPanel = editorComponent.shadowRoot.querySelector('builder_platform_interaction-right-panel');
+            await ticks(1);
+            rightPanel = editorComponent.shadowRoot.querySelector('builder_platform_interaction-right-panel');
 
-                    expect(rightPanel).toBeNull();
-                });
-            });
+            expect(rightPanel).toBeNull();
         });
 
-        it('addnodeevent dispatches addElement to the store', () => {
+        it('addnodeevent dispatches addElement to the store', async () => {
             const elementToAdd = { a: 1 };
             const event = new AddNodeEvent(elementToAdd);
 
-            return Promise.resolve().then(() => {
-                rightPanel.dispatchEvent(event);
+            await ticks(1);
+            rightPanel.dispatchEvent(event);
 
-                expect(getElementForStore).toHaveBeenCalledWith(elementToAdd);
-                expect(addElement).toHaveBeenCalledWith(elementToAdd);
-                expect(Store.getStore().dispatch).toHaveBeenCalledWith({
-                    value: elementToAdd
-                });
+            expect(getElementForStore).toHaveBeenCalledWith(elementToAdd);
+            expect(addElement).toHaveBeenCalledWith(elementToAdd);
+            expect(Store.getStore().dispatch).toHaveBeenCalledWith({
+                value: elementToAdd
             });
         });
 
-        it('updatenodeevent dispatches updateElement to the store', () => {
+        it('updatenodeevent dispatches updateElement to the store', async () => {
             const elementToUpdate = { a: 1 };
             const event = new UpdateNodeEvent(elementToUpdate);
 
-            return Promise.resolve().then(() => {
-                rightPanel.dispatchEvent(event);
+            await ticks(1);
+            rightPanel.dispatchEvent(event);
 
-                expect(getElementForStore).toHaveBeenCalledWith(elementToUpdate);
-                expect(updateElement).toHaveBeenCalledWith(elementToUpdate);
-                expect(Store.getStore().dispatch).toHaveBeenCalledWith({
-                    updateValue: elementToUpdate
-                });
+            expect(getElementForStore).toHaveBeenCalledWith(elementToUpdate);
+            expect(updateElement).toHaveBeenCalledWith(elementToUpdate);
+            expect(Store.getStore().dispatch).toHaveBeenCalledWith({
+                updateValue: elementToUpdate
             });
         });
     });
@@ -822,7 +787,7 @@ describe('editor guardrails', () => {
         return editorComponent;
     };
 
-    it('guardrails disabled', () => {
+    it('guardrails disabled', async () => {
         expect.assertions(1);
 
         isGuardrailsEnabled.mockReturnValue(false);
@@ -832,14 +797,12 @@ describe('editor guardrails', () => {
             type: 'actionThatTriggerGuardrails'
         });
 
-        return Promise.resolve().then(() => {
-            return Promise.resolve().then(() => {
-                expect(guardrailResult).toHaveBeenCalledTimes(0);
-            });
-        });
+        await ticks(2);
+        await ticks(1);
+        expect(guardrailResult).toHaveBeenCalledTimes(0);
     });
 
-    it('guardrails enabled but not running', () => {
+    it('guardrails enabled but not running', async () => {
         expect.assertions(1);
 
         setupGuardrails(false);
@@ -848,14 +811,12 @@ describe('editor guardrails', () => {
             type: 'actionThatTriggerGuardrails'
         });
 
-        return Promise.resolve().then(() => {
-            return Promise.resolve().then(() => {
-                expect(guardrailResult).toHaveBeenCalledTimes(0);
-            });
-        });
+        await ticks(2);
+        await ticks(1);
+        expect(guardrailResult).toHaveBeenCalledTimes(0);
     });
 
-    it('guardrails running - no result', () => {
+    it('guardrails running - no result', async () => {
         expect.assertions(2);
 
         setupGuardrails(true, []);
@@ -864,16 +825,14 @@ describe('editor guardrails', () => {
             type: 'actionThatTriggerGuardrails'
         });
 
-        return Promise.resolve().then(() => {
-            return Promise.resolve().then(() => {
-                expect(guardrailResult).toHaveBeenCalledTimes(1);
-                const actualResult = guardrailResult.mock.calls[0][0].detail.guardrailsResult;
-                expect(actualResult.results.get(FLOW_ID)).toEqual([]);
-            });
-        });
+        await ticks(2);
+        await ticks(1);
+        expect(guardrailResult).toHaveBeenCalledTimes(1);
+        const actualResult = guardrailResult.mock.calls[0][0].detail.guardrailsResult;
+        expect(actualResult.results.get(FLOW_ID)).toEqual([]);
     });
 
-    it('guardrails running - result', () => {
+    it('guardrails running - result', async () => {
         expect.assertions(2);
 
         const mockResult = [{ data: 'result1' }, { data: 'result2' }];
@@ -883,12 +842,10 @@ describe('editor guardrails', () => {
             type: 'actionThatTriggerGuardrails'
         });
 
-        return Promise.resolve().then(() => {
-            return Promise.resolve().then(() => {
-                expect(guardrailResult).toHaveBeenCalledTimes(1);
-                const actualResult = guardrailResult.mock.calls[0][0].detail.guardrailsResult;
-                expect(actualResult.results.get(FLOW_ID)).toEqual([{ data: 'result1' }, { data: 'result2' }]);
-            });
-        });
+        await ticks(2);
+        await ticks(1);
+        expect(guardrailResult).toHaveBeenCalledTimes(1);
+        const actualResult = guardrailResult.mock.calls[0][0].detail.guardrailsResult;
+        expect(actualResult.results.get(FLOW_ID)).toEqual([{ data: 'result1' }, { data: 'result2' }]);
     });
 });

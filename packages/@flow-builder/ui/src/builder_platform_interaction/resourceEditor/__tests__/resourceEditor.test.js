@@ -1,6 +1,7 @@
 import { createElement } from 'lwc';
 import ResourceEditor from '../resourceEditor';
 import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction/validationRules';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/resourceEditorContainer', () =>
     require('builder_platform_interaction_mocks/resourceEditorContainer')
@@ -44,15 +45,14 @@ describe('resource-editor', () => {
         component.dispatchEvent(changeEvent);
     };
 
-    it('has an inner resource-editor-container component that takes in the selected resource type', () => {
+    it('has an inner resource-editor-container component that takes in the selected resource type', async () => {
         const resourceEditor = setupComponentUnderTest();
         const combobox = resourceEditor.shadowRoot.querySelector(selectors.COMBOBOX);
         fireChangeEvent(combobox, mockResource);
-        return Promise.resolve().then(() => {
-            const container = resourceEditor.shadowRoot.querySelector(selectors.CONTAINER);
-            expect(container).toBeDefined();
-            expect(container.selectedResource).toEqual(mockResource);
-        });
+        await ticks(1);
+        const container = resourceEditor.shadowRoot.querySelector(selectors.CONTAINER);
+        expect(container).toBeDefined();
+        expect(container.selectedResource).toEqual(mockResource);
     });
 
     it('has an lightning combobox that takes in the list of resource types', () => {
@@ -68,17 +68,16 @@ describe('resource-editor', () => {
         expect(combobox.required).toBeTruthy();
     });
 
-    it('calls the inner container validate method on validate', () => {
+    it('calls the inner container validate method on validate', async () => {
         const resourceEditor = setupComponentUnderTest();
         const combobox = resourceEditor.shadowRoot.querySelector('lightning-combobox');
         fireChangeEvent(combobox, mockResource);
-        return Promise.resolve().then(() => {
-            const container = resourceEditor.shadowRoot.querySelector(selectors.CONTAINER);
-            container.validate.mockReturnValueOnce(mockReturnValue);
-            const val = resourceEditor.validate();
-            expect(container.validate).toHaveBeenCalledTimes(1);
-            expect(val).toEqual(mockReturnValue);
-        });
+        await ticks(1);
+        const container = resourceEditor.shadowRoot.querySelector(selectors.CONTAINER);
+        container.validate.mockReturnValueOnce(mockReturnValue);
+        const val = resourceEditor.validate();
+        expect(container.validate).toHaveBeenCalledTimes(1);
+        expect(val).toEqual(mockReturnValue);
     });
 
     it('calls the inner container getNode method on getNode', () => {
@@ -101,15 +100,14 @@ describe('resource-editor', () => {
             expect(shouldNotBeNullOrUndefined).toHaveBeenCalledWith(null);
         });
 
-        it('returns no error when resource is selected', () => {
+        it('returns no error when resource is selected', async () => {
             const resourceEditor = setupComponentUnderTest();
             const combobox = resourceEditor.shadowRoot.querySelector('lightning-combobox');
             fireChangeEvent(combobox, mockResource);
-            return Promise.resolve().then(() => {
-                // we should get undefined because the inner container holding the editor is empty
-                const errors = resourceEditor.validate();
-                expect(errors).not.toBeDefined();
-            });
+            await ticks(1);
+            // we should get undefined because the inner container holding the editor is empty
+            const errors = resourceEditor.validate();
+            expect(errors).not.toBeDefined();
         });
     });
 });

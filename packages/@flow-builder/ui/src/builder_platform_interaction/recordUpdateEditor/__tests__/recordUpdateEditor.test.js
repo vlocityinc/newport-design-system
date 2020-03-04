@@ -18,6 +18,7 @@ import {
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -200,15 +201,14 @@ describe('record-update-editor using sObject', () => {
         });
     });
     describe('Handle Events', () => {
-        it('handle Input Reference Changed', () => {
+        it('handle Input Reference Changed', async () => {
             const recordUpdateEditor = createComponentForTest(recordUpdateElementWithSObject());
             const event = new SObjectReferenceChangedEvent(storeMockedData.accountSObjectVariable.guid, null);
             let sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);
             sObjectOrSObjectCollectionPicker.dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);
-                expect(sObjectOrSObjectCollectionPicker.value).toBe(storeMockedData.accountSObjectVariable.guid);
-            });
+            await ticks(1);
+            sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);
+            expect(sObjectOrSObjectCollectionPicker.value).toBe(storeMockedData.accountSObjectVariable.guid);
         });
     });
 });
@@ -247,66 +247,58 @@ describe('record-update-editor usung fields', () => {
         });
     });
     describe('Handle Events', () => {
-        it('change number record to store to All records, sObject picker should changed', () => {
+        it('change number record to store to All records, sObject picker should changed', async () => {
             const event = new RecordStoreOptionChangedEvent(true, '', false);
             getRecordStoreOption(recordUpdateEditor).dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);
-                expect(sObjectOrSObjectCollectionPicker.value).toBe('');
-            });
+            await ticks(1);
+            const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);
+            expect(sObjectOrSObjectCollectionPicker.value).toBe('');
         });
-        it('handle UpdateRecordFilterEvent should update the filter element', () => {
+        it('handle UpdateRecordFilterEvent should update the filter element', async () => {
             const updateRecordFilterEvent = new UpdateRecordFilterEvent(0, filterElement, null);
             getRecordFilter(recordUpdateEditor).dispatchEvent(updateRecordFilterEvent);
-            return Promise.resolve().then(() => {
-                expect(recordUpdateEditor.node.filters[0]).toMatchObject(filterElement);
-            });
+            await ticks(1);
+            expect(recordUpdateEditor.node.filters[0]).toMatchObject(filterElement);
         });
-        it('handle AddRecordFilterEvent should add a filter element', () => {
+        it('handle AddRecordFilterEvent should add a filter element', async () => {
             const addRecordFilterEvent = new AddRecordFilterEvent(); // This is using the numerical rowIndex not the property rowIndex
             getRecordFilter(recordUpdateEditor).dispatchEvent(addRecordFilterEvent);
-            return Promise.resolve().then(() => {
-                expect(recordUpdateEditor.node.filters).toHaveLength(1);
-            });
+            await ticks(1);
+            expect(recordUpdateEditor.node.filters).toHaveLength(1);
         });
-        it('record filter fire DeleteRecordFilterEvent', () => {
+        it('record filter fire DeleteRecordFilterEvent', async () => {
             const deleteRecordFilterEvent = new DeleteRecordFilterEvent(0); // This is using the numerical rowIndex not the property rowIndex
             getRecordFilter(recordUpdateEditor).dispatchEvent(deleteRecordFilterEvent);
-            return Promise.resolve().then(() => {
-                expect(recordUpdateEditor.node.filters).toHaveLength(0);
-            });
+            await ticks(1);
+            expect(recordUpdateEditor.node.filters).toHaveLength(0);
         });
-        it('handle AddRecordFieldAssignmentEvent should add an input Assignments element', () => {
+        it('handle AddRecordFieldAssignmentEvent should add an input Assignments element', async () => {
             const addRecordFieldAssignmentEvent = new AddRecordFieldAssignmentEvent();
             getInputOutputAssignments(recordUpdateEditor).dispatchEvent(addRecordFieldAssignmentEvent);
-            return Promise.resolve().then(() => {
-                expect(recordUpdateEditor.node.inputAssignments).toHaveLength(2);
-            });
+            await ticks(1);
+            expect(recordUpdateEditor.node.inputAssignments).toHaveLength(2);
         });
-        it('handle UpdateRecordFieldAssignmentEvent should update the input Assignments element', () => {
+        it('handle UpdateRecordFieldAssignmentEvent should update the input Assignments element', async () => {
             const updateRecordFieldAssignmentEvent = new UpdateRecordFieldAssignmentEvent(
                 0,
                 inputAssignmentElement,
                 null
             );
             getInputOutputAssignments(recordUpdateEditor).dispatchEvent(updateRecordFieldAssignmentEvent);
-            return Promise.resolve().then(() => {
-                expect(recordUpdateEditor.node.inputAssignments[0]).toMatchObject(inputAssignmentElement);
-            });
+            await ticks(1);
+            expect(recordUpdateEditor.node.inputAssignments[0]).toMatchObject(inputAssignmentElement);
         });
-        it('handle DeleteRecordFieldAssignmentEvent should delete the input assignment', () => {
+        it('handle DeleteRecordFieldAssignmentEvent should delete the input assignment', async () => {
             const deleteRecordFieldAssignmentEvent = new DeleteRecordFieldAssignmentEvent(0); // This is using the numerical rowIndex not the property rowIndex
             getInputOutputAssignments(recordUpdateEditor).dispatchEvent(deleteRecordFieldAssignmentEvent);
-            return Promise.resolve().then(() => {
-                expect(recordUpdateEditor.node.inputAssignments).toHaveLength(0);
-            });
+            await ticks(1);
+            expect(recordUpdateEditor.node.inputAssignments).toHaveLength(0);
         });
-        it('handle record filter type Change event', () => {
+        it('handle record filter type Change event', async () => {
             const recordUpdateFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(RECORD_FILTER_CRITERIA.ALL);
             getRecordFilter(recordUpdateEditor).dispatchEvent(recordUpdateFilterTypeChangedEvent);
-            return Promise.resolve().then(() => {
-                expect(recordUpdateEditor.node.filterType.value).toBe(RECORD_FILTER_CRITERIA.ALL);
-            });
+            await ticks(1);
+            expect(recordUpdateEditor.node.filterType.value).toBe(RECORD_FILTER_CRITERIA.ALL);
         });
     });
 });

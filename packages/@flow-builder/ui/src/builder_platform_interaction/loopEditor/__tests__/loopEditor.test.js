@@ -3,6 +3,7 @@ import LoopEditor from '../loopEditor';
 import { PropertyChangedEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -51,18 +52,17 @@ describe('loop-editor', () => {
             locationY: 123
         };
     });
-    it('handles the property changed event and updates the property', () => {
+    it('handles the property changed event and updates the property', async () => {
         const loopElement = createComponentForTest();
         loopElement.node = noErrorState;
         Promise.resolve().then(() => {
             const event = new PropertyChangedEvent('description', 'new desc', null);
             loopElement.shadowRoot.querySelector(selectors.LABEL_DESCRIPTION).dispatchEvent(event);
         });
-        return Promise.resolve().then(() => {
-            expect(loopElement.node.description.value).toBe('new desc');
-        });
+        await ticks(1);
+        expect(loopElement.node.description.value).toBe('new desc');
     });
-    it('loop collection handles the combobox value changed event and updates the property', () => {
+    it('loop collection handles the combobox value changed event and updates the property', async () => {
         const loopElement = createComponentForTest();
         loopElement.node = noErrorState;
         Promise.resolve().then(() => {
@@ -75,12 +75,11 @@ describe('loop-editor', () => {
             );
             loopElement.shadowRoot.querySelector(selectors.LOOP_VARIABLE_FEROV_RESOURCE_PICKER).dispatchEvent(event);
         });
-        return Promise.resolve().then(() => {
-            expect(loopElement.node.assignNextValueToReference.value).toBe(VARIABLE);
-            expect(loopElement.node.assignNextValueToReference.error).toBe(null);
-        });
+        await ticks(1);
+        expect(loopElement.node.assignNextValueToReference.value).toBe(VARIABLE);
+        expect(loopElement.node.assignNextValueToReference.error).toBe(null);
     });
-    it('handles the loop collection value and error message is updated', () => {
+    it('handles the loop collection value and error message is updated', async () => {
         const loopElement = createComponentForTest();
         loopElement.node = noErrorState;
         Promise.resolve().then(() => {
@@ -93,9 +92,8 @@ describe('loop-editor', () => {
             );
             loopElement.shadowRoot.querySelector(selectors.LOOP_COLLECTION_FEROV_RESOURCE_PICKER).dispatchEvent(event);
         });
-        return Promise.resolve().then(() => {
-            expect(loopElement.node.collectionReference.value).toBe(VARIABLE);
-            expect(loopElement.node.collectionReference.error).toBe(IAMERRORED);
-        });
+        await ticks(1);
+        expect(loopElement.node.collectionReference.value).toBe(VARIABLE);
+        expect(loopElement.node.collectionReference.error).toBe(IAMERRORED);
     });
 });

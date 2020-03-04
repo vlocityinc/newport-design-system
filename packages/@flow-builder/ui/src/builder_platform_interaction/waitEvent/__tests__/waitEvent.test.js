@@ -11,6 +11,7 @@ import { LABELS } from '../waitEventLabels';
 import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -89,15 +90,14 @@ const createComponentUnderTest = waitEvent => {
 
 describe('Wait Event', () => {
     describe('header section', () => {
-        it('has name and api name component', () => {
+        it('has name and api name component', async () => {
             const element = createComponentUnderTest(waitEventWithOneConditional);
 
-            return Promise.resolve().then(() => {
-                const labelAndNameComponents = element.shadowRoot.querySelectorAll(selectors.labelAndName);
-                expect(labelAndNameComponents).toHaveLength(1);
-                expect(labelAndNameComponents[0].devName.value).toBe(waitEventWithOneConditional.name.value);
-                expect(labelAndNameComponents[0].label.value).toBe(waitEventWithOneConditional.label.value);
-            });
+            await ticks(1);
+            const labelAndNameComponents = element.shadowRoot.querySelectorAll(selectors.labelAndName);
+            expect(labelAndNameComponents).toHaveLength(1);
+            expect(labelAndNameComponents[0].devName.value).toBe(waitEventWithOneConditional.name.value);
+            expect(labelAndNameComponents[0].label.value).toBe(waitEventWithOneConditional.label.value);
         });
 
         it('fires a waitEventPropertyChangedEvent with guid when a propertyChanged event is handled', () => {
@@ -123,44 +123,41 @@ describe('Wait Event', () => {
             });
         });
 
-        it('has Remove button if show delete is true', () => {
+        it('has Remove button if show delete is true', async () => {
             const element = createComponentUnderTest(waitEventWithOneConditional);
 
-            return Promise.resolve().then(() => {
-                const removeButton = element.shadowRoot.querySelectorAll(selectors.removeButton)[0];
+            await ticks(1);
+            const removeButton = element.shadowRoot.querySelectorAll(selectors.removeButton)[0];
 
-                expect(removeButton.label).toBe(LABELS.deleteWaitEventLabel);
-                expect(removeButton.title).toBe(LABELS.deleteWaitEventLabel);
-            });
+            expect(removeButton.label).toBe(LABELS.deleteWaitEventLabel);
+            expect(removeButton.title).toBe(LABELS.deleteWaitEventLabel);
         });
-        it('has no Remove button if show delete is false', () => {
+        it('has no Remove button if show delete is false', async () => {
             const element = createComponentUnderTest(waitEventWithOneConditional);
             element.showDelete = false;
 
-            return Promise.resolve().then(() => {
-                const removeButton = element.shadowRoot.querySelector(selectors.removeButton);
+            await ticks(1);
+            const removeButton = element.shadowRoot.querySelector(selectors.removeButton);
 
-                expect(removeButton).toBeNull();
-            });
+            expect(removeButton).toBeNull();
         });
     });
 
     describe('handleDelete', () => {
-        it('fires deleteWaitEventEvent with wait event GUID', () => {
+        it('fires deleteWaitEventEvent with wait event GUID', async () => {
             const element = createComponentUnderTest(waitEventWithOneConditional);
 
-            return Promise.resolve().then(() => {
-                const eventCallback = jest.fn();
-                element.addEventListener(DeleteWaitEventEvent.EVENT_NAME, eventCallback);
+            await ticks(1);
+            const eventCallback = jest.fn();
+            element.addEventListener(DeleteWaitEventEvent.EVENT_NAME, eventCallback);
 
-                const removeButton = element.shadowRoot.querySelector(selectors.button);
-                removeButton.click();
+            const removeButton = element.shadowRoot.querySelector(selectors.button);
+            removeButton.click();
 
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                    detail: {
-                        guid: element.waitEvent.guid
-                    }
-                });
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                detail: {
+                    guid: element.waitEvent.guid
+                }
             });
         });
     });
@@ -207,7 +204,7 @@ describe('Wait Event', () => {
             ]);
         });
 
-        it('dispatches a WaitEventPropertyChangedEvent on PropertyChangedEvent', () => {
+        it('dispatches a WaitEventPropertyChangedEvent on PropertyChangedEvent', async () => {
             const conditionList = waitEvent.shadowRoot.querySelector(selectors.conditionList);
             const propNameToUpdate = 'foo';
             const propChangedEvent = new PropertyChangedEvent(propNameToUpdate);
@@ -215,14 +212,13 @@ describe('Wait Event', () => {
 
             window.addEventListener(WaitEventPropertyChangedEvent.EVENT_NAME, waitEventUpdateSpy);
             conditionList.dispatchEvent(propChangedEvent);
-            return Promise.resolve().then(() => {
-                window.removeEventListener(WaitEventPropertyChangedEvent.EVENT_NAME, waitEventUpdateSpy);
-                expect(waitEventUpdateSpy.mock.calls[0][0].type).toEqual(WaitEventPropertyChangedEvent.EVENT_NAME);
-                expect(waitEventUpdateSpy.mock.calls[0][0].detail.propertyName).toEqual(propNameToUpdate);
-            });
+            await ticks(1);
+            window.removeEventListener(WaitEventPropertyChangedEvent.EVENT_NAME, waitEventUpdateSpy);
+            expect(waitEventUpdateSpy.mock.calls[0][0].type).toEqual(WaitEventPropertyChangedEvent.EVENT_NAME);
+            expect(waitEventUpdateSpy.mock.calls[0][0].detail.propertyName).toEqual(propNameToUpdate);
         });
 
-        it('shows the error indicator in the wait conditions subtab when errors in conditions exist', () => {
+        it('shows the error indicator in the wait conditions subtab when errors in conditions exist', async () => {
             const conditionWithErorr = {
                 name: 'condition1',
                 rowIndex: 0,
@@ -233,24 +229,22 @@ describe('Wait Event', () => {
             });
             waitEvent = createComponentUnderTest(waitEventWithErrorConditional);
             const tabs = waitEvent.shadowRoot.querySelectorAll(selectors.tab);
-            return Promise.resolve().then(() => {
-                expect(tabs[0].showErrorIndicator).toEqual(true);
-            });
+            await ticks(1);
+            expect(tabs[0].showErrorIndicator).toEqual(true);
         });
 
-        it('shows the error indicator in the wait conditions subtab when errors in conditionLogic exist', () => {
+        it('shows the error indicator in the wait conditions subtab when errors in conditionLogic exist', async () => {
             const conditionLogicWithError = { value: '1', error: 'some error' };
             const waitEventWithErrorConditionLogic = Object.assign({}, waitEventWithOneConditional, {
                 conditionLogic: conditionLogicWithError
             });
             waitEvent = createComponentUnderTest(waitEventWithErrorConditionLogic);
             const tabs = waitEvent.shadowRoot.querySelectorAll(selectors.tab);
-            return Promise.resolve().then(() => {
-                expect(tabs[0].showErrorIndicator).toEqual(true);
-            });
+            await ticks(1);
+            expect(tabs[0].showErrorIndicator).toEqual(true);
         });
 
-        it('does not show the error indicator in the wait conditions subtab when there is no error', () => {
+        it('does not show the error indicator in the wait conditions subtab when there is no error', async () => {
             const conditionWithNoErorr = {
                 name: 'condition1',
                 rowIndex: 0,
@@ -263,9 +257,8 @@ describe('Wait Event', () => {
             });
             waitEvent = createComponentUnderTest(waitEventWithErrorConditional);
             const tabs = waitEvent.shadowRoot.querySelectorAll(selectors.tab);
-            return Promise.resolve().then(() => {
-                expect(tabs[0].showErrorIndicator).toEqual(false);
-            });
+            await ticks(1);
+            expect(tabs[0].showErrorIndicator).toEqual(false);
         });
 
         it('sets the default operator to EqualTo', () => {
@@ -309,18 +302,17 @@ describe('Wait Event', () => {
             expect(waitResumeConditions.eventType).toEqual(waitEventWithInputParameters.eventType);
         });
 
-        it('handles PropertyChangedEvent from waitResumeConditions and fires WaitEventPropertyChangedEvent', () => {
+        it('handles PropertyChangedEvent from waitResumeConditions and fires WaitEventPropertyChangedEvent', async () => {
             const propertyChanged = new PropertyChangedEvent();
 
             const waitResumeConditions = waitEvent.shadowRoot.querySelector(selectors.waitResumeConditions);
             waitResumeConditions.dispatchEvent(propertyChanged);
 
-            return Promise.resolve().then(() => {
-                expect(waitEventPropertySpy).toHaveBeenCalled();
-            });
+            await ticks(1);
+            expect(waitEventPropertySpy).toHaveBeenCalled();
         });
 
-        it('handles UpdateParameterItem from waitResumeConditions and fires WaitEventParameterChangedEvent', () => {
+        it('handles UpdateParameterItem from waitResumeConditions and fires WaitEventParameterChangedEvent', async () => {
             const isInput = true;
             const error = 'an error';
             const propName = {
@@ -347,17 +339,16 @@ describe('Wait Event', () => {
             const waitResumeConditions = waitEvent.shadowRoot.querySelector(selectors.waitResumeConditions);
             waitResumeConditions.dispatchEvent(parameterChanged);
 
-            return Promise.resolve().then(() => {
-                expect(waitEventParameterSpy.mock.calls[0][0].type).toEqual(WaitEventParameterChangedEvent.EVENT_NAME);
-                expect(waitEventParameterSpy.mock.calls[0][0].detail.isInputParameter).toEqual(isInput);
-                expect(waitEventParameterSpy.mock.calls[0][0].detail.name).toEqual(propName);
-                expect(waitEventParameterSpy.mock.calls[0][0].detail.value).toEqual(newValue);
-                expect(waitEventParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual(newValueDataType);
-                expect(waitEventParameterSpy.mock.calls[0][0].detail.error).toEqual(error);
-            });
+            await ticks(1);
+            expect(waitEventParameterSpy.mock.calls[0][0].type).toEqual(WaitEventParameterChangedEvent.EVENT_NAME);
+            expect(waitEventParameterSpy.mock.calls[0][0].detail.isInputParameter).toEqual(isInput);
+            expect(waitEventParameterSpy.mock.calls[0][0].detail.name).toEqual(propName);
+            expect(waitEventParameterSpy.mock.calls[0][0].detail.value).toEqual(newValue);
+            expect(waitEventParameterSpy.mock.calls[0][0].detail.valueDataType).toEqual(newValueDataType);
+            expect(waitEventParameterSpy.mock.calls[0][0].detail.error).toEqual(error);
         });
 
-        it('shows the error indicator in the resume conditions subtab when errors exist in inputParamters', () => {
+        it('shows the error indicator in the resume conditions subtab when errors exist in inputParamters', async () => {
             const inputParameterWithError = {
                 name: { value: 'foo', error: null },
                 value: { value: 'bar', error: 'some error' },
@@ -369,12 +360,11 @@ describe('Wait Event', () => {
             });
             waitEvent = createComponentUnderTest(waitEventWithErrorInputParameters);
             const tabs = waitEvent.shadowRoot.querySelectorAll(selectors.tab);
-            return Promise.resolve().then(() => {
-                expect(tabs[1].showErrorIndicator).toEqual(true);
-            });
+            await ticks(1);
+            expect(tabs[1].showErrorIndicator).toEqual(true);
         });
 
-        it('shows the error indicator in the resume conditions subtab when errors exist in outputParameters', () => {
+        it('shows the error indicator in the resume conditions subtab when errors exist in outputParameters', async () => {
             const outputParameterWithError = {
                 name: { value: 'foo', error: null },
                 value: { value: 'bar', error: 'some error' },
@@ -386,12 +376,11 @@ describe('Wait Event', () => {
             });
             waitEvent = createComponentUnderTest(waitEventWithErrorOutputParameters);
             const tabs = waitEvent.shadowRoot.querySelectorAll(selectors.tab);
-            return Promise.resolve().then(() => {
-                expect(tabs[1].showErrorIndicator).toEqual(true);
-            });
+            await ticks(1);
+            expect(tabs[1].showErrorIndicator).toEqual(true);
         });
 
-        it('shows the error indicator in the resume conditions subtab when errors exist in eventType', () => {
+        it('shows the error indicator in the resume conditions subtab when errors exist in eventType', async () => {
             const eventTypeWithError = {
                 value: 'someEventType',
                 error: 'some error'
@@ -401,12 +390,11 @@ describe('Wait Event', () => {
             });
             waitEvent = createComponentUnderTest(waitEventWithErrorOutputParameters);
             const tabs = waitEvent.shadowRoot.querySelectorAll(selectors.tab);
-            return Promise.resolve().then(() => {
-                expect(tabs[1].showErrorIndicator).toEqual(true);
-            });
+            await ticks(1);
+            expect(tabs[1].showErrorIndicator).toEqual(true);
         });
 
-        it('does not show the error indicator in the resume conditions subtab when there is no error', () => {
+        it('does not show the error indicator in the resume conditions subtab when there is no error', async () => {
             const inputParameterWithNoError = {
                 name: { value: 'foo', error: null },
                 value: { value: 'bar', error: null },
@@ -429,9 +417,8 @@ describe('Wait Event', () => {
             });
             waitEvent = createComponentUnderTest(waitEventWithErrorConditional);
             const tabs = waitEvent.shadowRoot.querySelectorAll(selectors.tab);
-            return Promise.resolve().then(() => {
-                expect(tabs[1].showErrorIndicator).toEqual(false);
-            });
+            await ticks(1);
+            expect(tabs[1].showErrorIndicator).toEqual(false);
         });
     });
 });

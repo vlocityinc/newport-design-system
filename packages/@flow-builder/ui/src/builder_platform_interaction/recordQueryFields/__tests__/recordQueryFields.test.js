@@ -13,6 +13,7 @@ import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntit
 import * as store from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -128,46 +129,43 @@ describe('record-store-fields', () => {
             fieldList = getFieldList(recordQueryFields);
         });
 
-        it('fires addRecordLookupFieldEvent', () => {
-            return Promise.resolve().then(() => {
-                const eventCallback = jest.fn();
-                recordQueryFields.addEventListener(AddRecordLookupFieldEvent.EVENT_NAME, eventCallback);
-                fieldList.dispatchEvent(new AddListItemEvent());
-                expect(eventCallback).toHaveBeenCalled();
-            });
+        it('fires addRecordLookupFieldEvent', async () => {
+            await ticks(1);
+            const eventCallback = jest.fn();
+            recordQueryFields.addEventListener(AddRecordLookupFieldEvent.EVENT_NAME, eventCallback);
+            fieldList.dispatchEvent(new AddListItemEvent());
+            expect(eventCallback).toHaveBeenCalled();
         });
 
-        it('fires updateRecordLookupFieldEvent', () => {
+        it('fires updateRecordLookupFieldEvent', async () => {
             const updateData = {
                 index: 0,
                 value: 'Name'
             };
-            return Promise.resolve().then(() => {
-                const eventCallback = jest.fn();
-                recordQueryFields.addEventListener(UpdateRecordLookupFieldEvent.EVENT_NAME, eventCallback);
-                fieldList.dispatchEvent(new UpdateListItemEvent(updateData.index, updateData.value));
-                expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                    detail: {
-                        index: updateData.index,
-                        value: updateData.value
-                    }
-                });
+            await ticks(1);
+            const eventCallback = jest.fn();
+            recordQueryFields.addEventListener(UpdateRecordLookupFieldEvent.EVENT_NAME, eventCallback);
+            fieldList.dispatchEvent(new UpdateListItemEvent(updateData.index, updateData.value));
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                detail: {
+                    index: updateData.index,
+                    value: updateData.value
+                }
             });
         });
 
-        it('fires deleteRecordLookupFieldEvent', () => {
+        it('fires deleteRecordLookupFieldEvent', async () => {
             const deleteIndex = 1;
-            return Promise.resolve().then(() => {
-                const eventCallback = jest.fn();
-                recordQueryFields.addEventListener(DeleteRecordLookupFieldEvent.EVENT_NAME, eventCallback);
-                fieldList.dispatchEvent(new DeleteListItemEvent(deleteIndex));
-                expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                    detail: {
-                        index: deleteIndex
-                    }
-                });
+            await ticks(1);
+            const eventCallback = jest.fn();
+            recordQueryFields.addEventListener(DeleteRecordLookupFieldEvent.EVENT_NAME, eventCallback);
+            fieldList.dispatchEvent(new DeleteListItemEvent(deleteIndex));
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                detail: {
+                    index: deleteIndex
+                }
             });
         });
     });

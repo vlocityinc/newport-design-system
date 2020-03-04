@@ -1,6 +1,7 @@
 import ScreenPalette from 'builder_platform_interaction/screenEditorPalette';
 import { createElement } from 'lwc';
 import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 function createComponentForTest() {
     const el = createElement('builder_platform_interaction-screen-editor-palette', { is: ScreenPalette });
@@ -71,13 +72,12 @@ describe('Screen Editor Palette', () => {
     let basePalette;
     let eventCallback;
     let guid;
-    beforeEach(() => {
+    beforeEach(async () => {
         element = createComponentForTest();
         eventCallback = jest.fn();
-        return Promise.resolve().then(() => {
-            basePalette = element.shadowRoot.querySelector('builder_platform_interaction-palette');
-            guid = basePalette.data[3].key;
-        });
+        await ticks(1);
+        basePalette = element.shadowRoot.querySelector('builder_platform_interaction-palette');
+        guid = basePalette.data[3].key;
     });
     it('should list all the screen fields and extensions, sorted within category', () => {
         expect(basePalette.data).toHaveLength(7);
@@ -89,19 +89,18 @@ describe('Screen Editor Palette', () => {
         expect(basePalette.data[5].label).toBe('Custom (1)');
         expect(basePalette.data[6].label).toBe('Custom Comp');
     });
-    it('should fire an event when clicking a field type', () => {
+    it('should fire an event when clicking a field type', async () => {
         element.addEventListener(SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED, eventCallback);
         const paletteClickEvent = new CustomEvent('paletteitemclicked', {
             detail: { guid }
         });
         basePalette.dispatchEvent(paletteClickEvent);
-        return Promise.resolve().then(() => {
-            expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                detail: {
-                    typeName: 'LargeTextArea'
-                }
-            });
+        await ticks(1);
+        expect(eventCallback).toHaveBeenCalled();
+        expect(eventCallback.mock.calls[0][0]).toMatchObject({
+            detail: {
+                typeName: 'LargeTextArea'
+            }
         });
     });
     it('should modify the event with the field type when dragging a field type', () => {

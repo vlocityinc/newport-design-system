@@ -1,6 +1,7 @@
 import { createElement } from 'lwc';
 import Row from 'builder_platform_interaction/row';
 import { DeleteListItemEvent } from 'builder_platform_interaction/events';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const prefix = 'myAwesomePrefix';
 const itemIndex = 3;
@@ -78,18 +79,17 @@ describe('Row prefix', () => {
 });
 
 describe('Row Events', () => {
-    it('Row delete event should be fired when delete button is clicked for a row with proper index info in the event detail', () => {
+    it('Row delete event should be fired when delete button is clicked for a row with proper index info in the event detail', async () => {
         const myrowElement = createComponentUnderTest();
         myrowElement.itemIndex = itemIndex;
-        return Promise.resolve().then(() => {
-            const eventCallback = jest.fn();
-            myrowElement.addEventListener(DeleteListItemEvent.EVENT_NAME, eventCallback);
-            const deleteButton = myrowElement.shadowRoot.querySelector(selectors.deleteButton);
-            deleteButton.click();
-            expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                detail: { index: itemIndex }
-            });
+        await ticks(1);
+        const eventCallback = jest.fn();
+        myrowElement.addEventListener(DeleteListItemEvent.EVENT_NAME, eventCallback);
+        const deleteButton = myrowElement.shadowRoot.querySelector(selectors.deleteButton);
+        deleteButton.click();
+        expect(eventCallback).toHaveBeenCalled();
+        expect(eventCallback.mock.calls[0][0]).toMatchObject({
+            detail: { index: itemIndex }
         });
     });
 });

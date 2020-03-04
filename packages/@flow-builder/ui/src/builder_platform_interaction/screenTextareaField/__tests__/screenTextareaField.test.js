@@ -1,6 +1,7 @@
 import { createElement } from 'lwc';
 import ScreenTextareaField from 'builder_platform_interaction/screenTextareaField';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const standardLabelVariant = 'standard';
 
@@ -23,23 +24,20 @@ describe('Textarea display is required', () => {
             required: true
         });
     });
-    it('Value should be undefined', () => {
-        return Promise.resolve().then(() => {
-            const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
-            expect(input.value).toBeUndefined();
-        });
+    it('Value should be undefined', async () => {
+        await ticks(1);
+        const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
+        expect(input.value).toBeUndefined();
     });
-    it('Required should be true', () => {
-        return Promise.resolve().then(() => {
-            const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
-            expect(input.required).toEqual(true);
-        });
+    it('Required should be true', async () => {
+        await ticks(1);
+        const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
+        expect(input.required).toEqual(true);
     });
-    it('Label should be standard', () => {
-        return Promise.resolve().then(() => {
-            const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
-            expect(input.variant).toEqual(standardLabelVariant);
-        });
+    it('Label should be standard', async () => {
+        await ticks(1);
+        const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
+        expect(input.variant).toEqual(standardLabelVariant);
     });
 });
 
@@ -53,23 +51,20 @@ describe('Textarea field not required', () => {
             value: defaultValue
         });
     });
-    it('Value should be as specified', () => {
-        return Promise.resolve().then(() => {
-            const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
-            expect(input.value).toEqual(defaultValue);
-        });
+    it('Value should be as specified', async () => {
+        await ticks(1);
+        const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
+        expect(input.value).toEqual(defaultValue);
     });
-    it('Required should be false', () => {
-        return Promise.resolve().then(() => {
-            const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
-            expect(input.required).toEqual(false);
-        });
+    it('Required should be false', async () => {
+        await ticks(1);
+        const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
+        expect(input.required).toEqual(false);
     });
-    it('Label should be standard', () => {
-        return Promise.resolve().then(() => {
-            const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
-            expect(input.variant).toEqual(standardLabelVariant);
-        });
+    it('Label should be standard', async () => {
+        await ticks(1);
+        const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
+        expect(input.variant).toEqual(standardLabelVariant);
     });
 });
 
@@ -82,17 +77,15 @@ describe('Text area field with no label', () => {
             required: false
         });
     });
-    it('Label should be shown even when it is empty', () => {
-        return Promise.resolve().then(() => {
-            const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
-            expect(input.variant).toEqual(standardLabelVariant);
-        });
+    it('Label should be shown even when it is empty', async () => {
+        await ticks(1);
+        const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
+        expect(input.variant).toEqual(standardLabelVariant);
     });
-    it('Label displayed should be a placeholder', () => {
-        return Promise.resolve().then(() => {
-            const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
-            expect(input.label).toEqual('[' + LABELS.fieldTypeLabelLargeTextArea + ']');
-        });
+    it('Label displayed should be a placeholder', async () => {
+        await ticks(1);
+        const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
+        expect(input.label).toEqual('[' + LABELS.fieldTypeLabelLargeTextArea + ']');
     });
 });
 
@@ -106,10 +99,9 @@ describe('Text area with help text', () => {
             helpText: { value: helpTextValue, error: null }
         });
     });
-    it('Help text should be passed through', () => {
-        return Promise.resolve().then(() => {
-            const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
-            expect(input.fieldLevelHelp).toEqual(helpTextValue);
-        });
+    it('Help text should be passed through', async () => {
+        await ticks(1);
+        const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
+        expect(input.fieldLevelHelp).toEqual(helpTextValue);
     });
 });

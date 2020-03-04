@@ -3,6 +3,7 @@ import { mockSubmitForApprovalActionParameters } from 'mock/calloutData';
 import { emailScreenFieldAutomaticOutput } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -26,15 +27,15 @@ describe('resource-details-parameters-action', () => {
             ${undefined}
             ${''}
             ${'GUID_NOT_IN_STORE'}
-        `('Invalid resourceGuid: "$resourceGuid"', ({ resourceGuid }) => {
+        `('Invalid resourceGuid: "$resourceGuid"', async ({ resourceGuid }) => {
             fetchActionOutputFetchFunc(resourceGuid, callback);
-            return Promise.resolve().then(() =>
-                expect(callback).toHaveBeenCalledWith([], `No resource found for GUID: ${resourceGuid}`)
-            );
+            await ticks(1);
+            expect(callback).toHaveBeenCalledWith([], `No resource found for GUID: ${resourceGuid}`);
         });
-        test('Existing resourceGuid', () => {
+        test('Existing resourceGuid', async () => {
             fetchActionOutputFetchFunc(emailScreenFieldAutomaticOutput.guid, callback);
-            return Promise.resolve().then(() => expect(callback).not.toHaveBeenCalledWith([], expect.any(String)));
+            await ticks(1);
+            expect(callback).not.toHaveBeenCalledWith([], expect.any(String));
         });
     });
     describe('mapperActionOutputParameter', () => {

@@ -1,6 +1,11 @@
 import { createElement } from 'lwc';
 import ScreenChoiceFieldPropertiesEditor from '../screenChoiceFieldPropertiesEditor';
-import { query, createTestScreenField, SCREEN_NO_DEF_VALUE } from 'builder_platform_interaction/builderTestUtils';
+import {
+    query,
+    createTestScreenField,
+    SCREEN_NO_DEF_VALUE,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import { PropertyChangedEvent, SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
 
 import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
@@ -95,68 +100,56 @@ describe('screen-choice-field-properties-editor for radio field, type String', (
             })
         });
     });
-    it('Should not have scale input ', () => {
-        return Promise.resolve().then(() => {
-            const scale = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.SCALE);
+    it('Should not have scale input ', async () => {
+        await ticks(1);
+        const scale = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.SCALE);
 
-            expect(scale).toBeFalsy();
-        });
+        expect(scale).toBeFalsy();
     });
-    it('API Name field should be filled in', () => {
-        return Promise.resolve().then(() => {
-            const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(
-                SELECTORS.NAME_AND_LABEL_FIELD
-            );
-            expect(nameAndLabelField.devName.value).toBe(fieldName);
-        });
+    it('API Name field should be filled in', async () => {
+        await ticks(1);
+        const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+        expect(nameAndLabelField.devName.value).toBe(fieldName);
     });
-    it('Label field should be filled in', () => {
-        return Promise.resolve().then(() => {
-            const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(
-                SELECTORS.NAME_AND_LABEL_FIELD
-            );
-            expect(nameAndLabelField).toBeDefined();
-            expect(nameAndLabelField.label.value).toBe(fieldName);
-        });
+    it('Label field should be filled in', async () => {
+        await ticks(1);
+        const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+        expect(nameAndLabelField).toBeDefined();
+        expect(nameAndLabelField.label.value).toBe(fieldName);
     });
-    it('Default value is nothing', () => {
-        return Promise.resolve().then(() => {
-            const renderedDefaultValueField = query(
-                screenChoiceFieldPropEditor,
-                SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD
-            );
-            expect(renderedDefaultValueField).toBeDefined();
-            expect(renderedDefaultValueField.value.value).toBe('');
-        });
+    it('Default value is nothing', async () => {
+        await ticks(1);
+        const renderedDefaultValueField = query(
+            screenChoiceFieldPropEditor,
+            SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD
+        );
+        expect(renderedDefaultValueField).toBeDefined();
+        expect(renderedDefaultValueField.value.value).toBe('');
     });
-    it('Required checkbox is present and not checked', () => {
-        return Promise.resolve().then(() => {
-            const renderedRequiredCheckbox = query(screenChoiceFieldPropEditor, SELECTORS.REQUIRED_CHECKBOX);
-            expect(renderedRequiredCheckbox).toBeDefined();
-            expect(renderedRequiredCheckbox.value).toBeFalsy();
-        });
+    it('Required checkbox is present and not checked', async () => {
+        await ticks(1);
+        const renderedRequiredCheckbox = query(screenChoiceFieldPropEditor, SELECTORS.REQUIRED_CHECKBOX);
+        expect(renderedRequiredCheckbox).toBeDefined();
+        expect(renderedRequiredCheckbox.value).toBeFalsy();
     });
-    it('Datatype drop down is set to required', () => {
-        return Promise.resolve().then(() => {
-            const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
-            expect(dataTypeDropDown).toBeDefined();
-            expect(dataTypeDropDown.required).toBeTruthy();
-        });
+    it('Datatype drop down is set to required', async () => {
+        await ticks(1);
+        const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
+        expect(dataTypeDropDown).toBeDefined();
+        expect(dataTypeDropDown.required).toBeTruthy();
     });
-    it('Datatype drop down and set', () => {
-        return Promise.resolve().then(() => {
-            const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
-            expect(dataTypeDropDown).toBeDefined();
-            expect(dataTypeDropDown.value).toBeDefined();
-            expect(dataTypeDropDown.value.dataType).toBe('TextBox');
-        });
+    it('Datatype drop down and set', async () => {
+        await ticks(1);
+        const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
+        expect(dataTypeDropDown).toBeDefined();
+        expect(dataTypeDropDown.value).toBeDefined();
+        expect(dataTypeDropDown.value.dataType).toBe('TextBox');
     });
-    it('Help text is present and filled in', () => {
-        return Promise.resolve().then(() => {
-            const helpTextField = query(screenChoiceFieldPropEditor, SELECTORS.HELP_TEXT);
-            expect(helpTextField).toBeDefined();
-            expect(helpTextField.value.value).toBe('Screen field field1 help text');
-        });
+    it('Help text is present and filled in', async () => {
+        await ticks(1);
+        const helpTextField = query(screenChoiceFieldPropEditor, SELECTORS.HELP_TEXT);
+        expect(helpTextField).toBeDefined();
+        expect(helpTextField.value.value).toBe('Screen field field1 help text');
     });
 });
 
@@ -170,75 +163,62 @@ describe('screen-choice-field-properties-editor for multi-select picklist', () =
             })
         });
     });
-    it('Should not have scale input ', () => {
-        return Promise.resolve().then(() => {
-            const scale = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.SCALE);
+    it('Should not have scale input ', async () => {
+        await ticks(1);
+        const scale = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.SCALE);
 
-            expect(scale).toBeFalsy();
-        });
+        expect(scale).toBeFalsy();
     });
-    it('API Name field should be filled in', () => {
-        return Promise.resolve().then(() => {
-            const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(
-                SELECTORS.NAME_AND_LABEL_FIELD
-            );
-            expect(nameAndLabelField.devName.value).toBe(fieldName);
-        });
+    it('API Name field should be filled in', async () => {
+        await ticks(1);
+        const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+        expect(nameAndLabelField.devName.value).toBe(fieldName);
     });
-    it('Label field should be filled in', () => {
-        return Promise.resolve().then(() => {
-            const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(
-                SELECTORS.NAME_AND_LABEL_FIELD
-            );
-            expect(nameAndLabelField).toBeDefined();
-            expect(nameAndLabelField.label.value).toBe(fieldName);
-        });
+    it('Label field should be filled in', async () => {
+        await ticks(1);
+        const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+        expect(nameAndLabelField).toBeDefined();
+        expect(nameAndLabelField.label.value).toBe(fieldName);
     });
-    it('Default value is nothing', () => {
-        return Promise.resolve().then(() => {
-            const renderedDefaultValueField = query(
-                screenChoiceFieldPropEditor,
-                SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD
-            );
-            expect(renderedDefaultValueField).toBeDefined();
-            expect(renderedDefaultValueField.value.value).toBe('');
-        });
+    it('Default value is nothing', async () => {
+        await ticks(1);
+        const renderedDefaultValueField = query(
+            screenChoiceFieldPropEditor,
+            SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD
+        );
+        expect(renderedDefaultValueField).toBeDefined();
+        expect(renderedDefaultValueField.value.value).toBe('');
     });
-    it('Required checkbox is present and not checked', () => {
-        return Promise.resolve().then(() => {
-            const renderedRequiredCheckbox = query(screenChoiceFieldPropEditor, SELECTORS.REQUIRED_CHECKBOX);
-            expect(renderedRequiredCheckbox).toBeDefined();
-            expect(renderedRequiredCheckbox.value).toBeFalsy();
-        });
+    it('Required checkbox is present and not checked', async () => {
+        await ticks(1);
+        const renderedRequiredCheckbox = query(screenChoiceFieldPropEditor, SELECTORS.REQUIRED_CHECKBOX);
+        expect(renderedRequiredCheckbox).toBeDefined();
+        expect(renderedRequiredCheckbox.value).toBeFalsy();
     });
-    it('Datatype drop down is set to not required', () => {
-        return Promise.resolve().then(() => {
-            const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
-            expect(dataTypeDropDown).toBeDefined();
-            expect(dataTypeDropDown.required).toBeFalsy();
-        });
+    it('Datatype drop down is set to not required', async () => {
+        await ticks(1);
+        const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
+        expect(dataTypeDropDown).toBeDefined();
+        expect(dataTypeDropDown.required).toBeFalsy();
     });
-    it('Datatype drop down is set to Text', () => {
-        return Promise.resolve().then(() => {
-            const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
-            expect(dataTypeDropDown).toBeDefined();
-            expect(dataTypeDropDown.value).toBeDefined();
-            expect(dataTypeDropDown.value.dataType).toBe('TextBox');
-        });
+    it('Datatype drop down is set to Text', async () => {
+        await ticks(1);
+        const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
+        expect(dataTypeDropDown).toBeDefined();
+        expect(dataTypeDropDown.value).toBeDefined();
+        expect(dataTypeDropDown.value.dataType).toBe('TextBox');
     });
-    it('Datatype drop down is disabled', () => {
-        return Promise.resolve().then(() => {
-            const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
-            expect(dataTypeDropDown).toBeDefined();
-            expect(dataTypeDropDown.typeAndCollectionDisabled).toBeTruthy();
-        });
+    it('Datatype drop down is disabled', async () => {
+        await ticks(1);
+        const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
+        expect(dataTypeDropDown).toBeDefined();
+        expect(dataTypeDropDown.typeAndCollectionDisabled).toBeTruthy();
     });
-    it('Help text is present and filled in', () => {
-        return Promise.resolve().then(() => {
-            const helpTextField = query(screenChoiceFieldPropEditor, SELECTORS.HELP_TEXT);
-            expect(helpTextField).toBeDefined();
-            expect(helpTextField.value.value).toBe('Screen field field1 help text');
-        });
+    it('Help text is present and filled in', async () => {
+        await ticks(1);
+        const helpTextField = query(screenChoiceFieldPropEditor, SELECTORS.HELP_TEXT);
+        expect(helpTextField).toBeDefined();
+        expect(helpTextField.value.value).toBe('Screen field field1 help text');
     });
 });
 
@@ -254,61 +234,50 @@ describe('screen-choice-field-properties-editor for multi-select checkboxes, typ
             })
         });
     });
-    it('API Name field should be filled in', () => {
-        return Promise.resolve().then(() => {
-            const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(
-                SELECTORS.NAME_AND_LABEL_FIELD
-            );
-            expect(nameAndLabelField.devName.value).toBe(fieldName);
-        });
+    it('API Name field should be filled in', async () => {
+        await ticks(1);
+        const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+        expect(nameAndLabelField.devName.value).toBe(fieldName);
     });
-    it('Label field should be filled in', () => {
-        return Promise.resolve().then(() => {
-            const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(
-                SELECTORS.NAME_AND_LABEL_FIELD
-            );
-            expect(nameAndLabelField).toBeDefined();
-            expect(nameAndLabelField.label.value).toBe(fieldName);
-        });
+    it('Label field should be filled in', async () => {
+        await ticks(1);
+        const nameAndLabelField = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+        expect(nameAndLabelField).toBeDefined();
+        expect(nameAndLabelField.label.value).toBe(fieldName);
     });
-    it('Default value is set to nothing', () => {
-        return Promise.resolve().then(() => {
-            const renderedDefaultValueField = query(
-                screenChoiceFieldPropEditor,
-                SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD
-            );
-            expect(renderedDefaultValueField).toBeDefined();
-            expect(renderedDefaultValueField.value.value).toBe('');
-        });
+    it('Default value is set to nothing', async () => {
+        await ticks(1);
+        const renderedDefaultValueField = query(
+            screenChoiceFieldPropEditor,
+            SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD
+        );
+        expect(renderedDefaultValueField).toBeDefined();
+        expect(renderedDefaultValueField.value.value).toBe('');
     });
-    it('Required checkbox is present and not checked', () => {
-        return Promise.resolve().then(() => {
-            const renderedRequiredCheckbox = query(screenChoiceFieldPropEditor, SELECTORS.REQUIRED_CHECKBOX);
-            expect(renderedRequiredCheckbox).toBeDefined();
-            expect(renderedRequiredCheckbox.value).toBeFalsy();
-        });
+    it('Required checkbox is present and not checked', async () => {
+        await ticks(1);
+        const renderedRequiredCheckbox = query(screenChoiceFieldPropEditor, SELECTORS.REQUIRED_CHECKBOX);
+        expect(renderedRequiredCheckbox).toBeDefined();
+        expect(renderedRequiredCheckbox.value).toBeFalsy();
     });
-    it('Datatype drop down is set to not required', () => {
-        return Promise.resolve().then(() => {
-            const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
-            expect(dataTypeDropDown).toBeDefined();
-            expect(dataTypeDropDown.required).toBeFalsy();
-        });
+    it('Datatype drop down is set to not required', async () => {
+        await ticks(1);
+        const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
+        expect(dataTypeDropDown).toBeDefined();
+        expect(dataTypeDropDown.required).toBeFalsy();
     });
-    it('Datatype drop down and set', () => {
-        return Promise.resolve().then(() => {
-            const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
-            expect(dataTypeDropDown).toBeDefined();
-            expect(dataTypeDropDown.value).toBeDefined();
-            expect(dataTypeDropDown.value.dataType).toBe('Number');
-        });
+    it('Datatype drop down and set', async () => {
+        await ticks(1);
+        const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
+        expect(dataTypeDropDown).toBeDefined();
+        expect(dataTypeDropDown.value).toBeDefined();
+        expect(dataTypeDropDown.value.dataType).toBe('Number');
     });
-    it('Help text is present and filled in', () => {
-        return Promise.resolve().then(() => {
-            const helpTextField = query(screenChoiceFieldPropEditor, SELECTORS.HELP_TEXT);
-            expect(helpTextField).toBeDefined();
-            expect(helpTextField.value.value).toBe('Screen field field1 help text');
-        });
+    it('Help text is present and filled in', async () => {
+        await ticks(1);
+        const helpTextField = query(screenChoiceFieldPropEditor, SELECTORS.HELP_TEXT);
+        expect(helpTextField).toBeDefined();
+        expect(helpTextField.value.value).toBe('Screen field field1 help text');
     });
 });
 
@@ -322,38 +291,32 @@ describe('screen-choice-field-properties-editor choice selectors', () => {
             })
         });
     });
-    it('Should not have scale input ', () => {
-        return Promise.resolve().then(() => {
-            const scale = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.SCALE);
+    it('Should not have scale input ', async () => {
+        await ticks(1);
+        const scale = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.SCALE);
 
-            expect(scale).toBeFalsy();
-        });
+        expect(scale).toBeFalsy();
     });
-    it('Correct number of choice selectors are present', () => {
-        return Promise.resolve().then(() => {
-            const choiceSelectors = query(screenChoiceFieldPropEditor, SELECTORS.CHOICE_SELECTOR, true);
-            expect(choiceSelectors).toBeDefined();
-            expect(choiceSelectors).toHaveLength(3);
-            expect(choiceSelectors[0].required).toBeTruthy();
-            expect(choiceSelectors[0].value.value).toMatch('choice0');
-            expect(choiceSelectors[1].value.value).toMatch('choice1');
-            expect(choiceSelectors[2].value.value).toMatch('choice2');
-        });
+    it('Correct number of choice selectors are present', async () => {
+        await ticks(1);
+        const choiceSelectors = query(screenChoiceFieldPropEditor, SELECTORS.CHOICE_SELECTOR, true);
+        expect(choiceSelectors).toBeDefined();
+        expect(choiceSelectors).toHaveLength(3);
+        expect(choiceSelectors[0].required).toBeTruthy();
+        expect(choiceSelectors[0].value.value).toMatch('choice0');
+        expect(choiceSelectors[1].value.value).toMatch('choice1');
+        expect(choiceSelectors[2].value.value).toMatch('choice2');
     });
-    it('Default choice drop down shows all choices associated with the field', () => {
-        return Promise.resolve().then(() => {
-            const defaultValueProp = query(
-                screenChoiceFieldPropEditor,
-                SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD
-            );
-            expect(defaultValueProp).toBeDefined();
-            expect(defaultValueProp.listChoices).toBeDefined();
-            expect(defaultValueProp.listChoices).toHaveLength(4);
-            expect(defaultValueProp.listChoices[0].value).toMatch('');
-            expect(defaultValueProp.listChoices[1].value).toMatch('choice0');
-            expect(defaultValueProp.listChoices[2].value).toMatch('choice1');
-            expect(defaultValueProp.listChoices[3].value).toMatch('choice2');
-        });
+    it('Default choice drop down shows all choices associated with the field', async () => {
+        await ticks(1);
+        const defaultValueProp = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD);
+        expect(defaultValueProp).toBeDefined();
+        expect(defaultValueProp.listChoices).toBeDefined();
+        expect(defaultValueProp.listChoices).toHaveLength(4);
+        expect(defaultValueProp.listChoices[0].value).toMatch('');
+        expect(defaultValueProp.listChoices[1].value).toMatch('choice0');
+        expect(defaultValueProp.listChoices[2].value).toMatch('choice1');
+        expect(defaultValueProp.listChoices[3].value).toMatch('choice2');
     });
 });
 
@@ -377,20 +340,16 @@ describe('DefaultValue options based on choice type', () => {
             field: testField
         });
     });
-    it('DefaultValue drop down does not include record or picklist choice sets', () => {
-        return Promise.resolve().then(() => {
-            const defaultValueProp = query(
-                screenChoiceFieldPropEditor,
-                SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD
-            );
-            expect(defaultValueProp).toBeDefined();
-            expect(defaultValueProp.listChoices).toBeDefined();
-            expect(defaultValueProp.listChoices).toHaveLength(2);
-            expect(defaultValueProp.listChoices[0].value).toMatch('');
-            expect(defaultValueProp.listChoices[1].value).toMatch('choice1');
-        });
+    it('DefaultValue drop down does not include record or picklist choice sets', async () => {
+        await ticks(1);
+        const defaultValueProp = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD);
+        expect(defaultValueProp).toBeDefined();
+        expect(defaultValueProp.listChoices).toBeDefined();
+        expect(defaultValueProp.listChoices).toHaveLength(2);
+        expect(defaultValueProp.listChoices[0].value).toMatch('');
+        expect(defaultValueProp.listChoices[1].value).toMatch('choice1');
     });
-    it('does not fire choice changed event when the choice does not change', () => {
+    it('does not fire choice changed event when the choice does not change', async () => {
         const propChangedEvent = new PropertyChangedEvent(
             null,
             null,
@@ -405,12 +364,11 @@ describe('DefaultValue options based on choice type', () => {
         const choiceChangedSpy = jest.fn();
         window.addEventListener(SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED, choiceChangedSpy);
         renderedDefaultValueField.dispatchEvent(propChangedEvent);
-        return Promise.resolve().then(() => {
-            window.removeEventListener(SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED, choiceChangedSpy);
-            expect(choiceChangedSpy).not.toHaveBeenCalled();
-        });
+        await ticks(1);
+        window.removeEventListener(SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED, choiceChangedSpy);
+        expect(choiceChangedSpy).not.toHaveBeenCalled();
     });
-    it('fires a choice changed event when the choice error does change', () => {
+    it('fires a choice changed event when the choice error does change', async () => {
         const propChangedEvent = new PropertyChangedEvent(
             null,
             null,
@@ -425,10 +383,9 @@ describe('DefaultValue options based on choice type', () => {
         const choiceChangedSpy = jest.fn();
         window.addEventListener(SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED, choiceChangedSpy);
         renderedDefaultValueField.dispatchEvent(propChangedEvent);
-        return Promise.resolve().then(() => {
-            window.removeEventListener(SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED, choiceChangedSpy);
-            expect(choiceChangedSpy).toHaveBeenCalled();
-        });
+        await ticks(1);
+        window.removeEventListener(SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED, choiceChangedSpy);
+        expect(choiceChangedSpy).toHaveBeenCalled();
     });
 });
 
@@ -448,20 +405,16 @@ describe('defaultValue combobox for choice based field', () => {
             field: testField
         });
     });
-    it('Default choice drop down shows only the configured choices', () => {
-        return Promise.resolve().then(() => {
-            const defaultValueProp = query(
-                screenChoiceFieldPropEditor,
-                SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD
-            );
-            expect(defaultValueProp).toBeDefined();
-            expect(defaultValueProp.listChoices).toBeDefined();
-            expect(defaultValueProp.listChoices).toHaveLength(4);
-            expect(defaultValueProp.listChoices[0].value).toMatch('');
-            expect(defaultValueProp.listChoices[1].value).toMatch('choice0');
-            expect(defaultValueProp.listChoices[2].value).toMatch('choice1');
-            expect(defaultValueProp.listChoices[3].value).toMatch('choice2');
-        });
+    it('Default choice drop down shows only the configured choices', async () => {
+        await ticks(1);
+        const defaultValueProp = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD);
+        expect(defaultValueProp).toBeDefined();
+        expect(defaultValueProp.listChoices).toBeDefined();
+        expect(defaultValueProp.listChoices).toHaveLength(4);
+        expect(defaultValueProp.listChoices[0].value).toMatch('');
+        expect(defaultValueProp.listChoices[1].value).toMatch('choice0');
+        expect(defaultValueProp.listChoices[2].value).toMatch('choice1');
+        expect(defaultValueProp.listChoices[3].value).toMatch('choice2');
     });
 });
 
@@ -477,16 +430,15 @@ describe('screen-choice-field-properties-editor defaultValue', () => {
             field: testField
         });
     });
-    it('When default value is set', () => {
-        return Promise.resolve().then(() => {
-            const defaultValue = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD);
-            expect(defaultValue).toBeDefined();
-            expect(defaultValue.value).toBeDefined();
+    it('When default value is set', async () => {
+        await ticks(1);
+        const defaultValue = query(screenChoiceFieldPropEditor, SELECTORS.DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD);
+        expect(defaultValue).toBeDefined();
+        expect(defaultValue.value).toBeDefined();
 
-            // Because the field has 3 choices assocaited with it, it should have 4 options.
-            // The 3 choices, plus no default selected.
-            expect(defaultValue.listChoices).toHaveLength(4);
-        });
+        // Because the field has 3 choices assocaited with it, it should have 4 options.
+        // The 3 choices, plus no default selected.
+        expect(defaultValue.listChoices).toHaveLength(4);
     });
 });
 
@@ -497,12 +449,11 @@ describe('screen-choice-field-properties-editor for field that is set to require
             field: createTestScreenField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE, { required: true })
         });
     });
-    it('Required checkbox is present and checked', () => {
-        return Promise.resolve().then(() => {
-            const requiredCheckbox = query(screenChoiceFieldPropEditor, SELECTORS.REQUIRED_CHECKBOX);
-            expect(requiredCheckbox).toBeDefined();
-            expect(requiredCheckbox.value).toBeTruthy();
-        });
+    it('Required checkbox is present and checked', async () => {
+        await ticks(1);
+        const requiredCheckbox = query(screenChoiceFieldPropEditor, SELECTORS.REQUIRED_CHECKBOX);
+        expect(requiredCheckbox).toBeDefined();
+        expect(requiredCheckbox.value).toBeTruthy();
     });
 });
 
@@ -513,12 +464,11 @@ describe('screen-choice-field-properties-editor with help text', () => {
             field: createTestScreenField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE)
         });
     });
-    it('Help text is displayed', () => {
-        return Promise.resolve().then(() => {
-            const helpTextField = query(screenChoiceFieldPropEditor, SELECTORS.HELP_TEXT);
-            expect(helpTextField).toBeDefined();
-            expect(helpTextField.value.value).toBe('Screen field field1 help text');
-        });
+    it('Help text is displayed', async () => {
+        await ticks(1);
+        const helpTextField = query(screenChoiceFieldPropEditor, SELECTORS.HELP_TEXT);
+        expect(helpTextField).toBeDefined();
+        expect(helpTextField.value.value).toBe('Screen field field1 help text');
     });
 });
 
@@ -529,12 +479,11 @@ describe('screen-choice-field-properties-editor for existing field', () => {
             field: createTestScreenField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE)
         });
     });
-    it('DataType drop down is disabled', () => {
-        return Promise.resolve().then(() => {
-            const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
-            expect(dataTypeDropDown).toBeDefined();
-            expect(dataTypeDropDown.typeAndCollectionDisabled).toBeTruthy();
-        });
+    it('DataType drop down is disabled', async () => {
+        await ticks(1);
+        const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
+        expect(dataTypeDropDown).toBeDefined();
+        expect(dataTypeDropDown.typeAndCollectionDisabled).toBeTruthy();
     });
 });
 
@@ -548,12 +497,11 @@ describe('screen-choice-field-properties-editor for new field', () => {
             field: testField
         });
     });
-    it('DataType drop down is enabled', () => {
-        return Promise.resolve().then(() => {
-            const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
-            expect(dataTypeDropDown).toBeDefined();
-            expect(dataTypeDropDown.typeAndCollectionDisabled).toBeFalsy();
-        });
+    it('DataType drop down is enabled', async () => {
+        await ticks(1);
+        const dataTypeDropDown = screenChoiceFieldPropEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
+        expect(dataTypeDropDown).toBeDefined();
+        expect(dataTypeDropDown.typeAndCollectionDisabled).toBeFalsy();
     });
 });
 
@@ -563,15 +511,14 @@ describe('screen-choise-field-properties-editor component visibility', () => {
         screenChoiseFieldPropEditor = createComponentUnderTest();
     });
 
-    it('section is present', () => {
-        return Promise.resolve().then(() => {
-            const componentVisibilitySection = query(screenChoiseFieldPropEditor, SELECTORS.COMPONENT_VISIBILITY);
-            expect(componentVisibilitySection).not.toBeNull();
-        });
+    it('section is present', async () => {
+        await ticks(1);
+        const componentVisibilitySection = query(screenChoiseFieldPropEditor, SELECTORS.COMPONENT_VISIBILITY);
+        expect(componentVisibilitySection).not.toBeNull();
     });
 });
 describe('scale input', () => {
-    it('Scale field should be present with number field', () => {
+    it('Scale field should be present with number field', async () => {
         const a = createComponentUnderTest({
             field: createTestScreenField(fieldName, 'TextBox', SCREEN_NO_DEF_VALUE, {
                 dataType: 'Number',
@@ -579,12 +526,11 @@ describe('scale input', () => {
                 helpText: false
             })
         });
-        return Promise.resolve().then(() => {
-            const renderedScaleField = query(a, SELECTORS.SCALE);
-            expect(renderedScaleField).toBeTruthy();
-        });
+        await ticks(1);
+        const renderedScaleField = query(a, SELECTORS.SCALE);
+        expect(renderedScaleField).toBeTruthy();
     });
-    it('should dispatch the correct event with number field ', () => {
+    it('should dispatch the correct event with number field ', async () => {
         const propChangedEvent = new PropertyChangedEvent(null, null, 'some new error', 2, null, 0, null);
         const a = createComponentUnderTest({
             field: createTestScreenField(fieldName, 'TextBox', SCREEN_NO_DEF_VALUE, {
@@ -596,11 +542,10 @@ describe('scale input', () => {
         const renderedScaleField = query(a, SELECTORS.SCALE);
         renderedScaleField.dispatchEvent(propChangedEvent);
         const spy = addCurrentValueToEvent;
-        return Promise.resolve().then(() => {
-            expect(spy).toHaveBeenCalled();
-        });
+        await ticks(1);
+        expect(spy).toHaveBeenCalled();
     });
-    it('Scale field should not be present with string field and corresponding fn should not be dispatched', () => {
+    it('Scale field should not be present with string field and corresponding fn should not be dispatched', async () => {
         const a = createComponentUnderTest({
             field: createTestScreenField(fieldName, 'TextBox', SCREEN_NO_DEF_VALUE, {
                 dataType: 'String',
@@ -608,11 +553,10 @@ describe('scale input', () => {
                 helpText: false
             })
         });
-        return Promise.resolve().then(() => {
-            const spy = addCurrentValueToEvent;
-            const renderedScaleField = query(a, SELECTORS.SCALE);
-            expect(renderedScaleField).not.toBeTruthy();
-            expect(spy).not.toHaveBeenCalled();
-        });
+        await ticks(1);
+        const spy = addCurrentValueToEvent;
+        const renderedScaleField = query(a, SELECTORS.SCALE);
+        expect(renderedScaleField).not.toBeTruthy();
+        expect(spy).not.toHaveBeenCalled();
     });
 });

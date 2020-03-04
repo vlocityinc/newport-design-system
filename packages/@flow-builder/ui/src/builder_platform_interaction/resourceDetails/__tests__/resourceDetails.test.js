@@ -17,6 +17,7 @@ import {
 } from 'mock/resourceDetailsData';
 import { LABELS } from '../resourceDetailsLabels';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/loggingUtils', () => ({
     logInteraction: jest.fn()
@@ -91,23 +92,21 @@ describe('Resource Details', () => {
             expect(eventCallback).toHaveBeenCalled();
             expect(logInteraction).toHaveBeenCalled();
         });
-        it('handle edit click SHOULD fire EditElementEvent with outcome canvasElementGUID', () => {
+        it('handle edit click SHOULD fire EditElementEvent with outcome canvasElementGUID', async () => {
             const eventCallback = jest.fn();
             const guid = 'guid1';
             const element = createComponentUnderTest(ASSIGNMENT_DETAILS);
             element.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
-            return Promise.resolve().then(() => {
-                const footerButtons = element.shadowRoot.querySelectorAll(SELECTORS.footerButtons);
-                const editButtonClickedEvent = new EditElementEvent(guid);
-                footerButtons[1].dispatchEvent(editButtonClickedEvent);
-                return Promise.resolve().then(() => {
-                    expect(eventCallback).toHaveBeenCalled();
-                    expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                        detail: {
-                            canvasElementGUID: guid
-                        }
-                    });
-                });
+            await ticks(2);
+            const footerButtons = element.shadowRoot.querySelectorAll(SELECTORS.footerButtons);
+            const editButtonClickedEvent = new EditElementEvent(guid);
+            footerButtons[1].dispatchEvent(editButtonClickedEvent);
+            await ticks(1);
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                detail: {
+                    canvasElementGUID: guid
+                }
             });
         });
 
@@ -117,24 +116,22 @@ describe('Resource Details', () => {
             expect(footerButtons[0].label).toBe(LABELS.deleteButtonLabel);
             expect(footerButtons[0].title).toBe(LABELS.deleteButtonLabel);
         });
-        it('handle delete click SHOULD fire DeleteResourceEvent with outcome selectedElementGUID and selectedElementType', () => {
+        it('handle delete click SHOULD fire DeleteResourceEvent with outcome selectedElementGUID and selectedElementType', async () => {
             const eventCallback = jest.fn();
             const guid = 'guid1';
             const element = createComponentUnderTest(ASSIGNMENT_DETAILS);
             element.addEventListener(DeleteResourceEvent.EVENT_NAME, eventCallback);
-            return Promise.resolve().then(() => {
-                const footerButtons = element.shadowRoot.querySelectorAll(SELECTORS.footerButtons);
-                const deleteButtonClickedEvent = new DeleteResourceEvent([guid], 'ASSIGNMENT');
-                footerButtons[0].dispatchEvent(deleteButtonClickedEvent);
-                return Promise.resolve().then(() => {
-                    expect(eventCallback).toHaveBeenCalled();
-                    expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                        detail: {
-                            selectedElementGUID: [guid],
-                            selectedElementType: 'ASSIGNMENT'
-                        }
-                    });
-                });
+            await ticks(2);
+            const footerButtons = element.shadowRoot.querySelectorAll(SELECTORS.footerButtons);
+            const deleteButtonClickedEvent = new DeleteResourceEvent([guid], 'ASSIGNMENT');
+            footerButtons[0].dispatchEvent(deleteButtonClickedEvent);
+            await ticks(1);
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                detail: {
+                    selectedElementGUID: [guid],
+                    selectedElementType: 'ASSIGNMENT'
+                }
             });
         });
     });

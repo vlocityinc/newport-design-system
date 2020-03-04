@@ -3,7 +3,7 @@ import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json'
 import RecordSortResult from 'builder_platform_interaction/recordSort';
 import { ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
 import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
-import { until } from 'builder_platform_interaction/builderTestUtils';
+import { until, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { clearEntityFieldsCache } from 'builder_platform_interaction/sobjectLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
@@ -127,18 +127,16 @@ describe('recordSort', () => {
                 detail: { value: SORT_ORDER.ASC }
             });
             sortOrderCmb.dispatchEvent(sortOrderCmbChangeEventForAscending);
-            return Promise.resolve().then(() => {
-                expect(getFilterCombobox(recordSortResultComponent)).toBeDefined();
-            });
+            await ticks(1);
+            expect(getFilterCombobox(recordSortResultComponent)).toBeDefined();
         });
         it('fields combobox should be visible when Descending is selected', async () => {
             const sortOrderCmbChangeEventForAscending = new CustomEvent('change', {
                 detail: { value: SORT_ORDER.DESC }
             });
             sortOrderCmb.dispatchEvent(sortOrderCmbChangeEventForAscending);
-            return Promise.resolve().then(() => {
-                expect(getFilterCombobox(recordSortResultComponent)).toBeDefined();
-            });
+            await ticks(1);
+            expect(getFilterCombobox(recordSortResultComponent)).toBeDefined();
         });
         it('error is shown on the sort by field, if one exists', () => {
             const sortFieldError = 'Invalid field';

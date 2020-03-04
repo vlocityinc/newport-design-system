@@ -282,38 +282,34 @@ describe('record-create-editor', () => {
         beforeEach(() => {
             recordCreateEditor = createComponentForTest(recordCreateElementWithFields());
         });
-        it('change number record to store to All records, sObject picker should changed', () => {
+        it('change number record to store to All records, sObject picker should changed', async () => {
             const event = new RecordStoreOptionChangedEvent(true, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE, false);
             getRecordStoreOption(recordCreateEditor).dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordCreateEditor);
-                expect(sObjectOrSObjectCollectionPicker.value).toBe('');
-            });
+            await ticks(1);
+            const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordCreateEditor);
+            expect(sObjectOrSObjectCollectionPicker.value).toBe('');
         });
-        it('handle AddRecordFieldAssignmentEvent should add an input Assignments element', () => {
+        it('handle AddRecordFieldAssignmentEvent should add an input Assignments element', async () => {
             const addRecordFieldAssignmentEvent = new AddRecordFieldAssignmentEvent();
             getInputOutputAssignments(recordCreateEditor).dispatchEvent(addRecordFieldAssignmentEvent);
-            return Promise.resolve().then(() => {
-                expect(recordCreateEditor.node.inputAssignments).toHaveLength(2);
-            });
+            await ticks(1);
+            expect(recordCreateEditor.node.inputAssignments).toHaveLength(2);
         });
-        it('handle UpdateRecordFieldAssignmentEvent should update the input Assignments element', () => {
+        it('handle UpdateRecordFieldAssignmentEvent should update the input Assignments element', async () => {
             const updateRecordFieldAssignmentEvent = new UpdateRecordFieldAssignmentEvent(
                 0,
                 inputAssignmentElement,
                 null
             );
             getInputOutputAssignments(recordCreateEditor).dispatchEvent(updateRecordFieldAssignmentEvent);
-            return Promise.resolve().then(() => {
-                expect(recordCreateEditor.node.inputAssignments[0]).toMatchObject(inputAssignmentElement);
-            });
+            await ticks(1);
+            expect(recordCreateEditor.node.inputAssignments[0]).toMatchObject(inputAssignmentElement);
         });
-        it('handle DeleteRecordFieldAssignmentEvent should delete the input assignment', () => {
+        it('handle DeleteRecordFieldAssignmentEvent should delete the input assignment', async () => {
             const deleteRecordFieldAssignmentEvent = new DeleteRecordFieldAssignmentEvent(0); // This is using the numerical rowIndex not the property rowIndex
             getInputOutputAssignments(recordCreateEditor).dispatchEvent(deleteRecordFieldAssignmentEvent);
-            return Promise.resolve().then(() => {
-                expect(recordCreateEditor.node.inputAssignments).toHaveLength(0);
-            });
+            await ticks(1);
+            expect(recordCreateEditor.node.inputAssignments).toHaveLength(0);
         });
     });
     describe('Handle Events with sObject', () => {
@@ -322,33 +318,30 @@ describe('record-create-editor', () => {
             expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(store.accountSObjectVariable);
             recordCreateEditor = createComponentForTest(recordCreateElementWithSObject);
         });
-        it('Number of record change should empty the sObject picker', () => {
+        it('Number of record change should empty the sObject picker', async () => {
             const event = new RecordStoreOptionChangedEvent(false, '', false);
             getRecordStoreOption(recordCreateEditor).dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordCreateEditor);
-                expect(sObjectOrSObjectCollectionPicker.value).toBe('');
-            });
+            await ticks(1);
+            const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordCreateEditor);
+            expect(sObjectOrSObjectCollectionPicker.value).toBe('');
         });
-        it('Number of record change should change the sObject or sObject Collection picker placeHolder', () => {
+        it('Number of record change should change the sObject or sObject Collection picker placeHolder', async () => {
             let sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordCreateEditor);
             expect(sObjectOrSObjectCollectionPicker.placeholder).toBe('FlowBuilderRecordEditor.searchRecords');
             const event = new RecordStoreOptionChangedEvent(false, '', false);
             getRecordStoreOption(recordCreateEditor).dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordCreateEditor);
-                expect(sObjectOrSObjectCollectionPicker.placeholder).toBe(
-                    'FlowBuilderRecordEditor.searchRecordCollections'
-                );
-            });
+            await ticks(1);
+            sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordCreateEditor);
+            expect(sObjectOrSObjectCollectionPicker.placeholder).toBe(
+                'FlowBuilderRecordEditor.searchRecordCollections'
+            );
         });
-        it('handle Input Reference Changed', () => {
+        it('handle Input Reference Changed', async () => {
             const event = new SObjectReferenceChangedEvent('sObj2', null);
             getSObjectOrSObjectCollectionPicker(recordCreateEditor).dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordCreateEditor);
-                expect(sObjectOrSObjectCollectionPicker.value).toBe('sObj2');
-            });
+            await ticks(1);
+            const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordCreateEditor);
+            expect(sObjectOrSObjectCollectionPicker.value).toBe('sObj2');
         });
     });
     describe('Edit existing record element using fields and automatic output handling', () => {
@@ -371,13 +364,12 @@ describe('record-create-editor', () => {
         it('Advanced Option Component should be visible', () => {
             expect(getUseAdvancedOptionComponent(recordCreateEditor)).not.toBeNull();
         });
-        it('"useAdvancedOptionsCheckbox" should be unchecked', () => {
-            return Promise.resolve().then(() => {
-                const advancedOptionCheckbox = getAdvancedOptionCheckbox(recordCreateEditor);
-                expect(advancedOptionCheckbox).toBeDefined();
-                expect(advancedOptionCheckbox.type).toBe('checkbox');
-                expect(advancedOptionCheckbox.checked).toBe(false);
-            });
+        it('"useAdvancedOptionsCheckbox" should be unchecked', async () => {
+            await ticks(1);
+            const advancedOptionCheckbox = getAdvancedOptionCheckbox(recordCreateEditor);
+            expect(advancedOptionCheckbox).toBeDefined();
+            expect(advancedOptionCheckbox.type).toBe('checkbox');
+            expect(advancedOptionCheckbox.checked).toBe(false);
         });
         describe('Handle Events with advanced option', () => {
             let advancedOptionCheckbox;
@@ -385,10 +377,9 @@ describe('record-create-editor', () => {
                 advancedOptionCheckbox = getAdvancedOptionCheckbox(recordCreateEditor);
                 advancedOptionCheckbox.dispatchEvent(new ToggleOnChangeEvent());
             });
-            it('Use adavanced checkbox should be checked', () => {
-                return Promise.resolve().then(() => {
-                    expect(advancedOptionCheckbox.checked).toBe(true);
-                });
+            it('Use adavanced checkbox should be checked', async () => {
+                await ticks(1);
+                expect(advancedOptionCheckbox.checked).toBe(true);
             });
             it('assignRecordIdToReference component should be displayed', () => {
                 const assignRecordIdToReference = getAssignRecordIdToReference(recordCreateEditor);

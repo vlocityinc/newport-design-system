@@ -1,6 +1,6 @@
 import { createElement } from 'lwc';
 import ValidationEditor from '../validationEditor';
-import { query } from 'builder_platform_interaction/builderTestUtils';
+import { query, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -39,22 +39,17 @@ describe('validationEditor with no validation rule', () => {
             }
         });
     });
-    it('Error message should be empty', () => {
-        return Promise.resolve().then(() => {
-            const resourcedRichTextEditorComponent = query(
-                validationEditorElement,
-                SELECTORS.RESOURCED_RICH_TEXT_EDITOR
-            );
-            expect(resourcedRichTextEditorComponent).not.toBeNull();
-            expect(resourcedRichTextEditorComponent.value.value).toBeNull();
-        });
+    it('Error message should be empty', async () => {
+        await ticks(1);
+        const resourcedRichTextEditorComponent = query(validationEditorElement, SELECTORS.RESOURCED_RICH_TEXT_EDITOR);
+        expect(resourcedRichTextEditorComponent).not.toBeNull();
+        expect(resourcedRichTextEditorComponent.value.value).toBeNull();
     });
-    it('Formula expression should be empty', () => {
-        return Promise.resolve().then(() => {
-            const resourcedTextareaComponent = query(validationEditorElement, SELECTORS.RESOURCED_TEXTAREA);
-            expect(resourcedTextareaComponent).not.toBeNull();
-            expect(resourcedTextareaComponent.value.value).toBeNull();
-        });
+    it('Formula expression should be empty', async () => {
+        await ticks(1);
+        const resourcedTextareaComponent = query(validationEditorElement, SELECTORS.RESOURCED_TEXTAREA);
+        expect(resourcedTextareaComponent).not.toBeNull();
+        expect(resourcedTextareaComponent.value.value).toBeNull();
     });
 });
 
@@ -70,35 +65,26 @@ describe('validationEditor with validation rule', () => {
             }
         });
     });
-    it('Error message should be displayed correctly', () => {
-        return Promise.resolve().then(() => {
-            const resourcedRichTextEditorComponent = query(
-                validationEditorElement,
-                SELECTORS.RESOURCED_RICH_TEXT_EDITOR
-            );
-            expect(resourcedRichTextEditorComponent).not.toBeNull();
-            expect(resourcedRichTextEditorComponent.value.value).toBe(ERROR_MESSAGE);
-        });
+    it('Error message should be displayed correctly', async () => {
+        await ticks(1);
+        const resourcedRichTextEditorComponent = query(validationEditorElement, SELECTORS.RESOURCED_RICH_TEXT_EDITOR);
+        expect(resourcedRichTextEditorComponent).not.toBeNull();
+        expect(resourcedRichTextEditorComponent.value.value).toBe(ERROR_MESSAGE);
     });
-    it('"rich text/plain text switch" NOT displayed inside the resourced rich text editor', () => {
-        return Promise.resolve().then(() => {
-            const resourcedRichTextEditorComponent = query(
-                validationEditorElement,
-                SELECTORS.RESOURCED_RICH_TEXT_EDITOR
-            );
-            expect(resourcedRichTextEditorComponent).not.toBeNull();
-            expect(resourcedRichTextEditorComponent.value.value).toBe(ERROR_MESSAGE);
-            expect(
-                resourcedRichTextEditorComponent.shadowRoot.querySelector(SELECTORS.RICH_TEXT_PLAIN_TEXT_SWITCH)
-            ).toBeNull();
-        });
+    it('"rich text/plain text switch" NOT displayed inside the resourced rich text editor', async () => {
+        await ticks(1);
+        const resourcedRichTextEditorComponent = query(validationEditorElement, SELECTORS.RESOURCED_RICH_TEXT_EDITOR);
+        expect(resourcedRichTextEditorComponent).not.toBeNull();
+        expect(resourcedRichTextEditorComponent.value.value).toBe(ERROR_MESSAGE);
+        expect(
+            resourcedRichTextEditorComponent.shadowRoot.querySelector(SELECTORS.RICH_TEXT_PLAIN_TEXT_SWITCH)
+        ).toBeNull();
     });
-    it('Formula expression should be displayed correctly', () => {
-        return Promise.resolve().then(() => {
-            const resourcedTextareaComponent = query(validationEditorElement, SELECTORS.RESOURCED_TEXTAREA);
-            expect(resourcedTextareaComponent).not.toBeNull();
-            expect(resourcedTextareaComponent.value.value).toBe(FORMULA_EXPRESSION);
-        });
+    it('Formula expression should be displayed correctly', async () => {
+        await ticks(1);
+        const resourcedTextareaComponent = query(validationEditorElement, SELECTORS.RESOURCED_TEXTAREA);
+        expect(resourcedTextareaComponent).not.toBeNull();
+        expect(resourcedTextareaComponent.value.value).toBe(FORMULA_EXPRESSION);
     });
     it('"rich text/plain text switch" NOT displayed inside the resourced text area', () => {
         const resourcedTextareaComponent = query(validationEditorElement, SELECTORS.RESOURCED_TEXTAREA);

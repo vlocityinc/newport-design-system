@@ -11,6 +11,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { waitReducer } from '../waitReducer';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -74,63 +75,57 @@ beforeEach(() => {
 });
 
 describe('wait-editor', () => {
-    it('handles the property changed event and updates the property', () => {
+    it('handles the property changed event and updates the property', async () => {
         const waitElement = createComponentForTest({ node: noErrorState });
         const event = new PropertyChangedEvent('description', 'new desc', null);
         waitElement.shadowRoot.querySelector(selectors.LABEL_DESCRIPTION).dispatchEvent(event);
-        return Promise.resolve().then(() => {
-            expect(waitReducer).toHaveBeenCalledWith(waitElement.node, event);
-        });
+        await ticks(1);
+        expect(waitReducer).toHaveBeenCalledWith(waitElement.node, event);
     });
 
-    it('handles AddConditionEvent from waitEvent', () => {
+    it('handles AddConditionEvent from waitEvent', async () => {
         const waitElement = createComponentForTest({ node: noErrorState });
         const event = new AddConditionEvent();
         waitElement.shadowRoot.querySelector(selectors.WAIT_EVENT).dispatchEvent(event);
-        return Promise.resolve().then(() => {
-            expect(waitReducer).toHaveBeenCalledWith(waitElement.node, event);
-        });
+        await ticks(1);
+        expect(waitReducer).toHaveBeenCalledWith(waitElement.node, event);
     });
 
-    it('handles UpdateConditionEvent from waitEvent', () => {
+    it('handles UpdateConditionEvent from waitEvent', async () => {
         const waitElement = createComponentForTest({ node: noErrorState });
         const event = new UpdateConditionEvent();
         waitElement.shadowRoot.querySelector(selectors.WAIT_EVENT).dispatchEvent(event);
-        return Promise.resolve().then(() => {
-            expect(waitReducer).toHaveBeenCalledWith(waitElement.node, event);
-        });
+        await ticks(1);
+        expect(waitReducer).toHaveBeenCalledWith(waitElement.node, event);
     });
 
-    it('handles DeleteConditionEvent from waitEvent', () => {
+    it('handles DeleteConditionEvent from waitEvent', async () => {
         const waitElement = createComponentForTest({ node: noErrorState });
         const event = new DeleteConditionEvent();
         waitElement.shadowRoot.querySelector(selectors.WAIT_EVENT).dispatchEvent(event);
-        return Promise.resolve().then(() => {
-            expect(waitReducer).toHaveBeenCalledWith(waitElement.node, event);
-        });
+        await ticks(1);
+        expect(waitReducer).toHaveBeenCalledWith(waitElement.node, event);
     });
 
-    it('handles WaitEventPropertyChangedEvent from waitEvent', () => {
+    it('handles WaitEventPropertyChangedEvent from waitEvent', async () => {
         const waitElement = createComponentForTest({ node: noErrorState });
         const event = new WaitEventPropertyChangedEvent();
         waitElement.shadowRoot.querySelector(selectors.WAIT_EVENT).dispatchEvent(event);
-        return Promise.resolve().then(() => {
-            expect(waitReducer).toHaveBeenCalledWith(waitElement.node, event);
-        });
+        await ticks(1);
+        expect(waitReducer).toHaveBeenCalledWith(waitElement.node, event);
     });
 
-    it('handles WaitEventParameterChangedEvent from waitEvent', () => {
+    it('handles WaitEventParameterChangedEvent from waitEvent', async () => {
         const waitElement = createComponentForTest({ node: noErrorState });
         const event = new WaitEventParameterChangedEvent();
         waitElement.shadowRoot.querySelector(selectors.WAIT_EVENT).dispatchEvent(event);
-        return Promise.resolve().then(() => {
-            expect(waitReducer).toHaveBeenCalledWith(waitElement.node, event);
-        });
+        await ticks(1);
+        expect(waitReducer).toHaveBeenCalledWith(waitElement.node, event);
     });
 });
 
 describe('default path', () => {
-    it('handles DefaultPathChangedEvent and updates defaultConnectorLabel', () => {
+    it('handles DefaultPathChangedEvent and updates defaultConnectorLabel', async () => {
         const waitElement = createComponentForTest({ node: noErrorState });
         // trigger showing of default path
         const reorderableWaitEventNav = waitElement.shadowRoot.querySelector(selectors.REORDERABLE_NAV);
@@ -139,45 +134,42 @@ describe('default path', () => {
                 detail: { itemId: DEFAULT_WAIT_EVENT_ID }
             })
         );
-        return Promise.resolve().then(() => {
-            const defaultPathChangedEvent = new PropertyChangedEvent('defaultConnectorLabel', 'new label', null);
-            waitElement.shadowRoot.querySelector(selectors.DEFAULT_PATH).dispatchEvent(defaultPathChangedEvent);
+        await ticks(1);
+        const defaultPathChangedEvent = new PropertyChangedEvent('defaultConnectorLabel', 'new label', null);
+        waitElement.shadowRoot.querySelector(selectors.DEFAULT_PATH).dispatchEvent(defaultPathChangedEvent);
 
-            const mockCallParams = waitReducer.mock.calls[0];
-            const waitReducerEvent = mockCallParams[1];
+        const mockCallParams = waitReducer.mock.calls[0];
+        const waitReducerEvent = mockCallParams[1];
 
-            expect(mockCallParams[0]).toEqual(noErrorState);
-            const expectedReducerEvent = {
-                type: 'propertychanged',
-                detail: {
-                    propertyName: 'defaultConnectorLabel',
-                    value: defaultPathChangedEvent.detail.value
-                }
-            };
-            expect(waitReducerEvent.type).toEqual(expectedReducerEvent.type);
-            expect(waitReducerEvent.detail.propertyName).toEqual(expectedReducerEvent.detail.propertyName);
-            expect(waitReducerEvent.detail.value).toEqual(expectedReducerEvent.detail.value);
-        });
+        expect(mockCallParams[0]).toEqual(noErrorState);
+        const expectedReducerEvent = {
+            type: 'propertychanged',
+            detail: {
+                propertyName: 'defaultConnectorLabel',
+                value: defaultPathChangedEvent.detail.value
+            }
+        };
+        expect(waitReducerEvent.type).toEqual(expectedReducerEvent.type);
+        expect(waitReducerEvent.detail.propertyName).toEqual(expectedReducerEvent.detail.propertyName);
+        expect(waitReducerEvent.detail.value).toEqual(expectedReducerEvent.detail.value);
     });
-    it('initial default path does not have an error', () => {
+    it('initial default path does not have an error', async () => {
         const waitElement = createComponentForTest({ node: noErrorState });
-        return Promise.resolve().then(() => {
-            const reorderableWaitEventsNav = waitElement.shadowRoot.querySelector(selectors.REORDERABLE_NAV);
-            const menuItems = reorderableWaitEventsNav.menuItems;
-            expect(menuItems[1].hasErrors).toBeFalsy();
-        });
+        await ticks(1);
+        const reorderableWaitEventsNav = waitElement.shadowRoot.querySelector(selectors.REORDERABLE_NAV);
+        const menuItems = reorderableWaitEventsNav.menuItems;
+        expect(menuItems[1].hasErrors).toBeFalsy();
     });
-    it('default path has an error if there is no label', () => {
+    it('default path has an error if there is no label', async () => {
         noErrorState.defaultConnectorLabel = {
             value: '',
             error: 'Label should not be empty'
         };
         const waitElement = createComponentForTest({ node: noErrorState });
-        return Promise.resolve().then(() => {
-            const reorderableWaitEventsNav = waitElement.shadowRoot.querySelector(selectors.REORDERABLE_NAV);
-            const menuItems = reorderableWaitEventsNav.menuItems;
-            expect(menuItems[1].hasErrors).toBeTruthy();
-        });
+        await ticks(1);
+        const reorderableWaitEventsNav = waitElement.shadowRoot.querySelector(selectors.REORDERABLE_NAV);
+        const menuItems = reorderableWaitEventsNav.menuItems;
+        expect(menuItems[1].hasErrors).toBeTruthy();
     });
 });
 

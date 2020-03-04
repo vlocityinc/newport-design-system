@@ -1,5 +1,6 @@
 import { createElement } from 'lwc';
 import ReorderableVerticalNavigation from 'builder_platform_interaction/reorderableVerticalNavigation';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const SELECTORS = {
     ITEM: 'builder_platform_interaction-reorderable-vertical-navigation-item',
@@ -38,59 +39,54 @@ const createComponentUnderTest = () => {
 };
 
 describe('ReorderableVerticalNavigation', () => {
-    it('is styled with vertical tabs', () => {
+    it('is styled with vertical tabs', async () => {
         const element = createComponentUnderTest();
-        return Promise.resolve().then(() => {
-            const div = element.shadowRoot.querySelectorAll(SELECTORS.DIV);
-            expect(div).toHaveLength(4);
-            expect(div[2].getAttribute('class')).toContain('slds-vertical-tabs__nav');
-        });
+        await ticks(1);
+        const div = element.shadowRoot.querySelectorAll(SELECTORS.DIV);
+        expect(div).toHaveLength(4);
+        expect(div[2].getAttribute('class')).toContain('slds-vertical-tabs__nav');
     });
-    it('renders all initial menu items', () => {
+    it('renders all initial menu items', async () => {
         const element = createComponentUnderTest();
         element.menuItems = initialMenu;
-        return Promise.resolve().then(() => {
-            const items = element.shadowRoot.querySelectorAll(SELECTORS.ITEM);
+        await ticks(1);
+        const items = element.shadowRoot.querySelectorAll(SELECTORS.ITEM);
 
-            expect(items).toHaveLength(2);
-        });
+        expect(items).toHaveLength(2);
     });
-    it('renders each item with isDraggable based on the menu item', () => {
+    it('renders each item with isDraggable based on the menu item', async () => {
         const element = createComponentUnderTest();
         element.menuItems = initialMenu;
-        return Promise.resolve().then(() => {
-            const menuItems = element.shadowRoot.querySelectorAll(SELECTORS.ITEM);
-            expect(menuItems[0].isDraggable).toBeTruthy();
-            expect(menuItems[1].isDraggable).toBeFalsy();
-        });
+        await ticks(1);
+        const menuItems = element.shadowRoot.querySelectorAll(SELECTORS.ITEM);
+        expect(menuItems[0].isDraggable).toBeTruthy();
+        expect(menuItems[1].isDraggable).toBeFalsy();
     });
-    it('renders each draggable item with front icon by default', () => {
+    it('renders each draggable item with front icon by default', async () => {
         const element = createComponentUnderTest();
         element.menuItems = initialMenu;
-        return Promise.resolve().then(() => {
-            const frontIcon = element.shadowRoot.querySelectorAll(SELECTORS.FRONT_ICON);
-            expect(frontIcon).toHaveLength(1);
-        });
+        await ticks(1);
+        const frontIcon = element.shadowRoot.querySelectorAll(SELECTORS.FRONT_ICON);
+        expect(frontIcon).toHaveLength(1);
     });
-    it('fires itemselected that includes itemId when an itemclicked event is fired', () => {
+    it('fires itemselected that includes itemId when an itemclicked event is fired', async () => {
         const element = createComponentUnderTest();
         element.menuItems = initialMenu;
-        return Promise.resolve().then(() => {
-            const firstMenuItem = element.shadowRoot.querySelector(SELECTORS.ITEM);
-            const eventCallback = jest.fn();
-            element.addEventListener('itemselected', eventCallback);
+        await ticks(1);
+        const firstMenuItem = element.shadowRoot.querySelector(SELECTORS.ITEM);
+        const eventCallback = jest.fn();
+        element.addEventListener('itemselected', eventCallback);
 
-            const itemClickedEvent = new CustomEvent('itemclicked', {
-                detail: {
-                    itemId: 'someItemId'
-                }
-            });
-            firstMenuItem.dispatchEvent(itemClickedEvent);
+        const itemClickedEvent = new CustomEvent('itemclicked', {
+            detail: {
+                itemId: 'someItemId'
+            }
+        });
+        firstMenuItem.dispatchEvent(itemClickedEvent);
 
-            expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0].detail).toMatchObject({
-                itemId: itemClickedEvent.detail.itemId
-            });
+        expect(eventCallback).toHaveBeenCalled();
+        expect(eventCallback.mock.calls[0][0].detail).toMatchObject({
+            itemId: itemClickedEvent.detail.itemId
         });
     });
 });

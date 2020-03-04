@@ -6,6 +6,7 @@ import normalizeDateTime from 'builder_platform_interaction/dateTimeUtils';
 import format from 'builder_platform_interaction/commonUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { MOCK_ALL_FLOW_ENTRIES } from 'mock/flowEntryData';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -216,19 +217,18 @@ describe('FlowPropertiesEditor', () => {
                 expect(getProcessType(flowPropertiesEditor)).toBeNull();
                 expect(getResourceTextArea(flowPropertiesEditor)).toBeNull();
             });
-            it('SHOW Advanced Properties', () => {
+            it('SHOW Advanced Properties', async () => {
                 const showAdvancedButton = getShowAdvancedButton(flowPropertiesEditor);
                 showAdvancedButton.click();
-                return Promise.resolve().then(() => {
-                    expect(getShowAdvancedButton(flowPropertiesEditor)).not.toBeNull();
-                    expect(getAdvancedProperties(flowPropertiesEditor)).not.toBeNull();
-                    expect(getProcessType(flowPropertiesEditor)).toBeDefined();
-                    expect(getProcessType(flowPropertiesEditor).value).toBe('process type None');
-                    const recourcedTextArea = getResourceTextArea(flowPropertiesEditor);
-                    expect(recourcedTextArea.value.value).toBe('');
-                    expect(recourcedTextArea.value.error).toBeNull();
-                    expect(getRichTextPlainTextSwitch(recourcedTextArea)).toBeNull();
-                });
+                await ticks(1);
+                expect(getShowAdvancedButton(flowPropertiesEditor)).not.toBeNull();
+                expect(getAdvancedProperties(flowPropertiesEditor)).not.toBeNull();
+                expect(getProcessType(flowPropertiesEditor)).toBeDefined();
+                expect(getProcessType(flowPropertiesEditor).value).toBe('process type None');
+                const recourcedTextArea = getResourceTextArea(flowPropertiesEditor);
+                expect(recourcedTextArea.value.value).toBe('');
+                expect(recourcedTextArea.value.error).toBeNull();
+                expect(getRichTextPlainTextSwitch(recourcedTextArea)).toBeNull();
             });
             it('Last Modified Information should NOT be shown for saveType CREATE', () => {
                 expect(getLastModifiedDetails(flowPropertiesEditor)).toBeNull();
@@ -261,49 +261,45 @@ describe('FlowPropertiesEditor', () => {
             });
         });
         describe('Advanced Properties', () => {
-            it('SHOW Advanced Properties', () => {
+            it('SHOW Advanced Properties', async () => {
                 expect(getShowAdvancedButton(flowPropertiesEditor)).toBeDefined();
                 expect(getHideAdvancedButton(flowPropertiesEditor)).toBeNull();
                 expect(getShowAdvancedButton(flowPropertiesEditor).label).toBe(LABELS.showAdvanced);
                 getShowAdvancedButton(flowPropertiesEditor).click();
-                return Promise.resolve().then(() => {
-                    expect(getAdvancedProperties(flowPropertiesEditor)).not.toBeNull();
-                    const resourcedTextArea = getResourceTextArea(flowPropertiesEditor);
-                    expect(resourcedTextArea.value.value).toBe(flowProperties.interviewLabel.value);
-                    expect(getRichTextPlainTextSwitch(resourcedTextArea)).toBeNull();
-                });
+                await ticks(1);
+                expect(getAdvancedProperties(flowPropertiesEditor)).not.toBeNull();
+                const resourcedTextArea = getResourceTextArea(flowPropertiesEditor);
+                expect(resourcedTextArea.value.value).toBe(flowProperties.interviewLabel.value);
+                expect(getRichTextPlainTextSwitch(resourcedTextArea)).toBeNull();
             });
             describe('Last Modified Information', () => {
-                it('returns the localized label with the correct user name and last modified date/time', () => {
+                it('returns the localized label with the correct user name and last modified date/time', async () => {
                     getShowAdvancedButton(flowPropertiesEditor).click();
-                    return Promise.resolve().then(() => {
-                        expect(getLastModifiedDetails(flowPropertiesEditor).textContent).toEqual(mockFormattedLabel);
-                    });
+                    await ticks(1);
+                    expect(getLastModifiedDetails(flowPropertiesEditor).textContent).toEqual(mockFormattedLabel);
                 });
-                it('calls normalizeDateTime with the the last modified datetime', () => {
+                it('calls normalizeDateTime with the the last modified datetime', async () => {
                     getShowAdvancedButton(flowPropertiesEditor).click();
-                    return Promise.resolve().then(() => {
-                        expect(normalizeDateTime.normalizeDateTime).toHaveBeenCalledWith(
-                            flowPropertiesEditor.node.lastModifiedDate.value,
-                            true
-                        );
-                    });
+                    await ticks(1);
+                    expect(normalizeDateTime.normalizeDateTime).toHaveBeenCalledWith(
+                        flowPropertiesEditor.node.lastModifiedDate.value,
+                        true
+                    );
                 });
-                it('calls format with the label, user and datetime', () => {
+                it('calls format with the label, user and datetime', async () => {
                     getShowAdvancedButton(flowPropertiesEditor).click();
-                    return Promise.resolve().then(() => {
-                        expect(format.format).toHaveBeenCalledWith(
-                            LABELS.lastModifiedText,
-                            flowPropertiesEditor.node.lastModifiedBy.value,
-                            mockDateTimeString
-                        );
-                    });
+                    await ticks(1);
+                    expect(format.format).toHaveBeenCalledWith(
+                        LABELS.lastModifiedText,
+                        flowPropertiesEditor.node.lastModifiedBy.value,
+                        mockDateTimeString
+                    );
                 });
             });
         });
     });
     describe('Process Type', () => {
-        it('is empty if no process type found for the value', () => {
+        it('is empty if no process type found for the value', async () => {
             flowProperties = {
                 label: { value: '', error: null },
                 name: { value: '', error: null },
@@ -318,9 +314,8 @@ describe('FlowPropertiesEditor', () => {
             };
             flowPropertiesEditor = createComponentUnderTest(flowProperties);
             getShowAdvancedButton(flowPropertiesEditor).click();
-            return Promise.resolve().then(() => {
-                expect(getLastProcessType(flowPropertiesEditor).textContent).toEqual('');
-            });
+            await ticks(1);
+            expect(getLastProcessType(flowPropertiesEditor).textContent).toEqual('');
         });
 
         it('displays the label associated with the current process type', async () => {
@@ -382,21 +377,19 @@ describe('FlowPropertiesEditor', () => {
                 };
             });
 
-            it('is shown when save type is UPDATE', () => {
+            it('is shown when save type is UPDATE', async () => {
                 const component = createComponentUnderTest(defaultNode);
                 getShowAdvancedButton(component).click();
-                return Promise.resolve().then(() => {
-                    expect(component.shadowRoot.querySelector(SELECTORS.VERSION_NUMBER)).not.toBeNull();
-                });
+                await ticks(1);
+                expect(component.shadowRoot.querySelector(SELECTORS.VERSION_NUMBER)).not.toBeNull();
             });
 
-            it('is shown when save type is NEW_VERSION', () => {
+            it('is shown when save type is NEW_VERSION', async () => {
                 defaultNode.saveType = SaveType.NEW_VERSION;
                 const component = createComponentUnderTest(defaultNode);
                 getShowAdvancedButton(component).click();
-                return Promise.resolve().then(() => {
-                    expect(component.shadowRoot.querySelector(SELECTORS.VERSION_NUMBER)).not.toBeNull();
-                });
+                await ticks(1);
+                expect(component.shadowRoot.querySelector(SELECTORS.VERSION_NUMBER)).not.toBeNull();
             });
         });
 

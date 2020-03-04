@@ -17,7 +17,8 @@ import {
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
     deepQuerySelector,
-    changeEvent
+    changeEvent,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getEntityResourcePicker } from './cludEditorTestUtils';
@@ -158,16 +159,13 @@ describe('Record Lookup Editor', () => {
                     changeEvent(VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL)
                 );
             });
-            it('Variable and Field Mapping radiobutton group: Automatic should be selected', () => {
-                return Promise.resolve().then(() => {
-                    variableAndFieldMappingRadioButtonGroup = getVariableAndFieldMappingRadioButtonGroup(
-                        recordLookupElement
-                    );
-                    expect(variableAndFieldMappingRadioButtonGroup).toBeDefined();
-                    expect(variableAndFieldMappingRadioButtonGroup.value).toBe(
-                        VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL
-                    );
-                });
+            it('Variable and Field Mapping radiobutton group: Automatic should be selected', async () => {
+                await ticks(1);
+                variableAndFieldMappingRadioButtonGroup = getVariableAndFieldMappingRadioButtonGroup(
+                    recordLookupElement
+                );
+                expect(variableAndFieldMappingRadioButtonGroup).toBeDefined();
+                expect(variableAndFieldMappingRadioButtonGroup.value).toBe(VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL);
             });
         });
     });

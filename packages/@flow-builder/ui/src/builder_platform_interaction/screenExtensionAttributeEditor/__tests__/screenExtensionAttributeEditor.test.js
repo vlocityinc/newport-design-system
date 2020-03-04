@@ -1,6 +1,6 @@
 import { createElement } from 'lwc';
 import ScreenExtensionAttributeEditor from 'builder_platform_interaction/screenExtensionAttributeEditor';
-import { query } from 'builder_platform_interaction/builderTestUtils';
+import { query, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { EXTENSION_PARAM_PREFIX } from 'builder_platform_interaction/screenEditorUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 
@@ -103,7 +103,7 @@ function createComponentForTest(props) {
     return el;
 }
 
-const runTest = (inputType, outputType, propertiesProcessor, test) => {
+const runTest = async (inputType, outputType, propertiesProcessor, test) => {
     const inputProperties = inputType
         ? {
               descriptor: Object.assign({}, DESCRIPTORS[inputType]),
@@ -127,9 +127,8 @@ const runTest = (inputType, outputType, propertiesProcessor, test) => {
 
     const inputEditor = inputType ? createComponentForTest(inputProperties) : null;
     const outputEditor = outputType ? createComponentForTest(outputProperties) : null;
-    return Promise.resolve().then(() => {
-        test(inputEditor, outputEditor);
-    });
+    await ticks(1);
+    test(inputEditor, outputEditor);
 };
 
 const testResourcePickerConfigAllowLiterals = (propertyProcessor, expectedValue) => {

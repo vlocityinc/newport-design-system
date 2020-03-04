@@ -10,6 +10,7 @@ import {
     DeleteRecordFilterEvent
 } from 'builder_platform_interaction/events';
 import RecordLookupFilter from 'builder_platform_interaction/recordFilter';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -208,19 +209,17 @@ describe('record-filter', () => {
             beforeEach(() => {
                 element = createComponentUnderTest();
             });
-            it('Display the filter items list when selecting "Conditions are Met"', () => {
+            it('Display the filter items list when selecting "Conditions are Met"', async () => {
                 getFilterRecordsCombobox(element).dispatchEvent(new FilterTypeChangeEvent(RECORD_FILTER_CRITERIA.ALL));
-                return Promise.resolve().then(() => {
-                    expect(getFilterList(element)).not.toBeNull();
-                    expect(getExpressionBuilders(element)).toHaveLength(1);
-                });
+                await ticks(1);
+                expect(getFilterList(element)).not.toBeNull();
+                expect(getExpressionBuilders(element)).toHaveLength(1);
             });
-            it('Hide the filter items list when selecting "No Conditions"', () => {
+            it('Hide the filter items list when selecting "No Conditions"', async () => {
                 mockDefaultRecordFilter.filterType = RECORD_FILTER_CRITERIA.ALL;
                 getFilterRecordsCombobox(element).dispatchEvent(new FilterTypeChangeEvent(RECORD_FILTER_CRITERIA.NONE));
-                return Promise.resolve().then(() => {
-                    expect(getFilterList(element)).toBeNull();
-                });
+                await ticks(1);
+                expect(getFilterList(element)).toBeNull();
             });
         });
 
@@ -229,19 +228,17 @@ describe('record-filter', () => {
             beforeEach(() => {
                 element = createComponentUnderTest();
             });
-            it('Display the filter items list when selecting "Conditions are Met"', () => {
+            it('Display the filter items list when selecting "Conditions are Met"', async () => {
                 getFilterRecordsCombobox(element).dispatchEvent(new FilterTypeChangeEvent(RECORD_FILTER_CRITERIA.ALL));
-                return Promise.resolve().then(() => {
-                    expect(getFilterList(element)).not.toBeNull();
-                    expect(getExpressionBuilders(element)).toHaveLength(1);
-                });
+                await ticks(1);
+                expect(getFilterList(element)).not.toBeNull();
+                expect(getExpressionBuilders(element)).toHaveLength(1);
             });
-            it('Hide the filter items list when selecting "No Conditions"', () => {
+            it('Hide the filter items list when selecting "No Conditions"', async () => {
                 mockDefaultRecordFilter.filterType = RECORD_FILTER_CRITERIA.ALL;
                 getFilterRecordsCombobox(element).dispatchEvent(new FilterTypeChangeEvent(RECORD_FILTER_CRITERIA.NONE));
-                return Promise.resolve().then(() => {
-                    expect(getFilterList(element)).toBeNull();
-                });
+                await ticks(1);
+                expect(getFilterList(element)).toBeNull();
             });
         });
     });
@@ -308,18 +305,17 @@ describe('record-filter', () => {
     });
 
     describe('Filter items events dispatch', () => {
-        it('fires addRecordFilterEvent', () => {
+        it('fires addRecordFilterEvent', async () => {
             const element = createComponentUnderTest();
             const eventCallback = jest.fn();
             element.addEventListener(AddRecordFilterEvent.EVENT_NAME, eventCallback);
             const filterList = getFilterList(element);
-            return Promise.resolve().then(() => {
-                filterList.dispatchEvent(new AddRecordFilterEvent());
-                expect(eventCallback).toHaveBeenCalled();
-            });
+            await ticks(1);
+            filterList.dispatchEvent(new AddRecordFilterEvent());
+            expect(eventCallback).toHaveBeenCalled();
         });
 
-        it('fires updateRecordFilterEvent', () => {
+        it('fires updateRecordFilterEvent', async () => {
             const updateData = {
                 index: 0,
                 value: 'newValue'
@@ -328,32 +324,30 @@ describe('record-filter', () => {
             const eventCallback = jest.fn();
             element.addEventListener(UpdateRecordFilterEvent.EVENT_NAME, eventCallback);
             const filterList = getFilterList(element);
-            return Promise.resolve().then(() => {
-                filterList.dispatchEvent(new UpdateRecordFilterEvent(updateData.index, updateData.value));
-                expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                    detail: {
-                        index: updateData.index,
-                        value: updateData.value
-                    }
-                });
+            await ticks(1);
+            filterList.dispatchEvent(new UpdateRecordFilterEvent(updateData.index, updateData.value));
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                detail: {
+                    index: updateData.index,
+                    value: updateData.value
+                }
             });
         });
 
-        it('fires deleteRecordFilterEvent', () => {
+        it('fires deleteRecordFilterEvent', async () => {
             const deleteIndex = 1;
             const element = createComponentUnderTest();
             const eventCallback = jest.fn();
             element.addEventListener(DeleteRecordFilterEvent.EVENT_NAME, eventCallback);
             const filterList = getFilterList(element);
-            return Promise.resolve().then(() => {
-                filterList.dispatchEvent(new DeleteRecordFilterEvent(deleteIndex));
-                expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                    detail: {
-                        index: deleteIndex
-                    }
-                });
+            await ticks(1);
+            filterList.dispatchEvent(new DeleteRecordFilterEvent(deleteIndex));
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                detail: {
+                    index: deleteIndex
+                }
             });
         });
     });

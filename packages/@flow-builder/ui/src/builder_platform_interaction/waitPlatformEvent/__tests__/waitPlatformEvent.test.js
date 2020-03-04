@@ -15,6 +15,7 @@ import {
     WaitEventDeleteParameterEvent,
     WaitEventParameterChangedEvent
 } from 'builder_platform_interaction/events';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
@@ -78,7 +79,7 @@ describe('wait-platform-event', () => {
             expect(waitPlatformEventElement.eventType).toBe('foo1__e');
         });
 
-        it('updates the filter fields based on call to getInputParametersForEventType', () => {
+        it('updates the filter fields based on call to getInputParametersForEventType', async () => {
             const filterFields = {
                 a: {},
                 b: {}
@@ -105,12 +106,11 @@ describe('wait-platform-event', () => {
 
             expect(getInputParametersForEventType).toHaveBeenCalledWith(someEventType.value, expect.any(Function));
 
-            return Promise.resolve().then(() => {
-                const filterExpressionBuilder = waitPlatformEventElement.shadowRoot.querySelector(
-                    SELECTORS.FILTER_EXPRESSION_BUILDER
-                );
-                expect(filterExpressionBuilder.lhsFields).toEqual(filterFields);
-            });
+            await ticks(1);
+            const filterExpressionBuilder = waitPlatformEventElement.shadowRoot.querySelector(
+                SELECTORS.FILTER_EXPRESSION_BUILDER
+            );
+            expect(filterExpressionBuilder.lhsFields).toEqual(filterFields);
         });
 
         it('fires UpdateWaitEventEventTypeEvent when event type is changed', () => {
@@ -429,7 +429,7 @@ describe('wait-platform-event', () => {
             expect(parameterItem).toBeNull();
         });
 
-        it('is visible if a platform event is selected', () => {
+        it('is visible if a platform event is selected', async () => {
             const waitPlatformEventElement = setupComponentUnderTest({
                 waitEventGuid: 'guid',
                 inputFilterParameters: [],
@@ -446,17 +446,14 @@ describe('wait-platform-event', () => {
                 value: platformEventName,
                 error: null
             };
-            return Promise.resolve().then(() => {
-                const parameterItemUpdated = waitPlatformEventElement.shadowRoot.querySelector(
-                    SELECTORS.PARAMETER_ITEM
-                );
-                expect(parameterItemUpdated).not.toBeNull();
-                expect(parameterItemUpdated.elementType).toBe(ELEMENT_TYPE.WAIT);
-                expect(parameterItemUpdated.item).toEqual(expectedParameterItem);
-            });
+            await ticks(1);
+            const parameterItemUpdated = waitPlatformEventElement.shadowRoot.querySelector(SELECTORS.PARAMETER_ITEM);
+            expect(parameterItemUpdated).not.toBeNull();
+            expect(parameterItemUpdated.elementType).toBe(ELEMENT_TYPE.WAIT);
+            expect(parameterItemUpdated.item).toEqual(expectedParameterItem);
         });
 
-        it('is updated when event type is changed', () => {
+        it('is updated when event type is changed', async () => {
             const updatedPlatformEventName = 'foo1__e';
             const waitPlatformEventElement = setupComponentUnderTest({
                 eventType: platformEventName,
@@ -475,14 +472,11 @@ describe('wait-platform-event', () => {
                 value: updatedPlatformEventName,
                 error: null
             };
-            return Promise.resolve().then(() => {
-                const parameterItemUpdated = waitPlatformEventElement.shadowRoot.querySelector(
-                    SELECTORS.PARAMETER_ITEM
-                );
-                expect(parameterItemUpdated).not.toBeNull();
-                expect(parameterItemUpdated.item.subtype).toEqual(updatedPlatformEventName);
-                expect(parameterItemUpdated.item.name).toEqual(updatedPlatformEventName);
-            });
+            await ticks(1);
+            const parameterItemUpdated = waitPlatformEventElement.shadowRoot.querySelector(SELECTORS.PARAMETER_ITEM);
+            expect(parameterItemUpdated).not.toBeNull();
+            expect(parameterItemUpdated.item.subtype).toEqual(updatedPlatformEventName);
+            expect(parameterItemUpdated.item.name).toEqual(updatedPlatformEventName);
         });
     });
 });

@@ -12,6 +12,7 @@ import {
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -151,14 +152,13 @@ describe('Record delete editor', () => {
             });
         });
         describe('Handle Events', () => {
-            test('handle "inputReference" changes', () => {
+            test('handle "inputReference" changes', async () => {
                 const event = new SObjectReferenceChangedEvent(storeMockedData.accountSObjectVariable.guid, null);
                 let sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordDeleteEditor);
                 sObjectOrSObjectCollectionPicker.dispatchEvent(event);
-                return Promise.resolve().then(() => {
-                    sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordDeleteEditor);
-                    expect(sObjectOrSObjectCollectionPicker.value).toBe(storeMockedData.accountSObjectVariable.guid);
-                });
+                await ticks(1);
+                sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordDeleteEditor);
+                expect(sObjectOrSObjectCollectionPicker.value).toBe(storeMockedData.accountSObjectVariable.guid);
             });
         });
     });
@@ -172,34 +172,30 @@ describe('Record delete editor', () => {
         });
 
         describe('Handle Events', () => {
-            test('change number record to store to All records, sObject picker should changed', () => {
+            test('change number record to store to All records, sObject picker should changed', async () => {
                 const event = new RecordStoreOptionChangedEvent(true, '', false);
                 getRecordStoreOption(recordDeleteEditor).dispatchEvent(event);
-                return Promise.resolve().then(() => {
-                    const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordDeleteEditor);
-                    expect(sObjectOrSObjectCollectionPicker.value).toHaveLength(0);
-                });
+                await ticks(1);
+                const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordDeleteEditor);
+                expect(sObjectOrSObjectCollectionPicker.value).toHaveLength(0);
             });
-            test('handle "UpdateRecordFilterEvent" should update the filter element', () => {
+            test('handle "UpdateRecordFilterEvent" should update the filter element', async () => {
                 const updateRecordFilterEvent = new UpdateRecordFilterEvent(0, filterElement, null);
                 getRecordFilter(recordDeleteEditor).dispatchEvent(updateRecordFilterEvent);
-                return Promise.resolve().then(() => {
-                    expect(recordDeleteEditor.node.filters[0]).toMatchObject(filterElement);
-                });
+                await ticks(1);
+                expect(recordDeleteEditor.node.filters[0]).toMatchObject(filterElement);
             });
-            test('handle "AddRecordFilterEvent" should add a filter element', () => {
+            test('handle "AddRecordFilterEvent" should add a filter element', async () => {
                 const addRecordFilterEvent = new AddRecordFilterEvent(); // This is using the numerical rowIndex not the property rowIndex
                 getRecordFilter(recordDeleteEditor).dispatchEvent(addRecordFilterEvent);
-                return Promise.resolve().then(() => {
-                    expect(recordDeleteEditor.node.filters).toHaveLength(1);
-                });
+                await ticks(1);
+                expect(recordDeleteEditor.node.filters).toHaveLength(1);
             });
-            test('record filter fires "DeleteRecordFilterEvent"', () => {
+            test('record filter fires "DeleteRecordFilterEvent"', async () => {
                 const deleteRecordFilterEvent = new DeleteRecordFilterEvent(0); // This is using the numerical rowIndex not the property rowIndex
                 getRecordFilter(recordDeleteEditor).dispatchEvent(deleteRecordFilterEvent);
-                return Promise.resolve().then(() => {
-                    expect(recordDeleteEditor.node.filters).toHaveLength(0);
-                });
+                await ticks(1);
+                expect(recordDeleteEditor.node.filters).toHaveLength(0);
             });
         });
     });

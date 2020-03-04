@@ -2,7 +2,7 @@ import { createElement } from 'lwc';
 import ScreenEditorHighlight from 'builder_platform_interaction/screenEditorHighlight';
 import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
 import { DRAGGING_CLASS, CONTAINER_DIV_SELECTOR } from 'builder_platform_interaction/screenEditorUtils';
-import { createTestScreenField } from 'builder_platform_interaction/builderTestUtils';
+import { createTestScreenField, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-screen-editor-highlight', { is: ScreenEditorHighlight });
@@ -24,12 +24,11 @@ describe('Click highlight', () => {
             screenElement: createTestScreenField('Name', 'TextBox')
         });
     });
-    it('clicking on highlight component fires correct event', () => {
-        return Promise.resolve().then(() => {
-            const callback = jest.fn();
-            clickHighlight(highlight, callback);
-            expect(callback).toHaveBeenCalled();
-        });
+    it('clicking on highlight component fires correct event', async () => {
+        await ticks(1);
+        const callback = jest.fn();
+        clickHighlight(highlight, callback);
+        expect(callback).toHaveBeenCalled();
     });
     it('should not fire an event when already selected', () => {
         highlight.selected = true;
@@ -46,24 +45,23 @@ describe('onDragStart', () => {
             screenElement: createTestScreenField('Name', 'TextBox')
         });
     });
-    it('dragging an element sets correct dataTransfer', () => {
-        return Promise.resolve().then(() => {
-            const dragStartEvent = new CustomEvent('dragstart');
-            dragStartEvent.dataTransfer = {
-                data: {},
-                setData(type, val) {
-                    this.data[type] = val;
-                },
-                getData(type) {
-                    return this.data[type];
-                }
-            };
-            const hightlightDiv = highlight.shadowRoot.querySelector(CONTAINER_DIV_SELECTOR);
-            hightlightDiv.dispatchEvent(dragStartEvent);
-            expect(dragStartEvent.dataTransfer.effectAllowed).toBe('move');
-            expect(dragStartEvent.dataTransfer.getData('text')).toBe(highlight.screenElement.guid);
-            expect(hightlightDiv.classList).toContain(DRAGGING_CLASS);
-        });
+    it('dragging an element sets correct dataTransfer', async () => {
+        await ticks(1);
+        const dragStartEvent = new CustomEvent('dragstart');
+        dragStartEvent.dataTransfer = {
+            data: {},
+            setData(type, val) {
+                this.data[type] = val;
+            },
+            getData(type) {
+                return this.data[type];
+            }
+        };
+        const hightlightDiv = highlight.shadowRoot.querySelector(CONTAINER_DIV_SELECTOR);
+        hightlightDiv.dispatchEvent(dragStartEvent);
+        expect(dragStartEvent.dataTransfer.effectAllowed).toBe('move');
+        expect(dragStartEvent.dataTransfer.getData('text')).toBe(highlight.screenElement.guid);
+        expect(hightlightDiv.classList).toContain(DRAGGING_CLASS);
     });
 });
 
@@ -74,24 +72,23 @@ describe('onDragEnd', () => {
             screenElement: createTestScreenField('Name', 'TextBox')
         });
     });
-    it('The end of dragging an element sets the correct styling', () => {
-        return Promise.resolve().then(() => {
-            const dragStartEvent = new CustomEvent('dragstart');
-            dragStartEvent.dataTransfer = {
-                data: {},
-                setData(type, val) {
-                    this.data[type] = val;
-                },
-                getData(type) {
-                    return this.data[type];
-                }
-            };
-            const dragEndEvent = new CustomEvent('dragend');
+    it('The end of dragging an element sets the correct styling', async () => {
+        await ticks(1);
+        const dragStartEvent = new CustomEvent('dragstart');
+        dragStartEvent.dataTransfer = {
+            data: {},
+            setData(type, val) {
+                this.data[type] = val;
+            },
+            getData(type) {
+                return this.data[type];
+            }
+        };
+        const dragEndEvent = new CustomEvent('dragend');
 
-            const hightlightDiv = highlight.shadowRoot.querySelector(CONTAINER_DIV_SELECTOR);
-            hightlightDiv.dispatchEvent(dragStartEvent);
-            hightlightDiv.dispatchEvent(dragEndEvent);
-            expect(hightlightDiv.classList).not.toContain(DRAGGING_CLASS);
-        });
+        const hightlightDiv = highlight.shadowRoot.querySelector(CONTAINER_DIV_SELECTOR);
+        hightlightDiv.dispatchEvent(dragStartEvent);
+        hightlightDiv.dispatchEvent(dragEndEvent);
+        expect(hightlightDiv.classList).not.toContain(DRAGGING_CLASS);
     });
 });

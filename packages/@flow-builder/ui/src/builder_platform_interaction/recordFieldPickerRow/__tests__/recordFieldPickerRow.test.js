@@ -4,6 +4,7 @@ import { ComboboxStateChangedEvent, UpdateRecordLookupFieldEvent } from 'builder
 import RecordFieldPickerRow from 'builder_platform_interaction/recordFieldPickerRow';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     // this is needed for some reason even if createSelector isn't mocked
@@ -121,18 +122,17 @@ describe('record-field-picker-row', () => {
         });
     });
     describe('handling value change event from combobox', () => {
-        it("should fire 'UpdateRecordLookupFieldEvent'", () => {
+        it("should fire 'UpdateRecordLookupFieldEvent'", async () => {
             const recordFieldPickerRow = createComponentUnderTest();
             const fieldPicker = getFieldPicker(recordFieldPickerRow);
             const newParamValue = 'Fax';
-            return Promise.resolve().then(() => {
-                const eventCallback = jest.fn();
-                recordFieldPickerRow.addEventListener(UpdateRecordLookupFieldEvent.EVENT_NAME, eventCallback);
-                fieldPicker.dispatchEvent(new ComboboxStateChangedEvent(null, newParamValue));
-                expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                    detail: { index: 1, value: newParamValue }
-                });
+            await ticks(1);
+            const eventCallback = jest.fn();
+            recordFieldPickerRow.addEventListener(UpdateRecordLookupFieldEvent.EVENT_NAME, eventCallback);
+            fieldPicker.dispatchEvent(new ComboboxStateChangedEvent(null, newParamValue));
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                detail: { index: 1, value: newParamValue }
             });
         });
     });

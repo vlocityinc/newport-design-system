@@ -8,6 +8,7 @@ import {
     DeleteRecordFieldAssignmentEvent
 } from 'builder_platform_interaction/events';
 import RecordInputOutputAssignments from '../recordInputOutputAssignments.js';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -132,56 +133,53 @@ describe('record-input-output-assignment', () => {
         });
     });
     describe('handleAddAssignment', () => {
-        it('fires addRecordAssignmentEvent', () => {
+        it('fires addRecordAssignmentEvent', async () => {
             const element = createComponentUnderTest();
-            return Promise.resolve().then(() => {
-                const eventCallback = jest.fn();
-                element.addEventListener(AddRecordFieldAssignmentEvent.EVENT_NAME, eventCallback);
-                const fieldList = getFieldList(element);
-                fieldList.dispatchEvent(new AddRecordFieldAssignmentEvent());
-                expect(eventCallback).toHaveBeenCalled();
-            });
+            await ticks(1);
+            const eventCallback = jest.fn();
+            element.addEventListener(AddRecordFieldAssignmentEvent.EVENT_NAME, eventCallback);
+            const fieldList = getFieldList(element);
+            fieldList.dispatchEvent(new AddRecordFieldAssignmentEvent());
+            expect(eventCallback).toHaveBeenCalled();
         });
     });
 
     describe('handleUpdateAssignment', () => {
-        it('fires updateRecordAssignmentEvent', () => {
+        it('fires updateRecordAssignmentEvent', async () => {
             const updateData = {
                 index: 0,
                 value: 'newValue'
             };
             const element = createComponentUnderTest();
-            return Promise.resolve().then(() => {
-                const eventCallback = jest.fn();
-                element.addEventListener(UpdateRecordFieldAssignmentEvent.EVENT_NAME, eventCallback);
-                const fieldList = getFieldList(element);
-                fieldList.dispatchEvent(new UpdateRecordFieldAssignmentEvent(updateData.index, updateData.value));
-                expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                    detail: {
-                        index: updateData.index,
-                        value: updateData.value
-                    }
-                });
+            await ticks(1);
+            const eventCallback = jest.fn();
+            element.addEventListener(UpdateRecordFieldAssignmentEvent.EVENT_NAME, eventCallback);
+            const fieldList = getFieldList(element);
+            fieldList.dispatchEvent(new UpdateRecordFieldAssignmentEvent(updateData.index, updateData.value));
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                detail: {
+                    index: updateData.index,
+                    value: updateData.value
+                }
             });
         });
     });
 
     describe('handleDeleteAssignment', () => {
-        it('fires deleteRecordAssignmentEvent', () => {
+        it('fires deleteRecordAssignmentEvent', async () => {
             const deleteIndex = 1;
             const element = createComponentUnderTest();
-            return Promise.resolve().then(() => {
-                const eventCallback = jest.fn();
-                element.addEventListener(DeleteRecordFieldAssignmentEvent.EVENT_NAME, eventCallback);
-                const fieldList = getFieldList(element);
-                fieldList.dispatchEvent(new DeleteRecordFieldAssignmentEvent(deleteIndex));
-                expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                    detail: {
-                        index: deleteIndex
-                    }
-                });
+            await ticks(1);
+            const eventCallback = jest.fn();
+            element.addEventListener(DeleteRecordFieldAssignmentEvent.EVENT_NAME, eventCallback);
+            const fieldList = getFieldList(element);
+            fieldList.dispatchEvent(new DeleteRecordFieldAssignmentEvent(deleteIndex));
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                detail: {
+                    index: deleteIndex
+                }
             });
         });
     });

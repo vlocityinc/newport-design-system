@@ -2,6 +2,7 @@ import { createElement } from 'lwc';
 import UseAdvancedOptionsCheckbox from '../useAdvancedOptionsCheckbox';
 import { LABELS } from '../useAdvancedOptionsCheckboxLabels';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 function createComponentForTest(isAdvancedMode) {
     const el = createElement('builder_platform_interaction-use-advanced-options-checkbox', {
@@ -44,19 +45,18 @@ describe('Use-advanced-options-checkbox', () => {
         beforeEach(() => {
             useAdvancedOptionsCheckboxElement = createComponentForTest(true);
         });
-        it('should display an alert', () => {
+        it('should display an alert', async () => {
             const advancedOptionCheckbox = getAdvancedOptionCheckbox(useAdvancedOptionsCheckboxElement);
             advancedOptionCheckbox.dispatchEvent(new ToggleOffChangeEvent());
-            return Promise.resolve().then(() => {
-                expect(invokeModal.mock.calls[0][0].headerData.headerTitle).toBe(LABELS.areYouSure);
-                expect(invokeModal.mock.calls[0][0].bodyData.bodyTextOne).toBe(LABELS.clearVariableConfirmation);
-                expect(invokeModal.mock.calls[0][0].footerData).toMatchObject({
-                    buttonOne: { buttonLabel: LABELS.cancelButton },
-                    buttonTwo: {
-                        buttonLabel: LABELS.confirm,
-                        buttonVariant: LABELS.confirm
-                    }
-                });
+            await ticks(1);
+            expect(invokeModal.mock.calls[0][0].headerData.headerTitle).toBe(LABELS.areYouSure);
+            expect(invokeModal.mock.calls[0][0].bodyData.bodyTextOne).toBe(LABELS.clearVariableConfirmation);
+            expect(invokeModal.mock.calls[0][0].footerData).toMatchObject({
+                buttonOne: { buttonLabel: LABELS.cancelButton },
+                buttonTwo: {
+                    buttonLabel: LABELS.confirm,
+                    buttonVariant: LABELS.confirm
+                }
             });
         });
     });
@@ -64,12 +64,11 @@ describe('Use-advanced-options-checkbox', () => {
         beforeEach(() => {
             useAdvancedOptionsCheckboxElement = createComponentForTest(false);
         });
-        it('should not display an alert', () => {
+        it('should not display an alert', async () => {
             const advancedOptionCheckbox = getAdvancedOptionCheckbox(useAdvancedOptionsCheckboxElement);
             advancedOptionCheckbox.dispatchEvent(new ToggleOnChangeEvent());
-            return Promise.resolve().then(() => {
-                expect(invokeModal).not.toHaveBeenCalled();
-            });
+            await ticks(1);
+            expect(invokeModal).not.toHaveBeenCalled();
         });
     });
 });

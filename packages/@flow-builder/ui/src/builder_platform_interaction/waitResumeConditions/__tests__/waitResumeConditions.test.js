@@ -1,6 +1,7 @@
 import { createElement } from 'lwc';
 import WaitResumeConditions from '../waitResumeConditions';
 import { WAIT_TIME_EVENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -88,7 +89,7 @@ describe('waitResumeConditions', () => {
             const lightningRadioGroup = waitResumeConditions.shadowRoot.querySelector(selectors.lightningRadioGroup);
             lightningRadioGroup.dispatchEvent(new CustomEvent('change', { detail: { value: newType } }));
         };
-        it('sets the resume event type as platform event when switching to that', () => {
+        it('sets the resume event type as platform event when switching to that', async () => {
             const props = {
                 eventType: WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME,
                 resumeTimeParameters: [],
@@ -96,13 +97,12 @@ describe('waitResumeConditions', () => {
             };
             const waitResumeConditions = createComponentUnderTest(props);
             dispatchChangeEvent(waitResumeConditions, resumeEventType.platformEventType);
-            return Promise.resolve().then(() => {
-                verifyResumeEventType(waitResumeConditions, false);
-            });
+            await ticks(1);
+            verifyResumeEventType(waitResumeConditions, false);
         });
 
         describe('switching from platform event type to time event type', () => {
-            it('sets the resume event type as time event and resets to default event type', () => {
+            it('sets the resume event type as time event and resets to default event type', async () => {
                 const props = {
                     eventType: WAIT_TIME_EVENT_TYPE.DIRECT_RECORD_TIME,
                     resumeTimeParameters: [],
@@ -110,34 +110,47 @@ describe('waitResumeConditions', () => {
                 };
                 const waitResumeConditions = createComponentUnderTest(props);
                 dispatchChangeEvent(waitResumeConditions, resumeEventType.platformEventType);
-                return Promise.resolve().then(() => {
-                    dispatchChangeEvent(waitResumeConditions, resumeEventType.timeEventType);
-                    return Promise.resolve().then(() => {
-                        verifyResumeEventType(waitResumeConditions, true);
-                        const waitTimeEvent = waitResumeConditions.shadowRoot.querySelector(selectors.waitTimeEvent);
-                        expect(waitTimeEvent.eventType).toEqual(WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME);
-                    });
-                });
+                await ticks(2);
+                dispatchChangeEvent(waitResumeConditions, resumeEventType.timeEventType);
+                await ticks(1);
+                verifyResumeEventType(waitResumeConditions, true);
+                const waitTimeEvent = waitResumeConditions.shadowRoot.querySelector(selectors.waitTimeEvent);
+                expect(waitTimeEvent.eventType).toEqual(WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME);
             });
 
-            it('clears params', () => {
+            it('clears params', async () => {
                 const props = {
                     eventType: WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME,
-                    resumeTimeParameters: ['param1'],
-                    outputParameters: {}
+                    resumeTimeParameters: [
+                        {
+                            name: {
+                                value: 'value1',
+                                error: 'error1'
+                            },
+                            value: {
+                                value: 'value2',
+                                error: 'error2'
+                            },
+                            valueDataType: {
+                                value: 'value3',
+                                error: 'error3'
+                            },
+                            rowIndex: 1
+                        }
+                    ],
+                    outputParameters: {},
+                    parameterName: jest.fn()
                 };
                 const waitResumeConditions = createComponentUnderTest(props);
                 dispatchChangeEvent(waitResumeConditions, resumeEventType.platformEventType);
-                return Promise.resolve().then(() => {
-                    dispatchChangeEvent(waitResumeConditions, resumeEventType.timeEventType);
-                    return Promise.resolve().then(() => {
-                        verifyResumeEventType(waitResumeConditions, true);
-                        const waitTimeEvent = waitResumeConditions.shadowRoot.querySelector(selectors.waitTimeEvent);
-                        expect(waitTimeEvent.eventType).toEqual(WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME);
-                        // TODO W-5395925: Update this test to check that the event gets fired
-                        // expect(waitTimeEvent.resumeTimeParameters).toEqual([]);
-                    });
-                });
+                await ticks(2);
+                dispatchChangeEvent(waitResumeConditions, resumeEventType.timeEventType);
+                await ticks(1);
+                verifyResumeEventType(waitResumeConditions, true);
+                const waitTimeEvent = waitResumeConditions.shadowRoot.querySelector(selectors.waitTimeEvent);
+                expect(waitTimeEvent.eventType).toEqual(WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME);
+                // TODO W-5395925: Update this test to check that the event gets fired
+                // expect(waitTimeEvent.resumeTimeParameters).toEqual([]);
             });
         });
     });
@@ -169,12 +182,11 @@ describe('waitResumeConditions', () => {
             expect(waitTimeEvent.resumeTimeParameters).toEqual(props.resumeTimeParameters);
         });
 
-        it('changing the event type is tracked', () => {
+        it('changing the event type is tracked', async () => {
             waitResumeConditions.eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME;
-            return Promise.resolve().then(() => {
-                const waitTimeEvent = waitResumeConditions.shadowRoot.querySelector(selectors.waitTimeEvent);
-                expect(waitTimeEvent.eventType).toEqual(WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME);
-            });
+            await ticks(1);
+            const waitTimeEvent = waitResumeConditions.shadowRoot.querySelector(selectors.waitTimeEvent);
+            expect(waitTimeEvent.eventType).toEqual(WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME);
         });
 
         it('passes outputParameters to waitTimeEvent', () => {

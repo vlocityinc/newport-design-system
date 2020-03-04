@@ -5,6 +5,7 @@ import { filterFieldsForChosenElement } from 'builder_platform_interaction/expre
 import { isLookupTraversalSupported } from 'builder_platform_interaction/processTypeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
@@ -40,84 +41,76 @@ describe('field-picker', () => {
     afterAll(() => {
         Store.resetStore();
     });
-    it('defaults requiredness to false', () => {
+    it('defaults requiredness to false', async () => {
         const fieldPicker = setupComponentUnderTest();
-        return Promise.resolve().then(() => {
-            const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
-            expect(baseResourcePicker.comboboxConfig.required).toBe(false);
-        });
+        await ticks(1);
+        const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
+        expect(baseResourcePicker.comboboxConfig.required).toBe(false);
     });
-    it('sets requiredness to true', () => {
+    it('sets requiredness to true', async () => {
         const fieldPicker = setupComponentUnderTest({
             required: true
         });
-        return Promise.resolve().then(() => {
-            const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
-            expect(baseResourcePicker.comboboxConfig.required).toBe(true);
-        });
+        await ticks(1);
+        const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
+        expect(baseResourcePicker.comboboxConfig.required).toBe(true);
     });
-    it('sets label', () => {
+    it('sets label', async () => {
         const label = 'label';
         const fieldPicker = setupComponentUnderTest({
             label
         });
-        return Promise.resolve().then(() => {
-            const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
-            expect(baseResourcePicker.comboboxConfig.label).toBe(label);
-        });
+        await ticks(1);
+        const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
+        expect(baseResourcePicker.comboboxConfig.label).toBe(label);
     });
-    it('sets placeholder', () => {
+    it('sets placeholder', async () => {
         const placeholder = 'placeholder';
         const fieldPicker = setupComponentUnderTest({
             placeholder
         });
-        return Promise.resolve().then(() => {
-            const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
-            expect(baseResourcePicker.comboboxConfig.placeholder).toBe(placeholder);
-        });
+        await ticks(1);
+        const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
+        expect(baseResourcePicker.comboboxConfig.placeholder).toBe(placeholder);
     });
-    it('sets error message', () => {
+    it('sets error message', async () => {
         const errorMessage = 'bah humbug';
         const fieldPicker = setupComponentUnderTest({
             errorMessage
         });
-        return Promise.resolve().then(() => {
-            const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
-            expect(baseResourcePicker.errorMessage).toBe(errorMessage);
-        });
+        await ticks(1);
+        const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
+        expect(baseResourcePicker.errorMessage).toBe(errorMessage);
     });
-    it('populates menuData with passed in fields', () => {
+    it('populates menuData with passed in fields', async () => {
         const fields = ['field'];
         isLookupTraversalSupported.mockImplementation(() => true);
         setupComponentUnderTest({
             fields
         });
-        return Promise.resolve().then(() => {
-            expect(filterFieldsForChosenElement).toHaveBeenCalledWith(null, fields, {
-                showAsFieldReference: false,
-                showSubText: true,
-                allowSObjectFieldsTraversal: true
-            });
+        await ticks(1);
+        expect(filterFieldsForChosenElement).toHaveBeenCalledWith(null, fields, {
+            showAsFieldReference: false,
+            showSubText: true,
+            allowSObjectFieldsTraversal: true
         });
     });
-    it('populates menuData with passed in fields no traversal support', () => {
+    it('populates menuData with passed in fields no traversal support', async () => {
         const fields = ['field'];
         isLookupTraversalSupported.mockImplementation(() => false);
         setupComponentUnderTest({
             fields
         });
-        return Promise.resolve().then(() => {
-            expect(filterFieldsForChosenElement).toHaveBeenCalledWith(null, fields, {
-                showAsFieldReference: false,
-                showSubText: true,
-                allowSObjectFieldsTraversal: false
-            });
+        await ticks(1);
+        expect(filterFieldsForChosenElement).toHaveBeenCalledWith(null, fields, {
+            showAsFieldReference: false,
+            showSubText: true,
+            allowSObjectFieldsTraversal: false
         });
     });
-    it('does not attempt to process menu data if no fields are passed', () => {
+    it('does not attempt to process menu data if no fields are passed', async () => {
         setupComponentUnderTest();
-        return Promise.resolve().then(() => {
-            expect(filterFieldsForChosenElement).not.toHaveBeenCalled();
-        });
+        await ticks(1);
+        expect(filterFieldsForChosenElement).not.toHaveBeenCalled();
     });
 });

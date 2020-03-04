@@ -8,6 +8,7 @@ import * as store from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -129,20 +130,19 @@ describe('sobject-or-sobject-collection-picker', () => {
     });
 
     describe('handling value change event from combobox', () => {
-        it("should fire 'SObjectVariableChangedEvent'", () => {
+        it("should fire 'SObjectVariableChangedEvent'", async () => {
             const sobjectPicker = createComponentUnderTest({
                 value: store.accountSObjectCollectionVariable.guid
             });
             const ferovResourcePicker = getFerovResourcePicker(sobjectPicker);
             const newParamValue = store.accountSObjectVariable.guid;
-            return Promise.resolve().then(() => {
-                const eventCallback = jest.fn();
-                sobjectPicker.addEventListener(SObjectReferenceChangedEvent.EVENT_NAME, eventCallback);
-                ferovResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(null, newParamValue));
-                expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                    detail: { value: newParamValue }
-                });
+            await ticks(1);
+            const eventCallback = jest.fn();
+            sobjectPicker.addEventListener(SObjectReferenceChangedEvent.EVENT_NAME, eventCallback);
+            ferovResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(null, newParamValue));
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                detail: { value: newParamValue }
             });
         });
     });

@@ -2,7 +2,7 @@ import { createElement } from 'lwc';
 import CalloutEditor from '../calloutEditor';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { CannotRetrieveCalloutParametersEvent, ActionsLoadedEvent } from 'builder_platform_interaction/events';
-import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
+import { untilNoFailure, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { mockActions } from 'mock/calloutData';
 import { LABELS } from '../calloutEditorLabels';
 
@@ -165,34 +165,32 @@ describe('callout-editor', () => {
         });
     });
     describe('invocable-action', () => {
-        it('has an inner callout-editor-container component that takes in the selected action', () => {
+        it('has an inner callout-editor-container component that takes in the selected action', async () => {
             const actionSelector = getActionSelector(calloutEditor);
             dispatchSelectedActionChangeEvent(
                 actionSelector,
                 mockSelectedAction.actionName,
                 mockSelectedAction.actionType
             );
-            return Promise.resolve().then(() => {
-                const container = calloutEditor.shadowRoot.querySelector(selectors.CONTAINER);
-                expect(container).not.toBeNull();
-                expect(container.selectedAction).toEqual(mockSelectedAction);
-            });
+            await ticks(1);
+            const container = calloutEditor.shadowRoot.querySelector(selectors.CONTAINER);
+            expect(container).not.toBeNull();
+            expect(container.selectedAction).toEqual(mockSelectedAction);
         });
-        it('calls the inner container validate method on validate', () => {
+        it('calls the inner container validate method on validate', async () => {
             const actionSelector = getActionSelector(calloutEditor);
             dispatchSelectedActionChangeEvent(
                 actionSelector,
                 mockSelectedAction.actionName,
                 mockSelectedAction.actionType
             );
-            return Promise.resolve().then(() => {
-                const container = calloutEditor.shadowRoot.querySelector(selectors.CONTAINER);
-                const errors = ['error'];
-                container.validate.mockReturnValueOnce(errors);
-                const val = calloutEditor.validate();
-                expect(container.validate).toHaveBeenCalledTimes(1);
-                expect(val).toEqual(errors);
-            });
+            await ticks(1);
+            const container = calloutEditor.shadowRoot.querySelector(selectors.CONTAINER);
+            const errors = ['error'];
+            container.validate.mockReturnValueOnce(errors);
+            const val = calloutEditor.validate();
+            expect(container.validate).toHaveBeenCalledTimes(1);
+            expect(val).toEqual(errors);
         });
         it('calls the inner container getNode method on getNode', () => {
             const container = calloutEditor.shadowRoot.querySelector(selectors.CONTAINER);
@@ -207,25 +205,23 @@ describe('callout-editor', () => {
         });
     });
     describe('apex-plugin', () => {
-        it('has an inner callout-editor-container component that takes in the selected apex class', () => {
+        it('has an inner callout-editor-container component that takes in the selected apex class', async () => {
             const actionSelector = getActionSelector(calloutEditor);
             dispatchSelectedApexChangeEvent(actionSelector, mockSelectedApex.apexClass);
-            return Promise.resolve().then(() => {
-                const container = calloutEditor.shadowRoot.querySelector(selectors.CONTAINER);
-                expect(container).not.toBeNull();
-                expect(container.selectedAction).toEqual(mockSelectedApex);
-            });
+            await ticks(1);
+            const container = calloutEditor.shadowRoot.querySelector(selectors.CONTAINER);
+            expect(container).not.toBeNull();
+            expect(container.selectedAction).toEqual(mockSelectedApex);
         });
     });
     describe('subflow', () => {
-        it('has an inner callout-editor-container component that takes in the selected apex class', () => {
+        it('has an inner callout-editor-container component that takes in the selected apex class', async () => {
             const actionSelector = getActionSelector(calloutEditor);
             dispatchSelectedSubflowChangeEvent(actionSelector, mockSelectedSubflow.flowName);
-            return Promise.resolve().then(() => {
-                const container = calloutEditor.shadowRoot.querySelector(selectors.CONTAINER);
-                expect(container).not.toBeNull();
-                expect(container.selectedAction).toEqual(mockSelectedSubflow);
-            });
+            await ticks(1);
+            const container = calloutEditor.shadowRoot.querySelector(selectors.CONTAINER);
+            expect(container).not.toBeNull();
+            expect(container.selectedAction).toEqual(mockSelectedSubflow);
         });
     });
     describe('Validation', () => {
@@ -235,39 +231,36 @@ describe('callout-editor', () => {
             expect(errors).toEqual(['FlowBuilderValidation.cannotBeBlank']);
         });
 
-        it('returns an error when typing the invalid action', () => {
+        it('returns an error when typing the invalid action', async () => {
             const actionSelector = getActionSelector(calloutEditor);
             dispatchValueChangeEvent(actionSelector, { elementType: ELEMENT_TYPE.ACTION_CALL }, mockError);
-            return Promise.resolve().then(() => {
-                const errors = calloutEditor.validate();
-                expect(errors).toEqual([mockError]);
-            });
+            await ticks(1);
+            const errors = calloutEditor.validate();
+            expect(errors).toEqual([mockError]);
         });
 
-        it('returns no error when referenced action is selected', () => {
+        it('returns no error when referenced action is selected', async () => {
             const actionSelector = getActionSelector(calloutEditor);
             dispatchSelectedActionChangeEvent(
                 actionSelector,
                 mockSelectedAction.actionName,
                 mockSelectedAction.actionType
             );
-            return Promise.resolve().then(() => {
-                const container = calloutEditor.shadowRoot.querySelector(selectors.CONTAINER);
-                container.validate.mockReturnValueOnce([]);
-                const errors = calloutEditor.validate();
-                expect(errors).toHaveLength(0);
-            });
+            await ticks(1);
+            const container = calloutEditor.shadowRoot.querySelector(selectors.CONTAINER);
+            container.validate.mockReturnValueOnce([]);
+            const errors = calloutEditor.validate();
+            expect(errors).toHaveLength(0);
         });
 
-        it('returns no error when changing action type from action call to subflow', () => {
+        it('returns no error when changing action type from action call to subflow', async () => {
             const actionSelector = getActionSelector(calloutEditor);
             dispatchSelectedSubflowChangeEvent(actionSelector, mockSelectedSubflow.flowName);
-            return Promise.resolve().then(() => {
-                const container = calloutEditor.shadowRoot.querySelector(selectors.CONTAINER);
-                container.validate.mockReturnValueOnce([]);
-                const errors = calloutEditor.validate();
-                expect(errors).toHaveLength(0);
-            });
+            await ticks(1);
+            const container = calloutEditor.shadowRoot.querySelector(selectors.CONTAINER);
+            container.validate.mockReturnValueOnce([]);
+            const errors = calloutEditor.validate();
+            expect(errors).toHaveLength(0);
         });
     });
 });

@@ -1,5 +1,6 @@
 import { createElement } from 'lwc';
 import UsedByContent from '../usedByContent';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 function createComponentForTest(listSectionHeader, listSectionItems) {
     const el = createElement('builder_platform_interaction-used-by-content', {
@@ -21,36 +22,29 @@ const selectors = {
 
 describe('Used-By-Content component', () => {
     describe('section-header', () => {
-        it('when null or undefined should be hidden.', () => {
+        it('when null or undefined should be hidden.', async () => {
             const usedByContentComponent = createComponentForTest();
-            return Promise.resolve().then(() => {
-                const usedBySectionHeader = usedByContentComponent.shadowRoot.querySelector(
-                    selectors.usedBySectionHeader
-                );
-                expect(usedBySectionHeader).toBeNull();
-            });
+            await ticks(1);
+            const usedBySectionHeader = usedByContentComponent.shadowRoot.querySelector(selectors.usedBySectionHeader);
+            expect(usedBySectionHeader).toBeNull();
         });
-        it('when not null should be diplay the header content', () => {
+        it('when not null should be diplay the header content', async () => {
             const usedByContentComponent = createComponentForTest('Section-Header');
-            return Promise.resolve().then(() => {
-                const usedBySectionHeaderTitle = usedByContentComponent.shadowRoot.querySelector(
-                    selectors.usedBySectionHeaderTitle
-                );
-                expect(usedBySectionHeaderTitle.classList).not.toBeNull();
-            });
+            await ticks(1);
+            const usedBySectionHeaderTitle = usedByContentComponent.shadowRoot.querySelector(
+                selectors.usedBySectionHeaderTitle
+            );
+            expect(usedBySectionHeaderTitle.classList).not.toBeNull();
         });
     });
     describe('section-list', () => {
-        it('when null or undefined should be hidden.', () => {
+        it('when null or undefined should be hidden.', async () => {
             const usedByContentComponent = createComponentForTest('Section Header');
-            return Promise.resolve().then(() => {
-                const usedBySectionItems = usedByContentComponent.shadowRoot.querySelector(
-                    selectors.usedBySectionItems
-                );
-                expect(usedBySectionItems).toBeNull();
-            });
+            await ticks(1);
+            const usedBySectionItems = usedByContentComponent.shadowRoot.querySelector(selectors.usedBySectionItems);
+            expect(usedBySectionItems).toBeNull();
         });
-        it('when not null should be diplay the section list', () => {
+        it('when not null should be diplay the section list', async () => {
             const expectedResult = [
                 {
                     guid: 'FORMULA_1',
@@ -60,14 +54,11 @@ describe('Used-By-Content component', () => {
                 }
             ];
             const usedByContentComponent = createComponentForTest('Section-Header', expectedResult);
-            return Promise.resolve().then(() => {
-                const usedBySectionItems = usedByContentComponent.shadowRoot.querySelector(
-                    selectors.usedBySectionItems
-                );
-                expect(usedBySectionItems.classList).not.toBeNull();
-            });
+            await ticks(1);
+            const usedBySectionItems = usedByContentComponent.shadowRoot.querySelector(selectors.usedBySectionItems);
+            expect(usedBySectionItems.classList).not.toBeNull();
         });
-        it('when not null should render element icon component.', () => {
+        it('when not null should render element icon component.', async () => {
             const expectedResult = [
                 {
                     guid: 'FORMULA_1',
@@ -77,12 +68,11 @@ describe('Used-By-Content component', () => {
                 }
             ];
             const usedByContentComponent = createComponentForTest('Section-Header', expectedResult);
-            return Promise.resolve().then(() => {
-                const usedBySectionItemContentItem = usedByContentComponent.shadowRoot.querySelector(
-                    selectors.usedByContentItem
-                );
-                expect(usedBySectionItemContentItem).not.toBeNull();
-            });
+            await ticks(1);
+            const usedBySectionItemContentItem = usedByContentComponent.shadowRoot.querySelector(
+                selectors.usedByContentItem
+            );
+            expect(usedBySectionItemContentItem).not.toBeNull();
         });
     });
 });

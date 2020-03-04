@@ -19,6 +19,7 @@ import {
 } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/loggingUtils', () => ({
     logInteraction: jest.fn(),
@@ -74,109 +75,99 @@ describe('left-panel', () => {
         Store.resetStore();
     });
     describe('element classes', () => {
-        it('when in Flow Resource List view - the panel should match the transition layout classes.', () => {
+        it('when in Flow Resource List view - the panel should match the transition layout classes.', async () => {
             const element = createComponentUnderTest();
-            return Promise.resolve().then(() => {
-                const panel = element.shadowRoot.querySelector(selectors.panel);
-                expect(panel.classList).toContain('slds-is-open');
-                expect(panel.classList).not.toContain('show-details');
-            });
+            await ticks(1);
+            const panel = element.shadowRoot.querySelector(selectors.panel);
+            expect(panel.classList).toContain('slds-is-open');
+            expect(panel.classList).not.toContain('show-details');
         });
 
-        it('when in Flow Resource Details view - the panel header should match the transition layout classes.', () => {
+        it('when in Flow Resource Details view - the panel header should match the transition layout classes.', async () => {
             const element = createComponentUnderTest();
             const showResourceDetailsEvent = new ShowResourceDetailsEvent(numberVariable.guid);
             element.shadowRoot
                 .querySelector('builder_platform_interaction-left-panel-resources')
                 .dispatchEvent(showResourceDetailsEvent);
-            return Promise.resolve().then(() => {
-                const panel = element.shadowRoot.querySelector(selectors.panel);
-                expect(panel.classList).toContain('slds-is-open');
-                expect(panel.classList).toContain('show-details');
-            });
+            await ticks(1);
+            const panel = element.shadowRoot.querySelector(selectors.panel);
+            expect(panel.classList).toContain('slds-is-open');
+            expect(panel.classList).toContain('show-details');
         });
     });
 
     describe('header section', () => {
         describe('element classes', () => {
-            it('when in Flow Resource List view - the panel header should match the layout classes.', () => {
+            it('when in Flow Resource List view - the panel header should match the layout classes.', async () => {
                 const element = createComponentUnderTest();
-                return Promise.resolve().then(() => {
-                    const header = element.shadowRoot.querySelector(selectors.panelHeader);
-                    expect(header.classList).toContain('slds-p-left_medium');
-                });
+                await ticks(1);
+                const header = element.shadowRoot.querySelector(selectors.panelHeader);
+                expect(header.classList).toContain('slds-p-left_medium');
             });
 
-            it('when in Flow Resource Details view - the panel header should match the layout classes.', () => {
+            it('when in Flow Resource Details view - the panel header should match the layout classes.', async () => {
                 const element = createComponentUnderTest();
                 const showResourceDetailsEvent = new ShowResourceDetailsEvent(numberVariable.guid);
                 element.shadowRoot
                     .querySelector('builder_platform_interaction-left-panel-resources')
                     .dispatchEvent(showResourceDetailsEvent);
-                return Promise.resolve().then(() => {
-                    const header = element.shadowRoot.querySelector(selectors.panelHeader);
-                    expect(header.classList).not.toContain('slds-p-left_medium');
-                });
+                await ticks(1);
+                const header = element.shadowRoot.querySelector(selectors.panelHeader);
+                expect(header.classList).not.toContain('slds-p-left_medium');
             });
         });
 
-        it('when in Flow Resource List view - should NOT have Back Button Utility Icon.', () => {
+        it('when in Flow Resource List view - should NOT have Back Button Utility Icon.', async () => {
             const element = createComponentUnderTest();
-            return Promise.resolve().then(() => {
-                const backButton = element.shadowRoot.querySelector(selectors.panelHeaderBackButton);
-                expect(backButton).toBeNull();
-            });
+            await ticks(1);
+            const backButton = element.shadowRoot.querySelector(selectors.panelHeaderBackButton);
+            expect(backButton).toBeNull();
         });
 
-        it('when in Flow Resource Details view - should have Back Button Utility Icon.', () => {
+        it('when in Flow Resource Details view - should have Back Button Utility Icon.', async () => {
             const element = createComponentUnderTest();
             const showResourceDetailsEvent = new ShowResourceDetailsEvent(numberVariable.guid);
             element.shadowRoot
                 .querySelector('builder_platform_interaction-left-panel-resources')
                 .dispatchEvent(showResourceDetailsEvent);
-            return Promise.resolve().then(() => {
-                const backButton = element.shadowRoot.querySelector(selectors.panelHeaderBackButton);
-                expect(backButton.iconName).toBe('utility:back');
-                expect(backButton.alternativeText).toBe(backButtonAltText);
-            });
+            await ticks(1);
+            const backButton = element.shadowRoot.querySelector(selectors.panelHeaderBackButton);
+            expect(backButton.iconName).toBe('utility:back');
+            expect(backButton.alternativeText).toBe(backButtonAltText);
         });
 
-        it('when in Flow Resource Details view - should handle back-button click.', () => {
+        it('when in Flow Resource Details view - should handle back-button click.', async () => {
             const element = createComponentUnderTest();
             const showResourceDetailsEvent = new ShowResourceDetailsEvent(numberVariable.guid);
             element.shadowRoot
                 .querySelector('builder_platform_interaction-left-panel-resources')
                 .dispatchEvent(showResourceDetailsEvent);
-            return Promise.resolve().then(() => {
-                const backButton = element.shadowRoot.querySelector(selectors.panelHeaderBackButton);
-                backButton.click();
-                return Promise.resolve().then(() => {
-                    const button = element.shadowRoot.querySelector(selectors.panelHeaderBackButton);
-                    expect(button).toBeNull();
-                });
-            });
+            await ticks(2);
+            const backButton = element.shadowRoot.querySelector(selectors.panelHeaderBackButton);
+            backButton.click();
+            await ticks(1);
+            const button = element.shadowRoot.querySelector(selectors.panelHeaderBackButton);
+            expect(button).toBeNull();
         });
     });
 
     describe('body section', () => {
-        it('when in Flow Resource List view - should NOT add show-details class.', () => {
+        it('when in Flow Resource List view - should NOT add show-details class.', async () => {
             const element = createComponentUnderTest();
-            return Promise.resolve().then(() => {
-                const leftPanel = element.shadowRoot.querySelector('.slds-panel');
-                expect(leftPanel.classList).not.toContain('show-details');
-            });
+            await ticks(1);
+            const leftPanel = element.shadowRoot.querySelector('.slds-panel');
+            expect(leftPanel.classList).not.toContain('show-details');
         });
 
-        it('when in Flow Resource Details view - should add show-details class.', () => {
+        it('when in Flow Resource Details view - should add show-details class.', async () => {
             const element = createComponentUnderTest();
             const showResourceDetailsEvent = new ShowResourceDetailsEvent(numberVariable.guid);
             element.shadowRoot
                 .querySelector('builder_platform_interaction-left-panel-resources')
                 .dispatchEvent(showResourceDetailsEvent);
-            return Promise.resolve().then(() => {
-                const leftPanel = element.shadowRoot.querySelector('.slds-panel');
-                expect(leftPanel.classList).toContain('show-details');
-            });
+            await ticks(1);
+            const leftPanel = element.shadowRoot.querySelector('.slds-panel');
+            expect(leftPanel.classList).toContain('show-details');
         });
 
         describe('resource manager tab', () => {
@@ -187,14 +178,13 @@ describe('left-panel', () => {
                         newResourceButtonText
                     );
                 });
-                it('fires add event when NEW RESOURCE button is clicked', () => {
+                it('fires add event when NEW RESOURCE button is clicked', async () => {
                     const leftPanelComponent = createComponentUnderTest();
-                    return Promise.resolve().then(() => {
-                        const eventCallback = jest.fn();
-                        leftPanelComponent.addEventListener('addnewresource', eventCallback);
-                        leftPanelComponent.shadowRoot.querySelector(selectors.addnewresource).click();
-                        expect(eventCallback).toHaveBeenCalled();
-                    });
+                    await ticks(1);
+                    const eventCallback = jest.fn();
+                    leftPanelComponent.addEventListener('addnewresource', eventCallback);
+                    leftPanelComponent.shadowRoot.querySelector(selectors.addnewresource).click();
+                    expect(eventCallback).toHaveBeenCalled();
                 });
             });
             describe('search input', () => {
@@ -316,7 +306,7 @@ describe('left-panel', () => {
                     expect(resourceSections).toHaveLength(0);
                 });
             });
-            it('handle Palette Item Click Event ', () => {
+            it('handle Palette Item Click Event ', async () => {
                 const leftPanelComponent = createComponentUnderTest();
                 const eventCallback = jest.fn();
                 leftPanelComponent.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
@@ -326,13 +316,12 @@ describe('left-panel', () => {
                 leftPanelComponent.shadowRoot
                     .querySelector('builder_platform_interaction-left-panel-resources')
                     .dispatchEvent(paletteItemClickedEvent);
-                return Promise.resolve().then(() => {
-                    expect(eventCallback).toHaveBeenCalled();
-                    expect(eventCallback.mock.calls[0][0]).toMatchObject({
-                        detail: {
-                            canvasElementGUID: guid
-                        }
-                    });
+                await ticks(1);
+                expect(eventCallback).toHaveBeenCalled();
+                expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                    detail: {
+                        canvasElementGUID: guid
+                    }
                 });
             });
         });

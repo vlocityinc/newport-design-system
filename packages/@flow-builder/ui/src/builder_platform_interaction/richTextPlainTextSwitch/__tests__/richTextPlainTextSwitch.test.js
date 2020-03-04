@@ -1,5 +1,7 @@
 import { createElement } from 'lwc';
 import RichTextPlainTextSwitch, { TEXT_MODES } from '../richTextPlainTextSwitch';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
+
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-rich-text-plain-text-switch', {
         is: RichTextPlainTextSwitch
@@ -36,33 +38,29 @@ describe('plain-text-mode-select', () => {
         });
     });
     describe('Select "PlainText" mode', () => {
-        it('select "plain text" mode via API', () => {
+        it('select "plain text" mode via API', async () => {
             richTextPlainTextSwitchComponent.selectedMode = TEXT_MODES.plainText;
-            return Promise.resolve().then(() => {
-                expect(richTextPlainTextSwitchComponent).toMatchSnapshot();
-            });
+            await ticks(1);
+            expect(richTextPlainTextSwitchComponent).toMatchSnapshot();
         });
-        it('select "plain text" mode via UI', () => {
+        it('select "plain text" mode via UI', async () => {
             const lightningButtonMenu = getLightningButtonMenu(richTextPlainTextSwitchComponent);
             lightningButtonMenu.dispatchEvent(SelectPlainTextModeEvent);
-            return Promise.resolve().then(() => {
-                expect(richTextPlainTextSwitchComponent).toMatchSnapshot();
-            });
+            await ticks(1);
+            expect(richTextPlainTextSwitchComponent).toMatchSnapshot();
         });
     });
     describe('Select "RichText" mode', () => {
-        it('select "rich text" mode via API', () => {
+        it('select "rich text" mode via API', async () => {
             richTextPlainTextSwitchComponent.selectedMode = TEXT_MODES.richText;
-            return Promise.resolve().then(() => {
-                expect(richTextPlainTextSwitchComponent).toMatchSnapshot();
-            });
+            await ticks(1);
+            expect(richTextPlainTextSwitchComponent).toMatchSnapshot();
         });
-        it('select "rich text" mode via UI', () => {
+        it('select "rich text" mode via UI', async () => {
             const lightningButtonMenu = getLightningButtonMenu(richTextPlainTextSwitchComponent);
             lightningButtonMenu.dispatchEvent(SelectRichTextModeEvent);
-            return Promise.resolve().then(() => {
-                expect(richTextPlainTextSwitchComponent).toMatchSnapshot();
-            });
+            await ticks(1);
+            expect(richTextPlainTextSwitchComponent).toMatchSnapshot();
         });
     });
 });

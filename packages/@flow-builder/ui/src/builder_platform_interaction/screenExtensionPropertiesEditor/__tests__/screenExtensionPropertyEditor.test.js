@@ -4,7 +4,8 @@ import {
     query,
     createTestScreenField,
     getAdvancedOptionCheckbox,
-    getUseAdvancedOptionComponent
+    getUseAdvancedOptionComponent,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { screenExtensionPropertiesEventReducer } from '../screenExtensionPropertiesReducer';
 import {
@@ -275,7 +276,7 @@ const createComponentForTestWithNoOutput = () => {
     return el;
 };
 
-const runTest = (createFieldRequired, createDescriptionRequired, propertiesProcessor, testCallback) => {
+const runTest = async (createFieldRequired, createDescriptionRequired, propertiesProcessor, testCallback) => {
     const properties = {};
     if (createFieldRequired) {
         createField(properties);
@@ -290,9 +291,8 @@ const runTest = (createFieldRequired, createDescriptionRequired, propertiesProce
     }
 
     const extensionEditor = createComponentForTest(properties);
-    return Promise.resolve().then(() => {
-        testCallback(extensionEditor);
-    });
+    await ticks(1);
+    testCallback(extensionEditor);
 };
 
 const testEditors = (selector, propertyName) => {
@@ -470,21 +470,19 @@ describe('Screen Extension Properties Editor', () => {
                 useAdvancedOptions: true
             });
         });
-        it('does not show the checkbox up when screen field has no output', () => {
+        it('does not show the checkbox up when screen field has no output', async () => {
             mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => 'Supported');
             const extensionEditor = createComponentForTestWithNoOutput();
 
-            return Promise.resolve().then(() => {
-                expect(getUseAdvancedOptionComponent(extensionEditor)).toBeNull();
-            });
+            await ticks(1);
+            expect(getUseAdvancedOptionComponent(extensionEditor)).toBeNull();
         });
-        it('does not show the store output variable section when screen field has no output', () => {
+        it('does not show the store output variable section when screen field has no output', async () => {
             mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => 'Supported');
             const extensionEditor = createComponentForTestWithNoOutput();
 
-            return Promise.resolve().then(() => {
-                expect(getStoreOutputVariableTitleElement(extensionEditor)).not.toBeDefined();
-            });
+            await ticks(1);
+            expect(getStoreOutputVariableTitleElement(extensionEditor)).not.toBeDefined();
         });
     });
 

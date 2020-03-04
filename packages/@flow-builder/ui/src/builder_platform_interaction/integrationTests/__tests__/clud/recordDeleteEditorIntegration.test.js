@@ -40,6 +40,7 @@ import {
     getFieldToFerovExpressionBuilders
 } from './cludEditorTestUtils';
 import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentForTest = (node, mode, processType) => {
     const el = createElement('builder_platform_interaction-record-delete-editor', { is: RecordDeleteEditor });
@@ -74,38 +75,30 @@ describe('Record Delete Editor', () => {
             );
             recordDeleteComponent = createComponentForTest(recordDeleteNode, AddElementEvent.EVENT_NAME);
         });
-        it('do not change "dev name" if it already exists after the user modifies the "label"', () => {
+        it('do not change "dev name" if it already exists after the user modifies the "label"', async () => {
             newLabel = 'new label';
             changeInputValue(getLabelDescriptionLabelElement(recordDeleteComponent), newLabel);
-            return Promise.resolve().then(() => {
-                expect(recordDeleteComponent.node.label.value).toBe(newLabel);
-                expect(recordDeleteComponent.node.name.value).toBe(DELETE_RECORDS_USING_SOBJECT_FLOW_ELEMENT);
-            });
+            await ticks(1);
+            expect(recordDeleteComponent.node.label.value).toBe(newLabel);
+            expect(recordDeleteComponent.node.name.value).toBe(DELETE_RECORDS_USING_SOBJECT_FLOW_ELEMENT);
         });
-        it('modify the "dev name"', () => {
+        it('modify the "dev name"', async () => {
             newDevName = 'newDevName';
             changeInputValue(getLabelDescriptionNameElement(recordDeleteComponent), newDevName);
-            return Promise.resolve().then(() => {
-                expect(recordDeleteComponent.node.name.value).toBe(newDevName);
-            });
+            await ticks(1);
+            expect(recordDeleteComponent.node.name.value).toBe(newDevName);
         });
-        it('display error if the "label" is cleared', () => {
+        it('display error if the "label" is cleared', async () => {
             newLabel = '';
             changeInputValue(getLabelDescriptionLabelElement(recordDeleteComponent), newLabel);
-            return Promise.resolve().then(() => {
-                expect(recordDeleteComponent.node.label.error).toBe(
-                    FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
-                );
-            });
+            await ticks(1);
+            expect(recordDeleteComponent.node.label.error).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
         });
-        it('display error if the "dev name" is cleared', () => {
+        it('display error if the "dev name" is cleared', async () => {
             newDevName = '';
             changeInputValue(getLabelDescriptionNameElement(recordDeleteComponent), newDevName);
-            return Promise.resolve().then(() => {
-                expect(recordDeleteComponent.node.name.error).toBe(
-                    FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
-                );
-            });
+            await ticks(1);
+            expect(recordDeleteComponent.node.name.error).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
         });
     });
 
@@ -186,17 +179,12 @@ describe('Record Delete Editor', () => {
                 it('Selected value is correctly displayed', () => {
                     expect(recordVariablePicker.value).toBe(recordDeleteNode.inputReference.value);
                 });
-                it('Should contain "New Resource" entry', () => {
+                it('Should contain "New Resource" entry', async () => {
                     const groupedCombobox = getRecordVariablePickerChildGroupedComboboxComponent(recordVariablePicker);
-                    return Promise.resolve().then(() => {
-                        expect(
-                            getGroupedComboboxItemBy(
-                                groupedCombobox,
-                                'text',
-                                'FlowBuilderExpressionUtils.newResourceLabel'
-                            )
-                        ).toBeDefined();
-                    });
+                    await ticks(1);
+                    expect(
+                        getGroupedComboboxItemBy(groupedCombobox, 'text', 'FlowBuilderExpressionUtils.newResourceLabel')
+                    ).toBeDefined();
                 });
                 it('Should contain all record variables', () => {
                     const comboboxItems = getRecordVariablePickerChildGroupedComboboxComponent(recordVariablePicker)
@@ -277,17 +265,15 @@ describe('Record Delete Editor', () => {
                             'invalidValue'
                         );
                     });
-                    it('should NOT display record filters', () => {
-                        return Promise.resolve().then(() => {
-                            expect(getChildComponent(recordDeleteComponent, SELECTORS.RECORD_FILTER)).toBeNull();
-                        });
+                    it('should NOT display record filters', async () => {
+                        await ticks(1);
+                        expect(getChildComponent(recordDeleteComponent, SELECTORS.RECORD_FILTER)).toBeNull();
                     });
-                    it('should display invalid entry error', () => {
-                        return Promise.resolve().then(() => {
-                            expect(recordDeleteComponent.node.object.error).toBe(
-                                FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC
-                            );
-                        });
+                    it('should display invalid entry error', async () => {
+                        await ticks(1);
+                        expect(recordDeleteComponent.node.object.error).toBe(
+                            FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC
+                        );
                     });
                 });
                 describe('Enter new valid value', () => {
@@ -326,17 +312,15 @@ describe('Record Delete Editor', () => {
                             ''
                         );
                     });
-                    it('should NOT display record filters', () => {
-                        return Promise.resolve().then(() => {
-                            expect(getChildComponent(recordDeleteComponent, SELECTORS.RECORD_FILTER)).toBeNull();
-                        });
+                    it('should NOT display record filters', async () => {
+                        await ticks(1);
+                        expect(getChildComponent(recordDeleteComponent, SELECTORS.RECORD_FILTER)).toBeNull();
                     });
-                    it('should display required value error', () => {
-                        return Promise.resolve().then(() => {
-                            expect(recordDeleteComponent.node.object.error).toBe(
-                                FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
-                            );
-                        });
+                    it('should display required value error', async () => {
+                        await ticks(1);
+                        expect(recordDeleteComponent.node.object.error).toBe(
+                            FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
+                        );
                     });
                 });
             });

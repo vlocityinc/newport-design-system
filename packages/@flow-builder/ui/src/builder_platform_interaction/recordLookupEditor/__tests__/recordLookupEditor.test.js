@@ -21,7 +21,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { getAccountWithFields, getAccountWithSObject } from 'mock/storeDataContactrequest';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import { INTERACTION_COMPONENTS_SELECTORS, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 
@@ -268,14 +268,13 @@ describe('record-lookup-editor', () => {
                 });
             });
             describe('Handle Events', () => {
-                it('handles "entityResourcePicker" value changed event', () => {
+                it('handles "entityResourcePicker" value changed event', async () => {
                     entityResourcePicker = getEntityResourcePicker(recordLookupEditor);
                     entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
-                    return Promise.resolve().then(() => {
-                        expect(entityResourcePicker.value).toBe('guid1');
-                    });
+                    await ticks(1);
+                    expect(entityResourcePicker.value).toBe('guid1');
                 });
-                it('handle "sortOrder" Changed should changed the record lookup sortOrder value', () => {
+                it('handle "sortOrder" Changed should changed the record lookup sortOrder value', async () => {
                     const event = new CustomEvent('change', {
                         detail: {
                             sortOrder: SORT_ORDER.ASC,
@@ -283,48 +282,43 @@ describe('record-lookup-editor', () => {
                         }
                     });
                     getRecordSort(recordLookupEditor).dispatchEvent(event);
-                    return Promise.resolve().then(() => {
-                        const recordSort = getRecordSort(recordLookupEditor);
-                        expect(recordSort.sortOrder).toBe(SORT_ORDER.ASC);
-                        expect(recordLookupEditor.node.sortOrder).toBe(SORT_ORDER.ASC);
-                    });
+                    await ticks(1);
+                    const recordSort = getRecordSort(recordLookupEditor);
+                    expect(recordSort.sortOrder).toBe(SORT_ORDER.ASC);
+                    expect(recordLookupEditor.node.sortOrder).toBe(SORT_ORDER.ASC);
                 });
-                it('change number record to store to All records, sObject picker should changed', () => {
+                it('change number record to store to All records, sObject picker should changed', async () => {
                     const event = new RecordStoreOptionChangedEvent(false, '', false);
                     getRecordStoreOption(recordLookupEditor).dispatchEvent(event);
-                    return Promise.resolve().then(() => {
-                        const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(recordLookupEditor);
-                        const sObjectOrSObjectCollectionPicker = getsObjectOrSObjectCollectionPicker(
-                            recordSobjectAndQueryFields
-                        );
-                        expect(sObjectOrSObjectCollectionPicker.placeholder).toBe(
-                            'FlowBuilderRecordEditor.searchRecordCollections'
-                        );
-                        expect(sObjectOrSObjectCollectionPicker.value).toBe('');
-                    });
+                    await ticks(1);
+                    const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(recordLookupEditor);
+                    const sObjectOrSObjectCollectionPicker = getsObjectOrSObjectCollectionPicker(
+                        recordSobjectAndQueryFields
+                    );
+                    expect(sObjectOrSObjectCollectionPicker.placeholder).toBe(
+                        'FlowBuilderRecordEditor.searchRecordCollections'
+                    );
+                    expect(sObjectOrSObjectCollectionPicker.value).toBe('');
                 });
-                it('handle UpdateRecordFilterEvent should update the filter element', () => {
+                it('handle UpdateRecordFilterEvent should update the filter element', async () => {
                     const updateRecordFilterEvent = new UpdateRecordFilterEvent(0, filterElement, null);
                     getRecordFilter(recordLookupEditor).dispatchEvent(updateRecordFilterEvent);
-                    return Promise.resolve().then(() => {
-                        expect(recordLookupEditor.node.filters[0]).toMatchObject(filterElement);
-                    });
+                    await ticks(1);
+                    expect(recordLookupEditor.node.filters[0]).toMatchObject(filterElement);
                 });
-                it('handle AddRecordFilterEvent should add a filter element', () => {
+                it('handle AddRecordFilterEvent should add a filter element', async () => {
                     const addRecordFilterEvent = new AddRecordFilterEvent(); // This is using the numerical rowIndex not the property rowIndex
                     getRecordFilter(recordLookupEditor).dispatchEvent(addRecordFilterEvent);
-                    return Promise.resolve().then(() => {
-                        expect(recordLookupEditor.node.filters).toHaveLength(2);
-                    });
+                    await ticks(1);
+                    expect(recordLookupEditor.node.filters).toHaveLength(2);
                 });
-                it('handle record filter type Change event', () => {
+                it('handle record filter type Change event', async () => {
                     const recordFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(RECORD_FILTER_CRITERIA.ALL);
                     getRecordFilter(recordLookupEditor).dispatchEvent(recordFilterTypeChangedEvent);
-                    return Promise.resolve().then(() => {
-                        expect(recordLookupEditor.node.filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
-                    });
+                    await ticks(1);
+                    expect(recordLookupEditor.node.filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
                 });
-                it('reselect same "outputReference" should not reset query fields', () => {
+                it('reselect same "outputReference" should not reset query fields', async () => {
                     const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(recordLookupEditor);
                     const sObjectOrSObjectCollectionPicker = getsObjectOrSObjectCollectionPicker(
                         recordSobjectAndQueryFields
@@ -332,21 +326,19 @@ describe('record-lookup-editor', () => {
                     sObjectOrSObjectCollectionPicker.dispatchEvent(
                         new SObjectReferenceChangedEvent(recordLookupEditor.node.outputReference.value)
                     );
-                    return Promise.resolve().then(() => {
-                        expect(recordSobjectAndQueryFields.queriedFields[1].field.value).toBe('BillingAddress');
-                    });
+                    await ticks(1);
+                    expect(recordSobjectAndQueryFields.queriedFields[1].field.value).toBe('BillingAddress');
                 });
                 describe('Filters', () => {
                     it('record filter criteria should be all ', () => {
                         const recordFilter = getRecordFilter(recordLookupEditor);
                         expect(recordFilter.filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
                     });
-                    it('record filter fire DeleteRecordFilterEvent', () => {
+                    it('record filter fire DeleteRecordFilterEvent', async () => {
                         const deleteRecordFilterEvent = new DeleteRecordFilterEvent(0); // This is using the numerical rowIndex not the property rowIndex
                         getRecordFilter(recordLookupEditor).dispatchEvent(deleteRecordFilterEvent);
-                        return Promise.resolve().then(() => {
-                            expect(recordLookupEditor.node.filters).toHaveLength(0);
-                        });
+                        await ticks(1);
+                        expect(recordLookupEditor.node.filters).toHaveLength(0);
                     });
                 });
             });
@@ -384,41 +376,37 @@ describe('record-lookup-editor', () => {
                 });
             });
             describe('Handle Events', () => {
-                it('change number record to store to All records, sObject picker should changed', () => {
+                it('change number record to store to All records, sObject picker should changed', async () => {
                     const event = new RecordStoreOptionChangedEvent(false);
                     getRecordStoreOption(recordLookupEditor).dispatchEvent(event);
-                    return Promise.resolve().then(() => {
-                        const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(recordLookupEditor);
-                        const sObjectOrSObjectCollectionPicker = getsObjectOrSObjectCollectionPicker(
-                            recordSobjectAndQueryFields
-                        );
-                        expect(sObjectOrSObjectCollectionPicker.value).toBe('');
-                    });
+                    await ticks(1);
+                    const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(recordLookupEditor);
+                    const sObjectOrSObjectCollectionPicker = getsObjectOrSObjectCollectionPicker(
+                        recordSobjectAndQueryFields
+                    );
+                    expect(sObjectOrSObjectCollectionPicker.value).toBe('');
                 });
-                it('handle AddRecordFieldAssignmentEvent should add an input Assignments element', () => {
+                it('handle AddRecordFieldAssignmentEvent should add an input Assignments element', async () => {
                     const addRecordFieldAssignmentEvent = new AddRecordFieldAssignmentEvent();
                     getInputOutputAssignments(recordLookupEditor).dispatchEvent(addRecordFieldAssignmentEvent);
-                    return Promise.resolve().then(() => {
-                        expect(recordLookupEditor.node.outputAssignments).toHaveLength(3);
-                    });
+                    await ticks(1);
+                    expect(recordLookupEditor.node.outputAssignments).toHaveLength(3);
                 });
-                it('handle UpdateRecordFieldAssignmentEvent should update the input Assignments element', () => {
+                it('handle UpdateRecordFieldAssignmentEvent should update the input Assignments element', async () => {
                     const updateRecordFieldAssignmentEvent = new UpdateRecordFieldAssignmentEvent(
                         0,
                         outputAssignmentElement,
                         null
                     );
                     getInputOutputAssignments(recordLookupEditor).dispatchEvent(updateRecordFieldAssignmentEvent);
-                    return Promise.resolve().then(() => {
-                        expect(recordLookupEditor.node.outputAssignments[0]).toMatchObject(outputAssignmentElement);
-                    });
+                    await ticks(1);
+                    expect(recordLookupEditor.node.outputAssignments[0]).toMatchObject(outputAssignmentElement);
                 });
-                it('handle DeleteRecordFieldAssignmentEvent should delete the input assignment', () => {
+                it('handle DeleteRecordFieldAssignmentEvent should delete the input assignment', async () => {
                     const deleteRecordFieldAssignmentEvent = new DeleteRecordFieldAssignmentEvent(0); // This is using the numerical rowIndex not the property rowIndex
                     getInputOutputAssignments(recordLookupEditor).dispatchEvent(deleteRecordFieldAssignmentEvent);
-                    return Promise.resolve().then(() => {
-                        expect(recordLookupEditor.node.outputAssignments).toHaveLength(1);
-                    });
+                    await ticks(1);
+                    expect(recordLookupEditor.node.outputAssignments).toHaveLength(1);
                 });
             });
         });

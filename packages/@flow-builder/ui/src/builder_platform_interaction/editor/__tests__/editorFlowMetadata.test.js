@@ -21,7 +21,9 @@ jest.mock('builder_platform_interaction/preloadLib', () => {
         loadReferencesIn: jest.fn().mockResolvedValue({}),
         initializeLoader: jest.fn(),
         loadOnStart: jest.fn(),
-        loadOnProcessTypeChange: jest.fn()
+        loadOnProcessTypeChange: jest.fn(),
+        loadAllSupportedFeatures: jest.fn().mockResolvedValue({}),
+        loadApexClasses: jest.fn().mockResolvedValue({})
     };
 });
 

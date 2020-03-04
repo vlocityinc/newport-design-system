@@ -1,6 +1,6 @@
 import { createElement } from 'lwc';
 import ScreenField from '../screenField';
-import { createTestScreenField, SCREEN_NO_DEF_VALUE } from 'builder_platform_interaction/builderTestUtils';
+import { createTestScreenField, SCREEN_NO_DEF_VALUE, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
@@ -55,12 +55,11 @@ describe('input screen field with no label', () => {
             screenfield: textBoxField
         });
     });
-    it('Placeholder label is used', () => {
-        return Promise.resolve().then(() => {
-            const renderedInputField = testScreenField.shadowRoot.querySelector(SELECTORS.INPUT_FIELD);
-            expect(renderedInputField).toBeDefined();
-            expect(renderedInputField.label).toBe('[' + LABELS.fieldTypeLabelTextField + ']');
-        });
+    it('Placeholder label is used', async () => {
+        await ticks(1);
+        const renderedInputField = testScreenField.shadowRoot.querySelector(SELECTORS.INPUT_FIELD);
+        expect(renderedInputField).toBeDefined();
+        expect(renderedInputField.label).toBe('[' + LABELS.fieldTypeLabelTextField + ']');
     });
 });
 
@@ -72,12 +71,11 @@ describe('text area screen field with no label', () => {
             screenfield: textAreaField
         });
     });
-    it('Placeholder label is used', () => {
-        return Promise.resolve().then(() => {
-            const renderedInputField = testScreenField.shadowRoot.querySelector(SELECTORS.TEXT_AREA_FIELD);
-            expect(renderedInputField).toBeDefined();
-            expect(renderedInputField.label).toBe('[' + LABELS.fieldTypeLabelLargeTextArea + ']');
-        });
+    it('Placeholder label is used', async () => {
+        await ticks(1);
+        const renderedInputField = testScreenField.shadowRoot.querySelector(SELECTORS.TEXT_AREA_FIELD);
+        expect(renderedInputField).toBeDefined();
+        expect(renderedInputField.label).toBe('[' + LABELS.fieldTypeLabelLargeTextArea + ']');
     });
 });
 
@@ -89,12 +87,11 @@ describe('input screen field with a label', () => {
             screenfield: textAreaField
         });
     });
-    it('Actual label is used', () => {
-        return Promise.resolve().then(() => {
-            const renderedInputField = testScreenField.shadowRoot.querySelector(SELECTORS.INPUT_FIELD);
-            expect(renderedInputField).toBeDefined();
-            expect(renderedInputField.label).toBe(fieldName);
-        });
+    it('Actual label is used', async () => {
+        await ticks(1);
+        const renderedInputField = testScreenField.shadowRoot.querySelector(SELECTORS.INPUT_FIELD);
+        expect(renderedInputField).toBeDefined();
+        expect(renderedInputField.label).toBe(fieldName);
     });
 });
 
@@ -106,28 +103,26 @@ describe('text area screen field with a label', () => {
             screenfield: textAreaField
         });
     });
-    it('Actual label is used', () => {
-        return Promise.resolve().then(() => {
-            const renderedInputField = testScreenField.shadowRoot.querySelector(SELECTORS.TEXT_AREA_FIELD);
-            expect(renderedInputField).toBeDefined();
-            expect(renderedInputField.label).toBe(fieldName);
-        });
+    it('Actual label is used', async () => {
+        await ticks(1);
+        const renderedInputField = testScreenField.shadowRoot.querySelector(SELECTORS.TEXT_AREA_FIELD);
+        expect(renderedInputField).toBeDefined();
+        expect(renderedInputField.label).toBe(fieldName);
     });
 });
 
 describe('display text screen field with errors', () => {
-    it('displays an error card', () => {
+    it('displays an error card', async () => {
         const textAreaField = createTestScreenField(fieldName, 'DisplayText', 'Displayed text');
         textAreaField.fieldText.error = 'error';
         const testScreenField = createComponentUnderTest({
             screenfield: textAreaField
         });
 
-        return Promise.resolve().then(() => {
-            const renderedInputField = testScreenField.shadowRoot.querySelector(SELECTORS.SCREEN_FIELD_CARD);
-            expect(renderedInputField).toBeDefined();
-            expect(renderedInputField.title).toBe('FlowBuilderScreenEditor.invalidScreenfield');
-        });
+        await ticks(1);
+        const renderedInputField = testScreenField.shadowRoot.querySelector(SELECTORS.SCREEN_FIELD_CARD);
+        expect(renderedInputField).toBeDefined();
+        expect(renderedInputField.title).toBe('FlowBuilderScreenEditor.invalidScreenfield');
     });
 });
 
@@ -140,12 +135,11 @@ describe('display text screen field with text', () => {
             screenfield: textAreaField
         });
     });
-    it('Actual text is used is used', () => {
-        return Promise.resolve().then(() => {
-            const renderedField = testScreenField.shadowRoot.querySelector(SELECTORS.DISPLAY_FIELD);
-            expect(renderedField).toBeDefined();
-            expect(renderedField.value).toBe(displayText);
-        });
+    it('Actual text is used is used', async () => {
+        await ticks(1);
+        const renderedField = testScreenField.shadowRoot.querySelector(SELECTORS.DISPLAY_FIELD);
+        expect(renderedField).toBeDefined();
+        expect(renderedField.value).toBe(displayText);
     });
 });
 
@@ -157,12 +151,11 @@ describe('display text screen field with no text', () => {
             screenfield: field
         });
     });
-    it('Placeholder text is used', () => {
-        return Promise.resolve().then(() => {
-            const renderedField = testScreenField.shadowRoot.querySelector(SELECTORS.DISPLAY_FIELD);
-            expect(renderedField).toBeDefined();
-            expect(renderedField.value).toBe('[' + LABELS.fieldTypeLabelDisplayText + ']');
-        });
+    it('Placeholder text is used', async () => {
+        await ticks(1);
+        const renderedField = testScreenField.shadowRoot.querySelector(SELECTORS.DISPLAY_FIELD);
+        expect(renderedField).toBeDefined();
+        expect(renderedField.value).toBe('[' + LABELS.fieldTypeLabelDisplayText + ']');
     });
 });
 
@@ -174,12 +167,11 @@ describe('currency field with no default', () => {
             screenfield: field
         });
     });
-    it('No default value is displayed', () => {
-        return Promise.resolve().then(() => {
-            const renderedInputField = testScreenField.shadowRoot.querySelector(SELECTORS.INPUT_FIELD);
-            expect(renderedInputField).toBeDefined();
-            expect(renderedInputField.value).toBe('');
-        });
+    it('No default value is displayed', async () => {
+        await ticks(1);
+        const renderedInputField = testScreenField.shadowRoot.querySelector(SELECTORS.INPUT_FIELD);
+        expect(renderedInputField).toBeDefined();
+        expect(renderedInputField.value).toBe('');
     });
 });
 
@@ -191,12 +183,11 @@ describe('currency field with literal default', () => {
             screenfield: field
         });
     });
-    it('Literal default is displayed', () => {
-        return Promise.resolve().then(() => {
-            const renderedInputField = testScreenField.shadowRoot.querySelector(SELECTORS.INPUT_FIELD);
-            expect(renderedInputField).toBeDefined();
-            expect(renderedInputField.value).toBe('10');
-        });
+    it('Literal default is displayed', async () => {
+        await ticks(1);
+        const renderedInputField = testScreenField.shadowRoot.querySelector(SELECTORS.INPUT_FIELD);
+        expect(renderedInputField).toBeDefined();
+        expect(renderedInputField.value).toBe('10');
     });
 });
 
@@ -208,12 +199,11 @@ describe('number field with no default', () => {
             screenfield: field
         });
     });
-    it('No default value is displayed', () => {
-        return Promise.resolve().then(() => {
-            const renderedInputField = testScreenField.shadowRoot.querySelector(SELECTORS.INPUT_FIELD);
-            expect(renderedInputField).toBeDefined();
-            expect(renderedInputField.value).toBe('');
-        });
+    it('No default value is displayed', async () => {
+        await ticks(1);
+        const renderedInputField = testScreenField.shadowRoot.querySelector(SELECTORS.INPUT_FIELD);
+        expect(renderedInputField).toBeDefined();
+        expect(renderedInputField.value).toBe('');
     });
 });
 
@@ -225,12 +215,11 @@ describe('number field with literal default', () => {
             screenfield: field
         });
     });
-    it('Literal default is displayed', () => {
-        return Promise.resolve().then(() => {
-            const renderedInputField = testScreenField.shadowRoot.querySelector(SELECTORS.INPUT_FIELD);
-            expect(renderedInputField).toBeDefined();
-            expect(renderedInputField.value).toBe('10');
-        });
+    it('Literal default is displayed', async () => {
+        await ticks(1);
+        const renderedInputField = testScreenField.shadowRoot.querySelector(SELECTORS.INPUT_FIELD);
+        expect(renderedInputField).toBeDefined();
+        expect(renderedInputField.value).toBe('10');
     });
 });
 
@@ -243,12 +232,11 @@ describe('section field', () => {
             screenfield: sectionField
         });
     });
-    it('Section preview is displayed', () => {
-        return Promise.resolve().then(() => {
-            const renderedSectionField = testScreenField.shadowRoot.querySelector(SELECTORS.SECTION_FIELD);
-            expect(renderedSectionField).toBeDefined();
-            expect(renderedSectionField.title).toBe('Section');
-        });
+    it('Section preview is displayed', async () => {
+        await ticks(1);
+        const renderedSectionField = testScreenField.shadowRoot.querySelector(SELECTORS.SECTION_FIELD);
+        expect(renderedSectionField).toBeDefined();
+        expect(renderedSectionField.title).toBe('Section');
     });
 });
 // TODO - add tests where default value is a reference for each field type

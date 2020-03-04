@@ -2,6 +2,7 @@ import { createElement } from 'lwc';
 import DecisionEditor from 'builder_platform_interaction/decisionEditor';
 import { decisionReducer } from '../decisionReducer';
 import { DeleteOutcomeEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const mockNewState = {
     label: { value: 'New Decision' },
@@ -100,16 +101,15 @@ const createComponentForTest = node => {
 
 describe('Decision Editor', () => {
     describe('handleDeleteOutcome', () => {
-        it('calls the reducer with the passed in action', () => {
+        it('calls the reducer with the passed in action', async () => {
             const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
-            return Promise.resolve().then(() => {
-                const deleteOutcomeEvent = new DeleteOutcomeEvent('outcomeGuid');
+            await ticks(1);
+            const deleteOutcomeEvent = new DeleteOutcomeEvent('outcomeGuid');
 
-                const outcome = decisionEditor.shadowRoot.querySelector(SELECTORS.OUTCOME);
-                outcome.dispatchEvent(deleteOutcomeEvent);
+            const outcome = decisionEditor.shadowRoot.querySelector(SELECTORS.OUTCOME);
+            outcome.dispatchEvent(deleteOutcomeEvent);
 
-                expect(decisionEditor.node).toEqual(mockNewState);
-            });
+            expect(decisionEditor.node).toEqual(mockNewState);
         });
 
         it('sets the first outcome as active', () => {
@@ -153,85 +153,79 @@ describe('Decision Editor', () => {
     });
 
     describe('showDeleteOutcome', () => {
-        it('is true when more than one outcome is present', () => {
+        it('is true when more than one outcome is present', async () => {
             const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
 
-            return Promise.resolve().then(() => {
-                const outcomeElement = decisionEditor.shadowRoot.querySelector(SELECTORS.OUTCOME);
-                expect(outcomeElement.showDelete).toBe(true);
-            });
+            await ticks(1);
+            const outcomeElement = decisionEditor.shadowRoot.querySelector(SELECTORS.OUTCOME);
+            expect(outcomeElement.showDelete).toBe(true);
         });
-        it('is false when only one outcome is present', () => {
+        it('is false when only one outcome is present', async () => {
             const decisionEditor = createComponentForTest(decisionWithOneOutcome);
 
-            return Promise.resolve().then(() => {
-                const outcomeElement = decisionEditor.shadowRoot.querySelector(SELECTORS.OUTCOME);
-                expect(outcomeElement.showDelete).toBe(false);
-            });
+            await ticks(1);
+            const outcomeElement = decisionEditor.shadowRoot.querySelector(SELECTORS.OUTCOME);
+            expect(outcomeElement.showDelete).toBe(false);
         });
     });
 
     describe('outcome menu', () => {
         describe('array of menu items', () => {
-            it('contains all outcomes in order plus default at end', () => {
+            it('contains all outcomes in order plus default at end', async () => {
                 const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
 
-                return Promise.resolve().then(() => {
-                    const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
-                    const menuItems = reorderableOutcomeNav.menuItems;
+                await ticks(1);
+                const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
+                const menuItems = reorderableOutcomeNav.menuItems;
 
-                    // menu includes the default
-                    expect(menuItems).toHaveLength(3);
-                    expect(menuItems[0].element).toEqual(decisionWithTwoOutcomes.outcomes[0]);
-                    expect(menuItems[1].element).toEqual(decisionWithTwoOutcomes.outcomes[1]);
-                    expect(menuItems[2]).toEqual({
-                        element: {
-                            guid: DEFAULT_OUTCOME_ID
-                        },
-                        label: 'FlowBuilderDecisionEditor.emptyDefaultOutcomeLabel',
-                        isDraggable: false
-                    });
+                // menu includes the default
+                expect(menuItems).toHaveLength(3);
+                expect(menuItems[0].element).toEqual(decisionWithTwoOutcomes.outcomes[0]);
+                expect(menuItems[1].element).toEqual(decisionWithTwoOutcomes.outcomes[1]);
+                expect(menuItems[2]).toEqual({
+                    element: {
+                        guid: DEFAULT_OUTCOME_ID
+                    },
+                    label: 'FlowBuilderDecisionEditor.emptyDefaultOutcomeLabel',
+                    isDraggable: false
                 });
             });
-            it('outcomes are draggable', () => {
+            it('outcomes are draggable', async () => {
                 const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
 
-                return Promise.resolve().then(() => {
-                    const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
-                    const menuItems = reorderableOutcomeNav.menuItems;
+                await ticks(1);
+                const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
+                const menuItems = reorderableOutcomeNav.menuItems;
 
-                    expect(menuItems[0].isDraggable).toBeTruthy();
-                    expect(menuItems[1].isDraggable).toBeTruthy();
-                });
+                expect(menuItems[0].isDraggable).toBeTruthy();
+                expect(menuItems[1].isDraggable).toBeTruthy();
             });
-            it('default outcome is not draggable', () => {
+            it('default outcome is not draggable', async () => {
                 const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
 
-                return Promise.resolve().then(() => {
-                    const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
-                    const menuItems = reorderableOutcomeNav.menuItems;
+                await ticks(1);
+                const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
+                const menuItems = reorderableOutcomeNav.menuItems;
 
-                    expect(menuItems[2].isDraggable).toBeFalsy();
-                });
+                expect(menuItems[2].isDraggable).toBeFalsy();
             });
-            it('shows an error icon when there is an error in the outcome', () => {
+            it('shows an error icon when there is an error in the outcome', async () => {
                 const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
 
-                return Promise.resolve().then(() => {
-                    const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
-                    const menuItems = reorderableOutcomeNav.menuItems;
+                await ticks(1);
+                const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
+                const menuItems = reorderableOutcomeNav.menuItems;
 
-                    // We mocked getErrorsFromHydratedElement to always return an error
-                    // so all non-default outcomes will show the error
-                    expect(menuItems[0].hasErrors).toBeTruthy();
-                    expect(menuItems[1].hasErrors).toBeTruthy();
-                });
+                // We mocked getErrorsFromHydratedElement to always return an error
+                // so all non-default outcomes will show the error
+                expect(menuItems[0].hasErrors).toBeTruthy();
+                expect(menuItems[1].hasErrors).toBeTruthy();
             });
         });
     });
 
     describe('default outcome', () => {
-        it('calls the reducer with the passed in action and a propertyName of defaultConnectorLabel', () => {
+        it('calls the reducer with the passed in action and a propertyName of defaultConnectorLabel', async () => {
             const decisionEditor = createComponentForTest(decisionWithOneOutcome);
             // trigger showing of default outcome
             const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
@@ -241,54 +235,51 @@ describe('Decision Editor', () => {
                 })
             );
 
-            return Promise.resolve().then(() => {
-                const modifyDefaultOutcomeEvent = new PropertyChangedEvent('name', 'newValue');
+            await ticks(1);
+            const modifyDefaultOutcomeEvent = new PropertyChangedEvent('name', 'newValue');
 
-                const defaultOutcome = decisionEditor.shadowRoot.querySelector(SELECTORS.DEFAULT_OUTCOME);
+            const defaultOutcome = decisionEditor.shadowRoot.querySelector(SELECTORS.DEFAULT_OUTCOME);
 
-                defaultOutcome.dispatchEvent(modifyDefaultOutcomeEvent);
+            defaultOutcome.dispatchEvent(modifyDefaultOutcomeEvent);
 
-                const mockCallParams = decisionReducer.mock.calls[0];
-                const decisionReducerEvent = mockCallParams[1];
+            const mockCallParams = decisionReducer.mock.calls[0];
+            const decisionReducerEvent = mockCallParams[1];
 
-                expect(mockCallParams[0]).toEqual(decisionWithOneOutcome);
+            expect(mockCallParams[0]).toEqual(decisionWithOneOutcome);
 
-                const expectedReducerEvent = {
-                    type: 'propertychanged',
-                    detail: {
-                        propertyName: 'defaultConnectorLabel',
-                        value: modifyDefaultOutcomeEvent.detail.value
-                    }
-                };
+            const expectedReducerEvent = {
+                type: 'propertychanged',
+                detail: {
+                    propertyName: 'defaultConnectorLabel',
+                    value: modifyDefaultOutcomeEvent.detail.value
+                }
+            };
 
-                expect(decisionReducerEvent.type).toEqual(expectedReducerEvent.type);
-                expect(decisionReducerEvent.detail.propertyName).toEqual(expectedReducerEvent.detail.propertyName);
-                expect(decisionReducerEvent.detail.value).toEqual(expectedReducerEvent.detail.value);
-            });
+            expect(decisionReducerEvent.type).toEqual(expectedReducerEvent.type);
+            expect(decisionReducerEvent.detail.propertyName).toEqual(expectedReducerEvent.detail.propertyName);
+            expect(decisionReducerEvent.detail.value).toEqual(expectedReducerEvent.detail.value);
         });
-        it('initial default outcome does not have an error', () => {
+        it('initial default outcome does not have an error', async () => {
             const decisionEditor = createComponentForTest(decisionWithOneOutcome);
 
-            return Promise.resolve().then(() => {
-                const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
-                const menuItems = reorderableOutcomeNav.menuItems;
+            await ticks(1);
+            const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
+            const menuItems = reorderableOutcomeNav.menuItems;
 
-                expect(menuItems[1].hasErrors).toBeFalsy();
-            });
+            expect(menuItems[1].hasErrors).toBeFalsy();
         });
-        it('default outcome has an error if there is no label', () => {
+        it('default outcome has an error if there is no label', async () => {
             decisionWithOneOutcome.defaultConnectorLabel = {
                 value: '',
                 error: 'Label should not be empty'
             };
             const decisionEditor = createComponentForTest(decisionWithOneOutcome);
 
-            return Promise.resolve().then(() => {
-                const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
-                const menuItems = reorderableOutcomeNav.menuItems;
+            await ticks(1);
+            const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
+            const menuItems = reorderableOutcomeNav.menuItems;
 
-                expect(menuItems[1].hasErrors).toBeTruthy();
-            });
+            expect(menuItems[1].hasErrors).toBeTruthy();
         });
     });
 });

@@ -5,6 +5,7 @@ import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib'
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { stageReducer } from '../../stageEditor/stageReducer';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/actions', () => {
     return {
@@ -127,14 +128,13 @@ describe('Stage-Editor', () => {
         });
     });
     describe('Handle Property Changed Events', () => {
-        it('handles the property changed event and updates to Description.', () => {
+        it('handles the property changed event and updates to Description.', async () => {
             const stageEditor = createComponentUnderTest(stageResource);
-            return Promise.resolve().then(() => {
-                const event = new PropertyChangedEvent('description', 'new desc', null);
-                getLabelDescription(stageEditor).dispatchEvent(event);
-                expect(createAction.mock.calls[0][0]).toEqual(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY);
-                expect(stageReducer.mock.calls[0][0]).toEqual(stageEditor.node);
-            });
+            await ticks(1);
+            const event = new PropertyChangedEvent('description', 'new desc', null);
+            getLabelDescription(stageEditor).dispatchEvent(event);
+            expect(createAction.mock.calls[0][0]).toEqual(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY);
+            expect(stageReducer.mock.calls[0][0]).toEqual(stageEditor.node);
         });
     });
 });

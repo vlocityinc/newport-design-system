@@ -22,7 +22,8 @@ import { resolveRenderCycles } from '../resolveRenderCycles';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS
+    INTERACTION_COMPONENTS_SELECTORS,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
@@ -72,38 +73,30 @@ describe('Record Update Editor', () => {
             );
             recordUpdateComponent = createComponentForTest(recordUpdateNode, AddElementEvent.EVENT_NAME);
         });
-        it('do not change "dev name" if it already exists after the user modifies the "label"', () => {
+        it('do not change "dev name" if it already exists after the user modifies the "label"', async () => {
             newLabel = 'new label';
             changeInputValue(getLabelDescriptionLabelElement(recordUpdateComponent), newLabel);
-            return Promise.resolve().then(() => {
-                expect(recordUpdateComponent.node.label.value).toBe(newLabel);
-                expect(recordUpdateComponent.node.name.value).toBe(UPDATE_RECORDS_USING_SOBJECT_FLOW_ELEMENT);
-            });
+            await ticks(1);
+            expect(recordUpdateComponent.node.label.value).toBe(newLabel);
+            expect(recordUpdateComponent.node.name.value).toBe(UPDATE_RECORDS_USING_SOBJECT_FLOW_ELEMENT);
         });
-        it('modify the "dev name"', () => {
+        it('modify the "dev name"', async () => {
             newDevName = 'newDevName';
             changeInputValue(getLabelDescriptionNameElement(recordUpdateComponent), newDevName);
-            return Promise.resolve().then(() => {
-                expect(recordUpdateComponent.node.name.value).toBe(newDevName);
-            });
+            await ticks(1);
+            expect(recordUpdateComponent.node.name.value).toBe(newDevName);
         });
-        it('display error if the "label" is cleared', () => {
+        it('display error if the "label" is cleared', async () => {
             newLabel = '';
             changeInputValue(getLabelDescriptionLabelElement(recordUpdateComponent), newLabel);
-            return Promise.resolve().then(() => {
-                expect(recordUpdateComponent.node.label.error).toBe(
-                    FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
-                );
-            });
+            await ticks(1);
+            expect(recordUpdateComponent.node.label.error).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
         });
-        it('display error if the "dev name" is cleared', () => {
+        it('display error if the "dev name" is cleared', async () => {
             newDevName = '';
             changeInputValue(getLabelDescriptionNameElement(recordUpdateComponent), newDevName);
-            return Promise.resolve().then(() => {
-                expect(recordUpdateComponent.node.name.error).toBe(
-                    FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
-                );
-            });
+            await ticks(1);
+            expect(recordUpdateComponent.node.name.error).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
         });
     });
 
@@ -205,17 +198,12 @@ describe('Record Update Editor', () => {
                 it('Selected value is correctly displayed', () => {
                     expect(recordVariablePicker.value).toBe(recordUpdateNode.inputReference.value);
                 });
-                it('Should contain "New Resource" entry', () => {
+                it('Should contain "New Resource" entry', async () => {
                     const groupedCombobox = getRecordVariablePickerChildGroupedComboboxComponent(recordVariablePicker);
-                    return Promise.resolve().then(() => {
-                        expect(
-                            getGroupedComboboxItemBy(
-                                groupedCombobox,
-                                'text',
-                                'FlowBuilderExpressionUtils.newResourceLabel'
-                            )
-                        ).toBeDefined();
-                    });
+                    await ticks(1);
+                    expect(
+                        getGroupedComboboxItemBy(groupedCombobox, 'text', 'FlowBuilderExpressionUtils.newResourceLabel')
+                    ).toBeDefined();
                 });
                 it('Should contain all record variables', () => {
                     const comboboxItems = getRecordVariablePickerChildGroupedComboboxComponent(recordVariablePicker)
@@ -290,17 +278,15 @@ describe('Record Update Editor', () => {
                             'invalidValue'
                         );
                     });
-                    it('should NOT display record filters', () => {
-                        return Promise.resolve().then(() => {
-                            expect(getChildComponent(recordUpdateComponent, SELECTORS.RECORD_FILTER)).toBeNull();
-                        });
+                    it('should NOT display record filters', async () => {
+                        await ticks(1);
+                        expect(getChildComponent(recordUpdateComponent, SELECTORS.RECORD_FILTER)).toBeNull();
                     });
-                    it('should display invalid entry error', () => {
-                        return Promise.resolve().then(() => {
-                            expect(recordUpdateComponent.node.object.error).toBe(
-                                FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC
-                            );
-                        });
+                    it('should display invalid entry error', async () => {
+                        await ticks(1);
+                        expect(recordUpdateComponent.node.object.error).toBe(
+                            FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC
+                        );
                     });
                 });
                 describe('Enter new valid value', () => {
@@ -339,17 +325,15 @@ describe('Record Update Editor', () => {
                             ''
                         );
                     });
-                    it('should NOT display record filters', () => {
-                        return Promise.resolve().then(() => {
-                            expect(getChildComponent(recordUpdateComponent, SELECTORS.RECORD_FILTER)).toBeNull();
-                        });
+                    it('should NOT display record filters', async () => {
+                        await ticks(1);
+                        expect(getChildComponent(recordUpdateComponent, SELECTORS.RECORD_FILTER)).toBeNull();
                     });
-                    it('should display required value error', () => {
-                        return Promise.resolve().then(() => {
-                            expect(recordUpdateComponent.node.object.error).toBe(
-                                FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
-                            );
-                        });
+                    it('should display required value error', async () => {
+                        await ticks(1);
+                        expect(recordUpdateComponent.node.object.error).toBe(
+                            FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
+                        );
                     });
                 });
             });

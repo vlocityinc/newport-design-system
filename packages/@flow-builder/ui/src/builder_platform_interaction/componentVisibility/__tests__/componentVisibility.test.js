@@ -10,6 +10,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { conditionListReducer } from 'builder_platform_interaction/conditionListReducer';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/builderUtils');
 jest.mock('builder_platform_interaction/conditionListItem', () =>
@@ -118,20 +119,19 @@ describe('Component Visibility', () => {
             expect(hidePopover).toHaveBeenCalled();
         });
 
-        it('from NO_CONDITIONS to AND, adds a new condition and shows the popover for it', () => {
+        it('from NO_CONDITIONS to AND, adds a new condition and shows the popover for it', async () => {
             const element = createComponentUnderTest();
 
             getConditionList(element).dispatchEvent(new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.AND));
 
-            return Promise.resolve().then(() => {
-                expect(showPopover).toHaveBeenCalled();
-                expect(showPopover.mock.calls[0][1]).toMatchObject({
-                    condition: element.visibilityRule.conditions[0]
-                });
+            await ticks(1);
+            expect(showPopover).toHaveBeenCalled();
+            expect(showPopover.mock.calls[0][1]).toMatchObject({
+                condition: element.visibilityRule.conditions[0]
             });
         });
 
-        it('from AND to NO_CONDITIONS, removes all conditions', () => {
+        it('from AND to NO_CONDITIONS, removes all conditions', async () => {
             const element = createComponentUnderTest({
                 visibilityRule: getVisibilityRule(CONDITION_LOGIC.OR, [CONDITION, CONDITION_2])
             });
@@ -140,10 +140,9 @@ describe('Component Visibility', () => {
                 new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.NO_CONDITIONS)
             );
 
-            return Promise.resolve().then(() => {
-                expect(element.visibilityRule.conditions).toHaveLength(0);
-                expect(showPopover).not.toHaveBeenCalled();
-            });
+            await ticks(1);
+            expect(element.visibilityRule.conditions).toHaveLength(0);
+            expect(showPopover).not.toHaveBeenCalled();
         });
     });
 
@@ -171,7 +170,7 @@ describe('Component Visibility', () => {
     });
 
     describe('when add condition', () => {
-        it('emits AddConditionEvent and popover is hidden and then shown again for the new condition', () => {
+        it('emits AddConditionEvent and popover is hidden and then shown again for the new condition', async () => {
             const element = createComponentUnderTest({
                 visibilityRule: getVisibilityRule(CONDITION_LOGIC.AND, [CONDITION])
             });
@@ -185,16 +184,15 @@ describe('Component Visibility', () => {
             expect(hidePopover).toHaveBeenCalled();
 
             // after the reducer has processed the event, and the component got re-rendered
-            return Promise.resolve().then(() => {
-                expect(showPopover).toHaveBeenCalled();
-                expect(element.visibilityRule.conditions).toHaveLength(2);
-                expect(showPopover.mock.calls[0][1]).toMatchObject({
-                    condition: element.visibilityRule.conditions[1]
-                });
+            await ticks(1);
+            expect(showPopover).toHaveBeenCalled();
+            expect(element.visibilityRule.conditions).toHaveLength(2);
+            expect(showPopover.mock.calls[0][1]).toMatchObject({
+                condition: element.visibilityRule.conditions[1]
             });
         });
 
-        it('noop when last condition isNew: popover is not hidden, no conditions is added', () => {
+        it('noop when last condition isNew: popover is not hidden, no conditions is added', async () => {
             const element = createComponentUnderTest({
                 visibilityRule: getVisibilityRule(CONDITION_LOGIC.AND, [NEW_CONDITION])
             });
@@ -208,9 +206,8 @@ describe('Component Visibility', () => {
 
             expect(eventCallback).not.toHaveBeenCalled();
             expect(hidePopover).not.toHaveBeenCalled();
-            return Promise.resolve().then(() => {
-                expect(element.visibilityRule.conditions).toHaveLength(1);
-            });
+            await ticks(1);
+            expect(element.visibilityRule.conditions).toHaveLength(1);
         });
     });
 });

@@ -6,7 +6,7 @@
 
 import { createElement } from 'lwc';
 import ScreenPropertiesEditor from '../screenPropertiesEditor';
-import { query } from 'builder_platform_interaction/builderTestUtils';
+import { query, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { createTestScreen } from '../../builderTestUtils/screenEditorTestUtils';
 import { createScreenWithFields } from 'builder_platform_interaction/elementFactory';
 
@@ -49,93 +49,81 @@ describe('screen-properties-editor for new screen', () => {
             screen: createScreenWithFields()
         });
     });
-    it('API Name should be empty by default', () => {
-        return Promise.resolve().then(() => {
-            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
-            expect(nameAndLabelField.devName.value).toBe('');
-        });
+    it('API Name should be empty by default', async () => {
+        await ticks(1);
+        const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+        expect(nameAndLabelField.devName.value).toBe('');
     });
-    it('Label should be empty by default', () => {
-        return Promise.resolve().then(() => {
-            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
-            expect(nameAndLabelField.label.value).toBe('');
-        });
+    it('Label should be empty by default', async () => {
+        await ticks(1);
+        const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+        expect(nameAndLabelField.label.value).toBe('');
     });
-    it('Description should be empty by default', () => {
-        return Promise.resolve().then(() => {
-            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
-            expect(nameAndLabelField.description.value).toBe('');
-        });
+    it('Description should be empty by default', async () => {
+        await ticks(1);
+        const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+        expect(nameAndLabelField.description.value).toBe('');
     });
-    it('Show header is a checkbox and selected by default', () => {
-        return Promise.resolve().then(() => {
-            const header = query(screenPropEditor, SELECTORS.SHOW_HEADER);
-            expect(header).not.toBeNull();
-            expect(header.type).toBe('boolean');
-            expect(header.value).toBeTruthy();
-        });
+    it('Show header is a checkbox and selected by default', async () => {
+        await ticks(1);
+        const header = query(screenPropEditor, SELECTORS.SHOW_HEADER);
+        expect(header).not.toBeNull();
+        expect(header.type).toBe('boolean');
+        expect(header.value).toBeTruthy();
     });
-    it('Show footer is a checkbox and selected by default', () => {
-        return Promise.resolve().then(() => {
-            const footer = query(screenPropEditor, SELECTORS.SHOW_FOOTER);
-            expect(footer).not.toBeNull();
-            expect(footer.type).toBe('boolean');
-            expect(footer.value).toBeTruthy();
-        });
+    it('Show footer is a checkbox and selected by default', async () => {
+        await ticks(1);
+        const footer = query(screenPropEditor, SELECTORS.SHOW_FOOTER);
+        expect(footer).not.toBeNull();
+        expect(footer.type).toBe('boolean');
+        expect(footer.value).toBeTruthy();
     });
-    it('Allow pause is a checkbox and selected by default', () => {
-        return Promise.resolve().then(() => {
-            const allowPause = query(screenPropEditor, SELECTORS.ALLOW_PAUSE);
-            expect(allowPause).not.toBeNull();
-            expect(allowPause.type).toBe('boolean');
-            expect(allowPause.value).toBeTruthy();
-        });
+    it('Allow pause is a checkbox and selected by default', async () => {
+        await ticks(1);
+        const allowPause = query(screenPropEditor, SELECTORS.ALLOW_PAUSE);
+        expect(allowPause).not.toBeNull();
+        expect(allowPause.type).toBe('boolean');
+        expect(allowPause.value).toBeTruthy();
     });
-    it('Allow pause has helpText', () => {
-        return Promise.resolve().then(() => {
-            const allowPause = query(screenPropEditor, SELECTORS.ALLOW_PAUSE);
-            expect(allowPause).not.toBeNull();
-            expect(allowPause.helpText).not.toBeNull();
-        });
+    it('Allow pause has helpText', async () => {
+        await ticks(1);
+        const allowPause = query(screenPropEditor, SELECTORS.ALLOW_PAUSE);
+        expect(allowPause).not.toBeNull();
+        expect(allowPause.helpText).not.toBeNull();
     });
-    it('Allow back is a checkbox and selected by default', () => {
-        return Promise.resolve().then(() => {
-            const allowBack = query(screenPropEditor, SELECTORS.ALLOW_BACK);
-            expect(allowBack).not.toBeNull();
-            expect(allowBack.type).toBe('boolean');
-            expect(allowBack.value).toBeTruthy();
-        });
+    it('Allow back is a checkbox and selected by default', async () => {
+        await ticks(1);
+        const allowBack = query(screenPropEditor, SELECTORS.ALLOW_BACK);
+        expect(allowBack).not.toBeNull();
+        expect(allowBack.type).toBe('boolean');
+        expect(allowBack.value).toBeTruthy();
     });
-    it('Allow next is a checkbox and selected by default', () => {
-        return Promise.resolve().then(() => {
-            const allowNext = query(screenPropEditor, SELECTORS.ALLOW_NEXT);
-            expect(allowNext).not.toBeNull();
-            expect(allowNext.type).toBe('boolean');
-            expect(allowNext.value).toBeTruthy();
-        });
+    it('Allow next is a checkbox and selected by default', async () => {
+        await ticks(1);
+        const allowNext = query(screenPropEditor, SELECTORS.ALLOW_NEXT);
+        expect(allowNext).not.toBeNull();
+        expect(allowNext.type).toBe('boolean');
+        expect(allowNext.value).toBeTruthy();
     });
-    it('Pause text is a rich text editor and empty by default', () => {
-        return Promise.resolve().then(() => {
-            const pausedText = query(screenPropEditor, SELECTORS.PAUSED_TEXT);
-            expect(pausedText).not.toBeNull();
-            expect(pausedText.type).toBe('rich_string');
-            expect(pausedText.value).toBe('');
-        });
+    it('Pause text is a rich text editor and empty by default', async () => {
+        await ticks(1);
+        const pausedText = query(screenPropEditor, SELECTORS.PAUSED_TEXT);
+        expect(pausedText).not.toBeNull();
+        expect(pausedText.type).toBe('rich_string');
+        expect(pausedText.value).toBe('');
     });
-    it('Paused text component has helpText', () => {
-        return Promise.resolve().then(() => {
-            const pausedText = query(screenPropEditor, SELECTORS.PAUSED_TEXT);
-            expect(pausedText).not.toBeNull();
-            expect(pausedText.helpText).not.toBeNull();
-        });
+    it('Paused text component has helpText', async () => {
+        await ticks(1);
+        const pausedText = query(screenPropEditor, SELECTORS.PAUSED_TEXT);
+        expect(pausedText).not.toBeNull();
+        expect(pausedText.helpText).not.toBeNull();
     });
-    it('Help text is a rich text editor and empty by default', () => {
-        return Promise.resolve().then(() => {
-            const helpText = query(screenPropEditor, SELECTORS.HELP_TEXT);
-            expect(helpText).not.toBeNull();
-            expect(helpText.type).toBe('rich_string');
-            expect(helpText.value).toBe('');
-        });
+    it('Help text is a rich text editor and empty by default', async () => {
+        await ticks(1);
+        const helpText = query(screenPropEditor, SELECTORS.HELP_TEXT);
+        expect(helpText).not.toBeNull();
+        expect(helpText.type).toBe('rich_string');
+        expect(helpText.value).toBe('');
     });
 });
 
@@ -152,54 +140,47 @@ describe('screen-properties-editor for existing screen', () => {
             screen: testScreen
         });
     });
-    it('API Name is populated', () => {
-        return Promise.resolve().then(() => {
-            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
-            expect(nameAndLabelField.devName.value).toBe('screen1');
-        });
+    it('API Name is populated', async () => {
+        await ticks(1);
+        const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+        expect(nameAndLabelField.devName.value).toBe('screen1');
     });
-    it('Allow back has expected value', () => {
-        return Promise.resolve().then(() => {
-            const allowBack = query(screenPropEditor, SELECTORS.ALLOW_BACK);
-            expect(allowBack).not.toBeNull();
-            expect(allowBack.value).toBe(testScreen.allowBack);
-        });
+    it('Allow back has expected value', async () => {
+        await ticks(1);
+        const allowBack = query(screenPropEditor, SELECTORS.ALLOW_BACK);
+        expect(allowBack).not.toBeNull();
+        expect(allowBack.value).toBe(testScreen.allowBack);
     });
-    it('Allow next has expected value', () => {
-        return Promise.resolve().then(() => {
-            const allowNext = query(screenPropEditor, SELECTORS.ALLOW_NEXT);
-            expect(allowNext).not.toBeNull();
-            expect(allowNext.value).toBe(testScreen.allowFinish);
-        });
+    it('Allow next has expected value', async () => {
+        await ticks(1);
+        const allowNext = query(screenPropEditor, SELECTORS.ALLOW_NEXT);
+        expect(allowNext).not.toBeNull();
+        expect(allowNext.value).toBe(testScreen.allowFinish);
     });
-    it('Show header has expected value', () => {
-        return Promise.resolve().then(() => {
-            const header = query(screenPropEditor, SELECTORS.SHOW_HEADER);
-            expect(header).not.toBeNull();
-            expect(header.value).toBe(testScreen.showHeader);
-        });
+    it('Show header has expected value', async () => {
+        await ticks(1);
+        const header = query(screenPropEditor, SELECTORS.SHOW_HEADER);
+        expect(header).not.toBeNull();
+        expect(header.value).toBe(testScreen.showHeader);
     });
-    it('Show footer has expected value', () => {
-        return Promise.resolve().then(() => {
-            const footer = query(screenPropEditor, SELECTORS.SHOW_FOOTER);
-            expect(footer).not.toBeNull();
-            expect(footer.value).toBe(testScreen.showFooter);
-        });
+    it('Show footer has expected value', async () => {
+        await ticks(1);
+        const footer = query(screenPropEditor, SELECTORS.SHOW_FOOTER);
+        expect(footer).not.toBeNull();
+        expect(footer.value).toBe(testScreen.showFooter);
     });
-    it('Paused text has expected value', () => {
-        return Promise.resolve().then(() => {
-            const pausedText = query(screenPropEditor, SELECTORS.PAUSED_TEXT);
-            expect(pausedText).not.toBeNull();
-            expect(pausedText.value.value).toBe(testScreen.pausedText.value);
-        });
+    it('Paused text has expected value', async () => {
+        await ticks(1);
+        const pausedText = query(screenPropEditor, SELECTORS.PAUSED_TEXT);
+        expect(pausedText).not.toBeNull();
+        expect(pausedText.value.value).toBe(testScreen.pausedText.value);
     });
-    it('Help text has expected value', () => {
-        return Promise.resolve().then(() => {
-            const helpText = query(screenPropEditor, SELECTORS.HELP_TEXT);
-            expect(helpText).not.toBeNull();
-            expect(helpText.type).toBe('rich_string');
-            expect(helpText.value.value).toBe(testScreen.helpText.value);
-        });
+    it('Help text has expected value', async () => {
+        await ticks(1);
+        const helpText = query(screenPropEditor, SELECTORS.HELP_TEXT);
+        expect(helpText).not.toBeNull();
+        expect(helpText.type).toBe('rich_string');
+        expect(helpText.value.value).toBe(testScreen.helpText.value);
     });
 });
 
@@ -213,10 +194,9 @@ describe('Paused Text component is not present if pause is not allowed', () => {
             screen: testScreen
         });
     });
-    it('Paused text has expected value', () => {
-        return Promise.resolve().then(() => {
-            const pausedText = query(screenPropEditor, SELECTORS.PAUSED_TEXT);
-            expect(pausedText).toBeNull();
-        });
+    it('Paused text has expected value', async () => {
+        await ticks(1);
+        const pausedText = query(screenPropEditor, SELECTORS.PAUSED_TEXT);
+        expect(pausedText).toBeNull();
     });
 });

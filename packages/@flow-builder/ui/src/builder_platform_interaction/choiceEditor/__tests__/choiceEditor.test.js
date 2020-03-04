@@ -16,6 +16,7 @@ import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { LABELS } from '../choiceEditorLabels';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { STORED_VALUE_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -168,18 +169,15 @@ describe('choice-editor', () => {
         const choiceTextResourcedRichText = choiceEditor.shadowRoot.querySelector(SELECTORS.RESOURCE_RICH_TEXT_EDITOR);
         expect(choiceTextResourcedRichText.shadowRoot.querySelector(SELECTORS.RICH_TEXT_PLAIN_TEXT_SWITCH)).toBeNull();
     });
-    it('Handles the property changed event and updates the property', () => {
+    it('Handles the property changed event and updates the property', async () => {
         const choiceEditor = setupComponentUnderTest(defaultChoiceObject);
-        return Promise.resolve().then(() => {
-            const event = new PropertyChangedEvent('description', 'new desc', null);
-            choiceEditor.shadowRoot
-                .querySelector('builder_platform_interaction-label-description')
-                .dispatchEvent(event);
-            expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
-                propertyName: 'description',
-                value: 'new desc',
-                error: null
-            });
+        await ticks(1);
+        const event = new PropertyChangedEvent('description', 'new desc', null);
+        choiceEditor.shadowRoot.querySelector('builder_platform_interaction-label-description').dispatchEvent(event);
+        expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+            propertyName: 'description',
+            value: 'new desc',
+            error: null
         });
     });
 

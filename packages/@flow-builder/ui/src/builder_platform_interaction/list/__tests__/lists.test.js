@@ -1,7 +1,7 @@
 import { createElement } from 'lwc';
 import List from '../list';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
-import { query } from 'builder_platform_interaction/builderTestUtils';
+import { query, ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const SELECTORS = {
     ADD_BUTTON: 'lightning-button'
@@ -28,15 +28,14 @@ const size1 = [
 ];
 
 describe('list', () => {
-    it('handles the property changed event and updates the property', () => {
+    it('handles the property changed event and updates the property', async () => {
         const list = createComponentForTest();
         list.items = deepCopy(size1);
-        return Promise.resolve().then(() => {
-            const callback = jest.fn();
-            list.addEventListener('addlistitem', callback);
-            list.shadowRoot.querySelector('lightning-button').click();
-            expect(callback).toHaveBeenCalled();
-        });
+        await ticks(1);
+        const callback = jest.fn();
+        list.addEventListener('addlistitem', callback);
+        list.shadowRoot.querySelector('lightning-button').click();
+        expect(callback).toHaveBeenCalled();
     });
 
     it('add button not disabled when maxItems is not specified', () => {
