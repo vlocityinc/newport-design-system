@@ -354,9 +354,9 @@ export default class FlowPropertiesEditor extends LightningElement {
     handleAdvancedToggle(event) {
         const { showAdvanced, hideAdvanced } = LABELS;
         event.stopPropagation();
+        this.isAdvancedShown = !this.isAdvancedShown;
         this._toggleAdvancedLabel = !this.isAdvancedShown ? showAdvanced : hideAdvanced;
         this._toggleAdvancedClass = !this.isAdvancedShown ? TOGGLE_CLASS_SHOW : TOGGLE_CLASS_HIDE;
-        this.isAdvancedShown = !this.isAdvancedShown;
     }
 
     handleInstanceLabelChanged(event) {
