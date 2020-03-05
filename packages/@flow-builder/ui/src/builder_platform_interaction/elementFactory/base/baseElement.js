@@ -36,9 +36,23 @@ function createCanvasElementConfig(config = { isSelected: false, isHighlighted: 
  *  Adds FLC specific ui model properties
  */
 function addBaseCanvasElementProperties(canvasElement, newCanvasElement) {
-    const { next, prev, childIndex, parent } = canvasElement;
-    const children = supportsChildren(canvasElement) ? canvasElement.children || [] : null;
-    Object.assign(newCanvasElement, { next, prev, children, childIndex, parent });
+    const {
+        next = null,
+        prev = null,
+        children = null,
+        childIndex = null,
+        parent = null,
+        isTerminal = null
+    } = canvasElement;
+    if (supportsChildren(canvasElement)) {
+        Object.assign(newCanvasElement, { children });
+    }
+
+    if (parent) {
+        Object.assign(newCanvasElement, { parent, childIndex, isTerminal });
+    }
+
+    Object.assign(newCanvasElement, { next, prev });
 }
 
 export function baseCanvasElement(canvasElement = {}) {

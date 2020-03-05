@@ -1,3 +1,4 @@
+import { ElementType } from 'builder_platform_interaction/flowUtils';
 import { ELEMENT_TYPE, isSystemElement } from 'builder_platform_interaction/flowMetadata';
 
 const ELEMENT_SELECTED_ACTION = 'element_selected_action';
@@ -287,10 +288,10 @@ export function isRootOrEndElement({ elementType }) {
 }
 
 /**
- * Adds an element to the elements hash and optionally to the canvasElements array
- * @param {Object} element
- * @param {Object} elements
- * @param {Object} canvasElements
+ * Adds an element to the guid -> elements map and optionally to the canvasElements array
+ * @param {Object} element - the element to add
+ * @param {Object} elements - the guid -> elements map
+ * @param {Array} canvasElements - the canvas elements
  */
 export function addElementToState(element, elements, canvasElements) {
     elements[element.guid] = element;
@@ -301,26 +302,25 @@ export function addElementToState(element, elements, canvasElements) {
 
 /**
  * Updates the pointers of the elements pointed to by the element passed in
- * @param {Object} state
- * @param {Object} element
+ * @param {Object} elements - the guid -> element map
+ * @param {Object} element - the element to link and add
  */
-export function linkElement(state, element) {
+export function linkElement(elements, element) {
     const { prev, next, guid } = element;
 
     if (prev) {
-        state[prev] = { ...state[prev], next: guid };
+        elements[prev].next = guid;
     }
 
     if (next) {
-        state[next] = { ...state[next], prev: guid };
+        elements[next].prev = guid;
     }
-
-    state[element.guid] = element;
+    addElementToState(element, elements);
 }
 
 /**
  * Deletes all branch head properties
- * @param {Object} headElement
+ * @param {Object} headElement - a branch head element
  */
 export function deleteBranchHeadProperties(headElement) {
     delete headElement.parent;
@@ -341,8 +341,8 @@ export function linkBranch(state, parentElement, childIndex, element) {
 
     if (element) {
         parentElement.children[childIndex] = element.guid;
-        delete element.prev;
-        Object.assign(element, { parent: parentElement.guid, childIndex });
+        element.prev = null;
+        Object.assign(element, { parent: parentElement.guid, childIndex, isTerminal: false });
     } else {
         parentElement.children[childIndex] = null;
     }
@@ -436,4 +436,25 @@ export function findLastElement(element, state) {
 // find the first element along the pointer chain
 export function findFirstElement(element, state) {
     return new FlcList(state, element.guid, { down: false }).last();
+}
+
+/**
+ * Maps a flow ELEMENT_TYPE to an FLC ElementType
+ */
+export function getFlcElementType(elementType) {
+    switch (elementType) {
+        case ELEMENT_TYPE.DECISION:
+        case ELEMENT_TYPE.WAIT:
+            return ElementType.DECISION;
+        case ELEMENT_TYPE.LOOP:
+            return ElementType.LOOP;
+        case ELEMENT_TYPE.START_ELEMENT:
+            return ElementType.START;
+        case ELEMENT_TYPE.END_ELEMENT:
+            return ElementType.END;
+        case ELEMENT_TYPE.ROOT_ELEMENT:
+            return ElementType.ROOT;
+        default:
+            return ElementType.DEFAULT;
+    }
 }

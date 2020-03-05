@@ -1,8 +1,7 @@
 import { ElementType } from 'builder_platform_interaction/flowUtils';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { addElement } from 'builder_platform_interaction/actions';
-import { createEndElement } from 'builder_platform_interaction/elementFactory';
+import { createEndElement, createConnector } from 'builder_platform_interaction/elementFactory';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import {
     supportsChildren,
@@ -13,7 +12,7 @@ import {
 } from 'builder_platform_interaction/flcBuilderUtils';
 
 // TODO: FLC Hack: Temp magic number to identify an flc flow
-export const LOCATION_Y_FLC_FLOW = 500;
+const LOCATION_Y_FLC_FLOW = 500;
 
 // TODO: FLC Hack: Magic number to support identifying merge elements
 const LOCATION_X_MERGE_MARKER = 666;
@@ -24,19 +23,12 @@ export function isFixedLayoutCanvas(startElement) {
     return startElement.locationY === LOCATION_Y_FLC_FLOW;
 }
 
-function createConnector({ source, target, type = CONNECTOR_TYPE.REGULAR, childSource = null }) {
-    return {
-        guid: generateGuid(),
-        source,
-        target,
-        type,
-        label: '',
-        childSource
-    };
-}
-
 function getChildReferencesKey(parentElement) {
     return getConfigForElementType(parentElement.elementType).childReferenceKey;
+}
+
+function createConnectorHelper({ source, childSource, target, label = '', type = CONNECTOR_TYPE.REGULAR }) {
+    return createConnector(source, childSource, target, label, type);
 }
 
 /**
@@ -44,7 +36,7 @@ function getChildReferencesKey(parentElement) {
  * @param {Object} parentElement
  * @param {number} index
  */
-export function findChildSource(parentElement, index) {
+function findChildSource(parentElement, index) {
     const { singular, plural } = getChildReferencesKey(parentElement);
     return parentElement[plural][index - 1][singular];
 }
@@ -54,7 +46,7 @@ export function findChildSource(parentElement, index) {
  * @param {Object} element
  * @param {*} guid
  */
-export function findConnectionIndex(parentElement, guid) {
+function findConnectionIndex(parentElement, guid) {
     const { singular, plural } = getChildReferencesKey(parentElement);
     const index = parentElement[plural].findIndex(entry => entry[singular] === guid);
 
@@ -76,9 +68,9 @@ function createElementHelper(elementType, guid) {
 
 /**
  * Creates a root element and links it with the start element
- * @param {*} startElementGuid
+ * @param {string} startElementGuid
  */
-export const createRootElement = startElementGuid => {
+const createRootElement = (startElementGuid = null) => {
     return {
         ...createElementHelper(ELEMENT_TYPE.ROOT_ELEMENT, ElementType.ROOT),
         children: [startElementGuid]
@@ -95,21 +87,30 @@ export function initializeChildren(element) {
     element.children = element.children || new Array(element[childReferenceKey.plural].length + 1).fill(null);
 }
 
+/**
+ * Find the start element
+ * @param {Object} elements - map of guid -> element
+ * @return the start element
+ */
 function findStartElement(elements) {
     return Object.values(elements).find(ele => ele.elementType === ELEMENT_TYPE.START_ELEMENT);
 }
 
 /**
- * Augments the FFC UI model with extra properties needed by the FLC
+ * Converts an FFC ui model to a FLC ui model by augmenting the FFC ui model
+ * with the extra properties needed by the FLC ui model
+ * @param {Object} ffcUiModel - an ffc ui model
+ * @return a flc ui model
  */
-export function convertToFlc(storeState) {
-    const { connectors, elements } = storeState;
+export function convertToFlc(ffcUiModel) {
+    const { connectors, elements } = ffcUiModel;
+
     connectors.forEach(connector => {
         const { source, target, childSource } = connector;
         const sourceElement = elements[source];
         const targetElement = elements[target];
 
-        if (supportsChildren(sourceElement) && targetElement.locationX !== LOCATION_X_MERGE_MARKER) {
+        if (supportsChildren(sourceElement) && !isMergeElement(targetElement)) {
             initializeChildren(sourceElement);
             const childIndex = findConnectionIndex(sourceElement, childSource);
             linkBranch(elements, sourceElement, childIndex, targetElement);
@@ -120,12 +121,18 @@ export function convertToFlc(storeState) {
     });
 
     const startElement = findStartElement(elements);
-    fixFlcProperties(storeState, startElement);
-    addElementToState(createRootElement(startElement.guid), elements);
+    const rootElement = createRootElement();
+    addElementToState(rootElement, elements);
+    linkBranch(elements, rootElement, 0, startElement);
+    fixFlcProperties(ffcUiModel, startElement, rootElement);
+
+    return { elements, canvasElements: [], connectors: [] };
 }
 
 /**
  * Adds a root and end element for a new flow
+ * @param {Object} storeInstance - the storeInstance
+ * @param {string} startElementGuid - the start element guid
  */
 export function addRootAndEndElements(storeInstance, startElementGuid) {
     const endElement = createEndElement({ prev: startElementGuid });
@@ -157,14 +164,11 @@ function createConnectorsForChildren(newElements, newConnectors, newCanvasElemen
                     type = CONNECTOR_TYPE.REGULAR;
                     childSource = findChildSource(parentElement, i);
                 }
-                newConnectors.push(
-                    createConnector({
-                        source: parentElement.guid,
-                        target: nextElement.guid,
-                        type,
-                        childSource
-                    })
-                );
+                const source = parentElement.guid;
+                const target = nextElement.guid;
+                const label = '';
+
+                newConnectors.push(createConnectorHelper({ source, childSource, target, label, type }));
                 createdConnector = true;
             }
         }
@@ -208,7 +212,7 @@ function convertFromFlcHelper(newElements, newConnectors, newCanvasElements, ele
                     // or childless branching elements
                     if (!elementSupportsChildren || isChildless) {
                         newConnectors.push(
-                            createConnector({
+                            createConnectorHelper({
                                 source: element.guid,
                                 target: element.next,
                                 type: isChildless ? CONNECTOR_TYPE.DEFAULT : CONNECTOR_TYPE.REGULAR
@@ -221,7 +225,7 @@ function convertFromFlcHelper(newElements, newConnectors, newCanvasElements, ele
                 // is where the flow execution continues to, so create a connector
                 if (parentElement.next && newElements[parentElement.next].elementType !== ELEMENT_TYPE.END_ELEMENT) {
                     newConnectors.push(
-                        createConnector({
+                        createConnectorHelper({
                             source: element.guid,
                             target: parentElement.next
                         })
@@ -246,9 +250,9 @@ function convertFromFlcHelper(newElements, newConnectors, newCanvasElements, ele
 }
 
 /**
- * Removes End nodes and extra FLC element properties, and creates connectors
- * @param {Object} uiModel - a flc ui model
- * @return {Object} a ffc ui model
+ * Converts an FLC ui model to a FFC ui model by striping the extra FLC ui model properties
+ * @param {Object} uiModel - an FLC ui model
+ * @return {Object} an FFC ui model
  */
 export function convertFromFlc(uiModel) {
     const { elements } = uiModel;
@@ -280,14 +284,24 @@ export function convertFromFlc(uiModel) {
     return { ...uiModel, elements: newElements, connectors: newConnectors, canvasElements: newCanvasElements };
 }
 
+function isMergeElement(element) {
+    return element && element.locationX === LOCATION_X_MERGE_MARKER;
+}
+
 function fixFlcPropertiesHelper(storeState, element, visited) {
+    const { elements } = storeState;
     initializeChildren(element);
-    element.children.forEach(child => fixFlcProperties(storeState, storeState.elements[child], element, visited));
+    element.children.forEach(child => fixFlcProperties(storeState, elements[child], element, visited));
+    const nextElement = elements[element.next];
+    if (isMergeElement(nextElement)) {
+        // clear merge marker now that the branch element has its next pointer computed
+        nextElement.locationX = 0;
+    }
 }
 
 // creates END elements and fixes merging branches pointers
 function fixFlcProperties(storeState, element, parentElement, visited = {}) {
-    const { elements, canvasElements } = storeState;
+    const { elements } = storeState;
     let prevElement;
     const firstElement = element;
 
@@ -296,7 +310,7 @@ function fixFlcProperties(storeState, element, parentElement, visited = {}) {
         visited[element.guid] = true;
 
         // clear any magic numbers
-        element.locationX = 0;
+        Object.assign(element, { locationX: 0, locationY: 0 });
 
         if (supportsChildren(element)) {
             fixFlcPropertiesHelper(storeState, element, visited);
@@ -304,19 +318,18 @@ function fixFlcProperties(storeState, element, parentElement, visited = {}) {
 
         prevElement = element;
         element = elements[element.next];
-        if (element && element.locationX === LOCATION_X_MERGE_MARKER) {
+        if (isMergeElement(element)) {
             // if we hit a merge marker, and have a parentElement, that means that prevElement is the last element of a branch
             if (parentElement) {
                 prevElement.next = null;
                 parentElement.next = element.guid;
-                element.prev = parentElement.guid;
+                linkElement(elements, parentElement);
 
                 // terminate the loop since we just hit the last branch element
                 element = null;
             }
         } else if (!element) {
             const endElement = createEndElement({ prev: prevElement.guid });
-            addElementToState(endElement, elements, canvasElements);
             linkElement(elements, endElement);
 
             // mark the branch as having an end element
@@ -326,38 +339,8 @@ function fixFlcProperties(storeState, element, parentElement, visited = {}) {
 }
 
 /**
- * Maps a flow ELEMENT_TYPE to an FLC ElementType
- */
-export function getFlcElementType(elementType) {
-    let type;
-
-    switch (elementType) {
-        case ELEMENT_TYPE.DECISION:
-        case ELEMENT_TYPE.WAIT:
-            type = ElementType.DECISION;
-            break;
-        case ELEMENT_TYPE.LOOP:
-            type = ElementType.LOOP;
-            break;
-        case ELEMENT_TYPE.START_ELEMENT:
-            type = ElementType.START;
-            break;
-        case ELEMENT_TYPE.END_ELEMENT:
-            type = ElementType.END;
-            break;
-        case ELEMENT_TYPE.ROOT_ELEMENT:
-            type = ElementType.ROOT;
-            break;
-        default:
-            type = ElementType.DEFAULT;
-    }
-
-    return type;
-}
-
-/**
  * Stringify Store State for debugging
- * @param {*} storeState
+ * @param {Object} storeState
  */
 export function prettyPrintStoreState(storeState) {
     if (storeState) {

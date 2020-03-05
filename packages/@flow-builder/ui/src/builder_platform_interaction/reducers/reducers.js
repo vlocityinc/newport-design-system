@@ -1,17 +1,16 @@
 import { combinedReducer } from 'builder_platform_interaction/storeLib';
 import flowPropertiesReducer from './flowPropertiesReducer';
 import ffcElementsReducer from './elementsReducer';
-import ffcCanvasElementsReducer from './canvasElementsReducer';
+import canvasElementsReducer from './canvasElementsReducer';
 import connectorsReducer from './connectorsReducer';
 import { peripheralDataReducer } from './peripheralDataReducer';
 import flcElementsReducer from './flcElementsReducer';
-import flcCanvasElementsReducer from './flcCanvasElementsReducer';
 import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
 const flcCombinedReducer = combinedReducer({
     elements: flcElementsReducer,
     properties: flowPropertiesReducer,
-    canvasElements: flcCanvasElementsReducer,
+    canvasElements: canvasElementsReducer,
     connectors: connectorsReducer,
     peripheralData: peripheralDataReducer
 });
@@ -19,7 +18,7 @@ const flcCombinedReducer = combinedReducer({
 const ffcCombinedReducer = combinedReducer({
     elements: ffcElementsReducer,
     properties: flowPropertiesReducer,
-    canvasElements: ffcCanvasElementsReducer,
+    canvasElements: canvasElementsReducer,
     connectors: connectorsReducer,
     peripheralData: peripheralDataReducer
 });

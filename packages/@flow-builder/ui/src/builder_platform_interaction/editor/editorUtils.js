@@ -25,7 +25,7 @@ import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDa
 import { setUseFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 import { canUserVAD, orgHasFlowBuilderGuardrails, useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
-import { getFlcElementType } from 'builder_platform_interaction/flcConversionUtils';
+import { getFlcElementType } from 'builder_platform_interaction/flcBuilderUtils';
 import { ElementType } from 'builder_platform_interaction/flowUtils';
 import { getElementSections } from 'builder_platform_interaction/editorElementsUtils';
 

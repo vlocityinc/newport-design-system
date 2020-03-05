@@ -15,14 +15,17 @@ import { LABELS } from './elementFactoryLabels';
  * @returns {Object} connector       connector object
  */
 export const createConnector = (source, childSource, target, label, type, isSelected = false) => {
-    const guid = generateGuid();
-    const config = {
-        isSelected
+    return {
+        guid: generateGuid(),
+        source,
+        childSource,
+        target,
+        label,
+        type,
+        config: {
+            isSelected
+        }
     };
-
-    const connector = Object.assign({}, { guid, source, childSource, target, label, type, config });
-
-    return connector;
 };
 
 /**

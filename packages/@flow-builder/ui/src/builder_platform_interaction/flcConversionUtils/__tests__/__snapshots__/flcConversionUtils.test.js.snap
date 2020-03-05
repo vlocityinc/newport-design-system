@@ -1,0 +1,337 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`converts one decision with one child on each branch, followed by a screen element from flc 1`] = `
+Object {
+  "canvasElements": Array [
+    "decision-element-guid",
+    "screen-after-decision-element-guid",
+    "screen-left-element-guid",
+    "screen-right-element-guid",
+    "start-element-guid",
+  ],
+  "connectors": Array [
+    Object {
+      "config": Object {
+        "isSelected": false,
+      },
+      "guid": "start-element-guid -> decision-element-guid",
+      "label": "",
+      "source": "start-element-guid",
+      "target": "decision-element-guid",
+      "type": "REGULAR",
+    },
+    Object {
+      "config": Object {
+        "isSelected": false,
+      },
+      "guid": "screen-right-element-guid -> screen-after-decision-element-guid",
+      "label": "",
+      "source": "screen-right-element-guid",
+      "target": "screen-after-decision-element-guid",
+      "type": "REGULAR",
+    },
+    Object {
+      "config": Object {
+        "isSelected": false,
+      },
+      "guid": "screen-left-element-guid -> screen-after-decision-element-guid",
+      "label": "",
+      "source": "screen-left-element-guid",
+      "target": "screen-after-decision-element-guid",
+      "type": "REGULAR",
+    },
+    Object {
+      "childSource": "outcome-element-guid",
+      "config": Object {
+        "isSelected": false,
+      },
+      "guid": "decision-element-guid -> screen-right-element-guid",
+      "label": "",
+      "source": "decision-element-guid",
+      "target": "screen-right-element-guid",
+      "type": "REGULAR",
+    },
+    Object {
+      "config": Object {
+        "isSelected": false,
+      },
+      "guid": "decision-element-guid -> screen-left-element-guid",
+      "label": "",
+      "source": "decision-element-guid",
+      "target": "screen-left-element-guid",
+      "type": "DEFAULT",
+    },
+  ],
+  "elements": Object {
+    "decision-element-guid": Object {
+      "availableConnections": Array [
+        Object {
+          "childReference": "outcome-element-guid",
+          "type": "REGULAR",
+        },
+        Object {
+          "type": "DEFAULT",
+        },
+      ],
+      "connectorCount": 0,
+      "defaultConnectorLabel": "Default Outcome",
+      "description": "",
+      "elementType": "Decision",
+      "guid": "decision-element-guid",
+      "isCanvasElement": true,
+      "label": "d1",
+      "locationX": 0,
+      "locationY": 0,
+      "maxConnections": 2,
+      "name": "d1",
+      "outcomeReferences": Array [
+        Object {
+          "outcomeReference": "outcome-element-guid",
+        },
+      ],
+    },
+    "outcome-element-guid": Object {
+      "conditionLogic": "and",
+      "conditions": Array [
+        Object {
+          "leftHandSide": "$Flow.CurrentRecord",
+          "operator": "EqualTo",
+          "rightHandSide": "a",
+          "rightHandSideDataType": "String",
+          "rowIndex": "cbf949b8-cb9c-4f36-931f-1b128912360d",
+        },
+      ],
+      "dataType": "Boolean",
+      "elementType": "OUTCOME",
+      "guid": "outcome-element-guid",
+      "label": "d1out",
+      "name": "d1out",
+    },
+    "screen-after-decision-element-guid": Object {
+      "config": Object {
+        "canSelect": true,
+        "isHighlighted": false,
+        "isSelected": false,
+      },
+      "connectorCount": 0,
+      "description": "",
+      "elementType": "Screen",
+      "filterType": "all",
+      "filters": Array [
+        Object {
+          "leftHandSide": "",
+          "operator": "",
+          "rightHandSide": "",
+          "rightHandSideDataType": "",
+          "rowIndex": "cda83bda-2840-470c-aa57-1a8cfedee523",
+        },
+      ],
+      "guid": "screen-after-decision-element-guid",
+      "isCanvasElement": true,
+      "locationX": 666,
+      "locationY": 0,
+      "maxConnections": 1,
+      "object": "",
+      "objectIndex": "12c23e8e-4104-40ba-86e0-feb73e787792",
+      "triggerType": "None",
+    },
+    "screen-left-element-guid": Object {
+      "config": Object {
+        "canSelect": true,
+        "isHighlighted": false,
+        "isSelected": false,
+      },
+      "connectorCount": 0,
+      "description": "",
+      "elementType": "Screen",
+      "filterType": "all",
+      "filters": Array [
+        Object {
+          "leftHandSide": "",
+          "operator": "",
+          "rightHandSide": "",
+          "rightHandSideDataType": "",
+          "rowIndex": "cda83bda-2840-470c-aa57-1a8cfedee523",
+        },
+      ],
+      "guid": "screen-left-element-guid",
+      "isCanvasElement": true,
+      "locationX": 0,
+      "locationY": 0,
+      "maxConnections": 1,
+      "object": "",
+      "objectIndex": "12c23e8e-4104-40ba-86e0-feb73e787792",
+      "triggerType": "None",
+    },
+    "screen-right-element-guid": Object {
+      "config": Object {
+        "canSelect": true,
+        "isHighlighted": false,
+        "isSelected": false,
+      },
+      "connectorCount": 0,
+      "description": "",
+      "elementType": "Screen",
+      "filterType": "all",
+      "filters": Array [
+        Object {
+          "leftHandSide": "",
+          "operator": "",
+          "rightHandSide": "",
+          "rightHandSideDataType": "",
+          "rowIndex": "cda83bda-2840-470c-aa57-1a8cfedee523",
+        },
+      ],
+      "guid": "screen-right-element-guid",
+      "isCanvasElement": true,
+      "locationX": 0,
+      "locationY": 0,
+      "maxConnections": 1,
+      "object": "",
+      "objectIndex": "12c23e8e-4104-40ba-86e0-feb73e787792",
+      "triggerType": "None",
+    },
+    "start-element-guid": Object {
+      "connectorCount": 0,
+      "description": "",
+      "elementType": "START_ELEMENT",
+      "filterType": "all",
+      "filters": Array [
+        Object {
+          "leftHandSide": "",
+          "operator": "",
+          "rightHandSide": "",
+          "rightHandSideDataType": "",
+          "rowIndex": "e7f9f0cf-3953-43b3-a578-3ddc8a10e4df",
+        },
+      ],
+      "guid": "start-element-guid",
+      "isCanvasElement": true,
+      "locationX": 0,
+      "locationY": 500,
+      "maxConnections": 1,
+      "object": "",
+      "objectIndex": "2832cafc-39fc-41bf-95b1-c6d3881f6705",
+      "triggerType": "None",
+    },
+  },
+}
+`;
+
+exports[`converts one-screen from flc 1`] = `
+Object {
+  "canvasElements": Array [
+    "screen-element-guid",
+    "start-element-guid",
+  ],
+  "connectors": Array [
+    Object {
+      "config": Object {
+        "isSelected": false,
+      },
+      "guid": "start-element-guid -> screen-element-guid",
+      "label": "",
+      "source": "start-element-guid",
+      "target": "screen-element-guid",
+      "type": "REGULAR",
+    },
+  ],
+  "elements": Object {
+    "screen-element-guid": Object {
+      "config": Object {
+        "canSelect": true,
+        "isHighlighted": false,
+        "isSelected": false,
+      },
+      "connectorCount": 0,
+      "description": "",
+      "elementType": "Screen",
+      "filterType": "all",
+      "filters": Array [
+        Object {
+          "leftHandSide": "",
+          "operator": "",
+          "rightHandSide": "",
+          "rightHandSideDataType": "",
+          "rowIndex": "cda83bda-2840-470c-aa57-1a8cfedee523",
+        },
+      ],
+      "guid": "screen-element-guid",
+      "isCanvasElement": true,
+      "locationX": 0,
+      "locationY": 0,
+      "maxConnections": 1,
+      "object": "",
+      "objectIndex": "12c23e8e-4104-40ba-86e0-feb73e787792",
+      "triggerType": "None",
+    },
+    "start-element-guid": Object {
+      "config": Object {
+        "canSelect": true,
+        "isHighlighted": false,
+        "isSelected": false,
+      },
+      "connectorCount": 0,
+      "description": "",
+      "elementType": "START_ELEMENT",
+      "filterType": "all",
+      "filters": Array [
+        Object {
+          "leftHandSide": "",
+          "operator": "",
+          "rightHandSide": "",
+          "rightHandSideDataType": "",
+          "rowIndex": "cda83bda-2840-470c-aa57-1a8cfedee523",
+        },
+      ],
+      "guid": "start-element-guid",
+      "isCanvasElement": true,
+      "locationX": 0,
+      "locationY": 500,
+      "maxConnections": 1,
+      "object": "",
+      "objectIndex": "12c23e8e-4104-40ba-86e0-feb73e787792",
+      "triggerType": "None",
+    },
+  },
+}
+`;
+
+exports[`converts sanity from flc 1`] = `
+Object {
+  "canvasElements": Array [
+    "start-element-guid",
+  ],
+  "connectors": Array [],
+  "elements": Object {
+    "start-element-guid": Object {
+      "config": Object {
+        "canSelect": true,
+        "isHighlighted": false,
+        "isSelected": false,
+      },
+      "connectorCount": 0,
+      "description": "",
+      "elementType": "START_ELEMENT",
+      "filterType": "all",
+      "filters": Array [
+        Object {
+          "leftHandSide": "",
+          "operator": "",
+          "rightHandSide": "",
+          "rightHandSideDataType": "",
+          "rowIndex": "cda83bda-2840-470c-aa57-1a8cfedee523",
+        },
+      ],
+      "guid": "start-element-guid",
+      "isCanvasElement": true,
+      "locationX": 0,
+      "locationY": 500,
+      "maxConnections": 1,
+      "object": "",
+      "objectIndex": "12c23e8e-4104-40ba-86e0-feb73e787792",
+      "triggerType": "None",
+    },
+  },
+}
+`;
