@@ -1,5 +1,4 @@
 import { deepCopy } from 'builder_platform_interaction/storeLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 import sanity from './flcUiModels/sanity';
 import oneScreen from './flcUiModels/one-screen';
@@ -8,6 +7,7 @@ import decisionOneChildOnEachBranchNextIsNotEnd from './flcUiModels/decision-one
 import { convertFromFlc, convertToFlc } from '../flcConversionUtils';
 
 jest.mock('builder_platform_interaction/elementFactory', () => {
+    const flowMetadata = require('builder_platform_interaction/flowMetadata');
     return {
         createConnector: (source, childSource, target, label, type, isSelected = false) => {
             return {
@@ -23,7 +23,7 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
         createEndElement: ({ prev }) => {
             return {
                 guid: `end-element-guid (${prev})`,
-                elementType: ELEMENT_TYPE.END_ELEMENT,
+                elementType: flowMetadata.ELEMENT_TYPE.END_ELEMENT,
                 prev,
                 next: null
             };

@@ -221,7 +221,8 @@ describe('FlowPropertiesEditor', () => {
                 const showAdvancedButton = getShowAdvancedButton(flowPropertiesEditor);
                 showAdvancedButton.click();
                 await ticks(1);
-                expect(getShowAdvancedButton(flowPropertiesEditor)).not.toBeNull();
+                expect(getShowAdvancedButton(flowPropertiesEditor)).toBeNull();
+                expect(getHideAdvancedButton(flowPropertiesEditor)).not.toBeNull();
                 expect(getAdvancedProperties(flowPropertiesEditor)).not.toBeNull();
                 expect(getProcessType(flowPropertiesEditor)).toBeDefined();
                 expect(getProcessType(flowPropertiesEditor).value).toBe('process type None');
