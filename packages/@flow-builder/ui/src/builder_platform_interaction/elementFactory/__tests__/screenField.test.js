@@ -1,13 +1,25 @@
-import { createScreenField, createScreenFieldMetadataObject, createEmptyScreenFieldOfType } from '../screenField';
+import {
+    createScreenField,
+    createScreenFieldWithFieldReferences,
+    createScreenFieldMetadataObject,
+    createEmptyScreenFieldOfType,
+    createScreenFieldWithFields
+} from '../screenField';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getProcessTypeAutomaticOutPutHandlingSupport } from 'builder_platform_interaction/processTypeLib';
 import { getColumnFieldType } from 'builder_platform_interaction/screenEditorUtils';
+import * as contextLibMock from 'builder_platform_interaction/contextLib';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 
 expect.extend(deepFindMatchers);
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'flow';
+const componentScreenFieldEmailStoreGuid = '0ca39158-9508-4b85-b1b6-28564b4ba4c0';
 
+jest.mock('builder_platform_interaction/contextLib', () => {
+    return { orgHasFlowScreenSections: jest.fn() };
+});
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     const actual = require.requireActual('builder_platform_interaction/processTypeLib');
     return {
@@ -35,6 +47,12 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     return storeLib;
 });
 
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        getElementByGuid: jest.fn()
+    };
+});
+
 const mockGetScreenFieldTypeByNameEmail = () => ({
     category: 'Input',
     description: 'Email Component',
@@ -52,6 +70,8 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
     return Object.assign({}, actual, {
         getScreenFieldTypeByName: jest.fn().mockImplementation(name => {
             if (name === 'Column') {
+                return actual.getScreenFieldTypeByName(name);
+            } else if (name === 'Section') {
                 return actual.getScreenFieldTypeByName(name);
             }
             return mockGetScreenFieldTypeByNameEmail();
@@ -120,8 +140,22 @@ const componentScreenFieldEmailMetadata = () => ({
     scale: 0
 });
 
+const sectionScreenFieldMetadata = () => ({
+    choiceReferences: [],
+    dataType: undefined,
+    fieldText: undefined,
+    fieldType: 'RegionContainer',
+    fields: [componentScreenFieldEmailMetadata()],
+    helpText: undefined,
+    inputParameters: undefined,
+    isRequired: undefined,
+    name: 'section',
+    outputParameters: undefined,
+    scale: undefined
+});
+
 const componentScreenFieldEmailStore = () => ({
-    guid: '0ca39158-9508-4b85-b1b6-28564b4ba4c0',
+    guid: componentScreenFieldEmailStoreGuid,
     name: 'myEmail',
     choiceReferences: [],
     dataType: undefined,
@@ -212,6 +246,34 @@ const componentAutomaticScreenFieldStore = () => ({
     storeOutputAutomatically: true
 });
 
+const sectionScreenFieldStore = () => ({
+    guid: 'section',
+    name: 'section',
+    choiceReferences: [],
+    fields: [],
+    fieldReferences: [{ fieldReference: componentScreenFieldEmailStoreGuid }],
+    fieldType: 'RegionContainer',
+    isNewField: false,
+    type: {
+        name: 'Section',
+        fieldType: 'RegionContainer'
+    },
+    elementType: 'SCREEN_FIELD',
+    visibilityRule: {
+        conditions: []
+    }
+});
+
+const foundElementGuidPrefix = 'found';
+getElementByGuid.mockImplementation(guid => {
+    if (guid === componentScreenFieldEmailStoreGuid) {
+        return componentScreenFieldEmailStore();
+    }
+    return {
+        guid: foundElementGuidPrefix + guid
+    };
+});
+
 describe('screenField', () => {
     describe('Add new Component on the screen (createEmptyScreenFieldOfType)', () => {
         describe('LC screen field (automatic output handling supported)', () => {
@@ -232,6 +294,14 @@ describe('screenField', () => {
             });
             it('"storeOutputAutomatically" should be false', () => {
                 expect(actualResult.storeOutputAutomatically).toBe(false);
+            });
+        });
+        describe('section field', () => {
+            it('is created for type with name "Section"', () => {
+                contextLibMock.orgHasFlowScreenSections.mockReturnValue(true);
+                const result = createEmptyScreenFieldOfType('Section');
+
+                expect(result.name).toEqual('Section1');
             });
         });
         describe('column field', () => {
@@ -314,6 +384,28 @@ describe('screenField', () => {
                 expect(actualResult).not.toHaveProperty('dynamicTypeMappings');
             });
         });
+        describe('section field', () => {
+            let screenFieldMetadata;
+            beforeEach(() => {
+                screenFieldMetadata = sectionScreenFieldMetadata();
+            });
+            it('should have a datatype undefined', () => {
+                const actualResult = createScreenFieldWithFieldReferences(screenFieldMetadata);
+                expect(actualResult.dataType).toBeUndefined();
+                expect(actualResult.isCollection).toBeFalsy();
+                expect(actualResult.subtype).toBeFalsy();
+                expect(actualResult.fieldReferences).toHaveLength(1);
+            });
+        });
+    });
+    describe('screenField UI Model => screenEditor', () => {
+        describe('section field', () => {
+            it('has child fields', () => {
+                const result = createScreenFieldWithFields(sectionScreenFieldStore());
+                expect(result.fields).toHaveLength(1);
+                expect(result.fields[0].name).toEqual('myEmail');
+            });
+        });
     });
     describe('screenField UI model => flow metadata', () => {
         describe('LC screen field with automatic output handling', () => {
@@ -354,6 +446,16 @@ describe('screenField', () => {
                 const actualResult = createScreenFieldMetadataObject(componentAutomaticScreenFieldStore());
                 expect(actualResult).toMatchObject(componentScreenFieldEmailMetadata());
                 expect(actualResult.storeOutputAutomatically).not.toBeDefined();
+            });
+        });
+        describe('section field', () => {
+            let screenFieldStore;
+            beforeAll(() => {
+                screenFieldStore = sectionScreenFieldStore();
+            });
+            it('convert to flow metadata', () => {
+                const actualResult = createScreenFieldMetadataObject(screenFieldStore);
+                expect(actualResult).toMatchObject(sectionScreenFieldMetadata());
             });
         });
     });

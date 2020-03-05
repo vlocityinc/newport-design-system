@@ -10,7 +10,8 @@ import {
 import {
     createScreenField,
     createScreenFieldMetadataObject,
-    createScreenFieldWithFieldReferences
+    createScreenFieldWithFieldReferences,
+    createScreenFieldWithFields
 } from '../screenField';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
@@ -97,17 +98,77 @@ createScreenFieldMetadataObject.mockImplementation(element => {
 createScreenField.mockImplementation(element => {
     return Object.assign({}, element);
 });
-createScreenFieldWithFieldReferences.mockImplementation(element => {
+createScreenFieldWithFieldReferences.mockImplementation((element, screenFields, parentName, index) => {
+    if (element.fieldType === 'RegionContainer') {
+        element.name = parentName + '_Section' + index;
+    }
+    return Object.assign({}, element);
+});
+createScreenFieldWithFields.mockImplementation(element => {
     return Object.assign({}, element);
 });
 
 describe('screen', () => {
     describe('createScreenElement', () => {
+        let fields;
+
+        beforeEach(() => {
+            fields = [
+                {
+                    name: 'field1',
+                    guid: 'field1'
+                },
+                {
+                    name: 'field2',
+                    guid: 'field2',
+                    fields: [
+                        {
+                            name: 'field3',
+                            guid: 'field3'
+                        }
+                    ]
+                }
+            ];
+        });
         it('includes the return value of a call to baseCanvasElement', () => {
             createScreenElement(existingScreen);
             expect(baseCanvasElement).toHaveBeenCalledWith(existingScreen);
         });
+        describe('getFieldIndexesByGUID', () => {
+            it('returns correct index chain when looking for a field under a screen', () => {
+                const screen = createScreenElement(existingScreen);
+                screen.fields = fields;
+                const indexes = screen.getFieldIndexesByGUID('field2');
+                expect(indexes).toHaveLength(1);
+                expect(indexes[0]).toEqual(1);
+            });
+            it('returns correct index chain when looking for a field under a field under a screen', () => {
+                const screen = createScreenElement(existingScreen);
+                screen.fields = fields;
+                const indexes = screen.getFieldIndexesByGUID('field3');
+                expect(indexes).toHaveLength(2);
+                expect(indexes[0]).toEqual(0);
+                expect(indexes[1]).toEqual(1);
+            });
+        });
+        describe('getFieldByGUID', () => {
+            it('returns correct field when looking for a field under a screen', () => {
+                const screen = createScreenElement(existingScreen);
+                screen.fields = fields;
+                const field = screen.getFieldByGUID('field2');
+                expect(field).toBeDefined();
+                expect(field.name).toEqual('field2');
+            });
+            it('returns correct field when looking for a field under a field under a screen', () => {
+                const screen = createScreenElement(existingScreen);
+                screen.fields = fields;
+                const field = screen.getFieldByGUID('field3');
+                expect(field).toBeDefined();
+                expect(field.name).toEqual('field3');
+            });
+        });
     });
+
     describe('createScreenWithFields', () => {
         it('element type is SCREEN', () => {
             const screen = createScreenWithFields();
@@ -120,6 +181,7 @@ describe('screen', () => {
                     fieldReferences
                 });
                 expect(screen.fields).toHaveLength(3);
+                expect(screen.fields[0].guid).toEqual(foundElementGuidPrefix + 'a');
             });
         });
     });
@@ -179,6 +241,7 @@ describe('screen', () => {
             it('screen includes fields for all screen field references present', () => {
                 const screen = createScreenMetadataObject(screenFromStore);
                 expect(screen.fields).toHaveLength(3);
+                expect(screen.fields[0].guid).toEqual(foundElementGuidPrefix + 'field1');
             });
         });
     });
@@ -188,10 +251,12 @@ describe('screen', () => {
         beforeEach(() => {
             screenFromFlow = {
                 guid: existingScreenGuid,
+                name: existingScreenGuid,
                 fields: [
                     {
                         name: 'field1',
-                        guid: 'field1'
+                        guid: 'field1',
+                        fieldType: 'RegionContainer'
                     },
                     {
                         name: 'field2',
@@ -223,6 +288,11 @@ describe('screen', () => {
                 expect(result.elements[screenFromFlow.fields[0].guid]).toEqual(screenFromFlow.fields[0]);
                 expect(result.elements[screenFromFlow.fields[1].guid]).toEqual(screenFromFlow.fields[1]);
                 expect(result.elements[screenFromFlow.fields[2].guid]).toEqual(screenFromFlow.fields[2]);
+            });
+
+            it('includes a region container (section) field whose name was autogenerated', () => {
+                const result = createScreenWithFieldReferences(screenFromFlow);
+                expect(result.elements[screenFromFlow.fields[0].guid].name).toEqual(existingScreenGuid + '_Section1');
             });
         });
     });

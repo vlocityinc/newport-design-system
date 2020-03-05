@@ -236,7 +236,7 @@ const insertScreenFieldIntoParent = (screen, parent, field, position) => {
     const updatedItems = insertItem(parent.fields, field, position);
     parent = set(parent, 'fields', updatedItems);
     if (screen.name !== parent.name) {
-        parent = updateAncestors(screen, screen.getFieldIndexes(parent), parent);
+        parent = updateAncestors(screen, screen.getFieldIndexesByGUID(parent.guid), parent);
     }
     return parent;
 };
@@ -358,7 +358,7 @@ const deleteChoice = (screen, event, field) => {
  * @returns {object} - A new screen with the changes applied
  */
 const removeScreenFieldFromParent = (screen, parent, field) => {
-    const positions = screen.getFieldIndexes(field);
+    const positions = screen.getFieldIndexesByGUID(field.guid);
     if (!parent) {
         parent = findParentByAncestorPositions(screen, positions);
     }

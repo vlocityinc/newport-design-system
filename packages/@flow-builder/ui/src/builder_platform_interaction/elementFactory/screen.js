@@ -273,31 +273,6 @@ export function createScreenElement(screen) {
         childIndex
     } = screen;
 
-    const getFieldIndexes = function(field) {
-        if (this.fields) {
-            return this.findFieldIndex(this.fields, field);
-        }
-        return -1;
-    };
-
-    const findFieldIndex = function(fields = [], field) {
-        let foundIndex = fields.findIndex(sfield => {
-            return sfield.guid === field.guid;
-        });
-        if (foundIndex >= 0) {
-            return [foundIndex];
-        }
-        for (let i = 0; i < fields.length; i++) {
-            if (fields[i].fields) {
-                foundIndex = this.findFieldIndex(fields[i].fields, field);
-                if (foundIndex) {
-                    return foundIndex.concat(i);
-                }
-            }
-        }
-        return undefined;
-    };
-
     const getFieldByGUID = function(guid) {
         return this.findFieldByGUID(this.fields, guid);
     };
@@ -356,10 +331,8 @@ export function createScreenElement(screen) {
         pausedText,
         showFooter,
         showHeader,
-        getFieldIndexes,
         getFieldByGUID,
         getFieldIndexesByGUID,
-        findFieldIndex,
         findFieldByGUID,
         findFieldIndexByGUID,
         next,
