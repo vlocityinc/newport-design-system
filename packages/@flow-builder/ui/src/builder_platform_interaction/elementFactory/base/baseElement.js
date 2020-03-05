@@ -167,6 +167,7 @@ export function duplicateCanvasElement(canvasElement, newGuid, newName) {
  * @param {Object} childReference - Object containing the guid of the child element (eg: {outcomeReference: 'outcome1'})
  * @param {Object} childElementGuidMap - Map of child element guids to new guids for the duplicated child elements
  * @param {Object} childElementNameMap - Map of child element names to new names for the duplicated child elements
+ * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements
  * @param {Function} createChildElement - Function to create the duplicate child element
  * @param {String} childReferenceKey - Key to access the guid for the child element (eg: outcomeReference)
  * @returns {Object} Returns the duplicated child element with the updated guid and name
@@ -176,10 +177,15 @@ function _createDuplicateChildElement(
     childReference,
     childElementGuidMap,
     childElementNameMap,
+    cutOrCopiedChildElements,
     createChildElement,
     childReferenceKey
 ) {
-    const childElement = getElementByGuid(childReference[childReferenceKey]);
+    // Using the cutOrCopiedChildElements to get the original child element in case the element has been deleted
+    // and not available in the store
+    const childElement =
+        getElementByGuid(childReference[childReferenceKey]) ||
+        cutOrCopiedChildElements[childReference[childReferenceKey]];
     const duplicatedChildElement = createChildElement(childElement);
     return Object.assign(duplicatedChildElement, {
         guid: childElementGuidMap[childReference[childReferenceKey]],
@@ -195,6 +201,7 @@ function _createDuplicateChildElement(
  * @param {String} newName - Name for the duplicated canvas element
  * @param {Object} childElementGuidMap - Map of child element guids to new guids for the duplicated child elements
  * @param {Object} childElementNameMap - Map of child element names to new names for the duplicated child elements
+ * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements
  * @param {Function} createChildElement - Function to create the duplicate child element
  * @param {String} childReferencesKey - Key to access the object containing child references (eg: outcomeReferences)
  * @param {String} childReferenceKey - Key to access the guid for the child element (eg: outcomeReference)
@@ -208,6 +215,7 @@ export function duplicateCanvasElementWithChildElements(
     newName,
     childElementGuidMap,
     childElementNameMap,
+    cutOrCopiedChildElements,
     createChildElement,
     childReferencesKey,
     childReferenceKey,
@@ -226,6 +234,7 @@ export function duplicateCanvasElementWithChildElements(
             childReference,
             childElementGuidMap,
             childElementNameMap,
+            cutOrCopiedChildElements,
             createChildElement,
             childReferenceKey
         );

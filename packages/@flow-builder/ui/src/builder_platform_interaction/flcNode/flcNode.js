@@ -40,7 +40,8 @@ export default class FlcNode extends LightningElement {
         return this.nodeInfo.metadata.value === ELEMENT_TYPE.START_ELEMENT ||
             this.nodeInfo.metadata.value === ELEMENT_TYPE.END_ELEMENT ||
             this.nodeInfo.metadata.value === ELEMENT_TYPE.ASSIGNMENT ||
-            this.nodeInfo.metadata.value === ELEMENT_TYPE.SCREEN
+            this.nodeInfo.metadata.value === ELEMENT_TYPE.SCREEN ||
+            this.nodeInfo.metadata.value === ELEMENT_TYPE.SUBFLOW
             ? 'slds-is-absolute text-container'
             : 'slds-is-absolute text-container shifted-text-container';
     }

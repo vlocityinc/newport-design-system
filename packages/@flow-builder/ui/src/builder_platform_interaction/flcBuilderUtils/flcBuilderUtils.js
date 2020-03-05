@@ -11,12 +11,12 @@ const ELEMENT_DESELECTED_ACTION = 'element_deselected_action';
  * @param {Object} currentBranchElement - Branch Element we are going to traverse
  */
 const _shouldTraverseDown = (action, currentBranchElement) => {
-    // In case of deselection, we should traverse down only canvas element is selected
-    const shoudlTraverseDown =
+    // In case of deselection, we should traverse down only if canvas element is selected
+    const shouldTraverseDown =
         action === ELEMENT_SELECTED_ACTION
             ? !!currentBranchElement
             : currentBranchElement && currentBranchElement.config && currentBranchElement.config.isSelected;
-    return shoudlTraverseDown;
+    return shouldTraverseDown;
 };
 
 /**
@@ -269,14 +269,11 @@ export const getCanvasElementDeselectionDataOnToggleOff = (flowModel, topSelecte
         currentCanvasElement = flowModel[currentCanvasElement.next];
     }
 
-    // TopSelectedGuid needs to be set back to null
-    topSelectedGuid = null;
-
     return {
         canvasElementGuidsToSelect: [],
         canvasElementGuidsToDeselect,
         selectableCanvasElementGuids: [],
-        topSelectedGuid
+        topSelectedGuid: null // TopSelectedGuid needs to be set back to null
     };
 };
 

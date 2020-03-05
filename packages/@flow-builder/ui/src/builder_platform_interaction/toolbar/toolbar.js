@@ -284,7 +284,7 @@ export default class Toolbar extends LightningElement {
 
     /**
      * Event handler for click event on the diff flow button.
-     * Dispatches an event named diffflow to perform a diff of the saved flow
+     * Dispatches an event named diff flow to perform a diff of the saved flow
      * to the current flow state.
      * @param event
      */

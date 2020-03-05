@@ -234,6 +234,7 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             'Decision1_0',
             childElementGuidMap,
             childElementNameMap,
+            {},
             createChildElement,
             'outcomeReferences',
             'outcomeReference',
@@ -312,6 +313,7 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             'Screen1_0',
             childElementGuidMap,
             childElementNameMap,
+            {},
             createChildElement,
             'fieldReferences',
             'fieldReference'

@@ -256,6 +256,7 @@ function _pasteOnFixedCanvas(
                 canvasElementGuidMap,
                 childElementGuidMap,
                 childElementNameMap,
+                cutOrCopiedChildElements,
                 topCutOrCopiedGuid,
                 bottomCutOrCopiedGuid,
                 prev,

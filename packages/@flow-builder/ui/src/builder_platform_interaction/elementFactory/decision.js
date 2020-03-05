@@ -65,6 +65,7 @@ export function createPastedDecision({
     canvasElementGuidMap,
     childElementGuidMap,
     childElementNameMap,
+    cutOrCopiedChildElements,
     topCutOrCopiedGuid,
     bottomCutOrCopiedGuid,
     prev,
@@ -77,7 +78,8 @@ export function createPastedDecision({
         newGuid,
         newName,
         childElementGuidMap,
-        childElementNameMap
+        childElementNameMap,
+        cutOrCopiedChildElements
     );
 
     const pastedCanvasElement = createPastedCanvasElement(
@@ -107,9 +109,17 @@ export function createPastedDecision({
  * the duplicated child elements
  * @param {Object} childElementNameMap - Map of child element names to newly generated unique names that will be used for
  * the duplicated child elements
+ * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements
  * @return {Object} Returns an object containing the duplicated element and the duplicated childElements
  */
-export function createDuplicateDecision(decision, newGuid, newName, childElementGuidMap, childElementNameMap) {
+export function createDuplicateDecision(
+    decision,
+    newGuid,
+    newName,
+    childElementGuidMap,
+    childElementNameMap,
+    cutOrCopiedChildElements
+) {
     const defaultAvailableConnections = [
         {
             type: CONNECTOR_TYPE.DEFAULT
@@ -127,6 +137,7 @@ export function createDuplicateDecision(decision, newGuid, newName, childElement
         newName,
         childElementGuidMap,
         childElementNameMap,
+        cutOrCopiedChildElements,
         createOutcome,
         childReferenceKeys.childReferencesKey,
         childReferenceKeys.childReferenceKey,

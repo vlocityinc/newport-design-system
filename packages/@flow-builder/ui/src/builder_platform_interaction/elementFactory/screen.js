@@ -61,6 +61,7 @@ export function createPastedScreen({
     canvasElementGuidMap,
     childElementGuidMap,
     childElementNameMap,
+    cutOrCopiedChildElements,
     topCutOrCopiedGuid,
     bottomCutOrCopiedGuid,
     prev,
@@ -73,7 +74,8 @@ export function createPastedScreen({
         newGuid,
         newName,
         childElementGuidMap,
-        childElementNameMap
+        childElementNameMap,
+        cutOrCopiedChildElements
     );
 
     const pastedCanvasElement = createPastedCanvasElement(
@@ -103,9 +105,17 @@ export function createPastedScreen({
  * the duplicated child elements
  * @param {Object} childElementNameMap - Map of child element names to newly generated unique names that will be used for
  * the duplicated child elements
+ * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements
  * @return {Object} Returns an object containing the duplicated element and the duplicated childElements
  */
-export function createDuplicateScreen(screen, newGuid, newName, childElementGuidMap, childElementNameMap) {
+export function createDuplicateScreen(
+    screen,
+    newGuid,
+    newName,
+    childElementGuidMap,
+    childElementNameMap,
+    cutOrCopiedChildElements
+) {
     const duplicateScreen = createScreenElement(screen);
     const {
         duplicatedElement,
@@ -117,6 +127,7 @@ export function createDuplicateScreen(screen, newGuid, newName, childElementGuid
         newName,
         childElementGuidMap,
         childElementNameMap,
+        cutOrCopiedChildElements,
         createScreenField,
         childReferenceKeys.childReferencesKey,
         childReferenceKeys.childReferenceKey

@@ -6,7 +6,7 @@
         <!-- Select Button in FLC -->
         <lightning-button
             if:true={useFixedLayoutCanvas}
-            class="slds-m-right_xx-small"
+            class="test-toolbar-select slds-m-right_xx-small"
             icon-name="utility:multi_select_checkbox"
             label={labels.selectLabel}
             title={labels.selectTitle}
@@ -17,7 +17,7 @@
 
         <!-- Undo/Redo -->
         <h2 class="slds-assistive-text">{labels.assistiveName}</h2>
-        <lightning-button-group if:false={isSelectionMode} class="slds-builder-toolbar__item-group">
+        <lightning-button-group if:false={isSelectionMode} class="test-undo-redo slds-builder-toolbar__item-group">
             <lightning-button-icon
                 variant="border-filled"
                 icon-name="utility:undo"
@@ -42,6 +42,7 @@
         <lightning-button-group if:true={isSelectionMode} class="slds-builder-toolbar__item-group">
             <lightning-button-icon
                 alternative-text={labels.cutAltText}
+                class="test-toolbar-cut"
                 disabled={isCutCopyDisabled}
                 icon-name="utility:cut"
                 title={labels.cutTitle}
@@ -50,6 +51,7 @@
             </lightning-button-icon>
             <lightning-button-icon
                 alternative-text={labels.copyAltText}
+                class="test-toolbar-copy"
                 disabled={isCutCopyDisabled}
                 icon-name="utility:copy_to_clipboard"
                 title={labels.copyTitle}
