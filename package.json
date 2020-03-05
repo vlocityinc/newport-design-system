@@ -13,6 +13,7 @@
         "lwcJestPreset": "2.2.0"
     },
     "scripts": {
+        "clean:install": "rm -rf node_modules && yarn",
         "clean": "rm -rf src/main/modules && lerna run clean",
         "ci:lint": "lerna run lint",
         "format": "prettier --write '{docs,src,packages}/**/*.{css,js,json,ts,md,html}'",
@@ -29,7 +30,7 @@
         "watch:poc": "node ./scripts/npm2lwc.js packages/flow-builder-pocs/build/ packages --watch",
         "watch": "lerna run watch --parallel",
         "watch:core": "yarn build:core && node ./scripts/npm2lwc.js src/main/modules packages --watch --core",
-        "test:unit": "lerna run test",
+        "test:unit": "lerna exec --scope @flow-builder/ui -- yarn run test",
         "test:unit:coverage": "lerna exec --scope @flow-builder/ui -- yarn run coverage",
         "test:unit:coverage:clean": "lerna run coverage:clean",
         "test:unit:ci": "lerna run --no-bail test:coverage",
@@ -73,7 +74,7 @@
         "jest-html-reporter": "^2.8.0",
         "lerna": "3.20.2",
         "lint-staged": "^10.0.7",
-        "lwc-testrunner": "^4.1.9",
+        "lwc-testrunner" : "^4.1.10",
         "node-watch": "^0.6.3",
         "npm-run-all": "^4.1.5",
         "prettier": "~1.19.1",
