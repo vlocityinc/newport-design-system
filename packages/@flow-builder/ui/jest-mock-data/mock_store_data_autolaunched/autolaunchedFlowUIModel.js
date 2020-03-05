@@ -81,7 +81,7 @@ export const autolaunchedFlowUIModel = {
             description: '',
             label: 'decision',
             locationX: 552,
-            locationY: 41.3125,
+            locationY: 42,
             isCanvasElement: true,
             connectorCount: 0,
             config: {

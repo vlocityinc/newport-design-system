@@ -73,12 +73,11 @@ export function createLoopMetadataObject(loop, config = {}) {
     }
 
     const newLoop = baseCanvasElementMetadataObject(loop, config);
-    const { assignNextValueToReference, collectionReference, iterationOrder, storeOutputAutomatically } = loop;
+    const { assignNextValueToReference, collectionReference, iterationOrder } = loop;
 
     return Object.assign(newLoop, {
         assignNextValueToReference,
         collectionReference,
-        iterationOrder,
-        storeOutputAutomatically
+        iterationOrder
     });
 }

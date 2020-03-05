@@ -62,7 +62,7 @@
                 "description": "",
                 "label": "decision",
                 "locationX": 552,
-                "locationY": 41.3125,
+                "locationY": 42,
                 "rules": [
                     {
                         "name": "outcome",
@@ -196,8 +196,7 @@
                 "locationY": 405,
                 "assignNextValueToReference": null,
                 "collectionReference": "accounts",
-                "iterationOrder": "Asc",
-                "storeOutputAutomatically": true
+                "iterationOrder": "Asc"
             },
             {
                 "name": "loopOnTextCollection",
@@ -207,8 +206,7 @@
                 "locationY": 403,
                 "assignNextValueToReference": "textVariable",
                 "collectionReference": "textCollection",
-                "iterationOrder": "Asc",
-                "storeOutputAutomatically": false
+                "iterationOrder": "Asc"
             }
         ],
         "description": "",
