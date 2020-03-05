@@ -102,7 +102,7 @@ const propertyChanged = (state, event) => {
         if (
             state.triggerType.value !== FLOW_TRIGGER_TYPE.BEFORE_SAVE &&
             state.triggerType.value !== FLOW_TRIGGER_TYPE.AFTER_SAVE &&
-            event.detail.error
+            (event.detail.error || !event.detail.value)
         ) {
             state = resetSubSections(state);
         }

@@ -1,6 +1,6 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import { getConfigForElementType, ICON_SHAPE } from 'builder_platform_interaction/elementConfig';
-import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     DragNodeEvent,
     DragNodeStopEvent,
@@ -18,7 +18,6 @@ import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { getProcessTypes } from 'builder_platform_interaction/systemLib';
 import { TRIGGER_TYPE_LABELS } from 'builder_platform_interaction/processTypeLib';
 import { getProcessType } from 'builder_platform_interaction/storeUtils';
-import { EDIT_START_CONTEXT } from 'builder_platform_interaction/elementConfig';
 
 import startNode from './startNode.html';
 import nodeElement from './node.html';
@@ -30,16 +29,20 @@ import nodeElement from './node.html';
  * @since 214
  */
 
-const { NONE, BEFORE_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
-const { CREATE, UPDATE, CREATE_AND_UPDATE } = FLOW_TRIGGER_SAVE_TYPE;
+const { NONE, BEFORE_SAVE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
 
 export default class Node extends LightningElement {
-    currentNodeLabel = null;
-
     @api
     node = {
         config: {}
     };
+
+    @track
+    endPointStyle = '';
+
+    currentStartNodeHeight = null;
+
+    currentNodeLabel = null;
 
     getNodeConfig() {
         return getConfigForElementType(this.node.elementType).nodeConfig;
@@ -127,11 +130,6 @@ export default class Node extends LightningElement {
             switch (this.node.triggerType) {
                 case NONE:
                     return LABELS.nodeIconTitleStartDefault;
-                case BEFORE_SAVE:
-                    return format(
-                        this.formatStartSaveType(this.node.recordTriggerType),
-                        this.node.object.toLowerCase()
-                    );
                 case SCHEDULED:
                 case SCHEDULED_JOURNEY:
                     return LABELS.nodeIconTitleStartScheduled;
@@ -149,9 +147,9 @@ export default class Node extends LightningElement {
 
     get startIconFlowType() {
         if (
-            this.node.triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE ||
-            this.node.triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE ||
-            this.node.triggerType === FLOW_TRIGGER_TYPE.SCHEDULED
+            this.node.triggerType === BEFORE_SAVE ||
+            this.node.triggerType === AFTER_SAVE ||
+            this.node.triggerType === SCHEDULED
         ) {
             return TRIGGER_TYPE_LABELS[this.node.triggerType];
         }
@@ -167,19 +165,6 @@ export default class Node extends LightningElement {
         }
 
         return undefined;
-    }
-
-    formatStartSaveType(saveType) {
-        switch (saveType) {
-            case CREATE:
-                return LABELS.nodeIconTitleStartBeforeSaveCreated;
-            case UPDATE:
-                return LABELS.nodeIconTitleStartBeforeSaveUpdated;
-            case CREATE_AND_UPDATE:
-                return LABELS.nodeIconTitleStartBeforeSaveCreatedOrUpdated;
-            default:
-                return '';
-        }
     }
 
     get endPointTitle() {
@@ -271,26 +256,6 @@ export default class Node extends LightningElement {
             this.dispatchEvent(nodeSelectedEvent);
         }
         this.isNodeDragging = false;
-    };
-
-    handleTriggerClick = event => {
-        event.stopPropagation();
-
-        if (this.isEditable()) {
-            const canvasElementGUID = this.node.guid;
-            const editElementEvent = new EditElementEvent(canvasElementGUID, this.node.triggerType);
-            this.dispatchEvent(editElementEvent);
-        }
-    };
-
-    handleObjectClick = event => {
-        event.stopPropagation();
-
-        if (this.isEditable()) {
-            const canvasElementGUID = this.node.guid;
-            const editElementEvent = new EditElementEvent(canvasElementGUID, EDIT_START_CONTEXT);
-            this.dispatchEvent(editElementEvent);
-        }
     };
 
     /**
@@ -386,7 +351,6 @@ export default class Node extends LightningElement {
         }
     }
 
-    // TODO add new checks when future features come out
     get isContext() {
         switch (this.node.triggerType) {
             case NONE:
@@ -419,5 +383,15 @@ export default class Node extends LightningElement {
             });
         }
         this.currentNodeLabel = this.nodeLabel;
+
+        // End point dynamic position based on start node container height
+        if (this.node.elementType === ELEMENT_TYPE.START_ELEMENT && getProcessType()) {
+            const container = this.template.querySelector('.start-node-container');
+            if (container && container.offsetHeight !== this.currentStartNodeHeight) {
+                this.currentStartNodeHeight = container.offsetHeight;
+                const boxTop = (1 - 10 / this.currentStartNodeHeight) * 100;
+                this.endPointStyle = `top: ${boxTop}%;`;
+            }
+        }
     }
 }

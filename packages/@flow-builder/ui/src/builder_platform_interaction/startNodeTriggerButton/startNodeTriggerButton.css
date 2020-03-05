@@ -1,0 +1,54 @@
+.text-labels-bold {
+    font-weight: var(--lwc-fontWeightBold);
+    font-size: var(--lwc-fontSize3);
+}
+
+.trigger-label-size {
+    width: 18%;
+}
+
+.flow-starts-size {
+    width: 27.5%;
+}
+
+.selected-trigger-label-size {
+    width: 67.5%;
+}
+
+.selected-flow-starts-size {
+    width: 58%;
+}
+
+.edit {
+    float: right;
+    color: var(--lwc-brandAccessible, rgb(0, 112, 210));
+}
+
+.edit-size {
+    width: 14.5%;
+}
+
+.unset-start-button {
+    color: var(--lwc-brandAccessible, rgb(0, 112, 210));
+}
+
+.unset-start-button:active {
+    position: relative;
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
+}
+
+.unset-start-button:hover {
+    background-color: var(--lwc-colorGray3);
+    color: var(--lwc-colorTextLinkHover);
+    cursor: pointer;
+}
+
+.start-button-trigger-context:active {
+    position: relative;
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
+}
+
+.start-button-trigger-context:hover {
+    background-color: var(--lwc-colorGray3);
+    cursor: pointer;
+}

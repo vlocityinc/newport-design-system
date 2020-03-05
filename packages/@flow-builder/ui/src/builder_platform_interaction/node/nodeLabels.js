@@ -5,9 +5,6 @@ import nodeIconTitle from '@salesforce/label/FlowBuilderCanvasElement.nodeIconTi
 import trashCanAlternativeText from '@salesforce/label/FlowBuilderCanvasElement.trashCanAlternativeText';
 import nodeIconTitleStartDefault from '@salesforce/label/FlowBuilderCanvasElement.nodeIconTitleStartDefault';
 import nodeIconTitleStartScheduled from '@salesforce/label/FlowBuilderCanvasElement.nodeIconTitleStartScheduled';
-import nodeIconTitleStartBeforeSaveCreated from '@salesforce/label/FlowBuilderCanvasElement.nodeIconTitleStartBeforeSaveCreated';
-import nodeIconTitleStartBeforeSaveUpdated from '@salesforce/label/FlowBuilderCanvasElement.nodeIconTitleStartBeforeSaveUpdated';
-import nodeIconTitleStartBeforeSaveCreatedOrUpdated from '@salesforce/label/FlowBuilderCanvasElement.nodeIconTitleStartBeforeSaveCreatedOrUpdated';
 
 export const LABELS = {
     endPointTitle,
@@ -16,8 +13,5 @@ export const LABELS = {
     nodeIconTitle,
     nodeIconTitleStartDefault,
     nodeIconTitleStartScheduled,
-    trashCanAlternativeText,
-    nodeIconTitleStartBeforeSaveCreated,
-    nodeIconTitleStartBeforeSaveUpdated,
-    nodeIconTitleStartBeforeSaveCreatedOrUpdated
+    trashCanAlternativeText
 };

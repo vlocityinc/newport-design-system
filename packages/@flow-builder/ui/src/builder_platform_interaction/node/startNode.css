@@ -29,18 +29,11 @@
     border-radius: var(--lwc-borderRadiusMedium, 0.25rem);
     border: var(--lwc-borderWidth, 1.4px) solid var(--lwc-colorBorder, rgb(221, 219, 218));
     background-color: var(--lwc-colorGray2);
-    box-shadow: var(--lwc-cardShadow);
     width: 300px;
 }
 
 .start-node-box.selected {
     box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
-}
-
-.start-context {
-    background-color: white;
-    border-bottom-left-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem;
 }
 
 .icon {
@@ -76,7 +69,7 @@
     box-shadow: inset 0px 0px 0px 2px var(--lwc-colorBackgroundToggleHover);
     background-color: var(--lwc-colorBackgroundButtonDefault);
     transition: box-shadow 0.1s ease, background-color 0.25s ease-out;
-    top: -10px;
+    left: 46.7%;
 }
 
 .end-point:hover {

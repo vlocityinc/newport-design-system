@@ -1,0 +1,35 @@
+<template>
+    <!--CONTEXT-->
+    <div tabindex="0" class="start-context" onclick={handleObjectClick}>
+        <!--UNSET CONTEXT-->
+        <div if:false={isSetObject} class={unsetStartButtonClasses}>
+            <lightning-icon
+                icon-name="utility:add"
+                class="slds-current-color slds-m-right_x-small"
+                size="xx-small"
+            ></lightning-icon>
+            <span>
+                {chooseContext}
+            </span>
+            <span if:true={isOptional} class="optional slds-m-left_xx-small">{optionalLabel}</span>
+        </div>
+        <!--CONFIGURED CONTEXT-->
+        <div if:true={isSetObject} class={startButtonClasses}>
+            <div class="slds-grid">
+                <div class="object-label-size">
+                    <span> {objectLabel} </span>
+                </div>
+                <div class="selected-object-label-size slds-truncate">
+                    <span class="text-labels-bold" title={selectedObject}>{selectedObject}</span>
+                </div>
+                <div class="edit-size">
+                    <span class="edit">{editLabel}</span>
+                </div>
+            </div>
+            <div if:true={isConditions} class="test-conditions slds-m-top_xx-small">
+                <span class="slds-m-right_xx-small">{recordConditionsLabel}</span
+                ><span class="text-labels-bold">{conditionsAppliedLabel}</span>
+            </div>
+        </div>
+    </div>
+</template>

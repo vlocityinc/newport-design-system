@@ -1,7 +1,6 @@
 <template>
     <div class={parentStartDivComputedClass} title={nodeIconTitle} style={nodeLocation}>
         <div class={nodeClasses}>
-            <!--Node icon TODO will changes when trigger/context work is completed -->
             <div class="start-button slds-is-absolute">
                 <button
                     title={nodeIconTitle}
@@ -34,32 +33,25 @@
                 </div>
             </div>
             <div class="slds-text-align_left">
-                <div
+                <builder_platform_interaction-start-node-trigger-button
                     if:true={isTrigger}
-                    class="slds-border_top slds-var-p-around_x-small slds-border_bottom"
-                    style="background-color: white;"
-                >
-                    <button class="slds-button slds-button_neutral slds-button_stretch" ondblclick={handleTriggerClick}>
-                        Trigger/Schedule
-                    </button>
-                </div>
-                <div if:true={isContext} class="slds-var-p-around_x-small start-context">
-                    <button class="slds-button slds-button_neutral slds-button_stretch" ondblclick={handleObjectClick}>
-                        Context
-                    </button>
-                </div>
+                    node={node}
+                ></builder_platform_interaction-start-node-trigger-button>
+                <builder_platform_interaction-start-node-context-button
+                    if:true={isContext}
+                    node={node}
+                ></builder_platform_interaction-start-node-context-button>
             </div>
         </div>
-        <div>
-            <!--End Point-->
-            <button
-                if:true={hasAvailableConnections}
-                title={endPointTitle}
-                tabindex="0"
-                class="end-point slds-is-relative"
-            >
-                <span class="hiddenText">{endPointA11yTitle}</span>
-            </button>
-        </div>
+        <!--End Point-->
+        <button
+            if:true={hasAvailableConnections}
+            title={endPointTitle}
+            tabindex="0"
+            class="end-point slds-is-absolute"
+            style={endPointStyle}
+        >
+            <span class="hiddenText">{endPointA11yTitle}</span>
+        </button>
     </div>
 </template>
