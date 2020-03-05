@@ -1,1 +1,1 @@
-export default 'MISSING';
+export default 'Columns: {0}';
