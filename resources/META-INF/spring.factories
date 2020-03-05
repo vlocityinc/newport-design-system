@@ -4,4 +4,4 @@
 # Company Confidential
 #
 
-com.force.commons.bootstrap.AutoConfiguration=ui.interactionbuilder.components.configuration.UIInteractionBuilderComponentsAutoConfiguration
+com.force.commons.bootstrap.AutoConfiguration=ui.interaction.builder.components.configuration.UIInteractionBuilderComponentsAutoConfiguration
