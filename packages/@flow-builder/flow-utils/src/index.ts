@@ -11,5 +11,6 @@ export * from './animate';
 export * from './layout';
 export * from './model';
 export * from './connectorLib';
+export * from './modelUtils';
 
 export { FlowRenderer, getStyle, MenuType, ElementType, ConnectorType, panzoom };

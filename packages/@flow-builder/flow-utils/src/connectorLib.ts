@@ -1,5 +1,5 @@
 import { ConnectorRenderInfo, getLayout, getBranchLayout } from './flowRendererUtils';
-import { NodeModel } from './model';
+import { NodeModel, ParentNodeModel } from './model';
 import { NodeLayoutMap } from './layout';
 import ConnectorType from './ConnectorTypeEnum';
 
@@ -65,7 +65,7 @@ export function createConnectorToNextNode(
  */
 export function createTopChildConnector(
     nodeLayoutMap: NodeLayoutMap,
-    node: NodeModel,
+    node: ParentNodeModel,
     connectorType: ConnectorType,
     childIndex: number,
     sourceX: number,
@@ -77,7 +77,7 @@ export function createTopChildConnector(
 ): ConnectorRenderInfo {
     const branchLayout = getBranchLayout(node.guid, childIndex, progress, nodeLayoutMap);
 
-    const childNode = node.children![childIndex];
+    const childNode = node.children[childIndex];
     const svgHeight =
         childNode != null
             ? getLayout(childNode, progress, nodeLayoutMap).y

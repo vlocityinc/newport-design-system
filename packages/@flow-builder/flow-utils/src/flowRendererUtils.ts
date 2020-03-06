@@ -1,6 +1,6 @@
 import { LayoutInfo, NodeLayoutMap, getBranchLayoutKey } from './layout';
 import ConnectorType from './ConnectorTypeEnum';
-import { ElementMetadata } from './model';
+import { ElementMetadata, NodeRef } from './model';
 
 export interface FlowRenderInfo {
     key: string;
@@ -40,8 +40,8 @@ export interface ConnectorRenderInfo {
     sourceY: number;
     svgWidth?: number;
     svgHeight?: number;
-    sourceGuid?: string;
-    targetGuid?: string;
+    sourceGuid?: NodeRef;
+    targetGuid?: NodeRef;
     canAddNode?: boolean;
     isFault?: boolean;
     shouldRender?: boolean;

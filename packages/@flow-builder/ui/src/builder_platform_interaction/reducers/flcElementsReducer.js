@@ -16,15 +16,16 @@ import ffcElementsReducer from './elementsReducer';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { initializeChildren } from 'builder_platform_interaction/flcConversionUtils';
 
+import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
+
 import {
     findLastElement,
     findFirstElement,
     FlcList,
-    supportsChildren,
     addElementToState,
     linkElement,
     linkBranch
-} from 'builder_platform_interaction/flcBuilderUtils';
+} from 'builder_platform_interaction/flowUtils';
 
 /**
  * Helper function to handle select mode in the Fixed Layout Canvas. Iterates over all the elements

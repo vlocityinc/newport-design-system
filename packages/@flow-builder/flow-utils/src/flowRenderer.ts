@@ -3,6 +3,7 @@ import ConnectorType from './ConnectorTypeEnum';
 import {
     FlowModel,
     NodeModel,
+    ParentNodeModel,
     ElementsMetadata,
     resolveNode,
     getRootNode,
@@ -59,7 +60,7 @@ export default class FlowRenderer {
     renderFlow(progress: number, isFault: boolean = false): FlowRenderInfo {
         this.progress = progress;
         const rootNode = getRootNode(this.flowModel);
-        return this.renderFlowHelper(rootNode, 0, isFault);
+        return this.renderFlowHelper(rootNode as ParentNodeModel, 0, isFault);
     }
 
     toggleMenu(menuEventDetail: MenuEventDetail): void {
@@ -125,10 +126,10 @@ export default class FlowRenderer {
 
         switch (metadata.type) {
             case ElementType.DECISION:
-                nodeRenderInfo = this.renderDecisionNode(node, isFault);
+                nodeRenderInfo = this.renderDecisionNode(node as ParentNodeModel, isFault);
                 break;
             case ElementType.LOOP:
-                nodeRenderInfo = this.renderLoopNode(node, isFault);
+                nodeRenderInfo = this.renderLoopNode(node as ParentNodeModel, isFault);
                 break;
             default:
                 nodeRenderInfo = this.renderSimpleNode(node);
@@ -172,10 +173,10 @@ export default class FlowRenderer {
         }
     }
 
-    private renderFlowHelper(parentNode: NodeModel, childIndex: number, isFault: boolean): FlowRenderInfo {
+    private renderFlowHelper(parentNode: ParentNodeModel, childIndex: number, isFault: boolean): FlowRenderInfo {
         const { x, h } = this.getBranchLayout(parentNode, childIndex);
 
-        let node: NodeModel | null = resolveNode(this.flowModel, parentNode.children![childIndex]);
+        let node: NodeModel | null = resolveNode(this.flowModel, parentNode.children[childIndex]);
 
         const nodeRenderInfos = [];
         let isTerminal = false;
@@ -230,7 +231,7 @@ export default class FlowRenderer {
     //     return this.renderNestedFlow(node, -1);
     // }
 
-    private renderDecisionNode(node: NodeModel, isFault: boolean): NodeRenderInfo {
+    private renderDecisionNode(node: ParentNodeModel, isFault: boolean): NodeRenderInfo {
         const nodeRenderInfo = this.renderSimpleNode(node);
 
         const { maxConnections } = node;
@@ -289,11 +290,11 @@ export default class FlowRenderer {
         return nodeRenderInfo;
     }
 
-    private renderDecisionNodeChild(node: NodeModel, i: number): FlowRenderInfo {
+    private renderDecisionNodeChild(node: ParentNodeModel, i: number): FlowRenderInfo {
         return this.renderNestedFlow(node, i);
     }
 
-    private renderNestedFlow(parent: NodeModel, childIndex: number): FlowRenderInfo {
+    private renderNestedFlow(parent: ParentNodeModel, childIndex: number): FlowRenderInfo {
         const isFault = parent.fault != null;
 
         // TODO
@@ -310,12 +311,12 @@ export default class FlowRenderer {
         // );
     }
 
-    private renderLoopNode(node: NodeModel, isFault: boolean): NodeRenderInfo {
+    private renderLoopNode(node: ParentNodeModel, isFault: boolean): NodeRenderInfo {
         const nodeRenderInfo = this.renderSimpleNode(node);
 
         const nodeLayout = this.getLayout(node);
         const { x, y, h, w } = nodeLayout;
-        const childNode = resolveNode(this.flowModel, node.children![0]);
+        const childNode = resolveNode(this.flowModel, node.children[0]);
         const childLayout = this.getLayout(childNode);
 
         // TODO: FIX ME

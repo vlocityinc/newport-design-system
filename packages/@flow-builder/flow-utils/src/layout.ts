@@ -5,7 +5,8 @@ import {
     resolveNode,
     canHaveChildren,
     FlowInteractionState,
-    getElementMetadata
+    getElementMetadata,
+    ParentNodeModel
 } from './model';
 import MenuType from './MenuType';
 import ElementType from './ElementType';
@@ -54,7 +55,15 @@ export function calculateFlowLayout(
     elementsMetadata: ElementsMetadata
 ) {
     const parent = flowModel.root;
-    calculateBranchLayout(flowModel, parent, 0, nodeLayoutMap, 0, flowInteractionState, elementsMetadata);
+    calculateBranchLayout(
+        flowModel,
+        parent as ParentNodeModel,
+        0,
+        nodeLayoutMap,
+        0,
+        flowInteractionState,
+        elementsMetadata
+    );
 }
 
 function newDefaultLayout(): LayoutInfo {
@@ -107,7 +116,7 @@ function calculateNodeLayout(
     for (let i = 0; i < childCount; i++) {
         const branchLayout = calculateBranchLayout(
             flowModel,
-            nodeModel,
+            nodeModel as ParentNodeModel,
             i,
             nodeLayoutMap,
             offsetY,
@@ -178,7 +187,7 @@ function calculateNodeLayout(
 
 function calculateBranchLayout(
     flowModel: FlowModel,
-    parent: NodeModel,
+    parent: ParentNodeModel,
     childIndex: number,
     nodeLayoutMap: NodeLayoutMap,
     offsetY: number,
@@ -199,7 +208,7 @@ function calculateBranchLayout(
     let width = SPACING_WIDTH * 2;
     let height = 0;
 
-    const root = parent.children![childIndex];
+    const root = parent.children[childIndex];
     let node: NodeModel | null = root != null ? resolveNode(flowModel, root) : null;
 
     let elementType = node != null ? getElementMetadata(elementsMetadata, node.elementType).type : null;

@@ -3,13 +3,9 @@ import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowM
 import { addElement } from 'builder_platform_interaction/actions';
 import { createEndElement, createConnector } from 'builder_platform_interaction/elementFactory';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
-import {
-    supportsChildren,
-    linkBranch,
-    addElementToState,
-    isRootOrEndElement,
-    linkElement
-} from 'builder_platform_interaction/flcBuilderUtils';
+import { supportsChildren, isRootOrEndElement } from 'builder_platform_interaction/flcBuilderUtils';
+
+import { linkBranch, addElementToState, linkElement } from 'builder_platform_interaction/flowUtils';
 
 // TODO: FLC Hack: Temp magic number to identify an flc flow
 const LOCATION_Y_FLC_FLOW = 500;
@@ -236,7 +232,8 @@ function convertFromFlcHelper(newElements, newConnectors, newCanvasElements, ele
             // delete extra flc properties
             flcExtraProps.forEach(prop => delete newElement[prop]);
 
-            addElementToState(newElement, newElements, newCanvasElements);
+            addElementToState(newElement, newElements);
+            newCanvasElements.push(newElement.guid);
         }
 
         // the prevElement supports children, this means element is a merge element, so mark it so
