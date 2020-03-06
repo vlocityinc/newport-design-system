@@ -2,8 +2,13 @@ const COPY_LABEL = 'Copy Element';
 const DELETE_LABEL = 'Delete Element';
 
 export const Actions = {
-    Delete: 'delete'
+    Create: 'Create Records',
+    Delete: 'Delete Records',
+    Get: 'Get Records',
+    Update: 'Update Records'
 };
+
+const { Create, Delete, Get, Update } = Actions;
 
 const deleteActionConfig = {
     assetLocation: '/assets/icons/utility-sprite/svg/symbols.svg#delete',
@@ -14,10 +19,34 @@ const deleteActionConfig = {
 };
 
 export const MenuConfiguration = {
-    Start: {
+    Action: {
         Header: {
-            title: 'Start Element',
-            description: 'Start Description Here'
+            title: 'Action',
+            description: 'Action Description Here'
+        },
+        Body: {
+            NodeActions: []
+        },
+        Footer: {
+            buttonText: 'Edit Details'
+        }
+    },
+    Assignment: {
+        Header: {
+            title: 'Assignment Element',
+            description: 'Assignment Description Here'
+        },
+        Body: {
+            NodeActions: [deleteActionConfig]
+        },
+        Footer: {
+            buttonText: 'Edit Details'
+        }
+    },
+    [Create]: {
+        Header: {
+            title: 'Create Record',
+            description: 'Create Record Description Here'
         },
         Body: {
             NodeActions: []
@@ -33,6 +62,42 @@ export const MenuConfiguration = {
         },
         Body: {
             NodeActions: [deleteActionConfig]
+        },
+        Footer: {
+            buttonText: 'Edit Details'
+        }
+    },
+    [Delete]: {
+        Header: {
+            title: 'Delete Record',
+            description: 'Delete Record Description Here'
+        },
+        Body: {
+            NodeActions: []
+        },
+        Footer: {
+            buttonText: 'Edit Details'
+        }
+    },
+    End: {
+        Header: {
+            title: 'End Element',
+            description: 'End Description Here'
+        },
+        Body: {
+            NodeActions: []
+        },
+        Footer: {
+            buttonText: 'Edit Details'
+        }
+    },
+    [Get]: {
+        Header: {
+            title: 'Lookup Record',
+            description: 'Lookup Record Description Here'
+        },
+        Body: {
+            NodeActions: []
         },
         Footer: {
             buttonText: 'Edit Details'
@@ -71,10 +136,22 @@ export const MenuConfiguration = {
             buttonText: 'Edit Details'
         }
     },
-    End: {
+    Start: {
         Header: {
-            title: 'End Element',
-            description: 'End Description Here'
+            title: 'Start Element',
+            description: 'Start Description Here'
+        },
+        Body: {
+            NodeActions: []
+        },
+        Footer: {
+            buttonText: 'Edit Details'
+        }
+    },
+    [Update]: {
+        Header: {
+            title: 'Update Record',
+            description: 'Update Record Description Here'
         },
         Body: {
             NodeActions: []

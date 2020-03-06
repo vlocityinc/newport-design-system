@@ -1,5 +1,11 @@
+import actionFlowComponentDescription  from '@salesforce/label/FlowBuilderLeftPanelElements.actionFlowComponentDescription';
+import createDataOperationDescription from '@salesforce/label/FlowBuilderLeftPanelElements.createDataOperationDescription';
+import deleteDataOperationDescription from '@salesforce/label/FlowBuilderLeftPanelElements.deleteDataOperationDescription';
+import updateDataOperationDescription from '@salesforce/label/FlowBuilderLeftPanelElements.updateDataOperationDescription';
+import lookupDataOperationDescription from '@salesforce/label/FlowBuilderLeftPanelElements.lookupDataOperationDescription';
 import decisionLogicDescription from '@salesforce/label/FlowBuilderLeftPanelElements.decisionLogicDescription';
 import decisionLogicLabel from '@salesforce/label/FlowBuilderLeftPanelElements.decisionLogicLabel';
+import newActionLabel  from '@salesforce/label/FlowBuilderElementConfig.newActionLabel';
 import screenComponentDescription from '@salesforce/label/FlowBuilderLeftPanelElements.screenComponentDescription';
 import screenComponentLabel from '@salesforce/label/FlowBuilderLeftPanelElements.screenComponentLabel';
 import waitLogicDescription from '@salesforce/label/FlowBuilderLeftPanelElements.waitLogicDescription';
@@ -13,7 +19,25 @@ const endElementConfig = getConfigForElementType(ELEMENT_TYPE.END_ELEMENT);
 
 export default [
     {
-        section: 'Logic',
+        section: 'Interaction',
+        type: ElementType.DEFAULT,
+        icon: 'standard:screen',
+        label: screenComponentLabel,
+        value: ELEMENT_TYPE.SCREEN,
+        elementType: ELEMENT_TYPE.SCREEN,
+        description: screenComponentDescription
+    },
+    {
+        section: 'Interaction',
+        type: ElementType.DEFAULT,
+        icon: 'standard:lightning_component',
+        label: newActionLabel,
+        value: ELEMENT_TYPE.ACTION_CALL,
+        elementType: ELEMENT_TYPE.ACTION_CALL,
+        description: actionFlowComponentDescription
+    },
+    {
+        section: 'Flow Control',
         type: ElementType.DECISION,
         icon: 'standard:decision',
         label: decisionLogicLabel,
@@ -22,7 +46,7 @@ export default [
         description: decisionLogicDescription
     },
     {
-        section: 'Logic',
+        section: 'Flow Control',
         type: ElementType.DECISION,
         icon: 'standard:waits',
         label: waitLogicLabel,
@@ -31,13 +55,40 @@ export default [
         description: waitLogicDescription
     },
     {
-        section: 'Interaction',
-        type: ElementType.DEFAULT,
-        icon: 'standard:screen',
-        label: screenComponentLabel,
-        value: ELEMENT_TYPE.SCREEN,
-        elementType: ELEMENT_TYPE.SCREEN,
-        description: screenComponentDescription
+        section: 'Data Operation',
+        type: ELEMENT_TYPE.RECORD_CREATE,
+        icon: 'standard:record_create',
+        label: ELEMENT_TYPE.RECORD_CREATE,
+        value: ELEMENT_TYPE.RECORD_CREATE,
+        elementType: ELEMENT_TYPE.RECORD_CREATE,
+        description: createDataOperationDescription
+    },
+    {
+        section: 'Data Operation',
+        type: ELEMENT_TYPE.RECORD_UPDATE,
+        icon: 'standard:record_update',
+        label: ELEMENT_TYPE.RECORD_UPDATE,
+        value: ELEMENT_TYPE.RECORD_UPDATE,
+        elementType: ELEMENT_TYPE.RECORD_UPDATE,
+        description: lookupDataOperationDescription
+    },
+    {
+        section: 'Data Operation',
+        type: ELEMENT_TYPE.RECORD_LOOKUP,
+        icon: 'standard:record_lookup',
+        label: ELEMENT_TYPE.RECORD_LOOKUP,
+        value: ELEMENT_TYPE.RECORD_LOOKUP,
+        elementType: ELEMENT_TYPE.RECORD_LOOKUP,
+        description: updateDataOperationDescription
+    },
+    {
+        section: 'Data Operation',
+        type: ELEMENT_TYPE.RECORD_DELETE,
+        icon: 'standard:record_delete',
+        label: ELEMENT_TYPE.RECORD_DELETE,
+        value: ELEMENT_TYPE.RECORD_DELETE,
+        elementType: ELEMENT_TYPE.RECORD_DELETE,
+        description: deleteDataOperationDescription
     },
     {
         section: null,

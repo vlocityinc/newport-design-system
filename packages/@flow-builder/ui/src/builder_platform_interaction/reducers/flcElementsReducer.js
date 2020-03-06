@@ -1,4 +1,5 @@
 import {
+    ADD_CANVAS_ELEMENT,
     ADD_DECISION_WITH_OUTCOMES,
     ADD_SCREEN_WITH_FIELDS,
     ADD_END_ELEMENT,
@@ -341,6 +342,7 @@ export default function elementsReducer(state = {}, action) {
     state = deepCopy(ffcElementsReducer(state, action));
 
     switch (action.type) {
+        case ADD_CANVAS_ELEMENT:
         case ADD_SCREEN_WITH_FIELDS:
         case ADD_DECISION_WITH_OUTCOMES:
         case ADD_END_ELEMENT:

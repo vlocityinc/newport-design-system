@@ -176,7 +176,6 @@ export function createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(sc
         elementType,
         maxConnections
     });
-
     return {
         screen: newScreen,
         deletedFields,

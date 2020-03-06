@@ -138,11 +138,14 @@ export default class CalloutEditor extends LightningElement {
             const actionName = getValueFromHydratedItem(this.node.actionName);
             if (actionType && actionName) {
                 newSelectedAction = Object.assign(newSelectedAction, {
-                    actionType,
-                    actionName
+                    actionName,
+                    actionType
                 });
             }
         }
+
+        const { childIndex, next, parent, prev } = this.node;
+        Object.assign(newSelectedAction, { childIndex, next, parent, prev });
         this.selectedAction = newSelectedAction;
     }
 

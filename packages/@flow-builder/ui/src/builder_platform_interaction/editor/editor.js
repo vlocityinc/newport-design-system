@@ -1014,6 +1014,7 @@ export default class Editor extends LightningElement {
             this.queueOpenPropertyEditor(() => {
                 // getElementForPropertyEditor need to be called after propertyEditorBlockerCalls
                 // has been resolved
+
                 const node = getElementForPropertyEditor({
                     locationX: event.detail.locationX,
                     locationY: event.detail.locationY,

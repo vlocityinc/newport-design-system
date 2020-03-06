@@ -110,9 +110,17 @@ export default class CalloutEditorContainer extends LightningElement {
         node = Object.assign(
             {},
             node,
-            { locationX: this.node.locationX, locationY: this.node.locationY },
+            {
+                childIndex: this.node.childIndex,
+                locationX: this.node.locationX,
+                locationY: this.node.locationY,
+                next: this.node.next,
+                parent: this.node.parent,
+                prev: this.node.prev
+            },
             this._selectedAction
         );
+
         const editorNode = this.getNode();
         if (editorNode) {
             node.name = editorNode.name;

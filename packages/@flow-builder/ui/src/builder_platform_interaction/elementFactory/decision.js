@@ -201,7 +201,6 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
         connectorCount,
         availableConnections
     });
-
     return {
         canvasElement: newDecision,
         deletedChildElementGuids: deletedOutcomeGuids,

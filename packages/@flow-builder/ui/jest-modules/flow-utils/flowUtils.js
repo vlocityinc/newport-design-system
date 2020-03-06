@@ -1,10 +1,10 @@
 export default {
     ElementType: {
-        ROOT: 'root',
-        START: 'start',
+        DECISION: 'decision',
+        DEFAULT: 'default',
         END: 'end',
         LOOP: 'loop',
-        DECISION: 'decision',
-        DEFAULT: 'default'
+        ROOT: 'root',
+        START: 'start'
     }
 };
