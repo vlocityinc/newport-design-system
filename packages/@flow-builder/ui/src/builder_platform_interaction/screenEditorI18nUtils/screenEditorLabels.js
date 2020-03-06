@@ -83,6 +83,8 @@ import columnsSectionTitle from '@salesforce/label/FlowBuilderScreenEditor.colum
 import maxColumns from '@salesforce/label/FlowBuilderScreenEditor.maxColumns';
 import addColumn from '@salesforce/label/FlowBuilderScreenEditor.addColumn';
 import columnsWidthTitle from '@salesforce/label/FlowBuilderScreenEditor.columnsWidthTitle';
+import fullWidth from '@salesforce/label/FlowBuilderScreenEditor.fullWidth';
+import columnsTooltip from '@salesforce/label/FlowBuilderScreenEditor.columnsTooltip';
 
 export const LABELS = {
     errorRequired,
@@ -168,5 +170,7 @@ export const LABELS = {
     columnsSectionTitle,
     maxColumns,
     addColumn,
-    columnsWidthTitle
+    columnsWidthTitle,
+    fullWidth,
+    columnsTooltip
 };
