@@ -18,6 +18,10 @@ import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLi
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 
+const section1Guid = 'section1';
+const column1Guid = 'column1';
+const column2Guid = 'column2';
+
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/flowExtensionLib', () => {
@@ -86,6 +90,38 @@ describe('screen reducer', () => {
         expect(newScreen.fields[0].name.value).toBe(screen.fields[0].name.value);
     });
 
+    it('change a property of a field within a container field', () => {
+        const newDisplayText = 'new display text';
+        const screen = createTestScreen(SCREEN_NAME, ['displayText']);
+        const field1 = screen.fields.pop();
+        const section = {
+            guid: section1Guid,
+            name: section1Guid,
+            fields: [
+                {
+                    guid: column1Guid,
+                    name: column1Guid,
+                    fields: [field1]
+                }
+            ]
+        };
+        screen.fields.push(section);
+        const event = {
+            type: PropertyChangedEvent.EVENT_NAME,
+            detail: {
+                propertyName: 'fieldText',
+                value: { value: newDisplayText, error: null },
+                error: null,
+                guid: field1.guid,
+                oldValue: field1.fieldText
+            }
+        };
+        const newScreen = screenReducer(screen, event, field1);
+        const newField = newScreen.fields[0].fields[0].fields[0];
+        expect(newScreen).toBeDefined();
+        expect(newField.fieldText.value).toBe(newDisplayText);
+        expect(newField.name.value).toBe(field1.name.value);
+    });
     it('change screen field validation error message when there is none before', () => {
         const newErrorMessage = 'error1';
         const screen = createTestScreen(SCREEN_NAME, ['displayText']);
@@ -227,6 +263,34 @@ describe('screen reducer', () => {
         expect(newScreen.fields[newScreen.fields.length - 1].type.name).toBe(fieldType);
     });
 
+    it('adds a field to a container field', () => {
+        const fieldType = 'TextBox';
+        const screen = createTestScreen(SCREEN_NAME, null);
+        const section = {
+            guid: section1Guid,
+            name: section1Guid,
+            fields: [
+                {
+                    guid: column1Guid,
+                    name: column1Guid,
+                    fields: []
+                },
+                {
+                    guid: column2Guid,
+                    name: column2Guid,
+                    fields: []
+                }
+            ]
+        };
+        screen.fields[1] = section;
+
+        const event = createAddScreenFieldEvent(fieldType, 0, screen.fields[1].fields[1]);
+        const newScreen = screenReducer(screen, event);
+        const childFields = newScreen.fields[1].fields[1].fields;
+        expect(childFields).toHaveLength(1);
+        expect(childFields[0].type.name).toBe(fieldType);
+    });
+
     it('deletes a screen field', () => {
         const screen = createTestScreen(SCREEN_NAME, null);
         const event = createScreenElementDeletedEvent(screen.fields[0]);
@@ -234,6 +298,35 @@ describe('screen reducer', () => {
         const newScreen = screenReducer(screen, event);
         expect(newScreen.fields[0]).not.toBe(screen.fields[0]);
         expect(newScreen.fields).toHaveLength(screen.fields.length - 1);
+    });
+
+    it('deletes a field from a container field', () => {
+        const screen = createTestScreen(SCREEN_NAME, null);
+        const field1 = screen.fields.pop();
+        const field2 = screen.fields.pop();
+        const section = {
+            guid: section1Guid,
+            name: section1Guid,
+            fields: [
+                {
+                    guid: column1Guid,
+                    name: column1Guid,
+                    fields: []
+                },
+                {
+                    guid: column2Guid,
+                    name: column2Guid,
+                    fields: [field1, field2]
+                }
+            ]
+        };
+        screen.fields[1] = section;
+
+        const event = createScreenElementDeletedEvent(field1, null, screen.fields[1].fields[1]);
+        const newScreen = screenReducer(screen, event);
+        const childFields = newScreen.fields[1].fields[1].fields;
+        expect(childFields).toHaveLength(1);
+        expect(childFields[0].name).toEqual(field2.name);
     });
 
     it('reorders fields', () => {
@@ -250,6 +343,43 @@ describe('screen reducer', () => {
         expect(screen.fields[0]).toBe(newScreen.fields[2]);
         expect(screen.fields[2]).toBe(newScreen.fields[1]);
         expect(newScreen.fields).toHaveLength(screen.fields.length);
+    });
+
+    it('moves a field between container fields', () => {
+        const screen = createTestScreen(SCREEN_NAME, null);
+        const field1 = screen.fields.pop();
+        const field2 = screen.fields.pop();
+        const section = {
+            guid: section1Guid,
+            name: section1Guid,
+            fields: [
+                {
+                    guid: column1Guid,
+                    name: column1Guid,
+                    fields: [field1]
+                },
+                {
+                    guid: column2Guid,
+                    name: column2Guid,
+                    fields: [field2]
+                }
+            ]
+        };
+        screen.fields[1] = section;
+        const event = {
+            type: ReorderListEvent.EVENT_NAME,
+            detail: {
+                sourceGuid: field1.guid,
+                destinationGuid: field2.guid
+            }
+        };
+
+        const newScreen = screenReducer(screen, event);
+        const newSection = newScreen.fields[1];
+        expect(newSection.fields[0].fields).toHaveLength(0);
+        expect(field1).toBe(newSection.fields[1].fields[0]);
+        expect(field2).toBe(newSection.fields[1].fields[1]);
+        expect(newSection.fields[1].fields).toHaveLength(2);
     });
 
     it('reorders fields when dest and source are the same results in no change', () => {

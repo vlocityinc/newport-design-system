@@ -28,6 +28,9 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     };
 });
 
+const field1Guid = 'field1';
+const field2Guid = 'field2';
+const field3Guid = 'field3';
 const newScreenGuid = 'newScreen';
 const existingScreenGuid = 'existingScreen';
 const existingScreen = {
@@ -115,16 +118,16 @@ describe('screen', () => {
         beforeEach(() => {
             fields = [
                 {
-                    name: 'field1',
-                    guid: 'field1'
+                    name: field1Guid,
+                    guid: field1Guid
                 },
                 {
-                    name: 'field2',
-                    guid: 'field2',
+                    name: field2Guid,
+                    guid: field2Guid,
                     fields: [
                         {
-                            name: 'field3',
-                            guid: 'field3'
+                            name: field3Guid,
+                            guid: field3Guid
                         }
                     ]
                 }
@@ -138,14 +141,14 @@ describe('screen', () => {
             it('returns correct index chain when looking for a field under a screen', () => {
                 const screen = createScreenElement(existingScreen);
                 screen.fields = fields;
-                const indexes = screen.getFieldIndexesByGUID('field2');
+                const indexes = screen.getFieldIndexesByGUID(field2Guid);
                 expect(indexes).toHaveLength(1);
                 expect(indexes[0]).toEqual(1);
             });
             it('returns correct index chain when looking for a field under a field under a screen', () => {
                 const screen = createScreenElement(existingScreen);
                 screen.fields = fields;
-                const indexes = screen.getFieldIndexesByGUID('field3');
+                const indexes = screen.getFieldIndexesByGUID(field3Guid);
                 expect(indexes).toHaveLength(2);
                 expect(indexes[0]).toEqual(0);
                 expect(indexes[1]).toEqual(1);
@@ -155,16 +158,16 @@ describe('screen', () => {
             it('returns correct field when looking for a field under a screen', () => {
                 const screen = createScreenElement(existingScreen);
                 screen.fields = fields;
-                const field = screen.getFieldByGUID('field2');
+                const field = screen.getFieldByGUID(field2Guid);
                 expect(field).toBeDefined();
-                expect(field.name).toEqual('field2');
+                expect(field.name).toEqual(field2Guid);
             });
             it('returns correct field when looking for a field under a field under a screen', () => {
                 const screen = createScreenElement(existingScreen);
                 screen.fields = fields;
-                const field = screen.getFieldByGUID('field3');
+                const field = screen.getFieldByGUID(field3Guid);
                 expect(field).toBeDefined();
-                expect(field.name).toEqual('field3');
+                expect(field.name).toEqual(field3Guid);
             });
         });
     });
@@ -220,13 +223,13 @@ describe('screen', () => {
                 guid: existingScreenGuid,
                 fieldReferences: [
                     {
-                        fieldReference: 'field1'
+                        fieldReference: field1Guid
                     },
                     {
-                        fieldReference: 'field2'
+                        fieldReference: field2Guid
                     },
                     {
-                        fieldReference: 'field3'
+                        fieldReference: field3Guid
                     }
                 ]
             };
@@ -241,7 +244,7 @@ describe('screen', () => {
             it('screen includes fields for all screen field references present', () => {
                 const screen = createScreenMetadataObject(screenFromStore);
                 expect(screen.fields).toHaveLength(3);
-                expect(screen.fields[0].guid).toEqual(foundElementGuidPrefix + 'field1');
+                expect(screen.fields[0].guid).toEqual(foundElementGuidPrefix + field1Guid);
             });
         });
     });
@@ -254,17 +257,17 @@ describe('screen', () => {
                 name: existingScreenGuid,
                 fields: [
                     {
-                        name: 'field1',
-                        guid: 'field1',
+                        name: field1Guid,
+                        guid: field1Guid,
                         fieldType: 'RegionContainer'
                     },
                     {
-                        name: 'field2',
-                        guid: 'field2'
+                        name: field2Guid,
+                        guid: field2Guid
                     },
                     {
-                        name: 'field3',
-                        guid: 'field3'
+                        name: field3Guid,
+                        guid: field3Guid
                     }
                 ]
             };
@@ -304,7 +307,7 @@ describe('screen', () => {
                 guid: newScreenGuid,
                 fields: [
                     {
-                        guid: 'field1'
+                        guid: field1Guid
                     }
                 ]
             };
@@ -346,7 +349,7 @@ describe('screen', () => {
                     guid: existingScreenGuid,
                     fields: [
                         {
-                            guid: 'field1'
+                            guid: field1Guid
                         }
                     ]
                 };
@@ -358,7 +361,7 @@ describe('screen', () => {
                     guid: existingScreenGuid,
                     fields: [
                         {
-                            guid: 'field1'
+                            guid: field1Guid
                         }
                     ]
                 };
