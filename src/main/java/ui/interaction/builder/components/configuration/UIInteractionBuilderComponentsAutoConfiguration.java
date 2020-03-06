@@ -1,4 +1,4 @@
-package ui.interactionbuilder.components.configuration;
+package ui.interaction.builder.components.configuration;
 
 import java.util.logging.Logger;
 import org.auraframework.adapter.ComponentLocationAdapter;
