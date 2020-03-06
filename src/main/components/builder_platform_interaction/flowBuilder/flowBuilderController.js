@@ -3,8 +3,7 @@
         helper.init(cmp);
 
         cmp.set('v.guardrailsParams', {
-            running: true, // TODO mute/unmuted
-            count: 0
+            running: true // TODO mute/unmuted via browser storage
         });
     }
 });

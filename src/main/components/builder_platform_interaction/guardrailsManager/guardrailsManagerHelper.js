@@ -35,6 +35,10 @@
                                     if (guardrailsPanel) {
                                         cmp.set('v.guardrailsPanel', guardrailsPanel);
                                         cmp.set('v.isCreatingPanel', false);
+                                        if (cmp.get('v.needToFocus')) {
+                                            guardrailsPanel.focus();
+                                            cmp.set('v.needToFocus', false);
+                                        }
                                     }
                                 })
                             })
@@ -46,13 +50,21 @@
         }
     },
 
+    /**
+     * @return {boolean} whether there are any new reesults
+     **/
     processResults: function(cmp, report) {
-        var processedResults = this.guardrailsUtils.processReport(report);
-        this.updateItems(cmp, processedResults);
+        var prevResults = cmp.get('v.items');
+        var newResults = this.guardrailsUtils.processReport(report);
+        this.updateItems(cmp, newResults);
+
+        return this.guardrailsUtils.hasNewResults(prevResults, newResults);
     },
 
-    updateItems: function(cmp, results) {
+    updateItems: function(cmp, results, mute) {
         cmp.set('v.items', results);
-        cmp.set('v.count', results.length);
+        var count = results.length;
+        cmp.set('v.count', count);
+        cmp.get('v.body')[0].set('v.guardrailsParams', { running: !mute, count: count });
     }
 });

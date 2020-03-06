@@ -1,16 +1,23 @@
 import { createElement } from 'lwc';
 import Header from '../header';
 import { LABELS } from '../headerLabels';
+import { orgHasFlowBuilderGuardrails } from 'builder_platform_interaction/contextLib';
+import { invokeKeyboardHelpDialog } from 'builder_platform_interaction/builderUtils';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
-function createComponentForTest(name, version, backUrl, helpUrl) {
+jest.mock('builder_platform_interaction/contextLib', () => {
+    return { orgHasFlowBuilderGuardrails: jest.fn() };
+});
+
+jest.mock('builder_platform_interaction/builderUtils', () => {
+    return { invokeKeyboardHelpDialog: jest.fn() };
+});
+
+function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-header', {
         is: Header
     });
-    el.flowName = name;
-    el.flowVersion = version;
-    el.backUrl = backUrl;
-    el.helpUrl = helpUrl;
+    Object.assign(el, props);
     document.body.appendChild(el);
     return el;
 }
@@ -27,7 +34,10 @@ const selectors = {
     helpLabel: '.test-help-label',
     flowIcon: '.test-flow-utility-icon',
     backIcon: '.test-back-utility-icon',
-    helpIcon: '.test-help-utility-icon'
+    helpIcon: '.test-help-utility-icon',
+    buttonMenu: 'lightning-button-menu',
+    lightningMenuItem: 'lightning-menu-item',
+    guardrailsMenuItem: 'analyzer_framework-help-menu-item'
 };
 
 describe('HEADER', () => {
@@ -60,7 +70,7 @@ describe('HEADER', () => {
     });
 
     it('checks the rendering FLOW NAME VERSION TITLE', async () => {
-        const headerComponent = createComponentForTest('Flow Name', '1');
+        const headerComponent = createComponentForTest({ flowName: 'Flow Name', flowVersion: '1' });
         await ticks(1);
         expect(headerComponent.shadowRoot.querySelector(selectors.flowNameVersionTitle).title).toEqual(
             `Flow Name${LABELS.versionLabelText}1`
@@ -68,13 +78,13 @@ describe('HEADER', () => {
     });
 
     it('checks the rendering FLOW NAME', async () => {
-        const headerComponent = createComponentForTest('Flow Name', '1');
+        const headerComponent = createComponentForTest({ flowName: 'Flow Name', flowVersion: '1' });
         await ticks(1);
         expect(headerComponent.shadowRoot.querySelector(selectors.flowName).textContent).toEqual(`Flow Name`);
     });
 
     it('checks the rendering FLOW VERSION', async () => {
-        const headerComponent = createComponentForTest('Flow Name', '1');
+        const headerComponent = createComponentForTest({ flowName: 'Flow Name', flowVersion: '1' });
         await ticks(1);
         expect(headerComponent.shadowRoot.querySelector(selectors.flowVersion).textContent).toEqual(
             `${LABELS.versionLabelText}1`
@@ -94,7 +104,7 @@ describe('HEADER', () => {
     });
 
     it('checks the rendering BACK URL when ProcessUIFlow value is provided should return /300', async () => {
-        const headerComponent = createComponentForTest('Flow Name', '1', '/300');
+        const headerComponent = createComponentForTest({ flowName: 'Flow Name', flowVersion: '1', backUrl: '/300' });
         await ticks(1);
         expect(headerComponent.shadowRoot.querySelector(selectors.backUrl).pathname).toEqual('/300');
     });
@@ -128,8 +138,74 @@ describe('HEADER', () => {
     });
 
     it('checks the rendering HELP URL when ProcessUIFlow value is provided should return /HELP', async () => {
-        const headerComponent = createComponentForTest('Flow Name', '1', '/300', '/HELP');
+        const headerComponent = createComponentForTest({
+            flowName: 'Flow Name',
+            flowVersion: '1',
+            backUrl: '/300',
+            helpUrl: '/HELP'
+        });
         await ticks(1);
         expect(headerComponent.shadowRoot.querySelector(selectors.helpUrl).pathname).toEqual('/HELP');
+    });
+
+    it('should not render the help menu if guardrails is off', async () => {
+        orgHasFlowBuilderGuardrails.mockReturnValue(false);
+        const headerComponent = createComponentForTest();
+        await ticks(1);
+        expect(headerComponent.shadowRoot.querySelector(selectors.buttonMenu)).toBeNull();
+        expect(headerComponent.shadowRoot.querySelector(selectors.helpUrl)).toBeDefined();
+    });
+
+    describe('help menu', () => {
+        beforeEach(() => {
+            orgHasFlowBuilderGuardrails.mockReturnValue(true);
+        });
+
+        it('contains flow builder items', async () => {
+            const headerComponent = createComponentForTest({
+                helpUrl: '/HELP',
+                trailheadUrl: '/TRAILHEAD',
+                trailblazerCommunityUrl: '/TRAILBLAZER',
+                guardrailsParams: { running: false }
+            });
+            await ticks(1);
+            expect(headerComponent.shadowRoot.querySelector(selectors.buttonMenu)).toBeDefined();
+            expect(headerComponent.shadowRoot.querySelectorAll(selectors.lightningMenuItem)).toHaveLength(4);
+        });
+
+        it('contains flow builder items even with empty/undefined urls', async () => {
+            const headerComponent = createComponentForTest({ guardrailsParams: { running: false } });
+            await ticks(1);
+            expect(headerComponent.shadowRoot.querySelector(selectors.buttonMenu)).toBeDefined();
+            expect(headerComponent.shadowRoot.querySelectorAll(selectors.lightningMenuItem)).toHaveLength(4);
+        });
+
+        it('keyboard help menu item invokes keyboard help dialog', async () => {
+            const headerComponent = createComponentForTest({ guardrailsParams: { running: false } });
+            await ticks(1);
+            const keyboardHelp = headerComponent.shadowRoot.querySelectorAll(selectors.lightningMenuItem)[2];
+            keyboardHelp.addEventListener('click', invokeKeyboardHelpDialog);
+            keyboardHelp.click();
+            expect(invokeKeyboardHelpDialog).toHaveBeenCalled();
+        });
+
+        it('contains guardrails items', async () => {
+            const headerComponent = createComponentForTest({ guardrailsParams: { running: true, count: 1 } });
+            await ticks(1);
+            expect(headerComponent.shadowRoot.querySelector(selectors.buttonMenu)).toBeDefined();
+            expect(headerComponent.shadowRoot.querySelectorAll(selectors.guardrailsMenuItem)).toHaveLength(2);
+
+            const viewGuardrails = headerComponent.shadowRoot.querySelectorAll(selectors.guardrailsMenuItem)[0];
+            expect(viewGuardrails.running).toBeTruthy();
+            expect(viewGuardrails.count).toBeDefined();
+            expect(viewGuardrails.count).toEqual(1);
+        });
+
+        it('guardrails items rendered even when muted', async () => {
+            const headerComponent = createComponentForTest({ guardrailsParams: { running: false } });
+            await ticks(1);
+            expect(headerComponent.shadowRoot.querySelector(selectors.buttonMenu)).toBeDefined();
+            expect(headerComponent.shadowRoot.querySelectorAll(selectors.guardrailsMenuItem)).toHaveLength(2);
+        });
     });
 });

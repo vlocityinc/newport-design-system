@@ -147,8 +147,27 @@ export default class Editor extends LightningElement {
         setBuilderType(value);
     }
 
+    _guardrailsParams;
+
+    /**
+     * Params to execute guardrails and propagate info to help menu in header
+     * {
+     *  running: true/false
+     *  count: number of guardrails
+     * }
+     */
     @api
-    guardrailsParams;
+    get guardrailsParams() {
+        return this._guardrailsParams;
+    }
+
+    set guardrailsParams(value) {
+        const prevRunning = this._guardrailsParams ? this._guardrailsParams.running : false;
+        this._guardrailsParams = value;
+        if (!prevRunning) {
+            this.executeGuardrails(storeInstance.getCurrentState());
+        }
+    }
 
     @track
     flowStatus;
@@ -190,6 +209,12 @@ export default class Editor extends LightningElement {
 
     @track
     helpUrl;
+
+    @track
+    trailheadUrl;
+
+    @track
+    trailblazerCommunityUrl;
 
     @track
     spinners = {
@@ -606,6 +631,8 @@ export default class Editor extends LightningElement {
             ? this.buildBackUrlForAloha(data.flowUrl)
             : this.buildBackUrlForLightning(data.lightningFlowUrl);
         this.helpUrl = data.helpUrl;
+        this.trailheadUrl = data.trailheadUrl;
+        this.trailblazerCommunityUrl = data.trailblazerCommunityUrl;
         this.runDebugUrl = data.runDebugUrl;
         this.retrievedHeaderUrls = true;
     };

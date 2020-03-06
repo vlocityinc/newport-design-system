@@ -3,7 +3,7 @@ const eventName = 'guardrailresult';
 /**
  * Fired to update guardrails result.
  *
- * kolsson: move to guardails/analyzer lib
+ * TODO: W-7261153
  */
 export class GuardrailsResultEvent {
     constructor(result) {

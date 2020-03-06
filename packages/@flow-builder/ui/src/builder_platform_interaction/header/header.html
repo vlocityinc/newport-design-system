@@ -43,27 +43,79 @@
                     </div>
                 </a>
             </div>
-            <div class="slds-builder-header__utilities-item">
-                <a
-                    href={headerHelpUrl}
-                    target="_blank"
-                    class="slds-builder-header__item-action slds-media slds-media_center test-help-url"
-                    onclick={handleClickHelp}
+            <template if:false={isGuardrailsEnabled}>
+                <div class="slds-builder-header__utilities-item">
+                    <a
+                        href={helpUrl}
+                        target="_blank"
+                        class="slds-builder-header__item-action slds-media slds-media_center test-help-url"
+                        onclick={handleClickHelp}
+                    >
+                        <div class="slds-media__figure">
+                            <lightning-icon
+                                variant="inverse"
+                                size="x-small"
+                                icon-name="utility:help"
+                                class="slds-icon_container slds-icon-utility-back slds-current-color test-help-utility-icon"
+                            >
+                            </lightning-icon>
+                        </div>
+                        <div class="slds-media__body test-help-label">
+                            {labels.helpButtonText}
+                        </div>
+                    </a>
+                </div>
+            </template>
+
+            <template if:true={isGuardrailsEnabled}>
+                <lightning-button-menu
+                    label={labels.helpButtonText}
+                    icon-name="utility:help"
+                    menu-alignment="right"
+                    variant="bare-inverse"
+                    class="slds-builder-header__item-action slds-builder-header__utilities-item"
                 >
-                    <div class="slds-media__figure">
-                        <lightning-icon
-                            variant="inverse"
-                            size="x-small"
-                            icon-name="utility:help"
-                            class="slds-icon_container slds-icon-utility-back slds-current-color test-help-utility-icon"
-                        >
-                        </lightning-icon>
-                    </div>
-                    <div class="slds-media__body test-help-label">
-                        {labels.helpButtonText}
-                    </div>
-                </a>
-            </div>
+                    <lightning-menu-item
+                        href={helpUrl}
+                        target="_blank"
+                        label={labels.helpText}
+                        onclick={handleClickHelp}
+                    ></lightning-menu-item>
+                    <lightning-menu-item
+                        label={labels.keyboardHelpText}
+                        onclick={handleClickKeyboardHelp}
+                    ></lightning-menu-item>
+                    <lightning-menu-item
+                        href={trailheadUrl}
+                        target="_blank"
+                        label={labels.trailheadText}
+                        onclick={handleClickTrailhead}
+                    ></lightning-menu-item>
+                    <lightning-menu-item
+                        href={trailblazerCommunityUrl}
+                        target="_blank"
+                        label={labels.trailblazerCommunityText}
+                        onclick={handleClickTrailblazerCommunity}
+                    ></lightning-menu-item>
+
+                    <lightning-menu-divider></lightning-menu-divider>
+
+                    <analyzer_framework-help-menu-item
+                        type="view"
+                        label={labels.viewGuardrailsText}
+                        count={guardrailsParams.count}
+                        running={guardrailsParams.running}
+                        onclick={handleClickViewGuardrails}
+                    ></analyzer_framework-help-menu-item>
+                    <analyzer_framework-help-menu-item
+                        type="mute"
+                        label={labels.muteGuardrailsText}
+                        unmute-label={labels.unmuteGuardrailsText}
+                        running={guardrailsParams.running}
+                        onclick={handleClickMuteGuardrails}
+                    ></analyzer_framework-help-menu-item>
+                </lightning-button-menu>
+            </template>
         </div>
     </div>
 </template>

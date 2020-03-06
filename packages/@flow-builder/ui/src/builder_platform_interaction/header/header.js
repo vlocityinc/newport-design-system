@@ -1,6 +1,8 @@
-import { LightningElement, api } from 'lwc';
-import { LABELS } from './headerLabels';
+import { orgHasFlowBuilderGuardrails } from 'builder_platform_interaction/contextLib';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
+import { api, LightningElement, track } from 'lwc';
+import { LABELS } from './headerLabels';
+import { invokeKeyboardHelpDialog } from 'builder_platform_interaction/builderUtils';
 
 export default class Header extends LightningElement {
     @api
@@ -19,10 +21,19 @@ export default class Header extends LightningElement {
     helpUrl;
 
     @api
+    trailheadUrl;
+
+    @api
+    trailblazerCommunityUrl;
+
+    @api
     builderIcon;
 
     @api
     builderName;
+
+    @api
+    guardrailsParams;
 
     @api focus() {
         const headerFocusableElement = this.template.querySelector('[href].test-back-url');
@@ -30,6 +41,8 @@ export default class Header extends LightningElement {
             headerFocusableElement.focus();
         }
     }
+
+    @track isGuardrailsEnabled = orgHasFlowBuilderGuardrails();
 
     get labels() {
         return LABELS;
@@ -64,13 +77,6 @@ export default class Header extends LightningElement {
         return LABELS.systemModeLabelText;
     }
 
-    get headerHelpUrl() {
-        if (this.helpUrl) {
-            return this.helpUrl;
-        }
-        return null;
-    }
-
     get iconName() {
         return this.builderIcon || 'utility:flow';
     }
@@ -95,6 +101,33 @@ export default class Header extends LightningElement {
     }
 
     handleClickHelp() {
-        logInteraction(`help-button`, 'header', null, 'click');
+        this.logHeaderInteraction('help-button');
+    }
+
+    handleClickTrailhead() {
+        this.logHeaderInteraction('trailhead-button');
+    }
+
+    handleClickTrailblazerCommunity() {
+        this.logHeaderInteraction('trailblazer-community-button');
+    }
+
+    handleClickKeyboardHelp() {
+        this.logHeaderInteraction('keyboard-help-button');
+        invokeKeyboardHelpDialog();
+    }
+
+    handleClickViewGuardrails() {
+        this.logHeaderInteraction('view-guardrails-button');
+    }
+
+    handleClickMuteGuardrails() {
+        this.logHeaderInteraction(
+            this.guardrailsParams.running ? 'unmute-guardrails-button' : 'mute-guardrails-button'
+        );
+    }
+
+    logHeaderInteraction(menuItem) {
+        logInteraction(menuItem, 'header', null, 'click');
     }
 }

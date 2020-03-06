@@ -772,13 +772,13 @@ describe('editor guardrails', () => {
 
         isGuardrailsEnabled.mockReturnValue(true);
     });
+
     const setupGuardrails = function(running, mockResult = []) {
         const editorComponent = createComponentUnderTest({
             guardrailsParams: {
                 running
             }
         });
-        editorComponent.addEventListener('guardrailresult', guardrailResult);
 
         const results = new Map();
         results.set(FLOW_ID, mockResult);
@@ -819,13 +819,14 @@ describe('editor guardrails', () => {
     it('guardrails running - no result', async () => {
         expect.assertions(2);
 
-        setupGuardrails(true, []);
+        const editorComponent = setupGuardrails(true, []);
 
+        await ticks(2);
+        editorComponent.addEventListener('guardrailresult', guardrailResult);
         storeInstance.dispatch({
             type: 'actionThatTriggerGuardrails'
         });
 
-        await ticks(2);
         await ticks(1);
         expect(guardrailResult).toHaveBeenCalledTimes(1);
         const actualResult = guardrailResult.mock.calls[0][0].detail.guardrailsResult;
@@ -836,13 +837,45 @@ describe('editor guardrails', () => {
         expect.assertions(2);
 
         const mockResult = [{ data: 'result1' }, { data: 'result2' }];
-        setupGuardrails(true, mockResult);
+        const editorComponent = setupGuardrails(true, mockResult);
 
+        await ticks(2);
+        editorComponent.addEventListener('guardrailresult', guardrailResult);
         storeInstance.dispatch({
             type: 'actionThatTriggerGuardrails'
         });
 
+        await ticks(1);
+        expect(guardrailResult).toHaveBeenCalledTimes(1);
+        const actualResult = guardrailResult.mock.calls[0][0].detail.guardrailsResult;
+        expect(actualResult.results.get(FLOW_ID)).toEqual([{ data: 'result1' }, { data: 'result2' }]);
+    });
+
+    it('guardrails unmuted - no result', async () => {
+        expect.assertions(2);
+
+        const editorComponent = setupGuardrails(false, []);
+
         await ticks(2);
+        editorComponent.addEventListener('guardrailresult', guardrailResult);
+        editorComponent.guardrailsParams = { running: true };
+
+        await ticks(2);
+        expect(guardrailResult).toHaveBeenCalledTimes(1);
+        const actualResult = guardrailResult.mock.calls[0][0].detail.guardrailsResult;
+        expect(actualResult.results.get(FLOW_ID)).toEqual([]);
+    });
+
+    it('guardrails unmuted - result', async () => {
+        expect.assertions(2);
+
+        const mockResult = [{ data: 'result1' }, { data: 'result2' }];
+        const editorComponent = setupGuardrails(false, mockResult);
+
+        await ticks(2);
+        editorComponent.addEventListener('guardrailresult', guardrailResult);
+        editorComponent.guardrailsParams = { running: true };
+
         await ticks(1);
         expect(guardrailResult).toHaveBeenCalledTimes(1);
         const actualResult = guardrailResult.mock.calls[0][0].detail.guardrailsResult;

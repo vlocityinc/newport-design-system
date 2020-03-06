@@ -62,6 +62,11 @@
    <aura:registerEvent name="guardrailsResult" type="visualEditor:guardrailsResult" />
 
     <div class="flow-builder-container">
-        <builder_platform_interaction:editor flowId="{!v.flowId}" flowDefId="{!v.flowDefId}" builderType="{!v.builderType}" guardrailsParams="{!v.guardrailsParams}" onguardrailresult="{!c.handleGuardrailResult}"/>
+        <builder_platform_interaction:editor 
+            flowId="{!v.flowId}" 
+            flowDefId="{!v.flowDefId}" 
+            builderType="{!v.builderType}" 
+            guardrailsParams="{!v.guardrailsParams}" 
+            onguardrailresult="{!c.handleGuardrailResult}"/>
     </div>
 </aura:component>
