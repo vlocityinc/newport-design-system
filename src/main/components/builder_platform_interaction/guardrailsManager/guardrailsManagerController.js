@@ -5,6 +5,14 @@
  */
 
 ({
+    init: function(cmp, event, helper) {
+        if (cmp.get('v.consumerId')) {
+            var mutePreference = new helper.guardrailsUtils.MutePreference(cmp.get('v.consumerId'));
+            cmp.set('v.mutePreference', mutePreference);
+            cmp.get('v.body')[0].set('v.guardrailsParams', { running: !mutePreference.isMuted() });
+        }
+    },
+
     handleGuardrailsResults: function(cmp, event, helper) {
         var eventParams = event.getParams();
         var report = eventParams.guardrailsResult.results;
@@ -32,6 +40,9 @@
             case false:
                 helper.updateItems(cmp, [], muted);
                 cmp.set('v.needToFocus', true);
+                if (cmp.get('v.mutePreference')) {
+                    cmp.get('v.mutePreference').toggleMute(muted);
+                }
                 break;
             default:
                 if (!panel || (panel && !panel.isValid())) {

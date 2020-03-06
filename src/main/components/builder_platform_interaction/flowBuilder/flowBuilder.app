@@ -9,7 +9,6 @@
     <aura:attribute name="flowId" type="String" default="" description="The id of the flow to load" />
     <aura:attribute name="flowDefId" type="String" description="The id of the flow definition associated with the flow we are loading" />
     <aura:attribute name="builderType" type="String" description="Flow builder type: FlowBuilder, JourneyBuilder etc" />
-    <aura:attribute name="guardrailsParams" type="Map" default="{}" description="Params to execute guardrails" />
 
     <aura:attribute name="ready" type="Boolean" access="private" description="Flag used to render the editor." />
 
@@ -22,8 +21,8 @@
     <builder_platform_interaction:imageLib aura:id="imageLib"></builder_platform_interaction:imageLib>
 
     <aura:if isTrue="{!v.ready}">
-        <builder_platform_interaction:guardrailsManager>
-            <builder_platform_interaction:container flowId="{!v.flowId}" flowDefId="{!v.flowDefId}" builderType="{!v.builderType}" guardrailsParams="{!v.guardrailsParams}"></builder_platform_interaction:container>
+        <builder_platform_interaction:guardrailsManager consumerId="flowbuilder">
+            <builder_platform_interaction:container flowId="{!v.flowId}" flowDefId="{!v.flowDefId}" builderType="{!v.builderType}"></builder_platform_interaction:container>
         </builder_platform_interaction:guardrailsManager>
     </aura:if>
     

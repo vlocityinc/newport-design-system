@@ -1,12 +1,16 @@
 <aura:component description="Manager wrapper for docking panels in Flow Builder">
 	<aura:import library="analyzer_framework:utils" property="guardrailsUtils" />
 
+	<aura:attribute name="consumerId" type="String" description="Consumer name/shorthand to help maintain context for saving mute preference. If null, consumer is expected to handle mute preference via the onanalyzerframework_toggleguardrails event." />
+	
+	<aura:attribute name="mutePreference" type="Object" access="private" description="Stores reference to analyzer_framework mute preference object"/>
 	<aura:attribute name="guardrailsPanel" type="Aura.component" description="Saves reference of bottom guardrails panel" />
 	<aura:attribute name="count" type="Integer" default="0" description="Number of guardrails results" />
 	<aura:attribute name="items" type="List" default="[]" description="List of guardrails results" />
 	<aura:attribute name="isCreatingPanel" type="Boolean" default="false" access="private" description="If event to create panel has already been fired, we don't want to try and fire it again" />
 	<aura:attribute name="needToFocus" type="Boolean" default="false" access="private" description="If the next time the panel is created we need to push focus to it (i.e. in the case of unmuting)" />
 	
+	<aura:handler name="init" value="{!this}" action="{!c.init}"/>
 	<aura:handler name="guardrailsResult" event="visualEditor:guardrailsResult" action="{!c.handleGuardrailsResults}" includeFacets="true"/>
 	<div onanalyzerframework_toggleguardrails="{!c.handleToggleGuardrails}">
 		{!v.body}
