@@ -1,6 +1,7 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { booleanMatcher, containsMatcher, notEqualsMatcher } from './matchers';
 import { isAutomaticOutputElementWithoutChildren } from 'builder_platform_interaction/complexTypeLib';
+import { isRegionContainerField, isRegionField } from 'builder_platform_interaction/screenEditorUtils';
 
 export * from './matchers';
 
@@ -33,12 +34,17 @@ export const resourceFilter = pattern => {
         let result = false;
         if (obj.elementType === ELEMENT_TYPE.ROOT_ELEMENT || obj.elementType === ELEMENT_TYPE.END_ELEMENT) {
             result = false;
-        } else if (booleanMatcher(obj, 'isCanvasElement', false)) {
+        } else if (
+            booleanMatcher(obj, 'isCanvasElement', false) &&
+            !isRegionContainerField(obj) &&
+            !isRegionField(obj)
+        ) {
             result = true;
         } else if (booleanMatcher(obj, 'storeOutputAutomatically', true)) {
             // if fields have not been retrieved yet, consider it as a resource for now
             result = !isAutomaticOutputElementWithoutChildren(obj);
         }
+
         if (pattern) {
             result = result && containsMatcher(obj, 'name', pattern);
         }

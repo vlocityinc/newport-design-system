@@ -85,6 +85,22 @@ describe('resourceFilter', () => {
         expect(filter(element)).toEqual(false);
     });
 
+    it('excludes non canvas elements that are of fieldType Section', () => {
+        const filter = resourceFilter();
+        const element = {
+            fieldType: 'RegionContainer'
+        };
+        expect(filter(element)).toEqual(false);
+    });
+
+    it('excludes non canvas elements that are of fieldType Column', () => {
+        const filter = resourceFilter();
+        const element = {
+            fieldType: 'Region'
+        };
+        expect(filter(element)).toEqual(false);
+    });
+
     it('includes elements in automatic output handling mode', () => {
         const filter = resourceFilter();
         const element = {
