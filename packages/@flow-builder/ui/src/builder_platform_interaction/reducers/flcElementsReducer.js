@@ -14,19 +14,12 @@ import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import ffcElementsReducer from './elementsReducer';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+
 import { initializeChildren } from 'builder_platform_interaction/flcConversionUtils';
 
 import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
 
-import {
-    findLastElement,
-    findFirstElement,
-    FlcList,
-    addElementToState,
-    linkElement,
-    linkBranch
-} from 'builder_platform_interaction/flowUtils';
+import { linkElement, linkBranch, deleteElement, addElement } from 'builder_platform_interaction/flowUtils';
 
 /**
  * Helper function to handle select mode in the Fixed Layout Canvas. Iterates over all the elements
@@ -106,73 +99,14 @@ function _getElementFromActionPayload(payload) {
 
 function _addCanvasElement(state, action) {
     const element = _getElementFromActionPayload(action.payload);
-    const { parent, childIndex } = element;
-
-    addElementToState(element, state);
 
     if (supportsChildren(element)) {
         initializeChildren(element);
     }
 
-    if (parent) {
-        // if the element has a parent, make it the new branch head
-        const parentElement = state[parent];
-        linkBranch(state, parentElement, childIndex, element);
-    } else {
-        linkElement(state, element);
-    }
-
-    // when adding an end element, we might need to restructure things
-    if (action.type === ADD_END_ELEMENT) {
-        _restructureFlow(element, state);
-    }
+    addElement(state, element, action.type === ADD_END_ELEMENT);
 
     return state;
-}
-
-/**
- * When adding an end element we might need to restructure the flow
- * @param {Object} element - end element
- * @param {Object} state - current state of elements in the store
- */
-function _restructureFlow(element, state) {
-    const branchFirstElement = findFirstElement(element, state);
-    if (branchFirstElement.elementType === ELEMENT_TYPE.START_ELEMENT) {
-        // nothing to restructure
-        return;
-    }
-
-    // mark the branch as a terminal branch
-    branchFirstElement.isTerminal = true;
-
-    const parent = state[branchFirstElement.parent];
-    const children = parent.children;
-
-    // find the indexes of the non-terminal branches
-    // (there will always be at least one when adding an end element)
-    const nonTerminalBranchIndexes = children
-        .map((child, index) => (child == null || !state[child].isTerminal ? index : -1))
-        .filter(index => index !== -1);
-
-    if (nonTerminalBranchIndexes.length === 1) {
-        // we have one non-terminal branch, so we need to restructure
-        const [branchIndex] = nonTerminalBranchIndexes;
-        const branchHead = children[branchIndex];
-        const parentNext = state[parent.next];
-
-        const branchTail = branchHead && findLastElement(state[branchHead], state);
-
-        if (branchTail != null) {
-            //  reconnect the elements that follow the parent element to the tail of the branch
-            branchTail.next = parent.next;
-            linkElement(state, branchTail);
-        } else {
-            // its an empty branch, so make the elements that follow the parent element be the branch itself
-            parentNext.prev = null;
-            linkBranch(state, parent, branchIndex, parentNext);
-        }
-        parent.next = null;
-    }
 }
 
 /**
@@ -283,50 +217,9 @@ function _pasteOnFixedCanvas(
     return newState;
 }
 
-function _deleteElement(state, { payload }) {
-    const { selectedElements, childIndexToKeep = 0 } = payload;
-
-    selectedElements.forEach(element => {
-        const { prev, next, parent, childIndex } = element;
-
-        let nextElement;
-
-        // take care of linking tail of the branch to keep to the next element
-        if (supportsChildren(element) && childIndexToKeep != null) {
-            const headElement = state[element.children[childIndexToKeep]];
-            if (headElement && next) {
-                const tailElement = findLastElement(headElement, state);
-                tailElement.next = next;
-                linkElement(state, tailElement);
-            }
-            nextElement = headElement;
-        }
-
-        nextElement = nextElement || state[next];
-        const parentElement = state[parent];
-
-        if (parentElement) {
-            parentElement.children[childIndex] = null;
-            linkBranch(state, parentElement, childIndex, nextElement);
-        } else if (nextElement) {
-            nextElement.prev = prev;
-            linkElement(state, nextElement);
-        } else {
-            // we're deleting the last element in a branch
-            state[prev].next = null;
-        }
-
-        // now delete the elements that need to be deleted
-        delete state[element.guid];
-        if (supportsChildren(element)) {
-            element.children.forEach((child, i) => {
-                if (child != null && i !== childIndexToKeep) {
-                    new FlcList(state, child).forEach(listElement => delete state[listElement.guid]);
-                }
-            });
-        }
-    });
-
+function _deleteElements(state, { payload }) {
+    const { selectedElements, childIndexToKeep } = payload;
+    selectedElements.forEach(element => deleteElement(state, element, childIndexToKeep));
     return state;
 }
 
@@ -351,7 +244,7 @@ export default function elementsReducer(state = {}, action) {
             state = _addCanvasElement(state, action);
             break;
         case DELETE_ELEMENT:
-            state = _deleteElement(state, action);
+            state = _deleteElements(state, action);
             break;
         case SELECTION_ON_FIXED_CANVAS:
             state = _selectionOnFixedCanvas(

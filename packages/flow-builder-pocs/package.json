@@ -14,6 +14,7 @@
         "serve": "node src/demo-app/server.js",
         "watch": "yarn build:poc --watch",
         "start": "yarn serve",
+        "test": "jest --passWithNoTests",
         "test:poc": "jest src/demo-app/modules --config demo.jest.config.json",
         "test:poc:coverage": "jest --coverage src/demo-app/modules --config demo.jest.config.json",
         "docs:generate": "for filename in node_modules/biblio/templates/*.md; do pandoc docs/biblio.md --template $filename -t gfm -o docs/$(basename $filename); done"

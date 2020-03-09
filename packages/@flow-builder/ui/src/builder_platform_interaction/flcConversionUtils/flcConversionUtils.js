@@ -131,11 +131,8 @@ export function convertToFlc(ffcUiModel) {
  * @param {string} startElementGuid - the start element guid
  */
 export function addRootAndEndElements(storeInstance, startElementGuid) {
-    const endElement = createEndElement({ prev: startElementGuid });
-    const rootElement = createRootElement(startElementGuid);
-
-    storeInstance.dispatch(addElement(endElement));
-    storeInstance.dispatch(addElement(rootElement));
+    storeInstance.dispatch(addElement(createRootElement(startElementGuid)));
+    storeInstance.dispatch(addElement(createEndElement({ prev: startElementGuid })));
 }
 
 /**

@@ -1,0 +1,1 @@
+export default 'Trailblazer Community';
