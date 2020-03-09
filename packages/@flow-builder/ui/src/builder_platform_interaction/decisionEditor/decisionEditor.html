@@ -42,7 +42,8 @@
                         onclick={handleAddOutcome}
                         title={labels.addOutcomeButtonLabel}
                         alternative-text={labels.addOutcomeButtonLabel}
-                    ></lightning-button-icon>
+                    >
+                    </lightning-button-icon>
                 </div>
             </builder_platform_interaction-reorderable-vertical-navigation>
             <div class="slds-vertical-tabs__content slds-show slds-scrollable_y" role="tabpanel">
@@ -50,6 +51,7 @@
                     if:false={isDefaultOutcome}
                     outcome={activeOutcome}
                     show-delete={showDeleteOutcome}
+                    should-focus={shouldFocus}
                     ondeleteoutcome={handleDeleteOutcome}
                     onaddcondition={handleEvent}
                     ondeletecondition={handleEvent}

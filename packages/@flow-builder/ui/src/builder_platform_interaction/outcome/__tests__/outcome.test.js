@@ -37,7 +37,8 @@ const selectors = {
     conditionLogicComboBox: '.conditionLogic',
     customLogicInput: '.customLogic',
     removeButton: 'lightning-button.removeOutcome',
-    ferToFerovExpressionBuilder: 'builder_platform_interaction-fer-to-ferov-expression-builder'
+    ferToFerovExpressionBuilder: 'builder_platform_interaction-fer-to-ferov-expression-builder',
+    label: '.label'
 };
 
 jest.mock('builder_platform_interaction/conditionListUtils', () => {
@@ -170,6 +171,40 @@ describe('Outcome', () => {
             await ticks(1);
             const expressionBuilder = element.shadowRoot.querySelector(selectors.ferToFerovExpressionBuilder);
             expect(expressionBuilder.defaultOperator).toEqual(RULE_OPERATOR.EQUAL_TO);
+        });
+    });
+
+    describe('label description', () => {
+        it("should call input label's focus() when shouldFocus is true", async () => {
+            const element = createComponentUnderTest();
+            element.outcome = outcomeWithOneConditional;
+
+            const labelAndNameComponents = element.shadowRoot.querySelectorAll(selectors.labelAndName);
+            const inputLabel = labelAndNameComponents[0].shadowRoot.querySelector(selectors.label);
+            inputLabel.focus = jest.fn();
+
+            element.shouldFocus = true;
+
+            await ticks(1);
+            expect(labelAndNameComponents).toHaveLength(1);
+            expect(inputLabel).not.toBeNull();
+            expect(inputLabel.focus).toHaveBeenCalled();
+        });
+
+        it("should not call input label's focus() when shouldFocus is false", async () => {
+            const element = createComponentUnderTest();
+            element.outcome = outcomeWithOneConditional;
+
+            const labelAndNameComponents = element.shadowRoot.querySelectorAll(selectors.labelAndName);
+            const inputLabel = labelAndNameComponents[0].shadowRoot.querySelector(selectors.label);
+            inputLabel.focus = jest.fn();
+
+            element.shouldFocus = false;
+
+            await ticks(1);
+            expect(labelAndNameComponents).toHaveLength(1);
+            expect(inputLabel).not.toBeNull();
+            expect(inputLabel.focus).not.toHaveBeenCalled();
         });
     });
 });

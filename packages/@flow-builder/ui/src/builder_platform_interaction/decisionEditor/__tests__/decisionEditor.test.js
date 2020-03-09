@@ -45,7 +45,8 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
 const SELECTORS = {
     OUTCOME: 'builder_platform_interaction-outcome',
     REORDERABLE_NAV: 'builder_platform_interaction-reorderable-vertical-navigation',
-    DEFAULT_OUTCOME: 'builder_platform_interaction-label-description.defaultOutcome'
+    DEFAULT_OUTCOME: 'builder_platform_interaction-label-description.defaultOutcome',
+    ADD_OUTCOME_BUTTON: 'lightning-button-icon'
 };
 
 let decisionWithOneOutcome;
@@ -280,6 +281,30 @@ describe('Decision Editor', () => {
             const menuItems = reorderableOutcomeNav.menuItems;
 
             expect(menuItems[1].hasErrors).toBeTruthy();
+        });
+    });
+
+    describe('handleAddOutcome', () => {
+        it('should set shouldFocus to true when outcome component is not already displayed', async () => {
+            const decisionEditor = createComponentForTest(decisionWithOneOutcome);
+
+            await ticks(1);
+            const addButton = decisionEditor.shadowRoot.querySelector(SELECTORS.ADD_OUTCOME_BUTTON);
+            addButton.dispatchEvent(new CustomEvent('click'));
+
+            // renderedCallBack() will reset shouldFocus to false after ticks,
+            // promise is used to make sure we get shouldFocus's actual value after adding new outcome
+            return Promise.resolve().then(() => {
+                const outcome = decisionEditor.shadowRoot.querySelector(SELECTORS.OUTCOME);
+                expect(outcome.shouldFocus).toBe(true);
+            });
+        });
+        it('should set shouldFocus to false when outcome component is already displayed', async () => {
+            const decisionEditor = createComponentForTest(decisionWithOneOutcome);
+
+            await ticks(1);
+            const outcome = decisionEditor.shadowRoot.querySelector(SELECTORS.OUTCOME);
+            expect(outcome.shouldFocus).toBe(false);
         });
     });
 });

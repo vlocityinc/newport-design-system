@@ -35,6 +35,14 @@ export default class Outcome extends LightningElement {
         labelDescription.focus();
     }
 
+    @api shouldFocus;
+
+    renderedCallback() {
+        if (this.shouldFocus) {
+            this.focus();
+        }
+    }
+
     conditionLogicOptions = [
         {
             value: CONDITION_LOGIC.AND,

@@ -17,6 +17,7 @@ const DEFAULT_OUTCOME_ID = 'defaultOutcome';
 export default class DecisionEditor extends LightningElement {
     @track activeOutcomeId;
     @track decisionElement;
+    @track shouldFocus = false;
 
     labels = LABELS;
 
@@ -112,11 +113,16 @@ export default class DecisionEditor extends LightningElement {
 
         // Focus on the newly selected outcome ( focused the name/label field )
         const outcome = this.template.querySelector(SELECTORS.OUTCOME);
-        // TODO: correctly set focus even if the outcome component is not currently present
-        // See: https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000054X60IAE/view
+        // Set focus even if the outcome component is not currently present
         if (outcome) {
             outcome.focus();
         }
+        this.shouldFocus = true;
+    }
+
+    renderedCallback() {
+        // set the flag back to false to prevent focus incorrectly when child componenrts rerender
+        this.shouldFocus = false;
     }
 
     addOutcome() {
