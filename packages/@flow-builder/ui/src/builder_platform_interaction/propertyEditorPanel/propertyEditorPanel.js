@@ -34,7 +34,6 @@ export default class PropertyEditorPanel extends LightningElement {
     @track
     title;
 
-    @track
     ctor;
 
     @track messages = {};

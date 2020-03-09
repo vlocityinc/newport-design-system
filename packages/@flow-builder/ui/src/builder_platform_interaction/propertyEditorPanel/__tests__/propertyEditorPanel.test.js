@@ -11,19 +11,17 @@ import {
 } from 'builder_platform_interaction/events';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
-const createComponentUnderTest = props => {
-    return new Promise(resolve => {
-        const el = createElement('builder_platform_interaction-property-editor-panel', {
-            is: PropertyEditorPanel
-        });
+jest.mock('builder_platform_interaction/stageEditor', () => require('builder_platform_interaction_mocks/stageEditor'));
 
-        Object.assign(el, {}, props);
-        document.body.appendChild(el);
-
-        return ticks().then(() => {
-            resolve(el);
-        });
+const createComponentUnderTest = async props => {
+    const el = await createElement('builder_platform_interaction-property-editor-panel', {
+        is: PropertyEditorPanel
     });
+
+    Object.assign(el, {}, props);
+    document.body.appendChild(el);
+
+    return el;
 };
 
 describe('propertyEditorPanel', () => {
@@ -51,11 +49,10 @@ describe('propertyEditorPanel', () => {
                     },
                     attr: {
                         bodyComponent: {
-                            desc: 'builder_platform_interaction:assignmentEditor',
+                            desc: 'builder_platform_interaction:stageEditor',
+                            className: 'builder_platform_interaction/stageEditor',
                             attr: {
-                                node: {},
-                                mode: 'addelement',
-                                processType: 'someProcessType'
+                                mode: 'addelement'
                             }
                         }
                     }
@@ -63,26 +60,29 @@ describe('propertyEditorPanel', () => {
             };
         });
 
-        it('validates the component', () => {
-            return createComponentUnderTest(props).then(async component => {
-                ticks().then(() => {
-                    const propertyEditor = component.shadowRoot.querySelector('.inline-property-editor');
+        it('validates the component', async () => {
+            expect.assertions(1);
 
-                    propertyEditor.validate = jest.fn(() => {
-                        return [];
-                    });
+            const component = await createComponentUnderTest(props);
 
-                    const doneButton = component.shadowRoot.querySelector('.test-property-editor-footer-ok-button');
-                    doneButton.click();
-
-                    expect(propertyEditor.validate).toHaveBeenCalled();
+            return ticks().then(() => {
+                const propertyEditor = component.shadowRoot.querySelector('.inline-property-editor');
+                propertyEditor.validate = jest.fn(() => {
+                    return [];
                 });
+
+                const doneButton = component.shadowRoot.querySelector('.test-property-editor-footer-ok-button');
+                doneButton.click();
+
+                expect(propertyEditor.validate).toHaveBeenCalled();
             });
         });
 
         it('with validation errors does nothing', () => {
+            expect.assertions(1);
+
             return createComponentUnderTest(props).then(component => {
-                ticks().then(() => {
+                return ticks().then(() => {
                     const propertyEditor = component.shadowRoot.querySelector('.inline-property-editor');
                     propertyEditor.validate = jest.fn(() => {
                         return [0, 1];
@@ -100,11 +100,17 @@ describe('propertyEditorPanel', () => {
         });
 
         it('with no validation errors and add mode fires AddNodeEvent', () => {
+            expect.assertions(2);
+
             props.params.attr.bodyComponent.attr.mode = AddElementEvent.EVENT_NAME;
 
             return createComponentUnderTest(props).then(component => {
-                ticks().then(() => {
+                return ticks().then(() => {
                     const propertyEditor = component.shadowRoot.querySelector('.inline-property-editor');
+
+                    propertyEditor.validate = jest.fn(() => {
+                        return [];
+                    });
 
                     const mockNode = { a: 1 };
                     propertyEditor.getNode = jest.fn(() => {
@@ -129,11 +135,17 @@ describe('propertyEditorPanel', () => {
         });
 
         it('with no validation errors and update mode fires UpdateNodeEvent', () => {
+            expect.assertions(2);
+
             props.params.attr.bodyComponent.attr.mode = EditElementEvent.EVENT_NAME;
 
             return createComponentUnderTest(props).then(component => {
-                ticks().then(() => {
+                return ticks().then(() => {
                     const propertyEditor = component.shadowRoot.querySelector('.inline-property-editor');
+
+                    propertyEditor.validate = jest.fn(() => {
+                        return [];
+                    });
 
                     const mockNode = { a: 1 };
                     propertyEditor.getNode = jest.fn(() => {
