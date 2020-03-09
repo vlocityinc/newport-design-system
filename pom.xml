@@ -1,17 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-    xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <name>UI Interaction Builder Components</name>
     <modelVersion>4.0.0</modelVersion>
     <groupId>sfdc.ui</groupId>
     <artifactId>ui-interaction-builder-components</artifactId>
     <version>226-SNAPSHOT</version>
     <packaging>jar</packaging>
-      <properties>
-        <aura.version>0.6000.2560</aura.version>
+    <properties>
+        <aura.version>0.6000.2585</aura.version>
         <lwc.api.version>0.226.3</lwc.api.version>
-        <lwc.version>1.3.0</lwc.version>
+        <lwc.version>1.3.6</lwc.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 
@@ -342,6 +340,5 @@
                 </plugins>
             </build>
         </profile>
-     </profiles>
+    </profiles>
 </project>
-
