@@ -68,53 +68,54 @@
             </template>
 
             <template if:true={isGuardrailsEnabled}>
-                <lightning-button-menu
-                    label={labels.helpButtonText}
-                    icon-name="utility:help"
-                    menu-alignment="right"
-                    variant="bare-inverse"
-                    class="slds-builder-header__item-action slds-builder-header__utilities-item"
-                >
-                    <lightning-menu-item
-                        href={helpUrl}
-                        target="_blank"
-                        label={labels.helpText}
-                        onclick={handleClickHelp}
-                    ></lightning-menu-item>
-                    <lightning-menu-item
-                        label={labels.keyboardHelpText}
-                        onclick={handleClickKeyboardHelp}
-                    ></lightning-menu-item>
-                    <lightning-menu-item
-                        href={trailheadUrl}
-                        target="_blank"
-                        label={labels.trailheadText}
-                        onclick={handleClickTrailhead}
-                    ></lightning-menu-item>
-                    <lightning-menu-item
-                        href={trailblazerCommunityUrl}
-                        target="_blank"
-                        label={labels.trailblazerCommunityText}
-                        onclick={handleClickTrailblazerCommunity}
-                    ></lightning-menu-item>
+                <div class="slds-builder-header__utilities-item">
+                    <lightning-button-menu
+                        icon-name="utility:help"
+                        menu-alignment="right"
+                        variant="bare-inverse"
+                        class="slds-builder-header__item-action"
+                    >
+                        <lightning-menu-item
+                            href={helpUrl}
+                            target="_blank"
+                            label={labels.helpText}
+                            onclick={handleClickHelp}
+                        ></lightning-menu-item>
+                        <lightning-menu-item
+                            label={labels.keyboardHelpText}
+                            onclick={handleClickKeyboardHelp}
+                        ></lightning-menu-item>
+                        <lightning-menu-item
+                            href={trailheadUrl}
+                            target="_blank"
+                            label={labels.trailheadText}
+                            onclick={handleClickTrailhead}
+                        ></lightning-menu-item>
+                        <lightning-menu-item
+                            href={trailblazerCommunityUrl}
+                            target="_blank"
+                            label={labels.trailblazerCommunityText}
+                            onclick={handleClickTrailblazerCommunity}
+                        ></lightning-menu-item>
 
-                    <lightning-menu-divider></lightning-menu-divider>
+                        <lightning-menu-divider></lightning-menu-divider>
 
-                    <analyzer_framework-help-menu-item
-                        type="view"
-                        label={labels.viewGuardrailsText}
-                        count={guardrailsParams.count}
-                        running={guardrailsParams.running}
-                        onclick={handleClickViewGuardrails}
-                    ></analyzer_framework-help-menu-item>
-                    <analyzer_framework-help-menu-item
-                        type="mute"
-                        label={labels.muteGuardrailsText}
-                        unmute-label={labels.unmuteGuardrailsText}
-                        running={guardrailsParams.running}
-                        onclick={handleClickMuteGuardrails}
-                    ></analyzer_framework-help-menu-item>
-                </lightning-button-menu>
+                        <analyzer_framework-help-menu-item
+                            type="view"
+                            label={labels.viewGuardrailsText}
+                            count={guardrailsParams.count}
+                            running={guardrailsParams.running}
+                            onclick={handleClickViewGuardrails}
+                        ></analyzer_framework-help-menu-item>
+                        <analyzer_framework-help-menu-item
+                            type="mute"
+                            label={labels.muteGuardrailsText}
+                            unmute-label={labels.unmuteGuardrailsText}
+                            running={guardrailsParams.running}
+                            onclick={handleClickMuteGuardrails}
+                        ></analyzer_framework-help-menu-item>
+                    </lightning-button-menu>
+                </div>
             </template>
         </div>
     </div>
