@@ -1,5 +1,6 @@
 import { FlowDataProvider } from '../flowDataProvider/flowDataProvider';
 import { FLOW_PROPERTIES } from '../flowDataProvider/flow';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const flowModel = {
     name: 'flowName',
@@ -53,6 +54,10 @@ describe('dataprovider flow translation', () => {
             flowDataProvider.updateFlow(flowModel);
             const consumerProperties = flowDataProvider.provide()[0].consumerProperties;
             expect(consumerProperties.hasOwnProperty(FLOW_PROPERTIES.CONNECTOR_TARGETS)).toBe(true);
+            // Verify undefined start element name has been replaced with start type
+            expect(
+                consumerProperties[FLOW_PROPERTIES.CONNECTOR_TARGETS].hasOwnProperty(ELEMENT_TYPE.START_ELEMENT)
+            ).toBe(true);
         });
         describe('return metadata', () => {
             it('with start element', () => {
