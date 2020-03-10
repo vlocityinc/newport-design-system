@@ -9,7 +9,14 @@ import {
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { translateUIModelToFlow, swapUidsForDevNames } from 'builder_platform_interaction/translatorLib';
+import {
+    translateUIModelToFlow,
+    swapDevNamesToGuids,
+    swapUidsForDevNames
+} from 'builder_platform_interaction/translatorLib';
+import { createInputParameter } from 'builder_platform_interaction/elementFactory';
+import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { DynamicTypeMappingChangeEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { dehydrate, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { getFerovTypeFromTypeName, EXTENSION_PARAM_PREFIX } from 'builder_platform_interaction/screenEditorUtils';
@@ -148,12 +155,12 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         if (this._field && this._field.inputParameters && this._shouldCreateConfigurationEditor()) {
             const inputParameters = this._field.inputParameters
                 .filter(({ value }) => !!value)
-                .map(inputParameter => this._createInputParameter(inputParameter));
+                .map(inputParameter => createInputParameter(inputParameter));
             dehydrate(inputParameters);
             swapUidsForDevNames(Store.getStore().getCurrentState().elements, inputParameters);
             return inputParameters.map(({ name, value, valueDataType }) => ({
                 id: name,
-                value,
+                value: valueDataType === FEROV_DATA_TYPE.REFERENCE ? addCurlyBraces(value) : value,
                 dataType: valueDataType
             }));
         }
@@ -209,8 +216,19 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         }
 
         const inputParam = this.state && this.state.inputParameters.find(({ descriptor }) => descriptor.apiName === id);
-        const { isRequired, dataType } = inputParam && inputParam.descriptor;
-        this._updateInputParameter(id, value, getFerovTypeFromTypeName(valueDataType), dataType, isRequired);
+        const { isInput, isRequired, dataType } = inputParam && inputParam.descriptor;
+        const refValue = value;
+
+        const obj = {
+            id,
+            value,
+            valueDataType,
+            dataType,
+            isInput,
+            isRequired
+        };
+        swapDevNamesToGuids(Store.getStore().getCurrentState().elements, obj);
+        this._updateInputParameter({ ...obj, ...{ refValue } });
     }
 
     /**
@@ -240,15 +258,6 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         );
     }
 
-    _createInputParameter(inputParameter = {}) {
-        const { name = undefined, value = undefined, valueDataType = '' } = inputParameter;
-        return {
-            name,
-            value,
-            valueDataType
-        };
-    }
-
     _shouldCreateConfigurationEditor() {
         return (
             this.configurationEditor &&
@@ -257,19 +266,20 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         );
     }
 
-    _updateInputParameter(id, value, valueDataType, dataType, isRequired) {
+    _updateInputParameter(inputParamObj) {
+        const { id, value, refValue, valueDataType, dataType, isInput, isRequired } = inputParamObj;
+        const prefix = isInput ? EXTENSION_PARAM_PREFIX.INPUT : EXTENSION_PARAM_PREFIX.OUTPUT;
         const inputParam = this._field && this._field.inputParameters.find(({ name }) => name.value === id);
-
         const oldValue = { value: null, error: null };
         oldValue.value = inputParam ? inputParam.value.value : null;
-        const newValue = { value, error: null };
+        const newValue = { value: refValue, error: null };
 
         // By: screenReducer -> PropertyChangedEvent
         const event = new PropertyChangedEvent(
-            `${EXTENSION_PARAM_PREFIX.INPUT}.${id}`,
+            `${prefix}.${id}`,
             newValue,
             null,
-            null,
+            value,
             oldValue,
             undefined,
             valueDataType
