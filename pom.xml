@@ -7,9 +7,9 @@
     <version>226-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
-        <aura.version>0.6000.2585</aura.version>
-        <lwc.api.version>0.226.3</lwc.api.version>
-        <lwc.version>1.3.6</lwc.version>
+        <aura.version>0.6000.2589</aura.version>
+        <lwc.api.version>0.226.5</lwc.api.version>
+        <lwc.version>1.3.7</lwc.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 
@@ -104,8 +104,8 @@
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
-                 <execution>
-                    <id>copy-components</id>
+                    <execution>
+                        <id>copy-components</id>
                         <phase>process-resources</phase>
                         <goals>
                             <goal>copy-resources</goal>
@@ -115,10 +115,10 @@
                                 <resource>
                                     <directory>src/main/components</directory>
                                     <includes>
-                                          <include>**/*</include>
+                                        <include>**/*</include>
                                     </includes>
                                     <excludes>
-                                          <exclude>**/__tests__/*</exclude>
+                                        <exclude>**/__tests__/*</exclude>
                                     </excludes>
                                 </resource>
 
@@ -162,7 +162,7 @@
         </plugins>
     </build>
     <profiles>
-     <profile>
+        <profile>
             <!--
                 Generates compiled Aura components for inclusion in a JAR file.
                 This is triggered by setting the environment variable PRECOMPILE_COMPONENTS.
@@ -262,7 +262,7 @@
                 </plugins>
             </build>
         </profile>
-       <profile>
+        <profile>
             <!--
                 Generates compiled LWC components for inclusion in a JAR file.
                 This is triggered by setting the environment variable PRECOMPILE_COMPONENTS.
