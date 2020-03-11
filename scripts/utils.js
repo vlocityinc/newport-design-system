@@ -1,5 +1,26 @@
-const { resolve, join, relative } = require('path');
+const { resolve, join } = require('path');
+const chalk = require('chalk');
 const fs = require('fs');
+const xml2js = require('xml2js');
+const P4 = require('p4api').P4;
+const p4 = new P4();
+
+function getPomProperty(property, pomAsJson) {
+    return pomAsJson.project.properties[0][property][0];
+}
+
+async function getCorePomProperties() {
+    return p4.cmd('print -q //app/main/core/pom.xml').then(p4Response => getPropertiesFromPom(p4Response.data));
+}
+
+async function getPropertiesFromPom(pomXml) {
+    return xml2js.parseStringPromise(pomXml);
+}
+
+async function getProjectPomProperties() {
+    const pomXml = fs.readFileSync('pom.xml', 'utf-8');
+    return getPropertiesFromPom(pomXml);
+}
 
 function camelCase(s) {
     return s.replace(/-[a-zA-Z]/gi, match => {
@@ -63,6 +84,22 @@ function findAllPackages(currentDir) {
     return pkgs;
 }
 
+function checkP4Env() {
+    const { P4PORT, P4USER, P4CLIENT } = process.env;
+    const valid = P4PORT && P4USER && P4CLIENT;
+    if (!valid) {
+        console.log(
+            chalk.red(
+                'Perforce setup is invalid. Check your P4 environment variables (P4PORT, P4USER, P4CLIENT) are set.'
+            )
+        );
+        process.exit(1);
+    }
+    return valid;
+}
+
+const POM_PROPERTIES_TO_CHECK = ['lwc.api.version', 'aura.version', 'lwc.version'];
+
 module.exports = {
     camelCase,
     deleteFolder,
@@ -71,5 +108,10 @@ module.exports = {
     printWarning,
     printError,
     isPackage,
-    findAllPackages
+    findAllPackages,
+    getPomProperty,
+    getCorePomProperties,
+    getProjectPomProperties,
+    POM_PROPERTIES_TO_CHECK,
+    checkP4Env
 };
