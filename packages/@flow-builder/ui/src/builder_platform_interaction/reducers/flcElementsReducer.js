@@ -1,4 +1,5 @@
 import {
+    ADD_START_ELEMENT,
     ADD_CANVAS_ELEMENT,
     ADD_DECISION_WITH_OUTCOMES,
     ADD_SCREEN_WITH_FIELDS,
@@ -14,12 +15,28 @@ import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import ffcElementsReducer from './elementsReducer';
-
-import { initializeChildren } from 'builder_platform_interaction/flcConversionUtils';
-
+import { createEndElement } from 'builder_platform_interaction/elementFactory';
+import { initializeChildren, createRootElement } from 'builder_platform_interaction/flcConversionUtils';
 import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
 
-import { linkElement, linkBranch, deleteElement, addElement } from 'builder_platform_interaction/flowUtils';
+import {
+    addElementToState,
+    linkElement,
+    linkBranch,
+    deleteElement,
+    addElement
+} from 'builder_platform_interaction/flowUtils';
+
+/**
+ * Adds a root and end element for a new flow
+ * @param {Object} elements - the store elements
+ * @param {string} startElementGuid - the start element guid
+ */
+function addRootAndEndElements(elements, startElementGuid) {
+    addElementToState(createRootElement(startElementGuid), elements);
+    linkElement(elements, createEndElement({ prev: startElementGuid }));
+    return elements;
+}
 
 /**
  * Helper function to handle select mode in the Fixed Layout Canvas. Iterates over all the elements
@@ -235,6 +252,9 @@ export default function elementsReducer(state = {}, action) {
     state = deepCopy(ffcElementsReducer(state, action));
 
     switch (action.type) {
+        case ADD_START_ELEMENT:
+            state = addRootAndEndElements(state, action.payload.guid);
+            break;
         case ADD_CANVAS_ELEMENT:
         case ADD_SCREEN_WITH_FIELDS:
         case ADD_DECISION_WITH_OUTCOMES:

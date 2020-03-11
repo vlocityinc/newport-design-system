@@ -1,9 +1,8 @@
 import { ElementType } from 'builder_platform_interaction/flowUtils';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { addElement } from 'builder_platform_interaction/actions';
 import { createEndElement, createConnector } from 'builder_platform_interaction/elementFactory';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
-import { supportsChildren, isRootOrEndElement } from 'builder_platform_interaction/flcBuilderUtils';
+import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
 
 import { linkBranch, addElementToState, linkElement } from 'builder_platform_interaction/flowUtils';
 
@@ -17,6 +16,13 @@ const flcExtraProps = ['next', 'prev', 'children', 'parent', 'childIndex', 'isTe
 
 export function isFixedLayoutCanvas(startElement) {
     return startElement.locationY === LOCATION_Y_FLC_FLOW;
+}
+
+/**
+ * @return true if an elementType is root or end
+ */
+function isRootOrEndElement({ elementType }) {
+    return elementType === ELEMENT_TYPE.END_ELEMENT || elementType === ELEMENT_TYPE.ROOT_ELEMENT;
 }
 
 function getChildReferencesKey(parentElement) {
@@ -66,7 +72,7 @@ function createElementHelper(elementType, guid) {
  * Creates a root element and links it with the start element
  * @param {string} startElementGuid
  */
-const createRootElement = (startElementGuid = null) => {
+export const createRootElement = (startElementGuid = null) => {
     return {
         ...createElementHelper(ELEMENT_TYPE.ROOT_ELEMENT, ElementType.ROOT),
         children: [startElementGuid]
@@ -123,16 +129,6 @@ export function convertToFlc(ffcUiModel) {
     fixFlcProperties(ffcUiModel, startElement, rootElement);
 
     return { elements, canvasElements: [], connectors: [] };
-}
-
-/**
- * Adds a root and end element for a new flow
- * @param {Object} storeInstance - the storeInstance
- * @param {string} startElementGuid - the start element guid
- */
-export function addRootAndEndElements(storeInstance, startElementGuid) {
-    storeInstance.dispatch(addElement(createRootElement(startElementGuid)));
-    storeInstance.dispatch(addElement(createEndElement({ prev: startElementGuid })));
 }
 
 /**

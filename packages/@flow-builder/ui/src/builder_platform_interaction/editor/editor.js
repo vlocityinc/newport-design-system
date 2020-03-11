@@ -109,7 +109,6 @@ import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
 import { getTriggerType } from 'builder_platform_interaction/storeUtils';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
-import { addRootAndEndElements } from 'builder_platform_interaction/flcConversionUtils';
 
 let unsubscribeStore;
 let storeInstance;
@@ -1430,11 +1429,7 @@ export default class Editor extends LightningElement {
         const payload = { processType };
         storeInstance.dispatch(updatePropertiesAfterCreatingFlowFromProcessType(payload));
 
-        const startElement = createStartElement(storeInstance, triggerType);
-
-        if (useFixedLayoutCanvas()) {
-            addRootAndEndElements(storeInstance, startElement.guid);
-        }
+        createStartElement(storeInstance, triggerType);
 
         this.disableSave = false;
     };

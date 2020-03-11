@@ -25,8 +25,6 @@ import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDa
 import { setUseFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 import { canUserVAD, orgHasFlowBuilderGuardrails, useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
-import { getFlcElementType } from 'builder_platform_interaction/flcBuilderUtils';
-import { ElementType } from 'builder_platform_interaction/flowUtils';
 import { getElementSections } from 'builder_platform_interaction/editorElementsUtils';
 
 const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
@@ -722,40 +720,8 @@ export function getElementsMetadata(toolboxElements) {
                 icon: iconName,
                 elementType,
                 value: elementType, // TODO: FLC remove this property and just use elementType
-                type: getFlcElementType(elementType),
                 description
             });
         });
     });
-
-    const startElement = getConfigForElementType(ELEMENT_TYPE.START_ELEMENT);
-    const endElement = getConfigForElementType(ELEMENT_TYPE.END_ELEMENT);
-
-    return elementsMetadata.concat([
-        {
-            section: null,
-            type: ElementType.ROOT,
-            icon: '',
-            label: '',
-            elementType: ELEMENT_TYPE.ROOT_ELEMENT,
-            value: ELEMENT_TYPE.ROOT_ELEMENT
-        },
-        {
-            section: endElement.nodeConfig.section,
-            icon: endElement.nodeConfig.iconName,
-            description: endElement.nodeConfig.description,
-            label: endElement.labels.singular,
-            value: ELEMENT_TYPE.END_ELEMENT,
-            elementType: ELEMENT_TYPE.END_ELEMENT,
-            type: getFlcElementType(ELEMENT_TYPE.END_ELEMENT)
-        },
-        {
-            section: null,
-            icon: startElement.nodeConfig.iconName,
-            label: startElement.labels.singular,
-            value: ELEMENT_TYPE.START_ELEMENT,
-            elementType: ELEMENT_TYPE.START_ELEMENT,
-            type: getFlcElementType(ELEMENT_TYPE.START_ELEMENT)
-        }
-    ]);
 }

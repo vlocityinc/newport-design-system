@@ -278,13 +278,6 @@ export const getCanvasElementDeselectionDataOnToggleOff = (flowModel, topSelecte
 };
 
 /**
- * @return true if an elementType is root or end
- */
-export function isRootOrEndElement({ elementType }) {
-    return elementType === ELEMENT_TYPE.END_ELEMENT || elementType === ELEMENT_TYPE.ROOT_ELEMENT;
-}
-
-/**
  * @return true iff an element can have children
  */
 export function supportsChildren({ elementType }) {

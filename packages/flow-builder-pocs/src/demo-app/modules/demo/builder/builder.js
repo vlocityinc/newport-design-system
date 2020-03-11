@@ -4,7 +4,6 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { AddElementEvent, DeleteElementEvent } from 'builder_platform_interaction/events';
 import { addElement, updateFlow, deleteElements } from 'builder_platform_interaction/actions';
 import { reducer } from 'builder_platform_interaction/reducers';
-import { addRootAndEndElements } from 'builder_platform_interaction/flcConversionUtils';
 import { getElementForStore, getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createStartElement, createEndElement } from 'builder_platform_interaction/elementFactory';
@@ -59,17 +58,13 @@ export default class Builder extends LightningElement {
         super();
 
         storeInstance = Store.getStore(reducer);
-        addRootAndEndElements(storeInstance, this.createStartElement().guid);
+        this.createStartElement();
 
         this.handleLoad();
-
-        //   console.log(collectionVariableSingularLabel);
     }
 
     createStartElement() {
-        const startElement = createStartElement();
-        storeInstance.dispatch(addElement(startElement));
-        return startElement;
+        storeInstance.dispatch(addElement(createStartElement()));
     }
 
     handleAddElement(addEvent) {

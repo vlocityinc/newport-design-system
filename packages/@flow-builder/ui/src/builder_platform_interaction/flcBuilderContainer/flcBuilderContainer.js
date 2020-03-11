@@ -1,6 +1,46 @@
 import { LightningElement, api, track } from 'lwc';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import { getFlcElementType } from 'builder_platform_interaction/flcBuilderUtils';
+
+function augmentElementsMetadata(elementsMetadata) {
+    const startElement = getConfigForElementType(ELEMENT_TYPE.START_ELEMENT);
+    const endElement = getConfigForElementType(ELEMENT_TYPE.END_ELEMENT);
+
+    elementsMetadata = elementsMetadata.map(metadata => ({
+        ...metadata,
+        type: getFlcElementType(metadata.elementType)
+    }));
+
+    return elementsMetadata.concat([
+        {
+            section: null,
+            icon: '',
+            label: '',
+            elementType: ELEMENT_TYPE.ROOT_ELEMENT,
+            value: ELEMENT_TYPE.ROOT_ELEMENT,
+            type: getFlcElementType(ELEMENT_TYPE.ROOT_ELEMENT)
+        },
+        {
+            section: endElement.nodeConfig.section,
+            icon: endElement.nodeConfig.iconName,
+            description: endElement.nodeConfig.description,
+            label: endElement.labels.singular,
+            value: ELEMENT_TYPE.END_ELEMENT,
+            elementType: ELEMENT_TYPE.END_ELEMENT,
+            type: getFlcElementType(ELEMENT_TYPE.END_ELEMENT)
+        },
+        {
+            section: null,
+            icon: startElement.nodeConfig.iconName,
+            label: startElement.labels.singular,
+            value: ELEMENT_TYPE.START_ELEMENT,
+            elementType: ELEMENT_TYPE.START_ELEMENT,
+            type: getFlcElementType(ELEMENT_TYPE.START_ELEMENT)
+        }
+    ]);
+}
 
 let storeInstance;
 
@@ -11,8 +51,16 @@ let storeInstance;
  * listens to the store, passing on the updated state when there are updates.
  */
 export default class FlcBuilderContainer extends LightningElement {
+    _elementsMetadata;
+
     @api
-    elementsMetadata;
+    set elementsMetadata(elementsMetadata) {
+        this._elementsMetadata = augmentElementsMetadata(elementsMetadata);
+    }
+
+    get elementsMetadata() {
+        return this._elementsMetadata;
+    }
 
     @api
     isPasteAvailable;
