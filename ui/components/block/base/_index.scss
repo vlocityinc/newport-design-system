@@ -58,11 +58,17 @@
   }
 
   // block indentation
-  label[vlc-slds-toggle='toggle']~div[vlc-slds-toggle-elem='visible'],
-  .nds-block_container>label~.nds-block_body {
+  label[vlc-slds-toggle='toggle']~div[vlc-slds-toggle-elem='visible'] {
     font-size: 1rem;
     padding-top: 1.5rem;
     font-weight: 300;
+    padding-#{$left}: 1.5625rem;
+    color: $color-midnight-blue;
+  }
+
+  // LWC block indentation
+  .nds-block_container>label~.nds-block_body {
+    padding-top: 1.5rem;
     padding-#{$left}: 1.5625rem;
     color: $color-midnight-blue;
   }
@@ -86,8 +92,7 @@
     opacity: 0;
   }
 
-  label[vlc-slds-toggle='toggle']~div[vlc-slds-toggle-cust-elem='visible'],
-  .nds-block_container>label~.nds-block_body {
+  label[vlc-slds-toggle='toggle']~div[vlc-slds-toggle-cust-elem='visible'] {
     padding-top: 1.5rem;
     padding-#{$left}: 2.5rem;
     max-height: 1000rem;
@@ -100,6 +105,14 @@
       margin-bottom: 0.5rem;
       padding-top: 0;
     }
+  }
+
+  .nds-block_container>label~.nds-block_body {
+    padding-top: 1.5rem;
+    padding-#{$left}: 2.5rem;
+    max-height: 1000rem;
+    opacity: 1;
+    transition: opacity 1s, max-height 1s ease-in;
   }
 
   .nds-control-action__container span[disabled='disabled'] {
