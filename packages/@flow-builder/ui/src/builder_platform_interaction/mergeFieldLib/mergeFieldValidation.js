@@ -210,7 +210,8 @@ export class MergeFieldsValidation {
         // if element is not present in store get element from screen variable as it may have been
         // just created and not yet committed to store (user hasn't pressed 'Done' yet)
         const element =
-            getElementByDevName(mergeFieldReferenceValue) || this._getUncommittedElement(mergeFieldReferenceValue);
+            getElementByDevName(mergeFieldReferenceValue) ||
+            this._getUncommittedElement(getScreenElement(), mergeFieldReferenceValue);
 
         if (!element) {
             return [validationErrors.unknownResource(mergeFieldReferenceValue, index, endIndex)];
@@ -229,12 +230,22 @@ export class MergeFieldsValidation {
         return [];
     }
 
-    _getUncommittedElement(referenceValue) {
-        const screen = getScreenElement();
-        if (screen && screen.fields) {
-            return screen.fields.find(field => {
-                return field.name.value === referenceValue;
-            });
+    _getUncommittedElement(screen, referenceValue) {
+        if (!screen || !referenceValue) {
+            return null;
+        }
+        if (screen.fields) {
+            const fields = screen.fields;
+            for (let i = 0; i < fields.length; i++) {
+                const field = fields[i];
+                if (field.name.value === referenceValue) {
+                    return field;
+                }
+                const foundField = this._getUncommittedElement(field, referenceValue);
+                if (foundField) {
+                    return foundField;
+                }
+            }
         }
         return null;
     }
@@ -437,7 +448,7 @@ export class MergeFieldsValidation {
     }
 
     _getElement(elementName) {
-        return getElementByDevName(elementName) || this._getUncommittedElement(elementName);
+        return getElementByDevName(elementName) || this._getUncommittedElement(getScreenElement(), elementName);
     }
 
     _validateComplexTypeFieldMergeField(mergeFieldReferenceValue, index) {

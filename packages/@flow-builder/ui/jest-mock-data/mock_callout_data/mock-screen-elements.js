@@ -61,6 +61,147 @@ export const mockScreenElement = {
                 category: 'Display',
                 type: 'String'
             }
+        },
+        {
+            elementType: 'SCREEN_FIELD',
+            fieldType: 'RegionContainer',
+            guid: 'region-container-1',
+            isNewField: true,
+            isRequired: false,
+            isVisible: undefined,
+            name: {
+                value: 'Screen_Section1',
+                error: null
+            },
+            type: {
+                name: 'Section',
+                fieldType: 'RegionContainer',
+                label: 'Section',
+                icon: 'standard:display_text',
+                category: 'Display'
+            },
+            fields: [
+                {
+                    elementType: 'SCREEN_FIELD',
+                    fieldType: 'Region',
+                    guid: 'region-container-1-region-1',
+                    isNewField: true,
+                    isRequired: false,
+                    isVisible: undefined,
+                    name: {
+                        value: 'Screen_Section1_Column1',
+                        error: null
+                    },
+                    type: {
+                        name: 'Column',
+                        fieldType: 'Region'
+                    },
+                    fields: [
+                        {
+                            elementType: 'SCREEN_FIELD',
+                            fieldType: 'InputField',
+                            guid: 'region-container-1-region-1-input-field-1',
+                            isNewField: true,
+                            isRequired: false,
+                            isVisible: undefined,
+                            name: {
+                                value: 'section1Column1Text1',
+                                error: null
+                            },
+                            type: {
+                                name: 'TextBox',
+                                fieldType: 'InputField',
+                                dataType: 'String',
+                                label: 'Text',
+                                icon: 'standard:textbox',
+                                category: 'Input',
+                                type: 'String'
+                            }
+                        },
+                        {
+                            elementType: 'SCREEN_FIELD',
+                            fieldType: 'InputField',
+                            guid: 'region-container-1-region-1-input-field-2',
+                            isNewField: true,
+                            isRequired: false,
+                            isVisible: undefined,
+                            name: {
+                                value: 'section1Column1Text2',
+                                error: null
+                            },
+                            type: {
+                                name: 'TextBox',
+                                fieldType: 'InputField',
+                                dataType: 'String',
+                                label: 'Text',
+                                icon: 'standard:textbox',
+                                category: 'Input',
+                                type: 'String'
+                            }
+                        }
+                    ]
+                },
+                {
+                    elementType: 'SCREEN_FIELD',
+                    fieldType: 'Region',
+                    guid: 'region-container-1-region-2',
+                    isNewField: true,
+                    isRequired: false,
+                    isVisible: undefined,
+                    name: {
+                        value: 'Screen_Section1_Column2',
+                        error: null
+                    },
+                    type: {
+                        name: 'Column',
+                        fieldType: 'Region'
+                    },
+                    fields: [
+                        {
+                            elementType: 'SCREEN_FIELD',
+                            fieldType: 'InputField',
+                            guid: 'region-container-1-region-2-input-field-1',
+                            isNewField: true,
+                            isRequired: false,
+                            isVisible: undefined,
+                            name: {
+                                value: 'section1Column2Text1',
+                                error: null
+                            },
+                            type: {
+                                name: 'TextBox',
+                                fieldType: 'InputField',
+                                dataType: 'String',
+                                label: 'Text',
+                                icon: 'standard:textbox',
+                                category: 'Input',
+                                type: 'String'
+                            }
+                        },
+                        {
+                            elementType: 'SCREEN_FIELD',
+                            fieldType: 'InputField',
+                            guid: 'region-container-1-region-2-input-field-2',
+                            isNewField: true,
+                            isRequired: false,
+                            isVisible: undefined,
+                            name: {
+                                value: 'section1Column2Text2',
+                                error: null
+                            },
+                            type: {
+                                name: 'TextBox',
+                                fieldType: 'InputField',
+                                dataType: 'String',
+                                label: 'Text',
+                                icon: 'standard:textbox',
+                                category: 'Input',
+                                type: 'String'
+                            }
+                        }
+                    ]
+                }
+            ]
         }
     ]
 };

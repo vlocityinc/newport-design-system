@@ -129,11 +129,33 @@ function getFilterInformation(config = {}) {
  * Add uncommitted elements to the list of elements retrieved from store
  * */
 function addUncommittedElementsFromLocalStorage(elements) {
-    const screen = getScreenElement();
-    if (screen && screen.fields) {
-        elements = elements.concat(screen.fields.filter(field => field.isNewField && field.name.value !== ''));
+    const screenElements = flattenElements(getScreenElement());
+    if (screenElements && screenElements.length > 0) {
+        elements = elements.concat(screenElements);
     }
     return elements;
+}
+
+/**
+ * Flatten and retrieve all the nested screen field elements from the screen element
+ * @param {Object} screenElement screen element from store
+ * @returns {array} all nested screen field elements
+ */
+export function flattenElements(screenElement) {
+    if (!screenElement) {
+        return [];
+    }
+    const screenElements = [];
+    const fields = screenElement.fields;
+    if (fields) {
+        fields.forEach(field => {
+            if (field && field.isNewField && field.name.value !== '') {
+                screenElements.push(field);
+            }
+            screenElements.push(...flattenElements(field));
+        });
+    }
+    return screenElements;
 }
 
 /**

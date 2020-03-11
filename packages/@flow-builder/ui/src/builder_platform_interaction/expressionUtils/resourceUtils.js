@@ -79,7 +79,7 @@ export const getResourceByUniqueIdentifier = identifier => {
             getElementByGuid(complexGuid.guidOrLiteral) ||
             getGlobalConstantOrSystemVariable(identifier) ||
             getGlobalVariable(identifier) ||
-            getUncommittedResource(complexGuid.guidOrLiteral) ||
+            getUncommittedResource(getScreenElement(), complexGuid.guidOrLiteral) ||
             (isRecordSystemVariableIdentifier(complexGuid.guidOrLiteral) &&
                 getElementByDevName(complexGuid.guidOrLiteral))
         );
@@ -89,12 +89,22 @@ export const getResourceByUniqueIdentifier = identifier => {
 
 // Check if the resource has been added to the screen in the current session.
 // Such a resource will not be present in the source so we need to check in the screen attribute
-export function getUncommittedResource(identifier) {
-    screen = getScreenElement();
-    if (screen && screen.fields) {
-        return screen.fields.find(field => {
-            return field.guid === identifier;
-        });
+export function getUncommittedResource(screenElement, identifier) {
+    if (!screenElement) {
+        return null;
+    }
+    if (screenElement.fields) {
+        const fields = screenElement.fields;
+        for (let i = 0; i < fields.length; i++) {
+            const field = fields[i];
+            if (field.guid === identifier) {
+                return field;
+            }
+            const foundField = getUncommittedResource(field, identifier);
+            if (foundField) {
+                return foundField;
+            }
+        }
     }
     return null;
 }

@@ -1,4 +1,4 @@
-import { getStoreElements } from '../storeElementsFilter';
+import { getStoreElements, flattenElements } from '../storeElementsFilter';
 import * as store from 'mock/storeData';
 import { getScreenElement } from '../resourceUtils';
 import { mockScreenElement } from 'mock/calloutData';
@@ -58,7 +58,8 @@ describe('get store elements', () => {
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: false
         });
-        expect(menuData).toHaveLength(4);
+
+        expect(menuData.length).toBeGreaterThan(10);
     });
     it('Should rely on sobject selector if sobject selector config is set', () => {
         expect(
@@ -67,6 +68,23 @@ describe('get store elements', () => {
             })
         ).toEqual(mockSobjectElement);
     });
+    it('Should return all nested screen field elements when flatten the screen element', () => {
+        getScreenElement.mockReturnValue(mockScreenElement);
+        const elements = flattenElements(getScreenElement());
+        expect(elements).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ guid: 'e1b88c4a-1a78-42d2-8057-93e2401bbdd4' }),
+                expect.objectContaining({ guid: 'region-container-1' }),
+                expect.objectContaining({ guid: 'region-container-1-region-1' }),
+                expect.objectContaining({ guid: 'region-container-1-region-2' }),
+                expect.objectContaining({ guid: 'region-container-1-region-1-input-field-1' }),
+                expect.objectContaining({ guid: 'region-container-1-region-1-input-field-2' }),
+                expect.objectContaining({ guid: 'region-container-1-region-2-input-field-1' }),
+                expect.objectContaining({ guid: 'region-container-1-region-2-input-field-2' })
+            ])
+        );
+    });
+
     describe('CLUD elements', () => {
         beforeAll(() => {
             mockReadableSelectorValue = undefined;

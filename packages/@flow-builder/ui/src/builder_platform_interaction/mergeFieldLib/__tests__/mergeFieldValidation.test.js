@@ -551,6 +551,40 @@ describe('Merge field validation', () => {
         });
     });
     describe('Elements', () => {
+        describe('Validate merge field with uncommitted elements', () => {
+            it('Return no validation error when it references a screen field element without any children fields', () => {
+                const validationErrors = validateMergeField('{!dt1}');
+                expect(validationErrors).toHaveLength(0);
+            });
+            it('Return no validation error when it references a screen field element as the first child field in section 1 and column 1', () => {
+                const validationErrors = validateMergeField('{!section1Column1Text1}');
+                expect(validationErrors).toHaveLength(0);
+            });
+            it('Return no validation error when it references a screen field element as the second child fields in section 1 and column 1', () => {
+                const validationErrors = validateMergeField('{!section1Column1Text2}');
+                expect(validationErrors).toHaveLength(0);
+            });
+            it('Return no validation error when it references a screen field element as the first child field in section 1 and column 2', () => {
+                const validationErrors = validateMergeField('{!section1Column2Text1}');
+                expect(validationErrors).toHaveLength(0);
+            });
+            it('Return no validation error when it references a screen field element as the second child fields in section 1 and column 2', () => {
+                const validationErrors = validateMergeField('{!section1Column2Text2}');
+                expect(validationErrors).toHaveLength(0);
+            });
+            it('Return a validation error when it references a screen field element that does not exist in screen store element', () => {
+                const validationErrors = validateMergeField('{!invalidSectionColumnText}');
+                expect(validationErrors).toEqual([
+                    validationError(
+                        2,
+                        25,
+                        'unknownMergeField',
+                        `The "invalidSectionColumnText" resource doesn't exist in this flow.`
+                    )
+                ]);
+            });
+        });
+
         it('Returns no validation error when it references a canvas element', () => {
             const validationErrors = validateMergeField('{!actionCall1}');
             expect(validationErrors).toHaveLength(0);

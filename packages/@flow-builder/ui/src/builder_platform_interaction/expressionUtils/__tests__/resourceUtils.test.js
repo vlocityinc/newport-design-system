@@ -2,6 +2,7 @@ import {
     normalizeFEROV,
     populateLhsStateForField,
     getResourceByUniqueIdentifier,
+    getUncommittedResource,
     getFerovInfoAndErrorFromEvent,
     checkExpressionForDeletedElem,
     EXPRESSION_PROPERTY_TYPE,
@@ -236,6 +237,62 @@ describe('ResourceUtils', () => {
             const retrievedResource = getResourceByUniqueIdentifier('e1b88c4a-1a78-42d2-8057-93e2401bbdd4');
             expect(retrievedResource.name.value).toEqual('dt1');
             setScreenElement(undefined);
+        });
+    });
+
+    describe('getUncommittedResource', () => {
+        it('should return an element from uncommitted resource when the identifier is equal to the guid of a screen field without any children fields', () => {
+            const retrievedUncommittedResource = getUncommittedResource(
+                mockScreenElement,
+                'e1b88c4a-1a78-42d2-8057-93e2401bbdd4'
+            );
+            expect(retrievedUncommittedResource.name.value).toEqual('dt1');
+        });
+        it('should return an element from uncommitted resource when the identifier is equal to the guid of a section screen field', () => {
+            const retrievedUncommittedResource = getUncommittedResource(mockScreenElement, 'region-container-1');
+            expect(retrievedUncommittedResource.name.value).toEqual('Screen_Section1');
+        });
+        it('should return an element from uncommitted resource when the identifier is equal to the guid of a column 1 screen field in a section', () => {
+            const retrievedUncommittedResource = getUncommittedResource(
+                mockScreenElement,
+                'region-container-1-region-1'
+            );
+            expect(retrievedUncommittedResource.name.value).toEqual('Screen_Section1_Column1');
+        });
+        it('should return an element from uncommitted resource when the identifier is equal to the guid of a column 2 screen field in a section', () => {
+            const retrievedUncommittedResource = getUncommittedResource(
+                mockScreenElement,
+                'region-container-1-region-2'
+            );
+            expect(retrievedUncommittedResource.name.value).toEqual('Screen_Section1_Column2');
+        });
+        it('should return an element from uncommitted resource when the identifier is equal to the guid of a screen field as the first child field in section 1 and column 1', () => {
+            const retrievedUncommittedResource = getUncommittedResource(
+                mockScreenElement,
+                'region-container-1-region-1-input-field-1'
+            );
+            expect(retrievedUncommittedResource.name.value).toEqual('section1Column1Text1');
+        });
+        it('should return an element from uncommitted resource when the identifier is equal to the guid of a screen field as the second child field in section 1 and column 1', () => {
+            const retrievedUncommittedResource = getUncommittedResource(
+                mockScreenElement,
+                'region-container-1-region-1-input-field-2'
+            );
+            expect(retrievedUncommittedResource.name.value).toEqual('section1Column1Text2');
+        });
+        it('should return an element from uncommitted resource when the identifier is equal to the guid of a screen field as the first child field in section 1 and column 2', () => {
+            const retrievedUncommittedResource = getUncommittedResource(
+                mockScreenElement,
+                'region-container-1-region-2-input-field-1'
+            );
+            expect(retrievedUncommittedResource.name.value).toEqual('section1Column2Text1');
+        });
+        it('should return an element from uncommitted resource when the identifier is equal to the guid of a screen field as the second child field in section 1 and column 2', () => {
+            const retrievedUncommittedResource = getUncommittedResource(
+                mockScreenElement,
+                'region-container-1-region-2-input-field-2'
+            );
+            expect(retrievedUncommittedResource.name.value).toEqual('section1Column2Text2');
         });
     });
 
