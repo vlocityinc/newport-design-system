@@ -51,7 +51,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 function sortCanvasElementsAndConnectors({ elements, canvasElements, connectors }) {
     canvasElements.sort();
     connectors = connectors
-        .sort((a, b) => a.guid < b.guid)
+        .sort((a, b) => b.guid.localeCompare(a.guid))
         .map(connector => {
             if (connector.childSource == null) {
                 delete connector.childSource;
