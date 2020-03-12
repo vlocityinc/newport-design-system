@@ -108,7 +108,8 @@ export const mergeWithInputOutputParameters = (state, inputOutputParameters) => 
 };
 
 /**
- * merge the input/output assignments in original node with all of the input/output variables
+ * merge the input/output assignments in original node with all of the input/output variables.
+ * If the subflow has no outputs then the property storeOutputAutomatically is set to false.
  * @param {Object} state the original node
  * @param {FlowInputOutputVariablesVersion[]} inputOutputVariables the input/output variables
  * @return {Object} the updated node
@@ -123,6 +124,11 @@ export const mergeWithInputOutputVariables = (state, inputOutputVariables) => {
         inputAssignments: inputs,
         outputAssignments: outputs
     });
+
+    if (state.storeOutputAutomatically && outputs.length === 0) {
+        state = updateProperties(state, { storeOutputAutomatically: false });
+    }
+
     return state;
 };
 

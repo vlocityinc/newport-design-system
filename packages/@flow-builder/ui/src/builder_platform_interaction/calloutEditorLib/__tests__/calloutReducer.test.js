@@ -1,7 +1,6 @@
-import { mergeWithInputOutputParameters } from '../calloutEditorLib';
-import { emailAlertOnAccount } from 'mock/storeData';
+import { mergeWithInputOutputParameters, mergeWithInputOutputVariables } from '../calloutEditorLib';
 import { chatterPostActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
-import { actionCallAutomaticOutput } from 'mock/storeData';
+import { actionCallAutomaticOutput, emailAlertOnAccount, subflowAutomaticOutput } from 'mock/storeData';
 
 describe('mergeWithInputOutputParameters', () => {
     it('sets "storeOutputAutomatically" from true to false if no output parameters', () => {
@@ -28,5 +27,16 @@ describe('mergeWithInputOutputParameters', () => {
         };
         const newState = mergeWithInputOutputParameters(currentState, chatterPostActionDetails.parameters);
         expect(newState.storeOutputAutomatically).toBe(true);
+    });
+});
+
+describe('mergeWithInputOutputVariables', () => {
+    it('sets "storeOutputAutomatically" from true to false for subflow if no output parameters', () => {
+        const currentState = {
+            ...subflowAutomaticOutput,
+            storeOutputAutomatically: true
+        };
+        const newState = mergeWithInputOutputVariables(currentState, []);
+        expect(newState.storeOutputAutomatically).toBe(false);
     });
 });
