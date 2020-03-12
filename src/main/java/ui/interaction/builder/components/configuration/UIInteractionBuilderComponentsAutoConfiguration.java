@@ -35,7 +35,8 @@ class UIInteractionBuilderComponentLocator extends ComponentLocationAdapter.Impl
          * folder two parents up.
          */
         private static final File moduleRootFolder = new File(UIInteractionBuilderComponentsAutoConfiguration.class
-                        .getProtectionDomain().getCodeSource().getLocation().getPath()).getParentFile().getParentFile();
+                        .getProtectionDomain().getCodeSource().getLocation().getPath()).getParentFile().getParentFile()
+                                        .getParentFile();
 
         /**
          * Gets a module-relative folder given a path.
