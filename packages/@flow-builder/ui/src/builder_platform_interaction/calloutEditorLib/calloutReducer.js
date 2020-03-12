@@ -58,18 +58,18 @@ export const updateParameterItem = (state, param) => {
     return state;
 };
 
-export const updateInputParameterItemConfigurationEditor = (state, { id, newValueDataType, newValue }, elements) => {
-    if (!id) {
-        throw new Error('id is not defined');
+export const updateInputParameterItemConfigurationEditor = (
+    state,
+    { name: propertyName, newValueDataType: valueDataType, newValue: value },
+    elements
+) => {
+    if (!propertyName) {
+        throw new Error('property name is not defined');
     }
 
-    const valueDataType = newValueDataType ? newValueDataType : null;
-    const value = newValue ? newValue : null;
-
-    const { rowIndex } = state.inputParameters.find(({ name }) => name === id) || {};
-
+    const { rowIndex } = state.inputParameters.find(({ name }) => name === propertyName) || {};
     if (!rowIndex) {
-        throw new Error(`'${id}' parameter does not exist in the input parameter list`);
+        throw new Error(`'${propertyName}' parameter does not exist in the input parameter list`);
     }
 
     const obj = {

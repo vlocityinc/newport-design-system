@@ -1,6 +1,5 @@
 import { api, LightningElement, unwrap } from 'lwc';
 import { createConfigurationEditor } from 'builder_platform_interaction/builderUtils';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
 
 const CONFIGURATION_EDITOR_SELECTOR = '.configuration-editor';
@@ -8,11 +7,10 @@ const CUSTOM_PROPERTY_EDITOR = 'CUSTOM_PROPERTY_EDITOR';
 
 export default class CustomPropertyEditor extends LightningElement {
     /** Private variables */
-    _id = generateGuid();
     _isComponentCreated = false;
-    _property = [];
-    _flowContext = {};
-    _values = [];
+    _elementInfo = {};
+    _builderContext = {};
+    _inputVariables = [];
     _unrenderFn;
     _createComponentErrors = [];
 
@@ -21,48 +19,48 @@ export default class CustomPropertyEditor extends LightningElement {
     configurationEditor;
 
     @api
-    set flowContext(context) {
-        this._flowContext = context ? unwrap(context) : {};
+    set elementInfo(info) {
+        this._elementInfo = info ? unwrap(info) : {};
         if (this._isComponentCreated) {
             const configurationEditorTemplate = this.getConfigurationEditorTemplate();
             if (configurationEditorTemplate) {
-                configurationEditorTemplate.flowContext = this._flowContext;
+                configurationEditorTemplate.elementInfo = this._elementInfo;
             }
         }
     }
 
-    get flowContext() {
-        return this._flowContext;
+    get elementInfo() {
+        return this._elementInfo;
     }
 
     @api
-    set configurationEditorProperties(properties) {
-        this._property = properties ? unwrap(properties) : [];
+    set builderContext(context) {
+        this._builderContext = context ? unwrap(context) : {};
         if (this._isComponentCreated) {
             const configurationEditorTemplate = this.getConfigurationEditorTemplate();
             if (configurationEditorTemplate) {
-                configurationEditorTemplate.property = this._property;
+                configurationEditorTemplate.builderContext = this._builderContext;
             }
         }
     }
 
-    get configurationEditorProperties() {
-        return this._property;
+    get builderContext() {
+        return this._builderContext;
     }
 
     @api
-    set configurationEditorValues(values) {
-        this._values = values ? unwrap(values) : [];
+    set configurationEditorInputVariables(inputVariables) {
+        this._inputVariables = inputVariables ? unwrap(inputVariables) : [];
         if (this._isComponentCreated) {
             const configurationEditorTemplate = this.getConfigurationEditorTemplate();
             if (configurationEditorTemplate) {
-                configurationEditorTemplate.values = this._values;
+                configurationEditorTemplate.inputVariables = this._inputVariables;
             }
         }
     }
 
-    get configurationEditorValues() {
-        return this._values;
+    get configurationEditorInputVariables() {
+        return this._inputVariables;
     }
 
     /** Public methods */
@@ -169,10 +167,9 @@ export default class CustomPropertyEditor extends LightningElement {
             successCallback,
             errorCallback,
             attr: {
-                flowContext: this.flowContext,
-                id: this._id,
-                property: this.configurationEditorProperties,
-                values: this.configurationEditorValues
+                elementInfo: this.elementInfo,
+                builderContext: this.builderContext,
+                inputVariables: this.configurationEditorInputVariables
             }
         };
         this._unrenderFn = createConfigurationEditor(params);

@@ -298,25 +298,9 @@ export default class InvocableActionEditor extends LightningElement {
     }
 
     /**
-     * Returns the list of input parameters and their properties
-     *
-     * @readonly
-     * @memberof InvocableActionEditor
-     */
-    get configurationEditorProperties() {
-        if (this._shouldCreateConfigurationEditor()) {
-            return (
-                this.invocableActionParametersDescriptor &&
-                this.invocableActionParametersDescriptor.filter(({ isInput }) => isInput)
-            );
-        }
-        return [];
-    }
-
-    /**
      * Returns the current flow state. Shape is same as flow metadata.
      */
-    get flowContext() {
+    get builderContext() {
         if (this._shouldCreateConfigurationEditor()) {
             const flow = translateUIModelToFlow(Store.getStore().getCurrentState());
             const {
@@ -353,12 +337,23 @@ export default class InvocableActionEditor extends LightningElement {
     }
 
     /**
-     * Returns the values for configuration editor
+     * Returns the information about the action element in which the configurationEditor is defined
+     */
+    get elementInfo() {
+        const actionInfo = { apiName: '', type: 'Action' };
+        if (this.actionCallNode) {
+            actionInfo.apiName = this.actionCallNode.actionName;
+        }
+        return actionInfo;
+    }
+
+    /**
+     * Returns the input variables for configuration editor
      * filter the input parameters with value from actioncall node and create a new copy
      * Dehydrate the new copy of input parameter and swap the guids with dev names
      * then convert it into desired shape
      */
-    get configurationEditorValues() {
+    get configurationEditorInputVariables() {
         if (
             this.invocableActionParametersDescriptor &&
             this.actionCallNode &&
@@ -370,9 +365,9 @@ export default class InvocableActionEditor extends LightningElement {
             dehydrate(inputParameters);
             swapUidsForDevNames(Store.getStore().getCurrentState().elements, inputParameters);
             return inputParameters.map(({ name, value, valueDataType }) => ({
-                id: name,
+                name,
                 value,
-                dataType: valueDataType
+                valueDataType
             }));
         }
         return [];

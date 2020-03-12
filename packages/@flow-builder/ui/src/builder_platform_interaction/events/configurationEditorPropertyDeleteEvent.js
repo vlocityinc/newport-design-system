@@ -1,4 +1,4 @@
-const eventName = 'valuedeleted';
+const eventName = 'configurationeditorinputvaluedeleted';
 /**
  * This event can be used by partner teams to
  * notify invocable action editor regarding to
@@ -8,13 +8,13 @@ const eventName = 'valuedeleted';
  * @class ConfigurationEditorPropertyDeleteEvent
  */
 export class ConfigurationEditorPropertyDeleteEvent {
-    constructor(id) {
+    constructor(name) {
         return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
             detail: {
-                id, // In case of actions, it is parameter name
+                name, // In case of actions, it is parameter name
                 newValue: null,
                 newValueDataType: null
             }

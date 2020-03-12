@@ -1,7 +1,6 @@
 import CustomPropertyEditor from '../customPropertyEditor';
 import { createElement } from 'lwc';
 import { createConfigurationEditor } from 'builder_platform_interaction/builderUtils';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -14,48 +13,20 @@ jest.mock('builder_platform_interaction/builderUtils', () => ({
     createConfigurationEditor: jest.fn()
 }));
 
-const mockConfgurationEditorProperties = [
-    {
-        apexClass: null,
-        dataType: 'string',
-        description: 'Optional. The org-wide email address to be used as the sender.',
-        durableId: 'emailSimple-emailSimple-input-senderAddress',
-        id: null,
-        isInput: true,
-        isOutput: false,
-        isRequired: false,
-        isSystemGeneratedOutput: false,
-        label: 'Sender Address',
-        maxOccurs: 1,
-        name: 'senderAddress',
-        sobjectType: null
-    },
-    {
-        apexClass: null,
-        dataType: 'string',
-        description: 'desc2',
-        durableId: 'emailSimple-emailSimple-input-senderAddress',
-        id: null,
-        isInput: true,
-        isOutput: false,
-        isRequired: false,
-        isSystemGeneratedOutput: false,
-        label: 'name',
-        maxOccurs: 1,
-        name: 'testname',
-        sobjectType: null
-    }
-];
+const mockElementInfo = {
+    apiName: 'CreateTask',
+    type: 'Action'
+};
 
-const mockConfigurationEditorValues = [
+const mockConfigurationEditorInputVariables = [
     {
-        id: 'names',
+        name: 'names',
         value: 'Hello World',
-        dataType: 'string'
+        valueDataType: 'string'
     }
 ];
 
-const mockFlowContext = {
+const mockBuilderContext = {
     variables: []
 };
 
@@ -67,34 +38,26 @@ function createComponentForTest(props) {
 }
 
 describe('Custom Property Editor', () => {
-    it('renders and calls generateGuid', () => {
-        const storeLib = require('builder_platform_interaction_mocks/storeLib');
-        storeLib.generateGuid = jest.fn().mockReturnValue('mockGuid');
+    it('gets the correct element info from the proxy ', () => {
+        const cpe = createComponentForTest();
+        const proxy = new Proxy(mockElementInfo, {});
+        cpe.elementInfo = proxy;
 
-        const cpe = createComponentForTest();
-        expect(cpe).toBeDefined();
-        expect(generateGuid).toHaveBeenCalled();
+        expect(cpe.elementInfo).toMatchObject(mockElementInfo);
     });
-    it('gets the correct properties from the proxy ', () => {
+    it('gets the correct input variables from the proxy ', () => {
         const cpe = createComponentForTest();
-        const proxy = new Proxy(mockConfgurationEditorProperties, {});
-        cpe.configurationEditorProperties = proxy;
-
-        expect(cpe.configurationEditorProperties).toMatchObject(mockConfgurationEditorProperties);
-    });
-    it('gets the correct values from the proxy ', () => {
-        const cpe = createComponentForTest();
-        const proxy = new Proxy(mockConfigurationEditorValues, []);
+        const proxy = new Proxy(mockConfigurationEditorInputVariables, []);
         cpe.configurationEditorValues = proxy;
 
-        expect(cpe.configurationEditorValues).toMatchObject(mockConfigurationEditorValues);
+        expect(cpe.configurationEditorValues).toMatchObject(mockConfigurationEditorInputVariables);
     });
-    it('gets the correct flow context from the proxy ', () => {
+    it('gets the correct builder context from the proxy ', () => {
         const cpe = createComponentForTest();
-        const proxy = new Proxy(mockFlowContext, {});
-        cpe.flowContext = proxy;
+        const proxy = new Proxy(mockBuilderContext, {});
+        cpe.builderContext = proxy;
 
-        expect(cpe.flowContext).toMatchObject(mockFlowContext);
+        expect(cpe.builderContext).toMatchObject(mockBuilderContext);
     });
     it('creates the config editor when there is data and a configuration editor ', async () => {
         const cpe = createComponentForTest({
@@ -104,8 +67,8 @@ describe('Custom Property Editor', () => {
             }
         });
 
-        const proxy = new Proxy(mockConfgurationEditorProperties, {});
-        cpe.configurationEditorProperties = proxy;
+        const proxy = new Proxy(mockConfigurationEditorInputVariables, {});
+        cpe.configurationEditorInputVariables = proxy;
 
         await ticks(1);
         expect(createConfigurationEditor).toHaveBeenCalled();
@@ -113,8 +76,8 @@ describe('Custom Property Editor', () => {
     it('does not create a config editor when there is no configuration editor ', async () => {
         const cpe = createComponentForTest();
 
-        const proxy = new Proxy(mockConfgurationEditorProperties, {});
-        cpe.configurationEditorProperties = proxy;
+        const proxy = new Proxy(mockConfigurationEditorInputVariables, {});
+        cpe.configurationEditorInputVariables = proxy;
 
         await ticks(1);
         expect(createConfigurationEditor).not.toHaveBeenCalled();
@@ -127,8 +90,8 @@ describe('Custom Property Editor', () => {
             }
         });
 
-        const proxy = new Proxy(mockConfgurationEditorProperties, {});
-        cpe.configurationEditorProperties = proxy;
+        const proxy = new Proxy(mockConfigurationEditorInputVariables, {});
+        cpe.configurationEditorInputVariables = proxy;
 
         await ticks(1);
         expect(createConfigurationEditor).not.toHaveBeenCalled();

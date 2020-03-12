@@ -1,4 +1,4 @@
-const eventName = 'valuechanged';
+const eventName = 'configurationeditorinputvaluechanged';
 
 /**
  * This event can be used by partner teams to notify invocable action editor regarding a new value of an input parameter
@@ -7,13 +7,13 @@ const eventName = 'valuechanged';
  * @class ConfigurationEditorChangeEvent
  */
 export class ConfigurationEditorChangeEvent {
-    constructor(id, newValue, newValueDataType) {
+    constructor(name, newValue, newValueDataType) {
         return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
             detail: {
-                id, // In case of actions, it is parameter name
+                name, // In case of actions, it is parameter name
                 newValue,
                 newValueDataType
             }

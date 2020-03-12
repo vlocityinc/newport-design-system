@@ -63,10 +63,16 @@ export default class ParameterList extends LightningElement {
     configurationEditor;
 
     /**
-     * Flow Context for CPE
+     * Information about the action element in which the configurationEditor is defined
      */
     @api
-    flowContext;
+    elementInfo;
+
+    /**
+     * Builder Context for CPE
+     */
+    @api
+    builderContext;
 
     /**
      * List of input ParameterItem
@@ -177,14 +183,8 @@ export default class ParameterList extends LightningElement {
     @api
     warnings = {};
 
-    /**
-     * Custom Property Editor Properties
-     */
     @api
-    configurationEditorProperties;
-
-    @api
-    configurationEditorValues;
+    configurationEditorInputVariables;
 
     @api
     validate() {

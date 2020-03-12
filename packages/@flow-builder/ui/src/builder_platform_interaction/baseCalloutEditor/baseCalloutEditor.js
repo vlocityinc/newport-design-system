@@ -25,7 +25,7 @@ export default class BaseCalloutEditor extends LightningElement {
     subtitle;
 
     @api
-    flowContext;
+    builderContext;
 
     labels = LABELS;
 
@@ -120,14 +120,11 @@ export default class BaseCalloutEditor extends LightningElement {
         return this.labels.learnMore;
     }
 
-    /**
-     * Custom Property Editor Attributes
-     */
     @api
-    configurationEditorProperties;
+    elementInfo;
 
     @api
-    configurationEditorValues;
+    configurationEditorInputVariables;
 
     @api
     validate() {

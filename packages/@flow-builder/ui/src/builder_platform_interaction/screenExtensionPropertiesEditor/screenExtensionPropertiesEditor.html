@@ -32,9 +32,10 @@
                     <builder_platform_interaction-custom-property-editor
                         if:true={hasConfigurationEditor}
                         configuration-editor={configurationEditor}
-                        configuration-editor-values={configurationEditorValues}
-                        flow-context={flowContext}
-                        onvaluechanged={handleCpePropertyChangeEvent}
+                        element-info={elementInfo}
+                        configuration-editor-input-variables={configurationEditorInputVariables}
+                        builder-context={builderContext}
+                        onconfigurationeditorinputvaluechanged={handleCpePropertyChangeEvent}
                     >
                     </builder_platform_interaction-custom-property-editor>
 

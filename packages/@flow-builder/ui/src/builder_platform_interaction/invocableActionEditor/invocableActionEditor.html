@@ -1,12 +1,12 @@
 <template>
     <builder_platform_interaction-base-callout-editor
         configuration-editor={configurationEditor}
-        configuration-editor-properties={configurationEditorProperties}
-        configuration-editor-values={configurationEditorValues}
+        configuration-editor-input-variables={configurationEditorInputVariables}
         display-spinner={displaySpinner}
         type-mappings={dataTypeMappings}
+        element-info={elementInfo}
         element-type={elementType}
-        flow-context={flowContext}
+        builder-context={builderContext}
         hide-parameters={hideParameters}
         label-description-config={actionCallNode}
         parameter-list-config={parameterListConfig}
@@ -17,8 +17,8 @@
         ondeleteparameteritem={handleEvent}
         onuseadvancedoptionsselectionchanged={handleAdvancedOptionsSelectionChange}
         ondynamictypemappingchange={handleDataTypeMappingChanged}
-        onvaluechanged={handleEvent}
-        onvaluedeleted={handleEvent}
+        onconfigurationeditorinputvaluechanged={handleEvent}
+        onconfigurationeditorinputvaluedeleted={handleEvent}
     >
     </builder_platform_interaction-base-callout-editor>
 </template>

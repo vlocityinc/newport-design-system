@@ -15,8 +15,6 @@ import {
     swapUidsForDevNames
 } from 'builder_platform_interaction/translatorLib';
 import { createInputParameter } from 'builder_platform_interaction/elementFactory';
-import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { DynamicTypeMappingChangeEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { dehydrate, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { getFerovTypeFromTypeName, EXTENSION_PARAM_PREFIX } from 'builder_platform_interaction/screenEditorUtils';
@@ -146,12 +144,23 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
     }
 
     /**
-     * Returns the values for configuration editor
+     * Returns the information about the screen LWC in which the configurationEditor is defined
+     */
+    get elementInfo() {
+        const screenInfo = { apiName: '', type: 'Screen' };
+        if (this._field) {
+            screenInfo.apiName = this._field.extensionName && this._field.extensionName.value;
+        }
+        return screenInfo;
+    }
+
+    /**
+     * Returns list of input variables for configuration editor
      * filter the input parameters with value from flow extension and create a new copy
      * Dehydrate the new copy of input parameter and swap the guids with dev names
      * then convert it into desired shape
      */
-    get configurationEditorValues() {
+    get configurationEditorInputVariables() {
         if (this._field && this._field.inputParameters && this._shouldCreateConfigurationEditor()) {
             const inputParameters = this._field.inputParameters
                 .filter(({ value }) => !!value)
@@ -159,9 +168,9 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
             dehydrate(inputParameters);
             swapUidsForDevNames(Store.getStore().getCurrentState().elements, inputParameters);
             return inputParameters.map(({ name, value, valueDataType }) => ({
-                id: name,
-                value: valueDataType === FEROV_DATA_TYPE.REFERENCE ? addCurlyBraces(value) : value,
-                dataType: valueDataType
+                name,
+                value,
+                valueDataType
             }));
         }
         return [];
@@ -170,7 +179,7 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
     /**
      * Returns the current flow state. Shape is same as flow metadata.
      */
-    get flowContext() {
+    get builderContext() {
         if (this._shouldCreateConfigurationEditor()) {
             const flow = translateUIModelToFlow(Store.getStore().getCurrentState());
             const {
@@ -210,17 +219,18 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
      */
     handleCpePropertyChangeEvent(event) {
         event.stopPropagation();
-        const { id, newValueDataType: valueDataType, newValue: value } = event && event.detail;
-        if (!id) {
-            throw new Error('id is not defined');
+        const { name: propertyName, newValueDataType: valueDataType, newValue: value } = event && event.detail;
+        if (!propertyName) {
+            throw new Error('property name is not defined');
         }
 
-        const inputParam = this.state && this.state.inputParameters.find(({ descriptor }) => descriptor.apiName === id);
+        const inputParam =
+            this.state && this.state.inputParameters.find(({ descriptor }) => descriptor.apiName === propertyName);
         const { isInput, isRequired, dataType } = inputParam && inputParam.descriptor;
         const refValue = value;
 
         const obj = {
-            id,
+            propertyName,
             value,
             valueDataType,
             dataType,
@@ -267,16 +277,16 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
     }
 
     _updateInputParameter(inputParamObj) {
-        const { id, value, refValue, valueDataType, dataType, isInput, isRequired } = inputParamObj;
+        const { propertyName, value, refValue, valueDataType, dataType, isInput, isRequired } = inputParamObj;
         const prefix = isInput ? EXTENSION_PARAM_PREFIX.INPUT : EXTENSION_PARAM_PREFIX.OUTPUT;
-        const inputParam = this._field && this._field.inputParameters.find(({ name }) => name.value === id);
+        const inputParam = this._field && this._field.inputParameters.find(({ name }) => name.value === propertyName);
         const oldValue = { value: null, error: null };
         oldValue.value = inputParam ? inputParam.value.value : null;
         const newValue = { value: refValue, error: null };
 
         // By: screenReducer -> PropertyChangedEvent
         const event = new PropertyChangedEvent(
-            `${prefix}.${id}`,
+            `${prefix}.${propertyName}`,
             newValue,
             null,
             value,
