@@ -166,6 +166,43 @@ export function createScreenField(screenField = {}, isNewField = false) {
 }
 
 /**
+ * Recursively created duplicated screen fields using the fieldReferences property on a given screen field
+ * @param {Object} screenField - Screen Field in Store
+ * @param {Object []} originalFieldReferences - FieldReferences of a given screen
+ * @param {Object []} duplicatedScreenFields - Contains duplicated screen field objects (The guid, name and fieldReferences are updated in baseElement)
+ */
+function _getDuplicatedNestedScreenFields(screenField, originalFieldReferences, duplicatedScreenFields) {
+    let newScreenField = createScreenField(screenField);
+    if (originalFieldReferences) {
+        newScreenField = Object.assign(newScreenField, {
+            fieldReferences: originalFieldReferences
+        });
+
+        for (let i = 0; i < originalFieldReferences.length; i++) {
+            const screenFieldReference = originalFieldReferences[i];
+            const nestedScreenField = getElementByGuid(screenFieldReference.fieldReference);
+            _getDuplicatedNestedScreenFields(
+                nestedScreenField,
+                nestedScreenField.fieldReferences,
+                duplicatedScreenFields
+            );
+        }
+    }
+
+    duplicatedScreenFields.push(newScreenField);
+}
+
+/**
+ * Function to get all the duplicated screen fields (including the nested ones)
+ * @param {Object} screenField - Screen Field in Store
+ */
+export function createDuplicateNestedScreenFields(screenField = {}) {
+    const duplicatedScreenFields = [];
+    _getDuplicatedNestedScreenFields(screenField, screenField.fieldReferences, duplicatedScreenFields);
+    return duplicatedScreenFields;
+}
+
+/**
  * Called when opening a property editor or copying a screen element. We are taking all the field
  * references and converting them into full fledged field objects.
  * @param {screenFieldInStore} screenField

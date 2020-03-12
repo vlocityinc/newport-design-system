@@ -148,13 +148,28 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
 jest.mock('builder_platform_interaction/elementConfig', () => {
     return {
         getConfigForElementType: jest.fn().mockImplementation(elementType => {
-            return elementType === 'START_ELEMENT'
-                ? {
-                      canBeDuplicated: false,
-                      isDeletable: false,
-                      nodeConfig: { isSelectable: false }
-                  }
-                : {};
+            if (elementType === 'START_ELEMENT') {
+                return {
+                    canBeDuplicated: false,
+                    isDeletable: false,
+                    nodeConfig: { isSelectable: false }
+                };
+            } else if (elementType === 'Decision') {
+                return {
+                    childReferenceKey: {
+                        singular: 'outcomeReference',
+                        plural: 'outcomeReferences'
+                    }
+                };
+            } else if (elementType === 'Screen') {
+                return {
+                    childReferenceKey: {
+                        singular: 'fieldReference',
+                        plural: 'fieldReferences'
+                    }
+                };
+            }
+            return {};
         })
     };
 });
@@ -661,6 +676,66 @@ describe('Editor Utils Test', () => {
                 childElementGuidMap,
                 unduplicatedCanvasElementsGuids
             };
+            expect(getDuplicateElementGuidMaps(canvasElementsInStore, elementsInStore)).toEqual(res);
+        });
+
+        it('includes nested screen fields in the childElementGuidMap', () => {
+            const canvasElementsInStore = ['guid1', 'guid2'];
+            const elementsInStore = {
+                guid1: {
+                    config: { isSelected: true, isHighlighted: false },
+                    connectorCount: 0,
+                    elementType: ELEMENT_TYPE.DECISION,
+                    guid: 'guid1',
+                    isCanvasElement: true,
+                    outcomeReferences: [{ outcomeReference: 'guid3' }]
+                },
+                guid2: {
+                    config: { isSelected: true, isHighlighted: false },
+                    connectorCount: 0,
+                    elementType: ELEMENT_TYPE.SCREEN,
+                    guid: 'guid2',
+                    isCanvasElement: true,
+                    fieldReferences: [{ fieldReference: 'guid4' }, { fieldReference: 'guid5' }]
+                },
+                guid3: {
+                    guid: 'guid3'
+                },
+                guid4: {
+                    guid: 'guid4',
+                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    fieldReferences: [{ fieldReference: 'guid6' }]
+                },
+                guid5: {
+                    guid: 'guid5'
+                },
+                guid6: {
+                    guid: 'guid6',
+                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    fieldReferences: [{ fieldReference: 'guid7' }]
+                },
+                guid7: {
+                    guid: 'guid7'
+                }
+            };
+
+            const childElementGuidMap = {
+                guid3: 'rand_guid',
+                guid4: 'rand_guid',
+                guid5: 'rand_guid',
+                guid6: 'rand_guid',
+                guid7: 'rand_guid'
+            };
+
+            const res = {
+                canvasElementGuidMap: {
+                    guid1: 'rand_guid',
+                    guid2: 'rand_guid'
+                },
+                childElementGuidMap,
+                unduplicatedCanvasElementsGuids: []
+            };
+
             expect(getDuplicateElementGuidMaps(canvasElementsInStore, elementsInStore)).toEqual(res);
         });
     });

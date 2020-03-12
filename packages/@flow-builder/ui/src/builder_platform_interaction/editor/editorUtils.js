@@ -424,13 +424,38 @@ export const getPasteElementGuidMaps = (cutOrCopiedCanvasElements, cutOrCopiedCh
 };
 
 /**
+ * Recursively finds the nested child elements in a screen field and updates the childElementGuidMap
+ *
+ * @param {String} childElementGuid - Guid of a given child element
+ * @param {Object} elementsInStore - Current state of elements in store
+ * @param {Object} childElementGuidMap - Contains a map of childElementGuid -> duplicateChildElementGuid
+ */
+const addNestedChildElementsToGuidMap = (childElementGuid, elementsInStore, childElementGuidMap) => {
+    const screenField = elementsInStore[childElementGuid];
+    for (let i = 0; i < screenField.fieldReferences.length; i++) {
+        childElementGuidMap[screenField.fieldReferences[i].fieldReference] = generateGuid();
+
+        if (elementsInStore[screenField.fieldReferences[i].fieldReference].fieldReferences) {
+            addNestedChildElementsToGuidMap(
+                screenField.fieldReferences[i].fieldReference,
+                elementsInStore,
+                childElementGuidMap
+            );
+        }
+    }
+
+    return childElementGuidMap;
+};
+
+/**
  * Iterates over the childReferences array present in the canvas element and uses it to create childElementGuidMap.
  *
  * @param {Object} canvasElement - canvas element being duplicated
+ * @param {Object} elementsInStore - Current state of elements in store
  * @returns {Object} childElementGuidMap - Map of child element guids to newly generated guids that will be used for
  * the duplicated child elements
  */
-const setupChildElementGuidMap = canvasElement => {
+const setupChildElementGuidMap = (canvasElement, elementsInStore) => {
     if (!canvasElement) {
         throw new Error('canvasElement is not defined');
     }
@@ -438,14 +463,24 @@ const setupChildElementGuidMap = canvasElement => {
     const elementConfig = canvasElement.elementType && getConfigForElementType(canvasElement.elementType);
     const childReferenceKey = elementConfig && elementConfig.childReferenceKey;
 
-    const childElementGuidMap = {};
+    let childElementGuidMap = {};
     const childReferenceArray =
         childReferenceKey && childReferenceKey.plural && canvasElement[childReferenceKey.plural];
 
     if (childReferenceArray && childReferenceKey.singular) {
         for (let i = 0; i < childReferenceArray.length; i++) {
             const childReferenceObject = childReferenceArray[i];
-            childElementGuidMap[childReferenceObject[childReferenceKey.singular]] = generateGuid();
+            const childElementGuid = childReferenceObject[childReferenceKey.singular];
+            childElementGuidMap[childElementGuid] = generateGuid();
+
+            // Adding nested screen fields to the childElementGuidMap
+            if (elementsInStore[childElementGuid].fieldReferences) {
+                childElementGuidMap = addNestedChildElementsToGuidMap(
+                    childElementGuid,
+                    elementsInStore,
+                    childElementGuidMap
+                );
+            }
         }
     }
 
@@ -483,7 +518,7 @@ export const getDuplicateElementGuidMaps = (canvasElementsInStore, elementsInSto
             if (hasChildElements) {
                 childElementGuidMap = {
                     ...childElementGuidMap,
-                    ...setupChildElementGuidMap(canvasElement)
+                    ...setupChildElementGuidMap(canvasElement, elementsInStore)
                 };
             }
         } else if (isSelected(canvasElement)) {

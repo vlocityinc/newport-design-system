@@ -291,6 +291,101 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
         });
     });
 
+    describe('When nested child elements are present', () => {
+        const originalCanvasElement = {
+            guid: 'originalElement',
+            name: 'Screen1',
+            locationX: 10,
+            locationY: 20,
+            maxConnections: 1,
+            elementType: ELEMENT_TYPE.SCREEN,
+            fieldReferences: [
+                {
+                    fieldReference: 'section1'
+                }
+            ]
+        };
+
+        const createDuplicateChildElements = function(originalChildElement) {
+            originalChildElement.guid = 'section1';
+            return [
+                { guid: 'section1', name: 'section1', fieldReferences: [{ fieldReference: 'column1' }] },
+                { guid: 'column1', name: 'column1' }
+            ];
+        };
+
+        const {
+            duplicatedElement,
+            duplicatedChildElements,
+            updatedChildReferences,
+            availableConnections
+        } = duplicateCanvasElementWithChildElements(
+            originalCanvasElement,
+            'duplicateElement',
+            'Screen1_0',
+            {
+                section1: 'duplicateSection1',
+                column1: 'duplicateColumn1'
+            },
+            {
+                section1: 'duplicateSection1',
+                column1: 'duplicateColumn1'
+            },
+            {},
+            createDuplicateChildElements,
+            'fieldReferences',
+            'fieldReference'
+        );
+
+        it('The duplicated element should have updated properties', () => {
+            const newElement = {
+                guid: 'duplicateElement',
+                name: 'Screen1_0',
+                locationX: originalCanvasElement.locationX + DUPLICATE_ELEMENT_XY_OFFSET,
+                locationY: originalCanvasElement.locationY + DUPLICATE_ELEMENT_XY_OFFSET,
+                config: { isSelected: true, isHighlighted: false },
+                connectorCount: 0,
+                maxConnections: 1,
+                elementType: ELEMENT_TYPE.SCREEN,
+                fieldReferences: [{ fieldReference: 'section1' }]
+            };
+
+            expect(duplicatedElement).toMatchObject(newElement);
+        });
+
+        it('The duplicated section component should have the right properties', () => {
+            expect(duplicatedChildElements.duplicateSection1).toMatchObject({
+                guid: 'duplicateSection1',
+                name: 'duplicateSection1',
+                fieldReferences: [{ fieldReference: 'duplicateColumn1' }]
+            });
+        });
+
+        it('The duplicated column component should have the right properties', () => {
+            expect(duplicatedChildElements.duplicateColumn1).toMatchObject({
+                guid: 'duplicateColumn1',
+                name: 'duplicateColumn1'
+            });
+        });
+
+        it('The updatedChildReferences should be correct', () => {
+            expect(updatedChildReferences).toMatchObject([
+                {
+                    fieldReference: 'duplicateSection1'
+                }
+            ]);
+        });
+
+        it('availableConenctions should be an empty array', () => {
+            expect(availableConnections).toEqual([
+                {
+                    childReference: 'duplicateSection1',
+                    type: 'REGULAR'
+                }
+            ]);
+        });
+    });
+
     describe('When child elements are not present', () => {
         const originalCanvasElement = {
             guid: 'originalElement',

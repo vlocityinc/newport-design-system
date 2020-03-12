@@ -7,7 +7,7 @@ import {
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import {
-    createScreenField,
+    createDuplicateNestedScreenFields,
     createScreenFieldWithFields,
     createScreenFieldWithFieldReferences,
     createScreenFieldMetadataObject
@@ -128,7 +128,7 @@ export function createDuplicateScreen(
         childElementGuidMap,
         childElementNameMap,
         cutOrCopiedChildElements,
-        createScreenField,
+        createDuplicateNestedScreenFields,
         childReferenceKeys.childReferencesKey,
         childReferenceKeys.childReferenceKey
     );

@@ -1,5 +1,6 @@
 import {
     createScreenField,
+    createDuplicateNestedScreenFields,
     createScreenFieldWithFieldReferences,
     createScreenFieldMetadataObject,
     createEmptyScreenFieldOfType,
@@ -270,7 +271,9 @@ getElementByGuid.mockImplementation(guid => {
         return componentScreenFieldEmailStore();
     }
     return {
-        guid: foundElementGuidPrefix + guid
+        guid: foundElementGuidPrefix + guid,
+        fieldType: 'InputField',
+        dataType: 'Boolean'
     };
 });
 
@@ -395,6 +398,41 @@ describe('screenField', () => {
                 expect(actualResult.isCollection).toBeFalsy();
                 expect(actualResult.subtype).toBeFalsy();
                 expect(actualResult.fieldReferences).toHaveLength(1);
+            });
+        });
+    });
+    describe('Creating duplicated screen fields', () => {
+        it('screen fields without any nested fields', () => {
+            const result = createDuplicateNestedScreenFields({
+                guid: 'screenField1',
+                fieldType: 'InputField',
+                dataType: 'Boolean'
+            });
+            expect(result[0]).toMatchObject({
+                guid: 'screenField1',
+                fieldType: 'InputField',
+                dataType: 'Boolean'
+            });
+        });
+        it('screen fields with any nested fields (Sections and Columns)', () => {
+            const sectionField = {
+                guid: 'sectionField1',
+                fieldType: 'RegionContainer',
+                fieldReferences: [{ fieldReference: 'columnField' }]
+            };
+
+            const result = createDuplicateNestedScreenFields(sectionField);
+            expect(result).toHaveLength(2);
+            expect(result[0]).toMatchObject({
+                guid: 'foundcolumnField',
+                fieldType: 'InputField',
+                dataType: 'Boolean'
+            });
+
+            expect(result[1]).toMatchObject({
+                guid: 'sectionField1',
+                fieldType: 'RegionContainer',
+                dataType: undefined
             });
         });
     });

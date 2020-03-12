@@ -179,18 +179,68 @@ function _createDuplicateChildElement(
     childElementNameMap,
     cutOrCopiedChildElements,
     createChildElement,
+    childReferencesKey,
     childReferenceKey
 ) {
     // Using the cutOrCopiedChildElements to get the original child element in case the element has been deleted
     // and not available in the store
-    const childElement =
+    const originalChildElement =
         getElementByGuid(childReference[childReferenceKey]) ||
         cutOrCopiedChildElements[childReference[childReferenceKey]];
-    const duplicatedChildElement = createChildElement(childElement);
-    return Object.assign(duplicatedChildElement, {
-        guid: childElementGuidMap[childReference[childReferenceKey]],
-        name: childElementNameMap[childElement.name]
-    });
+    const duplicatedChildElements = createChildElement(originalChildElement);
+
+    // In case of screens, duplicatedChildElements is an array otherwise a single element object
+    if (Array.isArray(duplicatedChildElements)) {
+        let duplicatedChildElement;
+
+        // Iterating over the duplicatedChildElements and updating the guid, name and any childReferences.
+        // Also finding the parent duplicated element
+        const duplicatedNestedChildElements = duplicatedChildElements.reduce((acc, el) => {
+            // Updating the name and guid for the duplicatedChildElement
+            el = Object.assign(el, {
+                guid: childElementGuidMap[el.guid],
+                name: childElementNameMap[el.name]
+            });
+
+            // Updating the childReferences array to have the guids of the duplicated nested child elements
+            const updatedChildReferences =
+                el[childReferencesKey] &&
+                el[childReferencesKey].map(origChildReferenceObj => {
+                    return {
+                        [childReferenceKey]: childElementGuidMap[origChildReferenceObj[childReferenceKey]]
+                    };
+                });
+
+            // Adding the childReferences property only if updatedChildReferences exists
+            if (updatedChildReferences) {
+                el = Object.assign(el, {
+                    [childReferencesKey]: updatedChildReferences
+                });
+            }
+
+            // Finding the duplicatedChildElement (duplicated originalChildElement)
+            if (!duplicatedChildElement && el.guid === childElementGuidMap[originalChildElement.guid]) {
+                duplicatedChildElement = el;
+            } else {
+                acc[el.guid] = el;
+            }
+
+            return acc;
+        }, {});
+
+        return {
+            duplicatedChildElement,
+            duplicatedNestedChildElements
+        };
+    }
+    // Updating the duplicatedChildElement's guid and name
+    return {
+        duplicatedChildElement: Object.assign(duplicatedChildElements, {
+            guid: childElementGuidMap[originalChildElement.guid],
+            name: childElementNameMap[originalChildElement.name]
+        }),
+        duplicatedNestedChildElements: {}
+    };
 }
 
 /**
@@ -225,21 +275,23 @@ export function duplicateCanvasElementWithChildElements(
     const childReferences = canvasElement[childReferencesKey];
 
     const additionalAvailableConnections = [];
-    const duplicatedChildElements = {};
+    let duplicatedChildElements = {};
 
     // Iterating over existing child references to create duplicate child elements and updating available connections.
     // Also using the duplicated guids to create the updated childReferences for the duplicated element
     const updatedChildReferences = childReferences.map(childReference => {
-        const duplicatedChildElement = _createDuplicateChildElement(
+        const { duplicatedChildElement, duplicatedNestedChildElements } = _createDuplicateChildElement(
             childReference,
             childElementGuidMap,
             childElementNameMap,
             cutOrCopiedChildElements,
             createChildElement,
+            childReferencesKey,
             childReferenceKey
         );
 
         duplicatedChildElements[duplicatedChildElement.guid] = duplicatedChildElement;
+        duplicatedChildElements = { ...duplicatedChildElements, ...duplicatedNestedChildElements };
 
         additionalAvailableConnections.push({
             type: CONNECTOR_TYPE.REGULAR,
