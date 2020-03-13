@@ -261,14 +261,14 @@ describe('ResourcedRichTextEditor', () => {
             expect(resourcedRichTextEditor.value).toEqual(multiLinesPlainTextInitialValue);
         });
         describe('Change mode via API', () => {
-            it('Enable it', () => {
+            it('Switch to it', () => {
                 resourcedRichTextEditor = createComponentUnderTest({
                     plainTextAvailable: true,
                     isPlainTextMode: true
                 });
                 expect(resourcedRichTextEditor).toMatchSnapshot();
             });
-            it('Disable it', () => {
+            it('Switch off it', () => {
                 resourcedRichTextEditor = createComponentUnderTest({
                     plainTextAvailable: true,
                     isPlainTextMode: false
@@ -277,7 +277,7 @@ describe('ResourcedRichTextEditor', () => {
             });
         });
         describe('Change mode via UI (button menu)', () => {
-            it('Enable it', async () => {
+            it('Switch to it', async () => {
                 resourcedRichTextEditor = createComponentUnderTest({
                     plainTextAvailable: true
                 });
@@ -289,7 +289,7 @@ describe('ResourcedRichTextEditor', () => {
                 await ticks(1);
                 expect(resourcedRichTextEditor).toMatchSnapshot();
             });
-            it('Disable it', async () => {
+            it('Switch off it', async () => {
                 resourcedRichTextEditor = createComponentUnderTest({
                     plainTextAvailable: true,
                     isPlainTextMode: true

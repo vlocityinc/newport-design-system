@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ResourcedRichTextEditor Plain text mode Change mode via API Disable it 1`] = `
+exports[`ResourcedRichTextEditor Plain text mode Change mode via API Switch off it 1`] = `
 <builder_platform_interaction-resourced-rich-text-editor>
   #shadow-root(open)
     <div
@@ -36,23 +36,11 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via API Disable it 
             <builder_platform_interaction-rich-text-plain-text-switch>
               #shadow-root(open)
                 <div
-                  class="divButtonMenuPlainRichText slds-grid slds-grid_vertical-align-center"
+                  class="divPlainRichTextSwitch"
                 >
-                  <span
-                    class="spanSelectedModeLabel"
-                  >
-                    FlowBuilderResourcedRichTextEditor.richText
-                  </span>
-                  <lightning-button-menu>
+                  <lightning-combobox>
                     #shadow-root(open)
-                      <slot />
-                    <lightning-menu-item>
-                      #shadow-root(open)
-                    </lightning-menu-item>
-                    <lightning-menu-item>
-                      #shadow-root(open)
-                    </lightning-menu-item>
-                  </lightning-button-menu>
+                  </lightning-combobox>
                 </div>
             </builder_platform_interaction-rich-text-plain-text-switch>
           </div>
@@ -65,7 +53,7 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via API Disable it 
 </builder_platform_interaction-resourced-rich-text-editor>
 `;
 
-exports[`ResourcedRichTextEditor Plain text mode Change mode via API Enable it 1`] = `
+exports[`ResourcedRichTextEditor Plain text mode Change mode via API Switch to it 1`] = `
 <builder_platform_interaction-resourced-rich-text-editor>
   #shadow-root(open)
     <div
@@ -109,23 +97,11 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via API Enable it 1
                     <builder_platform_interaction-rich-text-plain-text-switch>
                       #shadow-root(open)
                         <div
-                          class="divButtonMenuPlainRichText slds-grid slds-grid_vertical-align-center"
+                          class="divPlainRichTextSwitch"
                         >
-                          <span
-                            class="spanSelectedModeLabel"
-                          >
-                            FlowBuilderResourcedRichTextEditor.plainText
-                          </span>
-                          <lightning-button-menu>
+                          <lightning-combobox>
                             #shadow-root(open)
-                              <slot />
-                            <lightning-menu-item>
-                              #shadow-root(open)
-                            </lightning-menu-item>
-                            <lightning-menu-item>
-                              #shadow-root(open)
-                            </lightning-menu-item>
-                          </lightning-button-menu>
+                          </lightning-combobox>
                         </div>
                     </builder_platform_interaction-rich-text-plain-text-switch>
                   </div>
@@ -143,7 +119,7 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via API Enable it 1
 </builder_platform_interaction-resourced-rich-text-editor>
 `;
 
-exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu) Disable it 1`] = `
+exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu) Switch off it 1`] = `
 <builder_platform_interaction-resourced-rich-text-editor>
   #shadow-root(open)
     <div
@@ -179,23 +155,11 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu
             <builder_platform_interaction-rich-text-plain-text-switch>
               #shadow-root(open)
                 <div
-                  class="divButtonMenuPlainRichText slds-grid slds-grid_vertical-align-center"
+                  class="divPlainRichTextSwitch"
                 >
-                  <span
-                    class="spanSelectedModeLabel"
-                  >
-                    FlowBuilderResourcedRichTextEditor.richText
-                  </span>
-                  <lightning-button-menu>
+                  <lightning-combobox>
                     #shadow-root(open)
-                      <slot />
-                    <lightning-menu-item>
-                      #shadow-root(open)
-                    </lightning-menu-item>
-                    <lightning-menu-item>
-                      #shadow-root(open)
-                    </lightning-menu-item>
-                  </lightning-button-menu>
+                  </lightning-combobox>
                 </div>
             </builder_platform_interaction-rich-text-plain-text-switch>
           </div>
@@ -208,7 +172,7 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu
 </builder_platform_interaction-resourced-rich-text-editor>
 `;
 
-exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu) Enable it 1`] = `
+exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu) Switch to it 1`] = `
 <builder_platform_interaction-resourced-rich-text-editor>
   #shadow-root(open)
     <div
@@ -252,23 +216,11 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu
                     <builder_platform_interaction-rich-text-plain-text-switch>
                       #shadow-root(open)
                         <div
-                          class="divButtonMenuPlainRichText slds-grid slds-grid_vertical-align-center"
+                          class="divPlainRichTextSwitch"
                         >
-                          <span
-                            class="spanSelectedModeLabel"
-                          >
-                            FlowBuilderResourcedRichTextEditor.plainText
-                          </span>
-                          <lightning-button-menu>
+                          <lightning-combobox>
                             #shadow-root(open)
-                              <slot />
-                            <lightning-menu-item>
-                              #shadow-root(open)
-                            </lightning-menu-item>
-                            <lightning-menu-item>
-                              #shadow-root(open)
-                            </lightning-menu-item>
-                          </lightning-button-menu>
+                          </lightning-combobox>
                         </div>
                     </builder_platform_interaction-rich-text-plain-text-switch>
                   </div>

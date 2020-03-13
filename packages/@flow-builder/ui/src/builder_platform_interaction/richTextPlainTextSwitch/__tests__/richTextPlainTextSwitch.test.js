@@ -11,56 +11,46 @@ function createComponentForTest(props) {
     return el;
 }
 
-const SelectPlainTextModeEvent = new CustomEvent('select', {
+const selectPlainTextModeEvent = new CustomEvent('select', {
     detail: { value: TEXT_MODES.plainText }
 });
 
-const SelectRichTextModeEvent = new CustomEvent('select', {
+const selectRichTextModeEvent = new CustomEvent('select', {
     detail: { value: TEXT_MODES.richText }
 });
 
 const SELECTORS = {
-    lightningButtonMenu: 'lightning-button-menu',
-    lightningMenuItem: 'lightning-menu-item'
+    lightningCombobox: 'lightning-combobox'
 };
 
-const getLightningButtonMenu = richTextPlainTextSwitchComponent => {
-    return richTextPlainTextSwitchComponent.shadowRoot.querySelector(SELECTORS.lightningButtonMenu);
+const getLightningCombobox = richTextPlainTextSwitchComponent => {
+    return richTextPlainTextSwitchComponent.shadowRoot.querySelector(SELECTORS.lightningCombobox);
 };
+
 describe('plain-text-mode-select', () => {
     let richTextPlainTextSwitchComponent;
     beforeEach(() => {
         richTextPlainTextSwitchComponent = createComponentForTest();
     });
     describe('By default "RichText" mode selected', () => {
-        test('check UI (snapshot) - menu items details: label, checked status', () => {
-            expect(richTextPlainTextSwitchComponent).toMatchSnapshot();
+        test('check "selectedMode"', () => {
+            expect(richTextPlainTextSwitchComponent.selectedMode).toEqual(TEXT_MODES.richText);
         });
     });
     describe('Select "PlainText" mode', () => {
-        it('select "plain text" mode via API', async () => {
-            richTextPlainTextSwitchComponent.selectedMode = TEXT_MODES.plainText;
-            await ticks(1);
-            expect(richTextPlainTextSwitchComponent).toMatchSnapshot();
-        });
         it('select "plain text" mode via UI', async () => {
-            const lightningButtonMenu = getLightningButtonMenu(richTextPlainTextSwitchComponent);
-            lightningButtonMenu.dispatchEvent(SelectPlainTextModeEvent);
+            const lightningCombobox = getLightningCombobox(richTextPlainTextSwitchComponent);
+            lightningCombobox.dispatchEvent(selectPlainTextModeEvent);
             await ticks(1);
-            expect(richTextPlainTextSwitchComponent).toMatchSnapshot();
+            expect(richTextPlainTextSwitchComponent.selectedMode).toEqual(TEXT_MODES.richText);
         });
     });
     describe('Select "RichText" mode', () => {
-        it('select "rich text" mode via API', async () => {
-            richTextPlainTextSwitchComponent.selectedMode = TEXT_MODES.richText;
-            await ticks(1);
-            expect(richTextPlainTextSwitchComponent).toMatchSnapshot();
-        });
         it('select "rich text" mode via UI', async () => {
-            const lightningButtonMenu = getLightningButtonMenu(richTextPlainTextSwitchComponent);
-            lightningButtonMenu.dispatchEvent(SelectRichTextModeEvent);
+            const lightningCombobox = getLightningCombobox(richTextPlainTextSwitchComponent);
+            lightningCombobox.dispatchEvent(selectRichTextModeEvent);
             await ticks(1);
-            expect(richTextPlainTextSwitchComponent).toMatchSnapshot();
+            expect(richTextPlainTextSwitchComponent.selectedMode).toEqual(TEXT_MODES.richText);
         });
     });
 });

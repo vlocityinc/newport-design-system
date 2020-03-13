@@ -1,17 +1,12 @@
 <template>
-    <div class="divButtonMenuPlainRichText slds-grid slds-grid_vertical-align-center">
-        <span class="spanSelectedModeLabel">{selectedModeLabel}</span>
-        <lightning-button-menu menu-alignment="auto-right" onselect={handlePlainTextModeChange} value={selectedMode}>
-            <lightning-menu-item
-                value={textModes.richText}
-                label={labels.richText}
-                checked={isRichTextMode}
-            ></lightning-menu-item>
-            <lightning-menu-item
-                value={textModes.plainText}
-                label={labels.plainText}
-                checked={isPlainTextMode}
-            ></lightning-menu-item>
-        </lightning-button-menu>
+    <div class="divPlainRichTextSwitch">
+        <lightning-combobox
+            value={selectedMode}
+            options={availableModesOptions}
+            dropdown-alignment="auto"
+            variant="label-hidden"
+            onchange={handlePlainTextModeChange}
+        >
+        </lightning-combobox>
     </div>
 </template>

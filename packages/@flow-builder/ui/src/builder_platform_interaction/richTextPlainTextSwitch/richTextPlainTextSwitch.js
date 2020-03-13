@@ -4,39 +4,22 @@ import { RichTextPlainTextSwitchChangedEvent } from 'builder_platform_interactio
 
 export const TEXT_MODES = { richText: 'richText', plainText: 'plainText' };
 
+const AVAILABLE_MODES_OPTIONS = [
+    { label: LABELS[TEXT_MODES.richText], value: TEXT_MODES.richText },
+    { label: LABELS[TEXT_MODES.plainText], value: TEXT_MODES.plainText }
+];
+
 /**
  * Provide selection among rich text or plain text modes
  */
 export default class RichTextPlainTextSwitch extends LightningElement {
-    labels = LABELS;
-    textModes = TEXT_MODES;
+    availableModesOptions = AVAILABLE_MODES_OPTIONS;
 
     /**
      * Set/Get Selected mode
      */
     @api
     selectedMode = TEXT_MODES.richText;
-
-    /**
-     * @returns {boolean} - true if plain text mode selected, false otherwise
-     */
-    get isPlainTextMode() {
-        return this.selectedMode === TEXT_MODES.plainText;
-    }
-
-    /**
-     * @returns {boolean} - true if rich text mode selected (default mode), false otherwise
-     */
-    get isRichTextMode() {
-        return this.selectedMode === TEXT_MODES.richText;
-    }
-
-    /**
-     * @returns {string} - the selected labeled mode (eg: Rich Text)
-     */
-    get selectedModeLabel() {
-        return this.labels[this.selectedMode];
-    }
 
     /**
      * Handling native selection mode event and re dispatch {@link RichTextPlainTextSwitchChangedEvent}
