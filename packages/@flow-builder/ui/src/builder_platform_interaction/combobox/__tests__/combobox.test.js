@@ -1206,21 +1206,20 @@ describe('Combobox Tests', () => {
             await ticks(1);
             expect(combobox.errorMessage).toBeNull();
         });
-        // This is a failing test, please refer to work item W-7275872
-        // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000080daJIAQ/view
-        // it('merge fields with spaces get treated as merge fields when typing', async () => {
-        //     const filterMatchesHandler = jest.fn();
-        //     combobox.addEventListener(FilterMatchesEvent.EVENT_NAME, filterMatchesHandler);
-        //     const selectEvent = getSelectEvent(comboboxInitialConfig.menuData[1].items[0].value);
-        //     groupedCombobox.dispatchEvent(selectEvent);
-        //     combobox.menuData = secondLevelMenuData;
-        //     await ticks(2);
-        //     const textInputEvent = getTextInputEvent('{!MyAccount.First Na}');
-        //     groupedCombobox.dispatchEvent(textInputEvent);
-        //     await ticks(1);
-        //     expect(filterMatchesHandler).toHaveBeenCalledTimes(1);
-        //     expect(filterMatchesHandler[0][1]).toEqual(true);
-        // });
+
+        it('merge fields with spaces get treated as merge fields when typing', async () => {
+            const filterMatchesHandler = jest.fn();
+            combobox.addEventListener(FilterMatchesEvent.EVENT_NAME, filterMatchesHandler);
+            const selectEvent = getSelectEvent(comboboxInitialConfig.menuData[1].items[0].value);
+            groupedCombobox.dispatchEvent(selectEvent);
+            combobox.menuData = secondLevelMenuData;
+            await ticks(2);
+            const textInputEvent = getTextInputEvent('{!MyAccount.First Na}');
+            groupedCombobox.dispatchEvent(textInputEvent);
+            await ticks(1);
+            expect(filterMatchesHandler).toHaveBeenCalledTimes(1);
+            expect(filterMatchesHandler.mock.calls[0][0].detail.isMergeField).toEqual(true);
+        });
 
         it('for blockValidation true', async () => {
             combobox.blockValidation = true;
