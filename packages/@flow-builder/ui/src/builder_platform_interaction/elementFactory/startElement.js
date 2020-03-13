@@ -40,7 +40,8 @@ export function createStartElement(startElement = {}) {
         triggerType = (startElement && startElement.triggerType) || FLOW_TRIGGER_TYPE.NONE,
         object = '',
         objectIndex = generateGuid(),
-        filters = []
+        filters = [],
+        container
     } = startElement;
     const { startDate, startTime } = startElement.schedule || startElement;
     let { filterType, recordTriggerType, frequency } = startElement.schedule || startElement;
@@ -91,6 +92,7 @@ export function createStartElement(startElement = {}) {
         objectIndex,
         filters: recordFilters,
         label,
+        container,
         // If the start element is linked to an sobject, then make the element look like a data element.
         name: object ? SYSTEM_VARIABLE_RECORD_PREFIX : undefined,
         dataType: object ? FLOW_DATA_TYPE.SOBJECT.value : undefined,

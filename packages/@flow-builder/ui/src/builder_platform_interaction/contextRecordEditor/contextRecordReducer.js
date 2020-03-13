@@ -3,7 +3,8 @@ import {
     AddRecordFilterEvent,
     DeleteRecordFilterEvent,
     PropertyChangedEvent,
-    UpdateRecordFilterEvent
+    UpdateRecordFilterEvent,
+    ConfigurationEditorChangeEvent
 } from 'builder_platform_interaction/events';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
@@ -139,6 +140,13 @@ export const contextReducer = (state, event) => {
         case VALIDATE_ALL: {
             return contextValidation.validateAll(state, getRules(state, event));
         }
+        case ConfigurationEditorChangeEvent.EVENT_NAME:
+            return updateProperties(state, {
+                [event.detail.name]: {
+                    error: null,
+                    value: event.detail.newValue
+                }
+            });
         default:
             return state;
     }

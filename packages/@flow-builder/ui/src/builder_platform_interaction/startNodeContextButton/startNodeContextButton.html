@@ -2,7 +2,7 @@
     <!--CONTEXT-->
     <div tabindex="0" class="start-context" onclick={handleObjectClick}>
         <!--UNSET CONTEXT-->
-        <div if:false={isSetObject} class={unsetStartButtonClasses}>
+        <div if:false={isContextSet} class={unsetStartButtonClasses}>
             <lightning-icon
                 icon-name="utility:add"
                 class="slds-current-color slds-m-right_x-small"
@@ -14,7 +14,7 @@
             <span if:true={isOptional} class="optional slds-m-left_xx-small">{optionalLabel}</span>
         </div>
         <!--CONFIGURED CONTEXT-->
-        <div if:true={isSetObject} class={startButtonClasses}>
+        <div if:true={isContextSet} class={startButtonClasses}>
             <div class="slds-grid">
                 <div class="object-label-size">
                     <span> {objectLabel} </span>

@@ -33,7 +33,12 @@ import {
     UPDATE_ENTITIES,
     SELECTION_ON_FIXED_CANVAS
 } from 'builder_platform_interaction/actions';
-import { ELEMENT_TYPE, FLOW_STATUS, isSystemElement } from 'builder_platform_interaction/flowMetadata';
+import {
+    ELEMENT_TYPE,
+    FLOW_STATUS,
+    isSystemElement,
+    FLOW_TRIGGER_TYPE
+} from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
@@ -89,6 +94,7 @@ import {
     setBuilderType
 } from 'builder_platform_interaction/systemLib';
 import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
+import { getTriggerTypeInfo } from 'builder_platform_interaction/triggerTypeLib';
 import { removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
 import {
     loadFieldsForComplexTypesInFlow,
@@ -423,21 +429,27 @@ export default class Editor extends LightningElement {
         const { status, processType: flowProcessType } = currentState.properties;
         this.flowStatus = status;
 
-        const flowProcessTypeChanged = flowProcessType && flowProcessType !== this.properties.processType;
-        if (flowProcessTypeChanged) {
-            this.propertyEditorBlockerCalls.push(loadOnProcessTypeChange(flowProcessType));
-        }
-
         const flowTriggerType = getTriggerType();
-
-        if (flowProcessTypeChanged || (flowTriggerType && this.triggerType !== flowTriggerType)) {
-            this.triggerType = flowTriggerType;
+        const flowProcessTypeChanged = flowProcessType && flowProcessType !== this.properties.processType;
+        const triggerTypeChanged = flowTriggerType !== this.triggerType;
+        if (flowProcessTypeChanged || triggerTypeChanged) {
             getToolboxElements(flowProcessType, flowTriggerType).then(toolboxElements => {
                 this.toolboxElements = toolboxElements;
                 if (useFixedLayoutCanvas()) {
                     this.elementsMetadata = getElementsMetadata(toolboxElements);
                 }
             });
+
+            if (flowProcessTypeChanged) {
+                this.propertyEditorBlockerCalls.push(loadOnProcessTypeChange(flowProcessType));
+            }
+
+            if (triggerTypeChanged) {
+                this.triggerType = flowTriggerType;
+                if (this.triggerType && this.triggerType !== FLOW_TRIGGER_TYPE.NONE) {
+                    getTriggerTypeInfo(flowTriggerType);
+                }
+            }
         }
 
         this.properties = currentState.properties;

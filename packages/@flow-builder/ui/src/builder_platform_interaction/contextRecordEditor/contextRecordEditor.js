@@ -6,7 +6,7 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { contextReducer } from './contextRecordReducer';
-import { isScheduledTriggerType } from 'builder_platform_interaction/triggerTypeLib';
+import { isScheduledTriggerType, getTriggerTypeInfo } from 'builder_platform_interaction/triggerTypeLib';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 
@@ -21,6 +21,9 @@ export default class contextEditor extends LightningElement {
 
     @track
     fields;
+
+    @track
+    configurationEditor;
 
     labels = LABELS;
 
@@ -39,7 +42,6 @@ export default class contextEditor extends LightningElement {
 
     set node(newValue) {
         this.startElement = newValue || {};
-        this.updateFields();
     }
 
     /**
@@ -49,6 +51,20 @@ export default class contextEditor extends LightningElement {
     @api
     getNode() {
         return this.startElement;
+    }
+
+    connectedCallback() {
+        if (this.triggerType && this.triggerType !== FLOW_TRIGGER_TYPE.NONE) {
+            // Get the current trigger type info and set the custom property editor info if one is defined,
+            // else, load fields for the selected context object
+            getTriggerTypeInfo(this.triggerType).then(data => {
+                if (data && data.configurationEditor) {
+                    this.configurationEditor = { name: data.configurationEditor };
+                } else {
+                    this.updateFields();
+                }
+            });
+        }
     }
 
     get triggerType() {
@@ -162,6 +178,33 @@ export default class contextEditor extends LightningElement {
     }
 
     /**
+     * @returns {Boolean} whether the current triggr type supports a custom property editor for context selection (eg. Journey Builder)
+     */
+    get hasConfigurationEditor() {
+        return !!this.configurationEditor;
+    }
+
+    /**
+     * @returns {Array} values to pass in to the custom property editor
+     */
+    get configurationEditorValues() {
+        return [
+            {
+                name: 'container',
+                value: this.startElement.container && this.startElement.container.value
+            }
+        ];
+    }
+
+    /**
+     * @param {Object} event - valueChanged event from the custom property editor
+     */
+    handleValueChanged(event) {
+        event.stopPropagation();
+        this.startElement = contextReducer(this.startElement, event);
+    }
+
+    /**
      * @param {Object} event - comboboxstatechanged event from entity-resource-picker component. The property name depends on the record node
      */
     handleResourceChanged(event) {
@@ -210,13 +253,25 @@ export default class contextEditor extends LightningElement {
     }
 
     /**
-     * public api function to run the rules from start validation library
+     * public api function to run the rules from context record validation library, and run the validate function on the custom property editor (if one is rendered)
      * @returns {Array} list of errors
      */
     @api
     validate() {
         const event = { type: VALIDATE_ALL };
         this.startElement = contextReducer(this.startElement, event);
-        return getErrorsFromHydratedElement(this.startElement);
+        let errors = getErrorsFromHydratedElement(this.startElement);
+
+        if (this.configurationEditor) {
+            const customPropertyEditor = this.template.querySelector(
+                'builder_platform_interaction-custom-property-editor'
+            );
+            if (customPropertyEditor) {
+                const cpeErrors = customPropertyEditor.validate();
+                errors = [...errors, ...cpeErrors];
+            }
+        }
+
+        return errors;
     }
 }

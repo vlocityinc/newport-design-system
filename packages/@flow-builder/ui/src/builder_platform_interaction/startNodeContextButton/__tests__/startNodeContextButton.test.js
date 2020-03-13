@@ -6,7 +6,13 @@ import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { EditElementEvent } from 'builder_platform_interaction/events';
 import { EDIT_START_CONTEXT } from 'builder_platform_interaction/elementConfig';
 
-const createComponentUnderTest = (triggerType, object, filters, elementType = ELEMENT_TYPE.ASSIGNMENT) => {
+const createComponentUnderTest = (
+    triggerType,
+    object,
+    filters,
+    container,
+    elementType = ELEMENT_TYPE.START_ELEMENT
+) => {
     const el = createElement('builder_platform_interaction-start-node-context-button', {
         is: StartNodeContextButton
     });
@@ -19,7 +25,8 @@ const createComponentUnderTest = (triggerType, object, filters, elementType = EL
         description: 'My first test node',
         triggerType,
         object,
-        filters
+        filters,
+        container
     };
     document.body.appendChild(el);
     return el;
@@ -71,7 +78,7 @@ describe('Context Button', () => {
     });
 
     it('Checks if non configured Journey audience button rendered text correctly', () => {
-        const nodeComponent = createComponentUnderTest(FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY);
+        const nodeComponent = createComponentUnderTest(FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY, 'audience');
         expect(runQuerySelector(nodeComponent, selectors.contextButtonText).textContent).toBe(
             'FlowBuilderCanvasElement.startElementChooseAudience'
         );
@@ -143,51 +150,19 @@ describe('Context Button', () => {
         expect(runQuerySelector(nodeComponent, selectors.contextButtonOptionlText)).toBeNull();
     });
 
-    it('Checks if configured Journey context button rendered correctly with no filters', () => {
-        const nodeComponent = createComponentUnderTest(FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY, 'account', []);
+    it('Checks if configured Journey context button rendered correctly', () => {
+        const nodeComponent = createComponentUnderTest(
+            FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY,
+            'account',
+            [],
+            'testContainer'
+        );
         expect(runQuerySelector(nodeComponent, selectors.objectLabel).textContent).toBe(
             ' FlowBuilderCanvasElement.startElementObject '
         );
         expect(runQuerySelector(nodeComponent, selectors.selectedObject).textContent).toBe('account');
         expect(runQuerySelector(nodeComponent, selectors.editLabel).textContent).toBe(
             'FlowBuilderCanvasElement.startElementEdit'
-        );
-        expect(runQuerySelector(nodeComponent, selectors.contextButtonOptionlText)).toBeNull();
-    });
-
-    it('Checks if configured Journey context button rendered correctly with filters', () => {
-        format.mockReturnValue(' test conditions');
-        const filter = [
-            {
-                rowIndex: 'a0e8a02d-60fb-4481-8165-10a01fe7031c',
-                leftHandSide: {
-                    value: 'text',
-                    error: null
-                },
-                rightHandSide: {
-                    value: '',
-                    error: null
-                },
-                rightHandSideDataType: {
-                    value: '',
-                    error: null
-                },
-                operator: {
-                    value: '',
-                    error: null
-                }
-            }
-        ];
-        const nodeComponent = createComponentUnderTest(FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY, 'account', filter);
-        expect(runQuerySelector(nodeComponent, selectors.objectLabel).textContent).toBe(
-            ' FlowBuilderCanvasElement.startElementObject '
-        );
-        expect(runQuerySelector(nodeComponent, selectors.selectedObject).textContent).toBe('account');
-        expect(runQuerySelector(nodeComponent, selectors.editLabel).textContent).toBe(
-            'FlowBuilderCanvasElement.startElementEdit'
-        );
-        expect(runQuerySelector(nodeComponent, selectors.recordConditions).textContent).toBe(
-            'FlowBuilderCanvasElement.startElementRecordConditions test conditions'
         );
         expect(runQuerySelector(nodeComponent, selectors.contextButtonOptionlText)).toBeNull();
     });

@@ -48,8 +48,13 @@ export default class startNodeContextButton extends LightningElement {
         return LABELS.startElementOptional;
     }
 
-    get isSetObject() {
-        return !!this.node.object;
+    get isContextSet() {
+        switch (this.node.triggerType) {
+            case SCHEDULED_JOURNEY:
+                return !!this.node.container;
+            default:
+                return !!this.node.object;
+        }
     }
 
     get objectLabel() {
