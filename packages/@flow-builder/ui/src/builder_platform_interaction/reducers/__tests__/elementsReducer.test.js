@@ -574,6 +574,61 @@ describe('elements-reducer', () => {
             });
             expect(newElementState).toEqual(newProperties);
         });
+
+        it('Deleting a screen with nested screen fields should delete all the nested screen fields too', () => {
+            const omitProps = [
+                {
+                    name: 'screen1',
+                    label: 'screen 1',
+                    description: 'screen 1',
+                    guid: 'screen1',
+                    elementType: 'Screen',
+                    fieldReferences: [{ fieldReference: 'section1' }]
+                }
+            ];
+
+            const oldProperties = {
+                screen1: {
+                    name: 'screen1',
+                    label: 'screen 1',
+                    description: 'screen 1',
+                    guid: 'screen1',
+                    elementType: 'Screen',
+                    fieldReferences: [{ fieldReference: 'section1' }]
+                },
+                section1: {
+                    name: 'section1',
+                    label: 'section 1',
+                    description: 'section 1',
+                    guid: 'section1',
+                    fieldReferences: [{ fieldReference: 'column1' }]
+                },
+                column1: {
+                    name: 'column1',
+                    label: 'column 1',
+                    description: 'column 1',
+                    guid: 'column1',
+                    fieldReferences: [{ fieldReference: 'text1' }]
+                },
+                text1: {
+                    name: 'text1',
+                    label: 'text 1',
+                    guid: 'text1'
+                }
+            };
+            const newProperties = {};
+
+            const payload = {
+                selectedElements: omitProps,
+                connectorsToDelete: []
+            };
+
+            const newElementState = elementReducer(oldProperties, {
+                type: DELETE_ELEMENT,
+                payload
+            });
+            expect(newElementState).toEqual(newProperties);
+        });
     });
 
     describe('Add Connector', () => {
