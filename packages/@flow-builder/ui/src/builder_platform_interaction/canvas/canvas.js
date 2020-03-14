@@ -1,4 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
+import { focusOnDockingPanel } from 'builder_platform_interaction/builderUtils';
 import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingLib';
 import { isMultiSelect, setupCanvasElements, setupConnectors } from './canvasUtils';
 import {
@@ -29,7 +30,8 @@ import {
     ZoomOutCommand,
     ZoomToFitCommand,
     ZoomToViewCommand,
-    DeleteNodesCommand
+    DeleteNodesCommand,
+    FocusOnDockingPanelCommand
 } from 'builder_platform_interaction/commands';
 import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
 
@@ -761,6 +763,11 @@ export default class Canvas extends LightningElement {
             ctrlOrCmd: true,
             key: '1'
         });
+
+        // Move Focus To Docking Panel Command
+        const focusOnDockingPanelCommand = new FocusOnDockingPanelCommand(() => this.handleFocusOnDockingPanel());
+        const focusOnDockingPanelShortcut = { key: 'g d' };
+        this.keyboardInteractions.setupCommandAndShortcut(focusOnDockingPanelCommand, focusOnDockingPanelShortcut);
     };
 
     connectedCallback() {
@@ -789,4 +796,8 @@ export default class Canvas extends LightningElement {
 
         logPerfMarkEnd(canvas, { numOfNodes: this.nodes && this.nodes.length });
     }
+
+    handleFocusOnDockingPanel = () => {
+        focusOnDockingPanel();
+    };
 }

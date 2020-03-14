@@ -13,7 +13,9 @@
                 <ui:panel alias="panel" aura:id="panel"></ui:panel>
             </aura:set>
         </ui:panelManager2>
-        <ui:containerManager />
+        <div onkeydown="{!c.handleKeydown}">
+            <ui:containerManager />
+        </div>
         <one:dockingPanelManager>
             <aura:set attribute="registeredPanels">
                 <force:dockingPanel alias="dockingPanel" />

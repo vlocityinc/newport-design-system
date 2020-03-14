@@ -801,3 +801,7 @@ export function createConfigurationEditor({
     };
     return unrender;
 }
+
+export function focusOnDockingPanel() {
+    dispatchGlobalEvent('force:shortcutCommand', { command: 'GoToPrompt', args: null });
+}

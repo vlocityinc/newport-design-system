@@ -46,6 +46,10 @@ export default class KeyboardShortcutsListBody extends LightningElement {
         return KEYS.CTRL_KEY + '+1';
     }
 
+    get dockingPanelFocusShortcut() {
+        return this.labels.dockingPanelFocusKeys;
+    }
+
     get switchPanelFocusShortcut() {
         if (this.isMacPlatform()) {
             return KEYS.F6_KEY;

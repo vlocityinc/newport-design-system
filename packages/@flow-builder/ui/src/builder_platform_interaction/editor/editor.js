@@ -5,7 +5,8 @@ import {
     PROPERTY_EDITOR,
     invokeModalInternalData,
     invokeNewFlowModal,
-    invokeKeyboardHelpDialog
+    invokeKeyboardHelpDialog,
+    focusOnDockingPanel
 } from 'builder_platform_interaction/builderUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
@@ -106,7 +107,8 @@ import {
 import {
     ShiftFocusForwardCommand,
     ShiftFocusBackwardCommand,
-    DisplayShortcutsCommand
+    DisplayShortcutsCommand,
+    FocusOnDockingPanelCommand
 } from 'builder_platform_interaction/commands';
 import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
 import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
@@ -1198,6 +1200,15 @@ export default class Editor extends LightningElement {
         logInteraction('editor', 'editor', { operationStatus: 'shift panel focus' }, 'keydown');
     };
 
+    handleFocusOnDockingPanel = () => {
+        focusOnDockingPanel();
+    };
+
+    @api
+    handleFocusOnToolbox() {
+        this.template.querySelector(PANELS.TOOLBOX).focus();
+    }
+
     /**
      * Private method to call clear undo redo stack and make the undo redo buttons disabled
      */
@@ -1298,6 +1309,11 @@ export default class Editor extends LightningElement {
         const displayShortcutsCommand = new DisplayShortcutsCommand(() => invokeKeyboardHelpDialog());
         const displayShortcutKeyCombo = { key: '/' };
         this.keyboardInteractions.setupCommandAndShortcut(displayShortcutsCommand, displayShortcutKeyCombo);
+
+        // Move Focus To Docking Panel Command
+        const focusOnDockingPanelCommand = new FocusOnDockingPanelCommand(() => this.handleFocusOnDockingPanel());
+        const focusOnDockingPanelShortcut = { key: 'g d' };
+        this.keyboardInteractions.setupCommandAndShortcut(focusOnDockingPanelCommand, focusOnDockingPanelShortcut);
     };
 
     /**

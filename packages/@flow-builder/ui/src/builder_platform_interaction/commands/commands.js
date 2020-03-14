@@ -6,3 +6,4 @@ export { DeleteNodesCommand } from './deleteNodes';
 export { DisplayShortcutsCommand } from './displayShortcuts';
 export { ShiftFocusForwardCommand } from './shiftFocusForward';
 export { ShiftFocusBackwardCommand } from './shiftFocusBackward';
+export { FocusOnDockingPanelCommand } from './focusOnDockingPanel';
