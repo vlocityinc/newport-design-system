@@ -1,4 +1,5 @@
-const eventName = 'configurationeditorinputvaluedeleted';
+const eventName = 'configuration_editor_input_value_deleted';
+
 /**
  * This event can be used by partner teams to
  * notify invocable action editor regarding to
