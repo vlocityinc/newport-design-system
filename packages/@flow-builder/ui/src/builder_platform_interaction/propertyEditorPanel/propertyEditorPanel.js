@@ -38,6 +38,7 @@ export default class PropertyEditorPanel extends LightningElement {
 
     @track messages = {};
 
+    // eslint-disable-next-line @lwc/lwc/no-async-await
     async loadCtor(className) {
         const module = await import(className);
 

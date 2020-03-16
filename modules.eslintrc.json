@@ -14,6 +14,7 @@
     },
 
     "rules": {
+        "@lwc/lwc/no-async-await": "error",
         "lwc-core/valid-offline-wire": "error",
 
         "jest/valid-describe": "off",
@@ -28,5 +29,13 @@
                 "allow": ["eslint-disable-line", "eslint-disable-next-line"]
             }
         ]
-    }
+    },
+    "overrides": [
+        {
+            "files": ["**/__tests__/**/*.js"],
+            "rules": {
+                "@lwc/lwc/no-async-await": "off"
+            }
+        }
+    ]
 }

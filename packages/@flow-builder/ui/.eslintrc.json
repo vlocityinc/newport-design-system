@@ -20,6 +20,11 @@
                         "**/builder_platform_interaction/connectorPicker/connectorPicker.js",
                         "**/builder_platform_interaction/palette/palette.js"
                     ],
+                    "@lwc/lwc/no-async-await": [
+                        "**/builder_platform_interaction/guardrails/execute.js",
+                        "**/builder_platform_interaction/propertyEditorPanel/propertyEditorPanel.js",
+                        "**/builder_platform_interaction/commands/baseCommand.js"
+                    ],
                     "no-empty-function": ["**/builder_platform_interaction/flcConnectorMenu/flcConnectorMenu.js"],
                     "lwc-core/no-aura": ["**/builder_platform_interaction/builderUtils/builderUtils.js"],
                     "lwc-core/no-interop-create": ["**/builder_platform_interaction/builderUtils/builderUtils.js"],

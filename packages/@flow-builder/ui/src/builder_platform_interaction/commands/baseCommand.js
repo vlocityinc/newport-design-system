@@ -10,6 +10,8 @@ export class BaseCommand {
         this.disabled = disabled;
     }
 
+    // baseCommand.js maps to command.js in the builder framework where execute returns Promise<void>
+    // eslint-disable-next-line @lwc/lwc/no-async-await
     async execute(event) {
         if (this.callback) {
             this.callback(event);

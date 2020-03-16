@@ -93,7 +93,7 @@ export default class ScreenSectionFieldPropertiesEditor extends LightningElement
         this.dispatchEvent(columnWidthChangeEvent);
     }
 
-    async handleAdd(event) {
+    handleAdd(event) {
         event.preventDefault();
         event.stopPropagation();
 

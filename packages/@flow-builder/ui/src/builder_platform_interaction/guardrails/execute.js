@@ -40,6 +40,7 @@ export class FlowGuardrailsExecutor {
      * @param {Object} flow the flow metadata
      * @returns {Object} Guardrails result
      */
+    // eslint-disable-next-line @lwc/lwc/no-async-await
     async evaluate(flow) {
         if (!flow) {
             return null;
