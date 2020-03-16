@@ -55,7 +55,10 @@ export default class FlcBuilderContainer extends LightningElement {
 
     @api
     set elementsMetadata(elementsMetadata) {
-        this._elementsMetadata = augmentElementsMetadata(elementsMetadata);
+        if (elementsMetadata != null) {
+            this._elementsMetadata = augmentElementsMetadata(elementsMetadata);
+            this.mapCanvasStateToStore();
+        }
     }
 
     get elementsMetadata() {

@@ -759,4 +759,6 @@ export function getElementsMetadata(toolboxElements) {
             });
         });
     });
+
+    return elementsMetadata;
 }
