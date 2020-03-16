@@ -3,7 +3,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 export const PASTE_ACTION = 'Paste';
 
-const pasteSection = {
+export const pasteSection = {
     guid: generateGuid(),
     heading: '',
     items: [
@@ -25,7 +25,7 @@ const pasteSection = {
  * @param {Boolean} showEndElement
  * @param {Boolean} isPasteAvailable
  */
-export const configureMenu = (elementsMetadata, showEndElement, isPasteAvailable) => {
+export const configureMenu = (elementsMetadata = [], showEndElement, isPasteAvailable) => {
     const sectionDefinitionsMap = {};
 
     const sections = elementsMetadata.reduce(

@@ -305,7 +305,6 @@ export default class FlcButtonMenu extends LightningElement {
         event.stopPropagation();
 
         this.allowBlur();
-
         if (!this.isSelectionMode) {
             this.toggleMenuVisibility();
         }
@@ -493,6 +492,7 @@ export default class FlcButtonMenu extends LightningElement {
             this.toggleMenuVisibility();
         }
         // dispatch standard blur event
+
         this.dispatchEvent(new CustomEvent('blur'));
     }
 

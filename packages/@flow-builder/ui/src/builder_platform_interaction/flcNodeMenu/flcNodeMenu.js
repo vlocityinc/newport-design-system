@@ -26,7 +26,6 @@ export default class FlcNodeMenu extends Menu {
 
         const actionType = event.target.getAttribute('data-value');
         let customEvent;
-
         switch (actionType) {
             case Actions.Delete:
                 customEvent = new DeleteElementEvent([this.guid], this.elementMetadata.elementType);

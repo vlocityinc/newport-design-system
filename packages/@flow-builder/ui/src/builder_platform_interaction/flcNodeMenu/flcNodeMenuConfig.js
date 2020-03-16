@@ -3,7 +3,7 @@ const DELETE_LABEL = 'Delete Element';
 
 export const Actions = {
     Create: 'Create Records',
-    Delete: 'Delete Records',
+    Delete: 'delete',
     Get: 'Get Records',
     Update: 'Update Records'
 };
