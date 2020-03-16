@@ -2,7 +2,7 @@ import { createElement } from 'lwc';
 import ResourcedRichTextEditor from '../resourcedRichTextEditor';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { RichTextPlainTextSwitchChangedEvent } from 'builder_platform_interaction/events';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ticks, focusEvent, changeEvent } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -96,21 +96,21 @@ describe('ResourcedRichTextEditor', () => {
     describe('events', () => {
         let eventCallback;
         const expectValueChangedEventWithValue = (value, error = null) => {
-                expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0].detail).toEqual({
-                    value,
-                    error
-                });
-            },
-            fireChangeEvent = (element, value) => {
-                element.dispatchEvent(new CustomEvent('change', { detail: { value } }));
-            };
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0].detail).toEqual({
+                value,
+                error
+            });
+        };
+        const fireChangeEvent = (element, value) => {
+            element.dispatchEvent(changeEvent(value));
+        };
 
         beforeEach(() => {
             eventCallback = jest.fn();
         });
         describe('when Rich Text Editor is activated', () => {
-            it('replaces new lines with <br />, as is done at runtime on first change event', () => {
+            it('replaces new lines with <br />, as is done at runtime on first focus event', () => {
                 // Given
                 const htmlText = 'first line\nsecond line';
                 resourcedRichTextEditor = createComponentUnderTest({
@@ -120,12 +120,12 @@ describe('ResourcedRichTextEditor', () => {
                 resourcedRichTextEditor.addEventListener('change', eventCallback);
 
                 // When we click on a non-empty lightning-input-rich-text, a change event is fired
-                fireChangeEvent(inputRichTextElement, htmlText);
+                inputRichTextElement.dispatchEvent(focusEvent);
 
                 // Then
                 expectValueChangedEventWithValue(`<converted>first line<br />second line</converted>`, null);
             });
-            it('Should convert the html to quill html on first change event', () => {
+            it('Should convert the html to quill html on first focus event', () => {
                 // Given
                 const htmlText = '<li>first</li><li>second</li>';
                 resourcedRichTextEditor = createComponentUnderTest({
@@ -135,7 +135,7 @@ describe('ResourcedRichTextEditor', () => {
                 resourcedRichTextEditor.addEventListener('change', eventCallback);
 
                 // When we click on a non-empty lightning-input-rich-text, a change event is fired
-                fireChangeEvent(inputRichTextElement, htmlText);
+                inputRichTextElement.dispatchEvent(focusEvent);
 
                 // Then
                 expectValueChangedEventWithValue(`<converted>${htmlText}</converted>`, null);

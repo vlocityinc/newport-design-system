@@ -167,20 +167,27 @@ export default class ResourcedRichTextEditor extends LightningElement {
 
     handleChangeEvent(event) {
         event.stopPropagation();
-        let value = event.detail.value;
-        if (!this.isHTMLSanitized) {
-            // when inputRichText is activated we get a change event
-            // except if html text is empty
-            if (this.state.value != null && this.state.value !== '') {
-                // we replace new line with <br /> tag as done at runtime
-                value = this.replaceNewLinesWithBrTags(this.state.value);
-                value = convertHTMLToQuillHTML(value);
-            }
-            this.isHTMLSanitized = true;
-        }
+        const { value } = event.detail;
         const errors = this.validateMergeFields(value);
         const error = errors.length > 0 ? errors[0].message : null;
         this.fireChangeEvent(value, error);
+    }
+
+    handleFocusEvent() {
+        if (!this.isHTMLSanitized) {
+            this.isHTMLSanitized = true;
+            let { value } = this.state;
+            if (value != null && value !== '') {
+                // we replace new line with <br /> tag as done at runtime
+                value = this.replaceNewLinesWithBrTags(value);
+                value = convertHTMLToQuillHTML(value);
+                const errors = this.validateMergeFields(value);
+                const error = errors.length > 0 ? errors[0].message : null;
+                if (value !== this.state.value || error !== this.state.error) {
+                    this.fireChangeEvent(value, error);
+                }
+            }
+        }
     }
 
     handleBlurEvent() {

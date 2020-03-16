@@ -7,10 +7,9 @@
         "registry": "https://nexus.soma.salesforce.com/nexus/content/groups/npm-all/"
     },
     "config": {
-        "auraVersion": "0.6000.2597",
+        "auraVersion": "0.6000.2601",
         "lwcVersion": "1.3.6",
-        "lwcApiVersion": "0.222.13",
-        "lwcJestPreset": "2.2.0"
+        "lwcApiVersion": "0.222.13"
     },
     "scripts": {
         "check:pom": "node ./scripts/checkPom.js",

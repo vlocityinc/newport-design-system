@@ -1,3 +1,8 @@
+export const focusEvent = new FocusEvent('focus', {
+    bubbles: false,
+    cancelable: false
+});
+
 export const focusoutEvent = new FocusEvent('focusout', {
     bubbles: true,
     cancelable: true
