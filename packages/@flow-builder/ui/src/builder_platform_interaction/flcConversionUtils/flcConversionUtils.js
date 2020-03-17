@@ -2,7 +2,7 @@ import { ElementType } from 'builder_platform_interaction/flowUtils';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createEndElement, createConnector } from 'builder_platform_interaction/elementFactory';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
-import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
+import { supportsChildren, flcExtraProps } from 'builder_platform_interaction/flcBuilderUtils';
 
 import { linkBranch, addElementToState, linkElement } from 'builder_platform_interaction/flowUtils';
 
@@ -11,8 +11,6 @@ const LOCATION_Y_FLC_FLOW = 500;
 
 // TODO: FLC Hack: Magic number to support identifying merge elements
 const LOCATION_X_MERGE_MARKER = 666;
-
-const flcExtraProps = ['next', 'prev', 'children', 'parent', 'childIndex', 'isTerminal'];
 
 export function isFixedLayoutCanvas(startElement) {
     return startElement.locationY === LOCATION_Y_FLC_FLOW;

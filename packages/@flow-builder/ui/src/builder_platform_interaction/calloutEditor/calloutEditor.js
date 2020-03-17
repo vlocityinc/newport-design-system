@@ -5,6 +5,7 @@ import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction/validat
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './calloutEditorLabels';
+import { addFlcProperties } from 'builder_platform_interaction/flcBuilderUtils';
 
 const CONTAINER_SELECTOR = 'builder_platform_interaction-callout-editor-container';
 
@@ -144,8 +145,7 @@ export default class CalloutEditor extends LightningElement {
             }
         }
 
-        const { childIndex, next, parent, prev } = this.node;
-        Object.assign(newSelectedAction, { childIndex, next, parent, prev });
+        addFlcProperties(newSelectedAction, this.node);
         this.selectedAction = newSelectedAction;
     }
 

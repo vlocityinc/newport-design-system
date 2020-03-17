@@ -1,5 +1,6 @@
 import { ElementType } from 'builder_platform_interaction/flowUtils';
 import { ELEMENT_TYPE, isSystemElement } from 'builder_platform_interaction/flowMetadata';
+import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
 const ELEMENT_SELECTED_ACTION = 'element_selected_action';
 const ELEMENT_DESELECTED_ACTION = 'element_deselected_action';
@@ -303,4 +304,27 @@ export function getFlcElementType(elementType) {
         default:
             return ElementType.DEFAULT;
     }
+}
+
+/**
+ * Extra properties used by the flc canvas for elements
+ */
+export const flcExtraProps = ['next', 'prev', 'children', 'parent', 'childIndex', 'isTerminal'];
+
+/**
+ * Adds flc props that are not undefined to an object
+ * @param {*} object Object to add flc props to
+ * @param {*} flcProperties Object containing flc props
+ */
+export function addFlcProperties(object, flcProperties) {
+    if (useFixedLayoutCanvas()) {
+        flcExtraProps.forEach(propName => {
+            const propValue = flcProperties[propName];
+            if (propValue !== undefined) {
+                object[propName] = propValue;
+            }
+        });
+    }
+
+    return object;
 }
