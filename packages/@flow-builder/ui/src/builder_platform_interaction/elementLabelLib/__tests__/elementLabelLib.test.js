@@ -20,6 +20,12 @@ import {
     apexCallAutomaticAnonymousApexTypeCollectionOutput,
     subflowAutomaticOutput
 } from 'mock/storeData';
+import {
+    loopAccountAutomaticOutput,
+    loopOnTextCollectionManualOutput,
+    loopOnTextCollectionAutomaticOutput,
+    loopOnApexTypeCollectionAutoOutput
+} from 'mock/storeDataAutolaunched';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -78,6 +84,20 @@ jest.mock(
     '@salesforce/label/FlowBuilderElementLabels.variablePluralLabel',
     () => {
         return { default: 'Variables' };
+    },
+    { virtual: true }
+);
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.loopAsResourceText',
+    () => {
+        return { default: 'Current Looped {0} from {1}' };
+    },
+    { virtual: true }
+);
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.loopOnSObjectAsResourceText',
+    () => {
+        return { default: '{0} from {1}' };
     },
     { virtual: true }
 );
@@ -179,6 +199,19 @@ describe('elementLabelLib', () => {
         it('returns "Outputs from [SubflowName]" for subflow with automatic output handling mode', () => {
             const label = getResourceLabel(subflowAutomaticOutput);
             expect(label).toEqual('Outputs from subflowAutomaticOutput');
+        });
+        describe('Loop', () => {
+            it.each`
+                loop                                   | expectedLabel
+                ${loopOnTextCollectionManualOutput}    | ${loopOnTextCollectionManualOutput.name}
+                ${loopAccountAutomaticOutput}          | ${'Account from ' + loopAccountAutomaticOutput.name}
+                ${loopOnTextCollectionAutomaticOutput} | ${'Current Looped FlowBuilderDataTypes.textDataTypeLabel from ' + loopOnTextCollectionAutomaticOutput.name}
+                ${loopOnApexTypeCollectionAutoOutput}  | ${'Current Looped ApexComplexTypeTestOne216 from ' + loopOnApexTypeCollectionAutoOutput.name}
+            `('$loop should have label: $expectedLabel', ({ loop, expectedLabel }) => {
+                const label = getResourceLabel(loop);
+
+                expect(label).toEqual(expectedLabel);
+            });
         });
     });
     describe('getResourceTypeLabel', () => {
@@ -358,6 +391,19 @@ describe('elementLabelLib', () => {
             expect(getResourceCategory(createElement(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.APEX.value, true))).toEqual(
                 LABELS.apexCollectionVariablePluralLabel
             );
+        });
+        describe('Loop', () => {
+            it.each`
+                loop                                   | expectedCategory
+                ${loopOnTextCollectionManualOutput}    | ${'FlowBuilderElementConfig.loopPluralLabel'}
+                ${loopAccountAutomaticOutput}          | ${LABELS.sObjectPluralLabel}
+                ${loopOnTextCollectionAutomaticOutput} | ${LABELS.variablePluralLabel}
+                ${loopOnApexTypeCollectionAutoOutput}  | ${LABELS.apexVariablePluralLabel}
+            `('$loop should have category: $expectedCategory', ({ loop, expectedCategory }) => {
+                const category = getResourceCategory(loop);
+
+                expect(category).toEqual(expectedCategory);
+            });
         });
     });
     describe('formatWithEntityLabel', () => {

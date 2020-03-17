@@ -20,3 +20,7 @@ export const accountVariable = getElementByName('accountVariable');
 export const accountsCollectionVariable = getElementByName('accounts');
 export const textCollection = getElementByName('textCollection');
 export const textVariable = getElementByName('textVariable');
+export const loopAccountAutomaticOutput = getElementByName('loopAccountAutomaticOutput');
+export const loopOnTextCollectionManualOutput = getElementByName('loopOnTextCollection');
+export const loopOnTextCollectionAutomaticOutput = getElementByName('loopOnTextAutomaticOutput');
+export const loopOnApexTypeCollectionAutoOutput = getElementByName('loopOnApexTypeCollectionAutoOutput');

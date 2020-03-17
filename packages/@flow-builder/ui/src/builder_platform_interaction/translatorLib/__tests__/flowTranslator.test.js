@@ -221,17 +221,16 @@ const getExpectedFlowMetadata = (uiFlow, flowFromMetadataAPI) => {
 };
 
 describe('Flow Translator', () => {
+    let store, uiFlow;
+
     beforeEach(() => {
+        store = Store.getStore(reducer);
         pseudoRandom = lcg(123);
     });
     describe('Getting flow metadata, calling flow-to-ui translation and calling ui-to-flow', () => {
-        let store;
-        beforeEach(() => {
-            store = Store.getStore(reducer);
-        });
         SAMPLE_FLOWS.forEach(metadataFlow => {
             it(`returns the same metadata for sample flow ${metadataFlow.fullName}`, () => {
-                const uiFlow = translateFlowToUIModel(metadataFlow);
+                uiFlow = translateFlowToUIModel(metadataFlow);
                 expect(uiFlow).toHaveNoCommonMutableObjectWith(metadataFlow);
                 store.dispatch(updateFlow(uiFlow));
                 const newMetadataFlow = translateUIModelToFlow(uiFlow);
@@ -241,28 +240,44 @@ describe('Flow Translator', () => {
         });
     });
     it('returns expected ui model for a screen flow containing all elements', () => {
-        const uiFlow = translateFlowToUIModel(flowWithAllElements);
+        uiFlow = translateFlowToUIModel(flowWithAllElements);
+        store.dispatch(updateFlow(uiFlow));
+        uiFlow = translateFlowToUIModel(flowWithAllElements);
+        store.dispatch(updateFlow(uiFlow));
+
         expect(uiFlow).toEqualGoldObject(
             flowWithAllElementsUIModel,
             'flowWithAllElementsUIModel in mock_store_data/flowWithAllElementsUIModel.js'
         );
     });
     it('returns expected ui model for an autolaunched flow', () => {
-        const uiFlow = translateFlowToUIModel(autolaunchedFlow);
+        uiFlow = translateFlowToUIModel(autolaunchedFlow);
+        store.dispatch(updateFlow(uiFlow));
+        uiFlow = translateFlowToUIModel(autolaunchedFlow);
+        store.dispatch(updateFlow(uiFlow));
+
         expect(uiFlow).toEqualGoldObject(
             autolaunchedFlowUIModel,
             'autolaunchedFlowUIModel in mock_store_data_autolaunched/autolaunchedFlowUIModel.js'
         );
     });
     it('returns expected ui model for a contact request flow', () => {
-        const uiFlow = translateFlowToUIModel(contactRequestFlow);
+        uiFlow = translateFlowToUIModel(contactRequestFlow);
+        store.dispatch(updateFlow(uiFlow));
+        uiFlow = translateFlowToUIModel(contactRequestFlow);
+        store.dispatch(updateFlow(uiFlow));
+
         expect(uiFlow).toEqualGoldObject(
             contactRequestFlowUIModel,
             'contactRequestFlowUIModel in mock_store_data_contactrequest/contactRequestFlowUIModel.js'
         );
     });
     it('returns expected ui model for a field service mobile flow', () => {
-        const uiFlow = translateFlowToUIModel(fieldServiceMobileFlow);
+        uiFlow = translateFlowToUIModel(fieldServiceMobileFlow);
+        store.dispatch(updateFlow(uiFlow));
+        uiFlow = translateFlowToUIModel(fieldServiceMobileFlow);
+        store.dispatch(updateFlow(uiFlow));
+
         expect(uiFlow).toEqualGoldObject(
             fieldServiceMobileFlowUIModel,
             'fieldServiceMobileFlowUIModel in mock_store_data_contactrequest/fieldServiceMobileFlowUIModel.js'

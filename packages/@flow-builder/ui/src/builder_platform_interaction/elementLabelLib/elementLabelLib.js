@@ -46,11 +46,21 @@ export function getResourceLabel(resource) {
     let label = resource.name.value || resource.name;
     if (resource.storeOutputAutomatically) {
         if (resource.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
-            // "Accounts from resourceName" (get record, action with sobject anonymous output...)
+            // "Accounts from resourceName" (get record, action with sobject anonymous output, loops...)
             label = formatWithEntityLabel(resource, label, LABELS.recordLookupAsResourceText);
         } else if (resource.elementType === ELEMENT_TYPE.RECORD_CREATE) {
             // "AccountId from myCreateRecord"
             label = formatWithEntityLabel(resource, label, LABELS.recordCreateIdAsResourceText);
+        } else if (resource.elementType === ELEMENT_TYPE.LOOP) {
+            if (resource.dataType === FLOW_DATA_TYPE.APEX.value) {
+                label = format(LABELS.loopAsResourceText, resource.subtype, label);
+            } else {
+                label = format(
+                    LABELS.loopAsResourceText,
+                    resource.dataType ? getDataTypeLabel(resource.dataType) : resource.dataType,
+                    label
+                );
+            }
         } else if (resource.dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value) {
             // "Outputs from myLC"
             label = format(LABELS.lightningComponentScreenFieldAsResourceText, label);
@@ -135,9 +145,13 @@ export function getResourceCategory({ elementType, dataType, isCollection = fals
         ) {
             categoryLabel = isCollection ? LABELS.collectionVariablePluralLabel : LABELS.variablePluralLabel;
         } else if (!isCollection) {
-            const config = getConfigForElementType(elementType);
-            if (config && config.labels && config.labels.plural) {
-                categoryLabel = config.labels.plural;
+            if (elementType === ELEMENT_TYPE.LOOP && dataType) {
+                categoryLabel = LABELS.variablePluralLabel;
+            } else {
+                const config = getConfigForElementType(elementType);
+                if (config && config.labels && config.labels.plural) {
+                    categoryLabel = config.labels.plural;
+                }
             }
         } else {
             categoryLabel = LABELS.collectionVariablePluralLabel;

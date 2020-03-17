@@ -34,8 +34,8 @@
                 "name": "postToChatter",
                 "description": "",
                 "label": "postToChatter",
-                "locationX": 558,
-                "locationY": 206.3125,
+                "locationX": 563,
+                "locationY": 174,
                 "actionType": "chatterPost",
                 "actionName": "chatterPost",
                 "inputParameters": [
@@ -171,6 +171,16 @@
                 "isInput": false,
                 "isOutput": false,
                 "scale": 2
+            },
+            {
+                "name": "apexTypeComplexCollection",
+                "description": "",
+                "apexClass": "ApexComplexTypeTestOne216",
+                "dataType": "Apex",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 2
             }
         ],
         "recordLookups": [
@@ -192,8 +202,8 @@
                 "name": "loopAccountAutomaticOutput",
                 "description": "This is a test with automatic Output",
                 "label": "loopAccountAutomaticOutput",
-                "locationX": 1107,
-                "locationY": 405,
+                "locationX": 491,
+                "locationY": 435,
                 "assignNextValueToReference": null,
                 "collectionReference": "accounts",
                 "iterationOrder": "Asc"
@@ -202,10 +212,30 @@
                 "name": "loopOnTextCollection",
                 "description": "This is a test without automatic Output",
                 "label": "loopOnTextCollection",
-                "locationX": 1249,
-                "locationY": 403,
+                "locationX": 638,
+                "locationY": 435,
                 "assignNextValueToReference": "textVariable",
                 "collectionReference": "textCollection",
+                "iterationOrder": "Asc"
+            },
+            {
+                "name": "loopOnTextAutomaticOutput",
+                "description": "",
+                "label": "loopOnTextAutomaticOutput",
+                "locationX": 648,
+                "locationY": 291,
+                "assignNextValueToReference": null,
+                "collectionReference": "textCollection",
+                "iterationOrder": "Asc"
+            },
+            {
+                "name": "loopOnApexTypeCollectionAutoOutput",
+                "description": "",
+                "label": "loopOnApexTypeCollectionAutoOutput",
+                "locationX": 487,
+                "locationY": 291,
+                "assignNextValueToReference": null,
+                "collectionReference": "apexTypeComplexCollection",
                 "iterationOrder": "Asc"
             }
         ],

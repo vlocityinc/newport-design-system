@@ -487,7 +487,10 @@ export default class Editor extends LightningElement {
         } else {
             // We need to load the parameters first, so as having some information needed at the factory level (e.g. for Action with anonymous output we need parameter related information see actionCall#createActionCall)
             loadParametersForInvocableApexActionsInFlowFromMetadata((data.metadata || data).actionCalls).then(() => {
+                // double dispatch is required for loop factory (we need to get the corresponding looped variable for auto output)
                 storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
+                storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
+
                 if (!data.metadata) {
                     // service does not return the api name but the api name lower cased
 
