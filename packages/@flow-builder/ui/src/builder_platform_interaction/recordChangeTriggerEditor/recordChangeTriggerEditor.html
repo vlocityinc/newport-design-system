@@ -24,21 +24,56 @@
         <h3 class="slds-text-heading_small slds-p-bottom_small">
             {labels.recordChangeTriggerTypeSectionHeader}
         </h3>
+        <div class="slds-form slds-p-bottom_large">
+            <fieldset class="slds-form-element">
+                <legend class="slds-form-element__legend slds-form-element__label">
+                    <div class="slds-align-top">
+                        <abbr class="slds-required" title={labels.requiredLabel}>*</abbr
+                        >{labels.recordChangeTriggerTypeInputLabel}
+                        <lightning-helptext class="slds-list_inline slds-m-left_small" content={labels.helptextContent}>
+                        </lightning-helptext>
+                    </div>
+                </legend>
+                <div class="slds-form-element__control">
+                    <span class="slds-radio">
+                        <input
+                            class="beforeSave"
+                            type="radio"
+                            id="radio-before-save"
+                            value={triggerType}
+                            name="triggerType"
+                            checked={isBeforeSave}
+                            onchange={handleTypeBeforeSave}
+                        />
+                        <label class="slds-radio__label" for="radio-before-save">
+                            <span class="slds-radio_faux"></span>
+                            <b><span class="slds-form-element__label">{labels.triggerTypeBeforeSave}</span></b>
+                        </label>
+                    </span>
+                    <div class="slds-form-element__label slds-form-element slds-m-left_large">
+                        {labels.triggerTypeBeforeSaveDescription}
+                    </div>
 
-        <div class="slds-form slds-p-bottom_small slds-size_1-of-2">
-            <lightning-radio-group
-                class="triggerType slds-form-element slds-col slds-grow"
-                name="triggerType"
-                label={labels.recordChangeTriggerTypeInputLabel}
-                onchange={handleTriggerTypeChange}
-                options={triggerTypeOptions}
-                value={triggerType}
-                required
-                type="radio"
-            ></lightning-radio-group>
-        </div>
-        <div class="slds-p-bottom_small">
-            {triggerTypeDescription}
+                    <span class="slds-radio">
+                        <input
+                            class="afterSave"
+                            type="radio"
+                            id="radio-after-save"
+                            value={triggerType}
+                            name="triggerType"
+                            onchange={handleTypeAfterSave}
+                            checked={isAfterSave}
+                        />
+                        <label class="slds-radio__label" for="radio-after-save">
+                            <span class="slds-radio_faux"></span>
+                            <b><span class="slds-form-element__label">{labels.triggerTypeAfterSave}</span></b>
+                        </label>
+                    </span>
+                    <div class="slds-form-element__label slds-form-element slds-m-left_large">
+                        {labels.triggerTypeAfterSaveDescription}
+                    </div>
+                </div>
+            </fieldset>
         </div>
     </div>
 </template>

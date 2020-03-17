@@ -94,15 +94,12 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         ];
     }
 
-    get triggerTypeDescription() {
-        switch (this.triggerType) {
-            case BEFORE_SAVE:
-                return this.labels.triggerTypeBeforeSaveDescription;
-            case AFTER_SAVE:
-                return this.labels.triggerTypeAfterSaveDescription;
-            default:
-                return 'unsupported trigger type';
-        }
+    get isBeforeSave() {
+        return this.startElement.triggerType.value === BEFORE_SAVE;
+    }
+
+    get isAfterSave() {
+        return this.startElement.triggerType.value === AFTER_SAVE;
     }
 
     /**
@@ -131,7 +128,11 @@ export default class RecordChangeTriggerEditor extends LightningElement {
         this._updateField(START_ELEMENT_FIELDS.TRIGGER_SAVE_TYPE, event.detail.value);
     };
 
-    handleTriggerTypeChange = event => {
-        this._updateField(START_ELEMENT_FIELDS.TRIGGER_TYPE, event.detail.value);
-    };
+    handleTypeBeforeSave() {
+        this._updateField(START_ELEMENT_FIELDS.TRIGGER_TYPE, BEFORE_SAVE);
+    }
+
+    handleTypeAfterSave() {
+        this._updateField(START_ELEMENT_FIELDS.TRIGGER_TYPE, AFTER_SAVE);
+    }
 }
