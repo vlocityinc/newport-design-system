@@ -9,10 +9,13 @@ import {
     selectEvent
 } from 'builder_platform_interaction/builderTestUtils';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { updateFlow } from 'builder_platform_interaction/actions';
-import { FLOW_BUILDER_VALIDATION_ERROR_MESSAGES, resetState, setupStateForProcessType } from '../integrationTestUtils';
+import {
+    FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
+    resetState,
+    setupStateForProcessType,
+    translateFlowToUIAndDispatch
+} from '../integrationTestUtils';
 import { getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
 import { resetFetchOnceCache } from 'builder_platform_interaction/serverDataLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -67,7 +70,7 @@ const getResourceGroupedCombobox = editor => {
 };
 
 describe('Formula Editor', () => {
-    let store;
+    let store, uiFlow;
     beforeAll(async () => {
         store = await setupStateForProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
     });
@@ -78,8 +81,7 @@ describe('Formula Editor', () => {
         let formulaNode;
         let propertyEditor;
         beforeAll(async () => {
-            const uiFlow = translateFlowToUIModel(flowWithAllElements);
-            store.dispatch(updateFlow(uiFlow));
+            uiFlow = translateFlowToUIAndDispatch(flowWithAllElements, store);
             await loadFieldsForComplexTypesInFlow(uiFlow);
         });
         afterAll(() => {

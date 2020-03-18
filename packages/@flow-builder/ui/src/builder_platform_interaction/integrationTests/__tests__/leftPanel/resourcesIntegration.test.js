@@ -1,7 +1,6 @@
 import { createElement } from 'lwc';
-import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import Editor from 'builder_platform_interaction/editor';
-import { resetState } from '../integrationTestUtils';
+import { resetState, translateFlowToUIAndDispatch } from '../integrationTestUtils';
 import {
     getChevronElement,
     getResourceDetail,
@@ -15,7 +14,6 @@ import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { updateFlow } from 'builder_platform_interaction/actions';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { initializeAuraFetch } from '../serverDataTestUtils';
 import { loadOnProcessTypeChange } from 'builder_platform_interaction/preloadLib';
@@ -42,8 +40,7 @@ describe('Resource tab - resource', () => {
         store = Store.getStore();
         initializeAuraFetch();
         await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.FLOW);
-        const uiFlow = translateFlowToUIModel(flowWithAllElements);
-        store.dispatch(updateFlow(uiFlow));
+        translateFlowToUIAndDispatch(flowWithAllElements, store);
         leftPanel = getLeftPanel(editor);
     });
     afterEach(() => {

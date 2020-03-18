@@ -5,10 +5,8 @@ import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
-import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
-import { updateFlow } from 'builder_platform_interaction/actions';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { resetState } from '../../integrationTestUtils';
+import { resetState, translateFlowToUIAndDispatch } from '../../integrationTestUtils';
 import { initializeAuraFetch } from '../../serverDataTestUtils';
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
@@ -74,7 +72,7 @@ const getGroupedCombobox = extensionPropertiesEditor => {
 };
 
 describe('ScreenEditor', () => {
-    let screenNode, store, uiFlow;
+    let screenNode, store;
     let screenEditor;
     describe('existing flow with a screen lightning component : Address or fileUpload, and an account variable', () => {
         beforeAll(async () => {
@@ -87,8 +85,7 @@ describe('ScreenEditor', () => {
         });
         describe('Process type supports lookup traversal', () => {
             beforeEach(async () => {
-                uiFlow = translateFlowToUIModel(flowWithAllElements);
-                store.dispatch(updateFlow(uiFlow));
+                translateFlowToUIAndDispatch(flowWithAllElements, store);
                 await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.FLOW);
 
                 const element = getElementByDevName('screenWithAddress');
@@ -116,8 +113,7 @@ describe('ScreenEditor', () => {
         });
         describe('Process type does not support lookup traversal', () => {
             beforeEach(async () => {
-                uiFlow = translateFlowToUIModel(fieldServiceMobileFlow);
-                store.dispatch(updateFlow(uiFlow));
+                translateFlowToUIAndDispatch(fieldServiceMobileFlow, store);
                 await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE);
 
                 const element = getElementByDevName('screenWithFileUpload');

@@ -7,14 +7,13 @@ import {
     changeComboboxValue,
     changeInputValue,
     resetState,
-    setupStateForProcessType
+    setupStateForProcessType,
+    translateFlowToUIAndDispatch
 } from '../integrationTestUtils';
 import { getGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
 import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { updateFlow } from 'builder_platform_interaction/actions';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import * as FLOWS_WITH_UPDATE_RECORDS from 'mock/flows/flowWithUpdateRecord';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { RecordStoreOptionChangedEvent } from 'builder_platform_interaction/events';
@@ -51,7 +50,7 @@ const UPDATE_RECORDS_USING_SOBJECT_FLOW_ELEMENT = 'update_contract_using_sobject
 const UPDATE_RECORDS_USING_FIELDS_FLOW_ELEMENT = 'update_contract_using_fields';
 
 describe('Record Update Editor', () => {
-    let recordUpdateNode, recordUpdateComponent, store, uiFlow;
+    let recordUpdateNode, recordUpdateComponent, store;
     beforeAll(async () => {
         store = await setupStateForProcessType(FLOW_PROCESS_TYPE.FLOW);
     });
@@ -61,8 +60,7 @@ describe('Record Update Editor', () => {
     describe('name and dev name', () => {
         let newLabel, newDevName;
         beforeAll(() => {
-            uiFlow = translateFlowToUIModel(FLOWS_WITH_UPDATE_RECORDS.USING_SOBJECT);
-            store.dispatch(updateFlow(uiFlow));
+            translateFlowToUIAndDispatch(FLOWS_WITH_UPDATE_RECORDS.USING_SOBJECT, store);
         });
         afterAll(() => {
             store.dispatch({ type: 'INIT' });
@@ -160,8 +158,7 @@ describe('Record Update Editor', () => {
     describe('Existing element', () => {
         describe('Working with sObject', () => {
             beforeAll(() => {
-                uiFlow = translateFlowToUIModel(FLOWS_WITH_UPDATE_RECORDS.USING_SOBJECT);
-                store.dispatch(updateFlow(uiFlow));
+                translateFlowToUIAndDispatch(FLOWS_WITH_UPDATE_RECORDS.USING_SOBJECT, store);
             });
             afterAll(() => {
                 store.dispatch({ type: 'INIT' });
@@ -227,8 +224,7 @@ describe('Record Update Editor', () => {
         });
         describe('Working with fields', () => {
             beforeAll(() => {
-                uiFlow = translateFlowToUIModel(FLOWS_WITH_UPDATE_RECORDS.USING_FIELDS);
-                store.dispatch(updateFlow(uiFlow));
+                translateFlowToUIAndDispatch(FLOWS_WITH_UPDATE_RECORDS.USING_FIELDS, store);
             });
             afterAll(() => {
                 store.dispatch({ type: 'INIT' });

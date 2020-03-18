@@ -3,9 +3,7 @@ import LoopEditor from 'builder_platform_interaction/loopEditor';
 import * as autolaunchedFlow from 'mock/flows/autolaunchedFlow.json';
 import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { resetState, setupStateForProcessType } from '../integrationTestUtils';
-import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
-import { updateFlow } from 'builder_platform_interaction/actions';
+import { resetState, setupStateForProcessType, translateFlowToUIAndDispatch } from '../integrationTestUtils';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import {
@@ -87,12 +85,11 @@ const getCollectionVariableComboboxElement = loopEditor => {
 
 describe('Loop Editor with processType does not support automatic output', () => {
     let loopElement;
-    let store, uiFlow;
+    let store;
     let loopNode;
     beforeAll(async () => {
         store = await setupStateForProcessType(FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE);
-        uiFlow = translateFlowToUIModel(fieldServiceMobileFlow);
-        store.dispatch(updateFlow(uiFlow));
+        translateFlowToUIAndDispatch(fieldServiceMobileFlow, store);
     });
     afterAll(() => {
         resetState();
@@ -168,12 +165,11 @@ describe('Loop Editor with processType does not support automatic output', () =>
 });
 
 describe('Loop Editor with processType supporting automatic output', () => {
-    let store, uiFlow;
+    let store;
     let loopNode;
     beforeAll(async () => {
         store = await setupStateForProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
-        uiFlow = translateFlowToUIModel(autolaunchedFlow);
-        store.dispatch(updateFlow(uiFlow));
+        translateFlowToUIAndDispatch(autolaunchedFlow, store);
     });
     afterAll(() => {
         resetState();
@@ -311,11 +307,10 @@ describe('Loop Editor with processType supporting automatic output', () => {
             await ticks(50);
             colVariableLightningCombobox.dispatchEvent(blurEvent);
             await ticks(50);
-            // loop variable should only show variables with
-            // dataType of String
+
             expect(loopVariableLightningCombobox.items).toHaveLength(3);
             expect(loopVariableLightningCombobox.items[1].label).toBe('FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL');
-            expect(loopVariableLightningCombobox.items[1].items).toHaveLength(2);
+            expect(loopVariableLightningCombobox.items[1].items).toHaveLength(3);
             expect(loopVariableLightningCombobox.items[1].items[0]).toMatchObject({
                 dataType: 'SObject',
                 subtype: 'Account',

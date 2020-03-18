@@ -94,13 +94,6 @@ jest.mock(
     },
     { virtual: true }
 );
-jest.mock(
-    '@salesforce/label/FlowBuilderElementLabels.loopOnSObjectAsResourceText',
-    () => {
-        return { default: '{0} from {1}' };
-    },
-    { virtual: true }
-);
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         getEntity: jest.fn().mockImplementation(apiName => {

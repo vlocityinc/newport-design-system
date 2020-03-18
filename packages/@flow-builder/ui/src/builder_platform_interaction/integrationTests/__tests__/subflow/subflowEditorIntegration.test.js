@@ -5,11 +5,14 @@ import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { updateFlow } from 'builder_platform_interaction/actions';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { flowWithSubflows } from 'mock/flows/flowWithSubflows';
-import { changeComboboxValue, resetState, setupStateForProcessType } from '../integrationTestUtils';
+import {
+    changeComboboxValue,
+    resetState,
+    setupStateForProcessType,
+    translateFlowToUIAndDispatch
+} from '../integrationTestUtils';
 import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
@@ -62,7 +65,7 @@ const createComponentForTest = (node, mode) => {
 const itSkip = it.skip;
 
 describe('Subflow Editor with automatic ouput', () => {
-    let store, uiFlow;
+    let store;
     beforeAll(async () => {
         store = await setupStateForProcessType(FLOW_PROCESS_TYPE.FLOW);
         initializeAuraFetch({
@@ -71,8 +74,7 @@ describe('Subflow Editor with automatic ouput', () => {
             })
         });
         setProcessTypeFeature(PROCESS_TYPE_FLOW, supportedFeaturesListForFlow);
-        uiFlow = translateFlowToUIModel(flowWithAllElements);
-        store.dispatch(updateFlow(uiFlow));
+        translateFlowToUIAndDispatch(flowWithAllElements, store);
     });
     afterAll(() => {
         resetState();
@@ -113,8 +115,7 @@ describe('Subflow Editor with automatic ouput', () => {
 describe('Subflow Editor', () => {
     beforeAll(async () => {
         const store = await setupStateForProcessType(FLOW_PROCESS_TYPE.FLOW);
-        const uiFlow = translateFlowToUIModel(flowWithSubflows);
-        store.dispatch(updateFlow(uiFlow));
+        translateFlowToUIAndDispatch(flowWithSubflows, store);
     });
     let subflowNode;
     beforeAll(() => {

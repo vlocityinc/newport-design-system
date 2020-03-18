@@ -6,13 +6,12 @@ import {
     changeComboboxValue,
     changeInputValue,
     resetState,
-    setupStateForProcessType
+    setupStateForProcessType,
+    translateFlowToUIAndDispatch
 } from '../integrationTestUtils';
 import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { updateFlow } from 'builder_platform_interaction/actions';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import * as FLOWS_WITH_DELETE_RECORDS from 'mock/flows/flowWithDeleteRecords';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -53,7 +52,7 @@ const DELETE_RECORDS_USING_SOBJECT_FLOW_ELEMENT = 'delete_acccount_using_sobject
 const DELETE_RECORDS_USING_FIELDS_FLOW_ELEMENT = 'delete_acccount_using_fields';
 
 describe('Record Delete Editor', () => {
-    let recordDeleteNode, recordDeleteComponent, store, uiFlow;
+    let recordDeleteNode, recordDeleteComponent, store;
     beforeAll(async () => {
         store = await setupStateForProcessType(FLOW_PROCESS_TYPE.FLOW);
     });
@@ -63,8 +62,7 @@ describe('Record Delete Editor', () => {
     describe('name and dev name', () => {
         let newLabel, newDevName;
         beforeAll(() => {
-            uiFlow = translateFlowToUIModel(FLOWS_WITH_DELETE_RECORDS.USING_SOBJECT);
-            store.dispatch(updateFlow(uiFlow));
+            translateFlowToUIAndDispatch(FLOWS_WITH_DELETE_RECORDS.USING_SOBJECT, store);
         });
         afterAll(() => {
             store.dispatch({ type: 'INIT' });
@@ -141,8 +139,7 @@ describe('Record Delete Editor', () => {
     describe('Existing element', () => {
         describe('Working with sObject', () => {
             beforeAll(() => {
-                uiFlow = translateFlowToUIModel(FLOWS_WITH_DELETE_RECORDS.USING_SOBJECT);
-                store.dispatch(updateFlow(uiFlow));
+                translateFlowToUIAndDispatch(FLOWS_WITH_DELETE_RECORDS.USING_SOBJECT, store);
             });
             afterAll(() => {
                 store.dispatch({ type: 'INIT' });
@@ -206,8 +203,7 @@ describe('Record Delete Editor', () => {
         });
         describe('Working with fields', () => {
             beforeAll(() => {
-                uiFlow = translateFlowToUIModel(FLOWS_WITH_DELETE_RECORDS.USING_FIELDS);
-                store.dispatch(updateFlow(uiFlow));
+                translateFlowToUIAndDispatch(FLOWS_WITH_DELETE_RECORDS.USING_FIELDS, store);
             });
             afterAll(() => {
                 store.dispatch({ type: 'INIT' });
@@ -378,8 +374,7 @@ describe('Record Delete Editor', () => {
             clearLoader();
             initializeLoader(store);
             loadOnStart();
-            uiFlow = translateFlowToUIModel(flowWithAllElements);
-            store.dispatch(updateFlow(uiFlow));
+            translateFlowToUIAndDispatch(flowWithAllElements, store);
             await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.FLOW);
             setApexClasses(apexTypesForFlow);
         });

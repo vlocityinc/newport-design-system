@@ -7,15 +7,13 @@ import { setRules } from 'builder_platform_interaction/ruleLib';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { updateFlow } from 'builder_platform_interaction/actions';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { ticks, focusoutEvent, textInputEvent, blurEvent } from 'builder_platform_interaction/builderTestUtils';
 import * as flowWithApexAction from 'mock/flows/flowWithApexAction.json';
 import { flowWithApexActionSubmitForApproval } from 'mock/flows/flowWithApexActionSubmitForApproval';
-import { resetState } from '../integrationTestUtils';
+import { resetState, translateFlowToUIAndDispatch } from '../integrationTestUtils';
 import { getLabelDescriptionNameElement, getLabelDescriptionLabelElement } from '../labelDescriptionTestUtils';
 import { getAllInvocableActionsForType, getInvocableActionDetails, initializeAuraFetch } from '../serverDataTestUtils';
 import {
@@ -74,8 +72,7 @@ describe('Invocable Action Editor', () => {
                     }
                 })
             });
-            const uiFlow = translateFlowToUIModel(flowWithApexAction);
-            store.dispatch(updateFlow(uiFlow));
+            translateFlowToUIAndDispatch(flowWithApexAction, store);
         });
         afterAll(() => {
             setAuraFetch();
@@ -781,8 +778,7 @@ describe('Invocable Action Editor', () => {
                     }
                 })
             });
-            const uiFlow = translateFlowToUIModel(flowWithApexActionSubmitForApproval);
-            store.dispatch(updateFlow(uiFlow));
+            translateFlowToUIAndDispatch(flowWithApexActionSubmitForApproval, store);
         });
         afterAll(() => {
             setAuraFetch();

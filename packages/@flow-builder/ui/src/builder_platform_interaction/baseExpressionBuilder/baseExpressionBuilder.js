@@ -460,15 +460,19 @@ export default class BaseExpressionBuilder extends LightningElement {
     setLhsMenuData() {
         this.setOperatorMenuData();
 
-        if (!this.areAllDefined([this.containerElement, this.rules])) {
+        if (
+            !this.areAllDefined([
+                this.containerElement,
+                this.rules,
+                this.lhsFields,
+                this.lhsDisplayOption,
+                this.lhsMustBeWritable
+            ])
+        ) {
             return;
         }
+
         this.lhsParamTypes = getLHSTypes(this.containerElement, this.rules);
-
-        if (!this.areAllDefined([this.lhsFields, this.lhsDisplayOption, this.lhsMustBeWritable])) {
-            return;
-        }
-
         const isFieldMenuData = this.lhsFields && this.lhsDisplayOption !== LHS_DISPLAY_OPTION.NOT_FIELD;
         const parentMenuItem = isFieldMenuData ? this.getLhsParent() : null;
         this.populateLhsMenuData(isFieldMenuData, parentMenuItem);

@@ -2,13 +2,11 @@ import { createElement } from 'lwc';
 import RecordLookupEditor from 'builder_platform_interaction/recordLookupEditor';
 import { resolveRenderCycles } from '../resolveRenderCycles';
 
-import { resetState, setupStateForProcessType } from '../integrationTestUtils';
+import { resetState, setupStateForProcessType, translateFlowToUIAndDispatch } from '../integrationTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { EditElementEvent, AddElementEvent } from 'builder_platform_interaction/events';
 import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
-import { updateFlow } from 'builder_platform_interaction/actions';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
@@ -63,7 +61,7 @@ const getAutomaticRecordStoreOptionsRadioGroup = recordLookupEditor => {
 };
 
 describe('Record Lookup Editor', () => {
-    let recordLookupNode, store, uiFlow, recordLookupElement;
+    let recordLookupNode, store, recordLookupElement;
     beforeAll(async () => {
         store = await setupStateForProcessType(FLOW_PROCESS_TYPE.FLOW);
     });
@@ -89,8 +87,7 @@ describe('Record Lookup Editor', () => {
     describe('Working with automatic output handling', () => {
         beforeAll(() => {
             setProcessTypeFeature(PROCESS_TYPE_FLOW, supportedFeaturesListForFlow);
-            uiFlow = translateFlowToUIModel(flowWithAllElements);
-            store.dispatch(updateFlow(uiFlow));
+            translateFlowToUIAndDispatch(flowWithAllElements, store);
         });
         afterAll(() => {
             store.dispatch({ type: 'INIT' });

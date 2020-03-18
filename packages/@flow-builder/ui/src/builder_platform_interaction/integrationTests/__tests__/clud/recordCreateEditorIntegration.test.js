@@ -5,14 +5,13 @@ import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
     changeComboboxValue,
     setupStateForProcessType,
-    resetState
+    resetState,
+    translateFlowToUIAndDispatch
 } from '../integrationTestUtils';
 import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { EditElementEvent, AddElementEvent } from 'builder_platform_interaction/events';
-import { updateFlow } from 'builder_platform_interaction/actions';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import {
     flowWithCreateRecordUsingSObject,
     flowWithCreateRecordUsingSObjectCollection,
@@ -93,7 +92,6 @@ const createComponentForTest = (
 describe('Record Create Editor', () => {
     let recordCreateNode;
     let store;
-    let uiFlow;
     describe('Working in auto launched flow', () => {
         beforeAll(async () => {
             store = await setupStateForProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
@@ -103,8 +101,7 @@ describe('Record Create Editor', () => {
         });
         describe('name and dev name', () => {
             beforeAll(() => {
-                uiFlow = translateFlowToUIModel(flowWithCreateRecordUsingSObject);
-                store.dispatch(updateFlow(uiFlow));
+                translateFlowToUIAndDispatch(flowWithCreateRecordUsingSObject, store);
             });
             afterAll(() => {
                 store.dispatch({ type: 'INIT' });
@@ -205,8 +202,7 @@ describe('Record Create Editor', () => {
             describe('Working with sObject', () => {
                 let recordCreateElement;
                 beforeAll(() => {
-                    uiFlow = translateFlowToUIModel(flowWithCreateRecordUsingSObject);
-                    store.dispatch(updateFlow(uiFlow));
+                    translateFlowToUIAndDispatch(flowWithCreateRecordUsingSObject, store);
                 });
                 afterAll(() => {
                     store.dispatch({ type: 'INIT' });
@@ -248,8 +244,7 @@ describe('Record Create Editor', () => {
             describe('Working with sObject Collection', () => {
                 let recordCreateElement;
                 beforeAll(() => {
-                    uiFlow = translateFlowToUIModel(flowWithCreateRecordUsingSObjectCollection);
-                    store.dispatch(updateFlow(uiFlow));
+                    translateFlowToUIAndDispatch(flowWithCreateRecordUsingSObjectCollection, store);
                 });
                 afterAll(() => {
                     store.dispatch({ type: 'INIT' });
@@ -308,8 +303,7 @@ describe('Record Create Editor', () => {
                     await ticks(50);
                 };
                 beforeAll(() => {
-                    uiFlow = translateFlowToUIModel(flowWithCreateRecordUsingFields);
-                    store.dispatch(updateFlow(uiFlow));
+                    translateFlowToUIAndDispatch(flowWithCreateRecordUsingFields, store);
                 });
                 afterAll(() => {
                     resetState();
@@ -505,8 +499,7 @@ describe('Record Create Editor', () => {
         let recordCreateElement;
         beforeAll(async () => {
             store = await setupStateForProcessType(FLOW_PROCESS_TYPE.FLOW);
-            uiFlow = translateFlowToUIModel(flowWithAllElements);
-            store.dispatch(updateFlow(uiFlow));
+            translateFlowToUIAndDispatch(flowWithAllElements, store);
         });
         afterAll(() => {
             resetState();
@@ -787,7 +780,7 @@ describe('Record Create Editor', () => {
                 ${'{!apexComplexTypeVariable.doesNotExist}'}  | ${'FlowBuilderMergeFieldValidation.unknownRecordField'}
                 ${'{!apexComplexTypeVariable.doesNotExist.}'} | ${'FlowBuilderMergeFieldValidation.unknownRecordField'}
             `(
-                'error for "$outputResourcePicker should be : $expectedErrorMessage and assignRecordIdToReference : $expectedNodeValue',
+                'error for "$outputResourcePicker should be : $expectedErrorMessage and assignRecordIdToReference',
                 async ({ outputResourcePicker, expectedErrorMessage }) => {
                     await typeReferenceOrValueInCombobox(outputResourcePickerCombobox, outputResourcePicker);
                     expect(outputResourcePickerCombobox.errorMessage).toEqual(expectedErrorMessage);

@@ -8,14 +8,13 @@ import {
     changeInputValue,
     changeComboboxValue,
     resetState,
-    setupStateForProcessType
+    setupStateForProcessType,
+    translateFlowToUIAndDispatch
 } from '../integrationTestUtils';
 import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { EditElementEvent, AddElementEvent } from 'builder_platform_interaction/events';
-import { updateFlow } from 'builder_platform_interaction/actions';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import {
     flowWithGetRecordUsingSObject,
     flowWithGetRecordUsingSObjectCollection,
@@ -110,7 +109,7 @@ const createComponentForTest = (
 };
 
 describe('Record Lookup Editor', () => {
-    let recordLookupNode, store, uiFlow;
+    let recordLookupNode, store;
     beforeAll(async () => {
         store = await setupStateForProcessType(FLOW_PROCESS_TYPE.FLOW);
     });
@@ -120,8 +119,7 @@ describe('Record Lookup Editor', () => {
     describe('name and dev name', () => {
         let recordLookupElement, newLabel, newDevName;
         beforeAll(() => {
-            uiFlow = translateFlowToUIModel(flowWithGetRecordUsingSObject);
-            store.dispatch(updateFlow(uiFlow));
+            translateFlowToUIAndDispatch(flowWithGetRecordUsingSObject, store);
         });
         afterAll(() => {
             store.dispatch({ type: 'INIT' });
@@ -190,8 +188,7 @@ describe('Record Lookup Editor', () => {
         describe('Working with sObject', () => {
             let recordLookupElement;
             beforeAll(() => {
-                uiFlow = translateFlowToUIModel(flowWithGetRecordUsingSObject);
-                store.dispatch(updateFlow(uiFlow));
+                translateFlowToUIAndDispatch(flowWithGetRecordUsingSObject, store);
             });
             afterAll(() => {
                 store.dispatch({ type: 'INIT' });
@@ -302,8 +299,7 @@ describe('Record Lookup Editor', () => {
         describe('Working with sObject Collection', () => {
             let recordLookupElement;
             beforeAll(() => {
-                uiFlow = translateFlowToUIModel(flowWithGetRecordUsingSObjectCollection);
-                store.dispatch(updateFlow(uiFlow));
+                translateFlowToUIAndDispatch(flowWithGetRecordUsingSObjectCollection, store);
             });
             afterAll(() => {
                 store.dispatch({ type: 'INIT' });
@@ -348,8 +344,7 @@ describe('Record Lookup Editor', () => {
         describe('Working with fields', () => {
             let recordLookupElement;
             beforeAll(() => {
-                uiFlow = translateFlowToUIModel(flowWithGetRecordUsingFields);
-                store.dispatch(updateFlow(uiFlow));
+                translateFlowToUIAndDispatch(flowWithGetRecordUsingFields, store);
             });
             afterAll(() => {
                 store.dispatch({ type: 'INIT' });
@@ -513,8 +508,7 @@ describe('Record Lookup Editor', () => {
         });
         describe('assign variables', () => {
             beforeAll(async () => {
-                uiFlow = translateFlowToUIModel(flowWithAllElements);
-                store.dispatch(updateFlow(uiFlow));
+                translateFlowToUIAndDispatch(flowWithAllElements, store);
                 setApexClasses(apexTypesForFlow);
             });
             afterAll(() => {

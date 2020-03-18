@@ -4,8 +4,6 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { flowWithScreenAndLightningComponentAddress } from 'mock/flows/flowWithScreenAndLightningComponentAddress';
-import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
-import { updateFlow } from 'builder_platform_interaction/actions';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib/';
 import { initializeAuraFetch, createGetterByProcessType } from '../../serverDataTestUtils';
@@ -18,6 +16,7 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import { flowExtensionsForFlow as mockFlowExtensions } from 'serverData/GetFlowExtensions/flowExtensionsForFlow.json';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { translateFlowToUIAndDispatch } from '../../integrationTestUtils';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -98,7 +97,7 @@ const getCanvasScreenFieldElement = (screenEditor, elementTitle) => {
 };
 
 describe('ScreenEditor', () => {
-    let screenNode, store, uiFlow;
+    let screenNode, store;
     let screenEditor;
     beforeEach(() => {
         clearExtensionsCache();
@@ -120,8 +119,7 @@ describe('ScreenEditor', () => {
                 })
             });
             store = Store.getStore(reducer);
-            uiFlow = translateFlowToUIModel(flowWithScreenAndLightningComponentAddress);
-            store.dispatch(updateFlow(uiFlow));
+            translateFlowToUIAndDispatch(flowWithScreenAndLightningComponentAddress, store);
         });
         afterAll(() => {
             store.dispatch({ type: 'INIT' });

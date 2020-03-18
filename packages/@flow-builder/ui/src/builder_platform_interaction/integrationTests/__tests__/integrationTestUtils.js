@@ -26,6 +26,20 @@ export const FLOW_BUILDER_VALIDATION_ERROR_MESSAGES = {
     GENERIC: 'FlowBuilderCombobox.genericErrorMessage'
 };
 
+/**
+ * Translate the flow to UI model and dispatches it twice due to changes to editor.js made as part of W-7281973
+ * @param {*} flow the flow metadata
+ * @param {*} store the store
+ * @returns the flow translated to UI model
+ */
+export const translateFlowToUIAndDispatch = (flow, store) => {
+    let uiFlow = translateFlowToUIModel(flow);
+    store.dispatch(updateFlow(uiFlow));
+    uiFlow = translateFlowToUIModel(flow);
+    store.dispatch(updateFlow(uiFlow));
+    return uiFlow;
+};
+
 export const getChildComponent = (parentComponent, childComponentSelector) => {
     return parentComponent.shadowRoot.querySelector(childComponentSelector);
 };

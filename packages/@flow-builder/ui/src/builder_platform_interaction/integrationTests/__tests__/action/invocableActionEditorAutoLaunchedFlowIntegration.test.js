@@ -4,13 +4,11 @@ import { resolveRenderCycles } from '../resolveRenderCycles';
 import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import { setRules } from 'builder_platform_interaction/ruleLib';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { updateFlow } from 'builder_platform_interaction/actions';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { flowWithApexActionSubmitForApproval } from 'mock/flows/flowWithApexActionSubmitForApproval';
 import { ticks, focusoutEvent, checkboxChangeEvent } from 'builder_platform_interaction/builderTestUtils';
-import { resetState } from '../integrationTestUtils';
+import { resetState, translateFlowToUIAndDispatch } from '../integrationTestUtils';
 import { getLabelDescriptionNameElement, getLabelDescriptionLabelElement } from '../labelDescriptionTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
@@ -62,8 +60,7 @@ describe('Invocable Action Editor', () => {
         setApexClasses(apexTypesForAutolLaunchedFlow);
         fetchDetailsForInvocableAction.mockImplementation(() => Promise.resolve(mockChatterPostActionDetails));
         setProcessTypeFeature(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW, supportedFeaturesListForAutoLaunchedFlow);
-        const uiFlow = translateFlowToUIModel(flowWithApexActionSubmitForApproval);
-        store.dispatch(updateFlow(uiFlow));
+        translateFlowToUIAndDispatch(flowWithApexActionSubmitForApproval, store);
     });
     afterAll(() => {
         resetState();

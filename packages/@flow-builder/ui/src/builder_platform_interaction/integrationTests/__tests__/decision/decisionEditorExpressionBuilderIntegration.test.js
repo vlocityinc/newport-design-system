@@ -1,14 +1,12 @@
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
-import { updateFlow } from 'builder_platform_interaction/actions';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { validateExpression, getLhsCombobox } from '../expressionBuilderTestUtils';
+import { validateExpression, getLhsCombobox, getOperatorCombobox } from '../expressionBuilderTestUtils';
 import { createComponentForTest, getFerToFerovExpressionBuilder } from './decisionEditorTestUtils';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
-import { setupStateForProcessType, resetState } from '../integrationTestUtils';
-import { selectComboboxItemBy } from '../comboboxTestUtils';
+import { setupStateForProcessType, resetState, translateFlowToUIAndDispatch } from '../integrationTestUtils';
+import { selectComboboxItemBy, typeReferenceOrValueInCombobox } from '../comboboxTestUtils';
 
 describe('Decision Editor expression builder', () => {
     let decisionForPropertyEditor, decisionEditor, store;
@@ -21,8 +19,7 @@ describe('Decision Editor expression builder', () => {
     describe('Validation', () => {
         let expressionBuilder;
         beforeAll(() => {
-            const uiFlow = translateFlowToUIModel(flowWithAllElements);
-            store.dispatch(updateFlow(uiFlow));
+            translateFlowToUIAndDispatch(flowWithAllElements, store);
         });
         beforeEach(async () => {
             const element = getElementByDevName('decision');
@@ -33,13 +30,21 @@ describe('Decision Editor expression builder', () => {
         });
 
         test.each`
-            lhs                                                          | operator         | rhs            | rhsErrorMessage
-            ${'{!accountSObjectVariable.BillingLatitude}'}               | ${'EqualTo'}     | ${'500.0'}     | ${undefined}
-            ${'{!accountSObjectVariable.BillingLatitude}'}               | ${'EqualTo'}     | ${'my string'} | ${'FlowBuilderCombobox.numberErrorMessage'}
-            ${'{!feedItemVariable.CreatedBy:User.DigestFrequency}'}      | ${'EqualTo'}     | ${'D'}         | ${undefined}
-            ${'{!feedItemVariable.CreatedBy:User.DigestFrequency}'}      | ${'EqualTo'}     | ${'D'}         | ${undefined}
-            ${'{!feedItemVariable.CreatedBy:User.NumberOfFailedLogins}'} | ${'GreaterThan'} | ${'2'}         | ${undefined}
-            ${'{!feedItemVariable.CreatedBy:User.NumberOfFailedLogins}'} | ${'GreaterThan'} | ${'myString'}  | ${'FlowBuilderCombobox.numberErrorMessage'}
+            lhs                                                          | operator         | rhs                            | rhsErrorMessage
+            ${'{!accountSObjectVariable.BillingLatitude}'}               | ${'EqualTo'}     | ${'500.0'}                     | ${undefined}
+            ${'{!accountSObjectVariable.BillingLatitude}'}               | ${'EqualTo'}     | ${'my string'}                 | ${'FlowBuilderCombobox.numberErrorMessage'}
+            ${'{!feedItemVariable.CreatedBy:User.DigestFrequency}'}      | ${'EqualTo'}     | ${'D'}                         | ${undefined}
+            ${'{!feedItemVariable.CreatedBy:User.DigestFrequency}'}      | ${'EqualTo'}     | ${'D'}                         | ${undefined}
+            ${'{!feedItemVariable.CreatedBy:User.NumberOfFailedLogins}'} | ${'GreaterThan'} | ${'2'}                         | ${undefined}
+            ${'{!feedItemVariable.CreatedBy:User.NumberOfFailedLogins}'} | ${'GreaterThan'} | ${'myString'}                  | ${'FlowBuilderCombobox.numberErrorMessage'}
+            ${'{!loopOnAccountAutoOutput}'}                              | ${'WasVisited'}  | ${'{!$GlobalConstant.True}'}   | ${undefined}
+            ${'{!loopOnAccountAutoOutput}'}                              | ${'EqualTo'}     | ${'{!accountSObjectVariable}'} | ${undefined}
+            ${'{!loopOnAccountAutoOutput.BillingLatitude}'}              | ${'EqualTo'}     | ${'500.0'}                     | ${undefined}
+            ${'{!loopOnTextCollectionAutoOutput}'}                       | ${'EqualTo'}     | ${'my string'}                 | ${undefined}
+            ${'{!loopOnTextCollectionAutoOutput}'}                       | ${'WasVisited'}  | ${'{!$GlobalConstant.True}'}   | ${undefined}
+            ${'{!loopOnApexAutoOutput}'}                                 | ${'WasVisited'}  | ${'{!$GlobalConstant.True}'}   | ${undefined}
+            ${'{!loopOnApexAutoOutput.name}'}                            | ${'EqualTo'}     | ${'myString'}                  | ${undefined}
+            ${'{!loopOnTextCollection}'}                                 | ${'WasVisited'}  | ${'{!$GlobalConstant.True}'}   | ${undefined}
         `('"$lhs $operator $rhs" should be $rhsErrorMessage', async ({ lhs, operator, rhs, rhsErrorMessage }) => {
             expect(
                 await validateExpression(expressionBuilder, {
@@ -61,6 +66,18 @@ describe('Decision Editor expression builder', () => {
             // Then
             expect(selectedItem).toBeDefined();
             expect(lhsCombobox.errorMessage).toBeNull();
+        });
+        it('can only select WasVisited on loop with manual output', async () => {
+            // Given
+            const lhsCombobox = getLhsCombobox(expressionBuilder);
+            await typeReferenceOrValueInCombobox(lhsCombobox, '{!loopOnTextCollection}');
+
+            // When
+            const operators = getOperatorCombobox(expressionBuilder).options;
+
+            // Then
+            expect(operators).toHaveLength(1);
+            expect(operators[0].value).toContain('WasVisited');
         });
     });
 });
