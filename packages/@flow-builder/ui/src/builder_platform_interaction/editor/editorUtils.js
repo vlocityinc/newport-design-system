@@ -759,7 +759,7 @@ export function getToolboxElements(flowProcessType, flowTriggerType) {
     logPerfTransactionStart(LEFT_PANEL_ELEMENTS);
     return new Promise(resolve => {
         // TODO: fetch should return a promise
-        fetch(SERVER_ACTION_TYPE.GET_LEFT_PANEL_ELEMENTS, resolve, {
+        fetch(SERVER_ACTION_TYPE.GET_SUPPORTED_ELEMENTS, resolve, {
             flowProcessType,
             flowTriggerType
         });

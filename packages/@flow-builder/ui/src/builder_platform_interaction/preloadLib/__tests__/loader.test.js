@@ -42,6 +42,7 @@ jest.mock('../dataForProcessType', () => {
         loadGlobalVariables: jest.fn().mockResolvedValue('globalvariables'),
         loadSystemVariables: jest.fn().mockResolvedValue('systemvariables'),
         loadSubflows: jest.fn().mockResolvedValue('subflows'),
+        loadPalette: jest.fn().mockResolvedValue('palette'),
         loadWorkflowEnabledEntities: jest.fn()
     };
 });
@@ -90,7 +91,7 @@ describe('Loader', () => {
             it('initiates loading of peripheral metadata', async () => {
                 const processType = 'process_type_1';
                 loadOnStart();
-                const promise = loadOnProcessTypeChange(processType);
+                const promise = loadOnProcessTypeChange(processType).loadPeripheralMetadataPromise;
                 expect(promise).not.toBeNull();
                 await promise;
                 // Resolves to nothing currently in that there is no need to handle loaded data down in the promise chain.
@@ -121,7 +122,7 @@ describe('Loader', () => {
                 loadEventTypes.mockRejectedValue('something else went wrong');
                 const processType = 'process_type_1';
                 loadOnStart();
-                const promise = loadOnProcessTypeChange(processType);
+                const promise = loadOnProcessTypeChange(processType).loadPeripheralMetadataPromise;
                 expect(promise).not.toBeNull();
                 await promise;
                 expect(promise).resolves.toEqual();

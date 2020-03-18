@@ -15,7 +15,8 @@ import {
     loadWorkflowEnabledEntities,
     loadSystemVariables,
     loadGlobalVariables,
-    loadProcessTypeFeatures
+    loadProcessTypeFeatures,
+    loadPalette
 } from './dataForProcessType';
 
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
@@ -108,10 +109,16 @@ class Loader {
     loadOnProcessTypeChange(flowProcessType) {
         // currently, we prefetch actions, apex plugins and subflows for performance reasons but we don't need them to be loaded
         // before we can open a Property Editor
-        loadActions(flowProcessType);
+        const loadActionsPromise = loadActions(flowProcessType);
         loadApexPlugins();
         loadSubflows(flowProcessType);
-        return this.loadPeripheralMetadata(flowProcessType);
+        const loadPalettePromise = loadPalette(flowProcessType);
+        const loadPeripheralMetadataPromise = this.loadPeripheralMetadata(flowProcessType);
+        return {
+            loadActionsPromise,
+            loadPeripheralMetadataPromise,
+            loadPalettePromise
+        };
     }
 
     loadPeripheralMetadata(flowProcessType) {

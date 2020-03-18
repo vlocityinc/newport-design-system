@@ -64,13 +64,13 @@ export const setupState = () => {
 
 export const setupStateForProcessType = async processType => {
     const store = setupState();
-    await loadOnProcessTypeChange(processType);
+    await loadOnProcessTypeChange(processType).loadPeripheralMetadataPromise;
     await loadApexClasses();
     return store;
 };
 
 export const loadFlow = async (flow, store) => {
-    await loadOnProcessTypeChange(flow.processType);
+    await loadOnProcessTypeChange(flow.processType).loadPeripheralMetadataPromise;
     const uiFlow = translateFlowToUIModel(flow);
     store.dispatch(updateFlow(uiFlow));
     await loadFieldsForComplexTypesInFlow(uiFlow);

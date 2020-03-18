@@ -117,6 +117,7 @@ import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
 import { getTriggerType } from 'builder_platform_interaction/storeUtils';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
+import { getInvocableActions } from 'builder_platform_interaction/invocableActionLib';
 
 let unsubscribeStore;
 let storeInstance;
@@ -178,9 +179,6 @@ export default class Editor extends LightningElement {
 
     @track
     flowStatus;
-
-    @track
-    toolboxElements;
 
     @track
     elementsMetadata;
@@ -272,7 +270,13 @@ export default class Editor extends LightningElement {
     @track
     isSelectionMode = false;
 
+    @track
+    palette = null;
+
     processTypeLoading = false;
+
+    supportedElements = [];
+    supportedActons = [];
 
     /** Whether to use the FLC canvas */
     get useFixedLayoutCanvas() {
@@ -421,6 +425,10 @@ export default class Editor extends LightningElement {
         return this.hasNotBeenSaved || !this.retrievedHeaderUrls || !this.canRunDebugWithVAD;
     }
 
+    get toolboxElements() {
+        return [...this.supportedElements, ...this.supportedActons];
+    }
+
     /**
      * Method to map appstate to store. This method get called when store changes.
      */
@@ -435,15 +443,29 @@ export default class Editor extends LightningElement {
         const flowProcessTypeChanged = flowProcessType && flowProcessType !== this.properties.processType;
         const triggerTypeChanged = flowTriggerType !== this.triggerType;
         if (flowProcessTypeChanged || triggerTypeChanged) {
-            getToolboxElements(flowProcessType, flowTriggerType).then(toolboxElements => {
-                this.toolboxElements = toolboxElements;
+            getToolboxElements(flowProcessType, flowTriggerType).then(supportedElements => {
+                this.supportedElements = supportedElements;
                 if (useFixedLayoutCanvas()) {
-                    this.elementsMetadata = getElementsMetadata(toolboxElements);
+                    this.elementsMetadata = getElementsMetadata(supportedElements);
                 }
             });
 
             if (flowProcessTypeChanged) {
-                this.propertyEditorBlockerCalls.push(loadOnProcessTypeChange(flowProcessType));
+                const {
+                    loadActionsPromise,
+                    loadPeripheralMetadataPromise,
+                    loadPalettePromise
+                } = loadOnProcessTypeChange(flowProcessType);
+                this.propertyEditorBlockerCalls.push(loadPeripheralMetadataPromise);
+                loadActionsPromise.then(() => {
+                    const actions = getInvocableActions();
+                    if (actions) {
+                        this.supportedActons = actions;
+                    }
+                });
+                loadPalettePromise.then(data => {
+                    this.palette = data;
+                });
             }
 
             if (triggerTypeChanged) {

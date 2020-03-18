@@ -25,7 +25,13 @@ jest.mock('builder_platform_interaction/preloadLib', () => {
         loadParametersForInvocableApexActionsInFlowFromMetadata: jest.fn(),
         loadReferencesIn: jest.fn(),
         loadOnStart: jest.fn(),
-        loadOnProcessTypeChange: jest.fn(),
+        loadOnProcessTypeChange: jest.fn().mockImplementation(() => {
+            return {
+                loadActionsPromise: Promise.resolve({}),
+                loadPeripheralMetadataPromise: Promise.resolve({}),
+                loadPalettePromise: Promise.resolve({})
+            };
+        }),
         initializeLoader: jest.fn()
     };
 });

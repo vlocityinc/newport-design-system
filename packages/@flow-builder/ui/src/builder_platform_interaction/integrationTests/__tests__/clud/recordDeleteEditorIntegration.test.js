@@ -375,7 +375,7 @@ describe('Record Delete Editor', () => {
             initializeLoader(store);
             loadOnStart();
             translateFlowToUIAndDispatch(flowWithAllElements, store);
-            await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.FLOW);
+            await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.FLOW).loadPeripheralMetadataPromise;
             setApexClasses(apexTypesForFlow);
         });
         afterAll(() => {

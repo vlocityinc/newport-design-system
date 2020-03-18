@@ -4,7 +4,7 @@ export const SERVER_ACTION_TYPE = {
     GET_FLOW: 'getFlow',
     SAVE_FLOW: 'saveFlow',
     GET_RULES: 'getRules',
-    GET_LEFT_PANEL_ELEMENTS: 'getElements',
+    GET_SUPPORTED_ELEMENTS: 'getElements',
     GET_INVOCABLE_ACTIONS: 'getInvocableActions',
     GET_APEX_PLUGINS: 'getApexPlugins',
     GET_SUBFLOWS: 'getSubflows',
@@ -39,14 +39,15 @@ export const SERVER_ACTION_TYPE = {
     GET_WORKFLOW_ENABLED_ENTITIES: 'getWorkflowEnabledEntities',
     GET_FLOW_EXTENSION_DETAILS: 'getFlowExtensionDetails',
     GET_FLOW_ENTRIES: 'getFlowEntries',
-    GET_TRIGGER_TYPE_INFO: 'getTriggerTypeInfo'
+    GET_TRIGGER_TYPE_INFO: 'getTriggerTypeInfo',
+    GET_PALETTE: 'getPalette'
 };
 
 const actionConfig = {
     [SERVER_ACTION_TYPE.GET_FLOW]: 'c.retrieveFlow',
     [SERVER_ACTION_TYPE.SAVE_FLOW]: 'c.saveFlow',
     [SERVER_ACTION_TYPE.GET_RULES]: 'c.retrieveAllRules',
-    [SERVER_ACTION_TYPE.GET_LEFT_PANEL_ELEMENTS]: 'c.retrieveElementsPalette',
+    [SERVER_ACTION_TYPE.GET_SUPPORTED_ELEMENTS]: 'c.getSupportedElements',
     [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS]: 'c.getAllInvocableActionsForType',
     [SERVER_ACTION_TYPE.GET_APEX_PLUGINS]: 'c.getApexPlugins',
     [SERVER_ACTION_TYPE.GET_SUBFLOWS]: 'c.getSubflows',
@@ -80,7 +81,8 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES]: 'c.getWorkflowEnabledEntities',
     [SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_DETAILS]: 'c.getFlowExtensionDetails',
     [SERVER_ACTION_TYPE.GET_FLOW_ENTRIES]: 'c.getFlowEntries',
-    [SERVER_ACTION_TYPE.GET_TRIGGER_TYPE_INFO]: 'c.getTriggerTypeInfo'
+    [SERVER_ACTION_TYPE.GET_TRIGGER_TYPE_INFO]: 'c.getTriggerTypeInfo',
+    [SERVER_ACTION_TYPE.GET_PALETTE]: 'c.getPalette'
 };
 
 let auraFetch;
@@ -173,7 +175,8 @@ const KEY_PROVIDER = {
     [SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS]: () => SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS,
     [SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES]: () => SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES,
     [SERVER_ACTION_TYPE.GET_FLOW_ENTRIES]: params => `${params.builderType}`,
-    [SERVER_ACTION_TYPE.GET_TRIGGER_TYPE_INFO]: params => `${params.triggerType}`
+    [SERVER_ACTION_TYPE.GET_TRIGGER_TYPE_INFO]: params => `${params.triggerType}`,
+    [SERVER_ACTION_TYPE.GET_PALETTE]: params => params.flowProcessType
 };
 
 const fetchOnceCache = {};

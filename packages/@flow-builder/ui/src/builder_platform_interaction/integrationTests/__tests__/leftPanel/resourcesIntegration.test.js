@@ -39,7 +39,7 @@ describe('Resource tab - resource', () => {
         editor = createEditorForTest();
         store = Store.getStore();
         initializeAuraFetch();
-        await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.FLOW);
+        await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.FLOW).loadPeripheralMetadataPromise;
         translateFlowToUIAndDispatch(flowWithAllElements, store);
         leftPanel = getLeftPanel(editor);
     });

@@ -86,7 +86,7 @@ describe('ScreenEditor', () => {
         describe('Process type supports lookup traversal', () => {
             beforeEach(async () => {
                 translateFlowToUIAndDispatch(flowWithAllElements, store);
-                await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.FLOW);
+                await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.FLOW).loadPeripheralMetadataPromise;
 
                 const element = getElementByDevName('screenWithAddress');
                 screenNode = getElementForPropertyEditor(element);
@@ -114,7 +114,7 @@ describe('ScreenEditor', () => {
         describe('Process type does not support lookup traversal', () => {
             beforeEach(async () => {
                 translateFlowToUIAndDispatch(fieldServiceMobileFlow, store);
-                await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE);
+                await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE).loadPeripheralMetadataPromise;
 
                 const element = getElementByDevName('screenWithFileUpload');
                 screenNode = getElementForPropertyEditor(element);

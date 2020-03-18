@@ -72,3 +72,8 @@ export const loadProcessTypeFeatures = flowProcessType =>
     }).then(data => {
         setProcessTypeFeature(flowProcessType, data);
     });
+
+export const loadPalette = flowProcessType =>
+    fetchOnce(SERVER_ACTION_TYPE.GET_PALETTE, {
+        flowProcessType
+    });

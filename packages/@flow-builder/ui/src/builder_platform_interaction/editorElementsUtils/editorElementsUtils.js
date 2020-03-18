@@ -4,34 +4,6 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { logMetricsServiceErrorTransaction } from 'builder_platform_interaction/loggingUtils';
 
 /**
- * Sort element types from service side based on the custom ordering list
- * @param {Array} unsortedElementTypes unsorted element type list
- *
- * @returns {Array} sorted element type list based on custom ordering
- */
-function sortElementTypes(unsortedElementTypes = []) {
-    const elementOrderedList = [
-        ELEMENT_TYPE.SCREEN,
-        ELEMENT_TYPE.ACTION_CALL,
-        ELEMENT_TYPE.SUBFLOW,
-        ELEMENT_TYPE.ASSIGNMENT,
-        ELEMENT_TYPE.DECISION,
-        ELEMENT_TYPE.WAIT,
-        ELEMENT_TYPE.LOOP,
-        ELEMENT_TYPE.RECORD_CREATE,
-        ELEMENT_TYPE.RECORD_UPDATE,
-        ELEMENT_TYPE.RECORD_LOOKUP,
-        ELEMENT_TYPE.RECORD_DELETE,
-        ELEMENT_TYPE.APEX_PLUGIN_CALL
-    ];
-    return [...unsortedElementTypes].sort(
-        (firstElementType, secondElementType) =>
-            elementOrderedList.indexOf(firstElementType.elementType) -
-            elementOrderedList.indexOf(secondElementType.elementType)
-    );
-}
-
-/**
  * Transforms elements into a form that is usable by lightning-tree-grid. These
  * are grouped by element category so that they can more easily be placed into
  * sections.
@@ -41,26 +13,46 @@ function sortElementTypes(unsortedElementTypes = []) {
  * @returns {Object} a mapping of element type to a list of
  *          lightning-tree-grid-items
  */
-const mutateElements = elements =>
-    elements.reduce((acc, { elementType }) => {
+const mutateElements = (elements, palette) =>
+    palette.headers.reduce((acc, { headerLabel, headerItems }) => {
         try {
-            const { nodeConfig, labels } = getConfigForElementType(elementType);
-            const { iconName, dragImageSrc, iconBackgroundColor, section, description } = nodeConfig;
+            if (headerLabel && headerItems) {
+                headerItems.forEach(headerItem => {
+                    const element = elements.find(el => {
+                        if (headerItem.type === 'element') {
+                            return headerItem.name === el.elementType;
+                        }
+                        if (headerItem.type === 'action') {
+                            return headerItem.name === el.type;
+                        }
 
-            if (section) {
-                if (!acc[section]) {
-                    acc[section] = [];
-                }
-                const item = {
-                    guid: generateGuid(),
-                    iconName,
-                    dragImageSrc,
-                    iconBackgroundColor,
-                    label: labels && labels.leftPanel,
-                    description,
-                    elementType
-                };
-                acc[section].push(item);
+                        return false;
+                    });
+                    if (element) {
+                        const elementType = element.elementType || ELEMENT_TYPE.ACTION_CALL;
+                        const { nodeConfig, labels } = getConfigForElementType(elementType);
+                        const label = element.elementType ? labels && labels.leftPanel : element.label;
+                        const actionType = element.elementType ? undefined : element.type;
+                        const actionName = element.elementType ? undefined : element.name;
+                        const { iconName, dragImageSrc, iconBackgroundColor, description } = nodeConfig;
+
+                        if (!acc[headerLabel]) {
+                            acc[headerLabel] = [];
+                        }
+                        const item = {
+                            guid: generateGuid(),
+                            iconName,
+                            dragImageSrc,
+                            iconBackgroundColor,
+                            label,
+                            description,
+                            elementType,
+                            actionType,
+                            actionName
+                        };
+                        acc[headerLabel].push(item);
+                    }
+                });
             }
         } catch (e) {
             // if an element is invalid, just log it but don't stop the rest from loading
@@ -77,13 +69,12 @@ const mutateElements = elements =>
  *            elements list of all the elements
  * @returns {Array} collection of lightning-tree-grid items
  */
-export const getElementSections = elements => {
+export const getElementSections = (elements, palette) => {
     if (!elements || Object.keys(elements).length === 0) {
         return [];
     }
 
-    elements = sortElementTypes(elements);
-    const elementMap = mutateElements(elements);
+    const elementMap = mutateElements(elements, palette);
     const elementSections = Object.keys(elementMap).reduce((acc, name) => {
         const section = {};
         section._children = elementMap[name];

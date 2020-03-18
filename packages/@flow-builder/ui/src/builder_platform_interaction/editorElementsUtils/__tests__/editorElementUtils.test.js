@@ -27,15 +27,44 @@ describe('element-lib', () => {
     });
 
     describe('When elements are available', () => {
-        it('returns the expected sections list based on custom ordering when receive child element list', () => {
+        it('returns the expected sections list based on palette', () => {
             const unsortedElements = [
                 { elementType: ELEMENT_TYPE.WAIT },
                 { elementType: ELEMENT_TYPE.ASSIGNMENT },
                 { elementType: ELEMENT_TYPE.SCREEN },
                 { elementType: ELEMENT_TYPE.RECORD_LOOKUP },
                 { elementType: ELEMENT_TYPE.RECORD_CREATE },
-                { elementType: ELEMENT_TYPE.ACTION_CALL }
+                { elementType: ELEMENT_TYPE.ACTION_CALL },
+                { type: 'marketingEmail', name: 'testAction', label: 'testActionLabel' }
             ];
+
+            const palette = {
+                headers: [
+                    {
+                        headerLabel: 'FlowBuilderLeftPanelElements.flowInteractionComponentsLabel',
+                        headerItems: [
+                            { type: 'element', name: ELEMENT_TYPE.SCREEN },
+                            { type: 'element', name: ELEMENT_TYPE.ACTION_CALL },
+                            { type: 'element', name: ELEMENT_TYPE.LOOP }
+                        ]
+                    },
+                    {
+                        headerLabel: 'FlowBuilderLeftPanelElements.flowControlLogicLabel',
+                        headerItems: [
+                            { type: 'element', name: ELEMENT_TYPE.ASSIGNMENT },
+                            { type: 'element', name: ELEMENT_TYPE.WAIT },
+                            { type: 'action', name: 'marketingEmail' }
+                        ]
+                    },
+                    {
+                        headerLabel: 'FlowBuilderLeftPanelElements.flowControlDataOperationsLabel',
+                        headerItems: [
+                            { type: 'element', name: ELEMENT_TYPE.RECORD_CREATE },
+                            { type: 'element', name: ELEMENT_TYPE.RECORD_LOOKUP }
+                        ]
+                    }
+                ]
+            };
 
             const expectedElementSections = [
                 {
@@ -44,7 +73,15 @@ describe('element-lib', () => {
                     label: 'FlowBuilderLeftPanelElements.flowInteractionComponentsLabel'
                 },
                 {
-                    _children: [{ elementType: ELEMENT_TYPE.ASSIGNMENT }, { elementType: ELEMENT_TYPE.WAIT }],
+                    _children: [
+                        { elementType: ELEMENT_TYPE.ASSIGNMENT },
+                        { elementType: ELEMENT_TYPE.WAIT },
+                        {
+                            elementType: ELEMENT_TYPE.ACTION_CALL,
+                            actionType: 'marketingEmail',
+                            actionName: 'testAction'
+                        }
+                    ],
                     guid: 'testGUID',
                     label: 'FlowBuilderLeftPanelElements.flowControlLogicLabel'
                 },
@@ -58,57 +95,7 @@ describe('element-lib', () => {
                 }
             ];
 
-            expect(getElementSections(unsortedElements)).toMatchObject(expectedElementSections);
-        });
-
-        it('returns the expected sections list based on custom ordering when receive full element list', () => {
-            const unsortedElements = [
-                { elementType: ELEMENT_TYPE.SUBFLOW },
-                { elementType: ELEMENT_TYPE.WAIT },
-                { elementType: ELEMENT_TYPE.DECISION },
-                { elementType: ELEMENT_TYPE.LOOP },
-                { elementType: ELEMENT_TYPE.ASSIGNMENT },
-                { elementType: ELEMENT_TYPE.SCREEN },
-                { elementType: ELEMENT_TYPE.RECORD_UPDATE },
-                { elementType: ELEMENT_TYPE.RECORD_LOOKUP },
-                { elementType: ELEMENT_TYPE.RECORD_CREATE },
-                { elementType: ELEMENT_TYPE.RECORD_DELETE },
-                { elementType: ELEMENT_TYPE.ACTION_CALL }
-            ];
-
-            const expectedElementSections = [
-                {
-                    _children: [
-                        { elementType: ELEMENT_TYPE.SCREEN },
-                        { elementType: ELEMENT_TYPE.ACTION_CALL },
-                        { elementType: ELEMENT_TYPE.SUBFLOW }
-                    ],
-                    guid: 'testGUID',
-                    label: 'FlowBuilderLeftPanelElements.flowInteractionComponentsLabel'
-                },
-                {
-                    _children: [
-                        { elementType: ELEMENT_TYPE.ASSIGNMENT },
-                        { elementType: ELEMENT_TYPE.DECISION },
-                        { elementType: ELEMENT_TYPE.WAIT },
-                        { elementType: ELEMENT_TYPE.LOOP }
-                    ],
-                    guid: 'testGUID',
-                    label: 'FlowBuilderLeftPanelElements.flowControlLogicLabel'
-                },
-                {
-                    _children: [
-                        { elementType: ELEMENT_TYPE.RECORD_CREATE },
-                        { elementType: ELEMENT_TYPE.RECORD_UPDATE },
-                        { elementType: ELEMENT_TYPE.RECORD_LOOKUP },
-                        { elementType: ELEMENT_TYPE.RECORD_DELETE }
-                    ],
-                    guid: 'testGUID',
-                    label: 'FlowBuilderLeftPanelElements.flowControlDataOperationsLabel'
-                }
-            ];
-
-            expect(getElementSections(unsortedElements)).toMatchObject(expectedElementSections);
+            expect(getElementSections(unsortedElements, palette)).toMatchObject(expectedElementSections);
         });
     });
 });
