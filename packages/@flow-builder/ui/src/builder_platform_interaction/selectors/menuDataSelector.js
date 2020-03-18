@@ -225,7 +225,7 @@ export const choiceSelector = dataType =>
 // Only variables and automatic output from GetRecord/Actions/Create elements are writable.
 // Lightning components screen fields in automatic handling mode and Actions in automatic handling mode have writable fields.
 export const writableElementsSelector = filteredElementsSelector(
-    ({ elementType, dataType, object, isSystemGeneratedOutput }) =>
+    ({ elementType, dataType, object, isSystemGeneratedOutput, storeOutputAutomatically }) =>
         elementType === ELEMENT_TYPE.VARIABLE ||
         (elementType === ELEMENT_TYPE.START_ELEMENT && !!object) ||
         dataType === FLOW_DATA_TYPE.SOBJECT.value ||
@@ -233,6 +233,7 @@ export const writableElementsSelector = filteredElementsSelector(
         dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value ||
         dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value ||
         (elementType === ELEMENT_TYPE.RECORD_CREATE && dataType === FLOW_DATA_TYPE.STRING.value) ||
+        (elementType === ELEMENT_TYPE.LOOP && storeOutputAutomatically) ||
         isSystemGeneratedOutput === true
 );
 

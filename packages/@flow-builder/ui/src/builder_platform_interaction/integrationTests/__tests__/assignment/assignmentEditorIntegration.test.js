@@ -80,6 +80,13 @@ jest.mock(
     () => ({ default: '{0} from {1}' }),
     { virtual: true }
 );
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.loopAsResourceText',
+    () => {
+        return { default: 'Current Looped {0} from {1}' };
+    },
+    { virtual: true }
+);
 
 const createComponentForTest = assignmentElement => {
     const el = createElement('builder_platform_interaction-assignment-editor', {
@@ -427,6 +434,22 @@ describe('Assignment Editor', () => {
             });
             itCanSelectInLhs(['Outputs from subflowAutomaticOutput', 'carOutput', 'wheel', 'type'], {
                 displayText: '{!subflowAutomaticOutput.carOutput.wheel.type}'
+            });
+        });
+        describe('loop automatic output', () => {
+            itCanSelectInLhs(['Account from loopOnAccountAutoOutput', 'Name'], {
+                displayText: '{!loopOnAccountAutoOutput.Name}'
+            });
+            itCanSelectInLhs(['Current Looped Text from loopOnTextCollectionAutoOutput'], {
+                displayText: '{!loopOnTextCollectionAutoOutput}'
+            });
+            itCanSelectInLhs(['Current Looped ApexComplexTypeTestOne216 from loopOnApexAutoOutput', 'name'], {
+                displayText: '{!loopOnApexAutoOutput.name}'
+            });
+            it('cannot select loop with manual output', async () => {
+                const lhsCombobox = getLhsCombobox(expressionBuilder);
+                await typeReferenceOrValueInCombobox(lhsCombobox, '{!loopOnTextCollectionManualOutput}');
+                expect(lhsCombobox.errorMessage).toBe('FlowBuilderCombobox.genericErrorMessage');
             });
         });
     });
