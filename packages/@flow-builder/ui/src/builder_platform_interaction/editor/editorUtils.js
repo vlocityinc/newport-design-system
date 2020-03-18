@@ -361,6 +361,33 @@ const getBottomCutOrCopiedGuid = (elementsInStore, topCutOrCopiedGuid) => {
 };
 
 /**
+ * Function to recurse through the screen field references and getting all the nested screen fields to cut or copy
+ * @param {Object} elementsInStore - State of the elements in store
+ * @param {Object []} fieldReferencesArray - Array containing field reference objects like: {fieldReference: 'fieldGuid'}
+ * @returns nestedChildElementsToCutOrCopy - Object containing all the nested screen field to cut or copy
+ */
+const getNestedChildElementsToCutOrCopy = (elementsInStore, fieldReferencesArray) => {
+    let nestedChildElementsToCutOrCopy = {};
+    if (fieldReferencesArray && fieldReferencesArray.length > 0) {
+        for (let i = 0; i < fieldReferencesArray.length; i++) {
+            const fieldReference = fieldReferencesArray[i].fieldReference;
+            nestedChildElementsToCutOrCopy[fieldReference] = elementsInStore[fieldReference];
+            if (nestedChildElementsToCutOrCopy[fieldReference].fieldReferences) {
+                nestedChildElementsToCutOrCopy = {
+                    ...nestedChildElementsToCutOrCopy,
+                    ...getNestedChildElementsToCutOrCopy(
+                        elementsInStore,
+                        nestedChildElementsToCutOrCopy[fieldReference].fieldReferences
+                    )
+                };
+            }
+        }
+    }
+
+    return nestedChildElementsToCutOrCopy;
+};
+
+/**
  * Function to get all the copied data
  *
  * @param {Object} elementsInStore - State of the elements in store
@@ -369,7 +396,7 @@ const getBottomCutOrCopiedGuid = (elementsInStore, topCutOrCopiedGuid) => {
  */
 export const getCopiedData = (elementsInStore, topCopiedGuid) => {
     const copiedCanvasElements = {};
-    const copiedChildElements = {};
+    let copiedChildElements = {};
 
     // Calculating the copiedCanvasElements and copiedChildElements objects
     for (let i = 0; i < Object.values(elementsInStore).length; i++) {
@@ -383,9 +410,19 @@ export const getCopiedData = (elementsInStore, topCopiedGuid) => {
                 const childReferenceArray = canvasElement[childReferenceKey.plural];
 
                 for (let j = 0; j < childReferenceArray.length; j++) {
-                    const childReferenceObject = childReferenceArray[j];
-                    copiedChildElements[childReferenceObject[childReferenceKey.singular]] =
-                        elementsInStore[childReferenceObject[childReferenceKey.singular]];
+                    const childReference = childReferenceArray[j][childReferenceKey.singular];
+                    copiedChildElements[childReference] = elementsInStore[childReference];
+
+                    // In case of screens we need to look for the nested screen fields too
+                    if (copiedChildElements[childReference].fieldReferences) {
+                        copiedChildElements = {
+                            ...copiedChildElements,
+                            ...getNestedChildElementsToCutOrCopy(
+                                elementsInStore,
+                                copiedChildElements[childReference].fieldReferences
+                            )
+                        };
+                    }
                 }
             }
         }

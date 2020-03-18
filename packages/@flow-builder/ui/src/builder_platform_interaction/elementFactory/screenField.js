@@ -170,8 +170,14 @@ export function createScreenField(screenField = {}, isNewField = false) {
  * @param {Object} screenField - Screen Field in Store
  * @param {Object []} originalFieldReferences - FieldReferences of a given screen
  * @param {Object []} duplicatedScreenFields - Contains duplicated screen field objects (The guid, name and fieldReferences are updated in baseElement)
+ * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements
  */
-function _getDuplicatedNestedScreenFields(screenField, originalFieldReferences, duplicatedScreenFields) {
+function _getDuplicatedNestedScreenFields(
+    screenField,
+    originalFieldReferences,
+    duplicatedScreenFields,
+    cutOrCopiedChildElements
+) {
     let newScreenField = createScreenField(screenField);
     if (originalFieldReferences) {
         newScreenField = Object.assign(newScreenField, {
@@ -180,7 +186,12 @@ function _getDuplicatedNestedScreenFields(screenField, originalFieldReferences, 
 
         for (let i = 0; i < originalFieldReferences.length; i++) {
             const screenFieldReference = originalFieldReferences[i];
-            const nestedScreenField = getElementByGuid(screenFieldReference.fieldReference);
+            // Using the cutOrCopiedChildElements to get the original screen field in case it has been deleted
+            // and not available in the store
+            const nestedScreenField = cutOrCopiedChildElements
+                ? cutOrCopiedChildElements[screenFieldReference.fieldReference]
+                : getElementByGuid(screenFieldReference.fieldReference);
+
             _getDuplicatedNestedScreenFields(
                 nestedScreenField,
                 nestedScreenField.fieldReferences,
@@ -195,10 +206,17 @@ function _getDuplicatedNestedScreenFields(screenField, originalFieldReferences, 
 /**
  * Function to get all the duplicated screen fields (including the nested ones)
  * @param {Object} screenField - Screen Field in Store
+ * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements
+ * @returns duplicatedScreenFields - An array containing all the duplicated screen fields
  */
-export function createDuplicateNestedScreenFields(screenField = {}) {
+export function createDuplicateNestedScreenFields(screenField = {}, cutOrCopiedChildElements) {
     const duplicatedScreenFields = [];
-    _getDuplicatedNestedScreenFields(screenField, screenField.fieldReferences, duplicatedScreenFields);
+    _getDuplicatedNestedScreenFields(
+        screenField,
+        screenField.fieldReferences,
+        duplicatedScreenFields,
+        cutOrCopiedChildElements
+    );
     return duplicatedScreenFields;
 }
 

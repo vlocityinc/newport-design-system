@@ -184,10 +184,10 @@ function _createDuplicateChildElement(
 ) {
     // Using the cutOrCopiedChildElements to get the original child element in case the element has been deleted
     // and not available in the store
-    const originalChildElement =
-        getElementByGuid(childReference[childReferenceKey]) ||
-        cutOrCopiedChildElements[childReference[childReferenceKey]];
-    const duplicatedChildElements = createChildElement(originalChildElement);
+    const originalChildElement = cutOrCopiedChildElements
+        ? cutOrCopiedChildElements[childReference[childReferenceKey]]
+        : getElementByGuid(childReference[childReferenceKey]);
+    const duplicatedChildElements = createChildElement(originalChildElement, cutOrCopiedChildElements);
 
     // In case of screens, duplicatedChildElements is an array otherwise a single element object
     if (Array.isArray(duplicatedChildElements)) {

@@ -109,7 +109,7 @@ export function createPastedDecision({
  * the duplicated child elements
  * @param {Object} childElementNameMap - Map of child element names to newly generated unique names that will be used for
  * the duplicated child elements
- * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements
+ * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements. Undefined in the case of duplication on Free Form Canvas
  * @return {Object} Returns an object containing the duplicated element and the duplicated childElements
  */
 export function createDuplicateDecision(
