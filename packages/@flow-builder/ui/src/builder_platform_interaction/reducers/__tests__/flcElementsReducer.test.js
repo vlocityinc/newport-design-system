@@ -1,21 +1,10 @@
-import elementsReducer from '../flcElementsReducer.js';
-import { ADD_CANVAS_ELEMENT } from 'builder_platform_interaction/actions';
-
-import { addElement } from 'builder_platform_interaction/flowUtils';
-
+import { ADD_CANVAS_ELEMENT, ADD_START_ELEMENT, DELETE_ELEMENT } from 'builder_platform_interaction/actions';
 import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
+import { addElement, deleteElement, addElementToState, linkElement } from 'builder_platform_interaction/flowUtils';
+import { createRootElement } from 'builder_platform_interaction/flcConversionUtils';
+import { createEndElement } from 'builder_platform_interaction/elementFactory';
 
-import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
-
-jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
-
-beforeAll(() => {
-    Store.setMockState(flowWithAllElementsUIModel);
-});
-afterAll(() => {
-    Store.resetStore();
-});
+import elementsReducer from '../flcElementsReducer.js';
 
 const getElement = (guid, name) => {
     return {
@@ -23,10 +12,32 @@ const getElement = (guid, name) => {
         name
     };
 };
+jest.mock('../elementsReducer', () => {
+    return jest.fn(state => Object.assign({}, state));
+});
+
+jest.mock('builder_platform_interaction/elementFactory', () => {
+    return {
+        createEndElement: jest.fn(() => ({
+            guid: 'end-element-guid'
+        }))
+    };
+});
+
+jest.mock('builder_platform_interaction/flcConversionUtils', () => {
+    return {
+        createRootElement: jest.fn(() => ({
+            guid: 'root'
+        }))
+    };
+});
 
 jest.mock('builder_platform_interaction/flowUtils', () => {
     return {
-        addElement: jest.fn()
+        addElement: jest.fn(),
+        addElementToState: jest.fn(),
+        deleteElement: jest.fn(),
+        linkElement: jest.fn()
     };
 });
 
@@ -37,7 +48,6 @@ jest.mock('builder_platform_interaction/flcBuilderUtils', () => {
 });
 
 const oldElements = { guid1: getElement('guid1', 'ass1') };
-const addedElements = { guid2: getElement('guid2', 'ass2') };
 const payload = getElement('guid2', 'ass2');
 
 describe('elements-reducer', () => {
@@ -46,24 +56,6 @@ describe('elements-reducer', () => {
             expect(elementsReducer(undefined, {})).toEqual({});
         });
 
-        it('with state set to undefined & action type is ADD_CANVAS_ELEMENT should add the new element', () => {
-            const newElementState = elementsReducer(undefined, {
-                type: ADD_CANVAS_ELEMENT,
-                payload
-            });
-            expect(newElementState).toEqual(addedElements);
-        });
-
-        it('with state set to defined & action type is ADD_CANVAS_ELEMENT should add the new element', () => {
-            const newElementState = elementsReducer(oldElements, {
-                type: ADD_CANVAS_ELEMENT,
-                payload
-            });
-            expect(newElementState).toEqual({
-                ...oldElements,
-                ...addedElements
-            });
-        });
         it('addElement should be called when when dispatching ADD_CANVAS_ELEMENT', () => {
             const spy = addElement;
             elementsReducer(oldElements, {
@@ -79,6 +71,41 @@ describe('elements-reducer', () => {
                 payload
             });
             expect(spy).toHaveBeenCalled();
+        });
+    });
+
+    describe('Add Start Element', () => {
+        it('start, end and root elements are added', () => {
+            elementsReducer(
+                {},
+                {
+                    type: ADD_START_ELEMENT,
+                    payload: { guid: 'start-element-guid' }
+                }
+            );
+
+            expect(addElementToState).toHaveBeenLastCalledWith({ guid: 'root' }, {});
+            expect(linkElement).toHaveBeenLastCalledWith({}, { guid: 'end-element-guid' });
+            expect(createRootElement).toHaveBeenLastCalledWith('start-element-guid');
+            expect(createEndElement).toHaveBeenLastCalledWith({ prev: 'start-element-guid' });
+        });
+    });
+
+    describe('Delete Element', () => {
+        it('calls deleteElement', () => {
+            const elementToDelete = {
+                guid: 'element-guid'
+            };
+
+            elementsReducer(
+                {},
+                {
+                    type: DELETE_ELEMENT,
+                    payload: { selectedElements: [elementToDelete], connectorsToDelete: [], childIndexToKeep: 1 }
+                }
+            );
+
+            expect(deleteElement).toHaveBeenLastCalledWith({}, elementToDelete, 1);
         });
     });
 });
