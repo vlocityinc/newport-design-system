@@ -8,15 +8,15 @@
     },
     {
       "fieldsToNull" : [ ],
-      "isListViewManaged" : true,
-      "label" : "Screen Flow",
-      "name" : "Flow"
+      "isListViewManaged" : false,
+      "label" : "Contact Request Flow",
+      "name" : "ContactRequestFlow"
     },
     {
       "fieldsToNull" : [ ],
       "isListViewManaged" : true,
-      "label" : "User Provisioning Flow",
-      "name" : "UserProvisioningFlow"
+      "label" : "Embedded Appointment Management Flow",
+      "name" : "FieldServiceWeb"
     },
     {
       "fieldsToNull" : [ ],
@@ -27,14 +27,14 @@
     {
       "fieldsToNull" : [ ],
       "isListViewManaged" : true,
-      "label" : "Embedded Appointment Management Flow",
-      "name" : "FieldServiceWeb"
+      "label" : "Screen Flow",
+      "name" : "Flow"
     },
     {
       "fieldsToNull" : [ ],
-      "isListViewManaged" : false,
-      "label" : "Contact Request Flow",
-      "name" : "ContactRequestFlow"
+      "isListViewManaged" : true,
+      "label" : "User Provisioning Flow",
+      "name" : "UserProvisioningFlow"
     }
   ]
 }

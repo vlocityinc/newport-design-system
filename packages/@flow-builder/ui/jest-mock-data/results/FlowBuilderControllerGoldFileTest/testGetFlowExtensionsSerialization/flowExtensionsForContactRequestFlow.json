@@ -97,32 +97,11 @@
     },
     {
       "category" : "Inputs",
-      "configurationEditor" : "c:cpeCmp",
+      "configurationEditor" : "c-cpe-cmp",
       "description" : "A raptor testing component",
       "fieldsToNull" : [ ],
       "label" : "LWC Test Component",
       "qualifiedApiName" : "interactiontest:lwcScreensTestComponent",
-      "source" : "Standard"
-    },
-    {
-      "description" : "Add Action Plan Template",
-      "fieldsToNull" : [ ],
-      "label" : "Add Action Plan Template",
-      "qualifiedApiName" : "runtime_industries_visit:addAPT",
-      "source" : "Standard"
-    },
-    {
-      "description" : "Add Visit details",
-      "fieldsToNull" : [ ],
-      "label" : "Add Visit details",
-      "qualifiedApiName" : "runtime_industries_visit:addVisitDetails",
-      "source" : "Standard"
-    },
-    {
-      "description" : "Add Visitors",
-      "fieldsToNull" : [ ],
-      "label" : "Add Visitors",
-      "qualifiedApiName" : "runtime_industries_visit:addVisitors",
       "source" : "Standard"
     }
   ]
