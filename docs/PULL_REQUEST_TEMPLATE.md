@@ -16,5 +16,10 @@ Description of your changelist. Provide links to any design docs + UX specs or m
 
 ## Release Actions
 
--   [x] Update Core
+###### DISCLAMER: This should only be checked in the case of an emergency push otherwise core is automatically set to scan for changes every 4 hours
+
+-   [ ] Update Core
+
+###### This should be checked in most cases - when you want to update the work item to 'Fixed' after this PR is merged
+
 -   [ ] Set associated work items as "Fixed"
