@@ -13,7 +13,10 @@ import {
     mockCreateRecordAutomaticOutputModeResourceDetails,
     mockCreateRecordNotInAutomaticOutputModeResourceDetails,
     mockApexActionInAutomaticOutputsModeAnonymousStringResourceDetails,
-    mockSubflowInAutomaticOutputModeResourceDetails
+    mockSubflowInAutomaticOutputModeResourceDetails,
+    mockLoopOnSObjectInAutomaticOutputModeResourceDetails,
+    mockLoopOnTextInAutomaticOutputModeResourceDetails,
+    mockLoopOnApexTypeInAutomaticOutputModeResourceDetails
 } from 'mock/resourceDetailsData';
 import { LABELS } from '../resourceDetailsLabels';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
@@ -168,6 +171,46 @@ describe('Resource Details', () => {
 
                 expect(apiName).not.toBeDefined();
             });
+        });
+        describe('"Loop" as a resource', () => {
+            const allMockLoopResourceDetails = new Map([
+                [mockLoopOnSObjectInAutomaticOutputModeResourceDetails, 'SObject'],
+                [mockLoopOnTextInAutomaticOutputModeResourceDetails, 'Text'],
+                [mockLoopOnApexTypeInAutomaticOutputModeResourceDetails, 'Apex Type']
+            ]);
+            for (const [mockLoopResourceDetails, loopOnWhatTypeDesc] of allMockLoopResourceDetails) {
+                describe(`On ${loopOnWhatTypeDesc} collection`, () => {
+                    const resourceDetailsComponent = createComponentUnderTest(mockLoopResourceDetails);
+                    it('should not display Edit and Delete buttons', () => {
+                        const footerButtons = resourceDetailsComponent.shadowRoot.querySelectorAll(
+                            SELECTORS.footerButtons
+                        );
+                        expect(footerButtons).toHaveLength(0);
+                    });
+                    it('should display the element that created the automatic output (createdBy section) with correct title and list elements', () => {
+                        const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(
+                            SELECTORS.createdBySection
+                        );
+                        expect(createdBySection).toBeDefined();
+                        const createdByList = createdBySection.querySelector(SELECTORS.createdByList);
+                        expect(createdByList.listSectionHeader).toBe('FlowBuilderResourceDetailsPanel.createdByText');
+                        expect(createdByList.listSectionItems).toEqual([mockLoopResourceDetails.createdByElement]);
+                        expect(resourceDetailsComponent.createdByElements).toEqual([
+                            mockLoopResourceDetails.createdByElement
+                        ]);
+                    });
+                    it('should not display "Parameters" section (element type not supported)', () => {
+                        const resourceDetailsParametersComponent = resourceDetailsComponent.shadowRoot.querySelector(
+                            SELECTORS.resourceDetailsParameters
+                        );
+                        expect(resourceDetailsParametersComponent).toBeNull();
+                    });
+                    it('should display API Name', () => {
+                        const apiName = getApiNameLineTextContent(resourceDetailsComponent);
+                        expect(apiName).toContain(mockLoopResourceDetails.apiName);
+                    });
+                });
+            }
         });
         describe('Extension (ie: lightning component) screenfield as a resource', () => {
             let resourceDetailsComponent;
@@ -371,7 +414,6 @@ describe('Resource Details', () => {
             });
             it('should display API Name', () => {
                 const apiName = getApiNameLineTextContent(resourceDetailsComponent);
-
                 expect(apiName).toContain(mockGetRecordsAutomaticOutputModeResourceDetails.apiName);
             });
         });
@@ -389,7 +431,6 @@ describe('Resource Details', () => {
             });
             it('should display API Name', () => {
                 const apiName = getApiNameLineTextContent(resourceDetailsComponent);
-
                 expect(apiName).toContain(mockExtensionScreenfieldNotInAutomaticOutputsModeResourceDetails.apiName);
             });
         });
@@ -407,7 +448,6 @@ describe('Resource Details', () => {
             });
             it('should display API Name', () => {
                 const apiName = getApiNameLineTextContent(resourceDetailsComponent);
-
                 expect(apiName).toContain(mockActionSubmitForApprovalNotInAutomaticOutputsModeResourceDetails.apiName);
             });
         });
@@ -425,7 +465,6 @@ describe('Resource Details', () => {
             });
             it('should display API Name', () => {
                 const apiName = getApiNameLineTextContent(resourceDetailsComponent);
-
                 expect(apiName).toContain(mockApexActionNotInAutomaticOutputsModeResourceDetails.apiName);
             });
         });
@@ -446,7 +485,6 @@ describe('Resource Details', () => {
             });
             it('should display API Name', () => {
                 const apiName = getApiNameLineTextContent(resourceDetailsComponent);
-
                 expect(apiName).toContain('vAccount');
             });
         });

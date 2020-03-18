@@ -5,6 +5,11 @@ import {
     actionCallLocalActionAutomaticOutput,
     subflowAutomaticOutput
 } from 'mock/storeData';
+import {
+    loopAccountAutomaticOutput,
+    loopOnTextCollectionAutomaticOutput,
+    loopOnApexTypeCollectionAutoOutput
+} from 'mock/storeDataAutolaunched';
 
 /**
  * Extension (ie: Lightning component) screenfield mocked resource details in output automatic mode (email)
@@ -373,6 +378,81 @@ export const mockSubflowInAutomaticOutputModeResourceDetails = {
         name: 'subflow1',
         elementGuidsReferenced: [subflowAutomaticOutput.guid],
         iconName: 'standard:flow',
+        isCanvasElement: true
+    },
+    usedByElements: [],
+    asResource: true,
+    storeOutputAutomatically: true
+};
+
+/**
+ * Loop on Apex type defined collection mocked resource details in output automatic mode
+ */
+export const mockLoopOnApexTypeInAutomaticOutputModeResourceDetails = {
+    title: 'Current Looped ApexComplexTypeTestOne216 from loop_apex_coll',
+    elementType: 'Loop',
+    elementGuid: loopOnApexTypeCollectionAutoOutput.guid,
+    typeLabel: 'Apex-Defined Variable',
+    typeIconName: 'utility:apex',
+    apiName: 'loop_apex_coll',
+    editable: false,
+    deletable: false,
+    createdByElement: {
+        guid: loopOnApexTypeCollectionAutoOutput.guid,
+        label: 'loop apex coll',
+        name: 'loop_apex_coll',
+        elementGuidsReferenced: [loopOnApexTypeCollectionAutoOutput.guid],
+        iconName: 'standard:loop',
+        isCanvasElement: true
+    },
+    usedByElements: [],
+    asResource: true,
+    storeOutputAutomatically: true
+};
+
+/**
+ * Loop on Sobject collection mocked resource details in output automatic mode
+ */
+export const mockLoopOnSObjectInAutomaticOutputModeResourceDetails = {
+    title: 'Account from loop_accounts',
+    elementType: 'Loop',
+    elementGuid: loopAccountAutomaticOutput.guid,
+    typeLabel: 'Record (Single) Variable',
+    typeIconName: 'utility:sobject',
+    apiName: 'loop_accounts',
+    editable: false,
+    deletable: false,
+    createdByElement: {
+        guid: loopAccountAutomaticOutput.guid,
+        label: 'loop accounts',
+        name: 'loop_accounts',
+        elementGuidsReferenced: [loopAccountAutomaticOutput.guid],
+        iconName: 'standard:loop',
+        isCanvasElement: true
+    },
+    usedByElements: [],
+    asResource: true,
+    storeOutputAutomatically: true
+};
+
+/**
+ * Loop on text collection mocked resource details in output automatic mode
+ */
+export const mockLoopOnTextInAutomaticOutputModeResourceDetails = {
+    title: 'Current Looped Text from loop_text',
+    elementType: 'Loop',
+    elementGuid: loopOnTextCollectionAutomaticOutput.guid,
+    typeLabel: 'Loop',
+    typeIconName: 'utility:text',
+    apiName: 'loop_text',
+    editable: false,
+    deletable: false,
+    createdByElement: {
+        guid: loopOnTextCollectionAutomaticOutput.guid,
+        label: 'loop text',
+        name: 'loop_text',
+        elementGuidsReferenced: [loopOnTextCollectionAutomaticOutput.guid],
+        iconName: 'standard:loop',
         isCanvasElement: true
     },
     usedByElements: [],
