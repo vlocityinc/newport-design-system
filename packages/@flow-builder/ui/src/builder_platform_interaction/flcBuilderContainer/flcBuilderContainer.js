@@ -85,14 +85,16 @@ export default class FlcBuilderContainer extends LightningElement {
     }
 
     mapCanvasStateToStore = () => {
-        const storeState = storeInstance.getCurrentState();
-        const { elements } = storeState;
+        if (storeInstance != null) {
+            const storeState = storeInstance.getCurrentState();
+            const { elements } = storeState;
 
-        this.rootElement =
-            this.rootElement || Object.values(elements).find(ele => ele.elementType === ELEMENT_TYPE.ROOT_ELEMENT);
+            this.rootElement =
+                this.rootElement || Object.values(elements).find(ele => ele.elementType === ELEMENT_TYPE.ROOT_ELEMENT);
 
-        if (this.rootElement && this.elementsMetadata) {
-            this.flowModel = storeState.elements;
+            if (this.rootElement && this.elementsMetadata) {
+                this.flowModel = storeState.elements;
+            }
         }
     };
 }

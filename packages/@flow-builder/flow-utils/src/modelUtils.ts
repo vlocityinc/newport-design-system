@@ -150,7 +150,7 @@ export function findFirstElement(element: NodeModel, state: FlowModel): NodeMode
 }
 
 function isBranchingElement(element: NodeModel): boolean {
-    return Object.hasOwnProperty('children');
+    return element.hasOwnProperty('children');
 }
 
 function resolveNode(flowModel: FlowModel, guid: NodeRef): NodeModel | null {
@@ -175,6 +175,7 @@ export function deleteElement(state: FlowModel, element: NodeModel, childIndexTo
             const tailElement = findLastElement(headElement, state);
             tailElement.next = next;
             linkElement(state, tailElement);
+            deleteBranchHeadProperties(headElement as BranchHeadNodeModel);
         }
         nextElement = headElement;
     }

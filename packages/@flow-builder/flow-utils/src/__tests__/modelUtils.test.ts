@@ -1,4 +1,11 @@
-import { linkElement, linkBranch, findFirstElement, findLastElement } from '../modelUtils';
+import { linkElement, linkBranch, findFirstElement, findLastElement, deleteElement } from '../modelUtils';
+
+function toElementsMap(...elements) {
+    return elements.reduce((state, element) => {
+        state[element.guid] = element;
+        return state;
+    }, {});
+}
 
 describe('modelUtils', () => {
     describe('linkElement', () => {
@@ -181,13 +188,133 @@ describe('modelUtils', () => {
                 next: null
             };
 
-            const elements = {
-                [firstElement.guid]: firstElement,
-                [lastElement.guid]: lastElement
-            };
+            const elements = toElementsMap(firstElement, lastElement);
 
             expect(findFirstElement(lastElement, elements)).toBe(firstElement);
             expect(findLastElement(firstElement, elements)).toBe(lastElement);
+        });
+    });
+
+    describe('delete element', () => {
+        it('deletes inline element', () => {
+            const firstElement = {
+                guid: 'first-element',
+                prev: null,
+                next: 'inline-element'
+            };
+
+            const inlineElement = {
+                guid: 'inline-element',
+                prev: 'first-element',
+                next: 'last-element'
+            };
+
+            const lastElement = {
+                guid: 'last-element',
+                prev: 'inline-element',
+                next: null
+            };
+
+            const elements = toElementsMap(firstElement, inlineElement, lastElement);
+
+            const expectedState = {
+                'first-element': {
+                    guid: 'first-element',
+                    prev: null,
+                    next: 'last-element'
+                },
+
+                'last-element': {
+                    guid: 'last-element',
+                    prev: 'first-element',
+                    next: null
+                }
+            };
+
+            expect(deleteElement(elements, inlineElement, 0)).toEqual(expectedState);
+        });
+        it('deletes branching element', () => {
+            const branchingElement = {
+                guid: 'branching-element',
+                children: ['branch-head-element'],
+                prev: null,
+                next: 'merge-element'
+            };
+
+            const branchHeadElement = {
+                guid: 'branch-head-element',
+                childIndex: 0,
+                parent: 'branching-element',
+                isTerminal: false,
+                prev: null,
+                next: null
+            };
+
+            const mergeElement = {
+                guid: 'merge-element',
+                prev: 'branching-element',
+                next: null
+            };
+
+            const elements = toElementsMap(branchingElement, mergeElement, branchHeadElement);
+
+            const expectedState = {
+                'branch-head-element': {
+                    guid: 'branch-head-element',
+                    prev: null,
+                    next: 'merge-element'
+                },
+
+                'merge-element': {
+                    guid: 'merge-element',
+                    prev: 'branch-head-element',
+                    next: null
+                }
+            };
+
+            expect(deleteElement(elements, branchingElement, 0)).toEqual(expectedState);
+        });
+        it('deletes branch head element', () => {
+            const branchingElement = {
+                guid: 'branching-element',
+                children: ['branch-head-element'],
+                prev: null,
+                next: 'merge-element'
+            };
+
+            const branchHeadElement = {
+                guid: 'branch-head-element',
+                childIndex: 0,
+                parent: 'branching-element',
+                isTerminal: false,
+                prev: null,
+                next: null
+            };
+
+            const mergeElement = {
+                guid: 'merge-element',
+                prev: 'branching-element',
+                next: null
+            };
+
+            const elements = toElementsMap(branchingElement, mergeElement, branchHeadElement);
+
+            const expectedState = {
+                'branching-element': {
+                    guid: 'branching-element',
+                    children: [null],
+                    prev: null,
+                    next: 'merge-element'
+                },
+
+                'merge-element': {
+                    guid: 'merge-element',
+                    prev: 'branching-element',
+                    next: null
+                }
+            };
+
+            expect(deleteElement(elements, branchHeadElement, 0)).toEqual(expectedState);
         });
     });
 });
