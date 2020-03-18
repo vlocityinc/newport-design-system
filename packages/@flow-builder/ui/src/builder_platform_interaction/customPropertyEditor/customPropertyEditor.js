@@ -147,14 +147,14 @@ export default class CustomPropertyEditor extends LightningElement {
             });
         };
 
-        const errorCallback = () => {
+        const errorCallback = err => {
             logPerfTransactionEnd(`${CUSTOM_PROPERTY_EDITOR}-${this.configurationEditor.name}`, {
                 isSuccess: false
             });
             this._createComponentErrors = [
                 {
                     key: CUSTOM_PROPERTY_EDITOR,
-                    errorString: 'unable to create the component'
+                    errorString: err.message
                 }
             ];
         };
