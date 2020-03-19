@@ -1,1 +1,1 @@
-export default 'Unclosed Loops';
+export default 'Close Each Loop';

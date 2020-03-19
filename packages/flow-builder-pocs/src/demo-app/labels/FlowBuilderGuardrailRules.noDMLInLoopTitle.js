@@ -1,1 +1,1 @@
-export default 'DML Operations in Loops';
+export default 'Remove Database Access from Loops';

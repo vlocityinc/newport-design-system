@@ -1,1 +1,1 @@
-export default 'Flow Uses Older Technology ';
+export default 'Replace Legacy Apex Actions';

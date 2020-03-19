@@ -1,1 +1,1 @@
-export default 'Flow has a {0} operation. We recommend that you replace your legacy plugins with Invocable Actions.';
+export default 'The "{0}" action calls an Apex class that uses the legacy Process.Plugin interface. We recommend using the @InvocableMethod annotation instead of the Process.Plugin interface.';

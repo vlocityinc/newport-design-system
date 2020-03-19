@@ -1,1 +1,1 @@
-export default "Your flow is in good shape. We don't have any tips for you.";
+export default "We don't have any tips for your flow right now.";
