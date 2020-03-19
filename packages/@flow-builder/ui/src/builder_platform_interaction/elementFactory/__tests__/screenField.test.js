@@ -19,7 +19,9 @@ const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'flow';
 const componentScreenFieldEmailStoreGuid = '0ca39158-9508-4b85-b1b6-28564b4ba4c0';
 
 jest.mock('builder_platform_interaction/contextLib', () => {
-    return { orgHasFlowScreenSections: jest.fn() };
+    return Object.assign({}, require('builder_platform_interaction_mocks/contextLib'), {
+        orgHasFlowScreenSections: jest.fn()
+    });
 });
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     const actual = require.requireActual('builder_platform_interaction/processTypeLib');

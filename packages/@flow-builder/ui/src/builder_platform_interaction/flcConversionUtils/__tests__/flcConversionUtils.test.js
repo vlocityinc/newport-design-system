@@ -32,9 +32,7 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
 });
 
 jest.mock('builder_platform_interaction/contextLib', () => {
-    return {
-        useFixedLayoutCanvas: () => true
-    };
+    return require('builder_platform_interaction_mocks/contextLib');
 });
 
 jest.mock('builder_platform_interaction/storeLib', () => {

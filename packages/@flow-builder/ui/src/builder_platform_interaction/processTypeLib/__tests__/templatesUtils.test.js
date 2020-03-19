@@ -19,9 +19,9 @@ jest.mock('builder_platform_interaction/systemLib', () => {
 });
 
 jest.mock('builder_platform_interaction/contextLib', () => {
-    return {
+    return Object.assign({}, require('builder_platform_interaction_mocks/contextLib'), {
         orgHasBeforeSaveEnabled: jest.fn().mockReturnValue(true)
-    };
+    });
 });
 
 const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');

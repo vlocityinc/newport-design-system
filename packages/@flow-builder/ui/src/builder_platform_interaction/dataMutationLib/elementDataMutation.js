@@ -1,4 +1,10 @@
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
+import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
+
+// TODO: FLC remove
+function isFlcChildrenProperty(property) {
+    return useFixedLayoutCanvas() && property === 'children';
+}
 
 const DEFAULT_BLACK_LIST = ['guid', 'elementType', 'locationX', 'locationY', 'rowIndex', 'availableConnections'];
 
@@ -18,7 +24,12 @@ const doHydrateWithErrors = (element, blackList) => {
             if (typeof val === 'string' || val === null) {
                 element[key] = { value: val, error: null };
             } else if (typeof val === 'object') {
-                doHydrateWithErrors(val, blackList);
+                // TODO: FLC find better way
+                if (isFlcChildrenProperty(key)) {
+                    element[key] = val;
+                } else {
+                    doHydrateWithErrors(val, blackList);
+                }
             }
         });
 
@@ -91,7 +102,8 @@ export const getErrorsFromHydratedElement = (element, errorsList = []) => {
     const listOfErrors = errorsList;
     Object.entries(element).forEach(([key, value]) => {
         if (value && typeof value === 'object') {
-            if (Array.isArray(value)) {
+            // TODO: FLC find better way
+            if (Array.isArray(value) && !isFlcChildrenProperty(key)) {
                 value.forEach(item => {
                     getErrorsFromHydratedElement(item, listOfErrors);
                 });

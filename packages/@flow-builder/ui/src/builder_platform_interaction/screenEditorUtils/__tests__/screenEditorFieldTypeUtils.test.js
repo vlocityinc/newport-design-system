@@ -73,7 +73,9 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 });
 
 jest.mock('builder_platform_interaction/contextLib', () => {
-    return { orgHasFlowScreenSections: jest.fn() };
+    return Object.assign({}, require('builder_platform_interaction_mocks/contextLib'), {
+        orgHasFlowScreenSections: jest.fn()
+    });
 });
 
 describe('getAllScreenFieldTypes function', () => {

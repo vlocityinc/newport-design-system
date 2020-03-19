@@ -22,7 +22,9 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
 jest.mock('builder_platform_interaction/fieldPicker', () => require('builder_platform_interaction_mocks/fieldPicker'));
 
 jest.mock('builder_platform_interaction/contextLib', () => {
-    return { orgHasBeforeSaveEnabled: jest.fn() };
+    return Object.assign({}, require('builder_platform_interaction_mocks/contextLib'), {
+        orgHasBeforeSaveEnabled: jest.fn()
+    });
 });
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {

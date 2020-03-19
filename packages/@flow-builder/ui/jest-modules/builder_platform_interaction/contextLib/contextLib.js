@@ -1,0 +1,1 @@
+export const useFixedLayoutCanvas = () => false;

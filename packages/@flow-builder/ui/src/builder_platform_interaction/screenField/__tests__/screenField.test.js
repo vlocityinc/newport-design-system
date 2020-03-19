@@ -15,7 +15,9 @@ jest.mock('builder_platform_interaction/selectors', () => {
 });
 
 jest.mock('builder_platform_interaction/contextLib', () => {
-    return { orgHasFlowScreenSections: jest.fn() };
+    return Object.assign({}, require('builder_platform_interaction_mocks/contextLib'), {
+        orgHasFlowScreenSections: jest.fn()
+    });
 });
 
 const SELECTORS = {

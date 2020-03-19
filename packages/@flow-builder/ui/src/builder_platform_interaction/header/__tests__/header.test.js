@@ -6,7 +6,9 @@ import { invokeKeyboardHelpDialog } from 'builder_platform_interaction/builderUt
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/contextLib', () => {
-    return { orgHasFlowBuilderGuardrails: jest.fn() };
+    return Object.assign({}, require('builder_platform_interaction_mocks/contextLib'), {
+        orgHasFlowBuilderGuardrails: jest.fn()
+    });
 });
 
 jest.mock('builder_platform_interaction/builderUtils', () => {
