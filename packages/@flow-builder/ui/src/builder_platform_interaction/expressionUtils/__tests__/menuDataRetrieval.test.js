@@ -2,7 +2,7 @@ import {
     getElementsForMenuData,
     getEntitiesMenuData,
     filterAndMutateMenuData,
-    getEventTypesMenuData,
+    getEventTypesMenuDataRunTime,
     getChildrenItemsPromise,
     getResourceTypesMenuData,
     filterFieldsForChosenElement
@@ -699,15 +699,15 @@ describe('Menu data retrieval', () => {
 
     describe('Event types menu data', () => {
         it('uses cache to fetch the data', () => {
-            getEventTypesMenuData();
-            const eventTypesMenuData = getEventTypesMenuData();
+            getEventTypesMenuDataRunTime();
+            const eventTypesMenuData = getEventTypesMenuDataRunTime();
             expect(getEventTypes).toHaveBeenCalledTimes(1);
             expect(eventTypesMenuData).toBeDefined();
             expect(eventTypesMenuData).toHaveLength(3);
         });
 
         it('fetches and formats data', () => {
-            const eventTypesMenuData = getEventTypesMenuData();
+            const eventTypesMenuData = getEventTypesMenuDataRunTime();
             expect(eventTypesMenuData).toBeDefined();
             expect(eventTypesMenuData).toHaveLength(3);
             expect(eventTypesMenuData[0].displayText).toEqual(platformEvent1Label);

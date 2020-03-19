@@ -293,6 +293,7 @@ export const FLOW_TRIGGER_TYPE = {
     SCHEDULED_JOURNEY: 'ScheduledJourney',
     BEFORE_SAVE: 'RecordBeforeSave',
     AFTER_SAVE: 'RecordAfterSave',
+    PLATFORM_EVENT: 'PlatformEvent',
     NONE: 'None'
 };
 

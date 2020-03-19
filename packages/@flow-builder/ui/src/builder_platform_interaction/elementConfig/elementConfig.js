@@ -156,6 +156,7 @@ export const elementTypeToConfigMap = {
             [FLOW_TRIGGER_TYPE.AFTER_SAVE]: 'builder_platform_interaction:recordChangeTriggerEditor',
             [FLOW_TRIGGER_TYPE.SCHEDULED]: 'builder_platform_interaction:scheduleTriggerEditor',
             [FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY]: 'builder_platform_interaction:scheduleTriggerEditor',
+            [FLOW_TRIGGER_TYPE.PLATFORM_EVENT]: 'builder_platform_interaction:platformEventEditor',
             [EDIT_START_CONTEXT]: 'builder_platform_interaction:contextRecordEditor'
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -183,6 +184,7 @@ export const elementTypeToConfigMap = {
             editModal: LABELS.editStartElementLabel,
             editTrigger: LABELS.editTriggerLabel,
             editSchedule: LABELS.editScheduleLabel,
+            editPlatform: LABELS.editPlatformLabel,
             editObject: LABELS.editObjectLabel
         }
     },

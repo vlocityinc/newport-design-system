@@ -56,6 +56,7 @@
     <aura:dependency resource="markup://builder_platform_interaction:recordChangeTriggerEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:contextRecordEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:scheduleTriggerEditor" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:platformEventEditor" type="MODULE" />
 
    <!-- Events -->
    <aura:registerEvent name="ui:createPanel" type="markup://ui:createPanel" />

@@ -44,7 +44,7 @@ import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interacti
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { undoRedo, isUndoAvailable, isRedoAvailable, INIT } from 'builder_platform_interaction/undoRedoLib';
-import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { fetchFieldsForEntity, setEventTypes, MANAGED_SETUP } from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from './editorLabels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
@@ -472,6 +472,16 @@ export default class Editor extends LightningElement {
                 this.triggerType = flowTriggerType;
                 if (this.triggerType && this.triggerType !== FLOW_TRIGGER_TYPE.NONE) {
                     getTriggerTypeInfo(flowTriggerType);
+                }
+                if (this.triggerType && this.triggerType === FLOW_TRIGGER_TYPE.PLATFORM_EVENT) {
+                    const loadEventTypesManagedSetup = fetchOnce(
+                        SERVER_ACTION_TYPE.GET_EVENT_TYPES,
+                        { eventType: MANAGED_SETUP },
+                        { disableErrorModal: true }
+                    ).then(eventTypesData => {
+                        setEventTypes(eventTypesData, MANAGED_SETUP);
+                    });
+                    this.propertyEditorBlockerCalls.push(loadEventTypesManagedSetup);
                 }
             }
         }

@@ -12,6 +12,7 @@ import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { getEventTypes } from 'builder_platform_interaction/sobjectLib';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -22,6 +23,13 @@ jest.mock('builder_platform_interaction/outputResourcePicker', () =>
 jest.mock('builder_platform_interaction/ferToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/ferToFerovExpressionBuilder')
 );
+
+jest.mock('builder_platform_interaction/sobjectLib', () => {
+    return {
+        getEventTypes: jest.fn(),
+        getInputParametersForEventType: jest.fn().mockName('getInputParametersForEventType')
+    };
+});
 
 jest.mock('builder_platform_interaction/conditionListUtils', () => {
     return {
@@ -87,6 +95,8 @@ const createComponentUnderTest = waitEvent => {
 
     return el;
 };
+
+getEventTypes.mockReturnValue([]);
 
 describe('Wait Event', () => {
     describe('header section', () => {

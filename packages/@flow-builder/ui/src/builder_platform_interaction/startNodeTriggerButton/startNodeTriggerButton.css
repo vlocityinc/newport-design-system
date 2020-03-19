@@ -11,6 +11,14 @@
     width: 27.5%;
 }
 
+.platform-event-size {
+    width: 15.5%;
+}
+
+.selected-platform-event-size {
+    width: 70%;
+}
+
 .selected-trigger-label-size {
     width: 67.5%;
 }

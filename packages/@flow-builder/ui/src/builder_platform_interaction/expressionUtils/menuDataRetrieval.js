@@ -61,7 +61,8 @@ export const RESOURCE_PICKER_MODE = {
  * Cache of event types mutated to shape the combobox expects.
  * Event types data does not change. This helps to not create new combobox menu data for every get event types.
  */
-let _eventTypesCache;
+let _eventTypesCacheManagedSetup;
+let _eventTypesCacheRuntime;
 
 /**
  * Eventually the elements need to be sorted alphabetically by category, as well as
@@ -585,10 +586,18 @@ export const getRunInModesMenuData = () => {
  * Retrieves event types combobox menu data
  * @returns {MenuData}             Combobox menu data with our entities
  */
-export const getEventTypesMenuData = () => {
-    if (!_eventTypesCache) {
-        const eventTypes = sobjectLib.getEventTypes();
-        _eventTypesCache = mutateEventTypesToComboboxShape(eventTypes);
+export const getEventTypesMenuDataManagedSetup = () => {
+    if (!_eventTypesCacheManagedSetup) {
+        const eventTypes = sobjectLib.getEventTypes(sobjectLib.MANAGED_SETUP);
+        _eventTypesCacheManagedSetup = mutateEventTypesToComboboxShape(eventTypes);
     }
-    return _eventTypesCache;
+    return _eventTypesCacheManagedSetup;
+};
+
+export const getEventTypesMenuDataRunTime = () => {
+    if (!_eventTypesCacheRuntime) {
+        const eventTypes = sobjectLib.getEventTypes(sobjectLib.RUNTIME);
+        _eventTypesCacheRuntime = mutateEventTypesToComboboxShape(eventTypes);
+    }
+    return _eventTypesCacheRuntime;
 };

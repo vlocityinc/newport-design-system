@@ -1,10 +1,13 @@
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 
+export const MANAGED_SETUP = 'ManagedSetup';
+export const RUNTIME = 'Runtime';
+
 /**
  * Holds all the event types fetched from the server.
  * @type {Array}
  */
-let eventTypes = [];
+const eventTypes = { RUNTIME: [], MANAGED_SETUP: [] };
 
 const EVENT_FIELD_TYPE = {
     INPUT: 'input',
@@ -149,17 +152,17 @@ export const getOutputParametersForEventType = (eventTypeApiName, callback) => {
  * Set all the event types. This is called at the very beginning of the flow.
  * @param eventTypesData Array of all event types.
  */
-export const setEventTypes = eventTypesData => {
+export const setEventTypes = (eventTypesData, type) => {
     if (!Array.isArray(eventTypesData)) {
         throw new Error(`Expected input to be an Array but was ${eventTypesData}`);
     }
-    eventTypes = eventTypesData;
+    eventTypes[type] = eventTypesData;
 };
 
 /**
  * Returns all the event types except the Alarm events.
  * @returns {Array} All Event types except Alarm events.
  */
-export const getEventTypes = () => {
-    return eventTypes;
+export const getEventTypes = type => {
+    return eventTypes[type];
 };

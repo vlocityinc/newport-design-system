@@ -29,7 +29,7 @@ import nodeElement from './node.html';
  * @since 214
  */
 
-const { NONE, BEFORE_SAVE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
+const { NONE, BEFORE_SAVE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY, PLATFORM_EVENT } = FLOW_TRIGGER_TYPE;
 
 export default class Node extends LightningElement {
     @api
@@ -354,6 +354,7 @@ export default class Node extends LightningElement {
     get isContext() {
         switch (this.node.triggerType) {
             case NONE:
+            case PLATFORM_EVENT:
                 return false;
             default:
                 return true;

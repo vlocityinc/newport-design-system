@@ -2,7 +2,8 @@ import { LightningElement, api, track } from 'lwc';
 import { Store } from 'builder_platform_interaction/storeLib';
 import {
     getEntitiesMenuData,
-    getEventTypesMenuData,
+    getEventTypesMenuDataRunTime,
+    getEventTypesMenuDataManagedSetup,
     apexClassesMenuDataSelector
 } from 'builder_platform_interaction/expressionUtils';
 import { isObject, isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
@@ -14,7 +15,8 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 const ENTITY_MODE = {
     SOBJECT: 'sobject',
     EVENT: 'event',
-    APEX: 'apex'
+    APEX: 'apex',
+    MANAGED_SETUP_EVENT: 'managedSetup'
 };
 
 const DEFAULT_PLACEHOLDER_TEXT = {
@@ -195,7 +197,8 @@ export default class EntityResourcePicker extends LightningElement {
     populateEntityMenuData(newMode = this.mode) {
         const fetchMenuDataForEntityMode = {
             [EntityResourcePicker.ENTITY_MODE.APEX]: () => this.selector(Store.getStore().getCurrentState()),
-            [EntityResourcePicker.ENTITY_MODE.EVENT]: getEventTypesMenuData,
+            [EntityResourcePicker.ENTITY_MODE.EVENT]: getEventTypesMenuDataRunTime,
+            [EntityResourcePicker.ENTITY_MODE.MANAGED_SETUP_EVENT]: getEventTypesMenuDataManagedSetup,
             [EntityResourcePicker.ENTITY_MODE.SOBJECT]: () => getEntitiesMenuData(this._crudFilterType)
         };
         this._fullEntityMenuData = fetchMenuDataForEntityMode[newMode]();

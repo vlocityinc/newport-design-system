@@ -25,7 +25,8 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         setEntities: jest.fn(),
         setEventTypes: jest.fn(),
-        setWorkflowEnabledEntities: jest.fn()
+        setWorkflowEnabledEntities: jest.fn(),
+        RUNTIME: require.requireActual('builder_platform_interaction/sobjectLib').RUNTIME
     };
 });
 
@@ -81,9 +82,13 @@ describe('dataForProcessType', () => {
         it('invokes call out and call back', async () => {
             fetchOnce.mockResolvedValue('event types');
             await loadEventTypes();
-            expect(fetchOnce).toBeCalledWith(SERVER_ACTION_TYPE.GET_EVENT_TYPES, {}, expect.anything());
+            expect(fetchOnce).toBeCalledWith(
+                SERVER_ACTION_TYPE.GET_EVENT_TYPES,
+                { eventType: 'Runtime' },
+                expect.anything()
+            );
             expect(setEventTypes).toBeCalledTimes(1);
-            expect(setEventTypes).toBeCalledWith('event types');
+            expect(setEventTypes).toBeCalledWith('event types', 'Runtime');
         });
 
         it('does not invoke call back on error', async () => {

@@ -2,7 +2,8 @@ import { createElement } from 'lwc';
 import {
     apexClassesMenuDataSelector,
     getEntitiesMenuData,
-    getEventTypesMenuData
+    getEventTypesMenuDataRunTime,
+    getEventTypesMenuDataManagedSetup
 } from 'builder_platform_interaction/expressionUtils';
 import { ComboboxStateChangedEvent, ItemSelectedEvent } from 'builder_platform_interaction/events';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker/';
@@ -44,7 +45,8 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         apexClassesMenuDataSelector: jest.fn(),
         getEntitiesMenuData: jest.fn(),
-        getEventTypesMenuData: jest.fn()
+        getEventTypesMenuDataRunTime: jest.fn(),
+        getEventTypesMenuDataManagedSetup: jest.fn()
     };
 });
 
@@ -75,7 +77,8 @@ describe('entity-resource-picker', () => {
         expect(getEntitiesMenuData).toHaveBeenCalledTimes(1);
         expect(getEntitiesMenuData).toHaveBeenCalledWith(props.crudFilterType);
         expect(baseResourcePicker.fullMenuData).toEqual(entityMenuData);
-        expect(getEventTypesMenuData).not.toHaveBeenCalled();
+        expect(getEventTypesMenuDataRunTime).not.toHaveBeenCalled();
+        expect(getEventTypesMenuDataManagedSetup).not.toHaveBeenCalled();
     });
 
     it('retrieves entity menu data when changing crud filter type', async () => {
@@ -85,7 +88,8 @@ describe('entity-resource-picker', () => {
         await ticks(1);
         expect(getEntitiesMenuData).toHaveBeenCalledTimes(2);
         expect(getEntitiesMenuData).toHaveBeenCalledWith(newFilter);
-        expect(getEventTypesMenuData).not.toHaveBeenCalled();
+        expect(getEventTypesMenuDataRunTime).not.toHaveBeenCalled();
+        expect(getEventTypesMenuDataManagedSetup).not.toHaveBeenCalled();
     });
 
     it('sets the value to the existing display text on initial load when it cannot be found in menu data', async () => {
@@ -159,14 +163,28 @@ describe('entity-resource-picker', () => {
         expect(entityResourcePicker.value).toEqual(displayText);
     });
 
-    it('retrieves event type menu data on initial load', async () => {
-        getEventTypesMenuData.mockReturnValueOnce(eventTypesMenuData);
+    it('retrieves event runtime menu data on initial load', async () => {
+        getEventTypesMenuDataRunTime.mockReturnValueOnce(eventTypesMenuData);
         props.mode = EntityResourcePicker.ENTITY_MODE.EVENT;
         const entityResourcePicker = setupComponentUnderTest(props);
         const baseResourcePicker = entityResourcePicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
         await ticks(1);
-        expect(getEventTypesMenuData).toHaveBeenCalledTimes(1);
+        expect(getEventTypesMenuDataRunTime).toHaveBeenCalledTimes(1);
         expect(getEntitiesMenuData).not.toHaveBeenCalled();
+        expect(apexClassesMenuDataSelector).not.toHaveBeenCalled();
+        expect(getEventTypesMenuDataManagedSetup).not.toHaveBeenCalled();
+        expect(baseResourcePicker.fullMenuData).toEqual(eventTypesMenuData);
+    });
+
+    it('retrieves event managed setup menu data on initial load', async () => {
+        getEventTypesMenuDataManagedSetup.mockReturnValueOnce(eventTypesMenuData);
+        props.mode = EntityResourcePicker.ENTITY_MODE.MANAGED_SETUP_EVENT;
+        const entityResourcePicker = setupComponentUnderTest(props);
+        const baseResourcePicker = entityResourcePicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
+        await ticks(1);
+        expect(getEventTypesMenuDataManagedSetup).toHaveBeenCalledTimes(1);
+        expect(getEntitiesMenuData).not.toHaveBeenCalled();
+        expect(getEventTypesMenuDataRunTime).not.toHaveBeenCalled();
         expect(apexClassesMenuDataSelector).not.toHaveBeenCalled();
         expect(baseResourcePicker.fullMenuData).toEqual(eventTypesMenuData);
     });
@@ -179,7 +197,8 @@ describe('entity-resource-picker', () => {
         await ticks(1);
         expect(apexClassesMenuDataSelector).toHaveBeenCalledTimes(1);
         expect(getEntitiesMenuData).not.toHaveBeenCalled();
-        expect(getEventTypesMenuData).not.toHaveBeenCalled();
+        expect(getEventTypesMenuDataRunTime).not.toHaveBeenCalled();
+        expect(getEventTypesMenuDataManagedSetup).not.toHaveBeenCalled();
         expect(baseResourcePicker.fullMenuData).toEqual(apexClassMenuData);
     });
 

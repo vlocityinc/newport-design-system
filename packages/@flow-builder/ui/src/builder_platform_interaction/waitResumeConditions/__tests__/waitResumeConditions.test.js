@@ -2,6 +2,7 @@ import { createElement } from 'lwc';
 import WaitResumeConditions from '../waitResumeConditions';
 import { WAIT_TIME_EVENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { getEventTypes } from 'builder_platform_interaction/sobjectLib';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -9,6 +10,13 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
 );
+
+jest.mock('builder_platform_interaction/sobjectLib', () => {
+    return {
+        getEventTypes: jest.fn(),
+        getInputParametersForEventType: jest.fn().mockName('getInputParametersForEventType')
+    };
+});
 
 const createComponentUnderTest = props => {
     let el = createElement('builder_platform_interaction-wait-resume-conditions', {
@@ -44,6 +52,8 @@ const verifyResumeEventType = (waitResumeConditions, shouldShowTimeEvent) => {
         expect(waitPlatformEvent).toBeTruthy();
     }
 };
+
+getEventTypes.mockReturnValue([]);
 
 describe('waitResumeConditions', () => {
     describe('resume event type', () => {

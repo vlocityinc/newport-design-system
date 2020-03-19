@@ -9,6 +9,8 @@ import startElementRunFlow from '@salesforce/label/FlowBuilderCanvasElement.star
 import startElementFlowStarts from '@salesforce/label/FlowBuilderCanvasElement.startElementFlowStarts';
 import startElementFrequency from '@salesforce/label/FlowBuilderCanvasElement.startElementFrequency';
 import startElementEdit from '@salesforce/label/FlowBuilderCanvasElement.startElementEdit';
+import startElementAddEvent from '@salesforce/label/FlowBuilderCanvasElement.startElementAddEvent';
+import startElementEvent from '@salesforce/label/FlowBuilderCanvasElement.startElementEvent';
 
 export const LABELS = {
     startElementSetSchedule,
@@ -21,5 +23,7 @@ export const LABELS = {
     startElementRunFlow,
     startElementFlowStarts,
     startElementFrequency,
-    startElementEdit
+    startElementEdit,
+    startElementAddEvent,
+    startElementEvent
 };

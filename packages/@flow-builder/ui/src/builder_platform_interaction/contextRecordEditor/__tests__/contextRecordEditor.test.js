@@ -1,4 +1,4 @@
-import contextEditor from '../contextRecordEditor';
+import contextRecordEditor from '../contextRecordEditor';
 import { createElement } from 'lwc';
 import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
@@ -45,7 +45,7 @@ const SELECTORS = {
 
 function createComponentForTest(node) {
     const el = createElement('builder_platform_interaction-context-record-editor', {
-        is: contextEditor
+        is: contextRecordEditor
     });
 
     Object.assign(el, { node });
@@ -54,16 +54,16 @@ function createComponentForTest(node) {
     return el;
 }
 
-const getEntityResourcePicker = contextRecordEditor => {
-    return contextRecordEditor.shadowRoot.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
+const getEntityResourcePicker = contextEditor => {
+    return contextEditor.shadowRoot.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
 };
 
-const getRecordFilter = contextRecordEditor => {
-    return contextRecordEditor.shadowRoot.querySelector(SELECTORS.RECORD_FILTER);
+const getRecordFilter = contextEditor => {
+    return contextEditor.shadowRoot.querySelector(SELECTORS.RECORD_FILTER);
 };
 
-const getCustomPropertyEditor = contextRecordEditor => {
-    return contextRecordEditor.shadowRoot.querySelector(SELECTORS.CUSTOM_PROPERTY_EDITOR);
+const getCustomPropertyEditor = contextEditor => {
+    return contextEditor.shadowRoot.querySelector(SELECTORS.CUSTOM_PROPERTY_EDITOR);
 };
 
 const defaultValueItem = { item: { value: 'guid1', displayText: 'var 1' } };
@@ -189,98 +189,98 @@ const scheduledJourneyStartElement = () => ({
 
 describe('context-record-editor', () => {
     it('entity picker (object) value should be "Account" for scheduled', () => {
-        const contextRecordEditor = createComponentForTest(scheduledNewStartElement());
-        expect(getEntityResourcePicker(contextRecordEditor).value).toBe('Account');
+        const contextEditor = createComponentForTest(scheduledNewStartElement());
+        expect(getEntityResourcePicker(contextEditor).value).toBe('Account');
     });
 
     it('entity picker (object) value should be "Account" for beforeSave', () => {
-        const contextRecordEditor = createComponentForTest(beforeSaveNewStartElement());
-        expect(getEntityResourcePicker(contextRecordEditor).value).toBe('Account');
+        const contextEditor = createComponentForTest(beforeSaveNewStartElement());
+        expect(getEntityResourcePicker(contextEditor).value).toBe('Account');
     });
 
     it('record filter type should be "none" ', () => {
-        const contextRecordEditor = createComponentForTest(scheduledNewStartElementWithoutFilters());
-        expect(getRecordFilter(contextRecordEditor).filterType).toBe(RECORD_FILTER_CRITERIA.NONE);
+        const contextEditor = createComponentForTest(scheduledNewStartElementWithoutFilters());
+        expect(getRecordFilter(contextEditor).filterType).toBe(RECORD_FILTER_CRITERIA.NONE);
     });
 
     it('record filter type should be "all" ', () => {
         expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(store.accountSObjectVariable);
-        const contextRecordEditor = createComponentForTest(scheduledNewStartElementWithFilters());
-        expect(getRecordFilter(contextRecordEditor).filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
+        const contextEditor = createComponentForTest(scheduledNewStartElementWithFilters());
+        expect(getRecordFilter(contextEditor).filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
     });
 
     describe('handle events', () => {
-        let contextRecordEditor, entityResourcePicker;
+        let contextEditor, entityResourcePicker;
         beforeEach(() => {
             expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(store.accountSObjectVariable);
-            contextRecordEditor = createComponentForTest(scheduledNewStartElementWithFilters());
+            contextEditor = createComponentForTest(scheduledNewStartElementWithFilters());
         });
         it('handles "entityResourcePicker" value changed event', async () => {
-            entityResourcePicker = getEntityResourcePicker(contextRecordEditor);
+            entityResourcePicker = getEntityResourcePicker(contextEditor);
             entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
             await ticks(1);
             expect(entityResourcePicker.value).toBe('guid1');
         });
         it('handle UpdateRecordFilterEvent should update the filter element', async () => {
             const updateRecordFilterEvent = new UpdateRecordFilterEvent(0, filterElement, null);
-            getRecordFilter(contextRecordEditor).dispatchEvent(updateRecordFilterEvent);
+            getRecordFilter(contextEditor).dispatchEvent(updateRecordFilterEvent);
             await ticks(1);
-            expect(contextRecordEditor.node.filters[0]).toMatchObject(filterElement);
+            expect(contextEditor.node.filters[0]).toMatchObject(filterElement);
         });
         it('handle AddRecordFilterEvent should add a filter element', async () => {
             const addRecordFilterEvent = new AddRecordFilterEvent(); // This is using the numerical rowIndex not the property rowIndex
-            getRecordFilter(contextRecordEditor).dispatchEvent(addRecordFilterEvent);
+            getRecordFilter(contextEditor).dispatchEvent(addRecordFilterEvent);
             await ticks(1);
-            expect(contextRecordEditor.node.filters).toHaveLength(2);
+            expect(contextEditor.node.filters).toHaveLength(2);
         });
         it('handle record filter type Change event', async () => {
             const recordFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(RECORD_FILTER_CRITERIA.ALL);
-            getRecordFilter(contextRecordEditor).dispatchEvent(recordFilterTypeChangedEvent);
+            getRecordFilter(contextEditor).dispatchEvent(recordFilterTypeChangedEvent);
             await ticks(1);
-            expect(contextRecordEditor.node.filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
+            expect(contextEditor.node.filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
         });
         it('record filter fire DeleteRecordFilterEvent', async () => {
             const deleteRecordFilterEvent = new DeleteRecordFilterEvent(0); // This is using the numerical rowIndex not the property rowIndex
-            getRecordFilter(contextRecordEditor).dispatchEvent(deleteRecordFilterEvent);
+            getRecordFilter(contextEditor).dispatchEvent(deleteRecordFilterEvent);
             await ticks(1);
-            expect(contextRecordEditor.node.filters).toHaveLength(0);
+            expect(contextEditor.node.filters).toHaveLength(0);
         });
     });
 
     describe('custom property editor', () => {
-        let getTriggerMock, contextRecordEditor;
+        let getTriggerMock, contextEditor;
         beforeEach(() => {
             getTriggerMock = jest
                 .spyOn(require.requireActual('builder_platform_interaction/triggerTypeLib'), 'getTriggerTypeInfo')
                 .mockImplementation(() => {
                     return Promise.resolve({ configurationEditor: 'cpeComponent' });
                 });
-            contextRecordEditor = createComponentForTest(scheduledJourneyStartElement());
+            contextEditor = createComponentForTest(scheduledJourneyStartElement());
         });
         afterEach(() => {
             getTriggerMock.mockRestore();
         });
         it('should render the custom property editor component if the trigger supports it', () => {
-            expect(getCustomPropertyEditor(contextRecordEditor)).not.toBeNull();
+            expect(getCustomPropertyEditor(contextEditor)).not.toBeNull();
         });
         it('should not render the entity picker if the custom property editor component is rendered', () => {
-            expect(getEntityResourcePicker(contextRecordEditor)).toBeNull();
+            expect(getEntityResourcePicker(contextEditor)).toBeNull();
         });
         it('should not render the record filter list if the custom property editor component is rendered', () => {
-            expect(getRecordFilter(contextRecordEditor)).toBeNull();
+            expect(getRecordFilter(contextEditor)).toBeNull();
         });
         it('should fire and handle the ConfigurationEditorChangeEvent correctly', async () => {
             const cpeChangeEvent = new ConfigurationEditorChangeEvent('container', 'foo'); // This is using the numerical rowIndex not the property rowIndex
-            getCustomPropertyEditor(contextRecordEditor).dispatchEvent(cpeChangeEvent);
+            getCustomPropertyEditor(contextEditor).dispatchEvent(cpeChangeEvent);
             await ticks(1);
-            expect(contextRecordEditor.node.container.value).toBe('foo');
+            expect(contextEditor.node.container.value).toBe('foo');
         });
         it("should validate using the custom property editor component's validate method", () => {
             const mockValidatefunction = jest.fn(() => {
                 return ['error1'];
             });
-            getCustomPropertyEditor(contextRecordEditor).validate = mockValidatefunction;
-            const errors = contextRecordEditor.validate();
+            getCustomPropertyEditor(contextEditor).validate = mockValidatefunction;
+            const errors = contextEditor.validate();
             expect(mockValidatefunction).toHaveBeenCalled();
             expect(errors).toContain('error1');
         });

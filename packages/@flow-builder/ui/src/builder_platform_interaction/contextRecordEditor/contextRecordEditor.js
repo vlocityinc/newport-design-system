@@ -12,7 +12,7 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 
 const { BEFORE_SAVE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
 
-export default class contextEditor extends LightningElement {
+export default class contextRecordEditor extends LightningElement {
     /**
      * Internal state for the record change trigger editor
      */

@@ -1,7 +1,7 @@
 import { createElement } from 'lwc';
 import WaitPlatformEvent from '../waitPlatformEvent';
 import { CONDITION_LOGIC, ELEMENT_TYPE, WAIT_EVENT_FIELDS } from 'builder_platform_interaction/flowMetadata';
-import { getInputParametersForEventType } from 'builder_platform_interaction/sobjectLib';
+import { getInputParametersForEventType, getEventTypes } from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from '../waitPlatformEventLabels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { WAIT_TIME_EVENT_TYPE } from '../../flowMetadata/flowMetadata';
@@ -26,7 +26,7 @@ jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
-        getEventTypes: require.requireActual('builder_platform_interaction/sobjectLib').getEventTypes,
+        getEventTypes: jest.fn(),
         getInputParametersForEventType: jest.fn().mockName('getInputParametersForEventType')
     };
 });
@@ -54,6 +54,7 @@ describe('wait-platform-event', () => {
         const updateWaitEventTypeHandler = jest.fn();
 
         beforeEach(() => {
+            getEventTypes.mockReturnValue([]);
             window.addEventListener(UpdateWaitEventEventTypeEvent.EVENT_NAME, updateWaitEventTypeHandler);
         });
 

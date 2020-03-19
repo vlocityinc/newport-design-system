@@ -1,10 +1,6 @@
 <template>
     <!--TRIGGER/SCHEDULE-->
-    <div
-        class="slds-border_top slds-border_bottom test-trigger-button"
-        style="background-color: white;"
-        onclick={handleTriggerClick}
-    >
+    <div class="slds-border_top test-trigger-button" style="background-color: white;" onclick={handleTriggerClick}>
         <!--UNSET TRIGGER/SCHEDULE-->
         <div if:false={isSetTrigger} tabindex="0" class={unsetStartButtonClasses}>
             <!--icon-->
@@ -14,12 +10,12 @@
                 size="xx-small"
             ></lightning-icon>
             <span>
-                {chooseSchedule}
+                {chooseScheduleOrEvent}
             </span>
         </div>
         <!--CONFIGURED TRIGGER/SCHEDULE-->
         <div if:true={isSetTrigger} class={startButtonClasses}>
-            <div class="slds-m-bottom_xx-small slds-grid">
+            <div class="slds-grid">
                 <div class={triggerSize}>
                     <span> {triggerLabel} </span>
                 </div>
@@ -30,7 +26,7 @@
                     <span class="edit">{editLabel}</span>
                 </div>
             </div>
-            <div class="test-run-flow">
+            <div if:false={isPlatformEvent} class="slds-m-top_xx-small test-run-flow">
                 <span class="slds-m-right_xx-small">{runFlowLabel}</span
                 ><span class="text-labels-bold">{selectedRunFlowLabel}</span>
             </div>

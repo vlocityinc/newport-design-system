@@ -141,6 +141,7 @@ import editStartElementLabel from '@salesforce/label/FlowBuilderElementConfig.ed
 import editTriggerLabel from '@salesforce/label/FlowBuilderElementConfig.editTriggerLabel';
 import editObjectLabel from '@salesforce/label/FlowBuilderElementConfig.editObjectLabel';
 import editScheduleLabel from '@salesforce/label/FlowBuilderElementConfig.editScheduleLabel';
+import editPlatformLabel from '@salesforce/label/FlowBuilderElementConfig.editPlatformLabel';
 import newScreenLabel from '@salesforce/label/FlowBuilderElementConfig.newScreenLabel';
 import newActionLabel from '@salesforce/label/FlowBuilderElementConfig.newActionLabel';
 import newSubflowLabel from '@salesforce/label/FlowBuilderElementConfig.newSubflowLabel';
@@ -301,6 +302,7 @@ export const LABELS = {
     editTriggerLabel,
     editObjectLabel,
     editScheduleLabel,
+    editPlatformLabel,
     newScreenLabel,
     newActionLabel,
     newSubflowLabel,

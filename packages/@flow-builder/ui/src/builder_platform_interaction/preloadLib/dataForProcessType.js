@@ -2,7 +2,12 @@ import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serv
 
 import { setRules, setOperators } from 'builder_platform_interaction/ruleLib';
 import { setResourceTypes } from 'builder_platform_interaction/dataTypeLib';
-import { setEntities, setEventTypes, setWorkflowEnabledEntities } from 'builder_platform_interaction/sobjectLib';
+import {
+    setEntities,
+    setEventTypes,
+    setWorkflowEnabledEntities,
+    RUNTIME
+} from 'builder_platform_interaction/sobjectLib';
 import { setGlobalVariables, setSystemVariables } from 'builder_platform_interaction/systemLib';
 import {
     getFlowSystemVariableComboboxItem,
@@ -29,7 +34,9 @@ export const loadOperators = () =>
     fetchOnce(SERVER_ACTION_TYPE.GET_OPERATORS, {}, { disableErrorModal: true }).then(setOperators);
 
 export const loadEventTypes = () =>
-    fetchOnce(SERVER_ACTION_TYPE.GET_EVENT_TYPES, {}, { disableErrorModal: true }).then(setEventTypes);
+    fetchOnce(SERVER_ACTION_TYPE.GET_EVENT_TYPES, { eventType: RUNTIME }, { disableErrorModal: true }).then(data => {
+        setEventTypes(data, RUNTIME);
+    });
 
 export const loadEntities = crudType =>
     fetchOnce(SERVER_ACTION_TYPE.GET_ENTITIES, { crudType }, { disableErrorModal: true }).then(setEntities);
