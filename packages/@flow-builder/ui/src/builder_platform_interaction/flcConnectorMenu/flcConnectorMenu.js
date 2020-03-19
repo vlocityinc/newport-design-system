@@ -50,6 +50,8 @@ export default class FlcConnectorMenu extends Menu {
                     event.currentTarget.getAttribute('data-value'),
                     0,
                     0,
+                    null,
+                    null,
                     this.prev,
                     this.next,
                     this.parent,

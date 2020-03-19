@@ -19,7 +19,9 @@ const ELEMENT_DATA = [
                         description: 'myDescription',
                         iconName: 'myIconName3',
                         dragImageSrc: 'myDragImageSrc3',
-                        iconBackgroundColor: 'myIconBackgroundColor3'
+                        iconBackgroundColor: 'myIconBackgroundColor3',
+                        actionType: 'myTestAction',
+                        actionName: 'myTestName'
                     },
                     // Items without a description should have an empty string
                     // as a description in the flattened version.
@@ -109,7 +111,9 @@ const ELEMENT_DATA_FLATTENED = [
         elementType: 'Variable',
         iconName: 'myIconName3',
         dragImageSrc: 'myDragImageSrc3',
-        iconBackgroundColor: 'myIconBackgroundColor3'
+        iconBackgroundColor: 'myIconBackgroundColor3',
+        actionType: 'myTestAction',
+        actionName: 'myTestName'
     },
     {
         isSection: false,

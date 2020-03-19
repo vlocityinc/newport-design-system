@@ -25,6 +25,7 @@ export default class CalloutEditor extends LightningElement {
 
     @track selectedFilterBy = LABELS.filterByCategoryOption;
     @track showLeftPanel = true;
+    @track showActionSelector = true;
     @track categoryOptions = [];
     @track selectedCategory = LABELS.allInvocableActions;
     @track invocableActions = [];
@@ -72,7 +73,12 @@ export default class CalloutEditor extends LightningElement {
         this.calloutNode = newValue || {};
         this.location.locationX = this.calloutNode.locationX;
         this.location.locationY = this.calloutNode.locationY;
-        this.showLeftPanel = this.calloutNode.elementType !== ELEMENT_TYPE.SUBFLOW;
+        // Only show left panel if element is not a subflow and not a palette promoted action
+        this.showLeftPanel =
+            this.calloutNode.elementType !== ELEMENT_TYPE.SUBFLOW &&
+            !getValueFromHydratedItem(this.calloutNode.actionType);
+        // Only show action selector if element is not a palette promoted action
+        this.showActionSelector = !getValueFromHydratedItem(this.calloutNode.actionType);
         this.updateSelectedAction();
     }
 

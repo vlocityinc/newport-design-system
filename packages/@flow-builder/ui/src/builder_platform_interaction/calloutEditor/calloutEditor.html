@@ -29,22 +29,24 @@
             </div>
         </template>
         <div class="slds-col slds-grid slds-grid_vertical">
-            <div class="slds-grid slds-grid_align-center">
-                <builder_platform_interaction-action-selector
-                    class="slds-col slds-size_2-of-3"
-                    selected-action={selectedAction}
-                    error-message={selectedActionError}
-                    invocable-actions={invocableActions}
-                    invocable-actions-fetched={invocableActionsFetched}
-                    selected-category={selectedCategory}
-                    selected-filter-by={selectedFilterBy}
-                    onactionsloaded={handleActionsLoaded}
-                    onvaluechanged={handleActionSelected}
-                    oncannotretrieveactions={handleCannotRetrieveActions}
-                    flow-process-type={processType}
-                >
-                </builder_platform_interaction-action-selector>
-            </div>
+            <template if:true={showActionSelector}>
+                <div class="slds-grid slds-grid_align-center">
+                    <builder_platform_interaction-action-selector
+                        class="slds-col slds-size_2-of-3"
+                        selected-action={selectedAction}
+                        error-message={selectedActionError}
+                        invocable-actions={invocableActions}
+                        invocable-actions-fetched={invocableActionsFetched}
+                        selected-category={selectedCategory}
+                        selected-filter-by={selectedFilterBy}
+                        onactionsloaded={handleActionsLoaded}
+                        onvaluechanged={handleActionSelected}
+                        oncannotretrieveactions={handleCannotRetrieveActions}
+                        flow-process-type={processType}
+                    >
+                    </builder_platform_interaction-action-selector>
+                </div>
+            </template>
             <builder_platform_interaction-callout-editor-container
                 class="slds-p-top_small"
                 location={location}

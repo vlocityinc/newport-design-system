@@ -8,6 +8,7 @@ import { getElementForPropertyEditor } from 'builder_platform_interaction/proper
 import { LABELS } from './calloutEditorLabels';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { addFlcProperties } from 'builder_platform_interaction/flcBuilderUtils';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 
 const EDITOR_SELECTOR = '.editor_template';
 
@@ -180,7 +181,7 @@ export default class CalloutEditorContainer extends LightningElement {
 
     render() {
         const elementType = this.node.elementType;
-        if (!this._hasActions) {
+        if (!this._hasActions && !getValueFromHydratedItem(this.node.actionType)) {
             return noActionTemplate;
         }
         if (this.isInitialState()) {

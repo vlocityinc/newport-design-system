@@ -1038,7 +1038,17 @@ export default class Editor extends LightningElement {
         if (event && event.type && event.detail) {
             logPerfTransactionStart('PropertyEditor');
             const mode = event.type;
-            const { prev, next, childIndex, parent, elementType } = event.detail;
+            const {
+                prev,
+                next,
+                childIndex,
+                parent,
+                elementType,
+                locationX,
+                locationY,
+                actionType,
+                actionName
+            } = event.detail;
             const nodeUpdate = this.deMutateAndAddNodeCollection;
             const newResourceCallback = this.newResourceCallback;
             const processType = this.properties.processType;
@@ -1054,9 +1064,11 @@ export default class Editor extends LightningElement {
                 // has been resolved
 
                 const node = getElementForPropertyEditor({
-                    locationX: event.detail.locationX,
-                    locationY: event.detail.locationY,
-                    elementType: event.detail.elementType,
+                    locationX,
+                    locationY,
+                    elementType,
+                    actionType,
+                    actionName,
                     isNewElement: true,
                     prev,
                     next,

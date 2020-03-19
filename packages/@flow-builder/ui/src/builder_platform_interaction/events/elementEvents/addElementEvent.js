@@ -3,7 +3,7 @@
  */
 const eventName = 'addelement';
 export class AddElementEvent extends CustomEvent {
-    constructor(elementType, locationX = 0, locationY = 0, prev, next, parent, childIndex) {
+    constructor(elementType, locationX = 0, locationY = 0, actionType, actionName, prev, next, parent, childIndex) {
         super(eventName, {
             bubbles: true,
             composed: true,
@@ -12,6 +12,8 @@ export class AddElementEvent extends CustomEvent {
                 elementType,
                 locationX,
                 locationY,
+                actionType,
+                actionName,
                 prev,
                 next,
                 parent,

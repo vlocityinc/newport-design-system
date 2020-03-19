@@ -248,7 +248,7 @@ export default class InvocableActionEditor extends LightningElement {
     isNewMode = false;
 
     get subtitle() {
-        if (!this.actionCallNode) {
+        if (!this.actionCallNode || this.invocableActionConfigurationEditorDescriptor) {
             return '';
         }
         const actionName =

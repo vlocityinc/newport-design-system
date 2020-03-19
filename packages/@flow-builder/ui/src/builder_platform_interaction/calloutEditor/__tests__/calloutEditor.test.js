@@ -263,4 +263,17 @@ describe('callout-editor', () => {
             expect(errors).toHaveLength(0);
         });
     });
+    describe('palette promoted action', () => {
+        beforeEach(() => {
+            calloutEditor = setupComponentUnderTest({
+                node: { elementType: ELEMENT_TYPE.ACTION_CALL, actionType: 'testAction', actionName: 'testActionName' }
+            });
+        });
+        it('does not render the left panel', async () => {
+            expect(actionCategories(calloutEditor)).toBeNull();
+        });
+        it('does not render the action selector', async () => {
+            expect(getActionSelector(calloutEditor)).toBeNull();
+        });
+    });
 });
