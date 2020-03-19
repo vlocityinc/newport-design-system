@@ -197,7 +197,11 @@ export function getResourceTypeLabel({
     isSystemGeneratedOutput
 }) {
     let typeLabel;
-    if (elementType === ELEMENT_TYPE.RECORD_CREATE && storeOutputAutomatically) {
+    if (
+        (elementType === ELEMENT_TYPE.RECORD_CREATE ||
+            (elementType === ELEMENT_TYPE.LOOP && dataType !== SOBJECT_TYPE)) &&
+        storeOutputAutomatically
+    ) {
         typeLabel = LABELS.variableSingularLabel;
     } else if (!isComplexType(dataType)) {
         if (

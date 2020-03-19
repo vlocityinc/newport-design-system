@@ -242,6 +242,22 @@ describe('elementLabelLib', () => {
                 'FlowBuilderElementConfig.collectionVariableSingularLabel'
             );
         });
+        describe('Loop element', () => {
+            it.each`
+                loop                                   | dataType     | expectedTypeLabel
+                ${loopOnTextCollectionManualOutput}    | ${'String'}  | ${'FlowBuilderElementConfig.loopSingularLabel'}
+                ${loopAccountAutomaticOutput}          | ${'SObject'} | ${LABELS.sObjectSingularLabel}
+                ${loopOnTextCollectionAutomaticOutput} | ${'String'}  | ${LABELS.variableSingularLabel}
+                ${loopOnApexTypeCollectionAutoOutput}  | ${'Apex'}    | ${LABELS.variableSingularLabel}
+            `(
+                '"$loop.label" (collection dataType "$dataType") should have type labeled: "$expectedTypeLabel"',
+                ({ loop, expectedTypeLabel }) => {
+                    const typeLabel = getResourceTypeLabel(loop);
+
+                    expect(typeLabel).toEqual(expectedTypeLabel);
+                }
+            );
+        });
     });
     describe('getElementCategory', () => {
         it('for elements', () => {
@@ -392,7 +408,7 @@ describe('elementLabelLib', () => {
                 ${loopAccountAutomaticOutput}          | ${LABELS.sObjectPluralLabel}
                 ${loopOnTextCollectionAutomaticOutput} | ${LABELS.variablePluralLabel}
                 ${loopOnApexTypeCollectionAutoOutput}  | ${LABELS.apexVariablePluralLabel}
-            `('$loop should have category: $expectedCategory', ({ loop, expectedCategory }) => {
+            `('$loop.label should have category: $expectedCategory', ({ loop, expectedCategory }) => {
                 const category = getResourceCategory(loop);
 
                 expect(category).toEqual(expectedCategory);
