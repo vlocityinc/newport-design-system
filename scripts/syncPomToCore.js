@@ -1,14 +1,12 @@
 const exec = require('await-exec');
 const chalk = require('chalk');
-const { checkP4Env, getPomProperty, getCorePomProperties, POM_PROPERTIES_TO_CHECK } = require('./utils');
+const { getPomProperty, getCorePomProperties, POM_PROPERTIES_TO_CHECK } = require('./utils');
 
 /**
- * Syncs pom.xml's dependencies with whats in core
+ * Syncs pom.xml's dependencies with what is in core
  *
- * Usage: node ./scrits/checkPom.js
+ * Usage: node ./scripts/checkPom.js
  */
-
-let hasError = false;
 
 async function updatePom() {
     const corePomProperties = await getCorePomProperties();
@@ -23,9 +21,7 @@ async function updatePom() {
                 (error, stdout, stderr) => {
                     const errorMessage = (error && error.message) || stderr;
                     if (errorMessage) {
-                        hasError = true;
-                        console.log(chalk.red(`Failed to updatet: ${error.message}`));
-                        return;
+                        throw Error(errorMessage);
                     }
                 }
             );
@@ -33,12 +29,12 @@ async function updatePom() {
     );
 }
 
-checkP4Env();
-
-updatePom().then(() => {
-    if (hasError) {
+updatePom()
+    .then(() => {
         console.log(chalk.green('Successfully updated pom.xml'));
+        process.exit(0);
+    })
+    .catch(e => {
+        console.log(chalk.red(`Failed to update pom.xml : ${e.message}`));
         process.exit(1);
-    }
-    process.exit(0);
-});
+    });
