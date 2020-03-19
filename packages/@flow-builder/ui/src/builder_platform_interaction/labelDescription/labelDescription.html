@@ -27,7 +27,7 @@
             >
             </lightning-input>
         </div>
-        <div if:false={hideDescription} class="slds-form-element__group slds-form-element__row">
+        <div if:false={hideDescription} class="slds-form-element__group slds-form-element__row slds-p-bottom_xx-small">
             <lightning-textarea
                 label={labels.descriptionLabel}
                 disabled={disableDescription}
@@ -42,11 +42,15 @@
     <div if:false={isEditable}>
         <div class={readOnlyInfoClass}>
             <span class={conditionalColumnClassInfo}>
-                <span class="slds-col slds-truncate slds-p-right_xx-small" title={readOnlyLabel}>
-                    <b>{readOnlyLabel}</b>
+                <span
+                    if:false={hideLabel}
+                    class="read-only-label slds-col slds-truncate slds-p-right_xx-small"
+                    title={readOnlyLabel}
+                >
+                    {readOnlyLabel}
                 </span>
                 <br if:true={isVertical} />
-                <span class="slds-col slds-truncate" title={readOnlyDevName}>{readOnlyDevName}</span>
+                <span class={readOnlyDevNameClass} title={readOnlyDevName}>{readOnlyDevName}</span>
             </span>
             <span class={conditionalColumnClassButton}>
                 <lightning-button-icon
@@ -54,13 +58,13 @@
                     alternative-text={labels.editButtonLabel}
                     class={editButtonClass}
                     onclick={handleEditButtonPress}
-                    size="small"
+                    size="x-small"
                 >
                 </lightning-button-icon>
             </span>
         </div>
-        <div>
-            <p class="slds-line-clamp_small">{description.value}</p>
+        <div if:true={hasDescription} class={readOnlyDescriptionClass}>
+            <p>{description.value}</p>
         </div>
     </div>
 </template>

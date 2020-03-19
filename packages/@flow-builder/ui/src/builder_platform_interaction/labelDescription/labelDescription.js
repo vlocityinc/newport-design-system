@@ -106,6 +106,11 @@ export default class LabelDescription extends LightningElement {
     }
 
     @api
+    get hasDescription() {
+        return this.description.value !== '';
+    }
+
+    @api
     get isEditable() {
         return this.editPressed || this.mode === AddElementEvent.EVENT_NAME || this.mode === undefined;
     }
@@ -142,15 +147,26 @@ export default class LabelDescription extends LightningElement {
         if (this.isVertical) {
             return 'test-read-only-info slds-grid';
         }
-        return 'test-read-only-info slds-grid';
+        if (this.hasDescription) {
+            return 'test-read-only-info slds-grid slds-p-bottom_x-small';
+        }
+        return 'test-read-only-info slds-grid slds-p-bottom_small';
+    }
+
+    @api
+    get readOnlyDescriptionClass() {
+        if (this.isVertical) {
+            return 'slds-line-clamp_small slds-text-color_weak slds-text-body_small slds-p-bottom_xx-small';
+        }
+        return 'slds-line-clamp_small slds-text-color_weak slds-text-body_small slds-m-bottom_small';
     }
 
     @api
     get conditionalColumnClassInfo() {
         if (this.isVertical) {
-            return 'slds-text-heading_medium slds-truncate slds-col';
+            return 'slds-text-heading_small slds-truncate slds-col';
         }
-        return 'slds-text-heading_medium slds-truncate_container_75 slds-grid';
+        return 'slds-text-heading_small slds-truncate_container_75 slds-grid';
     }
 
     @api
@@ -159,6 +175,14 @@ export default class LabelDescription extends LightningElement {
             return 'slds-col';
         }
         return '';
+    }
+
+    @api
+    get readOnlyDevNameClass() {
+        if (this.isVertical) {
+            return 'slds-col slds-truncate slds-text-body_regular';
+        }
+        return 'slds-col slds-truncate';
     }
 
     /** @param {Object} label - object with {value, error} **/

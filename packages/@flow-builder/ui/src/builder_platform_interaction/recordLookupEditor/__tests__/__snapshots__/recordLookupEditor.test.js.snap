@@ -36,7 +36,7 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Add
               </lightning-input>
             </div>
             <div
-              class="slds-form-element__group slds-form-element__row"
+              class="slds-form-element__group slds-form-element__row slds-p-bottom_xx-small"
             >
               <lightning-textarea
                 class="slds-size_1-of-1 description"
@@ -306,7 +306,7 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Add
               </lightning-input>
             </div>
             <div
-              class="slds-form-element__group slds-form-element__row"
+              class="slds-form-element__group slds-form-element__row slds-p-bottom_xx-small"
             >
               <lightning-textarea
                 class="slds-size_1-of-1 description"
@@ -375,18 +375,16 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
           </span>
           <div>
             <div
-              class="test-read-only-info slds-grid"
+              class="test-read-only-info slds-grid slds-p-bottom_x-small"
             >
               <span
-                class="slds-text-heading_medium slds-truncate_container_75 slds-grid"
+                class="slds-text-heading_small slds-truncate_container_75 slds-grid"
               >
                 <span
-                  class="slds-col slds-truncate slds-p-right_xx-small"
+                  class="read-only-label slds-col slds-truncate slds-p-right_xx-small"
                   title="Get Account With Fields and filters"
                 >
-                  <b>
-                    Get Account With Fields and filters
-                  </b>
+                  Get Account With Fields and filters
                 </span>
                 <span
                   class="slds-col slds-truncate"
@@ -403,10 +401,10 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
                 </lightning-button-icon>
               </span>
             </div>
-            <div>
-              <p
-                class="slds-line-clamp_small"
-              >
+            <div
+              class="slds-line-clamp_small slds-text-color_weak slds-text-body_small slds-m-bottom_small"
+            >
+              <p>
                 Get account with fields and sort
               </p>
             </div>
@@ -751,18 +749,16 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
           </span>
           <div>
             <div
-              class="test-read-only-info slds-grid"
+              class="test-read-only-info slds-grid slds-p-bottom_small"
             >
               <span
-                class="slds-text-heading_medium slds-truncate_container_75 slds-grid"
+                class="slds-text-heading_small slds-truncate_container_75 slds-grid"
               >
                 <span
-                  class="slds-col slds-truncate slds-p-right_xx-small"
+                  class="read-only-label slds-col slds-truncate slds-p-right_xx-small"
                   title="get Account with sObject"
                 >
-                  <b>
-                    get Account with sObject
-                  </b>
+                  get Account with sObject
                 </span>
                 <span
                   class="slds-col slds-truncate"
@@ -778,13 +774,6 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
                   #shadow-root(open)
                 </lightning-button-icon>
               </span>
-            </div>
-            <div>
-              <p
-                class="slds-line-clamp_small"
-              >
-                
-              </p>
             </div>
           </div>
       </builder_platform_interaction-label-description>
@@ -1138,18 +1127,16 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
           </span>
           <div>
             <div
-              class="test-read-only-info slds-grid"
+              class="test-read-only-info slds-grid slds-p-bottom_small"
             >
               <span
-                class="slds-text-heading_medium slds-truncate_container_75 slds-grid"
+                class="slds-text-heading_small slds-truncate_container_75 slds-grid"
               >
                 <span
-                  class="slds-col slds-truncate slds-p-right_xx-small"
+                  class="read-only-label slds-col slds-truncate slds-p-right_xx-small"
                   title="get Account with sObject"
                 >
-                  <b>
-                    get Account with sObject
-                  </b>
+                  get Account with sObject
                 </span>
                 <span
                   class="slds-col slds-truncate"
@@ -1165,13 +1152,6 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
                   #shadow-root(open)
                 </lightning-button-icon>
               </span>
-            </div>
-            <div>
-              <p
-                class="slds-line-clamp_small"
-              >
-                
-              </p>
             </div>
           </div>
       </builder_platform_interaction-label-description>
@@ -1234,18 +1214,16 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
           </span>
           <div>
             <div
-              class="test-read-only-info slds-grid"
+              class="test-read-only-info slds-grid slds-p-bottom_small"
             >
               <span
-                class="slds-text-heading_medium slds-truncate_container_75 slds-grid"
+                class="slds-text-heading_small slds-truncate_container_75 slds-grid"
               >
                 <span
-                  class="slds-col slds-truncate slds-p-right_xx-small"
+                  class="read-only-label slds-col slds-truncate slds-p-right_xx-small"
                   title="get Account with sObject"
                 >
-                  <b>
-                    get Account with sObject
-                  </b>
+                  get Account with sObject
                 </span>
                 <span
                   class="slds-col slds-truncate"
@@ -1261,13 +1239,6 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
                   #shadow-root(open)
                 </lightning-button-icon>
               </span>
-            </div>
-            <div>
-              <p
-                class="slds-line-clamp_small"
-              >
-                
-              </p>
             </div>
           </div>
       </builder_platform_interaction-label-description>

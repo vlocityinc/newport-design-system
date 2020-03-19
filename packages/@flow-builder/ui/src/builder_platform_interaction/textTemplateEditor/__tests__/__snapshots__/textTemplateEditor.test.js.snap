@@ -26,7 +26,7 @@ exports[`text-template-editor check UI (snapshot) - "RichTextPlainTextSwitch" di
               </lightning-input>
             </div>
             <div
-              class="slds-form-element__group slds-form-element__row"
+              class="slds-form-element__group slds-form-element__row slds-p-bottom_xx-small"
             >
               <lightning-textarea
                 class="slds-size_1-of-1 description"
