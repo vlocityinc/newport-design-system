@@ -4,7 +4,7 @@ const { copySync, ensureDirSync, removeSync } = require('fs-extra');
 const argv = require('yargs').argv;
 const { transformFileSync } = require('@babel/core');
 const transformNamespace = require('./babel/babel-plugin-npm2lwc/index');
-const { camelCase, findAllPackages, printWarning, printInfo, getDirectories } = require('./utils');
+const { camelCase, findAllPackages, printWarning, printInfo, printError, getDirectories } = require('./utils');
 const watch = require('node-watch');
 
 const modulesArg = argv._[0] || 'src/main/modules';
@@ -18,7 +18,7 @@ npm2lwc(modulePath, npmPackagesArg, argv);
 /**
  * "Transpiles" a built npm monorepo package into a core ui-tier module of lwc components
  *
- * Usage: node npm2lwc.js <uiModuleLocation> <npmPackagesLocation> //TODO: Switch src and dest order
+ * Usage: node npm2lwc.js <npmPackagesLocation> <uiModuleLocation>
  *
  * Will only run on packages that contain the "npm2lwc" package configuration. If no configuration needed, set to true or empty object
  *
@@ -26,7 +26,7 @@ npm2lwc(modulePath, npmPackagesArg, argv);
  * package.json
  *    "npm2lwc": {
  *      "deployToCore": boolean // Deploy package to core if set to true when run with core flag | default to false
- *      "namespace": string // Core namespace of package | default to builder_framework
+ *      "namespace": string // Core namespace of package | default to builder_platform_interaction
  *      "name": string // Core name of package | default to camel case of current package
  *      "dist": string // Path to distribution file. Must be rolled into one file. | default dist/index.esNext.js
  *    }
@@ -36,11 +36,11 @@ npm2lwc(modulePath, npmPackagesArg, argv);
  *      - Any dependencies on external packages outside of monorepo need to be included in the rollup
  *      - If types exist then those are found rolled into dist/index.d.ts
  *
- * @param coreModulePath
  * @param npmPackagesPath
+ * @param coreModulePath
  * @param options {core, watch}
  */
-function npm2lwc(coreModulePath, npmPackagesPath, options) {
+function npm2lwc(npmPackagesPath, coreModulePath, options) {
     if (!fs.existsSync(coreModulePath)) {
         fs.mkdirSync(coreModulePath, { recursive: true });
     }
@@ -148,13 +148,21 @@ function mvUiModule(src, dest, options) {
     const sourcePath = resolve(src, 'src/');
     if (options.watch) {
         watch(sourcePath, { recursive: true }, (event, filename) => {
-            // Check not a temp file generated (intellij)
-            if (filename.indexOf('___') === -1 && !filename.endsWith('~')) {
-                const fullSourcePath = resolve(sourcePath, filename);
-                const relativePath = relative(sourcePath, fullSourcePath);
-                const modulePath = resolve(dest, relativePath);
-                printInfo(`File change detected at ${fullSourcePath}. Pushing changes to ${modulePath}`);
-                fs.copyFileSync(fullSourcePath, modulePath);
+            if (event === 'update') {
+                // on create or modify
+                // Check not a temp file generated (intellij)
+                if (filename.indexOf('___') === -1 && !filename.endsWith('~') && !filename.endsWith('.tmp')) {
+                    const fullSourcePath = resolve(sourcePath, filename);
+                    const relativePath = relative(sourcePath, fullSourcePath);
+                    const modulePath = resolve(dest, relativePath);
+                    printInfo(`File change detected at ${fullSourcePath}`);
+                    try {
+                        fs.copyFileSync(fullSourcePath, modulePath);
+                        printInfo(`Pushed changes to ${modulePath}`);
+                    } catch (e) {
+                        printError(`Could not copy file at ${fullSourcePath} : ${e.message}`);
+                    }
+                }
             }
         });
     } else {
