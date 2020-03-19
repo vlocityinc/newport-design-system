@@ -202,7 +202,7 @@ export default class NewFlowModalBody extends LightningElement {
 
     fetchProcessTypes() {
         this.state.processTypesLoading = true;
-        fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES)
+        fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES, { builderType: this.builderType })
             .then(processTypes => {
                 setProcessTypes(processTypes);
                 loadAllSupportedFeatures(processTypes);

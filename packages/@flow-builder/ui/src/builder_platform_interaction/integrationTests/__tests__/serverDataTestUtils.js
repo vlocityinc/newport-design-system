@@ -194,7 +194,6 @@ const allAuraActions = {
     }),
     'c.getApexPlugins': createGetter([]),
     'c.getApexTypes': createGetter(apexTypesForFlow),
-    'c.getBuilderConfigs': createGetter({}),
     'c.getSubflows': getSubflows({
         [FLOW_PROCESS_TYPE.FLOW]: mockSubflows
     }),

@@ -78,7 +78,7 @@ export default class ScreenPalette extends LightningElement {
         // Dragging an element could mean user wants to add the corresponding
         // field type to the canvas. Figure out which field type user wants
         // to add.
-        const fieldGuid = event.dataTransfer.getData('text');
+        const { elementType: fieldGuid } = JSON.parse(event.dataTransfer.getData('text'));
         const fieldTypeName = getFieldTypeNameByGuid(this.types, fieldGuid);
         event.dataTransfer.setData('text', fieldTypeName);
         event.dataTransfer.effectAllowed = 'copy';

@@ -89,9 +89,6 @@ import {
     setProcessTypes,
     getRunInModes,
     setRunInModes,
-    getBuilderConfig,
-    setBuilderConfigs,
-    getBuilderType,
     setBuilderType
 } from 'builder_platform_interaction/systemLib';
 import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
@@ -135,8 +132,6 @@ const PANELS = {
     CANVAS: 'builder_platform_interaction-canvas-container'
 };
 
-const BUILDER_TYPE_FLOW_BUILDER = 'FlowBuilder';
-
 /**
  * Editor component for flow builder. This is the top-level smart component for
  * flow builder. It is responsible for maintaining the overall state of app and
@@ -146,14 +141,20 @@ const BUILDER_TYPE_FLOW_BUILDER = 'FlowBuilder';
  * @since 214
  */
 export default class Editor extends LightningElement {
+    _builderType;
+
     @api
     get builderType() {
-        return getBuilderType();
+        return this._builderType;
     }
 
     set builderType(value) {
+        this._builderType = value;
         setBuilderType(value);
     }
+
+    @api
+    builderConfig;
 
     _guardrailsParams;
 
@@ -259,9 +260,6 @@ export default class Editor extends LightningElement {
     propertyEditorBlockerCalls = [];
 
     @track
-    builderConfigLoading = false;
-
-    @track
     isCutCopyDisabled = true;
 
     @track
@@ -281,11 +279,6 @@ export default class Editor extends LightningElement {
     /** Whether to use the FLC canvas */
     get useFixedLayoutCanvas() {
         return useFixedLayoutCanvas();
-    }
-
-    /** Builder configuration for the current builder type */
-    get builderConfig() {
-        return getBuilderConfig() || {};
     }
 
     /** Whether canvas elements are available. Don't render the canvas until then. */
@@ -317,7 +310,15 @@ export default class Editor extends LightningElement {
         // Show New Flow modal if there is no flow to edit,
         // builder configuration isn't loading
         // and no default flow to create.
-        return !this.hasFlow && !this.builderConfigLoading && !this.defaultFlow;
+        return !this.hasFlow && !this.defaultFlow;
+    }
+
+    get builderIcon() {
+        return this.builderConfig && this.builderConfig.icon;
+    }
+
+    get builderName() {
+        return this.builderConfig && this.builderConfig.name;
     }
 
     /** Indicates that the new flow modal is displayed */
@@ -327,8 +328,6 @@ export default class Editor extends LightningElement {
         super();
         // Setting the app name to differentiate between FLOW_BUILDER or STRATEGY_BUILDER
         setAppName(APP_NAME);
-        // Set default builder type
-        setBuilderType(BUILDER_TYPE_FLOW_BUILDER);
         logPerfTransactionStart(EDITOR);
         const blacklistedActionsForUndoRedoLib = [
             INIT,
@@ -356,12 +355,6 @@ export default class Editor extends LightningElement {
         );
         unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
         fetchOnce(SERVER_ACTION_TYPE.GET_HEADER_URLS).then(data => this.getHeaderUrlsCallBack(data));
-        this.builderConfigLoading = true;
-        fetchOnce(SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS)
-            .then(setBuilderConfigs)
-            .then(() => {
-                this.builderConfigLoading = false;
-            });
         this.keyboardInteractions = new KeyboardInteractions();
         initializeLoader(storeInstance);
         loadOnStart();
@@ -382,18 +375,7 @@ export default class Editor extends LightningElement {
             fetch(SERVER_ACTION_TYPE.GET_FLOW, this.getFlowCallback, params, {
                 background: true
             });
-            // should fetch process types here if they aren't fetched
-            if (!getProcessTypes()) {
-                this.processTypeLoading = true;
-                fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES, {})
-                    .then(data => {
-                        setProcessTypes(data);
-                        loadAllSupportedFeatures(getProcessTypes());
-                    })
-                    .then(() => {
-                        this.processTypeLoading = false;
-                    });
-            }
+
             this.isFlowServerCallInProgress = true;
             this.spinners.showFlowMetadataSpinner = true;
         }
@@ -410,10 +392,7 @@ export default class Editor extends LightningElement {
 
     get showSpinner() {
         return (
-            this.spinners.showFlowMetadataSpinner ||
-            this.spinners.showPropertyEditorSpinner ||
-            this.builderConfigLoading ||
-            this.processTypeLoading
+            this.spinners.showFlowMetadataSpinner || this.spinners.showPropertyEditorSpinner || this.processTypeLoading
         );
     }
 
@@ -1381,7 +1360,7 @@ export default class Editor extends LightningElement {
         if (this.showNewFlowDialog && !this.newFlowModalActive) {
             this.newFlowModalActive = true;
             invokeNewFlowModal(
-                getBuilderType(),
+                this.builderType,
                 (this.builderConfig && this.builderConfig.newFlowConfig) || undefined,
                 this.closeFlowModalCallback,
                 this.createFlowFromTemplateCallback
@@ -1416,6 +1395,19 @@ export default class Editor extends LightningElement {
     connectedCallback() {
         this.keyboardInteractions.addKeyDownEventListener(this.template);
         this.setupCommandsAndShortcuts();
+
+        // Get list of supported process types for the current builder type
+        if (!getProcessTypes()) {
+            this.processTypeLoading = true;
+            fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES, { builderType: this.builderType })
+                .then(data => {
+                    setProcessTypes(data);
+                    loadAllSupportedFeatures(getProcessTypes());
+                })
+                .then(() => {
+                    this.processTypeLoading = false;
+                });
+        }
     }
 
     disconnectedCallback() {

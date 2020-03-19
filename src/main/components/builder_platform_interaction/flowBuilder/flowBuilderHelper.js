@@ -3,7 +3,10 @@
         var serverDataLibInit = cmp.find('serverDataLibInit');
         var serverDataLib = serverDataLibInit.find('serverDataLib');
         var serverActionType = serverDataLib.SERVER_ACTION_TYPE.GET_CONTEXT;
-        serverDataLib.fetch(serverActionType, this.getContextCallback);
+        if (!cmp.get('v.builderType')) {
+            cmp.set('v.builderType', 'FlowBuilder');
+        }
+        serverDataLib.fetch(serverActionType, this.getContextCallback, { builderType: cmp.get('v.builderType') });
 
         var imageLib = cmp.find('imageLib');
         imageLib.preloadImages();
@@ -17,6 +20,8 @@
             var cmp = $A.getRoot();
             var contextLib = cmp.find('contextLib');
             contextLib.setContext(response.data);
+            var builderConfig = response.data.builderConfig ? response.data.builderConfig : {};
+            cmp.set('v.builderConfig', builderConfig);
             cmp.set('v.ready', true);
         }
     }

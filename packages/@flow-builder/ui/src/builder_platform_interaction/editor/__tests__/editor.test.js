@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { addElement, updateElement } from 'builder_platform_interaction/actions';
 import { PROPERTY_EDITOR, invokePropertyEditor } from 'builder_platform_interaction/builderUtils';
@@ -101,22 +100,7 @@ jest.mock('builder_platform_interaction/translatorLib', () => {
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
         fetch: jest.fn(),
-        fetchOnce: jest.fn(action => {
-            if (action === 'getBuilderConfigs') {
-                return Promise.resolve({
-                    old: {
-                        supportedProcessTypes: ['right']
-                    },
-                    new: {
-                        supportedProcessTypes: ['right'],
-                        usePanelForPropertyEditor: true
-                    }
-                });
-            }
-            return {
-                then: () => {}
-            };
-        }),
+        fetchOnce: jest.fn().mockResolvedValue(),
         SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE
     };
 });
@@ -135,7 +119,10 @@ jest.mock('builder_platform_interaction/actions', () => {
         })
     };
 });
-const createComponentUnderTest = (props = { builderType: 'old' }) => {
+
+const createComponentUnderTest = (
+    props = { builderType: 'old', builderConfig: { supportedProcessTypes: ['right'] } }
+) => {
     const el = createElement('builder_platform_interaction-editor', {
         is: Editor
     });
@@ -685,7 +672,8 @@ describe('editor property editor', () => {
         mockStoreState.properties.processType = 'right';
 
         const editorComponent = createComponentUnderTest({
-            builderType: 'new'
+            builderType: 'new',
+            builderConfig: { supportedProcessTypes: ['right'], usePanelForPropertyEditor: true }
         });
 
         const elementType = 'ASSIGNMENT';
@@ -708,7 +696,8 @@ describe('editor property editor', () => {
             mockStoreState.properties.processType = 'right';
 
             editorComponent = createComponentUnderTest({
-                builderType: 'new'
+                builderType: 'new',
+                builderConfig: { supportedProcessTypes: ['right'], usePanelForPropertyEditor: true }
             });
 
             await ticks(2);

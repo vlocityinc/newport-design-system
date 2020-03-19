@@ -12,6 +12,7 @@
     <aura:attribute name="flowId" type="String" description="The id of the flow to load" />
     <aura:attribute name="flowDefId" type="String" description="The id of the flow definition associated with the flow we are loading" />
     <aura:attribute name="builderType" type="String" description="Type of the builder application" />
+    <aura:attribute name="builderConfig" type="Object" description="Configuration for the current builder type" />
     <aura:attribute name="guardrailsParams" type="Map" default="{}" description="Params to execute guardrails" />
 
     <!--Private Attributes-->
@@ -67,6 +68,7 @@
             flowId="{!v.flowId}" 
             flowDefId="{!v.flowDefId}" 
             builderType="{!v.builderType}" 
+            builderConfig="{!v.builderConfig}"
             guardrailsParams="{!v.guardrailsParams}" 
             onguardrailresult="{!c.handleGuardrailResult}"/>
     </div>

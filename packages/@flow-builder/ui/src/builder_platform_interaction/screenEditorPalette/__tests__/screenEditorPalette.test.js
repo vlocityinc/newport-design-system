@@ -117,7 +117,7 @@ describe('Screen Editor Palette', () => {
                 return this.data[type];
             }
         };
-        dragStartEvent.dataTransfer.setData('text', guid);
+        dragStartEvent.dataTransfer.setData('text', JSON.stringify({ elementType: guid }));
         basePalette.dispatchEvent(dragStartEvent);
 
         expect(dragStartEvent.dataTransfer.getData('text')).toBe('LargeTextArea');

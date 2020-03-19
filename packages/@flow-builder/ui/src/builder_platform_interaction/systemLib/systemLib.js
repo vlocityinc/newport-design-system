@@ -54,4 +54,4 @@ export {
 export { setGlobalVariables, getGlobalVariableTypes, getGlobalVariables, getGlobalVariable } from './globalVariables';
 export { setProcessTypes, getProcessTypes, getProcessFeatures, setProcessTypeFeature } from './processTypes';
 export { setRunInModes, getRunInModes } from './runInModes';
-export { setBuilderType, getBuilderType, getBuilderConfig, setBuilderConfigs } from './builderConfigs';
+export { setBuilderType, getBuilderType } from './builderConfigs';
