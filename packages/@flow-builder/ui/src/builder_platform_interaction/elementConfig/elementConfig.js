@@ -101,7 +101,8 @@ import {
     createStartElementMetadataObject,
     createPastedScreen,
     createPastedDecision,
-    createPastedAssignment
+    createPastedAssignment,
+    createPastedSubflow
 } from 'builder_platform_interaction/elementFactory';
 import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
@@ -216,6 +217,7 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: false,
         factory: {
             propertyEditor: createSubflow,
+            pasteElement: createPastedSubflow,
             duplicateElement: createDuplicateSubflow,
             uiToFlow: createSubflowMetadataObject,
             flowToUi: createSubflowWithConnectors
