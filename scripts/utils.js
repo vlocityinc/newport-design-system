@@ -10,7 +10,12 @@ function getPomProperty(property, pomAsJson) {
 }
 
 async function getCorePomProperties() {
-    return p4.cmd('print -q //app/main/core/pom.xml').then(p4Response => getPropertiesFromPom(p4Response.data));
+    return p4.cmd('print -q //app/main/core/pom.xml').then(p4Response => {
+        if (p4Response.error) {
+            throw Error(p4Response.error[0].data);
+        }
+        return getPropertiesFromPom(p4Response.data);
+    });
 }
 
 async function getPropertiesFromPom(pomXml) {
@@ -84,20 +89,6 @@ function findAllPackages(currentDir) {
     return pkgs;
 }
 
-function checkP4Env() {
-    const { P4PORT, P4USER, P4CLIENT } = process.env;
-    const valid = P4PORT && P4USER && P4CLIENT;
-    if (!valid) {
-        console.log(
-            chalk.red(
-                'Perforce setup is invalid. Check your P4 environment variables (P4PORT, P4USER, P4CLIENT) are set.'
-            )
-        );
-        process.exit(1);
-    }
-    return valid;
-}
-
 const POM_PROPERTIES_TO_CHECK = ['lwc.api.version', 'aura.version', 'lwc.version'];
 
 module.exports = {
@@ -112,6 +103,5 @@ module.exports = {
     getPomProperty,
     getCorePomProperties,
     getProjectPomProperties,
-    POM_PROPERTIES_TO_CHECK,
-    checkP4Env
+    POM_PROPERTIES_TO_CHECK
 };

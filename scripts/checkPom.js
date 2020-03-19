@@ -13,31 +13,36 @@ const {
  * Usage: node ./scrits/checkPom.js
  */
 
-let hasErrors = false;
-
 function checkProperty(property, projectPomProperties, corePomProperties) {
     const projectValue = getPomProperty(property, projectPomProperties);
     const coreValue = getPomProperty(property, corePomProperties);
     if (projectValue !== coreValue) {
         console.log(chalk.red(`Warning: ${property} is out of sync with core: ${coreValue} vs ${projectValue}`));
-        hasErrors = true;
+        return false;
     }
+    return true;
 }
 
 async function checkProjectPomProperties() {
-    const projectPomProperties = await getProjectPomProperties();
-    const corePomProperties = await getCorePomProperties();
+    try {
+        const projectPomProperties = await getProjectPomProperties();
+        const corePomProperties = await getCorePomProperties();
 
-    POM_PROPERTIES_TO_CHECK.forEach(property => checkProperty(property, projectPomProperties, corePomProperties));
+        const hasErrors = !POM_PROPERTIES_TO_CHECK.every(property =>
+            checkProperty(property, projectPomProperties, corePomProperties)
+        );
 
-    if (hasErrors) {
-        console.log(chalk.red('\nRun `yarn update:syncPomToCore` to update.'));
-    } else {
-        console.log(chalk.green('pom.xml in sync with core'));
+        if (hasErrors) {
+            console.log(chalk.red('\nRun `yarn update:syncPomToCore` to update.'));
+        } else {
+            console.log(chalk.green('pom.xml in sync with core'));
+        }
+        process.exit(hasErrors ? 1 : 0);
+    } catch (e) {
+        console.log(chalk.red(`Error while checking pom properties : ${e.message}`));
+        process.exit(1);
     }
-    process.exit(hasErrors ? 1 : 0);
 }
 
 console.log('Checking pom.xml ...');
-checkP4Env();
 checkProjectPomProperties();
