@@ -14,7 +14,7 @@ import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
-import ffcElementsReducer from './elementsReducer';
+import elementsReducer from './elementsReducer';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import { initializeChildren, createRootElement } from 'builder_platform_interaction/flcConversionUtils';
 import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
@@ -28,6 +28,48 @@ import {
 } from 'builder_platform_interaction/flowUtils';
 
 /**
+ * FLC Reducer for elements
+ *
+ * @param {Object} state - elements in the store
+ * @param {Object} action - with type and payload
+ * @return {Object} new state after reduction
+ */
+export default function flcElementsReducer(state = {}, action) {
+    state = deepCopy(elementsReducer(state, action));
+
+    switch (action.type) {
+        case ADD_START_ELEMENT:
+            state = addRootAndEndElements(state, action.payload.guid);
+            break;
+        case ADD_CANVAS_ELEMENT:
+        case ADD_SCREEN_WITH_FIELDS:
+        case ADD_DECISION_WITH_OUTCOMES:
+        case ADD_END_ELEMENT:
+        case ADD_WAIT_WITH_WAIT_EVENTS:
+        case MODIFY_WAIT_WITH_WAIT_EVENTS:
+            state = _addCanvasElement(state, action);
+            break;
+        case DELETE_ELEMENT:
+            state = _deleteElements(state, action);
+            break;
+        case SELECTION_ON_FIXED_CANVAS:
+            state = _selectionOnFixedCanvas(
+                state,
+                action.payload.canvasElementGuidsToSelect,
+                action.payload.canvasElementGuidsToDeselect,
+                action.payload.selectableGuids
+            );
+            break;
+        case PASTE_ON_FIXED_CANVAS:
+            state = _pasteOnFixedCanvas(state, action.payload);
+            break;
+        default:
+    }
+
+    return state;
+}
+
+/**
  * Adds a root and end element for a new flow
  * @param {Object} elements - the store elements
  * @param {string} startElementGuid - the start element guid
@@ -36,6 +78,39 @@ function addRootAndEndElements(elements, startElementGuid) {
     addElementToState(createRootElement(startElementGuid), elements);
     linkElement(elements, createEndElement({ prev: startElementGuid }));
     return elements;
+}
+
+function _getElementFromActionPayload(payload) {
+    return payload.screen || payload.canvasElement || payload;
+}
+
+/**
+ * Function to add a canvas element on the fixed canvas
+ * @param {Object} state - State of elements in the store
+ * @param {Object} action - Action dispatched to the store
+ */
+
+function _addCanvasElement(state, action) {
+    const element = _getElementFromActionPayload(action.payload);
+
+    if (supportsChildren(element)) {
+        initializeChildren(element);
+    }
+
+    addElement(state, element, action.type === ADD_END_ELEMENT);
+
+    return state;
+}
+
+/**
+ * Function to delete elements from store state
+ * @param {Object} state - Current state of elements in the store
+ * @param {Object} action - Action dispatched to the store
+ */
+function _deleteElements(state, { payload }) {
+    const { selectedElements, childIndexToKeep } = payload;
+    selectedElements.forEach(element => deleteElement(state, element, childIndexToKeep));
+    return state;
 }
 
 /**
@@ -102,28 +177,6 @@ function _selectionOnFixedCanvas(elements, canvasElementGuidsToSelect, canvasEle
     });
 
     return hasStateChanged ? newState : elements;
-}
-
-function _getElementFromActionPayload(payload) {
-    return payload.screen || payload.canvasElement || payload;
-}
-
-/**
- * Function to add a canvas element on the fixed canvas
- * @param {Object} state - State of elements in the store
- * @param {Object} action - Action dispatched to the store
- */
-
-function _addCanvasElement(state, action) {
-    const element = _getElementFromActionPayload(action.payload);
-
-    if (supportsChildren(element)) {
-        initializeChildren(element);
-    }
-
-    addElement(state, element, action.type === ADD_END_ELEMENT);
-
-    return state;
 }
 
 /**
@@ -232,53 +285,4 @@ function _pasteOnFixedCanvas(
     }
 
     return newState;
-}
-
-function _deleteElements(state, { payload }) {
-    const { selectedElements, childIndexToKeep } = payload;
-    selectedElements.forEach(element => deleteElement(state, element, childIndexToKeep));
-    return state;
-}
-
-/**
- * FLC Reducer for elements
- *
- * @param {Object} state - elements in the store
- * @param {Object} action - with type and payload
- * @return {Object} new state after reduction
- */
-
-export default function elementsReducer(state = {}, action) {
-    state = deepCopy(ffcElementsReducer(state, action));
-
-    switch (action.type) {
-        case ADD_START_ELEMENT:
-            state = addRootAndEndElements(state, action.payload.guid);
-            break;
-        case ADD_CANVAS_ELEMENT:
-        case ADD_SCREEN_WITH_FIELDS:
-        case ADD_DECISION_WITH_OUTCOMES:
-        case ADD_END_ELEMENT:
-        case ADD_WAIT_WITH_WAIT_EVENTS:
-        case MODIFY_WAIT_WITH_WAIT_EVENTS:
-            state = _addCanvasElement(state, action);
-            break;
-        case DELETE_ELEMENT:
-            state = _deleteElements(state, action);
-            break;
-        case SELECTION_ON_FIXED_CANVAS:
-            state = _selectionOnFixedCanvas(
-                state,
-                action.payload.canvasElementGuidsToSelect,
-                action.payload.canvasElementGuidsToDeselect,
-                action.payload.selectableGuids
-            );
-            break;
-        case PASTE_ON_FIXED_CANVAS:
-            state = _pasteOnFixedCanvas(state, action.payload);
-            break;
-        default:
-    }
-
-    return state;
 }

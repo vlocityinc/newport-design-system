@@ -8,6 +8,8 @@ import {
     setFlowErrorsAndWarnings,
     flowPropertiesCallback,
     saveAsFlowCallback,
+    getCopiedData,
+    getPasteElementGuidMaps,
     getDuplicateElementGuidMaps,
     getConnectorToDuplicate,
     highlightCanvasElement
@@ -623,6 +625,188 @@ describe('Editor Utils Test', () => {
             const mocksaveFlowFn = jest.fn(saveType => saveType);
             saveAsFlowCallback(storeInstance, mocksaveFlowFn)(flowProperties);
             expect(mocksaveFlowFn.mock.results[0].value).toBe(SaveType.CREATE);
+        });
+    });
+
+    describe('getCopiedData function', () => {
+        it('getCopiedData returns the correct data that includes selected elements and associated child elements', () => {
+            const elementsInStore = {
+                assignment1: {
+                    guid: 'assignment1',
+                    next: 'decision1',
+                    config: { isSelected: true },
+                    elementType: ELEMENT_TYPE.ASSIGNMENT
+                },
+                decision1: {
+                    guid: 'decision1',
+                    config: { isSelected: true },
+                    children: ['assignment2', 'assignment3'],
+                    outcomeReferences: [
+                        {
+                            outcomeReference: 'outcome1'
+                        }
+                    ],
+                    elementType: ELEMENT_TYPE.DECISION
+                },
+                outcome1: {
+                    guid: 'outcome1'
+                },
+                assignment2: {
+                    guid: 'assignment2',
+                    config: { isSelected: true },
+                    parent: 'decision1',
+                    childIndex: 0,
+                    elementType: ELEMENT_TYPE.ASSIGNMENT
+                },
+                assignment3: {
+                    guid: 'assignment3',
+                    config: { isSelected: false },
+                    parent: 'decision1',
+                    childIndex: 0,
+                    elementType: ELEMENT_TYPE.ASSIGNMENT
+                }
+            };
+
+            const expectedCopiedElements = {
+                assignment1: {
+                    guid: 'assignment1',
+                    next: 'decision1',
+                    config: { isSelected: true },
+                    elementType: ELEMENT_TYPE.ASSIGNMENT
+                },
+                decision1: {
+                    guid: 'decision1',
+                    config: { isSelected: true },
+                    children: ['assignment2', 'assignment3'],
+                    outcomeReferences: [
+                        {
+                            outcomeReference: 'outcome1'
+                        }
+                    ],
+                    elementType: ELEMENT_TYPE.DECISION
+                },
+                assignment2: {
+                    guid: 'assignment2',
+                    config: { isSelected: true },
+                    parent: 'decision1',
+                    childIndex: 0,
+                    elementType: ELEMENT_TYPE.ASSIGNMENT
+                }
+            };
+
+            const expectedCopiedChildElements = {
+                outcome1: {
+                    guid: 'outcome1'
+                }
+            };
+
+            const result = getCopiedData(elementsInStore, 'assignment1');
+
+            expect(result.copiedCanvasElements).toMatchObject(expectedCopiedElements);
+            expect(result.copiedChildElements).toMatchObject(expectedCopiedChildElements);
+            expect(result.bottomCutOrCopiedGuid).toEqual('decision1');
+        });
+
+        it('getCopiedData returns the correct data when copying a screen with nested screen fields', () => {
+            const elementsInStore = {
+                screen1: {
+                    guid: 'screen1',
+                    config: { isSelected: true },
+                    elementType: ELEMENT_TYPE.SCREEN,
+                    fieldReferences: [
+                        {
+                            fieldReference: 'section1'
+                        },
+                        {
+                            fieldReference: 'textField1'
+                        }
+                    ]
+                },
+                section1: {
+                    guid: 'section1',
+                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    fieldReferences: [
+                        {
+                            fieldReference: 'column1'
+                        }
+                    ]
+                },
+                column1: {
+                    guid: 'column1',
+                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    fieldReferences: []
+                },
+                textField1: {
+                    guid: 'textField1',
+                    elementType: ELEMENT_TYPE.SCREEN_FIELD
+                }
+            };
+
+            const expectedCopiedElements = {
+                screen1: {
+                    guid: 'screen1',
+                    config: { isSelected: true },
+                    elementType: ELEMENT_TYPE.SCREEN,
+                    fieldReferences: [
+                        {
+                            fieldReference: 'section1'
+                        },
+                        {
+                            fieldReference: 'textField1'
+                        }
+                    ]
+                }
+            };
+
+            const expectedCopiedChildElements = {
+                section1: {
+                    guid: 'section1',
+                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    fieldReferences: [
+                        {
+                            fieldReference: 'column1'
+                        }
+                    ]
+                },
+                column1: {
+                    guid: 'column1',
+                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    fieldReferences: []
+                },
+                textField1: {
+                    guid: 'textField1',
+                    elementType: ELEMENT_TYPE.SCREEN_FIELD
+                }
+            };
+
+            const result = getCopiedData(elementsInStore, 'screen1');
+
+            expect(result.copiedCanvasElements).toMatchObject(expectedCopiedElements);
+            expect(result.copiedChildElements).toMatchObject(expectedCopiedChildElements);
+            expect(result.bottomCutOrCopiedGuid).toEqual('screen1');
+        });
+    });
+
+    describe('getPasteElementGuidMaps function', () => {
+        it('Creates the guids map successfully', () => {
+            const elements = {
+                guid1: {
+                    guid: 'guid1'
+                }
+            };
+            const childElements = {
+                childGuid1: {
+                    guid: 'childGuid1'
+                }
+            };
+            const result = getPasteElementGuidMaps(elements, childElements);
+
+            expect(result.canvasElementGuidMap).toMatchObject({
+                guid1: 'rand_guid'
+            });
+            expect(result.childElementGuidMap).toMatchObject({
+                childGuid1: 'rand_guid'
+            });
         });
     });
 

@@ -1,6 +1,7 @@
 import {
     baseResource,
     baseCanvasElement,
+    createPastedCanvasElement,
     duplicateCanvasElement,
     duplicateCanvasElementWithChildElements,
     baseChildElement,
@@ -158,6 +159,260 @@ describe('Base canvas element function', () => {
         };
         const actualResult = baseCanvasElement(canvasElement);
         expect(actualResult).toMatchObject(expectedResult);
+    });
+});
+
+describe('createPastedCanvasElement Function', () => {
+    describe('When the prev and next element are also copied', () => {
+        const canvasElementGuidMap = {
+            screen1: 'pastedScreen1',
+            screen2: 'pastedScreen2',
+            decision1: 'pastedDecision1',
+            screen3: 'pastedScreen3',
+            screen4: 'pastedScreen4'
+        };
+        const topCutOrCopiedGuid = 'screen1';
+        const bottomCutOrCopiedGuid = 'screen4';
+        const prev = 'startElement';
+        const next = 'screen1';
+
+        it('Should have updated guid, prev and next properties', () => {
+            const duplicatedElement = {
+                guid: 'pastedScreen2',
+                prev: 'screen1',
+                next: 'decision1'
+            };
+
+            const pastedCanvasElement = createPastedCanvasElement(
+                duplicatedElement,
+                canvasElementGuidMap,
+                topCutOrCopiedGuid,
+                bottomCutOrCopiedGuid,
+                prev,
+                next,
+                null,
+                null
+            );
+
+            expect(pastedCanvasElement).toMatchObject({
+                guid: 'pastedScreen2',
+                config: { isSelected: false, isHighlighted: false, canSelect: true },
+                prev: 'pastedScreen1',
+                next: 'pastedDecision1'
+            });
+        });
+
+        it('Should update the children array', () => {
+            const duplicatedElement = {
+                guid: 'pastedDecision1',
+                prev: 'screen2',
+                next: 'screen4',
+                children: ['screen3', 'screen5']
+            };
+
+            const pastedCanvasElement = createPastedCanvasElement(
+                duplicatedElement,
+                canvasElementGuidMap,
+                topCutOrCopiedGuid,
+                bottomCutOrCopiedGuid,
+                prev,
+                next,
+                null,
+                null
+            );
+
+            expect(pastedCanvasElement).toMatchObject({
+                guid: 'pastedDecision1',
+                config: { isSelected: false, isHighlighted: false, canSelect: true },
+                prev: 'pastedScreen2',
+                next: 'pastedScreen4',
+                children: ['pastedScreen3', null]
+            });
+        });
+
+        it('Should update the parent guid', () => {
+            const duplicatedElement = {
+                guid: 'pastedScreen3',
+                prev: null,
+                next: null,
+                parent: 'decision1',
+                childIndex: 0
+            };
+
+            const pastedCanvasElement = createPastedCanvasElement(
+                duplicatedElement,
+                canvasElementGuidMap,
+                topCutOrCopiedGuid,
+                bottomCutOrCopiedGuid,
+                prev,
+                next,
+                null,
+                null
+            );
+
+            expect(pastedCanvasElement).toMatchObject({
+                guid: 'pastedScreen3',
+                config: { isSelected: false, isHighlighted: false, canSelect: true },
+                prev: undefined,
+                next: undefined,
+                parent: 'pastedDecision1',
+                childIndex: 0
+            });
+        });
+    });
+
+    describe('When pasting the top or bottom selected element', () => {
+        const canvasElementGuidMap = {
+            decision1: 'pastedDecision1',
+            screen2: 'pastedScreen2'
+        };
+        const topCutOrCopiedGuid = 'decision1';
+        const bottomCutOrCopiedGuid = 'screen2';
+        const prev = 'startElement';
+        const next = 'screen1';
+
+        it('Top-Selected: Should update the prev and next properties', () => {
+            const duplicatedElement = {
+                guid: 'pastedDecision1',
+                prev: 'screen1',
+                next: 'screen2',
+                children: [null, null]
+            };
+
+            const pastedCanvasElement = createPastedCanvasElement(
+                duplicatedElement,
+                canvasElementGuidMap,
+                topCutOrCopiedGuid,
+                bottomCutOrCopiedGuid,
+                prev,
+                next,
+                null,
+                null
+            );
+
+            expect(pastedCanvasElement).toMatchObject({
+                guid: 'pastedDecision1',
+                config: { isSelected: false, isHighlighted: false, canSelect: true },
+                prev: 'startElement',
+                next: 'pastedScreen2',
+                children: [null, null]
+            });
+        });
+
+        it('Top-Selected: Should update the children property', () => {
+            const duplicatedElement = {
+                guid: 'pastedDecision1',
+                prev: 'screen1',
+                next: 'screen2',
+                children: ['screen3', 'screen4']
+            };
+
+            const pastedCanvasElement = createPastedCanvasElement(
+                duplicatedElement,
+                canvasElementGuidMap,
+                topCutOrCopiedGuid,
+                bottomCutOrCopiedGuid,
+                prev,
+                next,
+                null,
+                null
+            );
+
+            expect(pastedCanvasElement).toMatchObject({
+                guid: 'pastedDecision1',
+                config: { isSelected: false, isHighlighted: false, canSelect: true },
+                prev: 'startElement',
+                next: 'pastedScreen2',
+                children: [null, null]
+            });
+        });
+
+        it('Top-Selected: Should delete parent and childIndex properties if not pasting on the head branch', () => {
+            const duplicatedElement = {
+                guid: 'pastedDecision1',
+                prev: null,
+                next: 'screen2',
+                children: [null, null],
+                parent: 'tempDecision',
+                childIndex: 0
+            };
+
+            const pastedCanvasElement = createPastedCanvasElement(
+                duplicatedElement,
+                canvasElementGuidMap,
+                topCutOrCopiedGuid,
+                bottomCutOrCopiedGuid,
+                prev,
+                next,
+                null,
+                null
+            );
+
+            expect(pastedCanvasElement).toMatchObject({
+                guid: 'pastedDecision1',
+                config: { isSelected: false, isHighlighted: false, canSelect: true },
+                prev: 'startElement',
+                next: 'pastedScreen2',
+                children: [null, null]
+            });
+        });
+
+        it('Top-Selected: Should update parent and childIndex properties and remove isTerminal property when pasting on the head branch', () => {
+            const duplicatedElement = {
+                guid: 'pastedDecision1',
+                prev: 'screen1',
+                next: 'screen2',
+                children: [null, null],
+                isTerminal: true
+            };
+
+            const pastedCanvasElement = createPastedCanvasElement(
+                duplicatedElement,
+                canvasElementGuidMap,
+                topCutOrCopiedGuid,
+                bottomCutOrCopiedGuid,
+                null,
+                null,
+                'tempDecision',
+                1
+            );
+
+            expect(pastedCanvasElement).toMatchObject({
+                guid: 'pastedDecision1',
+                config: { isSelected: false, isHighlighted: false, canSelect: true },
+                prev: null,
+                next: 'pastedScreen2',
+                children: [null, null],
+                parent: 'tempDecision',
+                childIndex: 1
+            });
+        });
+
+        it('Bottom-Selected: Should update prev and next properties', () => {
+            const duplicatedElement = {
+                guid: 'pastedScreen2',
+                prev: 'decision1',
+                next: 'endElement'
+            };
+
+            const pastedCanvasElement = createPastedCanvasElement(
+                duplicatedElement,
+                canvasElementGuidMap,
+                topCutOrCopiedGuid,
+                bottomCutOrCopiedGuid,
+                prev,
+                next,
+                null,
+                null
+            );
+
+            expect(pastedCanvasElement).toMatchObject({
+                guid: 'pastedScreen2',
+                config: { isSelected: false, isHighlighted: false, canSelect: true },
+                prev: 'pastedDecision1',
+                next: 'screen1'
+            });
+        });
     });
 });
 

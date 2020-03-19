@@ -49,11 +49,7 @@ export function createPastedAssignment({
     parent,
     childIndex
 }) {
-    const { duplicatedElement, duplicatedChildElements } = createDuplicateAssignment(
-        canvasElementToPaste,
-        newGuid,
-        newName
-    );
+    const { duplicatedElement } = createDuplicateAssignment(canvasElementToPaste, newGuid, newName);
 
     const pastedCanvasElement = createPastedCanvasElement(
         duplicatedElement,
@@ -67,8 +63,7 @@ export function createPastedAssignment({
     );
 
     return {
-        pastedCanvasElement,
-        pastedChildElements: duplicatedChildElements
+        pastedCanvasElement
     };
 }
 

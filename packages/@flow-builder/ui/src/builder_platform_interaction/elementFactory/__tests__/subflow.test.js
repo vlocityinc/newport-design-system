@@ -1,5 +1,6 @@
 import {
     createSubflow,
+    createPastedSubflow,
     createDuplicateSubflow,
     createSubflowMetadataObject,
     createSubflowWithConnectors
@@ -7,11 +8,25 @@ import {
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
-import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
+import {
+    DUPLICATE_ELEMENT_XY_OFFSET,
+    baseCanvasElement,
+    createPastedCanvasElement,
+    duplicateCanvasElement
+} from '../base/baseElement';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
+jest.mock('../base/baseElement');
+baseCanvasElement.mockImplementation(jest.requireActual('../base/baseElement').baseCanvasElement);
+createPastedCanvasElement
+    .mockImplementation(duplicatedElement => {
+        return duplicatedElement;
+    })
+    .mockName('createPastedCanvasElementMock');
+duplicateCanvasElement.mockImplementation(jest.requireActual('../base/baseElement').duplicateCanvasElement);
 
 expect.extend(deepFindMatchers);
 
@@ -217,6 +232,61 @@ describe('subflow', () => {
             it('has no common mutable object with subflow metadata passed as parameter', () => {
                 expect(subflow).toHaveNoCommonMutableObjectWith(subflowMetadata);
             });
+        });
+    });
+
+    describe('createPastedSubflow function', () => {
+        const dataForPasting = {
+            canvasElementToPaste: {
+                guid: 'originalGuid',
+                name: 'originalName',
+                label: 'label',
+                elementType: ELEMENT_TYPE.SUBFLOW,
+                locationX: 100,
+                locationY: 100,
+                config: {
+                    isSelectd: true,
+                    isHighlighted: false
+                },
+                connectorCount: 1,
+                maxConnections: 1
+            },
+            newGuid: 'updatedScreen1Guid',
+            newName: 'updatedScreenName'
+        };
+
+        const { pastedCanvasElement } = createPastedSubflow(dataForPasting);
+
+        it('has the new guid', () => {
+            expect(pastedCanvasElement.guid).toEqual('updatedScreen1Guid');
+        });
+        it('has the new name', () => {
+            expect(pastedCanvasElement.name).toEqual('updatedScreenName');
+        });
+        it('has the updated locationX', () => {
+            expect(pastedCanvasElement.locationX).toEqual(
+                dataForPasting.canvasElementToPaste.locationX + DUPLICATE_ELEMENT_XY_OFFSET
+            );
+        });
+        it('has the updated locationY', () => {
+            expect(pastedCanvasElement.locationY).toEqual(
+                dataForPasting.canvasElementToPaste.locationY + DUPLICATE_ELEMENT_XY_OFFSET
+            );
+        });
+        it('has isSelected set to true', () => {
+            expect(pastedCanvasElement.config.isSelected).toBeTruthy();
+        });
+        it('has isHighlighted set to false', () => {
+            expect(pastedCanvasElement.config.isHighlighted).toBeFalsy();
+        });
+        it('has connectorCount set to 0', () => {
+            expect(pastedCanvasElement.connectorCount).toEqual(0);
+        });
+        it('has maxConnections set to 1', () => {
+            expect(pastedCanvasElement.maxConnections).toEqual(1);
+        });
+        it('has the right elementType', () => {
+            expect(pastedCanvasElement.elementType).toEqual(ELEMENT_TYPE.SUBFLOW);
         });
     });
 

@@ -1,10 +1,15 @@
-import { ADD_CANVAS_ELEMENT, ADD_START_ELEMENT, DELETE_ELEMENT } from 'builder_platform_interaction/actions';
+import {
+    ADD_CANVAS_ELEMENT,
+    ADD_START_ELEMENT,
+    DELETE_ELEMENT,
+    SELECTION_ON_FIXED_CANVAS
+} from 'builder_platform_interaction/actions';
 import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
 import { addElement, deleteElement, addElementToState, linkElement } from 'builder_platform_interaction/flowUtils';
 import { createRootElement } from 'builder_platform_interaction/flcConversionUtils';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
 
-import elementsReducer from '../flcElementsReducer.js';
+import flcElementsReducer from '../flcElementsReducer.js';
 
 const getElement = (guid, name) => {
     return {
@@ -53,12 +58,12 @@ const payload = getElement('guid2', 'ass2');
 describe('elements-reducer', () => {
     describe('Add Canvas Element', () => {
         it('with state set to undefined & action type set to empty should return an empty object', () => {
-            expect(elementsReducer(undefined, {})).toEqual({});
+            expect(flcElementsReducer(undefined, {})).toEqual({});
         });
 
         it('addElement should be called when when dispatching ADD_CANVAS_ELEMENT', () => {
             const spy = addElement;
-            elementsReducer(oldElements, {
+            flcElementsReducer(oldElements, {
                 type: ADD_CANVAS_ELEMENT,
                 payload
             });
@@ -66,7 +71,7 @@ describe('elements-reducer', () => {
         });
         it('supports children should be called when when dispatching ADD_CANVAS_ELEMENT', () => {
             const spy = supportsChildren;
-            elementsReducer(oldElements, {
+            flcElementsReducer(oldElements, {
                 type: ADD_CANVAS_ELEMENT,
                 payload
             });
@@ -76,7 +81,7 @@ describe('elements-reducer', () => {
 
     describe('Add Start Element', () => {
         it('start, end and root elements are added', () => {
-            elementsReducer(
+            flcElementsReducer(
                 {},
                 {
                     type: ADD_START_ELEMENT,
@@ -97,7 +102,7 @@ describe('elements-reducer', () => {
                 guid: 'element-guid'
             };
 
-            elementsReducer(
+            flcElementsReducer(
                 {},
                 {
                     type: DELETE_ELEMENT,
@@ -106,6 +111,145 @@ describe('elements-reducer', () => {
             );
 
             expect(deleteElement).toHaveBeenLastCalledWith({}, elementToDelete, 1);
+        });
+    });
+
+    describe('Selection/Deselection of an Element', () => {
+        let elements;
+        beforeEach(() => {
+            elements = {
+                guid1: {
+                    guid: 'guid1',
+                    config: {
+                        isSelected: false,
+                        isHighlighted: false,
+                        canSelect: true
+                    }
+                },
+                guid2: {
+                    guid: 'guid2',
+                    config: {
+                        isSelected: false,
+                        isHighlighted: false,
+                        canSelect: false
+                    }
+                },
+                guid3: {
+                    guid: 'guid3',
+                    config: {
+                        isSelected: true,
+                        isHighlighted: false,
+                        canSelect: true
+                    }
+                }
+            };
+        });
+
+        const canvasElementGuidsToSelect = ['guid1'];
+        const canvasElementGuidsToDeselect = ['guid3'];
+
+        it('Should mark guid1 as selected', () => {
+            const updatedState = flcElementsReducer(elements, {
+                type: SELECTION_ON_FIXED_CANVAS,
+                payload: { canvasElementGuidsToSelect, canvasElementGuidsToDeselect, selectableGuids: [] }
+            });
+
+            expect(updatedState.guid1).toMatchObject({
+                guid: 'guid1',
+                config: {
+                    isSelected: true,
+                    isHighlighted: false,
+                    canSelect: true
+                }
+            });
+        });
+
+        it('Should mark guid3 as de-selected', () => {
+            const updatedState = flcElementsReducer(elements, {
+                type: SELECTION_ON_FIXED_CANVAS,
+                payload: { canvasElementGuidsToSelect, canvasElementGuidsToDeselect, selectableGuids: [] }
+            });
+
+            expect(updatedState.guid3).toMatchObject({
+                guid: 'guid3',
+                config: {
+                    isSelected: false,
+                    isHighlighted: false,
+                    canSelect: true
+                }
+            });
+        });
+
+        it('Should set canSelect to true for all elements when selectableGuids is an empty array', () => {
+            const updatedState = flcElementsReducer(elements, {
+                type: SELECTION_ON_FIXED_CANVAS,
+                payload: { canvasElementGuidsToSelect: [], canvasElementGuidsToDeselect: [], selectableGuids: [] }
+            });
+
+            expect(updatedState).toMatchObject({
+                guid1: {
+                    guid: 'guid1',
+                    config: {
+                        isSelected: false,
+                        isHighlighted: false,
+                        canSelect: true
+                    }
+                },
+                guid2: {
+                    guid: 'guid2',
+                    config: {
+                        isSelected: false,
+                        isHighlighted: false,
+                        canSelect: true
+                    }
+                },
+                guid3: {
+                    guid: 'guid3',
+                    config: {
+                        isSelected: true,
+                        isHighlighted: false,
+                        canSelect: true
+                    }
+                }
+            });
+        });
+
+        it('Should set canSelect to true only for elements in selectableGuids and false for the rest', () => {
+            const updatedState = flcElementsReducer(elements, {
+                type: SELECTION_ON_FIXED_CANVAS,
+                payload: {
+                    canvasElementGuidsToSelect: [],
+                    canvasElementGuidsToDeselect: [],
+                    selectableGuids: ['guid2']
+                }
+            });
+
+            expect(updatedState).toMatchObject({
+                guid1: {
+                    guid: 'guid1',
+                    config: {
+                        isSelected: false,
+                        isHighlighted: false,
+                        canSelect: false
+                    }
+                },
+                guid2: {
+                    guid: 'guid2',
+                    config: {
+                        isSelected: false,
+                        isHighlighted: false,
+                        canSelect: true
+                    }
+                },
+                guid3: {
+                    guid: 'guid3',
+                    config: {
+                        isSelected: true,
+                        isHighlighted: false,
+                        canSelect: false
+                    }
+                }
+            });
         });
     });
 });

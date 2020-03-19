@@ -1,6 +1,7 @@
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import {
     createDecisionWithOutcomes,
+    createPastedDecision,
     createDuplicateDecision,
     createOutcome,
     createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor,
@@ -11,6 +12,7 @@ import { ELEMENT_TYPE, CONNECTOR_TYPE, CONDITION_LOGIC } from 'builder_platform_
 import { LABELS } from '../elementFactoryLabels';
 import {
     baseCanvasElement,
+    createPastedCanvasElement,
     duplicateCanvasElementWithChildElements,
     baseChildElement,
     baseCanvasElementsArrayToMap
@@ -53,6 +55,11 @@ baseCanvasElement
         return Object.assign({}, element);
     })
     .mockName('baseCanvasElementMock');
+createPastedCanvasElement
+    .mockImplementation(duplicatedElement => {
+        return duplicatedElement;
+    })
+    .mockName('createPastedCanvasElementMock');
 duplicateCanvasElementWithChildElements
     .mockImplementation(() => {
         const duplicatedElement = {};
@@ -175,6 +182,49 @@ describe('decision', () => {
                 expect(decision.outcomes[0].guid).toEqual(outcomeReferences[0].outcomeReference);
                 expect(decision.outcomes[1].guid).toEqual(outcomeReferences[1].outcomeReference);
                 expect(decision.outcomes[2].guid).toEqual(outcomeReferences[2].outcomeReference);
+            });
+        });
+    });
+
+    describe('createPastedDecision function', () => {
+        const dataForPasting = {
+            canvasElementToPaste: {},
+            newGuid: 'updatedDecisionGuid',
+            newName: 'updatedDecisionName',
+            childElementGuidMap: {},
+            childElementNameMap: {},
+            cutOrCopiedChildElements: {}
+        };
+
+        const { pastedCanvasElement, pastedChildElements } = createPastedDecision(dataForPasting);
+
+        it('pastedCanvasElement in the result should have the updated outcomeReferences', () => {
+            expect(pastedCanvasElement.outcomeReferences).toEqual([
+                {
+                    outcomeReference: 'duplicatedOutcomeGuid'
+                }
+            ]);
+        });
+        it('pastedCanvasElement has updated availableConnections', () => {
+            expect(pastedCanvasElement.availableConnections).toEqual([
+                {
+                    type: CONNECTOR_TYPE.REGULAR,
+                    childReference: 'duplicatedOutcomeGuid'
+                },
+                {
+                    type: CONNECTOR_TYPE.DEFAULT
+                }
+            ]);
+        });
+        it('pastedCanvasElement has updated defaultConnectorLabel', () => {
+            expect(pastedCanvasElement.defaultConnectorLabel).toEqual(LABELS.emptyDefaultOutcomeLabel);
+        });
+        it('returns correct pastedChildElements', () => {
+            expect(pastedChildElements).toEqual({
+                duplicatedOutcomeGuid: {
+                    guid: 'duplicatedOutcomeGuid',
+                    name: 'duplicatedOutcomeName'
+                }
             });
         });
     });

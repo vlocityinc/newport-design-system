@@ -52,7 +52,7 @@ export function createSubflow(subflow = {}) {
  *
  * @param {Object} dataForPasting - Data required to create the pasted element
  */
-export function createPastedSubflow(
+export function createPastedSubflow({
     canvasElementToPaste,
     newGuid,
     newName,
@@ -63,12 +63,8 @@ export function createPastedSubflow(
     next,
     parent,
     childIndex
-) {
-    const { duplicatedElement, duplicatedChildElements } = createDuplicateSubflow(
-        canvasElementToPaste,
-        newGuid,
-        newName
-    );
+}) {
+    const { duplicatedElement } = createDuplicateSubflow(canvasElementToPaste, newGuid, newName);
 
     const pastedCanvasElement = createPastedCanvasElement(
         duplicatedElement,
@@ -82,8 +78,7 @@ export function createPastedSubflow(
     );
 
     return {
-        pastedCanvasElement,
-        pastedChildElements: duplicatedChildElements
+        pastedCanvasElement
     };
 }
 
