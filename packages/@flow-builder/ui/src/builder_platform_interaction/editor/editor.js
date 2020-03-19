@@ -422,11 +422,8 @@ export default class Editor extends LightningElement {
         const flowProcessTypeChanged = flowProcessType && flowProcessType !== this.properties.processType;
         const triggerTypeChanged = flowTriggerType !== this.triggerType;
         if (flowProcessTypeChanged || triggerTypeChanged) {
-            getToolboxElements(flowProcessType, flowTriggerType).then(supportedElements => {
+            const toolboxPromise = getToolboxElements(flowProcessType, flowTriggerType).then(supportedElements => {
                 this.supportedElements = supportedElements;
-                if (useFixedLayoutCanvas()) {
-                    this.elementsMetadata = getElementsMetadata(supportedElements);
-                }
             });
 
             if (flowProcessTypeChanged) {
@@ -436,15 +433,22 @@ export default class Editor extends LightningElement {
                     loadPalettePromise
                 } = loadOnProcessTypeChange(flowProcessType);
                 this.propertyEditorBlockerCalls.push(loadPeripheralMetadataPromise);
-                loadActionsPromise.then(() => {
+
+                const actionsPromise = loadActionsPromise.then(() => {
                     const actions = getInvocableActions();
                     if (actions) {
                         this.supportedActons = actions;
                     }
                 });
-                loadPalettePromise.then(data => {
+                const palettePromise = loadPalettePromise.then(data => {
                     this.palette = data;
                 });
+
+                if (useFixedLayoutCanvas()) {
+                    Promise.all([toolboxPromise, actionsPromise, palettePromise]).then(() => {
+                        this.elementsMetadata = getElementsMetadata(this.toolboxElements, this.palette);
+                    });
+                }
             }
 
             if (triggerTypeChanged) {

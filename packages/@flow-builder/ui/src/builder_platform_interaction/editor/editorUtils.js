@@ -781,10 +781,10 @@ export function getToolboxElements(flowProcessType, flowTriggerType) {
 /**
  *  Get the elements metadata for the flc editor
  */
-export function getElementsMetadata(toolboxElements) {
+export function getElementsMetadata(toolboxElements, palette) {
     const elementsMetadata = [];
 
-    getElementSections(toolboxElements).forEach(section => {
+    getElementSections(toolboxElements, palette).forEach(section => {
         (section._children || []).forEach(({ iconName, label, description, elementType }) => {
             elementsMetadata.push({
                 section: section.label,
