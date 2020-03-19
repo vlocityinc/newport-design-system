@@ -15,9 +15,8 @@ import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { SYSTEM_VARIABLES, getBuilderType } from 'builder_platform_interaction/systemLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { isRunInModeSupported } from 'builder_platform_interaction/triggerTypeLib';
-import { getTriggerType } from 'builder_platform_interaction/storeUtils';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 /**
  * Flow Properties property editor for Flow Builder
@@ -54,6 +53,7 @@ export default class FlowPropertiesEditor extends LightningElement {
         this._originalApiName = this.flowProperties.name.value;
         this._originalDescription = this.flowProperties.description.value;
         this._originalProcessType = this.flowProperties.processType.value;
+        this._originalTriggerType = this.flowProperties.triggerType ? this.flowProperties.triggerType.value : null;
         this._originalRunInMode = this.flowProperties.runInMode.value;
         this._originalInterviewLabel = this.flowProperties.interviewLabel.value;
         if (this.flowProperties.saveType === SaveType.NEW_DEFINITION) {
@@ -107,6 +107,7 @@ export default class FlowPropertiesEditor extends LightningElement {
     _originalApiName;
     _originalDescription;
     _originalProcessType;
+    _originalTriggerType;
     _originalRunInMode;
     _originalInterviewLabel;
 
@@ -134,6 +135,10 @@ export default class FlowPropertiesEditor extends LightningElement {
      * The value of the currently selected process type
      */
     get processTypeValue() {
+        const entry = this.findCurrentProcessTypeEntry();
+        if (entry) {
+            return entry.value;
+        }
         let retVal = null;
         if (this.flowProperties.processType) {
             retVal = this.flowProperties.processType.value;
@@ -146,32 +151,56 @@ export default class FlowPropertiesEditor extends LightningElement {
         return retVal;
     }
 
+    /**
+     * The label of the currently selected process type
+     */
+    get processTypeLabel() {
+        const entry = this.findCurrentProcessTypeEntry();
+        return entry ? entry.label : null;
+    }
+
+    /**
+     * Finds a closest process type entry matching by process type and trigger type.
+     */
+    findCurrentProcessTypeEntry() {
+        let result = null;
+        if (this._processTypes && this.flowProperties.processType) {
+            const processType = this.flowProperties.processType.value;
+            if (this.flowProperties.triggerType) {
+                let triggerType = this.flowProperties.triggerType.value;
+                let value = processType + ' ' + triggerType;
+                result = this._processTypes.find(item => item.value === value);
+
+                // This is a not so good way to find a flow entry for a trigger, which
+                // is not represented with its own flow entry. See W-7348430.
+                if (
+                    !result &&
+                    processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW &&
+                    (triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE || triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE)
+                ) {
+                    if (triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE) {
+                        triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
+                    } else if (triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE) {
+                        triggerType = FLOW_TRIGGER_TYPE.BEFORE_SAVE;
+                    }
+                    value = processType + ' ' + triggerType;
+                    result = this._processTypes.find(item => item.value === value);
+                }
+            }
+            if (!result) {
+                const value = processType + ' ' + FLOW_TRIGGER_TYPE.NONE;
+                result = this._processTypes.find(item => item.value === value);
+            }
+        }
+        return result;
+    }
+
     get runInMode() {
         let retVal = null;
         if (this.flowProperties.runInMode) {
             retVal = this.flowProperties.runInMode.value;
         }
         return retVal;
-    }
-
-    /**
-     * The label of the currently selected process type
-     */
-    get processTypeLabel() {
-        let label = null;
-        if (this.flowProperties.processType) {
-            const processType = this._processTypes.find(
-                item =>
-                    item.value ===
-                    this.flowProperties.processType.value +
-                        ' ' +
-                        (this.flowProperties.triggerType
-                            ? this.flowProperties.triggerType.value
-                            : FLOW_TRIGGER_TYPE.NONE)
-            );
-            label = processType ? processType.label : null;
-        }
-        return label;
     }
 
     get runInModeLabel() {
@@ -243,18 +272,20 @@ export default class FlowPropertiesEditor extends LightningElement {
     }
 
     get showRunInModeCombobox() {
-        return isRunInModeSupported(getTriggerType());
+        return isRunInModeSupported(getValueFromHydratedItem(this.flowProperties.triggerType));
     }
 
     connectedCallback() {
         fetchOnce(SERVER_ACTION_TYPE.GET_FLOW_ENTRIES, {
             builderType: getBuilderType()
-        }).then(items => {
-            this._processTypes = items
+        }).then(flowEntries => {
+            this._processTypes = flowEntries
+                // Get rid of all recommended flow templates. The rest should be the list of "blank" entries.
                 .filter(item => !(item.recommended && typeof item.flow === 'string'))
-                .map(({ label, processType, triggerType = null }) => ({
+                // Create a list of items for the combobox
+                .map(({ label, processType, triggerType = FLOW_TRIGGER_TYPE.NONE }) => ({
                     label,
-                    value: processType + ' ' + (triggerType || FLOW_TRIGGER_TYPE.NONE)
+                    value: processType + ' ' + triggerType
                 }));
         });
     }
@@ -314,6 +345,7 @@ export default class FlowPropertiesEditor extends LightningElement {
             this.updateProperty('name', this._originalApiName);
             this.updateProperty('description', this._originalDescription);
             this.updateProperty('processType', this._originalProcessType);
+            this.updateProperty('triggerType', this._originalTriggerType);
             this.updateProperty('interviewLabel', this._originalInterviewLabel);
         } else {
             this.clearForNewDefinition();
@@ -343,6 +375,22 @@ export default class FlowPropertiesEditor extends LightningElement {
             }
         }
         this.updateProperty('processType', processType);
+
+        // This is a not so good way to support one entry for After/Before Save triggers.
+        // Revert to the original trigger type
+        if (
+            processType === this._originalProcessType &&
+            processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW &&
+            (triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE || triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE) &&
+            (this._originalTriggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE ||
+                this._originalTriggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE)
+        ) {
+            triggerType = this._originalTriggerType;
+        }
+
+        if (triggerType === FLOW_TRIGGER_TYPE.NONE) {
+            triggerType = null;
+        }
         this.updateProperty('triggerType', triggerType);
     }
 

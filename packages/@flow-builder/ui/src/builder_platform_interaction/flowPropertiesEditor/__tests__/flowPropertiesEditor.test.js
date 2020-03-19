@@ -169,6 +169,7 @@ describe('FlowPropertiesEditor', () => {
                 name: { value: '', error: null },
                 description: { value: '', error: null },
                 processType: { value: 'process type', error: null },
+                triggerType: { value: 'trigger type', error: null },
                 interviewLabel: { value: '', error: null },
                 runInMode: { value: null, error: null },
                 saveType: SaveType.CREATE
@@ -225,7 +226,8 @@ describe('FlowPropertiesEditor', () => {
                 expect(getHideAdvancedButton(flowPropertiesEditor)).not.toBeNull();
                 expect(getAdvancedProperties(flowPropertiesEditor)).not.toBeNull();
                 expect(getProcessType(flowPropertiesEditor)).toBeDefined();
-                expect(getProcessType(flowPropertiesEditor).value).toBe('process type None');
+                expect(getProcessType(flowPropertiesEditor).disabled).toBe(false);
+                expect(getProcessType(flowPropertiesEditor).value).toBe('process type trigger type');
                 const recourcedTextArea = getResourceTextArea(flowPropertiesEditor);
                 expect(recourcedTextArea.value.value).toBe('');
                 expect(recourcedTextArea.value.error).toBeNull();
@@ -243,6 +245,7 @@ describe('FlowPropertiesEditor', () => {
                 name: { value: 'flow name' },
                 description: { value: 'flow description' },
                 processType: { value: 'process type' },
+                triggerType: { value: 'trigger type' },
                 status: { value: 'Active' },
                 interviewLabel: { value: 'interviewLabel' },
                 lastModifiedBy: { value: 'some user' },
@@ -272,6 +275,7 @@ describe('FlowPropertiesEditor', () => {
                 const resourcedTextArea = getResourceTextArea(flowPropertiesEditor);
                 expect(resourcedTextArea.value.value).toBe(flowProperties.interviewLabel.value);
                 expect(getRichTextPlainTextSwitch(resourcedTextArea)).toBeNull();
+                expect(getProcessType(flowPropertiesEditor).disabled).toBe(true);
             });
             describe('Last Modified Information', () => {
                 it('returns the localized label with the correct user name and last modified date/time', async () => {
@@ -300,18 +304,24 @@ describe('FlowPropertiesEditor', () => {
         });
     });
     describe('Process Type', () => {
+        const baseProperties = {
+            label: { value: '', error: null },
+            name: { value: '', error: null },
+            description: { value: '', error: null },
+            processType: { value: 'bad process type' },
+            triggerType: { value: '' },
+            interviewLabel: { value: '', error: null },
+            status: { value: 'Active' },
+            lastModifiedBy: { value: 'some user' },
+            lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
+            saveType: SaveType.UPDATE,
+            runInMode: { value: null, error: null }
+        };
         it('is empty if no process type found for the value', async () => {
             flowProperties = {
-                label: { value: '', error: null },
-                name: { value: '', error: null },
-                description: { value: '', error: null },
+                ...baseProperties,
                 processType: { value: 'bad process type' },
-                interviewLabel: { value: '', error: null },
-                status: { value: 'Active' },
-                lastModifiedBy: { value: 'some user' },
-                lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
-                saveType: SaveType.UPDATE,
-                runInMode: { value: null, error: null }
+                triggerType: { value: '' }
             };
             flowPropertiesEditor = createComponentUnderTest(flowProperties);
             getShowAdvancedButton(flowPropertiesEditor).click();
@@ -321,44 +331,41 @@ describe('FlowPropertiesEditor', () => {
 
         it('displays the label associated with the current process type', async () => {
             flowProperties = {
-                label: { value: '', error: null },
-                name: { value: '', error: null },
-                description: { value: '', error: null },
-                processType: { value: 'AutoLaunchedFlow' },
-                interviewLabel: { value: '', error: null },
-                status: { value: 'Active' },
-                lastModifiedBy: { value: 'some user' },
-                lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
-                saveType: SaveType.UPDATE,
-                runInMode: { value: null, error: null }
+                ...baseProperties,
+                processType: { value: 'AutoLaunchedFlow' }
             };
             flowPropertiesEditor = createComponentUnderTest(flowProperties);
             getShowAdvancedButton(flowPropertiesEditor).click();
             await Promise.resolve();
             expect(getLastProcessType(flowPropertiesEditor).textContent).toEqual('Autolaunched Flow');
+            expect(getProcessType(flowPropertiesEditor).value).toEqual('AutoLaunchedFlow None');
         });
 
         it('displays the label associated with the current process and trigger type', async () => {
             flowProperties = {
-                label: { value: '', error: null },
-                name: { value: '', error: null },
-                description: { value: '', error: null },
+                ...baseProperties,
                 processType: { value: 'AutoLaunchedFlow' },
-                triggerType: { value: 'RecordBeforeSave' },
-                interviewLabel: { value: '', error: null },
-                status: { value: 'Active' },
-                lastModifiedBy: { value: 'some user' },
-                lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
-                saveType: SaveType.UPDATE,
-                runInMode: { value: null, error: null }
+                triggerType: { value: 'RecordBeforeSave' }
             };
             flowPropertiesEditor = createComponentUnderTest(flowProperties);
             getShowAdvancedButton(flowPropertiesEditor).click();
             await Promise.resolve();
             expect(getLastProcessType(flowPropertiesEditor).textContent).toEqual('Before Save');
+            expect(getProcessType(flowPropertiesEditor).value).toEqual('AutoLaunchedFlow RecordBeforeSave');
         });
 
-        it('changes process type and trigger type', async () => {});
+        it('displays the label associated with Autolauched Flow and After Save trigger', async () => {
+            flowProperties = {
+                ...baseProperties,
+                processType: { value: 'AutoLaunchedFlow' },
+                triggerType: { value: 'RecordAfterSave' }
+            };
+            flowPropertiesEditor = createComponentUnderTest(flowProperties);
+            getShowAdvancedButton(flowPropertiesEditor).click();
+            await Promise.resolve();
+            expect(getLastProcessType(flowPropertiesEditor).textContent).toEqual('Before Save');
+            expect(getProcessType(flowPropertiesEditor).value).toEqual('AutoLaunchedFlow RecordBeforeSave');
+        });
 
         describe('versionNumber', () => {
             let defaultNode;
@@ -401,7 +408,8 @@ describe('FlowPropertiesEditor', () => {
                     label: { value: 'flow label' },
                     name: { value: 'flow name' },
                     description: { value: 'flow description' },
-                    processType: { value: 'process type' },
+                    processType: { value: 'AutoLaunchedFlow' },
+                    triggerType: { value: 'RecordBeforeSave' },
                     status: { value: 'Active' },
                     interviewLabel: { value: 'interviewLabel' },
                     versionNumber: 1,
@@ -410,19 +418,31 @@ describe('FlowPropertiesEditor', () => {
                 };
             });
 
-            it('restores the original flow property values when toggling back to New Version', () => {
+            it('restores the original flow property values when toggling back to New Version', async () => {
                 flowPropertiesEditor = createComponentUnderTest(defaultNode);
-                const event = new PropertyChangedEvent('interviewLabel', 'new label', null);
+                const labelEvent = new PropertyChangedEvent('interviewLabel', 'new label');
                 const labelDescription = getLabelDescription(flowPropertiesEditor);
-                labelDescription.dispatchEvent(event);
+                labelDescription.dispatchEvent(labelEvent);
                 // This first expect is to ensure the test is not a false positive
                 expect(flowPropertiesEditor.node.interviewLabel.value).toBe('new label');
+                getShowAdvancedButton(flowPropertiesEditor).click();
+                await ticks(1);
+                const processTypeEvent = new CustomEvent('change', {
+                    detail: { value: 'Flow None' }
+                });
+                const processType = getProcessType(flowPropertiesEditor);
+                processType.dispatchEvent(processTypeEvent);
+                await ticks(1);
+                expect(flowPropertiesEditor.node.processType.value).toBe('Flow');
+                expect(flowPropertiesEditor.node.triggerType.value).toBeNull();
                 getSaveAsToggle(flowPropertiesEditor).dispatchEvent(
                     new CustomEvent('change', {
                         detail: { value: SaveType.NEW_VERSION }
                     })
                 );
                 expect(flowPropertiesEditor.node.interviewLabel.value).toBe('interviewLabel');
+                expect(flowPropertiesEditor.node.processType.value).toBe('AutoLaunchedFlow');
+                expect(flowPropertiesEditor.node.triggerType.value).toBe('RecordBeforeSave');
             });
 
             it('clears the label, name, description, interview label flow properties when toggling to New Flow', () => {
