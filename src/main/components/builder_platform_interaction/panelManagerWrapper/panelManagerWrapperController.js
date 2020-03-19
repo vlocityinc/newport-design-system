@@ -1,5 +1,5 @@
 ({
-    handleKeydown: function(cmp, event, helper) {
-        helper.handleKeydown(cmp, event);
+    onInit: function(cmp, event, helper) {
+        helper.init(cmp);
     }
 });

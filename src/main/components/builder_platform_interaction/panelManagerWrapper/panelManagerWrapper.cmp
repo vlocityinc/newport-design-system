@@ -1,4 +1,9 @@
 <aura:component description="Wrapper component for panel manager in flowBuilder">
+    <aura:import library="builder_platform_interaction:keyboardInteractionUtils" property="keyboardInteractionUtils" />
+    <aura:import library="builder_platform_interaction:commands" property="commands" />
+    <aura:import library="builder_platform_interaction:builderUtils" property="builderUtils" />
+    <aura:attribute name="keyboardInteractions" type="Object" description="instance of KeyboardInteractions of keyboardInteractionUtils"/>
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
     <div class="uiPanelForFlowBuilder slds-is-absolute" >
         <ui:panelManager2 aura:id="pm">
             <aura:set attribute="registeredPanels">
@@ -13,9 +18,7 @@
                 <ui:panel alias="panel" aura:id="panel"></ui:panel>
             </aura:set>
         </ui:panelManager2>
-        <div onkeydown="{!c.handleKeydown}">
-            <ui:containerManager />
-        </div>
+        <ui:containerManager />
         <one:dockingPanelManager>
             <aura:set attribute="registeredPanels">
                 <force:dockingPanel alias="dockingPanel" />
