@@ -24,6 +24,12 @@ describe('loop factory', () => {
 
                 expect(newLoop.storeOutputAutomatically).toBe(true);
             });
+            // case when creating a loop in a flow that doesn't support auto output
+            it('has store output automatically false on loop that had storeOutputAutomatically true and has assignNextValueToReference set', () => {
+                const newLoop = createLoop({ assignNextValueToReference: 'nonNull', storeOutputAutomatically: true });
+
+                expect(newLoop.storeOutputAutomatically).toBe(false);
+            });
             it('has no dataType', () => {
                 const newLoop = createLoop();
 

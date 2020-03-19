@@ -26,10 +26,12 @@ export function createLoop(loop = {}) {
         collectionReference = null,
         collectionReferenceIndex = generateGuid(),
         iterationOrder = ITERATION_ORDER_ASCENDING,
-        availableConnections = getDefaultAvailableConnections(),
-        storeOutputAutomatically = assignNextValueToReference === null
+        availableConnections = getDefaultAvailableConnections()
     } = loop;
+
     let dataType, subtype;
+    const storeOutputAutomatically = assignNextValueToReference === null;
+
     if (storeOutputAutomatically && collectionReference) {
         const loopedCollection = getElementByGuid(collectionReference) || getElementByDevName(collectionReference);
         if (loopedCollection) {
