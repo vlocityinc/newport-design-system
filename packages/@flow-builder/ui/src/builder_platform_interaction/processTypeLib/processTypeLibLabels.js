@@ -11,6 +11,7 @@ import newScheduledFlowDescription from '@salesforce/label/FlowBuilderProcessTyp
 import newBeforeSaveFlowDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newBeforeSaveFlowDescription';
 import newScheduledFlowLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newScheduledFlowLabel';
 import newBeforeSaveFlowLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newBeforeSaveFlowLabel';
+import newPlatformEventFlowLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newPlatformEventFlowLabel';
 
 export const LABELS = {
     newProcessTypeDescription,
@@ -27,5 +28,6 @@ export const LABELS = {
 export const TRIGGER_TYPE_LABELS = {
     [FLOW_TRIGGER_TYPE.SCHEDULED]: newScheduledFlowLabel,
     [FLOW_TRIGGER_TYPE.BEFORE_SAVE]: newBeforeSaveFlowLabel,
-    [FLOW_TRIGGER_TYPE.AFTER_SAVE]: newBeforeSaveFlowLabel // This should probably be changed to newRecordChangeFlow
+    [FLOW_TRIGGER_TYPE.AFTER_SAVE]: newBeforeSaveFlowLabel,
+    [FLOW_TRIGGER_TYPE.PLATFORM_EVENT]: newPlatformEventFlowLabel
 };

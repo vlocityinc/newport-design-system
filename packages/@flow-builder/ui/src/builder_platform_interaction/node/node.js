@@ -149,7 +149,8 @@ export default class Node extends LightningElement {
         if (
             this.node.triggerType === BEFORE_SAVE ||
             this.node.triggerType === AFTER_SAVE ||
-            this.node.triggerType === SCHEDULED
+            this.node.triggerType === SCHEDULED ||
+            this.node.triggerType === PLATFORM_EVENT
         ) {
             return TRIGGER_TYPE_LABELS[this.node.triggerType];
         }
