@@ -44,8 +44,7 @@
         "update:lwcPackages": "node ./scripts/updateLwcVersions && yarn install",
         "update:syncPomToCore": "node ./scripts/syncPomToCore",
         "update:versions": "yarn update:lwcPomVersion && yarn update:auraPomVersion && yarn update:lwcPackages",
-        "utils:copy-to-nba": "./scripts/copyToNba.sh",
-        "utils:sync-from-p4": "./scripts/syncFromCore.sh"
+        "utils:copy-to-nba": "./scripts/copyToNba.sh"
     },
     "repository": {
         "type": "git",
