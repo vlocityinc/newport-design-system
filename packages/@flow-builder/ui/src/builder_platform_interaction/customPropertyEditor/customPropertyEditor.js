@@ -131,7 +131,7 @@ export default class CustomPropertyEditor extends LightningElement {
     };
 
     /**
-     * Creates custom property editor and set the unrender function in a private variable
+     * Creates custom property editor and set the unrender function in a private variable.
      *
      * @memberof CustomPropertyEditor
      */
@@ -154,7 +154,7 @@ export default class CustomPropertyEditor extends LightningElement {
             this._createComponentErrors = [
                 {
                     key: CUSTOM_PROPERTY_EDITOR,
-                    errorString: err.message
+                    errorString: err
                 }
             ];
         };
