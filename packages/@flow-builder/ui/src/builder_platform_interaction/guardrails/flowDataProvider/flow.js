@@ -1,6 +1,6 @@
 import { Data } from 'analyzer_framework/api';
 import { Element } from './element';
-import { getMapping } from './utils';
+import { getMappings } from './utils';
 import { METADATA_KEY } from 'builder_platform_interaction/flowMetadata';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 
@@ -31,7 +31,7 @@ export class Flow extends Data {
                             ? flowModel.metadata[metadataKey]
                             : [flowModel.metadata[metadataKey]];
                     for (const element of metadataElements) {
-                        Object.assign(mappings, getMapping(element, elementType));
+                        Object.assign(mappings, getMappings(element, elementType));
                         elements.push(new Element(element.name, elementType, element));
                     }
                     this[metadataKey] = elements;

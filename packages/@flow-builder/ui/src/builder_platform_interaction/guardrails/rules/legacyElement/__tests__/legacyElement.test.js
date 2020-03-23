@@ -52,7 +52,7 @@ describe('legacyElement', () => {
 
         rule.invoke(context);
         expect(mockReport).toHaveBeenCalledTimes(2);
-        expect(mockReport.mock.calls[0][0]).toEqual(new Result(legacyElementData, [legacyElementData.label]));
-        expect(mockReport.mock.calls[1][0]).toEqual(new Result(legacyElement2Data, [legacyElement2Data.label]));
+        expect(mockReport.mock.calls[0][0]).toEqual(new Result([legacyElementData], [legacyElementData.label]));
+        expect(mockReport.mock.calls[1][0]).toEqual(new Result([legacyElement2Data], [legacyElement2Data.label]));
     });
 });

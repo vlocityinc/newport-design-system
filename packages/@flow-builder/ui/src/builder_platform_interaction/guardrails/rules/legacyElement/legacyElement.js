@@ -7,7 +7,7 @@ export class LegacyElement extends Rule {
         if (flow.hasOwnProperty(METADATA_KEY.APEX_PLUGIN_CALLS) && flow[METADATA_KEY.APEX_PLUGIN_CALLS].length !== 0) {
             const apexElements = flow[METADATA_KEY.APEX_PLUGIN_CALLS];
             apexElements.forEach(apexElement => {
-                context.report(new Result(apexElement, [apexElement.label]));
+                context.report(new Result([apexElement], [apexElement.label]));
             });
         }
     }
