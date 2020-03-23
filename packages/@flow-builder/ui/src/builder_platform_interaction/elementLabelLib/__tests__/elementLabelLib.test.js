@@ -248,7 +248,7 @@ describe('elementLabelLib', () => {
                 ${loopOnTextCollectionManualOutput}    | ${'String'}  | ${'FlowBuilderElementConfig.loopSingularLabel'}
                 ${loopAccountAutomaticOutput}          | ${'SObject'} | ${LABELS.sObjectSingularLabel}
                 ${loopOnTextCollectionAutomaticOutput} | ${'String'}  | ${LABELS.variableSingularLabel}
-                ${loopOnApexTypeCollectionAutoOutput}  | ${'Apex'}    | ${LABELS.variableSingularLabel}
+                ${loopOnApexTypeCollectionAutoOutput}  | ${'Apex'}    | ${LABELS.apexVariableSingularLabel}
             `(
                 '"$loop.label" (collection dataType "$dataType") should have type labeled: "$expectedTypeLabel"',
                 ({ loop, expectedTypeLabel }) => {

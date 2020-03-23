@@ -199,7 +199,7 @@ export function getResourceTypeLabel({
     let typeLabel;
     if (
         (elementType === ELEMENT_TYPE.RECORD_CREATE ||
-            (elementType === ELEMENT_TYPE.LOOP && dataType !== SOBJECT_TYPE)) &&
+            (elementType === ELEMENT_TYPE.LOOP && dataType !== SOBJECT_TYPE && dataType !== APEX_TYPE)) &&
         storeOutputAutomatically
     ) {
         typeLabel = LABELS.variableSingularLabel;
