@@ -4,7 +4,7 @@ pipeline:
         repo: automation-platform/sfci-pipelines
         branch: useLargeFlavor
 
-release_branches: ['master']
+release_branches: ['master', '226']
 
 precompile_lwc_components: true
 
