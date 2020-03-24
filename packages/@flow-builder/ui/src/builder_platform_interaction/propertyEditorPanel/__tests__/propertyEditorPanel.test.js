@@ -38,6 +38,19 @@ describe('propertyEditorPanel', () => {
         });
     });
 
+    it('close button dispatches closePropertyEditorEvent', () => {
+        const eventCallback = jest.fn();
+
+        return createComponentUnderTest().then(component => {
+            component.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
+
+            const closeButton = component.shadowRoot.querySelector('.slds-icon-utility-close');
+            closeButton.click();
+
+            expect(eventCallback).toHaveBeenCalled();
+        });
+    });
+
     describe('handleOK', () => {
         let props;
 
