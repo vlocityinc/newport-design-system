@@ -7,12 +7,10 @@ import { getColumnFieldType } from 'builder_platform_interaction/screenEditorUti
 import {
     createAddScreenFieldEvent,
     createScreenElementDeletedEvent,
-    createScreenElementSelectedEvent,
-    PropertyChangedEvent
+    createScreenElementSelectedEvent
 } from 'builder_platform_interaction/events';
 
 const MAX_COLUMNS = 4;
-const MAX_TOTAL_WIDTH = 12;
 
 /*
  * Screen element property editor for section fields.
@@ -67,32 +65,6 @@ export default class ScreenSectionFieldPropertiesEditor extends LightningElement
         return MAX_COLUMNS;
     }
 
-    /**
-     * Post add/delete column, all columns are reset to equal widths so that
-     * the total widths is 12.
-     */
-    resetColumnWidths() {
-        const fields = [];
-        const newWidth = MAX_TOTAL_WIDTH / this.field.fields.length;
-
-        // Update the column with a new width input parameter
-        this.field.fields.forEach(column => {
-            const originalInputParameters = column.inputParameters;
-            const inputParameter = Object.assign({}, originalInputParameters[0], { name: 'width', value: newWidth });
-            const field = Object.assign({}, column, { inputParameters: [inputParameter] });
-            fields.push(field);
-        });
-
-        const columnWidthChangeEvent = new PropertyChangedEvent(
-            'fields',
-            fields,
-            null,
-            this.field.guid,
-            this.field.fields
-        );
-        this.dispatchEvent(columnWidthChangeEvent);
-    }
-
     handleAdd(event) {
         event.preventDefault();
         event.stopPropagation();
@@ -100,14 +72,7 @@ export default class ScreenSectionFieldPropertiesEditor extends LightningElement
         const addFieldEvent = createAddScreenFieldEvent(
             getColumnFieldType().name,
             this.field.fields.length,
-            this.field,
-            () => {
-                Promise.resolve()
-                    .then(() => {
-                        this.resetColumnWidths();
-                    })
-                    .catch();
-            }
+            this.field
         );
 
         this.dispatchEvent(addFieldEvent);
@@ -118,11 +83,6 @@ export default class ScreenSectionFieldPropertiesEditor extends LightningElement
         this.dispatchEvent(
             createScreenElementDeletedEvent(column, null, this.field, () => {
                 this.dispatchEvent(createScreenElementSelectedEvent(this.field));
-
-                // Once the section is reselected, reset column widths
-                Promise.resolve().then(() => {
-                    this.resetColumnWidths();
-                });
             })
         );
     }

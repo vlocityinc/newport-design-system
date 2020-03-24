@@ -42,7 +42,8 @@ import {
     isRegionContainerField,
     compareValues,
     EXTENSION_PARAM_PREFIX,
-    extendFlowExtensionScreenField
+    extendFlowExtensionScreenField,
+    getColumnFieldType
 } from 'builder_platform_interaction/screenEditorUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
@@ -242,6 +243,33 @@ const insertScreenFieldIntoParent = (screen, parent, field, position) => {
 };
 
 /**
+ * Resize all columns in the section to a total of 12
+ * This is used when columns are added or removed
+ *
+ * @param {Object} screen - The screen
+ * @param {Object} sectionGuid - Guid of the
+ * @returns {object} - A new screen with the changes applied
+ */
+const resizeColumnsForSection = (screen, sectionGuid) => {
+    const parent = screen.findFieldByGUID(screen.fields, sectionGuid);
+
+    const MAX_TOTAL_WIDTH = 12;
+
+    const fields = [];
+    const newWidth = MAX_TOTAL_WIDTH / parent.fields.length;
+
+    // Update the column with a new width input parameter
+    parent.fields.forEach(column => {
+        const originalInputParameters = column.inputParameters;
+        const inputParameter = Object.assign({}, originalInputParameters[0], { name: 'width', value: newWidth });
+        const field = Object.assign({}, column, { inputParameters: [inputParameter] });
+        fields.push(field);
+    });
+
+    return updateField(screen, parent, { fields });
+};
+
+/**
  * Adds screen fields to a screen.
  * @param {object} screen - The screen
  * @param {event} event - The add screen field event
@@ -270,7 +298,14 @@ const addScreenField = (screen, event) => {
         extendFlowExtensionScreenField(field);
     }
 
-    return insertScreenFieldIntoParent(screen, parent, field, event.position);
+    let updatedScreen = insertScreenFieldIntoParent(screen, parent, field, event.position);
+
+    // If a column is being added, all other columns in the parent must be resized
+    if (event.typeName === getColumnFieldType().name) {
+        updatedScreen = resizeColumnsForSection(updatedScreen, parent.guid);
+    }
+
+    return updatedScreen;
 };
 
 /**
@@ -367,7 +402,15 @@ const removeScreenFieldFromParent = (screen, parent, field) => {
         const deletedItemIndex = positions.splice(0, 1);
         const updatedItems = deleteItem(parent.fields, deletedItemIndex[0]);
         parent = set(parent, 'fields', updatedItems);
-        return updateAncestors(screen, positions, parent);
+
+        let updatedScreen = updateAncestors(screen, positions, parent);
+
+        // If a column is being added, all other columns in the parent must be resized
+        if (field.type.name === getColumnFieldType().name) {
+            updatedScreen = resizeColumnsForSection(updatedScreen, parent.guid);
+        }
+
+        return updatedScreen;
     }
     return screen;
 };
