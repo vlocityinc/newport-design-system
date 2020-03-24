@@ -30,7 +30,7 @@
 },
     {
   "category" : "Inputs",
-  "configurationEditor" : "c:cpeCmp",
+  "configurationEditor" : "c-cpe-cmp",
   "description" : "A raptor testing component",
   "fieldsToNull" : [ ],
   "label" : "LWC Test Component",

@@ -15,1034 +15,1029 @@
     "masterLabel": "flowWithAllElements",
     "metadata": {
         "start": {
-          "locationX": 66,
-          "locationY": 50,
-          "filters": []
+            "locationX": 66,
+            "locationY": 50,
+            "filters": []
         },
         "actionCalls": [
-          {
-            "name": "actionCall1",
-            "description": "",
-            "label": "actionCall1",
-            "locationX": 296,
-            "locationY": 652,
-            "actionType": "quickAction",
-            "actionName": "LogACall",
-            "inputParameters": [],
-            "outputParameters": [],
-            "storeOutputAutomatically": false
-          },
-          {
-            "name": "actionCallAutomaticOutput",
-            "description": "",
-            "label": "actionCallAutomaticOutput",
-            "locationX": 123,
-            "locationY": 649,
-            "actionType": "chatterPost",
-            "actionName": "chatterPost",
-            "inputParameters": [
-              {
-                "name": "subjectNameOrId",
-                "value": {
-                  "stringValue": "jsmith@salesforce.com"
-                }
-              },
-              {
-                "name": "text",
-                "value": {
-                  "stringValue": "This is my message"
-                }
-              }
-            ],
-            "outputParameters": [],
-            "storeOutputAutomatically": true
-          },
-          {
-            "name": "localAction",
-            "description": "this is a sample local action",
-            "label": "localAction",
-            "locationX": 463,
-            "locationY": 661,
-            "actionType": "component",
-            "actionName": "c:localActionSample",
-            "inputParameters": [
-              {
-                "name": "subject",
-                "value": {
-                  "stringValue": "team"
-                }
-              },
-              {
-                "name": "greeting",
-                "value": {
-                  "stringValue": "hello"
-                }
-              }
-            ],
-            "outputParameters": [],
-            "storeOutputAutomatically": false
-          },
-          {
-            "name": "caseLogACallAutomatic",
-            "description": "",
-            "label": "caseLogACallAutomatic",
-            "locationX": 628,
-            "locationY": 670.3125,
-            "actionType": "quickAction",
-            "actionName": "Case.LogACall",
-            "inputParameters": [
-              {
-                "name": "contextId",
-                "value": {
-                  "elementReference": "stringVariable"
-                }
-              }
-            ],
-            "outputParameters": [],
-            "storeOutputAutomatically": true
-          },
-          {
-            "name": "apexCall_anonymous_account",
-            "description": "",
-            "label": "apexCall anonymous account",
-            "locationX": 367,
-            "locationY": 34,
-            "actionType": "apex",
-            "actionName": "getAccounts",
-            "inputParameters": [],
-            "outputParameters": [],
-            "storeOutputAutomatically": true
-          },
-          {
-            "name": "addAccountExternalService",
-            "description": "",
-            "label": "addAccountExternalService",
-            "locationX": 550,
-            "locationY": 47,
-            "actionType": "externalService",
-            "actionName": "BankServiceNew.addAccount",
-            "inputParameters": [],
-            "outputParameters": [],
-            "storeOutputAutomatically": true
-          },
-          {
-            "name": "emailAlertOnAccount",
-            "description": "",
-            "label": "emailAlertOnAccount",
-            "locationX": 202,
-            "locationY": 39,
-            "actionType": "emailAlert",
-            "actionName": "Account.my_email_alert",
-            "inputParameters": [
-              {
-                "name": "SObjectRowId",
-                "value": {
-                  "elementReference": "accountSObjectVariable.Id"
-                }
-              }
-            ],
-            "outputParameters": [],
-            "storeOutputAutomatically": false
-          },
-          {
-            "name": "apexCall_anonymous_string",
-            "description": "",
-            "label": "apexCall anonymous string",
-            "locationX": 538,
-            "locationY": 186,
-            "actionType": "apex",
-            "actionName": "InvocableGetAccountName",
-            "inputParameters": [
-              {
-                "name": "accountIds"
-              }
-            ],
-            "outputParameters": [],
-            "storeOutputAutomatically": true
-          },
-          {
-            "name": "apexCall_action_account_manual_output",
-            "description": "",
-            "label": "apexCall action account manual output",
-            "locationX": 329,
-            "locationY": 183,
-            "actionType": "apex",
-            "actionName": "generateDraftAccount",
-            "inputParameters": [],
-            "outputParameters": [
-              {
-                "name": "generatedAccount",
-                "assignToReference": "accountSObjectVariable"
-              }
-            ],
-            "storeOutputAutomatically": false
-          },
-          {
-            "name": "apexCall_account_automatic_output",
-            "description": "",
-            "label": "apexCall account automatic output",
-            "locationX": 663,
-            "locationY": 182.3125,
-            "actionType": "apex",
-            "actionName": "generateDraftAccount",
-            "inputParameters": [],
-            "outputParameters": [],
-            "storeOutputAutomatically": true
-          },
-          {
-            "name": "apexCall_String_automatic_output",
-            "description": "",
-            "label": "apexCall String automatic output",
-            "locationX": 722,
-            "locationY": 57.3125,
-            "actionType": "apex",
-            "actionName": "GetAccountName",
-            "inputParameters": [],
-            "outputParameters": [],
-            "storeOutputAutomatically": true
-          },
-          {
-            "name": "apexCall_anonymous_accounts",
-            "description": "",
-            "label": "apexCall anonymous accounts",
-            "locationX": 921,
-            "locationY": 49.3125,
-            "actionType": "apex",
-            "actionName": "GetAccounts",
-            "inputParameters": [],
-            "outputParameters": [],
-            "storeOutputAutomatically": true
-          },
-          {
-            "name": "apexCall_anonymous_strings",
-            "description": "",
-            "label": "apexCall anonymous strings",
-            "locationX": 902,
-            "locationY": 209.3125,
-            "actionType": "apex",
-            "actionName": "InvocableGetAccountsNames",
-            "inputParameters": [],
-            "outputParameters": [],
-            "storeOutputAutomatically": true
-          },
-          {
-            "name": "apexCall_Car_automatic_output",
-            "description": "",
-            "label": "apexCall Car automatic output",
-            "locationX": 1106,
-            "locationY": 72.3125,
-            "actionType": "apex",
-            "actionName": "GetCarAction",
-            "inputParameters": [
-              {
-                "name": "names",
-                "value": {
-                  "stringValue": "Clio"
-                }
-              }
-            ],
-            "outputParameters": [],
-            "storeOutputAutomatically": true
-          },
-          {
-            "name": "apexCall_anonymous_apex_collection",
-            "description": "",
-            "label": "apexCall anonymous apex collection",
-            "locationX": 1031,
-            "locationY": 218.3125,
-            "actionType": "apex",
-            "actionName": "ApexTypeCollectionAction",
-            "inputParameters": [],
-            "outputParameters": [],
-            "storeOutputAutomatically": true
-          },
-          {
-            "name": "actionCallLC_apex_no_sobject_auto",
-            "description": "",
-            "label": "actionCallLC apex no sobject auto",
-            "locationX": 924,
-            "locationY": 367.3125,
-            "actionType": "component",
-            "actionName": "c:LightningComponentWithApexNoSObject",
-            "inputParameters": [],
-            "outputParameters": [],
-            "storeOutputAutomatically": true
-          },
-          {
-            "name": "actionCallLC_apex_with_sobject_auto",
-            "description": "",
-            "label": "actionCallLC apex with sobject auto",
-            "locationX": 1044,
-            "locationY": 367.3125,
-            "actionType": "component",
-            "actionName": "c:LightningWithApexContainsSObject",
-            "inputParameters": [],
-            "outputParameters": [],
-            "storeOutputAutomatically": true
-          }
+            {
+                "name": "actionCall1",
+                "description": "",
+                "label": "actionCall1",
+                "locationX": 296,
+                "locationY": 652,
+                "actionType": "quickAction",
+                "actionName": "LogACall",
+                "inputParameters": [],
+                "outputParameters": [],
+                "storeOutputAutomatically": false
+            },
+            {
+                "name": "actionCallAutomaticOutput",
+                "description": "",
+                "label": "actionCallAutomaticOutput",
+                "locationX": 123,
+                "locationY": 649,
+                "actionType": "chatterPost",
+                "actionName": "chatterPost",
+                "inputParameters": [
+                    {
+                        "name": "subjectNameOrId",
+                        "value": {
+                            "stringValue": "jsmith@salesforce.com"
+                        }
+                    },
+                    {
+                        "name": "text",
+                        "value": {
+                            "stringValue": "This is my message"
+                        }
+                    }
+                ],
+                "outputParameters": [],
+                "storeOutputAutomatically": true
+            },
+            {
+                "name": "localAction",
+                "description": "this is a sample local action",
+                "label": "localAction",
+                "locationX": 463,
+                "locationY": 661,
+                "actionType": "component",
+                "actionName": "c:localActionSample",
+                "inputParameters": [
+                    {
+                        "name": "subject",
+                        "value": {
+                            "stringValue": "team"
+                        }
+                    },
+                    {
+                        "name": "greeting",
+                        "value": {
+                            "stringValue": "hello"
+                        }
+                    }
+                ],
+                "outputParameters": [],
+                "storeOutputAutomatically": false
+            },
+            {
+                "name": "caseLogACallAutomatic",
+                "description": "",
+                "label": "caseLogACallAutomatic",
+                "locationX": 628,
+                "locationY": 670.3125,
+                "actionType": "quickAction",
+                "actionName": "Case.LogACall",
+                "inputParameters": [
+                    {
+                        "name": "contextId",
+                        "value": {
+                            "elementReference": "stringVariable"
+                        }
+                    }
+                ],
+                "outputParameters": [],
+                "storeOutputAutomatically": true
+            },
+            {
+                "name": "apexCall_anonymous_account",
+                "description": "",
+                "label": "apexCall anonymous account",
+                "locationX": 367,
+                "locationY": 34,
+                "actionType": "apex",
+                "actionName": "getAccounts",
+                "inputParameters": [],
+                "outputParameters": [],
+                "storeOutputAutomatically": true
+            },
+            {
+                "name": "addAccountExternalService",
+                "description": "",
+                "label": "addAccountExternalService",
+                "locationX": 550,
+                "locationY": 47,
+                "actionType": "externalService",
+                "actionName": "BankServiceNew.addAccount",
+                "inputParameters": [],
+                "outputParameters": [],
+                "storeOutputAutomatically": true
+            },
+            {
+                "name": "emailAlertOnAccount",
+                "description": "",
+                "label": "emailAlertOnAccount",
+                "locationX": 202,
+                "locationY": 39,
+                "actionType": "emailAlert",
+                "actionName": "Account.my_email_alert",
+                "inputParameters": [
+                    {
+                        "name": "SObjectRowId",
+                        "value": {
+                            "elementReference": "accountSObjectVariable.Id"
+                        }
+                    }
+                ],
+                "outputParameters": [],
+                "storeOutputAutomatically": false
+            },
+            {
+                "name": "apexCall_anonymous_string",
+                "description": "",
+                "label": "apexCall anonymous string",
+                "locationX": 538,
+                "locationY": 186,
+                "actionType": "apex",
+                "actionName": "InvocableGetAccountName",
+                "inputParameters": [
+                    {
+                        "name": "accountIds"
+                    }
+                ],
+                "outputParameters": [],
+                "storeOutputAutomatically": true
+            },
+            {
+                "name": "apexCall_action_account_manual_output",
+                "description": "",
+                "label": "apexCall action account manual output",
+                "locationX": 329,
+                "locationY": 183,
+                "actionType": "apex",
+                "actionName": "generateDraftAccount",
+                "inputParameters": [],
+                "outputParameters": [
+                    {
+                        "name": "generatedAccount",
+                        "assignToReference": "accountSObjectVariable"
+                    }
+                ],
+                "storeOutputAutomatically": false
+            },
+            {
+                "name": "apexCall_account_automatic_output",
+                "description": "",
+                "label": "apexCall account automatic output",
+                "locationX": 663,
+                "locationY": 182.3125,
+                "actionType": "apex",
+                "actionName": "generateDraftAccount",
+                "inputParameters": [],
+                "outputParameters": [],
+                "storeOutputAutomatically": true
+            },
+            {
+                "name": "apexCall_String_automatic_output",
+                "description": "",
+                "label": "apexCall String automatic output",
+                "locationX": 722,
+                "locationY": 57.3125,
+                "actionType": "apex",
+                "actionName": "GetAccountName",
+                "inputParameters": [],
+                "outputParameters": [],
+                "storeOutputAutomatically": true
+            },
+            {
+                "name": "apexCall_anonymous_accounts",
+                "description": "",
+                "label": "apexCall anonymous accounts",
+                "locationX": 921,
+                "locationY": 49.3125,
+                "actionType": "apex",
+                "actionName": "GetAccounts",
+                "inputParameters": [],
+                "outputParameters": [],
+                "storeOutputAutomatically": true
+            },
+            {
+                "name": "apexCall_anonymous_strings",
+                "description": "",
+                "label": "apexCall anonymous strings",
+                "locationX": 902,
+                "locationY": 209.3125,
+                "actionType": "apex",
+                "actionName": "InvocableGetAccountsNames",
+                "inputParameters": [],
+                "outputParameters": [],
+                "storeOutputAutomatically": true
+            },
+            {
+                "name": "apexCall_Car_automatic_output",
+                "description": "",
+                "label": "apexCall Car automatic output",
+                "locationX": 1106,
+                "locationY": 72.3125,
+                "actionType": "apex",
+                "actionName": "GetCarAction",
+                "inputParameters": [
+                    {
+                        "name": "names",
+                        "value": {
+                            "stringValue": "Clio"
+                        }
+                    }
+                ],
+                "outputParameters": [],
+                "storeOutputAutomatically": true
+            },
+            {
+                "name": "apexCall_anonymous_apex_collection",
+                "description": "",
+                "label": "apexCall anonymous apex collection",
+                "locationX": 1031,
+                "locationY": 218.3125,
+                "actionType": "apex",
+                "actionName": "ApexTypeCollectionAction",
+                "inputParameters": [],
+                "outputParameters": [],
+                "storeOutputAutomatically": true
+            },
+            {
+                "name": "actionCallLC_apex_no_sobject_auto",
+                "description": "",
+                "label": "actionCallLC apex no sobject auto",
+                "locationX": 924,
+                "locationY": 367.3125,
+                "actionType": "component",
+                "actionName": "c:LightningComponentWithApexNoSObject",
+                "inputParameters": [],
+                "outputParameters": [],
+                "storeOutputAutomatically": true
+            },
+            {
+                "name": "actionCallLC_apex_with_sobject_auto",
+                "description": "",
+                "label": "actionCallLC apex with sobject auto",
+                "locationX": 1044,
+                "locationY": 367.3125,
+                "actionType": "component",
+                "actionName": "c:LightningWithApexContainsSObject",
+                "inputParameters": [],
+                "outputParameters": [],
+                "storeOutputAutomatically": true
+            }
         ],
         "assignments": [
-          {
-            "name": "assignment1",
-            "description": "",
-            "label": "assignment1Label",
-            "locationX": 165,
-            "locationY": 177,
-            "assignmentItems": [
-              {
-                "assignToReference": "stringVariable",
-                "operator": "Assign",
-                "value": {
-                  "elementReference": "numberVariable"
-                }
-              }
-            ]
-          },
-          {
-            "name": "assign_W_7251820",
-            "description": "",
-            "label": "assign-W-7251820",
-            "locationX": 1275,
-            "locationY": 216.3125,
-            "assignmentItems": [
-              {
-                "assignToReference": "lookupRecordAutomaticOutput.AccountNumber",
-                "operator": "Assign",
-                "value": {
-                  "elementReference": "accountSObjectVariable.AccountNumber"
-                }
-              },
-              {
-                "assignToReference": "lookupRecordAutomaticOutput",
-                "operator": "Assign",
-                "value": {
-                  "elementReference": "accountSObjectVariable"
-                }
-              }
-            ]
-          }
+            {
+                "name": "assignment1",
+                "description": "",
+                "label": "assignment1Label",
+                "locationX": 165,
+                "locationY": 177,
+                "assignmentItems": [
+                    {
+                        "assignToReference": "stringVariable",
+                        "operator": "Assign",
+                        "value": {
+                            "elementReference": "numberVariable"
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "assign_W_7251820",
+                "description": "",
+                "label": "assign-W-7251820",
+                "locationX": 1275,
+                "locationY": 216.3125,
+                "assignmentItems": [
+                    {
+                        "assignToReference": "lookupRecordAutomaticOutput.AccountNumber",
+                        "operator": "Assign",
+                        "value": {
+                            "elementReference": "accountSObjectVariable.AccountNumber"
+                        }
+                    },
+                    {
+                        "assignToReference": "lookupRecordAutomaticOutput",
+                        "operator": "Assign",
+                        "value": {
+                            "elementReference": "accountSObjectVariable"
+                        }
+                    }
+                ]
+            }
         ],
         "decisions": [
-          {
-            "name": "decision1",
-            "description": "",
-            "label": "decision1",
-            "locationX": 109,
-            "locationY": 801,
-            "rules": [
-              {
-                "name": "outcome1",
-                "label": "outcome1",
-                "conditions": [
-                  {
-                    "leftValueReference": "stringVariable",
-                    "rightValue": {
-                      "stringValue": "text"
-                    },
-                    "operator": "EqualTo"
-                  }
+            {
+                "name": "decision1",
+                "description": "",
+                "label": "decision1",
+                "locationX": 109,
+                "locationY": 801,
+                "rules": [
+                    {
+                        "name": "outcome1",
+                        "label": "outcome1",
+                        "conditions": [
+                            {
+                                "leftValueReference": "stringVariable",
+                                "rightValue": {
+                                    "stringValue": "text"
+                                },
+                                "operator": "EqualTo"
+                            }
+                        ],
+                        "conditionLogic": "and"
+                    }
                 ],
-                "conditionLogic": "and"
-              }
-            ],
-            "defaultConnectorLabel": "Default Outcome"
-          },
-          {
-            "name": "decision",
-            "description": "",
-            "label": "decision",
-            "locationX": 846,
-            "locationY": 472.3125,
-            "rules": [
-              {
-                "name": "outcome",
-                "label": "outcome",
-                "conditions": [
-                  {
-                    "leftValueReference": "accountSObjectVariable",
-                    "rightValue": {
-                      "elementReference": "accountSObjectVariable"
-                    },
-                    "operator": "EqualTo"
-                  }
+                "defaultConnectorLabel": "Default Outcome"
+            },
+            {
+                "name": "decision",
+                "description": "",
+                "label": "decision",
+                "locationX": 846,
+                "locationY": 472.3125,
+                "rules": [
+                    {
+                        "name": "outcome",
+                        "label": "outcome",
+                        "conditions": [
+                            {
+                                "leftValueReference": "accountSObjectVariable",
+                                "rightValue": {
+                                    "elementReference": "accountSObjectVariable"
+                                },
+                                "operator": "EqualTo"
+                            }
+                        ],
+                        "conditionLogic": "and"
+                    }
                 ],
-                "conditionLogic": "and"
-              }
-            ],
-            "defaultConnectorLabel": "Default Outcome"
-          }
+                "defaultConnectorLabel": "Default Outcome"
+            }
         ],
         "formulas": [
-          {
-            "name": "textFormula",
-            "description": "a text formula",
-            "expression": "IF({!accountSObjectVariable.AnnualRevenue} < 1000000,\"Small\", \"Big\")",
-            "dataType": "String",
-            "scale": 2
-          }
+            {
+                "name": "textFormula",
+                "description": "a text formula",
+                "expression": "IF({!accountSObjectVariable.AnnualRevenue} < 1000000,\"Small\", \"Big\")",
+                "dataType": "String",
+                "scale": 2
+            }
         ],
         "variables": [
-          {
-            "name": "accountSObjectCollectionVariable",
-            "description": "",
-            "objectType": "Account",
-            "dataType": "SObject",
-            "isCollection": true,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 0
-          },
-          {
-            "name": "accountSObjectVariable",
-            "description": "",
-            "objectType": "Account",
-            "dataType": "SObject",
-            "isCollection": false,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 0
-          },
-          {
-            "name": "apexSampleCollectionVariable",
-            "description": "",
-            "apexClass": "MyApexClass",
-            "dataType": "Apex",
-            "isCollection": true,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 0
-          },
-          {
-            "name": "apexSampleVariable",
-            "description": "",
-            "apexClass": "MyApexClass",
-            "dataType": "Apex",
-            "isCollection": false,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 0
-          },
-          {
-            "name": "caseSObjectVariable",
-            "description": "",
-            "objectType": "Case",
-            "dataType": "SObject",
-            "isCollection": false,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 0
-          },
-          {
-            "name": "caseSObjectCollectionVariable",
-            "description": "",
-            "objectType": "Case",
-            "dataType": "SObject",
-            "isCollection": true,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 0
-          },
-          {
-            "name": "contactSObjectVariable",
-            "description": "",
-            "objectType": "Contact",
-            "dataType": "SObject",
-            "isCollection": false,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 0
-          },
-          {
-            "name": "campaignSObjectVariable",
-            "description": "",
-            "objectType": "Campaign",
-            "dataType": "SObject",
-            "isCollection": false,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 0
-          },
-          {
-            "name": "opportunitySObjectCollectionVariable",
-            "description": "",
-            "objectType": "Opportunity",
-            "dataType": "SObject",
-            "isCollection": true,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 0
-          },
-          {
-            "name": "opportunitySObjectVariable",
-            "description": "",
-            "objectType": "Opportunity",
-            "dataType": "SObject",
-            "isCollection": false,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 0
-          },
-          {
-            "name": "currencyVariable",
-            "description": "randomDescription",
-            "dataType": "Currency",
-            "isCollection": false,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 2
-          },
-          {
-            "name": "dateCollectionVariable",
-            "description": "",
-            "dataType": "Date",
-            "isCollection": true,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 0
-          },
-          {
-            "name": "dateVariable",
-            "description": "",
-            "dataType": "Date",
-            "isCollection": false,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 0
-          },
-          {
-            "name": "feedItemVariable",
-            "description": "",
-            "objectType": "FeedItem",
-            "dataType": "SObject",
-            "isCollection": false,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 0
-          },
-          {
-            "name": "numberVariable",
-            "description": "",
-            "dataType": "Number",
-            "isCollection": false,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 2
-          },
-          {
-            "name": "stringCollectionVariable1",
-            "description": "",
-            "dataType": "String",
-            "isCollection": true,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 0
-          },
-          {
-            "name": "stringCollectionVariable2",
-            "description": "",
-            "dataType": "String",
-            "isCollection": true,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 0
-          },
-          {
-            "name": "stringVariable",
-            "description": "random description",
-            "dataType": "String",
-            "isCollection": false,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 0,
-            "value": {
-              "stringValue": "fooDefault"
+            {
+                "name": "accountSObjectCollectionVariable",
+                "description": "",
+                "objectType": "Account",
+                "dataType": "SObject",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 0
+            },
+            {
+                "name": "accountSObjectVariable",
+                "description": "",
+                "objectType": "Account",
+                "dataType": "SObject",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 0
+            },
+            {
+                "name": "apexSampleCollectionVariable",
+                "description": "",
+                "apexClass": "MyApexClass",
+                "dataType": "Apex",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 0
+            },
+            {
+                "name": "apexSampleVariable",
+                "description": "",
+                "apexClass": "MyApexClass",
+                "dataType": "Apex",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 0
+            },
+            {
+                "name": "caseSObjectVariable",
+                "description": "",
+                "objectType": "Case",
+                "dataType": "SObject",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 0
+            },
+            {
+                "name": "caseSObjectCollectionVariable",
+                "description": "",
+                "objectType": "Case",
+                "dataType": "SObject",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 0
+            },
+            {
+                "name": "contactSObjectVariable",
+                "description": "",
+                "objectType": "Contact",
+                "dataType": "SObject",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 0
+            },
+            {
+                "name": "campaignSObjectVariable",
+                "description": "",
+                "objectType": "Campaign",
+                "dataType": "SObject",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 0
+            },
+            {
+                "name": "opportunitySObjectCollectionVariable",
+                "description": "",
+                "objectType": "Opportunity",
+                "dataType": "SObject",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 0
+            },
+            {
+                "name": "opportunitySObjectVariable",
+                "description": "",
+                "objectType": "Opportunity",
+                "dataType": "SObject",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 0
+            },
+            {
+                "name": "currencyVariable",
+                "description": "randomDescription",
+                "dataType": "Currency",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 2
+            },
+            {
+                "name": "dateCollectionVariable",
+                "description": "",
+                "dataType": "Date",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 0
+            },
+            {
+                "name": "dateVariable",
+                "description": "",
+                "dataType": "Date",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 0
+            },
+            {
+                "name": "feedItemVariable",
+                "description": "",
+                "objectType": "FeedItem",
+                "dataType": "SObject",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 0
+            },
+            {
+                "name": "numberVariable",
+                "description": "",
+                "dataType": "Number",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 2
+            },
+            {
+                "name": "stringCollectionVariable1",
+                "description": "",
+                "dataType": "String",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 0
+            },
+            {
+                "name": "stringCollectionVariable2",
+                "description": "",
+                "dataType": "String",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 0
+            },
+            {
+                "name": "stringVariable",
+                "description": "random description",
+                "dataType": "String",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 0,
+                "value": {
+                    "stringValue": "fooDefault"
+                }
+            },
+            {
+                "name": "apexCarVariable",
+                "description": "",
+                "apexClass": "Car",
+                "dataType": "Apex",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 2
+            },
+            {
+                "name": "apexComplexTypeVariable",
+                "description": "",
+                "apexClass": "ApexComplexTypeTestOne216",
+                "dataType": "Apex",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 2
+            },
+            {
+                "name": "vAccountIdFromCreate",
+                "description": "",
+                "dataType": "String",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 2
+            },
+            {
+                "name": "apexComplexTypeCollectionVariable",
+                "description": "",
+                "apexClass": "ApexComplexTypeTestOne216",
+                "dataType": "Apex",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 2
+            },
+            {
+                "name": "apexContainsOnlyASingleSObjectVariable",
+                "description": "",
+                "apexClass": "ApexContainsOnlyASingleSObject",
+                "dataType": "Apex",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 2
+            },
+            {
+                "name": "apexContainsOnlyAnSObjectCollectionVariable",
+                "description": "",
+                "apexClass": "ApexContainsOnlyAnSObjectCollection",
+                "dataType": "Apex",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 2
             }
-          },
-          {
-            "name": "apexCarVariable",
-            "description": "",
-            "apexClass": "Car",
-            "dataType": "Apex",
-            "isCollection": false,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 2
-          },
-          {
-            "name": "apexComplexTypeVariable",
-            "description": "",
-            "apexClass": "ApexComplexTypeTestOne216",
-            "dataType": "Apex",
-            "isCollection": false,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 2
-          },
-          {
-            "name": "vAccountIdFromCreate",
-            "description": "",
-            "dataType": "String",
-            "isCollection": false,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 2
-          },
-          {
-            "name": "apexComplexTypeCollectionVariable",
-            "description": "",
-            "apexClass": "ApexComplexTypeTestOne216",
-            "dataType": "Apex",
-            "isCollection": true,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 2
-          },
-          {
-            "name": "apexContainsOnlyASingleSObjectVariable",
-            "description": "",
-            "apexClass": "ApexContainsOnlyASingleSObject",
-            "dataType": "Apex",
-            "isCollection": false,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 2
-          },
-          {
-            "name": "apexContainsOnlyAnSObjectCollectionVariable",
-            "description": "",
-            "apexClass": "ApexContainsOnlyAnSObjectCollection",
-            "dataType": "Apex",
-            "isCollection": false,
-            "isInput": false,
-            "isOutput": false,
-            "scale": 2
-          }
         ],
         "constants": [
-          {
-            "name": "stringConstant",
-            "description": "random description",
-            "dataType": "String",
-            "value": {
-              "stringValue": "fooDefault"
+            {
+                "name": "stringConstant",
+                "description": "random description",
+                "dataType": "String",
+                "value": {
+                    "stringValue": "fooDefault"
+                }
             }
-          }
         ],
         "textTemplates": [
-          {
-            "name": "textTemplate1",
-            "description": "",
-            "text": "<p>Hello {!stringVariable}</p>"
-          }
+            {
+                "name": "textTemplate1",
+                "description": "",
+                "text": "<p>Hello {!stringVariable}</p>"
+            }
         ],
         "subflows": [
-          {
-            "name": "subflowAutomaticOutput",
-            "description": "",
-            "label": "subflowAutomaticOutput",
-            "locationX": 966,
-            "locationY": 507.1062469482422,
-            "flowName": "flowWithActiveAndLatest",
-            "inputAssignments": [
-              {
-                "name": "input1",
-                "value": {
-                  "stringValue": "a string"
-                }
-              }
-            ],
-            "outputAssignments": [],
-            "storeOutputAutomatically": true
-          }
+            {
+                "name": "subflowAutomaticOutput",
+                "description": "",
+                "label": "subflowAutomaticOutput",
+                "locationX": 966,
+                "locationY": 507.1062469482422,
+                "flowName": "flowWithActiveAndLatest",
+                "inputAssignments": [
+                    {
+                        "name": "input1",
+                        "value": {
+                            "stringValue": "a string"
+                        }
+                    }
+                ],
+                "outputAssignments": [],
+                "storeOutputAutomatically": true
+            }
         ],
         "recordCreates": [
-          {
-            "name": "createAccountWithAutomaticOutput",
-            "description": "",
-            "label": "createAccountWithAutomaticOutput",
-            "locationX": 302,
-            "locationY": 512.3125,
-            "object": "Account",
-            "inputAssignments": [
-              {
-                "field": "Name",
-                "value": {
-                  "stringValue": "my Account test"
-                }
-              },
-              {
-                "field": "BillingCountry",
-                "value": {
-                  "stringValue": "France"
-                }
-              }
-            ],
-            "storeOutputAutomatically": true
-          },
-          {
-            "name": "createAccountWithAdvancedOptions",
-            "description": "",
-            "label": "createAccountWithAdvancedOptions",
-            "locationX": 430,
-            "locationY": 483,
-            "object": "Account",
-            "inputAssignments": [
-              {
-                "field": "Name",
-                "value": {
-                  "stringValue": "my test account"
-                }
-              },
-              {
-                "field": "BillingCountry",
-                "value": {
-                  "stringValue": "France"
-                }
-              }
-            ],
-            "storeOutputAutomatically": false,
-            "assignRecordIdToReference": "vAccountIdFromCreate"
-          },
-          {
-            "name": "createFromAnAccount",
-            "description": "",
-            "label": "createFromAnAccount",
-            "locationX": 196,
-            "locationY": 486.3125,
-            "inputReference": "accountSObjectVariable"
-          },
-          {
-            "name": "createFromMultipleAccounts",
-            "description": "",
-            "label": "createFromMultipleAccounts",
-            "locationX": 566,
-            "locationY": 486,
-            "inputReference": "accountSObjectCollectionVariable"
-          },
-          {
-            "name": "withApexDefSingleSObjectVariable",
-            "description": "",
-            "label": "withApexDefSingleSObjectVariable",
-            "locationX": 1007,
-            "locationY": 668.3125,
-            "inputReference": "apexContainsOnlyASingleSObjectVariable.account"
-          },
-          {
-            "name": "withApexDefSObjectCollectionVariable",
-            "description": "",
-            "label": "withApexDefSObjectCollectionVariable",
-            "locationX": 1159,
-            "locationY": 665,
-            "inputReference": "apexContainsOnlyAnSObjectCollectionVariable.accounts"
-          }
+            {
+                "name": "createAccountWithAutomaticOutput",
+                "description": "",
+                "label": "createAccountWithAutomaticOutput",
+                "locationX": 302,
+                "locationY": 512.3125,
+                "object": "Account",
+                "inputAssignments": [
+                    {
+                        "field": "Name",
+                        "value": {
+                            "stringValue": "my Account test"
+                        }
+                    },
+                    {
+                        "field": "BillingCountry",
+                        "value": {
+                            "stringValue": "France"
+                        }
+                    }
+                ],
+                "storeOutputAutomatically": true
+            },
+            {
+                "name": "createAccountWithAdvancedOptions",
+                "description": "",
+                "label": "createAccountWithAdvancedOptions",
+                "locationX": 430,
+                "locationY": 483,
+                "object": "Account",
+                "inputAssignments": [
+                    {
+                        "field": "Name",
+                        "value": {
+                            "stringValue": "my test account"
+                        }
+                    },
+                    {
+                        "field": "BillingCountry",
+                        "value": {
+                            "stringValue": "France"
+                        }
+                    }
+                ],
+                "storeOutputAutomatically": false,
+                "assignRecordIdToReference": "vAccountIdFromCreate"
+            },
+            {
+                "name": "createFromAnAccount",
+                "description": "",
+                "label": "createFromAnAccount",
+                "locationX": 196,
+                "locationY": 486.3125,
+                "inputReference": "accountSObjectVariable"
+            },
+            {
+                "name": "createFromMultipleAccounts",
+                "description": "",
+                "label": "createFromMultipleAccounts",
+                "locationX": 566,
+                "locationY": 486,
+                "inputReference": "accountSObjectCollectionVariable"
+            },
+            {
+                "name": "withApexDefSingleSObjectVariable",
+                "description": "",
+                "label": "withApexDefSingleSObjectVariable",
+                "locationX": 1007,
+                "locationY": 668.3125,
+                "inputReference": "apexContainsOnlyASingleSObjectVariable.account"
+            },
+            {
+                "name": "withApexDefSObjectCollectionVariable",
+                "description": "",
+                "label": "withApexDefSObjectCollectionVariable",
+                "locationX": 1159,
+                "locationY": 665,
+                "inputReference": "apexContainsOnlyAnSObjectCollectionVariable.accounts"
+            }
         ],
         "recordLookups": [
-          {
-            "name": "lookupRecordAutomaticOutput",
-            "description": "",
-            "label": "lookupRecordAutomaticOutput",
-            "locationX": 362,
-            "locationY": 326,
-            "object": "Account",
-            "filters": [],
-            "queriedFields": null,
-            "storeOutputAutomatically": true,
-            "getFirstRecordOnly": true
-          },
-          {
-            "name": "lookupRecordCollectionAutomaticOutput",
-            "description": "",
-            "label": "lookupRecordCollectionAutomaticOutput",
-            "locationX": 577,
-            "locationY": 334,
-            "object": "Account",
-            "filters": [],
-            "queriedFields": null,
-            "storeOutputAutomatically": true,
-            "getFirstRecordOnly": false
-          },
-          {
-            "name": "lookupRecordOutputReference",
-            "description": "",
-            "label": "lookupRecordOutputReference",
-            "locationX": 158,
-            "locationY": 321,
-            "object": "Account",
-            "outputReference": "accountSObjectVariable",
-            "assignNullValuesIfNoRecordsFound": false,
-            "filters": [],
-            "queriedFields": [
-              "Id"
-            ]
-          },
-          {
-            "name": "getAccountAutoWithFields",
-            "description": "",
-            "label": "getAccountAutoWithFields",
-            "locationX": 747,
-            "locationY": 332,
-            "object": "Account",
-            "filters": [
-              {
-                "field": "BillingCity",
-                "operator": "EqualTo",
-                "value": {
-                  "stringValue": "Paris"
-                }
-              },
-              {
-                "field": "BillingPostalCode",
-                "operator": "EqualTo",
-                "value": {
-                  "stringValue": "75007"
-                }
-              }
-            ],
-            "queriedFields": [
-              "Id",
-              "Name"
-            ],
-            "sortOrder": "Desc",
-            "sortField": "BillingCity",
-            "storeOutputAutomatically": true,
-            "getFirstRecordOnly": true
-          }
+            {
+                "name": "lookupRecordAutomaticOutput",
+                "description": "",
+                "label": "lookupRecordAutomaticOutput",
+                "locationX": 362,
+                "locationY": 326,
+                "object": "Account",
+                "filters": [],
+                "queriedFields": null,
+                "storeOutputAutomatically": true,
+                "getFirstRecordOnly": true
+            },
+            {
+                "name": "lookupRecordCollectionAutomaticOutput",
+                "description": "",
+                "label": "lookupRecordCollectionAutomaticOutput",
+                "locationX": 577,
+                "locationY": 334,
+                "object": "Account",
+                "filters": [],
+                "queriedFields": null,
+                "storeOutputAutomatically": true,
+                "getFirstRecordOnly": false
+            },
+            {
+                "name": "lookupRecordOutputReference",
+                "description": "",
+                "label": "lookupRecordOutputReference",
+                "locationX": 158,
+                "locationY": 321,
+                "object": "Account",
+                "outputReference": "accountSObjectVariable",
+                "assignNullValuesIfNoRecordsFound": false,
+                "filters": [],
+                "queriedFields": ["Id"]
+            },
+            {
+                "name": "getAccountAutoWithFields",
+                "description": "",
+                "label": "getAccountAutoWithFields",
+                "locationX": 747,
+                "locationY": 332,
+                "object": "Account",
+                "filters": [
+                    {
+                        "field": "BillingCity",
+                        "operator": "EqualTo",
+                        "value": {
+                            "stringValue": "Paris"
+                        }
+                    },
+                    {
+                        "field": "BillingPostalCode",
+                        "operator": "EqualTo",
+                        "value": {
+                            "stringValue": "75007"
+                        }
+                    }
+                ],
+                "queriedFields": ["Id", "Name"],
+                "sortOrder": "Desc",
+                "sortField": "BillingCity",
+                "storeOutputAutomatically": true,
+                "getFirstRecordOnly": true
+            }
         ],
         "recordDeletes": [
-          {
-            "name": "deleteAccount",
-            "description": "",
-            "label": "deleteAccount",
-            "locationX": 751,
-            "locationY": 469.359375,
-            "inputReference": "accountSObjectVariable",
-            "filters": []
-          }
+            {
+                "name": "deleteAccount",
+                "description": "",
+                "label": "deleteAccount",
+                "locationX": 751,
+                "locationY": 469.359375,
+                "inputReference": "accountSObjectVariable",
+                "filters": []
+            }
         ],
         "loops": [
-          {
-            "name": "loopOnAccountAutoOutput",
-            "description": "",
-            "label": "loopOnAccountAutoOutput",
-            "locationX": 234,
-            "locationY": 417,
-            "assignNextValueToReference": null,
-            "collectionReference": "accountSObjectCollectionVariable",
-            "iterationOrder": "Asc"
-          },
-          {
-            "name": "loopOnTextCollectionAutoOutput",
-            "description": "",
-            "label": "loopOnTextCollectionAutoOutput",
-            "locationX": 358,
-            "locationY": 418.3125,
-            "assignNextValueToReference": null,
-            "collectionReference": "stringCollectionVariable1",
-            "iterationOrder": "Asc"
-          },
-          {
-            "name": "loopOnApexAutoOutput",
-            "description": "",
-            "label": "loopOnApexAutoOutput",
-            "locationX": 472,
-            "locationY": 417.3125,
-            "assignNextValueToReference": null,
-            "collectionReference": "apexComplexTypeCollectionVariable",
-            "iterationOrder": "Asc"
-          },
-          {
-            "name": "loopOnTextCollection",
-            "description": "This is a test without automatic Output",
-            "label": "loopOnTextCollection",
-            "locationX": 638,
-            "locationY": 435,
-            "assignNextValueToReference": "stringVariable",
-            "collectionReference": "stringCollectionVariable1",
-            "iterationOrder": "Asc"
-          }
+            {
+                "name": "loopOnAccountAutoOutput",
+                "description": "",
+                "label": "loopOnAccountAutoOutput",
+                "locationX": 234,
+                "locationY": 417,
+                "assignNextValueToReference": null,
+                "collectionReference": "accountSObjectCollectionVariable",
+                "iterationOrder": "Asc"
+            },
+            {
+                "name": "loopOnTextCollectionAutoOutput",
+                "description": "",
+                "label": "loopOnTextCollectionAutoOutput",
+                "locationX": 358,
+                "locationY": 418.3125,
+                "assignNextValueToReference": null,
+                "collectionReference": "stringCollectionVariable1",
+                "iterationOrder": "Asc"
+            },
+            {
+                "name": "loopOnApexAutoOutput",
+                "description": "",
+                "label": "loopOnApexAutoOutput",
+                "locationX": 472,
+                "locationY": 417.3125,
+                "assignNextValueToReference": null,
+                "collectionReference": "apexComplexTypeCollectionVariable",
+                "iterationOrder": "Asc"
+            },
+            {
+                "name": "loopOnTextCollection",
+                "description": "This is a test without automatic Output",
+                "label": "loopOnTextCollection",
+                "locationX": 638,
+                "locationY": 435,
+                "assignNextValueToReference": "stringVariable",
+                "collectionReference": "stringCollectionVariable1",
+                "iterationOrder": "Asc"
+            }
         ],
         "screens": [
-          {
-            "name": "screen1",
-            "description": "",
-            "label": "screen1",
-            "locationX": 104,
-            "locationY": 485,
-            "pausedText": "",
-            "fields": [
-              {
-                "choiceReferences": [],
-                "fieldText": "",
-                "fieldType": "ComponentInstance",
-                "helpText": "",
-                "inputParameters": [
-                  {
-                    "name": "label",
-                    "value": {
-                      "stringValue": "emailScreenFieldAutomaticOutput"
+            {
+                "name": "screen1",
+                "description": "",
+                "label": "screen1",
+                "locationX": 104,
+                "locationY": 485,
+                "pausedText": "",
+                "fields": [
+                    {
+                        "choiceReferences": [],
+                        "fieldText": "",
+                        "fieldType": "ComponentInstance",
+                        "helpText": "",
+                        "inputParameters": [
+                            {
+                                "name": "label",
+                                "value": {
+                                    "stringValue": "emailScreenFieldAutomaticOutput"
+                                }
+                            },
+                            {
+                                "name": "placeholder",
+                                "value": {
+                                    "stringValue": "your email address"
+                                }
+                            }
+                        ],
+                        "isRequired": true,
+                        "name": "emailScreenFieldAutomaticOutput",
+                        "outputParameters": [],
+                        "scale": 0,
+                        "fields": [],
+                        "storeOutputAutomatically": true,
+                        "extensionName": "flowruntime:email"
+                    },
+                    {
+                        "choiceReferences": [],
+                        "fieldText": "",
+                        "fieldType": "ComponentInstance",
+                        "helpText": "",
+                        "inputParameters": [
+                            {
+                                "name": "label",
+                                "value": {
+                                    "stringValue": "emailScreenField"
+                                }
+                            },
+                            {
+                                "name": "placeholder",
+                                "value": {
+                                    "stringValue": "your email"
+                                }
+                            }
+                        ],
+                        "isRequired": true,
+                        "name": "emailScreenField",
+                        "outputParameters": [],
+                        "scale": 0,
+                        "fields": [],
+                        "extensionName": "flowruntime:email"
+                    },
+                    {
+                        "choiceReferences": [],
+                        "fieldText": "",
+                        "fieldType": "ComponentInstance",
+                        "helpText": "",
+                        "inputParameters": [],
+                        "isRequired": true,
+                        "name": "lightningCompWithAccountOutput",
+                        "outputParameters": [],
+                        "scale": 0,
+                        "fields": [],
+                        "storeOutputAutomatically": true,
+                        "extensionName": "c:HelloWorld"
+                    },
+                    {
+                        "choiceReferences": [],
+                        "fieldText": "",
+                        "fieldType": "ComponentInstance",
+                        "helpText": "",
+                        "inputParameters": [],
+                        "isRequired": true,
+                        "name": "lightningCompWithNoAccountOutput",
+                        "outputParameters": [],
+                        "scale": 0,
+                        "fields": [],
+                        "storeOutputAutomatically": true,
+                        "extensionName": "c:noSobjectOutputComp"
+                    },
+                    {
+                        "choiceReferences": [],
+                        "fieldText": "",
+                        "fieldType": "ComponentInstance",
+                        "helpText": "",
+                        "inputParameters": [],
+                        "isRequired": true,
+                        "name": "lightningCompWithAccountsOutput",
+                        "outputParameters": [],
+                        "scale": 0,
+                        "fields": [],
+                        "storeOutputAutomatically": true,
+                        "extensionName": "c:sobjectCollectionOutputComp"
                     }
-                  },
-                  {
-                    "name": "placeholder",
-                    "value": {
-                      "stringValue": "your email address"
-                    }
-                  }
                 ],
-                "isRequired": true,
-                "name": "emailScreenFieldAutomaticOutput",
-                "outputParameters": [],
-                "scale": 0,
-                "fields": [],
-                "storeOutputAutomatically": true,
-                "extensionName": "flowruntime:email"
-              },
-              {
-                "choiceReferences": [],
-                "fieldText": "",
-                "fieldType": "ComponentInstance",
+                "allowBack": true,
+                "allowFinish": true,
+                "allowPause": true,
                 "helpText": "",
-                "inputParameters": [
-                  {
-                    "name": "label",
-                    "value": {
-                      "stringValue": "emailScreenField"
+                "showFooter": true,
+                "showHeader": true
+            },
+            {
+                "name": "screenWithAddress",
+                "description": "",
+                "label": "screenWithAddress",
+                "locationX": 669,
+                "locationY": 483.3125,
+                "pausedText": "",
+                "fields": [
+                    {
+                        "choiceReferences": [],
+                        "fieldText": "",
+                        "fieldType": "ComponentInstance",
+                        "helpText": "",
+                        "inputParameters": [],
+                        "isRequired": true,
+                        "name": "Address",
+                        "outputParameters": [],
+                        "scale": 0,
+                        "fields": [],
+                        "storeOutputAutomatically": true,
+                        "extensionName": "flowruntime:address"
                     }
-                  },
-                  {
-                    "name": "placeholder",
-                    "value": {
-                      "stringValue": "your email"
-                    }
-                  }
                 ],
-                "isRequired": true,
-                "name": "emailScreenField",
-                "outputParameters": [],
-                "scale": 0,
-                "fields": [],
-                "extensionName": "flowruntime:email"
-              },
-              {
-                "choiceReferences": [],
-                "fieldText": "",
-                "fieldType": "ComponentInstance",
+                "allowBack": true,
+                "allowFinish": true,
+                "allowPause": true,
                 "helpText": "",
-                "inputParameters": [],
-                "isRequired": true,
-                "name": "lightningCompWithAccountOutput",
-                "outputParameters": [],
-                "scale": 0,
-                "fields": [],
-                "storeOutputAutomatically": true,
-                "extensionName": "c:HelloWorld"
-              },
-              {
-                "choiceReferences": [],
-                "fieldText": "",
-                "fieldType": "ComponentInstance",
-                "helpText": "",
-                "inputParameters": [],
-                "isRequired": true,
-                "name": "lightningCompWithNoAccountOutput",
-                "outputParameters": [],
-                "scale": 0,
-                "fields": [],
-                "storeOutputAutomatically": true,
-                "extensionName": "c:noSobjectOutputComp"
-              },
-              {
-                "choiceReferences": [],
-                "fieldText": "",
-                "fieldType": "ComponentInstance",
-                "helpText": "",
-                "inputParameters": [],
-                "isRequired": true,
-                "name": "lightningCompWithAccountsOutput",
-                "outputParameters": [],
-                "scale": 0,
-                "fields": [],
-                "storeOutputAutomatically": true,
-                "extensionName": "c:sobjectCollectionOutputComp"
-              }
-            ],
-            "allowBack": true,
-            "allowFinish": true,
-            "allowPause": true,
-            "helpText": "",
-            "showFooter": true,
-            "showHeader": true
-          },
-          {
-            "name": "screenWithAddress",
-            "description": "",
-            "label": "screenWithAddress",
-            "locationX": 669,
-            "locationY": 483.3125,
-            "pausedText": "",
-            "fields": [
-              {
-                "choiceReferences": [],
-                "fieldText": "",
-                "fieldType": "ComponentInstance",
-                "helpText": "",
-                "inputParameters": [],
-                "isRequired": true,
-                "name": "Address",
-                "outputParameters": [],
-                "scale": 0,
-                "fields": [],
-                "storeOutputAutomatically": true,
-                "extensionName": "flowruntime:address"
-              }
-            ],
-            "allowBack": true,
-            "allowFinish": true,
-            "allowPause": true,
-            "helpText": "",
-            "showFooter": true,
-            "showHeader": true
-          }
+                "showFooter": true,
+                "showHeader": true
+            }
         ],
         "stages": [
-          {
-            "name": "stage1",
-            "description": "",
-            "isActive": false,
-            "stageOrder": 12,
-            "label": "stage1"
-          }
+            {
+                "name": "stage1",
+                "description": "",
+                "isActive": false,
+                "stageOrder": 12,
+                "label": "stage1"
+            }
         ],
         "choices": [
-          {
-            "name": "numberChoice",
-            "description": "",
-            "dataType": "Number",
-            "choiceText": "Choice 1"
-          }
+            {
+                "name": "numberChoice",
+                "description": "",
+                "dataType": "Number",
+                "choiceText": "Choice 1"
+            }
         ],
         "description": "",
         "interviewLabel": "mockFlow {!$Flow.CurrentDateTime}",
         "isTemplate": false,
         "label": "flowWithAllElements",
         "processMetadataValues": [
-          {
-            "name": "BuilderType",
-            "value": {
-              "stringValue": "LightningFlowBuilder"
+            {
+                "name": "BuilderType",
+                "value": {
+                    "stringValue": "LightningFlowBuilder"
+                }
+            },
+            {
+                "name": "OriginBuilderType",
+                "value": {
+                    "stringValue": "LightningFlowBuilder"
+                }
             }
-          },
-          {
-            "name": "OriginBuilderType",
-            "value": {
-              "stringValue": "LightningFlowBuilder"
-            }
-          }
         ],
         "processType": "Flow",
         "runInMode": null,
         "status": "InvalidDraft"
-      },
+    },
     "processType": "Flow",
     "status": "InvalidDraft",
     "versionNumber": 1

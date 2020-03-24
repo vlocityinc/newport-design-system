@@ -1,40 +1,40 @@
 {
   "processTypes":[
     {
-      "fieldsToNull" : [ ],
-      "isListViewManaged" : true,
-      "label" : "Autolaunched Flow",
-      "name" : "AutoLaunchedFlow"
-    },
+  "fieldsToNull" : [ ],
+  "isListViewManaged" : true,
+  "label" : "Autolaunched Flow",
+  "name" : "AutoLaunchedFlow"
+},
     {
-      "fieldsToNull" : [ ],
-      "isListViewManaged" : false,
-      "label" : "Contact Request Flow",
-      "name" : "ContactRequestFlow"
-    },
+  "fieldsToNull" : [ ],
+  "isListViewManaged" : false,
+  "label" : "Contact Request Flow",
+  "name" : "ContactRequestFlow"
+},
     {
-      "fieldsToNull" : [ ],
-      "isListViewManaged" : true,
-      "label" : "Embedded Appointment Management Flow",
-      "name" : "FieldServiceWeb"
-    },
+  "fieldsToNull" : [ ],
+  "isListViewManaged" : true,
+  "label" : "Embedded Appointment Management Flow",
+  "name" : "FieldServiceWeb"
+},
     {
-      "fieldsToNull" : [ ],
-      "isListViewManaged" : true,
-      "label" : "Field Service Mobile Flow",
-      "name" : "FieldServiceMobile"
-    },
+  "fieldsToNull" : [ ],
+  "isListViewManaged" : true,
+  "label" : "Field Service Mobile Flow",
+  "name" : "FieldServiceMobile"
+},
     {
-      "fieldsToNull" : [ ],
-      "isListViewManaged" : true,
-      "label" : "Screen Flow",
-      "name" : "Flow"
-    },
+  "fieldsToNull" : [ ],
+  "isListViewManaged" : true,
+  "label" : "Screen Flow",
+  "name" : "Flow"
+},
     {
-      "fieldsToNull" : [ ],
-      "isListViewManaged" : true,
-      "label" : "User Provisioning Flow",
-      "name" : "UserProvisioningFlow"
-    }
+  "fieldsToNull" : [ ],
+  "isListViewManaged" : true,
+  "label" : "User Provisioning Flow",
+  "name" : "UserProvisioningFlow"
+}
   ]
 }

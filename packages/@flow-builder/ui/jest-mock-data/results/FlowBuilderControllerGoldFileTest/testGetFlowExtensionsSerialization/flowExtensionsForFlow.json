@@ -1,170 +1,170 @@
 {
   "flowExtensionsForFlow":[
     {
-      "description" : "Display available time slots for a Field Service appointment.",
-      "fieldsToNull" : [ ],
-      "label" : "Appointment Scheduling",
-      "qualifiedApiName" : "embeddedService:fieldServiceScheduling",
-      "source" : "Standard"
-    },
+  "description" : "Display available time slots for a Field Service appointment.",
+  "fieldsToNull" : [ ],
+  "label" : "Appointment Scheduling",
+  "qualifiedApiName" : "embeddedService:fieldServiceScheduling",
+  "source" : "Standard"
+},
     {
-      "description" : "Address Component",
-      "fieldsToNull" : [ ],
-      "label" : "Address",
-      "qualifiedApiName" : "flowruntime:address",
-      "source" : "Standard"
-    },
+  "description" : "Address Component",
+  "fieldsToNull" : [ ],
+  "label" : "Address",
+  "qualifiedApiName" : "flowruntime:address",
+  "source" : "Standard"
+},
     {
-      "description" : "Dependent Picklists",
-      "fieldsToNull" : [ ],
-      "label" : "Dependent Picklists",
-      "qualifiedApiName" : "flowruntime:dependentPicklists",
-      "source" : "Standard"
-    },
+  "description" : "Dependent Picklists",
+  "fieldsToNull" : [ ],
+  "label" : "Dependent Picklists",
+  "qualifiedApiName" : "flowruntime:dependentPicklists",
+  "source" : "Standard"
+},
     {
-      "description" : "Email Component",
-      "fieldsToNull" : [ ],
-      "label" : "Email",
-      "qualifiedApiName" : "flowruntime:email",
-      "source" : "Standard"
-    },
+  "description" : "Email Component",
+  "fieldsToNull" : [ ],
+  "label" : "Email",
+  "qualifiedApiName" : "flowruntime:email",
+  "source" : "Standard"
+},
     {
-      "description" : "Display Image",
-      "fieldsToNull" : [ ],
-      "label" : "Display Image",
-      "qualifiedApiName" : "flowruntime:image",
-      "source" : "Standard"
-    },
+  "description" : "Display Image",
+  "fieldsToNull" : [ ],
+  "label" : "Display Image",
+  "qualifiedApiName" : "flowruntime:image",
+  "source" : "Standard"
+},
     {
-      "category" : "Input",
-      "description" : "Lookup Component",
-      "fieldsToNull" : [ ],
-      "label" : "Lookup",
-      "qualifiedApiName" : "flowruntime:lookup",
-      "source" : "Standard"
-    },
+  "category" : "Input",
+  "description" : "Lookup Component",
+  "fieldsToNull" : [ ],
+  "label" : "Lookup",
+  "qualifiedApiName" : "flowruntime:lookup",
+  "source" : "Standard"
+},
     {
-      "description" : "Name Component",
-      "fieldsToNull" : [ ],
-      "label" : "Name",
-      "qualifiedApiName" : "flowruntime:name",
-      "source" : "Standard"
-    },
+  "description" : "Name Component",
+  "fieldsToNull" : [ ],
+  "label" : "Name",
+  "qualifiedApiName" : "flowruntime:name",
+  "source" : "Standard"
+},
     {
-      "description" : "Phone",
-      "fieldsToNull" : [ ],
-      "label" : "Phone",
-      "qualifiedApiName" : "flowruntime:phone",
-      "source" : "Standard"
-    },
+  "description" : "Phone",
+  "fieldsToNull" : [ ],
+  "label" : "Phone",
+  "qualifiedApiName" : "flowruntime:phone",
+  "source" : "Standard"
+},
     {
-      "description" : "Slider Component",
-      "fieldsToNull" : [ ],
-      "label" : "Slider",
-      "qualifiedApiName" : "flowruntime:slider",
-      "source" : "Standard"
-    },
+  "description" : "Slider Component",
+  "fieldsToNull" : [ ],
+  "label" : "Slider",
+  "qualifiedApiName" : "flowruntime:slider",
+  "source" : "Standard"
+},
     {
-      "description" : "Toggle",
-      "fieldsToNull" : [ ],
-      "label" : "Toggle",
-      "qualifiedApiName" : "flowruntime:toggle",
-      "source" : "Standard"
-    },
+  "description" : "Toggle",
+  "fieldsToNull" : [ ],
+  "label" : "Toggle",
+  "qualifiedApiName" : "flowruntime:toggle",
+  "source" : "Standard"
+},
     {
-      "description" : "URL Component",
-      "fieldsToNull" : [ ],
-      "label" : "URL",
-      "qualifiedApiName" : "flowruntime:url",
-      "source" : "Standard"
-    },
+  "description" : "URL Component",
+  "fieldsToNull" : [ ],
+  "label" : "URL",
+  "qualifiedApiName" : "flowruntime:url",
+  "source" : "Standard"
+},
     {
-      "description" : "Upload and attach files to records.",
-      "fieldsToNull" : [ ],
-      "label" : "File Upload",
-      "qualifiedApiName" : "forceContent:fileUpload",
-      "source" : "Standard"
-    },
+  "description" : "Upload and attach files to records.",
+  "fieldsToNull" : [ ],
+  "label" : "File Upload",
+  "qualifiedApiName" : "forceContent:fileUpload",
+  "source" : "Standard"
+},
     {
-      "fieldsToNull" : [ ],
-      "qualifiedApiName" : "interactiontest:flowMarkerIntfTestComponent",
-      "source" : "Standard"
-    },
+  "fieldsToNull" : [ ],
+  "qualifiedApiName" : "interactiontest:flowMarkerIntfTestComponent",
+  "source" : "Standard"
+},
     {
-      "fieldsToNull" : [ ],
-      "qualifiedApiName" : "interactiontest:LcInAllFlows",
-      "source" : "Standard"
-    },
+  "fieldsToNull" : [ ],
+  "qualifiedApiName" : "interactiontest:LcInAllFlows",
+  "source" : "Standard"
+},
     {
-      "category" : "Inputs",
-      "description" : "A raptor testing component",
+  "category" : "Inputs",
+  "description" : "A raptor testing component",
+  "fieldsToNull" : [ ],
+  "genericTypes" : {
+    "done" : true,
+    "entityTypeName" : "FlowExtensionGenericType",
+    "records" : [ {
+      "description" : "Generic sobject",
       "fieldsToNull" : [ ],
-      "genericTypes" : {
-        "done" : true,
-        "entityTypeName" : "FlowExtensionGenericType",
-        "records" : [ {
-          "description" : "Generic sobject",
-          "fieldsToNull" : [ ],
-          "label" : "Dynamic type T",
-          "name" : "T",
-          "superType" : "SOBJECT"
-        } ],
-        "size" : 1,
-        "totalSize" : 1
-      },
-      "label" : "LWC Test Component",
-      "qualifiedApiName" : "interactiontest:lwcDynTypedScreensTestComponent",
-      "source" : "Standard"
-    },
+      "label" : "Dynamic type T",
+      "name" : "T",
+      "superType" : "SOBJECT"
+    } ],
+    "size" : 1,
+    "totalSize" : 1
+  },
+  "label" : "LWC Test Component",
+  "qualifiedApiName" : "interactiontest:lwcDynTypedScreensTestComponent",
+  "source" : "Standard"
+},
     {
-      "category" : "Inputs",
-      "description" : "A raptor testing component",
+  "category" : "Inputs",
+  "description" : "A raptor testing component",
+  "fieldsToNull" : [ ],
+  "genericTypes" : {
+    "done" : true,
+    "entityTypeName" : "FlowExtensionGenericType",
+    "records" : [ {
+      "description" : "Generic sobject",
       "fieldsToNull" : [ ],
-      "genericTypes" : {
-        "done" : true,
-        "entityTypeName" : "FlowExtensionGenericType",
-        "records" : [ {
-          "description" : "Generic sobject",
-          "fieldsToNull" : [ ],
-          "label" : "Dynamic type T",
-          "name" : "T",
-          "superType" : "SOBJECT"
-        } ],
-        "size" : 1,
-        "totalSize" : 1
-      },
-      "label" : "LWC Test Component",
-      "qualifiedApiName" : "interactiontest:lwcDynTypes",
-      "source" : "Standard"
-    },
+      "label" : "Dynamic type T",
+      "name" : "T",
+      "superType" : "SOBJECT"
+    } ],
+    "size" : 1,
+    "totalSize" : 1
+  },
+  "label" : "LWC Test Component",
+  "qualifiedApiName" : "interactiontest:lwcDynTypes",
+  "source" : "Standard"
+},
     {
-      "description" : "A raptor recored picker",
+  "description" : "A raptor recored picker",
+  "fieldsToNull" : [ ],
+  "genericTypes" : {
+    "done" : true,
+    "entityTypeName" : "FlowExtensionGenericType",
+    "records" : [ {
+      "description" : "Select the api name of the SObject this component is going to be looking for",
       "fieldsToNull" : [ ],
-      "genericTypes" : {
-        "done" : true,
-        "entityTypeName" : "FlowExtensionGenericType",
-        "records" : [ {
-          "description" : "Select the api name of the SObject this component is going to be looking for",
-          "fieldsToNull" : [ ],
-          "label" : "Object API Name",
-          "name" : "T",
-          "superType" : "SOBJECT"
-        } ],
-        "size" : 1,
-        "totalSize" : 1
-      },
-      "label" : "LWC Record Picker",
-      "qualifiedApiName" : "interactiontest:lwcGenericLookup",
-      "source" : "Standard"
-    },
+      "label" : "Object API Name",
+      "name" : "T",
+      "superType" : "SOBJECT"
+    } ],
+    "size" : 1,
+    "totalSize" : 1
+  },
+  "label" : "LWC Record Picker",
+  "qualifiedApiName" : "interactiontest:lwcGenericLookup",
+  "source" : "Standard"
+},
     {
-      "category" : "Inputs",
-      "configurationEditor" : "c-cpe-cmp",
-      "description" : "A raptor testing component",
-      "fieldsToNull" : [ ],
-      "label" : "LWC Test Component",
-      "qualifiedApiName" : "interactiontest:lwcScreensTestComponent",
-      "source" : "Standard"
-    }
+  "category" : "Inputs",
+  "configurationEditor" : "c-cpe-cmp",
+  "description" : "A raptor testing component",
+  "fieldsToNull" : [ ],
+  "label" : "LWC Test Component",
+  "qualifiedApiName" : "interactiontest:lwcScreensTestComponent",
+  "source" : "Standard"
+}
   ]
 }
