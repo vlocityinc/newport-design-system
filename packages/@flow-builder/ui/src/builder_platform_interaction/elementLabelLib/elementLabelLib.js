@@ -46,8 +46,15 @@ export function getResourceLabel(resource) {
     let label = resource.name.value || resource.name;
     if (resource.storeOutputAutomatically) {
         if (resource.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
-            // "Accounts from resourceName" (get record, action with sobject anonymous output, loops...)
-            label = formatWithEntityLabel(resource, label, LABELS.recordLookupAsResourceText);
+            // "Current Account from resourceName Loop"
+            // or "Accounts from resourceName" (get record, action with sobject anonymous output, loops...)
+            label = formatWithEntityLabel(
+                resource,
+                label,
+                resource.elementType === ELEMENT_TYPE.LOOP
+                    ? LABELS.loopOnSObjectAsResourceText
+                    : LABELS.recordLookupAsResourceText
+            );
         } else if (resource.elementType === ELEMENT_TYPE.RECORD_CREATE) {
             // "AccountId from myCreateRecord"
             label = formatWithEntityLabel(resource, label, LABELS.recordCreateIdAsResourceText);

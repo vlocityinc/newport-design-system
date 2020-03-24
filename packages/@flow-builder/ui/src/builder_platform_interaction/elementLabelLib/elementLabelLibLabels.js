@@ -24,6 +24,7 @@ import subflowSingularLabel from '@salesforce/label/FlowBuilderElementConfig.sub
 import subflowPluralLabel from '@salesforce/label/FlowBuilderElementConfig.subflowPluralLabel';
 import subflowAsResourceText from '@salesforce/label/FlowBuilderElementLabels.subflowAsResourceText';
 import loopAsResourceText from '@salesforce/label/FlowBuilderElementLabels.loopAsResourceText';
+import loopOnSObjectAsResourceText from '@salesforce/label/FlowBuilderElementLabels.loopOnSObjectAsResourceText';
 
 export const LABELS = {
     recordLookupAsResourceText,
@@ -51,5 +52,6 @@ export const LABELS = {
     subflowSingularLabel,
     subflowPluralLabel,
     subflowAsResourceText,
-    loopAsResourceText
+    loopAsResourceText,
+    loopOnSObjectAsResourceText
 };
