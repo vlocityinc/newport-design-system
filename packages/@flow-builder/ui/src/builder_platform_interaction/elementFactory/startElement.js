@@ -37,12 +37,12 @@ export function createStartElement(startElement = {}) {
     const {
         locationX = START_ELEMENT_LOCATION.x,
         locationY = START_ELEMENT_LOCATION.y,
-        triggerType = (startElement && startElement.triggerType) || FLOW_TRIGGER_TYPE.NONE,
         object = '',
         objectIndex = generateGuid(),
         filters = [],
         container
     } = startElement;
+    const triggerType = startElement.triggerType || FLOW_TRIGGER_TYPE.NONE;
     const { startDate, startTime } = startElement.schedule || startElement;
     let { filterType, recordTriggerType, frequency } = startElement.schedule || startElement;
 

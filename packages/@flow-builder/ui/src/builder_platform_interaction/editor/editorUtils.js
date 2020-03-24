@@ -26,6 +26,7 @@ import { setUseFixedLayoutCanvas } from 'builder_platform_interaction/contextLib
 import { canUserVAD, orgHasFlowBuilderGuardrails, useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
 import { getElementSections } from 'builder_platform_interaction/editorElementsUtils';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 
 const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
 
@@ -269,8 +270,8 @@ export const saveAsFlowCallback = (storeInstance, saveFlowFn) => flowProperties 
     flowPropertiesCallback(storeInstance)(flowProperties);
     resetStartElementIfNeeded(
         storeInstance,
-        processType.value || processType,
-        triggerType ? triggerType.value || triggerType : undefined
+        getValueFromHydratedItem(processType),
+        getValueFromHydratedItem(triggerType)
     );
     saveFlowFn(saveType);
 };
