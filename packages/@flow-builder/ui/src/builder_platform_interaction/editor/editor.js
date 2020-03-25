@@ -321,6 +321,10 @@ export default class Editor extends LightningElement {
         return this.builderConfig && this.builderConfig.name;
     }
 
+    get usePanelForPropertyEditor() {
+        return this.builderConfig && this.builderConfig.usePanelForPropertyEditor;
+    }
+
     /** Indicates that the new flow modal is displayed */
     newFlowModalActive = false;
 
@@ -978,7 +982,7 @@ export default class Editor extends LightningElement {
     };
 
     showPropertyEditor(params) {
-        if (this.builderConfig.usePanelForPropertyEditor) {
+        if (this.usePanelForPropertyEditor) {
             this.showPropertyEditorRightPanel = true;
             this.propertyEditorParams = getPropertyEditorConfig(params.mode, params);
         } else {
