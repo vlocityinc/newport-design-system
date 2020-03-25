@@ -26,9 +26,7 @@ export default class PropertyEditorPanel extends LightningElement {
     }
 
     set params(params) {
-        this.editorParams = params;
-        this.title = params.panelConfig.titleForModal;
-        this.loadCtor(params.attr.bodyComponent.className);
+        this.processParams(params);
     }
 
     @track
@@ -38,11 +36,22 @@ export default class PropertyEditorPanel extends LightningElement {
 
     @track messages = {};
 
+    /**
+     * Import the constructor and update the component params
+     *
+     * Note: all of this needs to happen in a single tick, otherwise the component
+     * constructor and params could be out of sync (old constructor with new params
+     * or new constructor with old params)
+     * @param params
+     * @return {Promise<void>}
+     */
     // eslint-disable-next-line @lwc/lwc/no-async-await
-    async loadCtor(className) {
-        const module = await import(className);
+    async processParams(params) {
+        const module = await import(params.attr.bodyComponent.className);
 
         this.ctor = module.default;
+        this.editorParams = params;
+        this.title = params.panelConfig.titleForModal;
     }
 
     setPropertyEditorTitle(event) {

@@ -13,7 +13,14 @@
         </span>
     </div>
     <div class="property-editor-scroll" onsetpropertyeditortitle={setPropertyEditorTitle}>
-        <x-lazy if:true={params} class="inline-property-editor" lwc:dynamic={ctor}></x-lazy>
+        <x-lazy
+            if:true={params}
+            class="inline-property-editor"
+            lwc:dynamic={ctor}
+            node={params.attr.bodyComponent.attr.node}
+            mode={params.attr.bodyComponent.attr.mode}
+            process-type={params.attr.bodyComponent.attr.processType}
+        ></x-lazy>
     </div>
     <div class="slds-panel__footer slds-grid slds-grid--align-end slds-m-top_x-small">
         <div class="slds-col slds-p-left_x-small">

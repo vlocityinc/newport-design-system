@@ -921,7 +921,7 @@ export default class Editor extends LightningElement {
                         nodeUpdate,
                         newResourceCallback
                     };
-                });
+                }, true);
             }
         }
     };
@@ -981,21 +981,23 @@ export default class Editor extends LightningElement {
         this.hasNotBeenSaved = false;
     };
 
-    showPropertyEditor(params) {
-        if (this.usePanelForPropertyEditor) {
+    showPropertyEditor(params, forceModal = false) {
+        if (this.builderConfig.usePanelForPropertyEditor && !forceModal) {
             this.showPropertyEditorRightPanel = true;
             this.propertyEditorParams = getPropertyEditorConfig(params.mode, params);
         } else {
+            this.showPropertyEditorRightPanel = false;
             invokePropertyEditor(PROPERTY_EDITOR, params);
         }
     }
-    queueOpenPropertyEditor = paramsProvider => {
+
+    queueOpenPropertyEditor = (paramsProvider, forceModal) => {
         this.spinners.showPropertyEditorSpinner = true;
         Promise.all(this.propertyEditorBlockerCalls)
             .then(() => {
                 this.spinners.showPropertyEditorSpinner = false;
                 this.propertyEditorBlockerCalls = [];
-                this.showPropertyEditor(paramsProvider());
+                this.showPropertyEditor(paramsProvider(), forceModal);
             })
             .catch(() => {
                 // we don't open the property editor because at least one promise was rejected
@@ -1011,12 +1013,14 @@ export default class Editor extends LightningElement {
     handleAddResourceElement = event => {
         const mode = event.type;
         const nodeUpdate = this.deMutateAndAddNodeCollection;
-        // TODO: This is currently not supported by the inline panel.
-        // TODO Discuss with UX how we're going to handle nested editors
-        this.queueOpenPropertyEditor(() => ({
-            mode,
-            nodeUpdate
-        }));
+
+        this.queueOpenPropertyEditor(
+            () => ({
+                mode,
+                nodeUpdate
+            }),
+            true
+        );
     };
 
     /** *********** Canvas and Node Event Handling *************** **/
@@ -1355,10 +1359,14 @@ export default class Editor extends LightningElement {
      */
     newResourceCallback = () => {
         // This doesn't need the promise since a property editor already has to be open in this case
-        this.showPropertyEditor({
-            mode: NewResourceEvent.EVENT_NAME,
-            nodeUpdate: this.deMutateAndAddNodeCollection
-        });
+        // new resource is always shown in a modal
+        this.showPropertyEditor(
+            {
+                mode: NewResourceEvent.EVENT_NAME,
+                nodeUpdate: this.deMutateAndAddNodeCollection
+            },
+            true
+        );
     };
 
     renderedCallback() {

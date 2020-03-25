@@ -1,20 +1,18 @@
 import { createElement } from 'lwc';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { addElement, updateElement } from 'builder_platform_interaction/actions';
 import { PROPERTY_EDITOR, invokePropertyEditor } from 'builder_platform_interaction/builderUtils';
 import Editor from '../editor';
 import { isGuardrailsEnabled } from '../editorUtils';
 import {
     CANVAS_EVENT,
     AddElementEvent,
-    AddNodeEvent,
-    UpdateNodeEvent,
+    NewResourceEvent,
     ClosePropertyEditorEvent
 } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { mockEngineExecute } from 'analyzer_framework/engine';
 
@@ -647,6 +645,8 @@ describeSkip('editor', () => {
 
 describe('editor property editor', () => {
     it('is opened in a modal by default', async () => {
+        expect.assertions(1);
+
         const editorComponent = createComponentUnderTest();
         Store.getStore().dispatch({
             type: 'init'
@@ -669,6 +669,8 @@ describe('editor property editor', () => {
     });
 
     it('is opened in the right panel when builderConfig.usePanelForPropertyEditor = true', async () => {
+        expect.assertions(1);
+
         mockStoreState.properties.processType = 'right';
 
         const editorComponent = createComponentUnderTest({
@@ -686,6 +688,29 @@ describe('editor property editor', () => {
         await ticks(1);
         const rightPanel = editorComponent.shadowRoot.querySelector('builder_platform_interaction-right-panel');
         expect(rightPanel).not.toBeNull();
+    });
+
+    it('for resource is always opened in a modal', async () => {
+        expect.assertions(1);
+
+        mockStoreState.properties.processType = 'right';
+
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderConfig: { supportedProcessTypes: ['right'], usePanelForPropertyEditor: true }
+        });
+
+        const event = new NewResourceEvent();
+
+        await ticks(1);
+        editorComponent.shadowRoot.querySelector('builder_platform_interaction-left-panel').dispatchEvent(event);
+
+        await ticks(1);
+
+        expect(invokePropertyEditor).toHaveBeenCalledWith(PROPERTY_EDITOR, {
+            mode: 'addnewresource',
+            nodeUpdate: expect.anything()
+        });
     });
 
     describe('in right panel', () => {
@@ -712,6 +737,8 @@ describe('editor property editor', () => {
         });
 
         it('closepropertyeditorevent closes the property editor', async () => {
+            expect.assertions(1);
+
             const event = new ClosePropertyEditorEvent();
 
             await ticks(2);
@@ -723,33 +750,38 @@ describe('editor property editor', () => {
             expect(rightPanel).toBeNull();
         });
 
-        it('addnodeevent dispatches addElement to the store', async () => {
-            const elementToAdd = { a: 1 };
-            const event = new AddNodeEvent(elementToAdd);
-
-            await ticks(1);
-            rightPanel.dispatchEvent(event);
-
-            expect(getElementForStore).toHaveBeenCalledWith(elementToAdd);
-            expect(addElement).toHaveBeenCalledWith(elementToAdd);
-            expect(Store.getStore().dispatch).toHaveBeenCalledWith({
-                value: elementToAdd
-            });
-        });
-
-        it('updatenodeevent dispatches updateElement to the store', async () => {
-            const elementToUpdate = { a: 1 };
-            const event = new UpdateNodeEvent(elementToUpdate);
-
-            await ticks(1);
-            rightPanel.dispatchEvent(event);
-
-            expect(getElementForStore).toHaveBeenCalledWith(elementToUpdate);
-            expect(updateElement).toHaveBeenCalledWith(elementToUpdate);
-            expect(Store.getStore().dispatch).toHaveBeenCalledWith({
-                updateValue: elementToUpdate
-            });
-        });
+        // TODO: W-7365654 - Will be re-added with field level commit
+        // it('addnodeevent dispatches addElement to the store', async () => {
+        //     expect.assertions(1);
+        //
+        //     const elementToAdd = { a: 1 };
+        //     const event = new AddNodeEvent(elementToAdd);
+        //
+        //     await ticks(1);
+        //     rightPanel.dispatchEvent(event);
+        //
+        //     expect(getElementForStore).toHaveBeenCalledWith(elementToAdd);
+        //     expect(addElement).toHaveBeenCalledWith(elementToAdd);
+        //     expect(Store.getStore().dispatch).toHaveBeenCalledWith({
+        //         value: elementToAdd
+        //     });
+        // });
+        //
+        // it('updatenodeevent dispatches updateElement to the store', async () => {
+        //     expect.assertions(1);
+        //
+        //     const elementToUpdate = { a: 1 };
+        //     const event = new UpdateNodeEvent(elementToUpdate);
+        //
+        //     await ticks(1);
+        //     rightPanel.dispatchEvent(event);
+        //
+        //     expect(getElementForStore).toHaveBeenCalledWith(elementToUpdate);
+        //     expect(updateElement).toHaveBeenCalledWith(elementToUpdate);
+        //     expect(Store.getStore().dispatch).toHaveBeenCalledWith({
+        //         updateValue: elementToUpdate
+        //     });
+        // });
     });
 });
 
