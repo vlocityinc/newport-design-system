@@ -21,5 +21,5 @@ p4 info > /dev/null || exit 1
 # check that gold files in core are up to date
 p4 sync -n "${GOLDFILES_CORE_DIR}/..." | grep -q " updating" && { echo -e "${YELLOW}You don't have latest gold files in core. Cannot check if gold files in git repository are up to date${NC}" ; exit 3; }
 
-diff -x '.*' -rq "${GOLDFILES_CORE_DIR}" "${GOLDFILES_GIT_DIR}" || { echo -e "${YELLOW}${GOLDFILES_GIT_DIR} is out of sync with core. Run yarn update:goldFiles to update${NC}" ; exit 1; }
+diff -x '.*' -x '*.backup.json' -rq "${GOLDFILES_CORE_DIR}" "${GOLDFILES_GIT_DIR}" || { echo -e "${YELLOW}${GOLDFILES_GIT_DIR} is out of sync with core. Run yarn update:goldFiles to update${NC}" ; exit 1; }
 echo -e "${GREEN}${GOLDFILES_GIT_DIR} is in sync with core.${NC}"

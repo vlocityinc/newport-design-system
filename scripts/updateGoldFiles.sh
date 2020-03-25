@@ -17,7 +17,7 @@ p4 info > /dev/null || exit 1
 p4 sync -n "${GOLDFILES_CORE_DIR}/..." | grep -q " updating" && { echo -e "${RED}You don't have latest gold files in core. Sync or get latest versions for ${GOLDFILES_CORE_DIR}${NC}" 1>&2 ; exit 1; }
 
 # check if we need to sync
-diff  -x '.*' -rq "${GOLDFILES_CORE_DIR}" "${GOLDFILES_GIT_DIR}" && { echo -e "${GREEN}${GOLDFILES_GIT_DIR} is already in sync with core.${NC}" ; exit 0; }
+diff  -x '.*' -x '*.backup.json' -rq "${GOLDFILES_CORE_DIR}" "${GOLDFILES_GIT_DIR}" && { echo -e "${GREEN}${GOLDFILES_GIT_DIR} is already in sync with core.${NC}" ; exit 0; }
 
 GOLD_FILES_MODIFIED=false
 # warning if gold files modified in core
@@ -25,7 +25,7 @@ p4 opened "${GOLDFILES_CORE_DIR}/..." 2>&1 | grep -q "file(s) not opened on this
 p4 reconcile -n "${GOLDFILES_CORE_DIR}/..." 2>&1 | grep -q "no file(s) to reconcile" || GOLD_FILES_MODIFIED=true
 
 # sync gold files in git repo
-rsync -rtv --delete "${GOLDFILES_CORE_DIR}/" "${GOLDFILES_GIT_DIR}/"
+rsync -rtv --exclude '*.backup.json' --delete "${GOLDFILES_CORE_DIR}/" "${GOLDFILES_GIT_DIR}/"
 
 echo -e "${GREEN}${GOLDFILES_GIT_DIR} have been synced with core.${NC}"
 
