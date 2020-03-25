@@ -5,6 +5,15 @@ import { ValueChangedEvent, ComboboxStateChangedEvent, ActionsLoadedEvent } from
 import { mockActions, mockApexPlugins, mockSubflows } from 'mock/calloutData';
 import { LABELS } from '../actionSelectorLabels';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    LIGHTNING_COMPONENTS_SELECTORS,
+    INTERACTION_COMPONENTS_SELECTORS
+} from 'builder_platform_interaction/builderTestUtils';
+
+export const SELECTORS = {
+    ...INTERACTION_COMPONENTS_SELECTORS,
+    ...LIGHTNING_COMPONENTS_SELECTORS
+};
 
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-action-selector', {
@@ -12,11 +21,6 @@ const createComponentUnderTest = () => {
     });
     document.body.appendChild(el);
     return el;
-};
-
-const selectors = {
-    lightningGroupedCombobox: 'lightning-grouped-combobox',
-    lightningInteractionCombobox: 'builder_platform_interaction-combobox'
 };
 
 const mockError = [
@@ -51,9 +55,8 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 
 describe('Action selector', () => {
     let actionSelectorComponent;
-    const interactionCombobox = () =>
-        actionSelectorComponent.shadowRoot.querySelector(selectors.lightningInteractionCombobox);
-    const groupedCombobox = () => interactionCombobox().shadowRoot.querySelector(selectors.lightningGroupedCombobox);
+    const interactionCombobox = () => actionSelectorComponent.shadowRoot.querySelector(SELECTORS.INTERACTION_COMBOBOX);
+    const groupedCombobox = () => interactionCombobox().shadowRoot.querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
     afterEach(() => {
         mockActionsPromise = Promise.resolve(mockActions).catch(() => {});
         mockApexPluginsPromise = Promise.resolve(mockApexPlugins).catch(() => {});
@@ -113,6 +116,25 @@ describe('Action selector', () => {
             expectActionsChangedEventCallbackCalledWithElementType(ELEMENT_TYPE.APEX_PLUGIN_CALL, expectedNumber);
         });
     });
+    describe('When action type is subflow', () => {
+        beforeEach(() => {
+            actionSelectorComponent = createComponentUnderTest();
+            actionSelectorComponent.invocableActions = mockActions;
+            actionSelectorComponent.invocableActionsFetched = true;
+            actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.SUBFLOW };
+        });
+        it('should set combobox items to subflows (and ignore filter and category)', () => {
+            expect(groupedCombobox().items.map(item => item.text)).toEqual([
+                'CFD - Update elements with different config',
+                'LFB Sample 01',
+                'LFB Sample - Huge Flow',
+                'my subflow'
+            ]);
+        });
+        it('should display "Search flows..." as placeholder', async () => {
+            expect(groupedCombobox().placeholder).toBe('FlowBuilderActionSelector.subflowComboboxPlaceholder');
+        });
+    });
     describe('When action type changes', () => {
         beforeEach(() => {
             actionSelectorComponent = createComponentUnderTest();
@@ -120,19 +142,19 @@ describe('Action selector', () => {
             actionSelectorComponent.invocableActionsFetched = true;
             actionSelectorComponent.selectedAction = {};
         });
-        it('should update the items of the second combobox', async () => {
+        it('should update the items of the combobox', async () => {
             actionSelectorComponent.selectedFilterBy = LABELS.filterByTypeOption;
             actionSelectorComponent.selectedCategory = ELEMENT_TYPE.APEX_CALL;
             await Promise.resolve();
             expect(groupedCombobox().items.map(item => item.text)).toEqual(['Action Test']);
         });
-        it('should update the Action combobox placeholder', async () => {
+        it('should update the combobox placeholder', async () => {
             actionSelectorComponent.selectedFilterBy = LABELS.filterByTypeOption;
             actionSelectorComponent.selectedCategory = ELEMENT_TYPE.APEX_CALL;
             await Promise.resolve();
             expect(groupedCombobox().placeholder).toBe('FlowBuilderActionSelector.apexComboboxPlaceholder');
         });
-        it('should display no value for the Action combobox', async () => {
+        it('should display no value for the combobox', async () => {
             actionSelectorComponent.selectedAction = {
                 actionName: 'emailSimple',
                 actionType: 'emailSimple',
@@ -160,7 +182,7 @@ describe('Action selector', () => {
             mockApexPluginsPromise = Promise.resolve([]).catch(() => {});
             actionSelectorComponent = createComponentUnderTest();
         });
-        it('the second combobox should be disabled', async () => {
+        it('the combobox should be disabled', async () => {
             actionSelectorComponent.selectedAction = {
                 elementType: ELEMENT_TYPE.APEX_PLUGIN_CALL
             };
@@ -175,11 +197,11 @@ describe('Action selector', () => {
             mockSubflowsPromise = Promise.reject(mockError).catch(() => {});
             actionSelectorComponent = createComponentUnderTest();
         });
-        test('Second combobox should be disabled', () => {
+        test('Combobox should be disabled', () => {
             expect(interactionCombobox().disabled).toBe(true);
         });
     });
-    describe('When the user selects or type something in the second combobox', () => {
+    describe('When the user selects or type something in the combobox', () => {
         const dispatchActionChangeEvent = async (actionDurableId, displayText = null, error = null) => {
             const item = actionDurableId ? { value: actionDurableId } : null;
             interactionCombobox().dispatchEvent(new ComboboxStateChangedEvent(item, displayText, error));

@@ -269,10 +269,12 @@ export default class ActionSelector extends LightningElement {
     getActionElements(selectedElementType, selectedFilterBy, selectedCategory) {
         // If selected element type is flows, we return flows actions
         if (selectedElementType === ELEMENT_TYPE.SUBFLOW) {
+            this.state.actionComboLabel = this.labels[selectedElementType].ACTION_COMBO_LABEL;
+            this.state.actionPlaceholder = this.labels[selectedElementType].ACTION_COMBO_PLACEHOLDER;
+
             return this.subflows.map(subflow => this.getComboItemFromSubflow(subflow));
         }
 
-        // If element type is not SUBFLOW, it should be ACTION_CALL
         let items = [];
 
         if (selectedFilterBy === this.labels.filterByCategoryOption) {
