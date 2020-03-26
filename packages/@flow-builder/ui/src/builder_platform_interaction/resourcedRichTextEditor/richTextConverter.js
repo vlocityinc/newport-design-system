@@ -105,7 +105,8 @@ function processTextNode(node) {
  * @returns {HtmlElement} node once processed
  */
 function processLiNode(node) {
-    if (node.parentNode.nodeName !== 'UL') {
+    const parentNodeName = node.parentNode.nodeName;
+    if (parentNodeName !== 'UL' && parentNodeName !== 'OL' && parentNodeName !== 'MENU') {
         const ulNode = createElement('ul');
         const liNode = node.parentNode.replaceChild(ulNode, node);
         ulNode.appendChild(liNode);

@@ -101,9 +101,17 @@ describe('Convert richText', () => {
         const result = convertHTMLToQuillHTML(convertedText);
         expect(result).toBe(convertedText);
     });
-    it('Add UL tag around LI', () => {
-        const result = convertHTMLToQuillHTML(liWithoutUL);
-        expect(result).toBe(liWithULConverted);
+    describe('lists', () => {
+        it('Add UL tag around LI if LI does not have a valid parent', () => {
+            const result = convertHTMLToQuillHTML(liWithoutUL);
+            expect(result).toBe(liWithULConverted);
+        });
+        it('Should not modify ordered lists', () => {
+            // see W-7367154
+            const orderedListHtml = '<ol><li>first<ol><li>second<ol><li>third</li></ol></li></ol></li></ol>';
+            const result = convertHTMLToQuillHTML(orderedListHtml);
+            expect(result).toBe(orderedListHtml);
+        });
     });
     describe('font tag', () => {
         it('should replace font tag by span tag', () => {
