@@ -1,7 +1,12 @@
 import { api } from 'lwc';
-import { DeleteElementEvent, ToggleMenuEvent } from 'builder_platform_interaction/events';
+import {
+    CopySingleElementEvent,
+    DeleteElementEvent,
+    EditElementEvent,
+    ToggleMenuEvent
+} from 'builder_platform_interaction/events';
 import Menu from 'builder_platform_interaction/menu';
-import { MenuConfiguration, Actions } from './flcNodeMenuConfig';
+import { elementActionsConfig, getMenuConfiguration } from './flcNodeMenuConfig';
 
 /**
  * The node menu overlay, displayed when clicking on a node.
@@ -14,29 +19,46 @@ export default class FlcNodeMenu extends Menu {
     guid;
 
     get menuConfiguration() {
-        const label = this.elementMetadata.label;
-        return MenuConfiguration[label];
+        return getMenuConfiguration(this.elementMetadata);
     }
+
     set menuConfiguration(config) {
         return config;
     }
 
-    handleSelectMenuItem(event) {
+    /**
+     * Handles the click on the cancel button and closes the contextual menu
+     */
+    handleCancelButtonClick = event => {
         event.stopPropagation();
+        this.dispatchEvent(new ToggleMenuEvent({}));
+    };
 
-        const actionType = event.target.getAttribute('data-value');
-        let customEvent;
+    /**
+     * Handles the click on the action row item and dispatches the appropriate event
+     */
+    handleSelectMenuItem = event => {
+        event.stopPropagation();
+        this.dispatchEvent(new ToggleMenuEvent({}));
+        const actionType = event.currentTarget.getAttribute('data-value');
         switch (actionType) {
-            case Actions.Delete:
-                customEvent = new DeleteElementEvent([this.guid], this.elementMetadata.elementType);
+            case elementActionsConfig.COPY_ACTION.value:
+                this.dispatchEvent(new CopySingleElementEvent(this.guid));
+                break;
+            case elementActionsConfig.DELETE_ACTION.value:
+                this.dispatchEvent(new DeleteElementEvent([this.guid], this.elementMetadata.elementType));
                 break;
             default:
-                customEvent = null;
+                break;
         }
+    };
 
-        if (customEvent) {
-            this.dispatchEvent(new ToggleMenuEvent({}));
-            this.dispatchEvent(customEvent);
-        }
-    }
+    /**
+     * Handles the click on the Edit button and dispatches the EditElementEvent
+     */
+    handleEditButtonClick = event => {
+        event.stopPropagation();
+        this.dispatchEvent(new ToggleMenuEvent({}));
+        this.dispatchEvent(new EditElementEvent(this.guid));
+    };
 }

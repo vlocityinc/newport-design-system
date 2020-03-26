@@ -8,6 +8,7 @@ import {
     setFlowErrorsAndWarnings,
     flowPropertiesCallback,
     saveAsFlowCallback,
+    getCopiedChildElements,
     getCopiedData,
     getPasteElementGuidMaps,
     getDuplicateElementGuidMaps,
@@ -625,6 +626,114 @@ describe('Editor Utils Test', () => {
             const mocksaveFlowFn = jest.fn(saveType => saveType);
             saveAsFlowCallback(storeInstance, mocksaveFlowFn)(flowProperties);
             expect(mocksaveFlowFn.mock.results[0].value).toBe(SaveType.CREATE);
+        });
+    });
+
+    describe('getCopiedChildElements', () => {
+        it('Returns an empty object when the copied element does not have any child elements', () => {
+            const elementsInStore = {
+                assignment1: {
+                    guid: 'assignment1',
+                    next: 'end',
+                    config: { isSelected: true },
+                    elementType: ELEMENT_TYPE.ASSIGNMENT
+                }
+            };
+
+            const result = getCopiedChildElements(elementsInStore, elementsInStore.assignment1);
+            expect(result).toMatchObject({});
+        });
+
+        it('Should return all the child elements (outcomes) when the copied element is a Decision', () => {
+            const elementsInStore = {
+                decision1: {
+                    guid: 'decision1',
+                    children: [null, null],
+                    outcomeReferences: [
+                        {
+                            outcomeReference: 'outcome1'
+                        },
+                        {
+                            outcomeReference: 'outcome2'
+                        }
+                    ],
+                    elementType: ELEMENT_TYPE.DECISION
+                },
+                outcome1: {
+                    guid: 'outcome1'
+                },
+                outcome2: {
+                    guid: 'outcome2'
+                }
+            };
+
+            const result = getCopiedChildElements(elementsInStore, elementsInStore.decision1);
+            expect(result).toMatchObject({
+                outcome1: {
+                    guid: 'outcome1'
+                },
+                outcome2: {
+                    guid: 'outcome2'
+                }
+            });
+        });
+
+        it('Should return all the nested screen fields when the copied element is a Screen', () => {
+            const elementsInStore = {
+                screen1: {
+                    guid: 'screen1',
+                    config: { isSelected: true },
+                    elementType: ELEMENT_TYPE.SCREEN,
+                    fieldReferences: [
+                        {
+                            fieldReference: 'section1'
+                        },
+                        {
+                            fieldReference: 'textField1'
+                        }
+                    ]
+                },
+                section1: {
+                    guid: 'section1',
+                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    fieldReferences: [
+                        {
+                            fieldReference: 'column1'
+                        }
+                    ]
+                },
+                column1: {
+                    guid: 'column1',
+                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    fieldReferences: []
+                },
+                textField1: {
+                    guid: 'textField1',
+                    elementType: ELEMENT_TYPE.SCREEN_FIELD
+                }
+            };
+
+            const result = getCopiedChildElements(elementsInStore, elementsInStore.screen1);
+            expect(result).toMatchObject({
+                section1: {
+                    guid: 'section1',
+                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    fieldReferences: [
+                        {
+                            fieldReference: 'column1'
+                        }
+                    ]
+                },
+                column1: {
+                    guid: 'column1',
+                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    fieldReferences: []
+                },
+                textField1: {
+                    guid: 'textField1',
+                    elementType: ELEMENT_TYPE.SCREEN_FIELD
+                }
+            });
         });
     });
 

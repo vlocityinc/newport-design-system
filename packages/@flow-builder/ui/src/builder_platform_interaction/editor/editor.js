@@ -72,6 +72,7 @@ import {
     setFlowErrorsAndWarnings,
     flowPropertiesCallback,
     saveAsFlowCallback,
+    getCopiedChildElements,
     getCopiedData,
     getPasteElementGuidMaps,
     getDuplicateElementGuidMaps,
@@ -769,7 +770,25 @@ export default class Editor extends LightningElement {
     };
 
     /**
-     * Handles the copy event and updates the cutOrCopiedCanvasElements
+     * Handles the copy event coming from the Element Action Contextual Menu and
+     * updates the appropriate properties
+     */
+    handleCopySingleElement = event => {
+        const { elementGuid } = event.detail;
+        const elements = storeInstance.getCurrentState().elements;
+        const copiedElement = elements[elementGuid];
+
+        this.cutOrCopiedCanvasElements = {
+            [copiedElement.guid]: copiedElement
+        };
+        this.cutOrCopiedChildElements = getCopiedChildElements(elements, copiedElement);
+        this.topCutOrCopiedGuid = elementGuid;
+        this.bottomCutOrCopiedGuid = elementGuid;
+        this.isPasteAvailable = true;
+    };
+
+    /**
+     * Handles the copy event from the toolbar and updates the appropriate properties
      */
     handleCopy = () => {
         const elements = storeInstance.getCurrentState() && storeInstance.getCurrentState().elements;

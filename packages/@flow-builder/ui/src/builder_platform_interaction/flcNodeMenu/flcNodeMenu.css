@@ -1,8 +1,8 @@
+.node-menu-header {
+    font-weight: normal;
+}
+
 .body {
     display: flex;
     flex-direction: column;
-}
-
-.slds-dropdown__header.node-menu-header {
-    font-weight: normal;
 }

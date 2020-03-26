@@ -195,7 +195,8 @@ function _getDuplicatedNestedScreenFields(
             _getDuplicatedNestedScreenFields(
                 nestedScreenField,
                 nestedScreenField.fieldReferences,
-                duplicatedScreenFields
+                duplicatedScreenFields,
+                cutOrCopiedChildElements
             );
         }
     }

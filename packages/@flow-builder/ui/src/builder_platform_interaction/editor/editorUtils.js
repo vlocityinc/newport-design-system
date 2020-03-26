@@ -389,6 +389,40 @@ const getNestedChildElementsToCutOrCopy = (elementsInStore, fieldReferencesArray
 };
 
 /**
+ * Function to get all the copied child elements
+ *
+ * @param {Object} elementsInStore - State of the elements in store
+ * @param {Object} copiedElement - The copied element
+ * @returns copiedChildElements containing all the copied child elements
+ */
+export const getCopiedChildElements = (elementsInStore, copiedElement) => {
+    let copiedChildElements = {};
+    if (hasChildElements(copiedElement)) {
+        const elementConfig = getConfigForElementType(copiedElement.elementType);
+        const childReferenceKey = elementConfig.childReferenceKey;
+        const childReferenceArray = copiedElement[childReferenceKey.plural];
+
+        for (let j = 0; j < childReferenceArray.length; j++) {
+            const childReference = childReferenceArray[j][childReferenceKey.singular];
+            copiedChildElements[childReference] = elementsInStore[childReference];
+
+            // In case of screens we need to look for the nested screen fields too
+            if (copiedChildElements[childReference].fieldReferences) {
+                copiedChildElements = {
+                    ...copiedChildElements,
+                    ...getNestedChildElementsToCutOrCopy(
+                        elementsInStore,
+                        copiedChildElements[childReference].fieldReferences
+                    )
+                };
+            }
+        }
+    }
+
+    return copiedChildElements;
+};
+
+/**
  * Function to get all the copied data
  *
  * @param {Object} elementsInStore - State of the elements in store
@@ -404,28 +438,10 @@ export const getCopiedData = (elementsInStore, topCopiedGuid) => {
         const canvasElement = Object.values(elementsInStore)[i];
         if (canvasElement.config && canvasElement.config.isSelected) {
             copiedCanvasElements[canvasElement.guid] = canvasElement;
-
-            if (hasChildElements(canvasElement)) {
-                const elementConfig = getConfigForElementType(canvasElement.elementType);
-                const childReferenceKey = elementConfig.childReferenceKey;
-                const childReferenceArray = canvasElement[childReferenceKey.plural];
-
-                for (let j = 0; j < childReferenceArray.length; j++) {
-                    const childReference = childReferenceArray[j][childReferenceKey.singular];
-                    copiedChildElements[childReference] = elementsInStore[childReference];
-
-                    // In case of screens we need to look for the nested screen fields too
-                    if (copiedChildElements[childReference].fieldReferences) {
-                        copiedChildElements = {
-                            ...copiedChildElements,
-                            ...getNestedChildElementsToCutOrCopy(
-                                elementsInStore,
-                                copiedChildElements[childReference].fieldReferences
-                            )
-                        };
-                    }
-                }
-            }
+            copiedChildElements = {
+                ...copiedChildElements,
+                ...getCopiedChildElements(elementsInStore, canvasElement)
+            };
         }
     }
 
