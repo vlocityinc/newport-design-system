@@ -7390,7 +7390,7 @@ lwc-components-lightning@^1.4.5-alpha:
   resolved "https://nexus.soma.salesforce.com/nexus/content/groups/npm-all/lwc-components-lightning/-/f60e75c23a9afeb59fcb1e368aa3c6c985b466c9.tgz#f60e75c23a9afeb59fcb1e368aa3c6c985b466c9"
   integrity sha512-t6s6ns1+aR7yKvHm35he1VUdFzK0NFQCC+VhPIoZSdCyQDcQXX114NOXbkAD1wRmKSjEpENPDNgtr/GHr7VK7g==
 
-lwc-testrunner@^4.1.11:
+lwc-testrunner@^4.1.12:
   version "4.1.12"
   resolved "https://nexus.soma.salesforce.com/nexus/content/groups/npm-all/lwc-testrunner/-/lwc-testrunner-4.1.12.tgz#b21adf9a0e2eab23f63e1d7618aca47f044a7b48"
   integrity sha512-CqD/DFALQii1SAUY0DLbEtQaUhL8CwXC2H1CmYHQB6p9KwMk8MmWdO77mR3XJop95TetjinBO3Ii6u3ll80TPQ==
