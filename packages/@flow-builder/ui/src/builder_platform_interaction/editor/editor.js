@@ -112,9 +112,10 @@ import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLib';
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
-import { getTriggerType } from 'builder_platform_interaction/storeUtils';
+import { getTriggerType, getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import { getInvocableActions } from 'builder_platform_interaction/invocableActionLib';
+import { usedBy } from 'builder_platform_interaction/usedByLib';
 
 let unsubscribeStore;
 let storeInstance;
@@ -1278,6 +1279,29 @@ export default class Editor extends LightningElement {
     };
 
     /**
+     * If needed will fetch record lookup dependencies, and call deMutateAndUpdateNodeCollection on each of them
+     * @param {Object} previousNodeValue the existing record lookup node
+     * @param {Object} updatedNodeValue the record lookup node with updated values
+     */
+    updateRecordLookupDependenciesIfNeeded(previousNodeValue, updatedNodeValue) {
+        if (updatedNodeValue.storeOutputAutomatically && previousNodeValue.subtype !== updatedNodeValue.subtype) {
+            const storeElements = storeInstance.getCurrentState().elements;
+            // Accumulator needs to be initalized with  [updatedNodeValue.guid]: updatedNodeValue because usedBy won't return any dependencies if nodeForStore is not in the 2nd arg...
+            const loopElements = Object.keys(storeElements)
+                .filter(key => storeElements[key].elementType === ELEMENT_TYPE.LOOP)
+                .reduce((newObj, key) => ({ ...newObj, [key]: storeElements[key] }), {
+                    [updatedNodeValue.guid]: updatedNodeValue
+                });
+            const loopsToUpdate = usedBy([updatedNodeValue.guid], loopElements);
+            if (loopsToUpdate && loopsToUpdate.length > 0) {
+                loopsToUpdate.forEach(loopToUpdate => {
+                    this.deMutateAndUpdateNodeCollection(storeElements[loopToUpdate.guid]);
+                });
+            }
+        }
+    }
+
+    /**
      * Method for talking to validation library and store for updating the node collection/flow data.
      * @param {object} node - node object for the particular property editor update
      */
@@ -1285,8 +1309,12 @@ export default class Editor extends LightningElement {
         // This deepCopy is needed as a temporary workaround because the unwrap() function that the property editor
         // calls on OK doesn't actually work and keeps the proxy wrappers.
         const nodeForStore = getElementForStore(node);
+        const currentNode = getElementByGuid(nodeForStore.guid);
         storeInstance.dispatch(updateElement(nodeForStore));
         logInteraction(`update-node-of-type-${node.elementType}`, 'modal', null, 'click');
+        if (node.elementType === ELEMENT_TYPE.RECORD_LOOKUP) {
+            this.updateRecordLookupDependenciesIfNeeded(currentNode, nodeForStore);
+        }
     };
 
     /**
