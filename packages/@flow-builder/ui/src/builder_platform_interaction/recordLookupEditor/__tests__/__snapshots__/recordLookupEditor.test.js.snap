@@ -395,7 +395,7 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
               </span>
               <span>
                 <lightning-button-icon
-                  class="test-edit-button slds-m-left_xx-small slds-align_center slds-is-absolute"
+                  class="test-edit-button slds-m-left_xx-small slds-align_center"
                 >
                   #shadow-root(open)
                 </lightning-button-icon>
@@ -769,7 +769,7 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
               </span>
               <span>
                 <lightning-button-icon
-                  class="test-edit-button slds-m-left_xx-small slds-align_center slds-is-absolute"
+                  class="test-edit-button slds-m-left_xx-small slds-align_center"
                 >
                   #shadow-root(open)
                 </lightning-button-icon>
@@ -1147,7 +1147,7 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
               </span>
               <span>
                 <lightning-button-icon
-                  class="test-edit-button slds-m-left_xx-small slds-align_center slds-is-absolute"
+                  class="test-edit-button slds-m-left_xx-small slds-align_center"
                 >
                   #shadow-root(open)
                 </lightning-button-icon>
@@ -1234,7 +1234,7 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
               </span>
               <span>
                 <lightning-button-icon
-                  class="test-edit-button slds-m-left_xx-small slds-align_center slds-is-absolute"
+                  class="test-edit-button slds-m-left_xx-small slds-align_center"
                 >
                   #shadow-root(open)
                 </lightning-button-icon>

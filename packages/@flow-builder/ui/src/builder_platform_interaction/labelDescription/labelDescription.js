@@ -139,7 +139,7 @@ export default class LabelDescription extends LightningElement {
         if (this.isVertical) {
             return 'test-edit-button slds-m-left_xx-small slds-float_right';
         }
-        return 'test-edit-button slds-m-left_xx-small slds-align_center slds-is-absolute';
+        return 'test-edit-button slds-m-left_xx-small slds-align_center';
     }
 
     @api
