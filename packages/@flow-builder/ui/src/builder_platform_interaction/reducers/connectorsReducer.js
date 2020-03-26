@@ -8,7 +8,8 @@ import {
     DESELECT_ON_CANVAS,
     MARQUEE_SELECT_ON_CANVAS,
     MODIFY_DECISION_WITH_OUTCOMES,
-    MODIFY_WAIT_WITH_WAIT_EVENTS
+    MODIFY_WAIT_WITH_WAIT_EVENTS,
+    UPDATE_FLOW_NO_UNDO
 } from 'builder_platform_interaction/actions';
 import { addItem, updateProperties, replaceItem } from 'builder_platform_interaction/dataMutationLib';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -24,6 +25,7 @@ import { createConnector } from 'builder_platform_interaction/elementFactory';
 export default function connectorsReducer(state = [], action) {
     switch (action.type) {
         case UPDATE_FLOW:
+        case UPDATE_FLOW_NO_UNDO:
             return [...action.payload.connectors];
         case DO_DUPLICATE:
             return _duplicateConnector(

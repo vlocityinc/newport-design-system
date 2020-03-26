@@ -1,4 +1,5 @@
 import { UNDO, REDO, INIT, CLEAR_UNDO_REDO } from '../undoRedoLib';
+import { UPDATE_FLOW, UPDATE_FLOW_NO_UNDO } from 'builder_platform_interaction/actions';
 
 const initialStoreState = {
     elements: {},
@@ -26,7 +27,7 @@ const storeStateWithOneMockElement = {
     variables: []
 };
 
-const mockReducerFn = jest.fn().mockImplementation(x => ({ ...x }));
+const mockReducerFn = jest.fn(x => ({ ...x }));
 
 describe('UndoRedo Library Function', () => {
     const blacklistedActions = [INIT];
@@ -37,10 +38,12 @@ describe('UndoRedo Library Function', () => {
     const mockClearUndoRedoAction = { type: CLEAR_UNDO_REDO };
     const mockGroupedAction = { type: MOCK_GROUPED_ACTION };
     const mockGroupedAction2 = { type: MOCK_GROUPED_ACTION2 };
+    const mockUpdateFlowAction = { type: UPDATE_FLOW };
+    const mockUpdateFlowNoUndoAction = { type: UPDATE_FLOW_NO_UNDO };
 
     const mockTestAction = { type: 'test' };
 
-    let undoRedo, isUndoAvailable, isRedoAvailable, undoRedoFnWithMockReducer;
+    let undoRedo, isUndoAvailable, isRedoAvailable, undoRedoFnWithMockReducer, undoRedoForUpdateFlowMockReducer;
     beforeEach(() => {
         jest.resetModules();
         undoRedo = require('../undoRedoLib').undoRedo;
@@ -48,6 +51,10 @@ describe('UndoRedo Library Function', () => {
         isRedoAvailable = require('../undoRedoLib').isRedoAvailable;
         undoRedoFnWithMockReducer = undoRedo(mockReducerFn, {
             blacklistedActions,
+            groupedActions
+        });
+        undoRedoForUpdateFlowMockReducer = undoRedo(() => storeStateWithOneMockElement, {
+            blacklistedActions: [...blacklistedActions, UPDATE_FLOW_NO_UNDO],
             groupedActions
         });
     });
@@ -86,6 +93,17 @@ describe('UndoRedo Library Function', () => {
             );
             undoRedoFnWithMockReducer(stateAfterSecondGroupedAction, mockTestAction);
             expect(isUndoAvailable()).toBe(true);
+        });
+        // TODO: to deal with double dispatch for loop auto and undo => to be removed (see W-7364488)
+        describe('For loop auto (new temp UPDATE_FLOW_NO_UNDO blacklisted action)', () => {
+            it('Should not add state to past when an "UPDATE_FLOW_NO_UNDO" action is fired', () => {
+                undoRedoForUpdateFlowMockReducer({}, mockUpdateFlowNoUndoAction);
+                expect(isUndoAvailable()).toBe(false);
+            });
+            it('Should add state to past when an "UPDATE_FLOW" action is fired', () => {
+                undoRedoForUpdateFlowMockReducer({}, mockUpdateFlowAction);
+                expect(isUndoAvailable()).toBe(false);
+            });
         });
     });
     describe('UndoRedo function - Switch Case - Undo', () => {

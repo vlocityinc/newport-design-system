@@ -4,6 +4,9 @@ import { UNDO, REDO, CLEAR_UNDO_REDO } from 'builder_platform_interaction/undoRe
 export const UPDATE_ENTITIES = 'UPDATE_ENTITIES';
 export const UPDATE_FLOW = 'UPDATE_FLOW';
 
+// TODO: to deal with double dispatch for loop auto and undo => to be removed (see W-7364488)
+export const UPDATE_FLOW_NO_UNDO = 'UPDATE_FLOW_NO_UNDO';
+
 export const UPDATE_PROPERTIES = 'UPDATE_PROPERTIES';
 export const UPDATE_PROPERTIES_AFTER_SAVE_FAILED = 'UPDATE_PROPERTIES_AFTER_SAVE_FAILED';
 export const UPDATE_PROPERTIES_AFTER_SAVING = 'UPDATE_PROPERTIES_AFTER_SAVING';
@@ -94,6 +97,9 @@ export const createAction = (type, payload = {}) => ({ type, payload });
  * @returns {Object} action new action based on type and payload
  */
 export const updateFlow = payload => createAction(UPDATE_FLOW, payload);
+
+// TODO: to deal with double dispatch and undo => to be removed (see W-7364488)
+export const updateFlowNoUndo = payload => createAction(UPDATE_FLOW_NO_UNDO, payload);
 
 /**
  * @returns {Object} Undo Action without any payload.

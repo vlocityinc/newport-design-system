@@ -16,7 +16,8 @@ import {
     UPDATE_PROPERTIES_AFTER_ACTIVATING,
     UPDATE_APEX_CLASSES,
     UPDATE_ENTITIES,
-    UPDATE_CANVAS_ELEMENT
+    UPDATE_CANVAS_ELEMENT,
+    UPDATE_FLOW_NO_UNDO
 } from 'builder_platform_interaction/actions';
 import { createFlowProperties } from 'builder_platform_interaction/elementFactory';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -65,6 +66,7 @@ export default function flowPropertiesReducer(state = flowProperties, { payload,
                 lastInlineResourceRowIndex: payload.lastInlineResourceRowIndex
             };
         case UPDATE_FLOW:
+        case UPDATE_FLOW_NO_UNDO:
             return {
                 ...state,
                 ...payload.properties,
