@@ -3,6 +3,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import filterByCategoryOption from '@salesforce/label/FlowBuilderActionSelector.filterByCategoryOption';
 
 import selectActionHeadingMedium from '@salesforce/label/FlowBuilderCalloutEditor.selectActionHeadingMedium';
+import selectActionHeadingMediumFlow from '@salesforce/label/FlowBuilderCalloutEditor.selectActionHeadingMediumFlow';
 import selectActionBodyRegularFlow from '@salesforce/label/FlowBuilderCalloutEditor.selectActionBodyRegularFlow';
 import selectActionBodyRegularCore from '@salesforce/label/FlowBuilderCalloutEditor.selectActionBodyRegularCore';
 import selectActionBodyRegularApex from '@salesforce/label/FlowBuilderCalloutEditor.selectActionBodyRegularApex';
@@ -32,7 +33,7 @@ export const LABELS = {
     filterByCategoryOption,
     [ELEMENT_TYPE.SUBFLOW]: {
         HEAD: {
-            true: selectActionHeadingMedium,
+            true: selectActionHeadingMediumFlow,
             false: noActionHeadingMediumFlow
         },
         BODY: {
