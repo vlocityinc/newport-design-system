@@ -47,9 +47,9 @@ And then go to github and create a PR against 224. Once merged, cherry pick the 
 ```sh
 git checkout master
 git pull
+git checkout -b ppominville/master/my-feature
 git cherry-pick <commit-hash>
-git commit -m 'cherry picked 224/my-feature'
-git push
+git push -u origin ppominville/main/my-feature
 ```
 
 And then go to github and create a PR against master.
