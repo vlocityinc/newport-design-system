@@ -15,6 +15,12 @@ import {
     apexCallAutomaticAnonymousAccountOutput,
     createAccountWithAutomaticOutput
 } from 'mock/storeData';
+import {
+    loopAccountAutomaticOutput,
+    loopOnTextCollectionManualOutput,
+    loopOnTextCollectionAutomaticOutput,
+    loopOnApexTypeCollectionAutoOutput
+} from 'mock/storeDataAutolaunched';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { format } from 'builder_platform_interaction/commonUtils';
 import collectionDataType from '@salesforce/label/FlowBuilderDataTypes.collectionDataType';
@@ -148,6 +154,19 @@ describe('menuDataGenerator', () => {
                 });
 
                 expect(mutatedResource.subText).toEqual('');
+            });
+            describe('Loop', () => {
+                it.each`
+                    loop                                   | expectedSubtext
+                    ${loopOnTextCollectionManualOutput}    | ${loopOnTextCollectionManualOutput.name}
+                    ${loopAccountAutomaticOutput}          | ${'Account'}
+                    ${loopOnTextCollectionAutomaticOutput} | ${'FlowBuilderDataTypes.textDataTypeLabel'}
+                    ${loopOnApexTypeCollectionAutoOutput}  | ${'FlowBuilderDataTypes.apexDataTypeLabel'}
+                `('$loop should have subtext: $expectedSubtext', ({ loop, expectedSubtext }) => {
+                    const mutatedResource = mutateFlowResourceToComboboxShape(loop);
+
+                    expect(mutatedResource.subText).toEqual(expectedSubtext);
+                });
             });
         });
     });

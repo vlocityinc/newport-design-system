@@ -52,7 +52,8 @@ function getSubText(dataType, label, { subtype, isSystemGeneratedOutput, element
         subText = subtype;
     } else if (
         (dataType && isSystemGeneratedOutput) ||
-        (elementType === ELEMENT_TYPE.RECORD_CREATE && dataType === STRING_TYPE)
+        (elementType === ELEMENT_TYPE.RECORD_CREATE && dataType === STRING_TYPE) ||
+        (elementType === ELEMENT_TYPE.LOOP && dataType && dataType !== SOBJECT_TYPE)
     ) {
         subText = getDataTypeLabel(dataType);
     } else if (label) {
