@@ -131,3 +131,31 @@ export const isStartMetadataSupported = processType => {
 export const isConditionalFieldVisibilitySupported = processType => {
     return hasProcessTypeFeature(processType, FLOW_PROCESS_TYPE_FEATURE.CONDITIONAL_FIELD_VISIBILITY);
 };
+
+const COLLATION = [FLOW_PROCESS_TYPE.FLOW, FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW];
+
+const compareProcessTypes = (left, right) => {
+    if (left && right) {
+        const leftIndex = COLLATION.indexOf(left.name);
+        const rightIndex = COLLATION.indexOf(right.name);
+        if (leftIndex !== -1 && rightIndex !== -1) {
+            return leftIndex - rightIndex;
+        } else if (leftIndex !== -1 && rightIndex === -1) {
+            return -1;
+        } else if (leftIndex === -1 && rightIndex !== -1) {
+            return +1;
+        }
+        return left.label.localeCompare(right.label);
+    } else if (left && !right) {
+        return -1;
+    } else if (!left && right) {
+        return +1;
+    }
+    return 0;
+};
+
+export const sortProcessTypes = processTypes => {
+    if (processTypes) {
+        processTypes.sort(compareProcessTypes);
+    }
+};

@@ -53,14 +53,14 @@ describe('process-types-vertical-navigation ', () => {
                     iconName: getProcessTypeIcon(ALL_PROCESS_TYPE.name)
                 },
                 {
-                    label: 'Autolaunched Flow',
-                    name: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-                    iconName: getProcessTypeIcon(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW)
-                },
-                {
                     label: 'Screen Flow',
                     name: FLOW_PROCESS_TYPE.FLOW,
                     iconName: getProcessTypeIcon(FLOW_PROCESS_TYPE.FLOW)
+                },
+                {
+                    label: 'Autolaunched Flow',
+                    name: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
+                    iconName: getProcessTypeIcon(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW)
                 },
                 {
                     label: 'Checkout Flow',
@@ -106,9 +106,14 @@ describe('process-types-vertical-navigation ', () => {
                 .join('');
             expect(joinedProcessTypesNames).toBe(
                 ALL_PROCESS_TYPE.name +
-                    MOCK_ALL_PROCESS_TYPES.map(processType => {
-                        return processType.name;
-                    }).join('')
+                    FLOW_PROCESS_TYPE.FLOW +
+                    FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW +
+                    FLOW_PROCESS_TYPE.CHECKOUT_FLOW +
+                    FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW +
+                    FLOW_PROCESS_TYPE.FIELD_SERVICE_WEB +
+                    FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE +
+                    FLOW_PROCESS_TYPE.USER_PROVISIONING_FLOW +
+                    'WeDoNotKnowYou'
             );
         });
 
@@ -121,8 +126,8 @@ describe('process-types-vertical-navigation ', () => {
             );
             expect(actualIconNames).toEqual([
                 'utility:flow',
-                'utility:magicwand',
                 'utility:desktop',
+                'utility:magicwand',
                 'utility:cart',
                 'utility:contact_request',
                 'utility:insert_tag_field',
@@ -153,7 +158,7 @@ describe('process-types-vertical-navigation ', () => {
             await Promise.resolve();
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail).toEqual({
-                name: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
+                name: processTypesVerticalNavigationItemIcon.name
             });
         });
     });

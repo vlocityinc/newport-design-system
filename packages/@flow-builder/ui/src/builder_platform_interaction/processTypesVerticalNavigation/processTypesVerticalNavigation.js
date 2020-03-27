@@ -1,6 +1,10 @@
 import { LightningElement, api, track } from 'lwc';
 import { ProcessTypeSelectedEvent } from 'builder_platform_interaction/events';
-import { ALL_PROCESS_TYPE, getProcessTypesWithIcons } from 'builder_platform_interaction/processTypeLib';
+import {
+    ALL_PROCESS_TYPE,
+    getProcessTypesWithIcons,
+    sortProcessTypes
+} from 'builder_platform_interaction/processTypeLib';
 
 export default class ProcessTypesVerticalNavigation extends LightningElement {
     /**
@@ -13,7 +17,8 @@ export default class ProcessTypesVerticalNavigation extends LightningElement {
     }
 
     set processTypes(processTypes) {
-        this.state.processTypes = processTypes;
+        this.state.processTypes = processTypes ? processTypes.slice() : processTypes;
+        sortProcessTypes(this.state.processTypes);
         this.state.items = getProcessTypesWithIcons([ALL_PROCESS_TYPE].concat(this.processTypes || []));
     }
 

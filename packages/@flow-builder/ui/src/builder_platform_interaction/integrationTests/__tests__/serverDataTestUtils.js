@@ -42,7 +42,7 @@ import { flowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/
 import { flowWithNoActiveVersion } from 'serverData/GetFlowInputOutputVariables/flowWithNoActiveVersion.json';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { flowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
-import { flowEntries } from 'serverData/GetFlowEntries/flowBuilderFlowEntries.json';
+import { flowEntries } from 'serverData/GetFlowEntries/flowEntries.json';
 
 const auraFetch = actions => async (actionName, shouldExecuteCallback, callback, params) => {
     await ticks(10);
