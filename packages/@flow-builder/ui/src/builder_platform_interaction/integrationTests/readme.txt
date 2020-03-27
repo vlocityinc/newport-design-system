@@ -12,12 +12,13 @@ Exceptions :
 
 2) Do not forge your mock data
 Instead, use gold files created using FlowBuilderControllerGoldFileTest
-The gold files are in ui-interaction-builder-components/test/func/results/FlowBuilderControllerGoldFileTest
+The gold files are in packages/@flow-builder/ui/jest-mock-data/results/FlowBuilderControllerGoldFileTest and are copied from core
+(ui-interaction-builder-components/test/func/results/FlowBuilderControllerGoldFileTest) using yarn:updateGoldFiles
 
 To use them, import the json file using :
     import { rules } from 'serverData/RetrieveAllRules/rules.json';
     
-If necessary, you can create more gold files in FlowBuilderControllerGoldFileTest
+If necessary, you can create more gold files in FlowBuilderControllerGoldFileTest and update them in the git repo using yarn:updateGoldFiles
 
 3) Use a flow from jest-mock-data/mock_flows
 It is generally better to use flowWithAllElements.json or autolaunchedFlow.json

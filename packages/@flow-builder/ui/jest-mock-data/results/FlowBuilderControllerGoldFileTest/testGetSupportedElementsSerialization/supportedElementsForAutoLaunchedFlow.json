@@ -1,5 +1,5 @@
 {
-  "elementsPaletteForAutoLaunchedFlow":[
+  "supportedElementsForAutoLaunchedFlow":[
     {
       "name":"Assignment",
       "attributes":null,
