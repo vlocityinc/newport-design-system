@@ -7,7 +7,8 @@ import {
     CANVAS_EVENT,
     AddElementEvent,
     NewResourceEvent,
-    ClosePropertyEditorEvent
+    ClosePropertyEditorEvent,
+    DeleteElementEvent
 } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
@@ -113,6 +114,12 @@ jest.mock('builder_platform_interaction/actions', () => {
         updateElement: jest.fn(element => {
             return {
                 updateValue: element
+            };
+        }),
+        deleteElements: jest.fn().mockImplementation(payload => {
+            return {
+                type: 'deleteElement',
+                payload
             };
         })
     };
@@ -261,6 +268,9 @@ jest.mock('builder_platform_interaction/storeLib', () => {
                     return mockStoreState.elements[canvasElement.guid];
                 });
             };
+        }),
+        isPlainObject: jest.fn().mockImplementation(() => {
+            return false;
         })
     };
 });
@@ -738,7 +748,6 @@ describe('editor property editor', () => {
 
         it('closepropertyeditorevent closes the property editor', async () => {
             expect.assertions(1);
-
             const event = new ClosePropertyEditorEvent();
 
             await ticks(2);
@@ -747,6 +756,18 @@ describe('editor property editor', () => {
             await ticks(1);
             rightPanel = editorComponent.shadowRoot.querySelector('builder_platform_interaction-right-panel');
 
+            expect(rightPanel).toBeNull();
+        });
+
+        it('closes the property editor when element is deleted', async () => {
+            expect.assertions(1);
+
+            const event = new DeleteElementEvent(['1'], 'ASSIGNMENT');
+            const canvas = editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas-container');
+            canvas.dispatchEvent(event);
+
+            await ticks(1);
+            rightPanel = editorComponent.shadowRoot.querySelector('builder_platform_interaction-right-panel');
             expect(rightPanel).toBeNull();
         });
 

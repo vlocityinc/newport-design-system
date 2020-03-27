@@ -1191,6 +1191,7 @@ export default class Editor extends LightningElement {
     handleElementDelete = event => {
         if (event && event.detail) {
             getElementsToBeDeleted(storeInstance, event.detail);
+            this.handleClosePropertyEditor();
         }
     };
 
