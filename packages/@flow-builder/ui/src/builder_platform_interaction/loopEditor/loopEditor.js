@@ -32,7 +32,9 @@ const LOOPVARIABLE_DISABLED = false;
 
 const COLLECTION_VAR_ELEMENT_CONFIG = {
     elementType: ELEMENT_TYPE.LOOP,
-    isCollection: true
+    isCollection: true,
+    // whether or not apex collection from anonymous automatic outputs are allowed
+    allowsApexCollAnonymousAutoOutput: false
 };
 
 export default class LoopEditor extends LightningElement {

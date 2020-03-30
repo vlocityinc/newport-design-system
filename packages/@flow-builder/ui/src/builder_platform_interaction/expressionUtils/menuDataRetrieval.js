@@ -253,6 +253,15 @@ const disableHasNextOnMenuItem = menuItem => {
     menuItem.rightIconName = '';
 };
 
+const isApexCollectionAnonymousAutomaticOutput = menuItem => {
+    return (
+        menuItem.dataType === FLOW_DATA_TYPE.APEX.value &&
+        menuItem.storeOutputAutomatically &&
+        menuItem.isSystemGeneratedOutput &&
+        menuItem.isCollection
+    );
+};
+
 /**
  * Filter the list of elements, append global constants and mutate elements to shape the combobox expects.
  * Used when subscribed to store. If subscribing to store is not needed use getElementsForMenuData.
@@ -265,6 +274,7 @@ const disableHasNextOnMenuItem = menuItem => {
  * @param {Array}   activePicklistValues the picklist values that will be appended to the menu data if picklist values are allowed
  * @param {boolean} showSystemVariables   are system variables allowed in this context
  * @param {boolean} allowSObjectField whether or not to set hasNext on SObject
+ * @param {boolean} allowsApexCollAnonymousAutoOutput whether or not apex collection from anonymous automatic outputs are allowed. Default true
  *  @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
  */
 export function filterAndMutateMenuData(
@@ -276,7 +286,8 @@ export function filterAndMutateMenuData(
     activePicklistValues = [],
     showSystemVariables = true,
     showGlobalVariables = false,
-    allowSObjectField = true
+    allowSObjectField = true,
+    allowsApexCollAnonymousAutoOutput = true
 ) {
     if (allowGlobalConstants) {
         // global constants should be included in menuData for FEROVs
@@ -289,7 +300,8 @@ export function filterAndMutateMenuData(
             element =>
                 isElementAllowed(allowedParamTypes, element, !disableHasNext) &&
                 // exclude the start element so that it is easier to add back as a global var below
-                !isSystemElement(element.elementType)
+                !isSystemElement(element.elementType) &&
+                (allowsApexCollAnonymousAutoOutput || !isApexCollectionAnonymousAutomaticOutput(element))
         )
         .map(element => {
             const menuItem = mutateFlowResourceToComboboxShape(element);

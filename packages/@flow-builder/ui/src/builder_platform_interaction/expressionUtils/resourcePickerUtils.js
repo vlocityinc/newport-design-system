@@ -65,7 +65,8 @@ const getFerovMenuData = (
         null,
         showSystemVariables,
         showGlobalVariables,
-        allowSObjectFields
+        allowSObjectFields,
+        elementConfig ? elementConfig.allowsApexCollAnonymousAutoOutput : true
     );
 };
 

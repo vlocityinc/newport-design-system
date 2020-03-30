@@ -164,6 +164,7 @@ describe('resourcePickerUtils', () => {
                 null,
                 true,
                 false,
+                true,
                 true
             );
         });
@@ -193,7 +194,8 @@ describe('resourcePickerUtils', () => {
                 null,
                 true,
                 false,
-                true
+                true,
+                undefined
             );
         });
     });

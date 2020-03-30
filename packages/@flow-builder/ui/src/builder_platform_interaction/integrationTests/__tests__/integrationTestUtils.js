@@ -71,9 +71,11 @@ export const setupStateForProcessType = async processType => {
 
 export const loadFlow = async (flow, store) => {
     await loadOnProcessTypeChange(flow.processType).loadPeripheralMetadataPromise;
-    const uiFlow = translateFlowToUIModel(flow);
+    let uiFlow = translateFlowToUIModel(flow);
     store.dispatch(updateFlow(uiFlow));
     await loadFieldsForComplexTypesInFlow(uiFlow);
+    uiFlow = translateFlowToUIModel(flow);
+    store.dispatch(updateFlow(uiFlow));
 };
 
 export const setupStateForFlow = async flow => {
