@@ -73,7 +73,7 @@ describe('loop factory', () => {
                 ${loopAccountAutomaticOutput}          | ${'SObject'}
                 ${loopOnTextCollectionAutomaticOutput} | ${'String'}
                 ${loopOnApexTypeCollectionAutoOutput}  | ${'Apex'}
-            `('$loop should have dataType: $dataType', ({ loop, dataType }) => {
+            `('$loop.name should have dataType: $dataType', ({ loop, dataType }) => {
                 const createdLoop = createLoop(loop);
 
                 expect(createdLoop.dataType).toBe(dataType);
@@ -83,7 +83,7 @@ describe('loop factory', () => {
                 ${loopAccountAutomaticOutput}          | ${'Account'}
                 ${loopOnTextCollectionAutomaticOutput} | ${null}
                 ${loopOnApexTypeCollectionAutoOutput}  | ${'ApexComplexTypeTestOne216'}
-            `('$loop should have subtype: $subtype', ({ loop, subtype }) => {
+            `('$loop.name should have subtype: $subtype', ({ loop, subtype }) => {
                 const createdLoop = createLoop(loop);
 
                 expect(createdLoop.subtype).toBe(subtype);
@@ -106,7 +106,7 @@ describe('loop factory', () => {
                 ${loopAccountAutomaticOutput}          | ${'SObject'}
                 ${loopOnTextCollectionAutomaticOutput} | ${'String'}
                 ${loopOnApexTypeCollectionAutoOutput}  | ${'Apex'}
-            `('$loop should have dataType: $dataType', ({ loop, dataType }) => {
+            `('$loop.name should have dataType: $dataType', ({ loop, dataType }) => {
                 const createdLoop = createDuplicateLoop(loop);
 
                 expect(createdLoop.duplicatedElement.dataType).toBe(dataType);
@@ -116,7 +116,7 @@ describe('loop factory', () => {
                 ${loopAccountAutomaticOutput}          | ${'Account'}
                 ${loopOnTextCollectionAutomaticOutput} | ${null}
                 ${loopOnApexTypeCollectionAutoOutput}  | ${'ApexComplexTypeTestOne216'}
-            `('$loop should have subtype: $subtype', ({ loop, subtype }) => {
+            `('$loop.name should have subtype: $subtype', ({ loop, subtype }) => {
                 const createdLoop = createDuplicateLoop(loop);
 
                 expect(createdLoop.duplicatedElement.subtype).toBe(subtype);
@@ -157,7 +157,7 @@ describe('loop factory', () => {
                 ${loopAccountAutomaticOutput}          | ${'SObject'}
                 ${loopOnTextCollectionAutomaticOutput} | ${'String'}
                 ${loopOnApexTypeCollectionAutoOutput}  | ${'Apex'}
-            `('$loop should have dataType: $dataType', ({ loop, dataType }) => {
+            `('$loop.name should have dataType: $dataType', ({ loop, dataType }) => {
                 const createdLoop = createLoopWithConnectors(loop);
 
                 expect(Object.values(createdLoop.elements)[0].dataType).toBe(dataType);
@@ -167,7 +167,7 @@ describe('loop factory', () => {
                 ${loopAccountAutomaticOutput}          | ${'Account'}
                 ${loopOnTextCollectionAutomaticOutput} | ${null}
                 ${loopOnApexTypeCollectionAutoOutput}  | ${'ApexComplexTypeTestOne216'}
-            `('$loop should have subtype: $subtype', ({ loop, subtype }) => {
+            `('$loop.name should have subtype: $subtype', ({ loop, subtype }) => {
                 const createdLoop = createLoopWithConnectors(loop);
 
                 expect(Object.values(createdLoop.elements)[0].subtype).toBe(subtype);
