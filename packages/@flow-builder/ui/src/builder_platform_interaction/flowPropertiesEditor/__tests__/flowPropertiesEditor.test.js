@@ -414,7 +414,9 @@ describe('FlowPropertiesEditor', () => {
                     interviewLabel: { value: 'interviewLabel' },
                     versionNumber: 1,
                     saveType: SaveType.NEW_DEFINITION,
-                    runInMode: { value: null, error: null }
+                    runInMode: { value: null, error: null },
+                    lastModifiedBy: { value: 'some user' },
+                    lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' }
                 };
             });
 

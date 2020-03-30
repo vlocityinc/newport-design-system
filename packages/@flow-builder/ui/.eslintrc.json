@@ -29,7 +29,11 @@
                     "lwc-core/no-aura": ["**/builder_platform_interaction/builderUtils/builderUtils.js"],
                     "lwc-core/no-interop-create": ["**/builder_platform_interaction/builderUtils/builderUtils.js"],
                     "lwc-core/no-interop-dispatch": ["**/builder_platform_interaction/builderUtils/builderUtils.js"],
-                    "lwc-core/no-interop-render": ["**/builder_platform_interaction/builderUtils/builderUtils.js"]
+                    "lwc-core/no-interop-render": [
+                        "**/builder_platform_interaction/builderUtils/builderUtils.js",
+                        "**/jestSetup.js"
+                    ],
+                    "lwc-core/no-process-env": ["**/jestSetup.js"]
                 }
             }
         ]

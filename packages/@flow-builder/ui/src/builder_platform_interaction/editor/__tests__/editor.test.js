@@ -19,6 +19,7 @@ import { mockEngineExecute } from 'analyzer_framework/engine';
 
 jest.mock('builder_platform_interaction/preloadLib', () => {
     return {
+        loadAllSupportedFeatures: jest.fn(),
         loadFieldsForComplexTypesInFlow: jest.fn(),
         loadParametersForInvocableApexActionsInFlowFromMetadata: jest.fn(),
         loadReferencesIn: jest.fn(),
@@ -38,7 +39,7 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
     return Object.assign(require.requireActual('builder_platform_interaction/elementConfig'), {
         getConfigForElementType: jest.fn().mockImplementation(() => {
             return {
-                descriptor: 'test descriptor',
+                descriptor: 'builder_platform_interaction:assignmentEditor',
                 canBeDuplicated: false,
                 isDeletable: false,
                 nodeConfig: { isSelectable: false },
@@ -99,7 +100,7 @@ jest.mock('builder_platform_interaction/translatorLib', () => {
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
         fetch: jest.fn(),
-        fetchOnce: jest.fn().mockResolvedValue(),
+        fetchOnce: jest.fn().mockResolvedValue({}),
         SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE
     };
 });

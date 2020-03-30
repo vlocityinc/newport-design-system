@@ -45,6 +45,8 @@ import { flowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExt
 import { flowEntries } from 'serverData/GetFlowEntries/flowEntries.json';
 import { paletteForFlow } from 'serverData/GetPalette/paletteForFlow.json';
 import { paletteForAutoLaunchedFlow } from 'serverData/GetPalette/paletteForAutoLaunchedFlow.json';
+import { supportedElementsForFlow } from 'serverData/GetSupportedElements/supportedElementsForFlow.json';
+import { supportedElementsForAutoLaunchedFlow } from 'serverData/GetSupportedElements/supportedElementsForAutoLaunchedFlow.json';
 
 const auraFetch = actions => async (actionName, shouldExecuteCallback, callback, params) => {
     await ticks(10);
@@ -204,7 +206,6 @@ const allAuraActions = {
         flowWithActiveAndLatest,
         flowWithNoActiveVersion
     }),
-    'c.retrieveElementsPalette': createGetter([]),
     'c.retrieveHeaderUrls': createGetter([]),
     'c.getProcessTypes': createGetter([]),
     'c.getRunInModes': createGetter([]),
@@ -212,6 +213,10 @@ const allAuraActions = {
     'c.getPalette': createGetterByProcessType({
         [FLOW_PROCESS_TYPE.FLOW]: paletteForFlow,
         [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: paletteForAutoLaunchedFlow
+    }),
+    'c.getSupportedElements': createGetterByProcessType({
+        [FLOW_PROCESS_TYPE.FLOW]: supportedElementsForFlow,
+        [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: supportedElementsForAutoLaunchedFlow
     })
 };
 
