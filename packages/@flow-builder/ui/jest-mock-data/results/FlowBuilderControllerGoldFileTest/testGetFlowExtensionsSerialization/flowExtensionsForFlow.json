@@ -87,6 +87,11 @@
 },
     {
   "fieldsToNull" : [ ],
+  "qualifiedApiName" : "healthcloud:registerDevice",
+  "source" : "Standard"
+},
+    {
+  "fieldsToNull" : [ ],
   "qualifiedApiName" : "interactiontest:flowMarkerIntfTestComponent",
   "source" : "Standard"
 },
