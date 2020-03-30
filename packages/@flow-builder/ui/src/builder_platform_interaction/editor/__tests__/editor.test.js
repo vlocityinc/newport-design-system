@@ -8,12 +8,15 @@ import {
     AddElementEvent,
     NewResourceEvent,
     ClosePropertyEditorEvent,
+    AddNodeEvent,
+    UpdateNodeEvent,
     DeleteElementEvent
 } from 'builder_platform_interaction/events';
+import { addElement, updateElement } from 'builder_platform_interaction/actions';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { mockEngineExecute } from 'analyzer_framework/engine';
 
@@ -760,6 +763,38 @@ describe('editor property editor', () => {
             expect(rightPanel).toBeNull();
         });
 
+        it('addnodeevent dispatches addElement to the store', async () => {
+            expect.assertions(3);
+
+            const elementToAdd = { a: 1 };
+            const event = new AddNodeEvent(elementToAdd);
+
+            await ticks(1);
+            rightPanel.dispatchEvent(event);
+
+            expect(getElementForStore).toHaveBeenCalledWith(elementToAdd);
+            expect(addElement).toHaveBeenCalledWith(elementToAdd);
+            expect(Store.getStore().dispatch).toHaveBeenCalledWith({
+                value: elementToAdd
+            });
+        });
+
+        it('updatenodeevent dispatches updateElement to the store', async () => {
+            expect.assertions(3);
+
+            const elementToUpdate = { a: 1 };
+            const event = new UpdateNodeEvent(elementToUpdate);
+
+            await ticks(1);
+            rightPanel.dispatchEvent(event);
+
+            expect(getElementForStore).toHaveBeenCalledWith(elementToUpdate);
+            expect(updateElement).toHaveBeenCalledWith(elementToUpdate);
+            expect(Store.getStore().dispatch).toHaveBeenCalledWith({
+                updateValue: elementToUpdate
+            });
+        });
+
         it('closes the property editor when element is deleted', async () => {
             expect.assertions(1);
 
@@ -771,39 +806,6 @@ describe('editor property editor', () => {
             rightPanel = editorComponent.shadowRoot.querySelector('builder_platform_interaction-right-panel');
             expect(rightPanel).toBeNull();
         });
-
-        // TODO: W-7365654 - Will be re-added with field level commit
-        // it('addnodeevent dispatches addElement to the store', async () => {
-        //     expect.assertions(1);
-        //
-        //     const elementToAdd = { a: 1 };
-        //     const event = new AddNodeEvent(elementToAdd);
-        //
-        //     await ticks(1);
-        //     rightPanel.dispatchEvent(event);
-        //
-        //     expect(getElementForStore).toHaveBeenCalledWith(elementToAdd);
-        //     expect(addElement).toHaveBeenCalledWith(elementToAdd);
-        //     expect(Store.getStore().dispatch).toHaveBeenCalledWith({
-        //         value: elementToAdd
-        //     });
-        // });
-        //
-        // it('updatenodeevent dispatches updateElement to the store', async () => {
-        //     expect.assertions(1);
-        //
-        //     const elementToUpdate = { a: 1 };
-        //     const event = new UpdateNodeEvent(elementToUpdate);
-        //
-        //     await ticks(1);
-        //     rightPanel.dispatchEvent(event);
-        //
-        //     expect(getElementForStore).toHaveBeenCalledWith(elementToUpdate);
-        //     expect(updateElement).toHaveBeenCalledWith(elementToUpdate);
-        //     expect(Store.getStore().dispatch).toHaveBeenCalledWith({
-        //         updateValue: elementToUpdate
-        //     });
-        // });
     });
 });
 

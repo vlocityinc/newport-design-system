@@ -7,13 +7,13 @@
                 dev-name={assignmentElement.name}
                 description={assignmentElement.description}
                 guid={assignmentElement.guid}
-                onpropertychanged={handleEvent}
+                onpropertychanged={handlePropertyChangedEvent}
                 mode={mode}
             >
             </builder_platform_interaction-label-description>
         </div>
         <!-- Assignments Section -->
-        <div class=" slds-border_top slds-p-around_small">
+        <div class="slds-border_top slds-p-around_small">
             <h3 class="slds-text-heading_small slds-p-bottom_small">
                 {labels.assignmentsSectionHeader}
             </h3>
@@ -22,9 +22,9 @@
             </div>
             <builder_platform_interaction-list
                 items={assignmentElement.assignmentItems}
-                onaddlistitem={handleEvent}
-                onupdatelistitem={handleEvent}
-                ondeletelistitem={handleEvent}
+                onaddlistitem={handlePropertyChangedEvent}
+                onupdatelistitem={handlePropertyChangedEvent}
+                ondeletelistitem={handlePropertyChangedEvent}
                 add-label={labels.addButtonLabel}
             >
                 <div slot="listBody">

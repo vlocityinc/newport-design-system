@@ -6,13 +6,17 @@
             icon-name="utility:close"
             alternative-text={labels.closePanelButtonTitle}
             class="slds-icon_container slds-icon-utility-close slds-current-color test-help-utility-icon slds-float_right"
-            onclick={handleCancel}
+            onclick={handleClose}
         ></lightning-button-icon>
         <span class="lds-panel__header-title">
             {title}
         </span>
     </div>
-    <div class="property-editor-scroll" onsetpropertyeditortitle={setPropertyEditorTitle}>
+    <div
+        class="property-editor-scroll"
+        onsetpropertyeditortitle={setPropertyEditorTitle}
+        onupdatenode={handleUpdateNode}
+    >
         <x-lazy
             if:true={params}
             class="inline-property-editor"
@@ -21,35 +25,5 @@
             mode={params.attr.bodyComponent.attr.mode}
             process-type={params.attr.bodyComponent.attr.processType}
         ></x-lazy>
-    </div>
-    <div class="slds-panel__footer slds-grid slds-grid--align-end slds-m-top_x-small">
-        <div class="slds-col slds-p-left_x-small">
-            <builder_platform_interaction-status-icon
-                messages={messages}
-                direction="north"
-                type="error"
-                show-only-number-of-errors="true"
-                show-total-counts="true"
-                headerforsummary="$Label.FlowBuilderValidation.errorPopOverHeader"
-            >
-            </builder_platform_interaction-status-icon>
-        </div>
-        <div class="slds-col slds-p-left_x-small">
-            <lightning-button
-                class="test-property-editor-footer-cancel-button"
-                title={labels.cancelButton}
-                onclick={handleCancel}
-                label={labels.cancelButton}
-            ></lightning-button>
-        </div>
-        <div class="slds-col slds-p-left_x-small">
-            <lightning-button
-                class="test-property-editor-footer-ok-button"
-                variant="brand"
-                title={labels.okButton}
-                onclick={handleOk}
-                label={labels.okButton}
-            ></lightning-button>
-        </div>
     </div>
 </template>

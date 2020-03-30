@@ -5,6 +5,7 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { getRulesForElementType, RULE_TYPES, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import { LABELS } from './assignmentEditorLabels';
+import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 
 /**
  * @constant UPDATE_PROPERTY
@@ -71,8 +72,10 @@ export default class AssignmentEditor extends LightningElement {
     /**
      * @param {object} event - property changed event coming from label-description component
      */
-    handleEvent(event) {
+    handlePropertyChangedEvent(event) {
         event.stopPropagation();
         this.assignmentElement = assignmentReducer(this.assignmentElement, event);
+
+        this.dispatchEvent(new UpdateNodeEvent(this.assignmentElement));
     }
 }

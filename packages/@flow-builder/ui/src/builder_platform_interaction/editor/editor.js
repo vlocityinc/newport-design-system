@@ -1006,7 +1006,7 @@ export default class Editor extends LightningElement {
     };
 
     showPropertyEditor(params, forceModal = false) {
-        if (this.builderConfig.usePanelForPropertyEditor && !forceModal) {
+        if (this.usePanelForPropertyEditor && !forceModal) {
             this.showPropertyEditorRightPanel = true;
             this.propertyEditorParams = getPropertyEditorConfig(params.mode, params);
         } else {

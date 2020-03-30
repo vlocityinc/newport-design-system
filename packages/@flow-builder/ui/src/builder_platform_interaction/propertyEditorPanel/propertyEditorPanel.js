@@ -1,15 +1,7 @@
 import { LightningElement, track, api } from 'lwc';
 
-import {
-    AddElementEvent,
-    EditElementEvent,
-    AddNodeEvent,
-    UpdateNodeEvent,
-    ClosePropertyEditorEvent
-} from 'builder_platform_interaction/events';
+import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './propertyEditorPanelLabels';
-
-const PROPERTY_EDITOR_CLASS = '.inline-property-editor';
 
 /**
  * LWC version of the property editor, for use in lwc (as opposed to aura modal version)
@@ -28,6 +20,9 @@ export default class PropertyEditorPanel extends LightningElement {
     set params(params) {
         this.processParams(params);
     }
+
+    @api
+    nodeUpdateCallback;
 
     @track
     title;
@@ -58,30 +53,20 @@ export default class PropertyEditorPanel extends LightningElement {
         this.title = event.detail.title;
     }
 
-    handleOk() {
-        const propertyEditorComponent = this.template.querySelector(PROPERTY_EDITOR_CLASS);
-        const validationErrors = propertyEditorComponent.validate();
-
-        if (validationErrors.length === 0) {
-            const mode = this.params.attr.bodyComponent.attr.mode;
-
-            if (mode === AddElementEvent.EVENT_NAME) {
-                const addNodeEvent = new AddNodeEvent(propertyEditorComponent.getNode());
-                this.dispatchEvent(addNodeEvent);
-            } else if (mode === EditElementEvent.EVENT_NAME) {
-                const updateNodeEvent = new UpdateNodeEvent(propertyEditorComponent.getNode());
-                this.dispatchEvent(updateNodeEvent);
-            } else {
-                throw Error('Unsupported mode: ' + mode);
-            }
-
-            const closePropertyEditorEvent = new ClosePropertyEditorEvent();
-            this.dispatchEvent(closePropertyEditorEvent);
-        }
-    }
-
-    handleCancel() {
+    handleClose() {
         const closePropertyEditorEvent = new ClosePropertyEditorEvent();
         this.dispatchEvent(closePropertyEditorEvent);
+    }
+
+    /**
+     * Handle changes to any property in the property editor
+     * @param event
+     */
+    handleUpdateNode(event) {
+        const node = event.detail.node;
+
+        if (node && this.nodeUpdateCallback) {
+            this.nodeUpdateCallback(node);
+        }
     }
 }

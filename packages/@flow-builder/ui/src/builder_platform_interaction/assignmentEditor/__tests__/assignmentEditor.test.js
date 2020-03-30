@@ -4,7 +4,8 @@ import {
     PropertyChangedEvent,
     AddListItemEvent,
     DeleteListItemEvent,
-    UpdateListItemEvent
+    UpdateListItemEvent,
+    UpdateNodeEvent
 } from 'builder_platform_interaction/events';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
@@ -86,6 +87,25 @@ describe('assignment-editor', () => {
     afterAll(() => {
         Store.resetStore();
     });
+    it('property changed event dispatches an UpdateNodeEvent', async () => {
+        const assignmentElement = createComponentForTest();
+        assignmentElement.node = deepCopy(testObj);
+
+        const updateNodeCallback = jest.fn();
+        assignmentElement.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+        await ticks(1);
+        const event = new PropertyChangedEvent('description', 'new desc', null);
+        assignmentElement.shadowRoot
+            .querySelector('builder_platform_interaction-label-description')
+            .dispatchEvent(event);
+        expect(updateNodeCallback).toHaveBeenCalledWith(
+            expect.objectContaining({
+                detail: { node: assignmentElement.node }
+            })
+        );
+    });
+
     it('handles the property changed event and updates the property', async () => {
         const assignmentElement = createComponentForTest();
         assignmentElement.node = deepCopy(testObj);

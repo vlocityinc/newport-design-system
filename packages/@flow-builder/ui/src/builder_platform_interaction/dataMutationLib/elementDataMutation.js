@@ -77,11 +77,6 @@ export const dehydrate = element => {
                         dehydrate(item);
                     });
                 } else if (isItemHydratedWithErrors(element[key])) {
-                    if (element[key].error !== null) {
-                        throw new Error(
-                            key + ' should not have any error: ' + element[key].value + ':' + element[key].error
-                        );
-                    }
                     element[key] = element[key].value;
                 } else {
                     dehydrate(value);
