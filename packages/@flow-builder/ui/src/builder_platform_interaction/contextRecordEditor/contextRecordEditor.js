@@ -190,8 +190,8 @@ export default class contextRecordEditor extends LightningElement {
     get configurationEditorValues() {
         return [
             {
-                name: 'container',
-                value: this.startElement.container && this.startElement.container.value
+                name: 'objectContainer',
+                value: this.startElement.objectContainer && this.startElement.objectContainer.value
             }
         ];
     }

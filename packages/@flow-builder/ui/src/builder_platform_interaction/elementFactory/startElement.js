@@ -40,7 +40,7 @@ export function createStartElement(startElement = {}) {
         object = '',
         objectIndex = generateGuid(),
         filters = [],
-        container
+        objectContainer
     } = startElement;
     const triggerType = startElement.triggerType || FLOW_TRIGGER_TYPE.NONE;
     const { startDate, startTime } = startElement.schedule || startElement;
@@ -92,7 +92,7 @@ export function createStartElement(startElement = {}) {
         objectIndex,
         filters: recordFilters,
         label,
-        container,
+        objectContainer,
         // If the start element is linked to an sobject, then make the element look like a data element.
         name: object ? SYSTEM_VARIABLE_RECORD_PREFIX : undefined,
         dataType: object ? FLOW_DATA_TYPE.SOBJECT.value : undefined,
@@ -136,7 +136,16 @@ export function createStartElementMetadataObject(startElement, config = {}) {
 
     const startElementMetadata = baseCanvasElementMetadataObject(startElement, config);
 
-    const { object, triggerType, startDate, recordTriggerType, startTime, frequency, filters = [] } = startElement;
+    const {
+        object,
+        objectContainer,
+        triggerType,
+        startDate,
+        recordTriggerType,
+        startTime,
+        frequency,
+        filters = []
+    } = startElement;
 
     const recordFilters =
         filters.length > 0 && filters[0].leftHandSide ? filters.map(filter => createFilterMetadataObject(filter)) : [];
@@ -149,6 +158,7 @@ export function createStartElementMetadataObject(startElement, config = {}) {
         triggerType: triggerType === FLOW_TRIGGER_TYPE.NONE ? undefined : triggerType,
         schedule,
         object: object === '' ? undefined : object,
+        objectContainer,
         recordTriggerType: recordTriggerType === '' ? undefined : recordTriggerType,
         filters: recordFilters
     });

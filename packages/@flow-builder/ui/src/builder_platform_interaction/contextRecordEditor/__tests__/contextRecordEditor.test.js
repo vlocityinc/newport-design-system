@@ -272,10 +272,10 @@ describe('context-record-editor', () => {
             expect(getRecordFilter(contextEditor)).toBeNull();
         });
         it('should fire and handle the ConfigurationEditorChangeEvent correctly', async () => {
-            const cpeChangeEvent = new ConfigurationEditorChangeEvent('container', 'foo'); // This is using the numerical rowIndex not the property rowIndex
+            const cpeChangeEvent = new ConfigurationEditorChangeEvent('objectContainer', 'foo'); // This is using the numerical rowIndex not the property rowIndex
             getCustomPropertyEditor(contextEditor).dispatchEvent(cpeChangeEvent);
             await ticks(1);
-            expect(contextEditor.node.container.value).toBe('foo');
+            expect(contextEditor.node.objectContainer.value).toBe('foo');
         });
         it("should validate using the custom property editor component's validate method", () => {
             const mockValidatefunction = jest.fn(() => {

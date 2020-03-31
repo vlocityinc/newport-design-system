@@ -10,7 +10,7 @@ const createComponentUnderTest = (
     triggerType,
     object,
     filters,
-    container,
+    objectContainer,
     elementType = ELEMENT_TYPE.START_ELEMENT
 ) => {
     const el = createElement('builder_platform_interaction-start-node-context-button', {
@@ -26,7 +26,7 @@ const createComponentUnderTest = (
         triggerType,
         object,
         filters,
-        container
+        objectContainer
     };
     document.body.appendChild(el);
     return el;
