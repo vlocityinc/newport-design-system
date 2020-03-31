@@ -5,6 +5,7 @@ import sObjectPluralLabel from '@salesforce/label/FlowBuilderElementConfig.sObje
 import sObjectCollectionPluralLabel from '@salesforce/label/FlowBuilderElementConfig.sObjectCollectionPluralLabel';
 import collectionVariablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.collectionVariablePluralLabel';
 import screenFieldPluralLabel from '@salesforce/label/FlowBuilderElementConfig.screenFieldPluralLabel';
+import loopApexAutoOutputSubtext from '@salesforce/label/FlowBuilderElementLabels.loopApexAutoOutputSubtext';
 
 export const LABELS = {
     globalConstantCategory,
@@ -13,5 +14,6 @@ export const LABELS = {
     sObjectPluralLabel,
     sObjectCollectionPluralLabel,
     collectionVariablePluralLabel,
-    screenFieldPluralLabel
+    screenFieldPluralLabel,
+    loopApexAutoOutputSubtext
 };

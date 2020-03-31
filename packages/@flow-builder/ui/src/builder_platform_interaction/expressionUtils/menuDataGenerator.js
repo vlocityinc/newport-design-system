@@ -55,7 +55,10 @@ function getSubText(dataType, label, { subtype, isSystemGeneratedOutput, element
         (elementType === ELEMENT_TYPE.RECORD_CREATE && dataType === STRING_TYPE) ||
         (elementType === ELEMENT_TYPE.LOOP && dataType && dataType !== SOBJECT_TYPE)
     ) {
-        subText = getDataTypeLabel(dataType);
+        subText =
+            elementType === ELEMENT_TYPE.LOOP && dataType === APEX_TYPE
+                ? format(LABELS.loopApexAutoOutputSubtext, subtype)
+                : getDataTypeLabel(dataType);
     } else if (label) {
         subText = label;
     } else if (dataType) {

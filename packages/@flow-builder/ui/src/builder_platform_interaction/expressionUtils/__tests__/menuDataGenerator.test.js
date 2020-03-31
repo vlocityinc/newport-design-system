@@ -4,11 +4,10 @@ import {
     getMenuItemForField,
     getMenuItemsForField
 } from '../menuDataGenerator';
-import { getDataTypeLabel, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
+import { getDataTypeLabel, getDataTypeIcons, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getResourceCategory } from 'builder_platform_interaction/elementLabelLib';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX } from 'builder_platform_interaction/systemLib';
 import {
     apexCallAutomaticAnonymousStringOutput,
@@ -40,6 +39,13 @@ jest.mock(
     '@salesforce/label/FlowBuilderDataTypes.collectionDataType',
     () => {
         return { default: '{0} Collection' };
+    },
+    { virtual: true }
+);
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.loopApexAutoOutputSubtext',
+    () => {
+        return { default: 'Apex-Defined: {0}' };
     },
     { virtual: true }
 );
@@ -161,8 +167,8 @@ describe('menuDataGenerator', () => {
                     ${loopOnTextCollectionManualOutput}    | ${loopOnTextCollectionManualOutput.name}
                     ${loopAccountAutomaticOutput}          | ${'Account'}
                     ${loopOnTextCollectionAutomaticOutput} | ${'FlowBuilderDataTypes.textDataTypeLabel'}
-                    ${loopOnApexTypeCollectionAutoOutput}  | ${'FlowBuilderDataTypes.apexDataTypeLabel'}
-                `('$loop should have subtext: $expectedSubtext', ({ loop, expectedSubtext }) => {
+                    ${loopOnApexTypeCollectionAutoOutput}  | ${'Apex-Defined: ApexComplexTypeTestOne216'}
+                `('$loop.name should have subtext: $expectedSubtext', ({ loop, expectedSubtext }) => {
                     const mutatedResource = mutateFlowResourceToComboboxShape(loop);
 
                     expect(mutatedResource.subText).toEqual(expectedSubtext);

@@ -90,14 +90,7 @@ jest.mock(
 jest.mock(
     '@salesforce/label/FlowBuilderElementLabels.loopAsResourceText',
     () => {
-        return { default: 'Current {0} Item from {1} Loop' };
-    },
-    { virtual: true }
-);
-jest.mock(
-    '@salesforce/label/FlowBuilderElementLabels.loopOnSObjectAsResourceText',
-    () => {
-        return { default: 'Current {0} from {1} Loop' };
+        return { default: 'Current Item from Loop {0}' };
     },
     { virtual: true }
 );
@@ -204,10 +197,10 @@ describe('elementLabelLib', () => {
             it.each`
                 loop                                   | expectedLabel
                 ${loopOnTextCollectionManualOutput}    | ${loopOnTextCollectionManualOutput.name}
-                ${loopAccountAutomaticOutput}          | ${'Current Account from ' + loopAccountAutomaticOutput.name + ' Loop'}
-                ${loopOnTextCollectionAutomaticOutput} | ${'Current FlowBuilderDataTypes.textDataTypeLabel Item from ' + loopOnTextCollectionAutomaticOutput.name + ' Loop'}
-                ${loopOnApexTypeCollectionAutoOutput}  | ${'Current ApexComplexTypeTestOne216 Item from ' + loopOnApexTypeCollectionAutoOutput.name + ' Loop'}
-            `('$loop should have label: $expectedLabel', ({ loop, expectedLabel }) => {
+                ${loopAccountAutomaticOutput}          | ${'Current Item from Loop ' + loopAccountAutomaticOutput.name}
+                ${loopOnTextCollectionAutomaticOutput} | ${'Current Item from Loop ' + loopOnTextCollectionAutomaticOutput.name}
+                ${loopOnApexTypeCollectionAutoOutput}  | ${'Current Item from Loop ' + loopOnApexTypeCollectionAutoOutput.name}
+            `('$loop.name should have label: $expectedLabel', ({ loop, expectedLabel }) => {
                 const label = getResourceLabel(loop);
 
                 expect(label).toEqual(expectedLabel);

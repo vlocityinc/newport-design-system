@@ -83,14 +83,7 @@ jest.mock(
 jest.mock(
     '@salesforce/label/FlowBuilderElementLabels.loopAsResourceText',
     () => {
-        return { default: 'Current {0} Item from {1} Loop' };
-    },
-    { virtual: true }
-);
-jest.mock(
-    '@salesforce/label/FlowBuilderElementLabels.loopOnSObjectAsResourceText',
-    () => {
-        return { default: 'Current {0} from {1} Loop' };
+        return { default: 'Current Item from Loop {0}' };
     },
     { virtual: true }
 );
@@ -444,13 +437,13 @@ describe('Assignment Editor', () => {
             });
         });
         describe('loop automatic output', () => {
-            itCanSelectInLhs(['Current Account from loopOnAccountAutoOutput Loop', 'Name'], {
+            itCanSelectInLhs(['Current Item from Loop loopOnAccountAutoOutput', 'Name'], {
                 displayText: '{!loopOnAccountAutoOutput.Name}'
             });
-            itCanSelectInLhs(['Current Text Item from loopOnTextCollectionAutoOutput Loop'], {
+            itCanSelectInLhs(['Current Item from Loop loopOnTextCollectionAutoOutput'], {
                 displayText: '{!loopOnTextCollectionAutoOutput}'
             });
-            itCanSelectInLhs(['Current ApexComplexTypeTestOne216 Item from loopOnApexAutoOutput Loop', 'name'], {
+            itCanSelectInLhs(['Current Item from Loop loopOnApexAutoOutput', 'name'], {
                 displayText: '{!loopOnApexAutoOutput.name}'
             });
             it('cannot select loop with manual output', async () => {
