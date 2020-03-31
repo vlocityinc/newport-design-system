@@ -76,7 +76,7 @@ jest.mock('../editorUtils', () => {
 });
 
 jest.mock('builder_platform_interaction/propertyEditorFactory', () => {
-    const elementMock = { a: 1 };
+    const elementMock = { assignmentItems: [] };
 
     return Object.assign(require.requireActual('builder_platform_interaction/propertyEditorFactory'), {
         getElementForPropertyEditor: jest.fn(() => {
@@ -241,7 +241,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
             subscriber();
         });
     });
-
+    let currentGuid = 1;
     return {
         Store: {
             getStore: () => {
@@ -262,8 +262,8 @@ jest.mock('builder_platform_interaction/storeLib', () => {
         deepCopy: jest.fn().mockImplementation(obj => {
             return obj;
         }),
-        generateGuid: jest.fn().mockImplementation(prefix => {
-            return prefix;
+        generateGuid: jest.fn().mockImplementation(() => {
+            return currentGuid++;
         }),
         combinedReducer: jest.fn(),
         createSelector: jest.fn().mockImplementation(() => {
