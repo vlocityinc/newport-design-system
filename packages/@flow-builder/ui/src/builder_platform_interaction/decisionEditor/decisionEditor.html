@@ -6,7 +6,7 @@
                 dev-name={decisionElement.name}
                 description={decisionElement.description}
                 guid={decisionElement.guid}
-                onpropertychanged={handleEvent}
+                onpropertychanged={handlePropertyChangedEvent}
                 mode={mode}
             >
             </builder_platform_interaction-label-description>
@@ -53,11 +53,12 @@
                     show-delete={showDeleteOutcome}
                     should-focus={shouldFocus}
                     ondeleteoutcome={handleDeleteOutcome}
-                    onaddcondition={handleEvent}
-                    ondeletecondition={handleEvent}
-                    onupdatecondition={handleEvent}
-                    onpropertychanged={handleEvent}
-                ></builder_platform_interaction-outcome>
+                    onaddcondition={handlePropertyChangedEvent}
+                    ondeletecondition={handlePropertyChangedEvent}
+                    onupdatecondition={handlePropertyChangedEvent}
+                    onpropertychanged={handlePropertyChangedEvent}
+                >
+                </builder_platform_interaction-outcome>
                 <div if:true={isDefaultOutcome}>
                     <div class="slds-grid slds-m-bottom_x-small">
                         <h3 class="slds-text-title_caps">

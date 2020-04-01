@@ -2,7 +2,7 @@ import { LightningElement, api, track } from 'lwc';
 import { decisionReducer, resetDeletedGuids } from './decisionReducer';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './decisionEditorLabels';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 
@@ -133,9 +133,10 @@ export default class DecisionEditor extends LightningElement {
     /**
      * @param {object} event - property changed event coming from label-description component
      */
-    handleEvent(event) {
+    handlePropertyChangedEvent(event) {
         event.stopPropagation();
         this.decisionElement = decisionReducer(this.decisionElement, event);
+        this.dispatchEvent(new UpdateNodeEvent(this.decisionElement));
     }
 
     handleDefaultOutcomeChangedEvent(event) {

@@ -1,8 +1,9 @@
 import { createElement } from 'lwc';
 import DecisionEditor from 'builder_platform_interaction/decisionEditor';
 import { decisionReducer } from '../decisionReducer';
-import { DeleteOutcomeEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { DeleteOutcomeEvent, PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { deepCopy } from 'builder_platform_interaction/storeLib';
 
 const mockNewState = {
     label: { value: 'New Decision' },
@@ -46,7 +47,8 @@ const SELECTORS = {
     OUTCOME: 'builder_platform_interaction-outcome',
     REORDERABLE_NAV: 'builder_platform_interaction-reorderable-vertical-navigation',
     DEFAULT_OUTCOME: 'builder_platform_interaction-label-description.defaultOutcome',
-    ADD_OUTCOME_BUTTON: 'lightning-button-icon'
+    ADD_OUTCOME_BUTTON: 'lightning-button-icon',
+    LABEL_DESCRIPTION: 'builder_platform_interaction-label-description'
 };
 
 let decisionWithOneOutcome;
@@ -305,6 +307,27 @@ describe('Decision Editor', () => {
             await ticks(1);
             const outcome = decisionEditor.shadowRoot.querySelector(SELECTORS.OUTCOME);
             expect(outcome.shouldFocus).toBe(false);
+        });
+    });
+
+    describe('handlePropertyChangedEvent', () => {
+        it('property changed event dispatches an UpdateNodeEvent', async () => {
+            const decisionEditor = createComponentForTest(decisionWithOneOutcome);
+            decisionEditor.node = deepCopy(mockNewState);
+
+            const updateNodeCallBack = jest.fn();
+            decisionEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallBack);
+
+            await ticks(1);
+            const event = new PropertyChangedEvent('description', 'new desc', null);
+            const labelDescription = decisionEditor.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION);
+            labelDescription.dispatchEvent(event);
+
+            expect(updateNodeCallBack).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: { node: decisionEditor.node }
+                })
+            );
         });
     });
 });
