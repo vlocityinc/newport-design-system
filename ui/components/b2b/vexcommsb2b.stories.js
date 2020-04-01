@@ -11,14 +11,6 @@ storiesOf(`${base}`, module)
   .add("b2bCategoriesList", () => {
     return withExample(`
     <div class="nds-b2b-categories-list">
-      <!-- nav-toggler for mobile version only -->
-      <div class="nds-b2b-nav-toggler">
-        <c-icon theme="nds" icon-name="utility:rows" size="small" extraclass="nds-icon-text-default">
-          <img src="/assets/icons/utility/rows_60.png" alt="utility:rows"/>
-        </c-icon>
-      </div>
-      
-
       <nav class="nds-b2b-categories-list_nav" role="navigation">
         <ul class="nds-b2b-categories-list_nav-list">
           <c-b2b-category-item>
@@ -33,6 +25,11 @@ storiesOf(`${base}`, module)
                   </span>
                 </c-icon>
                 Ethernet
+                <span class="nds-b2b-switch-icon">
+                  <svg class="nds-accordion__summary-action-icon nds-button__icon nds-button__icon_left" aria-hidden="true">
+                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
+                  </svg>
+                </span>
               </label>
               <ul class="nds-b2b-category_group-list">
                 <li class="nds-b2b-category-name">E-LAN</li>
@@ -41,7 +38,13 @@ storiesOf(`${base}`, module)
                 <c-b2b-category-item>
                   <li>
                     <input id="sub-group-1" type="checkbox" hidden />
-                    <label for="sub-group-1" class="nds-b2b-category-name"> Second level</label>
+                    <label for="sub-group-1" class="nds-b2b-category-name"> Sub Child Categories 
+                      <span class="nds-b2b-switch-icon">
+                        <svg class="nds-accordion__summary-action-icon nds-button__icon nds-button__icon_left" aria-hidden="true">
+                          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
+                        </svg>
+                      </span> 
+                    </label>
                     <ul class="nds-b2b-category_group-list">
                       <li class="nds-b2b-category-name">one</li>
                       <li class="nds-b2b-category-name">two</li>
@@ -62,6 +65,11 @@ storiesOf(`${base}`, module)
                   </span>
                 </c-icon>
                 Accessories
+                <span class="nds-b2b-switch-icon">
+                  <svg class="nds-accordion__summary-action-icon nds-button__icon nds-button__icon_left" aria-hidden="true">
+                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
+                  </svg>
+                </span>
               </label>
               <ul class="nds-b2b-category_group-list">
                 <li class="nds-b2b-category-name">E-LAN</li>
@@ -80,6 +88,11 @@ storiesOf(`${base}`, module)
                   </span>
                 </c-icon>
                 Plans & Services
+                <span class="nds-b2b-switch-icon">
+                  <svg class="nds-accordion__summary-action-icon nds-button__icon nds-button__icon_left" aria-hidden="true">
+                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
+                  </svg>
+                </span>
               </label>
               <ul class="nds-b2b-category_group-list">
                 <li class="nds-b2b-category-name">E-LAN</li>
