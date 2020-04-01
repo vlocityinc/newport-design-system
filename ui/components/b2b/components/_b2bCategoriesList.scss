@@ -1,27 +1,26 @@
 /* b2bCategoriesList */
 .nds-b2b-categories-list {
-  @media only screen and (min-width: 48rem) {
-    .nds-b2b-nav-toggler {
-      display: none;
-    }
-  }
+  background-color: $white;
 }
 .nds-b2b-categories-list_nav {
-  display: none;
-  width: 13.5rem;
+  width: 100%;
   transition: all 0.25s ease-in;
   .nds-b2b-category-name {
     padding: 0.5rem 1rem 0.5rem 3rem;
     color: $black-primary;
     transition: all 0.25s ease-in;
     display: block;
-    font-size: $font-size-category-name;
+    font-size: $font-size-sub-category-name;
     cursor: pointer;
+    .nds-b2b-switch-icon {
+      float: right;
+      transition: all 0.25s ease-in;
+    }
     &:hover {
       background: $alice-blue;
     }
     &.nds-b2b-category-name_label {
-      font-size: $font-size-5;
+      font-size: $font-size-category-name;
       transition: all 0.25s ease-in;
       padding-left: 0.7rem;
       .nds-b2b-category-icon {
@@ -36,17 +35,20 @@
     transition: max-height 0.5s ease-in-out;
   }
 
+  .nds-b2b-categories-list_nav-list input[type="checkbox"] {
+    display: none;
+  }
   .nds-b2b-categories-list_nav-list
     input[type="checkbox"]:checked
     + label
     + ul {
     max-height: 62rem;
   }
-  &.nds-b2b-open {
-    display: inline-block;
-  }
-
-  @media only screen and (min-width: 48rem) {
-    display: inline-block;
+  .nds-b2b-categories-list_nav-list
+    input[type="checkbox"]:checked
+    + label
+    > .nds-b2b-switch-icon {
+    transform: rotate(90deg);
+    transition: all 0.3s ease-in;
   }
 }
