@@ -60,6 +60,7 @@ export function createConnectorToNextNode(
  * @param sourceY - locationY of the source element
  * @param progress - Progress to track layout updation
  * @param menuOpened - True if the contextual menu is open
+ * @param isDefault - True if the connector is the Default connector
  * @param selectedChildGuid - Guid of the selected child reference (outcomes/wait events) for connector label
  * @param childReferences - Includes objects containing label, value pairs of all the associated child references as needed by the label-picker (combobox)
  */
@@ -72,8 +73,9 @@ export function createTopChildConnector(
     sourceY: number,
     progress: number,
     menuOpened: boolean,
-    selectedChildGuid: string,
-    childReferences: Array<{ label: string; value: string }>
+    isDefault: boolean,
+    selectedChildGuid?: string,
+    childReferences?: Array<{ label: string; value: string }>
 ): ConnectorRenderInfo {
     const branchLayout = getBranchLayout(node.guid, childIndex, progress, nodeLayoutMap);
 
@@ -82,6 +84,13 @@ export function createTopChildConnector(
         childNode != null
             ? getLayout(childNode, progress, nodeLayoutMap).y
             : getLayout(node.guid, progress, nodeLayoutMap).joinOffsetY;
+
+    let defaultConnectorLabel;
+
+    // Setting the defaultConnectorLabel only on defaultConnector
+    if (isDefault) {
+        defaultConnectorLabel = node.defaultConnectorLabel;
+    }
 
     return {
         key: `tcconn_${node.guid}_${childIndex}`,
@@ -94,11 +103,13 @@ export function createTopChildConnector(
         childIndex,
         canAddNode: true,
         shouldRender: true,
+        isDefault,
         isFault: false, // Replace with this to test Fault connector styling: branchLayout.x > 0 ? true : false
         offsetY: 0,
         menuOpened,
         selectedChildGuid, // Replace with this to test Fault connector styling: branchLayout.x > 0 ? '' : selectedChildGuid
         childReferences,
+        defaultConnectorLabel,
         sourceGuid: undefined,
         targetGuid: childNode
     };
@@ -107,12 +118,12 @@ export function createTopChildConnector(
 /**
  * Creates the bottom piece of the connector that joins the child branch back to the main branch
  * @param nodeLayoutMap - The NodeLayoutMap containing layout information for the nodes
- * @param nonode - The NodeModel of the source elementde
+ * @param node - The NodeModel of the source element
  * @param connectorType - Type of the connector being created
  * @param childIndex - Index of the child element
  * @param sourceX - locationX of the source element
  * @param sourceY - locationY of the source element
- * @param progress - Progress to track layout updation
+ * @param progress - Progress to track layout update
  */
 export function createBottomChildConnector(
     nodeLayoutMap: NodeLayoutMap,

@@ -8,7 +8,8 @@ import {
     ADD_WAIT_WITH_WAIT_EVENTS,
     MODIFY_WAIT_WITH_WAIT_EVENTS,
     DELETE_ELEMENT,
-    PASTE_ON_FIXED_CANVAS
+    PASTE_ON_FIXED_CANVAS,
+    REORDER_CONNECTORS
 } from 'builder_platform_interaction/actions';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
@@ -18,7 +19,6 @@ import elementsReducer from './elementsReducer';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import { initializeChildren, createRootElement } from 'builder_platform_interaction/flcConversionUtils';
 import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
-
 import {
     addElementToState,
     linkElement,
@@ -51,6 +51,14 @@ export default function flcElementsReducer(state = {}, action) {
             break;
         case DELETE_ELEMENT:
             state = _deleteElements(state, action);
+            break;
+        case REORDER_CONNECTORS:
+            state = _reorderConnectors(
+                state,
+                action.payload.parentElementGuid,
+                action.payload.oldChildReferenceGuid,
+                action.payload.newChildReferenceGuid
+            );
             break;
         case SELECTION_ON_FIXED_CANVAS:
             state = _selectionOnFixedCanvas(
@@ -89,7 +97,6 @@ function _getElementFromActionPayload(payload) {
  * @param {Object} state - State of elements in the store
  * @param {Object} action - Action dispatched to the store
  */
-
 function _addCanvasElement(state, action) {
     const element = _getElementFromActionPayload(action.payload);
 
@@ -110,6 +117,38 @@ function _addCanvasElement(state, action) {
 function _deleteElements(state, { payload }) {
     const { selectedElements, childIndexToKeep } = payload;
     selectedElements.forEach(element => deleteElement(state, element, childIndexToKeep));
+    return state;
+}
+
+/**
+ * Function to re-order the connectors in Fixed Canvas Layout
+ * @param {Object} state - Current state of elements in the store
+ * @param {String} parentElementGuid - Guid of the parent element which can either be a Decision or Pause element
+ * @param {String} oldChildReferenceGuid - Previously selected childReference guid
+ * @param {String} newChildReferenceGuid - Newly selected childReference guid
+ */
+function _reorderConnectors(state, parentElementGuid, oldChildReferenceGuid, newChildReferenceGuid) {
+    const parentElement = state[parentElementGuid];
+    const { singular, plural } = getConfigForElementType(parentElement.elementType).childReferenceKey;
+    const newChildReferences = parentElement[plural].map(childReferenceObject => {
+        // Swapping the oldChildReferenceGuid with newChildReferenceGuid
+        if (childReferenceObject[singular] === oldChildReferenceGuid) {
+            return {
+                [singular]: newChildReferenceGuid
+            };
+        }
+
+        // Swapping the newChildReferenceGuid with oldChildReferenceGuid
+        if (childReferenceObject[singular] === newChildReferenceGuid) {
+            return {
+                [singular]: oldChildReferenceGuid
+            };
+        }
+
+        return childReferenceObject;
+    });
+
+    parentElement[plural] = newChildReferences;
     return state;
 }
 

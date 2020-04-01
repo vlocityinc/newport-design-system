@@ -247,7 +247,7 @@ function calculateBranchLayout(
         height += h;
 
         // The height of the branch joining connector in the case of decision should be relatively shorter
-        if (elementType === ElementType.DECISION) {
+        if (elementType === ElementType.BRANCH) {
             // TODO: Move this number as a const in the connectorLib
             height += 84;
         } else if (elementType !== ElementType.END || parent.guid !== ElementType.ROOT) {

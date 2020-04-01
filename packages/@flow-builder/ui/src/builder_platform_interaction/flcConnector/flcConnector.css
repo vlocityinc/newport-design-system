@@ -23,15 +23,22 @@ svg {
     z-index: 1;
 }
 
-.fault-label {
-    background-color: var(--lwc-colorBorderError);
-    color: var(--lwc-colorTextBrandPrimary);
+.connector-badge {
     height: 24px;
     position: absolute;
-    text-align: center;
     transform: translate(-50%, -50%);
-    width: 48px;
+    width: 72px;
     z-index: 1;
+}
+
+.default-badge {
+    background-color: var(--lwc-colorBackgroundLight);
+    border: 1px solid var(--lwc-colorBorder);
+}
+
+.fault-badge {
+    background-color: var(--lwc-colorBorderError);
+    color: var(--lwc-colorTextBrandPrimary);
 }
 
 builder_platform_interaction-flc-button-menu {

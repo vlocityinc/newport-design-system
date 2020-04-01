@@ -43,6 +43,7 @@ export interface ConnectorRenderInfo {
     sourceGuid?: NodeRef;
     targetGuid?: NodeRef;
     canAddNode?: boolean;
+    isDefault?: boolean;
     isFault?: boolean;
     shouldRender?: boolean;
     menuOpened?: boolean;
@@ -53,6 +54,7 @@ export interface ConnectorRenderInfo {
     isNew?: boolean;
     selectedChildGuid?: string;
     childReferences?: Array<{ label: string; value: string }>;
+    defaultConnectorLabel?: string;
 }
 
 export function getStyle({ left, top, zIndex }: any) {

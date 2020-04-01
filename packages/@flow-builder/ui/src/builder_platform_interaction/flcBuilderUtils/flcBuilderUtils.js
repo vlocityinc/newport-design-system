@@ -292,7 +292,7 @@ export function getFlcElementType(elementType) {
     switch (elementType) {
         case ELEMENT_TYPE.DECISION:
         case ELEMENT_TYPE.WAIT:
-            return ElementType.DECISION;
+            return ElementType.BRANCH;
         case ELEMENT_TYPE.LOOP:
             return ElementType.LOOP;
         case ELEMENT_TYPE.START_ELEMENT:

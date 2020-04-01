@@ -1,6 +1,6 @@
 export default {
     ElementType: {
-        DECISION: 'decision',
+        BRANCH: 'branch',
         DEFAULT: 'default',
         END: 'end',
         LOOP: 'loop',

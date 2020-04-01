@@ -3,7 +3,7 @@ enum ElementType {
     START = 'start',
     END = 'end',
     LOOP = 'loop',
-    DECISION = 'decision',
+    BRANCH = 'branch',
     DEFAULT = 'default'
 }
 

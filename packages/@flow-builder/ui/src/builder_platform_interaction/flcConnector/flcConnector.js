@@ -7,6 +7,7 @@ const CURVE_RADIUS = 16;
 
 import { LightningElement, api } from 'lwc';
 import { classSet } from 'lightning/utils';
+import { ReorderConnectorsEvent } from 'builder_platform_interaction/events';
 import {
     ConnectorType,
     getStyle,
@@ -104,15 +105,39 @@ export default class FlcConnector extends LightningElement {
         }
     }
 
+    get hasOneOption() {
+        return this.connectorInfo.childReferences.length === 1;
+    }
+
+    get isConnectorDefaultOrFault() {
+        return this.connectorInfo.isDefault || this.connectorInfo.isFault;
+    }
+
+    get connectorBadgeClass() {
+        let classes = 'connector-badge slds-align_absolute-center slds-badge';
+
+        if (this.connectorInfo.isDefault) {
+            classes = `default-badge ${classes}`;
+        } else {
+            classes = `fault-badge ${classes}`;
+        }
+
+        return classes;
+    }
+
+    get connectorBadgeLabel() {
+        return this.connectorInfo.isDefault ? this.connectorInfo.defaultConnectorLabel : 'Fault';
+    }
+
     /**
-     * Gets the class for the conenctor path
+     * Gets the class for the connector path
      */
     getConnectorPathClassName() {
         return this.connectorInfo.isFault ? 'canvas-path fault' : 'canvas-path';
     }
 
     /**
-     * Gets the svg info for a staright connector
+     * Gets the svg info for a straight connector
      */
     getStraightConnectorInfo() {
         const { svgHeight, offsetY, targetGuid } = this.connectorInfo;
@@ -285,7 +310,7 @@ export default class FlcConnector extends LightningElement {
      * Helper function to return the input component present in the base combobox used for connector labels
      */
     _getComboboxInputComponent = combobox => {
-        // Grabbing the baseComboboxe's input component
+        // Grabbing the baseCombobox's input component
         const baseCombobox = combobox && combobox.shadowRoot.querySelector('lightning-base-combobox');
         const baseComboboxInput = baseCombobox && baseCombobox.shadowRoot.querySelector('input');
 
@@ -304,13 +329,24 @@ export default class FlcConnector extends LightningElement {
         }
     };
 
+    handleComboboxChange = event => {
+        const reorderConnectorsEvent = new ReorderConnectorsEvent(
+            this.connectorInfo.parent,
+            this.connectorInfo.selectedChildGuid,
+            event.detail.value
+        );
+        this.dispatchEvent(reorderConnectorsEvent);
+    };
+
     /**
      * Sets the background color of the combobox on hover.
      * @param {object} event - Mouse over event on the combobox used for connector labels
      */
     handleComboboxMouseOver = event => {
         event.stopPropagation();
-        this._setComboboxInputBackgroundColor('#f4f6f9');
+        if (!this.hasOneOption) {
+            this._setComboboxInputBackgroundColor('#f4f6f9');
+        }
     };
 
     /**
@@ -319,25 +355,8 @@ export default class FlcConnector extends LightningElement {
      */
     handleComboboxMouseOut = event => {
         event.stopPropagation();
-        this._setComboboxInputBackgroundColor('#fff');
-    };
-
-    /**
-     * Using the rendered callback to inject css into the combobox component as needed for the connector labels
-     * in the Fixed Canvas Mode.
-     */
-    renderedCallback() {
-        // Using the __isRendered variable to ensure that css is injected into the comboxes only the first time
-        // it's rendered
-        if (!this._isRendered) {
-            const combobox = this.template.querySelector('lightning-combobox');
-            // Adding assistive-text to the combobox label. This adds content for the screen reader and also stops
-            // the <label> to consume any additional space.
-            const comboboxLabel = combobox && combobox.shadowRoot.querySelector('label');
-            if (comboboxLabel) {
-                comboboxLabel.classList.add('slds-assistive-text');
-            }
-            this._isRendered = true;
+        if (!this.hasOneOption) {
+            this._setComboboxInputBackgroundColor('#fff');
         }
-    }
+    };
 }

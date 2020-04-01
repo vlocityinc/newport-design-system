@@ -22,7 +22,9 @@ export interface NodeModel {
     fault?: string;
     maxConnections: number;
     config: { isSelected: boolean; isHighlighted: boolean; canSelect: boolean };
-
+    outcomeReferences?: Array<{ outcomeReference: string }>;
+    waitEventReferences?: Array<{ waitEventReference: string }>;
+    defaultConnectorLabel?: string;
     // link properties
     prev: NodeRef;
     next: NodeRef;
@@ -52,7 +54,7 @@ const ELEMENT_METADATA_DEFAULT = {
 };
 
 function canHaveChildren(type: ElementType): boolean {
-    return type === ElementType.LOOP || type === ElementType.DECISION || type === ElementType.ROOT;
+    return type === ElementType.LOOP || type === ElementType.BRANCH || type === ElementType.ROOT;
 }
 
 function getRootNode(flow: FlowModel): NodeModel {

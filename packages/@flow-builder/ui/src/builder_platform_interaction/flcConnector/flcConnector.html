@@ -11,21 +11,21 @@
         <lightning-combobox
             if:true={connectorInfo.selectedChildGuid}
             class="combobox-label"
+            disabled={hasOneOption}
             label="Assistive text"
             options={connectorInfo.childReferences}
             style={connectorLabelStyle}
             value={connectorInfo.selectedChildGuid}
+            variant="label-hidden"
+            onchange={handleComboboxChange}
             onmouseout={handleComboboxMouseOut}
             onmouseover={handleComboboxMouseOver}
         ></lightning-combobox>
-        <lightning-badge
-            if:true={connectorInfo.isFault}
-            class="fault-label"
-            label="Fault"
-            style={connectorLabelStyle}
-        ></lightning-badge>
+        <div if:true={isConnectorDefaultOrFault} class={connectorBadgeClass} style={connectorLabelStyle}>
+            <span class="slds-truncate">{connectorBadgeLabel}</span>
+        </div>
 
-        <!-- "+" Butoon Menu -->
+        <!-- "+" Button Menu -->
         <template if:true={showAddElementButton}>
             <builder_platform_interaction-flc-button-menu
                 child-index={connectorInfo.childIndex}

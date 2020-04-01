@@ -38,7 +38,7 @@ export default [
     },
     {
         section: 'Flow Control',
-        type: ElementType.DECISION,
+        type: ElementType.BRANCH,
         icon: 'standard:decision',
         label: decisionLogicLabel,
         value: ELEMENT_TYPE.DECISION,
@@ -47,7 +47,7 @@ export default [
     },
     {
         section: 'Flow Control',
-        type: ElementType.DECISION,
+        type: ElementType.BRANCH,
         icon: 'standard:waits',
         label: waitLogicLabel,
         value: ELEMENT_TYPE.WAIT,

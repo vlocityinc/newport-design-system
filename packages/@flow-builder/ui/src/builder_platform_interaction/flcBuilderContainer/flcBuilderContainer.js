@@ -3,6 +3,7 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { getFlcElementType } from 'builder_platform_interaction/flcBuilderUtils';
+import { reorderConnectors } from 'builder_platform_interaction/actions';
 
 function augmentElementsMetadata(elementsMetadata) {
     const startElement = getConfigForElementType(ELEMENT_TYPE.START_ELEMENT);
@@ -96,5 +97,15 @@ export default class FlcBuilderContainer extends LightningElement {
                 this.flowModel = storeState.elements;
             }
         }
+    };
+
+    handleConnectorReordering = event => {
+        const { parentElementGuid, oldChildReferenceGuid, newChildReferenceGuid } = event.detail;
+        const payload = {
+            parentElementGuid,
+            oldChildReferenceGuid,
+            newChildReferenceGuid
+        };
+        storeInstance.dispatch(reorderConnectors(payload));
     };
 }

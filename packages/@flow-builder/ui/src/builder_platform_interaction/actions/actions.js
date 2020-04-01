@@ -30,6 +30,7 @@ export const UPDATE_RESOURCE = 'UPDATE_RESOURCE';
 export const DELETE_RESOURCE = 'DELETE_RESOURCE';
 
 export const ADD_CONNECTOR = 'ADD_CONNECTOR';
+export const REORDER_CONNECTORS = 'REORDER_CONNECTORS';
 
 export const SELECT_ON_CANVAS = 'SELECT_ON_CANVAS';
 export const TOGGLE_ON_CANVAS = 'TOGGLE_ON_CANVAS';
@@ -303,6 +304,12 @@ export const deleteElements = payload => {
  * @returns {Object} action new action based on type and payload
  */
 export const addConnector = payload => createAction(ADD_CONNECTOR, payload);
+
+/**
+ * Action for reordering connectors in Fixed Canvas Layout
+ * @param {Object} payload - contains the old and the new childReference guids
+ */
+export const reorderConnectors = payload => createAction(REORDER_CONNECTORS, payload);
 
 /**
  * Action for selecting a canvas element or connector.

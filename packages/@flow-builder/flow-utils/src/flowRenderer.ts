@@ -125,8 +125,8 @@ export default class FlowRenderer {
         const metadata = getElementMetadata(this.elementsMetadata, node.elementType);
 
         switch (metadata.type) {
-            case ElementType.DECISION:
-                nodeRenderInfo = this.renderDecisionNode(node as ParentNodeModel, isFault);
+            case ElementType.BRANCH:
+                nodeRenderInfo = this.renderBranchNode(node as ParentNodeModel, isFault);
                 break;
             case ElementType.LOOP:
                 nodeRenderInfo = this.renderLoopNode(node as ParentNodeModel, isFault);
@@ -231,7 +231,48 @@ export default class FlowRenderer {
     //     return this.renderNestedFlow(node, -1);
     // }
 
-    private renderDecisionNode(node: ParentNodeModel, isFault: boolean): NodeRenderInfo {
+    private getConnectorLabelInfo(
+        node: ParentNodeModel,
+        childIndex: number
+    ): { isDefault: boolean; selectedChildGuid?: string; childReferences?: Array<{ label: string; value: string }> } {
+        let isDefault = false;
+        let selectedChildGuid;
+        let childReferences;
+        if (node.elementType === 'Decision') {
+            if (childIndex === node.maxConnections - 1) {
+                isDefault = true;
+            } else {
+                selectedChildGuid = node.outcomeReferences && node.outcomeReferences[childIndex].outcomeReference;
+                childReferences =
+                    node.outcomeReferences &&
+                    node.outcomeReferences.map(childReferenceObject => {
+                        return {
+                            label: this.flowModel[childReferenceObject.outcomeReference].label,
+                            value: childReferenceObject.outcomeReference
+                        };
+                    });
+            }
+        } else if (node.elementType === 'Wait') {
+            // TODO: MaxConnections - 1 should be Fault and MaxConnections - 2 should be Default
+            if (childIndex === node.maxConnections - 2 || childIndex === node.maxConnections - 1) {
+                isDefault = true;
+            } else {
+                selectedChildGuid = node.waitEventReferences && node.waitEventReferences[childIndex].waitEventReference;
+                childReferences =
+                    node.waitEventReferences &&
+                    node.waitEventReferences.map(childReferenceObject => {
+                        return {
+                            label: this.flowModel[childReferenceObject.waitEventReference].label,
+                            value: childReferenceObject.waitEventReference
+                        };
+                    });
+            }
+        }
+
+        return { isDefault, selectedChildGuid, childReferences };
+    }
+
+    private renderBranchNode(node: ParentNodeModel, isFault: boolean): NodeRenderInfo {
         const nodeRenderInfo = this.renderSimpleNode(node);
 
         const { maxConnections } = node;
@@ -243,10 +284,12 @@ export default class FlowRenderer {
 
         for (let i = 0; i < maxConnections; i++) {
             const flowRenderInfo = node.children![i]
-                ? this.renderDecisionNodeChild(node, i)
+                ? this.renderBranchNodeChild(node, i)
                 : newEmptyFlow(getBranchLayoutKey(node.guid, i));
 
             nodeRenderInfo.flows.push(flowRenderInfo);
+
+            const { isDefault, selectedChildGuid, childReferences } = this.getConnectorLabelInfo(node, i);
 
             flowRenderInfo.preConnector = createTopChildConnector(
                 this.nodeLayoutMap,
@@ -257,17 +300,9 @@ export default class FlowRenderer {
                 0,
                 this.progress,
                 this.isMenuOpened(getBranchLayoutKey(node.guid, i), MenuType.CONNECTOR),
-                'guid1',
-                [
-                    {
-                        label: 'Guid 1',
-                        value: 'guid1'
-                    },
-                    {
-                        label: 'Default Outcome',
-                        value: 'guid2'
-                    }
-                ]
+                isDefault,
+                selectedChildGuid,
+                childReferences
             );
 
             if (!flowRenderInfo.isTerminal) {
@@ -290,7 +325,7 @@ export default class FlowRenderer {
         return nodeRenderInfo;
     }
 
-    private renderDecisionNodeChild(node: ParentNodeModel, i: number): FlowRenderInfo {
+    private renderBranchNodeChild(node: ParentNodeModel, i: number): FlowRenderInfo {
         return this.renderNestedFlow(node, i);
     }
 

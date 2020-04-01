@@ -24,6 +24,7 @@ export { CopySingleElementEvent } from './canvasEvents/copySingleElementEvent';
 export { DragNodeEvent } from './canvasEvents/dragNodeEvent';
 export { DragNodeStopEvent } from './canvasEvents/dragNodeStopEvent';
 export { NodeMouseDownEvent } from './canvasEvents/nodeMouseDownEvent';
+export { ReorderConnectorsEvent } from './canvasEvents/reorderConnectorsEvent';
 export { SelectNodeEvent } from './canvasEvents/selectNodeEvent';
 export { CanvasMouseUpEvent } from './canvasEvents/canvasMouseUpEvent';
 export { AddConnectionEvent } from './canvasEvents/addConnectionEvent';
