@@ -40,6 +40,7 @@ describe('propertyEditorPanel', () => {
         const nodeUpdateCallbackMock = jest.fn();
 
         const props = {
+            element: { a: 0 },
             nodeUpdateCallback: nodeUpdateCallbackMock,
             params: {
                 panelConfig: {

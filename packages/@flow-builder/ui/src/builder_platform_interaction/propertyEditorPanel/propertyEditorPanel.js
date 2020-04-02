@@ -10,7 +10,11 @@ import { LABELS } from './propertyEditorPanelLabels';
  */
 export default class PropertyEditorPanel extends LightningElement {
     editorParams;
+
     labels = LABELS;
+
+    @api
+    element;
 
     @api
     get params() {
@@ -19,6 +23,10 @@ export default class PropertyEditorPanel extends LightningElement {
 
     set params(params) {
         this.processParams(params);
+    }
+
+    get ready() {
+        return this.element && this.editorParams;
     }
 
     @api
@@ -46,6 +54,7 @@ export default class PropertyEditorPanel extends LightningElement {
 
         this.ctor = module.default;
         this.editorParams = params;
+
         this.title = params.panelConfig.titleForModal;
     }
 

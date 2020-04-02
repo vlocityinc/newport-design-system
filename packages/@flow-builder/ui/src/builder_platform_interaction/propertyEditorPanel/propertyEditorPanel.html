@@ -18,10 +18,10 @@
         onupdatenode={handleUpdateNode}
     >
         <x-lazy
-            if:true={params}
+            if:true={ready}
             class="inline-property-editor"
             lwc:dynamic={ctor}
-            node={params.attr.bodyComponent.attr.node}
+            node={element}
             mode={params.attr.bodyComponent.attr.mode}
             process-type={params.attr.bodyComponent.attr.processType}
         ></x-lazy>

@@ -10,9 +10,10 @@ import {
     ClosePropertyEditorEvent,
     AddNodeEvent,
     UpdateNodeEvent,
-    DeleteElementEvent
+    DeleteElementEvent,
+    EditElementEvent
 } from 'builder_platform_interaction/events';
-import { addElement, updateElement } from 'builder_platform_interaction/actions';
+import { addElement, updateCanvasElementLocation, updateElement } from 'builder_platform_interaction/actions';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
@@ -76,11 +77,9 @@ jest.mock('../editorUtils', () => {
 });
 
 jest.mock('builder_platform_interaction/propertyEditorFactory', () => {
-    const elementMock = { assignmentItems: [] };
-
     return Object.assign(require.requireActual('builder_platform_interaction/propertyEditorFactory'), {
-        getElementForPropertyEditor: jest.fn(() => {
-            return elementMock;
+        getElementForPropertyEditor: jest.fn(node => {
+            return node;
         }),
         getElementForStore: jest.fn(node => {
             return node;
@@ -125,6 +124,12 @@ jest.mock('builder_platform_interaction/actions', () => {
                 type: 'deleteElement',
                 payload
             };
+        }),
+        updateCanvasElementLocation: jest.fn().mockImplementation(payload => {
+            return {
+                type: 'updateCanvasElementLocation',
+                payload
+            };
         })
     };
 });
@@ -143,7 +148,9 @@ const createComponentUnderTest = (
 const selectors = {
     root: '.editor',
     save: '.toolbar-save',
-    addnewresource: '.test-left-panel-add-resource'
+    addnewresource: '.test-left-panel-add-resource',
+    propertyEditorPanel: 'builder_platform_interaction-property-editor-panel',
+    canvasContainer: 'builder_platform_interaction-canvas-container'
 };
 
 const mockStoreState = {
@@ -155,7 +162,8 @@ const mockStoreState = {
             elementType: 'ASSIGNMENT',
             label: 'First Node',
             description: 'My first test node',
-            config: { isSelected: false }
+            config: { isSelected: false },
+            assignmentItems: []
         },
         '2': {
             guid: '2',
@@ -657,28 +665,23 @@ describeSkip('editor', () => {
     });
 });
 
-describe('editor property editor', () => {
+describe('property editor', () => {
     it('is opened in a modal by default', async () => {
         expect.assertions(1);
 
         const editorComponent = createComponentUnderTest();
-        Store.getStore().dispatch({
-            type: 'init'
-        });
-        const elementType = 'ASSIGNMENT';
 
-        const event = new AddElementEvent(elementType, 0, 0);
-
-        await ticks(1);
-        editorComponent.shadowRoot.querySelector('builder_platform_interaction-left-panel').dispatchEvent(event);
+        const editElementEvent = new EditElementEvent('1');
+        const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+        canvasContainer.dispatchEvent(editElementEvent);
 
         await ticks();
         expect(invokePropertyEditor).toHaveBeenCalledWith(PROPERTY_EDITOR, {
-            mode: 'addelement',
-            node: getElementForPropertyEditor(),
+            mode: 'editelement',
+            node: getElementForPropertyEditor(mockStoreState.elements['1']),
             nodeUpdate: expect.anything(),
             newResourceCallback: expect.anything(),
-            processType: 'dummyProcessType'
+            processType: undefined
         });
     });
 
@@ -692,12 +695,9 @@ describe('editor property editor', () => {
             builderConfig: { supportedProcessTypes: ['right'], usePanelForPropertyEditor: true }
         });
 
-        const elementType = 'ASSIGNMENT';
-
-        const event = new AddElementEvent(elementType, 0, 0);
-
-        await ticks(1);
-        editorComponent.shadowRoot.querySelector('builder_platform_interaction-left-panel').dispatchEvent(event);
+        const editElementEvent = new EditElementEvent('1');
+        const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+        canvasContainer.dispatchEvent(editElementEvent);
 
         await ticks(1);
         const rightPanel = editorComponent.shadowRoot.querySelector('builder_platform_interaction-right-panel');
@@ -727,6 +727,37 @@ describe('editor property editor', () => {
         });
     });
 
+    describe('in modal', () => {
+        it('addelement nodeUpdate dispatches addElement to store', async () => {
+            expect.assertions(5);
+
+            const editorComponent = createComponentUnderTest();
+
+            const addElementEvent = new AddElementEvent('ASSIGNMENT');
+            editorComponent.shadowRoot
+                .querySelector('builder_platform_interaction-left-panel')
+                .dispatchEvent(addElementEvent);
+
+            await ticks();
+
+            // Confirm that the element is *NOT* added upon the initial event
+            expect(addElement).not.toHaveBeenCalledWith();
+            expect(Store.getStore().dispatch).not.toHaveBeenCalled();
+
+            const elementToAdd = { a: 1 };
+
+            const nodeUpdate = invokePropertyEditor.mock.calls[0][1].nodeUpdate;
+            nodeUpdate(elementToAdd);
+
+            // element is only added after nodeUpdate is called (modal closed)
+            expect(getElementForStore).toHaveBeenCalledWith(elementToAdd);
+            expect(addElement).toHaveBeenCalledWith(elementToAdd);
+            expect(Store.getStore().dispatch).toHaveBeenCalledWith({
+                value: elementToAdd
+            });
+        });
+    });
+
     describe('in right panel', () => {
         let editorComponent;
         let rightPanel;
@@ -739,12 +770,9 @@ describe('editor property editor', () => {
                 builderConfig: { supportedProcessTypes: ['right'], usePanelForPropertyEditor: true }
             });
 
-            await ticks(2);
-            const elementType = 'ASSIGNMENT';
-            const event = new AddElementEvent(elementType, 0, 0);
-
-            await ticks(1);
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-left-panel').dispatchEvent(event);
+            const editElementEvent = new EditElementEvent('1');
+            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+            canvasContainer.dispatchEvent(editElementEvent);
 
             await ticks();
             rightPanel = editorComponent.shadowRoot.querySelector('builder_platform_interaction-right-panel');
@@ -799,12 +827,45 @@ describe('editor property editor', () => {
             expect.assertions(1);
 
             const event = new DeleteElementEvent(['1'], 'ASSIGNMENT');
-            const canvas = editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas-container');
+            const canvas = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
             canvas.dispatchEvent(event);
 
             await ticks(1);
             rightPanel = editorComponent.shadowRoot.querySelector('builder_platform_interaction-right-panel');
             expect(rightPanel).toBeNull();
+        });
+
+        it('receives updates from store when other subsystems make changes', async () => {
+            expect.assertions(2);
+
+            const editElementEvent = new EditElementEvent('1');
+            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+            canvasContainer.dispatchEvent(editElementEvent);
+
+            const storeInstance = Store.getStore();
+
+            const newX = 50;
+            const newY = 75;
+
+            const payload = [
+                {
+                    canvasElementGuid: 1,
+                    locationX: newX,
+                    locationY: newY
+                }
+            ];
+
+            mockStoreState.elements['1'].locationX = newX;
+            mockStoreState.elements['1'].locationY = newY;
+
+            storeInstance.dispatch(updateCanvasElementLocation(payload));
+
+            await ticks(1);
+
+            const propertyEditorPanel = editorComponent.shadowRoot.querySelector(selectors.propertyEditorPanel);
+
+            expect(propertyEditorPanel.element.locationX).toEqual(newX);
+            expect(propertyEditorPanel.element.locationY).toEqual(newY);
         });
     });
 });

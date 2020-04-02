@@ -261,6 +261,9 @@ export default class Editor extends LightningElement {
     @track
     propertyEditorParams = null;
 
+    @track
+    elementBeingEditedInPanel = null;
+
     propertyEditorBlockerCalls = [];
 
     @track
@@ -486,6 +489,14 @@ export default class Editor extends LightningElement {
             });
             this.propertyEditorBlockerCalls.push(getRunInModesCall);
         }
+
+        // Update the property editor to receive any changes made from another
+        // subsystem (like the canvas)
+        if (this.elementBeingEditedInPanel) {
+            const elementFromStore = getElementByGuid(this.elementBeingEditedInPanel.guid);
+            this.elementBeingEditedInPanel = getElementForPropertyEditor(elementFromStore);
+        }
+
         this.executeGuardrails(currentState);
     };
 
@@ -1009,6 +1020,7 @@ export default class Editor extends LightningElement {
         if (this.usePanelForPropertyEditor && !forceModal) {
             this.showPropertyEditorRightPanel = true;
             this.propertyEditorParams = getPropertyEditorConfig(params.mode, params);
+            this.elementBeingEditedInPanel = params.node;
         } else {
             this.showPropertyEditorRightPanel = false;
             invokePropertyEditor(PROPERTY_EDITOR, params);
@@ -1074,7 +1086,13 @@ export default class Editor extends LightningElement {
                 actionType,
                 actionName
             } = event.detail;
-            const nodeUpdate = this.deMutateAndAddNodeCollection;
+
+            // If displaying in a modal then the element is added at the end via nodeUpdate.
+            // In a panel, the element is added upon opening and nodeUpdate updates
+            const nodeUpdate = this.usePanelForPropertyEditor
+                ? this.deMutateAndUpdateNodeCollection
+                : this.deMutateAndAddNodeCollection;
+
             const newResourceCallback = this.newResourceCallback;
             const processType = this.properties.processType;
 
@@ -1087,7 +1105,6 @@ export default class Editor extends LightningElement {
             this.queueOpenPropertyEditor(() => {
                 // getElementForPropertyEditor need to be called after propertyEditorBlockerCalls
                 // has been resolved
-
                 const node = getElementForPropertyEditor({
                     locationX,
                     locationY,
@@ -1100,6 +1117,11 @@ export default class Editor extends LightningElement {
                     childIndex,
                     parent
                 });
+
+                // For a panel, the element is created upon opening the property editor
+                if (this.usePanelForPropertyEditor) {
+                    this.deMutateAndAddNodeCollection(node);
+                }
 
                 return {
                     mode,
@@ -1158,6 +1180,8 @@ export default class Editor extends LightningElement {
      */
     handleClosePropertyEditor() {
         this.showPropertyEditorRightPanel = false;
+        this.propertyEditorParams = null;
+        this.elementBeingEditedInPanel = null;
     }
 
     /**
