@@ -15,6 +15,26 @@ export const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS
 };
 
+jest.mock(
+    '@salesforce/label/FlowBuilderActionSelector.categoryComboboxPlaceholder',
+    () => {
+        return { default: 'Search {0} actions...' };
+    },
+    { virtual: true }
+);
+jest.mock(
+    '@salesforce/label/FlowBuilderActionSelector.allInvocableActions',
+    () => {
+        return { default: 'All' };
+    },
+    { virtual: true }
+);
+
+const ALL_ACTIONS_LABELS = mockActions.map(mockAction => mockAction.label);
+const SYSTEM_ACTIONS_LABELS = mockActions
+    .filter(mockAction => mockAction.category === 'System')
+    .map(mockAction => mockAction.label);
+
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-action-selector', {
         is: ActionSelector
@@ -76,10 +96,8 @@ describe('Action selector', () => {
                 expect.arrayContaining([standardActionText, quickActionText, localActionText])
             );
         });
-        test('Combobox placeholder should be : Search All actions...', () => {
-            expect(groupedCombobox().placeholder).toBe(
-                'Search FlowBuilderActionSelector.allInvocableActions actions...'
-            );
+        test('Combobox placeholder should be : Search all actions...', () => {
+            expect(groupedCombobox().placeholder).toBe('Search all actions...');
         });
     });
 
@@ -104,7 +122,7 @@ describe('Action selector', () => {
         it('should fire ActionsChangedEvent when actions are updated', async () => {
             const expectedNumber = 0;
             actionSelectorComponent.selectedFilterBy = LABELS.filterByTypeOption;
-            actionSelectorComponent.selectedCategory = ELEMENT_TYPE.APEX_PLUGIN_CALL;
+            actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.APEX_PLUGIN_CALL };
             interactionCombobox().dispatchEvent(
                 new CustomEvent('change', {
                     detail: {
@@ -144,13 +162,13 @@ describe('Action selector', () => {
         });
         it('should update the items of the combobox', async () => {
             actionSelectorComponent.selectedFilterBy = LABELS.filterByTypeOption;
-            actionSelectorComponent.selectedCategory = ELEMENT_TYPE.APEX_CALL;
+            actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.APEX_CALL };
             await Promise.resolve();
             expect(groupedCombobox().items.map(item => item.text)).toEqual(['Action Test']);
         });
         it('should update the combobox placeholder', async () => {
             actionSelectorComponent.selectedFilterBy = LABELS.filterByTypeOption;
-            actionSelectorComponent.selectedCategory = ELEMENT_TYPE.APEX_CALL;
+            actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.APEX_CALL };
             await Promise.resolve();
             expect(groupedCombobox().placeholder).toBe('FlowBuilderActionSelector.apexComboboxPlaceholder');
         });
@@ -175,6 +193,62 @@ describe('Action selector', () => {
             expect(actionSelectorComponent.selectedAction).toEqual({
                 elementType: ELEMENT_TYPE.APEX_CALL
             });
+        });
+    });
+    describe('When action category changes', () => {
+        beforeEach(() => {
+            actionSelectorComponent = createComponentUnderTest();
+            actionSelectorComponent.invocableActions = mockActions;
+            actionSelectorComponent.invocableActionsFetched = true;
+            actionSelectorComponent.selectedAction = {};
+        });
+        it('should update the items of the combobox', async () => {
+            actionSelectorComponent.selectedFilterBy = LABELS.filterByCategoryOption;
+            actionSelectorComponent.selectedCategory = 'System';
+            await Promise.resolve();
+            expect(groupedCombobox().items.map(item => item.text)).toEqual(SYSTEM_ACTIONS_LABELS);
+        });
+        it('should update the combobox placeholder', async () => {
+            actionSelectorComponent.selectedFilterBy = LABELS.filterByCategoryOption;
+            actionSelectorComponent.selectedCategory = 'System';
+            await Promise.resolve();
+            expect(groupedCombobox().placeholder).toBe('Search system actions...');
+        });
+        it('should set all availables action as combobox items when null', async () => {
+            actionSelectorComponent.selectedFilterBy = LABELS.filterByCategoryOption;
+            actionSelectorComponent.selectedCategory = null;
+            await Promise.resolve();
+            expect(groupedCombobox().items.map(item => item.text)).toEqual(ALL_ACTIONS_LABELS);
+        });
+        it('should set combobox placeholder to Search all actions if none selected', async () => {
+            actionSelectorComponent.selectedFilterBy = LABELS.filterByCategoryOption;
+            actionSelectorComponent.selectedCategory = null;
+            await Promise.resolve();
+            expect(groupedCombobox().placeholder).toBe('Search all actions...');
+        });
+        it('should set all availables action as combobox items when All', async () => {
+            actionSelectorComponent.selectedFilterBy = LABELS.filterByCategoryOption;
+            actionSelectorComponent.selectedCategory = 'All';
+            await Promise.resolve();
+            expect(groupedCombobox().items.map(item => item.text)).toEqual(ALL_ACTIONS_LABELS);
+        });
+        it('should set combobox placeholder to Search all actions if All', async () => {
+            actionSelectorComponent.selectedFilterBy = LABELS.filterByCategoryOption;
+            actionSelectorComponent.selectedCategory = 'All';
+            await Promise.resolve();
+            expect(groupedCombobox().placeholder).toBe('Search all actions...');
+        });
+        it('should show up capitalized category name in placeholder for external services', async () => {
+            actionSelectorComponent.selectedFilterBy = LABELS.filterByCategoryOption;
+            actionSelectorComponent.selectedCategory = 'BankServiceNew';
+            await Promise.resolve();
+            expect(groupedCombobox().placeholder).toBe('Search BankServiceNew actions...');
+        });
+        it('should show up lower case category name in placeholder for uncategorized', async () => {
+            actionSelectorComponent.selectedFilterBy = LABELS.filterByCategoryOption;
+            actionSelectorComponent.selectedCategory = 'Uncategorized';
+            await Promise.resolve();
+            expect(groupedCombobox().placeholder).toBe('Search uncategorized actions...');
         });
     });
     describe('When there are no actions for a given action type', () => {
@@ -369,7 +443,7 @@ describe('Action selector', () => {
         });
         it('should be "{Unique Name}" for apex plugins', async () => {
             actionSelectorComponent.selectedFilterBy = LABELS.filterByTypeOption;
-            actionSelectorComponent.selectedCategory = ELEMENT_TYPE.APEX_PLUGIN_CALL;
+            actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.APEX_PLUGIN_CALL };
             await ticks(1);
             const item = groupedComboboxItemWithValue('mynamespace__lookUpAccountPlugin');
             expect(item.subText).toBe('mynamespace__lookUpAccountPlugin');

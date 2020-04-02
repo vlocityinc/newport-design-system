@@ -6,6 +6,7 @@ import { filterMatches } from 'builder_platform_interaction/expressionUtils';
 import { LABELS } from './actionSelectorLabels';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 import cannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
+import { format } from 'builder_platform_interaction/commonUtils';
 
 export default class ActionSelector extends LightningElement {
     labels = LABELS;
@@ -15,7 +16,6 @@ export default class ActionSelector extends LightningElement {
         selectedActionValue: null,
         filteredActionMenuData: [],
         spinnerActive: true,
-        actionComboLabel: '',
         actionPlaceholder: '',
         errorMessage: null
     };
@@ -223,7 +223,9 @@ export default class ActionSelector extends LightningElement {
 
     set selectedCategory(value) {
         this._selectedCategory = value;
-        this.updateActionCombo();
+        if (!this._selectedFilterBy || this._selectedFilterBy === this.labels.filterByCategoryOption) {
+            this.updateActionCombo();
+        }
     }
 
     @api
@@ -233,17 +235,17 @@ export default class ActionSelector extends LightningElement {
 
     set selectedFilterBy(value) {
         this._selectedFilterBy = value;
-        this._selectedCategory =
-            value === this.labels.filterByTypeOption ? ELEMENT_TYPE.ACTION_CALL : this.labels.allInvocableActions;
+        if (this.state.selectedElementType !== ELEMENT_TYPE.SUBFLOW && value === this.labels.filterByTypeOption) {
+            this.state.selectedElementType = ELEMENT_TYPE.ACTION_CALL;
+            this._selectedCategory = ELEMENT_TYPE.ACTION_CALL;
+        } else {
+            this._selectedCategory = this.labels.allInvocableActions;
+        }
         this.updateActionCombo();
     }
 
     get actionComboDisabled() {
         return this.fullActionMenuData.length === 0;
-    }
-
-    get actionComboLabel() {
-        return LABELS[this.state.selectedElementType].ACTION_COMBO_LABEL;
     }
 
     get actionComboPlaceholder() {
@@ -266,46 +268,37 @@ export default class ActionSelector extends LightningElement {
         }
     }
 
-    getActionElements(selectedElementType, selectedFilterBy, selectedCategory) {
-        // If selected element type is flows, we return flows actions
-        if (selectedElementType === ELEMENT_TYPE.SUBFLOW) {
-            this.state.actionComboLabel = this.labels[selectedElementType].ACTION_COMBO_LABEL;
-            this.state.actionPlaceholder = this.labels[selectedElementType].ACTION_COMBO_PLACEHOLDER;
+    getActionElementsByCategory(selectedCategory) {
+        const isAllAction = !selectedCategory || selectedCategory === this.labels.allInvocableActions;
+        const filteredActions = isAllAction
+            ? this._invocableActions
+            : selectedCategory &&
+              selectedCategory.toLowerCase() === this.labels.unCategorizedInvocableActions.toLowerCase()
+            ? this._invocableActions.filter(
+                  action => !action.category || action.category.toLowerCase() === selectedCategory.toLowerCase()
+              )
+            : this._invocableActions.filter(
+                  action => action.category && action.category.toLowerCase() === selectedCategory.toLowerCase()
+              );
+        const items = filteredActions.map(action => this.getComboItemFromInvocableAction(action));
 
-            return this.subflows.map(subflow => this.getComboItemFromSubflow(subflow));
-        }
+        const categoryLabel = isAllAction ? this.labels.allInvocableActions.toLowerCase() : selectedCategory;
 
+        this.state.actionPlaceholder = format(
+            LABELS.categoryComboboxPlaceholder,
+            !isAllAction &&
+                filteredActions &&
+                filteredActions.length &&
+                filteredActions[0].type === ACTION_TYPE.EXTERNAL_SERVICE
+                ? categoryLabel
+                : categoryLabel.toLowerCase()
+        );
+        return items;
+    }
+
+    getActionElementsByType(selectedElementType) {
         let items = [];
-
-        if (selectedFilterBy === this.labels.filterByCategoryOption) {
-            if (selectedCategory === this.labels.allInvocableActions || selectedCategory == null) {
-                items = this._invocableActions.map(action => this.getComboItemFromInvocableAction(action));
-            } else if (
-                selectedCategory != null &&
-                selectedCategory.toLowerCase() === this.labels.unCategorizedInvocableActions.toLowerCase()
-            ) {
-                items = this._invocableActions
-                    .filter(
-                        action =>
-                            action.category == null || action.category.toLowerCase() === selectedCategory.toLowerCase()
-                    )
-                    .map(action => this.getComboItemFromInvocableAction(action));
-            } else {
-                items = this._invocableActions
-                    .filter(
-                        action =>
-                            action.category != null && action.category.toLowerCase() === selectedCategory.toLowerCase()
-                    )
-                    .map(action => this.getComboItemFromInvocableAction(action));
-            }
-
-            this.state.actionComboLabel = this._selectedCategory;
-            this.state.actionPlaceholder = 'Search ' + this._selectedCategory + ' actions...';
-            return items;
-        }
-
-        const type = selectedCategory;
-        switch (type) {
+        switch (selectedElementType) {
             case ELEMENT_TYPE.ACTION_CALL:
                 items = this._invocableActions
                     .filter(
@@ -341,24 +334,34 @@ export default class ActionSelector extends LightningElement {
                 items = [];
         }
 
-        this.state.actionComboLabel = this.labels[type].ACTION_COMBO_LABEL;
-        this.state.actionPlaceholder = this.labels[type].ACTION_COMBO_PLACEHOLDER;
+        this.state.actionPlaceholder = this.labels[selectedElementType].ACTION_COMBO_PLACEHOLDER;
         return items;
     }
 
     updateActionCombo() {
-        const selectedFilterBy = this._selectedFilterBy;
         const selectedCategory = this._selectedCategory;
         const selectedElementType = this.state.selectedElementType;
 
-        const items = this.getActionElements(selectedElementType, selectedFilterBy, selectedCategory);
+        let items;
+        // If selected element type is flows, we return flows actions
+        if (
+            selectedElementType === ELEMENT_TYPE.SUBFLOW ||
+            this._selectedFilterBy !== this.labels.filterByCategoryOption
+        ) {
+            items = this.getActionElementsByType(selectedElementType);
+        } else {
+            items = this.getActionElementsByCategory(selectedCategory);
+        }
 
         this.fullActionMenuData = items;
         this.state.filteredActionMenuData = this.state.selectedActionValue
             ? filterMatches(this.state.selectedActionValue, this.fullActionMenuData, false)
             : this.fullActionMenuData;
         // dispatch event up so that other cmps know to render 'no available actions of this type'
-        const newSelectedAction = this.getSelectedActionFrom(selectedCategory, null);
+        const newSelectedAction = this.getSelectedActionFrom(
+            this._selectedFilterBy === this.labels.filterByCategoryOption ? selectedCategory : selectedElementType,
+            null
+        );
         const valueChangedEvent = new ActionsLoadedEvent(newSelectedAction, this.fullActionMenuData.length);
         this.dispatchEvent(valueChangedEvent);
     }

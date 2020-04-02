@@ -1,6 +1,17 @@
 export const mockActions = [
     {
         isStandard: false,
+        name: 'BankServiceNew.addAccount',
+        description: 'Add an account to the database',
+        configurationEditor: null,
+        label: 'addAccount',
+        type: 'externalService',
+        category: 'BankServiceNew',
+        genericTypes: [],
+        durableId: 'externalService-BankServiceNew.addAccount'
+    },
+    {
+        isStandard: false,
         name: 'mynamespace__ActionTest',
         description: 'Given a list of Account IDs, return a list of Account names.',
         label: 'Action Test',
