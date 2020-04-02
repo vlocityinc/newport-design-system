@@ -13,6 +13,8 @@ jest.mock('builder_platform_interaction/builderUtils', () => ({
     createConfigurationEditor: jest.fn()
 }));
 
+const SELECTORS = { SPINNER: '.spinner' };
+
 const mockElementInfo = {
     apiName: 'CreateTask',
     type: 'Action'
@@ -95,5 +97,32 @@ describe('Custom Property Editor', () => {
 
         await ticks(1);
         expect(createConfigurationEditor).not.toHaveBeenCalled();
+    });
+    it('spinner should not be displayed initially', () => {
+        const cpe = createComponentForTest();
+        const spinner = cpe.shadowRoot.querySelector(SELECTORS.SPINNER);
+        expect(spinner).toBeNull();
+    });
+    it('spinner should not be displayed when configuration editor is loaded with errors', async () => {
+        const cpe = createComponentForTest({
+            configurationEditor: {
+                name: 'c-test_editor',
+                errors: ['errors']
+            }
+        });
+        await ticks(1);
+        const spinner = cpe.shadowRoot.querySelector(SELECTORS.SPINNER);
+        expect(spinner).toBeNull();
+    });
+    it('spinner should be displayed when configuration editor is loaded without errors', async () => {
+        const cpe = createComponentForTest({
+            configurationEditor: {
+                name: 'c-test_editor',
+                errors: []
+            }
+        });
+        await ticks(1);
+        const spinner = cpe.shadowRoot.querySelector(SELECTORS.SPINNER);
+        expect(spinner).not.toBeNull();
     });
 });

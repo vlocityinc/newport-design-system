@@ -1,11 +1,14 @@
-import { api, LightningElement, unwrap } from 'lwc';
+import { api, LightningElement, unwrap, track } from 'lwc';
 import { createConfigurationEditor } from 'builder_platform_interaction/builderUtils';
+import { LABELS } from './customPropertyEditorLabels';
 import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
 
 const CONFIGURATION_EDITOR_SELECTOR = '.configuration-editor';
 const CUSTOM_PROPERTY_EDITOR = 'CUSTOM_PROPERTY_EDITOR';
 
 export default class CustomPropertyEditor extends LightningElement {
+    labels = LABELS;
+
     /** Private variables */
     _isComponentCreated = false;
     _elementInfo = {};
@@ -13,6 +16,10 @@ export default class CustomPropertyEditor extends LightningElement {
     _inputVariables = [];
     _unrenderFn;
     _createComponentErrors = [];
+
+    /** Private properties */
+    @track
+    configurationEditorLoading = false;
 
     /** Public properties */
     @api
@@ -78,6 +85,14 @@ export default class CustomPropertyEditor extends LightningElement {
     /** Getters */
 
     /**
+     * Show a spinner indicator for CPE component when it makes a server call to retrieve the resources for dynamic creation.
+     * When there are errors exist for the component shouldn't show the spinner, instead show the error message directly.
+     */
+    get showSpinner() {
+        return this.configurationEditorLoading && !this.hasErrors;
+    }
+
+    /**
      * Check if there is any server side error or not in configuration editor
      *
      * @readonly
@@ -127,7 +142,9 @@ export default class CustomPropertyEditor extends LightningElement {
      * @memberof CustomPropertyEditor
      */
     shouldCreateComponent = () => {
-        return !this._isComponentCreated && this.configurationEditor && !this.hasErrors;
+        return (
+            !this._isComponentCreated && this.configurationEditor && !this.hasErrors && !this.configurationEditorLoading
+        );
     };
 
     /**
@@ -138,19 +155,23 @@ export default class CustomPropertyEditor extends LightningElement {
     createComponent = () => {
         logPerfTransactionStart(`${CUSTOM_PROPERTY_EDITOR}-${this.configurationEditor.name}`);
         const container = this.template.querySelector(CONFIGURATION_EDITOR_SELECTOR);
+        this.configurationEditorLoading = true;
 
         const successCallback = () => {
-            // End the instrumentation
             this._isComponentCreated = true;
+            this.configurationEditorLoading = false;
+            // End the instrumentation
             logPerfTransactionEnd(`${CUSTOM_PROPERTY_EDITOR}-${this.configurationEditor.name}`, {
                 isSuccess: true
             });
         };
 
         const errorCallback = err => {
+            this.configurationEditorLoading = false;
             logPerfTransactionEnd(`${CUSTOM_PROPERTY_EDITOR}-${this.configurationEditor.name}`, {
                 isSuccess: false
             });
+
             this._createComponentErrors = [
                 {
                     key: CUSTOM_PROPERTY_EDITOR,
