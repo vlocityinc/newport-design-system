@@ -10,7 +10,6 @@ import triggerTypeAfterSave from '@salesforce/label/FlowBuilderStartEditor.trigg
 import triggerTypeBeforeSaveDescription from '@salesforce/label/FlowBuilderStartEditor.triggerTypeBeforeSaveDescription';
 import triggerTypeAfterSaveDescription from '@salesforce/label/FlowBuilderStartEditor.triggerTypeAfterSaveDescription';
 import requiredLabel from '@salesforce/label/FlowBuilderStartEditor.requiredLabel';
-import helptextContent from '@salesforce/label/FlowBuilderStartEditor.helptextContent';
 
 export const LABELS = {
     createOrUpdateSectionHeader,
@@ -24,6 +23,5 @@ export const LABELS = {
     triggerTypeAfterSave,
     triggerTypeBeforeSaveDescription,
     triggerTypeAfterSaveDescription,
-    requiredLabel,
-    helptextContent
+    requiredLabel
 };
