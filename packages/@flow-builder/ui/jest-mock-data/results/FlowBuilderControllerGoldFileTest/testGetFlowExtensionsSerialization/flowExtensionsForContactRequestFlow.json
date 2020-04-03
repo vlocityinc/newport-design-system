@@ -101,6 +101,11 @@
   "source" : "Standard"
 },
     {
+  "fieldsToNull" : [ ],
+  "qualifiedApiName" : "interactiontest:LcScreenFieldWithSObjectInAllFlows",
+  "source" : "Standard"
+},
+    {
   "category" : "Inputs",
   "configurationEditor" : "c-cpe-cmp",
   "description" : "A raptor testing component",

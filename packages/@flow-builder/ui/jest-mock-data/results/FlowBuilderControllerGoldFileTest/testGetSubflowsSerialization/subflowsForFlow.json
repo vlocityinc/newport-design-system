@@ -1,11 +1,6 @@
 {
   "subflowsForFlow":[
     {
-      "masterLabel":"Create Visit",
-      "fullName":"runtime_industries_visit__CreateVisit",
-      "description":null
-    },
-    {
       "masterLabel":"Debug options",
       "fullName":"FtestSfdcOnly__TestFileBasedTranslated",
       "description":"Enter values for the flow's input variables. For each value left blank, the flow starts with the variable's default value. You can't enter values for collection or apex variables."
