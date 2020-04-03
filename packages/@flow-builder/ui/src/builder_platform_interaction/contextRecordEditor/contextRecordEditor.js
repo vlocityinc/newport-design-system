@@ -83,16 +83,16 @@ export default class contextRecordEditor extends LightningElement {
         return this.recordEntityName && this.showScheduleSection && !this.startElement.object.error;
     }
 
-    get triggerObjectSectionHeader() {
+    get contextObjectDescription() {
         switch (this.triggerType) {
             case BEFORE_SAVE:
             case AFTER_SAVE:
-                return this.labels.contextObjectHeader;
+                return this.labels.contextObjectDescription;
             case SCHEDULED:
             case SCHEDULED_JOURNEY:
-                return this.labels.chooseObjectAndRecord;
+                return this.labels.filterRecordsDescription;
             default:
-                return 'unsupported trigger type';
+                return '';
         }
     }
 

@@ -1,4 +1,3 @@
-import scheduleSectionHeader from '@salesforce/label/FlowBuilderStartEditor.scheduleSectionHeader';
 import frequencyInputLabel from '@salesforce/label/FlowBuilderStartEditor.frequencyInputLabel';
 import frequencyInputHelp from '@salesforce/label/FlowBuilderStartEditor.frequencyInputHelp';
 import triggerFrequencyOnce from '@salesforce/label/FlowBuilderStartEditor.triggerFrequencyOnce';
@@ -12,7 +11,6 @@ import startTimeInputHelp from '@salesforce/label/FlowBuilderStartEditor.startTi
 import cannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
 
 export const LABELS = {
-    scheduleSectionHeader,
     frequencyInputLabel,
     frequencyInputHelp,
     triggerFrequencyOnce,

@@ -1,5 +1,3 @@
-import createOrUpdateSectionHeader from '@salesforce/label/FlowBuilderStartEditor.createOrUpdateSectionHeader';
-import recordChangeTriggerTypeSectionHeader from '@salesforce/label/FlowBuilderStartEditor.recordChangeTriggerTypeSectionHeader';
 import recordChangeTriggerTypeInputLabel from '@salesforce/label/FlowBuilderStartEditor.recordChangeTriggerTypeInputLabel';
 import createOrUpdateInputLabel from '@salesforce/label/FlowBuilderStartEditor.createOrUpdateInputLabel';
 import recordTriggerTypeUpdated from '@salesforce/label/FlowBuilderStartEditor.recordTriggerTypeUpdated';
@@ -12,8 +10,6 @@ import triggerTypeAfterSaveDescription from '@salesforce/label/FlowBuilderStartE
 import requiredLabel from '@salesforce/label/FlowBuilderStartEditor.requiredLabel';
 
 export const LABELS = {
-    createOrUpdateSectionHeader,
-    recordChangeTriggerTypeSectionHeader,
     createOrUpdateInputLabel,
     recordChangeTriggerTypeInputLabel,
     recordTriggerTypeUpdated,

@@ -48,10 +48,6 @@ export default class platformEventEditor extends LightningElement {
         return EntityResourcePicker.ENTITY_MODE.MANAGED_SETUP_EVENT;
     }
 
-    get platformEditorHeaderLabel() {
-        return this.labels.platformEventEditorHeader;
-    }
-
     /**
      * @returns {Object} configuration to pass to entity-resource-picker component. This is a required field
      */
