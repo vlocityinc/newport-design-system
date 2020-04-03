@@ -281,7 +281,7 @@ export default class Editor extends LightningElement {
     processTypeLoading = false;
 
     supportedElements = [];
-    supportedActons = [];
+    supportedActions = [];
 
     /** Whether to use the FLC canvas */
     get useFixedLayoutCanvas() {
@@ -417,7 +417,7 @@ export default class Editor extends LightningElement {
     }
 
     get toolboxElements() {
-        return [...this.supportedElements, ...this.supportedActons];
+        return [...this.supportedElements, ...this.supportedActions];
     }
 
     /**
@@ -449,7 +449,7 @@ export default class Editor extends LightningElement {
                 const actionsPromise = loadActionsPromise.then(() => {
                     const actions = getInvocableActions();
                     if (actions) {
-                        this.supportedActons = actions;
+                        this.supportedActions = actions;
                     }
                 });
                 const palettePromise = loadPalettePromise.then(data => {
@@ -639,6 +639,7 @@ export default class Editor extends LightningElement {
             updateStoreAfterSaveFlowIsSuccessful(storeInstance, data);
             updateUrl(this.currentFlowId);
             this.setOriginalFlowValues();
+            this._resetCopyStateOnSaveSuccess();
         } else if (!data.isSuccess && this.saveType === SaveType.NEW_DEFINITION) {
             // If the save failed and saveType === SaveType.NEW_DEFINITION, then clear the flowId from the url
             // and reset some of the flow properties as if this is a net new flow
@@ -1610,6 +1611,20 @@ export default class Editor extends LightningElement {
             })
         );
     };
+
+    _resetCopyStateOnSaveSuccess() {
+        // update tracked properties
+        this.isCutCopyDisabled = true;
+        this.isPasteAvailable = false;
+        this.isSelectionMode = false;
+
+        // reset cut/copy variables
+        this.bottomCutOrCopiedGuid = null;
+        this.cutOrCopiedCanvasElements = {};
+        this.cutOrCopiedChildElements = {};
+        this.topCutOrCopiedGuid = null;
+        this.topSelectedGuid = null;
+    }
 }
 
 export { createStartElement, getElementsToBeDeleted };
