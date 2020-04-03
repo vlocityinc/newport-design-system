@@ -2,6 +2,7 @@ import { createElement } from 'lwc';
 import { query } from 'builder_platform_interaction/builderTestUtils';
 import ScheduleTriggerEditor from '../scheduleTriggerEditor';
 import { FLOW_TRIGGER_FREQUENCY } from 'builder_platform_interaction/flowMetadata';
+import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 
 const SELECTORS = {
     START_DATE_INPUT: 'lightning-input.startDate',
@@ -30,75 +31,92 @@ const scheduleElement = () => ({
 });
 
 describe('schedule-trigger-editor', () => {
-    it('handles startDate updates', () => {
-        const startElement = createComponentForTest(scheduleElement());
-        const event = new CustomEvent('change', {
-            detail: {
-                value: 'Jul 25, 2019'
-            }
-        });
-        query(startElement, SELECTORS.START_DATE_INPUT).dispatchEvent(event);
+    const updateStartDateEvent = new CustomEvent('change', {
+        detail: {
+            value: 'Jul 25, 2019'
+        }
+    });
+    const updateStartTimeEvent = new CustomEvent('change', {
+        detail: {
+            value: '11:59 AM'
+        }
+    });
+    const updateFrequencyEvent = new CustomEvent('change', {
+        detail: {
+            value: FLOW_TRIGGER_FREQUENCY.WEEKLY
+        }
+    });
+    const invalidEvent = new CustomEvent('change', {
+        detail: {
+            value: ''
+        }
+    });
 
+    let startElement;
+    beforeEach(() => {
+        startElement = createComponentForTest(scheduleElement());
+    });
+
+    it('handles startDate updates', () => {
+        query(startElement, SELECTORS.START_DATE_INPUT).dispatchEvent(updateStartDateEvent);
         expect(startElement.node.startDate.value).toBe('Jul 25, 2019');
     });
 
     it('handles startTime updates', () => {
-        const startElement = createComponentForTest(scheduleElement());
-        const event = new CustomEvent('change', {
-            detail: {
-                value: '11:59 AM'
-            }
-        });
-        query(startElement, SELECTORS.START_DATE_INPUT).dispatchEvent(event);
-
+        query(startElement, SELECTORS.START_DATE_INPUT).dispatchEvent(updateStartTimeEvent);
         expect(startElement.node.startDate.value).toBe('11:59 AM');
     });
 
     it('handles frequency updates', () => {
-        const startElement = createComponentForTest(scheduleElement());
-        const event = new CustomEvent('change', {
-            detail: {
-                value: FLOW_TRIGGER_FREQUENCY.WEEKLY
-            }
-        });
-        query(startElement, SELECTORS.FREQUENCY_INPUT).dispatchEvent(event);
-
+        query(startElement, SELECTORS.FREQUENCY_INPUT).dispatchEvent(updateFrequencyEvent);
         expect(startElement.node.frequency.value).toBe(FLOW_TRIGGER_FREQUENCY.WEEKLY);
     });
 
-    it('validates required startDate input', () => {
-        const startElement = createComponentForTest(scheduleElement());
-        const event = new CustomEvent('change', {
-            detail: {
-                value: ''
-            }
-        });
-        query(startElement, SELECTORS.START_DATE_INPUT).dispatchEvent(event);
+    it('handles startDate updates should dispatch an UpdateNodeEvent', async () => {
+        const updateNodeCallBack = jest.fn();
+        startElement.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallBack);
+        query(startElement, SELECTORS.START_DATE_INPUT).dispatchEvent(updateStartDateEvent);
+        expect(updateNodeCallBack).toHaveBeenCalledWith(
+            expect.objectContaining({
+                detail: { node: startElement.node }
+            })
+        );
+    });
 
+    it('handles startTime updates should dispatch an UpdateNodeEvent', async () => {
+        const updateNodeCallBack = jest.fn();
+        startElement.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallBack);
+        query(startElement, SELECTORS.START_DATE_INPUT).dispatchEvent(updateStartTimeEvent);
+        expect(updateNodeCallBack).toHaveBeenCalledWith(
+            expect.objectContaining({
+                detail: { node: startElement.node }
+            })
+        );
+    });
+
+    it('handles frequency updates should dispatch an UpdateNodeEvent', async () => {
+        const updateNodeCallBack = jest.fn();
+        startElement.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallBack);
+        query(startElement, SELECTORS.START_DATE_INPUT).dispatchEvent(updateFrequencyEvent);
+        expect(updateNodeCallBack).toHaveBeenCalledWith(
+            expect.objectContaining({
+                detail: { node: startElement.node }
+            })
+        );
+    });
+
+    it('validates required startDate input', () => {
+        query(startElement, SELECTORS.START_DATE_INPUT).dispatchEvent(invalidEvent);
         expect(startElement.node.startDate.error).toBe('FlowBuilderValidation.cannotBeBlank');
     });
 
     it('validates required startTime input', () => {
-        const startElement = createComponentForTest(scheduleElement());
-        const event = new CustomEvent('change', {
-            detail: {
-                value: ''
-            }
-        });
-        query(startElement, SELECTORS.START_TIME_INPUT).dispatchEvent(event);
-
+        query(startElement, SELECTORS.START_TIME_INPUT).dispatchEvent(invalidEvent);
         expect(startElement.node.startTime.error).toBe('FlowBuilderValidation.cannotBeBlank');
     });
 
     it('validates required frequency input', () => {
-        const startElement = createComponentForTest(scheduleElement());
-        const event = new CustomEvent('change', {
-            detail: {
-                value: ''
-            }
-        });
-        query(startElement, SELECTORS.FREQUENCY_INPUT).dispatchEvent(event);
-
+        query(startElement, SELECTORS.FREQUENCY_INPUT).dispatchEvent(invalidEvent);
         expect(startElement.node.frequency.error).toBe('FlowBuilderValidation.cannotBeBlank');
     });
 });

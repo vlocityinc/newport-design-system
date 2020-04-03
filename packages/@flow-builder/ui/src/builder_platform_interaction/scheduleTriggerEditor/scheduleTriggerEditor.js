@@ -4,7 +4,7 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { LABELS } from './scheduleTriggerEditorLabels';
 import { ELEMENT_TYPE, START_ELEMENT_FIELDS, FLOW_TRIGGER_FREQUENCY } from 'builder_platform_interaction/flowMetadata';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
 
 const SELECTORS = {
     START_DATE: '.startDate',
@@ -121,6 +121,7 @@ export default class ScheduleTriggerEditor extends LightningElement {
     _updateField(prop, value) {
         const event = new PropertyChangedEvent(prop, value);
         this.startElement = scheduleTriggerReducer(this.startElement, event);
+        this.dispatchEvent(new UpdateNodeEvent(this.startElement));
     }
 
     handleFrequencyChange = event => {
