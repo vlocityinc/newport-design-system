@@ -22,9 +22,9 @@
     &.nds-b2b-category-name_label {
       font-size: $font-size-category-name;
       transition: all 0.25s ease-in;
-      padding-left: 0.7rem;
       .nds-b2b-category-icon {
-        margin-right: 1rem;
+        margin-left: -2rem;
+        position: absolute;
       }
     }
   }
