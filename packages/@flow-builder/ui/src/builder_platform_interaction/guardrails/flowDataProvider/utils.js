@@ -21,7 +21,7 @@ function getConnectors(element) {
     let connectors = [];
     if (element) {
         for (const [prop, value] of Object.entries(element)) {
-            if (typeof value === 'object') {
+            if (typeof value === 'object' && prop !== 'faultConnector') {
                 const childConnectors = getConnectors(value);
                 connectors = connectors.concat(childConnectors);
             } else if (prop === 'targetReference') {

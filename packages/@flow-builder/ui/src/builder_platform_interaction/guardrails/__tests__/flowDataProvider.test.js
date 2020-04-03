@@ -14,8 +14,15 @@ const flowModel = {
             },
             filters: []
         },
-        screen: {
-            elementMetadata: 'y'
+        screens: {
+            name: 'screenElement',
+            elementMetadata: 'y',
+            connector: {
+                targetReference: 'test1232'
+            },
+            faultConnector: {
+                targetReference: 'faultTarget'
+            }
         },
         otherProperty1: 'stringProperty',
         otherProperty2: {
@@ -58,6 +65,13 @@ describe('dataprovider flow translation', () => {
             expect(
                 consumerProperties[FLOW_PROPERTIES.CONNECTOR_TARGETS].hasOwnProperty(ELEMENT_TYPE.START_ELEMENT)
             ).toBe(true);
+            // Verify connectors of the 'screenElement'
+            expect(consumerProperties[FLOW_PROPERTIES.CONNECTOR_TARGETS].hasOwnProperty('screenElement')).toBe(true);
+            expect(consumerProperties[FLOW_PROPERTIES.CONNECTOR_TARGETS].screenElement.next).toContain('test1232');
+            // Verify faultConnectors are not added into the connector targets map
+            expect(consumerProperties[FLOW_PROPERTIES.CONNECTOR_TARGETS].screenElement.next).not.toContain(
+                'faultTarget'
+            );
         });
         describe('return metadata', () => {
             it('with start element', () => {
@@ -69,8 +83,8 @@ describe('dataprovider flow translation', () => {
             it('with screen element', () => {
                 flowDataProvider.updateFlow(flowModel);
                 const metadata = flowDataProvider.provide()[0];
-                const { screen } = metadata;
-                expect(Object.keys(screen)).toHaveLength(1);
+                const { screens } = metadata;
+                expect(screens[0].type).toBe('Screen');
             });
             it('with regular element having name property', () => {
                 flowDataProvider.updateFlow(flowModel);
