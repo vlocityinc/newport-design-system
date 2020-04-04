@@ -4,7 +4,7 @@ import { LABELS } from './contextRecordEditorLabels';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { contextReducer } from './contextRecordReducer';
 import { isScheduledTriggerType, getTriggerTypeInfo } from 'builder_platform_interaction/triggerTypeLib';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
@@ -239,6 +239,7 @@ export default class contextRecordEditor extends LightningElement {
     handlePropertyOrListItemChanged(event) {
         event.stopPropagation();
         this.startElement = contextReducer(this.startElement, event);
+        this.dispatchEvent(new UpdateNodeEvent(this.startElement));
     }
 
     /**
@@ -253,6 +254,7 @@ export default class contextRecordEditor extends LightningElement {
         const propChangedEvent = new PropertyChangedEvent(propertyName, newValue, error, null, oldValue);
         propChangedEvent.detail.ignoreValidate = ignoreValidate;
         this.startElement = contextReducer(this.startElement, propChangedEvent);
+        this.dispatchEvent(new UpdateNodeEvent(this.startElement));
     }
 
     /**

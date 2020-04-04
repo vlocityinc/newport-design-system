@@ -6,7 +6,8 @@ import {
     DeleteRecordFilterEvent,
     UpdateRecordFilterEvent,
     RecordFilterTypeChangedEvent,
-    ConfigurationEditorChangeEvent
+    ConfigurationEditorChangeEvent,
+    UpdateNodeEvent
 } from 'builder_platform_interaction/events';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import * as store from 'mock/storeData';
@@ -83,113 +84,116 @@ const filterElement = {
     rightHandSideGuid: { value: 'FORMULA_8', error: null }
 };
 
-const scheduledNewStartElement = () => ({
-    description: { value: '', error: null },
-    elementType: 'START_ELEMENT',
-    guid: '326e1b1a-7235-487f-9b44-38db56af4a45',
-    isCanvasElement: true,
-    label: { value: '', error: null },
-    name: { value: '', error: null },
-    object: { value: 'Account', error: null },
-    objectIndex: { value: 'guid', error: null },
-    filterType: {},
-    filters: [],
-    frequency: { value: 'Once', error: null },
-    startDate: undefined,
-    startTime: undefined,
-    triggerType: { value: FLOW_TRIGGER_TYPE.SCHEDULED, error: null }
-});
-
-const beforeSaveNewStartElement = () => ({
-    description: { value: '', error: null },
-    elementType: 'START_ELEMENT',
-    guid: '326e1b1a-7235-487f-9b44-38db56af4a45',
-    isCanvasElement: true,
-    label: { value: '', error: null },
-    name: { value: '', error: null },
-    object: { value: 'Account', error: null },
-    objectIndex: { value: 'guid', error: null },
-    filterType: {},
-    filters: [],
-    frequency: undefined,
-    startDate: undefined,
-    startTime: undefined,
-    recordTriggerType: { value: 'Update', error: null },
-    triggerType: { value: FLOW_TRIGGER_TYPE.BEFORE_SAVE, error: null }
-});
-
-const scheduledNewStartElementWithFilters = () => ({
-    description: { value: '', error: null },
-    elementType: 'START_ELEMENT',
-    guid: '326e1b1a-7235-487f-9b44-38db56af4a45',
-    isCanvasElement: true,
-    label: { value: '', error: null },
-    name: { value: '', error: null },
-    object: { value: 'Account', error: null },
-    objectIndex: { value: 'guid', error: null },
-    filterType: RECORD_FILTER_CRITERIA.ALL,
-    filters: [
-        {
-            rowIndex: 'a0e8a02d-60fb-4481-8165-10a01fe7031c',
-            leftHandSide: {
-                value: '',
-                error: null
-            },
-            rightHandSide: {
-                value: '',
-                error: null
-            },
-            rightHandSideDataType: {
-                value: '',
-                error: null
-            },
-            operator: {
-                value: '',
-                error: null
-            }
-        }
-    ],
-    frequency: { value: 'Once', error: null },
-    startDate: undefined,
-    startTime: undefined,
-    triggerType: { value: 'Scheduled', error: null }
-});
-
-const scheduledNewStartElementWithoutFilters = () => ({
-    description: { value: '', error: null },
-    elementType: 'START_ELEMENT',
-    guid: '326e1b1a-7235-487f-9b44-38db56af4a45',
-    isCanvasElement: true,
-    label: { value: '', error: null },
-    name: { value: '', error: null },
-    object: { value: 'Account', error: null },
-    objectIndex: { value: 'guid', error: null },
-    filterType: RECORD_FILTER_CRITERIA.NONE,
-    filters: [],
-    frequency: { value: 'Once', error: null },
-    startDate: undefined,
-    startTime: undefined,
-    triggerType: { value: 'Scheduled', error: null }
-});
-
-const scheduledJourneyStartElement = () => ({
-    description: { value: '', error: null },
-    elementType: 'START_ELEMENT',
-    guid: '326e1b1a-7235-487f-9b44-38db56af4a45',
-    isCanvasElement: true,
-    label: { value: '', error: null },
-    name: { value: '', error: null },
-    object: { value: 'Audience', error: null },
-    objectIndex: { value: 'guid', error: null },
-    filterType: RECORD_FILTER_CRITERIA.NONE,
-    filters: [],
-    frequency: { value: 'Once', error: null },
-    startDate: undefined,
-    startTime: undefined,
-    triggerType: { value: 'ScheduledJourney', error: null }
-});
-
 describe('context-record-editor', () => {
+    let scheduledNewStartElement,
+        beforeSaveNewStartElement,
+        scheduledNewStartElementWithFilters,
+        scheduledNewStartElementWithoutFilters,
+        scheduledJourneyStartElement;
+    beforeEach(() => {
+        scheduledNewStartElement = () => ({
+            description: { value: '', error: null },
+            elementType: 'START_ELEMENT',
+            guid: '326e1b1a-7235-487f-9b44-38db56af4a45',
+            isCanvasElement: true,
+            label: { value: '', error: null },
+            name: { value: '', error: null },
+            object: { value: 'Account', error: null },
+            objectIndex: { value: 'guid', error: null },
+            filterType: {},
+            filters: [],
+            frequency: { value: 'Once', error: null },
+            startDate: undefined,
+            startTime: undefined,
+            triggerType: { value: FLOW_TRIGGER_TYPE.SCHEDULED, error: null }
+        });
+        beforeSaveNewStartElement = () => ({
+            description: { value: '', error: null },
+            elementType: 'START_ELEMENT',
+            guid: '326e1b1a-7235-487f-9b44-38db56af4a45',
+            isCanvasElement: true,
+            label: { value: '', error: null },
+            name: { value: '', error: null },
+            object: { value: 'Account', error: null },
+            objectIndex: { value: 'guid', error: null },
+            filterType: {},
+            filters: [],
+            frequency: undefined,
+            startDate: undefined,
+            startTime: undefined,
+            recordTriggerType: { value: 'Update', error: null },
+            triggerType: { value: FLOW_TRIGGER_TYPE.BEFORE_SAVE, error: null }
+        });
+        scheduledNewStartElementWithFilters = () => ({
+            description: { value: '', error: null },
+            elementType: 'START_ELEMENT',
+            guid: '326e1b1a-7235-487f-9b44-38db56af4a45',
+            isCanvasElement: true,
+            label: { value: '', error: null },
+            name: { value: '', error: null },
+            object: { value: 'Account', error: null },
+            objectIndex: { value: 'guid', error: null },
+            filterType: RECORD_FILTER_CRITERIA.ALL,
+            filters: [
+                {
+                    rowIndex: 'a0e8a02d-60fb-4481-8165-10a01fe7031c',
+                    leftHandSide: {
+                        value: '',
+                        error: null
+                    },
+                    rightHandSide: {
+                        value: '',
+                        error: null
+                    },
+                    rightHandSideDataType: {
+                        value: '',
+                        error: null
+                    },
+                    operator: {
+                        value: '',
+                        error: null
+                    }
+                }
+            ],
+            frequency: { value: 'Once', error: null },
+            startDate: undefined,
+            startTime: undefined,
+            triggerType: { value: 'Scheduled', error: null }
+        });
+        scheduledNewStartElementWithoutFilters = () => ({
+            description: { value: '', error: null },
+            elementType: 'START_ELEMENT',
+            guid: '326e1b1a-7235-487f-9b44-38db56af4a45',
+            isCanvasElement: true,
+            label: { value: '', error: null },
+            name: { value: '', error: null },
+            object: { value: 'Account', error: null },
+            objectIndex: { value: 'guid', error: null },
+            filterType: RECORD_FILTER_CRITERIA.NONE,
+            filters: [],
+            frequency: { value: 'Once', error: null },
+            startDate: undefined,
+            startTime: undefined,
+            triggerType: { value: 'Scheduled', error: null }
+        });
+        scheduledJourneyStartElement = () => ({
+            description: { value: '', error: null },
+            elementType: 'START_ELEMENT',
+            guid: '326e1b1a-7235-487f-9b44-38db56af4a45',
+            isCanvasElement: true,
+            label: { value: '', error: null },
+            name: { value: '', error: null },
+            object: { value: 'Audience', error: null },
+            objectIndex: { value: 'guid', error: null },
+            filterType: RECORD_FILTER_CRITERIA.NONE,
+            filters: [],
+            frequency: { value: 'Once', error: null },
+            startDate: undefined,
+            startTime: undefined,
+            triggerType: { value: 'ScheduledJourney', error: null }
+        });
+    });
+
     it('entity picker (object) value should be "Account" for scheduled', () => {
         const contextEditor = createComponentForTest(scheduledNewStartElement());
         expect(getEntityResourcePicker(contextEditor).value).toBe('Account');
@@ -246,6 +250,78 @@ describe('context-record-editor', () => {
             getRecordFilter(contextEditor).dispatchEvent(deleteRecordFilterEvent);
             await ticks(1);
             expect(contextEditor.node.filters).toHaveLength(0);
+        });
+    });
+
+    describe('handle UpdateNodeEvent dispatch', () => {
+        let contextEditor;
+        beforeEach(() => {
+            expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(store.accountSObjectVariable);
+            contextEditor = createComponentForTest(scheduledNewStartElementWithFilters());
+        });
+        it('handle "entityResourcePicker" value changed event should dispatch an UpdateNodeEvent', async () => {
+            contextEditor.node = beforeSaveNewStartElement();
+            const updateNodeCallback = jest.fn();
+            contextEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+            getEntityResourcePicker(contextEditor).dispatchEvent(getComboboxStateChangedEvent());
+            expect(updateNodeCallback).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: { node: contextEditor.node }
+                })
+            );
+        });
+        it('handle UpdateRecordFilterEvent should dispatch an UpdateNodeEvent', async () => {
+            contextEditor.node = scheduledNewStartElementWithFilters();
+            const updateNodeCallback = jest.fn();
+            contextEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+            const updateRecordFilterEvent = new UpdateRecordFilterEvent(0, filterElement, null);
+            getRecordFilter(contextEditor).dispatchEvent(updateRecordFilterEvent);
+            expect(updateNodeCallback).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: { node: contextEditor.node }
+                })
+            );
+        });
+        it('handle AddRecordFilterEvent should dispatch an UpdateNodeEvent', async () => {
+            contextEditor.node = scheduledNewStartElementWithoutFilters();
+            const updateNodeCallback = jest.fn();
+            contextEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+            const addRecordFilterEvent = new AddRecordFilterEvent();
+            getRecordFilter(contextEditor).dispatchEvent(addRecordFilterEvent);
+            expect(updateNodeCallback).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: { node: contextEditor.node }
+                })
+            );
+        });
+        it('handle RecordFilterTypeChangedEvent should dispatch an UpdateNodeEvent', async () => {
+            contextEditor.node = scheduledNewStartElementWithFilters();
+            const updateNodeCallback = jest.fn();
+            contextEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+            const recordFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(RECORD_FILTER_CRITERIA.ALL);
+            getRecordFilter(contextEditor).dispatchEvent(recordFilterTypeChangedEvent);
+            expect(updateNodeCallback).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: { node: contextEditor.node }
+                })
+            );
+        });
+        it('handle DeleteRecordFilterEvent should dispatch an UpdateNodeEvent', async () => {
+            contextEditor.node = scheduledNewStartElementWithFilters();
+            const updateNodeCallback = jest.fn();
+            contextEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+            const deleteRecordFilterEvent = new DeleteRecordFilterEvent(0);
+            getRecordFilter(contextEditor).dispatchEvent(deleteRecordFilterEvent);
+            expect(updateNodeCallback).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: { node: contextEditor.node }
+                })
+            );
         });
     });
 
