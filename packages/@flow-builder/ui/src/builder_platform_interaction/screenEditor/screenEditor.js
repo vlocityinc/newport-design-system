@@ -105,6 +105,9 @@ export default class ScreenEditor extends LightningElement {
     mode;
 
     @api
+    editorParams;
+
+    @api
     get processType() {
         return this.processTypeValue;
     }

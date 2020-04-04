@@ -34,6 +34,9 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     @api
     field;
 
+    @api
+    editorParams;
+
     get isScaleEnabled() {
         const { dataType = null } = this.field;
         return dataType === 'Number' || dataType === 'Currency';

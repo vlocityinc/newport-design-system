@@ -2,10 +2,18 @@ import { createElement } from 'lwc';
 import LabelDescription from 'builder_platform_interaction/labelDescription';
 import { PropertyChangedEvent, AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
-const createComponentUnderTest = (props = { label: '', devName: '', mode: undefined }) => {
+const createComponentUnderTest = (
+    props = {
+        label: '',
+        devName: '',
+        mode: undefined,
+        editorParams: { panelConfig: { isLabelCollapsibleToHeader: false } }
+    }
+) => {
     const el = createElement('builder_platform_interaction-label-description', {
         is: LabelDescription
     });
@@ -13,6 +21,7 @@ const createComponentUnderTest = (props = { label: '', devName: '', mode: undefi
     el.label.value = props.label;
     el.devName.value = props.devName;
     el.mode = props.mode;
+    el.editorParams = props.editorParams;
 
     document.body.appendChild(el);
     return el;
@@ -24,7 +33,9 @@ const selectors = {
     description: '.description',
     container: '.container',
     editButton: '.test-edit-button',
-    readOnly: '.test-read-only-info'
+    readOnly: '.test-read-only-info',
+    newElementPanelHeader: '.test-new-element-panel-header',
+    collapsibleLabelHeader: '.test-collapsible-label-header'
 };
 
 const focusoutEvent = new FocusEvent('focusout', {
@@ -853,6 +864,83 @@ describe('label-description', () => {
             const readOnly = labelDescription.shadowRoot.querySelector(selectors.readOnly);
 
             expect(readOnly.contains('description')).not.toBeTruthy();
+        });
+    });
+    describe('Right Panel New Element Header', () => {
+        it('Show when isLabelCollapsibleToHeader = true and mode != EditElement', async () => {
+            expect.assertions(1);
+            const labelDescription = createComponentUnderTest({
+                editorParams: { panelConfig: { isLabelCollapsibleToHeader: true } },
+                mode: AddElementEvent.EVENT_NAME
+            });
+
+            const newElementPanelHeader = labelDescription.shadowRoot.querySelector(selectors.newElementPanelHeader);
+
+            expect(newElementPanelHeader).not.toBeNull();
+        });
+        it("Don't show when mode = EditElement", async () => {
+            expect.assertions(1);
+            const labelDescription = createComponentUnderTest({
+                editorParams: {
+                    panelConfig: { isLabelCollapsibleToHeader: true, elementType: ELEMENT_TYPE.ASSIGNMENT }
+                },
+                mode: EditElementEvent.EVENT_NAME
+            });
+
+            const newElementPanelHeader = labelDescription.shadowRoot.querySelector(selectors.newElementPanelHeader);
+
+            expect(newElementPanelHeader).toBeNull();
+        });
+        it("Don't show when isLabelCollapsibleToHeader = false", async () => {
+            expect.assertions(1);
+            const labelDescription = createComponentUnderTest({
+                mode: AddElementEvent.EVENT_NAME
+            });
+
+            const newElementPanelHeader = labelDescription.shadowRoot.querySelector(selectors.newElementPanelHeader);
+
+            expect(newElementPanelHeader).toBeNull();
+        });
+    });
+    describe('Right Panel Label Description Collapsed into Header', () => {
+        it('Show when isLabelCollapsibleToHeader = true and mode = EditElement', async () => {
+            expect.assertions(1);
+            const labelDescription = createComponentUnderTest({
+                editorParams: {
+                    panelConfig: { isLabelCollapsibleToHeader: true, elementType: ELEMENT_TYPE.ASSIGNMENT }
+                },
+                mode: EditElementEvent.EVENT_NAME
+            });
+
+            const newElementPanelHeader = labelDescription.shadowRoot.querySelector(selectors.collapsibleLabelHeader);
+
+            expect(newElementPanelHeader).not.toBeNull();
+        });
+        it("Don't show when isLabelCollapsibleToHeader = true and mode != EditElement", async () => {
+            expect.assertions(1);
+            const labelDescription = createComponentUnderTest({
+                editorParams: {
+                    panelConfig: { isLabelCollapsibleToHeader: true, elementType: ELEMENT_TYPE.ASSIGNMENT }
+                },
+                mode: AddElementEvent.EVENT_NAME
+            });
+
+            const newElementPanelHeader = labelDescription.shadowRoot.querySelector(selectors.collapsibleLabelHeader);
+
+            expect(newElementPanelHeader).toBeNull();
+        });
+        it("Don't show when isLabelCollapsibleToHeader = false", async () => {
+            expect.assertions(1);
+            const labelDescription = createComponentUnderTest({
+                editorParams: {
+                    panelConfig: { isLabelCollapsibleToHeader: false, elementType: ELEMENT_TYPE.ASSIGNMENT }
+                },
+                mode: AddElementEvent.EVENT_NAME
+            });
+
+            const newElementPanelHeader = labelDescription.shadowRoot.querySelector(selectors.collapsibleLabelHeader);
+
+            expect(newElementPanelHeader).toBeNull();
         });
     });
 });

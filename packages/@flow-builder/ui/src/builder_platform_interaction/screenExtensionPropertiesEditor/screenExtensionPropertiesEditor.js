@@ -84,6 +84,9 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
     @track
     _automaticOutputHandlingSupported;
 
+    @api
+    editorParams;
+
     @track
     state = {
         inputParameters: null,

@@ -31,6 +31,9 @@ export default class RecordUpdateEditor extends LightningElement {
     @api
     processType;
 
+    @api
+    editorParams;
+
     /**
      * public api function to return the node
      *

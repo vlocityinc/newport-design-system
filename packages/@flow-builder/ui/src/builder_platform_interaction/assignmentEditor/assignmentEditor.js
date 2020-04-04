@@ -50,6 +50,20 @@ export default class AssignmentEditor extends LightningElement {
         this.assignmentElement = newValue || {};
     }
 
+    @api
+    editorParams;
+
+    get isLabelCollapsibleToHeader() {
+        return this.editorParams && this.editorParams.panelConfig.isLabelCollapsibleToHeader;
+    }
+
+    get styleForLabelDescription() {
+        if (!this.isLabelCollapsibleToHeader) {
+            return 'slds-p-horizontal_small slds-p-top_small';
+        }
+        return '';
+    }
+
     /**
      * public api function to return the node
      * @returns {object} node - node

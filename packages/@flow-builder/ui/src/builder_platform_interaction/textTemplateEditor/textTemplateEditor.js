@@ -30,6 +30,9 @@ export default class TextTemplateEditor extends LightningElement {
     mode;
 
     @api
+    editorParams;
+
+    @api
     get node() {
         return this.textTemplateResource;
     }

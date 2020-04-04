@@ -34,6 +34,9 @@ export default class DecisionEditor extends LightningElement {
     @api
     processType;
 
+    @api
+    editorParams;
+
     /**
      * public api function to return the node
      * @returns {object} node - node

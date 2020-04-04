@@ -31,6 +31,9 @@ export default class FormulaEditor extends LightningElement {
     mode;
 
     @api
+    editorParams;
+
+    @api
     get node() {
         return this.formulaResource;
     }

@@ -11,6 +11,9 @@ export default class StepEditor extends LightningElement {
     @track
     stepElement = {};
 
+    @api
+    editorParams;
+
     // used to keep track of whether this is an existing step element
     @api
     isNewMode = false;

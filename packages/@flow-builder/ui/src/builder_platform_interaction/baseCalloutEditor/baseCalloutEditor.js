@@ -27,6 +27,9 @@ export default class BaseCalloutEditor extends LightningElement {
     @api
     builderContext;
 
+    @api
+    editorParams;
+
     labels = LABELS;
 
     /**

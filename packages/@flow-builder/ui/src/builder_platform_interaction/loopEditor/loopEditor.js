@@ -52,6 +52,9 @@ export default class LoopEditor extends LightningElement {
     @api
     mode;
 
+    @api
+    editorParams;
+
     /**
      * @returns {FLOW_PROCESS_TYPE} Flow process Type supports automatic output handling
      */

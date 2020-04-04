@@ -1,70 +1,119 @@
 <template>
     <span class="slds-hide">HACK TO FORCE RERENDER:{label.error}{devName.error}{description.error}</span>
-    <div class="slds-form slds-form_compound" if:true={isEditable}>
-        <div class={computedNameAndDevContainerClass}>
-            <lightning-input
-                if:false={hideLabel}
-                type="text"
-                label={nameLabel}
-                onfocusout={handleLabelFocusOut}
-                value={label.value}
-                required={labelRequired}
-                message-when-value-missing={showErrorMessageIfBlank}
-                class={computedNameClass}
-                disabled={disableName}
-            >
-            </lightning-input>
-            <lightning-input
-                if:false={hideDevName}
-                type="text"
-                label={devNameLabel}
-                disabled={disableDevName}
-                onfocusout={handleDevNameFocusOut}
-                value={devName.value}
-                required
-                message-when-value-missing={showErrorMessageIfBlank}
-                class={computedDevNameClass}
-            >
-            </lightning-input>
+    <div
+        class="slds-panel__header slds-text-heading_medium slds-hyphenate slds-show test-new-element-panel-header"
+        if:true={showNewElementPanelHeader}
+    >
+        <span class="lds-panel__header-title">
+            {title}
+        </span>
+    </div>
+    <div
+        if:true={showCollapsedLabelDescriptionPanelHeader}
+        class="slds-panel__header slds-text-heading_medium slds-hyphenate slds-show slds-is-relative test-collapsible-label-header"
+    >
+        <builder_platform_interaction-element-icon
+            if:true={iconName}
+            icon-name={iconName}
+            icon-size="small"
+            background-color={iconBackgroundColor}
+            class="slds-is-absolute"
+        >
+        </builder_platform_interaction-element-icon>
+        <div class="slds-m-left_x-large">
+            <span class={readOnlyInfoClassPanel}>
+                <span if:false={hideLabel} class="lds-panel__header-title" title={readOnlyLabel}>
+                    {readOnlyLabel}
+                </span>
+                <span title={readOnlyDevName} class="read-only-dev-name-panel"> {readOnlyDevName}</span>
+                <span if:false={isEditable}>
+                    <lightning-button-icon
+                        icon-name="utility:edit"
+                        alternative-text={labels.editButtonLabel}
+                        class="test-edit-button slds-m-left_x-small slds-align_center slds-is-absolute"
+                        onclick={handleEditButtonPress}
+                        size="small"
+                    >
+                    </lightning-button-icon>
+                </span>
+            </span>
+            <span if:true={hasDescription} class="slds-line-clamp_small slds-text-color_weak slds-text-body_small">
+                <p>{description.value}</p>
+            </span>
         </div>
-        <div if:false={hideDescription} class="slds-form-element__group slds-form-element__row slds-p-bottom_xx-small">
-            <lightning-textarea
-                label={labels.descriptionLabel}
-                disabled={disableDescription}
-                onfocusout={handleDescriptionFocusOut}
-                value={description.value}
-                class="slds-size_1-of-1 description"
-                onclick={clickDescription}
+    </div>
+    <div class={stylesForLabelDescription} if:true={isEditable}>
+        <div class="slds-form slds-form_compound" if:true={isEditable}>
+            <div class={computedNameAndDevContainerClass}>
+                <lightning-input
+                    if:false={hideLabel}
+                    type="text"
+                    label={nameLabel}
+                    onfocusout={handleLabelFocusOut}
+                    value={label.value}
+                    required={labelRequired}
+                    message-when-value-missing={showErrorMessageIfBlank}
+                    class={computedNameClass}
+                    disabled={disableName}
+                >
+                </lightning-input>
+                <lightning-input
+                    if:false={hideDevName}
+                    type="text"
+                    label={devNameLabel}
+                    disabled={disableDevName}
+                    onfocusout={handleDevNameFocusOut}
+                    value={devName.value}
+                    required
+                    message-when-value-missing={showErrorMessageIfBlank}
+                    class={computedDevNameClass}
+                >
+                </lightning-input>
+            </div>
+            <div
+                if:false={hideDescription}
+                class="slds-form-element__group slds-form-element__row slds-p-bottom_xx-small"
             >
-            </lightning-textarea>
+                <lightning-textarea
+                    label={labels.descriptionLabel}
+                    disabled={disableDescription}
+                    onfocusout={handleDescriptionFocusOut}
+                    value={description.value}
+                    class="slds-size_1-of-1 description"
+                    onclick={clickDescription}
+                >
+                </lightning-textarea>
+            </div>
         </div>
     </div>
     <div if:false={isEditable}>
-        <div class={readOnlyInfoClass}>
-            <span class={conditionalColumnClassInfo}>
-                <span
-                    if:false={hideLabel}
-                    class="read-only-label slds-col slds-truncate slds-p-right_xx-small"
-                    title={readOnlyLabel}
-                >
-                    {readOnlyLabel}
+        <div if:false={isLabelCollapsibleToHeader} class={stylesForLabelDescription}>
+            <div class={readOnlyInfoClass}>
+                <span class={conditionalColumnClassInfo}>
+                    <span
+                        if:false={hideLabel}
+                        class="read-only-label slds-col slds-truncate slds-p-right_xx-small"
+                        title={readOnlyLabel}
+                    >
+                        {readOnlyLabel}
+                    </span>
+                    <br if:true={isVertical} />
+                    <span class={readOnlyDevNameClass} title={readOnlyDevName}>{readOnlyDevName}</span>
                 </span>
-                <br if:true={isVertical} />
-                <span class={readOnlyDevNameClass} title={readOnlyDevName}>{readOnlyDevName}</span>
-            </span>
-            <span class={conditionalColumnClassButton}>
-                <lightning-button-icon
-                    icon-name="utility:edit"
-                    alternative-text={labels.editButtonLabel}
-                    class={editButtonClass}
-                    onclick={handleEditButtonPress}
-                    size="x-small"
-                >
-                </lightning-button-icon>
-            </span>
-        </div>
-        <div if:true={hasDescription} class={readOnlyDescriptionClass}>
-            <p>{description.value}</p>
+                <span class={conditionalColumnClassButton}>
+                    <lightning-button-icon
+                        icon-name="utility:edit"
+                        alternative-text={labels.editButtonLabel}
+                        class={editButtonClass}
+                        onclick={handleEditButtonPress}
+                        size="x-small"
+                    >
+                    </lightning-button-icon>
+                </span>
+            </div>
+            <div if:true={hasDescription} class={readOnlyDescriptionClass}>
+                <p>{description.value}</p>
+            </div>
         </div>
     </div>
 </template>

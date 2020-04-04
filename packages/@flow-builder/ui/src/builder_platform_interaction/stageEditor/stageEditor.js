@@ -30,6 +30,9 @@ export default class StageEditor extends LightningElement {
     @api
     mode;
 
+    @api
+    editorParams;
+
     /**
      * Public api function to return the node
      * Called by the property editor controller on "OK"

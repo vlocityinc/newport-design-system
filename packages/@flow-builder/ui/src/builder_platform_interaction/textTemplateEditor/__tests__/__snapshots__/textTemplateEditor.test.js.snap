@@ -13,26 +13,28 @@ exports[`text-template-editor check UI (snapshot) - "RichTextPlainTextSwitch" di
           >
             HACK TO FORCE RERENDER:
           </span>
-          <div
-            class="slds-form slds-form_compound"
-          >
+          <div>
             <div
-              class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+              class="slds-form slds-form_compound"
             >
-              <lightning-input
-                class="slds-col devName"
+              <div
+                class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
               >
-                #shadow-root(open)
-              </lightning-input>
-            </div>
-            <div
-              class="slds-form-element__group slds-form-element__row slds-p-bottom_xx-small"
-            >
-              <lightning-textarea
-                class="slds-size_1-of-1 description"
+                <lightning-input
+                  class="slds-col devName"
+                >
+                  #shadow-root(open)
+                </lightning-input>
+              </div>
+              <div
+                class="slds-form-element__group slds-form-element__row slds-p-bottom_xx-small"
               >
-                #shadow-root(open)
-              </lightning-textarea>
+                <lightning-textarea
+                  class="slds-size_1-of-1 description"
+                >
+                  #shadow-root(open)
+                </lightning-textarea>
+              </div>
             </div>
           </div>
       </builder_platform_interaction-label-description>

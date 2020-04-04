@@ -323,7 +323,9 @@ export const getPropertyEditorConfig = (mode, attributes) => {
         titleForModal,
         labelForOkButton,
         flavor: elementConfig.modalSize,
-        bodyClass: elementConfig.bodyCssClass || ''
+        bodyClass: elementConfig.bodyCssClass || '',
+        isLabelCollapsibleToHeader: false,
+        elementType
     };
 
     return {

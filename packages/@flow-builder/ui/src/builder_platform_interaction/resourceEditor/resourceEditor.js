@@ -28,6 +28,9 @@ export default class ResourceEditor extends LightningElement {
     @track
     selectedResource = null;
 
+    @api
+    editorParams;
+
     /**
      * Setter for the node passed in on modal creation
      * This is essentially a dummy no-op because new resource does not have a node

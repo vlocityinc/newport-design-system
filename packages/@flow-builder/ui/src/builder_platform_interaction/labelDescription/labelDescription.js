@@ -4,7 +4,8 @@ import { isUniqueDevNameInStore } from 'builder_platform_interaction/validationR
 import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { LABELS } from './labelDescriptionLabels';
-import { AddElementEvent } from 'builder_platform_interaction/events';
+import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
+import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 
 const SELECTORS = {
     LABEL: '.label',
@@ -54,6 +55,28 @@ export default class LabelDescription extends LightningElement {
      */
     @api
     disableName;
+
+    @api
+    editorParams;
+
+    get isLabelCollapsibleToHeader() {
+        return this.editorParams && this.editorParams.panelConfig.isLabelCollapsibleToHeader;
+    }
+
+    get showNewElementPanelHeader() {
+        return this.isLabelCollapsibleToHeader && this.isEditable && this.mode !== EditElementEvent.EVENT_NAME;
+    }
+
+    get showCollapsedLabelDescriptionPanelHeader() {
+        return this.isLabelCollapsibleToHeader && !this.showNewElementPanelHeader;
+    }
+
+    get stylesForLabelDescription() {
+        if (this.isLabelCollapsibleToHeader) {
+            return 'slds-p-horizontal_small slds-p-top_small';
+        }
+        return '';
+    }
 
     /**
      * Used for cases where the name shouldn't be editable for Step Elements
@@ -153,6 +176,13 @@ export default class LabelDescription extends LightningElement {
         return 'test-read-only-info slds-grid slds-p-bottom_small';
     }
 
+    get readOnlyInfoClassPanel() {
+        if (this.hasDescription) {
+            return 'slds-p-bottom_x-small';
+        }
+        return 'slds-p-bottom_small';
+    }
+
     @api
     get readOnlyDescriptionClass() {
         if (this.isVertical) {
@@ -183,6 +213,31 @@ export default class LabelDescription extends LightningElement {
             return 'slds-col slds-truncate slds-text-body_regular';
         }
         return 'slds-col slds-truncate';
+    }
+
+    get title() {
+        if (this.editorParams) {
+            return this.editorParams.panelConfig.titleForModal;
+        }
+        return '';
+    }
+
+    get iconName() {
+        if (this.editorParams && this.editorParams.panelConfig) {
+            return getConfigForElementType(this.editorParams.panelConfig.elementType).nodeConfig.iconName;
+        }
+        return '';
+    }
+
+    get iconBackgroundColor() {
+        if (this.editorParams) {
+            const color = getConfigForElementType(this.editorParams.panelConfig.elementType).nodeConfig
+                .iconBackgroundColor;
+            if (color) {
+                return color;
+            }
+        }
+        return '';
     }
 
     /** @param {Object} label - object with {value, error} **/

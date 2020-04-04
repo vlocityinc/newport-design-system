@@ -34,6 +34,9 @@ export default class SubflowEditor extends LightningElement {
     @api
     mode;
 
+    @api
+    editorParams;
+
     // true if we are creating a new subflow element, false if editing an existing subflow element
     @api
     isNewMode = false;

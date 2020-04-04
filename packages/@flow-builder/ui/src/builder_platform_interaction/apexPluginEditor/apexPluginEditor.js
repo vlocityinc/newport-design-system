@@ -43,6 +43,9 @@ export default class ApexPluginEditor extends LightningElement {
     }
 
     @api
+    editorParams;
+
+    @api
     get node() {
         return this.apexPluginNode;
     }

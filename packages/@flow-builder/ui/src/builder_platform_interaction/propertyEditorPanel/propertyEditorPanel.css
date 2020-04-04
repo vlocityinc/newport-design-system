@@ -4,3 +4,8 @@
     overflow: hidden;
     overflow-y: auto;
 }
+
+lightning-button-icon.slds-icon-utility-close {
+    right: 0px;
+    z-index: 4;
+}

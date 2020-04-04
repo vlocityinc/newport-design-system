@@ -41,6 +41,9 @@ export default class RecordLookupEditor extends LightningElement {
 
     processTypeValue = '';
 
+    @api
+    editorParams;
+
     /**
      * only "Queryable" entities available
      */

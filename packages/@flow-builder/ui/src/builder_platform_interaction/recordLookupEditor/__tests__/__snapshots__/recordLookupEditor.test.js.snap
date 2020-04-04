@@ -18,31 +18,33 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Add
           >
             HACK TO FORCE RERENDER:
           </span>
-          <div
-            class="slds-form slds-form_compound"
-          >
+          <div>
             <div
-              class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+              class="slds-form slds-form_compound"
             >
-              <lightning-input
-                class="slds-col label slds-size_1-of-2"
+              <div
+                class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
               >
-                #shadow-root(open)
-              </lightning-input>
-              <lightning-input
-                class="slds-col devName slds-size_1-of-2"
+                <lightning-input
+                  class="slds-col label slds-size_1-of-2"
+                >
+                  #shadow-root(open)
+                </lightning-input>
+                <lightning-input
+                  class="slds-col devName slds-size_1-of-2"
+                >
+                  #shadow-root(open)
+                </lightning-input>
+              </div>
+              <div
+                class="slds-form-element__group slds-form-element__row slds-p-bottom_xx-small"
               >
-                #shadow-root(open)
-              </lightning-input>
-            </div>
-            <div
-              class="slds-form-element__group slds-form-element__row slds-p-bottom_xx-small"
-            >
-              <lightning-textarea
-                class="slds-size_1-of-1 description"
-              >
-                #shadow-root(open)
-              </lightning-textarea>
+                <lightning-textarea
+                  class="slds-size_1-of-1 description"
+                >
+                  #shadow-root(open)
+                </lightning-textarea>
+              </div>
             </div>
           </div>
       </builder_platform_interaction-label-description>
@@ -288,31 +290,33 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Add
           >
             HACK TO FORCE RERENDER:
           </span>
-          <div
-            class="slds-form slds-form_compound"
-          >
+          <div>
             <div
-              class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+              class="slds-form slds-form_compound"
             >
-              <lightning-input
-                class="slds-col label slds-size_1-of-2"
+              <div
+                class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
               >
-                #shadow-root(open)
-              </lightning-input>
-              <lightning-input
-                class="slds-col devName slds-size_1-of-2"
+                <lightning-input
+                  class="slds-col label slds-size_1-of-2"
+                >
+                  #shadow-root(open)
+                </lightning-input>
+                <lightning-input
+                  class="slds-col devName slds-size_1-of-2"
+                >
+                  #shadow-root(open)
+                </lightning-input>
+              </div>
+              <div
+                class="slds-form-element__group slds-form-element__row slds-p-bottom_xx-small"
               >
-                #shadow-root(open)
-              </lightning-input>
-            </div>
-            <div
-              class="slds-form-element__group slds-form-element__row slds-p-bottom_xx-small"
-            >
-              <lightning-textarea
-                class="slds-size_1-of-1 description"
-              >
-                #shadow-root(open)
-              </lightning-textarea>
+                <lightning-textarea
+                  class="slds-size_1-of-1 description"
+                >
+                  #shadow-root(open)
+                </lightning-textarea>
+              </div>
             </div>
           </div>
       </builder_platform_interaction-label-description>
@@ -374,39 +378,41 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
             HACK TO FORCE RERENDER:
           </span>
           <div>
-            <div
-              class="test-read-only-info slds-grid slds-p-bottom_x-small"
-            >
-              <span
-                class="slds-text-heading_small slds-truncate_container_75 slds-grid"
+            <div>
+              <div
+                class="test-read-only-info slds-grid slds-p-bottom_x-small"
               >
                 <span
-                  class="read-only-label slds-col slds-truncate slds-p-right_xx-small"
-                  title="Get Account With Fields and filters"
+                  class="slds-text-heading_small slds-truncate_container_75 slds-grid"
                 >
-                  Get Account With Fields and filters
+                  <span
+                    class="read-only-label slds-col slds-truncate slds-p-right_xx-small"
+                    title="Get Account With Fields and filters"
+                  >
+                    Get Account With Fields and filters
+                  </span>
+                  <span
+                    class="slds-col slds-truncate"
+                    title="(getAccountWithFields)"
+                  >
+                    (getAccountWithFields)
+                  </span>
                 </span>
-                <span
-                  class="slds-col slds-truncate"
-                  title="(getAccountWithFields)"
-                >
-                  (getAccountWithFields)
+                <span>
+                  <lightning-button-icon
+                    class="test-edit-button slds-m-left_xx-small slds-align_center"
+                  >
+                    #shadow-root(open)
+                  </lightning-button-icon>
                 </span>
-              </span>
-              <span>
-                <lightning-button-icon
-                  class="test-edit-button slds-m-left_xx-small slds-align_center"
-                >
-                  #shadow-root(open)
-                </lightning-button-icon>
-              </span>
-            </div>
-            <div
-              class="slds-line-clamp_small slds-text-color_weak slds-text-body_small slds-m-bottom_small"
-            >
-              <p>
-                Get account with fields and sort
-              </p>
+              </div>
+              <div
+                class="slds-line-clamp_small slds-text-color_weak slds-text-body_small slds-m-bottom_small"
+              >
+                <p>
+                  Get account with fields and sort
+                </p>
+              </div>
             </div>
           </div>
       </builder_platform_interaction-label-description>
@@ -748,32 +754,34 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
             HACK TO FORCE RERENDER:
           </span>
           <div>
-            <div
-              class="test-read-only-info slds-grid slds-p-bottom_small"
-            >
-              <span
-                class="slds-text-heading_small slds-truncate_container_75 slds-grid"
+            <div>
+              <div
+                class="test-read-only-info slds-grid slds-p-bottom_small"
               >
                 <span
-                  class="read-only-label slds-col slds-truncate slds-p-right_xx-small"
-                  title="get Account with sObject"
+                  class="slds-text-heading_small slds-truncate_container_75 slds-grid"
                 >
-                  get Account with sObject
+                  <span
+                    class="read-only-label slds-col slds-truncate slds-p-right_xx-small"
+                    title="get Account with sObject"
+                  >
+                    get Account with sObject
+                  </span>
+                  <span
+                    class="slds-col slds-truncate"
+                    title="(get_Account_with_sObject)"
+                  >
+                    (get_Account_with_sObject)
+                  </span>
                 </span>
-                <span
-                  class="slds-col slds-truncate"
-                  title="(get_Account_with_sObject)"
-                >
-                  (get_Account_with_sObject)
+                <span>
+                  <lightning-button-icon
+                    class="test-edit-button slds-m-left_xx-small slds-align_center"
+                  >
+                    #shadow-root(open)
+                  </lightning-button-icon>
                 </span>
-              </span>
-              <span>
-                <lightning-button-icon
-                  class="test-edit-button slds-m-left_xx-small slds-align_center"
-                >
-                  #shadow-root(open)
-                </lightning-button-icon>
-              </span>
+              </div>
             </div>
           </div>
       </builder_platform_interaction-label-description>
@@ -1126,32 +1134,34 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
             HACK TO FORCE RERENDER:
           </span>
           <div>
-            <div
-              class="test-read-only-info slds-grid slds-p-bottom_small"
-            >
-              <span
-                class="slds-text-heading_small slds-truncate_container_75 slds-grid"
+            <div>
+              <div
+                class="test-read-only-info slds-grid slds-p-bottom_small"
               >
                 <span
-                  class="read-only-label slds-col slds-truncate slds-p-right_xx-small"
-                  title="get Account with sObject"
+                  class="slds-text-heading_small slds-truncate_container_75 slds-grid"
                 >
-                  get Account with sObject
+                  <span
+                    class="read-only-label slds-col slds-truncate slds-p-right_xx-small"
+                    title="get Account with sObject"
+                  >
+                    get Account with sObject
+                  </span>
+                  <span
+                    class="slds-col slds-truncate"
+                    title="(get_Account_with_sObject)"
+                  >
+                    (get_Account_with_sObject)
+                  </span>
                 </span>
-                <span
-                  class="slds-col slds-truncate"
-                  title="(get_Account_with_sObject)"
-                >
-                  (get_Account_with_sObject)
+                <span>
+                  <lightning-button-icon
+                    class="test-edit-button slds-m-left_xx-small slds-align_center"
+                  >
+                    #shadow-root(open)
+                  </lightning-button-icon>
                 </span>
-              </span>
-              <span>
-                <lightning-button-icon
-                  class="test-edit-button slds-m-left_xx-small slds-align_center"
-                >
-                  #shadow-root(open)
-                </lightning-button-icon>
-              </span>
+              </div>
             </div>
           </div>
       </builder_platform_interaction-label-description>
@@ -1213,32 +1223,34 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
             HACK TO FORCE RERENDER:
           </span>
           <div>
-            <div
-              class="test-read-only-info slds-grid slds-p-bottom_small"
-            >
-              <span
-                class="slds-text-heading_small slds-truncate_container_75 slds-grid"
+            <div>
+              <div
+                class="test-read-only-info slds-grid slds-p-bottom_small"
               >
                 <span
-                  class="read-only-label slds-col slds-truncate slds-p-right_xx-small"
-                  title="get Account with sObject"
+                  class="slds-text-heading_small slds-truncate_container_75 slds-grid"
                 >
-                  get Account with sObject
+                  <span
+                    class="read-only-label slds-col slds-truncate slds-p-right_xx-small"
+                    title="get Account with sObject"
+                  >
+                    get Account with sObject
+                  </span>
+                  <span
+                    class="slds-col slds-truncate"
+                    title="(get_Account_with_sObject)"
+                  >
+                    (get_Account_with_sObject)
+                  </span>
                 </span>
-                <span
-                  class="slds-col slds-truncate"
-                  title="(get_Account_with_sObject)"
-                >
-                  (get_Account_with_sObject)
+                <span>
+                  <lightning-button-icon
+                    class="test-edit-button slds-m-left_xx-small slds-align_center"
+                  >
+                    #shadow-root(open)
+                  </lightning-button-icon>
                 </span>
-              </span>
-              <span>
-                <lightning-button-icon
-                  class="test-edit-button slds-m-left_xx-small slds-align_center"
-                >
-                  #shadow-root(open)
-                </lightning-button-icon>
-              </span>
+              </div>
             </div>
           </div>
       </builder_platform_interaction-label-description>

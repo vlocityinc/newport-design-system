@@ -16,6 +16,9 @@ export default class ScreenInputFieldPropertiesEditor extends LightningElement {
     @api field;
     labels = LABELS;
 
+    @api
+    editorParams;
+
     get defaultValueResourcePickerConfig() {
         return FRP_CONFIG;
     }

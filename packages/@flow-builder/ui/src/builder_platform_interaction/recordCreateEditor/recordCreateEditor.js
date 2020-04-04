@@ -39,6 +39,9 @@ export default class RecordCreateEditor extends LightningElement {
 
     processTypeAutomaticOutPutHandlingSupport = FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
 
+    @api
+    editorParams;
+
     /**
      * public api function to return the node
      *

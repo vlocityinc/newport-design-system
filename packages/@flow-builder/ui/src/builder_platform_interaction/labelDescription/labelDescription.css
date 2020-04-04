@@ -1,3 +1,7 @@
 .read-only-label {
     font-weight: var(--lwc-fontWeightBold);
 }
+
+.read-only-dev-name-panel {
+    font-style: italic;
+}

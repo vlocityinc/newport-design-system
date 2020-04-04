@@ -54,6 +54,9 @@ export default class ChoiceEditor extends LightningElement {
     mode;
 
     @api
+    editorParams;
+
+    @api
     get node() {
         return this.choiceResource;
     }

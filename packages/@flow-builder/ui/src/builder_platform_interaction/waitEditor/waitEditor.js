@@ -35,6 +35,9 @@ export default class WaitEditor extends LightningElement {
     processType;
 
     @api
+    editorParams;
+
+    @api
     get node() {
         return this.waitElement;
     }

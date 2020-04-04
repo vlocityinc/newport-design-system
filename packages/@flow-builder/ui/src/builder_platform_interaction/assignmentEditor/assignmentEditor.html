@@ -1,6 +1,6 @@
 <template>
     <div if:true={assignmentElement}>
-        <div class="slds-p-horizontal_small slds-p-top_small">
+        <div class={styleForLabelDescription}>
             <!-- Name Label Desc Component -->
             <builder_platform_interaction-label-description
                 label={assignmentElement.label}
@@ -9,6 +9,7 @@
                 guid={assignmentElement.guid}
                 onpropertychanged={handlePropertyChangedEvent}
                 mode={mode}
+                editor-params={editorParams}
             >
             </builder_platform_interaction-label-description>
         </div>

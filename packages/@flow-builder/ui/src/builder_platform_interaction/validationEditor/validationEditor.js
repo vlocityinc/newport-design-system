@@ -15,6 +15,9 @@ export default class ValidationEditor extends LightningElement {
     @api required = false;
     @api hideNewResource = false;
 
+    @api
+    editorParams;
+
     labels = LABELS;
 
     handleFormulaExpressionValueChanged = event => {

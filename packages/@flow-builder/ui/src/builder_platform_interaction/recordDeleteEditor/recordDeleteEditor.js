@@ -44,6 +44,9 @@ export default class RecordDeleteEditor extends LightningElement {
     @api
     mode;
 
+    @api
+    editorParams;
+
     // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
     @api
     processType;

@@ -19,6 +19,9 @@ export default class ScreenSectionFieldPropertiesEditor extends LightningElement
     @api field = {};
     labels = LABELS;
 
+    @api
+    editorParams;
+
     get columns() {
         return this.field.fields.map((column, index) => {
             return {

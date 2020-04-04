@@ -681,7 +681,8 @@ describe('property editor', () => {
             node: getElementForPropertyEditor(mockStoreState.elements['1']),
             nodeUpdate: expect.anything(),
             newResourceCallback: expect.anything(),
-            processType: undefined
+            processType: undefined,
+            panelConfig: undefined
         });
     });
 
@@ -866,6 +867,18 @@ describe('property editor', () => {
 
             expect(propertyEditorPanel.element.locationX).toEqual(newX);
             expect(propertyEditorPanel.element.locationY).toEqual(newY);
+        });
+        it('Panel Config isLabelCollapsibleToHeader is set to true', async () => {
+            expect.assertions(1);
+
+            const editElementEvent = new EditElementEvent('1');
+            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+            canvasContainer.dispatchEvent(editElementEvent);
+
+            await ticks(1);
+
+            const propertyEditorPanel = editorComponent.shadowRoot.querySelector(selectors.propertyEditorPanel);
+            expect(propertyEditorPanel.params.panelConfig.isLabelCollapsibleToHeader).toEqual(true);
         });
     });
 });

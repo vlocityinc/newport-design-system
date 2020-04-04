@@ -1,17 +1,12 @@
 <template>
-    <div class="slds-panel__header slds-text-heading_medium slds-hyphenate slds-show">
-        <lightning-button-icon
-            variant="bare"
-            size="medium"
-            icon-name="utility:close"
-            alternative-text={labels.closePanelButtonTitle}
-            class="slds-icon_container slds-icon-utility-close slds-current-color test-help-utility-icon slds-float_right"
-            onclick={handleClose}
-        ></lightning-button-icon>
-        <span class="lds-panel__header-title">
-            {title}
-        </span>
-    </div>
+    <lightning-button-icon
+        variant="bare"
+        size="medium"
+        icon-name="utility:close"
+        alternative-text={labels.closePanelButtonTitle}
+        class="slds-icon_container slds-icon-utility-close slds-current-color test-help-utility-icon slds-is-absolute slds-p-around_small slds-p-left_none"
+        onclick={handleClose}
+    ></lightning-button-icon>
     <div
         class="property-editor-scroll"
         onsetpropertyeditortitle={setPropertyEditorTitle}
@@ -24,6 +19,7 @@
             node={element}
             mode={params.attr.bodyComponent.attr.mode}
             process-type={params.attr.bodyComponent.attr.processType}
+            editor-params={params}
         ></x-lazy>
     </div>
 </template>

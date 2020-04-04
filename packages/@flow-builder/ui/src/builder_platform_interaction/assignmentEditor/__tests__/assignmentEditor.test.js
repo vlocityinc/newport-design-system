@@ -15,13 +15,22 @@ import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
-function createComponentForTest() {
+function createComponentForTest(
+    props = {
+        editorParams: { panelConfig: { isLabelCollapsibleToHeader: false } }
+    }
+) {
     const el = createElement('builder_platform_interaction-assignment-editor', {
         is: AssignmentEditor
     });
+    el.editorParams = props.editorParams;
     document.body.appendChild(el);
     return el;
 }
+
+const selectors = {
+    labelDescription: 'div.slds-p-horizontal_small.slds-p-top_small builder_platform_interaction-label-description'
+};
 
 const testObj = {
     assignmentItems: [
@@ -185,5 +194,33 @@ describe('assignment-editor', () => {
             'builder_platform_interaction-fer-to-ferov-expression-builder'
         );
         expect(ferToFerov.defaultOperator).toEqual(RULE_OPERATOR.ASSIGN);
+    });
+    describe('styles for collapsible label description', () => {
+        it('apply if isLabelCollapsibleToHeader = false', async () => {
+            expect.assertions(1);
+            const assignmentEditor = createComponentForTest({
+                editorParams: {
+                    panelConfig: { isLabelCollapsibleToHeader: false }
+                }
+            });
+            assignmentEditor.node = deepCopy(testObj);
+            await ticks(1);
+            const labelDescription = assignmentEditor.shadowRoot.querySelector(selectors.labelDescription);
+
+            expect(labelDescription).not.toBeNull();
+        });
+        it("don't apply if isLabelCollapsibleToHeader = true", async () => {
+            expect.assertions(1);
+            const assignmentEditor = createComponentForTest({
+                editorParams: {
+                    panelConfig: { isLabelCollapsibleToHeader: true }
+                }
+            });
+            assignmentEditor.node = deepCopy(testObj);
+            await ticks(1);
+            const labelDescription = assignmentEditor.shadowRoot.querySelector(selectors.labelDescription);
+
+            expect(labelDescription).toBeNull();
+        });
     });
 });

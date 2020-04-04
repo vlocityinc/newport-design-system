@@ -25,6 +25,9 @@ export default class ScreenExtensionAttributeEditor extends LightningElement {
     index;
 
     @api
+    editorParams;
+
+    @api
     attributeIndex = 0;
 
     @api

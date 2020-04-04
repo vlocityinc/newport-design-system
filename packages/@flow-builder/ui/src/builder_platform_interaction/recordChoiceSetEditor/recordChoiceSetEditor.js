@@ -81,6 +81,9 @@ export default class RecordChoiceSetEditor extends LightningElement {
     @api
     mode;
 
+    @api
+    editorParams;
+
     set node(newValue) {
         this.recordChoiceSetResource = unwrap(newValue);
         if (this.recordChoiceSetResource.object && this.recordChoiceSetResource.object.value) {

@@ -49,6 +49,9 @@ export default class ResourcedRichTextEditor extends LightningElement {
     label;
 
     @api
+    editorParams;
+
+    @api
     helpText;
 
     @api

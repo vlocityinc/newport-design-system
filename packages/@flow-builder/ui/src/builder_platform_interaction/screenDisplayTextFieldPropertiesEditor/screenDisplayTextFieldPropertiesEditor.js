@@ -9,6 +9,9 @@ export default class ScreenDisplayTextFieldPropertiesEditor extends LightningEle
     @api field;
     labels = LABELS;
 
+    @api
+    editorParams;
+
     handlePropertyChanged = event => {
         event.stopPropagation();
         this.dispatchEvent(addCurrentValueToEvent(event, this.field));

@@ -26,6 +26,9 @@ export default class CustomPropertyEditor extends LightningElement {
     configurationEditor;
 
     @api
+    editorParams;
+
+    @api
     set elementInfo(info) {
         this._elementInfo = info ? unwrap(info) : {};
         if (this._isComponentCreated) {

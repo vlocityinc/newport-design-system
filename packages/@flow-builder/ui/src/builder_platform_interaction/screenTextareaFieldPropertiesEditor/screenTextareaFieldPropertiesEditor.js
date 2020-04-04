@@ -13,6 +13,9 @@ export default class ScreenTextareaFieldPropertiesEditor extends LightningElemen
 
     labels = LABELS;
 
+    @api
+    editorParams;
+
     handlePropertyChanged = event => {
         event.stopPropagation();
         const currentValue = this.field[event.detail.propertyName];
