@@ -9,11 +9,12 @@
     "config": {
         "auraVersion": "0.6000.2601",
         "lwcVersion": "1.3.7-226.4",
-        "lwcApiVersion": "0.222.13"
+        "lwcApiVersion": "0.222.13",
+        "branch": "main"
     },
     "scripts": {
-        "check:goldFiles": "./scripts/checkGoldFiles.sh",
-        "check:pom": "node ./scripts/checkPom.js",
+        "check:goldFiles": "./scripts/checkGoldFiles.sh -b $npm_package_config_branch",
+        "check:pom": "node ./scripts/pom.js check -b $npm_package_config_branch",
         "clean:install": "rm -rf node_modules && yarn",
         "clean": "rm -rf src/main/modules && lerna run clean",
         "ci:lint": "lerna run lint",
@@ -27,7 +28,7 @@
         "build": "yarn build:packages && yarn build:core",
         "serve": "lerna run start --stream",
         "start": "run-p watch:poc serve watch watch:core",
-        "test:nba-components": "./scripts/testNbaComponents.sh",
+        "test:nba-components": "./scripts/testNbaComponents.sh -b $npm_package_config_branch",
         "watch:poc": "node ./scripts/npm2lwc.js packages packages/flow-builder-pocs/build/ --watch",
         "watch": "lerna run watch --parallel",
         "test:unit": "lerna exec -- yarn run test",
@@ -40,13 +41,13 @@
         "generate:sfdc-components-package": "node ./scripts/generateNpmPackage.js",
         "release:sfdc-components-package": "cd dist/builder-platform-interaction-components && npm publish --verbose --registry=https://nexus-proxy-prd.soma.salesforce.com/nexus/content/repositories/npmjs-internal/",
         "update:auraPomVersion": "mvn versions:update-property -Dproperty=aura.version -DnewVersion=[$npm_package_config_auraVersion] -DallowDowngrade=true -DgenerateBackupPoms=false",
-        "update:goldFiles": "./scripts/updateGoldFiles.sh",
-        "update:labels": "node ./scripts/labels/update-labels.js --labelFile ~/blt/app/main/core/shared-labels/java/resources/sfdc/i18n/shared_core_ui_labels/ui-interaction-builder-components.xml --targetDir ./packages/flow-builder-pocs/src/demo-app/labels/ --jsonDir ./labels/ && node ./scripts/labels/update-labels.js --labelFile ~/blt/app/main/core/shared-labels/java/resources/sfdc/i18n/shared_core_ui_labels/lightning-global-components.xml --targetDir ./packages/flow-builder-pocs/src/demo-app/labels/ --jsonDir ./labels/",
+        "update:goldFiles": "./scripts/updateGoldFiles.sh -b $npm_package_config_branch",
+        "update:labels": "node ./scripts/labels/update-labels.js --labelFile ~/blt/app/$npm_package_config_branch/core/shared-labels/java/resources/sfdc/i18n/shared_core_ui_labels/ui-interaction-builder-components.xml --targetDir ./packages/flow-builder-pocs/src/demo-app/labels/ --jsonDir ./labels/ && node ./scripts/labels/update-labels.js --labelFile ~/blt/app/main/core/shared-labels/java/resources/sfdc/i18n/shared_core_ui_labels/lightning-global-components.xml --targetDir ./packages/flow-builder-pocs/src/demo-app/labels/ --jsonDir ./labels/",
         "update:lwcPomVersion": "mvn versions:update-property -Dproperty=lwc.version -DnewVersion=[$npm_package_config_lwcVersion] -DallowDowngrade=true -DgenerateBackupPoms=false",
         "update:lwcPackages": "node ./scripts/updateLwcVersions && yarn install",
-        "update:syncPomToCore": "node ./scripts/syncPomToCore",
+        "update:syncPomToCore": "node ./scripts/pom sync -b $npm_package_config_branch",
         "update:versions": "yarn update:lwcPomVersion && yarn update:auraPomVersion && yarn update:lwcPackages",
-        "utils:copy-to-nba": "./scripts/copyToNba.sh"
+        "utils:copy-to-nba": "./scripts/copyToNba.sh -b $npm_package_config_branch"
     },
     "repository": {
         "type": "git",

@@ -1,6 +1,21 @@
-#!/bin/sh
+#!/bin/bash
 
-. scripts/setupEnv.sh
+usage()
+{
+  echo "Usage: $0 -b BRANCH"
+  echo "where BRANCH is 'main', '226/patch' ..."
+  exit 2
+}
+
+while getopts 'b:?h' c
+do
+  case $c in
+    b) BRANCH=$OPTARG ;;
+    h|?) usage ;; esac
+done
+[ -z "$BRANCH" ] && usage
+
+. scripts/setupEnv.sh "${BRANCH}"
 
 # setup symlink to git @flow-builder packages
 rm "${NBA_HOME}/ui-interaction-builder-components-git"

@@ -5,7 +5,22 @@ YELLOW='\033[0;33m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-. scripts/setupEnv.sh
+usage()
+{
+  echo "Usage: $0 -b BRANCH"
+  echo "where BRANCH is 'main', '226/patch' ..."
+  exit 2
+}
+
+while getopts 'b:?h' c
+do
+  case $c in
+    b) BRANCH=$OPTARG ;;
+    h|?) usage ;; esac
+done
+[ -z "$BRANCH" ] && usage
+
+. scripts/setupEnv.sh "${BRANCH}"
 
 GOLDFILES_CORE_DIR="${CORE_HOME}/ui-interaction-builder-impl/test/func/results/FlowBuilderControllerGoldFileTest"
 GOLDFILES_GIT_DIR="$(pwd)/packages/@flow-builder/ui/jest-mock-data/results/FlowBuilderControllerGoldFileTest"

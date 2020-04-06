@@ -1,15 +1,25 @@
-#!/bin/sh
+#!/bin/bash
 
-. scripts/setupEnv.sh
+usage()
+{
+  echo "Usage: $0 -b BRANCH -c CHANGELIST"
+  echo "where BRANCH is 'main', '226/patch' ..."
+  exit 2
+}
 
-CL=$1
+while getopts 'c:b:?h' c
+do
+  case $c in
+    c) CL=$OPTARG ;;
+    b) BRANCH=$OPTARG ;;
+    h|?) usage ;; esac
+done
+[ -z "$BRANCH" ] && usage
+[ -z "$CL" ] && usage
 
-if [ -z "$CL" ]; then
-    echo "Usage: copyToNba.sh <changelist>"
-    exit 1;
-fi
+. scripts/setupEnv.sh "${BRANCH}"
 
-# need to built @flow-builder/flow-utils
+# need to build @flow-builder/flow-utils
 yarn build
 
 UI_INTERACTION_BUILDER_COMPONENTS_COPY=$NBA_HOME/ui-interaction-builder-components-copy

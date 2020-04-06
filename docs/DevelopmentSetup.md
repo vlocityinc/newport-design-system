@@ -36,33 +36,25 @@ git clone git@git.soma.salesforce.com:automation-platform/ui-interaction-builder
  cd ~/projects/ui-interaction-builder-components
 ```
 
-5.  Create .env file and add NBA_COMPONENTS variable
-
-    -   We do this step because we run our changes against the ui-nba-components repo to make sure we are not breaking
-        their team codebase with our changes. When we run git push, husky runs the git push hook that runs their codebase based on this path.
-
-    `echo NBA_COMPONENTS=/Users/atrzeciak/blt/app/main/core/ui-nba-components > .env`
-    -- modified for your dev setup pointing to the repository modules for ui-nba-components repo
-
-6.  Switch to the `master` branch if you are not already on it:
+5.  Switch to the `master` branch if you are not already on it:
 
     ```sh
     git checkout master
     ```
 
-7.  Install the npm modules for the repo:
+6.  Install the npm modules for the repo:
 
     `yarn install`
 
     (if you have issues with this command run `rm yarn.lock` or run `git clean -xfd` and make sure you have no file changed with `git status`)
 
-8.  Build the repo:
+7.  Build the repo:
 
     ```sh
     yarn build
     ```
 
-9.  Run mvn compile (See instructions here to setup mvn: https://sites.google.com/a/salesforce.com/butc/user-documentation/install-maven):
+8.  Run mvn compile (See instructions here to setup mvn: https://sites.google.com/a/salesforce.com/butc/user-documentation/install-maven):
 
     ```sh
     mvn compile
@@ -71,13 +63,13 @@ git clone git@git.soma.salesforce.com:automation-platform/ui-interaction-builder
     If you have any auth errors here, make sure the file `~/.m2/settings.xml` has your valid nexus tokens.
     If you don't have a `~/.m2/settings.xml` see this setting up maven doc: https://git.soma.salesforce.com/modularization-team/maven-settings/blob/master/QuickStart.md or this one here: https://git.soma.salesforce.com/modularization-team/maven-settings
 
-10. Run this watch command so that when you modify files, they are picked up by core:
+9.  Run this watch command so that when you modify files, they are picked up by core:
 
 ```sh
  yarn watch:core
 ```
 
-11. (Optional) Run the unit tests:
+10. (Optional) Run the unit tests:
 
 ```sh
 yarn test:unit
