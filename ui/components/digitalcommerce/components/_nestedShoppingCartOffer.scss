@@ -191,7 +191,7 @@
     }
     .nds-dc-applied-promo-container {
       display: flex;
-      padding: 0 .3125rem;
+      padding: 0;
     }
     .nds-dc-applied-promo {
       width: 100%;
@@ -266,9 +266,6 @@
       .nds-dc-adjustments-value-recurring {
         width: 30%;
         margin-right: unset;
-      }
-      .nds-dc-edit-icon-column {
-        margin-left: 1rem; 
       }
     }
   }
