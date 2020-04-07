@@ -8,6 +8,7 @@ export default class StepEditor extends LightningElement {
     /**
      * Internal state for the step editor
      */
+
     @track
     stepElement = {};
 
