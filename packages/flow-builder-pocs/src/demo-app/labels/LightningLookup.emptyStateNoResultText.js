@@ -1,1 +1,1 @@
-export default '​No results for "{0}"';
+export default 'No results for "{0}"';

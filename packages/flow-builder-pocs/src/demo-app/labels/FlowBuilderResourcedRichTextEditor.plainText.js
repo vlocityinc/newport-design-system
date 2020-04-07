@@ -1,1 +1,1 @@
-export default 'Plain Text';
+export default 'View as Plain Text';

@@ -1,10 +1,9 @@
 import { LightningElement, api } from 'lwc';
-import { classSet } from 'lightning/utils';
+import { ElementType } from 'builder_platform_interaction/flowUtils';
 import { EditElementEvent, FlcSelectDeselectNodeEvent } from 'builder_platform_interaction/events';
-import { isSystemElement, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 /**
- * Fixed Layout Canvas Node Component
+ * Autolayout Canvas Node Component
  */
 export default class FlcNode extends LightningElement {
     @api
@@ -13,15 +12,9 @@ export default class FlcNode extends LightningElement {
     @api
     isSelectionMode;
 
-    get computedClassName() {
-        return classSet('node')
-            .add({ 'menu-opened': this.nodeInfo.menuOpened })
-            .add({ 'is-new': this.nodeInfo.isNew })
-            .toString();
-    }
-
     get showCheckboxInSelectionMode() {
-        return this.isSelectionMode && !isSystemElement(this.nodeInfo.metadata.value);
+        const { type } = this.nodeInfo.metadata;
+        return this.isSelectionMode && ![ElementType.START, ElementType.END, ElementType.ROOT].includes(type);
     }
 
     get shouldDisableCheckbox() {
@@ -37,13 +30,9 @@ export default class FlcNode extends LightningElement {
     }
 
     get textContainerClasses() {
-        return this.nodeInfo.metadata.value === ELEMENT_TYPE.START_ELEMENT ||
-            this.nodeInfo.metadata.value === ELEMENT_TYPE.END_ELEMENT ||
-            this.nodeInfo.metadata.value === ELEMENT_TYPE.ASSIGNMENT ||
-            this.nodeInfo.metadata.value === ELEMENT_TYPE.SCREEN ||
-            this.nodeInfo.metadata.value === ELEMENT_TYPE.SUBFLOW
-            ? 'slds-is-absolute text-container'
-            : 'slds-is-absolute text-container shifted-text-container';
+        return this.nodeInfo.metadata.type === ElementType.BRANCH
+            ? 'slds-is-absolute text-container shifted-text-container'
+            : 'slds-is-absolute text-container';
     }
 
     handleOnDblClick(event) {

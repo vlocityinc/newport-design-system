@@ -1,5 +1,14 @@
 import { LightningElement, track, api } from 'lwc';
-import { FlowRenderer, animate, MenuType, getStyle, panzoom } from 'builder_platform_interaction/flowUtils';
+import {
+    renderFlow,
+    toggleFlowMenu,
+    calculateFlowLayout,
+    getDefaultLayoutConfig,
+    animate,
+    MenuType,
+    getStyle,
+    panzoom
+} from 'builder_platform_interaction/flowUtils';
 import { ZOOM_ACTION, FlcSelectionEvent } from 'builder_platform_interaction/events';
 import {
     getCanvasElementSelectionData,
@@ -85,8 +94,7 @@ function findElementOffsets(flowRenderInfo, guid) {
 export default class FlcBuilder extends LightningElement {
     _builderElement;
     _flowElement;
-    _flowModel;
-    _flowRenderer;
+    _flowRenderContext = {};
     _isSelectionMode;
     _observer;
     _scale = 1;
@@ -103,15 +111,6 @@ export default class FlcBuilder extends LightningElement {
 
     @track
     flowRenderInfo;
-
-    @track
-    placeholderStyle = '';
-
-    @track
-    sentinelTopStyle = '';
-
-    @track
-    sentinelBottomStyle = '';
 
     @track
     _forceRender = 0;
@@ -136,7 +135,7 @@ export default class FlcBuilder extends LightningElement {
                 canvasElementGuidsToDeselect,
                 selectableCanvasElementGuids,
                 topSelectedGuid
-            } = getCanvasElementDeselectionDataOnToggleOff(this.flowModel, this._topSelectedGuid);
+            } = getCanvasElementDeselectionDataOnToggleOff(this._flowRenderContext.flowModel, this._topSelectedGuid);
 
             this._topSelectedGuid = topSelectedGuid;
 
@@ -156,14 +155,11 @@ export default class FlcBuilder extends LightningElement {
 
     @api
     set flowModel(flowModel) {
-        this._flowModel = flowModel;
-        if (this._flowModel) {
-            this.rerender();
-        }
+        this.updateFlowRenderContext({ flowModel });
     }
 
     get flowModel() {
-        return this._flowModel;
+        return this._flowRenderContext.flowModel;
     }
 
     constructor() {
@@ -172,17 +168,26 @@ export default class FlcBuilder extends LightningElement {
         this.rerender = debounce(this.rerender, 10);
     }
 
+    updateFlowRenderContext(flowRenderContext) {
+        if (flowRenderContext) {
+            Object.assign(this._flowRenderContext, flowRenderContext);
+        }
+
+        this.rerender();
+    }
+
     hideMenu() {
         if (this.menu) {
-            this._flowRenderer.toggleMenu({});
             this.menu = null;
-            this.rerender();
+            this.updateFlowRenderContext({
+                interactionState: toggleFlowMenu(null, this._flowRenderContext.interactionState)
+            });
         }
     }
 
     handleToggleMenu = event => {
         const { detail } = event;
-        this._flowRenderer.toggleMenu(detail);
+        const interactionState = toggleFlowMenu(detail, this._flowRenderContext.interactionState);
 
         const connectorMenu = detail.type === MenuType.CONNECTOR;
         const { top, left } = this._flowElement.getBoundingClientRect();
@@ -193,6 +198,7 @@ export default class FlcBuilder extends LightningElement {
             top: (detail.top - top) * (1 / this._scale) - offset,
             zIndex: 5
         });
+
         this.menu = this.menu
             ? null
             : {
@@ -202,7 +208,7 @@ export default class FlcBuilder extends LightningElement {
                   style
               };
 
-        this.rerender();
+        this.updateFlowRenderContext({ interactionState });
         if (this.menu) {
             this.handleClickToZoom(ZOOM_TO_VIEW_EVENT);
         }
@@ -213,7 +219,6 @@ export default class FlcBuilder extends LightningElement {
         const { y } = findElementOffsets(this.flowRenderInfo, guid);
         const offsets = getTransformOriginOffset(this._flowElement.parentElement, CENTER_MIDDLE_TRANSFORM);
         const transform = this._panzoom.getTransform();
-
         this._panzoom.smoothZoomAbs(offsets.x, transform.y + transform.scale * y, 1);
     }
 
@@ -225,9 +230,13 @@ export default class FlcBuilder extends LightningElement {
                 selectableCanvasElementGuids,
                 topSelectedGuid
             } = !event.detail.isSelected
-                ? getCanvasElementSelectionData(this.flowModel, event.detail.canvasElementGUID, this._topSelectedGuid)
+                ? getCanvasElementSelectionData(
+                      this._flowRenderContext.flowModel,
+                      event.detail.canvasElementGUID,
+                      this._topSelectedGuid
+                  )
                 : getCanvasElementDeselectionData(
-                      this.flowModel,
+                      this._flowRenderContext.flowModel,
                       event.detail.canvasElementGUID,
                       this._topSelectedGuid
                   );
@@ -244,26 +253,36 @@ export default class FlcBuilder extends LightningElement {
         }
     };
 
-    rerender = () => {
-        const { flowModel } = this;
+    isFirstRender() {
+        return this._flowRenderContext.nodeLayoutMap == null;
+    }
 
-        if (flowModel == null) {
+    rerender = () => {
+        if (!this.shouldRenderFlow) {
             return;
         }
 
-        if (this._flowRenderer == null) {
-            // create an elementType => elementMetadata map
-            const flowElementsMetadata = this.elementsMetadata.reduce((acc, elementMetadata) => {
+        if (this.isFirstRender()) {
+            const elementsMetadata = this.elementsMetadata.reduce((acc, elementMetadata) => {
                 acc[elementMetadata.elementType] = elementMetadata;
                 return acc;
             }, {});
 
-            this._flowRenderer = new FlowRenderer(flowElementsMetadata).setFlowModel(flowModel);
+            Object.assign(this._flowRenderContext, {
+                nodeLayoutMap: {},
+                interactionState: {},
+                elementsMetadata,
+                layoutConfig: { ...getDefaultLayoutConfig() }
+            });
+        }
 
+        this._flowRenderContext.progress = 0;
+        calculateFlowLayout(this._flowRenderContext);
+
+        if (this.isFirstRender()) {
             // first render, no animation
             this.renderFlow(1);
         } else {
-            this._flowRenderer.setFlowModel(flowModel);
             animate(progress => this.renderFlow(progress));
         }
     };
@@ -303,7 +322,7 @@ export default class FlcBuilder extends LightningElement {
     }
 
     get shouldRenderFlow() {
-        return this._builderElement && this._flowModel;
+        return this._builderElement && this._flowRenderContext.flowModel;
     }
 
     query = selector => {
@@ -311,12 +330,10 @@ export default class FlcBuilder extends LightningElement {
     };
 
     renderFlow(progress) {
-        if (this._flowModel != null) {
-            this.flowRenderInfo = this._flowRenderer.renderFlow(progress);
-
-            this.updateElementsForViewport();
-            this._forceRender++;
-        }
+        this._flowRenderContext.progress = progress;
+        this.flowRenderInfo = renderFlow(this._flowRenderContext);
+        this.updateElementsForViewport();
+        this._forceRender++;
     }
 
     updateShouldRender(elements, rect) {

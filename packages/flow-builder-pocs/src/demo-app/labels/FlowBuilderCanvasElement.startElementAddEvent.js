@@ -1,1 +1,1 @@
-export default 'Add Event';
+export default 'Choose Platform Event';

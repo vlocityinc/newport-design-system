@@ -1,53 +1,46 @@
 <template>
-    <div class={computedClassName}>
-        <!-- Connector SVG -->
-        <svg height={svgInfo.h} width={svgInfo.w} style={svgInfo.style}>
-            <g>
-                <path class={svgInfo.pathClass} d={svgInfo.path}></path>
-            </g>
-        </svg>
+    <!-- Connector SVG -->
+    <svg class={svgClassName} height={svgInfo.height} width={svgInfo.width} style={svgInfo.style}>
+        <g>
+            <path d={svgInfo.path}></path>
+        </g>
+    </svg>
 
-        <!-- Label Picker -->
-        <lightning-combobox
-            if:true={connectorInfo.selectedChildGuid}
-            class="combobox-label"
-            disabled={hasOneOption}
-            label="Assistive text"
-            options={connectorInfo.childReferences}
-            style={connectorLabelStyle}
-            value={connectorInfo.selectedChildGuid}
-            variant="label-hidden"
-            onchange={handleComboboxChange}
-            onmouseout={handleComboboxMouseOut}
-            onmouseover={handleComboboxMouseOver}
-        ></lightning-combobox>
-        <div if:true={isConnectorDefaultOrFault} class={connectorBadgeClass} style={connectorLabelStyle}>
-            <span class="slds-truncate">{connectorBadgeLabel}</span>
-        </div>
-
-        <!-- "+" Button Menu -->
-        <template if:true={showAddElementButton}>
-            <builder_platform_interaction-flc-button-menu
-                child-index={connectorInfo.childIndex}
-                guid={connectorInfo.sourceGuid}
-                is-connector
-                icon-size="small"
-                menu-opened={connectorInfo.menuOpened}
-                next={connectorInfo.targetGuid}
-                parent={connectorInfo.parent}
-                prev={connectorInfo.sourceGuid}
-                style={buttonMenuStyle}
-                variant="connector"
-            >
-                <lightning-icon
-                    slot="trigger"
-                    alternative-text="Add New Element"
-                    class="circle-text"
-                    icon-name="utility:add"
-                    size="x-small"
-                    variant={addIconVariant}
-                ></lightning-icon>
-            </builder_platform_interaction-flc-button-menu>
-        </template>
+    <!-- Label Picker -->
+    <lightning-combobox
+        if:true={connectorInfo.conditionValue}
+        style={connectorLabelStyle}
+        disabled={isLabelPickerDisabled}
+        label="Assistive text"
+        options={connectorInfo.conditionOptions}
+        value={connectorInfo.conditionValue}
+        variant="label-hidden"
+        onchange={handleComboboxChange}
+        onmouseout={handleComboboxMouseOut}
+        onmouseover={handleComboboxMouseOver}
+    ></lightning-combobox>
+    <div if:true={isConnectorDefaultOrFault} class={connectorBadgeClass} style={connectorLabelStyle}>
+        <span class="slds-truncate">{connectorBadgeLabel}</span>
     </div>
+
+    <!-- "+" Button Menu -->
+    <template if:true={showAddElementButton}>
+        <builder_platform_interaction-flc-button-menu
+            is-connector
+            icon-size="small"
+            info={connectorInfo.addInfo}
+            menu-opened={connectorInfo.addInfo.menuOpened}
+            style={buttonMenuStyle}
+            variant="connector"
+        >
+            <lightning-icon
+                slot="trigger"
+                alternative-text="Add New Element"
+                class="circle-text"
+                icon-name="utility:add"
+                size="x-small"
+                variant={addIconVariant}
+            ></lightning-icon>
+        </builder_platform_interaction-flc-button-menu>
+    </template>
 </template>

@@ -1,1 +1,1 @@
-export default 'After Save';
+export default 'After the record is saved';

@@ -1,1 +1,1 @@
-export default 'Edit Flow Start: Set Schedule';
+export default 'Set a Schedule';

@@ -1,34 +1,29 @@
-.canvas-path {
-    stroke: var(--lwc-colorGray6);
-    stroke-width: 6;
-    fill: none;
-}
-
-.canvas-path.fault {
-    stroke: var(--lwc-colorBorderError);
-    stroke-dasharray: 7;
-    stroke-width: 3;
-    fill: none;
-}
-
 svg {
     position: absolute;
     z-index: -1;
+    fill: none;
+    stroke: var(--lwc-colorGray6);
+    stroke-width: 6;
 }
 
-.combobox-label {
+svg.fault {
+    stroke: var(--lwc-colorBorderError);
+    stroke-width: 3;
+    stroke-dasharray: 7;
+}
+
+lightning-combobox {
     position: absolute;
-    transform: translate(-50%, -50%);
     width: 96px;
-    z-index: 1;
+    z-index: 2;
+    transform: translate(-50%, -50%);
 }
 
 .connector-badge {
-    height: 24px;
     position: absolute;
+    height: 24px;
     transform: translate(-50%, -50%);
     width: 72px;
-    z-index: 1;
 }
 
 .default-badge {
@@ -52,13 +47,4 @@ builder_platform_interaction-flc-button-menu {
 
 builder_platform_interaction-flc-button-menu.slds-is-open .circle-text {
     transform: rotate(-135deg);
-}
-
-.connector {
-    position: absolute;
-    transition: opacity 1s;
-}
-
-.connector.is-new {
-    opacity: 0;
 }

@@ -1,1 +1,1 @@
-export default '​Try entering a search term.';
+export default 'Try entering a search term.';

@@ -1,4 +1,4 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, track } from 'lwc';
 
 import { Store } from 'builder_platform_interaction/storeLib';
 import { AddElementEvent, DeleteElementEvent } from 'builder_platform_interaction/events';
@@ -31,6 +31,12 @@ function translateEventToAction(event) {
                         parent
                     })
                 );
+
+                // uncomment to test out more than 2 way branching
+                // if (element.elementType === "DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES") {
+                //    element.canvasElement.children = [null, null, null, null, null];
+                //    element.canvasElement.maxConnections = 5;
+                // }
             } else {
                 element = createEndElement({
                     prev,
@@ -91,4 +97,11 @@ export default class Builder extends LightningElement {
     handleNew() {
         this.createStartElement();
     }
+
+    handleToggleSelectionMode() {
+        this.isSelectionMode = !this.isSelectionMode;
+    }
+
+    @track
+    isSelectionMode = false;
 }

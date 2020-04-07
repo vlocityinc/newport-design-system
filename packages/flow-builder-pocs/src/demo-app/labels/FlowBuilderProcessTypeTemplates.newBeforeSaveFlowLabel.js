@@ -1,1 +1,1 @@
-export default 'Record Changed Flow.';
+export default 'Record-Changed Flow';

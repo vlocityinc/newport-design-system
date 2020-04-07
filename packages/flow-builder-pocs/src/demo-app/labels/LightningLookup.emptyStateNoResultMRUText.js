@@ -1,1 +1,1 @@
-export default '​No results yet...';
+export default 'No results yet...';

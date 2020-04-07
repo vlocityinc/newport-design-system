@@ -1,1 +1,1 @@
-export default 'Scheduled Flow.';
+export default 'Scheduled Flow';

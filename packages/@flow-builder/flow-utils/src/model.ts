@@ -1,30 +1,23 @@
 import ElementType from './ElementType';
-import MenuType from './MenuType';
 
-type guid = string;
+export type guid = string;
 
 export interface FlowModel {
     [key: string]: NodeModel;
 }
-export interface FlowInteractionState {
-    menuInfo: {
-        key: guid;
-        type: MenuType;
-    } | null;
-}
-
 export type NodeRef = guid | null;
 
 export interface NodeModel {
     guid: guid;
     label: string;
     elementType: string;
-    fault?: string;
+    fault: NodeRef;
     maxConnections: number;
     config: { isSelected: boolean; isHighlighted: boolean; canSelect: boolean };
+
     outcomeReferences?: Array<{ outcomeReference: string }>;
     waitEventReferences?: Array<{ waitEventReference: string }>;
-    defaultConnectorLabel?: string;
+
     // link properties
     prev: NodeRef;
     next: NodeRef;

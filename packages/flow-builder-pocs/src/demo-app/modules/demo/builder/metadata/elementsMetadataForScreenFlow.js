@@ -98,23 +98,5 @@ export default [
         value: ELEMENT_TYPE.START_ELEMENT,
         elementType: ELEMENT_TYPE.START_ELEMENT,
         description: null
-    },
-    {
-        section: null,
-        type: ElementType.ROOT,
-        icon: 'standard:default',
-        label: null,
-        value: ELEMENT_TYPE.ROOT_ELEMENT,
-        elementType: ELEMENT_TYPE.ROOT_ELEMENT,
-        description: null
-    },
-    {
-        section: endElementConfig.nodeConfig.section,
-        type: ElementType.END,
-        icon: endElementConfig.nodeConfig.iconName,
-        label: endElementConfig.labels.singular,
-        value: ELEMENT_TYPE.END_ELEMENT,
-        elementType: ELEMENT_TYPE.END_ELEMENT,
-        description: endElementConfig.nodeConfig.description
     }
 ];

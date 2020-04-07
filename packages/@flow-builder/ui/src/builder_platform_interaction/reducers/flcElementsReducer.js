@@ -7,6 +7,7 @@ import {
     SELECTION_ON_FIXED_CANVAS,
     ADD_WAIT_WITH_WAIT_EVENTS,
     MODIFY_WAIT_WITH_WAIT_EVENTS,
+    MODIFY_DECISION_WITH_OUTCOMES,
     DELETE_ELEMENT,
     PASTE_ON_FIXED_CANVAS,
     REORDER_CONNECTORS
@@ -47,6 +48,7 @@ export default function flcElementsReducer(state = {}, action) {
         case ADD_END_ELEMENT:
         case ADD_WAIT_WITH_WAIT_EVENTS:
         case MODIFY_WAIT_WITH_WAIT_EVENTS:
+        case MODIFY_DECISION_WITH_OUTCOMES:
             state = _addCanvasElement(state, action);
             break;
         case DELETE_ELEMENT:
@@ -102,6 +104,11 @@ function _addCanvasElement(state, action) {
 
     if (supportsChildren(element)) {
         initializeChildren(element);
+
+        // TODO: FLC fix this
+        if (element.children.length < element.maxConnections) {
+            element.children.push(null);
+        }
     }
 
     addElement(state, element, action.type === ADD_END_ELEMENT);
@@ -269,10 +276,10 @@ function _pasteOnFixedCanvas(
         cutOrCopiedChildElements,
         topCutOrCopiedGuid,
         bottomCutOrCopiedGuid,
-        prev,
-        next,
-        parent,
-        childIndex
+        prev = null,
+        next = null,
+        parent = null,
+        childIndex = null
     }
 ) {
     let newState = { ...elements };

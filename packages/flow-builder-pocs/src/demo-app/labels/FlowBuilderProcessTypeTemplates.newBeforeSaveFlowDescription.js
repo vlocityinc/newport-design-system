@@ -1,1 +1,1 @@
-export default 'Create a flow that starts before a record change is saved.';
+export default 'Launch a flow in the background when a record is created or updated.';

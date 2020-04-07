@@ -1,1 +1,1 @@
-export default 'Rich Text';
+export default 'View as Rich Text';

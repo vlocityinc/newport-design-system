@@ -1,7 +1,7 @@
 import { createElement } from 'lwc';
 import FlcNode from 'builder_platform_interaction/flcNode';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FlcSelectDeselectNodeEvent } from 'builder_platform_interaction/events';
+import { ElementType } from 'builder_platform_interaction/flowUtils';
 
 const createComponentUnderTest = (props = {}) => {
     const el = createElement('builder_platform_interaction-flcNode', {
@@ -31,7 +31,7 @@ describe('FlcNode', () => {
             metadata: {
                 icon: 'dummyIcon',
                 label: 'elementType',
-                value: ELEMENT_TYPE.SCREEN
+                type: ElementType.DEFAULT
             },
             menuOpened: false
         };
@@ -50,14 +50,14 @@ describe('FlcNode', () => {
     });
 
     it('Does not show selection box for Start Element in Selection Mode', () => {
-        nodeInfo.metadata.value = ELEMENT_TYPE.START_ELEMENT;
+        nodeInfo.metadata.type = ElementType.START;
         const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
         const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
         expect(selectionCheckbox).toBeNull();
     });
 
     it('Does not show selection box for End Element in Selection Mode', () => {
-        nodeInfo.metadata.value = ELEMENT_TYPE.END_ELEMENT;
+        nodeInfo.metadata.type = ElementType.END;
         const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
         const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
         expect(selectionCheckbox).toBeNull();

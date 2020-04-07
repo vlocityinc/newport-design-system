@@ -1,1 +1,1 @@
-export default 'Edit';
+export default 'Edit Label, API Name, and Description';

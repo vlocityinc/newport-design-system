@@ -8,6 +8,14 @@ body,
     height: 100%;
 }
 
+body {
+    outline: none;
+    box-sizing: border-box;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
 /*
  * app/main/core/ui-force-components/components/force/base/base.tokens
  */

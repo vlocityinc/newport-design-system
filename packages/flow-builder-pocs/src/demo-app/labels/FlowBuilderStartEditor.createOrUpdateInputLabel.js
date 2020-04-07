@@ -1,1 +1,1 @@
-export default 'When to Start the Flow';
+export default 'Trigger the Flow When:';

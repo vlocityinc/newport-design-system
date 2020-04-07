@@ -1,64 +1,160 @@
 import { LayoutInfo, NodeLayoutMap, getBranchLayoutKey } from './layout';
 import ConnectorType from './ConnectorTypeEnum';
-import { ElementMetadata, NodeRef } from './model';
+import { FlowModel, ElementsMetadata, ElementMetadata, NodeRef, guid } from './model';
+import MenuType from './MenuType';
+import ElementType from './ElementType';
+
+export interface FlowRenderContext {
+    flowModel: FlowModel;
+    nodeLayoutMap: NodeLayoutMap;
+    progress: number;
+    interactionState: FlowInteractionState;
+    elementsMetadata: ElementsMetadata;
+    layoutConfig: LayoutConfig;
+}
+
+export interface FlowInteractionState {
+    menuInfo: {
+        key: guid;
+        type: MenuType;
+    } | null;
+}
 
 export interface FlowRenderInfo {
     key: string;
+    geometry: Geometry;
     nodes: NodeRenderInfo[];
-    style: string;
-    y: number;
-    x: number;
-    h: number;
-    shouldRender: boolean;
+    isTerminal: boolean;
+    layoutConfig: object;
     preConnector?: ConnectorRenderInfo;
-    postConnector?: ConnectorRenderInfo;
-    isTerminal?: boolean;
 }
 
 export interface NodeRenderInfo {
-    guid: string;
+    key: string;
+    geometry: Geometry;
     label: string;
     metadata: ElementMetadata;
-    style: string;
-    y: number;
-    h: number;
     config: { isSelected: boolean; isHighlighted: boolean; canSelect: boolean };
-    markerType: string;
     hasFault: boolean;
-    shouldRender: boolean;
     nextConnector?: ConnectorRenderInfo;
     flows: FlowRenderInfo[];
-    menuOpened?: boolean;
     isNew?: boolean;
-    isTerminal?: boolean;
+    logicConnectors: ConnectorRenderInfo[];
+    guid: string;
+    menuOpened: boolean;
+    isTerminal: boolean;
+}
+
+export interface Dimension {
+    w: number;
+    h: number;
+}
+
+export enum ConnectorVariant {
+    EDGE = 'edge',
+    CENTER = 'center'
+}
+
+interface ConnectorTypeLayoutConfig {
+    h: number;
+    addOffset: number;
+    labelOffset?: number;
+    variants?: {
+        [key in ConnectorVariant]: any;
+    };
+    svgMarginTop?: number;
+    svgMarginBottom?: number;
+}
+
+export interface LayoutConfig {
+    grid: {
+        w: number;
+        h: number;
+    };
+    menu: {
+        marginBottom: number;
+    };
+    connector: {
+        strokeWidth: number;
+        curveRadius: number;
+        menu: Dimension;
+        types: {
+            [key in ConnectorType]?: ConnectorTypeLayoutConfig;
+        };
+    };
+    node: {
+        w: number;
+        h: number;
+        menu: {
+            [key in ElementType]?: Dimension | undefined;
+        };
+    };
+}
+
+export interface Geometry {
+    x?: number;
+    y?: number;
+    w?: number;
+    h?: number;
+}
+
+export interface Option {
+    label: string;
+    value: guid;
+}
+
+export interface MenuInfo {
+    guid: NodeRef;
+    menuOpened: boolean;
+}
+
+export interface ConnectorAddInfo {
+    geometry: Geometry;
+    menuOpened: boolean;
+    prev?: NodeRef;
+    next?: NodeRef;
+    parent?: NodeRef;
+    childIndex?: number;
+}
+
+export interface SvgInfo {
+    geometry: Geometry;
+    path: string;
+}
+
+export interface SelectInfo {
+    value: NodeRef;
+    options: Option[];
 }
 
 export interface ConnectorRenderInfo {
     key: string;
+    type?: ConnectorType;
+    geometry?: Geometry;
+
+    svgInfo?: SvgInfo;
+    addInfo?: ConnectorAddInfo;
+
+    branchLabelGeometry?: Geometry;
+    conditionOptions?: Option[];
+    conditionValue?: guid;
+
     connectorType: ConnectorType;
-    sourceX: number;
-    sourceY: number;
-    svgWidth?: number;
-    svgHeight?: number;
-    sourceGuid?: NodeRef;
-    targetGuid?: NodeRef;
-    canAddNode?: boolean;
-    isDefault?: boolean;
     isFault?: boolean;
-    shouldRender?: boolean;
-    menuOpened?: boolean;
-    offsetY?: number;
-    childIndex?: number;
-    parent?: string;
-    style?: string;
     isNew?: boolean;
-    selectedChildGuid?: string;
-    childReferences?: Array<{ label: string; value: string }>;
-    defaultConnectorLabel?: string;
 }
 
-export function getStyle({ left, top, zIndex }: any) {
-    return `left: ${left}px; top: ${top}px; z-index: ${zIndex} `;
+export function getStyle({ left, bottom, top, width, height, zIndex }: any) {
+    return `left: ${left}px; bottom: ${bottom}px; top: ${top}px; height: ${height}px; width: ${width}px; z-index: ${zIndex} `;
+}
+
+export function getStyleFromGeometry({ x, y, w, h }: Geometry): string {
+    return getStyle({
+        left: x,
+        top: y,
+        width: w,
+        height: h
+    });
 }
 
 function tweenValue(prevValue: number, value: number, progress: number) {

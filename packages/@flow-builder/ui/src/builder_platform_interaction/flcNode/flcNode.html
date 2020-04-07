@@ -1,44 +1,42 @@
 <template>
-    <div class={computedClassName}>
-        <!-- Node Button -->
-        <builder_platform_interaction-flc-button-menu
-            element-metadata={nodeInfo.metadata}
-            guid={nodeInfo.guid}
-            is-selection-mode={isSelectionMode}
-            menu-opened={nodeInfo.menuOpened}
-            ondblclick={handleOnDblClick}
-        >
-            <!-- Element Icon -->
-            <lightning-icon
-                slot="trigger"
-                alternative-text="Approved"
-                icon-name={nodeInfo.metadata.icon}
-                size="large"
-                variant="inverse"
-            ></lightning-icon>
+    <!-- Node Button -->
+    <builder_platform_interaction-flc-button-menu
+        element-metadata={nodeInfo.metadata}
+        is-selection-mode={isSelectionMode}
+        info={nodeInfo.menuInfo}
+        guid={nodeInfo.guid}
+        ondblclick={handleOnDblClick}
+    >
+        <!-- Element Icon -->
+        <lightning-icon
+            slot="trigger"
+            alternative-text="Approved"
+            icon-name={nodeInfo.metadata.icon}
+            size="large"
+            variant="inverse"
+        ></lightning-icon>
 
-            <!-- Selection Checkbox -->
-            <lightning-button-icon
-                if:true={showCheckboxInSelectionMode}
-                slot="selection-checkbox"
-                alternative-text="Select Element"
-                class="selection-checkbox"
-                disabled={shouldDisableCheckbox}
-                icon-name={checkboxIconName}
-                size="x-small"
-                variant={checkboxVariant}
-                onclick={handleSelectionCheckboxClick}
-            ></lightning-button-icon>
-        </builder_platform_interaction-flc-button-menu>
+        <!-- Selection Checkbox -->
+        <lightning-button-icon
+            if:true={showCheckboxInSelectionMode}
+            slot="selection-checkbox"
+            alternative-text="Select Element"
+            class="selection-checkbox"
+            disabled={shouldDisableCheckbox}
+            icon-name={checkboxIconName}
+            size="x-small"
+            variant={checkboxVariant}
+            onclick={handleSelectionCheckboxClick}
+        ></lightning-button-icon>
+    </builder_platform_interaction-flc-button-menu>
 
-        <!-- Label and Element Type -->
-        <div if:false={nodeInfo.menuOpened} class={textContainerClasses}>
-            <div class="text-element-label slds-text-body_regular">
-                {nodeInfo.label}
-            </div>
-            <div class="text-element-type slds-text-body_regular slds-truncate">
-                {nodeInfo.metadata.label}
-            </div>
+    <!-- Label and Element Type -->
+    <div if:false={nodeInfo.menuOpened} class={textContainerClasses}>
+        <div class="text-element-label slds-text-body_regular">
+            {nodeInfo.label}
+        </div>
+        <div class="text-element-type slds-text-body_regular slds-truncate">
+            {nodeInfo.metadata.label}
         </div>
     </div>
 </template>

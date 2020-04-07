@@ -1,1 +1,1 @@
-export default 'Edit Flow Start: Add Event';
+export default 'Choose a Platform Event';

@@ -49,6 +49,9 @@ export default class FlcButtonMenu extends LightningElement {
     isSelectionMode;
 
     @api
+    info;
+
+    @api
     get menuOpened() {
         return this._menuOpened;
     }
@@ -263,10 +266,6 @@ export default class FlcButtonMenu extends LightningElement {
         return this.loadingStateAlternativeText || i18n.loading;
     }
 
-    get computedButtonContainerClass() {
-        return this.variant === 'connector' ? 'button-container' : '';
-    }
-
     get computedButtonClass() {
         return classSet({
             'slds-button': true,
@@ -376,7 +375,8 @@ export default class FlcButtonMenu extends LightningElement {
         if (!this.disabled) {
             const { top, left } = this.target.getBoundingClientRect();
             const { clientWidth, clientHeight } = this.target;
-            const { isConnector, guid, parent, prev, next, childIndex, elementMetadata } = this;
+            const { isConnector, guid, info, elementMetadata } = this;
+            const { parent, prev, next, childIndex } = info || {};
 
             if (sendEvent) {
                 this.dispatchEvent(
@@ -384,7 +384,7 @@ export default class FlcButtonMenu extends LightningElement {
                         top: top + clientHeight / 2,
                         left: left + clientWidth / 2,
                         type: isConnector ? MenuType.CONNECTOR : MenuType.NODE,
-                        guid,
+                        guid: guid || prev,
                         childIndex,
                         parent,
                         prev,

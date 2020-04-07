@@ -1,1 +1,1 @@
-export default 'This flow runs after the record is saved to the database. You can use any flow elements (except for Pause) and update any records. $Record is the record that triggers the flow, and you can query and update any record.';
+export default 'The flow can look up and update fields on any record—after the record is saved to the database. The flow can also perform actions, like send an email. To create or update any records, you must use Create Records or Update Records elements. The $Record global variable contains the Salesforce record that launches the flow.';

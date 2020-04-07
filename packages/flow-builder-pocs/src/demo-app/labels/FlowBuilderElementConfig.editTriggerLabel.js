@@ -1,1 +1,1 @@
-export default 'Edit Flow Start: Configure Trigger';
+export default 'Configure Trigger';

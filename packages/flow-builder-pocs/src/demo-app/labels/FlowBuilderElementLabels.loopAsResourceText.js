@@ -1,1 +1,1 @@
-export default 'Current Looped {0} from {1}';
+export default 'Current Item from Loop {0}';

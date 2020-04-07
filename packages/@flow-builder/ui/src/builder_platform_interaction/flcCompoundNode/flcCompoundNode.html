@@ -1,0 +1,36 @@
+<template>
+    <builder_platform_interaction-flc-node
+        style={simpleNode.style}
+        class={simpleNode.className}
+        is-selection-mode={isSelectionMode}
+        node-info={simpleNode.nodeInfo}
+    ></builder_platform_interaction-flc-node>
+
+    <template for:each={logicConnectors} for:item="logicConnector" if:true={node.logicConnectors}>
+        <builder_platform_interaction-flc-connector
+            key={logicConnector.key}
+            class="logic-connector"
+            style={logicConnector.style}
+            connector-info={logicConnector.connectorInfo}
+            is-selection-mode={isSelectionMode}
+        ></builder_platform_interaction-flc-connector>
+    </template>
+
+    <template for:each={branches} for:item="branch">
+        <builder_platform_interaction-flc-flow
+            key={branch.key}
+            style={branch.style}
+            flow={branch.flowInfo}
+            is-selection-mode={isSelectionMode}
+        ></builder_platform_interaction-flc-flow>
+    </template>
+
+    <template if:true={nextConnector}>
+        <builder_platform_interaction-flc-connector
+            key={nextConnector.key}
+            style={nextConnector.style}
+            connector-info={nextConnector.connectorInfo}
+            is-selection-mode={isSelectionMode}
+        ></builder_platform_interaction-flc-connector>
+    </template>
+</template>

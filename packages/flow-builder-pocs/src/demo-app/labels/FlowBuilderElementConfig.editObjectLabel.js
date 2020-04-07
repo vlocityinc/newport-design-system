@@ -1,1 +1,1 @@
-export default 'Edit Flow Start: Choose Object';
+export default 'Choose Object';

@@ -1,1 +1,1 @@
-export default 'Select a flow to configure.';
+export default 'Choose the flow to launch when this Subflow element is executed.';

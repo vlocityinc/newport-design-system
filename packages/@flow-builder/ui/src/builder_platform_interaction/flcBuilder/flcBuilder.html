@@ -1,6 +1,6 @@
 <template>
     <div class="builder" ondblclick={hideMenu} ontogglemenu={handleToggleMenu} onzoomelement={handleZoomElement}>
-        <template if:true={shouldRenderFlow}>
+        <template if:true={flowRenderInfo}>
             <builder_platform_interaction-flc-flow
                 menu={menu}
                 force={_forceRender}

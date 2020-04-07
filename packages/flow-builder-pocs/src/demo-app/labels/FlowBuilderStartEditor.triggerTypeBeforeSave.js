@@ -1,1 +1,1 @@
-export default 'Before Save';
+export default 'Before the record is saved';

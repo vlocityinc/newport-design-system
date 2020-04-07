@@ -136,7 +136,8 @@
         "updateSelectedItems": "Update {0} selected items",
         "rowActionsDefaultAriaLabel": "Actions",
         "ariaLiveNavigationMode": "Navigation Mode",
-        "ariaLiveActionMode": "Action Mode"
+        "ariaLiveActionMode": "Action Mode",
+        "rowNumber": "Row Number"
     },
     "LightningVerticalNavigation": {
         "newItems": "New Items",
@@ -226,9 +227,9 @@
         "advancedSearchMobile": "Show All Results for \"{0}\"",
         "createNewObject": "New {0}",
         "currentSelection": "Current Selection",
-        "emptyStateNoResultText": "​No results for \"{0}\"",
-        "emptyStateNoResultMRUText": "​No results yet...",
-        "emptyStateNoResultMRUWithoutText": "​Try entering a search term.",
+        "emptyStateNoResultText": "No results for \"{0}\"",
+        "emptyStateNoResultMRUText": "No results yet...",
+        "emptyStateNoResultMRUWithoutText": "Try entering a search term.",
         "messageWhenBadInputDefault": "Select an option or remove the search term.",
         "panelHeaderMobile": "Relate {0} To",
         "recentObject": "Recent {0}",
