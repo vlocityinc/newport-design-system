@@ -75,7 +75,11 @@ export function createRecordCreate(recordCreate = {}) {
             if (variable) {
                 if (variable.dataType !== FLOW_DATA_TYPE.APEX.value) {
                     getFirstRecordOnly = variable.dataType !== FLOW_DATA_TYPE.SOBJECT.value || !variable.isCollection;
-                } else if (variable.dataType === FLOW_DATA_TYPE.APEX.value && complexGuid.fieldNames.length === 1) {
+                } else if (
+                    variable.dataType === FLOW_DATA_TYPE.APEX.value &&
+                    complexGuid.fieldNames &&
+                    complexGuid.fieldNames.length === 1
+                ) {
                     const apexClazz = apexTypeLib.getPropertiesForClass(variable.subtype);
                     const property = apexClazz[complexGuid.fieldNames[0]];
                     if (property) {

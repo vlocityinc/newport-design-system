@@ -12,7 +12,8 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import {
     flowWithAllElementsUIModel,
     createWithApexDefSingleSObjectVariable,
-    createWithApexDefSObjectCollectionVariable
+    createWithApexDefSObjectCollectionVariable,
+    apexComplexTypeVariable
 } from 'mock/storeData';
 import { setApexClasses, cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
@@ -284,6 +285,16 @@ describe('recordCreate using Apex-Defined Variable', () => {
                 createWithApexDefSObjectCollectionVariable
             );
             expect(loadCreateWithApexDefSObjectCollectionVariable.getFirstRecordOnly).toBe(false);
+        });
+    });
+    describe('Create from apex variable', () => {
+        // see W-7405327: this can happen when using loop auto output and loop variable is changed to return apex instead of SObject
+        it('can create element with apex variable', () => {
+            const element = createRecordCreate({
+                inputReference: apexComplexTypeVariable.guid
+            });
+
+            expect(element).toBeDefined();
         });
     });
 });
