@@ -2,8 +2,8 @@
     "name": "@flow-builder/flow-utils",
     "version": "0.0.1",
     "description": "Flow Fixed Canvas Utils",
-    "main": "dist/index.js",
-    "typings": "dist/types/index.d.ts",
+    "main": "dist/index.esNext.js",
+    "typings": "dist/types/index.esNext.d.ts",
     "author": "",
     "license": "MIT",
     "npm2lwc": {
@@ -11,13 +11,13 @@
         "namespace": "builder_platform_interaction"
     },
     "scripts": {
-        "clean": "rm -rf dist/ build/",
-        "build:ts": "tsc",
         "build:target:lwc": "rollup -c ../../../scripts/rollup/rollup-esNext.config.js",
         "build:target:npm": "rollup -c ../../../scripts/rollup/rollup-npm.config.js",
         "build:dev": "yarn build:ts && yarn build:target:lwc",
         "build": "yarn build:dev && yarn build:target:npm",
-        "watch": "watch -p 'src/**/*.ts' -c 'yarn build:dev'",
+        "clean": "rm -rf build dist",
+        "build:ts": "tsc",
+        "lint": "eslint --max-warnings 0 src/**/*.ts",
         "test": "jest src/**/*.test.js"
     },
     "dependencies": {

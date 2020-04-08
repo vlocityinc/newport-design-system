@@ -1,20 +1,19 @@
 {
     "root": true,
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "sourceType": "module",
-        "ecmaFeatures": {
-            "jsx": true
-        }
+        "ecmaVersion": 2018,
+        "sourceType": "module"
     },
-    "plugins": ["lwc-core"],
-    "extends": ["@salesforce/eslint-config-lwc/recommended", "plugin:lwc-core/recommended", "plugin:lwc-core/style"],
-    "env": {
-        "es6": true,
-        "node": true
-    },
+    "extends": [
+        "plugin:@typescript-eslint/recommended",
+        "@salesforce/eslint-config-lwc/recommended",
+        "plugin:lwc-core/recommended",
+        "plugin:lwc-core/style"
+    ],
     "overrides": [
         {
-            "files": ["*.js"],
+            "files": ["*.ts"],
             "rules": {
                 "lwc-core/no-inline-disable": "off",
                 "lwc-core/valid-offline-wire": "off",

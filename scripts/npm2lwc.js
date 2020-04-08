@@ -15,6 +15,8 @@ const {
     getDirectories
 } = require('./utils');
 const watch = require('node-watch');
+const { transform } = require('@babel/core');
+const babelTsPlugin = require('@babel/plugin-transform-typescript');
 
 const modulesArg = argv._[0] || 'src/main/modules';
 const npmPackagesArg = argv._[1] || 'packages'; // force passing in args for now
@@ -152,6 +154,27 @@ function exportPackageToLwcModule(packageRootPath, pkg, modulesPath, npm2lwcName
     }
 }
 
+function transpileTs(fullSourcePath, modulePath) {
+    const babelOptions = {
+        babelrc: false,
+        plugins: [babelTsPlugin],
+        parserOpts: {
+            plugins: [
+                ['decorators', { decoratorsBeforeExport: true }],
+                ['classProperties', {}]
+            ]
+        }
+    };
+
+    modulePath = modulePath.substring(0, modulePath.length - 3) + '.js';
+
+    const { code } = transform(fs.readFileSync(fullSourcePath, 'utf8'), babelOptions);
+
+    fs.writeFileSync(modulePath, code, 'utf8');
+
+    return modulePath;
+}
+
 function mvUiModule(src, dest, options) {
     const npm2lwcConfig = require(resolve(src, 'package.json')).npm2lwc;
     const sourcePath = resolve(src, 'src/');
@@ -163,10 +186,15 @@ function mvUiModule(src, dest, options) {
                 if (filename.indexOf('___') === -1 && !filename.endsWith('~') && !filename.endsWith('.tmp')) {
                     const fullSourcePath = resolve(sourcePath, filename);
                     const relativePath = relative(sourcePath, fullSourcePath);
-                    const modulePath = resolve(dest, relativePath);
+                    let modulePath = resolve(dest, relativePath);
                     printInfo(`File change detected at ${fullSourcePath}`);
                     try {
-                        fs.copyFileSync(fullSourcePath, modulePath);
+                        if (fullSourcePath.endsWith('.ts')) {
+                            modulePath = transpileTs(fullSourcePath, modulePath);
+                        } else {
+                            fs.copyFileSync(fullSourcePath, modulePath);
+                        }
+
                         printSuccess(`Pushed changes to ${modulePath} (${new Date(Date.now()).toLocaleString()})`);
                     } catch (e) {
                         printError(`Could not copy file at ${fullSourcePath}: ${e.message}`);
@@ -176,9 +204,19 @@ function mvUiModule(src, dest, options) {
         });
     } else {
         printHeader(`Moving UI modules in ${sourcePath} to ${dest}`);
+
         copySync(sourcePath, dest, {
             // TODO: remove this hardcoded filter
-            filter: src => !src.endsWith('flowUtils.js')
+            filter: src => {
+                if (src.endsWith('.ts')) {
+                    const relativePath = relative(sourcePath, src);
+                    let modulePath = resolve(dest, relativePath);
+
+                    transpileTs(src, modulePath);
+                }
+
+                return !src.endsWith('flowUtils.js') && !src.endsWith('.ts');
+            }
         });
 
         // TODO: Remove. Do not expose every ui cmp by default, Can remove namespace from ui package src path

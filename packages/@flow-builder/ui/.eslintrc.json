@@ -1,38 +1,56 @@
 {
-    "extends": ["../../../modules.eslintrc.json"],
+    "extends": ["../../../.eslintrc.json"],
     "rules": {
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/no-use-before-define": "off",
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/adjacent-overload-signatures": "off",
+        "@typescript-eslint/no-this-alias": "off",
+        "@typescript-eslint/camelcase": "off",
+        "@typescript-eslint/class-name-casing": "off",
+
+        "jest/no-alias-methods": "off",
+        "jest/valid-expect-in-promise": "off",
+        "jest/valid-expect": "off",
+        "jest/valid-describe": "off",
+
         "lwc-core/no-inline-disable": [
             "error",
             {
                 "whitelist": {
-                    "complexity": ["**/builder_platform_interaction/reducers/elementsReducer.js"],
+                    "complexity": ["**/builder_platform_interaction/reducers/elementsReducer.ts"],
                     "@lwc/lwc/no-async-operation": [
-                        "**/builder_platform_interaction/conditionEditorPopover/conditionEditorPopover.js",
-                        "**/builder_platform_interaction/flcBuilder/flcBuilder.js",
-                        "**/builder_platform_interaction/flcBuilderContainer/flcBuilderContainer.js",
-                        "**/builder_platform_interaction/flcButtonMenu/keyboard.js"
+                        "**/builder_platform_interaction/conditionEditorPopover/conditionEditorPopover.ts",
+                        "**/builder_platform_interaction/flcBuilder/flcBuilder.ts",
+                        "**/builder_platform_interaction/flcBuilderContainer/flcBuilderContainer.ts",
+                        "**/builder_platform_interaction/flcButtonMenu/keyboard.ts"
                     ],
-                    "@lwc/lwc/no-document-query": ["**/builder_platform_interaction/drawingLib/drawingLib.js"],
+                    "@lwc/lwc/no-document-query": ["**/builder_platform_interaction/drawingLib/drawingLib.ts"],
                     "@lwc/lwc/no-inner-html": [
-                        "**/builder_platform_interaction/resourcedRichTextEditor/__tests__/richTextConverter.test.js"
+                        "**/builder_platform_interaction/resourcedRichTextEditor/__tests__/richTextConverter.test.ts"
                     ],
                     "@lwc/lwc/valid-api": [
-                        "**/builder_platform_interaction/connectorPicker/connectorPicker.js",
-                        "**/builder_platform_interaction/palette/palette.js"
+                        "**/builder_platform_interaction/connectorPicker/connectorPicker.ts",
+                        "**/builder_platform_interaction/palette/palette.ts"
                     ],
                     "@lwc/lwc/no-async-await": [
-                        "**/builder_platform_interaction/guardrails/execute.js",
-                        "**/builder_platform_interaction/propertyEditorPanel/propertyEditorPanel.js",
-                        "**/builder_platform_interaction/commands/baseCommand.js"
+                        "**/builder_platform_interaction/guardrails/execute.ts",
+                        "**/builder_platform_interaction/propertyEditorPanel/propertyEditorPanel.ts",
+                        "**/builder_platform_interaction/commands/baseCommand.ts"
                     ],
-                    "no-empty-function": ["**/builder_platform_interaction/flcConnectorMenu/flcConnectorMenu.js"],
-                    "no-loop-func": ["**/builder_platform_interaction/translatorLib/flowToUiTranslator.js"],
-                    "lwc-core/no-aura": ["**/builder_platform_interaction/builderUtils/builderUtils.js"],
-                    "lwc-core/no-interop-create": ["**/builder_platform_interaction/builderUtils/builderUtils.js"],
-                    "lwc-core/no-interop-dispatch": ["**/builder_platform_interaction/builderUtils/builderUtils.js"],
+
+                    "no-empty-function": ["**/builder_platform_interaction/flcConnectorMenu/flcConnectorMenu.ts"],
+                    "no-loop-func": ["**/builder_platform_interaction/translatorLib/flowToUiTranslator.ts"],
+                    "lwc-core/no-aura": ["**/builder_platform_interaction/builderUtils/builderUtils.ts"],
+                    "lwc-core/no-interop-create": ["**/builder_platform_interaction/builderUtils/builderUtils.ts"],
+                    "lwc-core/no-interop-dispatch": ["**/builder_platform_interaction/builderUtils/builderUtils.ts"],
                     "lwc-core/no-interop-render": [
-                        "**/builder_platform_interaction/builderUtils/builderUtils.js",
-                        "**/jestSetup.js"
+                        "**/builder_platform_interaction/builderUtils/builderUtils.ts",
+                        "**/jestSetup.ts"
+                    ],
+                    "lwc-core/no-dynamic-import": [
+                        "**/builder_platform_interaction/propertyEditorPanel/propertyEditorPanel.ts"
                     ],
                     "lwc-core/no-process-env": ["**/jestSetup.js"],
                     "lwc-core/no-dynamic-import": [
