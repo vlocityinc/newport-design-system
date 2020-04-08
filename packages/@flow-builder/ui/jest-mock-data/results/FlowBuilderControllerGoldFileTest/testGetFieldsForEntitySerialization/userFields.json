@@ -3551,14 +3551,6 @@
           "value":"Pacific/Kiritimati"
         },
         {
-          "label":"(GMT+13:45) Chatham Daylight Time (Pacific/Chatham)",
-          "value":"Pacific/Chatham"
-        },
-        {
-          "label":"(GMT+13:00) New Zealand Daylight Time (Pacific/Auckland)",
-          "value":"Pacific/Auckland"
-        },
-        {
           "label":"(GMT+13:00) Phoenix Islands Time (Pacific/Enderbury)",
           "value":"Pacific/Enderbury"
         },
@@ -3567,36 +3559,44 @@
           "value":"Pacific/Tongatapu"
         },
         {
+          "label":"(GMT+12:45) Chatham Standard Time (Pacific/Chatham)",
+          "value":"Pacific/Chatham"
+        },
+        {
           "label":"(GMT+12:00) Petropavlovsk-Kamchatski Standard Time (Asia/Kamchatka)",
           "value":"Asia/Kamchatka"
+        },
+        {
+          "label":"(GMT+12:00) New Zealand Standard Time (Pacific/Auckland)",
+          "value":"Pacific/Auckland"
         },
         {
           "label":"(GMT+12:00) Fiji Standard Time (Pacific/Fiji)",
           "value":"Pacific/Fiji"
         },
         {
-          "label":"(GMT+12:00) Norfolk Island Time (Pacific/Norfolk)",
-          "value":"Pacific/Norfolk"
-        },
-        {
-          "label":"(GMT+11:00) Lord Howe Daylight Time (Australia/Lord_Howe)",
-          "value":"Australia/Lord_Howe"
-        },
-        {
-          "label":"(GMT+11:00) Australian Eastern Daylight Time (Australia/Sydney)",
-          "value":"Australia/Sydney"
-        },
-        {
           "label":"(GMT+11:00) Solomon Islands Time (Pacific/Guadalcanal)",
           "value":"Pacific/Guadalcanal"
         },
         {
-          "label":"(GMT+10:30) Australian Central Daylight Time (Australia/Adelaide)",
-          "value":"Australia/Adelaide"
+          "label":"(GMT+11:00) Norfolk Island Time (Pacific/Norfolk)",
+          "value":"Pacific/Norfolk"
+        },
+        {
+          "label":"(GMT+10:30) Lord Howe Standard Time (Australia/Lord_Howe)",
+          "value":"Australia/Lord_Howe"
         },
         {
           "label":"(GMT+10:00) Australian Eastern Standard Time (Australia/Brisbane)",
           "value":"Australia/Brisbane"
+        },
+        {
+          "label":"(GMT+10:00) Australian Eastern Standard Time (Australia/Sydney)",
+          "value":"Australia/Sydney"
+        },
+        {
+          "label":"(GMT+09:30) Australian Central Standard Time (Australia/Adelaide)",
+          "value":"Australia/Adelaide"
         },
         {
           "label":"(GMT+09:30) Australian Central Standard Time (Australia/Darwin)",
@@ -3839,10 +3839,6 @@
           "value":"America/Halifax"
         },
         {
-          "label":"(GMT-03:00) Chile Summer Time (America/Santiago)",
-          "value":"America/Santiago"
-        },
-        {
           "label":"(GMT-03:00) Brasilia Standard Time (America/Sao_Paulo)",
           "value":"America/Sao_Paulo"
         },
@@ -3867,6 +3863,10 @@
           "value":"America/Puerto_Rico"
         },
         {
+          "label":"(GMT-04:00) Chile Standard Time (America/Santiago)",
+          "value":"America/Santiago"
+        },
+        {
           "label":"(GMT-05:00) Colombia Standard Time (America/Bogota)",
           "value":"America/Bogota"
         },
@@ -3877,6 +3877,10 @@
         {
           "label":"(GMT-05:00) Peru Standard Time (America/Lima)",
           "value":"America/Lima"
+        },
+        {
+          "label":"(GMT-05:00) Central Daylight Time (America/Mexico_City)",
+          "value":"America/Mexico_City"
         },
         {
           "label":"(GMT-05:00) Eastern Standard Time (America/Panama)",
@@ -3891,16 +3895,12 @@
           "value":"America/El_Salvador"
         },
         {
-          "label":"(GMT-06:00) Central Standard Time (America/Mexico_City)",
-          "value":"America/Mexico_City"
+          "label":"(GMT-06:00) Mexican Pacific Daylight Time (America/Mazatlan)",
+          "value":"America/Mazatlan"
         },
         {
           "label":"(GMT-07:00) Pacific Daylight Time (America/Los_Angeles)",
           "value":"America/Los_Angeles"
-        },
-        {
-          "label":"(GMT-07:00) Mexican Pacific Standard Time (America/Mazatlan)",
-          "value":"America/Mazatlan"
         },
         {
           "label":"(GMT-07:00) Mountain Standard Time (America/Phoenix)",

@@ -91,6 +91,16 @@
       "updateable":true
     },
     {
+      "apiName":"ASEMobileConfigUser",
+      "createable":true,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"ASEMobileConfigUser",
+      "entityLabelPlural":"ASEMobileConfigUsers",
+      "queryable":true,
+      "updateable":false
+    },
+    {
       "apiName":"AcceptedEventRelation",
       "createable":false,
       "custom":false,
@@ -8191,16 +8201,6 @@
       "updateable":false
     },
     {
-      "apiName":"PredictiveModel",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Entity",
-      "entityLabelPlural":"Entity",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"EntityAttributes",
       "createable":true,
       "custom":false,
@@ -8239,6 +8239,16 @@
       "entityLabelPlural":"Entity Feed Layouts",
       "queryable":true,
       "updateable":true
+    },
+    {
+      "apiName":"QoptimizerLimitOverride",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Entity Limit Override",
+      "entityLabelPlural":"Entity Limit Override",
+      "queryable":true,
+      "updateable":false
     },
     {
       "apiName":"EntityLock",
@@ -13461,6 +13471,26 @@
       "updateable":true
     },
     {
+      "apiName":"CrossOrgLightningSchedulerUsageMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Lightning Scheduler Usage Metric",
+      "entityLabelPlural":"Lightning Scheduler Usage Metric",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"LightningSchedulerUsageMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Lightning Scheduler Usage Metric",
+      "entityLabelPlural":"Lightning Scheduler Usage Metric",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"CrossOrgLightningServiceMetrics",
       "createable":false,
       "custom":false,
@@ -13547,26 +13577,6 @@
       "deletable":true,
       "entityLabel":"LightningOnboardingConfig",
       "entityLabelPlural":"LightningOnboardingConfigs",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CrossOrgLightningSchedulerUsageMetrics",
-      "createable":false,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"LightningSchedulerUsageMetrics",
-      "entityLabelPlural":"LightningSchedulerUsageMetrics",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"LightningSchedulerUsageMetrics",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"LightningSchedulerUsageMetrics",
-      "entityLabelPlural":"LightningSchedulerUsageMetrics",
       "queryable":true,
       "updateable":true
     },
@@ -14759,6 +14769,16 @@
       "entityLabelPlural":"Managed Content Types",
       "queryable":true,
       "updateable":true
+    },
+    {
+      "apiName":"ManagedContentTypeInfo",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Managed Content Type Info",
+      "entityLabelPlural":"Managed Content Type Infos",
+      "queryable":true,
+      "updateable":false
     },
     {
       "apiName":"ManagedContentTypeSearchBlackList",
@@ -24219,6 +24239,16 @@
       "entityLabelPlural":"Two-Factor Registration",
       "queryable":true,
       "updateable":false
+    },
+    {
+      "apiName":"JiffyTrace",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"UIPerf (formerly Jiffy) Trace",
+      "entityLabelPlural":"UIPerf (formerly Jiffy) Traces",
+      "queryable":true,
+      "updateable":true
     },
     {
       "apiName":"UiFormulaCriterion",
