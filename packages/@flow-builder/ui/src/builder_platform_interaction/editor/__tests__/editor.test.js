@@ -21,6 +21,16 @@ import { getElementForPropertyEditor, getElementForStore } from 'builder_platfor
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { mockEngineExecute } from 'analyzer_framework/engine';
 
+let mockSubscribers = [];
+let mockStoreState;
+// let element;
+// let deselectionAction;
+// let deleteElementByGuid;
+// let deleteElementByIsSelected;
+// let deleteDecision;
+// let updateElementAction;
+// let connectorElement;
+
 jest.mock('builder_platform_interaction/preloadLib', () => {
     return {
         loadAllSupportedFeatures: jest.fn(),
@@ -57,8 +67,8 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
 
 jest.mock('builder_platform_interaction/elementLabelLib', () => {
     return {
-        getResourceLabel: jest.fn(element => {
-            return element.label;
+        getResourceLabel: jest.fn(el => {
+            return el.label;
         }),
         getResourceCategory: jest.fn()
     };
@@ -79,6 +89,9 @@ jest.mock('../editorUtils', () => {
 jest.mock('builder_platform_interaction/propertyEditorFactory', () => {
     return Object.assign(require.requireActual('builder_platform_interaction/propertyEditorFactory'), {
         getElementForPropertyEditor: jest.fn(node => {
+            if (node == null) {
+                throw new Error('Node must not be null');
+            }
             return node;
         }),
         getElementForStore: jest.fn(node => {
@@ -109,14 +122,14 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 
 jest.mock('builder_platform_interaction/actions', () => {
     return {
-        addElement: jest.fn(element => {
+        addElement: jest.fn(el => {
             return {
-                value: element
+                value: el
             };
         }),
-        updateElement: jest.fn(element => {
+        updateElement: jest.fn(el => {
             return {
-                updateValue: element
+                updateValue: el
             };
         }),
         deleteElements: jest.fn().mockImplementation(payload => {
@@ -134,115 +147,6 @@ jest.mock('builder_platform_interaction/actions', () => {
     };
 });
 
-const createComponentUnderTest = (
-    props = { builderType: 'old', builderConfig: { supportedProcessTypes: ['right'] } }
-) => {
-    const el = createElement('builder_platform_interaction-editor', {
-        is: Editor
-    });
-    Object.assign(el, props);
-    document.body.appendChild(el);
-    return el;
-};
-
-const selectors = {
-    root: '.editor',
-    save: '.toolbar-save',
-    addnewresource: '.test-left-panel-add-resource',
-    propertyEditorPanel: 'builder_platform_interaction-property-editor-panel',
-    canvasContainer: 'builder_platform_interaction-canvas-container'
-};
-
-const mockStoreState = {
-    elements: {
-        '1': {
-            guid: '1',
-            locationX: '20',
-            locationY: '40',
-            elementType: 'ASSIGNMENT',
-            label: 'First Node',
-            description: 'My first test node',
-            config: { isSelected: false },
-            assignmentItems: []
-        },
-        '2': {
-            guid: '2',
-            locationX: '50',
-            locationY: '40',
-            elementType: 'ASSIGNMENT',
-            label: 'Second Node',
-            description: 'My second test node',
-            config: { isSelected: true }
-        },
-        '3': {
-            guid: '3',
-            locationX: '100',
-            locationY: '240',
-            elementType: 'DECISION',
-            label: 'Third Node',
-            description: 'My third test node',
-            outcomeReferences: [
-                {
-                    outcomeReference: '4'
-                }
-            ],
-            config: { isSelected: false }
-        },
-        '4': {
-            guid: '4',
-            elementType: 'OUTCOME',
-            label: 'Fourth Node',
-            description: 'My fourth test node'
-        },
-        '5': {
-            guid: '5',
-            locationX: '250',
-            locationY: '240',
-            elementType: 'ASSIGNMENT',
-            label: 'Fifth Node',
-            description: 'My fifth test node',
-            config: { isSelected: false }
-        }
-    },
-    canvasElements: [{ guid: '1' }, { guid: '2' }, { guid: '3' }, { guid: '5' }],
-    connectors: [
-        {
-            guid: 'c1',
-            source: '1',
-            target: '2',
-            label: 'label',
-            config: { isSelected: false }
-        },
-        {
-            guid: 'c2',
-            source: '2',
-            target: '1',
-            label: 'label',
-            config: { isSelected: true }
-        },
-        {
-            guid: 'c3',
-            source: '3',
-            target: '5',
-            label: 'label',
-            config: { isSelected: false }
-        },
-        {
-            guid: 'c4',
-            source: '5',
-            target: '3',
-            label: 'label',
-            config: { isSelected: false }
-        }
-    ],
-    properties: {
-        label: 'Flow Name',
-        versionNumber: '1',
-        processType: 'dummyProcessType'
-    }
-};
-
-let mockSubscribers = [];
 jest.mock('builder_platform_interaction/storeLib', () => {
     const dispatchSpy = jest.fn().mockImplementation(() => {
         mockSubscribers.forEach(subscriber => {
@@ -286,6 +190,26 @@ jest.mock('builder_platform_interaction/storeLib', () => {
         })
     };
 });
+
+const createComponentUnderTest = (
+    props = { builderType: 'old', builderConfig: { supportedProcessTypes: ['right'] } }
+) => {
+    const el = createElement('builder_platform_interaction-editor', {
+        is: Editor
+    });
+    Object.assign(el, props);
+    document.body.appendChild(el);
+    return el;
+};
+
+const selectors = {
+    root: '.editor',
+    save: '.toolbar-save',
+    addnewresource: '.test-left-panel-add-resource',
+    propertyEditorPanel: 'builder_platform_interaction-property-editor-panel',
+    canvasContainer: 'builder_platform_interaction-canvas-container',
+    rightPanel: 'builder_platform_interaction-right-panel'
+};
 
 const element = (guid, type) => {
     return {
@@ -354,6 +278,94 @@ const connectorElement = {
 };
 
 beforeEach(() => {
+    mockStoreState = {
+        elements: {
+            '1': {
+                guid: '1',
+                locationX: '20',
+                locationY: '40',
+                elementType: 'ASSIGNMENT',
+                label: 'First Node',
+                description: 'My first test node',
+                config: { isSelected: false },
+                assignmentItems: []
+            },
+            '2': {
+                guid: '2',
+                locationX: '50',
+                locationY: '40',
+                elementType: 'ASSIGNMENT',
+                label: 'Second Node',
+                description: 'My second test node',
+                config: { isSelected: true }
+            },
+            '3': {
+                guid: '3',
+                locationX: '100',
+                locationY: '240',
+                elementType: 'DECISION',
+                label: 'Third Node',
+                description: 'My third test node',
+                outcomeReferences: [
+                    {
+                        outcomeReference: '4'
+                    }
+                ],
+                config: { isSelected: false }
+            },
+            '4': {
+                guid: '4',
+                elementType: 'OUTCOME',
+                label: 'Fourth Node',
+                description: 'My fourth test node'
+            },
+            '5': {
+                guid: '5',
+                locationX: '250',
+                locationY: '240',
+                elementType: 'ASSIGNMENT',
+                label: 'Fifth Node',
+                description: 'My fifth test node',
+                config: { isSelected: false }
+            }
+        },
+        canvasElements: [{ guid: '1' }, { guid: '2' }, { guid: '3' }, { guid: '5' }],
+        connectors: [
+            {
+                guid: 'c1',
+                source: '1',
+                target: '2',
+                label: 'label',
+                config: { isSelected: false }
+            },
+            {
+                guid: 'c2',
+                source: '2',
+                target: '1',
+                label: 'label',
+                config: { isSelected: true }
+            },
+            {
+                guid: 'c3',
+                source: '3',
+                target: '5',
+                label: 'label',
+                config: { isSelected: false }
+            },
+            {
+                guid: 'c4',
+                source: '5',
+                target: '3',
+                label: 'label',
+                config: { isSelected: false }
+            }
+        ],
+        properties: {
+            label: 'Flow Name',
+            versionNumber: '1',
+            processType: 'dummyProcessType'
+        }
+    };
     mockSubscribers = [];
 });
 
@@ -701,7 +713,7 @@ describe('property editor', () => {
         canvasContainer.dispatchEvent(editElementEvent);
 
         await ticks(1);
-        const rightPanel = editorComponent.shadowRoot.querySelector('builder_platform_interaction-right-panel');
+        const rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
         expect(rightPanel).not.toBeNull();
     });
 
@@ -776,7 +788,7 @@ describe('property editor', () => {
             canvasContainer.dispatchEvent(editElementEvent);
 
             await ticks();
-            rightPanel = editorComponent.shadowRoot.querySelector('builder_platform_interaction-right-panel');
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
         });
 
         it('closepropertyeditorevent closes the property editor', async () => {
@@ -787,7 +799,7 @@ describe('property editor', () => {
             rightPanel.dispatchEvent(event);
 
             await ticks(1);
-            rightPanel = editorComponent.shadowRoot.querySelector('builder_platform_interaction-right-panel');
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
 
             expect(rightPanel).toBeNull();
         });
@@ -828,11 +840,19 @@ describe('property editor', () => {
             expect.assertions(1);
 
             const event = new DeleteElementEvent(['1'], 'ASSIGNMENT');
-            const canvas = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
-            canvas.dispatchEvent(event);
+            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+
+            // make sure mockStoreState matches expected state
+            mockStoreState.connectors = mockStoreState.connectors.filter(
+                conn => (conn.target !== '1') & (conn.source !== '1')
+            );
+            mockStoreState.canvasElements = mockStoreState.canvasElements.filter(el => el.guid !== '1');
+            delete mockStoreState.elements['1'];
+
+            canvasContainer.dispatchEvent(event);
 
             await ticks(1);
-            rightPanel = editorComponent.shadowRoot.querySelector('builder_platform_interaction-right-panel');
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
             expect(rightPanel).toBeNull();
         });
 

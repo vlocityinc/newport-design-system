@@ -494,7 +494,7 @@ export default class Editor extends LightningElement {
         // subsystem (like the canvas)
         if (this.elementBeingEditedInPanel) {
             const elementFromStore = getElementByGuid(this.elementBeingEditedInPanel.guid);
-            this.elementBeingEditedInPanel = getElementForPropertyEditor(elementFromStore);
+            this.elementBeingEditedInPanel = elementFromStore ? getElementForPropertyEditor(elementFromStore) : null;
         }
 
         this.executeGuardrails(currentState);
