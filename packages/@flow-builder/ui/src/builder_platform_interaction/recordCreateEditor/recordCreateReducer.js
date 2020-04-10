@@ -13,28 +13,22 @@ import {
     UseAdvancedOptionsSelectionChangedEvent
 } from 'builder_platform_interaction/events';
 
-const INPUTASSIGNMENTS_PROP = 'inputAssignments';
+const PROP_NAMES = {
+    inputAssignments: 'inputAssignments',
+    inputReference: 'inputReference',
+    object: 'object',
+    assignRecordIdToReference: 'assignRecordIdToReference',
+    wayToStoreFields: 'wayToStoreFields',
+    getFirstRecordOnly: 'getFirstRecordOnly',
+    storeOutputAutomatically: 'storeOutputAutomatically'
+};
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 const RHS = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE;
 
-const resetAssignmentErrors = state => {
-    const oldInputAssignments = state.inputAssignments;
-    state = set(
-        state,
-        INPUTASSIGNMENTS_PROP,
-        oldInputAssignments.map(inputAssignment => {
-            inputAssignment[LHS].error = null;
-            inputAssignment[RHS].error = null;
-            return inputAssignment;
-        })
-    );
-    return state;
-};
-
 const emptyAssignmentItem = () => {
     return {
-        [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: '', error: null },
-        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: '', error: null },
+        [LHS]: { value: '', error: null },
+        [RHS]: { value: '', error: null },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
             value: '',
             error: null
@@ -44,97 +38,105 @@ const emptyAssignmentItem = () => {
 };
 
 const addRecordRecordFieldAssignment = state => {
-    const path = [INPUTASSIGNMENTS_PROP, state.inputAssignments.length];
+    const path = [PROP_NAMES.inputAssignments, state[PROP_NAMES.inputAssignments].length];
     return set(state, path, emptyAssignmentItem());
 };
 
 const deleteRecordRecordFieldAssignment = (state, event) => {
-    const updatedItems = deleteItem(state.inputAssignments, event.detail.index);
-    return set(state, INPUTASSIGNMENTS_PROP, updatedItems);
+    const updatedItems = deleteItem(state[PROP_NAMES.inputAssignments], event.detail.index);
+    return set(state, PROP_NAMES.inputAssignments, updatedItems);
 };
 
-const hasRhsValueButNoLhs = (assignMentToUpdate, leftHandSide) => {
-    return assignMentToUpdate[RHS].value !== '' && leftHandSide && leftHandSide.value === '';
+const hasRhsValueButNoLhs = (assignmentToUpdate, leftHandSide) => {
+    return assignmentToUpdate[RHS].value !== '' && leftHandSide && leftHandSide.value === '';
 };
 
+/**
+ * Update input assignments
+ * @param {Object }state - current state
+ * @param {number} index - input assignment index
+ * @param {Object} value - input assignment value
+ * @returns {Object} updated state
+ */
 const updateRecordRecordFieldAssignment = (state, { index, value }) => {
-    const path = [INPUTASSIGNMENTS_PROP, index];
-    const assignMentToUpdate = state.inputAssignments[index];
+    const path = [PROP_NAMES.inputAssignments, index];
+    const assignmentToUpdate = state[PROP_NAMES.inputAssignments][index];
     const item = updateProperties(
-        assignMentToUpdate,
-        hasRhsValueButNoLhs(assignMentToUpdate, value.leftHandSide) ? assignMentToUpdate : value
+        assignmentToUpdate,
+        hasRhsValueButNoLhs(assignmentToUpdate, value.leftHandSide) ? assignmentToUpdate : value
     );
     return set(state, path, item);
 };
 
 /**
- * Update the property storeOutputAutomatically and reset assignRecordIdToReference.
+ * Reset inputAssignments, inputReference, assignRecordIdToReference and possibly Object fields
+ * @param {Object} state - current state
+ * @param {boolean} resetObject - true if we want to reset the Object field (defaulted to true)
+ * @returns {Object} - updated state
  */
-const resetUseAdvancedOptionsSelection = state => {
-    state = updateProperties(state, {
-        storeOutputAutomatically: true
-    });
-
-    return state;
-};
-
-const resetRecordCreate = (state, resetObject) => {
-    // reset inputAssignments : create one empty assignment item
-    state = set(state, INPUTASSIGNMENTS_PROP, [emptyAssignmentItem()]);
+const resetRecordCreate = (state, resetObject = true) => {
+    // reset inputAssignments: create one empty assignment item
+    state = set(state, PROP_NAMES.inputAssignments, [emptyAssignmentItem()]);
     if (resetObject) {
-        state = updateProperties(state, { object: { value: '', error: null } });
+        state = updateProperties(state, { [PROP_NAMES.object]: { value: '', error: null } });
     }
-    // reset assignRecordIdToReference
-    state = updateProperties(state, {
-        assignRecordIdToReference: { value: '', error: null }
-    });
-    // reset storeOutputAutomatically if necessary
-    if (state.storeOutputAutomatically !== undefined) {
-        state = resetUseAdvancedOptionsSelection(state);
-    }
-    // reset inputReference
+    // reset assignRecordIdToReference / inputReference
     return updateProperties(state, {
-        inputReference: { value: '', error: null }
+        [PROP_NAMES.assignRecordIdToReference]: { value: '', error: null },
+        [PROP_NAMES.inputReference]: { value: '', error: null }
     });
 };
 
 /**
  * Update the way the user store the records
  */
-const recordStoreOptionAndWayToStoreChanged = (
-    state,
-    { getFirstRecordOnly, wayToStoreFields },
-    isAutomaticOutputHandlingSupported
-) => {
+const recordStoreOptionAndWayToStoreChanged = (state, { getFirstRecordOnly, wayToStoreFields }) => {
     if (state.getFirstRecordOnly !== getFirstRecordOnly) {
-        state = updateProperties(state, { getFirstRecordOnly });
         state = updateProperties(state, {
-            wayToStoreFields: WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE
+            [PROP_NAMES.getFirstRecordOnly]: getFirstRecordOnly,
+            [PROP_NAMES.wayToStoreFields]: WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE
         });
-        return resetRecordCreate(state, true);
-    } else if (state.wayToStoreFields !== wayToStoreFields) {
-        state = updateProperties(state, { wayToStoreFields });
-        if (isAutomaticOutputHandlingSupported && wayToStoreFields === WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES) {
-            state = resetUseAdvancedOptionsSelection(state);
-        }
-        return resetRecordCreate(state, true);
+        return resetRecordCreate(state);
+    } else if (state[PROP_NAMES.wayToStoreFields] !== wayToStoreFields) {
+        state = updateProperties(state, { [PROP_NAMES.wayToStoreFields]: wayToStoreFields });
+        return resetRecordCreate(state);
     }
     return state;
 };
 
-const managePropertyChanged = (state, { propertyName, ignoreValidate, error, oldValue, value }) => {
+/**
+ * Handle specific property change
+ * @param {Object} state - current element state
+ * @param {string} propertyName - property to be updated
+ * @param {boolean} ignoreValidate - true to bypass validation
+ * @param {string} error - null if none
+ * @param {string} oldValue - current value
+ * @param {string} value - new value
+ * @param {boolean} isAutomaticOutputHandlingSupported - true if current process supports automatic output false otherwise
+ * @returns {Object} updated element state
+ */
+const managePropertyChanged = (
+    state,
+    { propertyName, ignoreValidate, error, oldValue, value },
+    isAutomaticOutputHandlingSupported
+) => {
     if (!ignoreValidate) {
         error = error === null ? recordCreateValidation.validateProperty(propertyName, value) : error;
     }
     state = updateProperties(state, { [propertyName]: { value, error } });
     if (!error) {
-        if (propertyName === 'object' && value !== oldValue) {
-            // reset all filterItems, outputReference, queriedFields
-            state = resetRecordCreate(state);
-        } else if (propertyName === INPUTASSIGNMENTS_PROP) {
-            state = resetAssignmentErrors(state);
-        } else if (propertyName === 'assignRecordIdToReference') {
+        if (propertyName === PROP_NAMES.object && value !== oldValue) {
+            state = updateProperties(state, {
+                [PROP_NAMES.storeOutputAutomatically]: isAutomaticOutputHandlingSupported
+            });
+            // reset inputAssignments, assignRecordIdToReference, inputReference
+            state = resetRecordCreate(state, false);
+        } else if (propertyName === PROP_NAMES.assignRecordIdToReference) {
             state = set(state, propertyName, { value, error: null });
+        } else if (propertyName === PROP_NAMES.inputReference && value !== oldValue) {
+            state = updateProperties(state, {
+                [PROP_NAMES.storeOutputAutomatically]: false
+            });
         }
     }
     return state;
@@ -144,19 +146,18 @@ const managePropertyChanged = (state, { propertyName, ignoreValidate, error, old
  * Update the property storeOutputAutomatically and reset assignRecordIdToReference.
  */
 const useAdvancedOptionsSelectionChanged = (state, { useAdvancedOptions }) => {
-    state = updateProperties(state, {
-        storeOutputAutomatically: !useAdvancedOptions,
-        assignRecordIdToReference: { value: '', error: null }
+    return updateProperties(state, {
+        [PROP_NAMES.storeOutputAutomatically]: !useAdvancedOptions,
+        [PROP_NAMES.assignRecordIdToReference]: { value: '', error: null }
     });
-
-    return state;
 };
 
 /**
- * Record Create reducer function runs validation rules and returns back the updated element state
- * @param {object} state - element / node state
- * @param {object} event - The event to be handled
- * @returns {object} state - updated state
+ * Reducer functions to update element state
+ * @param {Object} state - element / node state
+ * @param {Object} event - The event to be handled
+ * @param {boolean} isAutomaticOutputHandlingSupported - true if current process supports automatic output mode false otherwise
+ * @returns {Object} state - updated state
  */
 export const recordCreateReducer = (state, event, isAutomaticOutputHandlingSupported = false) => {
     switch (event.type) {
@@ -167,11 +168,11 @@ export const recordCreateReducer = (state, event, isAutomaticOutputHandlingSuppo
         case UpdateRecordFieldAssignmentEvent.EVENT_NAME:
             return updateRecordRecordFieldAssignment(state, event.detail);
         case PropertyChangedEvent.EVENT_NAME:
-            return managePropertyChanged(state, event.detail);
+            return managePropertyChanged(state, event.detail, isAutomaticOutputHandlingSupported);
         case UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME:
             return useAdvancedOptionsSelectionChanged(state, event.detail);
         case RecordStoreOptionChangedEvent.EVENT_NAME:
-            return recordStoreOptionAndWayToStoreChanged(state, event.detail, isAutomaticOutputHandlingSupported);
+            return recordStoreOptionAndWayToStoreChanged(state, event.detail);
         case VALIDATE_ALL: {
             return recordCreateValidation.validateAll(state, getRules(state, state.wayToStoreFields));
         }

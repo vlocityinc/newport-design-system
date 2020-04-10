@@ -5,6 +5,7 @@ import * as storeMockedData from 'mock/storeData';
 import { LABELS } from 'builder_platform_interaction/validationRules';
 import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -22,78 +23,72 @@ jest.mock('builder_platform_interaction/expressionValidator', () =>
 
 function createComponentForTest(node) {
     const el = createElement('builder_platform_interaction-record-update-editor', { is: RecordCreateEditor });
-    if (node) {
-        el.node = node;
-    }
+    el.node = node;
     document.body.appendChild(el);
     return el;
 }
 
 const recordCreateElementWithValidSObject = {
     description: { value: '', error: null },
-    elementType: 'RECORD_CREATE',
-    guid: 'RECORDCREATE_1',
+    elementType: ELEMENT_TYPE.RECORD_CREATE,
+    guid: '9eb3fb86-af70-4117-8b77-8aa17e1e3005',
     isCanvasElement: true,
-    label: { value: 'testRecord', error: null },
     locationX: 358,
     locationY: 227,
-    name: { value: 'testRecord', error: null },
+    label: { value: 'testRecordCreateElementWithValidSObject', error: null },
+    name: { value: 'testRecordCreateElementWithValidSObject', error: null },
     getFirstRecordOnly: true,
     inputReference: {
         value: storeMockedData.accountSObjectVariable.guid,
         error: null
     },
     object: { value: '', error: null },
-    objectIndex: { value: 'guid', error: null },
+    objectIndex: { value: '1ab3fb86-af70-4117-8b77-8aa17e1e3005', error: null },
     assignRecordIdToReference: { value: '', error: null }
 };
-
 const recordCreateElementWithValidSObjectCollection = {
     description: { value: '', error: null },
-    elementType: 'RECORD_CREATE',
-    guid: 'RECORDCREATE_1',
+    elementType: ELEMENT_TYPE.RECORD_CREATE,
+    guid: '9eb3fb86-af70-4117-8b77-8aa17e1e3005',
     isCanvasElement: true,
-    label: { value: 'testRecord', error: null },
     locationX: 358,
     locationY: 227,
-    name: { value: 'testRecord', error: null },
+    label: { value: 'testRecordCreateElementWithValidSObjectCollection', error: null },
+    name: { value: 'testRecordCreateElementWithValidSObjectCollection', error: null },
     getFirstRecordOnly: false,
     inputReference: {
         value: storeMockedData.accountSObjectCollectionVariable.guid,
         error: null
     },
     object: { value: '', error: null },
-    objectIndex: { value: 'guid', error: null },
+    objectIndex: { value: '4db3fb86-af70-4117-8b77-8aa17e1e3005', error: null },
     assignRecordIdToReference: { value: '', error: null }
 };
-
 const recordCreateUsingFieldsTemplate = () => ({
     description: { value: '', error: null },
-    elementType: 'RECORD_CREATE',
-    guid: 'RECORDUPDATE_2',
+    elementType: ELEMENT_TYPE.RECORD_CREATE,
+    guid: '9eb3fb86-af70-4117-8b77-8aa17e1e3005',
     isCanvasElement: true,
-    label: { value: 'testRecordFields', error: null },
     locationX: 358,
     locationY: 227,
-    name: { value: 'testRecordFields', error: null },
+    label: { value: 'testRecordCreateUsingFieldsTemplate', error: null },
+    name: { value: 'testRecordCreateUsingFieldsTemplate', error: null },
     inputReference: { value: '', error: null },
-    inputReferenceIndex: { value: 'guid', error: null },
+    inputReferenceIndex: { value: '1cb3fb86-af70-4117-8b77-8aa17e1e3005', error: null },
     getFirstRecordOnly: true,
-    assignRecordIdToReferenceIndex: {
-        value: 'test'
-    },
+    assignRecordIdToReferenceIndex: { value: '3eb3fb86-af70-4117-8b77-8aa17e1e3005', error: null },
     inputAssignments: [
         {
             leftHandSide: { value: 'Account.BillingCountry', error: null },
             rightHandSide: { value: 'myCountry', error: null },
             rightHandSideDataType: { value: 'String', error: null },
-            rightHandSideGuid: { value: 'myCountry', error: null },
+            rightHandSideGuid: { value: '3eb3fb86-af70-4117-8b77-8aa17e1e3005', error: null },
             rowIndex: '724cafc2-7744-4e46-8eaa-f2df29539d1d'
         }
     ],
     object: { value: 'account', error: null },
-    objectIndex: { value: 'guid', error: null },
-    assignRecordIdToReference: { value: 'varToStoreId', error: null }
+    objectIndex: { value: '725cafc2-7744-4e46-8eaa-f2df29539d1d', error: null },
+    assignRecordIdToReference: { value: '142cafc2-7744-4e46-8eaa-f2df29539d1d', error: null }
 });
 
 const validate = (node, wayToStoreFields) => {
@@ -152,38 +147,42 @@ describe('Check validations update using sObject Collection', () => {
     });
 });
 describe('Check validations update using fields', () => {
-    let recordCreateUsingFields;
+    let recordCreateUsingFields, recordCreateEditor;
     beforeEach(() => {
         recordCreateUsingFields = recordCreateUsingFieldsTemplate();
     });
     describe('object is empty', () => {
         it('should return an error when no object has been selected', () => {
-            recordCreateUsingFields.object.value = '';
-            recordCreateUsingFields.object.error = null;
-            const recordupdateEditor = createComponentForTest(recordCreateUsingFields);
-            const errors = validate(recordupdateEditor.node, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
+            recordCreateUsingFields.object = { value: '', error: null };
+            recordCreateEditor = createComponentForTest(recordCreateUsingFields);
+            const errors = validate(recordCreateEditor.node, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
             expect(errors).toHaveLength(1);
-            expect(errors[0].key).toBe('object');
-            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+            expect(errors[0]).toEqual({ key: 'object', errorString: LABELS.cannotBeBlank });
+        });
+    });
+    describe('id is empty (ie: "assignRecordIdToReference")', () => {
+        it('should NOT return an error when no id has been selected', () => {
+            recordCreateUsingFields.assignRecordIdToReference = { value: '', error: null };
+            recordCreateEditor = createComponentForTest(recordCreateUsingFields);
+            const errors = validate(recordCreateEditor.node, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
+            expect(errors).toHaveLength(0);
         });
     });
     describe('object is not valid and assignment is empty', () => {
         it('should return 1 error', () => {
             recordCreateUsingFields.inputAssignments[0].leftHandSide.value = '';
-            recordCreateUsingFields.object.value = 'myNotValidValue';
-            recordCreateUsingFields.object.error = 'Enter a valid value.';
-            const recordupdateEditor = createComponentForTest(recordCreateUsingFields);
-            const errors = validate(recordupdateEditor.node, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
+            recordCreateUsingFields.object = { value: 'myNotValidValue', error: 'Enter a valid value.' };
+            recordCreateEditor = createComponentForTest(recordCreateUsingFields);
+            const errors = validate(recordCreateEditor.node, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
             expect(errors).toHaveLength(1);
-            expect(errors[0].key).toBe('object');
-            expect(errors[0].errorString).toBe('Enter a valid value.');
+            expect(errors[0]).toEqual({ key: 'object', errorString: 'Enter a valid value.' });
         });
     });
     describe('inputAssignments item is empty', () => {
         it('should not return an error when an inputAssignment is set without a value', () => {
             recordCreateUsingFields.inputAssignments[0].leftHandSide.value = '';
-            const recordupdateEditor = createComponentForTest(recordCreateUsingFields);
-            const errors = validate(recordupdateEditor.node, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
+            recordCreateEditor = createComponentForTest(recordCreateUsingFields);
+            const errors = validate(recordCreateEditor.node, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
             expect(errors).toHaveLength(0);
         });
         it('should return 2 errors when 2 inputAssignments are set without a value', () => {
@@ -193,13 +192,11 @@ describe('Check validations update using fields', () => {
                 rightHandSide: { value: '', error: null },
                 rowIndex: '71cb7e19-9f98-4b59-9fdd-a276f216eede'
             });
-            const recordupdateEditor = createComponentForTest(recordCreateUsingFields);
-            const errors = validate(recordupdateEditor.node, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
+            recordCreateEditor = createComponentForTest(recordCreateUsingFields);
+            const errors = validate(recordCreateEditor.node, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
             expect(errors).toHaveLength(2);
-            expect(errors[0].key).toBe('leftHandSide');
-            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
-            expect(errors[1].key).toBe('leftHandSide');
-            expect(errors[1].errorString).toBe(LABELS.cannotBeBlank);
+            expect(errors[0]).toEqual({ key: 'leftHandSide', errorString: LABELS.cannotBeBlank });
+            expect(errors[1]).toEqual({ key: 'leftHandSide', errorString: LABELS.cannotBeBlank });
         });
         it('should return an error when 1 of 2 inputAssignments is set without a value', () => {
             recordCreateUsingFields.inputAssignments.push({
@@ -207,11 +204,10 @@ describe('Check validations update using fields', () => {
                 rightHandSide: { value: '', error: null },
                 rowIndex: '71cb7e19-9f98-4b59-9fdd-a276f216eede'
             });
-            const recordupdateEditor = createComponentForTest(recordCreateUsingFields);
-            const errors = validate(recordupdateEditor.node, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
+            recordCreateEditor = createComponentForTest(recordCreateUsingFields);
+            const errors = validate(recordCreateEditor.node, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
             expect(errors).toHaveLength(1);
-            expect(errors[0].key).toBe('leftHandSide');
-            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+            expect(errors[0]).toEqual({ key: 'leftHandSide', errorString: LABELS.cannotBeBlank });
         });
     });
 });

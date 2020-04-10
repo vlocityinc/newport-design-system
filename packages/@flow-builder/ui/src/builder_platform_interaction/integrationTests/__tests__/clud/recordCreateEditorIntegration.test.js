@@ -10,7 +10,6 @@ import {
 } from '../integrationTestUtils';
 import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { EditElementEvent, AddElementEvent } from 'builder_platform_interaction/events';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import {
     flowWithCreateRecordUsingSObject,
@@ -50,41 +49,24 @@ const VALIDATION_ERROR_MESSAGES = {
     ...FLOW_BUILDER_VALIDATION_ERROR_MESSAGES
 };
 
-const getSObjectOrSObjectCollectionPicker = recordEditor => {
-    return recordEditor.shadowRoot.querySelector(SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
-};
-
-const getRecordStoreOption = recordEditor => {
-    return recordEditor.shadowRoot.querySelector(SELECTORS.RECORD_STORE_OPTION);
-};
-
-const getInputOutputAssignments = recordEditor => {
-    return recordEditor.shadowRoot.querySelector(SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
-};
-
-const getEntityResourcePickerComboboxElement = entityResourcePicker => {
-    return deepQuerySelector(entityResourcePicker, [
+const getSObjectOrSObjectCollectionPicker = recordEditor =>
+    recordEditor.shadowRoot.querySelector(SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
+const getRecordStoreOption = recordEditor => recordEditor.shadowRoot.querySelector(SELECTORS.RECORD_STORE_OPTION);
+const getInputOutputAssignments = recordEditor =>
+    recordEditor.shadowRoot.querySelector(SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
+const getEntityResourcePickerComboboxElement = entityResourcePicker =>
+    deepQuerySelector(entityResourcePicker, [
         SELECTORS.BASE_RESOURCE_PICKER,
         SELECTORS.COMBOBOX,
         SELECTORS.LIGHTNING_GROUPED_COMBOBOX
     ]);
-};
+const getExpressionBuilderComboboxElement = expressionBuilder =>
+    deepQuerySelector(expressionBuilder, [SELECTORS.INTERACTION_COMBOBOX, SELECTORS.LIGHTNING_GROUPED_COMBOBOX]);
+const getOutputResourcePicker = recordEditor => recordEditor.shadowRoot.querySelector(SELECTORS.OUTPUT_RESOURCE_PICKER);
 
-const getExpressionBuilderComboboxElement = expressionBuilder => {
-    return deepQuerySelector(expressionBuilder, [SELECTORS.INTERACTION_COMBOBOX, SELECTORS.LIGHTNING_GROUPED_COMBOBOX]);
-};
-
-const getOutputResourcePicker = recordEditor => {
-    return recordEditor.shadowRoot.querySelector(SELECTORS.OUTPUT_RESOURCE_PICKER);
-};
-
-const createComponentForTest = (
-    node,
-    mode = EditElementEvent.EVENT_NAME,
-    processType = MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
-) => {
+const createComponentForTest = (node, processType = MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE) => {
     const el = createElement('builder_platform_interaction-record-create-editor', { is: RecordCreateEditor });
-    Object.assign(el, { node, processType, mode });
+    Object.assign(el, { node, processType });
     document.body.appendChild(el);
     return el;
 };
@@ -110,92 +92,73 @@ describe('Record Create Editor', () => {
                 const element = getElementByDevName('Create_Record_Using_SObject');
                 recordCreateNode = getElementForPropertyEditor(element);
             });
-            it('do not change devName if it already exists after the user modifies the name', () => {
+            it('do not change devName if it already exists after the user modifies the name', async () => {
                 const newLabel = 'new label';
-                const recordCreateElement = createComponentForTest(recordCreateNode, AddElementEvent.EVENT_NAME);
-                return resolveRenderCycles(() => {
-                    const labelInput = getLabelDescriptionLabelElement(recordCreateElement);
-                    labelInput.value = newLabel;
-                    labelInput.dispatchEvent(focusoutEvent);
-                    return resolveRenderCycles(() => {
-                        expect(recordCreateElement.node.label.value).toBe(newLabel);
-                        expect(recordCreateElement.node.name.value).toBe('Create_Record_Using_SObject');
-                    });
-                });
+                const recordCreateElement = createComponentForTest(recordCreateNode);
+                const labelInput = getLabelDescriptionLabelElement(recordCreateElement);
+                labelInput.value = newLabel;
+                labelInput.dispatchEvent(focusoutEvent);
+                await ticks(1);
+                expect(recordCreateElement.node.label.value).toBe(newLabel);
+                expect(recordCreateElement.node.name.value).toBe('Create_Record_Using_SObject');
             });
-            it('modify the dev name', () => {
+            it('modify the dev name', async () => {
                 const newDevName = 'newName';
-                const recordCreateElement = createComponentForTest(recordCreateNode, AddElementEvent.EVENT_NAME);
-                return resolveRenderCycles(() => {
-                    const devNameInput = getLabelDescriptionNameElement(recordCreateElement);
-                    devNameInput.value = newDevName;
-                    devNameInput.dispatchEvent(focusoutEvent);
-                    return resolveRenderCycles(() => {
-                        expect(recordCreateElement.node.name.value).toBe(newDevName);
-                    });
-                });
+                const recordCreateElement = createComponentForTest(recordCreateNode);
+                const devNameInput = getLabelDescriptionNameElement(recordCreateElement);
+                devNameInput.value = newDevName;
+                devNameInput.dispatchEvent(focusoutEvent);
+                await ticks(1);
+                expect(recordCreateElement.node.name.value).toBe(newDevName);
             });
-            it('displays error if name is cleared', () => {
+            it('displays error if name is cleared', async () => {
                 const newLabel = '';
-                const recordCreateElement = createComponentForTest(recordCreateNode, AddElementEvent.EVENT_NAME);
-                return resolveRenderCycles(() => {
-                    const labelInput = getLabelDescriptionLabelElement(recordCreateElement);
-                    labelInput.value = newLabel;
-                    labelInput.dispatchEvent(focusoutEvent);
-                    return resolveRenderCycles(() => {
-                        expect(recordCreateElement.node.label.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
-                    });
-                });
+                const recordCreateElement = createComponentForTest(recordCreateNode);
+                const labelInput = getLabelDescriptionLabelElement(recordCreateElement);
+                labelInput.value = newLabel;
+                labelInput.dispatchEvent(focusoutEvent);
+                await ticks(1);
+                expect(recordCreateElement.node.label.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
             });
-            it('displays error if devName is cleared', () => {
+            it('displays error if devName is cleared', async () => {
                 const newDevName = '';
-                const recordCreateElement = createComponentForTest(recordCreateNode, AddElementEvent.EVENT_NAME);
-                return resolveRenderCycles(() => {
-                    const devNameInput = getLabelDescriptionNameElement(recordCreateElement);
-                    devNameInput.value = newDevName;
-                    devNameInput.dispatchEvent(focusoutEvent);
-                    return resolveRenderCycles(() => {
-                        expect(recordCreateElement.node.name.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
-                    });
-                });
+                const recordCreateElement = createComponentForTest(recordCreateNode);
+                const devNameInput = getLabelDescriptionNameElement(recordCreateElement);
+                devNameInput.value = newDevName;
+                devNameInput.dispatchEvent(focusoutEvent);
+                await ticks(1);
+                expect(recordCreateElement.node.name.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
             });
         });
         describe('Add new element', () => {
             let recordCreateElement;
-            beforeEach(() => {
+            beforeAll(() => {
                 recordCreateNode = getElementForPropertyEditor({
                     locationX: 10,
                     locationY: 10,
                     elementType: ELEMENT_TYPE.RECORD_CREATE
                 });
-                recordCreateElement = createComponentForTest(recordCreateNode, AddElementEvent.EVENT_NAME);
+                recordCreateElement = createComponentForTest(recordCreateNode);
             });
             it('all field should be empty', () => {
                 const sObjectOrSObjectCollectionPickerElement = getSObjectOrSObjectCollectionPicker(
                     recordCreateElement
                 );
-                return resolveRenderCycles(() => {
-                    expect(sObjectOrSObjectCollectionPickerElement.value).toBe('');
-                });
+                expect(sObjectOrSObjectCollectionPickerElement.value).toBe('');
             });
             // W-7118031
-            it('Displays NO "A value is required." error message for the sobjectOrSobjectCollectionPicker ("record selection")', () => {
+            it('does NOT display "A value is required." error message for "sobjectOrSobjectCollectionPicker" ("record selection")', () => {
                 const sObjectOrSObjectCollectionPickerElement = getSObjectOrSObjectCollectionPicker(
                     recordCreateElement
                 );
-                return resolveRenderCycles(() => {
-                    expect(sObjectOrSObjectCollectionPickerElement.errorMessage).toBeNull();
-                });
+                expect(sObjectOrSObjectCollectionPickerElement.errorMessage).toBeNull();
             });
             it('record Store Option should have firstRecord and sObjectVariable selected', () => {
                 const recordStoreElement = getRecordStoreOption(recordCreateElement);
                 const radioGroupElements = getRadioGroups(recordStoreElement);
-                return resolveRenderCycles(() => {
-                    expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
-                    expect(recordStoreElement.wayToStoreFields).toBe('sObjectVariable');
-                    expect(recordStoreElement.assignNullValuesIfNoRecordsFound).toBe(false);
-                    expect(radioGroupElements).toHaveLength(2);
-                });
+                expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
+                expect(recordStoreElement.wayToStoreFields).toBe('sObjectVariable');
+                expect(radioGroupElements).toHaveLength(2);
             });
         });
         describe('Existing element', () => {
@@ -215,30 +178,26 @@ describe('Record Create Editor', () => {
                 it('store option should have sObjectVariable and firstRecord selected', () => {
                     const recordStoreElement = getRecordStoreOption(recordCreateElement);
                     const radioGroupElements = getRadioGroups(recordStoreElement);
+                    expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
+                    expect(recordStoreElement.wayToStoreFields).toBe('sObjectVariable');
+                    expect(radioGroupElements).toHaveLength(2);
+                });
+                it('displays selected "inputReference" (sObject)', () => {
                     return resolveRenderCycles(() => {
-                        expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
-                        expect(recordStoreElement.wayToStoreFields).toBe('sObjectVariable');
-                        expect(recordStoreElement.assignNullValuesIfNoRecordsFound).toBe(false);
-                        expect(radioGroupElements).toHaveLength(2);
+                        const sObjectPicker = getSObjectOrSObjectCollectionPicker(recordCreateElement);
+                        expect(sObjectPicker.value).toBe(recordCreateElement.node.inputReference.value);
                     });
                 });
-                it('inputReference should be display ', () => {
-                    return resolveRenderCycles(() => {
-                        const sObJectPicker = getSObjectOrSObjectCollectionPicker(recordCreateElement);
-                        expect(sObJectPicker.value).toBe(recordCreateElement.node.inputReference.value);
-                    });
-                });
-                it('sObject Or SObject Collection Picker should contain "New Resource"', () => {
+                it('sObject Or SObject Collection Picker should contain "New Resource"', async () => {
                     const rhsGroupedCombobox = getResourceGroupedCombobox(recordCreateElement);
-                    return resolveRenderCycles(() => {
-                        expect(
-                            getGroupedComboboxItemBy(
-                                rhsGroupedCombobox,
-                                'text',
-                                'FlowBuilderExpressionUtils.newResourceLabel'
-                            )
-                        ).toBeDefined();
-                    });
+                    await ticks(1);
+                    expect(
+                        getGroupedComboboxItemBy(
+                            rhsGroupedCombobox,
+                            'text',
+                            'FlowBuilderExpressionUtils.newResourceLabel'
+                        )
+                    ).toBeDefined();
                 });
             });
             describe('Working with sObject Collection', () => {
@@ -257,32 +216,26 @@ describe('Record Create Editor', () => {
                 it('record store option should have "All records" selected and the second radio group element should be hidden', () => {
                     const recordStoreElement = getRecordStoreOption(recordCreateElement);
                     const radioGroupElements = getRadioGroups(recordStoreElement);
-                    return resolveRenderCycles(() => {
-                        expect(recordStoreElement.numberOfRecordsToStore).toBe('allRecords');
-                        expect(radioGroupElements).toHaveLength(1);
-                    });
+                    expect(recordStoreElement.numberOfRecordsToStore).toBe('allRecords');
+                    expect(radioGroupElements).toHaveLength(1);
                 });
                 it('input reference should display The variable "vAccountCollection"', () => {
                     const sObjectOrSObjectCollectionPickerElement = getSObjectOrSObjectCollectionPicker(
                         recordCreateElement
                     );
-                    return resolveRenderCycles(() => {
-                        expect(sObjectOrSObjectCollectionPickerElement.value).toBe(
-                            recordCreateElement.node.inputReference.value
-                        );
-                    });
+                    expect(sObjectOrSObjectCollectionPickerElement.value).toBe(
+                        recordCreateElement.node.inputReference.value
+                    );
                 });
                 it('sObject Or SObject Collection Picker should contain "New Resource"', () => {
                     const rhsGroupedCombobox = getResourceGroupedCombobox(recordCreateElement);
-                    return resolveRenderCycles(() => {
-                        expect(
-                            getGroupedComboboxItemBy(
-                                rhsGroupedCombobox,
-                                'text',
-                                'FlowBuilderExpressionUtils.newResourceLabel'
-                            )
-                        ).toBeDefined();
-                    });
+                    expect(
+                        getGroupedComboboxItemBy(
+                            rhsGroupedCombobox,
+                            'text',
+                            'FlowBuilderExpressionUtils.newResourceLabel'
+                        )
+                    ).toBeDefined();
                 });
             });
             describe('Working with fields', () => {
@@ -314,49 +267,38 @@ describe('Record Create Editor', () => {
                     recordCreateElement = createComponentForTest(recordCreateNode);
                     await ticks(50);
                 });
-                it('record store option should have "Only the first record" and "In separate variables" selected and the second radio group should be visible', () => {
+                it('record store option should have "Only the first record" and "In separate variables" selected and the second radio group should be visible', async () => {
                     const recordStoreElement = getRecordStoreOption(recordCreateElement);
                     const radioGroupElements = getRadioGroups(recordStoreElement);
-                    return resolveRenderCycles(() => {
-                        expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
-                        expect(recordStoreElement.wayToStoreFields).toBe('separateVariables');
-                        expect(recordStoreElement.assignNullValuesIfNoRecordsFound).toBe(false);
-                        expect(radioGroupElements).toHaveLength(2);
-                    });
+                    await ticks(1);
+                    expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
+                    expect(recordStoreElement.wayToStoreFields).toBe('separateVariables');
+                    expect(radioGroupElements).toHaveLength(2);
                 });
                 it('entity Resource picker should display the entity', () => {
-                    return resolveRenderCycles(() => {
-                        const entityResourcePicker = getEntityResourcePicker(recordCreateElement);
-                        expect(entityResourcePicker.value.value).toBe(recordCreateElement.node.object.value);
-                    });
+                    const entityResourcePicker = getEntityResourcePicker(recordCreateElement);
+                    expect(entityResourcePicker.value.value).toBe(recordCreateElement.node.object.value);
                 });
                 it('assigns Record Id To Reference should have a value', () => {
-                    return resolveRenderCycles(() => {
-                        const outputResource = getOutputResourcePicker(recordCreateElement);
-
-                        expect(outputResource.value.value).toBe(
-                            recordCreateElement.node.assignRecordIdToReference.value
-                        );
-                    });
+                    const outputResource = getOutputResourcePicker(recordCreateElement);
+                    expect(outputResource.value.value).toBe(recordCreateElement.node.assignRecordIdToReference.value);
                 });
                 it('use advanced checkbox component should not be visible', () => {
                     const useAdvancedOptionCheckBox = getUseAdvancedOptionComponent(recordCreateElement);
                     expect(useAdvancedOptionCheckBox).toBeNull();
                 });
-                it('removing the entity should hide input assignment but store option element should remained', () => {
+                it('removing the entity should hide input assignment but store option element should remained', async () => {
                     const entityResourcePicker = getEntityResourcePicker(recordCreateElement);
                     const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
                     changeComboboxValue(comboboxElement, '');
-                    return resolveRenderCycles(() => {
-                        expect(recordCreateElement.node.object.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
-                        expect(getInputOutputAssignments(recordCreateElement)).toBeNull();
-                        const recordStoreElement = getRecordStoreOption(recordCreateElement);
-                        const radioGroupElements = getRadioGroups(recordStoreElement);
-                        expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
-                        expect(recordStoreElement.wayToStoreFields).toBe('separateVariables');
-                        expect(recordStoreElement.assignNullValuesIfNoRecordsFound).toBe(false);
-                        expect(radioGroupElements).toHaveLength(2);
-                    });
+                    await ticks(1);
+                    expect(recordCreateElement.node.object.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
+                    expect(getInputOutputAssignments(recordCreateElement)).toBeNull();
+                    const recordStoreElement = getRecordStoreOption(recordCreateElement);
+                    const radioGroupElements = getRadioGroups(recordStoreElement);
+                    expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
+                    expect(recordStoreElement.wayToStoreFields).toBe('separateVariables');
+                    expect(radioGroupElements).toHaveLength(2);
                 });
                 it('enter an invalid value in the entity resource picker should not display other element but should display an error', async () => {
                     await selectEntity('invalidValue');
@@ -376,65 +318,62 @@ describe('Record Create Editor', () => {
                         inputAssignments = getInputOutputAssignments(recordCreateElement);
                     });
                     it('input Assignments should be visible and correctly displayed', () => {
-                        return resolveRenderCycles(() => {
-                            const fieldToFerovExpressionBuilders = getFieldToFerovExpressionBuilders(inputAssignments);
-                            expect(fieldToFerovExpressionBuilders).toHaveLength(2);
-                            let baseExpressionBuilder = getBaseExpressionBuilder(fieldToFerovExpressionBuilders[0]);
-                            expect(baseExpressionBuilder.lhsValue).toMatchObject({
-                                value: 'Account.BillingCity',
-                                dataType: 'String',
-                                displayText: 'BillingCity'
-                            });
-                            expect(baseExpressionBuilder.operatorValue).toBeUndefined();
-                            expect(baseExpressionBuilder.rhsValue).toMatchObject({
-                                category: 'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
-                                dataType: 'String',
-                                displayText: '{!vBillingCity}',
-                                hasNext: false,
-                                iconName: 'utility:text',
-                                iconSize: 'xx-small',
-                                subtype: null,
-                                subText: 'FlowBuilderDataTypes.textDataTypeLabel',
-                                text: 'vBillingCity',
-                                type: 'option-card'
-                            });
-                            baseExpressionBuilder = getBaseExpressionBuilder(fieldToFerovExpressionBuilders[1]);
-                            expect(baseExpressionBuilder.lhsValue).toMatchObject({
-                                dataType: 'String',
-                                displayText: 'Name',
-                                value: 'Account.Name'
-                            });
-                            expect(baseExpressionBuilder.operatorValue).toBeUndefined();
-                            expect(baseExpressionBuilder.rhsValue).toMatchObject({
-                                category: 'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
-                                dataType: 'String',
-                                displayText: '{!vName}',
-                                hasNext: false,
-                                iconName: 'utility:text',
-                                iconSize: 'xx-small',
-                                subtype: null,
-                                subText: 'FlowBuilderDataTypes.textDataTypeLabel',
-                                text: 'vName',
-                                type: 'option-card'
-                            });
+                        const fieldToFerovExpressionBuilders = getFieldToFerovExpressionBuilders(inputAssignments);
+                        expect(fieldToFerovExpressionBuilders).toHaveLength(2);
+                        let baseExpressionBuilder = getBaseExpressionBuilder(fieldToFerovExpressionBuilders[0]);
+                        expect(baseExpressionBuilder.lhsValue).toMatchObject({
+                            value: 'Account.BillingCity',
+                            dataType: 'String',
+                            displayText: 'BillingCity'
+                        });
+                        expect(baseExpressionBuilder.operatorValue).toBeUndefined();
+                        expect(baseExpressionBuilder.rhsValue).toMatchObject({
+                            category: 'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
+                            dataType: 'String',
+                            displayText: '{!vBillingCity}',
+                            hasNext: false,
+                            iconName: 'utility:text',
+                            iconSize: 'xx-small',
+                            subtype: null,
+                            subText: 'FlowBuilderDataTypes.textDataTypeLabel',
+                            text: 'vBillingCity',
+                            type: 'option-card'
+                        });
+                        baseExpressionBuilder = getBaseExpressionBuilder(fieldToFerovExpressionBuilders[1]);
+                        expect(baseExpressionBuilder.lhsValue).toMatchObject({
+                            dataType: 'String',
+                            displayText: 'Name',
+                            value: 'Account.Name'
+                        });
+                        expect(baseExpressionBuilder.operatorValue).toBeUndefined();
+                        expect(baseExpressionBuilder.rhsValue).toMatchObject({
+                            category: 'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
+                            dataType: 'String',
+                            displayText: '{!vName}',
+                            hasNext: false,
+                            iconName: 'utility:text',
+                            iconSize: 'xx-small',
+                            subtype: null,
+                            subText: 'FlowBuilderDataTypes.textDataTypeLabel',
+                            text: 'vName',
+                            type: 'option-card'
                         });
                     });
-                    it('Removing the selected field should not change the value if the RHS has a value', () => {
+                    it('Removing the selected field should not change the value if the RHS has a value', async () => {
                         let baseExpressionBuilder = getBaseExpressionBuilder(
                             getFieldToFerovExpressionBuilders(inputAssignments)[0]
                         );
                         const combobox = getExpressionBuilderComboboxElement(baseExpressionBuilder);
                         changeComboboxValue(combobox, '');
-                        return resolveRenderCycles(() => {
-                            expect(getFieldToFerovExpressionBuilders(inputAssignments)).toHaveLength(2);
-                            baseExpressionBuilder = getBaseExpressionBuilder(
-                                getFieldToFerovExpressionBuilders(inputAssignments)[0]
-                            );
-                            expect(baseExpressionBuilder.lhsValue).toMatchObject({
-                                dataType: 'String',
-                                displayText: 'BillingCity',
-                                value: 'Account.BillingCity'
-                            });
+                        await ticks(1);
+                        expect(getFieldToFerovExpressionBuilders(inputAssignments)).toHaveLength(2);
+                        baseExpressionBuilder = getBaseExpressionBuilder(
+                            getFieldToFerovExpressionBuilders(inputAssignments)[0]
+                        );
+                        expect(baseExpressionBuilder.lhsValue).toMatchObject({
+                            dataType: 'String',
+                            displayText: 'BillingCity',
+                            value: 'Account.BillingCity'
                         });
                     });
                     it('Should only display creatable fields', async () => {
@@ -505,21 +444,16 @@ describe('Record Create Editor', () => {
             resetState();
         });
         describe('Working with automatic output handling', () => {
-            beforeEach(() => {
+            beforeAll(() => {
                 const element = getElementByDevName('createAccountWithAutomaticOutput');
                 recordCreateNode = getElementForPropertyEditor(element);
-                recordCreateElement = createComponentForTest(
-                    recordCreateNode,
-                    EditElementEvent.EVENT_NAME,
-                    MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
-                );
+                recordCreateElement = createComponentForTest(recordCreateNode);
             });
             it('record store option should have "Only the first record" and "In separate variables" selected and the second radio group should be visible', () => {
                 const recordStoreElement = getRecordStoreOption(recordCreateElement);
                 const radioGroupElements = getRadioGroups(recordStoreElement);
                 expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
                 expect(recordStoreElement.wayToStoreFields).toBe('separateVariables');
-                expect(recordStoreElement.assignNullValuesIfNoRecordsFound).toBe(false);
                 expect(radioGroupElements).toHaveLength(2);
             });
             it('assigns Record Id To Reference should not be displayed', () => {
@@ -543,11 +477,7 @@ describe('Record Create Editor', () => {
                 beforeEach(() => {
                     const element = getElementByDevName('createFromAnAccount');
                     recordCreateNode = getElementForPropertyEditor(element);
-                    recordCreateElement = createComponentForTest(
-                        recordCreateNode,
-                        EditElementEvent.EVENT_NAME,
-                        MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
-                    );
+                    recordCreateElement = createComponentForTest(recordCreateNode);
                     sObjectOrSObjectCollectionPicker = getResourceGroupedCombobox(recordCreateElement);
                 });
                 it('should contain single sobject elements, and no traversal', async () => {
@@ -646,11 +576,7 @@ describe('Record Create Editor', () => {
                 beforeEach(() => {
                     const element = getElementByDevName('createFromMultipleAccounts');
                     recordCreateNode = getElementForPropertyEditor(element);
-                    recordCreateElement = createComponentForTest(
-                        recordCreateNode,
-                        EditElementEvent.EVENT_NAME,
-                        MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
-                    );
+                    recordCreateElement = createComponentForTest(recordCreateNode);
                     sObjectOrSObjectCollectionPicker = getResourceGroupedCombobox(recordCreateElement);
                 });
                 it('should contain sobject collection elements, and no traversal', async () => {
@@ -734,10 +660,10 @@ describe('Record Create Editor', () => {
         });
         describe('Working with manual output handling', () => {
             let outputResourcePickerCombobox;
-            beforeEach(() => {
+            beforeAll(() => {
                 const element = getElementByDevName('createAccountWithAdvancedOptions');
                 recordCreateNode = getElementForPropertyEditor(element);
-                recordCreateElement = createComponentForTest(recordCreateNode, EditElementEvent.EVENT_NAME);
+                recordCreateElement = createComponentForTest(recordCreateNode);
                 outputResourcePickerCombobox = getOutputResourcePickerCombobox(
                     getOutputResourcePicker(recordCreateElement)
                 );

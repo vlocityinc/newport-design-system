@@ -10,11 +10,7 @@ import { PARAM_PROPERTY } from 'builder_platform_interaction/ruleLib';
 import { ENTITY_TYPE, fetchFieldsForEntity, getCreateableEntities } from 'builder_platform_interaction/sobjectLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { format } from 'builder_platform_interaction/commonUtils';
-import {
-    PropertyChangedEvent,
-    UseAdvancedOptionsSelectionChangedEvent,
-    AddElementEvent
-} from 'builder_platform_interaction/events';
+import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
@@ -24,7 +20,6 @@ import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interacti
 export default class RecordCreateEditor extends LightningElement {
     labels = LABELS;
     propertyEditorElementType = ELEMENT_TYPE.RECORD_CREATE;
-    _mode = AddElementEvent.EVENT_NAME;
 
     /**
      * Internal state for the editor
@@ -64,24 +59,6 @@ export default class RecordCreateEditor extends LightningElement {
         });
         this.updateFields();
         this.resourceDisplayText();
-    }
-
-    /**
-     * Used to know if we are dealing with AddElementEvent.EVENT_NAME or EditElementEvent.EVENT_NAME.
-     */
-    @api
-    get mode() {
-        return this._mode;
-    }
-
-    set mode(newValue) {
-        this._mode = newValue;
-        if (this.isInAddElementMode && this.isAutomaticOutputHandlingSupported) {
-            this.state.recordCreateElement = recordCreateReducer(
-                this.state.recordCreateElement,
-                new UseAdvancedOptionsSelectionChangedEvent(false)
-            );
-        }
     }
 
     /**
@@ -158,10 +135,6 @@ export default class RecordCreateEditor extends LightningElement {
         return this.state.recordCreateElement.inputReference.error;
     }
 
-    get assignNullValuesIfNoRecordsFound() {
-        return this.state.recordCreateElement.assignNullValuesIfNoRecordsFound;
-    }
-
     get sObjectVariablePickerPlaceholder() {
         return !this.isCollection ? this.labels.searchRecords : this.labels.searchRecordCollections;
     }
@@ -210,14 +183,6 @@ export default class RecordCreateEditor extends LightningElement {
                 obj[key] = this.state.entityFields[key];
                 return obj;
             }, {});
-    }
-
-    /**
-     * Is in "add element" mode (ie: added from the palette to the canvas)?
-     * @returns {boolean} true if in "addElement" mode otherwise false
-     */
-    get isInAddElementMode() {
-        return this.mode === AddElementEvent.EVENT_NAME;
     }
 
     /**
@@ -302,11 +267,7 @@ export default class RecordCreateEditor extends LightningElement {
 
     handleRecordStoreOptionChangedEvent(event) {
         event.stopPropagation();
-        this.state.recordCreateElement = recordCreateReducer(
-            this.state.recordCreateElement,
-            event,
-            this.isAutomaticOutputHandlingSupported
-        );
+        this.state.recordCreateElement = recordCreateReducer(this.state.recordCreateElement, event);
         this.state.recordEntityName = this.objectValue;
     }
 
@@ -320,7 +281,8 @@ export default class RecordCreateEditor extends LightningElement {
 
     handleInputReferenceChangedEvent(event) {
         event.stopPropagation();
-        this.updateProperty('inputReference', event.detail.value, event.detail.error, false);
+        const oldInputReferenceValue = this.state.inputReference;
+        this.updateProperty('inputReference', event.detail.value, event.detail.error, false, oldInputReferenceValue);
     }
 
     /**
@@ -353,7 +315,11 @@ export default class RecordCreateEditor extends LightningElement {
     updateProperty(propertyName, newValue, error, ignoreValidate, oldValue) {
         const propChangedEvent = new PropertyChangedEvent(propertyName, newValue, error, null, oldValue);
         propChangedEvent.detail.ignoreValidate = ignoreValidate;
-        this.state.recordCreateElement = recordCreateReducer(this.state.recordCreateElement, propChangedEvent);
+        this.state.recordCreateElement = recordCreateReducer(
+            this.state.recordCreateElement,
+            propChangedEvent,
+            this.isAutomaticOutputHandlingSupported
+        );
     }
 
     /**
