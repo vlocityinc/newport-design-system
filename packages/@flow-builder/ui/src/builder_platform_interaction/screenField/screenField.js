@@ -33,7 +33,7 @@ export default class ScreenField extends LightningElement {
 
     get hasErrors() {
         const errors = this.screenfield && getErrorsFromHydratedElement(this.screenfield);
-        return errors && errors.length > 0;
+        return errors && errors.length > 0 && !this.isSectionType;
     }
 
     get isExtension() {

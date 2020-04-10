@@ -1,9 +1,10 @@
 import { getRulesForField, screenValidation, getDynamicTypeMappingValidation } from '../screenValidation';
 import { createTestScreenField, SCREEN_NO_DEF_VALUE } from 'builder_platform_interaction/builderTestUtils';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { generateGuid, Store } from 'builder_platform_interaction/storeLib';
 import { LABELS } from 'builder_platform_interaction/validationRules';
 import { isValidMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/dateTimeUtils', () => {
     return {
@@ -20,6 +21,8 @@ jest.mock('builder_platform_interaction/mergeFieldLib', () => {
             .mockReturnValue([])
     };
 });
+
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 describe('When field has validation enabled', () => {
     let field;
@@ -303,6 +306,54 @@ describe('When field type is LargeTextArea', () => {
         const field = createTestScreenField('field1', 'LargeTextArea');
         const rules = getRulesForField(field);
         expect(screenValidation.validateProperty('defaultValue', '{!myVar}', rules.defaultValue)).toBeNull();
+    });
+});
+
+describe('When field type is Section', () => {
+    it('validates child fields', () => {
+        Store.setMockState(flowWithAllElementsUIModel);
+        const field1 = createTestScreenField('field1', 'LargeTextArea');
+        const field2 = createTestScreenField('field2', 'DisplayText');
+        let section = {
+            guid: 'section1',
+            name: 'section1',
+            fieldType: 'RegionContainer',
+            fields: [
+                {
+                    guid: 'column1',
+                    name: 'column1',
+                    fieldType: 'Region',
+                    type: {
+                        name: 'Column'
+                    },
+                    inputParameters: [
+                        {
+                            name: 'width',
+                            value: '6'
+                        }
+                    ],
+                    fields: []
+                },
+                {
+                    guid: 'column2',
+                    name: 'column2',
+                    fieldType: 'Region',
+                    type: {
+                        name: 'Column'
+                    },
+                    inputParameters: [
+                        {
+                            name: 'width',
+                            value: '6'
+                        }
+                    ],
+                    fields: [field1, field2]
+                }
+            ]
+        };
+        section.fields[1].fields[0].name.value = '';
+        section = screenValidation.validateAll(section);
+        expect(section.fields[1].fields[0].name.error).toBe('FlowBuilderValidation.cannotBeBlank');
     });
 });
 

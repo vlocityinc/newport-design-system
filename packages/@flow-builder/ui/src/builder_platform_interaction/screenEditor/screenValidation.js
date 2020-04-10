@@ -2,7 +2,12 @@ import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { Validation, defaultRules } from 'builder_platform_interaction/validation';
 
 import { getCachedExtension, getCachedExtensionType } from 'builder_platform_interaction/flowExtensionLib';
-import { isExtensionField, isChoiceField } from 'builder_platform_interaction/screenEditorUtils';
+import {
+    isExtensionField,
+    isChoiceField,
+    isRegionField,
+    isRegionContainerField
+} from 'builder_platform_interaction/screenEditorUtils';
 import { isReference } from 'builder_platform_interaction/commonUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
@@ -304,6 +309,10 @@ export const getRulesForField = (field, newValueIsReference = false) => {
 
     if (isExtensionField(field)) {
         getRulesForExtensionField(field, rules);
+    } else if (isRegionContainerField(field) || isRegionField(field)) {
+        rules.fields = childField => {
+            return getRulesForField(childField);
+        };
     } else {
         getRulesForInputField(field, rules, newValueIsReference);
     }
