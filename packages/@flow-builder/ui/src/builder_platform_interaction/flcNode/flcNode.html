@@ -1,10 +1,10 @@
 <template>
     <!-- Node Button -->
     <builder_platform_interaction-flc-button-menu
+        condition-options-for-node={conditionOptionsForNode}
         element-metadata={nodeInfo.metadata}
-        is-selection-mode={isSelectionMode}
-        info={nodeInfo.menuInfo}
         guid={nodeInfo.guid}
+        is-selection-mode={isSelectionMode}
         ondblclick={handleOnDblClick}
     >
         <!-- Element Icon -->

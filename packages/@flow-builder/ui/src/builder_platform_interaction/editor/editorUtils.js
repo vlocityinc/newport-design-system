@@ -91,8 +91,15 @@ const deletableCanvasElements = (canvasElements = []) => {
  * @param {String[]} selectedElementGUIDs - Contains GUIDs of all the selected canvas elements
  * @param {Object[]} connectorsToDelete - Contains all the selected and associated connectors that need to be deleted
  * @param {String} elementType - Type of the element being deleted
+ * @param {Number} childIndexToKeep - The child branch you want to persist when deleting a branch element in Auto-Layout Canvas
  */
-const doDeleteOrInvokeAlert = (storeInstance, selectedElementGUIDs, connectorsToDelete, elementType) => {
+const doDeleteOrInvokeAlert = (
+    storeInstance,
+    selectedElementGUIDs,
+    connectorsToDelete,
+    elementType,
+    childIndexToKeep
+) => {
     const currentState = storeInstance.getCurrentState();
     const storeElements = currentState.elements;
 
@@ -107,7 +114,8 @@ const doDeleteOrInvokeAlert = (storeInstance, selectedElementGUIDs, connectorsTo
             deleteElements({
                 selectedElements,
                 connectorsToDelete,
-                elementType
+                elementType,
+                childIndexToKeep
             })
         );
     } else {
@@ -134,9 +142,12 @@ const resetStartElementIfNeeded = (storeInstance, processType, triggerType) => {
 /**
  * This function deletes an element if it is not referenced else open used by modal
  * @param {Object} storeInstance instance of the store
- * @param {Object} containing selected Element GUID and type
+ * @param {Object} containing selected Element GUID, type and childIndexToKeep (only when deleting a branch element in Auto-Layout Canvas)
  */
-export const getElementsToBeDeleted = (storeInstance, { selectedElementGUID, selectedElementType }) => {
+export const getElementsToBeDeleted = (
+    storeInstance,
+    { selectedElementGUID, selectedElementType, childIndexToKeep }
+) => {
     const isMultiElementDelete = !selectedElementGUID;
     const currentState = storeInstance.getCurrentState();
     const connectors = currentState.connectors;
@@ -151,7 +162,13 @@ export const getElementsToBeDeleted = (storeInstance, { selectedElementGUID, sel
         (canvasElementGuidsToDelete && canvasElementGuidsToDelete.length > 0) ||
         (connectorsToDelete && connectorsToDelete.length > 0)
     ) {
-        doDeleteOrInvokeAlert(storeInstance, canvasElementGuidsToDelete, connectorsToDelete, selectedElementType);
+        doDeleteOrInvokeAlert(
+            storeInstance,
+            canvasElementGuidsToDelete,
+            connectorsToDelete,
+            selectedElementType,
+            childIndexToKeep
+        );
     }
 };
 

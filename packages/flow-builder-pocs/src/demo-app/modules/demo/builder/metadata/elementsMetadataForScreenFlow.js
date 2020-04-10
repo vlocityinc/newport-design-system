@@ -12,10 +12,6 @@ import waitLogicDescription from '@salesforce/label/FlowBuilderLeftPanelElements
 import waitLogicLabel from '@salesforce/label/FlowBuilderLeftPanelElements.waitLogicLabel';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { ElementType } from 'builder_platform_interaction/flowUtils';
-import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
-
-const endElementConfig = getConfigForElementType(ELEMENT_TYPE.END_ELEMENT);
-
 
 export default [
     {

@@ -294,6 +294,29 @@ describe('Editor Utils Test', () => {
             });
         });
 
+        it('dispatch deleteElement action with only one element when isMultiElementDelete is false, no connectors are involved and childIndexToKeep is 1', () => {
+            const selectedElementGUID = ['canvasElement1'];
+            const selectedElementType = ELEMENT_TYPE.ASSIGNMENT;
+
+            const payload = {
+                selectedElements: [canvasElement1],
+                connectorsToDelete: [],
+                elementType: ELEMENT_TYPE.ASSIGNMENT,
+                childIndexToKeep: 1
+            };
+
+            getElementsToBeDeleted(storeInstance, {
+                selectedElementGUID,
+                selectedElementType,
+                childIndexToKeep: 1
+            });
+
+            expect(dispatch).toHaveBeenCalledWith({
+                type: 'deleteElement',
+                payload
+            });
+        });
+
         it('dispatch deleteElement action when isMultiElementDelete is false and all connectors are involved', () => {
             const selectedElementGUID = ['canvasElement2'];
             const selectedElementType = ELEMENT_TYPE.ASSIGNMENT;

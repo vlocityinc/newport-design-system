@@ -45,7 +45,7 @@ export function getFlcFlowData(flowInfo) {
 /**
  * Get the data needed to render a flcCompoundNode component
  *
- * @param {NodeRendernfo} nodeInfo - Info about a node
+ * @param {NodeRenderInfo} nodeInfo - Info about a node
  * @returns {Object} The flcCompoundNode component data
  */
 export function getFlcCompoundNodeData(nodeInfo) {
@@ -64,7 +64,7 @@ export function getFlcCompoundNodeData(nodeInfo) {
 /**
  * Get the data needed to render a flcNode component
  *
- * @param {NodeRendernfo} nodeInfo - Info about a node
+ * @param {NodeRenderInfo} nodeInfo - Info about a node
  * @returns {Object} The flcNode component data
  */
 export function getFlcNodeData(nodeInfo) {

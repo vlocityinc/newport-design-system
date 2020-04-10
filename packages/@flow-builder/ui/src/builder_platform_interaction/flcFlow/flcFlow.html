@@ -33,8 +33,9 @@
             </template>
             <template if:false={menu.connectorMenu}>
                 <builder_platform_interaction-flc-node-menu
-                    guid={menu.guid}
+                    condition-options={menu.conditionOptionsForNode}
                     element-metadata={menu.elementMetadata}
+                    guid={menu.guid}
                 ></builder_platform_interaction-flc-node-menu>
             </template>
         </div>

@@ -12,6 +12,24 @@ export default class FlcNode extends LightningElement {
     @api
     isSelectionMode;
 
+    get conditionOptionsForNode() {
+        let conditionOptionsForNode;
+        if (this.nodeInfo.conditionOptions) {
+            conditionOptionsForNode = [
+                ...this.nodeInfo.conditionOptions,
+                {
+                    label: this.nodeInfo.defaultConnectorLabel,
+                    value: 'DEFAULT_PATH'
+                },
+                {
+                    label: 'None: Delete All Outcomes',
+                    value: 'NO_PATH'
+                }
+            ];
+        }
+        return conditionOptionsForNode;
+    }
+
     get showCheckboxInSelectionMode() {
         const { type } = this.nodeInfo.metadata;
         return this.isSelectionMode && ![ElementType.START, ElementType.END, ElementType.ROOT].includes(type);

@@ -17,6 +17,7 @@ export interface NodeModel {
 
     outcomeReferences?: Array<{ outcomeReference: string }>;
     waitEventReferences?: Array<{ waitEventReference: string }>;
+    defaultConnectorLabel?: string;
 
     // link properties
     prev: NodeRef;

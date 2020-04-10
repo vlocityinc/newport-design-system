@@ -4,14 +4,15 @@
 const eventName = 'deleteelement';
 
 export class DeleteElementEvent {
-    constructor(selectedElementGUID, selectedElementType) {
+    constructor(selectedElementGUID, selectedElementType, childIndexToKeep) {
         return new CustomEvent(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,
             detail: {
                 selectedElementGUID,
-                selectedElementType
+                selectedElementType,
+                childIndexToKeep
             }
         });
     }

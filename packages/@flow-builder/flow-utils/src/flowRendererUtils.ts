@@ -40,6 +40,8 @@ export interface NodeRenderInfo {
     flows: FlowRenderInfo[];
     isNew?: boolean;
     logicConnectors: ConnectorRenderInfo[];
+    conditionOptions?: Option[];
+    defaultConnectorLabel?: string;
     guid: string;
     menuOpened: boolean;
     isTerminal: boolean;

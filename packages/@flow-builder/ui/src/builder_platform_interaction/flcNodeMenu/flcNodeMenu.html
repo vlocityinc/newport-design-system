@@ -23,38 +23,50 @@
             </div>
         </div>
 
-        <ul if:true={menuConfiguration.body} class="body slds-dropdown__divst" role="menu" slot="body">
-            <template for:each={menuConfiguration.body.NodeActions} for:item="item">
-                <li
-                    class="slds-dropdown__item"
-                    data-value={item.value}
-                    key={item.value}
-                    role="presentation"
-                    onclick={handleSelectMenuItem}
-                >
-                    <a role="menuitem" tabindex="0">
-                        <span class="slds-media__figure slds-m-right_x-small">
-                            <lightning-icon
-                                icon-name={item.icon}
-                                size="x-small"
-                                variant={item.iconVariant}
-                            ></lightning-icon>
-                        </span>
-                        <span class="slds-media__body">
-                            {item.label}
-                        </span>
-                    </a>
-                </li>
-            </template>
-        </ul>
+        <div if:true={menuConfiguration.body} slot="body">
+            <ul if:true={isBaseActionMode} class="body slds-dropdown__divst" role="menu">
+                <template for:each={menuConfiguration.body.nodeActions} for:item="action">
+                    <li
+                        class="slds-dropdown__item"
+                        data-value={action.value}
+                        key={action.value}
+                        role="presentation"
+                        onclick={handleSelectNodeAction}
+                    >
+                        <a role="menuitem" tabindex="0">
+                            <span class="slds-media__figure slds-m-right_x-small">
+                                <lightning-icon
+                                    icon-name={action.icon}
+                                    size="x-small"
+                                    variant={action.iconVariant}
+                                ></lightning-icon>
+                            </span>
+                            <span class="slds-media__body">
+                                {action.label}
+                            </span>
+                        </a>
+                    </li>
+                </template>
+            </ul>
+
+            <div if:true={isDeleteBranchElementMode} class="slds-p-around_x-small">
+                <lightning-combobox
+                    label="Which outcome path would you like to keep?"
+                    options={conditionOptions}
+                    value={selectedConditionValue}
+                    onchange={handleComboboxChange}
+                ></lightning-combobox>
+            </div>
+        </div>
 
         <div if:true={menuConfiguration.footer} class="slds-border_top slds-p-around_small test-footer" slot="footer">
-            <button
-                class="test-edit-button slds-button slds-button_brand slds-button_stretch"
-                onclick={handleEditButtonClick}
-            >
-                {menuConfiguration.footer.buttonText}
-            </button>
+            <lightning-button
+                label={menuConfiguration.footer.buttonText}
+                icon-name={menuConfiguration.footer.buttonIcon}
+                icon-position={menuConfiguration.footer.buttonIconPosition}
+                variant={menuConfiguration.footer.buttonVariant}
+                onclick={handleFooterButtonClick}
+            ></lightning-button>
         </div>
     </builder_platform_interaction-flc-menu>
 </template>

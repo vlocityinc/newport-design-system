@@ -52,6 +52,9 @@ export default class FlcButtonMenu extends LightningElement {
     info;
 
     @api
+    conditionOptionsForNode;
+
+    @api
     get menuOpened() {
         return this._menuOpened;
     }
@@ -375,7 +378,7 @@ export default class FlcButtonMenu extends LightningElement {
         if (!this.disabled) {
             const { top, left } = this.target.getBoundingClientRect();
             const { clientWidth, clientHeight } = this.target;
-            const { isConnector, guid, info, elementMetadata } = this;
+            const { conditionOptionsForNode, isConnector, guid, info, elementMetadata } = this;
             const { parent, prev, next, childIndex } = info || {};
 
             if (sendEvent) {
@@ -389,7 +392,8 @@ export default class FlcButtonMenu extends LightningElement {
                         parent,
                         prev,
                         next,
-                        elementMetadata
+                        elementMetadata,
+                        conditionOptionsForNode
                     })
                 );
             }

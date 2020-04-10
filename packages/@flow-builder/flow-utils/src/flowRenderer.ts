@@ -157,7 +157,7 @@ function renderNode(
  * @param parentNode - The parent branching node
  * @param node - The source node for the connector
  * @param context - The flow rendering context
- * @param variant - The connnector variant
+ * @param variant - The connector variant
  * @returns A ConnectorRenderInfo for the node's next connector
  */
 function createNextConnector(
@@ -258,7 +258,7 @@ function renderFlowHelper(parentNode: ParentNodeModel, childIndex: number, conte
  * @param conditionReferences - The condition references
  * @param childIndex - The index of the branch
  * @param fieldName - The field name metadata
- * @return A SelecInfo for the conditions of a branch
+ * @return A SelectInfo for the conditions of a branch
  */
 function createOptionsForConditionReferences(
     flowModel: FlowModel,
@@ -333,7 +333,7 @@ function getBranchingInfo(flowRenderInfos: FlowRenderInfo[]) {
 
 /**
  * Renders a branch node.
- * The branching node is renderered, along with all its branches, recursively.
+ * The branching node is rendered, along with all its branches, recursively.
  *
  * @param parentNode - The branch node
  * @param context - The flow rendering context
@@ -351,11 +351,13 @@ function renderBranchNode(parentNode: ParentNodeModel, context: FlowRenderContex
         child == null ? renderEmptyFlow(parentNode, i, context) : renderFlowHelper(parentNode, i, context)
     );
 
+    const conditionOptions = createConditionOptions(parentNode, context);
+
     const { isTerminal, w, leftMergeIndex, rightMergeIndex } = getBranchingInfo(nodeRenderInfo.flows);
 
     nodeRenderInfo.flows.forEach((flowRenderInfo, i) => {
         const height = children[i] != null ? flowRenderInfo.nodes[0].geometry.y! : joinOffsetY;
-        flowRenderInfo.preConnector = createPreConnector(parentNode, i, context, height);
+        flowRenderInfo.preConnector = createPreConnector(parentNode, i, context, height, conditionOptions);
     });
 
     nodeRenderInfo.logicConnectors = [
@@ -365,6 +367,8 @@ function renderBranchNode(parentNode: ParentNodeModel, context: FlowRenderContex
 
     nodeRenderInfo.isTerminal = isTerminal;
     nodeRenderInfo.geometry = { x: 0, y, w };
+    nodeRenderInfo.conditionOptions = conditionOptions;
+    nodeRenderInfo.defaultConnectorLabel = parentNode.defaultConnectorLabel;
 
     return nodeRenderInfo;
 }
@@ -382,7 +386,8 @@ function createPreConnector(
     parentNode: ParentNodeModel,
     childIndex: number,
     context: FlowRenderContext,
-    height: number
+    height: number,
+    conditionOptions?: Option[]
 ): ConnectorRenderInfo {
     const { progress, nodeLayoutMap, interactionState } = context;
 
@@ -395,7 +400,6 @@ function createPreConnector(
     } else if (branchLayout.x === 0) {
         variant = ConnectorVariant.CENTER;
     }
-    const conditionOptions = createConditionOptions(parentNode, context);
 
     return createConnectorToNextNode(
         { parent: parentNode.guid, childIndex },
