@@ -3,8 +3,6 @@
         if:true={screen}
         class="slds-p-around_small screen-editor-canvas-container slds-scrollable"
         onclick={handleOnClick}
-        ondrop={handleDrop}
-        ondragenter={handleDragEnd}
         onscroll={handleScroll}
     >
         <div class="slds-grow screen-editor-canvas-content slds-p-top_small slds-grid">
@@ -60,38 +58,12 @@
                 </builder_platform_interaction-screen-editor-highlight>
 
                 <!--  body -->
-                <div
-                    class="screen-editor-canvas-body slds-card__body slds-m-bottom_none slds-is-relative"
-                    ondragenter={handleDragEnter}
-                    ondragover={handleDragOver}
-                    ondragend={handleDragEnd}
+                <builder_platform_interaction-screen-canvas
+                    element={screen}
+                    selected-item-guid={selectedItemGuid}
+                    show-empty-placeholder="false"
                 >
-                    <template for:each={fields} for:item="field">
-                        <builder_platform_interaction-screen-editor-highlight
-                            key={field.field.guid}
-                            draggable="true"
-                            screen-element={field.field}
-                            prevent-events={field.field.hasNoChildren}
-                            display-icons="true"
-                            title={field.field.type.label}
-                            tab-index={tabIndex}
-                            selected={field.selected}
-                        >
-                            <!-- field preview -->
-                            <builder_platform_interaction-screen-field
-                                slot="screen-element"
-                                screenfield={field.field}
-                                class="slds-grow"
-                                selected-item-guid={selectedItemGuid}
-                            ></builder_platform_interaction-screen-field>
-                        </builder_platform_interaction-screen-editor-highlight>
-                    </template>
-                    <div class="screen-editor-canvas-dragging-region slds-hide slds-is-absolute">
-                        <hr
-                            class="screen-editor-canvas-insertion-line slds-is-relative slds-m-around_none slds-p-around_none"
-                        />
-                    </div>
-                </div>
+                </builder_platform_interaction-screen-canvas>
 
                 <!--  footer -->
                 <builder_platform_interaction-screen-editor-highlight

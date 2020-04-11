@@ -64,6 +64,10 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => ({
                 category: 'Input'
             }
         ];
+    },
+
+    SCREEN_EDITOR_GUIDS: {
+        PALETTE: 'palette'
     }
 }));
 

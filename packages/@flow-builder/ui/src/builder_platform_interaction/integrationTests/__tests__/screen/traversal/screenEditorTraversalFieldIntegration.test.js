@@ -38,8 +38,8 @@ const getScreenPropertiesEditorContainerElement = screenEditor => {
     return screenEditor.shadowRoot.querySelector(SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER);
 };
 
-const getEditorCanvasElement = screenEditor => {
-    return screenEditor.shadowRoot.querySelector(SELECTORS.SCREEN_EDITOR_CANVAS);
+const getCanvasElement = screenEditor => {
+    return deepQuerySelector(screenEditor, [SELECTORS.SCREEN_EDITOR_CANVAS, SELECTORS.SCREEN_CANVAS]);
 };
 
 const getExtensionPropertiesEditorElement = screenEditor => {
@@ -49,7 +49,7 @@ const getExtensionPropertiesEditorElement = screenEditor => {
 };
 
 const getCanvasScreenFieldElement = (screenEditor, elementTitle) => {
-    const screenEditorCanvas = getEditorCanvasElement(screenEditor);
+    const screenEditorCanvas = getCanvasElement(screenEditor);
     const screenEditorHighlight = screenEditorCanvas.shadowRoot.querySelectorAll(SELECTORS.SCREEN_EDITOR_HIGHLIGHT);
     let elementAddress;
     screenEditorHighlight.forEach(element => {

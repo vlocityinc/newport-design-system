@@ -1,0 +1,25 @@
+.screen-canvas-body {
+    min-height: var(--lwc-varSpacingVerticalXLarge);
+    height: 100%;
+}
+
+.screen-canvas-dragging-region {
+    background: rgba(75, 202, 129, 0.15);
+    border: var(--lwc-borderWidthThin) solid var(--lwc-colorBackgroundSuccess);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.screen-canvas-insertion-line {
+    border: var(--lwc-borderWidthThin) solid var(--lwc-colorGray1);
+    background: var(--lwc-colorBackgroundSuccess);
+    height: var(--lwc-borderWidthThick);
+}
+
+.screen-canvas-empty-place-holder {
+    height: 100%;
+}

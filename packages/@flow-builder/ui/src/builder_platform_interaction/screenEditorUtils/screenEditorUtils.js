@@ -17,6 +17,10 @@ export const LIGHTNING_INPUT_VARIANTS = {
     LABEL_HIDDEN: 'label-hidden'
 };
 
+export const SCREEN_EDITOR_GUIDS = {
+    PALETTE: 'palette'
+};
+
 export const CANVAS_SCREEN_GUIDS = {
     HEADER_GUID: 'showHeader',
     FOOTER_GUID: 'showFooter'

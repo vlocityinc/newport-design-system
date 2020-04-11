@@ -7,37 +7,52 @@
     margin-bottom: var(--lwc-borderWidthThin);
 }
 
-.highlight.selected .highlight-header,
-.highlight.selected .highlight-icons-container {
+.highlight.selected > .highlight-header,
+.highlight.selected > .highlight-icons-container,
+.highlight.selected > .highlight-frame > .highlight-icons-container,
+.highlight.selected > .slds-grid > .highlight-frame > .highlight-icons-container {
     background-color: var(--lwc-colorBrandDarker);
 }
 
-.highlight.selected .highlight-frame {
+.highlight.selected > .highlight-frame,
+.highlight.selected > .slds-grid > .highlight-frame {
     border-color: var(--lwc-colorBrandDarker);
 }
 
-.highlight:not(.dragging).selected:focus .has-box-shadow {
+.highlight:not(.dragging).selected:focus > .has-box-shadow,
+.highlight:not(.dragging).selected:focus > .slds-grid > .has-box-shadow {
     outline: 0;
     box-shadow: var(--lwc-shadowButtonFocus);
 }
 
-.highlight:not(.dragging).selected .highlight-header,
-.highlight:not(.dragging):hover .highlight-header,
-.highlight:not(.dragging):focus .highlight-header {
+.highlight:not(.dragging).selected > .highlight-header,
+.highlight:not(.dragging):hover > .highlight-header,
+.highlight:not(.dragging):focus > .highlight-header {
     visibility: visible;
     z-index: 4; /* Or the frame border (with the shadow) will appear on top of the header */
 }
 
-.highlight:not(.dragging).selected .highlight-frame,
-.highlight:not(.dragging):hover .highlight-frame,
-.highlight:not(.dragging):focus .highlight-frame {
-    border-style: solid;
+.highlight:not(.dragging).selected > .highlight-frame,
+.highlight:not(.dragging).selected > .slds-grid > .highlight-frame,
+.highlight:not(.dragging):hover > .highlight-frame,
+.highlight:not(.dragging):hover > .slds-grid > .highlight-frame,
+.highlight:not(.dragging):focus > .highlight-frame,
+.highlight:not(.dragging):focus > .slds-grid > .highlight-frame {
+    height: 100%;
+    border: var(--lwc-borderWidthThick) solid var(--lwc-colorBrandDarker);
+    z-index: 3;
 }
 
-.highlight:not(.dragging).selected .highlight-icons-container,
-.highlight:not(.dragging):hover .highlight-icons-container,
-.highlight:not(.dragging):focus .highlight-icons-container {
+.highlight:not(.dragging).selected > .highlight-frame > .highlight-icons-container,
+.highlight:not(.dragging).selected > .slds-grid > .highlight-frame > .highlight-icons-container,
+.highlight:not(.dragging):hover > .highlight-frame > .highlight-icons-container,
+.highlight:not(.dragging):hover > .slds-grid > .highlight-frame > .highlight-icons-container,
+.highlight:not(.dragging):focus > .highlight-frame > .highlight-icons-container,
+.highlight:not(.dragging):focus > .slds-grid > .highlight-frame > .highlight-icons-container {
     visibility: visible;
+    background-color: var(--lwc-colorBrandDark);
+    top: 0; /* for preventevents false, as in that case this div is absolute */
+    right: 0; /* for preventevents false, as in that case this div is absolute */
 }
 
 .highlight-header {

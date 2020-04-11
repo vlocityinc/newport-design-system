@@ -12,7 +12,8 @@ import {
     ticks,
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
-    checkboxChangeEvent
+    checkboxChangeEvent,
+    deepQuerySelector
 } from 'builder_platform_interaction/builderTestUtils';
 import { flowExtensionsForFlow as mockFlowExtensions } from 'serverData/GetFlowExtensions/flowExtensionsForFlow.json';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -60,8 +61,8 @@ const getScreenPropertiesEditorContainerElement = screenEditor => {
     return screenEditor.shadowRoot.querySelector(SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER);
 };
 
-const getEditorCanvasElement = screenEditor => {
-    return screenEditor.shadowRoot.querySelector(SELECTORS.SCREEN_EDITOR_CANVAS);
+const getCanvasElement = screenEditor => {
+    return deepQuerySelector(screenEditor, [SELECTORS.SCREEN_EDITOR_CANVAS, SELECTORS.SCREEN_CANVAS]);
 };
 
 const getExtensionPropertiesEditorElement = screenEditor => {
@@ -85,7 +86,7 @@ const getTitleFromExtensionPropertiesEditorElement = screenEditor => {
 };
 
 const getCanvasScreenFieldElement = (screenEditor, elementTitle) => {
-    const screenEditorCanvas = getEditorCanvasElement(screenEditor);
+    const screenEditorCanvas = getCanvasElement(screenEditor);
     const screenEditorHighlight = screenEditorCanvas.shadowRoot.querySelectorAll(SELECTORS.SCREEN_EDITOR_HIGHLIGHT);
     let elementAddress;
     screenEditorHighlight.forEach(element => {

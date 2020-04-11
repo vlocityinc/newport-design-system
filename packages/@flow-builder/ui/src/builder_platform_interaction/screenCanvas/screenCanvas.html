@@ -1,0 +1,40 @@
+<template>
+    <div
+        class="screen-canvas-body slds-m-bottom_none slds-is-relative"
+        ondragenter={handleDragEnter}
+        ondragover={handleDragOver}
+        ondragend={handleDragEnd}
+        ondrop={handleDrop}
+        ondragleave={handleDragLeave}
+    >
+        <template for:each={fields} for:item="field" if:false={shouldShowEmptyPlaceholder}>
+            <builder_platform_interaction-screen-editor-highlight
+                key={field.field.guid}
+                draggable="true"
+                screen-element={field.field}
+                prevent-events={field.field.hasNoChildren}
+                display-icons="true"
+                title={field.field.type.label}
+                tab-index={tabIndex}
+                selected={field.selected}
+            >
+                <!-- field preview -->
+                <builder_platform_interaction-screen-field
+                    slot="screen-element"
+                    screenfield={field.field}
+                    class="slds-grow"
+                    selected-item-guid={selectedItemGuid}
+                ></builder_platform_interaction-screen-field>
+            </builder_platform_interaction-screen-editor-highlight>
+        </template>
+        <span
+            if:true={shouldShowEmptyPlaceholder}
+            class="slds-grow slds-align_absolute-center slds-align-middle screen-canvas-empty-place-holder"
+        >
+            {emptyPlaceHolderText}
+        </span>
+        <div class="screen-canvas-dragging-region slds-hide slds-is-absolute">
+            <hr class="screen-canvas-insertion-line slds-is-relative slds-m-around_none slds-p-around_none" />
+        </div>
+    </div>
+</template>

@@ -2,14 +2,15 @@
  Wrapper for section fields, used for the purpose of screen builder canvas preview only
  -->
 <template>
-    <div class="slds-grid slds-gutters slds-grid_pull-padded-x-small">
+    <div class="slds-grid">
         <template for:each={section.fields} for:item="column">
-            <builder_platform_interaction-screen-column-field
-                class="slds-grow slds-col slds-p-horizontal_x-small"
+            <builder_platform_interaction-screen-canvas
+                class={columnClass}
                 key={column.guid}
-                column={column}
+                element={column}
                 selected-item-guid={selectedItemGuid}
-            ></builder_platform_interaction-screen-column-field>
+                show-empty-placeholder="true"
+            ></builder_platform_interaction-screen-canvas>
         </template>
     </div>
 </template>

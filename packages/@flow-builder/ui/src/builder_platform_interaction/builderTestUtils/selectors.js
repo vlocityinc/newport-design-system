@@ -45,6 +45,7 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     RESOURCED_TEXTAREA: 'builder_platform_interaction-resourced-textarea',
     ROW: 'builder_platform_interaction-row',
     SCREEN_EDITOR_CANVAS: 'builder_platform_interaction-screen-editor-canvas',
+    SCREEN_CANVAS: 'builder_platform_interaction-screen-canvas',
     SCREEN_EDITOR_HIGHLIGHT: 'builder_platform_interaction-screen-editor-highlight',
     SCREEN_EXTENSION_ATTRIBUTE_EDITOR: 'builder_platform_interaction-screen-extension-attribute-editor',
     SCREEN_EXTENSION_PROPERTIES_EDITOR: 'builder_platform_interaction-screen-extension-properties-editor',

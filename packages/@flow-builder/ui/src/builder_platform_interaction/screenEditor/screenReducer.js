@@ -236,7 +236,7 @@ const insertScreenFieldIntoParent = (screen, parent, field, position) => {
     position = Number.isInteger(position) ? position : parent.fields.length;
     const updatedItems = insertItem(parent.fields, field, position);
     parent = set(parent, 'fields', updatedItems);
-    if (screen.name !== parent.name) {
+    if (screen.name.value !== parent.name.value) {
         parent = updateAncestors(screen, screen.getFieldIndexesByGUID(parent.guid), parent);
     }
     return parent;

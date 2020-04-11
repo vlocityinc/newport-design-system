@@ -180,7 +180,10 @@ export default class ScreenEditor extends LightningElement {
         this.screen = screenReducer(this.screen, event);
 
         // select the new field on the canvas.
-        const parent = event.parent ? this.screen.getFieldByGUID(event.parent.guid) : this.screen;
+        let parent = this.screen;
+        if (event.parent && event.parent.elementType !== ELEMENT_TYPE.SCREEN) {
+            parent = this.screen.getFieldByGUID(event.parent.guid);
+        }
         const position = Number.isInteger(event.position) ? event.position : parent.fields.length - 1;
         this.setSelectedNode(parent.fields[position]);
     };
