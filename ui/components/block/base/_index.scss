@@ -109,7 +109,7 @@
 
   .nds-block_container>label~.nds-block_body {
     padding-top: 1.5rem;
-    padding-#{$left}: 2.5rem;
+    padding-#{$left}: 2rem;
     max-height: 1000rem;
     opacity: 1;
     transition: opacity 1s, max-height 1s ease-in;
