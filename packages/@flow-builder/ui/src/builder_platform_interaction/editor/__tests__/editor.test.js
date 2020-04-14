@@ -861,7 +861,7 @@ describe('property editor', () => {
 
             // make sure mockStoreState matches expected state
             mockStoreState.connectors = mockStoreState.connectors.filter(
-                conn => (conn.target !== '1') & (conn.source !== '1')
+                conn => conn.target !== '1' && conn.source !== '1'
             );
             mockStoreState.canvasElements = mockStoreState.canvasElements.filter(el => el !== '1');
             delete mockStoreState.elements['1'];

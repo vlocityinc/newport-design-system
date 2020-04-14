@@ -48,7 +48,7 @@ const SELECTORS = {
     REORDERABLE_NAV: 'builder_platform_interaction-reorderable-vertical-navigation',
     DEFAULT_OUTCOME: 'builder_platform_interaction-label-description.defaultOutcome',
     ADD_OUTCOME_BUTTON: 'lightning-button-icon',
-    LABEL_DESCRIPTION: 'builder_platform_interaction-label-description'
+    LABEL_DESCRIPTION: 'div.slds-p-horizontal_small.slds-p-top_small builder_platform_interaction-label-description'
 };
 
 let decisionWithOneOutcome;
@@ -90,13 +90,18 @@ beforeEach(() => {
     };
 });
 
-const createComponentForTest = node => {
+const createComponentForTest = (
+    node,
+    props = {
+        editorParams: { panelConfig: { isLabelCollapsibleToHeader: false } }
+    }
+) => {
     const el = createElement('builder_platform_interaction-decision-editor', {
         is: DecisionEditor
     });
 
     el.node = node;
-
+    el.editorParams = props.editorParams;
     document.body.appendChild(el);
 
     return el;
@@ -328,6 +333,33 @@ describe('Decision Editor', () => {
                     detail: { node: decisionEditor.node }
                 })
             );
+        });
+    });
+
+    describe('collapsible label description', () => {
+        it('applies styling to label description when isLabelCollapsibleToHeader set to false', async () => {
+            expect.assertions(1);
+            const decisionEditor = createComponentForTest(decisionWithOneOutcome, {
+                editorParams: {
+                    panelConfig: { isLabelCollapsibleToHeader: false }
+                }
+            });
+
+            await ticks(1);
+            const labelDescription = decisionEditor.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION);
+            expect(labelDescription).not.toBeNull();
+        });
+        it('does not apply styling to label description when isLabelCollapsibleToHeader set to true', async () => {
+            expect.assertions(1);
+            const decisionEditor = createComponentForTest(decisionWithOneOutcome, {
+                editorParams: {
+                    panelConfig: { isLabelCollapsibleToHeader: true }
+                }
+            });
+
+            await ticks(1);
+            const labelDescription = decisionEditor.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION);
+            expect(labelDescription).toBeNull();
         });
     });
 });

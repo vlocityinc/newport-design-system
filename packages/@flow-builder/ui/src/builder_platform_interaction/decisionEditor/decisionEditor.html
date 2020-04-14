@@ -1,6 +1,6 @@
 <template>
     <div if:true={decisionElement}>
-        <div class="slds-p-horizontal_small slds-p-top_small">
+        <div class={styleForLabelDescription}>
             <builder_platform_interaction-label-description
                 label={decisionElement.label}
                 dev-name={decisionElement.name}
@@ -8,6 +8,7 @@
                 guid={decisionElement.guid}
                 onpropertychanged={handlePropertyChangedEvent}
                 mode={mode}
+                editor-params={editorParams}
             >
             </builder_platform_interaction-label-description>
         </div>
