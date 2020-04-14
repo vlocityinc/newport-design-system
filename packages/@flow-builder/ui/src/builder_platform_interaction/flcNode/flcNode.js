@@ -1,6 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import { ElementType } from 'builder_platform_interaction/flowUtils';
-import { EditElementEvent, FlcSelectDeselectNodeEvent } from 'builder_platform_interaction/events';
+import { EditElementEvent, FlcSelectDeselectNodeEvent, SelectNodeEvent } from 'builder_platform_interaction/events';
 
 /**
  * Autolayout Canvas Node Component
@@ -51,6 +51,28 @@ export default class FlcNode extends LightningElement {
         return this.nodeInfo.metadata.type === ElementType.BRANCH
             ? 'slds-is-absolute text-container shifted-text-container'
             : 'slds-is-absolute text-container';
+    }
+
+    /**
+     * Handles the edit element event and fires SelectNodeEvent
+     *
+     * When 'single click updates the store' is implemented in the future,
+     * this.nodeInfo.config.isSelected inside the event can be read
+     * by handlers at differnt levels to learn about the historial selection
+     * status even after the store is updated
+     *
+     * @param {object} event - clicked event coming from flcButtonMenu.js
+     */
+    handleButtonClick(event) {
+        event.stopPropagation();
+        if (!this.isSelectionMode) {
+            const nodeSelectedEvent = new SelectNodeEvent(
+                this.nodeInfo.guid,
+                undefined,
+                this.nodeInfo.config.isSelected
+            );
+            this.dispatchEvent(nodeSelectedEvent);
+        }
     }
 
     handleOnDblClick(event) {

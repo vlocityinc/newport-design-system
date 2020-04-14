@@ -29,6 +29,7 @@
                 onundo={handleUndo}
                 onredo={handleRedo}
                 ontoggleflowstatus={handleToggleFlowStatus}
+                onclosepropertyeditor={handleClosePropertyEditor}
                 flow-errors-and-warnings={flowErrorsAndWarnings}
                 save-and-pending-operation-status={saveAndPendingOperationStatus}
                 last-modified-date={properties.lastModifiedDate}
@@ -69,6 +70,8 @@
                     oneditelement={handleEditElement}
                     onflcselection={handleSelectionOnFixedCanvas}
                     onpaste={handlePasteOnCanvas}
+                    onclosepropertyeditor={handleClosePropertyEditor}
+                    onnodeselected={handleNodeSelectedOnFixedCanvas}
                 >
                 </builder_platform_interaction-flc-builder-container>
                 <builder_platform_interaction-canvas-container
@@ -76,6 +79,9 @@
                     onaddelement={handleAddCanvasElement}
                     oneditelement={handleEditElement}
                     ondeleteelement={handleElementDelete}
+                    ontogglemarqueeon={handleClosePropertyEditor}
+                    onclosepropertyeditor={handleClosePropertyEditor}
+                    onnodeselected={handleNodeSelected}
                 >
                 </builder_platform_interaction-canvas-container>
             </div>

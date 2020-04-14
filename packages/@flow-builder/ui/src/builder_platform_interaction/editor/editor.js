@@ -868,9 +868,8 @@ export default class Editor extends LightningElement {
             };
             storeInstance.dispatch(doDuplicate(payload));
 
-            // If the property editor panel is open, it should be closed
-            // when elements are duplicated
-            this.showPropertyEditorRightPanel = false;
+            const editElementEvent = new EditElementEvent(Object.values(canvasElementGuidMap)[0]);
+            this.handleEditElement(editElementEvent);
         }
     };
 
@@ -1175,6 +1174,37 @@ export default class Editor extends LightningElement {
             }
         }
     };
+
+    /**
+     * Handles the node selection event which is fired when node icon on
+     * fixed layout canvas is clicked
+     *
+     * @param {object} event - node selection event from flcNode.js
+     */
+    handleNodeSelectedOnFixedCanvas(event) {
+        if (this.showPropertyEditorRightPanel && !event.detail.isSelected) {
+            // TODO: Right now the property editor closing and opening seem to happen in one tick
+            // and thus the close never actually happens
+            // Need to make sure the property editor panel is visually closed befere it opens again
+            // for new element when the following story is being implemented
+            // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000078hChIAI/view
+            this.handleClosePropertyEditor();
+            const editElementEvent = new EditElementEvent(event.detail.canvasElementGUID);
+            this.handleEditElement(editElementEvent);
+        }
+    }
+
+    /**
+     * Handles the node selection event which is fired when node icon on
+     * free form canvas is clicked
+     *
+     * @param {object} event - node selection event from node.js
+     */
+    handleNodeSelected(event) {
+        if (!event.detail.isSelected) {
+            this.handleClosePropertyEditor();
+        }
+    }
 
     /**
      * Close the currently displayed property editor panel (for property editors shown inline

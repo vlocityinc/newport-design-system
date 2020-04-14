@@ -253,7 +253,11 @@ export default class Node extends LightningElement {
         const isMultiSelectKeyPressed = this.isMultiSelect(event);
 
         if (this.isSelectable() && (!this.node.config.isSelected || !this.isNodeDragging)) {
-            const nodeSelectedEvent = new SelectNodeEvent(this.node.guid, isMultiSelectKeyPressed);
+            const nodeSelectedEvent = new SelectNodeEvent(
+                this.node.guid,
+                isMultiSelectKeyPressed,
+                this.node.config.isSelected
+            );
             this.dispatchEvent(nodeSelectedEvent);
         }
         this.isNodeDragging = false;

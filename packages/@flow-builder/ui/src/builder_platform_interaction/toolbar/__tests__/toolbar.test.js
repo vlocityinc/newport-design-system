@@ -5,7 +5,8 @@ import {
     DuplicateEvent,
     ToggleFlowStatusEvent,
     ToggleSelectionModeEvent,
-    CopyEvent
+    CopyEvent,
+    ClosePropertyEditorEvent
 } from 'builder_platform_interaction/events';
 import Toolbar from 'builder_platform_interaction/toolbar';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
@@ -151,6 +152,14 @@ describe('toolbar', () => {
         const toolbarComponent = createComponentUnderTest();
         const eventCallback = jest.fn();
         toolbarComponent.addEventListener(DuplicateEvent.EVENT_NAME, eventCallback);
+        toolbarComponent.shadowRoot.querySelector(selectors.duplicate).click();
+        expect(eventCallback).toHaveBeenCalled();
+    });
+
+    it('fires close property editor event when duplicate button is clicked', () => {
+        const toolbarComponent = createComponentUnderTest();
+        const eventCallback = jest.fn();
+        toolbarComponent.addEventListener(ClosePropertyEditorEvent.EVENT_NAME, eventCallback);
         toolbarComponent.shadowRoot.querySelector(selectors.duplicate).click();
         expect(eventCallback).toHaveBeenCalled();
     });

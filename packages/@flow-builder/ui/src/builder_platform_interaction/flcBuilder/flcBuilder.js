@@ -9,7 +9,7 @@ import {
     getStyle,
     panzoom
 } from 'builder_platform_interaction/flowUtils';
-import { ZOOM_ACTION, FlcSelectionEvent } from 'builder_platform_interaction/events';
+import { ZOOM_ACTION, FlcSelectionEvent, ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 import {
     getCanvasElementSelectionData,
     getCanvasElementDeselectionData,
@@ -433,5 +433,13 @@ export default class FlcBuilder extends LightningElement {
     handleOnPan = e => {
         const { scale } = e.getTransform();
         this.updateUiAfterPanzoom(scale);
+    };
+
+    handleFlcFlowClick = event => {
+        event.stopPropagation();
+        if (event.target === this.template.querySelector('builder_platform_interaction-flc-flow')) {
+            const closePropertyEditorEvent = new ClosePropertyEditorEvent();
+            this.dispatchEvent(closePropertyEditorEvent);
+        }
     };
 }

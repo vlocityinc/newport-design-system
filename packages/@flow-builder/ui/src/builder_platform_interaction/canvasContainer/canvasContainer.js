@@ -20,6 +20,7 @@ import {
 } from 'builder_platform_interaction/actions';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 
 export {
     calculateDeletedNodeIdsAndCleanUpDrawingLibInstance,
@@ -164,6 +165,12 @@ export default class CanvasContainer extends LightningElement {
             };
             storeInstance.dispatch(marqueeSelectOnCanvas(payload));
         }
+    };
+
+    handleCanvasClick = event => {
+        event.stopPropagation();
+        const closePropertyEditorEvent = new ClosePropertyEditorEvent();
+        this.dispatchEvent(closePropertyEditorEvent);
     };
 
     /** Private functions */

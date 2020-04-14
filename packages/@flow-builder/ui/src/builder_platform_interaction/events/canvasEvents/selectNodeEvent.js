@@ -3,14 +3,15 @@
  */
 const eventName = 'nodeselected';
 export class SelectNodeEvent {
-    constructor(canvasElementGUID, isMultiSelectKeyPressed) {
+    constructor(canvasElementGUID, isMultiSelectKeyPressed, isSelected) {
         return new CustomEvent(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,
             detail: {
                 canvasElementGUID,
-                isMultiSelectKeyPressed
+                isMultiSelectKeyPressed,
+                isSelected
             }
         });
     }

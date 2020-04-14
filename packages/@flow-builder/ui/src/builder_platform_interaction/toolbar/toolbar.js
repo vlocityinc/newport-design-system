@@ -10,7 +10,8 @@ import {
     CopyEvent,
     DuplicateEvent,
     ToggleFlowStatusEvent,
-    ToggleSelectionModeEvent
+    ToggleSelectionModeEvent,
+    ClosePropertyEditorEvent
 } from 'builder_platform_interaction/events';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { orgHasFlowBuilderDebug } from 'builder_platform_interaction/contextLib';
@@ -236,6 +237,8 @@ export default class Toolbar extends LightningElement {
 
     handleDuplicateButtonClick(event) {
         event.preventDefault();
+        const closePropertyEditorEvent = new ClosePropertyEditorEvent();
+        this.dispatchEvent(closePropertyEditorEvent);
         const duplicateEvent = new DuplicateEvent();
         this.dispatchEvent(duplicateEvent);
         logInteraction(`duplicate-button`, 'toolbar', null, 'click');

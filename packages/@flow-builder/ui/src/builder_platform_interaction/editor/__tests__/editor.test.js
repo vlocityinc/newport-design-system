@@ -11,15 +11,19 @@ import {
     AddNodeEvent,
     UpdateNodeEvent,
     DeleteElementEvent,
-    EditElementEvent
+    EditElementEvent,
+    ToggleMarqueeOnEvent,
+    SelectNodeEvent,
+    DuplicateEvent
 } from 'builder_platform_interaction/events';
 import { addElement, updateCanvasElementLocation, updateElement } from 'builder_platform_interaction/actions';
-import { Store } from 'builder_platform_interaction/storeLib';
+import { Store, generateGuid } from 'builder_platform_interaction/storeLib';
 import { translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { mockEngineExecute } from 'analyzer_framework/engine';
+import { setUseFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
 let mockSubscribers = [];
 let mockStoreState;
@@ -54,7 +58,7 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
         getConfigForElementType: jest.fn().mockImplementation(() => {
             return {
                 descriptor: 'builder_platform_interaction:assignmentEditor',
-                canBeDuplicated: false,
+                canBeDuplicated: true,
                 isDeletable: false,
                 nodeConfig: { isSelectable: false },
                 labels: {
@@ -143,6 +147,12 @@ jest.mock('builder_platform_interaction/actions', () => {
                 type: 'updateCanvasElementLocation',
                 payload
             };
+        }),
+        doDuplicate: jest.fn().mockImplementation(payload => {
+            return {
+                type: 'doDuplicate',
+                payload
+            };
         })
     };
 });
@@ -180,8 +190,8 @@ jest.mock('builder_platform_interaction/storeLib', () => {
         combinedReducer: jest.fn(),
         createSelector: jest.fn().mockImplementation(() => {
             return () => {
-                return mockStoreState.canvasElements.map(canvasElement => {
-                    return mockStoreState.elements[canvasElement.guid];
+                return mockStoreState.canvasElements.map(canvasElementGUID => {
+                    return mockStoreState.elements[canvasElementGUID];
                 });
             };
         }),
@@ -208,7 +218,8 @@ const selectors = {
     addnewresource: '.test-left-panel-add-resource',
     propertyEditorPanel: 'builder_platform_interaction-property-editor-panel',
     canvasContainer: 'builder_platform_interaction-canvas-container',
-    rightPanel: 'builder_platform_interaction-right-panel'
+    rightPanel: 'builder_platform_interaction-right-panel',
+    flcBuilderContainer: 'builder_platform_interaction-flc-builder-container'
 };
 
 const element = (guid, type) => {
@@ -284,7 +295,7 @@ beforeEach(() => {
                 guid: '1',
                 locationX: '20',
                 locationY: '40',
-                elementType: 'ASSIGNMENT',
+                elementType: ELEMENT_TYPE.ASSIGNMENT,
                 label: 'First Node',
                 description: 'My first test node',
                 config: { isSelected: false },
@@ -294,7 +305,7 @@ beforeEach(() => {
                 guid: '2',
                 locationX: '50',
                 locationY: '40',
-                elementType: 'ASSIGNMENT',
+                elementType: ELEMENT_TYPE.ASSIGNMENT,
                 label: 'Second Node',
                 description: 'My second test node',
                 config: { isSelected: true }
@@ -303,7 +314,7 @@ beforeEach(() => {
                 guid: '3',
                 locationX: '100',
                 locationY: '240',
-                elementType: 'DECISION',
+                elementType: ELEMENT_TYPE.DECISION,
                 label: 'Third Node',
                 description: 'My third test node',
                 outcomeReferences: [
@@ -315,7 +326,7 @@ beforeEach(() => {
             },
             '4': {
                 guid: '4',
-                elementType: 'OUTCOME',
+                elementType: ELEMENT_TYPE.OUTCOME,
                 label: 'Fourth Node',
                 description: 'My fourth test node'
             },
@@ -323,13 +334,14 @@ beforeEach(() => {
                 guid: '5',
                 locationX: '250',
                 locationY: '240',
-                elementType: 'ASSIGNMENT',
+                elementType: ELEMENT_TYPE.ASSIGNMENT,
                 label: 'Fifth Node',
                 description: 'My fifth test node',
-                config: { isSelected: false }
+                config: { isSelected: false },
+                assignmentItems: []
             }
         },
-        canvasElements: [{ guid: '1' }, { guid: '2' }, { guid: '3' }, { guid: '5' }],
+        canvasElements: ['1', '2', '3', '5'],
         connectors: [
             {
                 guid: 'c1',
@@ -792,7 +804,9 @@ describe('property editor', () => {
         });
 
         it('closepropertyeditorevent closes the property editor', async () => {
-            expect.assertions(1);
+            expect.assertions(2);
+            expect(rightPanel).not.toBeNull();
+
             const event = new ClosePropertyEditorEvent();
 
             await ticks(2);
@@ -805,7 +819,8 @@ describe('property editor', () => {
         });
 
         it('addnodeevent dispatches addElement to the store', async () => {
-            expect.assertions(3);
+            expect.assertions(4);
+            expect(rightPanel).not.toBeNull();
 
             const elementToAdd = { a: 1 };
             const event = new AddNodeEvent(elementToAdd);
@@ -821,7 +836,8 @@ describe('property editor', () => {
         });
 
         it('updatenodeevent dispatches updateElement to the store', async () => {
-            expect.assertions(3);
+            expect.assertions(4);
+            expect(rightPanel).not.toBeNull();
 
             const elementToUpdate = { a: 1 };
             const event = new UpdateNodeEvent(elementToUpdate);
@@ -837,7 +853,8 @@ describe('property editor', () => {
         });
 
         it('closes the property editor when element is deleted', async () => {
-            expect.assertions(1);
+            expect.assertions(2);
+            expect(rightPanel).not.toBeNull();
 
             const event = new DeleteElementEvent(['1'], 'ASSIGNMENT');
             const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
@@ -846,7 +863,7 @@ describe('property editor', () => {
             mockStoreState.connectors = mockStoreState.connectors.filter(
                 conn => (conn.target !== '1') & (conn.source !== '1')
             );
-            mockStoreState.canvasElements = mockStoreState.canvasElements.filter(el => el.guid !== '1');
+            mockStoreState.canvasElements = mockStoreState.canvasElements.filter(el => el !== '1');
             delete mockStoreState.elements['1'];
 
             canvasContainer.dispatchEvent(event);
@@ -856,8 +873,85 @@ describe('property editor', () => {
             expect(rightPanel).toBeNull();
         });
 
-        it('receives updates from store when other subsystems make changes', async () => {
+        it('closes the property editor when multiselect is activated', async () => {
             expect.assertions(2);
+            expect(rightPanel).not.toBeNull();
+
+            const event = new ToggleMarqueeOnEvent();
+            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+            canvasContainer.dispatchEvent(event);
+
+            await ticks(1);
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+            expect(rightPanel).toBeNull();
+        });
+
+        it('closes property editor panel when canvas fire close property editor event', async () => {
+            expect.assertions(2);
+            expect(rightPanel).not.toBeNull();
+
+            const event = new ClosePropertyEditorEvent();
+            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+            canvasContainer.dispatchEvent(event);
+
+            await ticks(1);
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+            expect(rightPanel).toBeNull();
+        });
+
+        it('SelectNodeEvent from node not selected closes the property editor', async () => {
+            expect.assertions(2);
+            expect(rightPanel).not.toBeNull();
+
+            const event = new SelectNodeEvent('1', false, false);
+            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+            canvasContainer.dispatchEvent(event);
+
+            await ticks(1);
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+            expect(rightPanel).toBeNull();
+        });
+
+        it('SelectNodeEvent from node already selected does not close the property editor', async () => {
+            expect.assertions(2);
+            expect(rightPanel).not.toBeNull();
+
+            const event = new SelectNodeEvent('2', false, true);
+            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+            canvasContainer.dispatchEvent(event);
+
+            await ticks(1);
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+            const propertyEditorPanel = rightPanel.querySelector('builder_platform_interaction-property-editor-panel');
+            expect(propertyEditorPanel.element.guid).toEqual('1');
+        });
+
+        it('opens the property editor panel for new element on duplication', async () => {
+            expect.assertions(3);
+            expect(rightPanel).not.toBeNull();
+
+            generateGuid.mockReturnValue('5');
+
+            const closePropertyEditorEvent = new ClosePropertyEditorEvent();
+            const toolbar = editorComponent.shadowRoot.querySelector('builder_platform_interaction-toolbar');
+            toolbar.dispatchEvent(closePropertyEditorEvent);
+
+            await ticks(1);
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+            expect(rightPanel).toBeNull();
+
+            const duplicateEvent = new DuplicateEvent();
+            toolbar.dispatchEvent(duplicateEvent);
+
+            await ticks(1);
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+            const propertyEditorPanel = rightPanel.querySelector('builder_platform_interaction-property-editor-panel');
+            expect(propertyEditorPanel.element.guid).toEqual('5');
+        });
+
+        it('receives updates from store when other subsystems make changes', async () => {
+            expect.assertions(3);
+            expect(rightPanel).not.toBeNull();
 
             const editElementEvent = new EditElementEvent('1');
             const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
@@ -888,8 +982,10 @@ describe('property editor', () => {
             expect(propertyEditorPanel.element.locationX).toEqual(newX);
             expect(propertyEditorPanel.element.locationY).toEqual(newY);
         });
+
         it('Panel Config isLabelCollapsibleToHeader is set to true', async () => {
-            expect.assertions(1);
+            expect.assertions(2);
+            expect(rightPanel).not.toBeNull();
 
             const editElementEvent = new EditElementEvent('1');
             const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
@@ -899,6 +995,85 @@ describe('property editor', () => {
 
             const propertyEditorPanel = editorComponent.shadowRoot.querySelector(selectors.propertyEditorPanel);
             expect(propertyEditorPanel.params.panelConfig.isLabelCollapsibleToHeader).toEqual(true);
+        });
+    });
+});
+
+describe('use fixed layout canvas', () => {
+    beforeAll(() => {
+        setUseFixedLayoutCanvas(true);
+    });
+
+    afterAll(() => {
+        setUseFixedLayoutCanvas(false);
+    });
+
+    describe('in right panel', () => {
+        let editorComponent;
+        let rightPanel;
+
+        beforeEach(async () => {
+            mockStoreState.properties.processType = 'right';
+
+            editorComponent = createComponentUnderTest({
+                builderType: 'new',
+                builderConfig: { supportedProcessTypes: ['right'], usePanelForPropertyEditor: true },
+                useFixedLayoutCanvas: jest.fn().mockReturnValue(true)
+            });
+
+            const editElementEvent = new EditElementEvent('1');
+            const flcBuilderContainer = editorComponent.shadowRoot.querySelector(selectors.flcBuilderContainer);
+            flcBuilderContainer.dispatchEvent(editElementEvent);
+
+            await ticks(1);
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+        });
+
+        it('closes the property editor when flcBuilder fire close property editor event', async () => {
+            expect.assertions(2);
+            expect(rightPanel).not.toBeNull();
+
+            const event = new ClosePropertyEditorEvent();
+            const flcBuilderContainer = editorComponent.shadowRoot.querySelector(selectors.flcBuilderContainer);
+            flcBuilderContainer.dispatchEvent(event);
+
+            await ticks(1);
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+            expect(rightPanel).toBeNull();
+        });
+
+        it('closes and reopens the property editor when another element is clicked', async () => {
+            // TODO: Right now the property editor closing and opening seems to happen in one tick,
+            // and thus the close never actually happens
+            // Need to refactor the test to make sure the property editor panel closes before
+            // it opens for new element when the following story is being implemented
+            // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000078hChIAI/view
+
+            expect.assertions(2);
+            expect(rightPanel).not.toBeNull();
+
+            const event = new SelectNodeEvent('5', undefined, false);
+            const flcBuilderContainer = editorComponent.shadowRoot.querySelector(selectors.flcBuilderContainer);
+            flcBuilderContainer.dispatchEvent(event);
+
+            await ticks(1);
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+            const propertyEditorPanel = rightPanel.querySelector('builder_platform_interaction-property-editor-panel');
+            expect(propertyEditorPanel.element.guid).toEqual('5');
+        });
+
+        it('should not close the property editor when currently selected element is clicked', async () => {
+            expect.assertions(2);
+            expect(rightPanel).not.toBeNull();
+
+            const event = new SelectNodeEvent('5', undefined, true);
+            const flcBuilderContainer = editorComponent.shadowRoot.querySelector(selectors.flcBuilderContainer);
+            flcBuilderContainer.dispatchEvent(event);
+
+            await ticks(1);
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+            const propertyEditorPanel = rightPanel.querySelector('builder_platform_interaction-property-editor-panel');
+            expect(propertyEditorPanel.element.guid).toEqual('1');
         });
     });
 });

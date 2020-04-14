@@ -304,7 +304,7 @@ export default class FlcButtonMenu extends LightningElement {
     }
 
     handleButtonClick(event) {
-        event.stopPropagation();
+        event.preventDefault();
 
         this.allowBlur();
         if (!this.isSelectionMode) {
