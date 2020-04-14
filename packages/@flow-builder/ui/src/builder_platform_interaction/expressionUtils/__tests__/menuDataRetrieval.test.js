@@ -143,7 +143,7 @@ jest.mock('builder_platform_interaction/selectors', () => {
         isOrCanContainsObjectOrSObjectCollectionSelector: jest.fn(),
         readableElementsSelector: jest.fn(),
         canContainSObjectElements: jest.fn().mockImplementation(element => {
-            return element.apiName === 'account';
+            return element.dataType === 'sobject';
         })
     };
 });

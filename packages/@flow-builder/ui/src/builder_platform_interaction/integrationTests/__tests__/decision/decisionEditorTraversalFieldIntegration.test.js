@@ -9,9 +9,14 @@ import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { setupState, resetState, loadFlow } from '../integrationTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { getLhsCombobox, getRhsCombobox } from '../expressionBuilderTestUtils';
-import { selectGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
 import { createComponentForTest, getFerToFerovExpressionBuilder } from './decisionEditorTestUtils';
-import { typeReferenceOrValueInCombobox, expectCanSelectInCombobox } from '../comboboxTestUtils';
+import {
+    typeReferenceOrValueInCombobox,
+    expectCanSelectInCombobox,
+    expectCanBeTraversed,
+    expectCannotBeSelected,
+    expectCannotBeTraversed
+} from '../comboboxTestUtils';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -48,25 +53,11 @@ describe('Decision Editor', () => {
         });
         it('shows up chevron on fields in LHS', async () => {
             const lhsCombobox = getLHSGroupedCombobox(decisionEditor);
-            const accountCreatedByItem = await selectGroupedComboboxItemBy(
-                lhsCombobox,
-                'text',
-                ['accountSObjectVariable', 'CreatedBy'],
-                { blur: false }
-            );
-
-            expect(accountCreatedByItem.rightIconName).toBe('utility:chevronright');
+            await expectCanBeTraversed(lhsCombobox, 'text', ['accountSObjectVariable', 'CreatedBy']);
         });
         it('shows up chevron on fields in RHS', async () => {
             const rhsCombobox = getRHSGroupedCombobox(decisionEditor);
-            const accountCreatedByItem = await selectGroupedComboboxItemBy(
-                rhsCombobox,
-                'text',
-                ['accountSObjectVariable', 'CreatedBy'],
-                { blur: false }
-            );
-
-            expect(accountCreatedByItem.rightIconName).toBe('utility:chevronright');
+            await expectCanBeTraversed(rhsCombobox, 'text', ['accountSObjectVariable', 'CreatedBy']);
         });
     });
     describe('AutoLaunched flow : does not support traversal if trigger type set', () => {
@@ -80,45 +71,13 @@ describe('Decision Editor', () => {
             });
             it('does not show up chevron on fields in LHS', async () => {
                 const lhsCombobox = getLHSGroupedCombobox(decisionEditor);
-                const accountCreatedByItem = await selectGroupedComboboxItemBy(
-                    lhsCombobox,
-                    'text',
-                    ['accountVariable', 'CreatedBy'],
-                    { blur: false }
-                );
-
-                expect(accountCreatedByItem).toBeUndefined();
-
-                const accountCreatedByIdItem = await selectGroupedComboboxItemBy(
-                    lhsCombobox,
-                    'text',
-                    ['accountVariable', 'CreatedById'],
-                    { blur: false }
-                );
-
-                expect(accountCreatedByIdItem).toBeDefined();
-                expect(accountCreatedByIdItem.rightIconName).toBeUndefined();
+                await expectCannotBeSelected(lhsCombobox, 'text', ['accountVariable', 'CreatedBy']);
+                await expectCannotBeTraversed(lhsCombobox, 'text', ['accountVariable', 'CreatedById']);
             });
             it('does not show up chevron on fields in RHS', async () => {
                 const rhsCombobox = getRHSGroupedCombobox(decisionEditor);
-                const accountCreatedByItem = await selectGroupedComboboxItemBy(
-                    rhsCombobox,
-                    'text',
-                    ['accountVariable', 'CreatedBy'],
-                    { blur: false }
-                );
-
-                expect(accountCreatedByItem).toBeUndefined();
-
-                const accountCreatedByIdItem = await selectGroupedComboboxItemBy(
-                    rhsCombobox,
-                    'text',
-                    ['accountVariable', 'CreatedById'],
-                    { blur: false }
-                );
-
-                expect(accountCreatedByIdItem).toBeDefined();
-                expect(accountCreatedByIdItem.rightIconName).toBeUndefined();
+                await expectCannotBeSelected(rhsCombobox, 'text', ['accountVariable', 'CreatedBy']);
+                await expectCannotBeTraversed(rhsCombobox, 'text', ['accountVariable', 'CreatedById']);
             });
             describe('Validation', () => {
                 let expressionBuilder;
@@ -153,7 +112,7 @@ describe('Decision Editor', () => {
                     `('error for "$lhs should be : $expectedErrorMessage', async ({ lhs, expectedErrorMessage }) => {
                         const lhsCombobox = getLhsCombobox(expressionBuilder);
                         await typeReferenceOrValueInCombobox(lhsCombobox, lhs);
-                        expect(lhsCombobox.errorMessage).toEqual(expectedErrorMessage);
+                        await expect(lhsCombobox.errorMessage).toEqual(expectedErrorMessage);
                     });
                 });
             });
@@ -169,45 +128,13 @@ describe('Decision Editor', () => {
         });
         it('does not show up chevron on fields in LHS', async () => {
             const lhsCombobox = getLHSGroupedCombobox(decisionEditor);
-            const accountCreatedByItem = await selectGroupedComboboxItemBy(
-                lhsCombobox,
-                'text',
-                ['vMyTestAccount', 'CreatedBy'],
-                { blur: false }
-            );
-
-            expect(accountCreatedByItem).toBeUndefined();
-
-            const accountCreatedByIdItem = await selectGroupedComboboxItemBy(
-                lhsCombobox,
-                'text',
-                ['vMyTestAccount', 'CreatedById'],
-                { blur: false }
-            );
-
-            expect(accountCreatedByIdItem).toBeDefined();
-            expect(accountCreatedByIdItem.rightIconName).toBeUndefined();
+            await expectCannotBeSelected(lhsCombobox, 'text', ['vMyTestAccount', 'CreatedBy']);
+            await expectCannotBeTraversed(lhsCombobox, 'text', ['vMyTestAccount', 'CreatedById']);
         });
         it('does not show up chevron on fields in RHS', async () => {
             const rhsCombobox = getRHSGroupedCombobox(decisionEditor);
-            const accountCreatedByItem = await selectGroupedComboboxItemBy(
-                rhsCombobox,
-                'text',
-                ['vMyTestAccount', 'CreatedBy'],
-                { blur: false }
-            );
-
-            expect(accountCreatedByItem).toBeUndefined();
-
-            const accountCreatedByIdItem = await selectGroupedComboboxItemBy(
-                rhsCombobox,
-                'text',
-                ['vMyTestAccount', 'CreatedById'],
-                { blur: false }
-            );
-
-            expect(accountCreatedByIdItem).toBeDefined();
-            expect(accountCreatedByIdItem.rightIconName).toBeUndefined();
+            await expectCannotBeSelected(rhsCombobox, 'text', ['vMyTestAccount', 'CreatedBy']);
+            await expectCannotBeTraversed(rhsCombobox, 'text', ['vMyTestAccount', 'CreatedById']);
         });
     });
 });

@@ -28,7 +28,8 @@ import {
     apexCallStringAutomaticOutput,
     apexCallAccountAutomaticOutput,
     localActionApexDoesNotContainSObjectAutomaticOutput,
-    localActionApexDoesContainsSObjectAutomaticOutput
+    localActionApexDoesContainsSObjectAutomaticOutput,
+    apexComplexTypeTwoVariable
 } from 'mock/storeData';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
@@ -360,6 +361,12 @@ describe('getCanContainSObjectElements', () => {
 
         expect(result).toHaveLength(1);
         expect(result[0]).toHaveProperty('name', apexComplexTypeVariable.name);
+    });
+    it('returns apex variable which contains apex variable which contains SObject', () => {
+        const result = getCanContainSObjectElements([apexComplexTypeTwoVariable]);
+
+        expect(result).toHaveLength(1);
+        expect(result[0]).toHaveProperty('name', apexComplexTypeTwoVariable.name);
     });
     it('does not return apex variable which does not contain SObject', () => {
         const result = getCanContainSObjectElements([apexCarVariable]);

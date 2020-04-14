@@ -216,6 +216,53 @@
   }
 },
     {
+  "durableId" : "ApexComplexTypeTestTwo216",
+  "fieldsToNull" : [ ],
+  "innerTypes" : {
+    "done" : true,
+    "entityTypeName" : "FlowApexClassDescriptor",
+    "records" : [ {
+      "durableId" : "ApexComplexTypeTestTwo216$innerClass",
+      "fieldsToNull" : [ ],
+      "name" : "ApexComplexTypeTestTwo216$innerClass",
+      "parentId" : "ApexComplexTypeTestTwo216"
+    } ],
+    "size" : 1,
+    "totalSize" : 1
+  },
+  "name" : "ApexComplexTypeTestTwo216",
+  "properties" : {
+    "done" : true,
+    "entityTypeName" : "FlowApexClassPropertyDesc",
+    "records" : [ {
+      "apexClass" : "ApexComplexTypeTestOne216",
+      "durableId" : "ApexComplexTypeTestTwo216.listOfTestOne",
+      "fieldsToNull" : [ ],
+      "isCollection" : true,
+      "name" : "listOfTestOne",
+      "parentId" : "ApexComplexTypeTestTwo216",
+      "type" : "Apex"
+    }, {
+      "durableId" : "ApexComplexTypeTestTwo216.str",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "str",
+      "parentId" : "ApexComplexTypeTestTwo216",
+      "type" : "String"
+    }, {
+      "apexClass" : "ApexComplexTypeTestOne216",
+      "durableId" : "ApexComplexTypeTestTwo216.testOne",
+      "fieldsToNull" : [ ],
+      "isCollection" : false,
+      "name" : "testOne",
+      "parentId" : "ApexComplexTypeTestTwo216",
+      "type" : "Apex"
+    } ],
+    "size" : 4,
+    "totalSize" : 4
+  }
+},
+    {
   "durableId" : "ApexContainsOnlyASingleSObject",
   "fieldsToNull" : [ ],
   "name" : "ApexContainsOnlyASingleSObject",

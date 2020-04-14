@@ -128,6 +128,7 @@ function elementMatchesRule(allowedParamTypes, element) {
  * @param {operator-rule-util/allowedParamMap} allowedParamTypes        map from dataTypes/elementTypes to rule params which specificy those data or element types
  * @param {Object} element                  object with the necessary specifications to be compared to rule params (usually flow element, but a "fake" one can be built for fields, etc)
  * @param {boolean} showComplexObjectsForFields   true if fields are allowed here - complex types should be shown so that users can drill down to fields
+ * @param {Object}  sObjectSelectorConfig if set, means that to figure out whether or not an element is allowed, we only rely on this config (select only sobject or element that contains sobject with the given settings (isCollection, creatable/queryable/updateable/deleteable, ...))
  * @returns {boolean}                       whether this element matches one or more of the specified rule params
  */
 export function isElementAllowed(
@@ -136,11 +137,16 @@ export function isElementAllowed(
     showComplexObjectsForFields = false,
     sObjectSelectorConfig
 ) {
+    // allowedParamTypes that comes along sObjectSelectorConfig are only used for validation of manual entered fields.
+    // menu data only relies on on the sobject selector config
     if (sObjectSelectorConfig) {
-        if (!canContainSObjectElements(element, sObjectSelectorConfig)) {
-            return false;
-        }
+        return canContainSObjectElements(element, sObjectSelectorConfig);
     }
+
+    if (!allowedParamTypes) {
+        return true;
+    }
+
     const isElementMatchForProperty = property => {
         if (!property) {
             return false;
@@ -151,9 +157,7 @@ export function isElementAllowed(
         const allowedType = paramTypeKey ? allowedParamTypes[paramTypeKey] : undefined;
         return allowedType && elementMatchesRule(allowedType, element);
     };
-    if (!allowedParamTypes) {
-        return true;
-    }
+
     const ruleElementType =
         UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[element[PARAM_PROPERTY.ELEMENT_TYPE]] ||
         element[PARAM_PROPERTY.ELEMENT_TYPE];
@@ -466,7 +470,7 @@ export function filterFieldsForChosenElement(
             )
             .filter(field =>
                 // filter a second time because several menu items may be generated, some of them possibly not with the expected dataType
-                isElementAllowed(allowedParamTypes, field, allowSObjectFieldsTraversal)
+                isElementAllowed(allowedParamTypes, field, allowSObjectFieldsTraversal, sObjectSelectorConfig)
             )
             .sort((menuItem1, menuItem2) => {
                 // display elements with children first

@@ -28,9 +28,16 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getLhsCombobox } from '../expressionBuilderTestUtils';
-import { selectComboboxItemBy, getComboboxItems, typeReferenceOrValueInCombobox } from '../comboboxTestUtils';
+import {
+    selectComboboxItemBy,
+    getComboboxItems,
+    typeReferenceOrValueInCombobox,
+    expectCanBeTraversed,
+    expectCannotBeTraversed,
+    expectCannotBeSelected
+} from '../comboboxTestUtils';
 import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
-import { selectGroupedComboboxItemBy, getGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
+import { getGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
 import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import {
     SELECTORS,
@@ -473,6 +480,15 @@ describe('Record Create Editor', () => {
         });
         describe('sObject Or SObject Collection Picker', () => {
             let sObjectOrSObjectCollectionPicker;
+            const expectCanBeTraversedInResourcePicker = async textValues => {
+                await expectCanBeTraversed(sObjectOrSObjectCollectionPicker, 'text', textValues);
+            };
+            const expectCannotBeTraversedInResourcePicker = async textValues => {
+                await expectCannotBeTraversed(sObjectOrSObjectCollectionPicker, 'text', textValues);
+            };
+            const expectCannotBeSelectedInResourcePicker = async textValues => {
+                await expectCannotBeSelected(sObjectOrSObjectCollectionPicker, 'text', textValues);
+            };
             describe('create from single value', () => {
                 beforeEach(() => {
                     const element = getElementByDevName('createFromAnAccount');
@@ -481,81 +497,27 @@ describe('Record Create Editor', () => {
                     sObjectOrSObjectCollectionPicker = getResourceGroupedCombobox(recordCreateElement);
                 });
                 it('should contain single sobject elements, and no traversal', async () => {
-                    const account = await selectGroupedComboboxItemBy(
-                        sObjectOrSObjectCollectionPicker,
-                        'text',
-                        ['accountSObjectVariable'],
-                        { blur: false }
-                    );
-
-                    expect(account).toBeDefined();
-                    expect(account.rightIconName).toBe('');
-
-                    const accountCollection = await selectGroupedComboboxItemBy(
-                        sObjectOrSObjectCollectionPicker,
-                        'text',
-                        ['accountSObjectCollectionVariable'],
-                        { blur: false }
-                    );
-                    expect(accountCollection).toBeUndefined();
+                    await expectCannotBeTraversedInResourcePicker(['accountSObjectVariable']);
+                    await expectCannotBeSelectedInResourcePicker(['accountSObjectCollectionVariable']);
                 });
                 it('should contain elements that contains sobject and shows only single sobject fields up. Sobject fields should not be traversable', async () => {
-                    const apexContainsSObject = await selectGroupedComboboxItemBy(
-                        sObjectOrSObjectCollectionPicker,
-                        'text',
-                        ['apexComplexTypeVariable'],
-                        { blur: false }
-                    );
-
-                    expect(apexContainsSObject).toBeDefined();
-                    expect(apexContainsSObject.rightIconName).toBeDefined();
-
-                    const accountField = await selectGroupedComboboxItemBy(
-                        sObjectOrSObjectCollectionPicker,
-                        'text',
-                        ['apexComplexTypeVariable', 'acct'],
-                        { blur: false }
-                    );
-
-                    expect(accountField).toBeDefined();
-                    expect(accountField.rightIconName).toBeUndefined();
-
-                    const accountCollectionField = await selectGroupedComboboxItemBy(
-                        sObjectOrSObjectCollectionPicker,
-                        'text',
-                        ['apexComplexTypeVariable', 'acctListField'],
-                        { blur: false }
-                    );
-
-                    expect(accountCollectionField).toBeUndefined();
-
-                    const nameField = await selectGroupedComboboxItemBy(
-                        sObjectOrSObjectCollectionPicker,
-                        'text',
-                        ['apexComplexTypeVariable', 'name'],
-                        { blur: false }
-                    );
-                    expect(nameField).toBeUndefined();
+                    await expectCanBeTraversedInResourcePicker(['apexComplexTypeVariable']);
+                    await expectCannotBeTraversedInResourcePicker(['apexComplexTypeVariable', 'acct']);
+                    await expectCannotBeSelectedInResourcePicker(['apexComplexTypeVariable', 'acctListField']);
+                    await expectCannotBeSelectedInResourcePicker(['apexComplexTypeVariable', 'name']);
+                });
+                it('should contain elements that contains apex that contains sobject and shows only single sobject fields up. Sobject fields should not be traversable', async () => {
+                    await expectCanBeTraversedInResourcePicker(['apexComplexTypeTwoVariable']);
+                    await expectCanBeTraversedInResourcePicker(['apexComplexTypeTwoVariable', 'testOne']);
+                    await expectCannotBeTraversedInResourcePicker(['apexComplexTypeTwoVariable', 'testOne', 'acct']);
+                    await expectCannotBeSelectedInResourcePicker(['apexComplexTypeTwoVariable', 'listOfTestOne']);
+                    await expectCannotBeSelectedInResourcePicker(['apexComplexTypeTwoVariable', 'str']);
                 });
                 it('should not contain elements that are not sobject or contain no sobject', async () => {
-                    const apexCarVariable = await selectGroupedComboboxItemBy(
-                        sObjectOrSObjectCollectionPicker,
-                        'text',
-                        ['apexCarVariable'],
-                        { blur: false }
-                    );
-
-                    expect(apexCarVariable).toBeUndefined();
+                    await expectCannotBeSelectedInResourcePicker(['apexCarVariable']);
                 });
                 it('should not contain elements that contains only a collection of sobject', async () => {
-                    const apexContainsOnlyAnSObjectCollectionVariable = await selectGroupedComboboxItemBy(
-                        sObjectOrSObjectCollectionPicker,
-                        'text',
-                        ['apexContainsOnlyAnSObjectCollectionVariable'],
-                        { blur: false }
-                    );
-
-                    expect(apexContainsOnlyAnSObjectCollectionVariable).toBeUndefined();
+                    await expectCannotBeSelectedInResourcePicker(['apexContainsOnlyAnSObjectCollectionVariable']);
                 });
                 it('should throw validation error if selecting a non SObject from the combobox', async () => {
                     changeComboboxValue(sObjectOrSObjectCollectionPicker, '{!apexComplexTypeVariable}');
@@ -580,81 +542,20 @@ describe('Record Create Editor', () => {
                     sObjectOrSObjectCollectionPicker = getResourceGroupedCombobox(recordCreateElement);
                 });
                 it('should contain sobject collection elements, and no traversal', async () => {
-                    const accountCollection = await selectGroupedComboboxItemBy(
-                        sObjectOrSObjectCollectionPicker,
-                        'text',
-                        ['accountSObjectCollectionVariable'],
-                        { blur: false }
-                    );
-
-                    expect(accountCollection).toBeDefined();
-                    expect(accountCollection.rightIconName).toBe('');
-
-                    const account = await selectGroupedComboboxItemBy(
-                        sObjectOrSObjectCollectionPicker,
-                        'text',
-                        ['accountSObjectVariable'],
-                        { blur: false }
-                    );
-
-                    expect(account).toBeUndefined();
+                    await expectCannotBeTraversedInResourcePicker(['accountSObjectCollectionVariable']);
+                    await expectCannotBeSelectedInResourcePicker(['accountSObjectVariable']);
                 });
                 it('should contain elements that contains sobject and shows only sobject collection fields up.', async () => {
-                    const apexContainsSObject = await selectGroupedComboboxItemBy(
-                        sObjectOrSObjectCollectionPicker,
-                        'text',
-                        ['apexComplexTypeVariable'],
-                        { blur: false }
-                    );
-
-                    expect(apexContainsSObject).toBeDefined();
-                    expect(apexContainsSObject.rightIconName).toBeDefined();
-
-                    const accountCollectionField = await selectGroupedComboboxItemBy(
-                        sObjectOrSObjectCollectionPicker,
-                        'text',
-                        ['apexComplexTypeVariable', 'acctListField'],
-                        { blur: false }
-                    );
-                    expect(accountCollectionField).toBeDefined();
-                    expect(accountCollectionField.rightIconName).toBeUndefined();
-
-                    const accountField = await selectGroupedComboboxItemBy(
-                        sObjectOrSObjectCollectionPicker,
-                        'text',
-                        ['apexComplexTypeVariable', 'acct'],
-                        { blur: false }
-                    );
-
-                    expect(accountField).toBeUndefined();
-
-                    const nameField = await selectGroupedComboboxItemBy(
-                        sObjectOrSObjectCollectionPicker,
-                        'text',
-                        ['apexComplexTypeVariable', 'name'],
-                        { blur: false }
-                    );
-                    expect(nameField).toBeUndefined();
+                    await expectCanBeTraversedInResourcePicker(['apexComplexTypeVariable']);
+                    await expectCannotBeTraversedInResourcePicker(['apexComplexTypeVariable', 'acctListField']);
+                    await expectCannotBeSelectedInResourcePicker(['apexComplexTypeVariable', 'acct']);
+                    await expectCannotBeSelectedInResourcePicker(['apexComplexTypeVariable', 'name']);
                 });
                 it('should not contain elements that are not sobject or contain no sobject', async () => {
-                    const apexCarVariable = await selectGroupedComboboxItemBy(
-                        sObjectOrSObjectCollectionPicker,
-                        'text',
-                        ['apexCarVariable'],
-                        { blur: false }
-                    );
-
-                    expect(apexCarVariable).toBeUndefined();
+                    await expectCannotBeSelectedInResourcePicker(['apexCarVariable']);
                 });
                 it('should not contain elements that contains only a single sobject', async () => {
-                    const apexContainsOnlyASingleSObjectVariable = await selectGroupedComboboxItemBy(
-                        sObjectOrSObjectCollectionPicker,
-                        'text',
-                        ['apexContainsOnlyASingleSObjectVariable'],
-                        { blur: false }
-                    );
-
-                    expect(apexContainsOnlyASingleSObjectVariable).toBeUndefined();
+                    await expectCannotBeSelectedInResourcePicker(['apexContainsOnlyASingleSObjectVariable']);
                 });
             });
         });

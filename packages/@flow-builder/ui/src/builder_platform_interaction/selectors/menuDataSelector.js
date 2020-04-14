@@ -63,7 +63,11 @@ const deletableFilter = element => {
 };
 
 const apexClassHasSomePropertyMatching = (apexClass, filter) => {
-    return Object.values(apexTypeLib.getPropertiesForClass(apexClass)).some(property => filter(property));
+    return Object.values(apexTypeLib.getPropertiesForClass(apexClass)).some(property =>
+        isApexTypeElement(property)
+            ? apexClassHasSomePropertyMatching(property.subtype, apexProperty => filter(apexProperty))
+            : filter(property)
+    );
 };
 
 const filterByRetrieveOptions = (elements, retrieveOptions) => {
@@ -272,7 +276,8 @@ const getSObjectOrContainsSObjectParameters = parameters => {
                   parameter &&
                   (getFlowDataType(parameter.dataType) === FLOW_DATA_TYPE.SOBJECT.value ||
                       (isApexTypeElement(parameter) &&
-                          hasSObjectProperties(apexTypeLib.getPropertiesForClass(parameter.apexClass))))
+                          (hasSObjectProperties(apexTypeLib.getPropertiesForClass(parameter.apexClass)) ||
+                              hasSObjectProperties(apexTypeLib.getPropertiesForClass(parameter.subtype)))))
           )
         : [];
 };

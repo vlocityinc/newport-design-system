@@ -80,6 +80,7 @@ export const caseLogACallAutomatic = getElementByName('caseLogACallAutomatic');
 export const apexComplexTypeVariable = getElementByName('apexComplexTypeVariable');
 export const apexComplexTypeCollectionVariable = getElementByName('apexComplexTypeCollectionVariable');
 export const apexCarVariable = getElementByName('apexCarVariable');
+export const apexComplexTypeTwoVariable = getElementByName('apexComplexTypeTwoVariable');
 export const createAccountWithAutomaticOutput = getElementByName('createAccountWithAutomaticOutput');
 export const createWithApexDefSingleSObjectVariable = getElementByName('withApexDefSingleSObjectVariable');
 export const createWithApexDefSObjectCollectionVariable = getElementByName('withApexDefSObjectCollectionVariable');

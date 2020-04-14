@@ -616,6 +616,16 @@
                 "isInput": false,
                 "isOutput": false,
                 "scale": 2
+            },
+            {
+                "name": "apexComplexTypeTwoVariable",
+                "description": "",
+                "apexClass": "ApexComplexTypeTestTwo216",
+                "dataType": "Apex",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 2
             }
         ],
         "constants": [
