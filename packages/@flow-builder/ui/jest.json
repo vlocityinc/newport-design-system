@@ -32,5 +32,9 @@
     },
     "setupFilesAfterEnv": ["<rootDir>/jestSetup.js"],
     "clearMocks": true,
-    "collectCoverageFrom": ["<rootDir>/src/**/*.js", "!**/*Labels.js", "!**/integrationTests/**/*.js"]
+    "collectCoverageFrom": [
+        "<rootDir>/src/*/!(builderTestUtils)**/*.js",
+        "!**/*Labels.js",
+        "!**/integrationTests/**/*.js"
+    ]
 }

@@ -2,7 +2,13 @@ import { createElement } from 'lwc';
 import ResourcedRichTextEditor from '../resourcedRichTextEditor';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { RichTextPlainTextSwitchChangedEvent } from 'builder_platform_interaction/events';
-import { ticks, focusEvent, changeEvent } from 'builder_platform_interaction/builderTestUtils';
+import {
+    ticks,
+    focusEvent,
+    changeEvent,
+    focusoutEvent,
+    blurEvent
+} from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -15,11 +21,6 @@ const createComponentUnderTest = props => {
     document.body.appendChild(Object.assign(el, props));
     return el;
 };
-
-const focusoutEvent = new FocusEvent('focusout', {
-    bubbles: true,
-    cancelable: true
-});
 
 jest.mock('builder_platform_interaction/mergeFieldLib', () => {
     return {
@@ -81,6 +82,13 @@ describe('ResourcedRichTextEditor', () => {
             );
             expect(divParentInputRichTextFerovPicker.ariaLabelledBy).toBe(labelElementIdAttribute);
         });
+        it('should render error if any via css', async () => {
+            resourcedRichTextEditor = createComponentUnderTest({
+                value: { value: 'an invalid value it is', error: 'error message' }
+            });
+            const divLabelInError = resourcedRichTextEditor.shadowRoot.querySelector("div[class*='has-error']");
+            expect(divLabelInError).not.toBeNull();
+        });
     });
     describe('before Rich Text Editor activation', () => {
         it('replaces new lines with <br />, as is done at runtime', () => {
@@ -109,7 +117,20 @@ describe('ResourcedRichTextEditor', () => {
         beforeEach(() => {
             eventCallback = jest.fn();
         });
+
         describe('when Rich Text Editor is activated', () => {
+            it('should handle "lightning-input-rich-text" blur event', () => {
+                // Given
+                resourcedRichTextEditor = createComponentUnderTest();
+                inputRichTextElement = getChildElement(resourcedRichTextEditor, SELECTORS.INPUT_RICH_TEXT);
+                resourcedRichTextEditor.addEventListener('blur', eventCallback);
+
+                // When
+                inputRichTextElement.dispatchEvent(blurEvent);
+
+                // Then
+                expect(eventCallback).toHaveBeenCalled();
+            });
             it('replaces new lines with <br />, as is done at runtime on first focus event', () => {
                 // Given
                 const htmlText = 'first line\nsecond line';

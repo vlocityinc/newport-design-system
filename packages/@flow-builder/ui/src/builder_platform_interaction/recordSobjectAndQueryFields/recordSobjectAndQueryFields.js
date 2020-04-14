@@ -114,26 +114,4 @@ export default class RecordSobjectAndQueryFields extends LightningElement {
     get sObjectVariablePickerPlaceholder() {
         return !this.state.isCollection ? this.labels.searchRecords : this.labels.searchRecordCollections;
     }
-
-    get selectFieldsLabel() {
-        return format(this.labels.selectFields, this.resourceDisplayText);
-    }
-    /**
-     * menu data for disabled Id combobox
-     */
-    get idMenuData() {
-        return [this.idComboboxValue];
-    }
-
-    /**
-     * Id value for Id combobox
-     */
-    get idComboboxValue() {
-        return {
-            type: 'option-inline',
-            text: 'ID',
-            value: 'Id',
-            displayText: 'ID'
-        };
-    }
 }

@@ -193,6 +193,9 @@ describe('loop factory', () => {
         });
     });
     describe('create loop metadata object', () => {
+        it('should throw error if no "loop" passed', () => {
+            expect(() => createLoopMetadataObject(null)).toThrowError('loop is not defined');
+        });
         it.each([
             loopAccountAutomaticOutput,
             loopOnTextCollectionManualOutput,

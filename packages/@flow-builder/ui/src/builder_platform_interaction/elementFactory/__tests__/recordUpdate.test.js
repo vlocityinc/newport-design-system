@@ -254,12 +254,23 @@ describe('recordUpdate Demutation', () => {
             recordUpdateUsingFields = recordUpdateUsingFieldsTemplate();
             mutatedRecordUpdateWithFields = mutatedRecordUpdateWithFieldsTemplate();
         });
+        it('should throw error if no "mutatedRecordUpdate" passed', () => {
+            expect(() => createRecordUpdateMetadataObject(null)).toThrowError('recordUpdate is not defined');
+        });
         it('demutated filter with value', () => {
             mutatedRecordUpdateWithFields.filters = [mutatedFilterWithValueFieldAndOperator];
             mutatedRecordUpdateWithFields.filterType = RECORD_FILTER_CRITERIA.ALL;
             recordUpdateUsingFields.filters = [filterWithValueFieldAndOperator];
             const actualResult = createRecordUpdateMetadataObject(mutatedRecordUpdateWithFields);
             expect(actualResult).toMatchObject(recordUpdateUsingFields);
+        });
+        it('reset filters if "filterType" equals no criteria', () => {
+            mutatedRecordUpdateWithFields = {
+                filters: [mutatedFilterWithValueFieldAndOperator],
+                filterType: RECORD_FILTER_CRITERIA.NONE
+            };
+            const actualResult = createRecordUpdateMetadataObject(mutatedRecordUpdateWithFields);
+            expect(actualResult.filters).toHaveLength(0);
         });
         it('demutate 1 filter with value and 1 filter without value', () => {
             mutatedRecordUpdateWithFields.filters = [mutatedFilterWithValueFieldAndOperator, mutatedFilterWithField];

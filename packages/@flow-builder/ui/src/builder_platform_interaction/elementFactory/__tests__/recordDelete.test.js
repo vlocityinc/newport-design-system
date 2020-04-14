@@ -258,6 +258,9 @@ describe('recordDelete flow metadata => UI model', () => {
 });
 
 describe('recordDelete UI model => flow metadata (with GUID)', () => {
+    it('should throw error if no "recordDelete" passed', () => {
+        expect(() => createRecordDeleteMetadataObject(null)).toThrowError('recordDelete is not defined');
+    });
     describe('with record delete using sObject', () => {
         it('returns expected metadata object', () => {
             const actualResult = createRecordDeleteMetadataObject(recordDeleteSObjectStore());

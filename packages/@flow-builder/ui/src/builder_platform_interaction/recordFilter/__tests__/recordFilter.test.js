@@ -7,7 +7,8 @@ import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import {
     AddRecordFilterEvent,
     UpdateRecordFilterEvent,
-    DeleteRecordFilterEvent
+    DeleteRecordFilterEvent,
+    UpdateListItemEvent
 } from 'builder_platform_interaction/events';
 import RecordLookupFilter from 'builder_platform_interaction/recordFilter';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
@@ -44,21 +45,21 @@ const mock3FilterItems = [
         leftHandSide: { value: 'Account.Name', error: null },
         rightHandSide: { value: 'Account Name', error: null },
         rightHandSideDataType: { value: 'string', error: null },
-        rowIndex: 'RECORDLOOKUPFILTERITEM_1'
+        rowIndex: '326e1b1a-7235-487f-9b44-38db56af4a45'
     },
     {
         operator: { value: 'EqualTo', error: null },
         leftHandSide: { value: 'Account.Fax', error: null },
         rightHandSide: { value: '012345567', error: null },
         rightHandSideDataType: { value: 'string', error: null },
-        rowIndex: 'RECORDLOOKUPFILTERITEM_2'
+        rowIndex: '346e1b1a-7235-487f-9b44-38db56af4a45'
     },
     {
         operator: { value: 'EqualTo', error: null },
         leftHandSide: { value: 'Account.Id', error: null },
         rightHandSide: { value: '{!accountIdVar}', error: null },
         rightHandSideDataType: { value: 'reference', error: null },
-        rowIndex: 'RECORDLOOKUPFILTERITEM_3'
+        rowIndex: '143e1b1a-7235-487f-9b44-38db56af4a45'
     }
 ];
 
@@ -74,40 +75,42 @@ const createComponentUnderTest = (elementType, filterType, filterItems) => {
 const createComponentUnderTestForRecordUpdate = createComponentUnderTest.bind(null, ELEMENT_TYPE.RECORD_UPDATE);
 const createComponentUnderTestForRecordDelete = createComponentUnderTest.bind(null, ELEMENT_TYPE.RECORD_DELETE);
 
-const selectors = {
+const SELECTORS = {
     filterRecordsCombobox: 'lightning-combobox',
     hiddenFilterList: 'builder_platform_interaction-list.slds-hide',
     filterList: 'builder_platform_interaction-list',
     expressionBuilder: 'builder_platform_interaction-field-to-ferov-expression-builder',
     warningIcon: 'lightning-icon',
-    warningMessage: 'builder_platform_interaction-rich-label'
+    warningMessage: 'builder_platform_interaction-rich-label',
+    listAddButton: 'lightning-button',
+    filterRow: 'builder_platform_interaction-row',
+    deleteRowButton: 'lightning-button-icon',
+    rowLHSCombobox: 'builder_platform_interaction-combobox'
 };
 
-const getFilterRecordsCombobox = recordLookupFilterCmp => {
-    return recordLookupFilterCmp.shadowRoot.querySelector(selectors.filterRecordsCombobox);
-};
+const getFilterRecordsCombobox = recordLookupFilterCmp =>
+    recordLookupFilterCmp.shadowRoot.querySelector(SELECTORS.filterRecordsCombobox);
+const getFilterList = recordLookupFilterCmp => recordLookupFilterCmp.shadowRoot.querySelector(SELECTORS.filterList);
+const getExpressionBuilders = recordLookupFilterCmp =>
+    recordLookupFilterCmp.shadowRoot.querySelectorAll(SELECTORS.expressionBuilder);
+const getWarningIcon = recordLookupFilterCmp => recordLookupFilterCmp.shadowRoot.querySelector(SELECTORS.warningIcon);
+const getWarningMessage = recordLookupFilterCmp =>
+    recordLookupFilterCmp.shadowRoot.querySelector(SELECTORS.warningMessage);
+const getListAddButton = recordLookupFilterCmp =>
+    recordLookupFilterCmp.shadowRoot
+        .querySelector(SELECTORS.filterList)
+        .shadowRoot.querySelector(SELECTORS.listAddButton);
+const getFirstRow = recordLookupFilterCmp =>
+    recordLookupFilterCmp.shadowRoot
+        .querySelector(SELECTORS.filterList)
+        .shadowRoot.querySelector('slot')
+        .assignedNodes()[0]
+        .querySelector(SELECTORS.filterRow);
+const getFirstRowDeleteButton = recordLookupFilterCmp =>
+    getFirstRow(recordLookupFilterCmp).shadowRoot.querySelector(SELECTORS.deleteRowButton);
 
-const getFilterList = recordLookupFilterCmp => {
-    return recordLookupFilterCmp.shadowRoot.querySelector(selectors.filterList);
-};
-
-const getExpressionBuilders = recordLookupFilterCmp => {
-    return recordLookupFilterCmp.shadowRoot.querySelectorAll(selectors.expressionBuilder);
-};
-
-const getWarningIcon = recordLookupFilterCmp => {
-    return recordLookupFilterCmp.shadowRoot.querySelector(selectors.warningIcon);
-};
-
-const getWarningMessage = recordLookupFilterCmp => {
-    return recordLookupFilterCmp.shadowRoot.querySelector(selectors.warningMessage);
-};
-
-class FilterTypeChangeEvent extends CustomEvent {
-    constructor(filterType) {
-        super('change', { detail: { value: filterType } });
-    }
-}
+const filterTypeChangeEvent = value => new CustomEvent('change', { detail: { value } });
+const clickEvent = new CustomEvent('click');
 
 describe('record-filter', () => {
     describe('Filter records combobox', () => {
@@ -210,14 +213,14 @@ describe('record-filter', () => {
                 element = createComponentUnderTest();
             });
             it('Display the filter items list when selecting "Conditions are Met"', async () => {
-                getFilterRecordsCombobox(element).dispatchEvent(new FilterTypeChangeEvent(RECORD_FILTER_CRITERIA.ALL));
+                getFilterRecordsCombobox(element).dispatchEvent(filterTypeChangeEvent(RECORD_FILTER_CRITERIA.ALL));
                 await ticks(1);
                 expect(getFilterList(element)).not.toBeNull();
                 expect(getExpressionBuilders(element)).toHaveLength(1);
             });
             it('Hide the filter items list when selecting "No Conditions"', async () => {
                 mockDefaultRecordFilter.filterType = RECORD_FILTER_CRITERIA.ALL;
-                getFilterRecordsCombobox(element).dispatchEvent(new FilterTypeChangeEvent(RECORD_FILTER_CRITERIA.NONE));
+                getFilterRecordsCombobox(element).dispatchEvent(filterTypeChangeEvent(RECORD_FILTER_CRITERIA.NONE));
                 await ticks(1);
                 expect(getFilterList(element)).toBeNull();
             });
@@ -229,14 +232,14 @@ describe('record-filter', () => {
                 element = createComponentUnderTest();
             });
             it('Display the filter items list when selecting "Conditions are Met"', async () => {
-                getFilterRecordsCombobox(element).dispatchEvent(new FilterTypeChangeEvent(RECORD_FILTER_CRITERIA.ALL));
+                getFilterRecordsCombobox(element).dispatchEvent(filterTypeChangeEvent(RECORD_FILTER_CRITERIA.ALL));
                 await ticks(1);
                 expect(getFilterList(element)).not.toBeNull();
                 expect(getExpressionBuilders(element)).toHaveLength(1);
             });
             it('Hide the filter items list when selecting "No Conditions"', async () => {
                 mockDefaultRecordFilter.filterType = RECORD_FILTER_CRITERIA.ALL;
-                getFilterRecordsCombobox(element).dispatchEvent(new FilterTypeChangeEvent(RECORD_FILTER_CRITERIA.NONE));
+                getFilterRecordsCombobox(element).dispatchEvent(filterTypeChangeEvent(RECORD_FILTER_CRITERIA.NONE));
                 await ticks(1);
                 expect(getFilterList(element)).toBeNull();
             });
@@ -309,9 +312,9 @@ describe('record-filter', () => {
             const element = createComponentUnderTest();
             const eventCallback = jest.fn();
             element.addEventListener(AddRecordFilterEvent.EVENT_NAME, eventCallback);
-            const filterList = getFilterList(element);
+            const addFilterListButton = getListAddButton(element);
+            addFilterListButton.dispatchEvent(clickEvent);
             await ticks(1);
-            filterList.dispatchEvent(new AddRecordFilterEvent());
             expect(eventCallback).toHaveBeenCalled();
         });
 
@@ -320,12 +323,16 @@ describe('record-filter', () => {
                 index: 0,
                 value: 'newValue'
             };
-            const element = createComponentUnderTest();
+            const element = createComponentUnderTest(
+                ELEMENT_TYPE.RECORD_LOOKUP,
+                RECORD_FILTER_CRITERIA.ALL,
+                mock3FilterItems
+            );
             const eventCallback = jest.fn();
             element.addEventListener(UpdateRecordFilterEvent.EVENT_NAME, eventCallback);
-            const filterList = getFilterList(element);
+            const row = getFirstRow(element);
+            row.dispatchEvent(new UpdateListItemEvent(updateData.index, updateData.value));
             await ticks(1);
-            filterList.dispatchEvent(new UpdateRecordFilterEvent(updateData.index, updateData.value));
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0]).toMatchObject({
                 detail: {
@@ -336,17 +343,21 @@ describe('record-filter', () => {
         });
 
         it('fires deleteRecordFilterEvent', async () => {
-            const deleteIndex = 1;
-            const element = createComponentUnderTest();
+            const firstRowIndex = 0;
+            const element = createComponentUnderTest(
+                ELEMENT_TYPE.RECORD_LOOKUP,
+                RECORD_FILTER_CRITERIA.ALL,
+                mock3FilterItems
+            );
             const eventCallback = jest.fn();
             element.addEventListener(DeleteRecordFilterEvent.EVENT_NAME, eventCallback);
-            const filterList = getFilterList(element);
+            const rowsDeleteButtons = getFirstRowDeleteButton(element);
+            rowsDeleteButtons.dispatchEvent(clickEvent);
             await ticks(1);
-            filterList.dispatchEvent(new DeleteRecordFilterEvent(deleteIndex));
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0]).toMatchObject({
                 detail: {
-                    index: deleteIndex
+                    index: firstRowIndex
                 }
             });
         });

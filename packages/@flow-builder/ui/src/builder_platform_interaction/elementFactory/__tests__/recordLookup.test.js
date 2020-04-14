@@ -14,6 +14,7 @@ import {
 } from 'builder_platform_interaction/processTypeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -62,10 +63,7 @@ const recordLookupSObjectStore = () => ({
     name: 'lookupSObject',
     object: 'Account',
     outputReference: 'vSobjectAccount',
-    queriedFields: [
-        { field: 'BillingCountry', rowIndex: MOCK_GUID },
-        { field: '', rowIndex: MOCK_GUID }
-    ],
+    queriedFields: [{ field: 'BillingCountry', rowIndex: MOCK_GUID }],
     sortField: '',
     sortOrder: 'NotSorted'
 });
@@ -423,15 +421,28 @@ describe('recordLookup', () => {
 
     describe('recordLookup flow metadata => UI model', () => {
         describe('recordLookup function using sObject', () => {
-            it('returns a new record update object with same value and the numberRecordsToStore calculated from the inputReference', () => {
-                const recordLookupMetadata = recordLookupFieldsMetadata();
+            it('returns expected new record lookup object', () => {
+                const recordLookupMetadata = recordLookupSObjectMetadata();
                 const actualResult = createRecordLookup(recordLookupMetadata);
-                expect(actualResult).toMatchObject(recordLookupFieldsStore());
+                expect(actualResult).toMatchObject(recordLookupSObjectStore());
             });
             it('has no common mutable object with record lookup metadata passed as parameter', () => {
-                const recordLookupMetadata = recordLookupFieldsMetadata();
+                const recordLookupMetadata = recordLookupSObjectMetadata();
                 const actualResult = createRecordLookup(recordLookupMetadata);
                 expect(actualResult).toHaveNoCommonMutableObjectWith(recordLookupMetadata);
+            });
+            it('set default "queriedFields" with Id if none passed', () => {
+                const actualResult = createRecordLookup({ ...recordLookupSObjectMetadata(), queriedFields: [] });
+                expect(actualResult.queriedFields).toEqual([
+                    {
+                        field: 'Id',
+                        rowIndex: 'mockGuid'
+                    },
+                    {
+                        field: '',
+                        rowIndex: 'mockGuid'
+                    }
+                ]);
             });
         });
         describe('recordLookup function using Fields', () => {
@@ -468,7 +479,7 @@ describe('recordLookup', () => {
             });
             it('"queriedFields" should be an empty array', () => {
                 const actualResult = createRecordLookup(recordLookupUsingFields);
-                expect(actualResult).toHaveProperty('queriedFields', []);
+                expect(actualResult.queriedFields).toHaveLength(0);
             });
         });
         describe('recordLookup function using automatic output handling', () => {
@@ -499,6 +510,16 @@ describe('recordLookup', () => {
         });
     });
     describe('recordLookup UI model => flow metadata', () => {
+        it('should throw error if no "recordLookup" passed', () => {
+            expect(() => createRecordLookupMetadataObject(null)).toThrowError('recordLookup is not defined');
+        });
+        it('resets "filters" if "filterType" equals non criteria ', () => {
+            const actualResult = createRecordLookupMetadataObject({
+                ...recordLookupSObjectStore(),
+                filterType: RECORD_FILTER_CRITERIA.NONE
+            });
+            expect(actualResult.filters).toHaveLength(0);
+        });
         describe('recordLookup function using sObject', () => {
             it('record lookup using sObject', () => {
                 const actualResult = createRecordLookupMetadataObject(recordLookupSObjectStore());

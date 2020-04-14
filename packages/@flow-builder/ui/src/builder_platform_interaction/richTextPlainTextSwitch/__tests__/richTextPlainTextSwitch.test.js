@@ -11,23 +11,19 @@ function createComponentForTest(props) {
     return el;
 }
 
-const selectPlainTextModeEvent = new CustomEvent('select', {
-    detail: { value: TEXT_MODES.plainText }
-});
-
-const selectRichTextModeEvent = new CustomEvent('select', {
-    detail: { value: TEXT_MODES.richText }
-});
+const changeModeEvent = value =>
+    new CustomEvent('change', {
+        detail: { value }
+    });
 
 const SELECTORS = {
     lightningCombobox: 'lightning-combobox'
 };
 
-const getLightningCombobox = richTextPlainTextSwitchComponent => {
-    return richTextPlainTextSwitchComponent.shadowRoot.querySelector(SELECTORS.lightningCombobox);
-};
+const getLightningCombobox = richTextPlainTextSwitchComponent =>
+    richTextPlainTextSwitchComponent.shadowRoot.querySelector(SELECTORS.lightningCombobox);
 
-describe('plain-text-mode-select', () => {
+describe('rich-text-plain-text-switch', () => {
     let richTextPlainTextSwitchComponent;
     beforeEach(() => {
         richTextPlainTextSwitchComponent = createComponentForTest();
@@ -40,15 +36,15 @@ describe('plain-text-mode-select', () => {
     describe('Select "PlainText" mode', () => {
         it('select "plain text" mode via UI', async () => {
             const lightningCombobox = getLightningCombobox(richTextPlainTextSwitchComponent);
-            lightningCombobox.dispatchEvent(selectPlainTextModeEvent);
+            lightningCombobox.dispatchEvent(changeModeEvent(TEXT_MODES.plainText));
             await ticks(1);
-            expect(richTextPlainTextSwitchComponent.selectedMode).toEqual(TEXT_MODES.richText);
+            expect(richTextPlainTextSwitchComponent.selectedMode).toEqual(TEXT_MODES.plainText);
         });
     });
     describe('Select "RichText" mode', () => {
         it('select "rich text" mode via UI', async () => {
             const lightningCombobox = getLightningCombobox(richTextPlainTextSwitchComponent);
-            lightningCombobox.dispatchEvent(selectRichTextModeEvent);
+            lightningCombobox.dispatchEvent(changeModeEvent(TEXT_MODES.richText));
             await ticks(1);
             expect(richTextPlainTextSwitchComponent.selectedMode).toEqual(TEXT_MODES.richText);
         });

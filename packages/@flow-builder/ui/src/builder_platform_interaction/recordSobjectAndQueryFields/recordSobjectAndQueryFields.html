@@ -7,8 +7,8 @@
             <builder_platform_interaction-sobject-or-sobject-collection-picker
                 label={sObjectVariablePickerLabel}
                 placeholder={sObjectVariablePickerPlaceholder}
-                record-entity-name={state.recordEntityName}
-                value={state.outputReference}
+                record-entity-name={recordEntityName}
+                value={outputReference}
                 row-index={outputReferenceIndex}
                 error-message={sobjectVariableErrorMessage}
                 sobject-collection-criterion={sobjectCollectionCriterion}
@@ -17,12 +17,12 @@
             </builder_platform_interaction-sobject-or-sobject-collection-picker>
         </div>
     </div>
-    <div class={queryFieldsSeparationDivCss} if:true={state.outputReference}>
+    <div class={queryFieldsSeparationDivCss} if:true={outputReference}>
         <builder_platform_interaction-record-query-fields
             record-entity-name={recordEntityName}
             resource-display-text={resourceDisplayText}
             element-type={elementType}
-            queried-fields={state.queriedFields}
+            queried-fields={queriedFields}
             global-css={queryFieldsGlobalCss}
             title-css={queryFieldsTitleCss}
         >

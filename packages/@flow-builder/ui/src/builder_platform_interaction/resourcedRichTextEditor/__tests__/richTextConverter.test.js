@@ -79,6 +79,10 @@ const textWithHorizontalWhitespacesConverted = '<div style="white-space: pre;">f
 const textWithSpacesAtBothEnds = '       there are some spaces before and after     ';
 const textWithSpacesAtBothEndsConverted =
     '<div style="white-space: pre;">       there are some spaces before and after     </div>';
+const unsupportedTagWithChildNodes = {
+    raw: '<div><UNSUPPORTEDTAG><span>1</span><span>2</span></UNSUPPORTEDTAG></div>',
+    converted: '<div><span>1</span><span>2</span></div>'
+};
 
 describe('Convert richText', () => {
     let previousXMLSerializer;
@@ -93,9 +97,18 @@ describe('Convert richText', () => {
     afterAll(() => {
         window.XMLSerializer = previousXMLSerializer;
     });
+    it('Returns immediately if no value to convert', () => {
+        const rawValue = '';
+        const result = convertHTMLToQuillHTML(rawValue);
+        expect(result).toBe(rawValue);
+    });
     it('Returns correctly convert richText', () => {
         const result = convertHTMLToQuillHTML(originalText);
         expect(result).toBe(convertedText);
+    });
+    it('converts correctly unsupported node with child nodes', () => {
+        const result = convertHTMLToQuillHTML(unsupportedTagWithChildNodes.raw);
+        expect(result).toBe(unsupportedTagWithChildNodes.converted);
     });
     it('Should not modify the html if is is converted twice', () => {
         const result = convertHTMLToQuillHTML(convertedText);
