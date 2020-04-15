@@ -8,34 +8,19 @@ function camelCase(s) {
     });
 }
 
-function deleteFolder(path) {
-    if (fs.existsSync(path)) {
-        fs.readdirSync(path).forEach(file => {
-            const curPath = path + '/' + file;
-            if (fs.lstatSync(curPath).isDirectory()) {
-                deleteFolder(curPath);
-            } else {
-                fs.unlinkSync(curPath);
-            }
-        });
-        fs.rmdirSync(path);
-    }
-}
-
 function getDirectories(srcPath) {
     return fs.readdirSync(srcPath).filter(file => fs.statSync(join(srcPath, file)).isDirectory());
 }
-function printInfo(msg) {
-    console.log(`\x1b[36mINFO\x1b[0m: ${msg}`);
-}
 
-function printWarning(msg) {
-    console.log(`\x1b[33m(!) WARN\x1b[0m: ${msg}`);
-}
+const print = (msg, chalkColor) => {
+    console.log(chalkColor(msg));
+};
 
-function printError(msg) {
-    console.log(`\x1b[31m(!) ERROR\x1b[0m: ${msg}`);
-}
+const printInfo = msg => print.bind(null, msg, chalk.cyan)();
+const printWarning = msg => print.bind(null, msg, chalk.yellow)();
+const printError = msg => print.bind(null, msg, chalk.red)();
+const printHeader = msg => print.bind(null, msg, chalk.blue)();
+const printSuccess = msg => print.bind(null, msg, chalk.green)();
 
 function isPackage(testPath) {
     const packageJsonPath = resolve(testPath, 'package.json');
@@ -66,11 +51,11 @@ function findAllPackages(currentDir) {
 
 module.exports = {
     camelCase,
-    deleteFolder,
     getDirectories,
     printInfo,
     printWarning,
     printError,
-    isPackage,
+    printHeader,
+    printSuccess,
     findAllPackages
 };

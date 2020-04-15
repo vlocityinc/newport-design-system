@@ -4,7 +4,16 @@ const { copySync, ensureDirSync, removeSync } = require('fs-extra');
 const argv = require('yargs').argv;
 const { transformFileSync } = require('@babel/core');
 const transformNamespace = require('./babel/babel-plugin-npm2lwc/index');
-const { camelCase, findAllPackages, printWarning, printInfo, printError, getDirectories } = require('./utils');
+const {
+    camelCase,
+    findAllPackages,
+    printWarning,
+    printInfo,
+    printError,
+    printSuccess,
+    printHeader,
+    getDirectories
+} = require('./utils');
 const watch = require('node-watch');
 
 const modulesArg = argv._[0] || 'src/main/modules';
@@ -47,10 +56,10 @@ function npm2lwc(npmPackagesPath, coreModulePath, options) {
     const foundPkgs = findAllPackages(npmPackagesPath);
 
     if (options.watch) {
-        printInfo(`Watching files in ${npmPackagesPath}. Pushing file changes to ${coreModulePath}`);
+        printHeader(`Watching files in ${npmPackagesPath}.`);
         process.setMaxListeners(foundPkgs.length);
     } else {
-        printInfo(`Exporting NPM packages in ${npmPackagesPath} to ${coreModulePath}`);
+        printHeader(`Exporting NPM packages in ${npmPackagesPath} to ${coreModulePath}`);
     }
 
     const npm2lwcNameMap = {};
@@ -158,15 +167,15 @@ function mvUiModule(src, dest, options) {
                     printInfo(`File change detected at ${fullSourcePath}`);
                     try {
                         fs.copyFileSync(fullSourcePath, modulePath);
-                        printInfo(`Pushed changes to ${modulePath}`);
+                        printSuccess(`Pushed changes to ${modulePath}`);
                     } catch (e) {
-                        printError(`Could not copy file at ${fullSourcePath} : ${e.message}`);
+                        printError(`Could not copy file at ${fullSourcePath}: ${e.message}`);
                     }
                 }
             }
         });
     } else {
-        printInfo(`Moving UI modules: ${sourcePath} -> ${dest}`);
+        printHeader(`Moving UI modules in ${sourcePath} to ${dest}`);
         copySync(sourcePath, dest, {
             // TODO: remove this hardcoded filter
             filter: src => !src.endsWith('flowUtils.js')

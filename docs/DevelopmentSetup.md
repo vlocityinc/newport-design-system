@@ -176,3 +176,22 @@ In the `workspace-user.xml`, update the `ui-interaction-builder-components` vers
 ```xml
 <ui-interaction-builder-components.version>224-SNAPSHOT</ui-interaction-builder-components.version>
 ```
+
+### Perforce
+
+Some NPM scripts (eg: [check:pom](https://git.soma.salesforce.com/automation-platform/ui-interaction-builder-components/blob/master/package.json#L17 'check:pom NPM script')) imply running some Perforce commands behind the hood.  
+As for any Perforce commands it requires some environment variables such as P4PORT to be set.  
+A [fallback](https://git.soma.salesforce.com/automation-platform/ui-interaction-builder-components/blob/master/scripts/pom.js#L8) pointing to the generic Perforce proxy (ie: ssl:p4proxy.soma.salesforce.com:1999) is in place.  
+Of course, you are free to force a custom one via a new CUSTOM_P4PORT entry in your project .env file for instance as follows:
+
+```text
+CUSTOM_P4PORT=ssl:p4proxy.paris.soma.salesforce.com:1999
+```
+
+or still source `~/blt/env.sh`
+
+To sum up things, **P4PORT** checks order are:
+
+1. preexisting current environment variable in place
+2. CUSTOM_P4PORT in project .env file
+3. generic fallback
