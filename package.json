@@ -115,7 +115,7 @@
                 "lint-staged"
             ],
             "pre-push": [
-                "yarn check:pom && yarn test:nba-components"
+                "yarn check:pom && yarn test:nba-components && yarn check:goldFiles -l"
             ]
         }
     },
