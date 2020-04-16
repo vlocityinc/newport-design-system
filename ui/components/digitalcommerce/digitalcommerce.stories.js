@@ -1134,25 +1134,368 @@ storiesOf(`${base}`, module)
       </c-dc-offer-list-view>
     `);
   })
-  .add("dcTotalBar", () => {
-    return withExample(``);
-  })
-  .add("dcTotalBar", () => {
+  .add("dcMediaViewer", () => {
     return withExample(`
-    <div class="nds-dc-totalbar">
-      <div class="nds-dc-totalbar_price-container">
-        <div class="nds-dc-totalbar_container">
-          <span class="nds-dc-totalbar_label">Due Monthly</span>
-          <div class="nds-dc-totalbar_value">$90</div>
+      <c-dc-media-viewer>
+        <div class="via-nds">
+          <slot name="dc-media-viewer-wrapper">
+            <div class="nds-dc-offer_media">
+              <div class="nds-dc-media_view-wrapper"><a data-resource-index="-1" data-source-arrow="true"
+                  class="nds-dc-carousel-prev nds-dc-carousel-controls">
+                  <slot name="dc-left-icon">❮</slot>
+                </a>
+                <li data-catalog-index="0" class="nds-dc-slide" style="transform: translate3d(0%, 0px, 0px);">
+                  <div><img alt="#FF0000" src="https://images-na.ssl-images-amazon.com/images/I/51YXG1bDM5L._SL1024_.jpg">
+                  </div>
+                </li>
+                <li data-catalog-index="1" class="nds-dc-slide" style="transform: translate3d(100%, 0px, 0px);">
+                  <div><img alt="#FF0000" src="https://images-na.ssl-images-amazon.com/images/I/61IM1qjdoEL._SY879_.jpg">
+                  </div>
+                </li>
+                <li data-catalog-index="2" class="nds-dc-slide" style="transform: translate3d(200%, 0px, 0px);">
+                  <div><img alt="#FF0000" src="https://images-na.ssl-images-amazon.com/images/I/51sChdi5DML._SL1024_.jpg">
+                  </div>
+                </li>
+                <li data-catalog-index="3" class="nds-dc-slide" style="transform: translate3d(300%, 0px, 0px);">
+                  <div><img alt="#FF0000" src="https://images-na.ssl-images-amazon.com/images/I/41CITWMluaL._SL1024_.jpg">
+                  </div>
+                </li><a data-resource-index="1" data-source-arrow="true"
+                  class="nds-dc-carousel-next nds-dc-carousel-controls">
+                  <slot name="dc-right-icon">❯</slot>
+                </a>
+              </div>
+              <div class="nds-dc-carousel-preview-container"><span data-resource-index="0" data-source-arrow="false"
+                  class="nds-dc-media-preview"><img alt="0"
+                    src="https://images-na.ssl-images-amazon.com/images/I/51YXG1bDM5L._SL1024_.jpg"
+                    class="nds-dc-corousel-img">
+                  <div class="nds-dc-media-overlay nds-dc-active-media-overlay"></div>
+                </span><span data-resource-index="1" data-source-arrow="false" class="nds-dc-media-preview"><img alt="1"
+                    src="https://images-na.ssl-images-amazon.com/images/I/61IM1qjdoEL._SY879_.jpg"
+                    class="nds-dc-corousel-img">
+                  <div class="nds-dc-media-overlay"></div>
+                </span><span data-resource-index="2" data-source-arrow="false" class="nds-dc-media-preview"><img alt="2"
+                    src="https://images-na.ssl-images-amazon.com/images/I/51sChdi5DML._SL1024_.jpg"
+                    class="nds-dc-corousel-img">
+                  <div class="nds-dc-media-overlay"></div>
+                </span><span data-resource-index="3" data-source-arrow="false" class="nds-dc-media-preview"><img alt="3"
+                    src="https://images-na.ssl-images-amazon.com/images/I/41CITWMluaL._SL1024_.jpg"
+                    class="nds-dc-corousel-img">
+                  <div class="nds-dc-media-overlay"></div>
+                </span></div>
+            </div>
+          </slot>
         </div>
-        <span class="nds-dc-totalbar_container nds-dc-totalbar_container-pipe"></span>
-        <div class="nds-dc-totalbar_container">
-          <span class="nds-dc-totalbar_label">Due Today</span>
-          <div class="nds-dc-totalbar_value">$1200</div>
+      </c-dc-media-viewer>
+    `);
+  })
+  .add("dcOfferConfig", () => {
+    return withExample(`
+      <c-dc-offer-config>
+        <div class="via-nds">
+          <div class="nds-dc-offer_config">
+            <div>
+              <slot name="dc-offer-title">
+                <div class="nds-dc-offer-config-title-container">
+                  <div class="nds-dc-plan-title">iPhone X</div><span class="nds-dc-underline-title"></span>
+                </div>
+              </slot>
+              <slot name="dc-offer-details">
+                <div class="nds-dc-offer-config-container">
+                  <div class="nds-dc-media-container">
+                    <c-dc-media-viewer>
+                      <div class="via-nds">
+                        <slot name="dc-media-viewer-wrapper">
+                          <div class="nds-dc-offer_media">
+                            <div class="nds-dc-media_view-wrapper"><a data-resource-index="-1" data-source-arrow="true"
+                                class="nds-dc-carousel-prev nds-dc-carousel-controls">
+                                <slot name="dc-left-icon">❮</slot>
+                              </a>
+                              <li data-catalog-index="0" class="nds-dc-slide" style="transform: translate3d(0%, 0px, 0px);">
+                                <div><img alt="#FF0000"
+                                    src="https://images-na.ssl-images-amazon.com/images/I/51YXG1bDM5L._SL1024_.jpg"></div>
+                              </li>
+                              <li data-catalog-index="1" class="nds-dc-slide" style="transform: translate3d(100%, 0px, 0px);">
+                                <div><img alt="#FF0000"
+                                    src="https://images-na.ssl-images-amazon.com/images/I/61IM1qjdoEL._SY879_.jpg"></div>
+                              </li>
+                              <li data-catalog-index="2" class="nds-dc-slide" style="transform: translate3d(200%, 0px, 0px);">
+                                <div><img alt="#FF0000"
+                                    src="https://images-na.ssl-images-amazon.com/images/I/51sChdi5DML._SL1024_.jpg"></div>
+                              </li>
+                              <li data-catalog-index="3" class="nds-dc-slide" style="transform: translate3d(300%, 0px, 0px);">
+                                <div><img alt="#FF0000"
+                                    src="https://images-na.ssl-images-amazon.com/images/I/41CITWMluaL._SL1024_.jpg"></div>
+                              </li><a data-resource-index="1" data-source-arrow="true"
+                                class="nds-dc-carousel-next nds-dc-carousel-controls">
+                                <slot name="dc-right-icon">❯</slot>
+                              </a>
+                            </div>
+                            <div class="nds-dc-carousel-preview-container"><span data-resource-index="0"
+                                data-source-arrow="false" class="nds-dc-media-preview"><img alt="0"
+                                  src="https://images-na.ssl-images-amazon.com/images/I/51YXG1bDM5L._SL1024_.jpg"
+                                  class="nds-dc-corousel-img">
+                                <div class="nds-dc-media-overlay nds-dc-active-media-overlay"></div>
+                              </span><span data-resource-index="1" data-source-arrow="false" class="nds-dc-media-preview"><img
+                                  alt="1" src="https://images-na.ssl-images-amazon.com/images/I/61IM1qjdoEL._SY879_.jpg"
+                                  class="nds-dc-corousel-img">
+                                <div class="nds-dc-media-overlay"></div>
+                              </span><span data-resource-index="2" data-source-arrow="false" class="nds-dc-media-preview"><img
+                                  alt="2" src="https://images-na.ssl-images-amazon.com/images/I/51sChdi5DML._SL1024_.jpg"
+                                  class="nds-dc-corousel-img">
+                                <div class="nds-dc-media-overlay"></div>
+                              </span><span data-resource-index="3" data-source-arrow="false" class="nds-dc-media-preview"><img
+                                  alt="3" src="https://images-na.ssl-images-amazon.com/images/I/41CITWMluaL._SL1024_.jpg"
+                                  class="nds-dc-corousel-img">
+                                <div class="nds-dc-media-overlay"></div>
+                              </span></div>
+                          </div>
+                        </slot>
+                      </div>
+                    </c-dc-media-viewer>
+                  </div>
+                  <div class="nds-dc-offer-config-details">
+                    <c-dc-offer-config-details>
+                      <div class="via-nds">
+                        <div class="nds-dc-offer-details">
+                          <slot name="dc-offer-title">
+                            <h2>iPhone X</h2>
+                          </slot>
+                          <slot name="dc-offer-details">
+                            <div>
+                              <div>
+                                <c-dc-offer-configurations class="nds-dc-offer-configurations">
+                                  <div class="via-nds">
+                                    <slot name="dc-offer-configurations-wrapper">
+                                      <div class="nds-dc-text-attributes">
+                                        <div class="nds-dc-attributes-placeholder">
+                                          <div class="nds-dc-offer-text-set nds-dc-addborder"><span
+                                              class="nds-dc-offer-text-attribute-label">Battery</span><br>
+                                            <div class="nds-dc-spacer"></div><span class="nds-dc-offer-text-attribute-value">
+                                              5000mAh </span>
+                                          </div>
+                                        </div>
+                                        <div class="nds-dc-attributes-placeholder">
+                                          <div class="nds-dc-offer-text-set nds-dc-addborder"><span
+                                              class="nds-dc-offer-text-attribute-label">Camera</span><br>
+                                            <div class="nds-dc-spacer"></div><span class="nds-dc-offer-text-attribute-value">
+                                              16MP </span>
+                                          </div>
+                                        </div>
+                                        <div class="nds-dc-attributes-placeholder">
+                                          <div class="nds-dc-offer-text-set nds-dc-addborder"><span
+                                              class="nds-dc-offer-text-attribute-label">Display</span><br>
+                                            <div class="nds-dc-spacer"></div><span class="nds-dc-offer-text-attribute-value">
+                                              Retina HD Plus </span>
+                                          </div>
+                                        </div>
+                                        <div class="nds-dc-attributes-placeholder">
+                                          <div class="nds-dc-offer-text-set nds-dc-addborder"><span
+                                              class="nds-dc-offer-text-attribute-label">Processor</span><br>
+                                            <div class="nds-dc-spacer"></div><span class="nds-dc-offer-text-attribute-value">
+                                              A10 Bionic Chip </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </slot>
+                                  </div>
+                                </c-dc-offer-configurations><span></span><span></span><span>
+                                  <c-dc-offer-color-config class="nds-dc-offer-color-config-component">
+                                    <div class="via-nds">
+                                      <slot name="dc-offer-color-config-wrapper">
+                                        <div class="nds-dc-offer-round-button-set nds-dc-color-attribute-container"><span
+                                            class="nds-dc-offer-attribute-label">Color :</span><span data-value="#000000"
+                                            class="nds-dc-offer-attribute"><span class="nds-dc-offer-color-bg"
+                                              style="background-color: rgb(0, 0, 0);"></span>Black</span><span
+                                            data-value="#D4AF37" class="nds-dc-offer-attribute"><span
+                                              class="nds-dc-offer-color-bg"
+                                              style="background-color: rgb(212, 175, 55);"></span>Gold</span><span
+                                            data-value="#FF0000" class="nds-dc-offer-attribute nds-dc-active"><span
+                                              class="nds-dc-offer-color-bg"
+                                              style="background-color: rgb(255, 0, 0);"></span>Red</span></div>
+                                      </slot>
+                                    </div>
+                                  </c-dc-offer-color-config>
+                                </span><span></span><span>
+                                  <c-dc-offer-attribute-config class="nds-dc-offer-attribute-config">
+                                    <div class="via-nds">
+                                      <slot name="dc-offer-attribute-wrapper">
+                                        <div class="nds-dc-offer-button-set"><span class="nds-dc-offer-attribute-label">Memory
+                                            :</span><span data-value="16GB"
+                                            class="nds-dc-offer-attribute nds-dc-active">16GB</span><span data-value="32GB"
+                                            class="nds-dc-offer-attribute">32GB</span><span data-value="64GB"
+                                            class="nds-dc-offer-attribute">64GB</span></div>
+                                      </slot>
+                                    </div>
+                                  </c-dc-offer-attribute-config>
+                                </span><span></span>
+                              </div>
+                            </div>
+                            <c-dc-offer-input-config class="nds-dc-offer-input-config">
+                              <div class="via-nds">
+                                <slot name="dc-offer-config-input-wrapper">
+                                  <div class="nds-dc-offer-config-input-field"><span
+                                      class="nds-dc-offer-attribute-label">Quantity :</span><input type="number"
+                                      placeholder="Enter Quantity" min="1"></div>
+                                </slot>
+                              </div>
+                            </c-dc-offer-input-config>
+                            <c-dc-offer-payment-config>
+                              <div class="via-nds">
+                                <slot name="dc-offer-payment-wrapper">
+                                  <div class="nds-dc-offer-payment"><span class="nds-dc-offer-attribute-label">Payment
+                                      :</span>
+                                    <div class="nds-dc-offer-payment-config">
+                                      <div data-payment-type="oneTimeCharge" class="nds-dc-offer-config-payment-plans"><span
+                                          class="nds-dc-term-text">oneTimeCharge</span><br><span
+                                          class="nds-dc-term-value">$910</span></div>
+                                      <div data-payment-type="recurringCharge" class="nds-dc-offer-config-payment-plans"><span
+                                          class="nds-dc-term-text">recurringCharge</span><br><span
+                                          class="nds-dc-term-value">$89</span></div>
+                                    </div>
+                                  </div>
+                                </slot>
+                              </div>
+                            </c-dc-offer-payment-config>
+                          </slot>
+                        </div>
+                      </div>
+                    </c-dc-offer-config-details>
+                  </div>
+                </div>
+                <div class="nds-dc-offer-group-sections">
+                  <c-dc-offer-group-sections dc108dev-dcoffergroupsections_dcoffergroupsections-host="">
+                    <div dc108dev-dcoffergroupsections_dcoffergroupsections="" class="via-nds">
+                      <slot dc108dev-dcoffergroupsections_dcoffergroupsections="" name="dc-offer-group-sections-wrapper">
+                        <div dc108dev-dcoffergroupsections_dcoffergroupsections="" class="nds-dc-offer-group_container">
+                          <div dc108dev-dcoffergroupsections_dcoffergroupsections="">
+                            <c-dc-offer-group dc108dev-dcoffergroupsections_dcoffergroupsections="">
+                              <div class="via-nds">
+                                <slot name="dc-offer-group-wrapper">
+                                  <div class="nds-dc-offer_group">
+                                    <div class="nds-dc-offer_navigation">
+                                      <slot name="dc-offer-group-title">
+                                        <div>
+                                          <div class="nds-dc-plan_title">Protection Plan</div><span
+                                            class="nds-dc-underline_title"></span>
+                                        </div>
+                                      </slot>
+                                      <slot name="dc-offer-group-collapse-icons">
+                                        <div>
+                                          <div id="productCollapseInOut-64" class="nds-dc-product_collapse-in-out"><img
+                                              src="/resource/1586875002000/dc108dev__dc_assets/images/collapse.svg"
+                                              class="nds-dc-expand_collapse-icons nds-dc-collapse"></div>
+                                        </div>
+                                      </slot>
+                                      <fieldset id="01t6g000000OIQiAAO-64" class="nds-form-element nds-dc-offers_fieldset">
+                                        <div class="nds-dc-plan_options nds-dc-plan_options-child-products">
+                                          <div class="nds-grid nds-wrap">
+                                            <div
+                                              class="nds-size--1-of-1 nds-small-size--1-of-1 nds-medium-size--1-of-2 nds-large-size--1-of-3 nds-dc-plan_board nds-dc-group_sections">
+                                              <ul>
+                                                <c-dc-offer-group-selection class="nds-dc-radio-selection">
+                                                  <div class="via-nds">
+                                                    <div>
+                                                      <slot name="dc-group-selection-radio-wrapper">
+                                                        <li class="nds-item nds-dc-nav_type nds-dc-selected">
+                                                          <article
+                                                            class="nds-tile nds-tile_board nds-dc-tile_board nds-m-top_small">
+                                                            <div class="nds-dc-desc_part"><input type="radio"
+                                                                name="01t6g000000OIQiAAO"
+                                                                id="Premium Mobile Device Protection-65"
+                                                                value="01t6g000000OIPzAAO" class="nds-dc-radiobtn"><label
+                                                                for="Premium Mobile Device Protection-65"><span
+                                                                  title="Premium Mobile Device Protection"
+                                                                  class="nds-tile__title nds-truncate nds-dc-plan_name">Premium
+                                                                  Mobile Device Protection</span></label>
+                                                              <slot name="dc-offer-description">
+                                                                <div class="nds-tile__detail nds-dc-plan_item-description">As
+                                                                  soon as next-day device replacement for loss, theft, damage
+                                                                  &amp; post-warranty defects, expanded cracked screen repair
+                                                                  options1; international coverage2 and unlimited access to
+                                                                  Tech Coach experts.</div>
+                                                              </slot>
+                                                            </div>
+                                                            <slot name="dc-offer-payment">
+                                                              <div
+                                                                class="nds-grid nds-dc-plan_item-details nds-dc-single_price">
+                                                                <div class="nds-col nds-dc-plan_item-price-section">
+                                                                  <span>$99</span>
+                                                                  <p class="nds-dc-payment_type">One Time</p>
+                                                                </div>
+                                                              </div>
+                                                            </slot>
+                                                          </article>
+                                                        </li>
+                                                      </slot>
+                                                    </div>
+                                                  </div>
+                                                </c-dc-offer-group-selection>
+                                              </ul>
+                                            </div>
+                                            <div
+                                              class="nds-size--1-of-1 nds-small-size--1-of-1 nds-medium-size--1-of-2 nds-large-size--1-of-3 nds-dc-plan_board nds-dc-group_sections">
+                                              <ul>
+                                                <c-dc-offer-group-selection class="nds-dc-radio-selection">
+                                                  <div class="via-nds">
+                                                    <div>
+                                                      <slot name="dc-group-selection-radio-wrapper">
+                                                        <li class="nds-item nds-dc-nav_type">
+                                                          <article
+                                                            class="nds-tile nds-tile_board nds-dc-tile_board nds-m-top_small">
+                                                            <div class="nds-dc-desc_part"><input type="radio"
+                                                                name="01t6g000000OIQiAAO" id="Decline Equipment Protection-66"
+                                                                value="01t6g000000OIQ7AAO" class="nds-dc-radiobtn"><label
+                                                                for="Decline Equipment Protection-66"><span
+                                                                  title="Decline Equipment Protection"
+                                                                  class="nds-tile__title nds-truncate nds-dc-plan_name">Decline
+                                                                  Equipment Protection</span></label>
+                                                              <slot name="dc-offer-description">
+                                                                <div class="nds-tile__detail nds-dc-plan_item-description">If
+                                                                  your device is lost, stolen, damaged or experiences a
+                                                                  post-warranty defect, the replacement cost may be as high as
+                                                                  the retail prices. You only have 30 days to enroll in
+                                                                  coverage after your device activation.</div>
+                                                              </slot>
+                                                            </div>
+                                                            <slot name="dc-offer-payment">
+                                                              <div
+                                                                class="nds-grid nds-dc-plan_item-details nds-dc-single_price">
+                                                                <div class="nds-col nds-dc-plan_item-price-section">
+                                                                  <span>--</span>
+                                                                  <p class="nds-dc-payment_type">One Time</p>
+                                                                </div>
+                                                              </div>
+                                                            </slot>
+                                                          </article>
+                                                        </li>
+                                                      </slot>
+                                                    </div>
+                                                  </div>
+                                                </c-dc-offer-group-selection>
+                                              </ul>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </fieldset>
+                                    </div>
+                                    <div class="nds-dc-offer_group-separator"></div>
+                                  </div>
+                                </slot>
+                              </div>
+                            </c-dc-offer-group>
+                          </div>
+                        </div>
+                      </slot>
+                    </div>
+                  </c-dc-offer-group-sections>
+                </div>
+              </slot>
+              <div><button class="nds-button nds-button_brand nds-dc-continue-btn">More Add-ons</button></div>
+            </div>
+          </div>
         </div>
-      </div>
-      <button class="nds-dc-checkout-button">Checkout</button>
-    </div>`);
+      </c-dc-offer-config>
+    `);
   })
   .add("dcOfferGroupSelection", () => {
     return withExample(`
@@ -1200,6 +1543,306 @@ storiesOf(`${base}`, module)
                 </article>
               </li>
     `);
+  })
+  .add("dcOfferAddons", () => {
+    return withExample(`
+      <c-dc-offer-addons>
+        <div class="via-nds">
+          <slot name="dc-offer-addon-wrapper">
+            <div class="nds-dc-offer_navigation">
+              <div class="nds-dc-offer_navigation-group">
+                <c-dc-offer-group>
+                  <div class="via-nds">
+                    <slot name="dc-offer-group-wrapper">
+                      <div class="nds-dc-offer_group">
+                        <div class="nds-dc-offer_navigation nds-dc-parent">
+                          <slot name="dc-offer-group-title">
+                            <div>
+                              <div class="nds-dc-plan_title">Select your Mobile Plan</div><span
+                                class="nds-dc-underline_title"></span>
+                            </div>
+                          </slot>
+                          <slot name="dc-offer-group-collapse-icons">
+                            <div></div>
+                          </slot>
+                          <fieldset id="01t6g000000OIRMAA4-163" class="nds-form-element nds-dc-offers_fieldset"></fieldset>
+                          <div></div>
+                        </div>
+                      </div>
+                    </slot>
+                  </div>
+                </c-dc-offer-group>
+                <div>
+                  <c-dc-offer-group>
+                    <div class="via-nds">
+                      <slot name="dc-offer-group-wrapper">
+                        <div class="nds-dc-offer_group">
+                          <div class="nds-dc-offer_navigation">
+                            <slot name="dc-offer-group-title">
+                              <div>
+                                <div class="nds-dc-plan_title">Voice Options</div><span class="nds-dc-underline_title"></span>
+                              </div>
+                            </slot>
+                            <slot name="dc-offer-group-collapse-icons">
+                              <div>
+                                <div id="productCollapseInOut-164" class="nds-dc-product_collapse-in-out"><img
+                                    src="/resource/1586875002000/dc108dev__dc_assets/images/collapse.svg"
+                                    class="nds-dc-expand_collapse-icons nds-dc-collapse"></div>
+                              </div>
+                            </slot>
+                            <fieldset id="01t6g000000OIQOAA4-164" class="nds-form-element nds-dc-offers_fieldset">
+                              <div class="nds-dc-plan_options nds-dc-plan_options-child-products">
+                                <div class="nds-grid nds-wrap">
+                                  <div
+                                    class="nds-size--1-of-1 nds-small-size--1-of-1 nds-medium-size--1-of-2 nds-large-size--1-of-3 nds-dc-plan_board">
+                                    <ul>
+                                      <c-dc-offer-group-selection class="nds-dc-radio-selection">
+                                        <div class="via-nds">
+                                          <div>
+                                            <slot name="dc-group-selection-radio-wrapper">
+                                              <li class="nds-item nds-dc-nav_type nds-dc-selected">
+                                                <article class="nds-tile nds-tile_board nds-dc-tile_board nds-m-top_small">
+                                                  <div class="nds-dc-desc_part"><input type="radio" name="01t6g000000OIQOAA4"
+                                                      id="Up to 150 National Mins-165" value="01t6g000000OIQ4AAO"
+                                                      class="nds-dc-radiobtn"><label for="Up to 150 National Mins-165"><span
+                                                        title="Up to 150 National Mins"
+                                                        class="nds-tile__title nds-truncate nds-dc-plan_name">Up to 150
+                                                        National Mins</span></label>
+                                                    <slot name="dc-offer-description">
+                                                      <div class="nds-tile__detail nds-dc-plan_item-description">Standard
+                                                        National calls to landlines and mobiles to selected countries (Charged
+                                                        per min).</div>
+                                                    </slot>
+                                                  </div>
+                                                  <slot name="dc-offer-payment">
+                                                    <div class="nds-grid nds-dc-plan_item-details nds-dc-single_price">
+                                                      <div class="nds-col nds-dc-plan_item-price-section"><span>$39</span>
+                                                        <p class="nds-dc-payment_type">One Time</p>
+                                                      </div>
+                                                    </div>
+                                                  </slot>
+                                                </article>
+                                              </li>
+                                            </slot>
+                                          </div>
+                                        </div>
+                                      </c-dc-offer-group-selection>
+                                    </ul>
+                                  </div>
+                                  <div
+                                    class="nds-size--1-of-1 nds-small-size--1-of-1 nds-medium-size--1-of-2 nds-large-size--1-of-3 nds-dc-plan_board">
+                                    <ul>
+                                      <c-dc-offer-group-selection class="nds-dc-radio-selection">
+                                        <div class="via-nds">
+                                          <div>
+                                            <slot name="dc-group-selection-radio-wrapper">
+                                              <li class="nds-item nds-dc-nav_type">
+                                                <article class="nds-tile nds-tile_board nds-dc-tile_board nds-m-top_small">
+                                                  <div class="nds-dc-desc_part"><input type="radio" name="01t6g000000OIQOAA4"
+                                                      id="Up to 300 National Mins-166" value="01t6g000000OIQ0AAO"
+                                                      class="nds-dc-radiobtn"><label for="Up to 300 National Mins-166"><span
+                                                        title="Up to 300 National Mins"
+                                                        class="nds-tile__title nds-truncate nds-dc-plan_name">Up to 300
+                                                        National Mins</span></label>
+                                                    <slot name="dc-offer-description">
+                                                      <div class="nds-tile__detail nds-dc-plan_item-description">Standard
+                                                        National calls to landlines and mobiles to selected countries (Charged
+                                                        per min).</div>
+                                                    </slot>
+                                                  </div>
+                                                  <slot name="dc-offer-payment">
+                                                    <div class="nds-grid nds-dc-plan_item-details nds-dc-single_price">
+                                                      <div class="nds-col nds-dc-plan_item-price-section"><span>$59</span>
+                                                        <p class="nds-dc-payment_type">One Time</p>
+                                                      </div>
+                                                    </div>
+                                                  </slot>
+                                                </article>
+                                              </li>
+                                            </slot>
+                                          </div>
+                                        </div>
+                                      </c-dc-offer-group-selection>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </fieldset>
+                          </div>
+                          <div class="nds-dc-offer_group-separator"></div>
+                        </div>
+                      </slot>
+                    </div>
+                  </c-dc-offer-group>
+                </div>
+                <div>
+                  <c-dc-offer-group>
+                    <div class="via-nds">
+                      <slot name="dc-offer-group-wrapper">
+                        <div class="nds-dc-offer_group">
+                          <div class="nds-dc-offer_navigation">
+                            <slot name="dc-offer-group-title">
+                              <div>
+                                <div class="nds-dc-plan_title">Data Options</div><span class="nds-dc-underline_title"></span>
+                              </div>
+                            </slot>
+                            <slot name="dc-offer-group-collapse-icons">
+                              <div>
+                                <div id="productCollapseInOut-167" class="nds-dc-product_collapse-in-out"><img
+                                    src="/resource/1586875002000/dc108dev__dc_assets/images/collapse.svg"
+                                    class="nds-dc-expand_collapse-icons nds-dc-collapse"></div>
+                              </div>
+                            </slot>
+                            <fieldset id="01t6g000000OIQsAAO-167" class="nds-form-element nds-dc-offers_fieldset">
+                              <div class="nds-dc-plan_options nds-dc-plan_options-child-products">
+                                <div class="nds-grid nds-wrap">
+                                  <div
+                                    class="nds-size--1-of-1 nds-small-size--1-of-1 nds-medium-size--1-of-2 nds-large-size--1-of-3 nds-dc-plan_board">
+                                    <ul>
+                                      <c-dc-offer-group-selection class="nds-dc-radio-selection">
+                                        <div class="via-nds">
+                                          <div>
+                                            <slot name="dc-group-selection-radio-wrapper">
+                                              <li class="nds-item nds-dc-nav_type nds-dc-selected">
+                                                <article class="nds-tile nds-tile_board nds-dc-tile_board nds-m-top_small">
+                                                  <div class="nds-dc-desc_part"><input type="radio" name="01t6g000000OIQsAAO"
+                                                      id="1.5GB/Day Packs-168" value="01t6g000000OIQ3AAO"
+                                                      class="nds-dc-radiobtn"><label for="1.5GB/Day Packs-168"><span
+                                                        title="1.5GB/Day Packs"
+                                                        class="nds-tile__title nds-truncate nds-dc-plan_name">1.5GB/Day
+                                                        Packs</span></label>
+                                                    <slot name="dc-offer-description">
+                                                      <div class="nds-tile__detail nds-dc-plan_item-description">With validity
+                                                        90 days and benefits upto 135GB. Unlimited calls and 100 SMS per day
+                                                      </div>
+                                                    </slot>
+                                                  </div>
+                                                  <slot name="dc-offer-payment">
+                                                    <div class="nds-grid nds-dc-plan_item-details nds-dc-single_price">
+                                                      <div class="nds-col nds-dc-plan_item-price-section"><span>$40</span>
+                                                        <p class="nds-dc-payment_type">One Time</p>
+                                                      </div>
+                                                    </div>
+                                                  </slot>
+                                                </article>
+                                              </li>
+                                            </slot>
+                                          </div>
+                                        </div>
+                                      </c-dc-offer-group-selection>
+                                    </ul>
+                                  </div>
+                                  <div
+                                    class="nds-size--1-of-1 nds-small-size--1-of-1 nds-medium-size--1-of-2 nds-large-size--1-of-3 nds-dc-plan_board">
+                                    <ul>
+                                      <c-dc-offer-group-selection class="nds-dc-radio-selection">
+                                        <div class="via-nds">
+                                          <div>
+                                            <slot name="dc-group-selection-radio-wrapper">
+                                              <li class="nds-item nds-dc-nav_type">
+                                                <article class="nds-tile nds-tile_board nds-dc-tile_board nds-m-top_small">
+                                                  <div class="nds-dc-desc_part"><input type="radio" name="01t6g000000OIQsAAO"
+                                                      id="2GB/Day Packs-169" value="01t6g000000OIQ6AAO"
+                                                      class="nds-dc-radiobtn"><label for="2GB/Day Packs-169"><span
+                                                        title="2GB/Day Packs"
+                                                        class="nds-tile__title nds-truncate nds-dc-plan_name">2GB/Day
+                                                        Packs</span></label>
+                                                    <slot name="dc-offer-description">
+                                                      <div class="nds-tile__detail nds-dc-plan_item-description">With validity
+                                                        90 days and benefits upto 182GB. Unlimited calls and 100 SMS per day
+                                                      </div>
+                                                    </slot>
+                                                  </div>
+                                                  <slot name="dc-offer-payment">
+                                                    <div class="nds-grid nds-dc-plan_item-details nds-dc-single_price">
+                                                      <div class="nds-col nds-dc-plan_item-price-section"><span>$60</span>
+                                                        <p class="nds-dc-payment_type">One Time</p>
+                                                      </div>
+                                                    </div>
+                                                  </slot>
+                                                </article>
+                                              </li>
+                                            </slot>
+                                          </div>
+                                        </div>
+                                      </c-dc-offer-group-selection>
+                                    </ul>
+                                  </div>
+                                  <div
+                                    class="nds-size--1-of-1 nds-small-size--1-of-1 nds-medium-size--1-of-2 nds-large-size--1-of-3 nds-dc-plan_board">
+                                    <ul>
+                                      <c-dc-offer-group-selection class="nds-dc-radio-selection">
+                                        <div class="via-nds">
+                                          <div>
+                                            <slot name="dc-group-selection-radio-wrapper">
+                                              <li class="nds-item nds-dc-nav_type">
+                                                <article class="nds-tile nds-tile_board nds-dc-tile_board nds-m-top_small">
+                                                  <div class="nds-dc-desc_part"><input type="radio" name="01t6g000000OIQsAAO"
+                                                      id="Long Term Packs-170" value="01t6g000000OIQ8AAO"
+                                                      class="nds-dc-radiobtn"><label for="Long Term Packs-170"><span
+                                                        title="Long Term Packs"
+                                                        class="nds-tile__title nds-truncate nds-dc-plan_name">Long Term
+                                                        Packs</span></label>
+                                                    <slot name="dc-offer-description">
+                                                      <div class="nds-tile__detail nds-dc-plan_item-description">Validity 360
+                                                        days and benefits upto 750GB. Truly Unlimited voice calls, Unlimited
+                                                        SMS. Complimentary subscription to Netflix.</div>
+                                                    </slot>
+                                                  </div>
+                                                  <slot name="dc-offer-payment">
+                                                    <div class="nds-grid nds-dc-plan_item-details nds-dc-single_price">
+                                                      <div class="nds-col nds-dc-plan_item-price-section"><span>$499</span>
+                                                        <p class="nds-dc-payment_type">One Time</p>
+                                                      </div>
+                                                    </div>
+                                                  </slot>
+                                                </article>
+                                              </li>
+                                            </slot>
+                                          </div>
+                                        </div>
+                                      </c-dc-offer-group-selection>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </fieldset>
+                          </div>
+                          <div class="nds-dc-offer_group-separator"></div>
+                        </div>
+                      </slot>
+                    </div>
+                  </c-dc-offer-group>
+                </div>
+              </div>
+            </div>
+            <slot name="dc-addons-next-btn"><button
+                class="nds-button nds-button_brand nds-align_absolute-center nds-dc-add_to-cart-btn nds-m-top_x-large nds-dc-next-button">More
+                Add-ons</button></slot>
+          </slot>
+        </div>
+      </c-dc-offer-addons>
+    `);
+  })
+  .add("dcTotalBar", () => {
+    return withExample(``);
+  })
+  .add("dcTotalBar", () => {
+    return withExample(`
+    <div class="nds-dc-totalbar">
+      <div class="nds-dc-totalbar_price-container">
+        <div class="nds-dc-totalbar_container">
+          <span class="nds-dc-totalbar_label">Due Monthly</span>
+          <div class="nds-dc-totalbar_value">$90</div>
+        </div>
+        <span class="nds-dc-totalbar_container nds-dc-totalbar_container-pipe"></span>
+        <div class="nds-dc-totalbar_container">
+          <span class="nds-dc-totalbar_label">Due Today</span>
+          <div class="nds-dc-totalbar_value">$1200</div>
+        </div>
+      </div>
+      <button class="nds-dc-checkout-button">Checkout</button>
+    </div>`);
   })
   .add("dcProgressIndicator", () => {
     return withExample(`
