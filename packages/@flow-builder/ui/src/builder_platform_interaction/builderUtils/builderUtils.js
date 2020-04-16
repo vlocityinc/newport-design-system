@@ -1,6 +1,12 @@
 // eslint-disable-next-line lwc-core/no-interop-create, lwc-core/no-interop-dispatch, lwc-core/no-interop-render
 import { createComponent, dispatchGlobalEvent, renderComponent } from 'aura';
-import { getConfigForElementType, MODAL_SIZE } from 'builder_platform_interaction/elementConfig';
+import {
+    getConfigForElementType,
+    MODAL_SIZE,
+    EDIT_START_RECORD_CHANGE_CONTEXT,
+    EDIT_START_SCHEDULE_CONTEXT,
+    EDIT_START_JOURNEY_CONTEXT
+} from 'builder_platform_interaction/elementConfig';
 import {
     AddElementEvent,
     AddNonCanvasElementEvent,
@@ -13,7 +19,6 @@ import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './builderUtilsLabels';
 import { isObject } from 'builder_platform_interaction/commonUtils';
 import { clearExpressions } from 'builder_platform_interaction/expressionValidator';
-import { EDIT_START_CONTEXT } from 'builder_platform_interaction/elementConfig';
 
 /**
  * @constant state of callback result
@@ -121,7 +126,13 @@ const getTitleForModalHeader = (mode, elementType) => {
         case FLOW_TRIGGER_TYPE.PLATFORM_EVENT:
             label = elementConfig.labels.editPlatform;
             break;
-        case EDIT_START_CONTEXT:
+        case EDIT_START_RECORD_CHANGE_CONTEXT:
+            label = elementConfig.labels.editTriggerObjectLabel;
+            break;
+        case EDIT_START_SCHEDULE_CONTEXT:
+            label = elementConfig.labels.editObjectAndFiltersLabel;
+            break;
+        case EDIT_START_JOURNEY_CONTEXT:
             label = elementConfig.labels.editObject;
             break;
         default:

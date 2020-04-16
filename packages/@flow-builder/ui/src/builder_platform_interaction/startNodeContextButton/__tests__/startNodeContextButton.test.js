@@ -4,7 +4,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { EditElementEvent } from 'builder_platform_interaction/events';
-import { EDIT_START_CONTEXT } from 'builder_platform_interaction/elementConfig';
+import { EDIT_START_RECORD_CHANGE_CONTEXT } from 'builder_platform_interaction/elementConfig';
 
 const createComponentUnderTest = (
     triggerType,
@@ -177,7 +177,7 @@ describe('Context Button', () => {
             expect(callback.mock.calls[0][0]).toMatchObject({
                 detail: {
                     canvasElementGUID: nodeComponent.node.guid,
-                    mode: EDIT_START_CONTEXT
+                    mode: EDIT_START_RECORD_CHANGE_CONTEXT
                 }
             });
         });

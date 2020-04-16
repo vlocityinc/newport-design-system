@@ -140,6 +140,8 @@ import editPicklistChoiceSetLabel from '@salesforce/label/FlowBuilderElementConf
 import editStartElementLabel from '@salesforce/label/FlowBuilderElementConfig.editStartElementLabel';
 import editTriggerLabel from '@salesforce/label/FlowBuilderElementConfig.editTriggerLabel';
 import editObjectLabel from '@salesforce/label/FlowBuilderElementConfig.editObjectLabel';
+import editTriggerObjectLabel from '@salesforce/label/FlowBuilderElementConfig.editTriggerObjectLabel';
+import editObjectAndFiltersLabel from '@salesforce/label/FlowBuilderElementConfig.editObjectAndFiltersLabel';
 import editScheduleLabel from '@salesforce/label/FlowBuilderElementConfig.editScheduleLabel';
 import editPlatformLabel from '@salesforce/label/FlowBuilderElementConfig.editPlatformLabel';
 import newScreenLabel from '@salesforce/label/FlowBuilderElementConfig.newScreenLabel';
@@ -301,6 +303,8 @@ export const LABELS = {
     editStartElementLabel,
     editTriggerLabel,
     editObjectLabel,
+    editTriggerObjectLabel,
+    editObjectAndFiltersLabel,
     editScheduleLabel,
     editPlatformLabel,
     newScreenLabel,

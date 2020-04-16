@@ -106,7 +106,9 @@ import {
 } from 'builder_platform_interaction/elementFactory';
 import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
-export const EDIT_START_CONTEXT = 'editStartContext';
+export const EDIT_START_SCHEDULE_CONTEXT = 'editStartScheduleContext';
+export const EDIT_START_RECORD_CHANGE_CONTEXT = 'editStartRecordChangeContext';
+export const EDIT_START_JOURNEY_CONTEXT = 'editStartJourneyContext';
 
 /**
  * @constant
@@ -158,7 +160,9 @@ export const elementTypeToConfigMap = {
             [FLOW_TRIGGER_TYPE.SCHEDULED]: 'builder_platform_interaction:scheduleTriggerEditor',
             [FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY]: 'builder_platform_interaction:scheduleTriggerEditor',
             [FLOW_TRIGGER_TYPE.PLATFORM_EVENT]: 'builder_platform_interaction:platformEventEditor',
-            [EDIT_START_CONTEXT]: 'builder_platform_interaction:contextRecordEditor'
+            [EDIT_START_RECORD_CHANGE_CONTEXT]: 'builder_platform_interaction:contextRecordEditor',
+            [EDIT_START_SCHEDULE_CONTEXT]: 'builder_platform_interaction:contextRecordEditor',
+            [EDIT_START_JOURNEY_CONTEXT]: 'builder_platform_interaction:contextRecordEditor'
         },
         modalSize: MODAL_SIZE.MEDIUM,
         nodeConfig: {
@@ -186,7 +190,9 @@ export const elementTypeToConfigMap = {
             editTrigger: LABELS.editTriggerLabel,
             editSchedule: LABELS.editScheduleLabel,
             editPlatform: LABELS.editPlatformLabel,
-            editObject: LABELS.editObjectLabel
+            editObject: LABELS.editObjectLabel,
+            editTriggerObjectLabel: LABELS.editTriggerObjectLabel,
+            editObjectAndFiltersLabel: LABELS.editObjectAndFiltersLabel
         }
     },
     [ELEMENT_TYPE.SUBFLOW]: {
