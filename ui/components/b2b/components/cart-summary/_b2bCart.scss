@@ -1,0 +1,50 @@
+.nds-b2b-stretch-y {
+    height: 100%;
+}
+
+.nds-b2b-pipe {
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        width: 1px;
+        height: 3rem;
+        background-color: $palette-cool-gray-5;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+
+        @media screen and (max-width: 76rem) {
+            display: none
+        }
+    }
+}
+
+.nds-b2b-badge {
+    padding: $spacing-xx-small $spacing-x-small;
+    border: 1px solid $biscay;
+    border-radius: $border-radius-medium;
+    font-size: $font-size-small;
+    letter-spacing: 0.0625em;
+    color: $newport-input-font-kashmiri-blue;
+    white-space: nowrap;
+  
+    & + & {
+        margin-left: $spacing-x-small;
+    }
+  
+    &:empty {
+        padding: 0;
+    }
+}
+
+.nds-b2b-cart-actions {
+    @include b2b-desktop-view {
+        position: absolute;
+        right: $spacing-medium;
+        top: 50%;
+        transform: translateY(-50%);
+        max-width: 20%;
+    }
+}

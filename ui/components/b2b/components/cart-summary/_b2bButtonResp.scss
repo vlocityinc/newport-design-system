@@ -1,0 +1,41 @@
+.nds-b2b-button {
+    @at-root{
+        button#{&}{
+            white-space: nowrap;
+            @include b2b-mobile-view {
+                padding-left: $spacing-x-small;
+                padding-right: $spacing-x-small;
+            }
+        } 
+    }
+
+    .nds-b2b-button_icon {
+        @include square($square-icon-x-small-content);
+        margin: 0 $square-icon-x-small-content / 2 $square-icon-x-small-content / 4;
+    }
+}
+
+//Generate classes which will adjust the size of the icon in the button
+//on screen when the label is hidden
+@each $size in map-keys($breakpoints) {
+    $breakpoint: map-get($breakpoints, $size);
+    @media (max-width: #{pem($breakpoint)}) {
+        .nds-b2b-icon_#{$size}-adj-below {
+            .nds-b2b-button_icon {
+                @include square($square-icon-small);
+            }
+        }
+    }
+}  
+
+@each $size in map-keys($breakpoints) {
+    $breakpoint: map-get($breakpoints, $size);
+    @media (min-width: #{pem($breakpoint)}) {
+        .nds-b2b-icon_#{$size}-adj-above {
+            .nds-b2b-button_icon {
+                @include square($square-icon-small);
+            }
+        }
+    }
+}    
+
