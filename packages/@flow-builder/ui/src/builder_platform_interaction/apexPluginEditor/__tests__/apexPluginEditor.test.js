@@ -4,7 +4,11 @@ import { mockApexPluginParameters, mockApexPlugins } from 'mock/calloutData';
 import {
     ClosePropertyEditorEvent,
     CannotRetrieveCalloutParametersEvent,
-    SetPropertyEditorTitleEvent
+    SetPropertyEditorTitleEvent,
+    UpdateNodeEvent,
+    PropertyChangedEvent,
+    UpdateParameterItemEvent,
+    DeleteParameterItemEvent
 } from 'builder_platform_interaction/events';
 import { untilNoFailure, ticks } from 'builder_platform_interaction/builderTestUtils';
 
@@ -157,6 +161,61 @@ describe('Apex Plugin editor', () => {
                 'FlowBuilderApexPluginEditor.subtitle(flowchat,FlowBuilderApexPluginEditor.apexPluginTypeLabel)'
             );
         });
+    });
+    it('property changed event dispatches an UpdateNodeEvent', async () => {
+        expect.assertions(1);
+        const apexPluginEditorCmp = createComponentUnderTest(defaultNode);
+        const updateNodeCallback = jest.fn();
+        apexPluginEditorCmp.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+        await ticks(1);
+        const event = new PropertyChangedEvent('description', 'new desc', null);
+        getBaseCalloutEditor(apexPluginEditorCmp).dispatchEvent(event);
+        expect(updateNodeCallback).toHaveBeenCalledWith(
+            expect.objectContaining({
+                detail: { node: apexPluginEditorCmp.getNode() }
+            })
+        );
+    });
+    it('update parameter event dispatches an UpdateNodeEvent', async () => {
+        expect.assertions(1);
+        const apexPluginEditorCmp = createComponentUnderTest(defaultNode);
+
+        const updateNodeCallback = jest.fn();
+        apexPluginEditorCmp.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+        await ticks(1);
+        const event = new UpdateParameterItemEvent(
+            true,
+            'd58427c8-7db3-458c-b698-a2de1ed3f2f0',
+            'Phone',
+            '012345678999',
+            'String',
+            null
+        );
+        getBaseCalloutEditor(apexPluginEditorCmp).dispatchEvent(event);
+        expect(updateNodeCallback).toHaveBeenCalledWith(
+            expect.objectContaining({
+                detail: { node: apexPluginEditorCmp.getNode() }
+            })
+        );
+    });
+    it('delete parameter event dispatches an UpdateNodeEvent', async () => {
+        expect.assertions(1);
+        const apexPluginEditorCmp = createComponentUnderTest(defaultNode);
+
+        const updateNodeCallback = jest.fn();
+        apexPluginEditorCmp.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+        await ticks(1);
+
+        const event = new DeleteParameterItemEvent(true, 'd58427c8-7db3-458c-b698-a2de1ed3f2f0', 'Phone');
+        getBaseCalloutEditor(apexPluginEditorCmp).dispatchEvent(event);
+        expect(updateNodeCallback).toHaveBeenCalledWith(
+            expect.objectContaining({
+                detail: { node: apexPluginEditorCmp.getNode() }
+            })
+        );
     });
     describe('Edit existing apex plugin', () => {
         it('should dispatch a ClosePropertyEditorEvent if call to GET_APEX_PLUGIN_PARAMETERS failed', async () => {

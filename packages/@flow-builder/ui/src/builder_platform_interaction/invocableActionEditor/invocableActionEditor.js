@@ -30,6 +30,7 @@ import {
 import { translateUIModelToFlow, swapUidsForDevNames } from 'builder_platform_interaction/translatorLib';
 import { createInputParameter } from 'builder_platform_interaction/elementFactory';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
+import { UpdateNodeEvent } from 'builder_platform_interaction/events';
 
 export default class InvocableActionEditor extends LightningElement {
     connected = false;
@@ -376,13 +377,20 @@ export default class InvocableActionEditor extends LightningElement {
         return [];
     }
 
+    updateNodeForFieldLevelCommit() {
+        const removeUnsetParamsEvent = new CustomEvent(REMOVE_UNSET_PARAMETERS);
+        const actionNodeForFieldLevelCommit = invocableActionReducer(this.actionCallNode, removeUnsetParamsEvent);
+        this.dispatchEvent(new UpdateNodeEvent(actionNodeForFieldLevelCommit));
+    }
+
     /**
      * @param {object} event - property changed event coming from label-description component or parameter-item component
      */
-    handleEvent(event) {
+    handlePropertyChangedEvent(event) {
         event.stopPropagation();
         const elements = Store.getStore().getCurrentState().elements;
         this.actionCallNode = invocableActionReducer(this.actionCallNode, event, elements);
+        this.updateNodeForFieldLevelCommit();
     }
 
     updateDataTypeMappings() {
@@ -417,11 +425,13 @@ export default class InvocableActionEditor extends LightningElement {
     handleAdvancedOptionsSelectionChange(event) {
         event.stopPropagation();
         this.actionCallNode = invocableActionReducer(this.actionCallNode, event);
+        this.updateNodeForFieldLevelCommit();
     }
 
     handleDataTypeMappingChanged(event) {
         event.stopPropagation();
         this.actionCallNode = invocableActionReducer(this.actionCallNode, event);
+        this.updateNodeForFieldLevelCommit();
 
         this.updateDataTypeMappings();
         this.fetchActionParameters();

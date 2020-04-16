@@ -996,6 +996,18 @@ describe('property editor', () => {
             const propertyEditorPanel = editorComponent.shadowRoot.querySelector(selectors.propertyEditorPanel);
             expect(propertyEditorPanel.params.panelConfig.isLabelCollapsibleToHeader).toEqual(true);
         });
+        it('Panel Config isFieldLevelCommitEnabled is set to true', async () => {
+            expect.assertions(1);
+
+            const editElementEvent = new EditElementEvent('1');
+            const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+            canvasContainer.dispatchEvent(editElementEvent);
+
+            await ticks(1);
+
+            const propertyEditorPanel = editorComponent.shadowRoot.querySelector(selectors.propertyEditorPanel);
+            expect(propertyEditorPanel.params.panelConfig.isFieldLevelCommitEnabled).toEqual(true);
+        });
     });
 });
 

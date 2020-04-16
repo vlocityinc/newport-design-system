@@ -13,7 +13,8 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import {
     ClosePropertyEditorEvent,
     CannotRetrieveCalloutParametersEvent,
-    SetPropertyEditorTitleEvent
+    SetPropertyEditorTitleEvent,
+    UpdateNodeEvent
 } from 'builder_platform_interaction/events';
 
 export default class ApexPluginEditor extends LightningElement {
@@ -170,12 +171,19 @@ export default class ApexPluginEditor extends LightningElement {
         }
     }
 
+    updateNodeForFieldLevelCommit() {
+        const removeUnsetParamsEvent = new CustomEvent(REMOVE_UNSET_PARAMETERS);
+        const apexPluginNodeForFieldLevelCommit = apexPluginReducer(this.apexPluginNode, removeUnsetParamsEvent);
+        this.dispatchEvent(new UpdateNodeEvent(apexPluginNodeForFieldLevelCommit));
+    }
+
     /**
      * @param {object} event - property changed event coming from label-description and parameter-item component
      */
-    handleEvent(event) {
+    handlePropertyChangedEvent(event) {
         event.stopPropagation();
         this.apexPluginNode = apexPluginReducer(this.apexPluginNode, event);
+        this.updateNodeForFieldLevelCommit();
     }
 
     updatePropertyEditorTitle() {

@@ -325,6 +325,7 @@ export const getPropertyEditorConfig = (mode, attributes) => {
         flavor: elementConfig.modalSize,
         bodyClass: elementConfig.bodyCssClass || '',
         isLabelCollapsibleToHeader: false,
+        isFieldLevelCommitEnabled: false,
         elementType
     };
 

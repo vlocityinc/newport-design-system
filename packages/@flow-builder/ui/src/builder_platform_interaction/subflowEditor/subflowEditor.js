@@ -9,7 +9,8 @@ import { getParameterListWarnings } from 'builder_platform_interaction/calloutEd
 import {
     ClosePropertyEditorEvent,
     CannotRetrieveCalloutParametersEvent,
-    SetPropertyEditorTitleEvent
+    SetPropertyEditorTitleEvent,
+    UpdateNodeEvent
 } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { isAutomaticOutputHandlingSupported } from 'builder_platform_interaction/invocableActionLib';
@@ -163,6 +164,12 @@ export default class SubflowEditor extends LightningElement {
         this.dispatchEvent(setPropertyEditorTitleEvent);
     }
 
+    updateNodeForFieldLevelCommit() {
+        const removeUnsetAssignmentsEvent = new CustomEvent(REMOVE_UNSET_ASSIGNMENTS);
+        const subflowNodeForFieldLevelCommit = subflowReducer(this.subflowNode, removeUnsetAssignmentsEvent);
+        this.dispatchEvent(new UpdateNodeEvent(subflowNodeForFieldLevelCommit));
+    }
+
     @api
     get node() {
         return this.subflowNode;
@@ -244,9 +251,10 @@ export default class SubflowEditor extends LightningElement {
     /**
      * @param {object} event - property changed event coming from label-description component and parameter-item component
      */
-    handleEvent(event) {
+    handlePropertyChangedEvent(event) {
         event.stopPropagation();
         this.subflowNode = subflowReducer(this.subflowNode, event);
+        this.updateNodeForFieldLevelCommit();
     }
 
     /**
@@ -256,5 +264,6 @@ export default class SubflowEditor extends LightningElement {
     handleAdvancedOptionsSelectionChange(event) {
         event.stopPropagation();
         this.subflowNode = subflowReducer(this.subflowNode, event);
+        this.updateNodeForFieldLevelCommit();
     }
 }

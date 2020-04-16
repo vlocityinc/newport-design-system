@@ -5,9 +5,15 @@ import { mockSubflowVariables } from 'mock/calloutData';
 import {
     ClosePropertyEditorEvent,
     CannotRetrieveCalloutParametersEvent,
-    SetPropertyEditorTitleEvent
+    SetPropertyEditorTitleEvent,
+    UpdateNodeEvent,
+    PropertyChangedEvent,
+    UseAdvancedOptionsSelectionChangedEvent,
+    UpdateParameterItemEvent,
+    DeleteParameterItemEvent
 } from 'builder_platform_interaction/events';
 import { untilNoFailure, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
@@ -133,7 +139,7 @@ const subflowNode = {
     ],
     availableConnections: [],
     maxConnections: 1,
-    elementType: 'SUBFLOW'
+    elementType: ELEMENT_TYPE.SUBFLOW
 };
 
 const selectors = {
@@ -168,6 +174,83 @@ describe('subflow-editor', () => {
             const baseCalloutEditor = getBaseCalloutEditor(subflowEditor);
             expect(baseCalloutEditor.subtitle).toBe('FlowBuilderSubflowEditor.subtitle(mynamespace__subflow)');
         });
+    });
+    it('property changed event dispatches an UpdateNodeEvent', async () => {
+        expect.assertions(1);
+        subflowEditor = createComponentUnderTest(subflowNode, {
+            isNewMode: false
+        });
+        const updateNodeCallback = jest.fn();
+        subflowEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+        await ticks(1);
+        const event = new PropertyChangedEvent('description', 'new desc', null);
+        getBaseCalloutEditor(subflowEditor).dispatchEvent(event);
+        expect(updateNodeCallback).toHaveBeenCalledWith(
+            expect.objectContaining({
+                detail: { node: subflowEditor.getNode() }
+            })
+        );
+    });
+    it('update parameter event dispatches an UpdateNodeEvent', async () => {
+        expect.assertions(1);
+        subflowEditor = createComponentUnderTest(subflowNode, {
+            isNewMode: false
+        });
+        const updateNodeCallback = jest.fn();
+        subflowEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+        await ticks(1);
+
+        const event = new UpdateParameterItemEvent(
+            true,
+            'fb1782fd-1434-41dc-89ff-675f209be855',
+            'inputNumberVariable',
+            '5',
+            'Number',
+            null
+        );
+        getBaseCalloutEditor(subflowEditor).dispatchEvent(event);
+        expect(updateNodeCallback).toHaveBeenCalledWith(
+            expect.objectContaining({
+                detail: { node: subflowEditor.getNode() }
+            })
+        );
+    });
+    it('delete parameter event dispatches an UpdateNodeEvent', async () => {
+        expect.assertions(1);
+        subflowEditor = createComponentUnderTest(subflowNode, {
+            isNewMode: false
+        });
+        const updateNodeCallback = jest.fn();
+        subflowEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+        await ticks(1);
+
+        const event = new DeleteParameterItemEvent(true, 'fb1782fd-1434-41dc-89ff-675f209be855', 'inputNumberVariable');
+        getBaseCalloutEditor(subflowEditor).dispatchEvent(event);
+        expect(updateNodeCallback).toHaveBeenCalledWith(
+            expect.objectContaining({
+                detail: { node: subflowEditor.getNode() }
+            })
+        );
+    });
+    it('use advanced options selection change event dispatches an UpdateNodeEvent', async () => {
+        expect.assertions(1);
+        subflowEditor = createComponentUnderTest(subflowNode, {
+            isNewMode: false
+        });
+        const updateNodeCallback = jest.fn();
+        subflowEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+        await ticks(1);
+        const event = new UseAdvancedOptionsSelectionChangedEvent(true);
+        getBaseCalloutEditor(subflowEditor).dispatchEvent(event);
+        expect(updateNodeCallback).toHaveBeenCalledWith(
+            expect.objectContaining({
+                detail: { node: subflowEditor.getNode() }
+            })
+        );
     });
     describe('Edit existing subflow', () => {
         it('should dispatch a ClosePropertyEditorEvent if we cannot get the input/output variables', async () => {

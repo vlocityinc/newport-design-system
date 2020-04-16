@@ -125,7 +125,8 @@ export default class CalloutEditor extends LightningElement {
 
     updateSelectedAction() {
         let newSelectedAction = {
-            elementType: this.node.elementType
+            elementType: this.node.elementType,
+            guid: this.node.guid
         };
         if (this.node.elementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
             const apexClass = getValueFromHydratedItem(this.node.apexClass);
@@ -213,14 +214,17 @@ export default class CalloutEditor extends LightningElement {
 
     handleActionSelected(event) {
         event.stopPropagation();
-        this.selectedAction = event.detail.value;
+        this.selectedAction = Object.assign({}, event.detail.value, {
+            guid: this.node.guid
+        });
+
         this.selectedActionError = event.detail.error;
     }
 
     handleCannotRetrieveParameters(event) {
         event.stopPropagation();
         // reset selected action
-        this.selectedAction = { elementType: this.selectedAction.elementType };
+        this.selectedAction = { elementType: this.selectedAction.elementType, guid: this.node.guid };
     }
 
     handleCannotRetrieveActions(event) {
@@ -242,9 +246,15 @@ export default class CalloutEditor extends LightningElement {
         this.selectedCategory = event.detail.name;
 
         if (this.selectedFilterBy === LABELS.filterByTypeOption) {
-            this.selectedAction = { elementType: this.selectedCategory };
+            this.selectedAction = {
+                elementType: this.selectedCategory,
+                guid: this.node.guid
+            };
         } else {
-            this.selectedAction = { elementType: ELEMENT_TYPE.ACTION_CALL };
+            this.selectedAction = {
+                elementType: ELEMENT_TYPE.ACTION_CALL,
+                guid: this.node.guid
+            };
         }
     }
 }

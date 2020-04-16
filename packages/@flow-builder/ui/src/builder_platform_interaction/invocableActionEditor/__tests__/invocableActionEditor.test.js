@@ -5,7 +5,15 @@ import { chatterPostActionDetails as mockActionDetails } from 'serverData/GetInv
 import {
     ClosePropertyEditorEvent,
     CannotRetrieveCalloutParametersEvent,
-    SetPropertyEditorTitleEvent
+    SetPropertyEditorTitleEvent,
+    UpdateNodeEvent,
+    PropertyChangedEvent,
+    UpdateParameterItemEvent,
+    DeleteParameterItemEvent,
+    UseAdvancedOptionsSelectionChangedEvent,
+    ConfigurationEditorChangeEvent,
+    ConfigurationEditorPropertyDeleteEvent,
+    DynamicTypeMappingChangeEvent
 } from 'builder_platform_interaction/events';
 import { untilNoFailure, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -29,6 +37,23 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
         FLOW_AUTOMATIC_OUTPUT_HANDLING: actual.FLOW_AUTOMATIC_OUTPUT_HANDLING,
         getProcessTypeAutomaticOutPutHandlingSupport: jest.fn()
     };
+});
+
+jest.mock('../invocableActionReducer', () => {
+    const actual = require.requireActual('../invocableActionReducer');
+    const events = require.requireActual('builder_platform_interaction/events');
+    return Object.assign({}, actual, {
+        invocableActionReducer: (actionCallNode, event) => {
+            if (
+                event.type === events.ConfigurationEditorPropertyDeleteEvent.EVENT_NAME ||
+                event.type === events.ConfigurationEditorChangeEvent.EVENT_NAME ||
+                event.type === events.DynamicTypeMappingChangeEvent.EVENT_NAME
+            ) {
+                return actionCallNode;
+            }
+            return actual.invocableActionReducer(actionCallNode, event);
+        }
+    });
 });
 
 const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');
@@ -219,6 +244,141 @@ describe('Invocable Action editor', () => {
                 'FlowBuilderInvocableActionEditor.subtitle(chatterPost,FlowBuilderInvocableActionEditor.coreActionTypeLabel)'
             );
         });
+    });
+    it('property changed event dispatches an UpdateNodeEvent', async () => {
+        expect.assertions(1);
+        const actionEditorCmp = createComponentUnderTest(defaultNode, {
+            isNewMode: false
+        });
+        const updateNodeCallback = jest.fn();
+        actionEditorCmp.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+        await ticks(1);
+        const event = new PropertyChangedEvent('description', 'new desc', null);
+        getBaseCalloutEditor(actionEditorCmp).dispatchEvent(event);
+        expect(updateNodeCallback).toHaveBeenCalledWith(
+            expect.objectContaining({
+                detail: { node: actionEditorCmp.getNode() }
+            })
+        );
+    });
+    it('update parameter event dispatches an UpdateNodeEvent', async () => {
+        expect.assertions(1);
+        const actionEditorCmp = createComponentUnderTest(defaultNode, {
+            isNewMode: false
+        });
+        const updateNodeCallback = jest.fn();
+        actionEditorCmp.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+        await ticks(1);
+
+        const event = new UpdateParameterItemEvent(
+            true,
+            '58d8bd82-1977-4cf3-a5a7-f629347fa0e8',
+            'subjectNameOrId',
+            '578b0f58-afd1-4ddb-9d7e-fdfe6ab570ff',
+            'reference',
+            null
+        );
+        getBaseCalloutEditor(actionEditorCmp).dispatchEvent(event);
+        expect(updateNodeCallback).toHaveBeenCalledWith(
+            expect.objectContaining({
+                detail: { node: actionEditorCmp.getNode() }
+            })
+        );
+    });
+    it('delete parameter event dispatches an UpdateNodeEvent', async () => {
+        expect.assertions(1);
+        const actionEditorCmp = createComponentUnderTest(defaultNode, {
+            isNewMode: false
+        });
+        const updateNodeCallback = jest.fn();
+        actionEditorCmp.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+        await ticks(1);
+
+        const event = new DeleteParameterItemEvent(true, '58d8bd82-1977-4cf3-a5a7-f629347fa0e8', 'subjectNameOrId');
+        getBaseCalloutEditor(actionEditorCmp).dispatchEvent(event);
+        expect(updateNodeCallback).toHaveBeenCalledWith(
+            expect.objectContaining({
+                detail: { node: actionEditorCmp.getNode() }
+            })
+        );
+    });
+    it('configuration editor input value changed event dispatches an UpdateNodeEvent', async () => {
+        expect.assertions(1);
+        const actionEditorCmp = createComponentUnderTest(defaultNode, {
+            isNewMode: false
+        });
+        const updateNodeCallback = jest.fn();
+        actionEditorCmp.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+        await ticks(1);
+
+        const event = new ConfigurationEditorChangeEvent('text');
+        getBaseCalloutEditor(actionEditorCmp).dispatchEvent(event);
+        expect(updateNodeCallback).toHaveBeenCalledWith(
+            expect.objectContaining({
+                detail: { node: actionEditorCmp.getNode() }
+            })
+        );
+    });
+    it('configuration editor input value deleted event dispatches an UpdateNodeEvent', async () => {
+        expect.assertions(1);
+        const actionEditorCmp = createComponentUnderTest(defaultNode, {
+            isNewMode: false
+        });
+        const updateNodeCallback = jest.fn();
+        actionEditorCmp.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+        await ticks(1);
+
+        const event = new ConfigurationEditorPropertyDeleteEvent('text');
+        getBaseCalloutEditor(actionEditorCmp).dispatchEvent(event);
+        expect(updateNodeCallback).toHaveBeenCalledWith(
+            expect.objectContaining({
+                detail: { node: actionEditorCmp.getNode() }
+            })
+        );
+    });
+    it('use advanced options selection change event dispatches an UpdateNodeEvent', async () => {
+        expect.assertions(1);
+        const actionEditorCmp = createComponentUnderTest(defaultNode, {
+            isNewMode: false
+        });
+        const updateNodeCallback = jest.fn();
+        actionEditorCmp.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+        await ticks(1);
+        const event = new UseAdvancedOptionsSelectionChangedEvent(true);
+        getBaseCalloutEditor(actionEditorCmp).dispatchEvent(event);
+        expect(updateNodeCallback).toHaveBeenCalledWith(
+            expect.objectContaining({
+                detail: { node: actionEditorCmp.getNode() }
+            })
+        );
+    });
+    it('dynamic data type mapping change event dispatches an UpdateNodeEvent', async () => {
+        expect.assertions(1);
+        const actionEditorCmp = createComponentUnderTest(defaultNode, {
+            isNewMode: false
+        });
+        const updateNodeCallback = jest.fn();
+        actionEditorCmp.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
+
+        await ticks(1);
+        const event = new DynamicTypeMappingChangeEvent({
+            typeName: 'T_inputCollection',
+            typeValue: 'CaseSolution',
+            error: null,
+            rowIndex: 'b5243fc4-38e8-475e-b046-5c1ed74ca8f9'
+        });
+        getBaseCalloutEditor(actionEditorCmp).dispatchEvent(event);
+        expect(updateNodeCallback).toHaveBeenCalledWith(
+            expect.objectContaining({
+                detail: { node: actionEditorCmp.getNode() }
+            })
+        );
     });
     describe('Edit existing invocable action', () => {
         it('should dispatch a ClosePropertyEditorEvent if call to GET_INVOCABLE_ACTION_DETAILS failed', async () => {

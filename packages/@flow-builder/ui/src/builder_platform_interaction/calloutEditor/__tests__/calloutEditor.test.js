@@ -63,6 +63,12 @@ const dispatchValueChangeEvent = (component, value, error = null) => {
     component.dispatchEvent(changeEvent);
 };
 
+const getSelectEvent = inputValue => {
+    return new CustomEvent('select', {
+        detail: { value: inputValue }
+    });
+};
+
 const dispatchSelectedActionChangeEvent = (component, actionName, actionType) =>
     dispatchValueChangeEvent(component, {
         actionName,
@@ -143,6 +149,76 @@ describe('callout-editor', () => {
             expect(getContainer(calloutEditor).hasActions).toEqual({
                 value: true
             });
+        });
+        it('actions loaded event sets guid to selected action when node guid is set', async () => {
+            calloutEditor = setupComponentUnderTest();
+            calloutEditor.node = { guid: '5' };
+            await ticks(1);
+            const changeEvent = new ActionsLoadedEvent(mockSelectedAction.actionName, 0);
+            getActionSelector(calloutEditor).dispatchEvent(changeEvent);
+            await ticks(1);
+            expect(getContainer(calloutEditor).selectedAction.guid).toEqual('5');
+        });
+        it('actions loaded event sets guid undefined to selected action when node guid is undefined', async () => {
+            calloutEditor = setupComponentUnderTest();
+            await ticks(1);
+            const changeEvent = new ActionsLoadedEvent(mockSelectedAction.actionName, 0);
+            getActionSelector(calloutEditor).dispatchEvent(changeEvent);
+            await ticks(1);
+            expect(getContainer(calloutEditor).selectedAction.guid).toBeUndefined();
+        });
+        it('cannot retrieve callout parameter event sets guid to selected action when node guid is set', async () => {
+            calloutEditor = setupComponentUnderTest();
+            calloutEditor.node = { guid: '5' };
+            await ticks(1);
+            const changeEvent = new CannotRetrieveCalloutParametersEvent();
+            getContainer(calloutEditor).dispatchEvent(changeEvent);
+            await ticks(1);
+            expect(getContainer(calloutEditor).selectedAction.guid).toEqual('5');
+        });
+        it('cannot retrieve callout parameter event sets guid undefined to selected action when node guid is undefined', async () => {
+            calloutEditor = setupComponentUnderTest();
+            await ticks(1);
+            const changeEvent = new CannotRetrieveCalloutParametersEvent();
+            getContainer(calloutEditor).dispatchEvent(changeEvent);
+            await ticks(1);
+            expect(getContainer(calloutEditor).selectedAction.guid).toBeUndefined();
+        });
+        it('category select event on filtered by type sets guid to selected action when node guid is set', async () => {
+            calloutEditor = setupComponentUnderTest();
+            calloutEditor.filterBy = LABELS.filterByTypeOption;
+            calloutEditor.node = { guid: '5' };
+            await ticks(1);
+            const changeEvent = getSelectEvent('test name');
+            actionCategories(calloutEditor).dispatchEvent(changeEvent);
+            await ticks(1);
+            expect(getContainer(calloutEditor).selectedAction.guid).toEqual('5');
+        });
+        it('category select event on filtered by type sets guid undefined to selected action when node guid is undefined', async () => {
+            calloutEditor = setupComponentUnderTest();
+            calloutEditor.filterBy = LABELS.filterByTypeOption;
+            await ticks(1);
+            const changeEvent = getSelectEvent('test name');
+            actionCategories(calloutEditor).dispatchEvent(changeEvent);
+            await ticks(1);
+            expect(getContainer(calloutEditor).selectedAction.guid).toBeUndefined();
+        });
+        it('category select event on any filter sets guid to selected action when node guid is set', async () => {
+            calloutEditor = setupComponentUnderTest();
+            calloutEditor.node = { guid: '5' };
+            await ticks(1);
+            const changeEvent = getSelectEvent('test name');
+            actionCategories(calloutEditor).dispatchEvent(changeEvent);
+            await ticks(1);
+            expect(getContainer(calloutEditor).selectedAction.guid).toEqual('5');
+        });
+        it('category select event on any filter sets guid undefined to selected action when node guid is undefined', async () => {
+            calloutEditor = setupComponentUnderTest();
+            await ticks(1);
+            const changeEvent = getSelectEvent('test name');
+            actionCategories(calloutEditor).dispatchEvent(changeEvent);
+            await ticks(1);
+            expect(getContainer(calloutEditor).selectedAction.guid).toBeUndefined();
         });
     });
     it('has an action-selector component', () => {
@@ -274,6 +350,20 @@ describe('callout-editor', () => {
         });
         it('does not render the action selector', async () => {
             expect(getActionSelector(calloutEditor)).toBeNull();
+        });
+    });
+    describe('callout editor node guid setup in panel', () => {
+        it('initally there is no guid set on node and in modal too', () => {
+            expect.assertions(1);
+            expect(calloutEditor.node.guid).toBeUndefined();
+        });
+        it('set up guid when its passed in node', async () => {
+            expect.assertions(1);
+            calloutEditor.node = { elementType: ELEMENT_TYPE.ACTION_CALL, guid: '5' };
+
+            await ticks(1);
+
+            expect(calloutEditor.node.guid).toEqual('5');
         });
     });
 });

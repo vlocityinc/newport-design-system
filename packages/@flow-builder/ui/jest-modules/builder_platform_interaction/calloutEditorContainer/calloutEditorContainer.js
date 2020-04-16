@@ -7,6 +7,7 @@ export default class CalloutEditorContainer extends LightningElement {
     @api hasActions;
     @api location;
     @api filterBy;
+    @api editorParams;
     @api invocableActionsFetched;
     @api invocableActions;
     @api processType;

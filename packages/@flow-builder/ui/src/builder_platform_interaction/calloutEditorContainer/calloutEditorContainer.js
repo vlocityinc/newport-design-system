@@ -21,6 +21,9 @@ export default class CalloutEditorContainer extends LightningElement {
         noActionHeadingMedium: ''
     };
 
+    @api
+    editorParams;
+
     /**
      * The currently selected action
      * @type {Object}
@@ -93,6 +96,7 @@ export default class CalloutEditorContainer extends LightningElement {
     set invocableActionsFetched(value) {
         this._invocableActionsFetched = value;
     }
+
     /**
      * Sets the selected action
      * This will create a flow element of the corresponding element type
@@ -116,16 +120,23 @@ export default class CalloutEditorContainer extends LightningElement {
                 locationX: this.node.locationX,
                 locationY: this.node.locationY
             },
-            this._selectedAction
+            this._selectedAction,
+            {
+                guid: this._selectedAction.guid ? this._selectedAction.guid : node.guid
+            }
         );
 
         addFlcProperties(node, this.node);
 
-        const editorNode = this.getNode();
+        let editorNode = this.getNode();
         if (editorNode) {
             node.name = editorNode.name;
             node.label = editorNode.label;
             node.description = editorNode.description;
+            editorNode = Object.assign({}, editorNode, this._selectedAction);
+        }
+        if (this.editorParams && this.editorParams.panelConfig.isFieldLevelCommitEnabled && editorNode) {
+            node = Object.assign({}, node, editorNode);
         }
         // set this to our member variable so that we can pass to the selected property editor template
         this.node = node;
