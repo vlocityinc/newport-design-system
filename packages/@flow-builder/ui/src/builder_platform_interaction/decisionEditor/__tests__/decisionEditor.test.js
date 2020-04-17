@@ -1,25 +1,15 @@
 import { createElement } from 'lwc';
 import DecisionEditor from 'builder_platform_interaction/decisionEditor';
 import { decisionReducer } from '../decisionReducer';
-import { DeleteOutcomeEvent, PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
+import {
+    DeleteOutcomeEvent,
+    PropertyChangedEvent,
+    UpdateNodeEvent,
+    ReorderListEvent
+} from 'builder_platform_interaction/events';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
-import { deepCopy } from 'builder_platform_interaction/storeLib';
 
-const mockNewState = {
-    label: { value: 'New Decision' },
-    name: { value: 'New Dec Dev Name' },
-    guid: { value: 'decision99' },
-    defaultConnectorLabel: { value: 'foo' },
-    outcomes: [
-        {
-            guid: 'outcome 3',
-            label: { value: '' },
-            name: { value: '' },
-            conditionLogic: { value: '' },
-            conditions: []
-        }
-    ]
-};
+let mockNewState;
 
 const DEFAULT_OUTCOME_ID = 'defaultOutcome';
 
@@ -83,6 +73,29 @@ beforeEach(() => {
             {
                 guid: 'outcome2',
                 label: { value: '' },
+                conditionLogic: { value: '' },
+                conditions: []
+            }
+        ]
+    };
+
+    mockNewState = {
+        label: { value: 'New Decision' },
+        name: { value: 'New Dec Dev Name' },
+        guid: { value: 'decision99' },
+        defaultConnectorLabel: { value: 'foo' },
+        outcomes: [
+            {
+                guid: 'outcome1',
+                label: { value: '' },
+                name: { value: '' },
+                conditionLogic: { value: '' },
+                conditions: []
+            },
+            {
+                guid: 'outcome2',
+                label: { value: '' },
+                name: { value: '' },
                 conditionLogic: { value: '' },
                 conditions: []
             }
@@ -158,6 +171,24 @@ describe('Decision Editor', () => {
                     expect(outcomeElement.outcome).toEqual(decisionWithTwoOutcomes.outcomes[1]);
                 });
         });
+
+        it('dispatches an UpdateNodeEvent when outcome is deleted', async () => {
+            const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
+
+            const updateNodeCallBack = jest.fn();
+            decisionEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallBack);
+
+            await ticks(1);
+            const event = new DeleteOutcomeEvent('outcome2');
+            const outcomeElement = decisionEditor.shadowRoot.querySelector(SELECTORS.OUTCOME);
+            outcomeElement.dispatchEvent(event);
+
+            expect(updateNodeCallBack).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: { node: decisionEditor.node }
+                })
+            );
+        });
     });
 
     describe('showDeleteOutcome', () => {
@@ -229,6 +260,23 @@ describe('Decision Editor', () => {
                 expect(menuItems[0].hasErrors).toBeTruthy();
                 expect(menuItems[1].hasErrors).toBeTruthy();
             });
+            it('dispatches an UpdateNodeEvent when reording outcomes', async () => {
+                const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
+
+                const updateNodeCallBack = jest.fn();
+                decisionEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallBack);
+
+                await ticks(1);
+                const event = new ReorderListEvent('outcome1', 'outcome2', null);
+                const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
+                reorderableOutcomeNav.dispatchEvent(event);
+
+                expect(updateNodeCallBack).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        detail: { node: decisionEditor.node }
+                    })
+                );
+            });
         });
     });
 
@@ -289,6 +337,31 @@ describe('Decision Editor', () => {
 
             expect(menuItems[1].hasErrors).toBeTruthy();
         });
+        it('should dispatch an UpdateNodeEvent when default outcome gets updated', async () => {
+            const decisionEditor = createComponentForTest(decisionWithOneOutcome);
+
+            // trigger showing of default outcome
+            const reorderableOutcomeNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
+            reorderableOutcomeNav.dispatchEvent(
+                new CustomEvent('itemselected', {
+                    detail: { itemId: DEFAULT_OUTCOME_ID }
+                })
+            );
+
+            const updateNodeCallBack = jest.fn();
+            decisionEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallBack);
+
+            await ticks(1);
+            const event = new PropertyChangedEvent('label', 'new label', null);
+            const defaultOutcome = decisionEditor.shadowRoot.querySelector(SELECTORS.DEFAULT_OUTCOME);
+            defaultOutcome.dispatchEvent(event);
+
+            expect(updateNodeCallBack).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: { node: decisionEditor.node }
+                })
+            );
+        });
     });
 
     describe('handleAddOutcome', () => {
@@ -313,12 +386,27 @@ describe('Decision Editor', () => {
             const outcome = decisionEditor.shadowRoot.querySelector(SELECTORS.OUTCOME);
             expect(outcome.shouldFocus).toBe(false);
         });
+        it('should dispatch an UpdateNodeEvent when add button is clicked', async () => {
+            const decisionEditor = createComponentForTest(decisionWithOneOutcome);
+
+            const updateNodeCallBack = jest.fn();
+            decisionEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallBack);
+
+            await ticks(1);
+            const addButton = decisionEditor.shadowRoot.querySelector(SELECTORS.ADD_OUTCOME_BUTTON);
+            addButton.dispatchEvent(new CustomEvent('click'));
+
+            expect(updateNodeCallBack).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    detail: { node: decisionEditor.node }
+                })
+            );
+        });
     });
 
     describe('handlePropertyChangedEvent', () => {
         it('property changed event dispatches an UpdateNodeEvent', async () => {
             const decisionEditor = createComponentForTest(decisionWithOneOutcome);
-            decisionEditor.node = deepCopy(mockNewState);
 
             const updateNodeCallBack = jest.fn();
             decisionEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallBack);

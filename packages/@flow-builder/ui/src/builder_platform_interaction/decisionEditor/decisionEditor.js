@@ -79,7 +79,9 @@ export default class DecisionEditor extends LightningElement {
 
     set node(newValue) {
         this.decisionElement = newValue;
-        this.activeOutcomeId = this.decisionElement.outcomes[0].guid;
+        if (!this.activeOutcomeId) {
+            this.activeOutcomeId = this.decisionElement.outcomes[0].guid;
+        }
     }
 
     get showDeleteOutcome() {
@@ -132,6 +134,7 @@ export default class DecisionEditor extends LightningElement {
             outcome.focus();
         }
         this.shouldFocus = true;
+        this.dispatchEvent(new UpdateNodeEvent(this.decisionElement));
     }
 
     renderedCallback() {
@@ -159,6 +162,7 @@ export default class DecisionEditor extends LightningElement {
         const defaultOutcomeChangedEvent = new PropertyChangedEvent('defaultConnectorLabel', event.detail.value);
 
         this.decisionElement = decisionReducer(this.decisionElement, defaultOutcomeChangedEvent);
+        this.dispatchEvent(new UpdateNodeEvent(this.decisionElement));
     }
 
     /**
@@ -172,6 +176,7 @@ export default class DecisionEditor extends LightningElement {
         if (this.decisionElement.outcomes.length < originalNumberOfOutcomes) {
             this.activeOutcomeId = this.decisionElement.outcomes[0].guid;
         }
+        this.dispatchEvent(new UpdateNodeEvent(this.decisionElement));
     }
 
     /**
@@ -181,6 +186,7 @@ export default class DecisionEditor extends LightningElement {
     handleReorderOutcomes(event) {
         event.stopPropagation();
         this.decisionElement = decisionReducer(this.decisionElement, event);
+        this.dispatchEvent(new UpdateNodeEvent(this.decisionElement));
     }
 
     handleOutcomeSelected(event) {

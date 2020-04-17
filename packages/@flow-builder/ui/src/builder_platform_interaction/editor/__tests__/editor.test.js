@@ -27,13 +27,6 @@ import { setUseFixedLayoutCanvas } from 'builder_platform_interaction/contextLib
 
 let mockSubscribers = [];
 let mockStoreState;
-// let element;
-// let deselectionAction;
-// let deleteElementByGuid;
-// let deleteElementByIsSelected;
-// let deleteDecision;
-// let updateElementAction;
-// let connectorElement;
 
 jest.mock('builder_platform_interaction/preloadLib', () => {
     return {
