@@ -237,6 +237,10 @@ export default class Toolbar extends LightningElement {
 
     handleDuplicateButtonClick(event) {
         event.preventDefault();
+        // TODO: Right now we are firing a seperate ClosePropertyEditorEvent to address the property
+        // editor panel close and open happening in one tick issue. Should consider removing it and move
+        // the close panel logic to duplicate event handler for cleaner logic seperation
+        // https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B00000078hChIAI/view
         const closePropertyEditorEvent = new ClosePropertyEditorEvent();
         this.dispatchEvent(closePropertyEditorEvent);
         const duplicateEvent = new DuplicateEvent();

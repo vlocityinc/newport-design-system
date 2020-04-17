@@ -757,9 +757,11 @@ export default class Editor extends LightningElement {
 
     /**
      * Handles the toggleSelectionMode event and toggles the isSelectionMode
+     * Toggle selection mode also closes the property editor panel
      */
     handleToggleSelectionMode = () => {
         this.isSelectionMode = !this.isSelectionMode;
+        this.handleClosePropertyEditor();
     };
 
     /**

@@ -14,7 +14,8 @@ import {
     EditElementEvent,
     ToggleMarqueeOnEvent,
     SelectNodeEvent,
-    DuplicateEvent
+    DuplicateEvent,
+    ToggleSelectionModeEvent
 } from 'builder_platform_interaction/events';
 import { addElement, updateCanvasElementLocation, updateElement } from 'builder_platform_interaction/actions';
 import { Store, generateGuid } from 'builder_platform_interaction/storeLib';
@@ -1041,6 +1042,19 @@ describe('use fixed layout canvas', () => {
             const event = new ClosePropertyEditorEvent();
             const flcBuilderContainer = editorComponent.shadowRoot.querySelector(selectors.flcBuilderContainer);
             flcBuilderContainer.dispatchEvent(event);
+
+            await ticks(1);
+            rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+            expect(rightPanel).toBeNull();
+        });
+
+        it('closes the property editor on when toolbar fires toggle selection mode event', async () => {
+            expect.assertions(2);
+            expect(rightPanel).not.toBeNull();
+
+            const event = new ToggleSelectionModeEvent();
+            const toolbar = editorComponent.shadowRoot.querySelector('builder_platform_interaction-toolbar');
+            toolbar.dispatchEvent(event);
 
             await ticks(1);
             rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
