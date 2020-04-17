@@ -47,3 +47,8 @@
     }
   }
 }
+
+// For OmniScript repeat icons. Allows user to select the repeat icons even when an element is read only
+.omni-repeat-button-group {
+  pointer-events: auto;
+}
