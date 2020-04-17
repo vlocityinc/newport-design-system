@@ -32,7 +32,7 @@ import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/commonUtils', () => {
-    const actual = require.requireActual('builder_platform_interaction/commonUtils');
+    const actual = jest.requireActual('builder_platform_interaction/commonUtils');
     return {
         addCurlyBraces: actual.addCurlyBraces,
         removeCurlyBraces: actual.removeCurlyBraces,
@@ -70,7 +70,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 });
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/ruleLib');
+    const actual = jest.requireActual('builder_platform_interaction/ruleLib');
     return {
         PARAM_PROPERTY: actual.PARAM_PROPERTY,
         getDataType: actual.getDataType,
@@ -79,7 +79,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
 });
 
 jest.mock('../menuDataGenerator', () => {
-    const actual = require.requireActual('../menuDataGenerator');
+    const actual = jest.requireActual('../menuDataGenerator');
     return {
         mutateFlowResourceToComboboxShape: actual.mutateFlowResourceToComboboxShape,
         getMenuItemForField: jest.fn(),

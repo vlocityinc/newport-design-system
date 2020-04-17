@@ -24,7 +24,7 @@ jest.mock('builder_platform_interaction/contextLib', () => {
     });
 });
 jest.mock('builder_platform_interaction/processTypeLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/processTypeLib');
+    const actual = jest.requireActual('builder_platform_interaction/processTypeLib');
     return {
         FLOW_AUTOMATIC_OUTPUT_HANDLING: actual.FLOW_AUTOMATIC_OUTPUT_HANDLING,
         getProcessTypeAutomaticOutPutHandlingSupport: jest.fn()
@@ -69,7 +69,7 @@ const mockGetScreenFieldTypeByNameEmail = () => ({
 });
 
 jest.mock('builder_platform_interaction/screenEditorUtils', () => {
-    const actual = require.requireActual('builder_platform_interaction/screenEditorUtils');
+    const actual = jest.requireActual('builder_platform_interaction/screenEditorUtils');
     return Object.assign({}, actual, {
         getScreenFieldTypeByName: jest.fn().mockImplementation(name => {
             if (name === 'Column') {

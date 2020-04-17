@@ -32,7 +32,7 @@ const createComponentUnderTest = (node, { isNewMode = false } = {}) => {
     return el;
 };
 
-const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');
+const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest
     .fn()
     .mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
@@ -41,7 +41,7 @@ let mockSubflowVariablesPromise = Promise.resolve(mockSubflowVariables);
 let mockSubflowsPromise = Promise.resolve(mockSubflows);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/serverDataLib');
+    const actual = jest.requireActual('builder_platform_interaction/serverDataLib');
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,

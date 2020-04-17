@@ -15,12 +15,12 @@ import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.
 import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
-    const lookupScreenField = require.requireActual('mock/storeData').lookupScreenField;
-    return Object.assign({}, require.requireActual('builder_platform_interaction/storeUtils'), {
+    const lookupScreenField = jest.requireActual('mock/storeData').lookupScreenField;
+    return Object.assign({}, jest.requireActual('builder_platform_interaction/storeUtils'), {
         getElementByDevName: name =>
             name === 'lookupScreenField'
                 ? lookupScreenField
-                : require.requireActual('builder_platform_interaction/storeUtils').getElementByDevName(name)
+                : jest.requireActual('builder_platform_interaction/storeUtils').getElementByDevName(name)
     });
 });
 
@@ -84,7 +84,7 @@ jest.mock('builder_platform_interaction/systemLib', () => {
 });
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/sobjectLib');
+    const actual = jest.requireActual('builder_platform_interaction/sobjectLib');
     return {
         getFieldsForEntity: jest.fn().mockImplementation(entityName => {
             if (entityName === 'Account') {
@@ -102,7 +102,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 });
 
 jest.mock('builder_platform_interaction/subflowsLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/subflowsLib');
+    const actual = jest.requireActual('builder_platform_interaction/subflowsLib');
     return {
         getActiveOrLatestFlowOutputVariables: jest.fn().mockImplementation(flowName => {
             if (flowName === 'flowWithActiveAndLatest') {
@@ -120,7 +120,7 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
             let result = Object.values(flowExtensionMock).find(extension => extension.name === name);
             if (name === 'c:lookup') {
                 // Run the actual function for <c:lookup/>
-                const applyDynamicTypeMappings = require.requireActual('builder_platform_interaction/flowExtensionLib')
+                const applyDynamicTypeMappings = jest.requireActual('builder_platform_interaction/flowExtensionLib')
                     .applyDynamicTypeMappings;
                 result = Object.assign({}, result, {
                     inputParameters: applyDynamicTypeMappings(result.inputParameters, dynamicTypeMappings),
@@ -186,7 +186,7 @@ jest.mock('@salesforce/label/FlowBuilderCombobox.genericErrorMessage', () => ({ 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         getScreenElement: jest.fn().mockImplementation(() => mockScreenElement),
-        isElementAllowed: require.requireActual('builder_platform_interaction/expressionUtils').isElementAllowed
+        isElementAllowed: jest.requireActual('builder_platform_interaction/expressionUtils').isElementAllowed
     };
 });
 

@@ -26,7 +26,7 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () =>
 );
 
 jest.mock('builder_platform_interaction/subflowsLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/subflowsLib');
+    const actual = jest.requireActual('builder_platform_interaction/subflowsLib');
     return {
         getActiveOrLatestFlowOutputVariables: jest.fn().mockImplementation(flowName => {
             if (flowName === 'flowWithActiveAndLatest') {

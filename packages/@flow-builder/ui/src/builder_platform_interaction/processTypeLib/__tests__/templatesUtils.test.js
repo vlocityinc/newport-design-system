@@ -24,7 +24,7 @@ jest.mock('builder_platform_interaction/contextLib', () => {
     });
 });
 
-const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');
+const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest
     .fn()
     .mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');

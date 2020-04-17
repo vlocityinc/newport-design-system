@@ -8,7 +8,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import * as contextLibMock from 'builder_platform_interaction/contextLib';
 
 jest.mock('builder_platform_interaction/flowExtensionLib', () => {
-    const componentInstanceFieldType = require.requireActual('../screenEditorExtensionUtils').COMPONENT_INSTANCE;
+    const componentInstanceFieldType = jest.requireActual('../screenEditorExtensionUtils').COMPONENT_INSTANCE;
     return {
         getAllCachedExtensionTypes: () => {
             return [
@@ -102,7 +102,7 @@ describe('getScreenFieldTypeByName function', () => {
     it('Returns extension field type by name', () => {
         const fieldType = getScreenFieldTypeByName('orgns:customComp');
         expect(fieldType.name).toBe('orgns:customComp');
-        expect(fieldType.fieldType).toBe(require.requireActual('../screenEditorExtensionUtils').COMPONENT_INSTANCE);
+        expect(fieldType.fieldType).toBe(jest.requireActual('../screenEditorExtensionUtils').COMPONENT_INSTANCE);
     });
 });
 

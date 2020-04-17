@@ -29,7 +29,7 @@ import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/inv
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/invocableActionLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/invocableActionLib');
+    const actual = jest.requireActual('builder_platform_interaction/invocableActionLib');
     return {
         isAutomaticOutputHandlingSupported: actual.isAutomaticOutputHandlingSupported,
         getParametersForInvocableAction: actual.getParametersForInvocableAction,

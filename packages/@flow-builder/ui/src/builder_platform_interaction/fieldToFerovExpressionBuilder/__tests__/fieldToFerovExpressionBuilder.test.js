@@ -68,7 +68,7 @@ function getBaseExpressionBuilder(fieldToFerovWrapper) {
 }
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/ruleLib');
+    const actual = jest.requireActual('builder_platform_interaction/ruleLib');
     return {
         getDataType: actual.getDataType,
         elementToParam: actual.elementToParam,
@@ -85,7 +85,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
 // Mocking out the fetch function to return Account fields
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
-        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE
+        SERVER_ACTION_TYPE: jest.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE
     };
 });
 

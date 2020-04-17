@@ -14,7 +14,7 @@ import {
 } from 'builder_platform_interaction/events';
 
 jest.mock('builder_platform_interaction/invocableActionLib', () => {
-    const invocableActionLib = require.requireActual('builder_platform_interaction/invocableActionLib');
+    const invocableActionLib = jest.requireActual('builder_platform_interaction/invocableActionLib');
     return Object.assign({}, invocableActionLib, {
         getParametersForInvocableAction: jest.fn().mockReturnValue([
             {

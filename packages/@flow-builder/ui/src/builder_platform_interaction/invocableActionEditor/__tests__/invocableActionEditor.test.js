@@ -32,7 +32,7 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
 );
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/processTypeLib');
+    const actual = jest.requireActual('builder_platform_interaction/processTypeLib');
     return {
         FLOW_AUTOMATIC_OUTPUT_HANDLING: actual.FLOW_AUTOMATIC_OUTPUT_HANDLING,
         getProcessTypeAutomaticOutPutHandlingSupport: jest.fn()
@@ -40,8 +40,8 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
 });
 
 jest.mock('../invocableActionReducer', () => {
-    const actual = require.requireActual('../invocableActionReducer');
-    const events = require.requireActual('builder_platform_interaction/events');
+    const actual = jest.requireActual('../invocableActionReducer');
+    const events = jest.requireActual('builder_platform_interaction/events');
     return Object.assign({}, actual, {
         invocableActionReducer: (actionCallNode, event) => {
             if (
@@ -56,7 +56,7 @@ jest.mock('../invocableActionReducer', () => {
     });
 });
 
-const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');
+const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest
     .fn()
     .mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
@@ -170,7 +170,7 @@ let mockActionDetailsPromise = Promise.resolve(mockActionDetails);
 let mockActionsPromise = Promise.resolve(mockActions);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/serverDataLib');
+    const actual = jest.requireActual('builder_platform_interaction/serverDataLib');
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,

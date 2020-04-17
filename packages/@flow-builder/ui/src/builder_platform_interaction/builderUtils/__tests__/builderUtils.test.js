@@ -5,7 +5,7 @@ const mockPackage = 'foo';
 const mockComponent = 'bar';
 
 jest.mock('builder_platform_interaction/elementConfig', () => {
-    const actual = require.requireActual('builder_platform_interaction/elementConfig');
+    const actual = jest.requireActual('builder_platform_interaction/elementConfig');
 
     return Object.assign({}, actual, {
         getConfigForElementType: jest.fn(type => {

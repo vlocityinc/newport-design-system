@@ -54,7 +54,7 @@ jest.mock('builder_platform_interaction/preloadLib', () => {
 });
 
 jest.mock('builder_platform_interaction/elementConfig', () => {
-    return Object.assign(require.requireActual('builder_platform_interaction/elementConfig'), {
+    return Object.assign(jest.requireActual('builder_platform_interaction/elementConfig'), {
         getConfigForElementType: jest.fn().mockImplementation(() => {
             return {
                 descriptor: 'builder_platform_interaction:assignmentEditor',
@@ -79,19 +79,19 @@ jest.mock('builder_platform_interaction/elementLabelLib', () => {
 });
 
 jest.mock('builder_platform_interaction/builderUtils', () => {
-    return Object.assign(require.requireActual('builder_platform_interaction/builderUtils'), {
+    return Object.assign(jest.requireActual('builder_platform_interaction/builderUtils'), {
         invokePropertyEditor: jest.fn()
     });
 });
 
 jest.mock('../editorUtils', () => {
-    return Object.assign(require.requireActual('../editorUtils'), {
+    return Object.assign(jest.requireActual('../editorUtils'), {
         isGuardrailsEnabled: jest.fn()
     });
 });
 
 jest.mock('builder_platform_interaction/propertyEditorFactory', () => {
-    return Object.assign(require.requireActual('builder_platform_interaction/propertyEditorFactory'), {
+    return Object.assign(jest.requireActual('builder_platform_interaction/propertyEditorFactory'), {
         getElementForPropertyEditor: jest.fn(node => {
             if (node == null) {
                 throw new Error('Node must not be null');
@@ -120,7 +120,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
         fetch: jest.fn(),
         fetchOnce: jest.fn().mockResolvedValue({}),
-        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE
+        SERVER_ACTION_TYPE: jest.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE
     };
 });
 

@@ -8,7 +8,7 @@ import { ticks } from 'builder_platform_interaction/builderTestUtils';
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/subflowsLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/subflowsLib');
+    const actual = jest.requireActual('builder_platform_interaction/subflowsLib');
     return {
         fetchActiveOrLatestFlowOutputVariables: jest.fn(flowName => {
             if (flowName === 'flowWithActiveAndLatest') {

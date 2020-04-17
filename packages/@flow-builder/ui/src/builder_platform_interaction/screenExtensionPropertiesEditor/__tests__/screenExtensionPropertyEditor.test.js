@@ -37,7 +37,7 @@ jest.mock('builder_platform_interaction/selectors', () => {
 });
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/ruleLib');
+    const actual = jest.requireActual('builder_platform_interaction/ruleLib');
     return {
         getRulesForElementType: jest
             .fn()
@@ -49,7 +49,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
 });
 
 jest.mock('../screenExtensionPropertiesReducer.js', () => {
-    const actual = require.requireActual('../screenExtensionPropertiesReducer.js');
+    const actual = jest.requireActual('../screenExtensionPropertiesReducer.js');
     return {
         screenExtensionPropertiesEventReducer: jest.fn().mockImplementation(state => state),
         screenExtensionPropertiesPropsToStateReducer: actual.screenExtensionPropertiesPropsToStateReducer
@@ -65,7 +65,7 @@ let mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(processType => {
 });
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/processTypeLib');
+    const actual = jest.requireActual('builder_platform_interaction/processTypeLib');
     const FLOW_AUTOMATIC_OUTPUT_HANDLING = actual.FLOW_AUTOMATIC_OUTPUT_HANDLING;
     return {
         FLOW_AUTOMATIC_OUTPUT_HANDLING,

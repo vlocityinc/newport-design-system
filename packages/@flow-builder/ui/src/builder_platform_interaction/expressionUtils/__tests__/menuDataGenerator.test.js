@@ -25,7 +25,7 @@ import { format } from 'builder_platform_interaction/commonUtils';
 import collectionDataType from '@salesforce/label/FlowBuilderDataTypes.collectionDataType';
 
 jest.mock('builder_platform_interaction/dataTypeLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/dataTypeLib');
+    const actual = jest.requireActual('builder_platform_interaction/dataTypeLib');
     return {
         getDataTypeLabel: jest.fn(actual.getDataTypeLabel),
         getDataTypeIcons: jest.fn(),

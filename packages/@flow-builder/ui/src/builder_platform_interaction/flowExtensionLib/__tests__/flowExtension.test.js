@@ -11,7 +11,7 @@ import { flowExtensionsForFlow as mockFlowExtensions } from 'serverData/GetFlowE
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/serverDataLib');
+    const actual = jest.requireActual('builder_platform_interaction/serverDataLib');
     return {
         SERVER_ACTION_TYPE: actual.SERVER_ACTION_TYPE,
         fetch: jest.fn().mockImplementation((serverActionType, callback, params) =>

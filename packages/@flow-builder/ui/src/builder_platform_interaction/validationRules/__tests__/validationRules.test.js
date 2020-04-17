@@ -16,7 +16,7 @@ jest.mock('builder_platform_interaction/expressionValidator', () =>
 );
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
-    const actual = require.requireActual('../../ruleLib/ruleLib.js');
+    const actual = jest.requireActual('../../ruleLib/ruleLib.js');
     return {
         elementToParam: actual.elementToParam,
         isMatch: actual.isMatch,
@@ -41,7 +41,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
                 data: mockAccountFields
             });
         }),
-        SERVER_ACTION_TYPE: require.requireActual('../../serverDataLib/serverDataLib.js').SERVER_ACTION_TYPE
+        SERVER_ACTION_TYPE: jest.requireActual('../../serverDataLib/serverDataLib.js').SERVER_ACTION_TYPE
     };
 });
 

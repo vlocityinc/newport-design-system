@@ -59,7 +59,7 @@ const getComboboxStateChangedEvent = (detail = defaultValueItem) => {
 };
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/processTypeLib');
+    const actual = jest.requireActual('builder_platform_interaction/processTypeLib');
     const FLOW_AUTOMATIC_OUTPUT_HANDLING = actual.FLOW_AUTOMATIC_OUTPUT_HANDLING;
     return {
         FLOW_AUTOMATIC_OUTPUT_HANDLING,
@@ -72,7 +72,7 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
 });
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
-    const actual = require.requireActual('builder_platform_interaction/expressionUtils');
+    const actual = jest.requireActual('builder_platform_interaction/expressionUtils');
     return {
         getResourceByUniqueIdentifier: jest.fn(),
         getEntitiesMenuData: actual.getEntitiesMenuData,

@@ -9,7 +9,7 @@ import { ticks } from 'builder_platform_interaction/builderTestUtils';
 let mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/serverDataLib');
+    const actual = jest.requireActual('builder_platform_interaction/serverDataLib');
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,
@@ -32,7 +32,7 @@ jest.mock('builder_platform_interaction/systemLib', () => {
     };
 });
 
-const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');
+const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest
     .fn()
     .mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');

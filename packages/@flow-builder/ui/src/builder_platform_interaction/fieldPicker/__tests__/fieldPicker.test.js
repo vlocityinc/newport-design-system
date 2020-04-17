@@ -15,7 +15,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     function createSelector() {
-        const actual = require.requireActual('builder_platform_interaction/storeLib');
+        const actual = jest.requireActual('builder_platform_interaction/storeLib');
         return actual.createSelector;
     }
     const storeMockLib = require('builder_platform_interaction_mocks/storeLib');

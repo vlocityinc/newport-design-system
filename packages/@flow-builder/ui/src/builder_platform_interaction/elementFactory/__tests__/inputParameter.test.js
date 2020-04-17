@@ -10,7 +10,7 @@ jest.mock('../ferov', () => {
     return {
         createFEROV: jest.fn().mockName('createFEROV'),
         createFEROVMetadataObject: jest.fn().mockName('createFEROVMetadataObject'),
-        getDataTypeKey: require.requireActual('../ferov').getDataTypeKey
+        getDataTypeKey: jest.requireActual('../ferov').getDataTypeKey
     };
 });
 

@@ -65,7 +65,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
         dataType: 'Currency',
         collection: false
     };
-    const actual = require.requireActual('builder_platform_interaction/ruleLib');
+    const actual = jest.requireActual('builder_platform_interaction/ruleLib');
     return {
         mockParam,
         RULE_OPERATOR: actual.RULE_OPERATOR,
@@ -94,7 +94,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
             )
             .mockName('getMenuData'),
         normalizeFEROV: jest.fn().mockImplementation(rhsId => {
-            return require.requireActual('builder_platform_interaction/expressionUtils').normalizeFEROV(rhsId);
+            return jest.requireActual('builder_platform_interaction/expressionUtils').normalizeFEROV(rhsId);
         })
     };
 });

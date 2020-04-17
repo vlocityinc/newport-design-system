@@ -37,7 +37,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => ({
 }));
 
 jest.mock('builder_platform_interaction/flowExtensionLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/flowExtensionLib');
+    const actual = jest.requireActual('builder_platform_interaction/flowExtensionLib');
     return {
         COMPONENT_INSTANCE: actual.COMPONENT_INSTANCE,
         describeExtensions: jest.fn().mockImplementation(() => Promise.resolve())

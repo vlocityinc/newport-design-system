@@ -28,12 +28,12 @@ jest.mock('../decisionReducer', () => {
         decisionReducer: jest.fn(() => {
             return mockNewState;
         }),
-        resetDeletedGuids: require.requireActual('../decisionReducer').resetDeletedGuids
+        resetDeletedGuids: jest.requireActual('../decisionReducer').resetDeletedGuids
     };
 });
 
 jest.mock('builder_platform_interaction/dataMutationLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/dataMutationLib');
+    const actual = jest.requireActual('builder_platform_interaction/dataMutationLib');
     return {
         pick: actual.pick,
         getErrorsFromHydratedElement: jest.fn(() => {

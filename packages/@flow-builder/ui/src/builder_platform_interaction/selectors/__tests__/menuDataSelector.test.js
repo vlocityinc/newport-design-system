@@ -43,7 +43,7 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () =>
 );
 
 jest.mock('builder_platform_interaction/storeLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/storeLib'),
+    const actual = jest.requireActual('builder_platform_interaction/storeLib'),
         mocked = require('builder_platform_interaction_mocks/storeLib');
     return Object.assign({}, mocked, { createSelector: actual.createSelector });
 });

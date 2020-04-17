@@ -25,7 +25,7 @@ const column2Guid = 'column2';
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/flowExtensionLib', () => {
-    const flowExtensionLib = require.requireActual('builder_platform_interaction/flowExtensionLib');
+    const flowExtensionLib = jest.requireActual('builder_platform_interaction/flowExtensionLib');
     return Object.assign({}, flowExtensionLib, {
         getCachedExtension: jest.fn().mockReturnValue({
             inputParameters: [

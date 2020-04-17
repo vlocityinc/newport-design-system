@@ -107,7 +107,7 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
 });
 
 jest.mock('builder_platform_interaction/screenEditorUtils', () => {
-    const actual = require.requireActual('builder_platform_interaction/screenEditorUtils');
+    const actual = jest.requireActual('builder_platform_interaction/screenEditorUtils');
     return {
         getFlowDataTypeByName: actual.getFlowDataTypeByName,
         getIconNameFromDataType: jest.fn().mockImplementation(() => {
@@ -121,14 +121,14 @@ jest.mock('builder_platform_interaction/invocableActionLib', () =>
 );
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
-    const sobjectLib = require.requireActual('builder_platform_interaction/sobjectLib');
+    const sobjectLib = jest.requireActual('builder_platform_interaction/sobjectLib');
     return {
         fetchFieldsForEntity: jest.fn().mockImplementation(() => Promise.resolve(mockAccountFields)),
         getAllEntities: jest.fn().mockImplementation(() => {
             return mockEntities;
         }),
         getWorkflowEnabledEntities: jest.fn().mockImplementation(() => {
-            return require.requireActual('mock/serverEntityData').mockWorkflowEnabledEntities;
+            return jest.requireActual('mock/serverEntityData').mockWorkflowEnabledEntities;
         }),
         getEventTypes: jest.fn().mockImplementation(() => {
             return require('mock/eventTypesData').mockEventTypes;
@@ -149,7 +149,7 @@ jest.mock('builder_platform_interaction/selectors', () => {
 });
 
 jest.mock('builder_platform_interaction/dataTypeLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/dataTypeLib');
+    const actual = jest.requireActual('builder_platform_interaction/dataTypeLib');
     const { ELEMENT_TYPE: elementType } = require('builder_platform_interaction/flowMetadata');
     return {
         getDataTypeLabel: actual.getDataTypeLabel,
@@ -165,7 +165,7 @@ jest.mock('builder_platform_interaction/dataTypeLib', () => {
 });
 
 jest.mock('builder_platform_interaction/elementLabelLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/elementLabelLib');
+    const actual = jest.requireActual('builder_platform_interaction/elementLabelLib');
     return {
         getResourceLabel: jest.fn().mockImplementation(resource => resource.name),
         getResourceCategory: actual.getResourceCategory
@@ -173,7 +173,7 @@ jest.mock('builder_platform_interaction/elementLabelLib', () => {
 });
 
 jest.mock('builder_platform_interaction/subflowsLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/subflowsLib');
+    const actual = jest.requireActual('builder_platform_interaction/subflowsLib');
     return {
         getActiveOrLatestFlowOutputVariables: jest.fn().mockImplementation(flowName => {
             if (flowName === 'flowWithActiveAndLatest') {

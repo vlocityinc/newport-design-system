@@ -44,7 +44,7 @@ jest.mock('../waitReducer', () => {
             .fn()
             .mockImplementation(obj => Object.assign({}, obj))
             .mockName('waitReducer'),
-        resetDeletedGuids: require.requireActual('../waitReducer').resetDeletedGuids
+        resetDeletedGuids: jest.requireActual('../waitReducer').resetDeletedGuids
     };
 });
 

@@ -17,7 +17,7 @@ jest.mock('../../ferov', () => {
                 };
             })
             .mockName('createFEROVMetadataObject'),
-        getDataTypeKey: require.requireActual('../../ferov.js').getDataTypeKey
+        getDataTypeKey: jest.requireActual('../../ferov.js').getDataTypeKey
     };
 });
 

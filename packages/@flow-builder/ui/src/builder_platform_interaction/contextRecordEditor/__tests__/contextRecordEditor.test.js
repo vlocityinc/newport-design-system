@@ -29,7 +29,7 @@ jest.mock('builder_platform_interaction/contextLib', () => {
 });
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
-    const actual = require.requireActual('builder_platform_interaction/expressionUtils');
+    const actual = jest.requireActual('builder_platform_interaction/expressionUtils');
     return {
         getResourceByUniqueIdentifier: jest.fn(),
         getEntitiesMenuData: actual.getEntitiesMenuData,
@@ -329,7 +329,7 @@ describe('context-record-editor', () => {
         let getTriggerMock, contextEditor;
         beforeEach(() => {
             getTriggerMock = jest
-                .spyOn(require.requireActual('builder_platform_interaction/triggerTypeLib'), 'getTriggerTypeInfo')
+                .spyOn(jest.requireActual('builder_platform_interaction/triggerTypeLib'), 'getTriggerTypeInfo')
                 .mockImplementation(() => {
                     return Promise.resolve({ configurationEditor: 'cpeComponent' });
                 });

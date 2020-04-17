@@ -18,7 +18,7 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
                 name: 'Test Flow'
             };
         }),
-        getDataTypeKey: require.requireActual('builder_platform_interaction/elementFactory').getDataTypeKey
+        getDataTypeKey: jest.requireActual('builder_platform_interaction/elementFactory').getDataTypeKey
     };
 });
 

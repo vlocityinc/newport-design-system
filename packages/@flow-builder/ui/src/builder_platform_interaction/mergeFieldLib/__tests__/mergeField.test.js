@@ -22,7 +22,7 @@ import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverDa
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/sobjectLib');
+    const actual = jest.requireActual('builder_platform_interaction/sobjectLib');
     return {
         fetchFieldsForEntity: jest.fn().mockImplementation(entityName => {
             if (entityName === 'Account') {
@@ -55,7 +55,7 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
 });
 
 jest.mock('builder_platform_interaction/subflowsLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/subflowsLib');
+    const actual = jest.requireActual('builder_platform_interaction/subflowsLib');
     return {
         fetchActiveOrLatestFlowOutputVariables: jest.fn().mockImplementation(flowName => {
             if (flowName === 'flowWithActiveAndLatest') {

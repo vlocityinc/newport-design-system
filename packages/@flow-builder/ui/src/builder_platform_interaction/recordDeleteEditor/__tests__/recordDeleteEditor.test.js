@@ -103,7 +103,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
         fetchOnce: () => {
             return Promise.resolve(mockAccountFields);
         },
-        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE
+        SERVER_ACTION_TYPE: jest.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE
     };
 });
 

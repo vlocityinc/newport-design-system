@@ -33,7 +33,7 @@ jest.mock('builder_platform_interaction/invocableActionLib', () => ({
 }));
 
 jest.mock('builder_platform_interaction/subflowsLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/subflowsLib');
+    const actual = jest.requireActual('builder_platform_interaction/subflowsLib');
     return {
         fetchActiveOrLatestFlowOutputVariables: jest.fn(flowName => {
             if (flowName === 'flowWithActiveAndLatest') {

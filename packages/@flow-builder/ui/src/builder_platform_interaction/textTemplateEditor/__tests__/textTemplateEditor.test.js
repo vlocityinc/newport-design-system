@@ -29,7 +29,7 @@ const setupComponentUnderTest = props => {
 };
 
 jest.mock('builder_platform_interaction/dataMutationLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/dataMutationLib');
+    const actual = jest.requireActual('builder_platform_interaction/dataMutationLib');
     return {
         pick: actual.pick,
         getErrorsFromHydratedElement: jest.fn(),
@@ -40,7 +40,7 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
 jest.mock('builder_platform_interaction/actions', () => {
     return {
         createAction: jest.fn().mockImplementation((type, payload) => payload),
-        PROPERTY_EDITOR_ACTION: require.requireActual('builder_platform_interaction/actions').PROPERTY_EDITOR_ACTION
+        PROPERTY_EDITOR_ACTION: jest.requireActual('builder_platform_interaction/actions').PROPERTY_EDITOR_ACTION
     };
 });
 

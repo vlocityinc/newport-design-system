@@ -34,7 +34,7 @@ import { ticks } from 'builder_platform_interaction/builderTestUtils';
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
-    const actual = require.requireActual('builder_platform_interaction/storeUtils');
+    const actual = jest.requireActual('builder_platform_interaction/storeUtils');
     return {
         getElementByGuid: actual.getElementByGuid,
         getElementByDevName: actual.getElementByDevName,
@@ -136,7 +136,7 @@ function getLightningCombobox(expressionBuilder) {
 }
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/ruleLib');
+    const actual = jest.requireActual('builder_platform_interaction/ruleLib');
     return {
         getLHSTypes: jest.fn(),
         getOperators: jest.fn().mockImplementation(() => {
@@ -158,7 +158,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
 });
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
-    const actual = require.requireActual('builder_platform_interaction/expressionUtils');
+    const actual = jest.requireActual('builder_platform_interaction/expressionUtils');
     return {
         getStoreElements: actual.getStoreElements,
         getElementsForMenuData: jest.fn().mockReturnValue([]),

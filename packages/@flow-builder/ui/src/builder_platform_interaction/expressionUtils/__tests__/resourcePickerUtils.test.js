@@ -24,7 +24,7 @@ const storeInstance = {
 
 jest.mock('../menuDataRetrieval', () => {
     return {
-        getChildrenItemsPromise: require.requireActual('../menuDataRetrieval').getChildrenItemsPromise,
+        getChildrenItemsPromise: jest.requireActual('../menuDataRetrieval').getChildrenItemsPromise,
         filterFieldsForChosenElement: jest.fn(),
         filterAndMutateMenuData: jest.fn()
     };

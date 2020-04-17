@@ -30,7 +30,7 @@ const setupComponentUnderTest = picklistChoiceObject => {
 jest.mock('builder_platform_interaction/actions', () => {
     return {
         createAction: jest.fn().mockImplementation((type, payload) => payload),
-        PROPERTY_EDITOR_ACTION: require.requireActual('builder_platform_interaction/actions').PROPERTY_EDITOR_ACTION
+        PROPERTY_EDITOR_ACTION: jest.requireActual('builder_platform_interaction/actions').PROPERTY_EDITOR_ACTION
     };
 });
 
@@ -44,7 +44,7 @@ jest.mock('../picklistChoiceSetReducer', () => {
 const mockAccountFieldsPromise = Promise.resolve(accountFields);
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
-    const sobjectLib = require.requireActual('builder_platform_interaction/sobjectLib');
+    const sobjectLib = jest.requireActual('builder_platform_interaction/sobjectLib');
     const mockSobjectLib = Object.assign({}, sobjectLib);
     mockSobjectLib.fetchFieldsForEntity = jest.fn().mockImplementation(() => mockAccountFieldsPromise);
     return mockSobjectLib;

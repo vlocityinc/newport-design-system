@@ -26,7 +26,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
         setEntities: jest.fn(),
         setEventTypes: jest.fn(),
         setWorkflowEnabledEntities: jest.fn(),
-        RUNTIME: require.requireActual('builder_platform_interaction/sobjectLib').RUNTIME
+        RUNTIME: jest.requireActual('builder_platform_interaction/sobjectLib').RUNTIME
     };
 });
 

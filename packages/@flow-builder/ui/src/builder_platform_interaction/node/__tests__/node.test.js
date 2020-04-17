@@ -7,7 +7,7 @@ import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 
-const elementConfig = require.requireActual('builder_platform_interaction/elementConfig');
+const elementConfig = jest.requireActual('builder_platform_interaction/elementConfig');
 elementConfig.getConfigForElementType = jest.fn().mockImplementation(elementType => {
     return elementType === ELEMENT_TYPE.START_ELEMENT
         ? {

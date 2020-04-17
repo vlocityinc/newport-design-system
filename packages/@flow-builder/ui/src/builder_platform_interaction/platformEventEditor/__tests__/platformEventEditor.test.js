@@ -14,7 +14,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 });
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
-    const actual = require.requireActual('builder_platform_interaction/expressionUtils');
+    const actual = jest.requireActual('builder_platform_interaction/expressionUtils');
     return {
         getResourceByUniqueIdentifier: jest.fn(),
         getEventTypesMenuDataManagedSetup: actual.getEventTypesMenuDataManagedSetup

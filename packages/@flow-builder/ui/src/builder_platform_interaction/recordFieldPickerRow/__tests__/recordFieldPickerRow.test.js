@@ -9,7 +9,7 @@ import { ticks } from 'builder_platform_interaction/builderTestUtils';
 jest.mock('builder_platform_interaction/storeLib', () => {
     // this is needed for some reason even if createSelector isn't mocked
     function createSelector() {
-        const actual = require.requireActual('builder_platform_interaction/storeLib');
+        const actual = jest.requireActual('builder_platform_interaction/storeLib');
         return actual.createSelector;
     }
     const storeMockLib = require('builder_platform_interaction_mocks/storeLib');

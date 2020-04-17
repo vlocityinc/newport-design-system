@@ -5,7 +5,7 @@ import { query, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/contextLib', () => {
-    return Object.assign(require.requireActual('builder_platform_interaction/contextLib'), {
+    return Object.assign(jest.requireActual('builder_platform_interaction/contextLib'), {
         orgHasFlowScreenSections: () => {
             return true;
         }

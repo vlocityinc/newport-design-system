@@ -9,7 +9,7 @@ import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEdito
 
 const startElementReference = 'assignment1';
 
-const baseRecordElement = require.requireActual('../base/baseRecordElement.js');
+const baseRecordElement = jest.requireActual('../base/baseRecordElement.js');
 baseRecordElement.createRecordFilters = jest.fn().mockImplementation = () => {
     return [{ leftHandSide: 'foo' }];
 };

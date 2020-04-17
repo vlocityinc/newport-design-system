@@ -60,19 +60,19 @@ jest.mock('builder_platform_interaction/comboboxCache', () => {
 });
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
-    const sobjectLib = require.requireActual('builder_platform_interaction/sobjectLib');
+    const sobjectLib = jest.requireActual('builder_platform_interaction/sobjectLib');
     const mockSobjectLib = Object.assign({}, sobjectLib);
     mockSobjectLib.fetchFieldsForEntity = jest.fn().mockImplementation(() => Promise.resolve());
     return mockSobjectLib;
 });
 
 jest.mock('builder_platform_interaction/dataMutationLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/dataMutationLib');
+    const actual = jest.requireActual('builder_platform_interaction/dataMutationLib');
     return {
         getErrorsFromHydratedElement: jest.fn(),
         getValueFromHydratedItem: actual.getValueFromHydratedItem,
         GUID_SUFFIX: actual.GUID_SUFFIX,
-        FEROV_DATA_TYPE_PROPERTY: require.requireActual('builder_platform_interaction/elementFactory')
+        FEROV_DATA_TYPE_PROPERTY: jest.requireActual('builder_platform_interaction/elementFactory')
             .FEROV_DATA_TYPE_PROPERTY,
         pick: actual.pick,
         dehydrate: actual.dehydrate,
@@ -83,7 +83,7 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
 jest.mock('builder_platform_interaction/actions', () => {
     return {
         createAction: jest.fn().mockImplementation((type, payload) => payload),
-        PROPERTY_EDITOR_ACTION: require.requireActual('builder_platform_interaction/actions').PROPERTY_EDITOR_ACTION
+        PROPERTY_EDITOR_ACTION: jest.requireActual('builder_platform_interaction/actions').PROPERTY_EDITOR_ACTION
     };
 });
 
@@ -95,7 +95,7 @@ jest.mock('../variableConstantReducer', () => {
 });
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/ruleLib');
+    const actual = jest.requireActual('builder_platform_interaction/ruleLib');
     return {
         getRHSTypes: jest.fn(),
         getDataType: actual.getDataType,
@@ -107,7 +107,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
 });
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
-    const actual = require.requireActual('builder_platform_interaction/expressionUtils');
+    const actual = jest.requireActual('builder_platform_interaction/expressionUtils');
     return {
         filterMatches: jest.fn(),
         getResourceByUniqueIdentifier: jest.fn(),

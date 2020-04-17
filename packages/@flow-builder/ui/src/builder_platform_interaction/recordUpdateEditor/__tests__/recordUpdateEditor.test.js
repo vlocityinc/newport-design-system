@@ -134,7 +134,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
         getUpdateableEntities: jest.fn().mockImplementation(() => {
             return mockEntities;
         }),
-        ENTITY_TYPE: require.requireActual('builder_platform_interaction/sobjectLib').ENTITY_TYPE
+        ENTITY_TYPE: jest.requireActual('builder_platform_interaction/sobjectLib').ENTITY_TYPE
     };
 });
 
