@@ -8,6 +8,7 @@
   border-top: 0.3125rem solid $azure;
   padding: 1rem 2.5rem 1rem 2.8rem;
   margin-bottom: 0.7rem;
+  cursor: pointer;
 
   .nds-b2b-promo-name {
     font-size: $font-size-6;
@@ -25,6 +26,12 @@
   .nds-b2b-promo-icon {
     position: absolute;
     margin-left: -1.6rem;
+  }
+  &:hover {
+    background-color: $alice-blue;
+    .nds-b2b-promo-description {
+      @include multiLineEllipsis(1rem, 2,$alice-blue);
+    }
   }
   @media screen and (min-width: 48rem) {
     margin-right: 0.7rem;

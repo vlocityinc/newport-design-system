@@ -1,7 +1,9 @@
-@import '../components/b2bCategoriesList';
-@import '../components/b2bPromoItem';
-@import '../components/b2bProductItem';
-@import '../components/b2bItemsGrid';
+//Product components
+@import '../components/product-items/b2bCategoriesList';
+@import '../components/product-items/b2bPromoItem';
+@import '../components/product-items/b2bProductItem';
+@import '../components/product-items/b2bItemsGrid';
+@import '../components/product-items/b2bOfferSelection';
 //Cart components
 @import '../components/cart-summary/b2bTabs';
 @import '../components/cart-summary/b2bButtonResp';
