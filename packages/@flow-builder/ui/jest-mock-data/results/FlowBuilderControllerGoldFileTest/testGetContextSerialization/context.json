@@ -54,7 +54,7 @@
       },
       "name":"Journey Builder",
       "icon":"utility:checkin",
-      "usePanelForPropertyEditor":false,
+      "usePanelForPropertyEditor":true,
       "supportedProcessTypes":[
         "Journey"
       ]

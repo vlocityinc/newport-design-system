@@ -3991,16 +3991,6 @@
       "updateable":true
     },
     {
-      "apiName":"CodeSetBundleFeed",
-      "createable":false,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Code Set Bundle  Feed",
-      "entityLabelPlural":"Code Set Bundle  Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
       "apiName":"CodeSetBundleHistory",
       "createable":true,
       "custom":false,
@@ -4087,26 +4077,6 @@
       "deletable":false,
       "entityLabel":"Commerce Customer Change Event",
       "entityLabelPlural":"Commerce Customer Change Event",
-      "queryable":false,
-      "updateable":false
-    },
-    {
-      "apiName":"CommerceGuestOrder",
-      "createable":false,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Commerce Guest Order",
-      "entityLabelPlural":"Commerce Guest Orders",
-      "queryable":false,
-      "updateable":false
-    },
-    {
-      "apiName":"CommerceGuestOrderChangeEvent",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Commerce Guest Order Change Event",
-      "entityLabelPlural":"Commerce Guest Order Change Event",
       "queryable":false,
       "updateable":false
     },
@@ -5561,16 +5531,6 @@
       "updateable":false
     },
     {
-      "apiName":"ContextKPI",
-      "createable":false,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Context KPI",
-      "entityLabelPlural":"Context KPIs",
-      "queryable":true,
-      "updateable":false
-    },
-    {
       "apiName":"Contract",
       "createable":true,
       "custom":false,
@@ -5731,6 +5691,16 @@
       "updateable":true
     },
     {
+      "apiName":"CreditMemoHistory",
+      "createable":true,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Credit Memo  History",
+      "entityLabelPlural":"Credit Memo  History",
+      "queryable":true,
+      "updateable":false
+    },
+    {
       "apiName":"CreditMemoCriteriaSharingRule",
       "createable":true,
       "custom":false,
@@ -5749,6 +5719,16 @@
       "entityLabelPlural":"Credit Memo Lines",
       "queryable":true,
       "updateable":true
+    },
+    {
+      "apiName":"CreditMemoLineHistory",
+      "createable":true,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Credit Memo Line  History",
+      "entityLabelPlural":"Credit Memo Line  History",
+      "queryable":true,
+      "updateable":false
     },
     {
       "apiName":"CreditMemoOwnerSharingRule",
@@ -6431,32 +6411,12 @@
       "updateable":false
     },
     {
-      "apiName":"CommerceOrderCustomerEvent",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Customer Order",
-      "entityLabelPlural":"Customer Orders",
-      "queryable":false,
-      "updateable":false
-    },
-    {
       "apiName":"Sandbox",
       "createable":true,
       "custom":false,
       "deletable":true,
       "entityLabel":"Customer Sandbox",
       "entityLabelPlural":"Customer Sandbox",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"DrDbHammerRequest",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Customer requests for the Db Hammer to test when running in DR",
-      "entityLabelPlural":"Customer requests for the Db Hammer to test when running in DR",
       "queryable":true,
       "updateable":true
     },
@@ -8019,6 +7979,16 @@
       "entityLabelPlural":"Engagement Channel Type Sharing Rule Filter Item",
       "queryable":true,
       "updateable":true
+    },
+    {
+      "apiName":"EngagementEvent",
+      "createable":true,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Engagement Event",
+      "entityLabelPlural":"Engagement Events",
+      "queryable":false,
+      "updateable":false
     },
     {
       "apiName":"EngagementHistoryEvent",
@@ -18121,6 +18091,26 @@
       "updateable":true
     },
     {
+      "apiName":"CrossOrgPricingGuidanceMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Pricing Guidance Metrics",
+      "entityLabelPlural":"Pricing Guidance Metrics",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"PricingGuidanceMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Pricing Guidance Metrics",
+      "entityLabelPlural":"Pricing Guidance Metrics",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"PrivacyConsentRow",
       "createable":false,
       "custom":false,
@@ -19999,6 +19989,26 @@
       "entityLabelPlural":"Reporting Snapshots",
       "queryable":true,
       "updateable":true
+    },
+    {
+      "apiName":"RequestThrottle",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Request Throttle",
+      "entityLabelPlural":"Request Throttles",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"RequestTrace",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Request Trace",
+      "entityLabelPlural":"Request Traces",
+      "queryable":true,
+      "updateable":false
     },
     {
       "apiName":"ResourceAbsence",
@@ -24241,16 +24251,6 @@
       "updateable":false
     },
     {
-      "apiName":"JiffyTrace",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"UIPerf (formerly Jiffy) Trace",
-      "entityLabelPlural":"UIPerf (formerly Jiffy) Traces",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"UiFormulaCriterion",
       "createable":false,
       "custom":false,
@@ -25727,6 +25727,26 @@
       "deletable":false,
       "entityLabel":"Zone",
       "entityLabelPlural":"Zones",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"CreditMemoFeed",
+      "createable":false,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"__MISSING LABEL__ PropertyFile - val CreditMemo not found in section StandardFeedLabel",
+      "entityLabelPlural":"__MISSING LABEL__ PropertyFile - val CreditMemo not found in section StandardFeedLabel",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"CreditMemoLineFeed",
+      "createable":false,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"__MISSING LABEL__ PropertyFile - val CreditMemoLine not found in section StandardFeedLabel",
+      "entityLabelPlural":"__MISSING LABEL__ PropertyFile - val CreditMemoLine not found in section StandardFeedLabel",
       "queryable":true,
       "updateable":false
     }

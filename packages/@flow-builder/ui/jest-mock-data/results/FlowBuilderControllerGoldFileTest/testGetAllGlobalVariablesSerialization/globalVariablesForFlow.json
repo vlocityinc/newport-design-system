@@ -656,6 +656,15 @@
 },
       {
   "fieldsToNull" : [ ],
+  "label" : "API Enterprise Server 50.0 URL",
+  "name" : "Enterprise_Server_URL_500",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Api"
+  }
+},
+      {
+  "fieldsToNull" : [ ],
   "label" : "API Enterprise Server 6.0 URL",
   "name" : "Enterprise_Server_URL_60",
   "type" : {
@@ -1412,6 +1421,15 @@
 },
       {
   "fieldsToNull" : [ ],
+  "label" : "API Partner Server 50.0 URL",
+  "name" : "Partner_Server_URL_500",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Api"
+  }
+},
+      {
+  "fieldsToNull" : [ ],
   "label" : "API Partner Server 6.0 URL",
   "name" : "Partner_Server_URL_60",
   "type" : {
@@ -1525,15 +1543,6 @@
   "type" : {
     "fieldsToNull" : [ ],
     "name" : "$UserRole"
-  }
-},
-      {
-  "fieldsToNull" : [ ],
-  "label" : "API Session ID",
-  "name" : "Session_ID",
-  "type" : {
-    "fieldsToNull" : [ ],
-    "name" : "$Api"
   }
 },
       {
