@@ -7,7 +7,7 @@
 # 3 : could not check because core is not up to date
 
 GREEN='\033[0;32m'
-YELLOW='\033[0;33m' 
+YELLOW='\033[0;33m'
 RED='\033[0;31m'
 NC='\033[0m'
 
@@ -35,11 +35,10 @@ done
 GOLDFILES_CORE_DIR="${CORE_HOME}/ui-interaction-builder-impl/test/func/results/FlowBuilderControllerGoldFileTest"
 GOLDFILES_GIT_DIR="$(pwd)/packages/@flow-builder/ui/jest-mock-data/results/FlowBuilderControllerGoldFileTest"
 
-# check that perforce is properly configured ($P4PORT ...)
-p4 info > /dev/null || exit 1
+result=$(p4 sync -n "${GOLDFILES_CORE_DIR}/...") || exit 1
 
 # check that gold files in core are up to date
-p4 sync -n "${GOLDFILES_CORE_DIR}/..." | grep -q " updating" && { echo -e "${YELLOW}You don't have latest gold files in core. Cannot check if gold files in git repository are up to date${NC}" ; exit ${EXITCODE_CORE_NOT_LATEST}; }
+grep -q " updating" <<<$result && { echo -e "${YELLOW}You don't have latest gold files in core. Sync or get latest revision on folder: \n${GOLDFILES_CORE_DIR}${NC}" ; exit ${EXITCODE_CORE_NOT_LATEST}; }
 
-diff -x '.*' -x '*.backup.json' -rq "${GOLDFILES_CORE_DIR}" "${GOLDFILES_GIT_DIR}" || { echo -e "${YELLOW}${GOLDFILES_GIT_DIR} is out of sync with core. Run yarn update:goldFiles to update${NC}" ; exit 1; }
-echo -e "${GREEN}${GOLDFILES_GIT_DIR} is in sync with core.${NC}"
+diff -x '.*' -x '*.backup.json' -rq "${GOLDFILES_CORE_DIR}" "${GOLDFILES_GIT_DIR}" || { echo -e "${YELLOW}The following folder is out of sync with core: \n${GOLDFILES_GIT_DIR} \nRun yarn update:goldFiles to update${NC}" ; exit 1; }
+echo -e "${GREEN}The following folder is in sync with core: \n${GOLDFILES_GIT_DIR}${NC}"
