@@ -9,7 +9,7 @@
     <properties>
         <aura.version>0.6000.2631</aura.version>
         <lwc.api.version>0.226.5</lwc.api.version>
-        <lwc.version>0.228.5</lwc.version>
+        <lwc.version>0.228.6</lwc.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 

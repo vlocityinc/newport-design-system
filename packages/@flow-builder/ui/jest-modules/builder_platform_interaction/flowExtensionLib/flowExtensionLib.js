@@ -1,6 +1,6 @@
 import * as extensions from 'mock/flowExtensionsData';
 
-const flowExtensionLib = require.requireActual('builder_platform_interaction/flowExtensionLib');
+const flowExtensionLib = jest.requireActual('builder_platform_interaction/flowExtensionLib');
 
 const applyDynamicTypeMappings = (parameters, dynamicTypeMappings) => {
     return flowExtensionLib.applyDynamicTypeMappings(parameters, dynamicTypeMappings);
