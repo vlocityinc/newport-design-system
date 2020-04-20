@@ -1,0 +1,8 @@
+.screen-section-field-column {
+    border: var(--lwc-borderWidthThin) dashed var(--lwc-colorGray5);
+    border-right: none;
+}
+
+.screen-section-field-column:first-child {
+    border-left: none;
+}
