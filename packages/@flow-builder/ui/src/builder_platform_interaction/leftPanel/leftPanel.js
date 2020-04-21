@@ -104,6 +104,14 @@ export default class LeftPanel extends LightningElement {
         return classes;
     }
 
+    get flowResourceListClass() {
+        let classes = 'flow-resource-list';
+        if (this.showResourceDetailsPanel) {
+            classes = `${classes} + slds-hidden`;
+        }
+        return classes;
+    }
+
     handleElementClicked(event) {
         // TODO: Click to add is needed for selenium but we're not ready to ship the feature until
         // we figure out how to position the new element. We can remove this check after completing
