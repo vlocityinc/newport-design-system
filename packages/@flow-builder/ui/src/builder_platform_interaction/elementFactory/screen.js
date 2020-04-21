@@ -358,6 +358,26 @@ export function createScreenElement(screen) {
     return screenObject;
 }
 
+/**
+ * Helper function to get all the associated screen field references from the store
+ * @param {Object} parentElementFromStore - screen or screen field object in the store
+ */
+function getAssociatedScreenFieldReferencesFromStore(parentElementFromStore) {
+    const screenFieldReferencesFromStore = [];
+    if (parentElementFromStore.fieldReferences) {
+        for (let i = 0; i < parentElementFromStore.fieldReferences.length; i++) {
+            screenFieldReferencesFromStore.push(parentElementFromStore.fieldReferences[i].fieldReference);
+            screenFieldReferencesFromStore.push(
+                ...getAssociatedScreenFieldReferencesFromStore(
+                    getElementByGuid(parentElementFromStore.fieldReferences[i].fieldReference)
+                )
+            );
+        }
+    }
+
+    return screenFieldReferencesFromStore;
+}
+
 function getDeletedScreenFieldsUsingStore(originalScreen, newFields = []) {
     if (!originalScreen) {
         throw new Error('Either screen or newFields is not defined');
@@ -366,9 +386,7 @@ function getDeletedScreenFieldsUsingStore(originalScreen, newFields = []) {
     const screenFromStore = getElementByGuid(guid);
     let screenFieldReferencesFromStore;
     if (screenFromStore) {
-        screenFieldReferencesFromStore = screenFromStore.fieldReferences.map(
-            fieldReference => fieldReference.fieldReference
-        );
+        screenFieldReferencesFromStore = getAssociatedScreenFieldReferencesFromStore(screenFromStore);
     }
     if (screenFieldReferencesFromStore) {
         const newfieldGuids = newFields.map(newField => newField.guid);

@@ -35,17 +35,62 @@ const field2Guid = 'field2';
 const field3Guid = 'field3';
 const newScreenGuid = 'newScreen';
 const existingScreenGuid = 'existingScreen';
+const existingScreenWithSectionsAndColumnsGuid = 'existingScreenWithSectionsAndColumnsGuid';
+const existingSectionGuid = 'existingSection1';
+const existingColumnGuid = 'existingColumn1';
+const existingNestedTextFieldGuid = 'existingNestedTextField1';
+
 const existingScreen = {
     guid: existingScreenGuid,
     fieldReferences: [{ fieldReference: 'existingScreenField1' }, { fieldReference: 'existingScreenField2' }]
 };
 
+const existingScreenWithSectionsAndColumns = {
+    guid: existingScreenWithSectionsAndColumnsGuid,
+    fieldReferences: [
+        {
+            fieldReference: existingSectionGuid
+        }
+    ]
+};
+
+const existingSection = {
+    guid: existingSectionGuid,
+    fieldReferences: [
+        {
+            fieldReference: existingColumnGuid
+        }
+    ]
+};
+
+const existingColumn = {
+    guid: existingColumnGuid,
+    fieldReferences: [
+        {
+            fieldReference: existingNestedTextFieldGuid
+        }
+    ]
+};
+
+const existingNestedTextField = {
+    guid: existingNestedTextFieldGuid
+};
+
 const foundElementGuidPrefix = 'found';
+
 getElementByGuid.mockImplementation(guid => {
     if (guid === newScreenGuid) {
         return null;
     } else if (guid === existingScreenGuid) {
         return existingScreen;
+    } else if (guid === existingScreenWithSectionsAndColumnsGuid) {
+        return existingScreenWithSectionsAndColumns;
+    } else if (guid === existingSectionGuid) {
+        return existingSection;
+    } else if (guid === existingColumnGuid) {
+        return existingColumn;
+    } else if (guid === existingNestedTextFieldGuid) {
+        return existingNestedTextField;
     }
 
     return {
@@ -392,12 +437,25 @@ describe('screen', () => {
                 const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screenFromPropertyEditor);
                 expect(result.screen.fieldReferences).toHaveLength(1);
             });
-            it('includes all deleted fields', () => {
+            it('includes all deleted fields when no fields are nested', () => {
                 screenFromPropertyEditor = {
                     guid: existingScreenGuid,
                     fields: [
                         {
                             guid: field1Guid
+                        }
+                    ]
+                };
+                const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screenFromPropertyEditor);
+                expect(result.deletedFields).toHaveLength(2);
+            });
+
+            it('includes all deleted fields when nested fields are present', () => {
+                screenFromPropertyEditor = {
+                    guid: existingScreenWithSectionsAndColumnsGuid,
+                    fields: [
+                        {
+                            guid: existingSectionGuid
                         }
                     ]
                 };
