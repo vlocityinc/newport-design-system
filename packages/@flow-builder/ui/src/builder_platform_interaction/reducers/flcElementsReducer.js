@@ -23,7 +23,7 @@ import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
 import {
     addElementToState,
     linkElement,
-    linkBranch,
+    deleteBranchHeadProperties,
     deleteElement,
     addElement
 } from 'builder_platform_interaction/flowUtils';
@@ -128,7 +128,7 @@ function _deleteElements(state, { payload }) {
 }
 
 /**
- * Function to re-order the connectors in Fixed Canvas Layout
+ * Function to re-order the connectors in Auto-Layout Canvas
  * @param {Object} state - Current state of elements in the store
  * @param {String} parentElementGuid - Guid of the parent element which can either be a Decision or Pause element
  * @param {String} oldChildReferenceGuid - Previously selected childReference guid
@@ -323,11 +323,25 @@ function _pasteOnFixedCanvas(
 
     // Updating previous element's next to the guid of the top-most pasted element
     if (prev) {
-        const prevElement = newState[prev];
-        prevElement.next = canvasElementGuidMap[topCutOrCopiedGuid];
-        linkElement(newState, prevElement);
-    } else if (parent) {
-        linkBranch(newState, newState[parent], childIndex, newState[canvasElementGuidMap[topCutOrCopiedGuid]]);
+        newState[prev].next = canvasElementGuidMap[topCutOrCopiedGuid];
+    }
+
+    // Updating next element's prev to the guid of the bottom-most pasted element
+    if (next) {
+        newState[next].prev = canvasElementGuidMap[bottomCutOrCopiedGuid];
+
+        // If the next element was a terminal element, then marking the topCutOrCopied element as the terminal element
+        if (newState[next].isTerminal) {
+            newState[canvasElementGuidMap[topCutOrCopiedGuid]].isTerminal = true;
+        }
+
+        // Deleting the next element's parent, childIndex and isTerminal property
+        deleteBranchHeadProperties(newState[next]);
+    }
+
+    // Updating the parent's children to include the top-most pasted element's guid at the right index
+    if (parent) {
+        newState[parent].children[childIndex] = canvasElementGuidMap[topCutOrCopiedGuid];
     }
 
     return newState;
