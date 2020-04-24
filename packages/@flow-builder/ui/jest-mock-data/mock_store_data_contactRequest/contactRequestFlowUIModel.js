@@ -388,6 +388,7 @@ export const contactRequestFlowUIModel = {
     ],
     properties: {
         canOnlySaveAsNewDefinition: false,
+        definitionId: '300RM0000000ApfYAE',
         description: '',
         elementType: 'FLOW_PROPERTIES',
         hasUnsavedChanges: false,

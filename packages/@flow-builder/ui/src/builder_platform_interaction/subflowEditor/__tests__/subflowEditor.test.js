@@ -68,7 +68,8 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     const getCurrentState = function() {
         return {
             properties: {
-                processType: 'flow'
+                processType: 'flow',
+                definitionId: '300xx000000bpCbAAI'
             },
             elements: {}
         };

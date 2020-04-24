@@ -32,7 +32,8 @@ const flowMetadataSavedInFlowBuilder = {
     },
     versionNumber: 1,
     lastModifiedDate: '2018-09-21T19:19:16.000+0000',
-    fullName: 'flow name'
+    fullName: 'flow name',
+    definitionId: '300xx000000bpCbAAI'
 };
 
 const flowPropertiesSavedInCfd = {
@@ -56,7 +57,8 @@ const flowPropertiesSavedInFlowBuilder = {
     versionNumber: 1,
     lastModifiedDate: '2018-09-21T19:19:16.000+0000',
     name: 'flow name',
-    isLightningFlowBuilder: true
+    isLightningFlowBuilder: true,
+    definitionId: '300xx000000bpCbAAI'
 };
 
 describe('Flow properties', () => {

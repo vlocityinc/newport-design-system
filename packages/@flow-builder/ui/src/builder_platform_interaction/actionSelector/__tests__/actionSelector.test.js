@@ -9,11 +9,14 @@ import {
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
 
 export const SELECTORS = {
     ...INTERACTION_COMPONENTS_SELECTORS,
     ...LIGHTNING_COMPONENTS_SELECTORS
 };
+
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock(
     '@salesforce/label/FlowBuilderActionSelector.categoryComboboxPlaceholder',
@@ -77,6 +80,18 @@ describe('Action selector', () => {
     let actionSelectorComponent;
     const interactionCombobox = () => actionSelectorComponent.shadowRoot.querySelector(SELECTORS.INTERACTION_COMBOBOX);
     const groupedCombobox = () => interactionCombobox().shadowRoot.querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
+    beforeAll(() => {
+        Store.setMockState({
+            properties: {
+                processType: 'flow',
+                definitionId: '300xx000000bpCbAAI'
+            },
+            elements: {}
+        });
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     afterEach(() => {
         mockActionsPromise = Promise.resolve(mockActions).catch(() => {});
         mockApexPluginsPromise = Promise.resolve(mockApexPlugins).catch(() => {});

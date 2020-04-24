@@ -433,6 +433,7 @@ export const fieldServiceMobileFlowUIModel = {
     ],
     properties: {
         canOnlySaveAsNewDefinition: false,
+        definitionId: '300xx000000boQDAAY',
         description: '',
         elementType: 'FLOW_PROPERTIES',
         hasUnsavedChanges: false,

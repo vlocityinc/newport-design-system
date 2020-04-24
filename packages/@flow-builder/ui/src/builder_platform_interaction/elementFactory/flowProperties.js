@@ -31,7 +31,6 @@ export function createFlowProperties(flowProperties = {}) {
     const name = flowProperties.fullName || flowProperties.name || '';
     const { lastModifiedDate = null, manageableState = null, versionNumber = null } = flowProperties;
     const lastModifiedBy = getLastModifiedBy(flowProperties.lastModifiedBy);
-
     const {
         description = '',
         hasUnsavedChanges = false,
@@ -53,6 +52,9 @@ export function createFlowProperties(flowProperties = {}) {
         isCreatedOutsideLfb = false,
         canOnlySaveAsNewDefinition = false
     } = flowProperties;
+
+    const { definitionId } = flowProperties;
+
     canOnlySaveAsNewDefinition = canOnlySaveAsNewDefinition || manageableState === 'installed';
 
     if (processMetadataValues) {
@@ -65,6 +67,7 @@ export function createFlowProperties(flowProperties = {}) {
     // TODO: make an object that contains lastInlineResourceGuid, lastInlineResourcePosition and lastInlineResourceRowIndex
     return {
         canOnlySaveAsNewDefinition,
+        definitionId,
         description,
         elementType,
         hasUnsavedChanges,

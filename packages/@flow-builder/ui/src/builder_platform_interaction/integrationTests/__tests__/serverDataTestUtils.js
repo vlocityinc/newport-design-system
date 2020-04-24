@@ -203,6 +203,7 @@ const allAuraActions = {
     }),
     'c.getFlowInputOutputVariables': getFlowInputOutputVariables({
         FlowWithAllTypesVariables: mockSubflowAllTypesVariables,
+        mynamespace__subflow: mockSubflowAllTypesVariables,
         flowWithActiveAndLatest,
         flowWithNoActiveVersion
     }),

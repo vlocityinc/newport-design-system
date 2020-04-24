@@ -2241,6 +2241,7 @@ export const flowWithAllElementsUIModel = {
     ],
     properties: {
         canOnlySaveAsNewDefinition: false,
+        definitionId: '300xx000000brKrAAI',
         description: '',
         elementType: 'FLOW_PROPERTIES',
         hasUnsavedChanges: false,

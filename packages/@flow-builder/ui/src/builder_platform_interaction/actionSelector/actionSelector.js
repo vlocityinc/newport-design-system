@@ -7,6 +7,7 @@ import { LABELS } from './actionSelectorLabels';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 import cannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
 import { format } from 'builder_platform_interaction/commonUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
 
 export default class ActionSelector extends LightningElement {
     labels = LABELS;
@@ -51,8 +52,10 @@ export default class ActionSelector extends LightningElement {
                     this.dispatchCannotRetrieveActionsEvent();
                 }
             });
+        const { definitionId: flowDefinitionId } = Store.getStore().getCurrentState().properties;
         fetchOnce(SERVER_ACTION_TYPE.GET_SUBFLOWS, {
-            flowProcessType: this.flowProcessType
+            flowProcessType: this.flowProcessType,
+            flowDefinitionId
         })
             .then(subflows => {
                 if (this.connected) {

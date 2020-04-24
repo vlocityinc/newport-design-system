@@ -427,9 +427,8 @@ export default class Editor extends LightningElement {
         const currentState = storeInstance.getCurrentState();
         this.isUndoDisabled = !isUndoAvailable();
         this.isRedoDisabled = !isRedoAvailable();
-        const { status, processType: flowProcessType } = currentState.properties;
+        const { status, processType: flowProcessType, definitionId } = currentState.properties;
         this.flowStatus = status;
-
         const flowTriggerType = getTriggerType();
         const flowProcessTypeChanged = flowProcessType && flowProcessType !== this.properties.processType;
         const triggerTypeChanged = flowTriggerType !== this.triggerType;
@@ -443,7 +442,7 @@ export default class Editor extends LightningElement {
                     loadActionsPromise,
                     loadPeripheralMetadataPromise,
                     loadPalettePromise
-                } = loadOnProcessTypeChange(flowProcessType);
+                } = loadOnProcessTypeChange(flowProcessType, definitionId);
                 this.propertyEditorBlockerCalls.push(loadPeripheralMetadataPromise);
 
                 const actionsPromise = loadActionsPromise.then(() => {

@@ -510,6 +510,7 @@ export const autolaunchedFlowUIModel = {
     ],
     properties: {
         canOnlySaveAsNewDefinition: false,
+        definitionId: '300xx000000bsOzAAI',
         description: '',
         elementType: 'FLOW_PROPERTIES',
         hasUnsavedChanges: false,

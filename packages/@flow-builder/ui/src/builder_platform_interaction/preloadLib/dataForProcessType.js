@@ -25,8 +25,10 @@ export const loadActions = flowProcessType =>
 
 export const loadApexPlugins = () => fetchOnce(SERVER_ACTION_TYPE.GET_APEX_PLUGINS, {}, { background: true });
 
-export const loadSubflows = flowProcessType =>
-    fetchOnce(SERVER_ACTION_TYPE.GET_SUBFLOWS, { flowProcessType }, { background: true }).then(setSubflows);
+export const loadSubflows = (flowProcessType, flowDefinitionId) =>
+    fetchOnce(SERVER_ACTION_TYPE.GET_SUBFLOWS, { flowProcessType, flowDefinitionId }, { background: true }).then(
+        setSubflows
+    );
 
 export const loadRules = () => fetchOnce(SERVER_ACTION_TYPE.GET_RULES, {}, { disableErrorModal: true }).then(setRules);
 

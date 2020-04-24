@@ -5,6 +5,9 @@ import { CannotRetrieveCalloutParametersEvent, ActionsLoadedEvent } from 'builde
 import { untilNoFailure, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { mockActions } from 'mock/calloutData';
 import { LABELS } from '../calloutEditorLabels';
+import { Store } from 'builder_platform_interaction/storeLib';
+
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/serverDataLib');
@@ -100,6 +103,18 @@ const actionCategories = calloutEditor => calloutEditor.shadowRoot.querySelector
 
 describe('callout-editor', () => {
     let calloutEditor;
+    beforeAll(() => {
+        Store.setMockState({
+            properties: {
+                processType: 'flow',
+                definitionId: '300xx000000bpCbAAI'
+            },
+            elements: {}
+        });
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     beforeEach(() => {
         calloutEditor = setupComponentUnderTest();
         calloutEditor.filterBy = LABELS.filterByCategoryOption;

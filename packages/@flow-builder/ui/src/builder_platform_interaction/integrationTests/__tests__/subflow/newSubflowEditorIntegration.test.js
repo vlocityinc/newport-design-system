@@ -8,18 +8,15 @@ import {
     INTERACTION_COMPONENTS_SELECTORS,
     selectEvent
 } from 'builder_platform_interaction/builderTestUtils';
-import { resetState } from '../integrationTestUtils';
+import { resetState, setupStateForProcessType, translateFlowToUIAndDispatch } from '../integrationTestUtils';
 import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
-import { getSubflows, getFlowInputOutputVariables, initializeAuraFetch } from '../serverDataTestUtils';
 import { ELEMENT_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { reducer } from 'builder_platform_interaction/reducers';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { mockSubflows, mockSubflowAllTypesVariables } from 'mock/calloutData';
 import {
     getBaseCalloutElement,
     verifyOptionalInputParameterNoValue,
     getInputParameterItems
 } from '../baseCalloutEditorTestUtils';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 
 const createComponentForTest = (node, processType, mode) => {
     const el = createElement('builder_platform_interaction-callout-editor', {
@@ -49,16 +46,10 @@ const getSubflowEditorElement = calloutEditor => {
 
 describe('Subflow Editor (new subflow)', () => {
     let propertyEditor;
-    beforeAll(() => {
-        Store.getStore(reducer);
-        initializeAuraFetch({
-            'c.getSubflows': getSubflows({
-                [FLOW_PROCESS_TYPE.FLOW]: mockSubflows
-            }),
-            'c.getFlowInputOutputVariables': getFlowInputOutputVariables({
-                mynamespace__subflow: mockSubflowAllTypesVariables
-            })
-        });
+    let store;
+    beforeAll(async () => {
+        store = await setupStateForProcessType(FLOW_PROCESS_TYPE.FLOW);
+        translateFlowToUIAndDispatch(flowWithAllElements, store);
     });
     afterAll(() => {
         resetState();

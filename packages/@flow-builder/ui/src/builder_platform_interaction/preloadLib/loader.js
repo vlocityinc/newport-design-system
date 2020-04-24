@@ -106,12 +106,12 @@ class Loader {
     }
 
     // @api
-    loadOnProcessTypeChange(flowProcessType) {
+    loadOnProcessTypeChange(flowProcessType, flowDefinitionId) {
         // currently, we prefetch actions, apex plugins and subflows for performance reasons but we don't need them to be loaded
         // before we can open a Property Editor
         const loadActionsPromise = loadActions(flowProcessType);
         loadApexPlugins();
-        loadSubflows(flowProcessType);
+        loadSubflows(flowProcessType, flowDefinitionId);
         const loadPalettePromise = loadPalette(flowProcessType);
         const loadPeripheralMetadataPromise = this.loadPeripheralMetadata(flowProcessType);
         return {
@@ -218,8 +218,10 @@ export const loadOnStart = () => loader.loadOnStart();
  * - apex plugins
  * - subflows
  * @param {String} processType Process type
+ * @param {String} flowDefinitionId
  */
-export const loadOnProcessTypeChange = processType => loader.loadOnProcessTypeChange(processType);
+export const loadOnProcessTypeChange = (processType, flowDefinitionId) =>
+    loader.loadOnProcessTypeChange(processType, flowDefinitionId);
 
 /**
  * Load all apex classes
