@@ -22,22 +22,7 @@ const menuItemCSSSelector = `.slds-dropdown__list .${menuItemCSSClassName}`;
  */
 export default class FlcButtonMenu extends LightningElement {
     @api
-    isConnector;
-
-    @api
     guid;
-
-    @api
-    childIndex;
-
-    @api
-    parent;
-
-    @api
-    prev;
-
-    @api
-    next;
 
     @api
     elementMetadata;
@@ -49,7 +34,7 @@ export default class FlcButtonMenu extends LightningElement {
     isSelectionMode;
 
     @api
-    info;
+    connectionInfo;
 
     @api
     conditionOptionsForNode;
@@ -378,23 +363,24 @@ export default class FlcButtonMenu extends LightningElement {
         if (!this.disabled) {
             const { top, left } = this.target.getBoundingClientRect();
             const { clientWidth, clientHeight } = this.target;
-            const { conditionOptionsForNode, isConnector, guid, info, elementMetadata } = this;
-            const { parent, prev, next, childIndex } = info || {};
+            const { conditionOptionsForNode, guid, connectionInfo, elementMetadata } = this;
+            const type = connectionInfo ? MenuType.CONNECTOR : MenuType.NODE;
 
             if (sendEvent) {
                 this.dispatchEvent(
-                    new ToggleMenuEvent({
-                        top: top + clientHeight / 2,
-                        left: left + clientWidth / 2,
-                        type: isConnector ? MenuType.CONNECTOR : MenuType.NODE,
-                        guid: guid || prev,
-                        childIndex,
-                        parent,
-                        prev,
-                        next,
-                        elementMetadata,
-                        conditionOptionsForNode
-                    })
+                    new ToggleMenuEvent(
+                        Object.assign(
+                            {
+                                top: top + clientHeight / 2,
+                                left: left + clientWidth / 2,
+                                type,
+                                guid: guid || connectionInfo.prev,
+                                elementMetadata,
+                                conditionOptionsForNode
+                            },
+                            connectionInfo
+                        )
+                    )
                 );
             }
         }

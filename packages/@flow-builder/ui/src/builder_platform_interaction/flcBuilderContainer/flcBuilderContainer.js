@@ -22,7 +22,8 @@ function augmentElementsMetadata(elementsMetadata) {
             label: '',
             elementType: ELEMENT_TYPE.ROOT_ELEMENT,
             value: ELEMENT_TYPE.ROOT_ELEMENT,
-            type: getFlcElementType(ELEMENT_TYPE.ROOT_ELEMENT)
+            type: getFlcElementType(ELEMENT_TYPE.ROOT_ELEMENT),
+            canHaveFaultConnector: false
         },
         {
             section: endElement.nodeConfig.section,
@@ -31,7 +32,8 @@ function augmentElementsMetadata(elementsMetadata) {
             label: endElement.labels.singular,
             value: ELEMENT_TYPE.END_ELEMENT,
             elementType: ELEMENT_TYPE.END_ELEMENT,
-            type: getFlcElementType(ELEMENT_TYPE.END_ELEMENT)
+            type: getFlcElementType(ELEMENT_TYPE.END_ELEMENT),
+            canHaveFaultConnector: false
         },
         {
             section: null,
@@ -39,7 +41,8 @@ function augmentElementsMetadata(elementsMetadata) {
             label: startElement.labels.singular,
             value: ELEMENT_TYPE.START_ELEMENT,
             elementType: ELEMENT_TYPE.START_ELEMENT,
-            type: getFlcElementType(ELEMENT_TYPE.START_ELEMENT)
+            type: getFlcElementType(ELEMENT_TYPE.START_ELEMENT),
+            canHaveFaultConnector: false
         }
     ]);
 }

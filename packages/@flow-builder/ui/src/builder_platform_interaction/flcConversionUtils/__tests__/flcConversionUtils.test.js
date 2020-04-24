@@ -2,6 +2,7 @@ import { deepCopy } from 'builder_platform_interaction/storeLib';
 
 import sanity from './flcUiModels/sanity';
 import oneScreen from './flcUiModels/one-screen';
+import oneElementWithFault from './flcUiModels/one-element-with-fault';
 import decisionOneChildOnEachBranchNextIsNotEnd from './flcUiModels/decision-one-child-on-each-branch-next-is-not-end';
 
 import { convertFromFlc, convertToFlc } from '../flcConversionUtils';
@@ -82,5 +83,9 @@ describe('converts', () => {
 
     describe('one decision with one child on each branch, followed by a screen element', () => {
         testConversions(decisionOneChildOnEachBranchNextIsNotEnd);
+    });
+
+    describe('one element with fault', () => {
+        testConversions(oneElementWithFault);
     });
 });

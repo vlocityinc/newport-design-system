@@ -12,7 +12,7 @@ export function createEndElement(element = {}) {
     return {
         ...baseCanvasElement(element),
         elementType,
-        label: elementType,
+        label: null,
         value: elementType,
         text: elementType,
         name: elementType

@@ -218,6 +218,124 @@ Object {
 }
 `;
 
+exports[`converts one element with fault from flc 1`] = `
+Object {
+  "canvasElements": Array [
+    "fault-element-guid",
+    "record-create-element-guid",
+    "start-element-guid",
+  ],
+  "connectors": Array [
+    Object {
+      "config": Object {
+        "isSelected": false,
+      },
+      "guid": "start-element-guid -> record-create-element-guid",
+      "label": "",
+      "source": "start-element-guid",
+      "target": "record-create-element-guid",
+      "type": "REGULAR",
+    },
+    Object {
+      "config": Object {
+        "isSelected": false,
+      },
+      "guid": "record-create-element-guid -> fault-element-guid",
+      "label": "",
+      "source": "record-create-element-guid",
+      "target": "fault-element-guid",
+      "type": "FAULT",
+    },
+  ],
+  "elements": Object {
+    "fault-element-guid": Object {
+      "config": Object {
+        "canSelect": true,
+        "isHighlighted": false,
+        "isSelected": false,
+      },
+      "connectorCount": 0,
+      "description": "",
+      "elementType": "RecordCreate",
+      "filterType": "all",
+      "filters": Array [
+        Object {
+          "leftHandSide": "",
+          "operator": "",
+          "rightHandSide": "",
+          "rightHandSideDataType": "",
+          "rowIndex": "dda83bda-2840-470c-aa57-1a8cfedee523",
+        },
+      ],
+      "guid": "fault-element-guid",
+      "isCanvasElement": true,
+      "locationX": 0,
+      "locationY": 0,
+      "maxConnections": 1,
+      "object": "",
+      "objectIndex": "92c23e8e-4104-40ba-86e0-feb73e787792",
+      "triggerType": "None",
+    },
+    "record-create-element-guid": Object {
+      "config": Object {
+        "canSelect": true,
+        "isHighlighted": false,
+        "isSelected": false,
+      },
+      "connectorCount": 0,
+      "description": "",
+      "elementType": "RecordCreate",
+      "filterType": "all",
+      "filters": Array [
+        Object {
+          "leftHandSide": "",
+          "operator": "",
+          "rightHandSide": "",
+          "rightHandSideDataType": "",
+          "rowIndex": "cda83bda-2840-470c-aa57-1a8cfedee523",
+        },
+      ],
+      "guid": "record-create-element-guid",
+      "isCanvasElement": true,
+      "locationX": 0,
+      "locationY": 0,
+      "maxConnections": 1,
+      "object": "",
+      "objectIndex": "12c23e8e-4104-40ba-86e0-feb73e787792",
+      "triggerType": "None",
+    },
+    "start-element-guid": Object {
+      "config": Object {
+        "canSelect": true,
+        "isHighlighted": false,
+        "isSelected": false,
+      },
+      "connectorCount": 0,
+      "description": "",
+      "elementType": "START_ELEMENT",
+      "filterType": "all",
+      "filters": Array [
+        Object {
+          "leftHandSide": "",
+          "operator": "",
+          "rightHandSide": "",
+          "rightHandSideDataType": "",
+          "rowIndex": "cda83bda-2840-470c-aa57-1a8cfedee523",
+        },
+      ],
+      "guid": "start-element-guid",
+      "isCanvasElement": true,
+      "locationX": 0,
+      "locationY": 500,
+      "maxConnections": 1,
+      "object": "",
+      "objectIndex": "12c23e8e-4104-40ba-86e0-feb73e787792",
+      "triggerType": "None",
+    },
+  },
+}
+`;
+
 exports[`converts one-screen from flc 1`] = `
 Object {
   "canvasElements": Array [

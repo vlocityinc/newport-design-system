@@ -1,8 +1,10 @@
-import { NodeModel, resolveNode, ParentNodeModel, NodeRef, getElementMetadata } from './model';
-import { FlowRenderContext, LayoutConfig, ConnectorVariant } from './flowRendererUtils';
+import { NodeModel, resolveNode, ParentNodeModel, NodeRef, getElementMetadata, FAULT_INDEX } from './model';
+import { FlowRenderContext, LayoutConfig } from './flowRendererUtils';
 import MenuType from './MenuType';
 import ElementType from './ElementType';
 import ConnectorType from './ConnectorTypeEnum';
+
+export const NO_OFFSET = 0;
 
 export interface LayoutInfo {
     x: number;
@@ -10,6 +12,7 @@ export interface LayoutInfo {
     w: number;
     h: number;
     joinOffsetY: number;
+    offsetX: number;
 }
 
 export interface NodeLayout {
@@ -19,103 +22,6 @@ export interface NodeLayout {
 
 export interface NodeLayoutMap {
     [key: string]: NodeLayout;
-}
-
-/**
- * Returns the default config for the layout
- *
- * @returns The default config for the layout
- */
-export function getDefaultLayoutConfig(): LayoutConfig {
-    const gridHeight = 24;
-
-    return {
-        grid: {
-            w: 132,
-            h: gridHeight
-        },
-        menu: {
-            marginBottom: 2 * gridHeight
-        },
-        connector: {
-            strokeWidth: 6,
-            curveRadius: 16,
-            menu: {
-                w: 100,
-                h: 360
-            },
-            types: {
-                [ConnectorType.STRAIGHT]: {
-                    addOffset: gridHeight * 3,
-                    h: 6 * gridHeight
-                },
-                [ConnectorType.BRANCH_HEAD]: {
-                    addOffset: gridHeight * 4.5,
-                    labelOffset: gridHeight * 2,
-                    h: 7 * gridHeight,
-                    variants: {
-                        [ConnectorVariant.EDGE]: {
-                            svgMarginTop: gridHeight
-                        },
-                        [ConnectorVariant.CENTER]: { svgMarginBottom: -gridHeight }
-                    }
-                },
-                [ConnectorType.BRANCH_EMPTY_HEAD]: {
-                    addOffset: gridHeight * 4.5,
-                    labelOffset: gridHeight * 2,
-                    h: 6 * gridHeight,
-                    variants: {
-                        [ConnectorVariant.EDGE]: {
-                            svgMarginTop: gridHeight,
-                            svgMarginBottom: gridHeight
-                        },
-                        [ConnectorVariant.CENTER]: { svgMarginBottom: -gridHeight }
-                    }
-                },
-                [ConnectorType.BRANCH_TAIL]: {
-                    addOffset: gridHeight * 3,
-                    h: 5 * gridHeight,
-                    variants: {
-                        [ConnectorVariant.EDGE]: {
-                            svgMarginBottom: gridHeight
-                        },
-                        [ConnectorVariant.CENTER]: { svgMarginBottom: -gridHeight }
-                    }
-                },
-                [ConnectorType.POST_MERGE]: {
-                    addOffset: gridHeight * 2,
-                    h: 5 * gridHeight,
-                    svgMarginTop: gridHeight,
-                    variants: {
-                        [ConnectorVariant.EDGE]: { svgMarginBottom: gridHeight },
-                        [ConnectorVariant.CENTER]: { svgMarginBottom: -gridHeight }
-                    }
-                }
-            }
-        },
-        node: {
-            w: 48,
-            h: 48,
-            menu: {
-                [ElementType.DEFAULT]: {
-                    w: 100,
-                    h: 225
-                },
-                [ElementType.BRANCH]: {
-                    w: 100,
-                    h: 225
-                },
-                [ElementType.START]: {
-                    w: 100,
-                    h: 150
-                },
-                [ElementType.END]: {
-                    w: 100,
-                    h: 150
-                }
-            }
-        }
-    };
 }
 
 /**
@@ -159,26 +65,29 @@ function getMenuHeight({
 }
 
 /**
- * Default algorithm for calculating the NodeLayout information for nodes
+ * Default algorithm for calculating the NodeLayout information for nodes. Updates
+ * the nodeLayoutMap in the flow render context
  *
- * @param flowModel the FlowModel
- * @param nodeLayoutMap the NodeLayoutMap
+ * @param context - The flow render context
  */
-export function calculateFlowLayout(context: FlowRenderContext) {
-    calculateBranchLayout(context.flowModel.root as ParentNodeModel, 0, 0, context);
+function calculateFlowLayout(context: FlowRenderContext): void {
+    const startNodeIndex = 0;
+    calculateBranchLayout(context.flowModel.root as ParentNodeModel, startNodeIndex, context);
+    // console.log(context.nodeLayoutMap);
 }
 
-function newDefaultLayout(): LayoutInfo {
+function createDefaultLayout(): LayoutInfo {
     return {
         x: 0,
         y: 0,
         w: 0,
         h: 0,
-        joinOffsetY: 0
+        joinOffsetY: 0,
+        offsetX: 0
     };
 }
 
-export function getBranchLayoutKey(parentGuid: string, childIndex: number) {
+function getBranchLayoutKey(parentGuid: string, childIndex: number) {
     return `${parentGuid}:${childIndex}`;
 }
 
@@ -193,7 +102,7 @@ function setBranchLayout(parentGuid: string, childIndex: number, nodeLayoutMap: 
 }
 
 function cloneLayout(layout?: LayoutInfo): LayoutInfo {
-    return layout ? { ...layout } : newDefaultLayout();
+    return layout ? { ...layout } : createDefaultLayout();
 }
 
 /**
@@ -250,25 +159,28 @@ function getExtraHeightForMenu({
     elementType,
     connectorType,
     connectorHeight,
-    layoutConfig
+    layoutConfig,
+    hasNext
 }: {
-    menuType: MenuType;
+    menuType: MenuType | null;
     elementType?: ElementType;
     connectorType?: ConnectorType;
     connectorHeight: number;
     layoutConfig: LayoutConfig;
+    hasNext: boolean;
 }): number {
+    if (menuType == null) {
+        return 0;
+    }
+
     const menuHeight = getMenuHeight({ menuType, elementType, layoutConfig });
     const menuMarginBottom = layoutConfig.menu.marginBottom;
     const menuTriggerOffset =
         menuType === MenuType.CONNECTOR ? layoutConfig.connector.types[connectorType!]!.addOffset : 0;
 
-    let menuSpacingToNextNode = connectorHeight - menuTriggerOffset - menuHeight;
-
-    // TODO: FLC cleanup
-    if (connectorType === ConnectorType.BRANCH_EMPTY_HEAD || connectorType === ConnectorType.BRANCH_TAIL) {
-        menuSpacingToNextNode += layoutConfig.grid.h;
-    }
+    const halfIconSize = layoutConfig.node.icon.h / 2;
+    const heightFromMenuTriggerToNextNode = connectorHeight - menuTriggerOffset - (hasNext ? halfIconSize : 0);
+    const menuSpacingToNextNode = heightFromMenuTriggerToNextNode - menuHeight;
 
     return menuSpacingToNextNode < menuMarginBottom ? menuMarginBottom - menuSpacingToNextNode : 0;
 }
@@ -277,37 +189,37 @@ function getExtraHeightForMenu({
  * Calculates the layout for a node
  *
  * @param nodeModel - The node model
- * @param offsetY  -
  * @param context - The flow rendering context
+ * @param offsetY  - The node's offset in its parent
  * @returns A NodeLayout for the node
  */
-function calculateNodeLayout(nodeModel: NodeModel, offsetY: number, context: FlowRenderContext): NodeLayout {
+function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, offsetY: number): NodeLayout {
     const { nodeLayoutMap, elementsMetadata, layoutConfig } = context;
 
     let layout;
     const { guid } = nodeModel;
     let layoutInfo = nodeLayoutMap[guid];
+    const nodeMetadata = getElementMetadata(elementsMetadata, nodeModel.elementType);
 
     // handle the layout for any branches
-    const childCount = getLayoutChildren(nodeModel).length;
-    const { branchHeight, width } = calculateBranchingHeightAndWidth(childCount, nodeModel, offsetY, context);
-    setBranchOffsets(width, childCount, nodeModel, nodeLayoutMap, offsetY);
+    const branchingInfo = calculateBranchingLayout(nodeModel as ParentNodeModel, context, offsetY);
 
-    const nodeMetadata = getElementMetadata(elementsMetadata, nodeModel.elementType);
+    if (nodeModel.fault != null) {
+        calculateBranchLayout(nodeModel as ParentNodeModel, FAULT_INDEX, context);
+    }
+
     const nextNodeConnectorType = getNextNodeConnectorType(nodeMetadata.type, nodeModel.guid, nodeModel.next, false);
     const nextNodeConnectorHeight =
         nextNodeConnectorType != null ? getConnectorHeight(nextNodeConnectorType, layoutConfig) : 0;
 
-    let height =
-        nextNodeConnectorHeight +
-        branchHeight +
-        (nodeMetadata.type === ElementType.END ? getConnectorHeight(ConnectorType.BRANCH_TAIL, layoutConfig) : 0);
+    let height = nextNodeConnectorHeight + branchingInfo.h;
 
     const menuType = getMenuType(guid, context);
 
     height +=
         menuType != null
             ? getExtraHeightForMenu({
+                  hasNext: nodeModel.next != null,
                   menuType,
                   elementType: nodeMetadata.type,
                   connectorType: nextNodeConnectorType!,
@@ -322,13 +234,23 @@ function calculateNodeLayout(nodeModel: NodeModel, offsetY: number, context: Flo
     const isNew = layoutInfo == null;
 
     if (isNew) {
-        layout = createLayoutForNewNode(nodeModel, nodeLayoutMap, layout, offsetY);
+        layout = Object.assign(createLayoutForNewNode(nodeModel, nodeLayoutMap), {
+            offsetY,
+            joinOffsetY: branchingInfo.h
+        });
     }
 
     layoutInfo = layoutInfo || { layout };
     layoutInfo = {
         prevLayout: isNew ? undefined : cloneLayout(layoutInfo.layout),
-        layout: { w: width, h: height, y: offsetY, x: 0, joinOffsetY: branchHeight }
+        layout: {
+            w: Math.max(branchingInfo.w, layoutConfig.node.w),
+            h: height,
+            y: offsetY,
+            x: 0,
+            joinOffsetY: branchingInfo.h,
+            offsetX: Math.max(branchingInfo.offsetX, layoutConfig.node.offsetX)
+        }
     };
 
     nodeLayoutMap[nodeModel.guid] = layoutInfo;
@@ -336,63 +258,216 @@ function calculateNodeLayout(nodeModel: NodeModel, offsetY: number, context: Flo
     return layoutInfo;
 }
 
-function createLayoutForNewNode(nodeModel: NodeModel, nodeLayoutMap: NodeLayoutMap, layout: any, offsetY: number) {
+/**
+ * Creates a layout object for a new node
+ *
+ * @param nodeModel - The node
+ * @param nodeLayoutMap  - The nodeLayoutMap
+ * @returns The layout info for the new node
+ */
+function createLayoutForNewNode(nodeModel: NodeModel, nodeLayoutMap: NodeLayoutMap): LayoutInfo {
     // if we just inserted a node, set its layout to
     // the next node's previous layout (ie, the next node's location before
     // it was pushed down by the connector menu)
 
     const next = nodeModel.next;
     const nextLayoutInfo = next ? nodeLayoutMap[next] : null;
-    if (nextLayoutInfo != null) {
-        layout = cloneLayout(nextLayoutInfo.prevLayout);
-    } else {
-        layout = { ...newDefaultLayout(), y: offsetY };
-    }
-    return layout;
+    return nextLayoutInfo != null ? cloneLayout(nextLayoutInfo.prevLayout) : createDefaultLayout();
 }
 
-function calculateBranchingHeightAndWidth(
-    childCount: number,
-    nodeModel: NodeModel,
-    offsetY: number,
-    context: FlowRenderContext
-) {
-    let width = 0;
-    let branchHeight = 0;
-    for (let i = 0; i < childCount; i++) {
-        const branchLayout = calculateBranchLayout(nodeModel, i, offsetY, context);
-        branchHeight = Math.max(branchHeight, branchLayout.h);
-        width += branchLayout.w;
+function calculateBranchingLayout(nodeModel: ParentNodeModel, context: FlowRenderContext, offsetY: number) {
+    const childCount = (nodeModel.children || []).length;
+
+    if (childCount < 1) {
+        return { w: 0, h: 0, offsetX: 0 };
     }
 
-    return { branchHeight, width };
+    let branchingHeight = 0;
+
+    let branchOffsetX = 0;
+    const branchLayouts = [];
+
+    for (let i = 0; i < childCount; i++) {
+        const branchLayout = calculateBranchLayout(nodeModel, i, context, offsetY);
+
+        // make the branch's stem the origin
+        branchLayout.x = branchOffsetX + branchLayout.offsetX;
+
+        branchOffsetX += branchLayout.w;
+        branchingHeight = Math.max(branchingHeight, branchLayout.h);
+        branchLayouts.push(branchLayout);
+    }
+
+    const offsetX = centerLayouts(branchLayouts);
+
+    return { w: branchOffsetX, h: branchingHeight, offsetX };
 }
 
 /**
- * Sets the xy-offsets for branches
+ * Returns a node's child or fault
  *
- * @param width
- * @param childCount
- * @param nodeModel
- * @param nodeLayoutMap
- * @param offsetY
+ * @param nodeModel - The parent node
+ * @param childIndex - The the index of the child or fault
+ * @returns The child or fault corresponding childIndex
  */
-function setBranchOffsets(
-    width: number,
-    childCount: number,
-    nodeModel: NodeModel,
-    nodeLayoutMap: NodeLayoutMap,
-    offsetY: number
-) {
-    let offsetX = -width / 2;
-
-    for (let i = 0; i < childCount; i++) {
-        const branchLayout = getBranchLayout(nodeModel.guid, i, nodeLayoutMap).layout;
-        branchLayout.x = offsetX + branchLayout.w / 2;
-        branchLayout.y = offsetY;
-        offsetX += branchLayout.w;
-    }
+function getLayoutChildOrFault(nodeModel: ParentNodeModel, childIndex: number) {
+    return childIndex === FAULT_INDEX ? nodeModel.fault : nodeModel.children[childIndex];
 }
+
+/**
+ * Calculates the layout of a branch and each of its nodes recursively and adds
+ * the layout to the FlowRenderContext's nodeLayoutMap
+ *
+ * @param parentNodeModel - The branching element
+ * @param childIndex - The index of the branch
+ * @param context - The flow rendering context
+ * @param offsetY - The y-offset of the branching node in its flow
+ * @returns The LayoutInfo for the branch
+ */
+function calculateBranchLayout(
+    parentNodeModel: ParentNodeModel,
+    childIndex: number,
+    context: FlowRenderContext,
+    offsetY: number = 0
+): LayoutInfo {
+    const { flowModel, nodeLayoutMap, elementsMetadata, layoutConfig } = context;
+
+    const prevLayout = getBranchLayout(parentNodeModel.guid, childIndex, nodeLayoutMap)
+        ? getBranchLayout(parentNodeModel.guid, childIndex, nodeLayoutMap).layout
+        : { ...createDefaultLayout(), y: offsetY };
+
+    const branchLayout = createDefaultLayout();
+
+    setBranchLayout(parentNodeModel.guid, childIndex, nodeLayoutMap, {
+        prevLayout,
+        layout: branchLayout
+    });
+
+    const parentNodeMetadata = getElementMetadata(elementsMetadata, parentNodeModel.elementType);
+    const branchHeadGuid = getLayoutChildOrFault(parentNodeModel, childIndex);
+
+    let node: NodeModel | null = branchHeadGuid != null ? resolveNode(flowModel, branchHeadGuid) : null;
+
+    const nextNodeConnectorType: ConnectorType = getNextNodeConnectorType(
+        parentNodeMetadata.type,
+        branchHeadGuid,
+        branchHeadGuid,
+        true
+    )!;
+
+    let height = getConnectorHeight(nextNodeConnectorType, layoutConfig);
+
+    const menuType = getMenuType(getBranchLayoutKey(parentNodeModel.guid, childIndex), context);
+
+    height += getExtraHeightForMenu({
+        hasNext: branchHeadGuid != null,
+        menuType,
+        connectorType: nextNodeConnectorType,
+        connectorHeight: height,
+        layoutConfig
+    });
+
+    let faultLayout;
+
+    let isTerminal = false;
+
+    let leftWidth = 0;
+    let rightWidth = 0;
+
+    while (node) {
+        const { layout } = calculateNodeLayout(node, context, height);
+
+        const nodeMetadata = getElementMetadata(elementsMetadata, node.elementType);
+        isTerminal =
+            isTerminal ||
+            (nodeMetadata.type === ElementType.END && parentNodeModel.next != null) ||
+            childIndex === FAULT_INDEX;
+
+        if (node.fault != null) {
+            faultLayout = getBranchLayout(node.guid, FAULT_INDEX, nodeLayoutMap).layout;
+
+            // extra height so that the fault doesn't overlap with the merge connectors
+            faultLayout.y = height + layoutConfig.grid.h;
+        }
+
+        layout.y = height;
+
+        rightWidth = Math.max(layout.w - layout.offsetX, rightWidth);
+        leftWidth = Math.max(leftWidth, layout.offsetX);
+        height += layout.h;
+
+        const next = node.next;
+        node = next ? resolveNode(flowModel, next) : null;
+    }
+
+    // if we have a fault, we might need to extend the branch height, otherwise it could overlap the merge connectors
+    if (faultLayout != null) {
+        height = Math.max(faultLayout.y + faultLayout.h, height);
+        faultLayout.x = rightWidth + faultLayout.offsetX;
+        rightWidth = rightWidth + faultLayout.w;
+    }
+
+    // for faults and terminal branches we need to some extra height so that it won't overlap the merge connectors
+    if (isTerminal) {
+        height += getConnectorHeight(ConnectorType.BRANCH_TAIL, layoutConfig);
+    }
+
+    if (branchHeadGuid == null) {
+        leftWidth = rightWidth = layoutConfig.branch.emptyWidth / 2;
+    }
+
+    return Object.assign(branchLayout, { w: leftWidth + rightWidth, h: height, offsetX: leftWidth });
+}
+
+/**
+ * Adjusts the offsets so that the branch is centered relative to the parent connector
+ *
+ * @param branchLayouts - The branch layouts
+ * @returns The offsetX of the branches
+ */
+function centerLayouts(branchLayouts: LayoutInfo[]): number {
+    let adjust = 0;
+    if (branchLayouts.length > 1) {
+        const firstBranchLayout = branchLayouts[0];
+        const lastBranchLayout = branchLayouts[branchLayouts.length - 1];
+        adjust = firstBranchLayout.offsetX + (lastBranchLayout.x - firstBranchLayout.x) / 2;
+    }
+
+    let offsetX = 0;
+    branchLayouts.forEach((branchLayout, i) => {
+        branchLayout.x = branchLayout.x - adjust;
+        if (i === 0) {
+            offsetX = Math.abs(branchLayout.x) + branchLayout.offsetX;
+        }
+    });
+
+    return offsetX;
+}
+
+export { calculateFlowLayout, getBranchLayoutKey, getLayoutChildOrFault };
+
+// function centerLayouts(branchLayouts: LayoutInfo[]): number {
+//     let maxSpacing = 0;
+
+//     for (let i = 0; i < branchLayouts.length - 1; i++) {
+//         maxSpacing = Math.max(branchLayouts[i + 1].x - branchLayouts[i].x, maxSpacing);
+//     }
+
+//     let spacingOffsetX = 0;
+//     for (let i = 1; i < branchLayouts.length; i++) {
+//         const spacing = branchLayouts[i].x - branchLayouts[i - 1].x;
+//         const diffSpacing = maxSpacing - spacing;
+//         if (diffSpacing !== 0) {
+//             spacingOffsetX += diffSpacing;
+//             branchLayouts[i].w += diffSpacing;
+//             branchLayouts[i].x += spacingOffsetX;
+//             branchOffsetX += diffSpacing;
+//         }
+//     }
+//     const firstBranchLayout = branchLayouts[0];
+//     const lastBranchLayout = branchLayouts[branchLayouts.length - 1];
+//     return firstBranchLayout.offsetX + (lastBranchLayout.x - firstBranchLayout.x) / 2;
+// }
 
 // function resetLayouts(
 //     node: NodeModel | null,
@@ -401,81 +476,8 @@ function setBranchOffsets(
 // ) {
 //     while (node) {
 //         nodeLayoutMap[node.guid] = {
-//             layout: newDefaultLayout()
+//             layout: createDefaultLayout()
 //         };
 //         node = node.next ? resolveNode(flowModel, node.next) : null;
 //     }
 // }
-
-export function getLayoutChildren(node: NodeModel): NodeRef[] {
-    return (node as ParentNodeModel).children || [];
-}
-
-/**
- * Calculates the layout of a branch and each of its nodes recursively and adds
- * the layout to the FlowRenderContext's nodeLayoutMap
- *
- * @param parent - The branching element
- * @param childIndex - The index of the branch
- * @param offsetY - The y-offset of the branching node in its flow
- * @param context - The flow rendering context
- * @returns The LayoutInfo for the branch
- */
-function calculateBranchLayout(
-    parent: NodeModel,
-    childIndex: number,
-    offsetY: number,
-    context: FlowRenderContext
-): LayoutInfo {
-    const { flowModel, nodeLayoutMap, elementsMetadata, layoutConfig } = context;
-
-    const prevLayout = getBranchLayout(parent.guid, childIndex, nodeLayoutMap)
-        ? getBranchLayout(parent.guid, childIndex, nodeLayoutMap).layout
-        : { ...newDefaultLayout(), y: offsetY };
-
-    const branchLayout = newDefaultLayout();
-
-    setBranchLayout(parent.guid, childIndex, nodeLayoutMap, {
-        prevLayout,
-        layout: branchLayout
-    });
-
-    let width = layoutConfig.grid.w * 2;
-
-    const parentMetadata = getElementMetadata(elementsMetadata, parent.elementType);
-    const child = getLayoutChildren(parent)[childIndex];
-    let node: NodeModel | null = child != null ? resolveNode(flowModel, child) : null;
-
-    const nextNodeConnectorType: ConnectorType = getNextNodeConnectorType(parentMetadata.type, child, null, true)!;
-    let height = getConnectorHeight(nextNodeConnectorType, layoutConfig);
-
-    const menuType = getMenuType(getBranchLayoutKey(parent.guid, childIndex), context);
-
-    height +=
-        menuType != null
-            ? getExtraHeightForMenu({
-                  menuType,
-                  connectorType: nextNodeConnectorType,
-                  connectorHeight: height,
-                  layoutConfig
-              })
-            : 0;
-
-    while (node) {
-        const { layout } = calculateNodeLayout(node, height, context);
-
-        layout.y = height;
-        const { w, h } = layout;
-        width = Math.max(width, w);
-        height += h;
-
-        const next = node.next;
-        node = next ? resolveNode(flowModel, next) : null;
-    }
-
-    // set the branch dimensions
-    branchLayout.w = width;
-    branchLayout.h = height;
-
-    return branchLayout;
-}

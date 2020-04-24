@@ -8,7 +8,7 @@
 
     <!-- Label Picker -->
     <lightning-combobox
-        if:true={connectorInfo.conditionValue}
+        if:true={canSelectLabel}
         style={connectorLabelStyle}
         disabled={isLabelPickerDisabled}
         label="Assistive text"
@@ -19,16 +19,15 @@
         onmouseout={handleComboboxMouseOut}
         onmouseover={handleComboboxMouseOver}
     ></lightning-combobox>
-    <div if:true={isConnectorDefaultOrFault} class={connectorBadgeClass} style={connectorLabelStyle}>
+    <div if:true={isDefaultOrFault} class={connectorBadgeClass} style={connectorLabelStyle}>
         <span class="slds-truncate">{connectorBadgeLabel}</span>
     </div>
 
     <!-- "+" Button Menu -->
     <template if:true={showAddElementButton}>
         <builder_platform_interaction-flc-button-menu
-            is-connector
             icon-size="small"
-            info={connectorInfo.addInfo}
+            connection-info={connectorInfo.connectionInfo}
             menu-opened={connectorInfo.addInfo.menuOpened}
             style={buttonMenuStyle}
             variant="connector"

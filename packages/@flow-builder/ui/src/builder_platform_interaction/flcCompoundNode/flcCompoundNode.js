@@ -18,7 +18,7 @@ export default class FlcCompoundNode extends LightningElement {
     }
 
     get branches() {
-        return (this.node.flows || []).map(getFlcFlowData);
+        return (this.node.flows || []).map((flowInfo, i) => getFlcFlowData(flowInfo, this.node, i));
     }
 
     get logicConnectors() {

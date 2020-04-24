@@ -20,11 +20,15 @@ export default class FlcFlow extends LightningElement {
 
     get preConnector() {
         const { preConnector } = this.flow;
-
         return preConnector && getFlcConnectorData(preConnector);
     }
 
     get nodes() {
         return (this.flow.nodes || []).map(getFlcCompoundNodeData);
+    }
+
+    get faultFlow() {
+        const nodeWithFault = this.nodes.find(node => node.faultFlow != null);
+        return nodeWithFault != null ? nodeWithFault.faultFlow : null;
     }
 }

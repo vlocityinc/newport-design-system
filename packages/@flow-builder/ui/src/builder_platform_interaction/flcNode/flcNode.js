@@ -48,7 +48,7 @@ export default class FlcNode extends LightningElement {
     }
 
     get textContainerClasses() {
-        return this.nodeInfo.metadata.type === ElementType.BRANCH
+        return (this.nodeInfo.flows || []).length > 0 || this.nodeInfo.faultFlow != null
             ? 'slds-is-absolute text-container shifted-text-container'
             : 'slds-is-absolute text-container';
     }

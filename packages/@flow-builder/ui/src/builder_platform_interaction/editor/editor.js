@@ -15,6 +15,8 @@ import {
     updateFlowNoUndo,
     doDuplicate,
     addElement,
+    addElementFault,
+    deleteElementFault,
     updateElement,
     selectOnCanvas,
     selectionOnFixedCanvas,
@@ -780,6 +782,14 @@ export default class Editor extends LightningElement {
             this.topSelectedGuid = event.detail.topSelectedGuid;
             this.isCutCopyDisabled = !event.detail.topSelectedGuid;
         }
+    };
+
+    handleAddElementFault = event => {
+        storeInstance.dispatch(addElementFault(event.detail.guid));
+    };
+
+    handleDeleteElementFault = event => {
+        storeInstance.dispatch(deleteElementFault(event.detail.guid));
     };
 
     /**

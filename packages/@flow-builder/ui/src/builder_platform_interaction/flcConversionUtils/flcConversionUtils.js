@@ -1,10 +1,14 @@
-import { ElementType } from 'builder_platform_interaction/flowUtils';
+import {
+    ElementType,
+    linkBranchOrFault,
+    addElementToState,
+    linkElement,
+    FAULT_INDEX
+} from 'builder_platform_interaction/flowUtils';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createEndElement, createConnector } from 'builder_platform_interaction/elementFactory';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { supportsChildren, flcExtraProps } from 'builder_platform_interaction/flcBuilderUtils';
-
-import { linkBranch, addElementToState, linkElement } from 'builder_platform_interaction/flowUtils';
 
 // TODO: FLC Hack: Temp magic number to identify an flc flow
 const LOCATION_Y_FLC_FLOW = 500;
@@ -82,9 +86,19 @@ export const createRootElement = (startElementGuid = null) => {
  * @param {Object} element
  */
 export function initializeChildren(element) {
-    const { childReferenceKey } = getConfigForElementType(element.elementType);
-    // TODO: FLC find better way to determine child count (there could be more to account for faults)
-    element.children = element.children || new Array(element[childReferenceKey.plural].length + 1).fill(null);
+    const elementConfig = getConfigForElementType(element.elementType);
+
+    const childCount = element.maxConnections - (elementConfig.canHaveFaultConnector ? 1 : 0);
+    const children = element.children || [];
+    const childCountDiff = childCount - children.length;
+
+    if (childCountDiff > 0) {
+        for (let i = 0; i < childCountDiff; i++) {
+            children.push(null);
+        }
+    }
+
+    element.children = children;
 }
 
 /**
@@ -106,14 +120,16 @@ export function convertToFlc(ffcUiModel) {
     const { connectors, elements } = ffcUiModel;
 
     connectors.forEach(connector => {
-        const { source, target, childSource } = connector;
+        const { source, target, childSource, type } = connector;
         const sourceElement = elements[source];
         const targetElement = elements[target];
 
-        if (supportsChildren(sourceElement) && !isMergeElement(targetElement)) {
+        if (type === CONNECTOR_TYPE.FAULT) {
+            linkBranchOrFault(elements, sourceElement, FAULT_INDEX, targetElement);
+        } else if (supportsChildren(sourceElement) && !isMergeElement(targetElement)) {
             initializeChildren(sourceElement);
             const childIndex = findConnectionIndex(sourceElement, childSource);
-            linkBranch(elements, sourceElement, childIndex, targetElement);
+            linkBranchOrFault(elements, sourceElement, childIndex, targetElement);
         } else {
             targetElement.prev = source;
             sourceElement.next = target;
@@ -123,7 +139,7 @@ export function convertToFlc(ffcUiModel) {
     const startElement = findStartElement(elements);
     const rootElement = createRootElement();
     addElementToState(rootElement, elements);
-    linkBranch(elements, rootElement, 0, startElement);
+    linkBranchOrFault(elements, rootElement, 0, startElement);
     fixFlcProperties(ffcUiModel, startElement, rootElement);
 
     return { elements, canvasElements: [], connectors: [] };
@@ -136,7 +152,11 @@ export function convertToFlc(ffcUiModel) {
 function createConnectorsForChildren(newElements, newConnectors, newCanvasElements, parentElement) {
     let createdConnector = false;
 
-    parentElement.children.forEach((child, i) => {
+    const { children } = parentElement;
+
+    for (let i = 0; i < children.length; i++) {
+        const child = children[i];
+
         if (child) {
             const nextElement = newElements[child];
 
@@ -164,7 +184,7 @@ function createConnectorsForChildren(newElements, newConnectors, newCanvasElemen
         if (child != null) {
             convertFromFlcHelper(newElements, newConnectors, newCanvasElements, newElements[child], parentElement);
         }
-    });
+    }
 
     return createdConnector;
 }
@@ -175,6 +195,20 @@ function convertFromFlcHelper(newElements, newConnectors, newCanvasElements, ele
     let isChildless;
 
     while (element) {
+        if (element.fault != null) {
+            newConnectors.push(
+                createConnectorHelper({
+                    source: element.guid,
+                    target: element.fault,
+                    type: CONNECTOR_TYPE.FAULT
+                })
+            );
+
+            convertFromFlcHelper(newElements, newConnectors, newCanvasElements, newElements[element.fault], element);
+
+            delete element.fault;
+        }
+
         if (element.elementType !== ELEMENT_TYPE.END_ELEMENT) {
             const newElement = { ...element };
 
@@ -278,6 +312,11 @@ function isMergeElement(element) {
 
 function fixFlcPropertiesHelper(storeState, element, visited) {
     const { elements } = storeState;
+    if (element.fault) {
+        fixFlcProperties(storeState, elements[element.fault], element, visited);
+        return;
+    }
+
     initializeChildren(element);
     element.children.forEach(child => fixFlcProperties(storeState, elements[child], element, visited));
     const nextElement = elements[element.next];
@@ -300,7 +339,7 @@ function fixFlcProperties(storeState, element, parentElement, visited = {}) {
         // clear any magic numbers
         Object.assign(element, { locationX: 0, locationY: 0 });
 
-        if (supportsChildren(element)) {
+        if (supportsChildren(element) || element.fault != null) {
             fixFlcPropertiesHelper(storeState, element, visited);
         }
 

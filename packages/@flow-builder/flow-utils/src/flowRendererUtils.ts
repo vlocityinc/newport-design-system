@@ -1,8 +1,15 @@
 import { LayoutInfo, NodeLayoutMap, getBranchLayoutKey } from './layout';
 import ConnectorType from './ConnectorTypeEnum';
-import { FlowModel, ElementsMetadata, ElementMetadata, NodeRef, guid } from './model';
+import { SvgInfo, Geometry } from './svgUtils';
+import { FlowModel, ElementsMetadata, ElementMetadata, NodeRef, Guid } from './model';
 import MenuType from './MenuType';
 import ElementType from './ElementType';
+
+export enum ConditionType {
+    DEFAULT,
+    FAULT,
+    STANDARD
+}
 
 export interface FlowRenderContext {
     flowModel: FlowModel;
@@ -11,17 +18,17 @@ export interface FlowRenderContext {
     interactionState: FlowInteractionState;
     elementsMetadata: ElementsMetadata;
     layoutConfig: LayoutConfig;
+    isFault: boolean;
 }
 
 export interface FlowInteractionState {
     menuInfo: {
-        key: guid;
+        key: Guid;
         type: MenuType;
     } | null;
 }
 
 export interface FlowRenderInfo {
-    key: string;
     geometry: Geometry;
     nodes: NodeRenderInfo[];
     isTerminal: boolean;
@@ -30,14 +37,13 @@ export interface FlowRenderInfo {
 }
 
 export interface NodeRenderInfo {
-    key: string;
     geometry: Geometry;
     label: string;
     metadata: ElementMetadata;
     config: { isSelected: boolean; isHighlighted: boolean; canSelect: boolean };
-    hasFault: boolean;
     nextConnector?: ConnectorRenderInfo;
     flows: FlowRenderInfo[];
+    faultFlow?: FlowRenderInfo;
     isNew?: boolean;
     logicConnectors: ConnectorRenderInfo[];
     conditionOptions?: Option[];
@@ -53,6 +59,7 @@ export interface Dimension {
 }
 
 export enum ConnectorVariant {
+    DEFAULT = 'default',
     EDGE = 'edge',
     CENTER = 'center'
 }
@@ -77,6 +84,10 @@ export interface LayoutConfig {
         marginBottom: number;
     };
     connector: {
+        icon: {
+            w: number;
+            h: number;
+        };
         strokeWidth: number;
         curveRadius: number;
         menu: Dimension;
@@ -85,24 +96,25 @@ export interface LayoutConfig {
         };
     };
     node: {
+        icon: {
+            w: number;
+            h: number;
+        };
         w: number;
-        h: number;
+        offsetX: number;
         menu: {
             [key in ElementType]?: Dimension | undefined;
         };
     };
-}
-
-export interface Geometry {
-    x?: number;
-    y?: number;
-    w?: number;
-    h?: number;
+    branch: {
+        defaultWidth: number;
+        emptyWidth: number;
+    };
 }
 
 export interface Option {
     label: string;
-    value: guid;
+    value: Guid;
 }
 
 export interface MenuInfo {
@@ -111,17 +123,8 @@ export interface MenuInfo {
 }
 
 export interface ConnectorAddInfo {
-    geometry: Geometry;
+    offsetY: number;
     menuOpened: boolean;
-    prev?: NodeRef;
-    next?: NodeRef;
-    parent?: NodeRef;
-    childIndex?: number;
-}
-
-export interface SvgInfo {
-    geometry: Geometry;
-    path: string;
 }
 
 export interface SelectInfo {
@@ -129,63 +132,27 @@ export interface SelectInfo {
     options: Option[];
 }
 
+export interface ConnectorConnectionInfo {
+    prev?: NodeRef;
+    next?: NodeRef;
+    parent?: NodeRef;
+    childIndex?: number;
+}
+
 export interface ConnectorRenderInfo {
-    key: string;
-    type?: ConnectorType;
-    geometry?: Geometry;
-
-    svgInfo?: SvgInfo;
+    type: ConnectorType;
+    geometry: Geometry;
+    svgInfo: SvgInfo;
     addInfo?: ConnectorAddInfo;
+    connectionInfo: ConnectorConnectionInfo;
 
-    branchLabelGeometry?: Geometry;
+    isFault: boolean;
+
+    labelOffsetY?: number;
     conditionOptions?: Option[];
-    conditionValue?: guid;
-
-    connectorType: ConnectorType;
-    isFault?: boolean;
+    conditionValue?: Guid;
+    conditionType?: ConditionType;
     isNew?: boolean;
-}
-
-export function getStyle({ left, bottom, top, width, height, zIndex }: any) {
-    return `left: ${left}px; bottom: ${bottom}px; top: ${top}px; height: ${height}px; width: ${width}px; z-index: ${zIndex} `;
-}
-
-export function getStyleFromGeometry({ x, y, w, h }: Geometry): string {
-    return getStyle({
-        left: x,
-        top: y,
-        width: w,
-        height: h
-    });
-}
-
-function tweenValue(prevValue: number, value: number, progress: number) {
-    const delta = (value - prevValue) * progress;
-    return prevValue + delta;
-}
-
-export function tween(prevLayout: LayoutInfo, layout: LayoutInfo, progress: number) {
-    return {
-        x: tweenValue(prevLayout.x, layout.x, progress),
-        y: tweenValue(prevLayout.y, layout.y, progress),
-        w: tweenValue(prevLayout.w, layout.w, progress),
-        h: tweenValue(prevLayout.h, layout.h, progress),
-        joinOffsetY: tweenValue(prevLayout.joinOffsetY, layout.joinOffsetY, progress)
-    };
-}
-
-export function getLayout(nodeGuid: string, progress: number, nodeLayoutMap: NodeLayoutMap) {
-    return getLayoutByKey(nodeGuid, progress, nodeLayoutMap);
-}
-
-export function getBranchLayout(
-    parentGuid: string,
-    childIndex: number,
-    progress: number,
-    nodeLayoutMap: NodeLayoutMap
-) {
-    const key = getBranchLayoutKey(parentGuid, childIndex);
-    return getLayoutByKey(key, progress, nodeLayoutMap);
 }
 
 function getLayoutByKey(key: string, progress: number, nodeLayoutMap: NodeLayoutMap): LayoutInfo {
@@ -193,3 +160,52 @@ function getLayoutByKey(key: string, progress: number, nodeLayoutMap: NodeLayout
 
     return !prevLayout || progress === 1 ? layout : tween(prevLayout, layout, progress);
 }
+
+function tweenValue(prevValue: number, value: number, progress: number): number {
+    const delta = (value - prevValue) * progress;
+    return prevValue + delta;
+}
+
+/**
+ * Tweens LayoutInfo values
+ *
+ * @param prevLayout - The previous LayoutInfo
+ * @param layout - The current LayoutInfo
+ * @param progress - The rendering progress
+ * @returns A LayoutInfo that with the tweened values
+ */
+function tween(prevLayout: LayoutInfo, layout: LayoutInfo, progress: number): LayoutInfo {
+    return {
+        x: tweenValue(prevLayout.x, layout.x, progress),
+        y: tweenValue(prevLayout.y, layout.y, progress),
+        w: tweenValue(prevLayout.w, layout.w, progress),
+        h: tweenValue(prevLayout.h, layout.h, progress),
+        offsetX: tweenValue(prevLayout.offsetX, layout.offsetX, progress),
+        joinOffsetY: tweenValue(prevLayout.joinOffsetY, layout.joinOffsetY, progress)
+    };
+}
+
+function getLayout(nodeGuid: string, progress: number, nodeLayoutMap: NodeLayoutMap): LayoutInfo {
+    return getLayoutByKey(nodeGuid, progress, nodeLayoutMap);
+}
+
+/**
+ * Get a LayoutInfo for a branch
+ *
+ * @param parentGuid - A branching element guid
+ * @param childIndex  - A branch index
+ * @param progress - Rendering progress
+ * @param nodeLayoutMap - The node layout map
+ * @returns A LayoutInfo for the branch
+ */
+function getBranchLayout(
+    parentGuid: Guid,
+    childIndex: number,
+    progress: number,
+    nodeLayoutMap: NodeLayoutMap
+): LayoutInfo {
+    const key = getBranchLayoutKey(parentGuid, childIndex);
+    return getLayoutByKey(key, progress, nodeLayoutMap);
+}
+
+export { getBranchLayout, tween, getLayout };

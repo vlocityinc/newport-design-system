@@ -6,24 +6,28 @@ import {
     getDefaultLayoutConfig,
     animate,
     MenuType,
-    getStyle,
     panzoom
 } from 'builder_platform_interaction/flowUtils';
+
 import { ZOOM_ACTION, FlcSelectionEvent, ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
+import { getStyleFromGeometry, getFlcFlowData } from 'builder_platform_interaction/flcComponentsUtils';
+
 import {
     getCanvasElementSelectionData,
     getCanvasElementDeselectionData,
     getCanvasElementDeselectionDataOnToggleOff
 } from 'builder_platform_interaction/flcBuilderUtils';
 
-const RENDER_BUFFER_SIZE = 200;
-
 const MAX_ZOOM = 1;
 const MIN_ZOOM = 0.1;
 const ZOOM_SCALE_STEP = 0.2;
 
-const CONNECTOR_ICON_SIZE = 20;
-const MENU_ICON_SIZE = 48;
+const defaultConfig = getDefaultLayoutConfig();
+
+const CONNECTOR_ICON_SIZE = defaultConfig.connector.icon.w;
+const MENU_ICON_SIZE = defaultConfig.node.icon.w;
+
+const ROOT_KEY = 'root';
 
 const ZOOM_TO_VIEW_EVENT = { detail: { action: ZOOM_ACTION.ZOOM_TO_VIEW } };
 
@@ -50,9 +54,6 @@ function getTransformOriginOffset(ele, { x, y }) {
 }
 
 function debounce(fct, wait) {
-    // eslint-disable-next-line @lwc/lwc/no-async-operation
-    setTimeout(fct, wait);
-
     let timeoutId;
 
     return function(...args) {
@@ -94,9 +95,10 @@ function findElementOffsets(flowRenderInfo, guid) {
 export default class FlcBuilder extends LightningElement {
     _builderElement;
     _flowElement;
-    _flowRenderContext = {};
+    _flowModel;
+    _elementsMetadata;
+    _flowRenderContext;
     _isSelectionMode;
-    _observer;
     _scale = 1;
     _topSelectedGuid;
 
@@ -110,23 +112,66 @@ export default class FlcBuilder extends LightningElement {
     isZoomOutDisabled = false;
 
     @track
-    flowRenderInfo;
-
-    @track
-    _forceRender = 0;
+    flow;
 
     @track
     menu;
 
     @api
-    elementsMetadata;
+    isPasteAvailable;
 
     @api
-    isPasteAvailable;
+    set elementsMetadata(elementsMetadata) {
+        this._elementsMetadata = elementsMetadata;
+        this.updateFlowRenderContext();
+    }
+
+    get elementsMetadata() {
+        return this._elementsMetadata;
+    }
 
     @api
     set isSelectionMode(isSelectionMode) {
         this._isSelectionMode = isSelectionMode;
+        this.handleSelectionChange();
+    }
+
+    get isSelectionMode() {
+        return this._isSelectionMode;
+    }
+
+    @api
+    set flowModel(flowModel) {
+        this._flowModel = flowModel;
+        this.updateFlowRenderContext({ flowModel });
+    }
+
+    get flowModel() {
+        return this._flowModel;
+    }
+
+    constructor() {
+        super();
+
+        this.rerender = debounce(this.rerender, 10);
+    }
+
+    createInitialFlowRenderContext() {
+        const elementsMetadata = this._elementsMetadata.reduce((acc, elementMetadata) => {
+            acc[elementMetadata.elementType] = elementMetadata;
+            return acc;
+        }, {});
+
+        return {
+            flowModel: this._flowModel,
+            nodeLayoutMap: {},
+            interactionState: {},
+            elementsMetadata,
+            layoutConfig: { ...getDefaultLayoutConfig() }
+        };
+    }
+
+    handleSelectionChange() {
         if (this._isSelectionMode) {
             this.hideMenu();
         } else if (this._topSelectedGuid) {
@@ -135,7 +180,7 @@ export default class FlcBuilder extends LightningElement {
                 canvasElementGuidsToDeselect,
                 selectableCanvasElementGuids,
                 topSelectedGuid
-            } = getCanvasElementDeselectionDataOnToggleOff(this._flowRenderContext.flowModel, this._topSelectedGuid);
+            } = getCanvasElementDeselectionDataOnToggleOff(this._flowModel, this._topSelectedGuid);
 
             this._topSelectedGuid = topSelectedGuid;
 
@@ -149,36 +194,23 @@ export default class FlcBuilder extends LightningElement {
         }
     }
 
-    get isSelectionMode() {
-        return this._isSelectionMode;
-    }
-
-    @api
-    set flowModel(flowModel) {
-        this.updateFlowRenderContext({ flowModel });
-    }
-
-    get flowModel() {
-        return this._flowRenderContext.flowModel;
-    }
-
-    constructor() {
-        super();
-
-        this.rerender = debounce(this.rerender, 10);
-    }
-
-    updateFlowRenderContext(flowRenderContext) {
-        if (flowRenderContext) {
-            Object.assign(this._flowRenderContext, flowRenderContext);
+    updateFlowRenderContext(flowRenderContext = {}) {
+        if (this._elementsMetadata == null || this._flowModel == null || this._builderElement == null) {
+            return;
         }
 
-        this.rerender();
+        const isFirstRender = this._flowRenderContext == null;
+
+        if (isFirstRender) {
+            this._flowRenderContext = this.createInitialFlowRenderContext();
+        }
+
+        this._flowRenderContext = Object.assign(this._flowRenderContext, flowRenderContext);
+        this.rerender(isFirstRender);
     }
 
     hideMenu() {
         if (this.menu) {
-            this.menu = null;
             this.updateFlowRenderContext({
                 interactionState: toggleFlowMenu(null, this._flowRenderContext.interactionState)
             });
@@ -187,29 +219,37 @@ export default class FlcBuilder extends LightningElement {
 
     handleToggleMenu = event => {
         const { detail } = event;
+
         const interactionState = toggleFlowMenu(detail, this._flowRenderContext.interactionState);
+
+        let menu = this._flowRenderContext.interactionState.menuInfo;
 
         const connectorMenu = detail.type === MenuType.CONNECTOR;
         const { top, left } = this._flowElement.getBoundingClientRect();
         const offset = connectorMenu ? CONNECTOR_ICON_SIZE * (1 - this._scale) : MENU_ICON_SIZE * (1 - this._scale);
 
-        const style = getStyle({
-            left: (detail.left - left) * (1 / this._scale) - offset,
-            top: (detail.top - top) * (1 / this._scale) - offset,
-            zIndex: 5
+        const style = getStyleFromGeometry({
+            x: (detail.left - left) * (1 / this._scale) - offset,
+            y: (detail.top - top) * (1 / this._scale) - offset
         });
 
-        this.menu = this.menu
+        const guid = detail.guid;
+        const elementHasFault = guid ? this._flowModel[guid].fault : false;
+
+        menu = menu
             ? null
             : {
+                  elementHasFault,
                   ...detail,
                   connectorMenu,
-                  elementsMetadata: this.elementsMetadata,
+                  elementsMetadata: this._elementsMetadata,
                   style
               };
 
+        this.menu = menu;
         this.updateFlowRenderContext({ interactionState });
-        if (this.menu) {
+
+        if (menu) {
             this.handleClickToZoom(ZOOM_TO_VIEW_EVENT);
         }
     };
@@ -223,6 +263,8 @@ export default class FlcBuilder extends LightningElement {
     }
 
     handleNodeSelectionDeselection = event => {
+        const flowModel = this._flowModel;
+
         if (event && event.detail) {
             const {
                 canvasElementGuidsToSelect,
@@ -230,16 +272,8 @@ export default class FlcBuilder extends LightningElement {
                 selectableCanvasElementGuids,
                 topSelectedGuid
             } = !event.detail.isSelected
-                ? getCanvasElementSelectionData(
-                      this._flowRenderContext.flowModel,
-                      event.detail.canvasElementGUID,
-                      this._topSelectedGuid
-                  )
-                : getCanvasElementDeselectionData(
-                      this._flowRenderContext.flowModel,
-                      event.detail.canvasElementGUID,
-                      this._topSelectedGuid
-                  );
+                ? getCanvasElementSelectionData(flowModel, event.detail.canvasElementGUID, this._topSelectedGuid)
+                : getCanvasElementDeselectionData(flowModel, event.detail.canvasElementGUID, this._topSelectedGuid);
 
             this._topSelectedGuid = topSelectedGuid;
 
@@ -253,33 +287,10 @@ export default class FlcBuilder extends LightningElement {
         }
     };
 
-    isFirstRender() {
-        return this._flowRenderContext.nodeLayoutMap == null;
-    }
-
-    rerender = () => {
-        if (!this.shouldRenderFlow) {
-            return;
-        }
-
-        if (this.isFirstRender()) {
-            const elementsMetadata = this.elementsMetadata.reduce((acc, elementMetadata) => {
-                acc[elementMetadata.elementType] = elementMetadata;
-                return acc;
-            }, {});
-
-            Object.assign(this._flowRenderContext, {
-                nodeLayoutMap: {},
-                interactionState: {},
-                elementsMetadata,
-                layoutConfig: { ...getDefaultLayoutConfig() }
-            });
-        }
-
-        this._flowRenderContext.progress = 0;
+    rerender = isFirstRender => {
         calculateFlowLayout(this._flowRenderContext);
 
-        if (this.isFirstRender()) {
+        if (isFirstRender) {
             // first render, no animation
             this.renderFlow(1);
         } else {
@@ -290,8 +301,9 @@ export default class FlcBuilder extends LightningElement {
     renderedCallback() {
         if (!this._builderElement) {
             this._builderElement = this.query('.builder');
+            this.updateFlowRenderContext();
         } else if (!this._flowElement) {
-            const flowElement = this.query('builder_platform_interaction-flc-flow');
+            const flowElement = this.query('.flows');
             if (flowElement) {
                 this._flowElement = flowElement;
                 this._panzoom = panzoom(this._flowElement, {
@@ -321,65 +333,54 @@ export default class FlcBuilder extends LightningElement {
         }
     }
 
-    get shouldRenderFlow() {
-        return this._builderElement && this._flowRenderContext.flowModel;
-    }
-
     query = selector => {
         return this.template.querySelector(selector);
     };
 
     renderFlow(progress) {
-        this._flowRenderContext.progress = progress;
-        this.flowRenderInfo = renderFlow(this._flowRenderContext);
-        this.updateElementsForViewport();
-        this._forceRender++;
+        const flowRenderInfo = renderFlow(this._flowRenderContext, progress);
+        this.flow = getFlcFlowData(flowRenderInfo, { guid: ROOT_KEY }, 0);
+        //   this.updateElementsForViewport();
     }
 
-    updateShouldRender(elements, rect) {
-        const { scale } = this._panzoom.getTransform();
-        let { height } = rect;
-        const { top } = rect;
+    // updateShouldRender(elements, rect) {
+    //     const { scale } = this._panzoom.getTransform();
+    //     let { height } = rect;
+    //     const { top } = rect;
 
-        height /= scale;
+    //     height /= scale;
 
-        const minY = -top + 26 - RENDER_BUFFER_SIZE;
-        const maxY = minY + height + 2 * RENDER_BUFFER_SIZE;
+    //     const minY = -top + 26 - RENDER_BUFFER_SIZE;
+    //     const maxY = minY + height + 2 * RENDER_BUFFER_SIZE;
 
-        let didUpdate = false;
-        elements.forEach(element => {
-            let { y, h } = element;
-            y *= scale;
-            h *= scale;
+    //     elements.forEach(element => {
+    //         let { y, h } = element;
+    //         y *= scale;
+    //         h *= scale;
 
-            const shouldRender = y + h >= minY && y <= maxY;
-            if (shouldRender !== element.shouldRender) {
-                element = { ...element, shouldRender };
-                didUpdate = true;
-            }
-        });
-
-        if (didUpdate) {
-            this._forceRender++;
-        }
-    }
+    //         const shouldRender = y + h >= minY && y <= maxY;
+    //         if (shouldRender !== element.shouldRender) {
+    //             element = { ...element, shouldRender };
+    //         }
+    //     });
+    // }
 
     getFlowHeight() {
         const { nodes } = this.flowRenderInfo;
         return nodes.reduce((prev, curr) => (prev < curr.y ? curr.y : prev), 0);
     }
 
-    updateElementsForViewport = () => {
-        if (!this._builderElement) {
-            return;
-        }
+    // updateElementsForViewport = () => {
+    //     if (!this._builderElement) {
+    //         return;
+    //     }
 
-        if (this._flowElement) {
-            const rect = this._flowElement.getBoundingClientRect();
+    //     if (this._flowElement) {
+    //         const rect = this._flowElement.getBoundingClientRect();
 
-            this.updateShouldRender(this.flowRenderInfo.nodes, rect);
-        }
-    };
+    //         this.updateShouldRender(this.flowRenderInfo.nodes, rect);
+    //     }
+    // };
 
     handleClickToZoom = event => {
         const zoomAction = event.detail.action;
@@ -422,7 +423,7 @@ export default class FlcBuilder extends LightningElement {
         this.isZoomInDisabled = scale >= MAX_ZOOM - FUDGE;
         this.isZoomOutDisabled = scale <= MIN_ZOOM + FUDGE;
         this.isZoomToView = this.isZoomInDisabled;
-        this.updateElementsForViewport();
+        //    this.updateElementsForViewport();
     }
 
     updateScale = scale => {

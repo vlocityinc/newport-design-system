@@ -530,6 +530,7 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         canHaveDefaultConnector: true,
+        canHaveFaultConnector: true,
         factory: {
             propertyEditor: createWaitWithWaitEvents,
             closePropertyEditor: createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor,

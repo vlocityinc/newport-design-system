@@ -1,6 +1,7 @@
 import { LightningElement, api } from 'lwc';
 
-import { getStyleFromGeometry } from 'builder_platform_interaction/flowUtils';
+import { ConditionType } from 'builder_platform_interaction/flowUtils';
+import { getStyleFromGeometry } from 'builder_platform_interaction/flcComponentsUtils';
 import { ReorderConnectorsEvent } from 'builder_platform_interaction/events';
 
 /**
@@ -27,7 +28,7 @@ export default class FlcConnector extends LightningElement {
      * Gets the location for the add element button
      */
     get buttonMenuStyle() {
-        return getStyleFromGeometry(this.connectorInfo.addInfo.geometry);
+        return getStyleFromGeometry({ y: this.connectorInfo.addInfo.offsetY });
     }
 
     /**
@@ -45,6 +46,7 @@ export default class FlcConnector extends LightningElement {
         const { svgInfo } = this.connectorInfo;
 
         const { path, geometry } = svgInfo;
+
         return {
             width: geometry.w,
             height: geometry.h,
@@ -58,7 +60,11 @@ export default class FlcConnector extends LightningElement {
     }
 
     isDefaultBranchConnector() {
-        return this.hasConditions() && this.connectorInfo.conditionValue == null;
+        return this.connectorInfo.conditionType === ConditionType.DEFAULT;
+    }
+
+    isFaultConnector() {
+        return this.connectorInfo.conditionType === ConditionType.FAULT;
     }
 
     get isLabelPickerDisabled() {
@@ -69,8 +75,12 @@ export default class FlcConnector extends LightningElement {
         return this.hasConditions() && this.connectorInfo.conditionOptions.length === 1;
     }
 
-    get isConnectorDefaultOrFault() {
-        return this.isDefaultBranchConnector() || this.connectorInfo.isFault;
+    get canSelectLabel() {
+        return this.hasConditions() && !this.isDefaultOrFault;
+    }
+
+    get isDefaultOrFault() {
+        return this.isDefaultBranchConnector() || this.isFaultConnector();
     }
 
     get connectorBadgeClass() {
@@ -93,11 +103,11 @@ export default class FlcConnector extends LightningElement {
      * Gets the class for the svg
      */
     get svgClassName() {
-        return this.connectorInfo.isFault ? 'fault' : '';
+        return this.connectorInfo.isFault ? 'fault' : this.connectorInfo.type;
     }
 
     get connectorLabelStyle() {
-        return getStyleFromGeometry(this.connectorInfo.branchLabelGeometry);
+        return getStyleFromGeometry({ y: this.connectorInfo.labelOffsetY });
     }
 
     /**
@@ -124,9 +134,10 @@ export default class FlcConnector extends LightningElement {
     };
 
     handleComboboxChange = event => {
+        const { connectionInfo, conditionValue } = this.connectorInfo;
         const reorderConnectorsEvent = new ReorderConnectorsEvent(
-            this.connectorInfo.addInfo.parent,
-            this.connectorInfo.conditionValue,
+            connectionInfo.parent,
+            conditionValue,
             event.detail.value
         );
         this.dispatchEvent(reorderConnectorsEvent);

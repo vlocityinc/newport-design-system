@@ -19,7 +19,7 @@
         "build": "yarn build:dev && yarn build:target:npm",
         "watch": "watch -p 'src/**/*.ts' -c 'yarn build:dev'",
         "lint": "tslint -p ./tsconfig.json",
-        "test": "jest"
+        "test": "jest src/**/*.test.js"
     },
     "dependencies": {
         "panzoom": "8.7.0"

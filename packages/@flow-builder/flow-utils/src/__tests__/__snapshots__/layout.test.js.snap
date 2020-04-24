@@ -1,0 +1,340 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`layout calculateLayout empty flow 1`] = `
+Object {
+  "end-guid": Object {
+    "layout": Object {
+      "h": 120,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 288,
+    },
+    "prevLayout": undefined,
+  },
+  "root:0": Object {
+    "layout": Object {
+      "h": 408,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 0,
+    },
+  },
+  "start-guid": Object {
+    "layout": Object {
+      "h": 144,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 144,
+    },
+    "prevLayout": undefined,
+  },
+}
+`;
+
+exports[`layout calculateLayout flow with decision with one element on left branch 1`] = `
+Object {
+  "branch-guid": Object {
+    "layout": Object {
+      "h": 288,
+      "joinOffsetY": 144,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 288,
+    },
+    "prevLayout": undefined,
+  },
+  "branch-guid:0": Object {
+    "layout": Object {
+      "h": 144,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": -49.5,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 288,
+    },
+  },
+  "branch-guid:1": Object {
+    "layout": Object {
+      "h": 120,
+      "joinOffsetY": 0,
+      "offsetX": 99,
+      "w": 198,
+      "x": 49.5,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 288,
+    },
+  },
+  "end-guid": Object {
+    "layout": Object {
+      "h": 120,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 576,
+    },
+    "prevLayout": undefined,
+  },
+  "root:0": Object {
+    "layout": Object {
+      "h": 696,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 0,
+    },
+  },
+  "start-guid": Object {
+    "layout": Object {
+      "h": 144,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 144,
+    },
+    "prevLayout": undefined,
+  },
+}
+`;
+
+exports[`layout calculateLayout flow with empty decision 1`] = `
+Object {
+  "branch-guid": Object {
+    "layout": Object {
+      "h": 264,
+      "joinOffsetY": 120,
+      "offsetX": 198,
+      "w": 396,
+      "x": 0,
+      "y": 288,
+    },
+    "prevLayout": undefined,
+  },
+  "branch-guid:0": Object {
+    "layout": Object {
+      "h": 120,
+      "joinOffsetY": 0,
+      "offsetX": 99,
+      "w": 198,
+      "x": -99,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 288,
+    },
+  },
+  "branch-guid:1": Object {
+    "layout": Object {
+      "h": 120,
+      "joinOffsetY": 0,
+      "offsetX": 99,
+      "w": 198,
+      "x": 99,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 288,
+    },
+  },
+  "end-guid": Object {
+    "layout": Object {
+      "h": 120,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 552,
+    },
+    "prevLayout": undefined,
+  },
+  "root:0": Object {
+    "layout": Object {
+      "h": 672,
+      "joinOffsetY": 0,
+      "offsetX": 198,
+      "w": 396,
+      "x": 0,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 0,
+    },
+  },
+  "start-guid": Object {
+    "layout": Object {
+      "h": 144,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 144,
+    },
+    "prevLayout": undefined,
+  },
+}
+`;
+
+exports[`layout calculateLayout flow with empty decision with 3 branches 1`] = `
+Object {
+  "branch-guid": Object {
+    "layout": Object {
+      "h": 264,
+      "joinOffsetY": 120,
+      "offsetX": 297,
+      "w": 594,
+      "x": 0,
+      "y": 288,
+    },
+    "prevLayout": undefined,
+  },
+  "branch-guid:0": Object {
+    "layout": Object {
+      "h": 120,
+      "joinOffsetY": 0,
+      "offsetX": 99,
+      "w": 198,
+      "x": -198,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 288,
+    },
+  },
+  "branch-guid:1": Object {
+    "layout": Object {
+      "h": 120,
+      "joinOffsetY": 0,
+      "offsetX": 99,
+      "w": 198,
+      "x": 0,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 288,
+    },
+  },
+  "branch-guid:2": Object {
+    "layout": Object {
+      "h": 120,
+      "joinOffsetY": 0,
+      "offsetX": 99,
+      "w": 198,
+      "x": 198,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 288,
+    },
+  },
+  "end-guid": Object {
+    "layout": Object {
+      "h": 120,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 552,
+    },
+    "prevLayout": undefined,
+  },
+  "root:0": Object {
+    "layout": Object {
+      "h": 672,
+      "joinOffsetY": 0,
+      "offsetX": 297,
+      "w": 594,
+      "x": 0,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 0,
+    },
+  },
+  "start-guid": Object {
+    "layout": Object {
+      "h": 144,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 144,
+    },
+    "prevLayout": undefined,
+  },
+}
+`;

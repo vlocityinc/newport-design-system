@@ -1,11 +1,20 @@
 import { createConnectorToNextNode, createBranchConnector, createMergeConnector } from './connectorLib';
+import { Geometry } from './svgUtils';
 import ConnectorType from './ConnectorTypeEnum';
 
-import { FlowModel, NodeModel, ParentNodeModel, resolveNode, getRootNode, getElementMetadata, guid } from './model';
-import { getBranchLayoutKey } from './layout';
+import {
+    FlowModel,
+    NodeModel,
+    ParentNodeModel,
+    resolveNode,
+    getRootNode,
+    getElementMetadata,
+    Guid,
+    FAULT_INDEX
+} from './model';
+import { getBranchLayoutKey, NO_OFFSET, getLayoutChildOrFault, LayoutInfo } from './layout';
 
 import {
-    FlowInteractionState,
     ConnectorVariant,
     ConnectorRenderInfo,
     LayoutConfig,
@@ -14,29 +23,42 @@ import {
     getLayout,
     getBranchLayout,
     Option,
-    FlowRenderContext
+    FlowRenderContext,
+    ConditionType
 } from './flowRendererUtils';
-import MenuType from './MenuType';
-import ElementType from './ElementType';
 
-interface MenuEventDetail {
-    top: number;
-    left: number;
-    guid: string;
-    parent: string;
-    childIndex: number;
-    type: MenuType;
-}
+import ElementType from './ElementType';
+import MenuType from './MenuType';
+import { isMenuOpened } from './interactionUtils';
+
+const IS_BRANCH = true;
 
 /**
- * Creates a key for a branch flow
+ * Creates a Geometry for a branch or merge connector
  *
- * @param parent - The guid of the branch's parent
- * @param childIndex - The index of the branch in the parent
+ * @param branchLayout - The branch layout info
+ * @param layoutConfig - The layout config
+ * @param isBranch - True for a branch connector, false for a merge connector
+ * @param joinOffsetY - The join offset
+ * @returs The Geometry for the branch
  */
-function createFlowKey(parent: guid, childIndex: number): string {
-    const branchKey = getBranchLayoutKey(parent, childIndex);
-    return `flow-${branchKey}`;
+function createBranchOrMergeConnectorGeometry(
+    branchLayout: LayoutInfo,
+    layoutConfig: LayoutConfig,
+    isBranch: boolean,
+    joinOffsetY: number = 0
+): Geometry {
+    const width = Math.abs(branchLayout.x);
+    const gridHeight = layoutConfig.grid.h;
+
+    const [y, height] = isBranch ? [0, gridHeight] : [joinOffsetY - gridHeight, 2 * gridHeight];
+
+    return {
+        x: branchLayout.x < 0 ? branchLayout.x : 0,
+        y,
+        w: width,
+        h: height
+    };
 }
 
 /**
@@ -52,29 +74,11 @@ function renderEmptyFlow(parentNode: NodeModel, childIndex: number, context: Flo
     const { x, h, w } = getBranchLayout(parentNode.guid, childIndex, progress, nodeLayoutMap);
 
     return {
-        key: createFlowKey(parentNode.guid, childIndex),
         geometry: { x, y: 0, h, w },
         nodes: [],
         isTerminal: false,
         layoutConfig: context.layoutConfig
     };
-}
-
-/**
- * Checks if a menu is opened for a node.
- *
- * @param nodeGuid - The guid for the node
- * @param menuType - The type of the menu to check for
- * @param interactionState - The flow's interaction state
- * @returns True if the menu is opened, false otherwise
- */
-function isMenuOpened(nodeGuid: guid, menuType: MenuType, interactionState: FlowInteractionState): boolean {
-    if (!interactionState.menuInfo) {
-        return false;
-    } else {
-        const menuInfo = interactionState.menuInfo;
-        return menuInfo.key === nodeGuid && menuInfo.type === menuType;
-    }
 }
 
 /**
@@ -95,60 +99,135 @@ function isRootNode(node: NodeModel, context: FlowRenderContext) {
  * @returns A NodeRenderInfo for the rendered node
  */
 function renderSimpleNode(node: NodeModel, context: FlowRenderContext): NodeRenderInfo {
-    const { elementsMetadata, nodeLayoutMap, progress } = context;
-    const { y } = getLayout(node.guid, progress, nodeLayoutMap);
+    const { guid, label, config } = node;
+
+    const { elementsMetadata, nodeLayoutMap, progress, layoutConfig } = context;
+    const { y, h } = getLayout(node.guid, progress, nodeLayoutMap);
 
     const metadata = getElementMetadata(elementsMetadata, node.elementType);
 
-    const label =
-        metadata.type === ElementType.END || metadata.type === ElementType.START ? '' : node.label || node.guid;
-
-    return {
-        key: node.guid,
-        guid: node.guid,
-        geometry: { x: 0, y },
+    const nodeRenderInfo = {
+        guid,
+        geometry: { x: 0, y, w: layoutConfig.node.icon.w, h },
         menuOpened: isMenuOpened(node.guid, MenuType.NODE, context.interactionState),
-        label,
+        label: label || guid,
         metadata,
-        config: node.config,
-        hasFault: node.fault != null,
+        config,
         flows: [],
-        isNew: nodeLayoutMap[node.guid].prevLayout == null && progress === 0,
+        isNew: nodeLayoutMap[guid].prevLayout == null && progress === 0,
         logicConnectors: [],
         isTerminal: metadata.type === ElementType.END
     };
+
+    return nodeRenderInfo;
 }
 
-function isBranching(node: NodeModel) {
-    return (node as ParentNodeModel).children != null;
-}
 /**
  * Renders a node in the flow
  *
  * @param parentNode - The node's branching parent
  * @param node - The node to render
  * @param context - The flow rendering context
+ * @param variant - A connector variant
  * @returns A NodeRenderInfo for the rendered node
  */
 function renderNode(
     parentNode: ParentNodeModel,
     node: NodeModel,
     context: FlowRenderContext,
-    variant?: ConnectorVariant
+    variant: ConnectorVariant
 ): NodeRenderInfo {
-    const { elementsMetadata } = context;
+    const { elementsMetadata, layoutConfig, progress, nodeLayoutMap } = context;
 
     const metadata = getElementMetadata(elementsMetadata, node.elementType);
 
-    const nodeRenderInfo = isBranching(node)
-        ? renderBranchNode(node as ParentNodeModel, context)
-        : renderSimpleNode(node, context);
+    const nodeRenderInfo =
+        metadata.type === ElementType.BRANCH
+            ? renderBranchNode(node as ParentNodeModel, context)
+            : renderSimpleNode(node, context);
+
+    if (node.fault != null) {
+        const stashedIsFault = context.isFault;
+
+        // set isFault to true on the context so that all subsequent connectors are rendered with fault styling
+        context.isFault = true;
+
+        renderBranches(node as ParentNodeModel, nodeRenderInfo, context, true);
+        const branchLayout = getBranchLayout(node.guid, FAULT_INDEX, progress, nodeLayoutMap);
+
+        nodeRenderInfo.logicConnectors = (nodeRenderInfo.logicConnectors || []).concat([
+            createBranchConnector(
+                parentNode.guid,
+                FAULT_INDEX,
+                createBranchOrMergeConnectorGeometry(branchLayout, layoutConfig, IS_BRANCH),
+                ConnectorType.BRANCH_RIGHT,
+                layoutConfig,
+                context.isFault
+            )
+        ]);
+
+        // restore the previous fault state
+        context.isFault = stashedIsFault;
+    }
 
     if (metadata.type !== ElementType.END && !nodeRenderInfo.isTerminal) {
         nodeRenderInfo.nextConnector = createNextConnector(parentNode, node, context, variant);
     }
 
     return nodeRenderInfo;
+}
+
+/**
+ * Get the connector type for the connector the a node's "next" node
+ *
+ * @param nodeModel - The source node
+ * @param type - The source node type
+ * @return The ConnectorType to connect to the next node
+ */
+function getNextConnectorType(nodeModel: NodeModel, type: ElementType): ConnectorType {
+    let connectorType;
+
+    if (type === ElementType.BRANCH) {
+        connectorType = ConnectorType.POST_MERGE;
+    } else if (nodeModel.next == null) {
+        connectorType = ConnectorType.BRANCH_TAIL;
+    } else {
+        connectorType = ConnectorType.STRAIGHT;
+    }
+
+    return connectorType;
+}
+
+/**
+ * Get the height of the connector to the "next" node
+ *
+ * @param parentNode - The source node's parent
+ * @param node - The source node
+ * @param context - The flow render context
+ * @param offsetY - The node's offset
+ * @return The height of the connector to the next node
+ */
+function getNextConnectorHeight(
+    parentNode: ParentNodeModel,
+    node: NodeModel,
+    context: FlowRenderContext,
+    offsetY: number
+): number {
+    const { progress, nodeLayoutMap } = context;
+    const { next } = node;
+    let height;
+
+    if (next != null) {
+        const nextNodeLayout = getLayout(next, progress, nodeLayoutMap);
+        height = nextNodeLayout.y - offsetY;
+    } else if (!isRootNode(parentNode, context)) {
+        const { guid } = parentNode;
+        height = getLayout(guid, progress, nodeLayoutMap).joinOffsetY - offsetY;
+    } else {
+        height = 0;
+    }
+
+    return height;
 }
 
 /**
@@ -164,28 +243,18 @@ function createNextConnector(
     parentNode: ParentNodeModel,
     node: NodeModel,
     context: FlowRenderContext,
-    variant?: ConnectorVariant
+    variant: ConnectorVariant
 ): ConnectorRenderInfo {
-    const { progress, nodeLayoutMap, interactionState } = context;
+    const { progress, nodeLayoutMap, interactionState, elementsMetadata } = context;
     const { y, joinOffsetY } = getLayout(node.guid, progress, nodeLayoutMap);
-    let height;
-    if (node.next) {
-        const nextNodeLayout = getLayout(node.next, progress, nodeLayoutMap);
-        height = nextNodeLayout.y - y;
-    } else if (!isRootNode(parentNode, context)) {
-        height = getLayout(parentNode.guid, progress, nodeLayoutMap).joinOffsetY - y;
-    } else {
-        height = 0;
-    }
+    const { elementType } = node;
+
+    let height = getNextConnectorHeight(parentNode, node, context, y);
+
     let offsetY = 0;
-    let connectorType;
-    if (isBranching(node)) {
-        connectorType = ConnectorType.POST_MERGE;
-    } else if (node.next == null) {
-        connectorType = ConnectorType.BRANCH_TAIL;
-    } else {
-        connectorType = ConnectorType.STRAIGHT;
-    }
+
+    const metadata = getElementMetadata(elementsMetadata, elementType);
+    const connectorType = getNextConnectorType(node, metadata.type);
 
     if (connectorType === ConnectorType.POST_MERGE) {
         offsetY = joinOffsetY;
@@ -193,12 +262,13 @@ function createNextConnector(
     }
 
     return createConnectorToNextNode(
-        { node },
+        { prev: node.guid, next: node.next },
         connectorType,
         offsetY,
         height,
         isMenuOpened(node.guid, MenuType.CONNECTOR, interactionState),
         context.layoutConfig,
+        context.isFault,
         variant
     );
 }
@@ -212,22 +282,22 @@ function createNextConnector(
  * @returns A FlowRenderInfo for the branch
  */
 function renderFlowHelper(parentNode: ParentNodeModel, childIndex: number, context: FlowRenderContext): FlowRenderInfo {
+    const layoutChild = childIndex === FAULT_INDEX ? parentNode.fault : parentNode.children[childIndex];
+
+    if (layoutChild == null) {
+        return renderEmptyFlow(parentNode, childIndex, context);
+    }
+
     const { flowModel, progress, nodeLayoutMap } = context;
     const { x, w, h } = getBranchLayout(parentNode.guid, childIndex, progress, nodeLayoutMap);
 
-    const layoutChild = parentNode.children[childIndex];
     let node: NodeModel | null = resolveNode(flowModel, layoutChild);
 
     const nodeRenderInfos = [];
     let isTerminal = false;
 
-    // TODO: FLC move to layout.ts
-    let connectorVariant;
-    if (x === 0) {
-        connectorVariant = ConnectorVariant.CENTER;
-    } else if (childIndex === 0 || childIndex === parentNode.children.length - 1) {
-        connectorVariant = ConnectorVariant.EDGE;
-    }
+    const childCount = childIndex === FAULT_INDEX ? 1 : parentNode.children.length;
+    const connectorVariant = getConnectorVariant(parentNode.guid, childIndex, context, childCount);
 
     while (node) {
         const nodeRenderInfo = renderNode(parentNode, node, context, connectorVariant);
@@ -243,7 +313,6 @@ function renderFlowHelper(parentNode: ParentNodeModel, childIndex: number, conte
     }
 
     return {
-        key: createFlowKey(parentNode.guid, childIndex),
         geometry: { x, y: 0, w, h },
         nodes: nodeRenderInfos,
         isTerminal,
@@ -256,7 +325,6 @@ function renderFlowHelper(parentNode: ParentNodeModel, childIndex: number, conte
  *
  * @param flowModel - The flow model
  * @param conditionReferences - The condition references
- * @param childIndex - The index of the branch
  * @param fieldName - The field name metadata
  * @return A SelectInfo for the conditions of a branch
  */
@@ -307,16 +375,22 @@ function createConditionOptions(parentNode: ParentNodeModel, context: FlowRender
     }
 }
 
-function getBranchingInfo(flowRenderInfos: FlowRenderInfo[]) {
+/**
+ * Get some misc branching info such as isTerminal and left/right merge indexes
+ * @param branchFlowRenderInfos - The flow render infos for the branches
+ * @returns misc branching info
+ */
+function getMiscBranchingInfo(branchFlowRenderInfos: FlowRenderInfo[]) {
     let isTerminal = true;
     let w = 0;
 
     // the index of the leftmost branch that merges back to its parent
     let leftMergeIndex: any;
+
     // the index of the rightmost branch that merges back to its parent
     let rightMergeIndex: any;
 
-    flowRenderInfos.forEach((flowRenderInfo, i) => {
+    branchFlowRenderInfos.forEach((flowRenderInfo, i) => {
         if (!flowRenderInfo.isTerminal) {
             if (leftMergeIndex == null) {
                 leftMergeIndex = i;
@@ -325,7 +399,7 @@ function getBranchingInfo(flowRenderInfos: FlowRenderInfo[]) {
         }
 
         isTerminal = isTerminal && flowRenderInfo.isTerminal;
-        w += flowRenderInfo.geometry.w!;
+        w += flowRenderInfo.geometry.w;
     });
 
     return { isTerminal, w, leftMergeIndex, rightMergeIndex };
@@ -340,37 +414,91 @@ function getBranchingInfo(flowRenderInfos: FlowRenderInfo[]) {
  * @returns A NodeRenderInfo for the rendered node
  */
 function renderBranchNode(parentNode: ParentNodeModel, context: FlowRenderContext): NodeRenderInfo {
+    const nodeRenderInfo = renderSimpleNode(parentNode, context);
+    renderBranches(parentNode, nodeRenderInfo, context);
+    return nodeRenderInfo;
+}
+
+/**
+ * Renders node's children or fault
+ *
+ * @param node - The node
+ * @param nodeRenderInfo - The node's render info
+ * @param context - The flow render context
+ * @param isFault  - True, if we should render the node's fault, otherwise renders the node's children
+ */
+function renderBranches(
+    node: ParentNodeModel,
+    nodeRenderInfo: NodeRenderInfo,
+    context: FlowRenderContext,
+    isFault: boolean = false
+): void {
     const { progress, nodeLayoutMap, layoutConfig } = context;
 
-    const nodeRenderInfo = renderSimpleNode(parentNode, context);
+    const children = !isFault ? (node as ParentNodeModel).children : null;
 
-    const children = parentNode.children;
-    const { y, joinOffsetY } = getLayout(parentNode.guid, progress, nodeLayoutMap);
+    const layout = getLayout(node.guid, progress, nodeLayoutMap);
+    const { y, h } = layout;
 
-    nodeRenderInfo.flows = children.map((child, i) =>
-        child == null ? renderEmptyFlow(parentNode, i, context) : renderFlowHelper(parentNode, i, context)
-    );
+    const childIndexes = children != null ? children.map((child, childIndex) => childIndex) : [FAULT_INDEX];
+    const conditionOptions = !isFault ? createConditionOptions(node, context) : undefined;
 
-    const conditionOptions = createConditionOptions(parentNode, context);
-
-    const { isTerminal, w, leftMergeIndex, rightMergeIndex } = getBranchingInfo(nodeRenderInfo.flows);
-
-    nodeRenderInfo.flows.forEach((flowRenderInfo, i) => {
-        const height = children[i] != null ? flowRenderInfo.nodes[0].geometry.y! : joinOffsetY;
-        flowRenderInfo.preConnector = createPreConnector(parentNode, i, context, height, conditionOptions);
+    const flows = childIndexes.map(i => {
+        const flowRenderInfo = renderFlowHelper(node, i, context);
+        const child = getLayoutChildOrFault(node, i);
+        const height = child == null ? layout.joinOffsetY : getLayout(child, progress, nodeLayoutMap).y;
+        flowRenderInfo.preConnector = createPreConnector(node, i, context, height, conditionOptions!);
+        return flowRenderInfo;
     });
 
-    nodeRenderInfo.logicConnectors = [
-        ...createBranchConnectors(parentNode, context, layoutConfig),
-        ...createMergeConnectors(parentNode, joinOffsetY, context, leftMergeIndex, rightMergeIndex)
-    ];
+    const { isTerminal, w, leftMergeIndex, rightMergeIndex } = getMiscBranchingInfo(flows);
 
-    nodeRenderInfo.isTerminal = isTerminal;
-    nodeRenderInfo.geometry = { x: 0, y, w };
+    if (!isFault) {
+        nodeRenderInfo.logicConnectors = [
+            ...createBranchConnectors(node, context, layoutConfig),
+            ...createMergeConnectors(node, layout.joinOffsetY, context, leftMergeIndex, rightMergeIndex)
+        ];
+    }
+
+    if (isFault) {
+        const flow = flows[0];
+        flow.geometry.y = y;
+        nodeRenderInfo.faultFlow = flow;
+    } else {
+        nodeRenderInfo.flows = flows;
+        nodeRenderInfo.isTerminal = isTerminal;
+    }
+
     nodeRenderInfo.conditionOptions = conditionOptions;
-    nodeRenderInfo.defaultConnectorLabel = parentNode.defaultConnectorLabel;
+    nodeRenderInfo.defaultConnectorLabel = node.defaultConnectorLabel;
+    nodeRenderInfo.geometry = { x: 0, y, w, h };
+}
 
-    return nodeRenderInfo;
+/**
+ * Returns the variant for a connector at a childIndex
+ *
+ * @param parentNodeGuid - The parent node
+ * @param childIndex - The childIndex
+ * @param context  - The flow render context
+ * @param childCount - The parent node's child count
+ */
+function getConnectorVariant(
+    parentNodeGuid: Guid,
+    childIndex: number,
+    context: FlowRenderContext,
+    childCount: number = 0
+): ConnectorVariant {
+    const { progress, nodeLayoutMap } = context;
+    const branchLayout = getBranchLayout(parentNodeGuid, childIndex, progress, nodeLayoutMap);
+    let variant = ConnectorVariant.DEFAULT;
+
+    if (childIndex === FAULT_INDEX || childIndex === 0 || childIndex === childCount - 1) {
+        variant = ConnectorVariant.EDGE;
+    } else if (branchLayout.x === 0) {
+        variant = ConnectorVariant.CENTER;
+    }
+
+    return variant;
 }
 
 /**
@@ -380,6 +508,7 @@ function renderBranchNode(parentNode: ParentNodeModel, context: FlowRenderContex
  * @param childIndex - The branch index
  * @param context - The flow rendering index
  * @param height - The height of the connector
+ * @param conditionOptions - The conditions options
  * @returns A ConnectorRenderInfo for the pre connector
  */
 function createPreConnector(
@@ -387,29 +516,50 @@ function createPreConnector(
     childIndex: number,
     context: FlowRenderContext,
     height: number,
-    conditionOptions?: Option[]
+    conditionOptions: Option[]
 ): ConnectorRenderInfo {
-    const { progress, nodeLayoutMap, interactionState } = context;
+    const { interactionState, elementsMetadata } = context;
 
-    const branchLayout = getBranchLayout(parentNode.guid, childIndex, progress, nodeLayoutMap);
-    const isEmptyBranch = parentNode.children[childIndex] == null;
+    const [branchHeadNode, childCount] =
+        childIndex === FAULT_INDEX
+            ? [parentNode.fault, 1]
+            : [parentNode.children[childIndex], parentNode.children.length];
 
-    let variant;
-    if (childIndex === 0 || childIndex === parentNode.children.length - 1) {
-        variant = ConnectorVariant.EDGE;
-    } else if (branchLayout.x === 0) {
-        variant = ConnectorVariant.CENTER;
+    const isEmptyBranch = branchHeadNode == null;
+    const variant = getConnectorVariant(parentNode.guid, childIndex, context, childCount);
+    const { elementType } = parentNode;
+    const metadata = getElementMetadata(elementsMetadata, elementType);
+
+    let connectorType;
+    let conditionType;
+
+    const defaultConditionIndex = metadata.type === ElementType.BRANCH ? childCount - 1 : null;
+
+    if (childIndex === defaultConditionIndex) {
+        conditionType = ConditionType.DEFAULT;
+    } else if (childIndex === FAULT_INDEX) {
+        conditionType = ConditionType.FAULT;
+    } else {
+        conditionType = ConditionType.STANDARD;
+    }
+
+    if (metadata.type === ElementType.BRANCH) {
+        connectorType = isEmptyBranch ? ConnectorType.BRANCH_EMPTY_HEAD : ConnectorType.BRANCH_HEAD;
+    } else {
+        connectorType = ConnectorType.STRAIGHT;
     }
 
     return createConnectorToNextNode(
         { parent: parentNode.guid, childIndex },
-        isEmptyBranch ? ConnectorType.BRANCH_EMPTY_HEAD : ConnectorType.BRANCH_HEAD,
-        0,
+        connectorType,
+        NO_OFFSET,
         height,
         isMenuOpened(getBranchLayoutKey(parentNode.guid, childIndex), MenuType.CONNECTOR, interactionState),
         context.layoutConfig,
+        context.isFault || conditionType === ConditionType.FAULT,
         variant,
-        conditionOptions
+        conditionOptions,
+        conditionType
     );
 }
 
@@ -428,18 +578,31 @@ function createBranchConnectors(
 ): ConnectorRenderInfo[] {
     const { progress, nodeLayoutMap } = context;
 
-    return [0, parentNode.children.length - 1].map(branchIndex => {
-        const branchLayout = getBranchLayout(parentNode.guid, branchIndex, progress, nodeLayoutMap);
-        return createBranchConnector(parentNode.guid, branchIndex, branchLayout, layoutConfig);
-    });
+    const connectorIndexes = [0, parentNode.children.length - 1];
+
+    return connectorIndexes
+        .map(branchIndex => {
+            const branchLayout = getBranchLayout(parentNode.guid, branchIndex, progress, nodeLayoutMap);
+            return createBranchConnector(
+                parentNode.guid,
+                branchIndex,
+                createBranchOrMergeConnectorGeometry(branchLayout, layoutConfig, IS_BRANCH),
+                branchIndex === 0 ? ConnectorType.BRANCH_LEFT : ConnectorType.BRANCH_RIGHT,
+                layoutConfig,
+                context.isFault
+            );
+        })
+        .filter(connectorInfo => connectorInfo.geometry.w > 0 && connectorInfo.geometry.h);
 }
 
 /**
  * Creates the left and right merge connectors for a branching node
  *
  * @param parentNode - The branching node
+ * @param joinOffsetY - The parent's join offset
  * @param context - The flow rendering context
- * @param layoutConfig - The config for the layout
+ * @param leftMergeIndex - The childIndex for the left merging connector
+ * @param rightMergeIndex - The childIndex for the right merging connector
  * @returns An array of ConnectorRenderInfo for the connectors
  */
 function createMergeConnectors(
@@ -449,43 +612,33 @@ function createMergeConnectors(
     leftMergeIndex: number,
     rightMergeIndex: number
 ): ConnectorRenderInfo[] {
-    const { progress, nodeLayoutMap } = context;
-    const mergeConnectors = [];
+    const { progress, nodeLayoutMap, layoutConfig } = context;
 
-    if (leftMergeIndex != null) {
-        const branchLayout = getBranchLayout(parentNode.guid, leftMergeIndex!, progress, nodeLayoutMap);
-        if (branchLayout.x < 0) {
-            mergeConnectors.push(
-                createMergeConnector(parentNode.guid, leftMergeIndex!, branchLayout, joinOffsetY, context.layoutConfig)
-            );
-        }
-    }
-    if (rightMergeIndex != null) {
-        const branchLayout = getBranchLayout(parentNode.guid, rightMergeIndex!, progress, nodeLayoutMap);
-        if (branchLayout.x > 0) {
-            mergeConnectors.push(
-                createMergeConnector(parentNode.guid, rightMergeIndex!, branchLayout, joinOffsetY, context.layoutConfig)
-            );
-        }
-    }
+    return [leftMergeIndex, rightMergeIndex]
+        .map(mergeIndex => {
+            if (mergeIndex == null) {
+                return null;
+            }
 
-    return mergeConnectors;
+            const branchLayout = getBranchLayout(parentNode.guid, mergeIndex, progress, nodeLayoutMap);
+            const connectorType = branchLayout.x < 0 ? ConnectorType.MERGE_LEFT : ConnectorType.MERGE_RIGHT;
+            const geometry = createBranchOrMergeConnectorGeometry(branchLayout, layoutConfig, !IS_BRANCH, joinOffsetY);
+
+            if (branchLayout.x !== 0) {
+                return createMergeConnector(
+                    parentNode.guid,
+                    leftMergeIndex!,
+                    geometry,
+                    connectorType,
+                    layoutConfig,
+                    context.isFault
+                );
+            }
+
+            return null;
+        })
+        .filter(renderInfo => renderInfo != null) as ConnectorRenderInfo[];
 }
-
-// function renderBranchChild(node: ParentNodeModel, i: number): FlowRenderInfo {
-//     return renderNestedFlow(node, i);
-// }
-
-// function renderNestedFlow(parent: ParentNodeModel, childIndex: number): FlowRenderInfo {
-//     const isFault = parent.fault != null;
-
-//     // TODO
-//     // // for a fault we don't want any animation of the nested flow position
-//     // const childLayout = isFault
-//     //     ? _nodeLayoutMap[node.guid].layout
-//     //     : getLayout(node, progress);
-//     return renderFlowHelper(parent, childIndex, isFault);
-// }
 
 // function renderLoopNode(node: ParentNodeModel, isFault: boolean): NodeRenderInfo {
 //     const nodeRenderInfo = renderSimpleNode(node);
@@ -533,40 +686,18 @@ function createMergeConnectors(
 // }
 
 /**
- * Updates a flow's FlowInteractionState so that the menu is toggled
- *
- * @param menuEventDetail - The menu event detail
- * @param interactionState - The flow interaction state
- * @returns A new, updated FlowInteractionState
- */
-export function toggleFlowMenu(
-    menuEventDetail: MenuEventDetail,
-    interactionState: FlowInteractionState
-): FlowInteractionState {
-    let menuInfo = interactionState.menuInfo;
-
-    if (!menuInfo) {
-        const { parent, childIndex, type } = menuEventDetail;
-        const key = parent ? getBranchLayoutKey(parent, childIndex) : menuEventDetail.guid;
-
-        menuInfo = {
-            key,
-            type
-        };
-    } else {
-        menuInfo = null;
-    }
-
-    return { ...interactionState, menuInfo };
-}
-
-/**
  * Creates a FlowRenderInfo that represents a rendered flow
  *
  * @param context - The context for the flow
+ * @param progress - The animation progress (0 to 1)
  * @returns A FlowRenderInfo for the rendered flow
  */
-export function renderFlow(context: FlowRenderContext): FlowRenderInfo {
+function renderFlow(context: FlowRenderContext, progress: number): FlowRenderInfo {
+    Object.assign(context, { progress });
     const rootNode = getRootNode(context.flowModel);
-    return renderFlowHelper(rootNode as ParentNodeModel, 0, context);
+
+    const flowRenderInfo = renderFlowHelper(rootNode as ParentNodeModel, 0, context);
+    return flowRenderInfo;
 }
+
+export { renderFlow };

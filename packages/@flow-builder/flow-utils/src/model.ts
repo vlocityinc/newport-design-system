@@ -1,17 +1,16 @@
 import ElementType from './ElementType';
 
-export type guid = string;
+export type Guid = string;
 
 export interface FlowModel {
     [key: string]: NodeModel;
 }
-export type NodeRef = guid | null;
+export type NodeRef = Guid | null;
 
 export interface NodeModel {
-    guid: guid;
+    guid: Guid;
     label: string;
     elementType: string;
-    fault: NodeRef;
     maxConnections: number;
     config: { isSelected: boolean; isHighlighted: boolean; canSelect: boolean };
 
@@ -19,9 +18,10 @@ export interface NodeModel {
     waitEventReferences?: Array<{ waitEventReference: string }>;
     defaultConnectorLabel?: string;
 
-    // link properties
+    // connections
     prev: NodeRef;
     next: NodeRef;
+    fault: NodeRef;
 }
 
 export interface ParentNodeModel extends NodeModel {
@@ -29,7 +29,7 @@ export interface ParentNodeModel extends NodeModel {
 }
 
 export interface BranchHeadNodeModel extends NodeModel {
-    parent: NodeRef;
+    parent: Guid;
     childIndex: number;
     isTerminal: boolean;
 }
@@ -42,6 +42,8 @@ export interface ElementMetadata {
     icon: string;
 }
 
+export const FAULT_INDEX = -1;
+
 const ELEMENT_METADATA_DEFAULT = {
     type: ElementType.DEFAULT,
     icon: 'standard:default'
@@ -51,8 +53,8 @@ function canHaveChildren(type: ElementType): boolean {
     return type === ElementType.LOOP || type === ElementType.BRANCH || type === ElementType.ROOT;
 }
 
-function getRootNode(flow: FlowModel): NodeModel {
-    return flow.root;
+function getRootNode(flow: FlowModel): ParentNodeModel {
+    return flow.root as ParentNodeModel;
 }
 
 function resolveNode(flow: FlowModel, key: NodeRef): NodeModel {

@@ -8,6 +8,7 @@ const createComponentUnderTest = (isSelectionMode = false) => {
         is: FlcButtonMenu
     });
     el.isSelectionMode = isSelectionMode;
+    el.connectionInfo = {};
     document.body.appendChild(el);
     return el;
 };

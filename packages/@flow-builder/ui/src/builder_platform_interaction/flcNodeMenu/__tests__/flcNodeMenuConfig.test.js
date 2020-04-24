@@ -1,14 +1,15 @@
 import { CONTEXTUAL_MENU_MODE, ELEMENT_ACTION_CONFIG, getMenuConfiguration } from '../flcNodeMenuConfig';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
-const getElementMetadata = elementType => {
+const getElementMetadata = (elementType, canHaveFaultConnector) => {
     const label = 'dummyLabel';
     const description = 'dummyDescription';
 
     return {
         label,
         description,
-        elementType
+        elementType,
+        canHaveFaultConnector
     };
 };
 
@@ -18,7 +19,7 @@ describe('getMenuConfiguration tests', () => {
             let configuration;
             beforeEach(() => {
                 configuration = getMenuConfiguration(
-                    getElementMetadata(ELEMENT_TYPE.ASSIGNMENT),
+                    getElementMetadata(ELEMENT_TYPE.ASSIGNMENT, true),
                     CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE
                 );
             });
@@ -31,16 +32,12 @@ describe('getMenuConfiguration tests', () => {
                 expect(configuration.header.description).toBe(getElementMetadata(ELEMENT_TYPE.ASSIGNMENT).description);
             });
 
-            it('Body should have the 2 nodeActions', () => {
-                expect(configuration.body.nodeActions).toHaveLength(2);
-            });
-
-            it('Body should have COPY_ACTION as the first action', () => {
-                expect(configuration.body.nodeActions[0]).toBe(ELEMENT_ACTION_CONFIG.COPY_ACTION);
-            });
-
-            it('Body should have DELETE_ACTION as the second action', () => {
-                expect(configuration.body.nodeActions[1]).toBe(ELEMENT_ACTION_CONFIG.DELETE_ACTION);
+            it('Body should have the right actions', () => {
+                expect(configuration.body.nodeActions).toEqual([
+                    ELEMENT_ACTION_CONFIG.COPY_ACTION,
+                    ELEMENT_ACTION_CONFIG.DELETE_ACTION,
+                    ELEMENT_ACTION_CONFIG.ADD_FAULT_ACTION
+                ]);
             });
 
             it('Should have Footer', () => {
@@ -77,12 +74,8 @@ describe('getMenuConfiguration tests', () => {
                 );
             });
 
-            it('Body should have the 1 nodeAction', () => {
-                expect(configuration.body.nodeActions).toHaveLength(1);
-            });
-
-            it('Body should have DELETE_END_ELEMENT_ACTION as the second action', () => {
-                expect(configuration.body.nodeActions[0]).toBe(ELEMENT_ACTION_CONFIG.DELETE_END_ELEMENT_ACTION);
+            it('Body should have the right actions', () => {
+                expect(configuration.body.nodeActions).toEqual([ELEMENT_ACTION_CONFIG.DELETE_END_ELEMENT_ACTION]);
             });
 
             it('Should not have Footer', () => {

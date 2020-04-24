@@ -1,10 +1,22 @@
-import { linkElement, linkBranch, findFirstElement, findLastElement, deleteElement } from '../modelUtils';
+import {
+    linkElement,
+    linkBranchOrFault,
+    findFirstElement,
+    findLastElement,
+    deleteElement,
+    deleteFault
+} from '../modelUtils';
+import { FAULT_INDEX } from '../model';
 
 function toElementsMap(...elements) {
     return elements.reduce((state, element) => {
         state[element.guid] = element;
         return state;
     }, {});
+}
+
+function getSubElementGuids() {
+    return [];
 }
 
 describe('modelUtils', () => {
@@ -58,7 +70,7 @@ describe('modelUtils', () => {
         });
     });
 
-    describe('linkBranch', () => {
+    describe('linkBranchOrFault', () => {
         it('adds branch head to parent and updates its pointers', () => {
             const parentElement = {
                 guid: 'parent-element',
@@ -77,7 +89,7 @@ describe('modelUtils', () => {
                 [parentElement.guid]: parentElement
             };
 
-            linkBranch(elements, parentElement, 1, element);
+            linkBranchOrFault(elements, parentElement, 1, element);
 
             expect(parentElement).toEqual({
                 guid: 'parent-element',
@@ -110,7 +122,7 @@ describe('modelUtils', () => {
                 [parentElement.guid]: parentElement
             };
 
-            linkBranch(elements, parentElement, 1, element);
+            linkBranchOrFault(elements, parentElement, 1, element);
 
             expect(parentElement).toEqual({
                 guid: 'parent-element',
@@ -148,7 +160,7 @@ describe('modelUtils', () => {
                 [existingChildElement.guid]: existingChildElement
             };
 
-            linkBranch(elements, parentElement, 1, element);
+            linkBranchOrFault(elements, parentElement, 1, element);
 
             expect(parentElement).toEqual({
                 guid: 'parent-element',
@@ -231,7 +243,7 @@ describe('modelUtils', () => {
                 }
             };
 
-            expect(deleteElement(elements, inlineElement, 0)).toEqual(expectedState);
+            expect(deleteElement(elements, inlineElement, 0, getSubElementGuids)).toEqual(expectedState);
         });
         it('deletes branching element', () => {
             const branchingElement = {
@@ -272,7 +284,7 @@ describe('modelUtils', () => {
                 }
             };
 
-            expect(deleteElement(elements, branchingElement, 0)).toEqual(expectedState);
+            expect(deleteElement(elements, branchingElement, 0, getSubElementGuids)).toEqual(expectedState);
         });
         it('deletes branch head element', () => {
             const branchingElement = {
@@ -314,7 +326,65 @@ describe('modelUtils', () => {
                 }
             };
 
-            expect(deleteElement(elements, branchHeadElement, 0)).toEqual(expectedState);
+            expect(deleteElement(elements, branchHeadElement, 0, getSubElementGuids)).toEqual(expectedState);
+        });
+    });
+
+    describe('add fault to element', () => {
+        it('adds a fault to an element', () => {
+            const element = {
+                guid: 'element-guid'
+            };
+
+            const faultElement = {
+                guid: 'fault-element-guid'
+            };
+
+            const elements = {
+                [element.guid]: element
+            };
+
+            linkBranchOrFault(elements, element, FAULT_INDEX, faultElement);
+
+            expect(element).toEqual({
+                guid: 'element-guid',
+                fault: 'fault-element-guid'
+            });
+
+            expect(faultElement).toEqual({
+                guid: 'fault-element-guid',
+                parent: 'element-guid',
+                childIndex: FAULT_INDEX,
+                isTerminal: true,
+                prev: null
+            });
+        });
+    });
+
+    describe('deleteFault', () => {
+        it('deletes the fault of an element', () => {
+            const faultElement = {
+                guid: 'fault-element-guid'
+            };
+
+            const element = {
+                guid: 'element-guid',
+                fault: faultElement.guid
+            };
+
+            const elements = {
+                [element.guid]: element,
+                [faultElement.guid]: faultElement
+            };
+
+            deleteFault(elements, element.guid, getSubElementGuids);
+
+            const elementWithoutFault = {
+                guid: element.guid
+            };
+
+            expect(element).toEqual(elementWithoutFault);
+            expect(elements).toEqual({ [elementWithoutFault.guid]: elementWithoutFault });
         });
     });
 });

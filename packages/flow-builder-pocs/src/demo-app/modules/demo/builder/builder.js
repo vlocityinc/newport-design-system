@@ -2,7 +2,7 @@ import { LightningElement, track } from 'lwc';
 
 import { Store } from 'builder_platform_interaction/storeLib';
 import { AddElementEvent, DeleteElementEvent } from 'builder_platform_interaction/events';
-import { addElement, updateFlow, deleteElements } from 'builder_platform_interaction/actions';
+import { addElement, addElementFault, deleteElementFault, updateFlow, deleteElements } from 'builder_platform_interaction/actions';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementForStore, getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -20,7 +20,14 @@ function translateEventToAction(event) {
 
     switch (type) {
         case AddElementEvent.EVENT_NAME:
-            if (elementType !== ELEMENT_TYPE.END_ELEMENT) {
+            if (elementType === ELEMENT_TYPE.END_ELEMENT) {
+                element = createEndElement({
+                    prev,
+                    next,
+                    childIndex,
+                    parent
+                 });
+            } else {
                 element = getElementForStore(
                     getElementForPropertyEditor({
                         elementType,
@@ -31,19 +38,6 @@ function translateEventToAction(event) {
                         parent
                     })
                 );
-
-                // uncomment to test out more than 2 way branching
-                // if (element.elementType === "DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES") {
-                //    element.canvasElement.children = [null, null, null, null, null];
-                //    element.canvasElement.maxConnections = 5;
-                // }
-            } else {
-                element = createEndElement({
-                    prev,
-                    next,
-                    childIndex,
-                    parent
-                 });
             }
             return element;
         case DeleteElementEvent.EVENT_NAME:
@@ -100,6 +94,14 @@ export default class Builder extends LightningElement {
 
     handleToggleSelectionMode() {
         this.isSelectionMode = !this.isSelectionMode;
+    }
+
+    handleAddElementFault(event) {
+        storeInstance.dispatch(addElementFault(event.detail.guid));
+    }
+
+    handleDeleteElementFault(event) {
+        storeInstance.dispatch(deleteElementFault(event.detail.guid));
     }
 
     @track

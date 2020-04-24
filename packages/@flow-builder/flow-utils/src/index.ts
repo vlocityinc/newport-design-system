@@ -1,13 +1,15 @@
 import panzoom from 'panzoom';
 
-import { renderFlow, toggleFlowMenu } from './flowRenderer';
-import { calculateFlowLayout, getDefaultLayoutConfig } from './layout';
+import { renderFlow } from './flowRenderer';
+import { toggleFlowMenu } from './interactionUtils';
+import { calculateFlowLayout } from './layout';
+import { getDefaultLayoutConfig } from './defaultLayoutConfig';
 
 import MenuType from './MenuType';
 import ElementType from './ElementType';
 import ConnectorType from './ConnectorTypeEnum';
 
-import { getStyle, getStyleFromGeometry } from './flowRendererUtils';
+import { ConditionType } from './flowRendererUtils';
 
 export * from './animate';
 export * from './model';
@@ -18,10 +20,9 @@ export {
     toggleFlowMenu,
     getDefaultLayoutConfig,
     calculateFlowLayout,
-    getStyle,
-    getStyleFromGeometry,
     MenuType,
     ElementType,
     ConnectorType,
-    panzoom
+    panzoom,
+    ConditionType
 };

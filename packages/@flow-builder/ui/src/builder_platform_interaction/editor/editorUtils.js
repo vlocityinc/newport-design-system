@@ -819,14 +819,15 @@ export function getElementsMetadata(toolboxElements, palette) {
     const elementsMetadata = [];
 
     getElementSections(toolboxElements, palette).forEach(section => {
-        (section._children || []).forEach(({ iconName, label, description, elementType }) => {
+        (section._children || []).forEach(({ iconName, label, description, elementType, canHaveFaultConnector }) => {
             elementsMetadata.push({
                 section: section.label,
                 label,
                 icon: iconName,
                 elementType,
                 value: elementType, // TODO: FLC remove this property and just use elementType
-                description
+                description,
+                canHaveFaultConnector
             });
         });
     });

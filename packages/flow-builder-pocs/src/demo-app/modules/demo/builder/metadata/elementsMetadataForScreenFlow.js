@@ -13,6 +13,7 @@ import waitLogicLabel from '@salesforce/label/FlowBuilderLeftPanelElements.waitL
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { ElementType } from 'builder_platform_interaction/flowUtils';
 
+
 export default [
     {
         section: 'Interaction',
@@ -21,7 +22,8 @@ export default [
         label: screenComponentLabel,
         value: ELEMENT_TYPE.SCREEN,
         elementType: ELEMENT_TYPE.SCREEN,
-        description: screenComponentDescription
+        description: screenComponentDescription,
+        canHaveFaultConnector: false
     },
     {
         section: 'Interaction',
@@ -30,7 +32,8 @@ export default [
         label: newActionLabel,
         value: ELEMENT_TYPE.ACTION_CALL,
         elementType: ELEMENT_TYPE.ACTION_CALL,
-        description: actionFlowComponentDescription
+        description: actionFlowComponentDescription,
+        canHaveFaultConnector: true
     },
     {
         section: 'Flow Control',
@@ -39,7 +42,8 @@ export default [
         label: decisionLogicLabel,
         value: ELEMENT_TYPE.DECISION,
         elementType: ELEMENT_TYPE.DECISION,
-        description: decisionLogicDescription
+        description: decisionLogicDescription,
+        canHaveFaultConnector: false
     },
     {
         section: 'Flow Control',
@@ -48,7 +52,8 @@ export default [
         label: waitLogicLabel,
         value: ELEMENT_TYPE.WAIT,
         elementType: ELEMENT_TYPE.WAIT,
-        description: waitLogicDescription
+        description: waitLogicDescription,
+        canHaveFaultConnector: true
     },
     {
         section: 'Data Operation',
@@ -57,7 +62,8 @@ export default [
         label: ELEMENT_TYPE.RECORD_CREATE,
         value: ELEMENT_TYPE.RECORD_CREATE,
         elementType: ELEMENT_TYPE.RECORD_CREATE,
-        description: createDataOperationDescription
+        description: createDataOperationDescription,
+        canHaveFaultConnector: true
     },
     {
         section: 'Data Operation',
@@ -66,7 +72,8 @@ export default [
         label: ELEMENT_TYPE.RECORD_UPDATE,
         value: ELEMENT_TYPE.RECORD_UPDATE,
         elementType: ELEMENT_TYPE.RECORD_UPDATE,
-        description: lookupDataOperationDescription
+        description: lookupDataOperationDescription,
+        canHaveFaultConnector: true
     },
     {
         section: 'Data Operation',
@@ -75,7 +82,8 @@ export default [
         label: ELEMENT_TYPE.RECORD_LOOKUP,
         value: ELEMENT_TYPE.RECORD_LOOKUP,
         elementType: ELEMENT_TYPE.RECORD_LOOKUP,
-        description: updateDataOperationDescription
+        description: updateDataOperationDescription,
+        canHaveFaultConnector: true
     },
     {
         section: 'Data Operation',
@@ -84,7 +92,8 @@ export default [
         label: ELEMENT_TYPE.RECORD_DELETE,
         value: ELEMENT_TYPE.RECORD_DELETE,
         elementType: ELEMENT_TYPE.RECORD_DELETE,
-        description: deleteDataOperationDescription
+        description: deleteDataOperationDescription,
+        canHaveFaultConnector: true
     },
     {
         section: null,
@@ -93,6 +102,7 @@ export default [
         label: 'Start',
         value: ELEMENT_TYPE.START_ELEMENT,
         elementType: ELEMENT_TYPE.START_ELEMENT,
-        description: null
+        description: null,
+        canHaveFaultConnector: false
     }
 ];

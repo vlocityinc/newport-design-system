@@ -30,7 +30,7 @@ const mutateElements = (elements, palette) =>
                     });
                     if (element) {
                         const elementType = element.elementType || ELEMENT_TYPE.ACTION_CALL;
-                        const { nodeConfig, labels } = getConfigForElementType(elementType);
+                        const { nodeConfig, labels, canHaveFaultConnector } = getConfigForElementType(elementType);
                         const label = element.elementType ? labels && labels.leftPanel : element.label;
                         const actionType = element.elementType ? undefined : element.type;
                         const actionName = element.elementType ? undefined : element.name;
@@ -48,7 +48,8 @@ const mutateElements = (elements, palette) =>
                             description,
                             elementType,
                             actionType,
-                            actionName
+                            actionName,
+                            canHaveFaultConnector
                         };
                         acc[headerLabel].push(item);
                     }

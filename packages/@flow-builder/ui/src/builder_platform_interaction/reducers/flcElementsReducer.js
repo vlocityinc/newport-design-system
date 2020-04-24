@@ -10,7 +10,9 @@ import {
     MODIFY_DECISION_WITH_OUTCOMES,
     DELETE_ELEMENT,
     PASTE_ON_FIXED_CANVAS,
-    REORDER_CONNECTORS
+    REORDER_CONNECTORS,
+    ADD_FAULT,
+    DELETE_FAULT
 } from 'builder_platform_interaction/actions';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
@@ -23,10 +25,14 @@ import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
 import {
     addElementToState,
     linkElement,
+    linkBranchOrFault,
     deleteBranchHeadProperties,
     deleteElement,
-    addElement
+    addElement,
+    deleteFault,
+    FAULT_INDEX
 } from 'builder_platform_interaction/flowUtils';
+import { getSubElementGuids } from './reducersUtils';
 
 /**
  * FLC Reducer for elements
@@ -42,17 +48,26 @@ export default function flcElementsReducer(state = {}, action) {
         case ADD_START_ELEMENT:
             state = addRootAndEndElements(state, action.payload.guid);
             break;
+        case ADD_FAULT:
+            state = _addFault(state, action.payload);
+            break;
+        case DELETE_FAULT:
+            state = _deleteFault(state, action.payload);
+            break;
         case ADD_CANVAS_ELEMENT:
         case ADD_SCREEN_WITH_FIELDS:
         case ADD_DECISION_WITH_OUTCOMES:
         case ADD_END_ELEMENT:
         case ADD_WAIT_WITH_WAIT_EVENTS:
-        case MODIFY_WAIT_WITH_WAIT_EVENTS:
-        case MODIFY_DECISION_WITH_OUTCOMES:
             state = _addCanvasElement(state, action);
             break;
+        case MODIFY_WAIT_WITH_WAIT_EVENTS:
+        case MODIFY_DECISION_WITH_OUTCOMES:
+            state = _addCanvasElement(state, action, true);
+            break;
         case DELETE_ELEMENT:
-            state = _deleteElements(state, action);
+            // TODO: FLC find a better solution for getSubElementGuids
+            state = _deleteElements(state, action, null, getSubElementGuids);
             break;
         case REORDER_CONNECTORS:
             state = _reorderConnectors(
@@ -85,7 +100,10 @@ export default function flcElementsReducer(state = {}, action) {
  * @param {string} startElementGuid - the start element guid
  */
 function addRootAndEndElements(elements, startElementGuid) {
-    addElementToState(createRootElement(startElementGuid), elements);
+    const rootElement = createRootElement();
+    addElementToState(rootElement, elements);
+
+    linkBranchOrFault(elements, rootElement, 0, elements[startElementGuid]);
     linkElement(elements, createEndElement({ prev: startElementGuid }));
     return elements;
 }
@@ -95,23 +113,46 @@ function _getElementFromActionPayload(payload) {
 }
 
 /**
+ * Adds a fault to an element
+ *
+ * @param {Object} state - The flow state
+ * @param {Object} elementGuid - The guid of the element to add a fault to
+ */
+function _addFault(state, elementGuid) {
+    const element = state[elementGuid];
+
+    const endElement = createEndElement({
+        prev: null,
+        next: null
+    });
+
+    addElementToState(endElement, state);
+    linkBranchOrFault(state, element, FAULT_INDEX, endElement);
+
+    return state;
+}
+
+function _deleteFault(state, elementGuid) {
+    return deleteFault(state, elementGuid, getSubElementGuids);
+}
+
+/**
  * Function to add a canvas element on the fixed canvas
  * @param {Object} state - State of elements in the store
  * @param {Object} action - Action dispatched to the store
+ * @param {boolean} isUpdate - Wheter we are updating the element
  */
-function _addCanvasElement(state, action) {
-    const element = _getElementFromActionPayload(action.payload);
+function _addCanvasElement(state, action, isUpdate = false) {
+    let element = _getElementFromActionPayload(action.payload);
+    element = isUpdate ? state[element.guid] : element;
 
     if (supportsChildren(element)) {
         initializeChildren(element);
-
-        // TODO: FLC fix this
-        if (element.children.length < element.maxConnections) {
-            element.children.push(null);
-        }
     }
 
-    addElement(state, element, action.type === ADD_END_ELEMENT);
+    if (!isUpdate) {
+        addElement(state, element, action.type === ADD_END_ELEMENT);
+    }
 
     return state;
 }
@@ -123,7 +164,7 @@ function _addCanvasElement(state, action) {
  */
 function _deleteElements(state, { payload }) {
     const { selectedElements, childIndexToKeep } = payload;
-    selectedElements.forEach(element => deleteElement(state, element, childIndexToKeep));
+    selectedElements.forEach(element => deleteElement(state, element, childIndexToKeep, getSubElementGuids));
     return state;
 }
 

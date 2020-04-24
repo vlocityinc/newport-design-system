@@ -2,15 +2,24 @@ import {
     ADD_CANVAS_ELEMENT,
     ADD_START_ELEMENT,
     DELETE_ELEMENT,
-    REORDER_CONNECTORS,
     SELECTION_ON_FIXED_CANVAS,
+    ADD_FAULT,
+    REORDER_CONNECTORS,
     PASTE_ON_FIXED_CANVAS
 } from 'builder_platform_interaction/actions';
 import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
-import { addElement, deleteElement, addElementToState, linkElement } from 'builder_platform_interaction/flowUtils';
-import { createRootElement } from 'builder_platform_interaction/flcConversionUtils';
+import {
+    addElement,
+    deleteElement,
+    addElementToState,
+    linkElement,
+    linkBranchOrFault,
+    FAULT_INDEX
+} from 'builder_platform_interaction/flowUtils';
+
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import flcElementsReducer from '../flcElementsReducer.js';
+import { getSubElementGuids } from '../reducersUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
 
@@ -53,7 +62,8 @@ jest.mock('builder_platform_interaction/flowUtils', () => {
         addElement: jest.fn(),
         addElementToState: jest.fn(),
         deleteElement: jest.fn(),
-        linkElement: jest.fn()
+        linkElement: jest.fn(),
+        linkBranchOrFault: jest.fn()
     });
 });
 
@@ -108,7 +118,6 @@ describe('elements-reducer', () => {
 
             expect(addElementToState).toHaveBeenLastCalledWith({ guid: 'root' }, {});
             expect(linkElement).toHaveBeenLastCalledWith({}, { guid: 'end-element-guid' });
-            expect(createRootElement).toHaveBeenLastCalledWith('start-element-guid');
             expect(createEndElement).toHaveBeenLastCalledWith({ prev: 'start-element-guid' });
         });
     });
@@ -127,7 +136,7 @@ describe('elements-reducer', () => {
                 }
             );
 
-            expect(deleteElement).toHaveBeenLastCalledWith({}, elementToDelete, 1);
+            expect(deleteElement).toHaveBeenLastCalledWith({}, elementToDelete, 1, getSubElementGuids);
         });
     });
 
@@ -303,6 +312,28 @@ describe('elements-reducer', () => {
                         canSelect: false
                     }
                 }
+            });
+        });
+    });
+
+    describe('Add Fault', () => {
+        it('should add a fault to the an element and create a fault flow with a single end element', () => {
+            const elementToAddFault = {
+                guid: 'element-to-add-fault-guid'
+            };
+
+            const elements = {
+                [elementToAddFault.guid]: elementToAddFault
+            };
+
+            flcElementsReducer(elements, {
+                type: ADD_FAULT,
+                payload: elementToAddFault.guid
+            });
+
+            expect(addElementToState).toHaveBeenLastCalledWith({ guid: 'end-element-guid' }, elements);
+            expect(linkBranchOrFault).toHaveBeenLastCalledWith(elements, elementToAddFault, FAULT_INDEX, {
+                guid: 'end-element-guid'
             });
         });
     });

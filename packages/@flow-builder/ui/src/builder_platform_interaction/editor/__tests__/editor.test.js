@@ -26,6 +26,8 @@ import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { mockEngineExecute } from 'analyzer_framework/engine';
 import { setUseFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
+jest.mock('builder_platform_interaction/flcBuilder', () => require('builder_platform_interaction_mocks/flcBuilder'));
+
 let mockSubscribers = [];
 let mockStoreState;
 
@@ -80,7 +82,8 @@ jest.mock('builder_platform_interaction/builderUtils', () => {
 
 jest.mock('../editorUtils', () => {
     return Object.assign(jest.requireActual('../editorUtils'), {
-        isGuardrailsEnabled: jest.fn()
+        isGuardrailsEnabled: jest.fn(),
+        getElementsMetadata: () => []
     });
 });
 

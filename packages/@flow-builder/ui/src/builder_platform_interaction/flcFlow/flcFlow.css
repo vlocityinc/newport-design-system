@@ -12,8 +12,8 @@ builder_platform_interaction-flc-compound-node {
     opacity: 1;
 }
 
-.hidden {
-    display: none;
+.menu {
+    z-index: 5;
 }
 
 builder_platform_interaction-flc-compound-node.is-new {

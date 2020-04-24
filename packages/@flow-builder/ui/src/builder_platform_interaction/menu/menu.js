@@ -1,14 +1,14 @@
 import { LightningElement, api } from 'lwc';
-import { getStyle } from 'builder_platform_interaction/flowUtils';
+import { getStyleFromGeometry } from 'builder_platform_interaction/flcComponentsUtils';
 import { SelectMenuItemEvent } from 'builder_platform_interaction/events';
 
 export default class Menu extends LightningElement {
-    @api top = null;
-    @api left = null;
-    @api items = null;
+    @api top;
+    @api left;
+    @api items;
 
     get style() {
-        return getStyle({ top: this.top + 10, left: this.left });
+        return getStyleFromGeometry({ y: this.top + 10, x: this.left });
     }
 
     handleSelectItem(event) {

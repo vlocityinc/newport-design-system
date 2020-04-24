@@ -3,7 +3,9 @@ import {
     CopySingleElementEvent,
     DeleteElementEvent,
     EditElementEvent,
-    ToggleMenuEvent
+    ToggleMenuEvent,
+    AddElementFaultEvent,
+    DeleteElementFaultEvent
 } from 'builder_platform_interaction/events';
 import Menu from 'builder_platform_interaction/menu';
 import { CONTEXTUAL_MENU_MODE, ELEMENT_ACTION_CONFIG, getMenuConfiguration } from './flcNodeMenuConfig';
@@ -22,6 +24,9 @@ export default class FlcNodeMenu extends Menu {
     @api
     guid;
 
+    @api
+    elementHasFault;
+
     @track
     contextualMenuMode = CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE;
 
@@ -29,7 +34,7 @@ export default class FlcNodeMenu extends Menu {
     _isRendered = false;
 
     get menuConfiguration() {
-        return getMenuConfiguration(this.elementMetadata, this.contextualMenuMode);
+        return getMenuConfiguration(this.elementMetadata, this.contextualMenuMode, this.elementHasFault);
     }
 
     set menuConfiguration(config) {
@@ -57,34 +62,37 @@ export default class FlcNodeMenu extends Menu {
     };
 
     /**
-     * Handles click on the delete action row present in the base_actions_mode
-     */
-    handleDeleteActionClick = () => {
-        if (supportsChildren(this.elementMetadata)) {
-            this.contextualMenuMode = CONTEXTUAL_MENU_MODE.DELETE_BRANCH_ELEMENT_MODE;
-            this._selectedConditionValue = this.conditionOptions[0].value;
-        } else {
-            this.dispatchEvent(new ToggleMenuEvent({}));
-            this.dispatchEvent(new DeleteElementEvent([this.guid], this.elementMetadata.elementType));
-        }
-    };
-
-    /**
      * Handles the click on the action row item and dispatches the appropriate event
      */
     handleSelectNodeAction = event => {
         event.stopPropagation();
         const actionType = event.currentTarget.getAttribute('data-value');
+        let closeMenu = true;
+
         switch (actionType) {
             case ELEMENT_ACTION_CONFIG.COPY_ACTION.value:
-                this.dispatchEvent(new ToggleMenuEvent({}));
                 this.dispatchEvent(new CopySingleElementEvent(this.guid));
                 break;
             case ELEMENT_ACTION_CONFIG.DELETE_ACTION.value:
-                this.handleDeleteActionClick();
+                if (supportsChildren(this.elementMetadata)) {
+                    this.contextualMenuMode = CONTEXTUAL_MENU_MODE.DELETE_BRANCH_ELEMENT_MODE;
+                    this._selectedConditionValue = this.conditionOptions[0].value;
+                    closeMenu = false;
+                } else {
+                    this.dispatchEvent(new DeleteElementEvent([this.guid], this.elementMetadata.elementType));
+                }
+                break;
+            case ELEMENT_ACTION_CONFIG.ADD_FAULT_ACTION.value:
+                this.dispatchEvent(new AddElementFaultEvent(this.guid));
+                break;
+            case ELEMENT_ACTION_CONFIG.DELETE_FAULT_ACTION.value:
+                this.dispatchEvent(new DeleteElementFaultEvent(this.guid));
                 break;
             default:
-                break;
+        }
+
+        if (closeMenu) {
+            this.dispatchEvent(new ToggleMenuEvent({}));
         }
     };
 
