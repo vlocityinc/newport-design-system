@@ -1,7 +1,7 @@
 <template>
     <span class="slds-hide">HACK TO FORCE RERENDER:{label.error}{devName.error}{description.error}</span>
     <div
-        class="slds-panel__header slds-text-heading_medium slds-hyphenate slds-show test-new-element-panel-header"
+        class="slds-panel__header slds-text-heading_small slds-hyphenate slds-show test-new-element-panel-header"
         if:true={showNewElementPanelHeader}
     >
         <span class="lds-panel__header-title">
@@ -10,7 +10,7 @@
     </div>
     <div
         if:true={showCollapsedLabelDescriptionPanelHeader}
-        class="slds-panel__header slds-text-heading_medium slds-hyphenate slds-show slds-is-relative test-collapsible-label-header"
+        class="slds-panel__header slds-text-heading_small slds-hyphenate slds-show slds-is-relative test-collapsible-label-header"
     >
         <builder_platform_interaction-element-icon
             if:true={iconName}
@@ -32,7 +32,7 @@
                         alternative-text={labels.editButtonLabel}
                         class="test-edit-button slds-m-left_x-small slds-align_center slds-is-absolute"
                         onclick={handleEditButtonPress}
-                        size="small"
+                        size="x-small"
                     >
                     </lightning-button-icon>
                 </span>
