@@ -46,9 +46,9 @@ function checkProperty(property, projectPomProperties, corePomProperties) {
     const coreValue = getPomProperty(property, corePomProperties);
     if (projectValue !== coreValue) {
         printError(`${property} is out of sync with core: ${coreValue} vs ${projectValue}`);
-        return false;
+        return property;
     }
-    return true;
+    return undefined;
 }
 
 /**
@@ -61,9 +61,12 @@ async function checkProjectPomProperties(branch) {
         const projectPomProperties = await getProjectPomProperties();
         const corePomProperties = await getCorePomProperties(branch);
 
-        const hasErrors = !POM_PROPERTIES_TO_CHECK.every(property =>
+        printHeader('Checking pom properties');
+        const propertiesNotInSync = POM_PROPERTIES_TO_CHECK.map(property =>
             checkProperty(property, projectPomProperties, corePomProperties)
-        );
+        ).filter(Boolean);
+
+        const hasErrors = propertiesNotInSync.length > 0;
 
         if (hasErrors) {
             printError('\nRun `yarn update:syncPomToCore` to update.');

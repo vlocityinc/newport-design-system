@@ -167,7 +167,7 @@ function mvUiModule(src, dest, options) {
                     printInfo(`File change detected at ${fullSourcePath}`);
                     try {
                         fs.copyFileSync(fullSourcePath, modulePath);
-                        printSuccess(`Pushed changes to ${modulePath}`);
+                        printSuccess(`Pushed changes to ${modulePath} (${new Date(Date.now()).toLocaleString()})`);
                     } catch (e) {
                         printError(`Could not copy file at ${fullSourcePath}: ${e.message}`);
                     }
