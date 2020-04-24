@@ -35,6 +35,7 @@
     "collectCoverageFrom": [
         "<rootDir>/src/*/!(builderTestUtils)**/*.js",
         "!**/*Labels.js",
-        "!**/integrationTests/**/*.js"
+        "!**/integrationTests/**/*.js",
+        "!**/__tests__/**/*.js"
     ]
 }
