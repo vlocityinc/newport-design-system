@@ -1,0 +1,68 @@
+$midnight: #2c3e50;
+$clouds: #ecf0f1;
+
+input {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+}
+// Layout
+.nds-b2b-card {
+  display: flex;
+  margin: 2rem;
+  padding: 0.2rem 2rem;
+  background: white;
+  .nds-b2b-card_container {
+    flex: 1;
+    .nds-b2b-card_tabs {
+      overflow: hidden;
+      .nds-b2b-card_tab {
+        width: 100%;
+        color: white;
+        overflow: hidden;
+        transition: all 0.25s ease-in;
+        &-label {
+          display: flex;
+          justify-content: space-between;
+          padding: 1em 0;
+          background: #fff;
+          font-weight: bold;
+          font-size: 1.3rem;
+          color: #000;
+          cursor: pointer;
+          transition: all 0.25s ease-in;
+          /* Icon */
+          &::after {
+            content: "\276F";
+            width: 1em;
+            height: 1em;
+            text-align: center;
+            transition: all 0.35s;
+          }
+        }
+        &-content {
+          max-height: 0;
+          color: $midnight;
+          background: white;
+          transition: all 0.35s;
+        }
+        input:checked {
+          + .nds-b2b-card_tab-label {
+            &::after {
+              transform: rotate(90deg);
+            }
+          }
+          ~ .nds-b2b-card_tab-content {
+            max-height: 100vh;
+            padding: 2rem 0 1rem 0;
+            border-top: 1px solid #D8D8D8;
+          }
+        }
+      }
+    }
+  }
+}
+
+.nds-theme_default {
+    background-color: #F6F6F6 !important;
+}

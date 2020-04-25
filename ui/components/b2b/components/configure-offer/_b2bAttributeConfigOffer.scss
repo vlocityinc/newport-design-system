@@ -1,0 +1,20 @@
+.b2b-attribute-config-offer_checkbox {
+  .b2b-form-element_checkbox {
+    display: inline;
+    margin-right: 0.3rem;
+    .nds-checkbox [type=checkbox]:checked~.nds-checkbox_faux {
+      background: #1589EE;
+    }
+    .nds-checkbox .nds-checkbox_faux {
+      margin-top: -0.188rem;
+    }
+  }
+  .b2b-configure-text {
+    font-size: 0.9rem;
+    letter-spacing: .01rem;
+    color: #595959;
+  }
+  .b2b-attribute-each-row {
+    margin-bottom: 1rem;
+  }
+}
