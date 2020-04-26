@@ -20,6 +20,12 @@
 
   .b2b-addons_line-items {
     margin-top: 0.5rem;
+    max-height: 100vh;
+    transition: all 0.35s;
+    &.hide {
+      max-height: 0;
+      overflow: hidden;
+    }
     .b2b-attribute-each-row {
       padding: 0.75rem 0;
       border-bottom: 1px solid #F2F2F2;
