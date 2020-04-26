@@ -329,7 +329,7 @@ storiesOf(`${base}`, module)
             <input type="checkbox" id="chck1">
             <label class="nds-b2b-card_tab-label" for="chck1">Details</label>
             <div class="nds-b2b-card_tab-content">
-              <c-b2b-configure-offer-attribute>
+              <c-b2b-attribute-configure-offer>
                 <div class="b2b-attribute-config-offer_checkbox">
                   <div class="nds-grid nds-col nds-wrap b2b-attribute-each-row">
                     <div class="b2b-configure-text nds-size_6-of-12">
@@ -364,7 +364,7 @@ storiesOf(`${base}`, module)
                     <div class="b2b-configure-text nds-size_2-of-12"></div>
                   </div>
                 </div>
-              </c-b2b-configure-offer-attribute>
+              </c-b2b-attribute-configure-offer>
 
               <c-b2b-offer-addons>
                 <div class="b2b-offer-addons">
@@ -407,4 +407,36 @@ storiesOf(`${base}`, module)
       </div>
     </div>
     `);
+  })
+  .add("b2bCardRadioAndMatrix", () => {
+    return withExample(`
+    <div class="nds-b2b-card">
+      <div class="nds-b2b-card_container">
+        <div class="nds-b2b-card_tabs">
+          <div class="nds-b2b-card_tab">
+            <input type="checkbox" id="chck2">
+            <label class="nds-b2b-card_tab-label" for="chck2">Details</label>
+            <div class="nds-b2b-card_tab-content">
+              <c-b2b-attribute-configure-offer>
+                <div class="b2b-attribute-config-offer_radio">
+                  <div class="nds-b2b-config-label">Contract Term</div>
+                  <div class="b2b-config-radio_container radio-toolbar">
+                    <input type="radio" id="radio12" name="radioMonths" value="12" checked>
+                    <label for="radio12">12 Months</label>
+                
+                    <input type="radio" id="radio24" name="radioMonths" value="24">
+                    <label for="radio24">24 Months</label>
+                
+                    <input type="radio" id="radio36" name="radioMonths" value="36">
+                    <label for="radio36">36 Months</label> 
+                  </div>
+                </div>
+              </c-b2b-attribute-configure-offer>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    `);
   });
+
