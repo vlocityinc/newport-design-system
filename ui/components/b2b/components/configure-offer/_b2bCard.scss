@@ -1,6 +1,3 @@
-$midnight: #2c3e50;
-$clouds: #ecf0f1;
-
 input {
   position: absolute;
   opacity: 0;
@@ -42,7 +39,6 @@ input {
         }
         &-content {
           max-height: 0;
-          color: $midnight;
           background: white;
           transition: all 0.35s;
         }
@@ -55,14 +51,39 @@ input {
           ~ .nds-b2b-card_tab-content {
             max-height: 100vh;
             padding: 2rem 0 1rem 0;
-            border-top: 1px solid #D8D8D8;
+            border-top: 1px solid #d8d8d8;
           }
         }
       }
     }
   }
+  &.nds-b2b-child-card {
+    margin: 0 2rem 2rem 4rem;
+    position: relative;
+    .b2b-delete-offer_btn {
+      transition: all 0.25s ease-in;
+      font-size: 0.7rem;
+      font-weight: 300;
+      color: #ff2953;
+      padding: 0 1.5rem;
+      right: 5rem;
+      position: absolute;
+      &:hover {
+        background-color: #ff2953;
+        color: #fff;
+      }
+    }
+  }
+}
+.nds-b2b-child-card_path {
+  background: #fff;
+  padding: 0.4rem 2rem;
+  color: #1589ee;
+  margin: 2rem 2rem 0 4rem;
+  border-bottom: 1px solid #d8d8d8;
+  font-weight: 300;
 }
 
 .nds-theme_default {
-    background-color: #F6F6F6 !important;
+  background-color: #f6f6f6 !important;
 }
