@@ -42,7 +42,7 @@
     font-size: 13px;
     border: 1px solid #d8d8d8;
     border-radius: 3px;
-    color: #1589EE;
+    color: #1589ee;
     margin-right: 0.8rem;
     transition: all 0.35s;
     cursor: pointer;
@@ -53,8 +53,59 @@
   }
 
   .b2b-config-radio_container input[type="radio"]:checked + label {
-    background-color: #1589EE;
-    border-color: #1589EE;
+    background-color: #1589ee;
+    border-color: #1589ee;
     color: #fff;
+  }
+}
+
+/* Matrix Table */
+.b2b-attribute-config-offer_matrix {
+  .nds-b2b-config-label {
+    color: #000;
+    font-size: 1rem;
+    font-weight: 400;
+  }
+  table {
+    width: 98%;
+  }
+  td,
+  th {
+    padding: 0.65rem;
+    padding-left: 1rem;
+  }
+  th {
+    font-size: 0.7rem;
+  }
+  tr:not(:first-child) {
+    border-left: 1px solid #d8d8d8;
+    border-right: 1px solid #d8d8d8;
+  }
+  tr td {
+    font-size: 1rem;
+    letter-spacing: 0.0375rem;
+    font-weight: 400;
+    color: #595959;
+    border-bottom: 1px solid #f2f2f2;
+  }
+  tr:nth-child(2) td {
+    border-top: 1px solid #d8d8d8;
+  }
+  tr:last-child td {
+    border-bottom: 1px solid #d8d8d8;
+  }
+  th:first-child {
+    width: 70vh;
+  }
+  .b2b-attribute-radio {
+    &.nds-radio [type=radio]:checked+.nds-radio__label .nds-radio_faux {
+      border-color: #1589ee;
+    }
+    &.nds-radio [type=radio]:checked+.nds-radio__label .nds-radio_faux:after {
+      background: #1589ee;
+    }
+    .nds-radio_faux {
+      margin-top: -3px;
+    }
   }
 }
