@@ -513,5 +513,49 @@ storiesOf(`${base}`, module)
       </div>
     </div>
     `);
+  })
+  .add("b2bCardChildAddons", () => {
+    return withExample(`
+    <div class="nds-b2b-child-card_path">
+      <vlocity_cmt-icon>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 52 52"><path fill="#1589ee" d="m3.5 44c-0.7 0-1.5 0.7-1.5 1.5v3c0 0.8 0.8 1.5 1.5 1.5h23.9c0.8 0 1.6-0.8 1.6-1.5v-33.2c0-0.9 1-1.3 1.7-0.7l5.6 5.6c0.6 0.6 1.5 0.6 2.1 0l2.1-2.1c0.6-0.6 0.6-1.5 0-2.1l-13.5-13.6c-0.6-0.6-1.5-0.6-2.1 0l-13.5 13.5c-0.6 0.6-0.6 1.5 0 2.1l2.1 2.1c0.6 0.6 1.5 0.6 2.1 0l5.6-5.6c0.6-0.6 1.8-0.2 1.8 0.7v27.3c0 1.6-1.6 1.5-1.6 1.5h-17.9z"></path></svg>
+      </vlocity_cmt-icon>
+      Internet Service
+    </div>
+    <div class="nds-b2b-card nds-b2b-child-card">
+      <div class="nds-b2b-card_container">
+        <div class="nds-b2b-card_tabs">
+          <div class="nds-b2b-card_tab">
+            <input type="checkbox" id="chck2">
+            <label class="nds-b2b-card_tab-label" for="chck2">
+              Details
+              <button class='nds-button nds-button_neutral nds-button_stateful nds-not-selected b2b-delete-offer_btn'>
+                <span class="nds-text-not-selected">
+                  Delete
+                </span>
+              </button>
+            </label>
+            <div class="nds-b2b-card_tab-content">
+              <c-b2b-attribute-configure-offer>
+                <div class="b2b-attribute-config-offer_radio">
+                  <div class="nds-b2b-config-label">Contract Term</div>
+                  <div class="b2b-config-radio_container radio-toolbar">
+                    <input type="radio" id="radio12" name="radioMonths" value="12" checked>
+                    <label for="radio12">12 Months</label>
+                
+                    <input type="radio" id="radio24" name="radioMonths" value="24">
+                    <label for="radio24">24 Months</label>
+                
+                    <input type="radio" id="radio36" name="radioMonths" value="36">
+                    <label for="radio36">36 Months</label> 
+                  </div>
+                </div>
+              </c-b2b-attribute-configure-offer>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    `);
   });
 
