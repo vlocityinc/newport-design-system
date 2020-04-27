@@ -10,7 +10,7 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                canSelect: true
+                isSelectable: true
             },
             elementType: 'START_ELEMENT',
             maxConnections: 1,
@@ -43,7 +43,7 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                canSelect: true
+                isSelectable: true
             },
             elementType: 'RecordCreate',
             maxConnections: 1,
@@ -76,7 +76,7 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                canSelect: true
+                isSelectable: true
             },
             elementType: 'RecordCreate',
             maxConnections: 1,

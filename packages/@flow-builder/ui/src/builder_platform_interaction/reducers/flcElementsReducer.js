@@ -216,7 +216,7 @@ function _selectionOnFixedCanvas(elements, canvasElementGuidsToSelect, canvasEle
     Object.keys(elements).map(guid => {
         if (newState[guid].config) {
             let updatedIsSelected = newState[guid].config.isSelected;
-            let updatedCanSelect = newState[guid].config.canSelect;
+            let updatedIsSelectable = newState[guid].config.isSelectable;
 
             // Set isSelected to true for the elements associated with the guids present canvasElementGuidsToSelect
             if (canvasElementGuidsToSelect.includes(guid) && !newState[guid].config.isSelected) {
@@ -230,29 +230,29 @@ function _selectionOnFixedCanvas(elements, canvasElementGuidsToSelect, canvasEle
 
             // When selectableGuids is an empty array, it means that everything is selectable
             if (selectableGuids.length === 0) {
-                // Setting canSelect as true only if it was originally set to false
-                if (newState[guid].config && !newState[guid].config.canSelect) {
-                    updatedCanSelect = true;
+                // Setting isSelectable as true only if it was originally set to false
+                if (newState[guid].config && !newState[guid].config.isSelectable) {
+                    updatedIsSelectable = true;
                 }
             } else if (selectableGuids.includes(guid)) {
-                // Setting canSelect as true only if it was originally set to false
-                if (newState[guid].config && !newState[guid].config.canSelect) {
-                    updatedCanSelect = true;
+                // Setting isSelectable as true only if it was originally set to false
+                if (newState[guid].config && !newState[guid].config.isSelectable) {
+                    updatedIsSelectable = true;
                 }
-            } else if (newState[guid].config && newState[guid].config.canSelect) {
-                // Setting canSelect as false only if it was originally set to true
-                updatedCanSelect = false;
+            } else if (newState[guid].config && newState[guid].config.isSelectable) {
+                // Setting isSelectable as false only if it was originally set to true
+                updatedIsSelectable = false;
             }
 
             if (
                 updatedIsSelected !== newState[guid].config.isSelected ||
-                updatedCanSelect !== newState[guid].config.canSelect
+                updatedIsSelectable !== newState[guid].config.isSelectable
             ) {
                 newState[guid] = updateProperties(newState[guid], {
                     config: {
                         isSelected: updatedIsSelected,
                         isHighlighted: newState[guid].config.isHighlighted,
-                        canSelect: updatedCanSelect
+                        isSelectable: updatedIsSelectable
                     }
                 });
 

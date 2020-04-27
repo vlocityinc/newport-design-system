@@ -18,18 +18,6 @@ const getConnectorWithMarqueeProp = (guid, source, target, config) => {
     };
 };
 
-jest.mock('builder_platform_interaction/elementConfig', () => {
-    return {
-        getConfigForElementType: jest.fn().mockImplementation(elementType => {
-            return elementType === 'START_ELEMENT'
-                ? {
-                      nodeConfig: { isSelectable: false }
-                  }
-                : { nodeConfig: {} };
-        })
-    };
-});
-
 describe('checkMarqueeSelection', () => {
     it('With canvasElements undefined should throw an error', () => {
         expect(() => {
@@ -70,12 +58,7 @@ describe('checkMarqueeSelection', () => {
             isSelected: true,
             isHighlighted: false
         });
-        const startElement = getCanvasElementWithMarqueeProp('startElement', 50, 50, {
-            isSelected: false,
-            isHighlighted: false
-        });
-        startElement.elementType = 'START_ELEMENT';
-        const canvasElements = [canvasElement1, canvasElement2, startElement];
+        const canvasElements = [canvasElement1, canvasElement2];
         const connectors = [];
         const viewportCenterPoint = [250, 250];
 
@@ -109,24 +92,6 @@ describe('checkMarqueeSelection', () => {
                 const expectedResult = {
                     canvasElementGuidsToSelect: [],
                     canvasElementGuidsToDeselect: [],
-                    connectorGuidsToSelect: [],
-                    connectorGuidsToDeselect: []
-                };
-                expect(
-                    checkMarqueeSelection(canvasElements, connectors, currentScale, marqueeConfig, viewportCenterPoint)
-                ).toEqual(expectedResult);
-            });
-
-            it('Should not add an element that is configured to be non-selectable', () => {
-                const marqueeConfig = {
-                    scaledOffsetsOnMarqueeStart: [0, 0],
-                    marqueeStartPoint: [0, 0],
-                    marqueeEndPoint: [70, 70]
-                };
-
-                const expectedResult = {
-                    canvasElementGuidsToSelect: [],
-                    canvasElementGuidsToDeselect: ['canvasElement2'],
                     connectorGuidsToSelect: [],
                     connectorGuidsToDeselect: []
                 };
@@ -195,7 +160,7 @@ describe('checkMarqueeSelection', () => {
                 ).toEqual(expectedResult);
             });
 
-            it('Should not add canvasElement1 to canvasElementGuidsToSelect since it does not overlap witht he marque box on 0.5 scale', () => {
+            it('Should not add canvasElement1 to canvasElementGuidsToSelect since it does not overlap with he marque box on 0.5 scale', () => {
                 const marqueeConfig = {
                     scaledOffsetsOnMarqueeStart: [0, 0],
                     marqueeStartPoint: [90, 90],

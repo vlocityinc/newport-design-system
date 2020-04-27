@@ -1,6 +1,3 @@
-import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
-import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
-
 const NODE_LENGTH = 48;
 
 /**
@@ -126,7 +123,7 @@ const _getCanvasElementGuidsToSelectAndDeselect = (
         viewportCenterPoint
     );
 
-    canvasElements.forEach(({ locationX, locationY, config, guid, elementType }) => {
+    canvasElements.forEach(({ locationX, locationY, config, guid }) => {
         // Originally our canvas offsets and zooming are center oriented whereas our element locations are relative to
         // the top-left corner of the canvas. Hence calculating the start and end point of the canvas element, on a
         // given scale, relative to the viewport center, to achieve a common coordinate system
@@ -147,14 +144,9 @@ const _getCanvasElementGuidsToSelectAndDeselect = (
         );
 
         // Original selected state of the canvas element in the store
-        const wasCanvasElementOriginallySelected = config && config.isSelected;
+        const wasCanvasElementOriginallySelected = config.isSelected;
 
-        const isSelectable = getPropertyOrDefaultToTrue(
-            getConfigForElementType(elementType).nodeConfig,
-            'isSelectable'
-        );
-
-        if (!wasCanvasElementOriginallySelected && isMarqueeOverlappingCanvasElement && isSelectable) {
+        if (!wasCanvasElementOriginallySelected && isMarqueeOverlappingCanvasElement) {
             // Adding canvas elements that were not originally selected but overlap with the marquee box to both
             // canvasElementGuidsToSelect and allSelectedCanvasElementGuids
             canvasElementGuidsToSelect.push(guid);
@@ -165,7 +157,7 @@ const _getCanvasElementGuidsToSelectAndDeselect = (
             canvasElementGuidsToDeselect.push(guid);
             allSelectedCanvasElementGuids.delete(guid);
         } else if (wasCanvasElementOriginallySelected && isMarqueeOverlappingCanvasElement) {
-            // Adding the canvas elements that were orignally selected and still overlap with the marquee box to
+            // Adding the canvas elements that were originally selected and still overlap with the marquee box to
             // allSelectedCanvasElementGuids
             allSelectedCanvasElementGuids.add(guid);
         }

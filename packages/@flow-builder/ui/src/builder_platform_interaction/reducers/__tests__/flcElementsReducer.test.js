@@ -186,7 +186,7 @@ describe('elements-reducer', () => {
                     config: {
                         isSelected: false,
                         isHighlighted: false,
-                        canSelect: true
+                        isSelectable: true
                     }
                 },
                 guid2: {
@@ -194,7 +194,7 @@ describe('elements-reducer', () => {
                     config: {
                         isSelected: false,
                         isHighlighted: false,
-                        canSelect: false
+                        isSelectable: false
                     }
                 },
                 guid3: {
@@ -202,7 +202,7 @@ describe('elements-reducer', () => {
                     config: {
                         isSelected: true,
                         isHighlighted: false,
-                        canSelect: true
+                        isSelectable: true
                     }
                 }
             };
@@ -222,7 +222,7 @@ describe('elements-reducer', () => {
                 config: {
                     isSelected: true,
                     isHighlighted: false,
-                    canSelect: true
+                    isSelectable: true
                 }
             });
         });
@@ -238,12 +238,12 @@ describe('elements-reducer', () => {
                 config: {
                     isSelected: false,
                     isHighlighted: false,
-                    canSelect: true
+                    isSelectable: true
                 }
             });
         });
 
-        it('Should set canSelect to true for all elements when selectableGuids is an empty array', () => {
+        it('Should set isSelectable to true for all elements when selectableGuids is an empty array', () => {
             const updatedState = flcElementsReducer(elements, {
                 type: SELECTION_ON_FIXED_CANVAS,
                 payload: { canvasElementGuidsToSelect: [], canvasElementGuidsToDeselect: [], selectableGuids: [] }
@@ -255,7 +255,7 @@ describe('elements-reducer', () => {
                     config: {
                         isSelected: false,
                         isHighlighted: false,
-                        canSelect: true
+                        isSelectable: true
                     }
                 },
                 guid2: {
@@ -263,7 +263,7 @@ describe('elements-reducer', () => {
                     config: {
                         isSelected: false,
                         isHighlighted: false,
-                        canSelect: true
+                        isSelectable: true
                     }
                 },
                 guid3: {
@@ -271,13 +271,13 @@ describe('elements-reducer', () => {
                     config: {
                         isSelected: true,
                         isHighlighted: false,
-                        canSelect: true
+                        isSelectable: true
                     }
                 }
             });
         });
 
-        it('Should set canSelect to true only for elements in selectableGuids and false for the rest', () => {
+        it('Should set isSelectable to true only for elements in selectableGuids and false for the rest', () => {
             const updatedState = flcElementsReducer(elements, {
                 type: SELECTION_ON_FIXED_CANVAS,
                 payload: {
@@ -293,7 +293,7 @@ describe('elements-reducer', () => {
                     config: {
                         isSelected: false,
                         isHighlighted: false,
-                        canSelect: false
+                        isSelectable: false
                     }
                 },
                 guid2: {
@@ -301,7 +301,7 @@ describe('elements-reducer', () => {
                     config: {
                         isSelected: false,
                         isHighlighted: false,
-                        canSelect: true
+                        isSelectable: true
                     }
                 },
                 guid3: {
@@ -309,7 +309,7 @@ describe('elements-reducer', () => {
                     config: {
                         isSelected: true,
                         isHighlighted: false,
-                        canSelect: false
+                        isSelectable: false
                     }
                 }
             });

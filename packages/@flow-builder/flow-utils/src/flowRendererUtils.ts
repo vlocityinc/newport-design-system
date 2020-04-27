@@ -40,7 +40,7 @@ export interface NodeRenderInfo {
     geometry: Geometry;
     label: string;
     metadata: ElementMetadata;
-    config: { isSelected: boolean; isHighlighted: boolean; canSelect: boolean };
+    config: { isSelected: boolean; isHighlighted: boolean; isSelectable: boolean };
     nextConnector?: ConnectorRenderInfo;
     flows: FlowRenderInfo[];
     faultFlow?: FlowRenderInfo;

@@ -11,7 +11,7 @@ export const fieldServiceMobileFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                canSelect: true
+                isSelectable: true
             },
             elementType: 'START_ELEMENT',
             maxConnections: 1,
@@ -41,7 +41,7 @@ export const fieldServiceMobileFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                canSelect: true
+                isSelectable: true
             },
             outcomeReferences: [
                 {
@@ -154,7 +154,7 @@ export const fieldServiceMobileFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                canSelect: true
+                isSelectable: true
             },
             object: 'Account',
             objectIndex: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929',
@@ -210,7 +210,7 @@ export const fieldServiceMobileFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                canSelect: true
+                isSelectable: true
             },
             object: 'Account',
             objectIndex: '4afdbe2b-6b5a-4da3-887d-5b755f53b64e',
@@ -266,7 +266,7 @@ export const fieldServiceMobileFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                canSelect: true
+                isSelectable: true
             },
             object: 'Account',
             objectIndex: '88a32528-0dfa-4237-b9dd-a14c1a6d6d10',
@@ -324,7 +324,7 @@ export const fieldServiceMobileFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                canSelect: true
+                isSelectable: true
             },
             assignNextValueToReference: 'ebedaf4c-b899-4660-bf34-b2c569bda3c9',
             assignNextValueToReferenceIndex: '8d53a0e4-6541-42d0-9ea1-665b504fd150',
@@ -355,7 +355,7 @@ export const fieldServiceMobileFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                canSelect: true
+                isSelectable: true
             },
             allowBack: true,
             allowFinish: true,

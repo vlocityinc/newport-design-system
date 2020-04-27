@@ -11,7 +11,7 @@ export const contactRequestFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                canSelect: true
+                isSelectable: true
             },
             elementType: 'START_ELEMENT',
             maxConnections: 1,
@@ -41,7 +41,7 @@ export const contactRequestFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                canSelect: true
+                isSelectable: true
             },
             outcomeReferences: [
                 {
@@ -154,7 +154,7 @@ export const contactRequestFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                canSelect: true
+                isSelectable: true
             },
             object: 'Account',
             objectIndex: 'bebf0e8d-339f-4227-ab7e-84d7c15daf07',
@@ -212,7 +212,7 @@ export const contactRequestFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                canSelect: true
+                isSelectable: true
             },
             object: 'Account',
             objectIndex: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929',
@@ -268,7 +268,7 @@ export const contactRequestFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                canSelect: true
+                isSelectable: true
             },
             object: 'Account',
             objectIndex: '4afdbe2b-6b5a-4da3-887d-5b755f53b64e',
@@ -324,7 +324,7 @@ export const contactRequestFlowUIModel = {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                canSelect: true
+                isSelectable: true
             },
             allowBack: true,
             allowFinish: true,

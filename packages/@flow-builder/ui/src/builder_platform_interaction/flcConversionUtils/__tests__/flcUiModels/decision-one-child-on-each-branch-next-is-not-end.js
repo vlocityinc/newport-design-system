@@ -68,7 +68,7 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                canSelect: true
+                isSelectable: true
             },
             elementType: 'Screen',
             maxConnections: 1,
@@ -101,7 +101,7 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                canSelect: true
+                isSelectable: true
             },
             elementType: 'Screen',
             maxConnections: 1,
@@ -134,7 +134,7 @@ export default {
             config: {
                 isSelected: false,
                 isHighlighted: false,
-                canSelect: true
+                isSelectable: true
             },
             elementType: 'Screen',
             maxConnections: 1,

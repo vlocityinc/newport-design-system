@@ -109,8 +109,8 @@ Object {
     },
     "screen-after-decision-element-guid": Object {
       "config": Object {
-        "canSelect": true,
         "isHighlighted": false,
+        "isSelectable": true,
         "isSelected": false,
       },
       "connectorCount": 0,
@@ -137,8 +137,8 @@ Object {
     },
     "screen-left-element-guid": Object {
       "config": Object {
-        "canSelect": true,
         "isHighlighted": false,
+        "isSelectable": true,
         "isSelected": false,
       },
       "connectorCount": 0,
@@ -165,8 +165,8 @@ Object {
     },
     "screen-right-element-guid": Object {
       "config": Object {
-        "canSelect": true,
         "isHighlighted": false,
+        "isSelectable": true,
         "isSelected": false,
       },
       "connectorCount": 0,
@@ -250,8 +250,8 @@ Object {
   "elements": Object {
     "fault-element-guid": Object {
       "config": Object {
-        "canSelect": true,
         "isHighlighted": false,
+        "isSelectable": true,
         "isSelected": false,
       },
       "connectorCount": 0,
@@ -278,8 +278,8 @@ Object {
     },
     "record-create-element-guid": Object {
       "config": Object {
-        "canSelect": true,
         "isHighlighted": false,
+        "isSelectable": true,
         "isSelected": false,
       },
       "connectorCount": 0,
@@ -306,8 +306,8 @@ Object {
     },
     "start-element-guid": Object {
       "config": Object {
-        "canSelect": true,
         "isHighlighted": false,
+        "isSelectable": true,
         "isSelected": false,
       },
       "connectorCount": 0,
@@ -357,8 +357,8 @@ Object {
   "elements": Object {
     "screen-element-guid": Object {
       "config": Object {
-        "canSelect": true,
         "isHighlighted": false,
+        "isSelectable": true,
         "isSelected": false,
       },
       "connectorCount": 0,
@@ -385,8 +385,8 @@ Object {
     },
     "start-element-guid": Object {
       "config": Object {
-        "canSelect": true,
         "isHighlighted": false,
+        "isSelectable": true,
         "isSelected": false,
       },
       "connectorCount": 0,
@@ -424,8 +424,8 @@ Object {
   "elements": Object {
     "start-element-guid": Object {
       "config": Object {
-        "canSelect": true,
         "isHighlighted": false,
+        "isSelectable": true,
         "isSelected": false,
       },
       "connectorCount": 0,

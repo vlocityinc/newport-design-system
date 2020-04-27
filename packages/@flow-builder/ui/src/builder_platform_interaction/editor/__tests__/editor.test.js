@@ -56,7 +56,7 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
                 descriptor: 'builder_platform_interaction:assignmentEditor',
                 canBeDuplicated: true,
                 isDeletable: false,
-                nodeConfig: { isSelectable: false },
+                nodeConfig: {},
                 labels: {
                     singular: 'a'
                 }

@@ -82,7 +82,7 @@ export const createRootElement = (startElementGuid = null) => {
 };
 
 /**
- * Adds a null'ed children array to a parentElement
+ * Adds a nulled children array to a parentElement
  * @param {Object} element
  */
 export function initializeChildren(element) {

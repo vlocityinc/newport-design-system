@@ -196,7 +196,7 @@ describe('createPastedCanvasElement Function', () => {
 
             expect(pastedCanvasElement).toMatchObject({
                 guid: 'pastedScreen2',
-                config: { isSelected: false, isHighlighted: false, canSelect: true },
+                config: { isSelected: false, isHighlighted: false, isSelectable: true },
                 prev: 'pastedScreen1',
                 next: 'pastedDecision1'
             });
@@ -223,7 +223,7 @@ describe('createPastedCanvasElement Function', () => {
 
             expect(pastedCanvasElement).toMatchObject({
                 guid: 'pastedDecision1',
-                config: { isSelected: false, isHighlighted: false, canSelect: true },
+                config: { isSelected: false, isHighlighted: false, isSelectable: true },
                 prev: 'pastedScreen2',
                 next: 'pastedScreen4',
                 children: ['pastedScreen3', null]
@@ -252,7 +252,7 @@ describe('createPastedCanvasElement Function', () => {
 
             expect(pastedCanvasElement).toMatchObject({
                 guid: 'pastedScreen3',
-                config: { isSelected: false, isHighlighted: false, canSelect: true },
+                config: { isSelected: false, isHighlighted: false, isSelectable: true },
                 prev: undefined,
                 next: undefined,
                 parent: 'pastedDecision1',
@@ -292,7 +292,7 @@ describe('createPastedCanvasElement Function', () => {
 
             expect(pastedCanvasElement).toMatchObject({
                 guid: 'pastedDecision1',
-                config: { isSelected: false, isHighlighted: false, canSelect: true },
+                config: { isSelected: false, isHighlighted: false, isSelectable: true },
                 prev: 'startElement',
                 next: 'pastedScreen2',
                 children: [null, null]
@@ -320,7 +320,7 @@ describe('createPastedCanvasElement Function', () => {
 
             expect(pastedCanvasElement).toMatchObject({
                 guid: 'pastedDecision1',
-                config: { isSelected: false, isHighlighted: false, canSelect: true },
+                config: { isSelected: false, isHighlighted: false, isSelectable: true },
                 prev: 'startElement',
                 next: 'pastedScreen2',
                 children: [null, null]
@@ -350,7 +350,7 @@ describe('createPastedCanvasElement Function', () => {
 
             expect(pastedCanvasElement).toMatchObject({
                 guid: 'pastedDecision1',
-                config: { isSelected: false, isHighlighted: false, canSelect: true },
+                config: { isSelected: false, isHighlighted: false, isSelectable: true },
                 prev: 'startElement',
                 next: 'pastedScreen2',
                 children: [null, null]
@@ -379,7 +379,7 @@ describe('createPastedCanvasElement Function', () => {
 
             expect(pastedCanvasElement).toMatchObject({
                 guid: 'pastedDecision1',
-                config: { isSelected: false, isHighlighted: false, canSelect: true },
+                config: { isSelected: false, isHighlighted: false, isSelectable: true },
                 prev: null,
                 next: 'pastedScreen2',
                 children: [null, null],
@@ -408,7 +408,7 @@ describe('createPastedCanvasElement Function', () => {
 
             expect(pastedCanvasElement).toMatchObject({
                 guid: 'pastedScreen2',
-                config: { isSelected: false, isHighlighted: false, canSelect: true },
+                config: { isSelected: false, isHighlighted: false, isSelectable: true },
                 prev: 'pastedDecision1',
                 next: 'screen1'
             });

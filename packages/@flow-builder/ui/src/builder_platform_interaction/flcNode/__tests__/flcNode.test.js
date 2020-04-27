@@ -26,7 +26,7 @@ describe('FlcNode', () => {
             guid: 'guid',
             config: {
                 isSelected: false,
-                canSelect: true
+                isSelectable: true
             },
             metadata: {
                 icon: 'dummyIcon',
@@ -63,14 +63,14 @@ describe('FlcNode', () => {
         expect(selectionCheckbox).toBeNull();
     });
 
-    it('The Selection Box should be disabled when canSelect is true', () => {
+    it('The Selection Box should be disabled when isSelectable is true', () => {
         const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
         const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
         expect(selectionCheckbox.disabled).toBeFalsy();
     });
 
-    it('The Selection Box should be disabled when canSelect is false', () => {
-        nodeInfo.config.canSelect = false;
+    it('The Selection Box should be disabled when isSelectable is false', () => {
+        nodeInfo.config.isSelectable = false;
         const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
         const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
         expect(selectionCheckbox.disabled).toBeTruthy();

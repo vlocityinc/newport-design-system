@@ -154,8 +154,7 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
             if (elementType === 'START_ELEMENT') {
                 return {
                     canBeDuplicated: false,
-                    isDeletable: false,
-                    nodeConfig: { isSelectable: false }
+                    isDeletable: false
                 };
             } else if (elementType === 'Decision') {
                 return {

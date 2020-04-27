@@ -36,7 +36,7 @@ export default class FlcNode extends LightningElement {
     }
 
     get shouldDisableCheckbox() {
-        return this.nodeInfo && this.nodeInfo.config && !this.nodeInfo.config.canSelect;
+        return this.nodeInfo && this.nodeInfo.config && !this.nodeInfo.config.isSelectable;
     }
 
     get checkboxIconName() {
