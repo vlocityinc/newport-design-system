@@ -52,3 +52,8 @@
 .omni-repeat-button-group {
   pointer-events: auto;
 }
+
+// Applies positioning for tooltips
+.nds-tooltip__container span .tooltipSection {
+  position: absolute;
+}
