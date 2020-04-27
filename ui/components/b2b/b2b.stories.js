@@ -408,7 +408,7 @@ storiesOf(`${base}`, module)
     </div>
     `);
   })
-  .add("b2bCardRadioAndMatrix", () => {
+  .add("b2bCardRadioAttribute", () => {
     return withExample(`
     <div class="nds-b2b-card">
       <div class="nds-b2b-card_container">
@@ -430,6 +430,81 @@ storiesOf(`${base}`, module)
                     <input type="radio" id="radio36" name="radioMonths" value="36">
                     <label for="radio36">36 Months</label> 
                   </div>
+                </div>
+              </c-b2b-attribute-configure-offer>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    `);
+  })
+  .add("b2bCardMatrix", () => {
+    return withExample(`
+    <div class="nds-b2b-card">
+      <div class="nds-b2b-card_container">
+        <div class="nds-b2b-card_tabs">
+          <div class="nds-b2b-card_tab">
+            <input type="checkbox" id="chck2">
+            <label class="nds-b2b-card_tab-label" for="chck2">Details</label>
+            <div class="nds-b2b-card_tab-content">
+              <c-b2b-attribute-configure-offer>
+                <div class="b2b-attribute-config-offer_matrix">
+                  <div class="nds-b2b-config-label">Maximum Download Speed</div>
+                  <table>
+                    <tr>
+                      <th></th>
+                      <th></th>
+                      <th>12 MONTHS</th>
+                      <th>24 MONTHS</th>
+                      <th>36 MONTHS</th>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="nds-radio b2b-attribute-radio">
+                          <input type="radio" id="radio-1" name="options" value="on">
+                          <label class="nds-radio__label" for="radio-1">
+                            <span class="nds-radio_faux"></span>
+                          </label>
+                        </span>
+                        30 Mbps
+                      </td>
+                      <td>$0.00</td>
+                      <td>$75.00/mo</td>
+                      <td>$70.00/mo</td>
+                      <td>$60.00/mo</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="nds-radio b2b-attribute-radio">
+                          <input type="radio" id="radio-2" name="options" value="on">
+                          <label class="nds-radio__label" for="radio-2">
+                            <span class="nds-radio_faux"></span>
+                          </label>
+                        </span>
+                        150 Mbps
+                      </td>
+                      <td>$0.00</td>
+                      <td>$75.00/mo</td>
+                      <td>$70.00/mo</td>
+                      <td>$60.00/mo</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="nds-radio b2b-attribute-radio">
+                          <input type="radio" id="radio-3" name="options" value="on">
+                          <label class="nds-radio__label" for="radio-3">
+                            <span class="nds-radio_faux"></span>
+                          </label>
+                        </span>
+                        500 Mbps
+                      </td>
+                      <td>$0.00</td>
+                      <td>$75.00/mo</td>
+                      <td>$70.00/mo</td>
+                      <td>$60.00/mo</td>
+                    </tr>
+                  </table>
                 </div>
               </c-b2b-attribute-configure-offer>
             </div>
