@@ -170,6 +170,17 @@ describe('left-panel', () => {
             expect(leftPanel.classList).toContain('show-details');
         });
 
+        it('when in Flow Resource Details view - Flow Resource List should have class slds-hidden', async () => {
+            const element = createComponentUnderTest();
+            const showResourceDetailsEvent = new ShowResourceDetailsEvent(numberVariable.guid);
+            element.shadowRoot
+                .querySelector('builder_platform_interaction-left-panel-resources')
+                .dispatchEvent(showResourceDetailsEvent);
+            await ticks(1);
+            const leftPanelList = element.shadowRoot.querySelector('.flow-resource-list');
+            expect(leftPanelList.classList).toContain('slds-hidden');
+        });
+
         describe('resource manager tab', () => {
             describe('New Resource BUTTON', () => {
                 it('Label name should be New Resource ', () => {
