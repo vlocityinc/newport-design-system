@@ -37,6 +37,9 @@ export default class RecordCreateEditor extends LightningElement {
     @api
     editorParams;
 
+    @api
+    mode;
+
     /**
      * public api function to return the node
      *
