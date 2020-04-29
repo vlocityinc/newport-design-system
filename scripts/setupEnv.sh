@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 BRANCH=$1
-. .env
+[[ -f .env ]] && source .env
 if [[ -z "$P4PORT" ]]; then
   export P4PORT=$CUSTOM_P4PORT
 fi
