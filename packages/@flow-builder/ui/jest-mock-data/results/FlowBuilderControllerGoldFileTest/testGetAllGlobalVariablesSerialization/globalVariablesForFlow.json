@@ -1547,6 +1547,15 @@
 },
       {
   "fieldsToNull" : [ ],
+  "label" : "API Session ID",
+  "name" : "Session_ID",
+  "type" : {
+    "fieldsToNull" : [ ],
+    "name" : "$Api"
+  }
+},
+      {
+  "fieldsToNull" : [ ],
   "label" : "Email Signature",
   "name" : "Signature",
   "type" : {
