@@ -12,6 +12,5 @@ Here's how to get set up and start contributing to the framework:
 1. [Best Practices](contributing/BestPractices.md)
 1. [Testing and Debugging](contributing/Testing.md)
 1. [Submitting Pull Requests](contributing/SubmittingPullRequests.md)
-1. [Consuming Builder Framework](contributing/Consuming.md)
 
 For additional help please [contact us](/docs/CONTACT_US.md)
