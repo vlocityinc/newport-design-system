@@ -14,6 +14,10 @@ import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
 
 export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
 
+// Used to mark an element as incomplete. An element is incomplete when it cannot fully be created because the factory needs information from an element that has
+// not yet been created. translatorLib.translateFlowToUIModel uses this information to create the ui model in 2 passes
+export const INCOMPLETE_ELEMENT = Symbol('incomplete');
+
 export function baseResource(resource = {}) {
     const newResource = baseElement(resource);
     const { description = '' } = resource;

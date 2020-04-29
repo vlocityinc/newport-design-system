@@ -6,8 +6,7 @@ import {
     DELETE_ELEMENT,
     ADD_DECISION_WITH_OUTCOMES,
     ADD_SCREEN_WITH_FIELDS,
-    ADD_START_ELEMENT,
-    UPDATE_FLOW_NO_UNDO
+    ADD_START_ELEMENT
 } from 'builder_platform_interaction/actions';
 import { addItem } from 'builder_platform_interaction/dataMutationLib';
 
@@ -21,7 +20,6 @@ import { addItem } from 'builder_platform_interaction/dataMutationLib';
 export default function canvasElementsReducer(state = [], action) {
     switch (action.type) {
         case UPDATE_FLOW:
-        case UPDATE_FLOW_NO_UNDO:
             return [...action.payload.canvasElements];
         case DO_DUPLICATE:
             return [...state, ...Object.values(action.payload.canvasElementGuidMap)];

@@ -4,7 +4,8 @@ import {
     baseCanvasElementsArrayToMap,
     duplicateCanvasElement,
     createAvailableConnection,
-    automaticOutputHandlingSupport
+    automaticOutputHandlingSupport,
+    INCOMPLETE_ELEMENT
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
@@ -12,7 +13,7 @@ import { removeFromAvailableConnections } from 'builder_platform_interaction/con
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 import { getGlobalConstantOrSystemVariable } from 'builder_platform_interaction/systemLib';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { getElementByGuidFromState, getElementByDevNameFromState } from 'builder_platform_interaction/storeUtils';
 import {
     createFlowInputFieldAssignmentMetadataObject,
     createFlowInputFieldAssignment,
@@ -22,11 +23,12 @@ import {
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
+import { Store } from 'builder_platform_interaction/storeLib';
 
 const elementType = ELEMENT_TYPE.RECORD_CREATE;
 const maxConnections = 2;
 
-export function createRecordCreate(recordCreate = {}) {
+export function createRecordCreate(recordCreate = {}, { elements } = Store.getStore().getCurrentState()) {
     const newRecordCreate = baseCanvasElement(recordCreate);
     const {
         inputReference = '',
@@ -65,12 +67,14 @@ export function createRecordCreate(recordCreate = {}) {
             storeOutputAutomatically
         });
     } else {
+        let complete = true;
         if (inputReference) {
-            // When the builder is loaded the store does not yet contain the variables
-            // getFirstRecordOnly can only be calculated at the opening on the element
+            // When the flow is loaded, this factory is called twice. In the first phase, elements is empty. In the second phase, elements contain variables and
+            // we can calculate getFirstRecordOnly
             const complexGuid = sanitizeGuid(inputReference);
             const variable =
-                getElementByGuid(complexGuid.guidOrLiteral) ||
+                getElementByGuidFromState({ elements }, complexGuid.guidOrLiteral) ||
+                getElementByDevNameFromState({ elements }, complexGuid.guidOrLiteral) ||
                 getGlobalConstantOrSystemVariable(complexGuid.guidOrLiteral);
             if (variable) {
                 if (variable.dataType !== FLOW_DATA_TYPE.APEX.value) {
@@ -86,21 +90,27 @@ export function createRecordCreate(recordCreate = {}) {
                         getFirstRecordOnly = !property.isCollection;
                     }
                 }
+            } else {
+                complete = false;
             }
         }
 
-        recordCreateObject = Object.assign(newRecordCreate, {
-            object,
-            objectIndex,
-            getFirstRecordOnly,
-            inputReference,
-            inputReferenceIndex,
-            availableConnections,
-            maxConnections,
-            elementType,
-            assignRecordIdToReferenceIndex,
-            dataType
-        });
+        recordCreateObject = Object.assign(
+            newRecordCreate,
+            {
+                object,
+                objectIndex,
+                getFirstRecordOnly,
+                inputReference,
+                inputReferenceIndex,
+                availableConnections,
+                maxConnections,
+                elementType,
+                assignRecordIdToReferenceIndex,
+                dataType
+            },
+            complete ? {} : { [INCOMPLETE_ELEMENT]: true }
+        );
     }
 
     return recordCreateObject;
@@ -116,8 +126,8 @@ export function createDuplicateRecordCreate(recordCreate, newGuid, newName) {
     return duplicateRecordCreate;
 }
 
-export function createRecordCreateWithConnectors(recordCreate) {
-    const newRecordCreate = createRecordCreate(recordCreate);
+export function createRecordCreateWithConnectors(recordCreate, { elements } = Store.getStore().getCurrentState()) {
+    const newRecordCreate = createRecordCreate(recordCreate, { elements });
 
     const connectors = createConnectorObjects(recordCreate, newRecordCreate.guid);
     const defaultAvailableConnections = getDefaultAvailableConnections();

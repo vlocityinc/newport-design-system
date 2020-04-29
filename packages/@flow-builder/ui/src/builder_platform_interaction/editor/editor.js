@@ -12,7 +12,6 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
 import {
     updateFlow,
-    updateFlowNoUndo,
     doDuplicate,
     addElement,
     addElementFault,
@@ -35,8 +34,7 @@ import {
     ADD_START_ELEMENT,
     UPDATE_APEX_CLASSES,
     UPDATE_ENTITIES,
-    SELECTION_ON_FIXED_CANVAS,
-    UPDATE_FLOW_NO_UNDO
+    SELECTION_ON_FIXED_CANVAS
 } from 'builder_platform_interaction/actions';
 import {
     ELEMENT_TYPE,
@@ -349,8 +347,7 @@ export default class Editor extends LightningElement {
             UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE,
             UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE,
             UPDATE_ENTITIES,
-            SELECTION_ON_FIXED_CANVAS,
-            UPDATE_FLOW_NO_UNDO
+            SELECTION_ON_FIXED_CANVAS
         ];
         const groupedActions = [
             TOGGLE_ON_CANVAS, // Used for shift-select elements on canvas.
@@ -523,9 +520,6 @@ export default class Editor extends LightningElement {
         } else {
             // We need to load the parameters first, so as having some information needed at the factory level (e.g. for Action with anonymous output we need parameter related information see actionCall#createActionCall)
             loadParametersForInvocableApexActionsInFlowFromMetadata((data.metadata || data).actionCalls).then(() => {
-                // double dispatch is required for loop factory (we need to get the corresponding looped variable for auto output)
-                // TODO: to be removed (see W-7364488)
-                storeInstance.dispatch(updateFlowNoUndo(translateFlowToUIModel(data)));
                 storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
 
                 if (!data.metadata) {

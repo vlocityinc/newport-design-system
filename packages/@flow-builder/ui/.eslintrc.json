@@ -26,6 +26,7 @@
                         "**/builder_platform_interaction/commands/baseCommand.js"
                     ],
                     "no-empty-function": ["**/builder_platform_interaction/flcConnectorMenu/flcConnectorMenu.js"],
+                    "no-loop-func": ["**/builder_platform_interaction/translatorLib/flowToUiTranslator.js"],
                     "lwc-core/no-aura": ["**/builder_platform_interaction/builderUtils/builderUtils.js"],
                     "lwc-core/no-interop-create": ["**/builder_platform_interaction/builderUtils/builderUtils.js"],
                     "lwc-core/no-interop-dispatch": ["**/builder_platform_interaction/builderUtils/builderUtils.js"],

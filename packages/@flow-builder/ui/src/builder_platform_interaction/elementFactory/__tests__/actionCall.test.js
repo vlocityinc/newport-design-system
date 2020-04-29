@@ -11,7 +11,7 @@ import {
     apexCallAutomaticAnonymousStringsOutput,
     apexCallAutomaticAnonymousApexTypeCollectionOutput
 } from 'mock/storeData';
-import { getActionCallsByNames } from 'mock/flows/mock-flow.js';
+import { getMetadataFlowElementByName } from 'mock/flows/mock-flow.js';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'flow';
@@ -332,7 +332,7 @@ describe('actionCall', () => {
         describe('when metadata action call with anonymous output handling is passed', () => {
             it('sets isSystemGeneratedOutput to true, isCollection to false and primitive datatype for single primitives', () => {
                 const createdAction = createActionCall(
-                    getActionCallsByNames(flowWithAllElements, [apexCallAutomaticAnonymousStringOutput.name])[0]
+                    getMetadataFlowElementByName(flowWithAllElements, apexCallAutomaticAnonymousStringOutput.name)
                 );
 
                 expect(createdAction.isSystemGeneratedOutput).toBe(true);
@@ -342,7 +342,7 @@ describe('actionCall', () => {
             });
             it('sets isSystemGeneratedOutput to true, isCollection to false, sobject datatype and subtype for single sobjects', () => {
                 const createdAction = createActionCall(
-                    getActionCallsByNames(flowWithAllElements, [apexCallAutomaticAnonymousAccountOutput.name])[0]
+                    getMetadataFlowElementByName(flowWithAllElements, apexCallAutomaticAnonymousAccountOutput.name)
                 );
 
                 expect(createdAction.isSystemGeneratedOutput).toBe(true);
@@ -352,7 +352,7 @@ describe('actionCall', () => {
             });
             it('sets isSystemGeneratedOutput to true, isCollection to true and primitive datatype for collection of primitives', () => {
                 const createdAction = createActionCall(
-                    getActionCallsByNames(flowWithAllElements, [apexCallAutomaticAnonymousStringsOutput.name])[0]
+                    getMetadataFlowElementByName(flowWithAllElements, apexCallAutomaticAnonymousStringsOutput.name)
                 );
 
                 expect(createdAction.isSystemGeneratedOutput).toBe(true);
@@ -362,7 +362,7 @@ describe('actionCall', () => {
             });
             it('sets isSystemGeneratedOutput to true, isCollection to true, sobject datatype and subtype for collection of sobjects', () => {
                 const createdAction = createActionCall(
-                    getActionCallsByNames(flowWithAllElements, [apexCallAutomaticAnonymousAccountsOutput.name])[0]
+                    getMetadataFlowElementByName(flowWithAllElements, apexCallAutomaticAnonymousAccountsOutput.name)
                 );
 
                 expect(createdAction.isSystemGeneratedOutput).toBe(true);
@@ -372,9 +372,10 @@ describe('actionCall', () => {
             });
             it('sets isSystemGeneratedOutput to true, isCollection to true, apex datatype and apex class for collection of apex types', () => {
                 const createdAction = createActionCall(
-                    getActionCallsByNames(flowWithAllElements, [
+                    getMetadataFlowElementByName(
+                        flowWithAllElements,
                         apexCallAutomaticAnonymousApexTypeCollectionOutput.name
-                    ])[0]
+                    )
                 );
 
                 expect(createdAction.isSystemGeneratedOutput).toBe(true);

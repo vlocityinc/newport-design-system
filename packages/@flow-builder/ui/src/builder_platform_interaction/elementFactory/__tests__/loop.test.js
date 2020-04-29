@@ -7,16 +7,13 @@ import {
     loopOnApexTypeCollectionAutoOutput
 } from 'mock/storeDataAutolaunched';
 import { Store } from 'builder_platform_interaction/storeLib';
+import * as autolaunchedFlow from 'mock/flows/autolaunchedFlow.json';
+import { getMetadataFlowElementByName } from 'mock/flows/mock-flow.js';
+import { INCOMPLETE_ELEMENT } from '../base/baseElement';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 describe('loop factory', () => {
-    beforeAll(() => {
-        Store.setMockState(autolaunchedFlowUIModel);
-    });
-    afterAll(() => {
-        Store.resetStore();
-    });
     describe('create loop', () => {
         describe('new loop', () => {
             it('has store output automatically true', () => {
@@ -59,11 +56,18 @@ describe('loop factory', () => {
             });
         });
         describe('existing loop with auto output', () => {
-            it.each([
-                loopAccountAutomaticOutput,
-                loopOnTextCollectionAutomaticOutput,
-                loopOnApexTypeCollectionAutoOutput
-            ])('sets storeOutputAutomatically true', element => {
+            beforeAll(() => {
+                Store.setMockState(autolaunchedFlowUIModel);
+            });
+            afterAll(() => {
+                Store.resetStore();
+            });
+            it.each`
+                element
+                ${loopAccountAutomaticOutput}
+                ${loopOnTextCollectionAutomaticOutput}
+                ${loopOnApexTypeCollectionAutoOutput}
+            `('$element.name should have storeOutputAutomatically : true', ({ element }) => {
                 const createdLoop = createLoop(element);
 
                 expect(createdLoop.storeOutputAutomatically).toBe(true);
@@ -91,12 +95,19 @@ describe('loop factory', () => {
         });
     });
     describe('create duplicate loop', () => {
+        beforeAll(() => {
+            Store.setMockState(autolaunchedFlowUIModel);
+        });
+        afterAll(() => {
+            Store.resetStore();
+        });
         describe('automatic output', () => {
-            it.each([
-                loopAccountAutomaticOutput,
-                loopOnTextCollectionAutomaticOutput,
-                loopOnApexTypeCollectionAutoOutput
-            ])('sets storeOutputAutomatically true', element => {
+            it.each`
+                element
+                ${loopAccountAutomaticOutput}
+                ${loopOnTextCollectionAutomaticOutput}
+                ${loopOnApexTypeCollectionAutoOutput}
+            `('$element.name should have storeOutputAutomatically : true', ({ element }) => {
                 const createdLoop = createDuplicateLoop(element);
 
                 expect(createdLoop.duplicatedElement.storeOutputAutomatically).toBe(true);
@@ -143,34 +154,43 @@ describe('loop factory', () => {
     });
     describe('create loop with connectors', () => {
         describe('automatic output', () => {
-            it.each([
-                loopAccountAutomaticOutput,
-                loopOnTextCollectionAutomaticOutput,
-                loopOnApexTypeCollectionAutoOutput
-            ])('sets storeOutputAutomatically true', element => {
-                const createdLoop = createLoopWithConnectors(element);
-
-                expect(Object.values(createdLoop.elements)[0].storeOutputAutomatically).toBe(true);
+            describe('No elements passed', () => {
+                it.each`
+                    element
+                    ${getMetadataFlowElementByName(autolaunchedFlow, 'loopAccountAutomaticOutput')}
+                    ${getMetadataFlowElementByName(autolaunchedFlow, 'loopOnTextAutomaticOutput')}
+                    ${getMetadataFlowElementByName(autolaunchedFlow, 'loopOnApexTypeCollectionAutoOutput')}
+                `(
+                    '$element.name should have INCOMPLETE_ELEMENT property set to true and type should not be set',
+                    ({ element }) => {
+                        const result = createLoopWithConnectors(element, { elements: {} });
+                        const loopElement = Object.values(result.elements)[0];
+                        expect(loopElement.storeOutputAutomatically).toBe(true);
+                        expect(loopElement[INCOMPLETE_ELEMENT]).toBe(true);
+                        expect(loopElement.dataType).toBeUndefined();
+                        expect(loopElement.subtype).toBeUndefined();
+                    }
+                );
             });
-            it.each`
-                loop                                   | dataType
-                ${loopAccountAutomaticOutput}          | ${'SObject'}
-                ${loopOnTextCollectionAutomaticOutput} | ${'String'}
-                ${loopOnApexTypeCollectionAutoOutput}  | ${'Apex'}
-            `('$loop.name should have dataType: $dataType', ({ loop, dataType }) => {
-                const createdLoop = createLoopWithConnectors(loop);
-
-                expect(Object.values(createdLoop.elements)[0].dataType).toBe(dataType);
-            });
-            it.each`
-                loop                                   | subtype
-                ${loopAccountAutomaticOutput}          | ${'Account'}
-                ${loopOnTextCollectionAutomaticOutput} | ${null}
-                ${loopOnApexTypeCollectionAutoOutput}  | ${'ApexComplexTypeTestOne216'}
-            `('$loop.name should have subtype: $subtype', ({ loop, subtype }) => {
-                const createdLoop = createLoopWithConnectors(loop);
-
-                expect(Object.values(createdLoop.elements)[0].subtype).toBe(subtype);
+            describe('Elements passed', () => {
+                it.each`
+                    element                                                                                 | dataType     | subtype
+                    ${getMetadataFlowElementByName(autolaunchedFlow, 'loopAccountAutomaticOutput')}         | ${'SObject'} | ${'Account'}
+                    ${getMetadataFlowElementByName(autolaunchedFlow, 'loopOnTextAutomaticOutput')}          | ${'String'}  | ${null}
+                    ${getMetadataFlowElementByName(autolaunchedFlow, 'loopOnApexTypeCollectionAutoOutput')} | ${'Apex'}    | ${'ApexComplexTypeTestOne216'}
+                `(
+                    '$element.name should have { storeOutputAutomatically : true, dataType : ${dataType}, subtype : ${subtype} }',
+                    ({ element, dataType, subtype }) => {
+                        const result = createLoopWithConnectors(element, {
+                            elements: autolaunchedFlowUIModel.elements
+                        });
+                        const loopElement = Object.values(result.elements)[0];
+                        expect(loopElement.storeOutputAutomatically).toBe(true);
+                        expect(loopElement.dataType).toBe(dataType);
+                        expect(loopElement.subtype).toBe(subtype);
+                        expect(loopElement[INCOMPLETE_ELEMENT]).toBeUndefined();
+                    }
+                );
             });
         });
 
@@ -196,32 +216,34 @@ describe('loop factory', () => {
         it('should throw error if no "loop" passed', () => {
             expect(() => createLoopMetadataObject(null)).toThrowError('loop is not defined');
         });
-        it.each([
-            loopAccountAutomaticOutput,
-            loopOnTextCollectionManualOutput,
-            loopOnTextCollectionAutomaticOutput,
-            loopOnApexTypeCollectionAutoOutput
-        ])('does not set storeOutputAutomatically', element => {
+        it.each`
+            element
+            ${loopAccountAutomaticOutput}
+            ${loopOnTextCollectionManualOutput}
+            ${loopOnTextCollectionAutomaticOutput}
+            ${loopOnApexTypeCollectionAutoOutput}
+        `('$element.name does not set storeOutputAutomatically', ({ element }) => {
             const createdLoop = createLoopMetadataObject(element);
 
             expect(createdLoop.storeOutputAutomatically).toBeUndefined();
         });
-        it.each([
-            loopAccountAutomaticOutput,
-            loopOnTextCollectionManualOutput,
-            loopOnTextCollectionAutomaticOutput,
-            loopOnApexTypeCollectionAutoOutput
-        ])('does not set dataType', element => {
+        it.each`
+            element
+            ${loopAccountAutomaticOutput}
+            ${loopOnTextCollectionManualOutput}
+            ${loopOnTextCollectionAutomaticOutput}
+            ${loopOnApexTypeCollectionAutoOutput}
+        `('$element.name does not set dataType', ({ element }) => {
             const createdLoop = createLoopMetadataObject(element);
 
             expect(createdLoop.dataType).toBeUndefined();
         });
-        it.each([
-            loopAccountAutomaticOutput,
-            loopOnTextCollectionManualOutput,
-            loopOnTextCollectionAutomaticOutput,
-            loopOnApexTypeCollectionAutoOutput
-        ])('does not set subtype', element => {
+        it.each`
+            element
+            ${loopAccountAutomaticOutput}
+            ${loopOnTextCollectionManualOutput}
+            ${loopOnTextCollectionAutomaticOutput}
+        `('does not set subtype', ({ element }) => {
             const createdLoop = createLoopMetadataObject(element);
 
             expect(createdLoop.subtype).toBeUndefined();

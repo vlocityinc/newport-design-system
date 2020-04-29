@@ -41,6 +41,11 @@ function mockGenerateGuid() {
     });
 }
 
+// reset the pseudo random function used by mockGenerateGuid
+function resetMockGenerateGuidPseudoRandom() {
+    pseudoRandom = lcg(123);
+}
+
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/processTypeLib');
     return Object.assign({}, actual, {
@@ -225,7 +230,7 @@ describe('Flow Translator', () => {
 
     beforeEach(() => {
         store = Store.getStore(reducer);
-        pseudoRandom = lcg(123);
+        resetMockGenerateGuidPseudoRandom();
     });
     describe('Getting flow metadata, calling flow-to-ui translation and calling ui-to-flow', () => {
         SAMPLE_FLOWS.forEach(metadataFlow => {
@@ -239,16 +244,23 @@ describe('Flow Translator', () => {
             });
         });
     });
-    it('returns expected ui model for a screen flow containing all elements', () => {
-        uiFlow = translateFlowToUIModel(flowWithAllElements);
-        store.dispatch(updateFlow(uiFlow));
-        uiFlow = translateFlowToUIModel(flowWithAllElements);
-        store.dispatch(updateFlow(uiFlow));
-
-        expect(uiFlow).toEqualGoldObject(
-            flowWithAllElementsUIModel,
-            'flowWithAllElementsUIModel in mock_store_data/flowWithAllElementsUIModel.js'
-        );
+    describe('Screen flow with all elements', () => {
+        it('returns expected ui model', () => {
+            uiFlow = translateFlowToUIModel(flowWithAllElements);
+            expect(uiFlow).toEqualGoldObject(
+                flowWithAllElementsUIModel,
+                'flowWithAllElementsUIModel in mock_store_data/flowWithAllElementsUIModel.js'
+            );
+        });
+        // before W-7364488, 2 calls were needed for some elements to get the final ui model (ex : loop in automatic output handling mode)
+        it('needs only one translation to get final ui model', () => {
+            uiFlow = translateFlowToUIModel(flowWithAllElements);
+            store.dispatch(updateFlow(uiFlow));
+            resetMockGenerateGuidPseudoRandom();
+            const uiFlow2 = translateFlowToUIModel(flowWithAllElements);
+            store.dispatch(updateFlow(uiFlow));
+            expect(JSON.stringify(uiFlow2)).toEqual(JSON.stringify(uiFlow));
+        });
     });
     it('returns expected ui model for an autolaunched flow', () => {
         uiFlow = translateFlowToUIModel(autolaunchedFlow);

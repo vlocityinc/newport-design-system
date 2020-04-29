@@ -1,10 +1,16 @@
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { baseCanvasElement, duplicateCanvasElement, baseCanvasElementsArrayToMap } from './base/baseElement';
+import {
+    baseCanvasElement,
+    duplicateCanvasElement,
+    baseCanvasElementsArrayToMap,
+    INCOMPLETE_ELEMENT
+} from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { getElementByGuid, getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { getElementByGuidFromState, getElementByDevNameFromState } from 'builder_platform_interaction/storeUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
 
 const elementType = ELEMENT_TYPE.LOOP;
 const maxConnections = 2;
@@ -18,7 +24,7 @@ const getDefaultAvailableConnections = () => [
 ];
 const ITERATION_ORDER_ASCENDING = 'Asc';
 
-export function createLoop(loop = {}) {
+export function createLoop(loop = {}, { elements } = Store.getStore().getCurrentState()) {
     const newLoop = baseCanvasElement(loop);
     const {
         assignNextValueToReference = null,
@@ -30,27 +36,38 @@ export function createLoop(loop = {}) {
     } = loop;
 
     let dataType, subtype;
+    let complete = true;
     const storeOutputAutomatically = assignNextValueToReference === null;
 
     if (storeOutputAutomatically && collectionReference) {
-        const loopedCollection = getElementByGuid(collectionReference) || getElementByDevName(collectionReference);
+        // When the flow is loaded, this factory is called twice. In the first phase, elements is empty. In the second phase, elements is set and
+        // we can calculate dataType and subtype
+        const loopedCollection =
+            getElementByGuidFromState({ elements }, collectionReference) ||
+            getElementByDevNameFromState({ elements }, collectionReference);
         if (loopedCollection) {
             ({ dataType, subtype } = loopedCollection);
+        } else {
+            complete = false;
         }
     }
-    return Object.assign(newLoop, {
-        assignNextValueToReference,
-        assignNextValueToReferenceIndex,
-        collectionReference,
-        collectionReferenceIndex,
-        iterationOrder,
-        maxConnections,
-        availableConnections,
-        elementType,
-        storeOutputAutomatically,
-        dataType,
-        subtype
-    });
+    return Object.assign(
+        newLoop,
+        {
+            assignNextValueToReference,
+            assignNextValueToReferenceIndex,
+            collectionReference,
+            collectionReferenceIndex,
+            iterationOrder,
+            maxConnections,
+            availableConnections,
+            elementType,
+            storeOutputAutomatically,
+            dataType,
+            subtype
+        },
+        complete ? {} : { [INCOMPLETE_ELEMENT]: true }
+    );
 }
 
 export function createDuplicateLoop(loop, newGuid, newName) {
@@ -63,8 +80,8 @@ export function createDuplicateLoop(loop, newGuid, newName) {
     return duplicateLoop;
 }
 
-export function createLoopWithConnectors(loop) {
-    const newLoop = createLoop(loop);
+export function createLoopWithConnectors(loop, { elements } = Store.getStore().getCurrentState()) {
+    const newLoop = createLoop(loop, { elements });
     const connectors = createConnectorObjects(loop, newLoop.guid);
     const connectorCount = connectors ? connectors.length : 0;
     const defaultAvailableConnections = getDefaultAvailableConnections();

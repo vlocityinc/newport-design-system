@@ -4,7 +4,8 @@ import {
     baseCanvasElementsArrayToMap,
     duplicateCanvasElement,
     createAvailableConnection,
-    automaticOutputHandlingSupport
+    automaticOutputHandlingSupport,
+    INCOMPLETE_ELEMENT
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
@@ -25,7 +26,8 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getGlobalConstantOrSystemVariable } from 'builder_platform_interaction/systemLib';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { getElementByGuidFromState, getElementByDevNameFromState } from 'builder_platform_interaction/storeUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
 
 const elementType = ELEMENT_TYPE.RECORD_LOOKUP;
 const maxConnections = 2;
@@ -47,19 +49,19 @@ export const createQueriedField = queriedField => {
     };
 };
 
-export function createRecordLookup(recordLookup = {}) {
+export function createRecordLookup(recordLookup = {}, { elements } = Store.getStore().getCurrentState()) {
     let newRecordLookup;
     if (recordLookup.storeOutputAutomatically) {
         newRecordLookup = createRecordLookupWithAutomaticOutputHandling(recordLookup);
     } else if (recordLookup.outputReference) {
-        newRecordLookup = createRecordLookupWithOuputReference(recordLookup);
+        newRecordLookup = createRecordLookupWithOuputReference(recordLookup, { elements });
     } else {
         newRecordLookup = createRecordLookupWithVariableAssignments(recordLookup);
     }
     return newRecordLookup;
 }
 
-function createRecordLookupWithOuputReference(recordLookup = {}) {
+function createRecordLookupWithOuputReference(recordLookup = {}, { elements } = Store.getStore().getCurrentState()) {
     const newRecordLookup = baseCanvasElement(recordLookup);
 
     let {
@@ -85,12 +87,18 @@ function createRecordLookupWithOuputReference(recordLookup = {}) {
     filters = createRecordFilters(filters, object);
 
     const filterType = filters[0].leftHandSide ? RECORD_FILTER_CRITERIA.ALL : RECORD_FILTER_CRITERIA.NONE;
+    let complete = true;
 
-    // When the builder is loaded the store does not yet contain the variables
-    // numberRecordsToStore can only be calculated at the opening on the element
-    const variable = getElementByGuid(outputReference) || getGlobalConstantOrSystemVariable(outputReference);
+    // When the flow is loaded, this factory is called twice. In the first phase, elements is empty. In the second phase, elements contain variables and
+    // we can calculate getFirstRecordOnly
+    const variable =
+        getElementByGuidFromState({ elements }, outputReference) ||
+        getElementByDevNameFromState({ elements }, outputReference) ||
+        getGlobalConstantOrSystemVariable(outputReference);
     if (variable) {
         getFirstRecordOnly = !(variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection);
+    } else {
+        complete = false;
     }
 
     if (queriedFields && queriedFields.length > 0) {
@@ -99,25 +107,29 @@ function createRecordLookupWithOuputReference(recordLookup = {}) {
         // If creating new queried fields, there needs to be one for the ID field, and a new blank one
         queriedFields = ['Id', ''].map(queriedField => createQueriedField(queriedField));
     }
-    return Object.assign(newRecordLookup, {
-        object,
-        objectIndex,
-        outputReference,
-        assignNullValuesIfNoRecordsFound,
-        filterType,
-        filters,
-        queriedFields,
-        sortOrder,
-        sortField,
-        maxConnections,
-        availableConnections,
-        elementType,
-        outputReferenceIndex,
-        dataType: FLOW_DATA_TYPE.BOOLEAN.value,
-        storeOutputAutomatically: false,
-        getFirstRecordOnly,
-        variableAndFieldMapping: VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL
-    });
+    return Object.assign(
+        newRecordLookup,
+        {
+            object,
+            objectIndex,
+            outputReference,
+            assignNullValuesIfNoRecordsFound,
+            filterType,
+            filters,
+            queriedFields,
+            sortOrder,
+            sortField,
+            maxConnections,
+            availableConnections,
+            elementType,
+            outputReferenceIndex,
+            dataType: FLOW_DATA_TYPE.BOOLEAN.value,
+            storeOutputAutomatically: false,
+            getFirstRecordOnly,
+            variableAndFieldMapping: VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL
+        },
+        complete ? {} : { [INCOMPLETE_ELEMENT]: true }
+    );
 }
 
 function createRecordLookupWithVariableAssignments(recordLookup = {}) {
@@ -238,8 +250,8 @@ export function createDuplicateRecordLookup(recordLookup, newGuid, newName) {
     return duplicateRecordLookup;
 }
 
-export function createRecordLookupWithConnectors(recordLookup) {
-    const newRecordLookup = createRecordLookup(recordLookup);
+export function createRecordLookupWithConnectors(recordLookup, { elements } = Store.getStore().getCurrentState()) {
+    const newRecordLookup = createRecordLookup(recordLookup, { elements });
 
     const connectors = createConnectorObjects(recordLookup, newRecordLookup.guid);
     const availableConnections = removeFromAvailableConnections(getDefaultAvailableConnections(), connectors);

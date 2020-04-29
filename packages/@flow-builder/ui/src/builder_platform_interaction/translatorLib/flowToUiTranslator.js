@@ -1,6 +1,11 @@
 import { swapDevNamesToUids } from './uidSwapping';
-import { ELEMENT_TYPE, METADATA_KEY, isSystemElement } from 'builder_platform_interaction/flowMetadata';
-import { createFlowProperties } from 'builder_platform_interaction/elementFactory';
+import {
+    ELEMENT_TYPE,
+    METADATA_KEY,
+    isSystemElement,
+    forEachMetadataFlowElement
+} from 'builder_platform_interaction/flowMetadata';
+import { createFlowProperties, INCOMPLETE_ELEMENT } from 'builder_platform_interaction/elementFactory';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 import { useFixedLayoutCanvas, setUseFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 import { convertToFlc, isFixedLayoutCanvas } from 'builder_platform_interaction/flcConversionUtils';
@@ -178,52 +183,63 @@ function updateCanvasElementLocation(element = {}, translateX = 0) {
     return element;
 }
 
+function getTranslateX(metadata) {
+    const EXTRA_SPACING = 180;
+    let minX = EXTRA_SPACING;
+    forEachMetadataFlowElement(metadata, metadataElement => {
+        if (metadataElement && metadataElement.locationX < minX && metadataElement.locationY < EXTRA_SPACING) {
+            minX = metadataElement.locationX;
+        }
+    });
+    const translateX = EXTRA_SPACING - minX;
+    return translateX;
+}
+
 /**
  * Helper function to loop over all the flow metadata elements and convert them to client side shape
  * @param {Object} metadata flow metadata
  * @returns {Object} Object containing updated storeConnectors, storeElements and translateX
  */
 function createElementsUsingFlowMetadata(metadata, startElementReference) {
-    const EXTRA_SPACING = 180;
-
-    let storeElements, storeConnectors;
+    let storeElements = {};
+    let storeConnectors = [];
     const metadataKeyToFlowToUiFunctionMap = getMetadataKeyToFlowToUiFunctionMap();
     const metadataKeyList = Object.values(METADATA_KEY);
-
-    let minX = EXTRA_SPACING;
 
     if (!metadataKeyList) {
         throw new Error('Metadata does not have corresponding element array');
     }
-    for (let i = 0, metadataKeyListLen = metadataKeyList.length; i < metadataKeyListLen; i++) {
-        const metadataKey = metadataKeyList[i];
-        const metadataElementsList =
-            metadataKey === METADATA_KEY.START ? [metadata[metadataKey]] : metadata[metadataKey];
-        const metadataElementsListLen = metadataElementsList ? metadataElementsList.length : 0;
-        for (let j = 0; j < metadataElementsListLen; j++) {
-            const metadataElementsListItem = metadataElementsList[j];
-
-            if (
-                metadataElementsListItem &&
-                metadataElementsListItem.locationX < minX &&
-                metadataElementsListItem.locationY < EXTRA_SPACING
-            ) {
-                minX = metadataElementsListItem.locationX;
+    const areElementsIncomplete = elements => Object.values(elements).some(element => !!element[INCOMPLETE_ELEMENT]);
+    // We need 2 passes because some element factory (ex : Loop) need to access another element
+    const map = new Map();
+    for (let pass = 0; pass < 2; pass++) {
+        const previousPhaseElements = storeElements;
+        const previousPhaseConnectors = storeConnectors;
+        storeElements = {};
+        storeConnectors = [];
+        // eslint-disable-next-line no-loop-func
+        forEachMetadataFlowElement(metadata, (metadataElement, metadataKey) => {
+            let elementsAndConnectors = map.get(metadataElement);
+            if (!elementsAndConnectors || areElementsIncomplete(elementsAndConnectors.elements)) {
+                const elementFactoryFunction = metadataKeyToFlowToUiFunctionMap[metadataKey];
+                elementsAndConnectors =
+                    metadataKey === METADATA_KEY.START
+                        ? elementFactoryFunction(metadataElement, startElementReference)
+                        : elementFactoryFunction(metadataElement, {
+                              elements: previousPhaseElements,
+                              connectors: previousPhaseConnectors
+                          });
+                map.set(metadataElement, elementsAndConnectors);
             }
-
-            const elementFactoryFunction = metadataKeyToFlowToUiFunctionMap[metadataKey];
-            const { elements, connectors } =
-                metadataKey === METADATA_KEY.START
-                    ? elementFactoryFunction(metadataElementsListItem, startElementReference)
-                    : elementFactoryFunction(metadataElementsListItem);
+            const { elements, connectors } = elementsAndConnectors;
             if (elements) {
                 storeElements = updateStoreElements(storeElements, elements);
             }
             storeConnectors = updateStoreConnectors(storeConnectors, connectors);
-        }
+        });
     }
 
-    const translateX = EXTRA_SPACING - minX;
+    const translateX = getTranslateX(metadata);
 
     return {
         storeConnectors,

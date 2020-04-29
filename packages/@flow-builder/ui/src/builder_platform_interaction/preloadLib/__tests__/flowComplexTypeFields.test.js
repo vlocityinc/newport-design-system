@@ -28,7 +28,7 @@ import {
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { describeExtensions } from 'builder_platform_interaction/flowExtensionLib';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
-import { getActionCallsByNames } from 'mock/flows/mock-flow.js';
+import { getMetadataFlowElementByName } from 'mock/flows/mock-flow.js';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
 
@@ -162,23 +162,21 @@ describe('flowComplexTypeFields', () => {
             expect(fetchDetailsForInvocableAction.mock.calls[0][0]).toEqual(expectedActionCallNameAndType);
         };
         it('Load invocable action parameters only for apex actions in automatic output mode', async () => {
-            await loadParametersForInvocableApexActionsInFlowFromMetadata(
-                getActionCallsByNames(flowWithAllElements, [
-                    actionCallAutomaticOutput.name,
-                    apexCallAutomaticAnonymousAccountOutput.name,
-                    externalServiceAutomaticOutput.name,
-                    apexCallManualAccountOutput.name
-                ])
-            );
+            await loadParametersForInvocableApexActionsInFlowFromMetadata([
+                getMetadataFlowElementByName(flowWithAllElements, actionCallAutomaticOutput.name),
+                getMetadataFlowElementByName(flowWithAllElements, apexCallAutomaticAnonymousAccountOutput.name),
+                getMetadataFlowElementByName(flowWithAllElements, externalServiceAutomaticOutput.name),
+                getMetadataFlowElementByName(flowWithAllElements, apexCallManualAccountOutput.name)
+            ]);
             expectOneCallToFetchParametersForInvocableAction({
                 actionName: 'getAccounts',
                 actionType: 'apex'
             });
         });
         it('Does not load invocable action parameters for actions not in automatic output mode', async () => {
-            await loadParametersForInvocableApexActionsInFlowFromMetadata(
-                getActionCallsByNames(flowWithAllElements, [actionCallElement.name])
-            );
+            await loadParametersForInvocableApexActionsInFlowFromMetadata([
+                getMetadataFlowElementByName(flowWithAllElements, actionCallElement.name)
+            ]);
             expect(fetchDetailsForInvocableAction.mock.calls).toHaveLength(0);
         });
     });

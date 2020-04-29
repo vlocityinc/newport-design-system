@@ -329,3 +329,16 @@ export function isSystemElement(elementType) {
             return false;
     }
 }
+
+export function forEachMetadataFlowElement(metadata, callback) {
+    const metadataKeys = Object.values(METADATA_KEY);
+    for (let i = 0, metadataKeysLen = metadataKeys.length; i < metadataKeysLen; i++) {
+        const metadataKey = metadataKeys[i];
+        const metadataElements = metadataKey === METADATA_KEY.START ? [metadata[metadataKey]] : metadata[metadataKey];
+        const metadataElementsLen = metadataElements ? metadataElements.length : 0;
+        for (let j = 0; j < metadataElementsLen; j++) {
+            const metadataElement = metadataElements[j];
+            callback(metadataElement, metadataKey);
+        }
+    }
+}
