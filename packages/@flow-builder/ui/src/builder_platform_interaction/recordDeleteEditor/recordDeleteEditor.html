@@ -72,14 +72,17 @@
             <!-- Filter records -->
             <builder_platform_interaction-record-filter
                 element-type={elementType}
+                element-guid={state.recordDeleteElement.guid}
                 filter-items={state.recordDeleteElement.filters}
+                filter-logic={state.recordDeleteElement.filterLogic}
                 record-entity-name={recordEntityName}
                 resource-display-text={entityDisplayText}
                 record-fields={recordFieldsToFilter}
-                filter-type={filterType}
+                use-filter-with-custom-logic="true"
                 onaddrecordfilter={handlePropertyOrListItemChanged}
-                onupdaterecordfilter={handlePropertyOrListItemChanged}
                 ondeleterecordfilter={handlePropertyOrListItemChanged}
+                onupdaterecordfilter={handlePropertyOrListItemChanged}
+                onpropertychanged={handlePropertyOrListItemChanged}
             >
             </builder_platform_interaction-record-filter>
         </div>

@@ -9,7 +9,7 @@ import {
     DeleteRecordFilterEvent,
     UpdateRecordFilterEvent
 } from 'builder_platform_interaction/events';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
@@ -80,6 +80,7 @@ const recordDeleteElementWithFields = () => ({
     locationX: 358,
     locationY: 227,
     name: { value: 'record_delete_editor_with_fields', error: null },
+    filterLogic: { value: CONDITION_LOGIC.AND, error: null },
     filters: [],
     inputReference: { value: '', error: null },
     inputReferenceIndex: { value: 'guid', error: null },

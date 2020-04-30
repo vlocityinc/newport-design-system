@@ -73,7 +73,6 @@ const createComponentUnderTest = (elementType, filterType, filterItems) => {
 };
 
 const createComponentUnderTestForRecordUpdate = createComponentUnderTest.bind(null, ELEMENT_TYPE.RECORD_UPDATE);
-const createComponentUnderTestForRecordDelete = createComponentUnderTest.bind(null, ELEMENT_TYPE.RECORD_DELETE);
 
 const SELECTORS = {
     filterRecordsCombobox: 'lightning-combobox',
@@ -138,18 +137,6 @@ describe('record-filter', () => {
                 expect(getFilterList(element)).toBeNull();
             });
         });
-        describe('For record delete', () => {
-            let element;
-            beforeEach(() => {
-                element = createComponentUnderTestForRecordDelete();
-            });
-            it('"All criteria" should be the default selected ', () => {
-                expect(getFilterRecordsCombobox(element).value).toBe(RECORD_FILTER_CRITERIA.ALL);
-            });
-            it('Should display filter items list', () => {
-                expect(getFilterList(element)).toBeDefined();
-            });
-        });
     });
 
     describe('Combobox Labels', () => {
@@ -159,12 +146,6 @@ describe('record-filter', () => {
         });
         it('For record update', () => {
             const filterRecord = getFilterRecordsCombobox(createComponentUnderTestForRecordUpdate());
-            expect(filterRecord.label).toBe('FlowBuilderRecordEditor.criteriaMatchingRecords');
-        });
-        it('For record delete', () => {
-            const filterRecord = getFilterRecordsCombobox(
-                createComponentUnderTestForRecordDelete(RECORD_FILTER_CRITERIA.ALL)
-            );
             expect(filterRecord.label).toBe('FlowBuilderRecordEditor.criteriaMatchingRecords');
         });
     });
@@ -180,12 +161,6 @@ describe('record-filter', () => {
             expect(filterRecord.options[0].label).toBe('FlowBuilderRecordEditor.filterNoCriteriaUpdate');
             expect(filterRecord.options[1].label).toBe('FlowBuilderRecordEditor.filterAllCriterias');
         });
-        it('For record delete', () => {
-            const filterRecord = getFilterRecordsCombobox(
-                createComponentUnderTestForRecordDelete(RECORD_FILTER_CRITERIA.ALL)
-            );
-            expect(filterRecord.options[0].label).toBe('FlowBuilderRecordEditor.filterAllCriterias');
-        });
     });
 
     describe('Warning message', () => {
@@ -199,10 +174,6 @@ describe('record-filter', () => {
             element = createComponentUnderTestForRecordUpdate(RECORD_FILTER_CRITERIA.NONE);
             expect(getWarningIcon(element)).toBeDefined();
             expect(getWarningMessage(element).label).toBe('FlowBuilderRecordEditor.updateAllRecords');
-        });
-        it('Should not display warning icon and message for record delete as no criteria disallowed', () => {
-            element = createComponentUnderTestForRecordDelete(RECORD_FILTER_CRITERIA.ALL);
-            expect(getWarningIcon(element)).toBeNull();
         });
     });
 
@@ -273,24 +244,6 @@ describe('record-filter', () => {
             let element;
             beforeEach(() => {
                 element = createComponentUnderTestForRecordUpdate(RECORD_FILTER_CRITERIA.ALL, mock3FilterItems);
-            });
-            it('"Conditions are Met" should be the default selected ', () => {
-                expect(getFilterRecordsCombobox(element).value).toBe(RECORD_FILTER_CRITERIA.ALL);
-            });
-            it('Filter items list should be displayed', () => {
-                expect(getFilterList(element)).not.toBeNull();
-            });
-            it('All filter items should be displayed', () => {
-                expect(getExpressionBuilders(element)).toHaveLength(3);
-            });
-            it('passes EqualTo as the default operator', () => {
-                expect(getExpressionBuilders(element)[0].defaultOperator).toEqual(RULE_OPERATOR.EQUAL_TO);
-            });
-        });
-        describe('For record delete', () => {
-            let element;
-            beforeEach(() => {
-                element = createComponentUnderTestForRecordDelete(RECORD_FILTER_CRITERIA.ALL, mock3FilterItems);
             });
             it('"Conditions are Met" should be the default selected ', () => {
                 expect(getFilterRecordsCombobox(element).value).toBe(RECORD_FILTER_CRITERIA.ALL);

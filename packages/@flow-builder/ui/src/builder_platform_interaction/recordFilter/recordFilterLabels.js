@@ -16,7 +16,11 @@ import criteriaMatchingRecords from '@salesforce/label/FlowBuilderRecordEditor.c
 import updateAllRecords from '@salesforce/label/FlowBuilderRecordEditor.updateAllRecords';
 import getAllRecords from '@salesforce/label/FlowBuilderRecordEditor.getAllRecords';
 import warning from '@salesforce/label/FlowBuilderRecordEditor.warning';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import andConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.andConditionLogicLabel';
+import orConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.orConditionLogicLabel';
+import customConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.customConditionLogicLabel';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+
 export const LABELS = {
     findRecords,
     ruleFindingRecords,
@@ -34,7 +38,10 @@ export const LABELS = {
     criteriaMatchingRecords,
     updateAllRecords,
     getAllRecords,
-    warning
+    warning,
+    andConditionLogicLabel,
+    orConditionLogicLabel,
+    customConditionLogicLabel
 };
 
 export const CRITERIA_RECORDS_LABELS = {
@@ -62,4 +69,61 @@ export const ALL_CRITERIA_LABELS = {
     [ELEMENT_TYPE.RECORD_UPDATE]: LABELS.filterAllCriterias,
     [ELEMENT_TYPE.RECORD_CHOICE_SET]: LABELS.filterAllCriterias,
     [ELEMENT_TYPE.START_ELEMENT]: LABELS.filterAllCriteriasAnd
+};
+
+const DEFAULT_FILTER_LOGIC = [
+    {
+        value: CONDITION_LOGIC.NO_CONDITIONS,
+        label: LABELS.filterNoCriteriaGet
+    },
+    {
+        value: CONDITION_LOGIC.AND,
+        label: LABELS.andConditionLogicLabel
+    },
+    {
+        value: CONDITION_LOGIC.OR,
+        label: LABELS.orConditionLogicLabel
+    },
+    {
+        value: CONDITION_LOGIC.CUSTOM_LOGIC,
+        label: LABELS.customConditionLogicLabel
+    }
+];
+
+export const FILTER_LOGIC_OPTIONS = {
+    [ELEMENT_TYPE.RECORD_CHOICE_SET]: DEFAULT_FILTER_LOGIC,
+    [ELEMENT_TYPE.RECORD_LOOKUP]: DEFAULT_FILTER_LOGIC,
+    [ELEMENT_TYPE.START_ELEMENT]: DEFAULT_FILTER_LOGIC,
+    [ELEMENT_TYPE.RECORD_UPDATE]: [
+        {
+            value: CONDITION_LOGIC.NO_CONDITIONS,
+            label: LABELS.filterNoCriteriaUpdate
+        },
+        {
+            value: CONDITION_LOGIC.AND,
+            label: LABELS.andConditionLogicLabel
+        },
+        {
+            value: CONDITION_LOGIC.OR,
+            label: LABELS.orConditionLogicLabel
+        },
+        {
+            value: CONDITION_LOGIC.CUSTOM_LOGIC,
+            label: LABELS.customConditionLogicLabel
+        }
+    ],
+    [ELEMENT_TYPE.RECORD_DELETE]: [
+        {
+            value: CONDITION_LOGIC.AND,
+            label: LABELS.andConditionLogicLabel
+        },
+        {
+            value: CONDITION_LOGIC.OR,
+            label: LABELS.orConditionLogicLabel
+        },
+        {
+            value: CONDITION_LOGIC.CUSTOM_LOGIC,
+            label: LABELS.customConditionLogicLabel
+        }
+    ]
 };

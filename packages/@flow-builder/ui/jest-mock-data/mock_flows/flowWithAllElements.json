@@ -822,6 +822,38 @@
                 "locationY": 469.359375,
                 "inputReference": "accountSObjectVariable",
                 "filters": []
+            },
+            {
+                "name": "deleteAccountWithFilters",
+                "description": "",
+                "label": "deleteAccountWithFilters",
+                "locationX": 1009,
+                "locationY": 832,
+                "object": "Account",
+                "filterLogic": "1 AND 2 OR 3",
+                "filters": [
+                    {
+                        "field": "BillingCity",
+                        "operator": "EqualTo",
+                        "value": {
+                            "stringValue": "San Francisco"
+                        }
+                    },
+                    {
+                        "field": "BillingCountry",
+                        "operator": "EqualTo",
+                        "value": {
+                            "stringValue": "USA"
+                        }
+                    },
+                    {
+                        "field": "Name",
+                        "operator": "EqualTo",
+                        "value": {
+                            "stringValue": "SalesForce"
+                        }
+                    }
+                ]
             }
         ],
         "loops": [

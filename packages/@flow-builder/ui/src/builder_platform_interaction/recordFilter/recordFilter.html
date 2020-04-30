@@ -1,5 +1,5 @@
 <template>
-    <div class={containerClasses}>
+    <div if:false={useFilterWithCustomLogic} class={containerClasses}>
         <h3 if:true={showTitle} class="slds-text-heading_small slds-p-around_small">
             {filterRecordsTitle}
         </h3>
@@ -72,6 +72,57 @@
                     </template>
                 </div>
             </builder_platform_interaction-list>
+        </div>
+    </div>
+    <div class={containerClasses} if:true={useFilterWithCustomLogic}>
+        <h3 if:true={showTitle} class="slds-text-heading_small slds-p-around_small">
+            {filterRecordsTitle}
+        </h3>
+        <div class="slds-p-horizontal_small ">
+            <builder_platform_interaction-condition-list
+                parent-guid={elementGuid}
+                conditions={filterItems}
+                condition-logic-options={filterLogicOptions}
+                condition-logic={filterLogic}
+                logic-combobox-label={filterLabel}
+                container-element-type={elementType}
+                onaddcondition={handleAddFilter}
+                ondeletecondition={handleDeleteFilter}
+                onupdatecondition={handleUpdateFilter}
+                onpropertychanged={handlePropertyChanged}
+            >
+                <div slot="conditions">
+                    <template for:each={conditionsWithPrefixes} for:item="filterItem" for:index="filterIndex">
+                        <div class="slds-list__item slds-is-relative" key={filterItem.condition.rowIndex}>
+                            <builder_platform_interaction-row
+                                item-prefix={filterItem.prefix}
+                                item-index={filterIndex}
+                                show-delete={showDeleteFilter}
+                                show-prefix={showPrefix}
+                                key={filterIndex}
+                            >
+                                <div slot="rowBody">
+                                    <builder_platform_interaction-field-to-ferov-expression-builder
+                                        object-type={recordEntityName}
+                                        rules={rules}
+                                        container-element={elementType}
+                                        lhs-fields={recordFields}
+                                        expression={filterItem.condition}
+                                        lhs-label={labels.filterLhsLabel}
+                                        operator-label={labels.filterOperatorLabel}
+                                        rhs-label={labels.filterRhsLabel}
+                                        lhs-placeholder={labels.filterLhsPlaceholder}
+                                        hide-new-resource={hideNewResource}
+                                        hide-system-variables={hideSystemVariables}
+                                        operator-placeholder={labels.filterOperatorPlaceholder}
+                                        default-operator={defaultOperator}
+                                    ></builder_platform_interaction-field-to-ferov-expression-builder>
+                                </div>
+                            </builder_platform_interaction-row>
+                        </div>
+                    </template>
+                </div>
+            </builder_platform_interaction-condition-list>
         </div>
     </div>
 </template>

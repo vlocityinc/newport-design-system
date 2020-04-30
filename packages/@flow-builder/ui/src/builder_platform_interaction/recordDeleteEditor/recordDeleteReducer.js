@@ -18,7 +18,8 @@ const PROP_NAMES = {
     filters: 'filters',
     inputReference: 'inputReference',
     object: 'object',
-    numberRecordsToStore: 'numberRecordsToStore'
+    numberRecordsToStore: 'numberRecordsToStore',
+    filterLogic: 'filterLogic'
 };
 
 /**

@@ -79,3 +79,17 @@ export const getFieldToFerovExpressionBuilders = parentElement => {
         INTERACTION_COMPONENTS_SELECTORS.FIELD_TO_FEROV_EXPRESSION_BUILDER
     );
 };
+
+export const getFilterCustomConditionLogicInput = parentElement =>
+    deepQuerySelector(parentElement, [
+        INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER,
+        INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST,
+        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_INPUT
+    ]);
+
+export const getFilterConditionLogicCombobox = parentElement =>
+    deepQuerySelector(parentElement, [
+        INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER,
+        INTERACTION_COMPONENTS_SELECTORS.CONDITION_LIST,
+        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX
+    ]);

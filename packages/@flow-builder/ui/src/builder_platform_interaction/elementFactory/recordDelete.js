@@ -1,4 +1,4 @@
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
@@ -32,6 +32,7 @@ export function createRecordDelete(recordDelete = {}) {
         inputReferenceIndex = generateGuid(),
         object = '',
         objectIndex = generateGuid(),
+        filterLogic = CONDITION_LOGIC.AND,
         filters,
         isNewElement
     } = recordDelete;
@@ -44,6 +45,7 @@ export function createRecordDelete(recordDelete = {}) {
         inputReferenceIndex,
         object,
         objectIndex,
+        filterLogic,
         filters: createRecordFilters(filters, object, []),
         maxConnections: MAX_CONNECTIONS,
         availableConnections,
@@ -58,9 +60,7 @@ export function createDuplicateRecordDelete(recordDelete, newGuid, newName) {
     Object.assign(newRecordDelete, {
         availableConnections: getDefaultAvailableConnections()
     });
-    const duplicateRecordDelete = duplicateCanvasElement(newRecordDelete, newGuid, newName);
-
-    return duplicateRecordDelete;
+    return duplicateCanvasElement(newRecordDelete, newGuid, newName);
 }
 
 export function createRecordDeleteWithConnectors(recordDelete) {
@@ -84,7 +84,7 @@ export function createRecordDeleteMetadataObject(recordDelete, config) {
     }
 
     const recordDeleteMetadata = baseCanvasElementMetadataObject(recordDelete, config);
-    const { inputReference, object } = recordDelete;
+    const { inputReference, object, filterLogic } = recordDelete;
     if (inputReference) {
         return Object.assign(recordDeleteMetadata, {
             inputReference,
@@ -96,6 +96,7 @@ export function createRecordDeleteMetadataObject(recordDelete, config) {
     filters = filters.map(filter => createFilterMetadataObject(filter));
     return Object.assign(recordDeleteMetadata, {
         object,
+        filterLogic,
         filters
     });
 }

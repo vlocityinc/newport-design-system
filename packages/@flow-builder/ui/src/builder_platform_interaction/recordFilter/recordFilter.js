@@ -1,11 +1,12 @@
 import { LightningElement, api, track } from 'lwc';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     LABELS,
     CRITERIA_RECORDS_LABELS,
     WARNING_LABELS,
     NO_CRITERIA_LABELS,
-    ALL_CRITERIA_LABELS
+    ALL_CRITERIA_LABELS,
+    FILTER_LOGIC_OPTIONS
 } from './recordFilterLabels';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import { format } from 'builder_platform_interaction/commonUtils';
@@ -14,17 +15,23 @@ import {
     AddRecordFilterEvent,
     DeleteRecordFilterEvent,
     UpdateRecordFilterEvent,
-    RecordFilterTypeChangedEvent
+    RecordFilterTypeChangedEvent,
+    PropertyChangedEvent
 } from 'builder_platform_interaction/events';
+import { getConditionsWithPrefixes } from 'builder_platform_interaction/conditionListUtils';
 
 const VARIANT_START = 'startElement';
 
 export default class RecordFilter extends LightningElement {
     defaultOperator = RULE_OPERATOR.EQUAL_TO;
     labels = LABELS;
+    showPrefixValue = false;
 
     @track
     selectedFilter = RECORD_FILTER_CRITERIA.NONE;
+
+    @api
+    filterLogic = { value: CONDITION_LOGIC.AND, error: null };
 
     @track items = [];
 
@@ -45,10 +52,13 @@ export default class RecordFilter extends LightningElement {
     hideTitle = false;
 
     @api
-    showPrefix = false;
+    variant;
 
     @api
-    variant;
+    elementGuid;
+
+    @api
+    useFilterWithCustomLogic = false;
 
     get rules() {
         return this.elementType ? getRulesForElementType(RULE_TYPES.COMPARISON, this.elementType) : undefined;
@@ -111,8 +121,35 @@ export default class RecordFilter extends LightningElement {
         return this.entityFields;
     }
 
+    set showPrefix(value) {
+        this.showPrefixValue = value;
+    }
+
+    @api
+    get showPrefix() {
+        return (
+            this.showPrefixValue ||
+            (this.useFilterWithCustomLogic &&
+                this.filterLogic.value !== CONDITION_LOGIC.AND &&
+                this.filterLogic.value !== CONDITION_LOGIC.OR &&
+                this.filterLogic.value !== CONDITION_LOGIC.NO_CONDITIONS)
+        );
+    }
+
+    /**
+     * Return the conditions to be rendered edcorated with the correct prefixes
+     * @return {Object[]} Array of all conditions decorated with prefix
+     */
+    get conditionsWithPrefixes() {
+        return this.items ? getConditionsWithPrefixes(this.filterLogic, this.items) : [];
+    }
+
     get containerClasses() {
         return this.variant === VARIANT_START ? 'slds-m-bottom_small' : 'slds-m-bottom_small slds-border_top';
+    }
+
+    get filterLogicOptions() {
+        return FILTER_LOGIC_OPTIONS[this.elementType];
     }
 
     get showDeleteFilter() {
@@ -124,16 +161,6 @@ export default class RecordFilter extends LightningElement {
     }
 
     get filterOptions() {
-        // "No criteria" not allowed for record delete element
-        // (throwing error during flow saving process at metadata API validation level)
-        if (this.elementType === ELEMENT_TYPE.RECORD_DELETE) {
-            return [
-                {
-                    label: LABELS.filterAllCriterias,
-                    value: RECORD_FILTER_CRITERIA.ALL
-                }
-            ];
-        }
         return [
             {
                 label: format(NO_CRITERIA_LABELS[this.elementType], this.resourceDisplayText),
@@ -215,5 +242,15 @@ export default class RecordFilter extends LightningElement {
         event.stopPropagation();
         const deleteRecordFilterEvent = new DeleteRecordFilterEvent(event.detail.index);
         this.dispatchEvent(deleteRecordFilterEvent);
+    }
+
+    /**
+     * Handle event when the logic is changed.
+     * @param {object} event - PropertyChangedEvent from label description
+     */
+    handlePropertyChanged(event) {
+        event.stopPropagation();
+        const propertyChangedEvent = new PropertyChangedEvent('filterLogic', event.detail.value);
+        this.dispatchEvent(propertyChangedEvent);
     }
 }

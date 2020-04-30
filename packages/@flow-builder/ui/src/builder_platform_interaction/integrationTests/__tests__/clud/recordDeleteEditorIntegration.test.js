@@ -4,30 +4,15 @@ import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
     getChildComponent,
     changeComboboxValue,
-    changeInputValue,
     resetState,
-    setupStateForProcessType,
-    translateFlowToUIAndDispatch
+    translateFlowToUIAndDispatch,
+    setupStateForFlow
 } from '../integrationTestUtils';
-import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import * as FLOWS_WITH_DELETE_RECORDS from 'mock/flows/flowWithDeleteRecords';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
-import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
-import {
-    loadOnProcessTypeChange,
-    loadOnStart,
-    initializeLoader,
-    clearLoader
-} from 'builder_platform_interaction/preloadLib';
-import { initializeAuraFetch } from '../serverDataTestUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { reducer } from 'builder_platform_interaction/reducers';
-import { EditElementEvent, AddElementEvent } from 'builder_platform_interaction/events';
+import { EditElementEvent } from 'builder_platform_interaction/events';
 import { getGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
 import {
     SELECTORS,
@@ -36,10 +21,12 @@ import {
     getRecordVariablePickerChildGroupedComboboxComponent,
     getEntityResourcePickerChildGroupedComboboxComponent,
     getEntityResourcePicker,
-    getFieldToFerovExpressionBuilders
+    getFieldToFerovExpressionBuilders,
+    getFilterCustomConditionLogicInput,
+    getFilterConditionLogicCombobox
 } from './cludEditorTestUtils';
 import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { changeEvent, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { expectCanBeTraversed, expectCannotBeTraversed, expectCannotBeSelected } from '../comboboxTestUtils';
 
 const createComponentForTest = (node, mode, processType) => {
@@ -49,59 +36,17 @@ const createComponentForTest = (node, mode, processType) => {
     return el;
 };
 
-const DELETE_RECORDS_USING_SOBJECT_FLOW_ELEMENT = 'delete_acccount_using_sobject';
-const DELETE_RECORDS_USING_FIELDS_FLOW_ELEMENT = 'delete_acccount_using_fields';
-
 describe('Record Delete Editor', () => {
-    let recordDeleteNode, recordDeleteComponent, store;
+    let recordDeleteNode, store;
     beforeAll(async () => {
-        store = await setupStateForProcessType(FLOW_PROCESS_TYPE.FLOW);
+        store = await setupStateForFlow(flowWithAllElements);
+        translateFlowToUIAndDispatch(flowWithAllElements, store);
     });
     afterAll(() => {
         resetState();
     });
-    describe('name and dev name', () => {
-        let newLabel, newDevName;
-        beforeAll(() => {
-            translateFlowToUIAndDispatch(FLOWS_WITH_DELETE_RECORDS.USING_SOBJECT, store);
-        });
-        afterAll(() => {
-            store.dispatch({ type: 'INIT' });
-        });
-        beforeEach(() => {
-            recordDeleteNode = getElementForPropertyEditor(
-                getElementByDevName(DELETE_RECORDS_USING_SOBJECT_FLOW_ELEMENT)
-            );
-            recordDeleteComponent = createComponentForTest(recordDeleteNode, AddElementEvent.EVENT_NAME);
-        });
-        it('do not change "dev name" if it already exists after the user modifies the "label"', async () => {
-            newLabel = 'new label';
-            changeInputValue(getLabelDescriptionLabelElement(recordDeleteComponent), newLabel);
-            await ticks(1);
-            expect(recordDeleteComponent.node.label.value).toBe(newLabel);
-            expect(recordDeleteComponent.node.name.value).toBe(DELETE_RECORDS_USING_SOBJECT_FLOW_ELEMENT);
-        });
-        it('modify the "dev name"', async () => {
-            newDevName = 'newDevName';
-            changeInputValue(getLabelDescriptionNameElement(recordDeleteComponent), newDevName);
-            await ticks(1);
-            expect(recordDeleteComponent.node.name.value).toBe(newDevName);
-        });
-        it('display error if the "label" is cleared', async () => {
-            newLabel = '';
-            changeInputValue(getLabelDescriptionLabelElement(recordDeleteComponent), newLabel);
-            await ticks(1);
-            expect(recordDeleteComponent.node.label.error).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
-        });
-        it('display error if the "dev name" is cleared', async () => {
-            newDevName = '';
-            changeInputValue(getLabelDescriptionNameElement(recordDeleteComponent), newDevName);
-            await ticks(1);
-            expect(recordDeleteComponent.node.name.error).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
-        });
-    });
-
     describe('Add new element', () => {
+        let recordDeleteComponent;
         beforeEach(() => {
             recordDeleteNode = getElementForPropertyEditor({
                 elementType: ELEMENT_TYPE.RECORD_DELETE,
@@ -137,19 +82,62 @@ describe('Record Delete Editor', () => {
             });
         });
     });
+    describe('Working with sObject', () => {
+        let recordDeleteComponent, sObjectOrSObjectCollectionPicker;
+        const expectCanBeTraversedInResourcePicker = async textValues => {
+            await expectCanBeTraversed(sObjectOrSObjectCollectionPicker, 'text', textValues);
+        };
+        const expectCannotBeTraversedInResourcePicker = async textValues => {
+            await expectCannotBeTraversed(sObjectOrSObjectCollectionPicker, 'text', textValues);
+        };
+        const expectCannotBeSelectedInResourcePicker = async textValues => {
+            await expectCannotBeSelected(sObjectOrSObjectCollectionPicker, 'text', textValues);
+        };
+        beforeEach(() => {
+            const element = getElementByDevName('deleteAccount');
+            recordDeleteNode = getElementForPropertyEditor(element);
+            recordDeleteComponent = createComponentForTest(recordDeleteNode, EditElementEvent.EVENT_NAME, 'Flow');
+            sObjectOrSObjectCollectionPicker = getResourceGroupedCombobox(recordDeleteComponent);
+        });
+        it('contains sobject collection', async () => {
+            await expectCannotBeTraversedInResourcePicker(['accountSObjectCollectionVariable']);
+        });
+        it('contains single sobject, no traversal', async () => {
+            await expectCannotBeTraversedInResourcePicker(['accountSObjectVariable']);
+        });
+        it('contains apex that only contains a single sobject', async () => {
+            await expectCanBeTraversedInResourcePicker(['apexContainsOnlyASingleSObjectVariable']);
+        });
+        it('contains apex that only contains an SObject collection', async () => {
+            await expectCanBeTraversedInResourcePicker(['apexContainsOnlyAnSObjectCollectionVariable']);
+        });
+        it('contains complex apex type and shows up only sobject or sobject collection fields', async () => {
+            await expectCanBeTraversedInResourcePicker(['apexComplexTypeVariable']);
+            await expectCannotBeTraversedInResourcePicker(['apexComplexTypeVariable', 'acct']);
+            await expectCannotBeTraversedInResourcePicker(['apexComplexTypeVariable', 'acctListField']);
+            await expectCannotBeSelectedInResourcePicker(['apexComplexTypeVariable', 'name']);
+        });
+        it('contains elements that contains apex that contains sobject and shows only sobject (single or collection) fields up. Sobject fields should not be traversable', async () => {
+            await expectCanBeTraversedInResourcePicker(['apexComplexTypeTwoVariable']);
+            await expectCanBeTraversedInResourcePicker(['apexComplexTypeTwoVariable', 'testOne']);
+            await expectCannotBeTraversedInResourcePicker(['apexComplexTypeTwoVariable', 'testOne', 'acct']);
+            await expectCannotBeTraversedInResourcePicker(['apexComplexTypeTwoVariable', 'testOne', 'acctListField']);
+            await expectCannotBeSelectedInResourcePicker(['apexComplexTypeTwoVariable', 'str']);
+        });
+        it('does not contain element that is not sobject or does not contain sobject', async () => {
+            await expectCannotBeSelectedInResourcePicker(['apexCarVariable']);
+        });
+    });
     describe('Existing element', () => {
+        let recordDeleteComponent;
         describe('Working with sObject', () => {
-            beforeAll(() => {
-                translateFlowToUIAndDispatch(FLOWS_WITH_DELETE_RECORDS.USING_SOBJECT, store);
-            });
             afterAll(() => {
                 store.dispatch({ type: 'INIT' });
             });
             beforeEach(() => {
-                recordDeleteNode = getElementForPropertyEditor(
-                    getElementByDevName(DELETE_RECORDS_USING_SOBJECT_FLOW_ELEMENT)
-                );
-                recordDeleteComponent = createComponentForTest(recordDeleteNode);
+                const element = getElementByDevName('deleteAccount');
+                recordDeleteNode = getElementForPropertyEditor(element);
+                recordDeleteComponent = createComponentForTest(recordDeleteNode, EditElementEvent.EVENT_NAME, 'Flow');
             });
             describe('Filtering (store options)', () => {
                 let storeOptions;
@@ -192,9 +180,9 @@ describe('Record Delete Editor', () => {
                             expect.objectContaining({
                                 items: expect.arrayContaining([
                                     expect.objectContaining({
-                                        text: 'vAccount'
+                                        text: 'accountSObjectVariable'
                                     }),
-                                    expect.objectContaining({ text: 'vCase' })
+                                    expect.objectContaining({ text: 'accountSObjectVariable' })
                                 ])
                             })
                         ])
@@ -203,17 +191,13 @@ describe('Record Delete Editor', () => {
             });
         });
         describe('Working with fields', () => {
-            beforeAll(() => {
-                translateFlowToUIAndDispatch(FLOWS_WITH_DELETE_RECORDS.USING_FIELDS, store);
-            });
             afterAll(() => {
                 store.dispatch({ type: 'INIT' });
             });
             beforeEach(() => {
-                recordDeleteNode = getElementForPropertyEditor(
-                    getElementByDevName(DELETE_RECORDS_USING_FIELDS_FLOW_ELEMENT)
-                );
-                recordDeleteComponent = createComponentForTest(recordDeleteNode);
+                const element = getElementByDevName('deleteAccountWithFilters');
+                recordDeleteNode = getElementForPropertyEditor(element);
+                recordDeleteComponent = createComponentForTest(recordDeleteNode, EditElementEvent.EVENT_NAME, 'Flow');
             });
             describe('Filtering (store options)', () => {
                 let storeOptions;
@@ -330,17 +314,17 @@ describe('Record Delete Editor', () => {
                     expect(recordFilter).not.toBeNull();
                 });
                 it('filter type', () => {
-                    expect(recordFilter.filterType).toBe('all');
+                    expect(recordFilter.filterLogic).toMatchObject({ error: null, value: '1 AND 2 OR 3' });
                 });
                 it('number of filters', () => {
-                    expect(recordFilter.filterItems).toHaveLength(2);
+                    expect(recordFilter.filterItems).toHaveLength(3);
                 });
                 it('filters item LHS/Operator/RHS', () => {
                     expect(recordFilter.filterItems[0]).toMatchObject(
-                        newFilterItem('Account.BillingCity', 'EqualTo', 'Paris', 'String')
+                        newFilterItem('Account.BillingCity', 'EqualTo', 'San Francisco', 'String')
                     );
                     expect(recordFilter.filterItems[1]).toMatchObject(
-                        newFilterItem('Account.BillingCountry', 'EqualTo', 'France', 'String')
+                        newFilterItem('Account.BillingCountry', 'EqualTo', 'USA', 'String')
                     );
                 });
                 it('operators available for the first filter', () => {
@@ -364,66 +348,20 @@ describe('Record Delete Editor', () => {
                         ])
                     );
                 });
+                it('Custom condition logic input should be displayed', () => {
+                    expect(getFilterCustomConditionLogicInput(recordDeleteComponent)).not.toBeNull();
+                    expect(getFilterCustomConditionLogicInput(recordDeleteComponent).value).toBe('1 AND 2 OR 3');
+                });
+                describe('Condition logic change', () => {
+                    it('Custom condition logic input should not be displayed', async () => {
+                        getFilterConditionLogicCombobox(recordDeleteComponent).dispatchEvent(
+                            changeEvent(CONDITION_LOGIC.AND)
+                        );
+                        await ticks(1);
+                        expect(getFilterCustomConditionLogicInput(recordDeleteComponent)).toBeNull();
+                    });
+                });
             });
-        });
-    });
-    describe('sObject Or SObject Collection Picker', () => {
-        let recordDeleteElement, sObjectOrSObjectCollectionPicker;
-        const expectCanBeTraversedInResourcePicker = async textValues => {
-            await expectCanBeTraversed(sObjectOrSObjectCollectionPicker, 'text', textValues);
-        };
-        const expectCannotBeTraversedInResourcePicker = async textValues => {
-            await expectCannotBeTraversed(sObjectOrSObjectCollectionPicker, 'text', textValues);
-        };
-        const expectCannotBeSelectedInResourcePicker = async textValues => {
-            await expectCannotBeSelected(sObjectOrSObjectCollectionPicker, 'text', textValues);
-        };
-        beforeAll(async () => {
-            store = Store.getStore(reducer);
-            initializeAuraFetch();
-            clearLoader();
-            initializeLoader(store);
-            loadOnStart();
-            translateFlowToUIAndDispatch(flowWithAllElements, store);
-            await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.FLOW).loadPeripheralMetadataPromise;
-            setApexClasses(apexTypesForFlow);
-        });
-        afterAll(() => {
-            resetState();
-        });
-        beforeEach(() => {
-            const element = getElementByDevName('deleteAccount');
-            recordDeleteNode = getElementForPropertyEditor(element);
-            recordDeleteElement = createComponentForTest(recordDeleteNode, EditElementEvent.EVENT_NAME, 'Flow');
-            sObjectOrSObjectCollectionPicker = getResourceGroupedCombobox(recordDeleteElement);
-        });
-        it('contains sobject collection', async () => {
-            await expectCannotBeTraversedInResourcePicker(['accountSObjectCollectionVariable']);
-        });
-        it('contains single sobject, no traversal', async () => {
-            await expectCannotBeTraversedInResourcePicker(['accountSObjectVariable']);
-        });
-        it('contains apex that only contains a single sobject', async () => {
-            await expectCanBeTraversedInResourcePicker(['apexContainsOnlyASingleSObjectVariable']);
-        });
-        it('contains apex that only contains an SObject collection', async () => {
-            await expectCanBeTraversedInResourcePicker(['apexContainsOnlyAnSObjectCollectionVariable']);
-        });
-        it('contains complex apex type and shows up only sobject or sobject collection fields', async () => {
-            await expectCanBeTraversedInResourcePicker(['apexComplexTypeVariable']);
-            await expectCannotBeTraversedInResourcePicker(['apexComplexTypeVariable', 'acct']);
-            await expectCannotBeTraversedInResourcePicker(['apexComplexTypeVariable', 'acctListField']);
-            await expectCannotBeSelectedInResourcePicker(['apexComplexTypeVariable', 'name']);
-        });
-        it('contains elements that contains apex that contains sobject and shows only sobject (single or collection) fields up. Sobject fields should not be traversable', async () => {
-            await expectCanBeTraversedInResourcePicker(['apexComplexTypeTwoVariable']);
-            await expectCanBeTraversedInResourcePicker(['apexComplexTypeTwoVariable', 'testOne']);
-            await expectCannotBeTraversedInResourcePicker(['apexComplexTypeTwoVariable', 'testOne', 'acct']);
-            await expectCannotBeTraversedInResourcePicker(['apexComplexTypeTwoVariable', 'testOne', 'acctListField']);
-            await expectCannotBeSelectedInResourcePicker(['apexComplexTypeTwoVariable', 'str']);
-        });
-        it('does not contain element that is not sobject or does not contain sobject', async () => {
-            await expectCannotBeSelectedInResourcePicker(['apexCarVariable']);
         });
     });
 });
