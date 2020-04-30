@@ -2,7 +2,7 @@ import { createElement } from 'lwc';
 import UseAdvancedOptionsCheckbox from '../useAdvancedOptionsCheckbox';
 import { LABELS } from '../useAdvancedOptionsCheckboxLabels';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ticks, LIGHTNING_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 
 function createComponentForTest(isAdvancedMode) {
     const el = createElement('builder_platform_interaction-use-advanced-options-checkbox', {
@@ -31,12 +31,8 @@ class ToggleOnChangeEvent extends CustomEvent {
     }
 }
 
-const selectors = {
-    lightningInput: 'lightning-input'
-};
-
 const getAdvancedOptionCheckbox = useAdvancedOptionsCheckboxElement => {
-    return useAdvancedOptionsCheckboxElement.shadowRoot.querySelector(selectors.lightningInput);
+    return useAdvancedOptionsCheckboxElement.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_INPUT);
 };
 
 describe('Use-advanced-options-checkbox', () => {

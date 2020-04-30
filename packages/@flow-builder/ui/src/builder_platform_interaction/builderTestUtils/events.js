@@ -18,7 +18,8 @@ export const textInputEvent = textInput => {
 
 export const blurEvent = new FocusEvent('blur', {
     bubbles: true,
-    cancelable: true
+    cancelable: true,
+    composed: true
 });
 
 export const selectEvent = value => {

@@ -1,13 +1,15 @@
 export const LIGHTNING_COMPONENTS_SELECTORS = {
     LIGHTNING_BUTTON: 'lightning-button',
+    LIGHTNING_BUTTON_ICON: 'lightning-button-icon',
     LIGHTNING_COMBOBOX: 'lightning-combobox',
     LIGHTNING_GROUPED_COMBOBOX: 'lightning-grouped-combobox',
     LIGHTNING_ICON: 'lightning-icon',
-    LIGHTNING_TAB: 'lightning-tab',
-    LIGHTNING_RADIO_GROUP: 'lightning-radio-group',
     LIGHTNING_INPUT: 'lightning-input',
-    LIGHTNING_VERTICAL_NAVIGATION: 'lightning-vertical-navigation',
-    LIGHTNING_BUTTON_ICON: 'lightning-button-icon'
+    LIGHTNING_INPUT_RICH_TEXT: 'lightning-input-rich-text',
+    LIGHTNING_RADIO_GROUP: 'lightning-radio-group',
+    LIGHTNING_TAB: 'lightning-tab',
+    LIGHTNING_TEXTAREA: 'lightning-textarea',
+    LIGHTNING_VERTICAL_NAVIGATION: 'lightning-vertical-navigation'
 };
 
 export const INTERACTION_COMPONENTS_SELECTORS = {
@@ -18,6 +20,7 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     CALLOUT_EDITOR_CONTAINER: 'builder_platform_interaction-callout-editor-container',
     COMBOBOX: 'builder_platform_interaction-combobox',
     CONDITION_LIST: 'builder_platform_interaction-condition-list',
+    CUSTOM_PROPERTY_EDITOR: 'builder_platform_interaction-custom-property-editor',
     DATA_TYPE_PICKER: 'builder_platform_interaction-data-type-picker',
     ENTITY_RESOURCE_PICKER: 'builder_platform_interaction-entity-resource-picker',
     FER_TO_FEROV_EXPRESSION_BUILDER: 'builder_platform_interaction-fer-to-ferov-expression-builder',
@@ -26,6 +29,10 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     GET_TEMPLATES_TILE: 'builder_platform_interaction-get-templates-tile',
     INTERACTION_COMBOBOX: 'builder_platform_interaction-combobox',
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
+    LEFT_PANEL: 'builder_platform_interaction-left-panel',
+    LEFT_PANEL_RESOURCES: 'builder_platform_interaction-left-panel-resources',
+    LEFT_PANEL_PALETTE: 'builder_platform_interaction-palette',
+    LEFT_PANEL_RESOURCE_DETAILS: 'builder_platform_interaction-resource-details',
     LIST: 'builder_platform_interaction-list',
     PARAMETER_ITEM: 'builder_platform_interaction-parameter-item',
     PARAMETER_LIST: 'builder_platform_interaction-parameter-list',
@@ -42,7 +49,9 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     RECORD_SORT: 'builder_platform_interaction-record-sort',
     RECORD_STORE_OPTION: 'builder_platform_interaction-record-store-options',
     RECORD_QUERY_FIELDS_COMPONENT: 'builder_platform_interaction-record-query-fields',
+    RESOURCED_RICH_TEXT_EDITOR: 'builder_platform_interaction-resourced-rich-text-editor',
     RESOURCED_TEXTAREA: 'builder_platform_interaction-resourced-textarea',
+    RICH_TEXT_PLAIN_TEXT_SWITCH: 'builder_platform_interaction-rich-text-plain-text-switch',
     ROW: 'builder_platform_interaction-row',
     SCREEN_EDITOR_CANVAS: 'builder_platform_interaction-screen-editor-canvas',
     SCREEN_CANVAS: 'builder_platform_interaction-screen-canvas',
@@ -58,8 +67,6 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     VARIABLE_AND_FIELD_MAPPING_COMPONENT: 'builder_platform_interaction-record-lookup-variable-and-field-mapping',
     VISUAL_PICKER_ITEM: 'builder_platform_interaction-visual-picker-item',
     VISUAL_PICKER_LIST: 'builder_platform_interaction-visual-picker-list',
-    LEFT_PANEL: 'builder_platform_interaction-left-panel',
-    LEFT_PANEL_RESOURCES: 'builder_platform_interaction-left-panel-resources',
-    LEFT_PANEL_PALETTE: 'builder_platform_interaction-palette',
-    LEFT_PANEL_RESOURCE_DETAILS: 'builder_platform_interaction-resource-details'
+    WAIT_PLATFORM_EVENT: 'builder_platform_interaction-wait-platform-event',
+    WAIT_TIME_EVENT: 'builder_platform_interaction-wait-time-event'
 };

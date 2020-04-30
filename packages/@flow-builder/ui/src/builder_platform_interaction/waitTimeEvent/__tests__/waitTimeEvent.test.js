@@ -11,7 +11,11 @@ import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expr
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import WaitTimeEvent from '../waitTimeEvent';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    ticks,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    INTERACTION_COMPONENTS_SELECTORS
+} from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
@@ -29,11 +33,9 @@ const createComponentUnderTest = props => {
     return el;
 };
 
-const selectors = {
-    picker: 'builder_platform_interaction-ferov-resource-picker',
-    parameterItem: 'builder_platform_interaction-parameter-item',
-    lightningRadioGroup: 'lightning-radio-group',
-    lightningInput: 'lightning-input'
+const SELECTORS = {
+    ...LIGHTNING_COMPONENTS_SELECTORS,
+    ...INTERACTION_COMPONENTS_SELECTORS
 };
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
@@ -97,7 +99,7 @@ describe('waitTimeEvent', () => {
         });
 
         it('has a date time picker when absolute time is selected', () => {
-            const picker = waitTimeEvent.shadowRoot.querySelector(selectors.picker);
+            const picker = waitTimeEvent.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
             expect(picker.comboboxConfig.type).toEqual(FLOW_DATA_TYPE.DATE_TIME.value);
         });
 
@@ -116,7 +118,7 @@ describe('waitTimeEvent', () => {
                 ];
 
                 await ticks(1);
-                const absoluteBaseTimePicker = waitTimeEvent.shadowRoot.querySelector(selectors.picker);
+                const absoluteBaseTimePicker = waitTimeEvent.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
                 expect(absoluteBaseTimePicker.setCustomValidity).toHaveBeenCalledWith(someError);
             });
 
@@ -132,25 +134,25 @@ describe('waitTimeEvent', () => {
                 ];
 
                 await ticks(1);
-                const absoluteBaseTimePicker = waitTimeEvent.shadowRoot.querySelector(selectors.picker);
+                const absoluteBaseTimePicker = waitTimeEvent.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
                 expect(absoluteBaseTimePicker.setCustomValidity).toHaveBeenCalledWith('');
             });
         });
 
         it('allows sobjects in menudata, so the user can select an sobject field', () => {
-            const picker = waitTimeEvent.shadowRoot.querySelector(selectors.picker);
+            const picker = waitTimeEvent.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
             expect(picker.comboboxConfig.enableFieldDrilldown).toEqual(true);
         });
 
         it('loads the existing offset number and unit values', () => {
-            const offsetNumber = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[0];
+            const offsetNumber = waitTimeEvent.shadowRoot.querySelectorAll(SELECTORS.LIGHTNING_INPUT)[0];
             expect(offsetNumber.value).toEqual(-3);
-            const offsetUnit = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[1];
+            const offsetUnit = waitTimeEvent.shadowRoot.querySelectorAll(SELECTORS.LIGHTNING_INPUT)[1];
             expect(offsetUnit.value).toEqual('Days');
         });
 
         it('dispatches UpdateWaitEventEventTypeEvent when event type changes', async () => {
-            const radio = waitTimeEvent.shadowRoot.querySelector(selectors.lightningRadioGroup);
+            const radio = waitTimeEvent.shadowRoot.querySelector(SELECTORS.LIGHTNING_RADIO_GROUP);
             const mockPayload = {
                 value: WAIT_TIME_EVENT_TYPE.DIRECT_RECORD_TIME
             };
@@ -172,7 +174,7 @@ describe('waitTimeEvent', () => {
             const mockItem = { value: 'foo', displayText: 'foo bar' };
             const comboboxStateChanged = new ComboboxStateChangedEvent(mockItem);
 
-            const picker = waitTimeEvent.shadowRoot.querySelector(selectors.picker);
+            const picker = waitTimeEvent.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
             picker.dispatchEvent(comboboxStateChanged);
 
             await ticks(1);
@@ -185,7 +187,7 @@ describe('waitTimeEvent', () => {
         it('fires UpdateParameterItemEvent on offset number focus out', async () => {
             const focusOut = new CustomEvent('focusout');
 
-            const offsetNumber = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[0];
+            const offsetNumber = waitTimeEvent.shadowRoot.querySelectorAll(SELECTORS.LIGHTNING_INPUT)[0];
             offsetNumber.reportValidity = jest.fn();
             offsetNumber.dispatchEvent(focusOut);
 
@@ -202,7 +204,7 @@ describe('waitTimeEvent', () => {
         it('fires UpdateParameterItemEvent on offset unit focus out', async () => {
             const focusOut = new CustomEvent('focusout');
 
-            const offsetUnit = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[1];
+            const offsetUnit = waitTimeEvent.shadowRoot.querySelectorAll(SELECTORS.LIGHTNING_INPUT)[1];
             offsetUnit.dispatchEvent(focusOut);
 
             await ticks(1);
@@ -216,7 +218,7 @@ describe('waitTimeEvent', () => {
         });
 
         it('rules are given to the input parameters', () => {
-            const picker = waitTimeEvent.shadowRoot.querySelector(selectors.picker);
+            const picker = waitTimeEvent.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
             expect(picker.rules).toEqual(['foo']);
         });
     });
@@ -264,7 +266,7 @@ describe('waitTimeEvent', () => {
             it('does not set an error on initial render', async () => {
                 waitTimeEvent = createComponentUnderTest(props);
                 await ticks(1);
-                const salesforceObject = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[0];
+                const salesforceObject = waitTimeEvent.shadowRoot.querySelectorAll(SELECTORS.LIGHTNING_INPUT)[0];
                 expect(salesforceObject.setCustomValidity).not.toHaveBeenCalled();
             });
             it('sets an error if one is present on record name field', async () => {
@@ -277,7 +279,7 @@ describe('waitTimeEvent', () => {
                 ];
 
                 await ticks(1);
-                const salesforceObject = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[0];
+                const salesforceObject = waitTimeEvent.shadowRoot.querySelectorAll(SELECTORS.LIGHTNING_INPUT)[0];
                 expect(salesforceObject.setCustomValidity).toHaveBeenCalledWith(value.error);
             });
 
@@ -292,12 +294,12 @@ describe('waitTimeEvent', () => {
                 ];
 
                 await ticks(1);
-                const dateField = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[1];
+                const dateField = waitTimeEvent.shadowRoot.querySelectorAll(SELECTORS.LIGHTNING_INPUT)[1];
                 expect(dateField.setCustomValidity).toHaveBeenCalledWith(value.error);
             });
 
             it('is set to an empty string if no error present and element was previously in error state', async () => {
-                const salesforceObject = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[0];
+                const salesforceObject = waitTimeEvent.shadowRoot.querySelectorAll(SELECTORS.LIGHTNING_INPUT)[0];
                 salesforceObject.validity = { customError: true };
                 value.error = null;
 
@@ -313,7 +315,7 @@ describe('waitTimeEvent', () => {
             });
 
             it('does not set an error if one is not present and element was previously in valid state', async () => {
-                const salesforceObject = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[0];
+                const salesforceObject = waitTimeEvent.shadowRoot.querySelectorAll(SELECTORS.LIGHTNING_INPUT)[0];
                 salesforceObject.validity = { customError: false };
                 value.error = null;
 
@@ -332,7 +334,7 @@ describe('waitTimeEvent', () => {
         it('fires UpdateParameterItemEvent on salesforceObject focus out', async () => {
             const focusOut = new CustomEvent('focusout');
 
-            const salesforceObject = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[0];
+            const salesforceObject = waitTimeEvent.shadowRoot.querySelectorAll(SELECTORS.LIGHTNING_INPUT)[0];
             salesforceObject.dispatchEvent(focusOut);
 
             await ticks(1);
@@ -348,7 +350,7 @@ describe('waitTimeEvent', () => {
         it('fires UpdateParameterItemEvent on basetime focus out', async () => {
             const focusOut = new CustomEvent('focusout');
 
-            const baseTime = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[1];
+            const baseTime = waitTimeEvent.shadowRoot.querySelectorAll(SELECTORS.LIGHTNING_INPUT)[1];
             baseTime.dispatchEvent(focusOut);
 
             await ticks(1);
@@ -370,7 +372,7 @@ describe('waitTimeEvent', () => {
             };
             const comboboxStateChanged = new ComboboxStateChangedEvent(mockItem);
 
-            const picker = waitTimeEvent.shadowRoot.querySelector(selectors.picker);
+            const picker = waitTimeEvent.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
             picker.dispatchEvent(comboboxStateChanged);
 
             await ticks(1);
@@ -398,8 +400,8 @@ describe('waitTimeEvent', () => {
                 eventType: mockEventType
             };
             waitTimeEvent = createComponentUnderTest(props);
-            resumeTimeParam = waitTimeEvent.shadowRoot.querySelectorAll(selectors.parameterItem)[0];
-            eventDeliveryStatus = waitTimeEvent.shadowRoot.querySelectorAll(selectors.parameterItem)[1];
+            resumeTimeParam = waitTimeEvent.shadowRoot.querySelectorAll(SELECTORS.PARAMETER_ITEM)[0];
+            eventDeliveryStatus = waitTimeEvent.shadowRoot.querySelectorAll(SELECTORS.PARAMETER_ITEM)[1];
         });
 
         it('has an optional resumeTime output parameter of type dateTime', () => {

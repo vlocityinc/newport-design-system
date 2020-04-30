@@ -3,6 +3,7 @@ import LabelDescription from 'builder_platform_interaction/labelDescription';
 import { PropertyChangedEvent, AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { focusoutEvent } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -37,11 +38,6 @@ const selectors = {
     newElementPanelHeader: '.test-new-element-panel-header',
     collapsibleLabelHeader: '.test-collapsible-label-header'
 };
-
-const focusoutEvent = new FocusEvent('focusout', {
-    bubbles: true,
-    cancelable: true
-});
 
 describe('label-description', () => {
     describe('element classes', () => {

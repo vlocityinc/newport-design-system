@@ -15,7 +15,7 @@ import {
     WaitEventDeleteParameterEvent,
     WaitEventParameterChangedEvent
 } from 'builder_platform_interaction/events';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ticks, INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
@@ -32,11 +32,8 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 });
 
 const SELECTORS = {
-    CONDITION_LIST: 'builder_platform_interaction-condition-list',
-    ENTITY_RESOURCE_PICKER: 'builder_platform_interaction-entity-resource-picker',
-    PARAMETER_ITEM: 'builder_platform_interaction-parameter-item',
-    FILTER_EXPRESSION_BUILDER: 'builder_platform_interaction-field-to-ferov-expression-builder',
-    ROW: 'builder_platform_interaction-row'
+    ...INTERACTION_COMPONENTS_SELECTORS,
+    FILTER_EXPRESSION_BUILDER: INTERACTION_COMPONENTS_SELECTORS.FIELD_TO_FEROV_EXPRESSION_BUILDER
 };
 
 const setupComponentUnderTest = props => {

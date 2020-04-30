@@ -1,6 +1,6 @@
 import { createElement } from 'lwc';
 import FlcButtonMenu from 'builder_platform_interaction/flcButtonMenu';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ticks, blurEvent, focusEvent } from 'builder_platform_interaction/builderTestUtils';
 import { ToggleMenuEvent } from 'builder_platform_interaction/events';
 
 const createComponentUnderTest = (isSelectionMode = false) => {
@@ -12,14 +12,6 @@ const createComponentUnderTest = (isSelectionMode = false) => {
     document.body.appendChild(el);
     return el;
 };
-
-const blurEvent = new FocusEvent('blur', {
-    bubbles: true,
-    composed: true,
-    cancelable: true
-});
-
-const focusEvent = new CustomEvent('focus');
 
 describe('the node menu', () => {
     it('renders the component ', () => {

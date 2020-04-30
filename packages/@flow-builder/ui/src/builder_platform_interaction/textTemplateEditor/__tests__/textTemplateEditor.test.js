@@ -7,16 +7,19 @@ import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    ticks,
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS
+} from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
 
 const SELECTORS = {
-    LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
-    RESOURCED_RICH_TEXT_EDITOR: 'builder_platform_interaction-resourced-rich-text-editor',
-    LIGHTNING_INPUT_RICH_TEXT: 'lightning-input-rich-text'
+    ...INTERACTION_COMPONENTS_SELECTORS,
+    ...LIGHTNING_COMPONENTS_SELECTORS
 };
 
 const setupComponentUnderTest = props => {

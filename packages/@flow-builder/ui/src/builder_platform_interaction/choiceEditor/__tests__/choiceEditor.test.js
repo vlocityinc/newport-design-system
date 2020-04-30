@@ -16,7 +16,7 @@ import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { LABELS } from '../choiceEditorLabels';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { STORED_VALUE_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ticks, focusoutEvent, blurEvent } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -43,18 +43,6 @@ const setupComponentUnderTest = choiceObject => {
     document.body.appendChild(element);
     return element;
 };
-
-const focusoutEvent = new FocusEvent('focusout', {
-    bubbles: true,
-    composed: true,
-    cancelable: true
-});
-
-const blurEvent = new FocusEvent('blur', {
-    bubbles: true,
-    composed: true,
-    cancelable: true
-});
 
 jest.mock('builder_platform_interaction/actions', () => {
     return {

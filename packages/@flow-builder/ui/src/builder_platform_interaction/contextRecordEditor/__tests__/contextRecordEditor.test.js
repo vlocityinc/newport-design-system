@@ -12,7 +12,7 @@ import {
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import * as store from 'mock/storeData';
 import * as expressionUtilsMock from 'builder_platform_interaction/expressionUtils';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ticks, INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -41,9 +41,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const SELECTORS = {
-    ENTITY_RESOURCE_PICKER: 'builder_platform_interaction-entity-resource-picker',
-    RECORD_FILTER: 'builder_platform_interaction-record-filter',
-    CUSTOM_PROPERTY_EDITOR: 'builder_platform_interaction-custom-property-editor'
+    ...INTERACTION_COMPONENTS_SELECTORS
 };
 
 function createComponentForTest(node) {

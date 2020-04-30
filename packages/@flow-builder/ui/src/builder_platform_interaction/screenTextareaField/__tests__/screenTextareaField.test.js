@@ -1,13 +1,9 @@
 import { createElement } from 'lwc';
 import ScreenTextareaField from 'builder_platform_interaction/screenTextareaField';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ticks, LIGHTNING_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 
 const standardLabelVariant = 'standard';
-
-const SELECTORS = {
-    AREA: 'lightning-textarea'
-};
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-screen-textarea-field', { is: ScreenTextareaField });
@@ -26,17 +22,17 @@ describe('Textarea display is required', () => {
     });
     it('Value should be undefined', async () => {
         await ticks(1);
-        const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
+        const input = textWrapperCmp.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_TEXTAREA);
         expect(input.value).toBeUndefined();
     });
     it('Required should be true', async () => {
         await ticks(1);
-        const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
+        const input = textWrapperCmp.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_TEXTAREA);
         expect(input.required).toEqual(true);
     });
     it('Label should be standard', async () => {
         await ticks(1);
-        const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
+        const input = textWrapperCmp.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_TEXTAREA);
         expect(input.variant).toEqual(standardLabelVariant);
     });
 });
@@ -53,17 +49,17 @@ describe('Textarea field not required', () => {
     });
     it('Value should be as specified', async () => {
         await ticks(1);
-        const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
+        const input = textWrapperCmp.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_TEXTAREA);
         expect(input.value).toEqual(defaultValue);
     });
     it('Required should be false', async () => {
         await ticks(1);
-        const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
+        const input = textWrapperCmp.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_TEXTAREA);
         expect(input.required).toEqual(false);
     });
     it('Label should be standard', async () => {
         await ticks(1);
-        const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
+        const input = textWrapperCmp.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_TEXTAREA);
         expect(input.variant).toEqual(standardLabelVariant);
     });
 });
@@ -79,12 +75,12 @@ describe('Text area field with no label', () => {
     });
     it('Label should be shown even when it is empty', async () => {
         await ticks(1);
-        const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
+        const input = textWrapperCmp.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_TEXTAREA);
         expect(input.variant).toEqual(standardLabelVariant);
     });
     it('Label displayed should be a placeholder', async () => {
         await ticks(1);
-        const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
+        const input = textWrapperCmp.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_TEXTAREA);
         expect(input.label).toEqual('[' + LABELS.fieldTypeLabelLargeTextArea + ']');
     });
 });
@@ -101,7 +97,7 @@ describe('Text area with help text', () => {
     });
     it('Help text should be passed through', async () => {
         await ticks(1);
-        const input = textWrapperCmp.shadowRoot.querySelector(SELECTORS.AREA);
+        const input = textWrapperCmp.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_TEXTAREA);
         expect(input.fieldLevelHelp).toEqual(helpTextValue);
     });
 });
