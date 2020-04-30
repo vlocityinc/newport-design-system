@@ -1,16 +1,14 @@
 import { createElement } from 'lwc';
 import RecordUpdateEditor from '../recordUpdateEditor';
 import * as storeMockedData from 'mock/storeData';
-import { SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
-import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
+import { PropertyChangedEvent, SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     RecordStoreOptionChangedEvent,
     AddRecordFilterEvent,
     DeleteRecordFilterEvent,
     UpdateRecordFilterEvent,
-    RecordFilterTypeChangedEvent,
     AddRecordFieldAssignmentEvent,
     DeleteRecordFieldAssignmentEvent,
     UpdateRecordFieldAssignmentEvent
@@ -48,17 +46,17 @@ const defaultRecordUpdateElement = () => {
     return {
         description: { value: '', error: null },
         elementType: ELEMENT_TYPE.RECORD_UPDATE,
+        filters: [],
         guid: 'RECORDUPDATE_1',
+        inputAssignments: [],
         isCanvasElement: true,
-        label: { value: '', error: null },
-        name: { value: '', error: null },
-        useSobject: true,
         inputReference: { value: '', error: null },
         inputReferenceIndex: { value: 'guid', error: null },
+        label: { value: '', error: null },
+        name: { value: '', error: null },
         object: { value: '', error: null },
         objectIndex: { value: 'guid', error: null },
-        filters: [],
-        inputAssignments: []
+        useSobject: true
     };
 };
 
@@ -105,7 +103,7 @@ const recordUpdateElementWithFields = () => {
             }
         ],
         filters: [],
-        filterType: { value: 'all', error: null },
+        filterLogic: { value: CONDITION_LOGIC.AND, error: null },
         object: { value: 'account', error: null },
         objectIndex: { value: 'guid', error: null }
     };
@@ -294,11 +292,11 @@ describe('record-update-editor usung fields', () => {
             await ticks(1);
             expect(recordUpdateEditor.node.inputAssignments).toHaveLength(0);
         });
-        it('handle record filter type Change event', async () => {
-            const recordUpdateFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(RECORD_FILTER_CRITERIA.ALL);
-            getRecordFilter(recordUpdateEditor).dispatchEvent(recordUpdateFilterTypeChangedEvent);
+        it('handle record filter logic Change event', async () => {
+            const propertyChangeEvent = new PropertyChangedEvent('filterLogic', CONDITION_LOGIC.OR);
+            getRecordFilter(recordUpdateEditor).dispatchEvent(propertyChangeEvent);
             await ticks(1);
-            expect(recordUpdateEditor.node.filterType.value).toBe(RECORD_FILTER_CRITERIA.ALL);
+            expect(recordUpdateEditor.node.filterLogic.value).toBe(CONDITION_LOGIC.OR);
         });
     });
 });

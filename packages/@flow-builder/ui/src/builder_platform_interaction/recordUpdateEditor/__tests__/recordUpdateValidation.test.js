@@ -2,7 +2,7 @@ import { createElement } from 'lwc';
 import { recordUpdateValidation, getRules } from '../recordUpdateValidation';
 import RecordUpdateEditor from '../recordUpdateEditor';
 import * as storeMockedData from 'mock/storeData';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
@@ -70,7 +70,7 @@ const recordUpdateUsingFieldsTemplate = () => {
                 rowIndex: 'RECORDUPDATEFILTERITEM_1'
             }
         ],
-        filterType: { value: 'all', error: null },
+        filterLogic: { value: CONDITION_LOGIC.AND, error: null },
         object: { value: 'account', error: null },
         objectIndex: { value: 'guid', error: null }
     };

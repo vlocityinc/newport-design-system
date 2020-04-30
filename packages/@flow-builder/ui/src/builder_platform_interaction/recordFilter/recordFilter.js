@@ -6,7 +6,7 @@ import {
     WARNING_LABELS,
     NO_CRITERIA_LABELS,
     ALL_CRITERIA_LABELS,
-    FILTER_LOGIC_OPTIONS
+    filterLogicOptions
 } from './recordFilterLabels';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import { format } from 'builder_platform_interaction/commonUtils';
@@ -66,6 +66,7 @@ export default class RecordFilter extends LightningElement {
 
     @api
     resourceDisplayText = '';
+
     /**
      * The filter type to pass as value of the rule for finding record drop down
      * @param {String} value - it's RECORD_FILTER_CRITERIA.NONE or RECORD_FILTER_CRITERIA.ALL
@@ -149,7 +150,7 @@ export default class RecordFilter extends LightningElement {
     }
 
     get filterLogicOptions() {
-        return FILTER_LOGIC_OPTIONS[this.elementType];
+        return filterLogicOptions(this.elementType, this.resourceDisplayText);
     }
 
     get showDeleteFilter() {

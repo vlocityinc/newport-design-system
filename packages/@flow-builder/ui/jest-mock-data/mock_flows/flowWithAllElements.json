@@ -1058,6 +1058,56 @@
                 "choiceText": "Choice 1"
             }
         ],
+        "recordUpdates": [
+            {
+                "name": "updateSObject",
+                "description": "",
+                "label": "updateSObject",
+                "locationX": 540,
+                "locationY": 831,
+                "inputReference": "accountSObjectCollectionVariable"
+            },
+            {
+                "name": "updateAccountWithFilter",
+                "description": "",
+                "label": "updateAccountWithFilter",
+                "locationX": 677,
+                "locationY": 833,
+                "filters": [
+                    {
+                        "rowIndex": "d4dfbb5c-d0a3-4970-ab08-c4db894c2db1",
+                        "leftHandSide": "Account.BillingCity",
+                        "rightHandSide": "San Francisco",
+                        "rightHandSideDataType": "String",
+                        "operator": "EqualTo"
+                    },
+                    {
+                        "rowIndex": "57472f25-fd81-4ded-8ce8-c448cc2d5544",
+                        "leftHandSide": "Account.BillingCountry",
+                        "rightHandSide": "USA",
+                        "rightHandSideDataType": "String",
+                        "operator": "EqualTo"
+                    },
+                    {
+                        "rowIndex": "930aa979-5b76-4648-aaf6-dd43730d4b85",
+                        "leftHandSide": "Account.Name",
+                        "rightHandSide": "Salesforce",
+                        "rightHandSideDataType": "String",
+                        "operator": "EqualTo"
+                    }
+                ],
+                "filterLogic": "1 AND 2 OR 3",
+                "object": "Account",
+                "inputAssignments": [
+                    {
+                        "field": "Name",
+                        "value": {
+                            "stringValue": "salesforce"
+                        }
+                    }
+                ]
+            }
+        ],
         "description": "",
         "interviewLabel": "mockFlow {!$Flow.CurrentDateTime}",
         "isTemplate": false,

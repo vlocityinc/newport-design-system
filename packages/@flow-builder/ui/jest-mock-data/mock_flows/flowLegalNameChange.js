@@ -640,6 +640,7 @@ export const flowLegalNameChange = {
                     processMetadataValues: [],
                     targetReference: 'Update_Feed'
                 },
+                filterLogic: 'and',
                 filters: [
                     {
                         field: 'Id',
@@ -685,6 +686,7 @@ export const flowLegalNameChange = {
                     processMetadataValues: [],
                     targetReference: 'Update_Feed'
                 },
+                filterLogic: 'and',
                 filters: [
                     {
                         field: 'Id',

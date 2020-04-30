@@ -1,9 +1,8 @@
 import { createRecordUpdate, createDuplicateRecordUpdate, createRecordUpdateMetadataObject } from '../recordUpdate';
-import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, CONNECTOR_TYPE, CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
 
 expect.extend(deepFindMatchers);
@@ -139,13 +138,13 @@ describe('recordUpdate Mutation', () => {
             recordUpdateUsingFields.filters = [filterWithValueFieldAndOperator, filterWithField];
             const actualResult = createRecordUpdate(recordUpdateUsingFields);
             mutatedRecordUpdateWithFields.filters = [mutatedFilterWithValueFieldAndOperator, mutatedFilterWithField];
-            mutatedRecordUpdateWithFields.filterType = RECORD_FILTER_CRITERIA.ALL;
+            mutatedRecordUpdateWithFields.filterLogic = CONDITION_LOGIC.AND;
             expect(actualResult).toMatchObject(mutatedRecordUpdateWithFields);
         });
         it('default filtering mode for a new update element is all', () => {
             recordUpdateUsingFields.isNewElement = true;
             const actualResult = createRecordUpdate(recordUpdateUsingFields);
-            mutatedRecordUpdateWithFields.filterType = RECORD_FILTER_CRITERIA.ALL;
+            mutatedRecordUpdateWithFields.filterLogic = CONDITION_LOGIC.AND;
             expect(actualResult).toMatchObject(mutatedRecordUpdateWithFields);
         });
         it('inputAssignments with value should return the expression (RHS/LHS)', () => {
@@ -259,22 +258,22 @@ describe('recordUpdate Demutation', () => {
         });
         it('demutated filter with value', () => {
             mutatedRecordUpdateWithFields.filters = [mutatedFilterWithValueFieldAndOperator];
-            mutatedRecordUpdateWithFields.filterType = RECORD_FILTER_CRITERIA.ALL;
+            mutatedRecordUpdateWithFields.filterLogic = CONDITION_LOGIC.AND;
             recordUpdateUsingFields.filters = [filterWithValueFieldAndOperator];
             const actualResult = createRecordUpdateMetadataObject(mutatedRecordUpdateWithFields);
             expect(actualResult).toMatchObject(recordUpdateUsingFields);
         });
-        it('reset filters if "filterType" equals no criteria', () => {
+        it('reset filters if "filterLogic" equals no conditions', () => {
             mutatedRecordUpdateWithFields = {
                 filters: [mutatedFilterWithValueFieldAndOperator],
-                filterType: RECORD_FILTER_CRITERIA.NONE
+                filterLogic: CONDITION_LOGIC.NO_CONDITIONS
             };
             const actualResult = createRecordUpdateMetadataObject(mutatedRecordUpdateWithFields);
             expect(actualResult.filters).toHaveLength(0);
         });
         it('demutate 1 filter with value and 1 filter without value', () => {
             mutatedRecordUpdateWithFields.filters = [mutatedFilterWithValueFieldAndOperator, mutatedFilterWithField];
-            mutatedRecordUpdateWithFields.filterType = RECORD_FILTER_CRITERIA.ALL;
+            mutatedRecordUpdateWithFields.filterLogic = CONDITION_LOGIC.AND;
             recordUpdateUsingFields.filters = [filterWithValueFieldAndOperator, filterWithField];
             const actualResult = createRecordUpdateMetadataObject(mutatedRecordUpdateWithFields);
             expect(actualResult).toMatchObject(recordUpdateUsingFields);

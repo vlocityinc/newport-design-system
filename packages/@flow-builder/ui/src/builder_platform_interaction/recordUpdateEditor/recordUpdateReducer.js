@@ -14,7 +14,7 @@ import {
     RecordStoreOptionChangedEvent
 } from 'builder_platform_interaction/events';
 
-import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 
@@ -24,7 +24,6 @@ const RHS = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE;
 
 const INPUTASSIGNMENTS_PROP = 'inputAssignments';
 const FILTERS_PROP = 'filters';
-const FILTERS_TYPE_PROP = 'filterType';
 
 const emptyFilterItem = () => {
     return {
@@ -156,7 +155,7 @@ const managePropertyChanged = (state, event) => {
         if (propName === 'object' && event.detail.value !== event.detail.oldValue) {
             // reset all filterItems, outputReference, queriedFields
             state = resetRecordUpdate(state);
-        } else if (propName === FILTERS_TYPE_PROP && event.detail.value === RECORD_FILTER_CRITERIA.NONE) {
+        } else if (propName === 'filterLogic' && event.detail.value === CONDITION_LOGIC.NO_CONDITIONS) {
             state = resetFilter(state);
         } else if (propName === FILTERS_PROP) {
             // reset errors in filters if any, and preserve values

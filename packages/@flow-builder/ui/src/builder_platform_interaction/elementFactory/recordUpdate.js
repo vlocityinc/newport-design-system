@@ -1,4 +1,4 @@
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
@@ -8,7 +8,6 @@ import {
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
-import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import {
     createRecordFilters,
     createFilterMetadataObject,
@@ -28,7 +27,8 @@ export function createRecordUpdate(recordUpdate = {}) {
         inputReference = '',
         inputReferenceIndex = generateGuid(),
         object = '',
-        objectIndex = generateGuid()
+        objectIndex = generateGuid(),
+        filterLogic = CONDITION_LOGIC.AND
     } = recordUpdate;
     let { filters, inputAssignments = [], availableConnections = getDefaultAvailableConnections() } = recordUpdate;
 
@@ -42,10 +42,7 @@ export function createRecordUpdate(recordUpdate = {}) {
 
     filters = createRecordFilters(filters, object);
 
-    const filterType =
-        filters[0].leftHandSide || recordUpdate.isNewElement ? RECORD_FILTER_CRITERIA.ALL : RECORD_FILTER_CRITERIA.NONE;
-
-    const recordUpdateObject = Object.assign(newRecordUpdate, {
+    return Object.assign(newRecordUpdate, {
         inputReference,
         inputReferenceIndex,
         maxConnections,
@@ -54,13 +51,11 @@ export function createRecordUpdate(recordUpdate = {}) {
         inputAssignments,
         useSobject,
         filters,
-        filterType,
+        filterLogic,
         object,
         objectIndex,
         dataType: FLOW_DATA_TYPE.BOOLEAN.value
     });
-
-    return recordUpdateObject;
 }
 
 export function createDuplicateRecordUpdate(recordUpdate, newGuid, newName) {
@@ -94,11 +89,13 @@ export function createRecordUpdateMetadataObject(recordUpdate, config) {
     }
 
     const recordUpdateMetadata = baseCanvasElementMetadataObject(recordUpdate, config);
-    const { inputReference, filterType, object, useSobject } = recordUpdate;
+    const { inputReference, object, useSobject } = recordUpdate;
 
     if (!useSobject) {
         let { filters = [], inputAssignments = [] } = recordUpdate;
-        if (filterType === RECORD_FILTER_CRITERIA.NONE) {
+        const { filterLogic } = recordUpdate;
+
+        if (filterLogic === CONDITION_LOGIC.NO_CONDITIONS) {
             filters = [];
         } else {
             filters = filters.map(filter => createFilterMetadataObject(filter));
@@ -108,6 +105,7 @@ export function createRecordUpdateMetadataObject(recordUpdate, config) {
 
         return Object.assign(recordUpdateMetadata, {
             filters,
+            filterLogic,
             object,
             inputAssignments
         });

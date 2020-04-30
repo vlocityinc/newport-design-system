@@ -74,15 +74,18 @@
             <!-- Find Records section -->
             <builder_platform_interaction-record-filter
                 element-type={state.recordUpdateElement.elementType}
+                element-guid={state.recordUpdateElement.guid}
                 filter-items={state.recordUpdateElement.filters}
+                filter-logic={state.recordUpdateElement.filterLogic}
                 record-entity-name={state.recordEntityName}
-                resource-display-text={resourceDisplayText}
                 record-fields={recordFieldsToFilter}
-                filter-type={state.recordUpdateElement.filterType.value}
+                resource-display-text={resourceDisplayText}
+                use-filter-with-custom-logic="true"
                 onrecordfiltertypechanged={handleFilterTypeChanged}
                 onaddrecordfilter={handlePropertyOrListItemChanged}
                 onupdaterecordfilter={handlePropertyOrListItemChanged}
                 ondeleterecordfilter={handlePropertyOrListItemChanged}
+                onpropertychanged={handlePropertyOrListItemChanged}
             >
             </builder_platform_interaction-record-filter>
 

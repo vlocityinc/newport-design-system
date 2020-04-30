@@ -1,6 +1,6 @@
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { Validation } from 'builder_platform_interaction/validation';
-import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
 /**
  * Validate the filter item.
@@ -43,8 +43,8 @@ export const getRules = nodeElement => {
         overrideRules.object = validateInputReference(nodeElement.objectIndex);
         if (nodeElement.object.value !== '' && !nodeElement.object.error) {
             overrideRules.inputAssignments = validateAssignments();
-            // validate filters if filter type is ALL
-            if (nodeElement.filterType.value === RECORD_FILTER_CRITERIA.ALL) {
+            // validate filters if filter logic is equal to 'No conditions'
+            if (nodeElement.filterLogic.value !== CONDITION_LOGIC.NO_CONDITIONS) {
                 overrideRules.filters = validateFilter();
             }
         }

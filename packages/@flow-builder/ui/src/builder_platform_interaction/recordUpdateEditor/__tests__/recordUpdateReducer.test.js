@@ -9,8 +9,8 @@ import {
     UpdateRecordFieldAssignmentEvent,
     UpdateRecordFilterEvent
 } from 'builder_platform_interaction/events';
-import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
 const recordUpdateUsingFieldsTemplate = () => {
     return {
@@ -41,7 +41,7 @@ const recordUpdateUsingFieldsTemplate = () => {
                 rowIndex: 'RECORDUPDATEFILTERITEM_1'
             }
         ],
-        filterType: { value: 'all', error: null },
+        filterLogic: { value: CONDITION_LOGIC.AND, error: null },
         object: { value: 'account', error: null }
     };
 };
@@ -157,22 +157,22 @@ describe('record-update-reducer using fields', () => {
             expect(newState.object.error).toBe(error);
         });
     });
-    describe('update filterType to none', () => {
+    describe('update filterLogic to no condition', () => {
         let newState;
         beforeAll(() => {
             const event = {
                 type: PropertyChangedEvent.EVENT_NAME,
                 detail: {
-                    propertyName: 'filterType',
-                    value: RECORD_FILTER_CRITERIA.NONE
+                    propertyName: 'filterLogic',
+                    value: CONDITION_LOGIC.NO_CONDITIONS
                 }
             };
             originalState.filters[0].leftHandSide.value = 'invalidValue';
             originalState.filters[0].leftHandSide.error = 'You have entered an invalid value';
             newState = recordUpdateReducer(originalState, event);
         });
-        it('should update filterType', () => {
-            expect(newState.filterType.value).toBe(RECORD_FILTER_CRITERIA.NONE);
+        it('should update filterLogic', () => {
+            expect(newState.filterLogic.value).toBe(CONDITION_LOGIC.NO_CONDITIONS);
             expect(newState).not.toBe(originalState);
         });
         it('should reset filter errors and value', () => {

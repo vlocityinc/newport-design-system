@@ -1,3 +1,4 @@
+import { format } from 'builder_platform_interaction/commonUtils';
 /* Labels */
 import findRecords from '@salesforce/label/FlowBuilderRecordEditor.findRecords';
 import ruleFindingRecords from '@salesforce/label/FlowBuilderRecordEditor.ruleFindingRecords';
@@ -71,33 +72,11 @@ export const ALL_CRITERIA_LABELS = {
     [ELEMENT_TYPE.START_ELEMENT]: LABELS.filterAllCriteriasAnd
 };
 
-const DEFAULT_FILTER_LOGIC = [
-    {
-        value: CONDITION_LOGIC.NO_CONDITIONS,
-        label: LABELS.filterNoCriteriaGet
-    },
-    {
-        value: CONDITION_LOGIC.AND,
-        label: LABELS.andConditionLogicLabel
-    },
-    {
-        value: CONDITION_LOGIC.OR,
-        label: LABELS.orConditionLogicLabel
-    },
-    {
-        value: CONDITION_LOGIC.CUSTOM_LOGIC,
-        label: LABELS.customConditionLogicLabel
-    }
-];
-
-export const FILTER_LOGIC_OPTIONS = {
-    [ELEMENT_TYPE.RECORD_CHOICE_SET]: DEFAULT_FILTER_LOGIC,
-    [ELEMENT_TYPE.RECORD_LOOKUP]: DEFAULT_FILTER_LOGIC,
-    [ELEMENT_TYPE.START_ELEMENT]: DEFAULT_FILTER_LOGIC,
-    [ELEMENT_TYPE.RECORD_UPDATE]: [
+const defaultFilterLogic = recordName => {
+    return [
         {
             value: CONDITION_LOGIC.NO_CONDITIONS,
-            label: LABELS.filterNoCriteriaUpdate
+            label: format(LABELS.filterNoCriteriaGet, recordName)
         },
         {
             value: CONDITION_LOGIC.AND,
@@ -111,19 +90,46 @@ export const FILTER_LOGIC_OPTIONS = {
             value: CONDITION_LOGIC.CUSTOM_LOGIC,
             label: LABELS.customConditionLogicLabel
         }
-    ],
-    [ELEMENT_TYPE.RECORD_DELETE]: [
-        {
-            value: CONDITION_LOGIC.AND,
-            label: LABELS.andConditionLogicLabel
-        },
-        {
-            value: CONDITION_LOGIC.OR,
-            label: LABELS.orConditionLogicLabel
-        },
-        {
-            value: CONDITION_LOGIC.CUSTOM_LOGIC,
-            label: LABELS.customConditionLogicLabel
-        }
-    ]
+    ];
+};
+
+export const filterLogicOptions = (elementType, recordName) => {
+    switch (elementType) {
+        case ELEMENT_TYPE.RECORD_UPDATE:
+            return [
+                {
+                    value: CONDITION_LOGIC.NO_CONDITIONS,
+                    label: format(LABELS.filterNoCriteriaUpdate, recordName)
+                },
+                {
+                    value: CONDITION_LOGIC.AND,
+                    label: LABELS.andConditionLogicLabel
+                },
+                {
+                    value: CONDITION_LOGIC.OR,
+                    label: LABELS.orConditionLogicLabel
+                },
+                {
+                    value: CONDITION_LOGIC.CUSTOM_LOGIC,
+                    label: LABELS.customConditionLogicLabel
+                }
+            ];
+        case ELEMENT_TYPE.RECORD_DELETE:
+            return [
+                {
+                    value: CONDITION_LOGIC.AND,
+                    label: LABELS.andConditionLogicLabel
+                },
+                {
+                    value: CONDITION_LOGIC.OR,
+                    label: LABELS.orConditionLogicLabel
+                },
+                {
+                    value: CONDITION_LOGIC.CUSTOM_LOGIC,
+                    label: LABELS.customConditionLogicLabel
+                }
+            ];
+        default:
+            return defaultFilterLogic(recordName);
+    }
 };
