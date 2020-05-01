@@ -96,7 +96,8 @@ function createConnectorToNextNode(
     isFault: boolean,
     variant: ConnectorVariant,
     conditionOptions?: Option[],
-    conditionType?: ConditionType
+    conditionType?: ConditionType,
+    defaultConnectorLabel?: string
 ): ConnectorRenderInfo {
     const { strokeWidth } = layoutConfig.connector;
     const { addOffset, labelOffset } = layoutConfig.connector.types[connectorType]!;
@@ -111,7 +112,7 @@ function createConnectorToNextNode(
 
     const geometry = { x: 0, y: offsetY, w: strokeWidth, h: height };
 
-    return {
+    const connectorRenderInfo = {
         geometry,
         addInfo: { offsetY: addOffset, menuOpened },
         connectionInfo,
@@ -121,8 +122,15 @@ function createConnectorToNextNode(
         conditionOptions,
         conditionValue: conditionOptions ? getConditionValue(conditionOptions, connectionInfo.childIndex!) : undefined,
         isFault,
-        conditionType
+        conditionType,
+        defaultConnectorLabel
     };
+
+    if (!connectorRenderInfo.defaultConnectorLabel) {
+        delete connectorRenderInfo.defaultConnectorLabel;
+    }
+
+    return connectorRenderInfo;
 }
 
 /**

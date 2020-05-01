@@ -96,7 +96,7 @@ export default class FlcConnector extends LightningElement {
     }
 
     get connectorBadgeLabel() {
-        return this.isDefaultBranchConnector() ? 'Default' : 'Fault';
+        return this.isDefaultBranchConnector() ? this.connectorInfo.defaultConnectorLabel : 'Fault';
     }
 
     /**

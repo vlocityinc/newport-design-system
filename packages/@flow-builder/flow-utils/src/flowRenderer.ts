@@ -559,7 +559,8 @@ function createPreConnector(
         context.isFault || conditionType === ConditionType.FAULT,
         variant,
         conditionOptions,
-        conditionType
+        conditionType,
+        conditionType === ConditionType.DEFAULT ? parentNode.defaultConnectorLabel : undefined
     );
 }
 

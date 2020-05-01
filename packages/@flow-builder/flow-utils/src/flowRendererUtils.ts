@@ -153,6 +153,7 @@ export interface ConnectorRenderInfo {
     conditionValue?: Guid;
     conditionType?: ConditionType;
     isNew?: boolean;
+    defaultConnectorLabel?: string;
 }
 
 function getLayoutByKey(key: string, progress: number, nodeLayoutMap: NodeLayoutMap): LayoutInfo {
