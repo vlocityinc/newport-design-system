@@ -1,6 +1,6 @@
 /* Check Box */
-.b2b-attribute-config-offer_checkbox {
-  .b2b-form-element_checkbox {
+.nds-b2b-attribute-config-offer_checkbox {
+  .nds-b2b-form-element_checkbox {
     display: inline;
     margin-right: 0.3rem;
     .nds-checkbox [type="checkbox"]:checked ~ .nds-checkbox_faux {
@@ -10,18 +10,18 @@
       margin-top: -0.188rem;
     }
   }
-  .b2b-configure-text {
-    font-size: 0.9rem;
+  .nds-b2b-configure-text {
+    font-size: 1rem;
     letter-spacing: 0.01rem;
     color: #595959;
   }
-  .b2b-attribute-each-row {
+  .nds-b2b-attribute-each-row {
     margin-bottom: 1rem;
   }
 }
 
 /* Radio */
-.b2b-attribute-config-offer_radio {
+.nds-b2b-attribute-config-offer_radio {
   .nds-b2b-config-label {
     color: #000;
     font-size: 1rem;
@@ -29,13 +29,13 @@
     margin-bottom: 1rem;
   }
 
-  .b2b-config-radio_container input[type="radio"] {
+  .nds-b2b-config-radio_container input[type="radio"] {
     opacity: 0;
     position: fixed;
     width: 0;
   }
 
-  .b2b-config-radio_container label {
+  .nds-b2b-config-radio_container label {
     display: inline-block;
     background-color: #fff;
     padding: 0.34rem 1.875rem;
@@ -48,11 +48,11 @@
     cursor: pointer;
   }
 
-  .b2b-config-radio_container label:hover {
+  .nds-b2b-config-radio_container label:hover {
     background-color: $alice-blue;
   }
 
-  .b2b-config-radio_container input[type="radio"]:checked + label {
+  .nds-b2b-config-radio_container input[type="radio"]:checked + label {
     background-color: #1589ee;
     border-color: #1589ee;
     color: #fff;
@@ -60,7 +60,7 @@
 }
 
 /* Matrix Table */
-.b2b-attribute-config-offer_matrix {
+.nds-b2b-attribute-config-offer_matrix {
   .nds-b2b-config-label {
     color: #000;
     font-size: 1rem;
@@ -97,7 +97,7 @@
   th:first-child {
     width: 70vh;
   }
-  .b2b-attribute-radio {
+  .nds-b2b-attribute-radio {
     &.nds-radio [type=radio]:checked+.nds-radio__label .nds-radio_faux {
       border-color: #1589ee;
     }
@@ -107,5 +107,49 @@
     .nds-radio_faux {
       margin-top: -3px;
     }
+  }
+}
+
+/* Combo Box */
+.nds-b2b-attribute-config-offer_combobox {
+  .nds-b2b-input {
+    //Override default styles of input box when inside nds-b2b-inputs class to give different look
+    .nds-form-container {
+      padding: 0;
+      margin-bottom: 0;
+    }	
+    .nds-input {
+      border: $border-width-thin solid $color-border-input;
+      border-radius: $border-radius-medium;
+      margin-bottom: 0;
+      padding: 0.25rem 0.75rem;
+    }	
+    .nds-input-has-icon_right {
+      .nds-input__icon {
+        right: $spacing-x-small;
+      }
+    }
+    .nds-input-has-icon_left {
+      .nds-input__icon {
+        left: $spacing-x-small;
+      }
+    }
+  }
+  .nds-b2b-configure-text {
+    font-size: 1rem;
+    letter-spacing: 0.01rem;
+    color: #595959;
+  }
+  .nds-b2b-attribute-each-row {
+    margin-bottom: 1rem;
+    .nds-b2b-combobox-label {
+      font-size: 1rem;
+    }
+  }
+  .nds-b2b-trash_icon {
+    cursor: pointer;
+  }
+  .nds-combobox_container .nds-combobox__form-element.nds-form-element__control.nds-form-element__control-animated-label input[readonly] {
+    padding-left: 1.2rem;
   }
 }

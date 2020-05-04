@@ -309,7 +309,7 @@ storiesOf(`${base}`, module)
       <div class="nds-b2b-card_container">
         <div class="nds-b2b-card_tabs">
           <div class="nds-b2b-card_tab">
-            <input type="checkbox" id="chck1">
+            <input type="checkbox" id="chck1" class="nds-b2b-card_checkbox">
             <label class="nds-b2b-card_tab-label" for="chck1">Details</label>
             <div class="nds-b2b-card_tab-content">
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum, reiciendis!
@@ -326,14 +326,14 @@ storiesOf(`${base}`, module)
       <div class="nds-b2b-card_container">
         <div class="nds-b2b-card_tabs">
           <div class="nds-b2b-card_tab">
-            <input type="checkbox" id="chck1">
+            <input type="checkbox" id="chck1" class="nds-b2b-card_checkbox">
             <label class="nds-b2b-card_tab-label" for="chck1">Details</label>
             <div class="nds-b2b-card_tab-content">
               <c-b2b-attribute-configure-offer>
-                <div class="b2b-attribute-config-offer_checkbox">
-                  <div class="nds-grid nds-col nds-wrap b2b-attribute-each-row">
-                    <div class="b2b-configure-text nds-size_6-of-12">
-                      <div class="nds-form-element__control b2b-form-element_checkbox">
+                <div class="nds-b2b-attribute-config-offer_checkbox">
+                  <div class="nds-grid nds-col nds-wrap nds-b2b-attribute-each-row">
+                    <div class="nds-b2b-configure-text nds-size_6-of-12">
+                      <div class="nds-form-element__control nds-b2b-form-element_checkbox">
                         <label class="nds-checkbox">
                           <input type="checkbox" name="options" id="checkbox-1" value="on">
                           <span class="nds-checkbox_faux"></span>
@@ -343,13 +343,13 @@ storiesOf(`${base}`, module)
                       </div>
                     Static IP
                     </div>
-                    <div class="b2b-configure-text nds-size_2-of-12 nds-text-align_right">$13.35</div>
-                    <div class="b2b-configure-text nds-size_2-of-12 nds-text-align_right">$0.00/mon</div>
-                    <div class="b2b-configure-text nds-size_2-of-12"></div>
+                    <div class="nds-b2b-configure-text nds-size_2-of-12 nds-text-align_right">$13.35</div>
+                    <div class="nds-b2b-configure-text nds-size_2-of-12 nds-text-align_right">$0.00/mon</div>
+                    <div class="nds-b2b-configure-text nds-size_2-of-12"></div>
                   </div>
-                  <div class="nds-grid nds-col nds-wrap b2b-attribute-each-row">
-                    <div class="b2b-configure-text nds-size_6-of-12">
-                      <div class="nds-form-element__control b2b-form-element_checkbox">
+                  <div class="nds-grid nds-col nds-wrap nds-b2b-attribute-each-row">
+                    <div class="nds-b2b-configure-text nds-size_6-of-12">
+                      <div class="nds-form-element__control nds-b2b-form-element_checkbox">
                         <label class="nds-checkbox">
                           <input type="checkbox" name="options" id="checkbox-1" value="on">
                           <span class="nds-checkbox_faux"></span>
@@ -359,44 +359,44 @@ storiesOf(`${base}`, module)
                       </div>
                     LTE Backup
                     </div>
-                    <div class="b2b-configure-text nds-size_2-of-12 nds-text-align_right">$0.00</div>
-                    <div class="b2b-configure-text nds-size_2-of-12 nds-text-align_right">$35.00/mon</div>
-                    <div class="b2b-configure-text nds-size_2-of-12"></div>
+                    <div class="nds-b2b-configure-text nds-size_2-of-12 nds-text-align_right">$0.00</div>
+                    <div class="nds-b2b-configure-text nds-size_2-of-12 nds-text-align_right">$35.00/mon</div>
+                    <div class="nds-b2b-configure-text nds-size_2-of-12"></div>
                   </div>
                 </div>
               </c-b2b-attribute-configure-offer>
 
               <c-b2b-offer-addons>
-                <div class="b2b-offer-addons">
+                <div class="nds-b2b-offer-addons">
                   <!-- Header -->
-                  <div class="b2b-offer-addons_header">
+                  <div class="nds-b2b-offer-addons_header">
                     <c-icon theme="nds" icon-name="utility:rows" size="small" extraclass="nds-icon-text-default">
                       <span class="nds-icon_container nds-icon-utility-cross nds-b2b-addon-icon">
                         <svg class="nds-icon nds-icon-text-default nds-icon_x-small" xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52"><path fill="#B0ADAB" d="m26 2c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24z m4.9 24.8l7.8 7.8c0.4 0.4 0.4 1 0 1.4l-2.8 2.8c-0.4 0.4-1 0.4-1.4 0l-7.8-7.8c-0.4-0.4-1-0.4-1.4 0l-7.8 7.8c-0.4 0.4-1 0.4-1.4 0l-2.8-2.8c-0.4-0.4-0.4-1 0-1.4l7.8-7.8c0.4-0.4 0.4-1 0-1.4l-7.9-7.9c-0.4-0.4-0.4-1 0-1.4l2.8-2.8c0.4-0.4 1-0.4 1.4 0l7.9 7.9c0.4 0.4 1 0.4 1.4 0l7.8-7.8c0.4-0.4 1-0.4 1.4 0l2.8 2.8c0.4 0.4 0.4 1 0 1.4l-7.8 7.8c-0.3 0.4-0.3 1 0 1.4z"></path></svg>
                       </span>
                     </c-icon>
-                    <span class="b2b-offer-addons_text">ADD-ONS</span>
-                    <span class="b2b-offer-addons_hide">Hide</span>
+                    <span class="nds-b2b-offer-addons_text">ADD-ONS</span>
+                    <span class="nds-b2b-offer-addons_hide">Hide</span>
                   </div>
 
                   <!-- line items -->
-                  <div class="b2b-addons_line-items">
-                    <div class="nds-grid nds-col nds-wrap b2b-attribute-each-row">
-                      <div class="b2b-configure-text nds-size_4-of-12">Child Product ABC</div>
-                      <div class="b2b-configure-text nds-size_2-of-12">Starting at...</div>
-                      <div class="b2b-configure-text nds-size_2-of-12 nds-text-align_right">$13.35</div>
-                      <div class="b2b-configure-text nds-size_2-of-12 nds-text-align_right">$0.00/mon</div>
-                      <div class="b2b-configure-text nds-size_2-of-12 nds-text-align_right">
-                      <button class='nds-button nds-button_neutral nds-button_stateful nds-not-selected b2b-add-offer_btn'>
+                  <div class="nds-b2b-addons_line-items">
+                    <div class="nds-grid nds-col nds-wrap nds-b2b-attribute-each-row">
+                      <div class="nds-b2b-configure-text nds-size_4-of-12">Child Product ABC</div>
+                      <div class="nds-b2b-configure-text nds-size_2-of-12">Starting at...</div>
+                      <div class="nds-b2b-configure-text nds-size_2-of-12 nds-text-align_right">$13.35</div>
+                      <div class="nds-b2b-configure-text nds-size_2-of-12 nds-text-align_right">$0.00/mon</div>
+                      <div class="nds-b2b-configure-text nds-size_2-of-12 nds-text-align_right">
+                      <button class='nds-button nds-button_neutral nds-button_stateful nds-not-selected nds-b2b-add-offer_btn'>
                         <span class="nds-text-not-selected">
                           + Add
                         </span>
                       </button>
                       </div>
                     </div>
-                    <div class="nds-grid nds-col nds-wrap b2b-attribute-each-row">
-                      <div class="b2b-configure-text nds-size_10-of-12">Child Product DEF</div>
-                      <div class="b2b-configure-text b2b-configure-text-view nds-size_2-of-12 nds-text-align_right">View</div>
+                    <div class="nds-grid nds-col nds-wrap nds-b2b-attribute-each-row">
+                      <div class="nds-b2b-configure-text nds-size_10-of-12">Child Product DEF</div>
+                      <div class="nds-b2b-configure-text nds-b2b-configure-text-view nds-size_2-of-12 nds-text-align_right">View</div>
                     </div>
                   </div> 
                 </div>
@@ -414,13 +414,13 @@ storiesOf(`${base}`, module)
       <div class="nds-b2b-card_container">
         <div class="nds-b2b-card_tabs">
           <div class="nds-b2b-card_tab">
-            <input type="checkbox" id="chck2">
+            <input type="checkbox" id="chck2" class="nds-b2b-card_checkbox">
             <label class="nds-b2b-card_tab-label" for="chck2">Details</label>
             <div class="nds-b2b-card_tab-content">
               <c-b2b-attribute-configure-offer>
-                <div class="b2b-attribute-config-offer_radio">
+                <div class="nds-b2b-attribute-config-offer_radio">
                   <div class="nds-b2b-config-label">Contract Term</div>
-                  <div class="b2b-config-radio_container radio-toolbar">
+                  <div class="nds-b2b-config-radio_container radio-toolbar">
                     <input type="radio" id="radio12" name="radioMonths" value="12" checked>
                     <label for="radio12">12 Months</label>
                 
@@ -445,11 +445,11 @@ storiesOf(`${base}`, module)
       <div class="nds-b2b-card_container">
         <div class="nds-b2b-card_tabs">
           <div class="nds-b2b-card_tab">
-            <input type="checkbox" id="chck2">
+            <input type="checkbox" id="chck2" class="nds-b2b-card_checkbox">
             <label class="nds-b2b-card_tab-label" for="chck2">Details</label>
             <div class="nds-b2b-card_tab-content">
               <c-b2b-attribute-configure-offer>
-                <div class="b2b-attribute-config-offer_matrix">
+                <div class="nds-b2b-attribute-config-offer_matrix">
                   <div class="nds-b2b-config-label">Maximum Download Speed</div>
                   <table>
                     <tr>
@@ -461,7 +461,7 @@ storiesOf(`${base}`, module)
                     </tr>
                     <tr>
                       <td>
-                        <span class="nds-radio b2b-attribute-radio">
+                        <span class="nds-radio nds-b2b-attribute-radio">
                           <input type="radio" id="radio-1" name="options" value="on">
                           <label class="nds-radio__label" for="radio-1">
                             <span class="nds-radio_faux"></span>
@@ -476,7 +476,7 @@ storiesOf(`${base}`, module)
                     </tr>
                     <tr>
                       <td>
-                        <span class="nds-radio b2b-attribute-radio">
+                        <span class="nds-radio nds-b2b-attribute-radio">
                           <input type="radio" id="radio-2" name="options" value="on">
                           <label class="nds-radio__label" for="radio-2">
                             <span class="nds-radio_faux"></span>
@@ -491,7 +491,7 @@ storiesOf(`${base}`, module)
                     </tr>
                     <tr>
                       <td>
-                        <span class="nds-radio b2b-attribute-radio">
+                        <span class="nds-radio nds-b2b-attribute-radio">
                           <input type="radio" id="radio-3" name="options" value="on">
                           <label class="nds-radio__label" for="radio-3">
                             <span class="nds-radio_faux"></span>
@@ -526,10 +526,10 @@ storiesOf(`${base}`, module)
       <div class="nds-b2b-card_container">
         <div class="nds-b2b-card_tabs">
           <div class="nds-b2b-card_tab">
-            <input type="checkbox" id="chck2">
+            <input type="checkbox" id="chck2" class="nds-b2b-card_checkbox">
             <label class="nds-b2b-card_tab-label" for="chck2">
               Details
-              <button class='nds-button nds-button_neutral nds-button_stateful nds-not-selected b2b-delete-offer_btn'>
+              <button class='nds-button nds-button_neutral nds-button_stateful nds-not-selected nds-b2b-delete-offer_btn'>
                 <span class="nds-text-not-selected">
                   Delete
                 </span>
@@ -537,9 +537,9 @@ storiesOf(`${base}`, module)
             </label>
             <div class="nds-b2b-card_tab-content">
               <c-b2b-attribute-configure-offer>
-                <div class="b2b-attribute-config-offer_radio">
+                <div class="nds-b2b-attribute-config-offer_radio">
                   <div class="nds-b2b-config-label">Contract Term</div>
-                  <div class="b2b-config-radio_container radio-toolbar">
+                  <div class="nds-b2b-config-radio_container radio-toolbar">
                     <input type="radio" id="radio12" name="radioMonths" value="12" checked>
                     <label for="radio12">12 Months</label>
                 
