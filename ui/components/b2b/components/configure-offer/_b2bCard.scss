@@ -1,14 +1,14 @@
-input {
-  position: absolute;
-  opacity: 0;
-  z-index: -1;
-}
 // Layout
 .nds-b2b-card {
   display: flex;
   margin: 2rem;
   padding: 0.2rem 2rem;
   background: white;
+  input.nds-b2b-card_checkbox {
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+  }
   .nds-b2b-card_container {
     flex: 1;
     .nds-b2b-card_tabs {
@@ -41,8 +41,9 @@ input {
           max-height: 0;
           background: white;
           transition: all 0.35s;
+          color: #595959;
         }
-        input:checked {
+        input.nds-b2b-card_checkbox:checked {
           + .nds-b2b-card_tab-label {
             &::after {
               transform: rotate(90deg);
@@ -60,7 +61,7 @@ input {
   &.nds-b2b-child-card {
     margin: 0 2rem 2rem 4rem;
     position: relative;
-    .b2b-delete-offer_btn {
+    .nds-b2b-delete-offer_btn {
       transition: all 0.25s ease-in;
       font-size: 0.7rem;
       font-weight: 300;
@@ -82,6 +83,9 @@ input {
   margin: 2rem 2rem 0 4rem;
   border-bottom: 1px solid #d8d8d8;
   font-weight: 300;
+}
+.nds-b2b-card-hide {
+  display: none;
 }
 
 .nds-theme_default {
