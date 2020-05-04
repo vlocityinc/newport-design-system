@@ -5,6 +5,7 @@
  */
 
 import { Registry, RuleFilter, Engine } from 'analyzer_framework/engine';
+import { ContextInfo } from 'analyzer_framework/api';
 import { FLOW_CONTEXT } from './rules/constants';
 import { FlowDataProvider } from './flowDataProvider/flowDataProvider';
 import { FlowRuleFactory } from './flowRules';
@@ -48,6 +49,6 @@ export class FlowGuardrailsExecutor {
 
         this.flowDataProvider.updateFlow(flow);
 
-        return this.engine.execute([FLOW_CONTEXT]);
+        return this.engine.execute([new ContextInfo(FLOW_CONTEXT)]);
     }
 }

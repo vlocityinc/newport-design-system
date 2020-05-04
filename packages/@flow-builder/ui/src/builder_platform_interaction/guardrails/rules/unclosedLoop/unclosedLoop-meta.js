@@ -1,11 +1,13 @@
-import { Meta } from 'analyzer_framework/api';
+import { Meta, ContextInfo } from 'analyzer_framework/api';
 import * as Rule from './unclosedLoop';
 import { FLOW_CONTEXT, TEAM_NAME } from '../constants';
 import ruleTitle from '@salesforce/label/FlowBuilderGuardrailRules.unclosedLoopTitle';
 import ruleDesc from '@salesforce/label/FlowBuilderGuardrailRules.unclosedLoopDescription';
 
+const contextInfo = new ContextInfo(FLOW_CONTEXT);
+
 const meta = {
-    context: FLOW_CONTEXT,
+    contextInfo,
     name: 'UnclosedLoop',
     title: ruleTitle,
     description: ruleDesc,
@@ -15,7 +17,7 @@ const meta = {
 };
 
 export const UnclosedLoop = new Meta(
-    meta.context,
+    meta.contextInfo,
     meta.name,
     meta.title,
     meta.description,

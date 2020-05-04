@@ -2,6 +2,7 @@ import { FlowGuardrailsExecutor } from '../execute';
 import { FlowDataProvider } from '../flowDataProvider/flowDataProvider';
 import { FlowRuleFactory } from '../flowRules';
 import { mockEngineExecute, mockRegistryAddDataProvider, mockRegistryRegisterRules } from 'analyzer_framework/engine';
+import { ContextInfo } from 'analyzer_framework/api';
 
 jest.mock('../flowDataProvider/flowDataProvider');
 
@@ -48,7 +49,7 @@ describe('guardrails execute', () => {
             expect(flowDataProviderMock.updateFlow).toHaveBeenCalledTimes(1);
             expect(flowDataProviderMock.updateFlow).toHaveBeenCalledWith(flow);
 
-            expect(mockEngineExecute).toHaveBeenCalledWith(['FLOW']);
+            expect(mockEngineExecute).toHaveBeenCalledWith([new ContextInfo('FLOW')]);
 
             const result = guardrailResults.results.get(flow.fullName);
             expect(result).toEqual(resultData);

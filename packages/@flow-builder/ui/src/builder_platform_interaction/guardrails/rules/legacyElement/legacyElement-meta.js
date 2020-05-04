@@ -1,11 +1,13 @@
-import { Meta } from 'analyzer_framework/api';
+import { Meta, ContextInfo } from 'analyzer_framework/api';
 import * as Rule from './legacyElement';
 import { FLOW_CONTEXT, TEAM_NAME } from '../constants';
 import ruleTitle from '@salesforce/label/FlowBuilderGuardrailRules.legacyElementTitle';
 import ruleDesc from '@salesforce/label/FlowBuilderGuardrailRules.legacyElementDescription';
 
+const contextInfo = new ContextInfo(FLOW_CONTEXT);
+
 const meta = {
-    context: FLOW_CONTEXT,
+    contextInfo,
     name: 'LegacyElement',
     title: ruleTitle,
     description: ruleDesc,
@@ -15,7 +17,7 @@ const meta = {
 };
 
 export const LegacyElement = new Meta(
-    meta.context,
+    meta.contextInfo,
     meta.name,
     meta.title,
     meta.description,

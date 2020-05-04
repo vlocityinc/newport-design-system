@@ -3,9 +3,16 @@ export class RuleFactory {}
 export class RuleFactoryItem {}
 export class Rule {}
 
-export class Meta {
-    constructor(context, name, title, description, owner, rule, tags, scaleInfos) {
+export class ContextInfo {
+    constructor(context, scope) {
         this._context = context;
+        this._scope = scope;
+    }
+}
+
+export class Meta {
+    constructor(contextInfo, name, title, description, owner, rule, tags, scaleInfos) {
+        this._contextInfo = contextInfo;
         this._name = name;
         this._title = title;
         this._description = description;
