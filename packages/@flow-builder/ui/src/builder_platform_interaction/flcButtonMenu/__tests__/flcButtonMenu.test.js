@@ -3,6 +3,8 @@ import FlcButtonMenu from 'builder_platform_interaction/flcButtonMenu';
 import { ticks, blurEvent, focusEvent } from 'builder_platform_interaction/builderTestUtils';
 import { ToggleMenuEvent } from 'builder_platform_interaction/events';
 
+// button menu tests
+
 const createComponentUnderTest = (isSelectionMode = false) => {
     const el = createElement('builder_platform_interaction-flc-button-menu', {
         is: FlcButtonMenu

@@ -43,6 +43,7 @@ export default class FlcButtonMenu extends LightningElement {
     get menuOpened() {
         return this._menuOpened;
     }
+
     set menuOpened(menuOpened) {
         this._menuOpened = menuOpened;
 
@@ -289,6 +290,7 @@ export default class FlcButtonMenu extends LightningElement {
     }
 
     handleButtonClick(event) {
+        event.stopPropagation();
         event.preventDefault();
 
         this.allowBlur();
@@ -361,8 +363,12 @@ export default class FlcButtonMenu extends LightningElement {
 
     toggleMenuVisibility(sendEvent = true) {
         if (!this.disabled) {
-            const { top, left } = this.target.getBoundingClientRect();
-            const { clientWidth, clientHeight } = this.target;
+            const { top, left, width } = this.target.getBoundingClientRect();
+            const { clientWidth } = this.target;
+
+            // account for border and stuff
+            const offsetX = (width - clientWidth) / 2;
+
             const { conditionOptionsForNode, guid, connectionInfo, elementMetadata } = this;
             const type = connectionInfo ? MenuType.CONNECTOR : MenuType.NODE;
 
@@ -371,8 +377,9 @@ export default class FlcButtonMenu extends LightningElement {
                     new ToggleMenuEvent(
                         Object.assign(
                             {
-                                top: top + clientHeight / 2,
-                                left: left + clientWidth / 2,
+                                top,
+                                left,
+                                offsetX,
                                 type,
                                 guid: guid || connectionInfo.prev,
                                 elementMetadata,

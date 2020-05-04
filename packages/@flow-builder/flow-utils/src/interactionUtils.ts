@@ -60,4 +60,8 @@ function toggleFlowMenu(
     return { ...interactionState, menuInfo };
 }
 
-export { isMenuOpened, toggleFlowMenu };
+function closeFlowMenu(interactionState: FlowInteractionState): FlowInteractionState {
+    return { ...interactionState, menuInfo: null };
+}
+
+export { isMenuOpened, toggleFlowMenu, closeFlowMenu };

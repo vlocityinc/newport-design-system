@@ -1,3 +1,11 @@
+:host {
+    --node-icon-width: 48px;
+    --node-icon-height: 48px;
+
+    --node-icon-half-width: calc(var(--node-icon-width) / 2);
+    --node-icon-half-height: calc(var(--node-icon-height) / 2);
+}
+
 .menu {
     position: absolute;
     z-index: 1;
@@ -11,14 +19,31 @@ builder_platform_interaction-flc-flow {
     position: absolute;
 }
 
-.flows {
-    position: absolute;
-    transform: translateX(50%);
-    left: 50%;
+.flow-container {
+    display: flex;
+    flex: auto;
+    position: relative;
 }
 
 builder_platform_interaction-zoom-panel {
     position: absolute;
-    bottom: 48px; /* offset by canvas icon height */
+    bottom: 0;
     right: 0;
+}
+
+:host {
+    margin-top: var(--node-icon-width);
+    margin-bottom: var(--node-icon-width);
+}
+
+.canvas {
+    display: flex;
+    flex: auto;
+    outline: none;
+    position: relative;
+}
+
+.menu {
+    position: absolute;
+    z-index: 5;
 }

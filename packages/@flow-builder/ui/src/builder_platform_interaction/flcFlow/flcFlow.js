@@ -7,12 +7,6 @@ export default class FlcFlow extends LightningElement {
     flow;
 
     @api
-    menu;
-
-    @api
-    force;
-
-    @api
     isPasteAvailable;
 
     @api

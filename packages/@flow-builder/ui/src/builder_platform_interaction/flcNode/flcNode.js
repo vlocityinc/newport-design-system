@@ -1,6 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { ElementType } from 'builder_platform_interaction/flowUtils';
 import { EditElementEvent, FlcSelectDeselectNodeEvent, SelectNodeEvent } from 'builder_platform_interaction/events';
+import { classSet } from 'lightning/utils';
 
 /**
  * Autolayout Canvas Node Component
@@ -48,9 +49,12 @@ export default class FlcNode extends LightningElement {
     }
 
     get textContainerClasses() {
-        return (this.nodeInfo.flows || []).length > 0 || this.nodeInfo.faultFlow != null
-            ? 'slds-is-absolute text-container shifted-text-container'
-            : 'slds-is-absolute text-container';
+        const shifted = (this.nodeInfo.flows || []).length > 0 || this.nodeInfo.faultFlow != null;
+        const hidden = this.nodeInfo.menuOpened;
+        return classSet('slds-is-absolute text-container').add({
+            shifted,
+            hidden
+        });
     }
 
     /**

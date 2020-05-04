@@ -12,9 +12,18 @@
     top: 0px;
     width: 180px;
     word-break: break-word;
+    opacity: 1;
 }
 
-.shifted-text-container {
+.text-container:not(.hidden) {
+    transition: opacity 0.4s;
+}
+
+.text-container.hidden {
+    opacity: 0;
+}
+
+.text-container.shifted {
     transform: translate(0%, -55%);
 }
 

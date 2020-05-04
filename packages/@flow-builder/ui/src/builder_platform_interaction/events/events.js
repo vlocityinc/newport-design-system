@@ -98,7 +98,6 @@ export { DynamicTypeMappingChangeEvent } from './dynamicTypeMappingChangeEvent';
 export { VariableAndFieldMappingChangedEvent } from './variableAndFieldMappingChangedEvent';
 export { SelectMenuItemEvent } from './menuEvents/selectMenuItemEvent';
 export { ToggleMenuEvent } from './menuEvents/toggleMenuEvent';
-export { ZoomElementEvent } from './menuEvents/zoomElementEvent';
 export { ToggleElementEvent } from './elementEvents/toggleElementEvent';
 export { AddNodeEvent } from './addNodeEvent';
 export { UpdateNodeEvent } from './updateNodeEvent';

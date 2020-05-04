@@ -1,26 +1,46 @@
 <template>
-    <div class="builder" ondblclick={hideMenu} ontogglemenu={handleToggleMenu} onzoomelement={handleZoomElement}>
+    <div class="canvas" onclick={handleCanvasClick} ontogglemenu={handleToggleMenu}>
         <template if:true={flow}>
-            <div class="flows">
+            <div class="flow-container">
                 <builder_platform_interaction-flc-flow
                     style={flow.style}
                     class={flow.class}
                     flow={flow.flowInfo}
-                    menu={menu}
                     is-paste-available={isPasteAvailable}
                     is-selection-mode={isSelectionMode}
                     onflcselectdeselectnode={handleNodeSelectionDeselection}
-                    onclick={handleFlcFlowClick}
                 >
                 </builder_platform_interaction-flc-flow>
-            </div>
 
-            <builder_platform_interaction-zoom-panel
-                is-zoom-in-disabled={isZoomInDisabled}
-                is-zoom-out-disabled={isZoomOutDisabled}
-                is-zoom-to-view={isZoomToView}
-                onclicktozoom={handleClickToZoom}
-            ></builder_platform_interaction-zoom-panel>
+                <template if:true={showConnectorMenu}>
+                    <builder_platform_interaction-flc-connector-menu
+                        class="menu"
+                        style={menu.style}
+                        prev={menu.prev}
+                        next={menu.next}
+                        parent={menu.parent}
+                        child-index={menu.childIndex}
+                        is-paste-available={isPasteAvailable}
+                        elements-metadata={menu.elementsMetadata}
+                    ></builder_platform_interaction-flc-connector-menu>
+                </template>
+                <template if:true={showNodeMenu}>
+                    <builder_platform_interaction-flc-node-menu
+                        class="menu"
+                        style={menu.style}
+                        condition-options={menu.conditionOptionsForNode}
+                        element-metadata={menu.elementMetadata}
+                        guid={menu.guid}
+                        element-has-fault={menu.elementHasFault}
+                    ></builder_platform_interaction-flc-node-menu>
+                </template>
+            </div>
         </template>
     </div>
+    <builder_platform_interaction-zoom-panel
+        is-zoom-in-disabled={isZoomInDisabled}
+        is-zoom-out-disabled={isZoomOutDisabled}
+        is-zoom-to-view={isZoomToView}
+        onclicktozoom={handleZoomAction}
+    ></builder_platform_interaction-zoom-panel>
 </template>

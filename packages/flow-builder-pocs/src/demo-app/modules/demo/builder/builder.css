@@ -2,6 +2,11 @@ builder_platform_interaction-flc-builder-container {
     display: flex;
 }
 
+.left {
+    z-index: 100;
+    background-color: #ddd;
+}
+
 .buttons {
     position: absolute;
     margin-top: 16px;
@@ -9,3 +14,9 @@ builder_platform_interaction-flc-builder-container {
     right: 0;
     z-index: 20;
 }
+
+.app {
+    display: flex;
+    height: 100%;
+}
+

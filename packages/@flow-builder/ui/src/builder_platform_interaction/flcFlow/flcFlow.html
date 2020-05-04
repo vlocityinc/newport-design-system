@@ -25,27 +25,4 @@
             is-selection-mode={isSelectionMode}
         ></builder_platform_interaction-flc-flow>
     </template>
-
-    <template if:true={menu}>
-        <div class="menu slds-dropdown " style={menu.style}>
-            <template if:true={menu.connectorMenu}>
-                <builder_platform_interaction-flc-connector-menu
-                    prev={menu.prev}
-                    next={menu.next}
-                    parent={menu.parent}
-                    child-index={menu.childIndex}
-                    is-paste-available={isPasteAvailable}
-                    elements-metadata={menu.elementsMetadata}
-                ></builder_platform_interaction-flc-connector-menu>
-            </template>
-            <template if:false={menu.connectorMenu}>
-                <builder_platform_interaction-flc-node-menu
-                    condition-options={menu.conditionOptionsForNode}
-                    element-metadata={menu.elementMetadata}
-                    guid={menu.guid}
-                    element-has-fault={menu.elementHasFault}
-                ></builder_platform_interaction-flc-node-menu>
-            </template>
-        </div>
-    </template>
 </template>

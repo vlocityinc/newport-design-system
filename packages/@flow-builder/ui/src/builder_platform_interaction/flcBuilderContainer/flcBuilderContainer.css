@@ -1,11 +1,8 @@
 :host {
     display: flex;
-    flex: auto;
     height: 100%;
+    width: 100%;
     position: relative;
-
-    /* offset by canvas icon height */
-    margin-top: 48px;
 }
 
 builder_platform_interaction-flc-builder {

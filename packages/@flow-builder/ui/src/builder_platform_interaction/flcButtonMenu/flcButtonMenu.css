@@ -6,8 +6,6 @@ button.connector {
     background-color: white;
     border: 2px solid var(--lwc-colorGray8);
     border-radius: 50%;
-    height: 24px;
-    width: 24px;
 }
 
 /* Beware that changing the order of hover and focus can break the current styles  */
