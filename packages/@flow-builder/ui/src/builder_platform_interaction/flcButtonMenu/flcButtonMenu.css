@@ -18,6 +18,13 @@ button.node-in-selection-mode:hover {
     transform: scale(1);
 }
 
+button.node-to-be-deleted {
+    background-color: #f4f6f9;
+    border-color: var(--lwc-colorBorderError);
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderError), 0 0 6px 3px var(--lwc-colorBorderError);
+    transform: scale(1.1);
+}
+
 button.connector:hover {
     background-color: #f4f6f9;
     transform: scale(1);

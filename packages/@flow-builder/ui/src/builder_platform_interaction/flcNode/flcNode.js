@@ -62,7 +62,7 @@ export default class FlcNode extends LightningElement {
      *
      * When 'single click updates the store' is implemented in the future,
      * this.nodeInfo.config.isSelected inside the event can be read
-     * by handlers at differnt levels to learn about the historial selection
+     * by handlers at different levels to learn about the historical selection
      * status even after the store is updated
      *
      * @param {object} event - clicked event coming from flcButtonMenu.js

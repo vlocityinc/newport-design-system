@@ -31,6 +31,9 @@ export default class FlcButtonMenu extends LightningElement {
     variant;
 
     @api
+    isNodeGettingDeleted;
+
+    @api
     isSelectionMode;
 
     @api
@@ -262,6 +265,7 @@ export default class FlcButtonMenu extends LightningElement {
             'border-none': this.variant !== 'connector',
             'node-in-selection-mode': this.isSelectionMode,
             connector: this.variant === 'connector',
+            'node-to-be-deleted': this.isNodeGettingDeleted,
             'slds-button_icon-xx-small': this.iconSize === 'xx-small',
             'slds-button_icon-x-small': this.iconSize === 'x-small',
             'slds-button_icon-small': this.iconSize === 'small'

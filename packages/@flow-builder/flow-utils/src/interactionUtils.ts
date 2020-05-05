@@ -57,11 +57,23 @@ function toggleFlowMenu(
         menuInfo = null;
     }
 
-    return { ...interactionState, menuInfo };
+    return { ...interactionState, menuInfo, deletionPathInfo: null };
 }
 
 function closeFlowMenu(interactionState: FlowInteractionState): FlowInteractionState {
-    return { ...interactionState, menuInfo: null };
+    return { ...interactionState, menuInfo: null, deletionPathInfo: null };
 }
 
-export { isMenuOpened, toggleFlowMenu, closeFlowMenu };
+function updateDeletionPathInfo(
+    elementGuidToDelete: Guid,
+    childIndexToKeep: number,
+    interactionState: FlowInteractionState
+): FlowInteractionState {
+    const deletionPathInfo = {
+        elementGuidToDelete,
+        childIndexToKeep
+    };
+    return { ...interactionState, deletionPathInfo };
+}
+
+export { isMenuOpened, toggleFlowMenu, closeFlowMenu, updateDeletionPathInfo };

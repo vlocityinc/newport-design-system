@@ -2,6 +2,7 @@ import { api, track } from 'lwc';
 import {
     CopySingleElementEvent,
     DeleteElementEvent,
+    HighlightPathsToDeleteEvent,
     EditElementEvent,
     ToggleMenuEvent,
     AddElementFaultEvent,
@@ -31,6 +32,7 @@ export default class FlcNodeMenu extends Menu {
     contextualMenuMode = CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE;
 
     _selectedConditionValue;
+    _childIndexToKeep = 0;
     _isRendered = false;
 
     get menuConfiguration() {
@@ -77,6 +79,7 @@ export default class FlcNodeMenu extends Menu {
                 if (supportsChildren(this.elementMetadata)) {
                     this.contextualMenuMode = CONTEXTUAL_MENU_MODE.DELETE_BRANCH_ELEMENT_MODE;
                     this._selectedConditionValue = this.conditionOptions[0].value;
+                    this.dispatchEvent(new HighlightPathsToDeleteEvent(this.guid, this._childIndexToKeep));
                     closeMenu = false;
                 } else {
                     this.dispatchEvent(new DeleteElementEvent([this.guid], this.elementMetadata.elementType));
@@ -102,6 +105,10 @@ export default class FlcNodeMenu extends Menu {
     handleComboboxChange = event => {
         event.stopPropagation();
         this._selectedConditionValue = event.detail.value;
+        this._childIndexToKeep = this.conditionOptions.findIndex(
+            option => option.value === this._selectedConditionValue
+        );
+        this.dispatchEvent(new HighlightPathsToDeleteEvent(this.guid, this._childIndexToKeep));
     };
 
     /**
@@ -114,10 +121,9 @@ export default class FlcNodeMenu extends Menu {
         if (this.contextualMenuMode === CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE) {
             this.dispatchEvent(new EditElementEvent(this.guid));
         } else if (this.contextualMenuMode === CONTEXTUAL_MENU_MODE.DELETE_BRANCH_ELEMENT_MODE) {
-            const childIndexToKeep = this.conditionOptions.findIndex(
-                option => option.value === this._selectedConditionValue
+            this.dispatchEvent(
+                new DeleteElementEvent([this.guid], this.elementMetadata.elementType, this._childIndexToKeep)
             );
-            this.dispatchEvent(new DeleteElementEvent([this.guid], this.elementMetadata.elementType, childIndexToKeep));
         }
     };
 

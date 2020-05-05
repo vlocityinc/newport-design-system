@@ -19,12 +19,17 @@ export interface FlowRenderContext {
     elementsMetadata: ElementsMetadata;
     layoutConfig: LayoutConfig;
     isFault: boolean;
+    isDeletingBranch: boolean;
 }
 
 export interface FlowInteractionState {
     menuInfo: {
         key: Guid;
         type: MenuType;
+    } | null;
+    deletionPathInfo: {
+        childIndexToKeep: number;
+        elementGuidToDelete: Guid;
     } | null;
 }
 
@@ -51,6 +56,7 @@ export interface NodeRenderInfo {
     guid: string;
     menuOpened: boolean;
     isTerminal: boolean;
+    toBeDeleted: boolean;
 }
 
 export interface Dimension {
@@ -145,15 +151,14 @@ export interface ConnectorRenderInfo {
     svgInfo: SvgInfo;
     addInfo?: ConnectorAddInfo;
     connectionInfo: ConnectorConnectionInfo;
-
     isFault: boolean;
-
     labelOffsetY?: number;
     conditionOptions?: Option[];
     conditionValue?: Guid;
     conditionType?: ConditionType;
     isNew?: boolean;
     defaultConnectorLabel?: string;
+    toBeDeleted: boolean;
 }
 
 function getLayoutByKey(key: string, progress: number, nodeLayoutMap: NodeLayoutMap): LayoutInfo {

@@ -180,8 +180,10 @@ Object {
           "path": "M 3, 24
 L 3, 144",
         },
+        "toBeDeleted": undefined,
         "type": "straight",
       },
+      "toBeDeleted": undefined,
     },
     Object {
       "config": undefined,
@@ -232,8 +234,10 @@ L 3, 144",
           "path": "M 3, 0
 L 3, -24",
         },
+        "toBeDeleted": undefined,
         "type": "branchTail",
       },
+      "toBeDeleted": undefined,
     },
   ],
 }
@@ -419,8 +423,10 @@ Object {
           "path": "M 3, 24
 L 3, 144",
         },
+        "toBeDeleted": undefined,
         "type": "straight",
       },
+      "toBeDeleted": undefined,
     },
     Object {
       "config": undefined,
@@ -471,8 +477,10 @@ L 3, 144",
           "path": "M 3, 24
 L 3, 288",
         },
+        "toBeDeleted": undefined,
         "type": "straight",
       },
+      "toBeDeleted": undefined,
     },
     Object {
       "config": undefined,
@@ -523,8 +531,10 @@ L 3, 288",
           "path": "M 3, 0
 L 3, -24",
         },
+        "toBeDeleted": undefined,
         "type": "branchTail",
       },
+      "toBeDeleted": undefined,
     },
   ],
 }
@@ -710,8 +720,10 @@ Object {
           "path": "M 3, 24
 L 3, 144",
         },
+        "toBeDeleted": undefined,
         "type": "straight",
       },
+      "toBeDeleted": undefined,
     },
     Object {
       "config": undefined,
@@ -762,8 +774,10 @@ L 3, 144",
           "path": "M 3, 24
 L 3, 264",
         },
+        "toBeDeleted": undefined,
         "type": "straight",
       },
+      "toBeDeleted": undefined,
     },
     Object {
       "config": undefined,
@@ -814,8 +828,10 @@ L 3, 264",
           "path": "M 3, 0
 L 3, -24",
         },
+        "toBeDeleted": undefined,
         "type": "branchTail",
       },
+      "toBeDeleted": undefined,
     },
   ],
 }
@@ -1001,8 +1017,10 @@ Object {
           "path": "M 3, 24
 L 3, 144",
         },
+        "toBeDeleted": undefined,
         "type": "straight",
       },
+      "toBeDeleted": undefined,
     },
     Object {
       "config": undefined,
@@ -1053,8 +1071,10 @@ L 3, 144",
           "path": "M 3, 24
 L 3, 264",
         },
+        "toBeDeleted": undefined,
         "type": "straight",
       },
+      "toBeDeleted": undefined,
     },
     Object {
       "config": undefined,
@@ -1105,8 +1125,10 @@ L 3, 264",
           "path": "M 3, 0
 L 3, -24",
         },
+        "toBeDeleted": undefined,
         "type": "branchTail",
       },
+      "toBeDeleted": undefined,
     },
   ],
 }

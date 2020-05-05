@@ -3,6 +3,7 @@ import {
     renderFlow,
     toggleFlowMenu,
     closeFlowMenu,
+    updateDeletionPathInfo,
     calculateFlowLayout,
     getDefaultLayoutConfig,
     animate,
@@ -189,7 +190,8 @@ export default class FlcBuilder extends LightningElement {
             nodeLayoutMap: {},
             interactionState: {},
             elementsMetadata: elementsMetadataMap,
-            layoutConfig: { ...getDefaultLayoutConfig() }
+            layoutConfig: { ...getDefaultLayoutConfig() },
+            isDeletingBranch: false
         };
     }
 
@@ -347,6 +349,15 @@ export default class FlcBuilder extends LightningElement {
             );
             this.dispatchEvent(flcSelectionEvent);
         }
+    };
+
+    handleHighlightPathsToDelete = event => {
+        const interactionState = updateDeletionPathInfo(
+            event.detail.elementGuidToDelete,
+            event.detail.childIndexToKeep,
+            this._flowRenderContext.interactionState
+        );
+        this.updateFlowRenderContext({ interactionState });
     };
 
     /**

@@ -103,7 +103,12 @@ export default class FlcConnector extends LightningElement {
      * Gets the class for the svg
      */
     get svgClassName() {
-        return this.connectorInfo.isFault ? 'fault' : this.connectorInfo.type;
+        let classes = this.connectorInfo.isFault ? 'fault' : this.connectorInfo.type;
+        if (this.connectorInfo.toBeDeleted) {
+            classes = `${classes} connector-to-be-deleted`;
+        }
+
+        return classes;
     }
 
     get connectorLabelStyle() {

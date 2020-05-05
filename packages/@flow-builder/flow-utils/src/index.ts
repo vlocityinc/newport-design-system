@@ -1,7 +1,7 @@
 import panzoom from 'panzoom';
 
 import { renderFlow } from './flowRenderer';
-import { toggleFlowMenu, closeFlowMenu } from './interactionUtils';
+import { toggleFlowMenu, closeFlowMenu, updateDeletionPathInfo } from './interactionUtils';
 import { calculateFlowLayout } from './layout';
 import { getDefaultLayoutConfig } from './defaultLayoutConfig';
 
@@ -19,6 +19,7 @@ export {
     renderFlow,
     toggleFlowMenu,
     closeFlowMenu,
+    updateDeletionPathInfo,
     getDefaultLayoutConfig,
     calculateFlowLayout,
     MenuType,

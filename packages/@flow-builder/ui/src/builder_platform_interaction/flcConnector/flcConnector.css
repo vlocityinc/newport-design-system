@@ -12,6 +12,16 @@ svg.fault {
     stroke-dasharray: 7;
 }
 
+svg.connector-to-be-deleted {
+    stroke: var(--lwc-colorBorderError);
+    z-index: 0;
+}
+
+svg.fault.connector-to-be-deleted {
+    stroke-dasharray: none;
+    stroke-width: 6;
+}
+
 lightning-combobox {
     position: absolute;
     width: 96px;

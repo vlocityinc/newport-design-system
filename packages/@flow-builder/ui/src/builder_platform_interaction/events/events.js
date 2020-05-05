@@ -33,6 +33,7 @@ export { ToggleMarqueeOnEvent } from './canvasEvents/zoomPanelEvent/toggleMarque
 export { MarqueeSelectEvent } from './canvasEvents/marqueeSelectEvent';
 export { FlcSelectDeselectNodeEvent } from './canvasEvents/flcSelectDeselectNodeEvent';
 export { FlcSelectionEvent } from './canvasEvents/flcSelectionEvent';
+export { HighlightPathsToDeleteEvent } from './canvasEvents/highlightPathsToDeleteEvent';
 export { ClickToZoomEvent } from './canvasEvents/zoomPanelEvent/zoomEvent';
 export { ToggleSelectionModeEvent } from './toolbarEvents/toggleSelectionModeEvent';
 export { CopyEvent } from './toolbarEvents/copyEvent';

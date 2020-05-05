@@ -28,7 +28,7 @@ import {
  */
 function getConditionValue(conditionOptions: Option[], index: number): Guid | undefined {
     if (index < conditionOptions.length) {
-        return conditionOptions[index].value;
+        return conditionOptions[index] && conditionOptions[index].value;
     }
 }
 
@@ -82,6 +82,7 @@ function createStraightConnectorSvgInfo(
  * @param layoutConfig - The layout configuration
  * @param isFault - Whether this is part of a fault connector
  * @param variant - The variant for the connector
+ * @param isBranchGettingDeleted - True if the current branch is getting deleted
  * @param conditionOptions - The condition options
  * @param conditionType - The condition type
  * @returns The ConnectorRenderInfo for the connector
@@ -95,6 +96,7 @@ function createConnectorToNextNode(
     layoutConfig: LayoutConfig,
     isFault: boolean,
     variant: ConnectorVariant,
+    isBranchGettingDeleted: boolean,
     conditionOptions?: Option[],
     conditionType?: ConditionType,
     defaultConnectorLabel?: string
@@ -123,7 +125,8 @@ function createConnectorToNextNode(
         conditionValue: conditionOptions ? getConditionValue(conditionOptions, connectionInfo.childIndex!) : undefined,
         isFault,
         conditionType,
-        defaultConnectorLabel
+        defaultConnectorLabel,
+        toBeDeleted: isBranchGettingDeleted
     };
 
     if (!connectorRenderInfo.defaultConnectorLabel) {
@@ -212,6 +215,7 @@ function getBranchSvgInfo(
  * @param connectorType - The branch type: left or right
  * @param layoutConfig - The config for the layout
  * @param isFault - Whether this is part of a fault connector
+ * @param toBeDeleted - True if the connector is going to get deleted
  * @returns a ConnectorRenderInfo for the branch connector
  */
 function createBranchConnector(
@@ -220,7 +224,8 @@ function createBranchConnector(
     geometry: Geometry,
     connectorType: ConnectorType.BRANCH_LEFT | ConnectorType.BRANCH_RIGHT,
     layoutConfig: LayoutConfig,
-    isFault: boolean
+    isFault: boolean,
+    toBeDeleted: boolean
 ): ConnectorRenderInfo {
     const { w, h } = geometry;
     const svgInfo = getBranchSvgInfo(w, h, connectorType, layoutConfig);
@@ -233,7 +238,8 @@ function createBranchConnector(
         connectionInfo: {
             parent,
             childIndex
-        }
+        },
+        toBeDeleted
     };
 }
 
@@ -247,6 +253,7 @@ function createBranchConnector(
  * @param connectorType - The merge type: left or right
  * @param layoutConfig  - The layout config
  * @param isFault - Whether this is part of a fault connector
+ * @param toBeDeleted - True if the connector is going to get deleted
  * @returns a ConnectorRenderInfo for the merge connector
  */
 function createMergeConnector(
@@ -255,7 +262,8 @@ function createMergeConnector(
     geometry: Geometry,
     connectorType: ConnectorType.MERGE_LEFT | ConnectorType.MERGE_RIGHT,
     layoutConfig: LayoutConfig,
-    isFault: boolean
+    isFault: boolean,
+    toBeDeleted: boolean
 ): ConnectorRenderInfo {
     const { w, h } = geometry;
     return {
@@ -266,7 +274,8 @@ function createMergeConnector(
         connectionInfo: {
             parent,
             childIndex
-        }
+        },
+        toBeDeleted
     };
 }
 

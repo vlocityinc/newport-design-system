@@ -27,11 +27,12 @@
                 <template if:true={showNodeMenu}>
                     <builder_platform_interaction-flc-node-menu
                         class="menu"
-                        style={menu.style}
                         condition-options={menu.conditionOptionsForNode}
+                        element-has-fault={menu.elementHasFault}
                         element-metadata={menu.elementMetadata}
                         guid={menu.guid}
-                        element-has-fault={menu.elementHasFault}
+                        style={menu.style}
+                        onhighlightpathstodelete={handleHighlightPathsToDelete}
                     ></builder_platform_interaction-flc-node-menu>
                 </template>
             </div>
