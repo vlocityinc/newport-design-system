@@ -5,7 +5,6 @@ import * as store from 'mock/storeData';
 import {
     SORT_ORDER,
     NUMBER_RECORDS_TO_STORE,
-    RECORD_FILTER_CRITERIA,
     WAY_TO_STORE_FIELDS,
     VARIABLE_AND_FIELD_MAPPING_VALUES
 } from 'builder_platform_interaction/recordEditorLib';
@@ -16,9 +15,15 @@ import {
     lookupRecordAutomaticOutputWithFields,
     lookupRecordOutputReference as lookupRecordManual
 } from 'mock/storeData';
-import { deepQuerySelector, ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    deepQuerySelector,
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -83,22 +88,8 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
 });
 
 const SELECTORS = {
-    entityResourcePicker: 'builder_platform_interaction-entity-resource-picker',
-    fieldToFerovExBuilder: 'builder_platform_interaction-field-to-ferov-expression-builder',
-    inputOutputAssignments: 'builder_platform_interaction-record-input-output-assignments',
-    interactionList: 'builder_platform_interaction-list',
-    interactionRow: 'builder_platform_interaction-row',
-    lightningInput: 'lightning-input',
-    lightningRadioGroup: 'lightning-radio-group',
-    recordFilter: 'builder_platform_interaction-record-filter',
-    recordQueryFields: 'builder_platform_interaction-record-query-fields',
-    recordNumberOfRecordToStore: 'builder_platform_interaction-record-number-record-to-store',
-    recordSobjectAndQueryFields: 'builder_platform_interaction-record-sobject-and-query-fields',
-    recordSort: 'builder_platform_interaction-record-sort',
-    recordStoreOption: 'builder_platform_interaction-record-store-options',
-    sObjectOrSObjectCollectionPicker: 'builder_platform_interaction-sobject-or-sobject-collection-picker',
-    assignNullIfNoRecordFoundsInput: 'lightning-input.test-assign-null-if-no-records-found',
-    variableAndFieldmappingComponent: 'builder_platform_interaction-record-lookup-variable-and-field-mapping'
+    ...INTERACTION_COMPONENTS_SELECTORS,
+    ...LIGHTNING_COMPONENTS_SELECTORS
 };
 
 const defaultNewRecordLookupElement = () => ({
@@ -123,7 +114,7 @@ const defaultNewRecordLookupElement = () => ({
     queriedFields: [],
     sortField: { value: '', error: null },
     sortOrder: SORT_ORDER.NOT_SORTED,
-    filterType: RECORD_FILTER_CRITERIA.NONE,
+    filterLogic: { value: CONDITION_LOGIC.AND, error: null },
     filters: [
         {
             rowIndex: 'a0e8a02d-60fb-4481-8165-10a01fe7031c',
@@ -155,7 +146,7 @@ const recordLookupElementWithoutOutputRefNorOutputAssignment = () => ({
     connectorCount: 0,
     dataType: { value: 'SObject', error: null },
     description: { value: '', error: null },
-    filterType: RECORD_FILTER_CRITERIA.NONE,
+    filterLogic: { value: CONDITION_LOGIC.NO_CONDITIONS, error: null },
     filters: [],
     elementType: 'RecordQuery',
     getFirstRecordOnly: true,
@@ -189,45 +180,47 @@ const recordLookupElementWithoutOutputRefNorOutputAssignment = () => ({
 });
 
 const getRecordStoreOption = recordLookupEditor => {
-    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.recordStoreOption);
+    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_STORE_OPTION);
 };
 
 const getEntityResourcePicker = recordLookupEditor => {
-    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.entityResourcePicker);
+    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
 };
 
 const getRecordSobjectAndQueryFields = recordLookupEditor => {
-    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.recordSobjectAndQueryFields);
+    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_SOBJECT_AND_QUERY_FIELDS_COMPONENT);
 };
 
 const getsObjectOrSObjectCollectionPicker = recordSobjectAndQueryFields => {
-    return recordSobjectAndQueryFields.shadowRoot.querySelector(SELECTORS.sObjectOrSObjectCollectionPicker);
+    return recordSobjectAndQueryFields.shadowRoot.querySelector(SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
 };
 
 const getNumberRecordToStoreComponent = recordLookupEditor => {
-    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.recordNumberOfRecordToStore);
+    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_NUMBER_RECORD_TO_STORE);
 };
 
 const getAutomaticRecordStoreOptionsRadioGroup = recordLookupEditor => {
-    return getNumberRecordToStoreComponent(recordLookupEditor).shadowRoot.querySelector(SELECTORS.lightningRadioGroup);
+    return getNumberRecordToStoreComponent(recordLookupEditor).shadowRoot.querySelector(
+        SELECTORS.LIGHTNING_RADIO_GROUP
+    );
 };
 
 const getAutomaticQueryFields = recordLookupEditor => {
-    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.recordQueryFields);
+    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_QUERY_FIELDS_COMPONENT);
 };
 
 const getManualWayToStoreFields = recordLookupEditor => {
-    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.lightningRadioGroup);
+    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.LIGHTNING_RADIO_GROUP);
 };
 
 const getVariableAndFieldMappingComponent = recordLookupEditor => {
-    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.variableAndFieldmappingComponent);
+    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.VARIABLE_AND_FIELD_MAPPING_COMPONENT);
 };
 
 const getVariableAndFieldMappingRadioButtonGroup = recordLookupEditor => {
     return deepQuerySelector(recordLookupEditor, [
-        SELECTORS.variableAndFieldmappingComponent,
-        SELECTORS.lightningRadioGroup
+        SELECTORS.VARIABLE_AND_FIELD_MAPPING_COMPONENT,
+        SELECTORS.LIGHTNING_RADIO_GROUP
     ]);
 };
 

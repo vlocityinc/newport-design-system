@@ -26,12 +26,11 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { recordLookupValidation, getRules } from './recordLookupValidation';
 import {
-    RECORD_FILTER_CRITERIA,
     SORT_ORDER,
     WAY_TO_STORE_FIELDS,
     VARIABLE_AND_FIELD_MAPPING_VALUES
 } from 'builder_platform_interaction/recordEditorLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE,
@@ -231,16 +230,16 @@ const resetWayToStoreFields = state => {
 };
 
 /**
- * Reset filterType, filters, outputReference, queriedFields, sort order, sort field, assignment to null, storing options
+ * Reset filterLogic, filters, outputReference, queriedFields, sort order, sort field, assignment to null, storing options
  * @param {Object} state - current element state
  * @returns {Object} updated state
  */
 const resetSubSections = state => {
     state = resetSordOrderAndSortField(state);
     state = resetOutputAssignmentsOutputReferenceAndQueriedfields(state);
-    // reset filters & filterType
+    // reset filters & filterLogic
     state = updateProperties(state, {
-        filterType: RECORD_FILTER_CRITERIA.ALL
+        filterLogic: { value: CONDITION_LOGIC.AND, error: null }
     });
     state = resetFilters(state);
     // reset storing options
@@ -370,9 +369,8 @@ const managePropertyChanged = (state, { propertyName, ignoreValidate, error, old
                     sortField: { value: state.sortField.value, error: null }
                 });
             }
-        } else if (propertyName === 'filterType') {
-            state = updateProperties(state, { [propertyName]: value });
-            if (value === RECORD_FILTER_CRITERIA.NONE) {
+        } else if (propertyName === 'filterLogic') {
+            if (value === CONDITION_LOGIC.NO_CONDITIONS) {
                 // reset errors in filters if any, and preserve values
                 state = resetFilters(state);
             }

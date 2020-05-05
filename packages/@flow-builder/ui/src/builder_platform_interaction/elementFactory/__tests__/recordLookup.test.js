@@ -6,7 +6,7 @@ import {
 } from '../recordLookup';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, CONNECTOR_TYPE, CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
 import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
@@ -14,7 +14,6 @@ import {
 } from 'builder_platform_interaction/processTypeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -44,7 +43,7 @@ const recordLookupSObjectStore = () => ({
     dataType: 'Boolean',
     description: '',
     elementType: ELEMENT_TYPE.RECORD_LOOKUP,
-    filterType: 'all',
+    filterLogic: CONDITION_LOGIC.AND,
     filters: [
         {
             leftHandSide: 'Account.BillingCity',
@@ -83,7 +82,7 @@ const recordLookupSObjectCollectionStore = () => ({
     dataType: 'Boolean',
     description: '',
     elementType: ELEMENT_TYPE.RECORD_LOOKUP,
-    filterType: 'all',
+    filterLogic: CONDITION_LOGIC.NO_CONDITIONS,
     filters: [],
     guid: MOCK_GUID,
     isCanvasElement: true,
@@ -105,6 +104,7 @@ const recordLookupSObjectCollectionStore = () => ({
 
 const recordLookupSObjectMetadata = () => ({
     assignNullValuesIfNoRecordsFound: false,
+    filterLogic: CONDITION_LOGIC.AND,
     filters: [
         {
             field: 'BillingCity',
@@ -123,6 +123,7 @@ const recordLookupSObjectMetadata = () => ({
 
 const recordLookupFieldsMetadata = () => ({
     assignNullValuesIfNoRecordsFound: false,
+    filterLogic: CONDITION_LOGIC.AND,
     filters: [
         {
             field: 'BillingCity',
@@ -159,7 +160,7 @@ const recordLookupFieldsStore = () => ({
     dataType: 'Boolean',
     description: '',
     elementType: ELEMENT_TYPE.RECORD_LOOKUP,
-    filterType: 'all',
+    filterLogic: CONDITION_LOGIC.AND,
     filters: [
         {
             leftHandSide: 'Account.BillingCity',
@@ -190,6 +191,7 @@ const recordLookupFieldsStore = () => ({
 });
 
 const recordLookupAutomaticMetadata = (getFirstRecordOnly = true) => ({
+    filterLogic: CONDITION_LOGIC.AND,
     filters: [
         {
             field: 'BillingCity',
@@ -208,6 +210,7 @@ const recordLookupAutomaticMetadata = (getFirstRecordOnly = true) => ({
 });
 
 const recordLookupAutomaticProcessTypeChangedOnSaveMetadata = () => ({
+    filterLogic: CONDITION_LOGIC.AND,
     filters: [
         {
             field: 'BillingCity',
@@ -242,7 +245,7 @@ const recordLookupAutomaticStore = (getFirstRecordOnly = true) => ({
     isCollection: !getFirstRecordOnly,
     description: '',
     elementType: ELEMENT_TYPE.RECORD_LOOKUP,
-    filterType: 'all',
+    filterLogic: CONDITION_LOGIC.AND,
     filters: [
         {
             leftHandSide: 'Account.BillingCity',
@@ -513,10 +516,10 @@ describe('recordLookup', () => {
         it('should throw error if no "recordLookup" passed', () => {
             expect(() => createRecordLookupMetadataObject(null)).toThrowError('recordLookup is not defined');
         });
-        it('resets "filters" if "filterType" equals non criteria ', () => {
+        it('resets "filters" if "filterLogic" equals No Conditions ', () => {
             const actualResult = createRecordLookupMetadataObject({
                 ...recordLookupSObjectStore(),
-                filterType: RECORD_FILTER_CRITERIA.NONE
+                filterLogic: CONDITION_LOGIC.NO_CONDITIONS
             });
             expect(actualResult.filters).toHaveLength(0);
         });

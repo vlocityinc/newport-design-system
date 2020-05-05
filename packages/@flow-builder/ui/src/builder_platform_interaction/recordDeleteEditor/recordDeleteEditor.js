@@ -5,7 +5,7 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { NUMBER_RECORDS_TO_STORE, RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
+import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';
 import { ENTITY_TYPE, getDeletableEntities, fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
@@ -32,11 +32,6 @@ export default class RecordDeleteEditor extends LightningElement {
      * element type of the current editor
      */
     elementType = ELEMENT_TYPE.RECORD_DELETE;
-
-    /**
-     * only "All criteria" allowed for the conditions to met filtering
-     */
-    filterType = RECORD_FILTER_CRITERIA.ALL;
 
     sobjectCollectionCriterion = SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_OR_SOBJECT_COLLECTION;
 

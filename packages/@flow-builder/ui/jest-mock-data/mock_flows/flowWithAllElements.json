@@ -670,8 +670,8 @@
                 "name": "createAccountWithAutomaticOutput",
                 "description": "",
                 "label": "createAccountWithAutomaticOutput",
-                "locationX": 302,
-                "locationY": 512.3125,
+                "locationX": 1146,
+                "locationY": 530,
                 "object": "Account",
                 "inputAssignments": [
                     {
@@ -693,8 +693,8 @@
                 "name": "createAccountWithAdvancedOptions",
                 "description": "",
                 "label": "createAccountWithAdvancedOptions",
-                "locationX": 430,
-                "locationY": 483,
+                "locationX": 855,
+                "locationY": 669,
                 "object": "Account",
                 "inputAssignments": [
                     {
@@ -717,16 +717,16 @@
                 "name": "createFromAnAccount",
                 "description": "",
                 "label": "createFromAnAccount",
-                "locationX": 196,
-                "locationY": 486.3125,
+                "locationX": 1297,
+                "locationY": 533,
                 "inputReference": "accountSObjectVariable"
             },
             {
                 "name": "createFromMultipleAccounts",
                 "description": "",
                 "label": "createFromMultipleAccounts",
-                "locationX": 566,
-                "locationY": 486,
+                "locationX": 1304,
+                "locationY": 662,
                 "inputReference": "accountSObjectCollectionVariable"
             },
             {
@@ -751,9 +751,10 @@
                 "name": "lookupRecordAutomaticOutput",
                 "description": "",
                 "label": "lookupRecordAutomaticOutput",
-                "locationX": 362,
-                "locationY": 326,
+                "locationX": 263,
+                "locationY": 984,
                 "object": "Account",
+                "filterLogic": "no_conditions",
                 "filters": [],
                 "queriedFields": null,
                 "storeOutputAutomatically": true,
@@ -763,8 +764,8 @@
                 "name": "lookupRecordCollectionAutomaticOutput",
                 "description": "",
                 "label": "lookupRecordCollectionAutomaticOutput",
-                "locationX": 577,
-                "locationY": 334,
+                "locationX": 412,
+                "locationY": 987,
                 "object": "Account",
                 "filters": [],
                 "queriedFields": null,
@@ -775,21 +776,33 @@
                 "name": "lookupRecordOutputReference",
                 "description": "",
                 "label": "lookupRecordOutputReference",
-                "locationX": 158,
-                "locationY": 321,
+                "locationX": 109,
+                "locationY": 983,
                 "object": "Account",
                 "outputReference": "accountSObjectVariable",
-                "assignNullValuesIfNoRecordsFound": false,
-                "filters": [],
-                "queriedFields": ["Id"]
+                "assignNullValuesIfNoRecordsFound": true,
+                "filterLogic": "and",
+                "filters": [
+                    {
+                        "field": "BillingAddress",
+                        "operator": "EqualTo",
+                        "value": {
+                            "stringValue": "San Francisco"
+                        }
+                    }
+                ],
+                "queriedFields": ["Id", "BillingAddress"],
+                "sortOrder": "Asc",
+                "sortField": "AnnualRevenue"
             },
             {
                 "name": "getAccountAutoWithFields",
                 "description": "",
                 "label": "getAccountAutoWithFields",
-                "locationX": 747,
-                "locationY": 332,
+                "locationX": 558,
+                "locationY": 987,
                 "object": "Account",
+                "filterLogic": "and",
                 "filters": [
                     {
                         "field": "BillingCity",
@@ -811,6 +824,71 @@
                 "sortField": "BillingCity",
                 "storeOutputAutomatically": true,
                 "getFirstRecordOnly": true
+            },
+            {
+                "name": "getAccountSeparateFieldsWithFilters",
+                "description": "Get account with filters, ordered by name and assign separate fields",
+                "label": "getAccountSeparateFieldsWithFilters",
+                "locationX": 103,
+                "locationY": 1125,
+                "object": "Account",
+                "outputAssignments": [
+                    {
+                        "field": "BillingCity",
+                        "assignToReference": "Los Angeles"
+                    }
+                ],
+                "assignNullValuesIfNoRecordsFound": false,
+                "filterLogic": "and",
+                "filters": [
+                    {
+                        "field": "BillingCity",
+                        "operator": "EqualTo",
+                        "value": {
+                            "stringValue": "San Francisco"
+                        }
+                    },
+                    {
+                        "field": "BillingCountry",
+                        "operator": "EqualTo",
+                        "value": {
+                            "stringValue": "USA"
+                        }
+                    }
+                ],
+                "queriedFields": [],
+                "sortOrder": "Asc",
+                "sortField": "Name"
+            },
+            {
+                "name": "getAccountsAutomaticWithFieldsAndFilters",
+                "description": "Get Account Automatic output, with fields and filter",
+                "label": "getAccountsAutomaticWithFieldsAndFilters",
+                "locationX": 256,
+                "locationY": 1135,
+                "object": "Account",
+                "filterLogic": "and",
+                "filters": [
+                    {
+                        "field": "BillingCity",
+                        "operator": "EqualTo",
+                        "value": {
+                            "stringValue": "San Francisco"
+                        }
+                    },
+                    {
+                        "field": "BillingCountry",
+                        "operator": "NotEqualTo",
+                        "value": {
+                            "stringValue": "USA"
+                        }
+                    }
+                ],
+                "queriedFields": ["Id", "BillingAddress", "Name", "CreatedDate"],
+                "sortOrder": "Desc",
+                "sortField": "Name",
+                "storeOutputAutomatically": true,
+                "getFirstRecordOnly": false
             }
         ],
         "recordDeletes": [
@@ -856,13 +934,63 @@
                 ]
             }
         ],
+        "recordUpdates": [
+            {
+                "name": "updateSObject",
+                "description": "",
+                "label": "updateSObject",
+                "locationX": 540,
+                "locationY": 831,
+                "inputReference": "accountSObjectCollectionVariable"
+            },
+            {
+                "name": "updateAccountWithFilter",
+                "description": "",
+                "label": "updateAccountWithFilter",
+                "locationX": 677,
+                "locationY": 833,
+                "filters": [
+                    {
+                        "field": "BillingCity",
+                        "operator": "EqualTo",
+                        "value": {
+                            "stringValue": "San Francisco"
+                        }
+                    },
+                    {
+                        "field": "BillingCountry",
+                        "operator": "EqualTo",
+                        "value": {
+                            "stringValue": "USA"
+                        }
+                    },
+                    {
+                        "field": "Name",
+                        "operator": "EqualTo",
+                        "value": {
+                            "stringValue": "Salesforce"
+                        }
+                    }
+                ],
+                "filterLogic": "1 AND 2 OR 3",
+                "object": "Account",
+                "inputAssignments": [
+                    {
+                        "field": "Name",
+                        "value": {
+                            "stringValue": "salesforce"
+                        }
+                    }
+                ]
+            }
+        ],
         "loops": [
             {
                 "name": "loopOnAccountAutoOutput",
                 "description": "",
                 "label": "loopOnAccountAutoOutput",
-                "locationX": 234,
-                "locationY": 417,
+                "locationX": 250,
+                "locationY": 342,
                 "assignNextValueToReference": null,
                 "collectionReference": "accountSObjectCollectionVariable",
                 "iterationOrder": "Asc"
@@ -871,8 +999,8 @@
                 "name": "loopOnTextCollectionAutoOutput",
                 "description": "",
                 "label": "loopOnTextCollectionAutoOutput",
-                "locationX": 358,
-                "locationY": 418.3125,
+                "locationX": 388,
+                "locationY": 336,
                 "assignNextValueToReference": null,
                 "collectionReference": "stringCollectionVariable1",
                 "iterationOrder": "Asc"
@@ -881,8 +1009,8 @@
                 "name": "loopOnApexAutoOutput",
                 "description": "",
                 "label": "loopOnApexAutoOutput",
-                "locationX": 472,
-                "locationY": 417.3125,
+                "locationX": 379,
+                "locationY": 503,
                 "assignNextValueToReference": null,
                 "collectionReference": "apexComplexTypeCollectionVariable",
                 "iterationOrder": "Asc"
@@ -891,8 +1019,8 @@
                 "name": "loopOnTextCollection",
                 "description": "This is a test without automatic Output",
                 "label": "loopOnTextCollection",
-                "locationX": 638,
-                "locationY": 435,
+                "locationX": 242,
+                "locationY": 501,
                 "assignNextValueToReference": "stringVariable",
                 "collectionReference": "stringCollectionVariable1",
                 "iterationOrder": "Asc"
@@ -1058,56 +1186,6 @@
                 "choiceText": "Choice 1"
             }
         ],
-        "recordUpdates": [
-            {
-                "name": "updateSObject",
-                "description": "",
-                "label": "updateSObject",
-                "locationX": 540,
-                "locationY": 831,
-                "inputReference": "accountSObjectCollectionVariable"
-            },
-            {
-                "name": "updateAccountWithFilter",
-                "description": "",
-                "label": "updateAccountWithFilter",
-                "locationX": 677,
-                "locationY": 833,
-                "filters": [
-                    {
-                        "rowIndex": "d4dfbb5c-d0a3-4970-ab08-c4db894c2db1",
-                        "leftHandSide": "Account.BillingCity",
-                        "rightHandSide": "San Francisco",
-                        "rightHandSideDataType": "String",
-                        "operator": "EqualTo"
-                    },
-                    {
-                        "rowIndex": "57472f25-fd81-4ded-8ce8-c448cc2d5544",
-                        "leftHandSide": "Account.BillingCountry",
-                        "rightHandSide": "USA",
-                        "rightHandSideDataType": "String",
-                        "operator": "EqualTo"
-                    },
-                    {
-                        "rowIndex": "930aa979-5b76-4648-aaf6-dd43730d4b85",
-                        "leftHandSide": "Account.Name",
-                        "rightHandSide": "Salesforce",
-                        "rightHandSideDataType": "String",
-                        "operator": "EqualTo"
-                    }
-                ],
-                "filterLogic": "1 AND 2 OR 3",
-                "object": "Account",
-                "inputAssignments": [
-                    {
-                        "field": "Name",
-                        "value": {
-                            "stringValue": "salesforce"
-                        }
-                    }
-                ]
-            }
-        ],
         "description": "",
         "interviewLabel": "mockFlow {!$Flow.CurrentDateTime}",
         "isTemplate": false,
@@ -1128,7 +1206,7 @@
         ],
         "processType": "Flow",
         "runInMode": null,
-        "status": "InvalidDraft"
+        "status": null
     },
     "processType": "Flow",
     "status": "InvalidDraft",

@@ -329,6 +329,7 @@ export const flowLegalNameChange = {
                     processMetadataValues: [],
                     targetReference: 'Check_if_Account_is_Person_Account'
                 },
+                filterLogic: 'and',
                 filters: [
                     {
                         field: 'Id',
@@ -400,6 +401,7 @@ export const flowLegalNameChange = {
                     processMetadataValues: [],
                     targetReference: 'Find_Contact_Info_for_Case'
                 },
+                filterLogic: 'and',
                 filters: [
                     {
                         field: 'Id',
@@ -436,6 +438,7 @@ export const flowLegalNameChange = {
                     processMetadataValues: [],
                     targetReference: 'Initial_Info_Screen'
                 },
+                filterLogic: 'and',
                 filters: [
                     {
                         field: 'Id',
@@ -502,6 +505,7 @@ export const flowLegalNameChange = {
                     processMetadataValues: [],
                     targetReference: 'Check_if_Case_Contact_is_Person_Account'
                 },
+                filterLogic: 'and',
                 filters: [
                     {
                         field: 'Id',
@@ -573,6 +577,7 @@ export const flowLegalNameChange = {
                     processMetadataValues: [],
                     targetReference: 'Assign_recordId_to_AccountId'
                 },
+                filterLogic: 'and',
                 filters: [
                     {
                         field: 'Id',

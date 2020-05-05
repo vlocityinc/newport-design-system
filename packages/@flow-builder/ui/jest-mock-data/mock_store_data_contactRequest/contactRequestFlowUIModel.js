@@ -171,7 +171,7 @@ export const contactRequestFlowUIModel = {
                 }
             ],
             assignNullValuesIfNoRecordsFound: true,
-            filterType: 'all',
+            filterLogic: 'and',
             filters: [
                 {
                     rowIndex: '56095468-2459-481d-b084-04a05babcb22',
@@ -218,7 +218,7 @@ export const contactRequestFlowUIModel = {
             objectIndex: 'f08f384a-8e8f-40d3-8009-f8e1fb16eac4',
             outputReference: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929',
             assignNullValuesIfNoRecordsFound: true,
-            filterType: 'all',
+            filterLogic: 'and',
             filters: [
                 {
                     rowIndex: 'fcf61595-af2e-4982-9607-5de1c2819fab',
@@ -274,7 +274,7 @@ export const contactRequestFlowUIModel = {
             objectIndex: 'd7b1d0e5-68d7-4734-b1d1-01247631d93f',
             outputReference: 'eb19f518-e185-488c-a5b2-9107036766f4',
             assignNullValuesIfNoRecordsFound: true,
-            filterType: 'all',
+            filterLogic: 'and',
             filters: [
                 {
                     rowIndex: '97e556fe-63c0-4426-9421-b3dc0d5a74aa',

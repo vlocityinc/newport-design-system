@@ -96,33 +96,48 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Add
               FlowBuilderRecordEditor.findRecords
             </h3>
             <div
-              class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
-            >
-              <lightning-combobox>
-                #shadow-root(open)
-              </lightning-combobox>
-            </div>
-            <div
               class="slds-p-horizontal_small"
             >
-              <builder_platform_interaction-list>
+              <builder_platform_interaction-condition-list>
                 #shadow-root(open)
                   <div
-                    class="slds-list_vertical-space"
+                    class="slds-form-element slds-m-bottom_small slds-size_1-of-3"
                   >
-                    <slot
-                      name="listBody"
-                    />
-                    <div
-                      class="slds-m-top_small"
+                    <lightning-combobox
+                      class="slds-col slds-grow conditionLogic"
                     >
-                      <lightning-button>
-                        #shadow-root(open)
-                      </lightning-button>
-                    </div>
+                      #shadow-root(open)
+                    </lightning-combobox>
                   </div>
+                  <div
+                    class="slds-form-element slds-m-bottom_small"
+                  />
+                  <builder_platform_interaction-list>
+                    #shadow-root(open)
+                      <div
+                        class="slds-list_vertical-space"
+                      >
+                        <slot
+                          name="listBody"
+                        />
+                        <div
+                          class="slds-m-top_small"
+                        >
+                          <lightning-button>
+                            #shadow-root(open)
+                          </lightning-button>
+                        </div>
+                      </div>
+                    <div
+                      slot="listBody"
+                    >
+                      <slot
+                        name="conditions"
+                      />
+                    </div>
+                  </builder_platform_interaction-list>
                 <div
-                  slot="listBody"
+                  slot="conditions"
                 >
                   <div
                     class="slds-list__item slds-is-relative"
@@ -168,7 +183,7 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Add
                     </builder_platform_interaction-row>
                   </div>
                 </div>
-              </builder_platform_interaction-list>
+              </builder_platform_interaction-condition-list>
             </div>
           </div>
       </builder_platform_interaction-record-filter>
@@ -464,33 +479,48 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
               FlowBuilderRecordEditor.findRecords
             </h3>
             <div
-              class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
-            >
-              <lightning-combobox>
-                #shadow-root(open)
-              </lightning-combobox>
-            </div>
-            <div
               class="slds-p-horizontal_small"
             >
-              <builder_platform_interaction-list>
+              <builder_platform_interaction-condition-list>
                 #shadow-root(open)
                   <div
-                    class="slds-list_vertical-space"
+                    class="slds-form-element slds-m-bottom_small slds-size_1-of-3"
                   >
-                    <slot
-                      name="listBody"
-                    />
-                    <div
-                      class="slds-m-top_small"
+                    <lightning-combobox
+                      class="slds-col slds-grow conditionLogic"
                     >
-                      <lightning-button>
-                        #shadow-root(open)
-                      </lightning-button>
-                    </div>
+                      #shadow-root(open)
+                    </lightning-combobox>
                   </div>
+                  <div
+                    class="slds-form-element slds-m-bottom_small"
+                  />
+                  <builder_platform_interaction-list>
+                    #shadow-root(open)
+                      <div
+                        class="slds-list_vertical-space"
+                      >
+                        <slot
+                          name="listBody"
+                        />
+                        <div
+                          class="slds-m-top_small"
+                        >
+                          <lightning-button>
+                            #shadow-root(open)
+                          </lightning-button>
+                        </div>
+                      </div>
+                    <div
+                      slot="listBody"
+                    >
+                      <slot
+                        name="conditions"
+                      />
+                    </div>
+                  </builder_platform_interaction-list>
                 <div
-                  slot="listBody"
+                  slot="conditions"
                 >
                   <div
                     class="slds-list__item slds-is-relative"
@@ -536,7 +566,7 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
                     </builder_platform_interaction-row>
                   </div>
                 </div>
-              </builder_platform_interaction-list>
+              </builder_platform_interaction-condition-list>
             </div>
           </div>
       </builder_platform_interaction-record-filter>
@@ -833,33 +863,48 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
               FlowBuilderRecordEditor.findRecords
             </h3>
             <div
-              class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
-            >
-              <lightning-combobox>
-                #shadow-root(open)
-              </lightning-combobox>
-            </div>
-            <div
               class="slds-p-horizontal_small"
             >
-              <builder_platform_interaction-list>
+              <builder_platform_interaction-condition-list>
                 #shadow-root(open)
                   <div
-                    class="slds-list_vertical-space"
+                    class="slds-form-element slds-m-bottom_small slds-size_1-of-3"
                   >
-                    <slot
-                      name="listBody"
-                    />
-                    <div
-                      class="slds-m-top_small"
+                    <lightning-combobox
+                      class="slds-col slds-grow conditionLogic"
                     >
-                      <lightning-button>
-                        #shadow-root(open)
-                      </lightning-button>
-                    </div>
+                      #shadow-root(open)
+                    </lightning-combobox>
                   </div>
+                  <div
+                    class="slds-form-element slds-m-bottom_small"
+                  />
+                  <builder_platform_interaction-list>
+                    #shadow-root(open)
+                      <div
+                        class="slds-list_vertical-space"
+                      >
+                        <slot
+                          name="listBody"
+                        />
+                        <div
+                          class="slds-m-top_small"
+                        >
+                          <lightning-button>
+                            #shadow-root(open)
+                          </lightning-button>
+                        </div>
+                      </div>
+                    <div
+                      slot="listBody"
+                    >
+                      <slot
+                        name="conditions"
+                      />
+                    </div>
+                  </builder_platform_interaction-list>
                 <div
-                  slot="listBody"
+                  slot="conditions"
                 >
                   <div
                     class="slds-list__item slds-is-relative"
@@ -905,7 +950,7 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
                     </builder_platform_interaction-row>
                   </div>
                 </div>
-              </builder_platform_interaction-list>
+              </builder_platform_interaction-condition-list>
             </div>
           </div>
       </builder_platform_interaction-record-filter>

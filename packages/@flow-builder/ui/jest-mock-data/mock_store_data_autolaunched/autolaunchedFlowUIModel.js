@@ -311,7 +311,7 @@ export const autolaunchedFlowUIModel = {
             },
             object: 'Account',
             objectIndex: 'fcf61595-af2e-4982-9607-5de1c2819fab',
-            filterType: 'none',
+            filterLogic: 'no_conditions',
             filters: [
                 {
                     rowIndex: '1283ede6-414b-45a2-851a-1b113f26bffd',

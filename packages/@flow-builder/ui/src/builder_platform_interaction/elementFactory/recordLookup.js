@@ -1,4 +1,4 @@
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
@@ -17,11 +17,7 @@ import {
     createFlowOutputFieldAssignmentMetadataObject,
     createEmptyAssignmentMetadata
 } from './base/baseRecordElement';
-import {
-    RECORD_FILTER_CRITERIA,
-    SORT_ORDER,
-    VARIABLE_AND_FIELD_MAPPING_VALUES
-} from 'builder_platform_interaction/recordEditorLib';
+import { SORT_ORDER, VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_interaction/recordEditorLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -66,6 +62,7 @@ function createRecordLookupWithOuputReference(recordLookup = {}, { elements } = 
 
     let {
         availableConnections = getDefaultAvailableConnections(),
+        filterLogic = CONDITION_LOGIC.AND,
         filters,
         queriedFields = [],
         getFirstRecordOnly = true
@@ -86,7 +83,11 @@ function createRecordLookupWithOuputReference(recordLookup = {}, { elements } = 
 
     filters = createRecordFilters(filters, object);
 
-    const filterType = filters[0].leftHandSide ? RECORD_FILTER_CRITERIA.ALL : RECORD_FILTER_CRITERIA.NONE;
+    // For the existing element if no filters has been set we need to assign No Conditions to the filterLogic.
+    if (object !== '' && !filters[0].leftHandSide && filterLogic === CONDITION_LOGIC.AND) {
+        filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
+    }
+
     let complete = true;
 
     // When the flow is loaded, this factory is called twice. In the first phase, elements is empty. In the second phase, elements contain variables and
@@ -114,7 +115,7 @@ function createRecordLookupWithOuputReference(recordLookup = {}, { elements } = 
             objectIndex,
             outputReference,
             assignNullValuesIfNoRecordsFound,
-            filterType,
+            filterLogic,
             filters,
             queriedFields,
             sortOrder,
@@ -135,7 +136,12 @@ function createRecordLookupWithOuputReference(recordLookup = {}, { elements } = 
 function createRecordLookupWithVariableAssignments(recordLookup = {}) {
     const newRecordLookup = baseCanvasElement(recordLookup);
 
-    let { availableConnections = getDefaultAvailableConnections(), filters, outputAssignments = [] } = recordLookup;
+    let {
+        availableConnections = getDefaultAvailableConnections(),
+        filterLogic = CONDITION_LOGIC.AND,
+        filters,
+        outputAssignments = []
+    } = recordLookup;
     const {
         object = '',
         objectIndex = generateGuid(),
@@ -151,7 +157,10 @@ function createRecordLookupWithVariableAssignments(recordLookup = {}) {
 
     filters = createRecordFilters(filters, object);
 
-    const filterType = filters[0].leftHandSide ? RECORD_FILTER_CRITERIA.ALL : RECORD_FILTER_CRITERIA.NONE;
+    // For the existing element if no filters has been set we need to assign No Conditions to the filterLogic.
+    if (object !== '' && !filters[0].leftHandSide && filterLogic === CONDITION_LOGIC.AND) {
+        filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
+    }
 
     outputAssignments = outputAssignments.map(item =>
         createFlowOutputFieldAssignment(item, object, 'assignToReference')
@@ -162,7 +171,7 @@ function createRecordLookupWithVariableAssignments(recordLookup = {}) {
         objectIndex,
         outputAssignments,
         assignNullValuesIfNoRecordsFound,
-        filterType,
+        filterLogic,
         filters,
         queriedFields: [],
         sortOrder,
@@ -184,6 +193,7 @@ function createRecordLookupWithAutomaticOutputHandling(recordLookup = {}) {
 
     let {
         availableConnections = getDefaultAvailableConnections(),
+        filterLogic = CONDITION_LOGIC.AND,
         filters,
         queriedFields = null,
         variableAndFieldMapping = VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC
@@ -203,7 +213,10 @@ function createRecordLookupWithAutomaticOutputHandling(recordLookup = {}) {
 
     filters = createRecordFilters(filters, object);
 
-    const filterType = filters[0].leftHandSide ? RECORD_FILTER_CRITERIA.ALL : RECORD_FILTER_CRITERIA.NONE;
+    // For the existing element if no filters has been set we need to assign No Conditions to the filterLogic.
+    if (object !== '' && !filters[0].leftHandSide && filterLogic === CONDITION_LOGIC.AND) {
+        filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
+    }
 
     // if queriedFields.length is 0 it means the user selected automatic version.
     // the flow has been saved with queriedFields = null but the serialization create an empty array
@@ -221,7 +234,7 @@ function createRecordLookupWithAutomaticOutputHandling(recordLookup = {}) {
     return Object.assign(newRecordLookup, {
         object,
         objectIndex,
-        filterType,
+        filterLogic,
         filters,
         queriedFields,
         sortOrder,
@@ -275,14 +288,14 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
         object,
         outputReference,
         assignNullValuesIfNoRecordsFound = false,
-        filterType,
+        filterLogic,
         storeOutputAutomatically,
         getFirstRecordOnly,
         variableAndFieldMapping
     } = recordLookup;
 
     let { sortOrder, sortField, filters = [], queriedFields = [] } = recordLookup;
-    if (filterType === RECORD_FILTER_CRITERIA.NONE) {
+    if (filterLogic === CONDITION_LOGIC.NO_CONDITIONS) {
         filters = [];
     } else {
         filters = filters.map(filter => createFilterMetadataObject(filter));
@@ -303,6 +316,7 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
         if (variableAndFieldMapping === VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC) {
             Object.assign(recordUpdateMetadata, {
                 object,
+                filterLogic,
                 filters,
                 sortOrder,
                 queriedFields,
@@ -313,6 +327,7 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
         } else {
             Object.assign(recordUpdateMetadata, {
                 object,
+                filterLogic,
                 filters,
                 queriedFields,
                 sortOrder,
@@ -326,6 +341,7 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
             object,
             outputReference: null,
             assignNullValuesIfNoRecordsFound,
+            filterLogic,
             filters,
             queriedFields,
             sortOrder,
@@ -337,6 +353,7 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
             object,
             outputReference,
             assignNullValuesIfNoRecordsFound,
+            filterLogic,
             filters,
             queriedFields,
             sortOrder,
@@ -352,6 +369,7 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
             object,
             outputAssignments,
             assignNullValuesIfNoRecordsFound,
+            filterLogic,
             filters,
             queriedFields,
             sortOrder,

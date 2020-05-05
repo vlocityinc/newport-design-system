@@ -35,16 +35,18 @@
     <div if:true={recordEntityName}>
         <!-- Find Records section -->
         <builder_platform_interaction-record-filter
-            element-type={elementType}
+            element-type={state.recordLookupElement.elementType}
+            element-guid={state.recordLookupElement.guid}
             filter-items={state.recordLookupElement.filters}
+            filter-logic={state.recordLookupElement.filterLogic}
             record-entity-name={recordEntityName}
-            resource-display-text={resourceDisplayText}
             record-fields={recordFields}
-            filter-type={state.recordLookupElement.filterType}
-            onrecordfiltertypechanged={handleFilterTypeChanged}
+            resource-display-text={resourceDisplayText}
+            use-filter-with-custom-logic="true"
             onaddrecordfilter={handlePropertyOrListItemChanged}
             onupdaterecordfilter={handlePropertyOrListItemChanged}
             ondeleterecordfilter={handlePropertyOrListItemChanged}
+            onpropertychanged={handlePropertyOrListItemChanged}
         >
         </builder_platform_interaction-record-filter>
 

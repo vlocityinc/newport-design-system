@@ -1,7 +1,8 @@
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { Validation } from 'builder_platform_interaction/validation';
-import { SORT_ORDER, RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
+import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
 import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
 /**
  * Validate the filter item. Here we can't use the ValidationRules.validateExpressionWith3Properties because this function allows empty RHS
@@ -51,7 +52,7 @@ export const recordLookupValidation = new Validation(additionalRules);
 /**
  * Build specific overridden rules
  * @param {Object} nodeElement the element that need to be validated
- * @param {string} nodeElement.filterType - current element's filterType
+ * @param {string} nodeElement.filterLogic - current element's filterLogic
  * @param {string} nodeElement.sortOrder - current element's sortOrder
  * @param {Object} nodeElement.object - current element's object
  * @param {string} nodeElement.wayToStoreFields - current element's wayToStoreFields
@@ -63,7 +64,7 @@ export const recordLookupValidation = new Validation(additionalRules);
  * @return {Object} the overridden rules
  */
 export const getRules = ({
-    filterType,
+    filterLogic,
     sortOrder,
     object,
     objectIndex,
@@ -77,8 +78,8 @@ export const getRules = ({
 }) => {
     const overriddenRules = { ...recordLookupValidation.finalizedRules };
     overriddenRules.object.push(ValidationRules.validateResourcePicker(objectIndex));
-    // validate filters if filter type is ALL
-    if (filterType === RECORD_FILTER_CRITERIA.ALL) {
+    // validate filters if filter logic is different from : 'No Conditions'
+    if (filterLogic.value !== CONDITION_LOGIC.NO_CONDITIONS) {
         overriddenRules.filters = validateFilter();
     }
     // validate sortField when sortOrder !== NOT_SORTED

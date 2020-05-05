@@ -411,16 +411,6 @@ export default class RecordLookupEditor extends LightningElement {
     }
 
     /**
-     * Handle filterType change and via reducer update element's state accordingly
-     * @param {Object} event - event
-     */
-    handleFilterTypeChanged(event) {
-        event.stopPropagation();
-        const { filterType, error } = event.detail;
-        this.updateProperty('filterType', filterType, error, true, this.state.recordLookupElement.filterType);
-    }
-
-    /**
      * Handle output assignments change and via reducer update element's state accordingly
      * @param {Object} event - event
      */

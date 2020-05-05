@@ -2,12 +2,10 @@ import { createElement } from 'lwc';
 import RecordLookupEditor from 'builder_platform_interaction/recordLookupEditor';
 import { resolveRenderCycles } from '../resolveRenderCycles';
 
-import { resetState, setupStateForProcessType, translateFlowToUIAndDispatch } from '../integrationTestUtils';
+import { resetState, setupStateForFlow } from '../integrationTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { EditElementEvent, AddElementEvent } from 'builder_platform_interaction/events';
-import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_interaction/recordEditorLib';
@@ -18,7 +16,6 @@ import {
     changeEvent,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getEntityResourcePicker } from './cludEditorTestUtils';
 
 const PROCESS_TYPE_FLOW = 'Flow';
@@ -61,9 +58,9 @@ const getAutomaticRecordStoreOptionsRadioGroup = recordLookupEditor => {
 };
 
 describe('Record Lookup Editor', () => {
-    let recordLookupNode, store, recordLookupElement;
+    let recordLookupNode, recordLookupElement;
     beforeAll(async () => {
-        store = await setupStateForProcessType(FLOW_PROCESS_TYPE.FLOW);
+        await setupStateForFlow(flowWithAllElements);
     });
     afterAll(() => {
         resetState();
@@ -85,13 +82,6 @@ describe('Record Lookup Editor', () => {
         });
     });
     describe('Working with automatic output handling', () => {
-        beforeAll(() => {
-            setProcessTypeFeature(PROCESS_TYPE_FLOW, supportedFeaturesListForFlow);
-            translateFlowToUIAndDispatch(flowWithAllElements, store);
-        });
-        afterAll(() => {
-            store.dispatch({ type: 'INIT' });
-        });
         beforeEach(() => {
             const element = getElementByDevName('lookupRecordAutomaticOutput');
             recordLookupNode = getElementForPropertyEditor(element);

@@ -2,12 +2,13 @@ import { createElement } from 'lwc';
 import RecordLookupEditor from '../recordLookupEditor';
 import { recordLookupValidation, getRules } from '../recordLookupValidation.js';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { SORT_ORDER, RECORD_FILTER_CRITERIA, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
+import { SORT_ORDER, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 import { recordLookupReducer } from '../recordLookupReducer';
 import { LABELS } from 'builder_platform_interaction/validationRules';
 import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -58,7 +59,7 @@ const recordLookupElementWithValidSObject = () => ({
         ],
         object: { value: 'Account', error: null },
         objectIndex: { value: 'guid', error: null },
-        filterType: RECORD_FILTER_CRITERIA.ALL,
+        filterLogic: { value: CONDITION_LOGIC.AND, error: null },
         filters: [
             {
                 leftHandSide: { value: 'Account.BillingAddress', error: null },
@@ -95,7 +96,7 @@ const recordLookupElementWithValidSObject = () => ({
         ],
         object: { value: 'Account', error: null },
         objectIndex: { value: 'guid', error: null },
-        filterType: RECORD_FILTER_CRITERIA.ALL,
+        filterLogic: { value: CONDITION_LOGIC.AND, error: null },
         filters: [
             {
                 leftHandSide: { value: 'Account.BillingAddress', error: null },
@@ -143,7 +144,7 @@ const recordLookupElementWithValidSObject = () => ({
         },
         object: { value: 'Account', error: null },
         objectIndex: { value: 'guid', error: null },
-        filterType: RECORD_FILTER_CRITERIA.ALL,
+        filterLogic: { value: CONDITION_LOGIC.AND, error: null },
         filters: [
             {
                 leftHandSide: { value: 'Account.BillingAddress', error: null },
@@ -219,9 +220,9 @@ describe('Record Lookup Validation', () => {
         });
     });
     describe('filter item is empty', () => {
-        it('should not be validated if filter type equals "NONE"', () => {
+        it('should not be validated if filter logic equals "No Conditions"', () => {
             recordLookupEditorNode.filters[0].leftHandSide.value = '';
-            recordLookupEditorNode.filterType = RECORD_FILTER_CRITERIA.NONE;
+            recordLookupEditorNode.filterLogic = { value: CONDITION_LOGIC.NO_CONDITIONS, error: null };
             const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
             const errors = validate(recordLookupEditor.node);
             expect(errors).toHaveLength(0);

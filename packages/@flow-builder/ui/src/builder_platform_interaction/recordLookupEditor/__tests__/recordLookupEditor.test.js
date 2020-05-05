@@ -1,11 +1,6 @@
 import { createElement } from 'lwc';
 import RecordLookupEditor from '../recordLookupEditor';
-import {
-    SORT_ORDER,
-    NUMBER_RECORDS_TO_STORE,
-    RECORD_FILTER_CRITERIA,
-    WAY_TO_STORE_FIELDS
-} from 'builder_platform_interaction/recordEditorLib';
+import { SORT_ORDER, NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 import {
     AddElementEvent,
     EditElementEvent,
@@ -13,17 +8,18 @@ import {
     AddRecordFilterEvent,
     DeleteRecordFilterEvent,
     UpdateRecordFilterEvent,
-    RecordFilterTypeChangedEvent,
     AddRecordFieldAssignmentEvent,
     DeleteRecordFieldAssignmentEvent,
     UpdateRecordFieldAssignmentEvent,
-    SObjectReferenceChangedEvent
+    SObjectReferenceChangedEvent,
+    PropertyChangedEvent
 } from 'builder_platform_interaction/events';
 import { getAccountWithFields, getAccountWithSObject } from 'mock/storeDataContactrequest';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { INTERACTION_COMPONENTS_SELECTORS, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -83,15 +79,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
 });
 
 const SELECTORS = {
-    ...INTERACTION_COMPONENTS_SELECTORS,
-    inputOutputAssignments: 'builder_platform_interaction-record-input-output-assignments',
-    interactionList: 'builder_platform_interaction-list',
-    interactionRow: 'builder_platform_interaction-row',
-    recordFilter: 'builder_platform_interaction-record-filter',
-    recordSobjectAndQueryFields: 'builder_platform_interaction-record-sobject-and-query-fields',
-    recordSort: 'builder_platform_interaction-record-sort',
-    recordStoreOption: 'builder_platform_interaction-record-store-options',
-    sObjectOrSObjectCollectionPicker: 'builder_platform_interaction-sobject-or-sobject-collection-picker'
+    ...INTERACTION_COMPONENTS_SELECTORS
 };
 
 const filterElement = {
@@ -117,7 +105,7 @@ const defaultNewRecordLookupElement = () => ({
     queriedFields: [],
     object: { value: '', error: null },
     objectIndex: { value: 'guid', error: null },
-    filterType: RECORD_FILTER_CRITERIA.NONE,
+    filterLogic: { value: CONDITION_LOGIC.AND, error: null },
     filters: [
         {
             rowIndex: 'a0e8a02d-60fb-4481-8165-10a01fe7031c',
@@ -149,7 +137,7 @@ const outputAssignmentElement = {
 };
 
 const getRecordStoreOption = recordLookupEditor => {
-    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.recordStoreOption);
+    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_STORE_OPTION);
 };
 
 const getEntityResourcePicker = recordLookupEditor => {
@@ -157,23 +145,23 @@ const getEntityResourcePicker = recordLookupEditor => {
 };
 
 const getRecordFilter = recordLookupEditor => {
-    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.recordFilter);
+    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_FILTER);
 };
 
 const getRecordSort = recordLookupEditor => {
-    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.recordSort);
+    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_SORT);
 };
 
 const getRecordSobjectAndQueryFields = recordLookupEditor => {
-    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.recordSobjectAndQueryFields);
+    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_SOBJECT_AND_QUERY_FIELDS_COMPONENT);
 };
 
 const getsObjectOrSObjectCollectionPicker = recordSobjectAndQueryFields => {
-    return recordSobjectAndQueryFields.shadowRoot.querySelector(SELECTORS.sObjectOrSObjectCollectionPicker);
+    return recordSobjectAndQueryFields.shadowRoot.querySelector(SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
 };
 
 const getInputOutputAssignments = recordLookupEditor => {
-    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.inputOutputAssignments);
+    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
 };
 
 describe('record-lookup-editor', () => {
@@ -236,8 +224,8 @@ describe('record-lookup-editor', () => {
                 it('sortOrder should NOT be sorted', () => {
                     expect(getRecordSort(recordLookupEditor).sortOrder).toBe(SORT_ORDER.NOT_SORTED);
                 });
-                it('record filter type should be "all" ', () => {
-                    expect(getRecordFilter(recordLookupEditor).filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
+                it('record filter logic should be "and" ', () => {
+                    expect(getRecordFilter(recordLookupEditor).filterLogic.value).toBe(CONDITION_LOGIC.AND);
                 });
             });
             describe('remove "object"', () => {
@@ -312,11 +300,11 @@ describe('record-lookup-editor', () => {
                     await ticks(1);
                     expect(recordLookupEditor.node.filters).toHaveLength(2);
                 });
-                it('handle record filter type Change event', async () => {
-                    const recordFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(RECORD_FILTER_CRITERIA.ALL);
-                    getRecordFilter(recordLookupEditor).dispatchEvent(recordFilterTypeChangedEvent);
+                it('handle record filter logic Change event', async () => {
+                    const propertyChangeEvent = new PropertyChangedEvent('filterLogic', CONDITION_LOGIC.OR);
+                    getRecordFilter(recordLookupEditor).dispatchEvent(propertyChangeEvent);
                     await ticks(1);
-                    expect(recordLookupEditor.node.filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
+                    expect(recordLookupEditor.node.filterLogic.value).toBe(CONDITION_LOGIC.OR);
                 });
                 it('reselect same "outputReference" should not reset query fields', async () => {
                     const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(recordLookupEditor);
@@ -330,9 +318,9 @@ describe('record-lookup-editor', () => {
                     expect(recordSobjectAndQueryFields.queriedFields[1].field.value).toBe('BillingAddress');
                 });
                 describe('Filters', () => {
-                    it('record filter criteria should be all ', () => {
+                    it('record logic criteria should be and ', () => {
                         const recordFilter = getRecordFilter(recordLookupEditor);
-                        expect(recordFilter.filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
+                        expect(recordFilter.filterLogic).toMatchObject({ error: null, value: 'and' });
                     });
                     it('record filter fire DeleteRecordFilterEvent', async () => {
                         const deleteRecordFilterEvent = new DeleteRecordFilterEvent(0); // This is using the numerical rowIndex not the property rowIndex
@@ -371,8 +359,8 @@ describe('record-lookup-editor', () => {
                 it('sortOrder should be ASC sorted', () => {
                     expect(getRecordSort(recordLookupEditor).sortOrder).toBe(SORT_ORDER.ASC);
                 });
-                it('record filterType should be "all" ', () => {
-                    expect(getRecordFilter(recordLookupEditor).filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
+                it('record filterLogic should be "and" ', () => {
+                    expect(getRecordFilter(recordLookupEditor).filterLogic.value).toBe(CONDITION_LOGIC.AND);
                 });
             });
             describe('Handle Events', () => {

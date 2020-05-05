@@ -8,31 +8,24 @@ import {
     changeInputValue,
     changeComboboxValue,
     resetState,
-    setupStateForProcessType,
-    translateFlowToUIAndDispatch
+    setupStateForFlow
 } from '../integrationTestUtils';
 import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { EditElementEvent, AddElementEvent } from 'builder_platform_interaction/events';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import {
-    flowWithGetRecordUsingSObject,
-    flowWithGetRecordUsingSObjectCollection,
-    flowWithGetRecordUsingFields
-} from 'mock/flows/flowWithGetRecord';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/processTypeLib';
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
     deepQuerySelector,
     blurEvent,
-    textInputEvent
+    textInputEvent,
+    changeEvent,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
-import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import {
     SELECTORS,
     getResourceGroupedCombobox,
@@ -40,7 +33,9 @@ import {
     newFilterItem,
     getRadioGroups,
     getEntityResourcePicker,
-    getFieldToFerovExpressionBuilders
+    getFieldToFerovExpressionBuilders,
+    getFilterConditionLogicCombobox,
+    getFilterCustomConditionLogicInput
 } from './cludEditorTestUtils';
 import { getGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
 import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
@@ -109,23 +104,17 @@ const createComponentForTest = (
 };
 
 describe('Record Lookup Editor', () => {
-    let recordLookupNode, store;
+    let recordLookupNode;
     beforeAll(async () => {
-        store = await setupStateForProcessType(FLOW_PROCESS_TYPE.FLOW);
+        await setupStateForFlow(flowWithAllElements);
     });
     afterAll(() => {
         resetState();
     });
     describe('name and dev name', () => {
         let recordLookupElement, newLabel, newDevName;
-        beforeAll(() => {
-            translateFlowToUIAndDispatch(flowWithGetRecordUsingSObject, store);
-        });
-        afterAll(() => {
-            store.dispatch({ type: 'INIT' });
-        });
         beforeEach(() => {
-            const element = getElementByDevName('Get_Record_Using_SObject');
+            const element = getElementByDevName('lookupRecordOutputReference');
             recordLookupNode = getElementForPropertyEditor(element);
             recordLookupElement = createComponentForTest(recordLookupNode, AddElementEvent.EVENT_NAME);
         });
@@ -135,7 +124,7 @@ describe('Record Lookup Editor', () => {
             changeInputValue(labelInput, newLabel);
             return resolveRenderCycles(() => {
                 expect(recordLookupElement.node.label.value).toBe(newLabel);
-                expect(recordLookupElement.node.name.value).toBe('Get_Record_Using_SObject');
+                expect(recordLookupElement.node.name.value).toBe('lookupRecordOutputReference');
             });
         });
         it('modify the dev name', () => {
@@ -186,75 +175,71 @@ describe('Record Lookup Editor', () => {
     });
     describe('Existing element', () => {
         describe('Working with sObject', () => {
-            let recordLookupElement;
-            beforeAll(() => {
-                translateFlowToUIAndDispatch(flowWithGetRecordUsingSObject, store);
-            });
-            afterAll(() => {
-                store.dispatch({ type: 'INIT' });
-            });
+            let recordLookupComponent;
             beforeEach(() => {
-                const element = getElementByDevName('Get_Record_Using_SObject');
+                const element = getElementByDevName('lookupRecordOutputReference');
                 recordLookupNode = getElementForPropertyEditor(element);
-                recordLookupElement = createComponentForTest(recordLookupNode);
+                recordLookupComponent = createComponentForTest(recordLookupNode);
             });
             it('Selected entity is correctly displayed ', () => {
-                const entityResourcePicker = getEntityResourcePicker(recordLookupElement);
-                expect(entityResourcePicker.value.displayText).toBe(recordLookupElement.node.object.value);
+                const entityResourcePicker = getEntityResourcePicker(recordLookupComponent);
+                expect(entityResourcePicker.value.displayText).toBe(recordLookupComponent.node.object.value);
             });
             it('Selected sObject is correctly displayed ', () => {
-                const sObJectPicker = getSObjectOrSObjectCollectionPicker(recordLookupElement);
-                expect(sObJectPicker.value).toBe(recordLookupElement.node.outputReference.value);
+                const sObJectPicker = getSObjectOrSObjectCollectionPicker(recordLookupComponent);
+                expect(sObJectPicker.value).toBe(recordLookupComponent.node.outputReference.value);
             });
             it('remove selected entity should hide filter, sort, store option and query fields', () => {
-                const entityResourcePicker = getEntityResourcePicker(recordLookupElement);
+                const entityResourcePicker = getEntityResourcePicker(recordLookupComponent);
                 const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
                 changeComboboxValue(comboboxElement, '');
                 return resolveRenderCycles(() => {
-                    expect(getRecordSobjectAndQueryFieldElement(recordLookupElement)).toBeNull();
-                    expect(getRecordStoreOption(recordLookupElement)).toBeNull();
-                    expect(getRecordFilter(recordLookupElement)).toBeNull();
-                    expect(getRecordSort(recordLookupElement)).toBeNull();
-                    expect(recordLookupElement.node.object.error).toBe(
+                    expect(getRecordSobjectAndQueryFieldElement(recordLookupComponent)).toBeNull();
+                    expect(getRecordStoreOption(recordLookupComponent)).toBeNull();
+                    expect(getRecordFilter(recordLookupComponent)).toBeNull();
+                    expect(getRecordSort(recordLookupComponent)).toBeNull();
+                    expect(recordLookupComponent.node.object.error).toBe(
                         FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
                     );
                 });
             });
             it('Enter an invalid value in the entity resource picker should not display other element but should display an error', () => {
-                const entityResourcePicker = getEntityResourcePicker(recordLookupElement);
+                const entityResourcePicker = getEntityResourcePicker(recordLookupComponent);
                 const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
                 changeComboboxValue(comboboxElement, 'invalidValue');
                 return resolveRenderCycles(() => {
-                    expect(getRecordSobjectAndQueryFieldElement(recordLookupElement)).toBeNull();
-                    expect(getRecordStoreOption(recordLookupElement)).toBeNull();
-                    expect(getRecordFilter(recordLookupElement)).toBeNull();
-                    expect(getRecordSort(recordLookupElement)).toBeNull();
-                    expect(recordLookupElement.node.object.error).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC);
+                    expect(getRecordSobjectAndQueryFieldElement(recordLookupComponent)).toBeNull();
+                    expect(getRecordStoreOption(recordLookupComponent)).toBeNull();
+                    expect(getRecordFilter(recordLookupComponent)).toBeNull();
+                    expect(getRecordSort(recordLookupComponent)).toBeNull();
+                    expect(recordLookupComponent.node.object.error).toBe(
+                        FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC
+                    );
                 });
             });
             it('Enter an valid value in the entity resource picker should not display an error', () => {
-                const entityResourcePicker = getEntityResourcePicker(recordLookupElement);
+                const entityResourcePicker = getEntityResourcePicker(recordLookupComponent);
                 const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
                 changeComboboxValue(comboboxElement, 'Case');
                 return resolveRenderCycles(() => {
-                    expect(recordLookupElement.node.object.error).toBeNull();
-                    expect(getRecordSobjectAndQueryFieldElement(recordLookupElement)).not.toBeNull();
-                    expect(getRecordStoreOption(recordLookupElement)).not.toBeNull();
-                    expect(getRecordFilter(recordLookupElement)).not.toBeNull();
-                    expect(getRecordSort(recordLookupElement)).not.toBeNull();
+                    expect(recordLookupComponent.node.object.error).toBeNull();
+                    expect(getRecordSobjectAndQueryFieldElement(recordLookupComponent)).not.toBeNull();
+                    expect(getRecordStoreOption(recordLookupComponent)).not.toBeNull();
+                    expect(getRecordFilter(recordLookupComponent)).not.toBeNull();
+                    expect(getRecordSort(recordLookupComponent)).not.toBeNull();
                 });
             });
             it('Queried fields should be correctly displayed', () => {
-                const queryFieldElement = getSobjectAndFieldsElement(recordLookupElement);
+                const queryFieldElement = getSobjectAndFieldsElement(recordLookupComponent);
                 const recordFieldPickerRow = getAllRecordFieldPickerRows(queryFieldElement);
                 expect(recordFieldPickerRow).toHaveLength(2);
                 expect(recordFieldPickerRow[0].value).toBe('Id');
-                expect(recordFieldPickerRow[1].value).toBe('BillingCity');
+                expect(recordFieldPickerRow[1].value).toBe('BillingAddress');
             });
             describe('Filter', () => {
                 let recordFilter;
                 beforeEach(() => {
-                    recordFilter = getChildComponent(recordLookupElement, SELECTORS.RECORD_FILTER);
+                    recordFilter = getChildComponent(recordLookupComponent, SELECTORS.RECORD_FILTER);
                 });
                 it('should be displayed', () => {
                     expect(recordFilter).not.toBeNull();
@@ -264,27 +249,37 @@ describe('Record Lookup Editor', () => {
                 });
                 it('LHS/Operator/LHS values', () => {
                     expect(recordFilter.filterItems[0]).toMatchObject(
-                        newFilterItem('Account.BillingCity', 'EqualTo', 'San Francisco', 'String')
+                        newFilterItem('Account.BillingAddress', 'EqualTo', 'San Francisco', 'String')
                     );
+                });
+                describe('Condition logic change to custom', () => {
+                    it('Custom condition logic input should be displayed', async () => {
+                        getFilterConditionLogicCombobox(recordLookupComponent).dispatchEvent(
+                            changeEvent(CONDITION_LOGIC.CUSTOM_LOGIC)
+                        );
+                        await ticks(1);
+                        expect(getFilterCustomConditionLogicInput(recordLookupComponent)).not.toBeNull();
+                        expect(getFilterCustomConditionLogicInput(recordLookupComponent).value).toBe('1');
+                    });
                 });
             });
             it('sortField and SortOrder should be correctly displayed', () => {
-                const recordSortElement = getRecordSort(recordLookupElement);
+                const recordSortElement = getRecordSort(recordLookupComponent);
                 return resolveRenderCycles(() => {
                     expect(recordSortElement.sortOrder).toBe('Asc');
                     expect(recordSortElement.selectedField).toBe('AnnualRevenue');
                 });
             });
             it('record store option should have "Only the first record" and "Together in a record variable" selected', () => {
-                const recordStoreElement = getRecordStoreOption(recordLookupElement);
+                const recordStoreElement = getRecordStoreOption(recordLookupComponent);
                 return resolveRenderCycles(() => {
                     expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
                     expect(recordStoreElement.wayToStoreFields).toBe('sObjectVariable');
-                    expect(recordStoreElement.assignNullValuesIfNoRecordsFound).toBe(false);
+                    expect(recordStoreElement.assignNullValuesIfNoRecordsFound).toBe(true);
                 });
             });
             it('SObject Or SObject Collection Picker contains "New Resource"', () => {
-                const rhsGroupedCombobox = getRecordObjectAndQueryFieldResourceGroupedCombobox(recordLookupElement);
+                const rhsGroupedCombobox = getRecordObjectAndQueryFieldResourceGroupedCombobox(recordLookupComponent);
                 return resolveRenderCycles(() => {
                     expect(
                         getGroupedComboboxItemBy(
@@ -297,39 +292,32 @@ describe('Record Lookup Editor', () => {
             });
         });
         describe('Working with sObject Collection', () => {
-            let recordLookupElement;
-            beforeAll(() => {
-                translateFlowToUIAndDispatch(flowWithGetRecordUsingSObjectCollection, store);
-            });
-            afterAll(() => {
-                store.dispatch({ type: 'INIT' });
-            });
+            let recordLookupComponent;
             beforeEach(() => {
-                const element = getElementByDevName('Get_Record_Using_SObject_Collection');
+                const element = getElementByDevName('getAccountsAutomaticWithFieldsAndFilters');
                 recordLookupNode = getElementForPropertyEditor(element);
-                recordLookupElement = createComponentForTest(recordLookupNode);
+                recordLookupComponent = createComponentForTest(recordLookupNode);
             });
             it('record store option should have "All records" selected and the second radio group element should be hidden', () => {
-                const recordStoreElement = getRecordStoreOption(recordLookupElement);
+                const recordStoreElement = getRecordStoreOption(recordLookupComponent);
                 const radioGroupElements = getRadioGroups(recordStoreElement);
                 return resolveRenderCycles(() => {
                     expect(recordStoreElement.numberOfRecordsToStore).toBe('allRecords');
-                    expect(recordStoreElement.assignNullValuesIfNoRecordsFound).toBe(true);
                     expect(radioGroupElements).toHaveLength(1);
                 });
             });
             it('The variable vAccountCollection should be displayed', () => {
                 const sObjectOrSObjectCollectionPickerElement = getSObjectOrSObjectCollectionPicker(
-                    recordLookupElement
+                    recordLookupComponent
                 );
                 return resolveRenderCycles(() => {
                     expect(sObjectOrSObjectCollectionPickerElement.value).toBe(
-                        recordLookupElement.node.outputReference.value
+                        recordLookupComponent.node.outputReference.value
                     );
                 });
             });
             it('SObject Or SObject Collection Picker contains "New Resource"', () => {
-                const rhsGroupedCombobox = getRecordObjectAndQueryFieldResourceGroupedCombobox(recordLookupElement);
+                const rhsGroupedCombobox = getRecordObjectAndQueryFieldResourceGroupedCombobox(recordLookupComponent);
                 return resolveRenderCycles(() => {
                     expect(
                         getGroupedComboboxItemBy(
@@ -340,22 +328,26 @@ describe('Record Lookup Editor', () => {
                     ).toBeDefined();
                 });
             });
+            describe('Filter logic change to custom', () => {
+                it('Custom condition logic input should be displayed', async () => {
+                    getFilterConditionLogicCombobox(recordLookupComponent).dispatchEvent(
+                        changeEvent(CONDITION_LOGIC.CUSTOM_LOGIC)
+                    );
+                    await ticks(1);
+                    expect(getFilterCustomConditionLogicInput(recordLookupComponent)).not.toBeNull();
+                    expect(getFilterCustomConditionLogicInput(recordLookupComponent).value).toBe('1 AND 2');
+                });
+            });
         });
         describe('Working with fields', () => {
-            let recordLookupElement;
-            beforeAll(() => {
-                translateFlowToUIAndDispatch(flowWithGetRecordUsingFields, store);
-            });
-            afterAll(() => {
-                store.dispatch({ type: 'INIT' });
-            });
+            let recordLookupComponent;
             beforeEach(() => {
-                const element = getElementByDevName('Get_Record_Using_Fields');
+                const element = getElementByDevName('getAccountSeparateFieldsWithFilters');
                 recordLookupNode = getElementForPropertyEditor(element);
-                recordLookupElement = createComponentForTest(recordLookupNode);
+                recordLookupComponent = createComponentForTest(recordLookupNode);
             });
             it('record store option should have "Only the first record" and "In separate variables" selected and the second radio group should be visible', () => {
-                const recordStoreElement = getRecordStoreOption(recordLookupElement);
+                const recordStoreElement = getRecordStoreOption(recordLookupComponent);
                 const radioGroupElements = getRadioGroups(recordStoreElement);
                 return resolveRenderCycles(() => {
                     expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
@@ -366,71 +358,73 @@ describe('Record Lookup Editor', () => {
             });
             it('Selected entity is correctly displayed ', () => {
                 return resolveRenderCycles(() => {
-                    const entityResourcePicker = getEntityResourcePicker(recordLookupElement);
-                    expect(entityResourcePicker.value.displayText).toBe(recordLookupElement.node.object.value);
+                    const entityResourcePicker = getEntityResourcePicker(recordLookupComponent);
+                    expect(entityResourcePicker.value.displayText).toBe(recordLookupComponent.node.object.value);
                 });
             });
             it('remove selected entity should hide filter, sort, store option and query fields', () => {
-                const entityResourcePicker = getEntityResourcePicker(recordLookupElement);
+                const entityResourcePicker = getEntityResourcePicker(recordLookupComponent);
                 const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
                 comboboxElement.dispatchEvent(textInputEvent(''));
                 comboboxElement.dispatchEvent(blurEvent);
                 return resolveRenderCycles(() => {
-                    expect(getRecordSobjectAndQueryFieldElement(recordLookupElement)).toBeNull();
-                    expect(getRecordStoreOption(recordLookupElement)).toBeNull();
-                    expect(getRecordFilter(recordLookupElement)).toBeNull();
-                    expect(getRecordSort(recordLookupElement)).toBeNull();
-                    expect(recordLookupElement.node.object.error).toBe(
+                    expect(getRecordSobjectAndQueryFieldElement(recordLookupComponent)).toBeNull();
+                    expect(getRecordStoreOption(recordLookupComponent)).toBeNull();
+                    expect(getRecordFilter(recordLookupComponent)).toBeNull();
+                    expect(getRecordSort(recordLookupComponent)).toBeNull();
+                    expect(recordLookupComponent.node.object.error).toBe(
                         FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
                     );
                 });
             });
             it('Enter an invalid value in the entity resource picker should not display other element but should display an error', () => {
-                const entityResourcePicker = getEntityResourcePicker(recordLookupElement);
+                const entityResourcePicker = getEntityResourcePicker(recordLookupComponent);
                 const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
                 comboboxElement.dispatchEvent(textInputEvent('invalidValue'));
                 comboboxElement.dispatchEvent(blurEvent);
                 return resolveRenderCycles(() => {
-                    expect(getRecordSobjectAndQueryFieldElement(recordLookupElement)).toBeNull();
-                    expect(getRecordStoreOption(recordLookupElement)).toBeNull();
-                    expect(getRecordFilter(recordLookupElement)).toBeNull();
-                    expect(getRecordSort(recordLookupElement)).toBeNull();
-                    expect(recordLookupElement.node.object.error).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC);
+                    expect(getRecordSobjectAndQueryFieldElement(recordLookupComponent)).toBeNull();
+                    expect(getRecordStoreOption(recordLookupComponent)).toBeNull();
+                    expect(getRecordFilter(recordLookupComponent)).toBeNull();
+                    expect(getRecordSort(recordLookupComponent)).toBeNull();
+                    expect(recordLookupComponent.node.object.error).toBe(
+                        FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC
+                    );
                 });
             });
             it('Enter an valid value in the entity resource picker should not display an error', () => {
-                const entityResourcePicker = getEntityResourcePicker(recordLookupElement);
+                const entityResourcePicker = getEntityResourcePicker(recordLookupComponent);
                 const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
                 comboboxElement.dispatchEvent(textInputEvent('Case'));
                 comboboxElement.dispatchEvent(blurEvent);
                 return resolveRenderCycles(() => {
                     return resolveRenderCycles(() => {
-                        expect(recordLookupElement.node.object.error).toBeNull();
-                        expect(getRecordSobjectAndQueryFieldElement(recordLookupElement)).not.toBeNull();
-                        expect(getRecordStoreOption(recordLookupElement)).not.toBeNull();
-                        expect(getRecordFilter(recordLookupElement)).not.toBeNull();
-                        expect(getRecordSort(recordLookupElement)).not.toBeNull();
+                        expect(recordLookupComponent.node.object.error).toBeNull();
+                        expect(getRecordSobjectAndQueryFieldElement(recordLookupComponent)).not.toBeNull();
+                        expect(getRecordStoreOption(recordLookupComponent)).not.toBeNull();
+                        expect(getRecordFilter(recordLookupComponent)).not.toBeNull();
+                        expect(getRecordSort(recordLookupComponent)).not.toBeNull();
                     });
                 });
             });
             it('sortField and SortOrder should be correctly displayed', () => {
-                const recordSortElement = getRecordSort(recordLookupElement);
+                const recordSortElement = getRecordSort(recordLookupComponent);
                 return resolveRenderCycles(() => {
                     expect(recordSortElement.sortOrder).toBe('Asc');
-                    expect(recordSortElement.selectedField).toBe('AnnualRevenue');
+                    expect(recordSortElement.selectedField).toBe('Name');
                 });
             });
             describe('Filter', () => {
                 let recordFilter, fieldToFerovExpressionBuilders;
                 beforeEach(() => {
-                    recordFilter = getRecordFilter(recordLookupElement);
+                    recordFilter = getRecordFilter(recordLookupComponent);
                     fieldToFerovExpressionBuilders = getFieldToFerovExpressionBuilders(recordFilter);
                 });
                 it('should be displayed', () => {
                     expect(recordFilter).not.toBeNull();
                 });
                 it('number of filters', () => {
-                    expect(fieldToFerovExpressionBuilders).toHaveLength(1);
+                    expect(fieldToFerovExpressionBuilders).toHaveLength(2);
                 });
                 it('LHS/Operator/LHS values', () => {
                     expect(recordFilter.filterItems[0]).toMatchObject({
@@ -438,10 +432,10 @@ describe('Record Lookup Editor', () => {
                             value: 'Account.BillingCity'
                         },
                         operator: {
-                            value: 'EndsWith'
+                            value: 'EqualTo'
                         },
                         rightHandSide: {
-                            value: 'Francisco'
+                            value: 'San Francisco'
                         },
                         rightHandSideDataType: {
                             value: 'String'
@@ -472,18 +466,28 @@ describe('Record Lookup Editor', () => {
                         );
                     });
                 });
+                describe('Filter logic change to custom', () => {
+                    it('Custom condition logic input should be displayed', async () => {
+                        getFilterConditionLogicCombobox(recordLookupComponent).dispatchEvent(
+                            changeEvent(CONDITION_LOGIC.CUSTOM_LOGIC)
+                        );
+                        await ticks(1);
+                        expect(getFilterCustomConditionLogicInput(recordLookupComponent)).not.toBeNull();
+                        expect(getFilterCustomConditionLogicInput(recordLookupComponent).value).toBe('1 AND 2');
+                    });
+                });
             });
             describe('Output Assignments', () => {
                 let outputAssignments, fieldToFerovExpressionBuilder;
                 beforeEach(() => {
-                    outputAssignments = getInputOutputAssignments(recordLookupElement);
+                    outputAssignments = getInputOutputAssignments(recordLookupComponent);
                     fieldToFerovExpressionBuilder = getFieldToFerovExpressionBuilders(outputAssignments);
                 });
                 it('should be displayed', () => {
                     expect(outputAssignments).not.toBeNull();
                 });
                 it('number of', () => {
-                    expect(outputAssignments.inputOutputAssignmentsItems).toHaveLength(2);
+                    expect(outputAssignments.inputOutputAssignmentsItems).toHaveLength(1);
                 });
                 it('LHS/Operator/LHS values', () => {
                     const baseExpressionBuilder = getBaseExpressionBuilder(fieldToFerovExpressionBuilder[0]);
@@ -491,30 +495,12 @@ describe('Record Lookup Editor', () => {
                         value: 'Account.BillingCity'
                     });
                     expect(baseExpressionBuilder.operatorValue).toBeUndefined();
-                    expect(baseExpressionBuilder.rhsValue).toMatchObject({
-                        category: 'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
-                        dataType: 'String',
-                        displayText: '{!vBillingCity}',
-                        hasNext: false,
-                        iconName: 'utility:text',
-                        iconSize: 'xx-small',
-                        subtype: null,
-                        subText: 'FlowBuilderDataTypes.textDataTypeLabel',
-                        text: 'vBillingCity',
-                        type: 'option-card'
-                    });
+                    expect(baseExpressionBuilder.rhsValue).toBe('Los Angeles');
                 });
             });
         });
         describe('assign variables', () => {
-            beforeAll(async () => {
-                translateFlowToUIAndDispatch(flowWithAllElements, store);
-                setApexClasses(apexTypesForFlow);
-            });
-            afterAll(() => {
-                resetState();
-            });
-            let recordLookupElement, sObjectOrSObjectCollectionPicker;
+            let recordLookupComponent, sObjectOrSObjectCollectionPicker;
             const expectCanBeTraversedInResourcePicker = async textValues => {
                 await expectCanBeTraversed(sObjectOrSObjectCollectionPicker, 'text', textValues);
             };
@@ -527,13 +513,13 @@ describe('Record Lookup Editor', () => {
             beforeEach(() => {
                 const element = getElementByDevName('lookupRecordOutputReference');
                 recordLookupNode = getElementForPropertyEditor(element);
-                recordLookupElement = createComponentForTest(
+                recordLookupComponent = createComponentForTest(
                     recordLookupNode,
                     EditElementEvent.EVENT_NAME,
                     FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
                 );
                 sObjectOrSObjectCollectionPicker = getRecordObjectAndQueryFieldResourceGroupedCombobox(
-                    recordLookupElement
+                    recordLookupComponent
                 );
             });
             describe('Sobject or Sobject collection picker', () => {
@@ -563,7 +549,7 @@ describe('Record Lookup Editor', () => {
                     changeComboboxValue(sObjectOrSObjectCollectionPicker, '{!caseSObjectVariable}');
 
                     expect(
-                        getResourceCombobox(getRecordSobjectAndQueryFieldElement(recordLookupElement)).errorMessage
+                        getResourceCombobox(getRecordSobjectAndQueryFieldElement(recordLookupComponent)).errorMessage
                     ).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC);
                 });
             });

@@ -160,7 +160,7 @@ export const fieldServiceMobileFlowUIModel = {
             objectIndex: '3d47c47d-df60-4f92-85c8-71982afd9938',
             outputReference: '56095468-2459-481d-b084-04a05babcb22',
             assignNullValuesIfNoRecordsFound: false,
-            filterType: 'all',
+            filterLogic: 'and',
             filters: [
                 {
                     rowIndex: '1f6554e7-ca93-491c-979c-1e2b8fcc563f',
@@ -216,7 +216,7 @@ export const fieldServiceMobileFlowUIModel = {
             objectIndex: '02504510-b361-4fb3-878e-81925a76160f',
             outputReference: '56095468-2459-481d-b084-04a05babcb22',
             assignNullValuesIfNoRecordsFound: false,
-            filterType: 'all',
+            filterLogic: 'and',
             filters: [
                 {
                     rowIndex: '4d5723fe-7d36-4044-8f59-1f6da02eacbe',
@@ -283,7 +283,7 @@ export const fieldServiceMobileFlowUIModel = {
                 }
             ],
             assignNullValuesIfNoRecordsFound: false,
-            filterType: 'all',
+            filterLogic: 'and',
             filters: [
                 {
                     rowIndex: 'f08f384a-8e8f-40d3-8009-f8e1fb16eac4',

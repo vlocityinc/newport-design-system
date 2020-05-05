@@ -454,6 +454,7 @@ export const flowCollectionServicesDemo = {
                     processMetadataValues: [],
                     targetReference: 'Build_Word'
                 },
+                filterLogic: 'and',
                 filters: [
                     {
                         field: 'CreatedDate',

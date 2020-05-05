@@ -15,261 +15,80 @@ import {
 } from 'builder_platform_interaction/events';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import * as store from 'mock/storeData';
-import { SORT_ORDER, RECORD_FILTER_CRITERIA, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
+import { SORT_ORDER, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import {
+    lookupRecordAutomaticOutputWithFields,
+    lookupRecordOutputReference,
+    getAccountSeparateFieldsWithFilters,
+    getAccountsAutomaticWithFieldsAndFilters
+} from 'mock/storeData';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
-const recordLookupUsingSobjectState = () => ({
-        description: { value: '', error: null },
-        elementType: 'RecordQuery',
-        guid: '724cafc2-7744-4e46-8eaa-f2df29539d1e',
-        isCanvasElement: true,
-        label: { value: 'testRecord', error: null },
-        name: { value: 'testRecord', error: null },
-        outputReference: {
-            value: store.accountSObjectVariable.guid,
-            error: null
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
+const recordLookupUsingFieldsStateEmptyOutPutAssignments = () => ({
+    description: { value: '', error: null },
+    elementType: 'RecordQuery',
+    guid: '724cafc2-7744-4e46-8eaa-f2df29539d1e',
+    isCanvasElement: true,
+    label: { value: 'testRecord', error: null },
+    name: { value: 'testRecord', error: null },
+    sortField: { value: 'Name', error: null },
+    sortOrder: SORT_ORDER.ASC,
+    assignNullValuesIfNoRecordsFound: false,
+    queriedFields: [
+        {
+            field: { value: 'Id', error: null },
+            rowIndex: '73cb7e19-9f98-4b59-9fdd-a276f216ddcf'
         },
-        sortField: { value: 'Name', error: null },
-        sortOrder: SORT_ORDER.ASC,
-        assignNullValuesIfNoRecordsFound: true,
-        queriedFields: [
-            {
-                field: { value: 'Id', error: null },
-                rowIndex: '73cb7e19-9f98-4b59-9fdd-a276f216ddcf'
+        {
+            field: { value: 'BillingAddress', error: null },
+            rowIndex: '74cb7e19-9f98-4b59-9fdd-a276f216ddcf'
+        }
+    ],
+    object: { value: 'Account', error: '' },
+    filterLogic: CONDITION_LOGIC.AND,
+    filters: [
+        {
+            leftHandSide: {
+                value: 'Account.BillingAddress',
+                error: null
             },
-            {
-                field: { value: 'BillingAddress', error: null },
-                rowIndex: '74cb7e19-9f98-4b59-9fdd-a276f216ddcf'
-            }
-        ],
-        object: { value: 'Account', error: '' },
-        filterType: RECORD_FILTER_CRITERIA.ALL,
-        filters: [
-            {
-                leftHandSide: {
-                    value: 'Account.BillingAddress',
-                    error: null
-                },
-                operator: { value: 'EqualTo', error: null },
-                rightHandSide: { value: 'my address', error: null },
-                rightHandSideDataType: { value: 'String', error: null },
-                rowIndex: '71cb7e19-9f98-4b59-9fdd-a276f216ddcf'
-            }
-        ],
-        getFirstRecordOnly: true
-    }),
-    recordLookupUsingSobjectCollectionState = () => ({
-        description: { value: '', error: null },
-        elementType: 'RecordQuery',
-        guid: '724cafc2-7744-4e46-8eaa-f2df29539d1e',
-        isCanvasElement: true,
-        label: { value: 'testRecordCollection', error: null },
-        name: { value: 'testRecordCollection', error: null },
-        outputReference: {
-            value: store.accountSObjectCollectionVariable.guid,
-            error: null
+            operator: { value: 'EqualTo', error: null },
+            rightHandSide: { value: 'my address', error: null },
+            rightHandSideDataType: { value: 'String', error: null },
+            rowIndex: '72cb7e19-9f98-4b59-9fdd-a276f216ddcf'
+        }
+    ],
+    outputAssignments: [
+        {
+            leftHandSide: { value: '', error: 'A value is required.' },
+            rightHandSide: { value: '', error: 'A value is required.' },
+            rowIndex: '71cb7e19-9f98-4b59-9fdd-a276f216ddcf'
         },
-        sortField: { value: 'Name', error: null },
-        sortOrder: SORT_ORDER.ASC,
-        assignNullValuesIfNoRecordsFound: true,
-        object: { value: 'Account', error: '' },
-        filterType: RECORD_FILTER_CRITERIA.ALL,
-        filters: [
-            {
-                leftHandSide: {
-                    value: 'Account.BillingAddress',
-                    error: null
-                },
-                operator: { value: 'EqualTo', error: null },
-                rightHandSide: { value: 'my address', error: null },
-                rightHandSideDataType: { value: 'String', error: null },
-                rowIndex: '71cb7e19-9f98-4b59-9fdd-a276f216ddcf'
-            }
-        ],
-        getFirstRecordOnly: false
-    }),
-    recordLookupUsingFieldsState = () => {
-        return {
-            description: { value: '', error: null },
-            elementType: 'RecordQuery',
-            guid: '724cafc2-7744-4e46-8eaa-f2df29539d1e',
-            isCanvasElement: true,
-            label: { value: 'testRecord', error: null },
-            name: { value: 'testRecord', error: null },
-            sortField: { value: 'Name', error: null },
-            sortOrder: SORT_ORDER.ASC,
-            assignNullValuesIfNoRecordsFound: false,
-            queriedFields: [
-                {
-                    field: { value: 'Id', error: null },
-                    rowIndex: '73cb7e19-9f98-4b59-9fdd-a276f216ddcf'
-                },
-                {
-                    field: { value: 'BillingAddress', error: null },
-                    rowIndex: '74cb7e19-9f98-4b59-9fdd-a276f216ddcf'
-                }
-            ],
-            object: { value: 'Account', error: '' },
-            filterType: RECORD_FILTER_CRITERIA.ALL,
-            filters: [
-                {
-                    leftHandSide: {
-                        value: 'Account.BillingAddress',
-                        error: null
-                    },
-                    operator: { value: 'EqualTo', error: null },
-                    rightHandSide: { value: 'my address', error: null },
-                    rightHandSideDataType: { value: 'String', error: null },
-                    rowIndex: '72cb7e19-9f98-4b59-9fdd-a276f216ddcf'
-                }
-            ],
-            outputAssignments: [
-                {
-                    leftHandSide: { value: 'Account.BillingCity', error: null },
-                    rightHandSide: { value: 'vCity', error: null },
-                    rowIndex: '71cb7e19-9f98-4b59-9fdd-a276f216ddcf'
-                }
-            ],
-            getFirstRecordOnly: true
-        };
-    },
-    recordLookupUsingFieldsStateEmptyOutPutAssignments = () => ({
-        description: { value: '', error: null },
-        elementType: 'RecordQuery',
-        guid: '724cafc2-7744-4e46-8eaa-f2df29539d1e',
-        isCanvasElement: true,
-        label: { value: 'testRecord', error: null },
-        name: { value: 'testRecord', error: null },
-        sortField: { value: 'Name', error: null },
-        sortOrder: SORT_ORDER.ASC,
-        assignNullValuesIfNoRecordsFound: false,
-        queriedFields: [
-            {
-                field: { value: 'Id', error: null },
-                rowIndex: '73cb7e19-9f98-4b59-9fdd-a276f216ddcf'
-            },
-            {
-                field: { value: 'BillingAddress', error: null },
-                rowIndex: '74cb7e19-9f98-4b59-9fdd-a276f216ddcf'
-            }
-        ],
-        object: { value: 'Account', error: '' },
-        filterType: RECORD_FILTER_CRITERIA.ALL,
-        filters: [
-            {
-                leftHandSide: {
-                    value: 'Account.BillingAddress',
-                    error: null
-                },
-                operator: { value: 'EqualTo', error: null },
-                rightHandSide: { value: 'my address', error: null },
-                rightHandSideDataType: { value: 'String', error: null },
-                rowIndex: '72cb7e19-9f98-4b59-9fdd-a276f216ddcf'
-            }
-        ],
-        outputAssignments: [
-            {
-                leftHandSide: { value: '', error: 'A value is required.' },
-                rightHandSide: { value: '', error: 'A value is required.' },
-                rowIndex: '71cb7e19-9f98-4b59-9fdd-a276f216ddcf'
-            },
-            {
-                leftHandSide: { value: '', error: 'A value is required.' },
-                rightHandSide: { value: '', error: 'A value is required.' },
-                rowIndex: '71cb7e19-9f98-4b59-9fdd-a276f216ddcf'
-            }
-        ],
-        getFirstRecordOnly: true
-    }),
-    recordLookupAutomaticModeSingle = () => ({
-        description: { value: '', error: null },
-        elementType: 'RecordQuery',
-        guid: '67cbb2ef-fc2b-40aa-b3c3-cb13b0ff01a1',
-        isCanvasElement: true,
-        label: { value: 'testRecordAutomaticModeSingle', error: null },
-        name: { value: 'testRecordAutomaticModeSingle', error: null },
-        sortField: { value: 'Name', error: null },
-        sortOrder: SORT_ORDER.ASC,
-        assignNullValuesIfNoRecordsFound: true,
-        queriedFields: [
-            {
-                field: { value: 'Id', error: null },
-                rowIndex: '73cb7e19-9f98-4b59-9fdd-a276f216ddcf'
-            },
-            {
-                field: { value: 'BillingAddress', error: null },
-                rowIndex: '74cb7e19-9f98-4b59-9fdd-a276f216ddcf'
-            }
-        ],
-        object: { value: 'Account', error: '' },
-        filterType: RECORD_FILTER_CRITERIA.ALL,
-        filters: [
-            {
-                leftHandSide: {
-                    value: 'Account.BillingAddress',
-                    error: null
-                },
-                operator: { value: 'EqualTo', error: null },
-                rightHandSide: { value: 'my address', error: null },
-                rightHandSideDataType: { value: 'String', error: null },
-                rowIndex: '71cb7e19-9f98-4b59-9fdd-a276f216ddcf'
-            }
-        ],
-        isCollection: false,
-        getFirstRecordOnly: true,
-        storeOutputAutomatically: true,
-        dataType: {
-            value: 'SObject',
-            error: null
+        {
+            leftHandSide: { value: '', error: 'A value is required.' },
+            rightHandSide: { value: '', error: 'A value is required.' },
+            rowIndex: '71cb7e19-9f98-4b59-9fdd-a276f216ddcf'
         }
-    }),
-    recordLookupAutomaticModeCollection = () => ({
-        description: { value: '', error: null },
-        elementType: 'RecordQuery',
-        guid: '276e1b1a-7235-487f-9b44-38db56af4a45',
-        isCanvasElement: true,
-        label: { value: 'testRecordAutomaticModeSingle', error: null },
-        name: { value: 'testRecordAutomaticModeSingle', error: null },
-        sortField: { value: 'Name', error: null },
-        sortOrder: SORT_ORDER.ASC,
-        assignNullValuesIfNoRecordsFound: true,
-        queriedFields: [
-            {
-                field: { value: 'Id', error: null },
-                rowIndex: '73cb7e19-9f98-4b59-9fdd-a276f216ddcf'
-            },
-            {
-                field: { value: 'BillingAddress', error: null },
-                rowIndex: '74cb7e19-9f98-4b59-9fdd-a276f216ddcf'
-            }
-        ],
-        object: { value: 'Account', error: '' },
-        filterType: RECORD_FILTER_CRITERIA.ALL,
-        filters: [
-            {
-                leftHandSide: {
-                    value: 'Account.BillingAddress',
-                    error: null
-                },
-                operator: { value: 'EqualTo', error: null },
-                rightHandSide: { value: 'my address', error: null },
-                rightHandSideDataType: { value: 'String', error: null },
-                rowIndex: '71cb7e19-9f98-4b59-9fdd-a276f216ddcf'
-            }
-        ],
-        isCollection: true,
-        getFirstRecordOnly: false,
-        storeOutputAutomatically: true,
-        dataType: {
-            value: 'SObject',
-            error: null
-        }
-    });
+    ],
+    getFirstRecordOnly: true
+});
 
 describe('record-lookup-reducer', () => {
     let originalState, newState;
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     describe('State with sObject (single record)', () => {
         beforeEach(() => {
-            originalState = recordLookupUsingSobjectState();
+            originalState = getElementForPropertyEditor(lookupRecordOutputReference);
         });
         describe('fetch error', () => {
             it('fetch the error from the sobject variable picker change event instead of rerunning validation', () => {
@@ -435,8 +254,8 @@ describe('record-lookup-reducer', () => {
                 it('should reset "sortField"', () => {
                     expect(newState.sortField.value).toBe('');
                 });
-                it('should reset "filterType"', () => {
-                    expect(newState.filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
+                it('should reset "filterLogic"', () => {
+                    expect(newState.filterLogic.value).toBe(CONDITION_LOGIC.AND);
                 });
                 it('should reset "filters"', () => {
                     expect(newState.filters).toHaveLength(1);
@@ -476,7 +295,7 @@ describe('record-lookup-reducer', () => {
                     expect(newState.queriedFields[1].field.value).toBe('');
                 });
                 it('with same current value it should NOT reset "queriedFields"', () => {
-                    const currentOutputReferenceValue = recordLookupUsingSobjectState().outputReference.value;
+                    const currentOutputReferenceValue = originalState.outputReference.value;
                     const propChangedEvent = new PropertyChangedEvent(
                         'outputReference',
                         currentOutputReferenceValue,
@@ -492,7 +311,6 @@ describe('record-lookup-reducer', () => {
             describe('update getFirstRecordOnly', () => {
                 describe('from true to false', () => {
                     beforeAll(() => {
-                        originalState = recordLookupUsingSobjectState();
                         const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(false, '', false);
                         newState = recordLookupReducer(originalState, recordStoreOptionChangedEvent);
                     });
@@ -504,16 +322,6 @@ describe('record-lookup-reducer', () => {
                     });
                     it('should NOT reset "sortField"', () => {
                         expect(newState.sortField.value).toBe(originalState.sortField.value);
-                    });
-                });
-                describe('from false to true', () => {
-                    beforeAll(() => {
-                        originalState = recordLookupUsingSobjectCollectionState();
-                        const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(true, '', false);
-                        newState = recordLookupReducer(originalState, recordStoreOptionChangedEvent);
-                    });
-                    it('should reset outputReference', () => {
-                        expect(newState.outputReference.value).toBe('');
                     });
                 });
             });
@@ -560,21 +368,21 @@ describe('record-lookup-reducer', () => {
                     expect(newState.filters[0].leftHandSide.value).toBe('Account.BillingAddress');
                 });
             });
-            describe('update filterType to none', () => {
+            describe('update filterLogic to "No Conditions"', () => {
                 beforeAll(() => {
                     const event = {
                         type: PropertyChangedEvent.EVENT_NAME,
                         detail: {
-                            propertyName: 'filterType',
-                            value: RECORD_FILTER_CRITERIA.NONE
+                            propertyName: 'filterLogic',
+                            value: CONDITION_LOGIC.NO_CONDITIONS
                         }
                     };
                     originalState.filters[0].leftHandSide.value = 'invalidValue';
                     originalState.filters[0].leftHandSide.error = 'You have entered an invalid value';
                     newState = recordLookupReducer(originalState, event);
                 });
-                it('should update filterType', () => {
-                    expect(newState.filterType).toBe(RECORD_FILTER_CRITERIA.NONE);
+                it('should update filterLogic', () => {
+                    expect(newState.filterLogic.value).toBe(CONDITION_LOGIC.NO_CONDITIONS);
                     expect(newState).not.toBe(originalState);
                 });
                 it('should reset filter errors and value', () => {
@@ -588,7 +396,7 @@ describe('record-lookup-reducer', () => {
 
     describe('State with Fields', () => {
         beforeEach(() => {
-            originalState = recordLookupUsingFieldsState();
+            originalState = getElementForPropertyEditor(getAccountSeparateFieldsWithFilters);
         });
         describe('handle list item events', () => {
             it('add an assignment item', () => {
@@ -690,7 +498,7 @@ describe('record-lookup-reducer', () => {
                     }
                 ],
                 object: { value: 'Account', error: '' },
-                filterType: RECORD_FILTER_CRITERIA.NONE,
+                filterLogic: CONDITION_LOGIC.NO_CONDITIONS,
                 filters: [{}],
                 getFirstRecordOnly: true
             };
@@ -715,7 +523,7 @@ describe('record-lookup-reducer', () => {
         describe('handle property changed event', () => {
             describe('from automatic mode to advanced manual mode', () => {
                 beforeAll(() => {
-                    originalState = recordLookupAutomaticModeSingle();
+                    originalState = getElementForPropertyEditor(lookupRecordAutomaticOutputWithFields);
                     const changeFromAutomaticToAdvancedModeEvent = {
                         type: UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME,
                         detail: {
@@ -754,7 +562,7 @@ describe('record-lookup-reducer', () => {
         describe('handle property changed event', () => {
             describe('from automatic mode to advanced manual mode', () => {
                 beforeAll(() => {
-                    originalState = recordLookupAutomaticModeCollection();
+                    originalState = getElementForPropertyEditor(getAccountsAutomaticWithFieldsAndFilters);
                     const changeFromAutomaticToAdvancedModeEvent = {
                         type: UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME,
                         detail: {

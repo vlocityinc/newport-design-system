@@ -6,6 +6,7 @@ import {
 } from 'builder_platform_interaction/processTypeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -27,7 +28,7 @@ const recordLookupStore = () => ({
     dataType: 'SObject',
     description: '',
     elementType: 'RecordQuery',
-    filterType: 'all',
+    filterLogic: CONDITION_LOGIC.AND,
     filters: [
         {
             leftHandSide: 'Account.BillingCity',
@@ -60,6 +61,7 @@ const recordLookupStore = () => ({
 
 const recordLookupMetadata = () => ({
     assignNullValuesIfNoRecordsFound: false, // this is returned by the server should be true or undefined / null
+    filterLogic: CONDITION_LOGIC.AND,
     filters: [
         {
             field: 'BillingCity',
@@ -80,6 +82,7 @@ const recordLookupMetadata = () => ({
 });
 
 const recordLookupMetadataWithQueriedFieldNull = () => ({
+    filterLogic: CONDITION_LOGIC.AND,
     filters: [
         {
             field: 'BillingCity',
