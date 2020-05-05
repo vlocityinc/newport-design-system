@@ -17,8 +17,8 @@ yarn-*.log
 .jshintrc
 .nyc_output
 .vscode
-coverage
-jest-report
+coverage/
+jest-report/
 build
 build2
 dist/

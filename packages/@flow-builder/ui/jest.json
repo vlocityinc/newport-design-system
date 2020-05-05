@@ -32,10 +32,22 @@
     },
     "setupFilesAfterEnv": ["<rootDir>/jestSetup.js"],
     "clearMocks": true,
+    "coverageDirectory": "../../../coverage",
     "collectCoverageFrom": [
         "<rootDir>/src/*/!(builderTestUtils)**/*.js",
         "!**/*Labels.js",
         "!**/integrationTests/**/*.js",
         "!**/__tests__/**/*.js"
+    ],
+    "reporters": [
+        "default",
+        [
+            "../../../node_modules/jest-html-reporter",
+            {
+                "pageTitle": "ui-interaction-builder-components Jest test report",
+                "outputPath": "../../../jest-report/index.html",
+                "includeFailureMsg": true
+            }
+        ]
     ]
 }

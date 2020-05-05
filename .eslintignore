@@ -3,3 +3,5 @@ src/main/modules/
 **/build/
 FlowBuilderControllerGoldFileTest/
 rollup/*.js
+coverage/
+jest-report/

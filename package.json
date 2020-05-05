@@ -31,13 +31,14 @@
         "test:nba-components": "./scripts/testNbaComponents.sh -b $npm_package_config_branch",
         "watch:poc": "node ./scripts/npm2lwc.js packages packages/flow-builder-pocs/build/ --watch",
         "watch": "lerna run watch --parallel",
-        "test:unit": "lerna exec -- yarn run test",
         "watch:core": "yarn build:core && node ./scripts/npm2lwc.js packages src/main/modules --watch --core",
+        "test:unit": "lerna exec -- yarn run test",
+        "test:unit:flowutils": "lerna exec --scope @flow-builder/flow-utils -- yarn run test",
         "test:unit:coverage": "lerna exec --scope @flow-builder/ui -- yarn run coverage",
-        "test:unit:coverage:clean": "lerna run coverage:clean",
-        "test:unit:ci": "lerna run --no-bail test:coverage",
-        "test:integration": "lerna run test:integration:dev",
-        "test:integration:ci": "lerna run test:integration:prod",
+        "test:unit:coverage:clean": "rm -rf coverage",
+        "test:unit:jestreport:clean": "rm -rf jest-report",
+        "test:unit:clean": "yarn test:unit:coverage:clean && yarn test:unit:jestreport:clean",
+        "test:unit:ci:coverage": "yarn run test:unit:coverage && yarn run test:unit:flowutils",
         "generate:sfdc-components-package": "node ./scripts/generateNpmPackage.js",
         "release:sfdc-components-package": "cd dist/builder-platform-interaction-components && npm publish --verbose --registry=https://nexus-proxy-prd.soma.salesforce.com/nexus/content/repositories/npmjs-internal/",
         "update:auraPomVersion": "mvn versions:update-property -Dproperty=aura.version -DnewVersion=[$npm_package_config_auraVersion] -DallowDowngrade=true -DgenerateBackupPoms=false",
@@ -84,7 +85,7 @@
         "fs-extra": "^8.1.0",
         "husky": "^4.2.1",
         "jest": "^25.1.0",
-        "jest-html-reporter": "^2.8.0",
+        "jest-html-reporter": "^3.1.0",
         "lerna": "3.20.2",
         "lint-staged": "^10.0.7",
         "lwc-testrunner": "^4.2.1",
@@ -130,10 +131,5 @@
             "node ./scripts/genJsConfig.js > packages/@flow-builder/ui/jsconfig.json",
             "git add packages/@flow-builder/ui/jsconfig.json"
         ]
-    },
-    "jest-html-reporter": {
-        "pageTitle": "ui-interaction-builder-components Jest test report",
-        "outputPath": "./jest-report/index.html",
-        "includeFailureMsg": true
     }
 }
