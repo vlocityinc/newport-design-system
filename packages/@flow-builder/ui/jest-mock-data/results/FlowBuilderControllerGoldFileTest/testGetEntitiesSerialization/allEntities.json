@@ -21,6 +21,26 @@
       "updateable":true
     },
     {
+      "apiName":"CloudMetricTrackMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"",
+      "entityLabelPlural":"",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"CrossOrgCloudMetricTrackMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"",
+      "entityLabelPlural":"",
+      "queryable":true,
+      "updateable":false
+    },
+    {
       "apiName":"OauthTokenLocal",
       "createable":false,
       "custom":false,
@@ -2359,6 +2379,16 @@
       "entityLabelPlural":"Business Process Picklist Mapping",
       "queryable":true,
       "updateable":false
+    },
+    {
+      "apiName":"CDPMCSetupUIStatus",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"CDPMarketingCloudSetupUIStatus",
+      "entityLabelPlural":"CDPMarketingCloudSetupUIStatus",
+      "queryable":true,
+      "updateable":true
     },
     {
       "apiName":"CorsWhitelistEntry",
@@ -5201,16 +5231,6 @@
       "updateable":false
     },
     {
-      "apiName":"ContentExternalStorage",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Content External Storage",
-      "entityLabelPlural":"Content External Storage",
-      "queryable":false,
-      "updateable":true
-    },
-    {
       "apiName":"ContentFolder",
       "createable":true,
       "custom":false,
@@ -6227,16 +6247,6 @@
       "deletable":true,
       "entityLabel":"Custom Report Type Object",
       "entityLabelPlural":"Custom Report Type Object",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"Scontrol",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Custom S-Control",
-      "entityLabelPlural":"Custom S-Controls",
       "queryable":true,
       "updateable":true
     },
@@ -8517,6 +8527,76 @@
       "deletable":true,
       "entityLabel":"Expense Owner Rule",
       "entityLabelPlural":"Expense Owner Rule",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"ExpenseReport",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Expense Report",
+      "entityLabelPlural":"Expense Reports",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"ExpenseReportCriteriaSharingRule",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Expense Report Criteria Rule",
+      "entityLabelPlural":"Expense Report Criteria Rule",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"ExpenseReportFeed",
+      "createable":false,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Expense Report Feed",
+      "entityLabelPlural":"Expense Report Feed",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"ExpenseReportHistory",
+      "createable":true,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Expense Report History",
+      "entityLabelPlural":"Expense Report History",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"ExpenseReportOwnerSharingRule",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Expense Report Owner Rule",
+      "entityLabelPlural":"Expense Report Owner Rule",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"ExpenseReportShare",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Expense Report Share",
+      "entityLabelPlural":"Expense Report Share",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"ExpenseReportSharingRuleFilterItem",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Expense Report Sharing Rule Filter Item",
+      "entityLabelPlural":"Expense Report Sharing Rule Filter Item",
       "queryable":true,
       "updateable":true
     },
@@ -14971,6 +15051,66 @@
       "updateable":false
     },
     {
+      "apiName":"CrossOrgMessagingBilledAgentMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"MessagingBilledAgentMetrics",
+      "entityLabelPlural":"MessagingBilledAgentMetrics",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"MessagingBilledAgentMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"MessagingBilledAgentMetrics",
+      "entityLabelPlural":"MessagingBilledAgentMetrics",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"CrossOrgMessagingBilledBotMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"MessagingBilledBotMetrics",
+      "entityLabelPlural":"MessagingBilledBotMetrics",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"MessagingBilledBotMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"MessagingBilledBotMetrics",
+      "entityLabelPlural":"MessagingBilledBotMetrics",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"CrossOrgMessagingBilledWaMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"MessagingBilledWaMetrics",
+      "entityLabelPlural":"MessagingBilledWaMetrics",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"MessagingBilledWaMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"MessagingBilledWaMetrics",
+      "entityLabelPlural":"MessagingBilledWaMetrics",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"CrossOrgMessagingOutboundMetrics",
       "createable":false,
       "custom":false,
@@ -14987,6 +15127,26 @@
       "deletable":true,
       "entityLabel":"MessagingOutboundMetrics",
       "entityLabelPlural":"MessagingOutboundMetrics",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"CrossOrgMessagingTotalConvMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"MessagingTotalConvMetrics",
+      "entityLabelPlural":"MessagingTotalConvMetrics",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"MessagingTotalConvMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"MessagingTotalConvMetrics",
+      "entityLabelPlural":"MessagingTotalConvMetrics",
       "queryable":true,
       "updateable":true
     },
@@ -16224,7 +16384,7 @@
       "apiName":"OrgMetric",
       "createable":true,
       "custom":false,
-      "deletable":true,
+      "deletable":false,
       "entityLabel":"Org Metric",
       "entityLabelPlural":"Org Metrics",
       "queryable":true,
@@ -16234,21 +16394,21 @@
       "apiName":"OrgMetricScanResult",
       "createable":true,
       "custom":false,
-      "deletable":true,
+      "deletable":false,
       "entityLabel":"Org Metric Scan Result",
       "entityLabelPlural":"Org Metric Scan Result",
       "queryable":true,
-      "updateable":true
+      "updateable":false
     },
     {
       "apiName":"OrgMetricScanSummary",
       "createable":true,
       "custom":false,
-      "deletable":true,
+      "deletable":false,
       "entityLabel":"Org Metric Scan Summary",
       "entityLabelPlural":"Org Metric Scan Summaries",
       "queryable":true,
-      "updateable":true
+      "updateable":false
     },
     {
       "apiName":"CrossOrgOrgObjectsMetrics",
@@ -20431,6 +20591,16 @@
       "updateable":true
     },
     {
+      "apiName":"S2XEventRecordMap",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"S2XEventRecordMap",
+      "entityLabelPlural":"S2XEventRecordMaps",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"S2XEventTxnProps",
       "createable":true,
       "custom":false,
@@ -20467,6 +20637,16 @@
       "deletable":true,
       "entityLabel":"S2XPushSubscription",
       "entityLabelPlural":"S2XPushSubscription",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"S2XRecordMap",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"S2XRecordMap",
+      "entityLabelPlural":"S2XRecordMaps",
       "queryable":true,
       "updateable":true
     },
@@ -20727,16 +20907,6 @@
       "deletable":true,
       "entityLabel":"Schema Builder Layout Item",
       "entityLabelPlural":"Schema Builder Layout Item",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"ScontrolLocalization",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Scontrol Localization",
-      "entityLabelPlural":"Scontrol Localization",
       "queryable":true,
       "updateable":true
     },
@@ -22671,16 +22841,6 @@
       "updateable":false
     },
     {
-      "apiName":"SoftwareProduct",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"SoftwareProduct",
-      "entityLabelPlural":"SoftwareProducts",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"Solution",
       "createable":true,
       "custom":false,
@@ -24301,6 +24461,16 @@
       "updateable":false
     },
     {
+      "apiName":"UnsubscribedListEmail",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Unsubscribed ListEmail",
+      "entityLabelPlural":"Unsubscribed ListEmails",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"UsageAggregateBD",
       "createable":true,
       "custom":false,
@@ -25187,6 +25357,26 @@
       "deletable":false,
       "entityLabel":"Visualforce Page",
       "entityLabelPlural":"Visualforce Pages",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"CrossOrgSCVConnectMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"VoiceAmazonConnectMetrics",
+      "entityLabelPlural":"VoiceAmazonConnectMetrics",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"CrossOrgSCVLEXMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"VoiceAmazonLexMetrics",
+      "entityLabelPlural":"VoiceAmazonLexMetrics",
       "queryable":true,
       "updateable":false
     },

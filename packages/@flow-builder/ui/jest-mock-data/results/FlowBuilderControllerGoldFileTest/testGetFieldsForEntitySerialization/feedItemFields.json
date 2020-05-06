@@ -739,6 +739,7 @@
         "EntityMilestone",
         "Event",
         "Expense",
+        "ExpenseReport",
         "FtestVirtualFeeds",
         "Goal",
         "Identifier",

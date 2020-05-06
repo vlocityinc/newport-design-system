@@ -81,7 +81,7 @@
   "hasDefaultValue" : false,
   "isInput" : true,
   "isOutput" : true,
-  "isRequired" : true,
+  "isRequired" : false,
   "label" : "Related Record ID",
   "maxOccurs" : 1
 },
