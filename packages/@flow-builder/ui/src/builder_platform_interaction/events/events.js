@@ -104,3 +104,4 @@ export { AddNodeEvent } from './addNodeEvent';
 export { UpdateNodeEvent } from './updateNodeEvent';
 export { AddElementFaultEvent } from './addElementFaultEvent';
 export { DeleteElementFaultEvent } from './deleteElementFaultEvent';
+export { ConfigurationEditorTypeMappingChangeEvent } from './configurationEditorTypeMappingChangeEvent';
