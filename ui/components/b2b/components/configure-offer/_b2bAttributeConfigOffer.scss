@@ -65,6 +65,7 @@
     color: #000;
     font-size: 1rem;
     font-weight: 400;
+    margin-bottom: -1.375rem;
   }
   table {
     width: 98%;
@@ -75,7 +76,8 @@
     padding-left: 1rem;
   }
   th {
-    font-size: 0.7rem;
+    font-size: .75rem;
+    text-transform: uppercase;
   }
   tr:not(:first-child) {
     border-left: 1px solid #d8d8d8;
@@ -84,7 +86,7 @@
   tr td {
     font-size: 1rem;
     letter-spacing: 0.0375rem;
-    font-weight: 400;
+    font-weight: 300;
     color: #595959;
     border-bottom: 1px solid #f2f2f2;
   }
@@ -94,10 +96,14 @@
   tr:last-child td {
     border-bottom: 1px solid #d8d8d8;
   }
+  tr td:first-child {
+    font-weight: 400;
+  }
   th:first-child {
     width: 70vh;
   }
   .nds-b2b-attribute-radio {
+    margin-right: 1vw;
     &.nds-radio [type=radio]:checked+.nds-radio__label .nds-radio_faux {
       border-color: #1589ee;
     }
