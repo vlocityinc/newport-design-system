@@ -31,10 +31,23 @@
           /* Icon */
           &::after {
             content: "\276F";
-            width: 1em;
-            height: 1em;
+            width: 1.3em;
+            height: 1.3em;
+            font-size: 1.6rem;
             text-align: center;
             transition: all 0.35s;
+            color: #B0ADAB;
+          }
+          .nds-b2b-attributes_info {
+            position: absolute;
+            left: 20rem;
+            @include cardsHeaderAttributes;
+          }
+          .nds-b2b-price_info {
+            right: 12rem;
+            position: absolute;
+            display: flex;
+            @include cardsHeaderAttributes
           }
         }
         &-content {
@@ -48,9 +61,12 @@
             &::after {
               transform: rotate(90deg);
             }
+            .nds-b2b-attributes_info {
+              display: none;
+            }
           }
           ~ .nds-b2b-card_tab-content {
-            max-height: 100vh;
+            max-height: inherit;
             padding: 2rem 0 1rem 0;
             border-top: 1px solid #d8d8d8;
           }
@@ -84,10 +100,6 @@
   border-bottom: 1px solid #d8d8d8;
   font-weight: 300;
 }
-.nds-b2b-card-hide {
-  display: none;
-}
-
 .nds-theme_default {
   background-color: #f6f6f6 !important;
 }

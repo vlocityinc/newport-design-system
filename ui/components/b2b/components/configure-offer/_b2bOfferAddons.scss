@@ -43,6 +43,29 @@
         color: #1589ee;
         font-size: 0.8rem;
         cursor: pointer;
+        .nds-b2b-quantity {
+          width: 2.5rem;
+          padding-left: 1rem;
+          color: #595959;
+        }
+        /* Chrome, Safari, Edge, Opera */
+        input.nds-b2b-quantity::-webkit-outer-spin-button,
+        input.nds-b2b-quantity::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        /* Firefox */
+        input.nds-b2b-quantity[type=number] {
+          -moz-appearance: textfield;
+        }
+        input.nds-b2b-quantity:focus{
+          outline: none;
+        }
+        .nds-b2b-delete-icon {
+          margin-left: 0.3rem;
+          cursor: pointer;
+        }
       }
     }
     .nds-b2b-add-offer_btn {

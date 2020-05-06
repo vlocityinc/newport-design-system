@@ -310,7 +310,28 @@ storiesOf(`${base}`, module)
         <div class="nds-b2b-card_tabs">
           <div class="nds-b2b-card_tab">
             <input type="checkbox" id="chck1" class="nds-b2b-card_checkbox">
-            <label class="nds-b2b-card_tab-label" for="chck1">Details</label>
+            <label class="nds-b2b-card_tab-label" for="chck1">Details
+              <div class="nds-grid nds-wrap nds-b2b-attributes_info">
+                <div class="nds-b2b-each-attribute">
+                  <p class="nds-b2b-attribute_label">Contract Term</p>
+                  <p class="nds-b2b-attribute_value">12 mo</p>
+                </div>
+                <div class="nds-b2b-each-attribute">
+                  <p class="nds-b2b-attribute_label">Download Speed</p>
+                  <p class="nds-b2b-attribute_value">500 Mbps</p>
+                </div>
+              </div>
+              <div class="nds-grid nds-wrap nds-b2b-price_info">
+                <div class="nds-b2b-each-attribute">
+                <p class="nds-b2b-attribute_label">One Time Total</p>
+                <p class="nds-b2b-attribute_value">123</p>
+                </div>
+                <div class="nds-b2b-each-attribute">
+                <p class="nds-b2b-attribute_label">Monthly Total</p>
+                <p class="nds-b2b-attribute_value">19</p>
+                </div>
+              </div>
+            </label>
             <div class="nds-b2b-card_tab-content">
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum, reiciendis!
             </div>
@@ -396,7 +417,14 @@ storiesOf(`${base}`, module)
                     </div>
                     <div class="nds-grid nds-col nds-wrap nds-b2b-attribute-each-row">
                       <div class="nds-b2b-configure-text nds-size_10-of-12">Child Product DEF</div>
-                      <div class="nds-b2b-configure-text nds-b2b-configure-text-view nds-size_2-of-12 nds-text-align_right">View</div>
+                      <div class="nds-b2b-configure-text nds-b2b-configure-text-view nds-size_2-of-12 nds-text-align_right">
+                        <input type="number" value="1" class="nds-b2b-quantity"/>
+                        <c-icon theme="nds" icon-name="utility:rows" size="small" extraclass="nds-icon-text-default">
+                          <span class="nds-icon_container nds-icon-utility-cross nds-b2b-delete-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 52 52"><g fill="#595959"><path d="m45.5 10h-12.5v-4c0-2.2-1.8-4-4-4h-6c-2.2 0-4 1.8-4 4v4h-12.5c-0.8 0-1.5 0.7-1.5 1.5v3c0 0.8 0.7 1.5 1.5 1.5h39c0.8 0 1.5-0.7 1.5-1.5v-3c0-0.8-0.7-1.5-1.5-1.5z m-22.5-3c0-0.6 0.4-1 1-1h4c0.6 0 1 0.4 1 1v3h-6v-3z m18.5 13h-31c-0.8 0-1.5 0.7-1.5 1.5v23.5c0 2.8 2.2 5 5 5h24c2.8 0 5-2.2 5-5v-23.5c0-0.8-0.7-1.5-1.5-1.5z m-18.5 22c0 0.6-0.4 1-1 1h-2c-0.6 0-1-0.4-1-1v-14c0-0.6 0.4-1 1-1h2c0.6 0 1 0.4 1 1v14z m10 0c0 0.6-0.4 1-1 1h-2c-0.6 0-1-0.4-1-1v-14c0-0.6 0.4-1 1-1h2c0.6 0 1 0.4 1 1v14z"></path></g></svg>
+                          </span>
+                        </c-icon>
+                      </div>
                     </div>
                   </div> 
                 </div>
