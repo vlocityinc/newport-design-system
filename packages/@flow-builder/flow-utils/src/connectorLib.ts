@@ -28,7 +28,7 @@ import {
  */
 function getConditionValue(conditionOptions: Option[], index: number): Guid | undefined {
     if (index < conditionOptions.length) {
-        return conditionOptions[index] && conditionOptions[index].value;
+        return conditionOptions[index].value;
     }
 }
 
@@ -131,6 +131,11 @@ function createConnectorToNextNode(
 
     if (!connectorRenderInfo.defaultConnectorLabel) {
         delete connectorRenderInfo.defaultConnectorLabel;
+    }
+
+    if (!connectorRenderInfo.conditionOptions) {
+        delete connectorRenderInfo.conditionOptions;
+        delete connectorRenderInfo.conditionValue;
     }
 
     return connectorRenderInfo;

@@ -19,13 +19,31 @@ const START_ELEMENT = {
 
 const END_ELEMENT = { guid: END_ELEMENT_GUID, elementType: ElementType.END, prev: START_ELEMENT_GUID };
 
-const BRANCH_ELEMENT = { guid: BRANCH_ELEMENT_GUID, elementType: ElementType.BRANCH, children: [null, null] };
+const BRANCH_ELEMENT = {
+    guid: BRANCH_ELEMENT_GUID,
+    elementType: ElementType.BRANCH,
+    children: [null, null],
+    defaultConnectorLabel: 'Default Connector Label'
+};
 
-const elementsMetadata = [
-    { elementType: ElementType.ROOT, type: ElementType.ROOT },
-    { elementType: ElementType.START, type: ElementType.START },
-    { elementType: ElementType.END, type: ElementType.END }
-];
+const elementsMetadata = {
+    [ElementType.ROOT]: {
+        type: ElementType.ROOT,
+        icon: 'standard:default'
+    },
+    [ElementType.START]: {
+        type: ElementType.START,
+        icon: 'standard:default'
+    },
+    [ElementType.BRANCH]: {
+        type: ElementType.BRANCH,
+        icon: 'standard:default'
+    },
+    [ElementType.END]: {
+        type: ElementType.END,
+        icon: 'standard:default'
+    }
+};
 
 function createDefaultElement(guid) {
     return {
@@ -91,12 +109,11 @@ function getFlowWithEmptyDeciisionWith3BranchesContext() {
 }
 
 function getFlowWithDecisionWithOneElementOnLeftBranchContext() {
-    const leftBranchHead = createDefaultElement('branch-left-head-guid');
+    let leftBranchHead = createDefaultElement('branch-left-head-guid');
     const branchElement = { ...BRANCH_ELEMENT, children: [null, null] };
-    linkBranchOrFault(branchElement, leftBranchHead, 0);
-
+    leftBranchHead = linkBranchOrFault(branchElement, leftBranchHead, 0);
     const elements = linkElements([START_ELEMENT, branchElement, END_ELEMENT]);
-
+    elements.push(leftBranchHead);
     const flowModel = flowModelFromElements([ROOT_ELEMENT, ...elements]);
     return createFlowRenderContext({ flowModel });
 }

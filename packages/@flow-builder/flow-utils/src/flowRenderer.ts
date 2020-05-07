@@ -617,7 +617,7 @@ function createPreConnector(
         context.isFault || conditionType === ConditionType.FAULT,
         variant,
         isDeletingBranch,
-        conditionOptions,
+        conditionType === ConditionType.DEFAULT || conditionType === ConditionType.FAULT ? undefined : conditionOptions,
         conditionType,
         conditionType === ConditionType.DEFAULT ? parentNode.defaultConnectorLabel : undefined
     );
