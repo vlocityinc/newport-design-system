@@ -18,6 +18,14 @@
     display: table-row;
 	border-bottom: 1px solid $palette-gray-4;
 
+	&:not(.nds-b2b-table_headerrow):hover {
+		background-color: $color-background-row-hover;
+
+		.nds-transition-hide {
+			opacity: 1;
+		}
+	}
+
 	.nds-b2b-table_head & {
 		border-color: $color-gray-7
 	}
@@ -37,7 +45,6 @@
 
 	.nds-b2b-table_head & {
 		font-weight: bold;
-		// padding-top: $spacing-small;
 		padding-bottom: $spacing-small;
 		text-transform: uppercase;
 		letter-spacing: 0.05rem;
@@ -56,4 +63,31 @@
 
 .nds-b2b-icon_cell {
 	width: 3rem;
+}
+
+.nds-b2b-table_checkbox {
+	.nds-checkbox {
+		.nds-checkbox_faux {
+			border-color: $black-primary;
+		}
+
+		& [type=checkbox]:focus ~ .nds-checkbox_faux{
+			border-color: $black-primary;
+		}
+
+		& [type=checkbox]:focus:checked ~ .nds-checkbox_faux,
+		& [type=checkbox]:checked ~ .nds-checkbox_faux {
+			background-color: $blue-background-primary;
+			border-color: $black-primary;
+			opacity: 1;
+		}
+
+		& [type=checkbox]:indeterminate ~ .nds-checkbox_faux {
+			background-color: $blue-background-primary;
+
+			&:after {
+				background-color: $white;
+			}
+		}	
+	}
 }
