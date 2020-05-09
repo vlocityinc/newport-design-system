@@ -30,17 +30,5 @@
 	}
 }	
 
-.nds-b2b-checkbox-cont {
-	.nds-checkbox {
-		.nds-checkbox_faux {
-			border-color: $black-primary;
-		}
-
-		& [type=checkbox]:focus:checked ~ .nds-checkbox_faux,
-		& [type=checkbox]:checked ~ .nds-checkbox_faux {
-			background-color: $blue-background-primary;
-		}	
-	}
-}
 
 
