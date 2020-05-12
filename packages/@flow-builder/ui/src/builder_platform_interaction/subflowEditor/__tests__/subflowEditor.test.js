@@ -18,7 +18,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
 );
-jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
@@ -79,10 +79,14 @@ jest.mock('builder_platform_interaction/storeLib', () => {
             getCurrentState
         };
     };
+
     const storeLib = require('builder_platform_interaction_mocks/storeLib');
-    // Overriding mock storeLib to have custom getStore function
-    storeLib.Store.getStore = getStore;
-    return storeLib;
+
+    return Object.assign({}, storeLib, {
+        Store: {
+            getStore
+        }
+    });
 });
 
 const subflowNode = {

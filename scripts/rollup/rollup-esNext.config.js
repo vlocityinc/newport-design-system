@@ -1,7 +1,7 @@
 import { banner } from './utils';
 import { resolve } from 'path';
-import pluginNodeResolve from 'rollup-plugin-node-resolve';
-import pluginCommonJS from 'rollup-plugin-commonjs';
+import pluginNodeResolve from '@rollup/plugin-node-resolve';
+import pluginCommonJS from '@rollup/plugin-commonjs';
 
 const plugins = [];
 

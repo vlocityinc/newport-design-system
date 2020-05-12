@@ -50,6 +50,7 @@ export default class PropertyEditorPanel extends LightningElement {
      */
     // eslint-disable-next-line @lwc/lwc/no-async-await
     async processParams(params) {
+        // eslint-disable-next-line lwc-core/no-dynamic-import
         const module = await import(params.attr.bodyComponent.className);
 
         this.ctor = module.default;

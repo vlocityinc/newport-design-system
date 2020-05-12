@@ -5,7 +5,7 @@ import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { flowWithScreenAndLightningComponentAddress } from 'mock/flows/flowWithScreenAndLightningComponentAddress';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import { clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib/';
+import { clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib';
 import { initializeAuraFetch, createGetterByProcessType } from '../../serverDataTestUtils';
 import { flowExtensionDetails } from 'serverData/GetFlowExtensionDetails/flowExtensionDetails.json';
 import {

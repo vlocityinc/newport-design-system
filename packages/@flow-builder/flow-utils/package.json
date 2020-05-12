@@ -18,7 +18,6 @@
         "build:dev": "yarn build:ts && yarn build:target:lwc",
         "build": "yarn build:dev && yarn build:target:npm",
         "watch": "watch -p 'src/**/*.ts' -c 'yarn build:dev'",
-        "lint": "tslint -p ./tsconfig.json",
         "test": "jest src/**/*.test.js"
     },
     "dependencies": {

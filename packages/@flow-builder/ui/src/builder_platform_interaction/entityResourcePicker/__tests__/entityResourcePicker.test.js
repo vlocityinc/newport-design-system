@@ -6,7 +6,7 @@ import {
     getEventTypesMenuDataManagedSetup
 } from 'builder_platform_interaction/expressionUtils';
 import { ComboboxStateChangedEvent, ItemSelectedEvent } from 'builder_platform_interaction/events';
-import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker/';
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import EntityResourcePicker from '../entityResourcePicker';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';

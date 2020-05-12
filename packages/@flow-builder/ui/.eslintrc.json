@@ -34,7 +34,10 @@
                         "**/builder_platform_interaction/builderUtils/builderUtils.js",
                         "**/jestSetup.js"
                     ],
-                    "lwc-core/no-process-env": ["**/jestSetup.js"]
+                    "lwc-core/no-process-env": ["**/jestSetup.js"],
+                    "lwc-core/no-dynamic-import": [
+                        "**/builder_platform_interaction/propertyEditorPanel/propertyEditorPanel.js"
+                    ]
                 }
             }
         ]

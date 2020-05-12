@@ -20,7 +20,6 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
 jest.mock('builder_platform_interaction/fieldPicker', () => require('builder_platform_interaction_mocks/fieldPicker'));
-jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     const getCurrentState = function() {
@@ -36,10 +35,14 @@ jest.mock('builder_platform_interaction/storeLib', () => {
             getCurrentState
         };
     };
+
     const storeLib = require('builder_platform_interaction_mocks/storeLib');
-    // Overriding mock storeLib to have custom getStore function
-    storeLib.Store.getStore = getStore;
-    return storeLib;
+
+    return Object.assign({}, storeLib, {
+        Store: {
+            getStore
+        }
+    });
 });
 
 function createComponentForTest(node, mode = EditElementEvent.EVENT_NAME, processType = 'Flow') {
