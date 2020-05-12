@@ -1,13 +1,8 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { LABELS } from './flcNodeMenuLabels';
 
-// TODO: FLC use real labels
-const deleteFaultLabel = 'Delete Fault';
-const addFaultLabel = 'Add Fault';
-const deleteLabel = 'Delete';
-const copyElementLabel = 'Copy Element';
-const deleteElementLabel = 'Delete Element';
+// TODO: Remove this as a part of branch connect story
 const deleteElementAndReconnectLabel = 'Delete Element and Reconnect';
-const editDetailsLabel = 'Edit Details';
 
 export const CONTEXTUAL_MENU_MODE = {
     BASE_ACTIONS_MODE: 'BASE_ACTIONS_MODE',
@@ -16,15 +11,27 @@ export const CONTEXTUAL_MENU_MODE = {
 
 export const ELEMENT_ACTION_CONFIG = {
     COPY_ACTION: {
-        icon: 'utility:copy',
-        label: copyElementLabel,
+        icon: 'utility:copy_to_clipboard',
+        label: LABELS.copyActionLabel,
         value: 'COPY_ACTION'
     },
     DELETE_ACTION: {
         icon: 'utility:delete',
         iconVariant: 'error',
-        label: deleteElementLabel,
+        label: LABELS.deleteActionLabel,
         value: 'DELETE_ACTION'
+    },
+    ADD_FAULT_ACTION: {
+        icon: 'utility:delete',
+        iconVariant: 'error',
+        label: LABELS.addFaultActionLabel,
+        value: 'ADD_FAULT_ACTION'
+    },
+    DELETE_FAULT_ACTION: {
+        icon: 'utility:delete',
+        iconVariant: 'error',
+        label: LABELS.deleteFaultActionLabel,
+        value: 'DELETE_FAULT_ACTION'
     },
     DELETE_END_ELEMENT_ACTION: {
         icon: 'utility:reply',
@@ -33,42 +40,25 @@ export const ELEMENT_ACTION_CONFIG = {
         value: 'DELETE_ACTION'
     },
     EDIT_DETAILS_ACTION: {
-        buttonText: editDetailsLabel,
+        buttonTextLabel: LABELS.editDetailsFooterActionLabel,
+        buttonTextTitle: LABELS.editDetailsFooterActionTitle,
         buttonVariant: 'brand',
         value: 'EDIT_DETAILS_ACTION'
     },
     DELETE_BRANCH_ELEMENT_ACTION: {
         buttonIcon: 'utility:delete',
         buttonIconPosition: 'left',
-        buttonText: deleteLabel,
+        buttonTextLabel: LABELS.deleteFooterActionLabel,
+        buttonTextTitle: LABELS.deleteFooterActionTitle,
         buttonVariant: 'destructive',
         value: 'DELETE_BRANCH_ELEMENT_ACTION'
-    },
-    ADD_FAULT_ACTION: {
-        icon: 'utility:delete',
-        iconVariant: 'error',
-        label: addFaultLabel,
-        value: 'ADD_FAULT_ACTION'
-    },
-    DELETE_FAULT_ACTION: {
-        icon: 'utility:delete',
-        iconVariant: 'error',
-        label: deleteFaultLabel,
-        value: 'DELETE_FAULT_ACTION'
     }
 };
 
 const getFooterData = contextualMenuMode => {
-    const actionConfig =
-        contextualMenuMode === CONTEXTUAL_MENU_MODE.DELETE_BRANCH_ELEMENT_MODE
-            ? ELEMENT_ACTION_CONFIG.DELETE_BRANCH_ELEMENT_ACTION
-            : ELEMENT_ACTION_CONFIG.EDIT_DETAILS_ACTION;
-    const buttonIcon = actionConfig.buttonIcon;
-    const buttonIconPosition = actionConfig.buttonIconPosition;
-    const buttonText = actionConfig.buttonText;
-    const buttonVariant = actionConfig.buttonVariant;
-
-    return { buttonIcon, buttonIconPosition, buttonText, buttonVariant };
+    return contextualMenuMode === CONTEXTUAL_MENU_MODE.DELETE_BRANCH_ELEMENT_MODE
+        ? ELEMENT_ACTION_CONFIG.DELETE_BRANCH_ELEMENT_ACTION
+        : ELEMENT_ACTION_CONFIG.EDIT_DETAILS_ACTION;
 };
 
 export const getMenuConfiguration = (

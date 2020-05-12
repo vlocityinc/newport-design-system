@@ -2,6 +2,7 @@ import { LightningElement, api } from 'lwc';
 import { ElementType } from 'builder_platform_interaction/flowUtils';
 import { EditElementEvent, FlcSelectDeselectNodeEvent, SelectNodeEvent } from 'builder_platform_interaction/events';
 import { classSet } from 'lightning/utils';
+import { LABELS } from './flcNodeLabels';
 
 /**
  * Autolayout Canvas Node Component
@@ -13,6 +14,10 @@ export default class FlcNode extends LightningElement {
     @api
     isSelectionMode;
 
+    get labels() {
+        return LABELS;
+    }
+
     get conditionOptionsForNode() {
         let conditionOptionsForNode;
         if (this.nodeInfo.conditionOptions) {
@@ -23,7 +28,7 @@ export default class FlcNode extends LightningElement {
                     value: 'DEFAULT_PATH'
                 },
                 {
-                    label: 'None: Delete All Outcomes',
+                    label: this.labels.deleteAllPathsComboboxLabel,
                     value: 'NO_PATH'
                 }
             ];
@@ -79,6 +84,11 @@ export default class FlcNode extends LightningElement {
         }
     }
 
+    /**
+     * Handles double click on the node and dispatches the EditElementEvent
+     *
+     * @param {object} event - double click event fired on double clicking the node
+     */
     handleOnDblClick(event) {
         event.stopPropagation();
         if (!this.isSelectionMode) {
@@ -86,9 +96,18 @@ export default class FlcNode extends LightningElement {
         }
     }
 
+    /**
+     * Handles the click on the selection checkbox and dispatches an event to toggle
+     * the selected state of the node.
+     *
+     * @param {object} event - click event fired when clicking on the selection checkbox
+     */
     handleSelectionCheckboxClick = event => {
         event.stopPropagation();
-        const nodeSelectionEvent = new FlcSelectDeselectNodeEvent(this.nodeInfo.guid, this.nodeInfo.config.isSelected);
-        this.dispatchEvent(nodeSelectionEvent);
+        const toggleNodeSelectionEvent = new FlcSelectDeselectNodeEvent(
+            this.nodeInfo.guid,
+            this.nodeInfo.config.isSelected
+        );
+        this.dispatchEvent(toggleNodeSelectionEvent);
     };
 }

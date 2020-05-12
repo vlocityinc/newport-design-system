@@ -12,7 +12,7 @@
         <!-- Element Icon -->
         <lightning-icon
             slot="trigger"
-            alternative-text="Approved"
+            alternative-text={labels.nodeIconAltText}
             icon-name={nodeInfo.metadata.icon}
             size="large"
             variant="inverse"
@@ -22,7 +22,7 @@
         <lightning-button-icon
             if:true={showCheckboxInSelectionMode}
             slot="selection-checkbox"
-            alternative-text="Select Element"
+            alternative-text={labels.selectionCheckboxAltText}
             class="selection-checkbox"
             disabled={shouldDisableCheckbox}
             icon-name={checkboxIconName}

@@ -11,6 +11,7 @@ import {
 import Menu from 'builder_platform_interaction/menu';
 import { CONTEXTUAL_MENU_MODE, ELEMENT_ACTION_CONFIG, getMenuConfiguration } from './flcNodeMenuConfig';
 import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
+import { LABELS } from './flcNodeMenuLabels';
 
 /**
  * The node menu overlay, displayed when clicking on a node.
@@ -34,6 +35,10 @@ export default class FlcNodeMenu extends Menu {
     _selectedConditionValue;
     _childIndexToKeep = 0;
     _isRendered = false;
+
+    get labels() {
+        return LABELS;
+    }
 
     get menuConfiguration() {
         return getMenuConfiguration(this.elementMetadata, this.contextualMenuMode, this.elementHasFault);

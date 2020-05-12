@@ -1,8 +1,8 @@
 import { LightningElement, api } from 'lwc';
-
 import { ConditionType } from 'builder_platform_interaction/flowUtils';
 import { getStyleFromGeometry } from 'builder_platform_interaction/flcComponentsUtils';
 import { ReorderConnectorsEvent } from 'builder_platform_interaction/events';
+import { LABELS } from './flcConnectorLabels';
 
 /**
  * Auto layout Canvas Connector Component.
@@ -16,6 +16,10 @@ export default class FlcConnector extends LightningElement {
 
     // Variable to track if the connector has been rendered yet once or not
     _isRendered = false;
+
+    get labels() {
+        return LABELS;
+    }
 
     /**
      * Checks if add element button should be visible or not
@@ -96,7 +100,9 @@ export default class FlcConnector extends LightningElement {
     }
 
     get connectorBadgeLabel() {
-        return this.isDefaultBranchConnector() ? this.connectorInfo.defaultConnectorLabel : 'Fault';
+        return this.isDefaultBranchConnector()
+            ? this.connectorInfo.defaultConnectorLabel
+            : this.labels.faultConnectorBadgeLabel;
     }
 
     /**

@@ -1,5 +1,6 @@
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { LABELS } from './flcConnectorMenuLabels';
 
 export const PASTE_ACTION = 'Paste';
 
@@ -9,14 +10,15 @@ export const pasteSection = {
     items: [
         {
             guid: generateGuid(),
-            description: 'Paste copied element(s)',
-            icon: 'standard:textbox',
-            separator: true,
-            label: 'Paste',
+            description: LABELS.pasteItemDescription,
+            icon: 'standard:record',
+            iconClass: 'paste-icon',
+            label: LABELS.pasteItemLabel,
             elementType: PASTE_ACTION
         }
     ],
-    label: 'Paste Section'
+    label: LABELS.pasteSectionLabel,
+    separator: true
 };
 
 /**

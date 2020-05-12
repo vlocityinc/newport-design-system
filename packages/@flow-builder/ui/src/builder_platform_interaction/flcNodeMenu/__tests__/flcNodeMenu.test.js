@@ -9,6 +9,7 @@ import {
 import { ELEMENT_ACTION_CONFIG } from '../flcNodeMenuConfig';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { LABELS } from '../flcNodeMenuLabels';
 
 const dummySimpleElement = {
     section: 'Dummy_Section',
@@ -94,6 +95,18 @@ describe('Node Menu', () => {
             const header = menu.shadowRoot.querySelector(selectors.header);
             const cancelButton = header.querySelector(selectors.cancelButton);
             expect(cancelButton).not.toBeNull();
+        });
+
+        it('Should use a label for the Cancel button text', () => {
+            const header = menu.shadowRoot.querySelector(selectors.header);
+            const cancelButton = header.querySelector(selectors.cancelButton);
+            expect(cancelButton.label).toBe(LABELS.cancelLabel);
+        });
+
+        it('Should use a title for the Cancel button text', () => {
+            const header = menu.shadowRoot.querySelector(selectors.header);
+            const cancelButton = header.querySelector(selectors.cancelButton);
+            expect(cancelButton.title).toBe(LABELS.cancelTitle);
         });
 
         it('Clicking on the Cancel Button should dispatch ToggleMenuEvent', () => {
@@ -225,7 +238,7 @@ describe('Node Menu', () => {
             });
 
             it('Edit Button label should be as set in the config', () => {
-                expect(editButton.label).toBe(ELEMENT_ACTION_CONFIG.EDIT_DETAILS_ACTION.buttonText);
+                expect(editButton.label).toBe(ELEMENT_ACTION_CONFIG.EDIT_DETAILS_ACTION.buttonTextLabel);
             });
 
             it('Edit Button icon-name should be as set in the config', () => {
@@ -271,7 +284,7 @@ describe('Node Menu', () => {
 
         it('Combobox label should be correctly set', () => {
             const connectorCombobox = menu.shadowRoot.querySelector(selectors.conditionPicker);
-            expect(connectorCombobox.label).toEqual('Which outcome path would you like to keep?');
+            expect(connectorCombobox.label).toEqual(LABELS.deleteBranchElementComboboxLabel);
         });
 
         it('Combobox options should be same as condition options', () => {
@@ -302,7 +315,7 @@ describe('Node Menu', () => {
             });
 
             it('Delete Button label should be as set in the config', () => {
-                expect(deleteButton.label).toBe(ELEMENT_ACTION_CONFIG.DELETE_BRANCH_ELEMENT_ACTION.buttonText);
+                expect(deleteButton.label).toBe(ELEMENT_ACTION_CONFIG.DELETE_BRANCH_ELEMENT_ACTION.buttonTextLabel);
             });
 
             it('Delete Button icon-name should be as set in the config', () => {

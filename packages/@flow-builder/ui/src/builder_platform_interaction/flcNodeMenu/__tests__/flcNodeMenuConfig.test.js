@@ -1,5 +1,6 @@
 import { CONTEXTUAL_MENU_MODE, ELEMENT_ACTION_CONFIG, getMenuConfiguration } from '../flcNodeMenuConfig';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { LABELS } from '../flcNodeMenuLabels';
 
 const getElementMetadata = (elementType, canHaveFaultConnector) => {
     const label = 'dummyLabel';
@@ -40,6 +41,30 @@ describe('getMenuConfiguration tests', () => {
                 ]);
             });
 
+            it('Copy Action should have the right icon', () => {
+                expect(configuration.body.nodeActions[0].icon).toBe('utility:copy_to_clipboard');
+            });
+
+            it('Copy Action should have the right label', () => {
+                expect(configuration.body.nodeActions[0].label).toBe(LABELS.copyActionLabel);
+            });
+
+            it('Delete Action should have the right icon', () => {
+                expect(configuration.body.nodeActions[1].icon).toBe('utility:delete');
+            });
+
+            it('Delete Action should have the right label', () => {
+                expect(configuration.body.nodeActions[1].label).toBe(LABELS.deleteActionLabel);
+            });
+
+            it('Add Fault Action should have the right icon', () => {
+                expect(configuration.body.nodeActions[2].icon).toBe('utility:delete');
+            });
+
+            it('Add Fault should have the right label', () => {
+                expect(configuration.body.nodeActions[2].label).toBe(LABELS.addFaultActionLabel);
+            });
+
             it('Should have Footer', () => {
                 expect(configuration.footer).toBeDefined();
             });
@@ -54,8 +79,16 @@ describe('getMenuConfiguration tests', () => {
                 );
             });
 
-            it('Should have buttonText in the footer as the one set in EDIT_DETAILS_ACTION', () => {
-                expect(configuration.footer.buttonText).toBe(ELEMENT_ACTION_CONFIG.EDIT_DETAILS_ACTION.buttonText);
+            it('Should have buttonTextLabel in the footer as the one set in EDIT_DETAILS_ACTION', () => {
+                expect(configuration.footer.buttonTextLabel).toBe(
+                    ELEMENT_ACTION_CONFIG.EDIT_DETAILS_ACTION.buttonTextLabel
+                );
+            });
+
+            it('Should have buttonTextTitle in the footer as the one set in EDIT_DETAILS_ACTION', () => {
+                expect(configuration.footer.buttonTextTitle).toBe(
+                    ELEMENT_ACTION_CONFIG.EDIT_DETAILS_ACTION.buttonTextTitle
+                );
             });
 
             it('Should have buttonVariant in the footer as the one set in EDIT_DETAILS_ACTION', () => {
@@ -107,8 +140,16 @@ describe('getMenuConfiguration tests', () => {
             );
         });
 
-        it('Should have buttonText in the footer as the one set in DELETE_BRANCH_ELEMENT_ACTION', () => {
-            expect(configuration.footer.buttonText).toBe(ELEMENT_ACTION_CONFIG.DELETE_BRANCH_ELEMENT_ACTION.buttonText);
+        it('Should have buttonTextLabel in the footer as the one set in DELETE_BRANCH_ELEMENT_ACTION', () => {
+            expect(configuration.footer.buttonTextLabel).toBe(
+                ELEMENT_ACTION_CONFIG.DELETE_BRANCH_ELEMENT_ACTION.buttonTextLabel
+            );
+        });
+
+        it('Should have buttonTextTitle in the footer as the one set in DELETE_BRANCH_ELEMENT_ACTION', () => {
+            expect(configuration.footer.buttonTextTitle).toBe(
+                ELEMENT_ACTION_CONFIG.DELETE_BRANCH_ELEMENT_ACTION.buttonTextTitle
+            );
         });
 
         it('Should have buttonVariant in the footer as the one set in DELETE_BRANCH_ELEMENT_ACTION', () => {

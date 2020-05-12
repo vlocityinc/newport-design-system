@@ -2,6 +2,7 @@ import { createElement } from 'lwc';
 import FlcNode from 'builder_platform_interaction/flcNode';
 import { FlcSelectDeselectNodeEvent } from 'builder_platform_interaction/events';
 import { ElementType } from 'builder_platform_interaction/flowUtils';
+import { LABELS } from '../flcNodeLabels';
 
 const createComponentUnderTest = (props = {}) => {
     const el = createElement('builder_platform_interaction-flcNode', {
@@ -63,7 +64,13 @@ describe('FlcNode', () => {
         expect(selectionCheckbox).toBeNull();
     });
 
-    it('The Selection Box should be disabled when isSelectable is true', () => {
+    it('The Selection Box should have the correct alternative text', () => {
+        const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
+        const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
+        expect(selectionCheckbox.alternativeText).toBe(LABELS.selectionCheckboxAltText);
+    });
+
+    it('The Selection Box should not be disabled when isSelectable is true', () => {
         const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
         const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
         expect(selectionCheckbox.disabled).toBeFalsy();

@@ -1,15 +1,10 @@
 <template>
     <builder_platform_interaction-flc-menu>
-        <div
-            class="node-menu-header slds-border_bottom slds-dropdown__header"
-            role="separator"
-            slot="header"
-            title="Menu Sub Heading"
-        >
+        <div class="node-menu-header slds-border_bottom slds-dropdown__header" role="separator" slot="header">
             <lightning-button
                 class="slds-float_right test-cancel-button"
-                label="Cancel"
-                title="Cancel"
+                label={labels.cancelLabel}
+                title={labels.cancelTitle}
                 variant="base"
                 onclick={handleCancelButtonClick}
             ></lightning-button>
@@ -51,7 +46,7 @@
 
             <div if:true={isDeleteBranchElementMode} class="slds-p-around_x-small">
                 <lightning-combobox
-                    label="Which outcome path would you like to keep?"
+                    label={labels.deleteBranchElementComboboxLabel}
                     options={conditionOptions}
                     value={selectedConditionValue}
                     onchange={handleComboboxChange}
@@ -61,9 +56,10 @@
 
         <div if:true={menuConfiguration.footer} class="slds-border_top slds-p-around_small test-footer" slot="footer">
             <lightning-button
-                label={menuConfiguration.footer.buttonText}
+                label={menuConfiguration.footer.buttonTextLabel}
                 icon-name={menuConfiguration.footer.buttonIcon}
                 icon-position={menuConfiguration.footer.buttonIconPosition}
+                title={menuConfiguration.footer.buttonTextTitle}
                 variant={menuConfiguration.footer.buttonVariant}
                 onclick={handleFooterButtonClick}
             ></lightning-button>

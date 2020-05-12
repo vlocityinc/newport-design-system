@@ -1,3 +1,7 @@
 .body-fixed-height {
     height: 16rem;
 }
+
+.paste-icon {
+    background-color: var(--lwc-colorGray8);
+}

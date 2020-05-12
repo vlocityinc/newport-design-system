@@ -1,13 +1,8 @@
 <template>
     <builder_platform_interaction-flc-menu>
-        <div
-            slot="header"
-            class="slds-border_bottom slds-dropdown__header slds-truncate"
-            title="Menu Sub Heading"
-            role="separator"
-        >
+        <div slot="header" class="slds-border_bottom slds-dropdown__header slds-truncate" role="separator">
             <h3 class="slds-m-vertical_small slds-text-heading_small">
-                Add Element
+                {labels.menuHeader}
             </h3>
         </div>
         <div slot="body" class="slds-scrollable_y body-fixed-height">
@@ -35,7 +30,11 @@
                                     tabindex="0"
                                 >
                                     <span class="slds-media__figure slds-listbox__option-icon">
-                                        <lightning-icon icon-name={item.icon} size="small"></lightning-icon>
+                                        <lightning-icon
+                                            class={item.iconClass}
+                                            icon-name={item.icon}
+                                            size="small"
+                                        ></lightning-icon>
                                     </span>
                                     <span class="slds-media__body">
                                         <span class="slds-listbox__option-text slds-listbox__option-text_entity"
@@ -48,9 +47,13 @@
                                     </span>
                                 </div>
                             </li>
-                            <li if:true={item.separator} class="slds-has-divider_top-space" role="separator"></li>
                         </div>
                     </template>
+                    <li
+                        if:true={section.separator}
+                        class="slds-has-divider slds-m-top_none slds-p-top_none"
+                        role="separator"
+                    ></li>
                 </ul>
             </template>
         </div>
