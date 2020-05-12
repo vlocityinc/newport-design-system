@@ -5,9 +5,10 @@ export class RuleFactoryItem {}
 export class Rule {}
 
 export class ContextInfo {
-    constructor(context, scope) {
+    constructor(context, scope, additionalDataContexts) {
         this._context = context;
         this._scope = scope;
+        this.additionalDataContexts = additionalDataContexts;
     }
 }
 
