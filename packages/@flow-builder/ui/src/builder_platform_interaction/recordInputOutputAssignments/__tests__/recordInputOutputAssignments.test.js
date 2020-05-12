@@ -8,7 +8,7 @@ import {
     UpdateRecordFieldAssignmentEvent,
     DeleteRecordFieldAssignmentEvent
 } from 'builder_platform_interaction/events';
-import RecordInputOutputAssignments from '../recordInputOutputAssignments.js';
+import RecordInputOutputAssignments from '../recordInputOutputAssignments';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>

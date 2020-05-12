@@ -1,2 +1,2 @@
 // @ts-nocheck
-export * from './screenEditorLabels.js';
+export * from './screenEditorLabels';

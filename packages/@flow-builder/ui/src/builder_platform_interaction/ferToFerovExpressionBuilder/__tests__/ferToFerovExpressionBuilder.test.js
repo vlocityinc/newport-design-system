@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
-import FerToFerovExpressionBuilder from '../ferToFerovExpressionBuilder.js';
+import FerToFerovExpressionBuilder from '../ferToFerovExpressionBuilder';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { numberVariable, accountSObjectVariable } from 'mock/storeData';
 import { elementToParam, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';

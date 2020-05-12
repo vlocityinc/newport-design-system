@@ -20,7 +20,7 @@ export { DeleteConditionEvent } from './deleteConditionEvent';
 export { RowContentsChangedEvent } from './rowContentsChangedEvent';
 export { FilterMatchesEvent } from './filterMatchesEvent';
 export { NewResourceEvent } from './newResourceEvent';
-export { CANVAS_EVENT, ZOOM_ACTION, MARQUEE_ACTION } from './canvasEvents/canvasEvents.js';
+export { CANVAS_EVENT, ZOOM_ACTION, MARQUEE_ACTION } from './canvasEvents/canvasEvents';
 export { CopySingleElementEvent } from './canvasEvents/copySingleElementEvent';
 export { DragNodeEvent } from './canvasEvents/dragNodeEvent';
 export { DragNodeStopEvent } from './canvasEvents/dragNodeStopEvent';

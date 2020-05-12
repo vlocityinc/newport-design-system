@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import VariableConstantEditor from '../variableConstantEditor';
-import { variableConstantValidation, getRules } from '../variableConstantValidation.js';
+import { variableConstantValidation, getRules } from '../variableConstantValidation';
 import * as mockStoreData from 'mock/storeData';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 

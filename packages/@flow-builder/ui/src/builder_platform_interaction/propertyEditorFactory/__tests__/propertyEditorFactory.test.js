@@ -42,7 +42,7 @@ describe('propertyEditorFactory', () => {
             }, {});
             expect(actualElementsForPropertyEditors).toEqualGoldObject(
                 elementsForPropertyEditors,
-                'elementsForPropertyEditors in mock_store_data/elementsForPropertyEditors.js'
+                'elementsForPropertyEditors in mock_store_data/elementsForPropertyEditors'
             );
         });
     });

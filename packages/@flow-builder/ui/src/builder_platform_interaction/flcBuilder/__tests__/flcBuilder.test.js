@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import FlcBuilder from 'builder_platform_interaction/flcBuilder';
-import { flowModel, elementsMetadata /* , nodeLayoutMap,*/ } from './mockData.js';
+import { flowModel, elementsMetadata /* , nodeLayoutMap,*/ } from './mockData';
 import { ToggleMenuEvent } from 'builder_platform_interaction/events';
 import { MenuType } from 'builder_platform_interaction/flowUtils';
 import { ClickToZoomEvent, ZOOM_ACTION } from 'builder_platform_interaction/events';
@@ -54,7 +54,7 @@ jest.mock('builder_platform_interaction/flcNodeMenu', () => require('builder_pla
 jest.mock('builder_platform_interaction/flowUtils', () => {
     const flowUtils = jest.requireActual('builder_platform_interaction/flowUtils');
     const { ElementType, getDefaultLayoutConfig, panzoom, toggleFlowMenu } = flowUtils;
-    const { flowRenderInfo } = require('./mockData.js');
+    const { flowRenderInfo } = require('./mockData');
 
     return {
         renderFlow: jest.fn(() => flowRenderInfo),

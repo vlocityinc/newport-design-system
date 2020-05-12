@@ -9,7 +9,7 @@ import {
 } from 'mock/storeDataAutolaunched';
 import { Store } from 'builder_platform_interaction/storeLib';
 import * as autolaunchedFlow from 'mock/flows/autolaunchedFlow.json';
-import { getMetadataFlowElementByName } from 'mock/flows/mock-flow.js';
+import { getMetadataFlowElementByName } from 'mock/flows/mock-flow';
 import { INCOMPLETE_ELEMENT } from '../base/baseElement';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));

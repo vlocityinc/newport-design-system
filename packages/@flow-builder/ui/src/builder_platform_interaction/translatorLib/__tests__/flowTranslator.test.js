@@ -250,7 +250,7 @@ describe('Flow Translator', () => {
             uiFlow = translateFlowToUIModel(flowWithAllElements);
             expect(uiFlow).toEqualGoldObject(
                 flowWithAllElementsUIModel,
-                'flowWithAllElementsUIModel in mock_store_data/flowWithAllElementsUIModel.js'
+                'flowWithAllElementsUIModel in mock_store_data/flowWithAllElementsUIModel'
             );
         });
         // before W-7364488, 2 calls were needed for some elements to get the final ui model (ex : loop in automatic output handling mode)
@@ -271,7 +271,7 @@ describe('Flow Translator', () => {
 
         expect(uiFlow).toEqualGoldObject(
             autolaunchedFlowUIModel,
-            'autolaunchedFlowUIModel in mock_store_data_autolaunched/autolaunchedFlowUIModel.js'
+            'autolaunchedFlowUIModel in mock_store_data_autolaunched/autolaunchedFlowUIModel'
         );
     });
     it('returns expected ui model for a contact request flow', () => {
@@ -282,7 +282,7 @@ describe('Flow Translator', () => {
 
         expect(uiFlow).toEqualGoldObject(
             contactRequestFlowUIModel,
-            'contactRequestFlowUIModel in mock_store_data_contactrequest/contactRequestFlowUIModel.js'
+            'contactRequestFlowUIModel in mock_store_data_contactrequest/contactRequestFlowUIModel'
         );
     });
     it('returns expected ui model for a field service mobile flow', () => {
@@ -293,7 +293,7 @@ describe('Flow Translator', () => {
 
         expect(uiFlow).toEqualGoldObject(
             fieldServiceMobileFlowUIModel,
-            'fieldServiceMobileFlowUIModel in mock_store_data_contactrequest/fieldServiceMobileFlowUIModel.js'
+            'fieldServiceMobileFlowUIModel in mock_store_data_contactrequest/fieldServiceMobileFlowUIModel'
         );
     });
 });

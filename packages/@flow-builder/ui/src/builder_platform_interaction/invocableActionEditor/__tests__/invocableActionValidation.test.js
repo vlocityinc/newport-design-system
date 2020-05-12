@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import InvocableActionEditor from '../invocableActionEditor';
-import { invocableActionValidation } from '../invocableActionValidation.js';
+import { invocableActionValidation } from '../invocableActionValidation';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
 jest.mock('builder_platform_interaction/translatorLib', () => ({

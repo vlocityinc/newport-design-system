@@ -19,7 +19,7 @@ import {
 } from 'builder_platform_interaction/flowUtils';
 
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
-import flcElementsReducer from '../flcElementsReducer.js';
+import flcElementsReducer from '../flcElementsReducer';
 import { getSubElementGuids } from '../reducersUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';

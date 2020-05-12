@@ -29,7 +29,7 @@ import {
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { describeExtensions } from 'builder_platform_interaction/flowExtensionLib';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
-import { getMetadataFlowElementByName } from 'mock/flows/mock-flow.js';
+import { getMetadataFlowElementByName } from 'mock/flows/mock-flow';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
 

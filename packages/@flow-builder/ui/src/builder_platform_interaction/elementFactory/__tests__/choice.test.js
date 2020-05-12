@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { createUserInputForChoice, createChoice, createChoiceForStore, createChoiceMetadataObject } from '../choice.js';
+import { createUserInputForChoice, createChoice, createChoiceForStore, createChoiceMetadataObject } from '../choice';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => {

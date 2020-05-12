@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import RecordLookupEditor from '../recordLookupEditor';
-import { recordLookupValidation, getRules } from '../recordLookupValidation.js';
+import { recordLookupValidation, getRules } from '../recordLookupValidation';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { SORT_ORDER, WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 import { recordLookupReducer } from '../recordLookupReducer';

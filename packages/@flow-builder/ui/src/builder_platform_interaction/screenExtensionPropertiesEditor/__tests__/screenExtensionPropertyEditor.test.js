@@ -49,8 +49,8 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
     };
 });
 
-jest.mock('../screenExtensionPropertiesReducer.js', () => {
-    const actual = jest.requireActual('../screenExtensionPropertiesReducer.js');
+jest.mock('../screenExtensionPropertiesReducer', () => {
+    const actual = jest.requireActual('../screenExtensionPropertiesReducer');
     return {
         screenExtensionPropertiesEventReducer: jest.fn().mockImplementation(state => state),
         screenExtensionPropertiesPropsToStateReducer: actual.screenExtensionPropertiesPropsToStateReducer

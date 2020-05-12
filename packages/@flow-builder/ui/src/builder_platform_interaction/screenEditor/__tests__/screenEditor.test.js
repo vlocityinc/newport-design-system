@@ -105,7 +105,7 @@ jest.mock('builder_platform_interaction/selectors', () => {
     };
 });
 
-const actual = jest.requireActual('../screenReducer.js');
+const actual = jest.requireActual('../screenReducer');
 let mockScreenReducer;
 
 jest.mock('../screenReducer', () => {

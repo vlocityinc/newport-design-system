@@ -12,7 +12,7 @@ import {
     apexCallAutomaticAnonymousStringsOutput,
     apexCallAutomaticAnonymousApexTypeCollectionOutput
 } from 'mock/storeData';
-import { getMetadataFlowElementByName } from 'mock/flows/mock-flow.js';
+import { getMetadataFlowElementByName } from 'mock/flows/mock-flow';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'flow';

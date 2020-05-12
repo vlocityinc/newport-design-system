@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import ApexPluginEditor from '../apexPluginEditor';
-import { apexPluginValidation } from '../apexPluginValidation.js';
+import { apexPluginValidation } from '../apexPluginValidation';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));

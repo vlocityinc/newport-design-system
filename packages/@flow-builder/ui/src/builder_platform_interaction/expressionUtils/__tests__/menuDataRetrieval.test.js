@@ -7,7 +7,7 @@ import {
     getChildrenItemsPromise,
     getResourceTypesMenuData,
     filterFieldsForChosenElement
-} from '../menuDataRetrieval.js';
+} from '../menuDataRetrieval';
 import { numberParamCanBeAnything, stringParam, booleanParam, stageParam } from 'mock/ruleService';
 import * as store from 'mock/storeData';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';

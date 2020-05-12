@@ -1,5 +1,5 @@
 // @ts-nocheck
-export * from './screenEditorTestUtils.js';
+export * from './screenEditorTestUtils';
 export * from './commonTestUtils';
 export * from './deepFindMatchers';
 export * from './useAdvancedOptionsTestUtils';

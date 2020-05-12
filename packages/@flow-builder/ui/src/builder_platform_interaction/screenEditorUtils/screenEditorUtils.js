@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-export * from './screenEditorFieldTypeUtils.js';
-export * from './screenEditorExtensionUtils.js';
+export * from './screenEditorFieldTypeUtils';
+export * from './screenEditorExtensionUtils';
 
 export const CURRENCY_FORMAT = 'currency';
 

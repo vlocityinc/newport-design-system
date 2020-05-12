@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import ChoiceEditor from '../choiceEditor';
-import { choiceValidation } from '../choiceValidation.js';
+import { choiceValidation } from '../choiceValidation';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>

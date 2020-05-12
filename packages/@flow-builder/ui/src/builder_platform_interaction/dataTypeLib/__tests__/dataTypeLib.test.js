@@ -9,8 +9,8 @@ import {
 } from '../dataTypeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
-jest.mock('../dataTypeLib.js', () => {
-    const dataTypeLib = Object.assign({}, jest.requireActual('../dataTypeLib.js'));
+jest.mock('../dataTypeLib', () => {
+    const dataTypeLib = Object.assign({}, jest.requireActual('../dataTypeLib'));
     dataTypeLib.FLOW_DATA_TYPE.MULTI_PICKLIST.label = undefined;
     return dataTypeLib;
 });
