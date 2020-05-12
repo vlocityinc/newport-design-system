@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { mockSubflowVariables } from 'mock/calloutData';
 import { subflowReducer, MERGE_WITH_VARIABLES, REMOVE_UNSET_ASSIGNMENTS } from '../subflowReducer';
 import { UpdateParameterItemEvent, DeleteParameterItemEvent } from 'builder_platform_interaction/events';

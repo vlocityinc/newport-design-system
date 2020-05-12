@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'addcondition';
 
 export class AddConditionEvent {

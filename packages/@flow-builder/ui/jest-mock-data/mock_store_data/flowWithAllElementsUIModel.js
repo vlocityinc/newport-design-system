@@ -1,3 +1,4 @@
+// @ts-nocheck
 // To update flowWithAllElementsUIModel from flowWithAllElements, run flowTranslator.test.js and follow instructions
 export const flowWithAllElementsUIModel = {
     elements: {

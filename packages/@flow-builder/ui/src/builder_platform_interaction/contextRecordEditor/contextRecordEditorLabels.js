@@ -1,3 +1,4 @@
+// @ts-nocheck
 import chooseObjectAndRecord from '@salesforce/label/FlowBuilderStartEditor.chooseObjectAndRecord';
 import contextObjectHeader from '@salesforce/label/FlowBuilderStartEditor.contextObjectHeader';
 import object from '@salesforce/label/FlowBuilderRecordEditor.object';

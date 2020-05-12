@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'deleteparameteritem';
 
 export class DeleteParameterItemEvent {

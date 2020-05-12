@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import RecordDeleteEditor from 'builder_platform_interaction/recordDeleteEditor';
 import {

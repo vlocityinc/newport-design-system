@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import RecordUpdateEditor from 'builder_platform_interaction/recordUpdateEditor';
 import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';

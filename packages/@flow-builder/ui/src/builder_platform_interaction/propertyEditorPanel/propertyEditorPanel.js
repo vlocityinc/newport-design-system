@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, track, api } from 'lwc';
 
 import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';

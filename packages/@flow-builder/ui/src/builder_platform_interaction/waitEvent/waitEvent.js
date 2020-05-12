@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { LABELS } from './waitEventLabels';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';

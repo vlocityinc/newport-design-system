@@ -1,3 +1,4 @@
+// @ts-nocheck
 import undoTitle from '@salesforce/label/FlowBuilderToolbar.undoTitle';
 import redoTitle from '@salesforce/label/FlowBuilderToolbar.redoTitle';
 import duplicateTitle from '@salesforce/label/FlowBuilderToolbar.duplicateTitle';

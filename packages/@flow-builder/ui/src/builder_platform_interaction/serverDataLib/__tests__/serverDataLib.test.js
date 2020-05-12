@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
     SERVER_ACTION_TYPE,
     setAuraFetch,

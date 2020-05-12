@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import CalloutEditor from 'builder_platform_interaction/calloutEditor';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';

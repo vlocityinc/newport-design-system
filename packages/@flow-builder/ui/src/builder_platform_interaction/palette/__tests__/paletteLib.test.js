@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createItem, createLevel, createSection, flatten, isSection } from '../paletteLib';
 
 const ELEMENT_DATA = [

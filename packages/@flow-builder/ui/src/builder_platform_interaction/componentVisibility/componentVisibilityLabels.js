@@ -1,3 +1,4 @@
+// @ts-nocheck
 import logicComboboxLabel from '@salesforce/label/FlowBuilderComponentVisibility.logicComboboxLabel';
 import noConditionsLabel from '@salesforce/label/FlowBuilderComponentVisibility.noConditionsLabel';
 import andConditionLogicLabel from '@salesforce/label/FlowBuilderComponentVisibility.andConditionLogicLabel';

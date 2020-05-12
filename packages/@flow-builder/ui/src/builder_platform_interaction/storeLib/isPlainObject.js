@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Validates if object is valid or not
  * @param {Object} obj object to be validated

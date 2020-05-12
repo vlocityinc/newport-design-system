@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const flowWithVariables = {
     createdById: '005xx000001Sv6AAAS',
     createdDate: '2018-09-30T18:50:26.000+0000',

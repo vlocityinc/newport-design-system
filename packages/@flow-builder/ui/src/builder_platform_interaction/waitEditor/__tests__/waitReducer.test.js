@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { waitReducer, resetDeletedGuids } from '../waitReducer';
 import {
     PropertyChangedEvent,

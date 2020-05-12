@@ -1,3 +1,4 @@
+// @ts-nocheck
 import canvasElementsReducer from '../canvasElementsReducer';
 import {
     UPDATE_FLOW,

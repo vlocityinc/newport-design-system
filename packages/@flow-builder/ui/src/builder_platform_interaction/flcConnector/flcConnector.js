@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { ConditionType } from 'builder_platform_interaction/flowUtils';
 import { getStyleFromGeometry } from 'builder_platform_interaction/flcComponentsUtils';

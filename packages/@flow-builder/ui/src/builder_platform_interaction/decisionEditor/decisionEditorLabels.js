@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import outcomesSectionHeader from '@salesforce/label/FlowBuilderDecisionEditor.outcomesSectionHeader';
 import outcomesSectionDescription from '@salesforce/label/FlowBuilderDecisionEditor.outcomesSectionDescription';

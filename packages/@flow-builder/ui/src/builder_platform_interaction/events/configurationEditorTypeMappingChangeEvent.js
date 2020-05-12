@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'configuration_editor_type_mapping_changed';
 
 /**

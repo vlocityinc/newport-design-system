@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import SubflowEditor from '../subflowEditor';
 import { mockSubflows } from 'mock/calloutData';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, track, api } from 'lwc';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';

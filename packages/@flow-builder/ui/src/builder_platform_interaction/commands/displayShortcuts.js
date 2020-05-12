@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { BaseCommand } from './baseCommand';
 import displayShortcutsCommandLabel from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.displayShortcutsCommandLabel';
 export class DisplayShortcutsCommand extends BaseCommand {

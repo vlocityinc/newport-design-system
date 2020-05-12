@@ -1,3 +1,4 @@
+// @ts-nocheck
 let globalVariableTypes;
 let globalVariables;
 

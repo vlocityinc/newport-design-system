@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import { variableConstantValidation } from '../variableConstantValidation';
 import { variableConstantReducer } from '../variableConstantReducer';

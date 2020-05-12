@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track, unwrap } from 'lwc';
 import { ValueChangedEvent, CannotRetrieveActionsEvent, ActionsLoadedEvent } from 'builder_platform_interaction/events';
 import { ACTION_TYPE, FLOW_PROCESS_TYPE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';

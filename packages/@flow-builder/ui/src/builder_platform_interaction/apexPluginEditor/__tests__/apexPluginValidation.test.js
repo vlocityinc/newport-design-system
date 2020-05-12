@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ApexPluginEditor from '../apexPluginEditor';
 import { apexPluginValidation } from '../apexPluginValidation.js';

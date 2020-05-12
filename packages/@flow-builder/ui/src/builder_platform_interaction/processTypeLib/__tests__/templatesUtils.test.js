@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     ALL_PROCESS_TYPE,

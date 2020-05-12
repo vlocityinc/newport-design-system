@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import {
     addItem,

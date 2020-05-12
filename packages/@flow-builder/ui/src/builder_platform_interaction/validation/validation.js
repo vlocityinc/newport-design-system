@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { updateProperties, set, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { getDuplicateDevNameElements } from 'builder_platform_interaction/storeUtils';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenTextareaFieldPropertiesEditor from '../screenTextareaFieldPropertiesEditor';
 import {

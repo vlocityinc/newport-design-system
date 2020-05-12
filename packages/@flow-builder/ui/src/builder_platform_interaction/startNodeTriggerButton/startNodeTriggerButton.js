@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { FLOW_TRIGGER_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { EditElementEvent } from 'builder_platform_interaction/events';

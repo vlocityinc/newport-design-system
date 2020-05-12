@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'selectmenuitem';
 export class SelectMenuItemEvent extends CustomEvent {
     constructor(detail) {

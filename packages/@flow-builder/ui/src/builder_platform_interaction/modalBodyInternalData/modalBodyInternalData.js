@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*
  * Copyright 2018 salesforce.com, inc.
  * All Rights Reserved

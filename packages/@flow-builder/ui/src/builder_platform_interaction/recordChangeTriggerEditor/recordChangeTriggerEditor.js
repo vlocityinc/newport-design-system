@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { recordChangeTriggerReducer } from './recordChangeTriggerReducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';

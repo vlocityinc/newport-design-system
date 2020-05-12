@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { BaseCommand } from './baseCommand';
 import zoomToFitCommandLabel from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.zoomToFitCommandLabel';
 export class ZoomToFitCommand extends BaseCommand {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';

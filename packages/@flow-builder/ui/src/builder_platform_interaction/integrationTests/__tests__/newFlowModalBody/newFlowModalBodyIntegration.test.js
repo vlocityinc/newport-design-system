@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import NewFlowModalBody from 'builder_platform_interaction/newFlowModalBody';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';

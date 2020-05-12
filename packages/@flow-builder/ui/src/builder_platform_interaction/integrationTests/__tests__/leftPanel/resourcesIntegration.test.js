@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import Editor from 'builder_platform_interaction/editor';
 import { resetState, translateFlowToUIAndDispatch } from '../integrationTestUtils';

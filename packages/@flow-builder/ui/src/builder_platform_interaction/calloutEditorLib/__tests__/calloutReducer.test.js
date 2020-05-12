@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { mergeWithInputOutputParameters, mergeWithInputOutputVariables } from '../calloutEditorLib';
 import { chatterPostActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
 import { actionCallAutomaticOutput, emailAlertOnAccount, subflowAutomaticOutput } from 'mock/storeData';

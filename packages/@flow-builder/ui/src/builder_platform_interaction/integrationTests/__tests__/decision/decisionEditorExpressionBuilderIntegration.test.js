@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';

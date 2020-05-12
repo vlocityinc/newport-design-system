@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import StageEditor from '../stageEditor';
 import { createStage } from 'builder_platform_interaction/elementFactory';

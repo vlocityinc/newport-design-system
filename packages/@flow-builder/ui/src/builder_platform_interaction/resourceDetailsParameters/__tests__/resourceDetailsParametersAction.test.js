@@ -1,3 +1,4 @@
+// @ts-nocheck
 import ResourceDetailsParametersActionConfig from '../resourceDetailsParametersAction';
 import { mockSubmitForApprovalActionParameters } from 'mock/calloutData';
 import { emailScreenFieldAutomaticOutput } from 'mock/storeData';

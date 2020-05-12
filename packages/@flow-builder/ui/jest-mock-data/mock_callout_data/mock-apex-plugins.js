@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const mockApexPlugins = [
     {
         apexClass: 'mynamespace__lookUpAccountPlugin',

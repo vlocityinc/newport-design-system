@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
     ADD_RESOURCE,
     ADD_START_ELEMENT,

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getPropertyEditorConfig, showPopover, isPopoverOpen, createConfigurationEditor } from '../builderUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 

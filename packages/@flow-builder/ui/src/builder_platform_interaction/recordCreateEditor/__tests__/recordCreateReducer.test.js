@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { recordCreateReducer } from '../recordCreateReducer';
 import { recordCreateValidation } from '../recordCreateValidation';
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import Editor from '../editor';
 import { loadParametersForInvocableApexActionsInFlowFromMetadata } from 'builder_platform_interaction/preloadLib';

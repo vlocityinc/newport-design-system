@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { inputRichTextLibrary } from 'lightning/quillLib';
 
 const INPUT_RICH_TEXT_FONTS = (inputRichTextLibrary.FONT_LIST || []).map(item => ({

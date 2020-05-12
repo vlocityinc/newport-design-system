@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import LoopEditor from '../loopEditor';
 import { loopValidation, getRules } from '../loopValidation';

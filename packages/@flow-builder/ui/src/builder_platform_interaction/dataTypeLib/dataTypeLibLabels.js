@@ -1,3 +1,4 @@
+// @ts-nocheck
 import textDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.textDataTypeLabel';
 import numberDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.numberDataTypeLabel';
 import currencyDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.currencyDataTypeLabel';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import FlowStatus from 'builder_platform_interaction/flowStatus';
 import { LABELS } from '../flowStatusLabels';

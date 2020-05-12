@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { api, LightningElement, track } from 'lwc';
 import {
     addConnection,

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used to open an empty property editor for the given element type.
  */

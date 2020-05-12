@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import Outcome from 'builder_platform_interaction/outcome';
 import { DeleteOutcomeEvent } from 'builder_platform_interaction/events';

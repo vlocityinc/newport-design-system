@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used to delete any canvas or non-canvas element.
  */

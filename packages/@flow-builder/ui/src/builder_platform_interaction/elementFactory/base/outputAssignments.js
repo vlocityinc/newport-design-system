@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createExpressionListRowItemWithoutOperatorAndRHSDataType } from './baseList';
 /**
  * Factory function for creating output assignment used in record lookup and recordChoiceSet

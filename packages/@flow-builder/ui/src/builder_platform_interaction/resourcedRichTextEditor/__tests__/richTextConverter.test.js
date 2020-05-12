@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { convertHTMLToQuillHTML } from '../richTextConverter';
 
 jest.mock('lightning/quillLib', () => {

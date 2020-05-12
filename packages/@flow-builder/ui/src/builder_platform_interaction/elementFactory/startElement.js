@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
     ELEMENT_TYPE,
     FLOW_TRIGGER_FREQUENCY,

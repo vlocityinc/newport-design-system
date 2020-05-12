@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { createScreenElementSelectedEvent, createScreenElementDeletedEvent } from 'builder_platform_interaction/events';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';

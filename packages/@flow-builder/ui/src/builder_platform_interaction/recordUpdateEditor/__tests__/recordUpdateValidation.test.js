@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import { recordUpdateValidation, getRules } from '../recordUpdateValidation';
 import RecordUpdateEditor from '../recordUpdateEditor';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const CANVAS_EVENT = {
     ADD_NEW_RESOURCE: 'addnewresource'
 };

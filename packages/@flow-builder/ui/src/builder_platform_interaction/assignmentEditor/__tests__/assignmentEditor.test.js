@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import AssignmentEditor from '../assignmentEditor';
 import {

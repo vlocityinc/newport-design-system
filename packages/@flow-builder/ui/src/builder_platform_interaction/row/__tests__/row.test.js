@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import Row from 'builder_platform_interaction/row';
 import { DeleteListItemEvent } from 'builder_platform_interaction/events';

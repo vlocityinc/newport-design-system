@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createActionCall, getDefaultAvailableConnections } from './actionCall';
 import { duplicateCanvasElement } from './base/baseElement';

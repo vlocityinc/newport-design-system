@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * @enum {string} MERGE_WARNING_TYPE
  */

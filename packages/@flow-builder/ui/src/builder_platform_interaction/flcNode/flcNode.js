@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { ElementType } from 'builder_platform_interaction/flowUtils';
 import { EditElementEvent, FlcSelectDeselectNodeEvent, SelectNodeEvent } from 'builder_platform_interaction/events';

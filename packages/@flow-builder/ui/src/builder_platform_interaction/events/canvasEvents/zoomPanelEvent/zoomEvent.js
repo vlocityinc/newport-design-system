@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used by zoom panel to zoom in or out of the canvas
  */

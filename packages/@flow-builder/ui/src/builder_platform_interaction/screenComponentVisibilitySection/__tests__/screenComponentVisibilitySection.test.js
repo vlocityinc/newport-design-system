@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenComponentVisiblitySection from 'builder_platform_interaction/screenComponentVisibilitySection';
 import { query } from 'builder_platform_interaction/builderTestUtils';

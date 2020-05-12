@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE, isComplexType } from 'builder_platform_interaction/dataTypeLib';

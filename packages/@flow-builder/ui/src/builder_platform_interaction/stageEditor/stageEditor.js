@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { stageReducer } from './stageReducer';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
     RULE_TYPES,
     RULE_PROPERTY,

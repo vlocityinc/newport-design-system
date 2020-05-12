@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ElementType } from 'builder_platform_interaction/flowUtils';
 import { ELEMENT_TYPE, isSystemElement } from 'builder_platform_interaction/flowMetadata';
 import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';

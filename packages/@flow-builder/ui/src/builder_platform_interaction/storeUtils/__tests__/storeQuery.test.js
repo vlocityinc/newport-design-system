@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getElementByDevName, getDuplicateDevNameElements } from '../storeQuery';
 import { assignmentElement } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';

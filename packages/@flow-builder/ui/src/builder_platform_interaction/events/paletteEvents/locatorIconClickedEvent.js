@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used to report a click on the locator icon in the left panel.
  */

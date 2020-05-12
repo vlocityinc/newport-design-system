@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { swapDevNamesToUids } from './uidSwapping';
 import {
     ELEMENT_TYPE,

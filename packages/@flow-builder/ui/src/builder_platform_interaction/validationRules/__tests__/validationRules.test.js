@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as rules from 'builder_platform_interaction/validationRules';
 import { assignmentElement, stageElement } from 'mock/storeData';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';

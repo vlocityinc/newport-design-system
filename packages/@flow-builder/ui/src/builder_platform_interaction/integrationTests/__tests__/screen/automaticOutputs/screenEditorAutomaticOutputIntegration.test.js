@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenEditor from 'builder_platform_interaction/screenEditor';
 import { Store } from 'builder_platform_interaction/storeLib';

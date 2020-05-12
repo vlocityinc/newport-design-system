@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used to allow selection on the visual picker
  */

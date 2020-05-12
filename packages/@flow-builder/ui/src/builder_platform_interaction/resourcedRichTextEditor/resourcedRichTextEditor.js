@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { booleanAttributeValue } from 'builder_platform_interaction/screenEditorUtils';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';

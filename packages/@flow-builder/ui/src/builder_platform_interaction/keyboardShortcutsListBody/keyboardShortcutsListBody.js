@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement } from 'lwc';
 import { LABELS } from './keyboardShortcutsListBodyLabels';
 

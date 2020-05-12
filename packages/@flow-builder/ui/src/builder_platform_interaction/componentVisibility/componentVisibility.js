@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import {
     UpdateConditionEvent,

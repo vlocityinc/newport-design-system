@@ -1,3 +1,4 @@
+// @ts-nocheck
 import useAdvancedOptionsLabel from '@salesforce/label/FlowBuilderRecordEditor.useAdvancedOptionsLabel';
 import confirm from '@salesforce/label/FlowBuilderAlertModal.confirm';
 import clearVariableConfirmation from '@salesforce/label/FlowBuilderAlertModal.clearVariableConfirmation';

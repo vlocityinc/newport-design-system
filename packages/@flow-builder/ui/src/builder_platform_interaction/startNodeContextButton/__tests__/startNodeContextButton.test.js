@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import StartNodeContextButton from 'builder_platform_interaction/startNodeContextButton';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import platformEventEditor from '../platformEventEditor';
 import { createElement } from 'lwc';
 import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';

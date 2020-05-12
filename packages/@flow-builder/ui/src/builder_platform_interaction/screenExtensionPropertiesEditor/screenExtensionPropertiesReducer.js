@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
 import { getComboboxConfig } from 'builder_platform_interaction/baseResourcePicker';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import customLogicLabel from '@salesforce/label/FlowBuilderConditionList.customLogicLabel';
 import customConditionHelpText from '@salesforce/label/FlowBuilderConditionList.customConditionHelpText';

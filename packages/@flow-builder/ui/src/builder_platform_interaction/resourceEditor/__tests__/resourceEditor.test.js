@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ResourceEditor from '../resourceEditor';
 import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction/validationRules';

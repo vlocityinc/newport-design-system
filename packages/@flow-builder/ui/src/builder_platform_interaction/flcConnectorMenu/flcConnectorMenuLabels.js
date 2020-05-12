@@ -1,3 +1,4 @@
+// @ts-nocheck
 import menuHeader from '@salesforce/label/AlcConnectorContextualMenu.menuHeader';
 import pasteSectionLabel from '@salesforce/label/AlcConnectorContextualMenu.pasteSectionLabel';
 import pasteItemLabel from '@salesforce/label/AlcConnectorContextualMenu.pasteItemLabel';

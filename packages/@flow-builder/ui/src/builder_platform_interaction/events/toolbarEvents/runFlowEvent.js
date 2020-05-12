@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'runflow';
 
 export class RunFlowEvent {

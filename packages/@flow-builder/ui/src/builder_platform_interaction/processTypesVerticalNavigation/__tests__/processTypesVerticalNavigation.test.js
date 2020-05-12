@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ProcessTypesVerticalNavigation from '../processTypesVerticalNavigation';
 import { ALL_PROCESS_TYPE, getProcessTypeIcon } from 'builder_platform_interaction/processTypeLib';

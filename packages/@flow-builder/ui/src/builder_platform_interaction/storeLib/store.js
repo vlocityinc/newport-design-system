@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { isPlainObject } from './isPlainObject';
 import { isDevMode } from 'builder_platform_interaction/contextLib';
 import { readonly } from 'lwc';

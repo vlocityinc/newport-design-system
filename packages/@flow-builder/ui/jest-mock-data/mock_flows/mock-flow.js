@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { forEachMetadataFlowElement } from 'builder_platform_interaction/flowMetadata';
 
 /**

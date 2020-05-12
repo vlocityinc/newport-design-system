@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import AssignmentEditor from 'builder_platform_interaction/assignmentEditor';

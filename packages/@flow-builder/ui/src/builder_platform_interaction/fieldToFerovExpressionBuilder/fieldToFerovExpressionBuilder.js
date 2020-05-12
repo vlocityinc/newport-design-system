@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { sanitizeGuid, updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import {

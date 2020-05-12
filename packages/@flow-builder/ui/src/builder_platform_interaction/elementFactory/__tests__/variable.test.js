@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createVariable, createVariableForStore, createVariableMetadataObject } from '../variable';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';

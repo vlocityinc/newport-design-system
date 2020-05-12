@@ -1,3 +1,4 @@
+// @ts-nocheck
 import choiceTextInputLabel from '@salesforce/label/FlowBuilderChoiceEditor.choiceTextInputLabel';
 import choiceValueLabel from '@salesforce/label/FlowBuilderChoiceEditor.choiceValueLabel';
 import choiceValuePlaceholder from '@salesforce/label/FlowBuilderChoiceEditor.choiceValuePlaceholder';

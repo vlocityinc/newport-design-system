@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import VariableConstantEditor from '../variableConstantEditor';
 import { variableConstantValidation, getRules } from '../variableConstantValidation.js';

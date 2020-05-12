@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenTextareaField from 'builder_platform_interaction/screenTextareaField';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';

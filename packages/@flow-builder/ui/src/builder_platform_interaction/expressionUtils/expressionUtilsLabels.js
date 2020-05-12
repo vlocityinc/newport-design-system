@@ -1,3 +1,4 @@
+// @ts-nocheck
 import globalConstantCategory from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantCategory';
 import lightningComponentScreenFieldIconAltText from '@salesforce/label/FlowBuilderComboboxIconAltText.lightningComponentScreenFieldIconAltText';
 import systemGlobalVariableCategoryIconAltText from '@salesforce/label/FlowBuilderComboboxIconAltText.systemGlobalVariableCategoryIconAltText';

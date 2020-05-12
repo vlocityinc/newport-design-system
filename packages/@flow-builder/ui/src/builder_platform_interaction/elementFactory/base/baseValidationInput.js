@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * @typedef {Object} validationRule
  * @property {string} errorMessage error message is a string/metadata field that can contain references to devNames/guids

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import InvocableActionEditor from '../invocableActionEditor';
 import { mockActions } from 'mock/calloutData';

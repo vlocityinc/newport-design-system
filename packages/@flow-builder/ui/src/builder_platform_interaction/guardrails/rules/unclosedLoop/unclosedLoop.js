@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Rule, Result } from 'analyzer_framework/api';
 
 export class UnclosedLoop extends Rule {

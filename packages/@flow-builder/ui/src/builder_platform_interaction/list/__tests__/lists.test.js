@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import List from '../list';
 import { deepCopy } from 'builder_platform_interaction/storeLib';

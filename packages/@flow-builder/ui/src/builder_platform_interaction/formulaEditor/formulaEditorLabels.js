@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import dataTypeCannotBeChangedHelpText from '@salesforce/label/FlowBuilderFormulaEditor.dataTypeCannotBeChangedHelpText';
 import formulaLabel from '@salesforce/label/FlowBuilderFormulaTextarea.formulaLabel';

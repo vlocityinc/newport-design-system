@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used by actions to indicate that it's action has changed, includes action type and number of actions of that type
  */

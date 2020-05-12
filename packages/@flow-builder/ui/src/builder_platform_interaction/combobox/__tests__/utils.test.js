@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { sliceMenu, getMenuLength, setSelectableMenuItem } from '../utils';
 
 const flatMenu = [

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import {

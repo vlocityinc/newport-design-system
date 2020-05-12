@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Rule, Result } from 'analyzer_framework/api';
 import { ELEMENT_TYPE, METADATA_KEY } from 'builder_platform_interaction/flowMetadata';
 import recordCreate from '@salesforce/label/FlowBuilderLeftPanelElements.createDataOperationLabel';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'deletelistitem';
 
 export class DeleteListItemEvent {

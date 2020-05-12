@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import Draggable from 'builder_platform_interaction/draggable';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';

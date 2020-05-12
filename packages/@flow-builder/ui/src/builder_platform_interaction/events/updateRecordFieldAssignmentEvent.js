@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'updaterecordfieldassignment';
 
 export class UpdateRecordFieldAssignmentEvent {

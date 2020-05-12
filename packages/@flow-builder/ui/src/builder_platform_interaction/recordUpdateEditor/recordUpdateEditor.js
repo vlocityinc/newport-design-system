@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { recordUpdateReducer } from './recordUpdateReducer';
 import { LABELS } from './recordUpdateEditorLabels';

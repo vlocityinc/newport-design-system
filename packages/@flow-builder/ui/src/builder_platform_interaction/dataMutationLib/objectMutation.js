@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { replaceItem, shallowCopyArray } from './arrayMutation';
 /** Used to match backslashes in property paths. Taken from lodash */
 const reEscapeChar = /\\(\\)?/g;

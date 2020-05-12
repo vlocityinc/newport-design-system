@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ConditionList from 'builder_platform_interaction/conditionList';
 import {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { filterMatches } from 'builder_platform_interaction/expressionUtils';
 
 const displayText = 'displayText';

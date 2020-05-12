@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { LABELS } from './flowStatusLabels';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';

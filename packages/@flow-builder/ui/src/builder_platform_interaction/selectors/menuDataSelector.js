@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createSelector } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE, isSystemElement } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE, getFlowDataType } from 'builder_platform_interaction/dataTypeLib';

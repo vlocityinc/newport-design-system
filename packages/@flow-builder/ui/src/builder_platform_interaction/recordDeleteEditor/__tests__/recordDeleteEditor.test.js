@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import RecordDeleteEditor from '../recordDeleteEditor';
 import * as storeMockedData from 'mock/storeData';

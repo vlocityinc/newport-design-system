@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { recordChoiceSetValidation, getRules } from './recordChoiceSetValidation';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';

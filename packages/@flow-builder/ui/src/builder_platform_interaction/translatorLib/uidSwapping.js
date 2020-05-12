@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { isPlainObject } from 'builder_platform_interaction/storeLib';
 import { TEMPLATE_FIELDS, REFERENCE_FIELDS, EXPRESSION_RE } from 'builder_platform_interaction/flowMetadata';
 import { splitStringBySeparator, isReference, removeCurlyBraces } from 'builder_platform_interaction/commonUtils';

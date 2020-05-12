@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used by components to indicate that a property of the business element they represent
  * has changed

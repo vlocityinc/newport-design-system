@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { mergeInputOutputParameters, MERGE_WARNING_TYPE } from '../calloutEditorLib';
 import { chatterPostActionDetails as mockActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
 

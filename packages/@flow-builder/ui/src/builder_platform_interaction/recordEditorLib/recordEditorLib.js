@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * The record filter type using to filter a record.
  * @type {{ALL: string, NONE: string}}

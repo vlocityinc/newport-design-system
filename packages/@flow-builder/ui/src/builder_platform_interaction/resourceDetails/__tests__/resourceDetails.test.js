@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import { EditElementEvent, DeleteResourceEvent } from 'builder_platform_interaction/events';
 import ResourceDetails from 'builder_platform_interaction/resourceDetails';

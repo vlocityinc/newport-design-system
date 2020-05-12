@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getElementSections } from 'builder_platform_interaction/editorElementsUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 

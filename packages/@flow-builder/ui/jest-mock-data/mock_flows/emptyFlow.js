@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const emptyFlow = {
     createdById: '005xx000001X7i5AAC',
     createdDate: '2018-12-19T15:49:05.000+0000',

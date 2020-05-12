@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getResourceByUniqueIdentifier } from 'builder_platform_interaction/expressionUtils';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 import { getPropertiesForClass, getApexPropertyWithName } from 'builder_platform_interaction/apexTypeLib';

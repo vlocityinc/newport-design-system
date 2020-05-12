@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used by auto-layout canvas to highlight paths to be deleted on the canvas
  */

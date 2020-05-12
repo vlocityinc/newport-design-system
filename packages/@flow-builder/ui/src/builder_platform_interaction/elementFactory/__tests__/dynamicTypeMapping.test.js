@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createDynamicTypeMappings, createDataTypeMappingsMetadataObject } from '../dynamicTypeMapping';
 
 describe('Dynamic Type Mappings', () => {

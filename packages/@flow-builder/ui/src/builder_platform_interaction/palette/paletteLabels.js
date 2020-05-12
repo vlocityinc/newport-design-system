@@ -1,3 +1,4 @@
+// @ts-nocheck
 import detailsText from '@salesforce/label/FlowBuilderResourceDetailsPanel.detailsText';
 import locatorIconText from '@salesforce/label/FlowBuilderResourceDetailsPanel.locatorIconText';
 import palleteSectionToggleCollapseText from '@salesforce/label/FlowBuilderLeftPanel.palleteSectionToggleCollapseText';

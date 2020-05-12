@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getDefaultLayoutConfig } from 'builder_platform_interaction/flowUtils';
 
 const flowRenderInfo = {

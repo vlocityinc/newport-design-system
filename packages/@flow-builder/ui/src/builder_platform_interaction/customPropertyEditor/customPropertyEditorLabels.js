@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import spinnerAlternativeText from '@salesforce/label/FlowBuilderEditor.spinnerAlternativeText';
 

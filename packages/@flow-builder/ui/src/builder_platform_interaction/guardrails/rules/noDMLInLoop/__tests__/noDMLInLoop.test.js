@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { NoDMLInLoop } from '../noDMLInLoop';
 import { Result } from 'analyzer_framework/api';
 

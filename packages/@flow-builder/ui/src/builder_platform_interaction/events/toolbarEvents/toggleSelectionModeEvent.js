@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'toggleselectionmode';
 
 export class ToggleSelectionModeEvent {

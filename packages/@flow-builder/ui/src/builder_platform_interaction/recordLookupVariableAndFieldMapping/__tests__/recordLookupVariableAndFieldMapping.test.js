@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import RecordLookupVariableAndFieldMapping from '../recordLookupVariableAndFieldMapping';

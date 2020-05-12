@@ -1,3 +1,4 @@
+// @ts-nocheck
 import contextRecordEditor from '../contextRecordEditor';
 import { createElement } from 'lwc';
 import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';

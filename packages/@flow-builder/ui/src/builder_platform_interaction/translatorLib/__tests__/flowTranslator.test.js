@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { readonly } from 'lwc';
 import { translateFlowToUIModel } from '../flowToUiTranslator';
 import { translateUIModelToFlow } from '../uiToFlowTranslator';

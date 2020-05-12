@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { PropertyChangedEvent, LoopCollectionChangedEvent } from 'builder_platform_interaction/events';
 import { getRules, loopValidation } from './loopValidation';

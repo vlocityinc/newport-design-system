@@ -1,3 +1,4 @@
+// @ts-nocheck
 import CustomPropertyEditor from '../customPropertyEditor';
 import { createElement } from 'lwc';
 import { createConfigurationEditor } from 'builder_platform_interaction/builderUtils';

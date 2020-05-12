@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'addrecordlookupfield';
 
 export class AddRecordLookupFieldEvent {

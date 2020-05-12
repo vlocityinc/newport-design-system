@@ -1,3 +1,4 @@
+// @ts-nocheck
 import entityPickerLabel from '@salesforce/label/FlowBuilderPicklistChoiceSetEditor.entityPickerLabel';
 import entityPickerPlaceholder from '@salesforce/label/FlowBuilderPicklistChoiceSetEditor.entityPickerPlaceholder';
 import fieldPickerLabel from '@salesforce/label/FlowBuilderPicklistChoiceSetEditor.fieldPickerLabel';

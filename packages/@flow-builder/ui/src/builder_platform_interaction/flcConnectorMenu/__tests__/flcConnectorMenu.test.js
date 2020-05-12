@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import FlcConnectorMenu from 'builder_platform_interaction/flcConnectorMenu';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Store } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import ResourceDetailsParametersSubflowConfig from '../resourceDetailsParametersSubflow';
 import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 import { subflowAutomaticOutput } from 'mock/storeData';

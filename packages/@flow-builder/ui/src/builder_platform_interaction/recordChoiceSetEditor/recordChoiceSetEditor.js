@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, track, api, unwrap } from 'lwc';
 import { recordChoiceSetReducer } from './recordChoiceSetReducer';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import RichTextPlainTextSwitch, { TEXT_MODES } from '../richTextPlainTextSwitch';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';

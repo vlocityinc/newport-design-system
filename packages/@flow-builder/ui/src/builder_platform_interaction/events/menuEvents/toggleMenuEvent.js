@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'togglemenu';
 export class ToggleMenuEvent extends CustomEvent {
     constructor(detail) {

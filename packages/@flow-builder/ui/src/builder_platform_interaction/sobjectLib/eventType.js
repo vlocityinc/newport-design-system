@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 
 export const MANAGED_SETUP = 'ManagedSetup';

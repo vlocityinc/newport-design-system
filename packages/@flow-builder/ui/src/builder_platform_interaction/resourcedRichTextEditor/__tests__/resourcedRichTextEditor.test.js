@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ResourcedRichTextEditor from '../resourcedRichTextEditor';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';

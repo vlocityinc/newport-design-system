@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';

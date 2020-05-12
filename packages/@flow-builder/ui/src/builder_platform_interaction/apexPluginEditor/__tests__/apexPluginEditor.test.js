@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ApexPluginEditor from '../apexPluginEditor';
 import { mockApexPluginParameters, mockApexPlugins } from 'mock/calloutData';

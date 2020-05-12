@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
 import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';

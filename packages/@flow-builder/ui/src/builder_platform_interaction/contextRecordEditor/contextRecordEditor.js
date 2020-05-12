@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { fetchFieldsForEntity, getEntity, ENTITY_TYPE } from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from './contextRecordEditorLabels';

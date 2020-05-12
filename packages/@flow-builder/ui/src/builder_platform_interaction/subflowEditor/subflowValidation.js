@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Validation } from 'builder_platform_interaction/validation';
 import { validateParameter } from 'builder_platform_interaction/calloutEditorLib';
 

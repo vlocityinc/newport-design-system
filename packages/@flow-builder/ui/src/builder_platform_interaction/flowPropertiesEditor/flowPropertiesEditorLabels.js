@@ -1,3 +1,4 @@
+// @ts-nocheck
 import nameLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.nameLabel';
 import uniqueNameLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.uniqueNameLabel';
 import runInSystemModeLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.runInSystemModeLabel';

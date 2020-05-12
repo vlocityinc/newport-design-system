@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const flowLegalNameChange = {
     createdById: '005T1000000Dm4KIAS',
     createdDate: '2018-10-22T12:09:22.000+0000',

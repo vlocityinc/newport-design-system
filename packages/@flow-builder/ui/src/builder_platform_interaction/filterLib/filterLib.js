@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { booleanMatcher, containsMatcher, notEqualsMatcher } from './matchers';
 import { isAutomaticOutputElementWithoutChildren } from 'builder_platform_interaction/complexTypeLib';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import assignmentsSectionHeader from '@salesforce/label/FlowBuilderAssignmentEditor.assignmentsSectionHeader';
 import assignmentsSectionDescription from '@salesforce/label/FlowBuilderAssignmentEditor.assignmentsSectionDescription';

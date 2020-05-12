@@ -1,3 +1,4 @@
+// @ts-nocheck
 import loopDescription from '@salesforce/label/FlowBuilderLoopEditor.loopDescription';
 import selectCollectionVariableHeader from '@salesforce/label/FlowBuilderLoopEditor.selectCollectionVariableHeader';
 import collectionVariableLabel from '@salesforce/label/FlowBuilderLoopEditor.collectionVariableLabel';

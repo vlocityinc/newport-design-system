@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createSelector } from 'builder_platform_interaction/storeLib';
 
 const elementsSelector = state => state.elements;

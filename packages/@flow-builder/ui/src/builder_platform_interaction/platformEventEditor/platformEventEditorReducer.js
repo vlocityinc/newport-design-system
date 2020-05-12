@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { platformEventValidation } from './platformEventValidation';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';

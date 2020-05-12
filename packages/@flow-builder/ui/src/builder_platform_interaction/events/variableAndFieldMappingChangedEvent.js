@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used by recordLookupVariableAndFieldMapping and record lookup editor to indicate that the variableandfieldmapping value has changed.
  */

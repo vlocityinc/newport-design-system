@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenEditorPropertiesEditorContainer from '../screenPropertiesEditorContainer';
 import { getAllScreenFieldTypes } from 'builder_platform_interaction/screenEditorUtils';

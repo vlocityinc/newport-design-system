@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { baseElementsArrayToMap, baseResource } from './base/baseElement';
 import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from './ferov';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';

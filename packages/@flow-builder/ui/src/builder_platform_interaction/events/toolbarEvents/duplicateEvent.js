@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'duplicate';
 
 export class DuplicateEvent {

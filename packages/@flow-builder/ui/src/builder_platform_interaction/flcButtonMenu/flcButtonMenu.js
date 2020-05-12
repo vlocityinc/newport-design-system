@@ -1,3 +1,4 @@
+// @ts-nocheck
 import labelShowMenu from '@salesforce/label/LightningButtonMenu.showMenu';
 import { api, LightningElement, track } from 'lwc';
 import { classSet } from 'lightning/utils';

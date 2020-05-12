@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createConnectorMetadataObjects } from '../connector';
 import { createFEROVMetadataObject } from '../ferov';
 import { RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from './baseList';

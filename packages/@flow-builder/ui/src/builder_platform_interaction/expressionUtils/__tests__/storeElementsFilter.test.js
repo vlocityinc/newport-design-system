@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getStoreElements, flattenElements } from '../storeElementsFilter';
 import * as store from 'mock/storeData';
 import { getScreenElement } from '../resourceUtils';

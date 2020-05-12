@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { waitValidation } from '../waitValidation';
 import { LABELS } from '../../validationRules/validationRulesLabels';

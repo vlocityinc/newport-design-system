@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { filterAndMutateMenuData, filterFieldsForChosenElement, getChildrenItemsPromise } from './menuDataRetrieval';
 import { getStoreElements } from './storeElementsFilter';
 

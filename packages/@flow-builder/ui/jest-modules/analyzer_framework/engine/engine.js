@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const mockRegistryAddDataProvider = jest.fn();
 export const mockRegistryRegisterRules = jest.fn();
 

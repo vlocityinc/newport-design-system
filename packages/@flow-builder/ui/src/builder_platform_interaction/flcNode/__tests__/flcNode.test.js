@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import FlcNode from 'builder_platform_interaction/flcNode';
 import { FlcSelectDeselectNodeEvent } from 'builder_platform_interaction/events';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'deleteelementfault';
 
 export class DeleteElementFaultEvent extends CustomEvent {

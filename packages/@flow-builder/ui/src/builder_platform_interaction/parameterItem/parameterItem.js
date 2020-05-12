@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, track, api } from 'lwc';
 import { getDataTypeIcons, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';

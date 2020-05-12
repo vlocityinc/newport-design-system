@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { escapeForRegExp, isReference } from 'builder_platform_interaction/commonUtils';
 
 /**

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 // import { mutateTextWithMergeFields } from './mergeFieldsMutation';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';

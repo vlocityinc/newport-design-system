@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { resolveReferenceFromIdentifier } from './mergeFieldLib';
 import { recursiveSwap, getSwapValueFunction } from 'builder_platform_interaction/translatorLib';
 

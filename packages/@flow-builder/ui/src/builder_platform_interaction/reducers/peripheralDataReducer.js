@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { UPDATE_APEX_CLASSES, UPDATE_ENTITIES } from 'builder_platform_interaction/actions';
 import { combinedReducer } from 'builder_platform_interaction/storeLib';
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { loadReferencesIn } from '../references';
 import { assignmentElement, stringVariable, numberVariable, textTemplate1 } from 'mock/storeData';
 import { resolveReferenceFromIdentifier } from 'builder_platform_interaction/mergeFieldLib';

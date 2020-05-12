@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * @owner: Process UI Design Time team.
  * @design-doc: https://salesforce.quip.com/Ax4HAoPvhmAb

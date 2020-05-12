@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 /**

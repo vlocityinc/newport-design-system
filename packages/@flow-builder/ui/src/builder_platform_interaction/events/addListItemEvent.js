@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'addlistitem';
 
 export class AddListItemEvent {

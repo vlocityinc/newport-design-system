@@ -1,3 +1,4 @@
+// @ts-nocheck
 import popupErrorMessageSingular from '@salesforce/label/FlowBuilderCommonPropertyEditor.popupErrorMessageSingular';
 import popupErrorMessagePlural from '@salesforce/label/FlowBuilderCommonPropertyEditor.popupErrorMessagePlural';
 import closePanelButtonTitle from '@salesforce/label/FlowBuilderCommonPropertyEditor.closePanelButtonTitle';

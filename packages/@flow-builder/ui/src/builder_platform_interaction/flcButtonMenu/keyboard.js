@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*
  * This is following the practices listed in
  *

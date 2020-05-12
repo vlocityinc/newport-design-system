@@ -1,3 +1,4 @@
+// @ts-nocheck
 import waitEventsDetailsHeader from '@salesforce/label/FlowBuilderWaitEditor.waitEventsDetailsHeader';
 import deleteWaitEventLabel from '@salesforce/label/FlowBuilderWaitEditor.deleteWaitEventLabel';
 import waitEventApiName from '@salesforce/label/FlowBuilderWaitEditor.waitEventApiName';

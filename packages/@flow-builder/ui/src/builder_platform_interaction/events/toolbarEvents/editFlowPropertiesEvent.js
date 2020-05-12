@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'editflowproperties';
 
 export class EditFlowPropertiesEvent {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Add an item to an array and return a new array. It is shallow copy of the array.
  * @param {Array} arr array to be modified

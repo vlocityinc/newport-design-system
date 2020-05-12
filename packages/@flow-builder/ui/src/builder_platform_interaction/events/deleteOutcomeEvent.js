@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'deleteoutcome';
 
 export class DeleteOutcomeEvent {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import DataTypePicker from '../dataTypePicker';
 import { FLOW_DATA_TYPE, SCALE_DEFAULT, SCALE_RANGE } from 'builder_platform_interaction/dataTypeLib';

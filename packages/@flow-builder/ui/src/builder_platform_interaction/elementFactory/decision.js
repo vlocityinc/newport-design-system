@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ELEMENT_TYPE, CONNECTOR_TYPE, CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,

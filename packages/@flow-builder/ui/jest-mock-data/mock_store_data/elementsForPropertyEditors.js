@@ -1,3 +1,4 @@
+// @ts-nocheck
 // to update elementsForPropertyEditors from flowWithAllElementsUIModel, run propertyEditorFactory.test.js and follow instructions
 export const elementsForPropertyEditors = {
     stringVariable: {

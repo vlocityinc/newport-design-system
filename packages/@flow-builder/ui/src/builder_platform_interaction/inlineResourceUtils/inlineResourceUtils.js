@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Find the resource from the menudata and return it
  * @param {*} resourceGuid new inline resource Guid

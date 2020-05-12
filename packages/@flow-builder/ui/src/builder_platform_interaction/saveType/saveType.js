@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const SaveType = {
     UPDATE: 'saveDraft',
     CREATE: 'createNewFlow',

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenEditorHighlight from 'builder_platform_interaction/screenEditorHighlight';
 import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { picklistChoiceSetReducer } from '../picklistChoiceSetReducer';
 

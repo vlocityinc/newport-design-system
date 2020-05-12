@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
     ELEMENT_TYPE,
     CONDITION_LOGIC,

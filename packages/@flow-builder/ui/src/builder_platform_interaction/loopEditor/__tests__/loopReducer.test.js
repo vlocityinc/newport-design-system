@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { loopReducer } from '../loopReducer';
 import { PropertyChangedEvent, LoopCollectionChangedEvent } from 'builder_platform_interaction/events';
 

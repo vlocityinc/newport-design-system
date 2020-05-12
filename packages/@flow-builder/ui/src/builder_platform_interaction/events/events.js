@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*
  * Contains all custom event classes
  */

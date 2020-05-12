@@ -1,3 +1,4 @@
+// @ts-nocheck
 import elementReducer from '../elementsReducer';
 import {
     UPDATE_FLOW,

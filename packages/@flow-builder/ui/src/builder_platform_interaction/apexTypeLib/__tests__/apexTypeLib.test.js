@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { setApexClasses, cachePropertiesForClass, getPropertiesForClass } from '../apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';

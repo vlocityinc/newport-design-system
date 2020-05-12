@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used by canvas on node selection
  */

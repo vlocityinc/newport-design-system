@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import { PaletteItemClickedEvent } from 'builder_platform_interaction/events';
 import PaletteItem from 'builder_platform_interaction/paletteItem';

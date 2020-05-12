@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { Validation } from 'builder_platform_interaction/validation';
 import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { memoize } from 'builder_platform_interaction/commonUtils';
 
 /**

@@ -1,3 +1,4 @@
+// @ts-nocheck
 let processTypes;
 const processTypesFeatures = new Map();
 

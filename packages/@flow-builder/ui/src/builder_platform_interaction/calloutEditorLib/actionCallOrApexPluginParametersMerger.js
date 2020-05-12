@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getFlowDataType } from 'builder_platform_interaction/dataTypeLib';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';

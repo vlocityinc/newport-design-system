@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ZoomPanel from 'builder_platform_interaction/zoomPanel';
 import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';

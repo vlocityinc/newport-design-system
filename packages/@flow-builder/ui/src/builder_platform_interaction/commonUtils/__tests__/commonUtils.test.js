@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { memoize, escapeForRegExp, isValidNumber, format, sanitizeBoolean } from '../commonUtils';
 
 describe('memoize', () => {

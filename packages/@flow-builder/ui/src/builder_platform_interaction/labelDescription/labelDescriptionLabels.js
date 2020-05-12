@@ -1,3 +1,4 @@
+// @ts-nocheck
 import nameLabel from '@salesforce/label/FlowBuilderLabelDescription.nameLabel';
 import uniqueNameLabel from '@salesforce/label/FlowBuilderLabelDescription.uniqueNameLabel';
 import descriptionLabel from '@salesforce/label/FlowBuilderLabelDescription.descriptionLabel';

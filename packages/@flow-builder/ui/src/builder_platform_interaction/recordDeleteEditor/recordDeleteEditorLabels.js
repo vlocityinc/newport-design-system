@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import recordDeleteTitle from '@salesforce/label/FlowBuilderRecordEditor.recordDeleteTitle';
 import recordVariableOrRecordCollectionVariable from '@salesforce/label/FlowBuilderRecordEditor.recordVariableOrRecordCollectionVariable';

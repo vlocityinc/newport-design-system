@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const SCREEN_EDITOR_EVENT_NAME = {
     SCREEN_FIELD_ADDED: 'addscreenfield',
     SCREEN_ELEMENT_DELETED: 'screenelementdeleted',

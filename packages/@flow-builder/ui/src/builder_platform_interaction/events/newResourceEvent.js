@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Fired to open the new resource panel.
  */

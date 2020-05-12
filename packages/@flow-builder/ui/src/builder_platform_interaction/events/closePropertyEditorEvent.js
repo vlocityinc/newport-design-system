@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Fired to close the property editor.
  */

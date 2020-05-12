@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { recordDeleteReducer } from '../recordDeleteReducer';
 import {
     AddRecordFilterEvent,

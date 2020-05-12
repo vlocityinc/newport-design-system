@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './flcConnectorMenuLabels';

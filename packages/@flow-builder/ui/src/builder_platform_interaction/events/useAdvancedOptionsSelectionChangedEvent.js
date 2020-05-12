@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'useadvancedoptionsselectionchanged';
 
 export class UseAdvancedOptionsSelectionChangedEvent extends Event {

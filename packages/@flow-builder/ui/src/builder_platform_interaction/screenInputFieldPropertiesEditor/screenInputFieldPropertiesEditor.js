@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';

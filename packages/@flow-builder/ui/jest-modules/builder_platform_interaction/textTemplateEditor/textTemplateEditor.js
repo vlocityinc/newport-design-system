@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 
 export default class TextTemplateEditor extends LightningElement {

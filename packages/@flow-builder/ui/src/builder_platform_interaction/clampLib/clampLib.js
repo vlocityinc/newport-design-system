@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* !
  * Clamp.js 0.5.1
  *

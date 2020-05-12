@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { readonly } from 'lwc';
 
 export const SERVER_ACTION_TYPE = {

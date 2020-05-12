@@ -1,3 +1,4 @@
+// @ts-nocheck
 import notAValidMergeField from '@salesforce/label/FlowBuilderMergeFieldValidation.notAValidMergeField';
 import unknownResource from '@salesforce/label/FlowBuilderMergeFieldValidation.unknownResource';
 import resourceCannotBeUsedAsMergeField from '@salesforce/label/FlowBuilderMergeFieldValidation.resourceCannotBeUsedAsMergeField';

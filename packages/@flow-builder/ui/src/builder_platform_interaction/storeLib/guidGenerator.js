@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Returns a unique ID for tracking elements in the store
  *

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import subtitle from '@salesforce/label/FlowBuilderApexPluginEditor.subtitle';
 import inputHeader from '@salesforce/label/FlowBuilderApexPluginEditor.inputHeader';

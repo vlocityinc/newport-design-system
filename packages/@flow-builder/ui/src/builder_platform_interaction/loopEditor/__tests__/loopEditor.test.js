@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import LoopEditor from '../loopEditor';
 import { PropertyChangedEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction/events';

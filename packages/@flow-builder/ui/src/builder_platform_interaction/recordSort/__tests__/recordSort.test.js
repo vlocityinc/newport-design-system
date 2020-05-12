@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import RecordSortResult from 'builder_platform_interaction/recordSort';

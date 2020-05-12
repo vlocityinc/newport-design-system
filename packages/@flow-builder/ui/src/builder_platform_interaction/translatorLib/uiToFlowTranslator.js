@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { swapUidsForDevNames } from './uidSwapping';
 import { getFlowBounds } from 'builder_platform_interaction/connectorUtils';

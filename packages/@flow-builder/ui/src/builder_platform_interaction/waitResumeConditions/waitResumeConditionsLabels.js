@@ -1,3 +1,4 @@
+// @ts-nocheck
 import waitResumeConditionsSectionDescription from '@salesforce/label/FlowBuilderWaitEditor.waitResumeConditionsSectionDescription';
 import platformEventTypeLabel from '@salesforce/label/FlowBuilderWaitEditor.platformEventTypeLabel';
 import timeEventTypeLabel from '@salesforce/label/FlowBuilderWaitEditor.timeEventTypeLabel';

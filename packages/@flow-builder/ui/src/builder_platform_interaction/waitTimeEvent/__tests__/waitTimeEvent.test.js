@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import { WAIT_TIME_EVENT_TYPE, WAIT_EVENT_FIELDS } from 'builder_platform_interaction/flowMetadata';
 import {

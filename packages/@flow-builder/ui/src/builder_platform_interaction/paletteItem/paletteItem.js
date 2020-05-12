@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { PaletteItemClickedEvent } from 'builder_platform_interaction/events';
 import { isChildElement } from 'builder_platform_interaction/elementConfig';

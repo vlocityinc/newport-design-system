@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { orgHasFlowBuilderGuardrails } from 'builder_platform_interaction/contextLib';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { api, LightningElement, track } from 'lwc';

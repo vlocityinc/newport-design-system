@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import andPrefixLabel from '@salesforce/label/FlowBuilderConditionList.andPrefixLabel';
 import orPrefixLabel from '@salesforce/label/FlowBuilderConditionList.orPrefixLabel';

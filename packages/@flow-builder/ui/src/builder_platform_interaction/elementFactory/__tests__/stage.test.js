@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createStage, createStageForStore, createStageMetadataObject } from '../stage';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 

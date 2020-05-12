@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import newCondition from '@salesforce/label/FlowBuilderConditionListItem.newCondition';
 

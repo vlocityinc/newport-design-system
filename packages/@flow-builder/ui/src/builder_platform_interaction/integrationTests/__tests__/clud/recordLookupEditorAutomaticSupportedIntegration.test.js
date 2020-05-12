@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import RecordLookupEditor from 'builder_platform_interaction/recordLookupEditor';
 import { resolveRenderCycles } from '../resolveRenderCycles';

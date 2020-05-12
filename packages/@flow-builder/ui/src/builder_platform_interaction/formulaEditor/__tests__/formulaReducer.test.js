@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { formulaReducer } from '../formulaReducer';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 

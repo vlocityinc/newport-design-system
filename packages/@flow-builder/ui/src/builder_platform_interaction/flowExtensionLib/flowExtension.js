@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { readonly } from 'lwc';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getRulesForField, screenValidation, getDynamicTypeMappingValidation } from '../screenValidation';
 import { createTestScreenField, SCREEN_NO_DEF_VALUE } from 'builder_platform_interaction/builderTestUtils';
 import { generateGuid, Store } from 'builder_platform_interaction/storeLib';

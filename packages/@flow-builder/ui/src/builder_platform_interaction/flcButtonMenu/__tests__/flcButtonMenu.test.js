@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import FlcButtonMenu from 'builder_platform_interaction/flcButtonMenu';
 import { ticks, blurEvent, focusEvent } from 'builder_platform_interaction/builderTestUtils';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'cannotretrievecalloutparameters';
 
 export class CannotRetrieveCalloutParametersEvent {

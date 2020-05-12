@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import FormulaEditor from '../formulaEditor';
 import { createFormula } from 'builder_platform_interaction/elementFactory';

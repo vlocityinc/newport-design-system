@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import RecordLookupEditor from '../recordLookupEditor';
 import { recordLookupReducer } from '../recordLookupReducer';

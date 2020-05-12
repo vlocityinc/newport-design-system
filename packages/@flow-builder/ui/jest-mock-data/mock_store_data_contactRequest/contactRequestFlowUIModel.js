@@ -1,3 +1,4 @@
+// @ts-nocheck
 // To update contactRequestFlowUIModel from contactRequestFlow, run flowTranslator.test.js and follow instructions
 export const contactRequestFlowUIModel = {
     elements: {

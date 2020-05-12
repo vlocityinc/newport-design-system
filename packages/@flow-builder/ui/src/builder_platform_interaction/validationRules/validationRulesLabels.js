@@ -1,3 +1,4 @@
+// @ts-nocheck
 import cannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
 import shouldNotBeginOrEndWithUnderscores from '@salesforce/label/FlowBuilderValidation.shouldNotBeginOrEndWithUnderscores';
 import shouldNotBeginWithNumericOrSpecialCharacters from '@salesforce/label/FlowBuilderValidation.shouldNotBeginWithNumericOrSpecialCharacters';

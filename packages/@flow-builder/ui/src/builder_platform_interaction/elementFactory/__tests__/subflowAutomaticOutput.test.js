@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createSubflow, createSubflowMetadataObject, createSubflowWithConnectors } from '../subflow';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { deepCopy } from 'builder_platform_interaction/storeLib';

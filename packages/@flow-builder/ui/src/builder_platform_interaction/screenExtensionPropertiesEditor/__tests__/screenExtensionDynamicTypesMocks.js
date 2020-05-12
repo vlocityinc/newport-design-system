@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createTestScreenField } from 'builder_platform_interaction/builderTestUtils';
 
 export const DYNAMIC_TYPES_DESCRIPTOR_NAME = 'c:lookup';

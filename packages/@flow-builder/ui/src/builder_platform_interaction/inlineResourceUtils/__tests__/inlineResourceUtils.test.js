@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getInlineResource } from '../inlineResourceUtils';
 describe('inline resource utils ', () => {
     it('throws an error if no resource guid is given ', () => {

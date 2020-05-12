@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { isUndefinedOrNull, format } from 'builder_platform_interaction/commonUtils';
 import { isDevNameInStore, isOrderNumberInStore } from 'builder_platform_interaction/storeUtils';

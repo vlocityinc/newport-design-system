@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { GLOBAL_CONSTANT_OBJECTS, GLOBAL_CONSTANT_PREFIX } from './globalConstants';
 import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import {

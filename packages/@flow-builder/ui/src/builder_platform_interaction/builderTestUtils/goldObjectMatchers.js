@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const goldObjectMatchers = {
     toEqualGoldObject(received, expected, toBeUpdated) {
         // we ignore undefined values. We do that because stringifiedReceived uses JSON.stringify ...

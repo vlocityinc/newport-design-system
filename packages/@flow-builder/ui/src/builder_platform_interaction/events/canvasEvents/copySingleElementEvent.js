@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'copysingleelement';
 export class CopySingleElementEvent {
     constructor(elementGuid) {

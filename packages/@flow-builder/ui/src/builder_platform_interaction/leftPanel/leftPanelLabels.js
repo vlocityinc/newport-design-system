@@ -1,3 +1,4 @@
+// @ts-nocheck
 import headerText from '@salesforce/label/FlowBuilderLeftPanel.headerText';
 import elementTabText from '@salesforce/label/FlowBuilderLeftPanel.elementTabText';
 import resourceTabText from '@salesforce/label/FlowBuilderLeftPanel.resourceTabText';

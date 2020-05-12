@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 export const MOCK_ALL_FLOW_ENTRIES = [

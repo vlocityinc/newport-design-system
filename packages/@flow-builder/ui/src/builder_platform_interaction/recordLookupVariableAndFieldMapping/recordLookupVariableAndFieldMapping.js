@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { LABELS, VARIABLE_AND_FIELD_MAPPING_OPTIONS } from './recordLookupVariableAndFieldMappingLabels';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenDisplayTextFieldPropertiesEditor from '../screenDisplayTextFieldPropertiesEditor';
 import { query, createTestScreenField, ticks } from 'builder_platform_interaction/builderTestUtils';

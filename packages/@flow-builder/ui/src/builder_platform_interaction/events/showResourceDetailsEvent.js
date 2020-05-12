@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Fired to show the resource details.
  */

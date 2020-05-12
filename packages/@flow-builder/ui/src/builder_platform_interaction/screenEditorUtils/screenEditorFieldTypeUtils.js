@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import {
     getAllCachedExtensionTypes,

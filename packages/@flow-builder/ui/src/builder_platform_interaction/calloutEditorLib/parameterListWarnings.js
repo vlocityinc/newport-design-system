@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { MERGE_WARNING_TYPE } from './mergeWarningType';
 
 /**

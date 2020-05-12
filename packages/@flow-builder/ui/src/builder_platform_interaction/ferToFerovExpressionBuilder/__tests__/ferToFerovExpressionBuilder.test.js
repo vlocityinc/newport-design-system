@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import FerToFerovExpressionBuilder from '../ferToFerovExpressionBuilder.js';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';

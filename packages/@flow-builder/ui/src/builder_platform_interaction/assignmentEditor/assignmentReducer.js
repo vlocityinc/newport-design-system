@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { assignmentValidation } from './assignmentValidation';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { updateProperties, set, deleteItem } from 'builder_platform_interaction/dataMutationLib';

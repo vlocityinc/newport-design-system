@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { LocatorIconClickedEvent, PaletteItemChevronClickedEvent } from 'builder_platform_interaction/events';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';

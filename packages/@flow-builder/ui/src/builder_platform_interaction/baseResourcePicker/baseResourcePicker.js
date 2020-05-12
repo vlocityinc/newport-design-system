@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { filterMatches } from 'builder_platform_interaction/expressionUtils';
 import { isCollectionRequired } from 'builder_platform_interaction/ruleLib';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { initializeLoader, loadOnStart, loadOnProcessTypeChange, clearLoader } from '../loader';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';

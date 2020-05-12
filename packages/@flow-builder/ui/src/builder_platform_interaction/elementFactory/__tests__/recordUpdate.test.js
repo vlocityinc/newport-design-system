@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createRecordUpdate, createDuplicateRecordUpdate, createRecordUpdateMetadataObject } from '../recordUpdate';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';

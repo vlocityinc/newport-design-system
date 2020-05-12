@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import WaitPlatformEvent from '../waitPlatformEvent';
 import { CONDITION_LOGIC, ELEMENT_TYPE, WAIT_EVENT_FIELDS } from 'builder_platform_interaction/flowMetadata';

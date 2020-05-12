@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 /**
  * Wrapper used to represent visual preview of screen fields which are are display fields.

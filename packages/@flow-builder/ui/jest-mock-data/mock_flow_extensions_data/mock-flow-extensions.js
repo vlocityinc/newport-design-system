@@ -1,3 +1,4 @@
+// @ts-nocheck
 // see flowExtension.createdescription
 export const mockFlowRuntimeEmailFlowExtensionDescription = {
     name: 'flowruntime:email',

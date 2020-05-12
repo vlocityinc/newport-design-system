@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Helper function that takes in a string  and capitalize the FIRST letter
  * @param {String} string will be convert to an capitalized FIRST Letter of the string

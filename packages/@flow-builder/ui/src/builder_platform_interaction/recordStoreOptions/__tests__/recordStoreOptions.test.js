@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import RecordStoreOption from 'builder_platform_interaction/recordStoreOptions';
 import { RecordStoreOptionChangedEvent } from 'builder_platform_interaction/events';

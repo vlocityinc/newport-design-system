@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { translateUIModelToFlow } from '../uiToFlowTranslator';
 
 const uiModel = {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import ResourceDetailsParametersExtensionConfig from '../resourceDetailsParametersExtension';
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
 import { emailScreenFieldAutomaticOutput } from 'mock/storeData';

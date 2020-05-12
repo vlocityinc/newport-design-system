@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ElementIcon from 'builder_platform_interaction/elementIcon';
 

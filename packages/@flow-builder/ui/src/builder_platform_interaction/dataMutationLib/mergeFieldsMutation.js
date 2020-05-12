@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getElementByGuid, getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { splitStringBySeparator } from 'builder_platform_interaction/commonUtils';
 import { isGlobalConstantOrSystemVariableId } from 'builder_platform_interaction/systemLib';

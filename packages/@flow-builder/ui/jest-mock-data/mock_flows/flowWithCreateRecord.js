@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const flowWithCreateRecordUsingSObject = {
     createdById: '005xx000001X7i5AAC',
     createdDate: '2019-01-08T14:25:42.000+0000',

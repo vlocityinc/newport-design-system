@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { api, track } from 'lwc';
 import { AddElementEvent, PasteEvent, ToggleMenuEvent } from 'builder_platform_interaction/events';
 import Menu from 'builder_platform_interaction/menu';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createDynamicChoiceSet, createDynamicChoiceSetMetadataObject } from './base/dynamicChoiceSet';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseElementsArrayToMap } from './base/baseElement';

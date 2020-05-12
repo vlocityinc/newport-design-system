@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import WaitEvent from 'builder_platform_interaction/waitEvent';
 import {

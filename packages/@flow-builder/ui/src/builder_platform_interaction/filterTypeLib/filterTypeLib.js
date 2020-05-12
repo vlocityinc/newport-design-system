@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * @enum {string} SOBJECT_OR_SOBJECT_COLLECTION_FILTER
  */

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ComponentVisiblity from 'builder_platform_interaction/componentVisibility';
 import { showPopover, hidePopover } from 'builder_platform_interaction/builderUtils';

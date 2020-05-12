@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { isPlainObject } from '../isPlainObject';
 
 const plainObject = {

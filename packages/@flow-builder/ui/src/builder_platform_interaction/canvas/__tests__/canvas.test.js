@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import Canvas from 'builder_platform_interaction/canvas';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createUserInputForChoice, createChoice, createChoiceForStore, createChoiceMetadataObject } from '../choice.js';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 

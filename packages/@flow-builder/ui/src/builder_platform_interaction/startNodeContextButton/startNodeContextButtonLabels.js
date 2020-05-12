@@ -1,3 +1,4 @@
+// @ts-nocheck
 import startElementChooseObject from '@salesforce/label/FlowBuilderCanvasElement.startElementChooseObject';
 import startElementChooseAudience from '@salesforce/label/FlowBuilderCanvasElement.startElementChooseAudience';
 import startElementOptional from '@salesforce/label/FlowBuilderCanvasElement.startElementOptional';

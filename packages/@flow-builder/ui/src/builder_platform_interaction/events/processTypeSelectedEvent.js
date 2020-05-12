@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used to indicate a new item has been selected inside the process types vertical navigation
  */

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Store } from 'builder_platform_interaction_mocks/storeLib';
 import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from '../mergeFieldValidation';
 import { datetimeParamTypes, numberParamCanBeAnything, accountParam, apexParam } from 'mock/ruleService';

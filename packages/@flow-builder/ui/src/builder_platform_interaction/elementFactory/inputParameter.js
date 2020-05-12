@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from './ferov';
 import { createParameterListRowItem } from './base/baseList';
 import { generateGuid } from 'builder_platform_interaction/storeLib';

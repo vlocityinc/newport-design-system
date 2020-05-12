@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import UsedByContentItem from '../usedByContentItem';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';

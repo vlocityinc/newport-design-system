@@ -1,3 +1,4 @@
+// @ts-nocheck
 import appNameText from '@salesforce/label/FlowBuilder.appName';
 import backButtonText from '@salesforce/label/FlowBuilderHeader.backButtonText';
 import helpButtonText from '@salesforce/label/FlowBuilderHeader.helpButtonText';

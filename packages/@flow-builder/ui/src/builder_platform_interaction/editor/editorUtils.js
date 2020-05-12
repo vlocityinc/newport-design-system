@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { usedBy, invokeUsedByAlertModal } from 'builder_platform_interaction/usedByLib';
 import {
     deleteElements,

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { mutateTextWithMergeFields, demutateTextWithMergeFields, sanitizeGuid } from '../mergeFieldsMutation';
 import { Store } from 'builder_platform_interaction/storeLib';
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const elementType = ELEMENT_TYPE.FLOW_PROPERTIES;

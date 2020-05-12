@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'sobjectreferencechanged';
 
 export class SObjectReferenceChangedEvent {

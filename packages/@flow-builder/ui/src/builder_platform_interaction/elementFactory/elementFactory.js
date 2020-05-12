@@ -1,3 +1,4 @@
+// @ts-nocheck
 export * from './actionCall';
 export * from './apexPlugin';
 export * from './assignment';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { deepFind, deepFindCommonElement } from '../deepFindMatchers';
 
 describe('deepFindMatchers', () => {

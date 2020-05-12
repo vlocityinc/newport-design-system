@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import * as autoLaunchedFlow from 'mock/flows/autolaunchedFlow.json';
 import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';

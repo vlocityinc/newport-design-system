@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { checkMarqueeSelection } from '../marqueeSelectionLib';
 
 const getCanvasElementWithMarqueeProp = (guid, locationX, locationY, config) => {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { setSystemVariables, getSystemVariables, resetSystemVariables } from '../systemVariables';
 import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { systemVariablesForAutoLaunchedFlow } from 'serverData/GetSystemVariables/systemVariablesForAutoLaunchedFlow.json';

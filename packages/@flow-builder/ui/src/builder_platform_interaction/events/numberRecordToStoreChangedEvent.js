@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'numberrecordtostorechanged';
 
 export class NumberRecordToStoreChangedEvent extends Event {

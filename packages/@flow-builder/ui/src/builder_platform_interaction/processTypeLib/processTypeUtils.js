@@ -1,3 +1,4 @@
+// @ts-nocheck
 import all from '@salesforce/label/FlowBuilderProcessTypesVerticalNavigation.all';
 import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getProcessFeatures } from 'builder_platform_interaction/systemLib';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * A case-insensitive string comparison function used to sort arrays of objects
  * by a given field.

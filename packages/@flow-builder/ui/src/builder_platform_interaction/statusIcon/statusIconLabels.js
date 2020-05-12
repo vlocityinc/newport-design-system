@@ -1,3 +1,4 @@
+// @ts-nocheck
 import statusIconShowErrorPluralTitle from '@salesforce/label/FlowBuilderCommonPropertyEditor.statusIconShowErrorPluralTitle';
 import statusIconHideErrorPluralTitle from '@salesforce/label/FlowBuilderCommonPropertyEditor.statusIconHideErrorPluralTitle';
 import statusIconShowWarningPluralTitle from '@salesforce/label/FlowBuilderCommonPropertyEditor.statusIconShowWarningPluralTitle';

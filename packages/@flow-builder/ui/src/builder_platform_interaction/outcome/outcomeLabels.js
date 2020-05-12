@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import outcomeDetailsHeader from '@salesforce/label/FlowBuilderOutcome.outcomeDetailsHeader';
 import deleteOutcomeLabel from '@salesforce/label/FlowBuilderOutcome.deleteOutcomeLabel';

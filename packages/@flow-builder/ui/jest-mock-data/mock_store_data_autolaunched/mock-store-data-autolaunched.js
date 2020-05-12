@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { autolaunchedFlowUIModel } from './autolaunchedFlowUIModel';
 export * from './autolaunchedFlowUIModel';
 

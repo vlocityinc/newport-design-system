@@ -1,3 +1,4 @@
+// @ts-nocheck
 const FLOW_CONTEXT = 'FLOW';
 const TEAM_NAME = 'Automation Builder Customization';
 

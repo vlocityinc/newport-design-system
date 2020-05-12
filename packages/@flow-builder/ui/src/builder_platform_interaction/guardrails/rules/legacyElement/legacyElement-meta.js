@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Meta, ContextInfo } from 'analyzer_framework/api';
 import * as Rule from './legacyElement';
 import { FLOW_CONTEXT, TEAM_NAME } from '../constants';

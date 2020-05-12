@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import RecordChoiceSetEditor from '../recordChoiceSetEditor';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { mergeSubflowAssignmentsWithInputOutputVariables } from '../subflowParametersMerger';
 import { MERGE_WARNING_TYPE } from '../mergeWarningType';
 

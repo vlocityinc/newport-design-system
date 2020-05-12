@@ -1,3 +1,4 @@
+// @ts-nocheck
 export { canvasSelector } from './canvasSelector';
 export {
     filteredElementsSelector,

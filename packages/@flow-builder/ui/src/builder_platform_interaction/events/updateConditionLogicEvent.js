@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'updateconditionlogic';
 
 export class UpdateConditionLogicEvent {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import { query } from 'builder_platform_interaction/builderTestUtils';
 import ScheduleTriggerEditor from '../scheduleTriggerEditor';

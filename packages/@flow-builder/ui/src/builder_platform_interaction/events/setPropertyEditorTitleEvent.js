@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Fired to set the title for the property editor.
  */

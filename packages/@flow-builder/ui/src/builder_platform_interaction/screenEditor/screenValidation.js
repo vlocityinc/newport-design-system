@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { Validation, defaultRules } from 'builder_platform_interaction/validation';
 

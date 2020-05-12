@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { apexPluginValidation } from './apexPluginValidation';

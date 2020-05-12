@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { FilterMatchesEvent } from 'builder_platform_interaction/events';

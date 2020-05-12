@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Data } from 'analyzer_framework/api';
 import { Element } from './element';
 import { getMappings } from './utils';

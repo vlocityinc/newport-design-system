@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { format } from 'builder_platform_interaction/commonUtils';
 /* Labels */
 import findRecords from '@salesforce/label/FlowBuilderRecordEditor.findRecords';

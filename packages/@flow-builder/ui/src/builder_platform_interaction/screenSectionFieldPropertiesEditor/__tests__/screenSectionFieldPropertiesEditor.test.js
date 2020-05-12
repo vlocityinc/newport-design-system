@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenSectionFieldPropertiesEditor from '../screenSectionFieldPropertiesEditor';
 import { query } from 'builder_platform_interaction/builderTestUtils';

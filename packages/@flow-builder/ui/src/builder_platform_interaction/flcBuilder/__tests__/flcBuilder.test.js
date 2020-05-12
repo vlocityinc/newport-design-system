@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import FlcBuilder from 'builder_platform_interaction/flcBuilder';
 import { flowModel, elementsMetadata /* , nodeLayoutMap,*/ } from './mockData.js';

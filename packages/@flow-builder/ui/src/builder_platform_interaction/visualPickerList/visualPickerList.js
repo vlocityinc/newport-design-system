@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { VisualPickerListChangedEvent } from 'builder_platform_interaction/events';
 import { generateGuid } from 'builder_platform_interaction/storeLib';

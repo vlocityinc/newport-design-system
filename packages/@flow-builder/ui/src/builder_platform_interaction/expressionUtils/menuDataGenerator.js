@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FLOW_DATA_TYPE, getDataTypeLabel, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import {
     isGlobalConstantOrSystemVariableId,

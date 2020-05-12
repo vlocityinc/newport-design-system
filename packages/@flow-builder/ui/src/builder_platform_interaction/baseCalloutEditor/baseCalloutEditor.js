@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { LABELS } from './baseCalloutEditorLabels';
 import { format } from 'builder_platform_interaction/commonUtils';

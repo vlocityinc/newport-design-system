@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { apexPluginReducer } from '../apexPluginReducer';
 import {
     MERGE_WITH_PARAMETERS,

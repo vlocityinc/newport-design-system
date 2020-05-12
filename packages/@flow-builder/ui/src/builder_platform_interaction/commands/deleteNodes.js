@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { BaseCommand } from './baseCommand';
 import deleteNodesCommandLabel from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.deleteNodesCommandLabel';
 export class DeleteNodesCommand extends BaseCommand {

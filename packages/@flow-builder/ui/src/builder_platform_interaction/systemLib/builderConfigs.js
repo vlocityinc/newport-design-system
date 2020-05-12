@@ -1,3 +1,4 @@
+// @ts-nocheck
 let builderType;
 
 export function setBuilderType(value) {

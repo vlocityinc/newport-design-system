@@ -1,3 +1,4 @@
+// @ts-nocheck
 // To update fieldServiceMobileFlowUIModel from fieldServiceMobileFlow, run flowTranslator.test.js and follow instructions
 export const fieldServiceMobileFlowUIModel = {
     elements: {

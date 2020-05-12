@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { Store, deepCopy } from 'builder_platform_interaction/storeLib';
 import { swapUidsForDevNames, swapDevNamesToGuids } from 'builder_platform_interaction/translatorLib';

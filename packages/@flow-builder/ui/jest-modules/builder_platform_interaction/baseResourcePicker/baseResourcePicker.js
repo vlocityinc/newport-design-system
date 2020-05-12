@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 const baseResourcePicker = require('builder_platform_interaction/baseResourcePicker').default;

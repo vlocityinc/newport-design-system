@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { isUndefinedOrNull, isUndefined } from 'builder_platform_interaction/commonUtils';
 import { RULE_TYPES, RULE_PROPERTY, PARAM_PROPERTY, CONSTRAINT } from './rules';

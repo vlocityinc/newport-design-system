@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import RecordNumberRecordToStore from 'builder_platform_interaction/recordNumberRecordToStore';
 import { NumberRecordToStoreChangedEvent } from 'builder_platform_interaction/events';

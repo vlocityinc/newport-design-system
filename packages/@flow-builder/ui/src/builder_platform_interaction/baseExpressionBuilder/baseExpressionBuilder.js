@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { RowContentsChangedEvent } from 'builder_platform_interaction/events';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';

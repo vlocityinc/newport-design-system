@@ -1,3 +1,4 @@
+// @ts-nocheck
 // These gets initialized whenever a property editor is created and cleared on close.
 let expressions = {};
 let resourcePickers = {};

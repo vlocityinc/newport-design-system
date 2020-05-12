@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createStep, createStepWithConnectorsForStore, createStepMetadataObject } from '../step';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 

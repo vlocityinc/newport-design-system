@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Combine multiple reducer to a one reducer function.
  * @param {Object} reducers object containing key value pair of all the reducers. Key is name of the property of the state of a store on which reduction needs to happen.

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenCanvas from '../screenCanvas';
 import { createTestScreen, createDropEvent, ticks } from 'builder_platform_interaction/builderTestUtils';

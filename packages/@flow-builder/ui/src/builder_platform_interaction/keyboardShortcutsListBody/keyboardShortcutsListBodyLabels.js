@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import canvasSectionHeader from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.canvasSectionHeader';
 import generalSectionHeader from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.generalSectionHeader';

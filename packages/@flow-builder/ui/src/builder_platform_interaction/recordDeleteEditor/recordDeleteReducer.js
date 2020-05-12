@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { recordDeleteValidation, getRules } from './recordDeleteValidation';
 import { updateProperties, set, deleteItem } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';

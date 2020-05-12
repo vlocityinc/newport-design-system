@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { EXPRESSION_RE, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store, isPlainObject } from 'builder_platform_interaction/storeLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';

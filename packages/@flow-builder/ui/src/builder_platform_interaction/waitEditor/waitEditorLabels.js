@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import waitEventsSectionDescription from '@salesforce/label/FlowBuilderWaitEditor.waitEventsSectionDescription';
 import waitEventListHeader from '@salesforce/label/FlowBuilderWaitEditor.waitEventListHeader';

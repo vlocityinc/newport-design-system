@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import sortTabHeader from '@salesforce/label/FlowBuilderRecordEditor.sortTabHeader';
 import sortOrderLabel from '@salesforce/label/FlowBuilderRecordEditor.sortOrderLabel';

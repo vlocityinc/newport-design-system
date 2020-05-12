@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
 import { ResourceDetailsParametersConfig } from './resourceDetailsParametersConfig';

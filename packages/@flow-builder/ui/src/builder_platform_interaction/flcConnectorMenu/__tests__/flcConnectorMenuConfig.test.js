@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { pasteSection, configureMenu } from '../flcConnectorMenuConfig';
 import { LABELS } from '../flcConnectorMenuLabels';
 

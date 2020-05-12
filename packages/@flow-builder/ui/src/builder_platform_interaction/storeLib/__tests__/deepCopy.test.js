@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { deepCopy } from '../deepCopy';
 
 const obj = {

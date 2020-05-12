@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getEntity } from 'builder_platform_interaction/sobjectLib';
 
 let apexClasses = null;

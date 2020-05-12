@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import FieldToFerovExpressionBuilder from '../fieldToFerovExpressionBuilder.js';
 import { numberVariable, accountSObjectVariable } from 'mock/storeData';

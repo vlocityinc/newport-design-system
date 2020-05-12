@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import RecordCreateEditor from 'builder_platform_interaction/recordCreateEditor';
 import { resolveRenderCycles } from '../resolveRenderCycles';

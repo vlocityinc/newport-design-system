@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used to report a update on 'LoopCollection' and 'LoopVariableErrorMessage'
  */

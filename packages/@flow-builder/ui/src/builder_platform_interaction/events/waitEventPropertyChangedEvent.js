@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used by waitEvent to indicate that one of its properties changed
  */

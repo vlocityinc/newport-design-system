@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 export * from './screenEditorFieldTypeUtils.js';
 export * from './screenEditorExtensionUtils.js';

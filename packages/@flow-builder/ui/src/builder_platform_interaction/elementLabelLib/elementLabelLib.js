@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { format } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementLabelLibLabels';
 import { getEntity } from 'builder_platform_interaction/sobjectLib';

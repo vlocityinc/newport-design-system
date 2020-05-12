@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
     ACTION_TYPE,
     METADATA_KEY,

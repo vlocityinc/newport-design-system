@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import WaitResumeConditions from '../waitResumeConditions';
 import { WAIT_TIME_EVENT_TYPE } from 'builder_platform_interaction/flowMetadata';

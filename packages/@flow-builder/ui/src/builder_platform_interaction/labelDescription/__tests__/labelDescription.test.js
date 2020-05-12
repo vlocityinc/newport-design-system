@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import LabelDescription from 'builder_platform_interaction/labelDescription';
 import { PropertyChangedEvent, AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';

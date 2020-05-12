@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { CANVAS_SCREEN_GUIDS } from 'builder_platform_interaction/screenEditorUtils';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';

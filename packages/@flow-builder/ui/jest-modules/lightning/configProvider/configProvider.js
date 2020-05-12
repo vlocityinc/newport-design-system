@@ -1,3 +1,4 @@
+// @ts-nocheck
 const mockGetLocalizationService = {
     formatDateUTC: jest.fn().mockName('formatDateUTC'),
     formatDateTimeUTC: jest.fn().mockName('formatDateTimeUTC'),

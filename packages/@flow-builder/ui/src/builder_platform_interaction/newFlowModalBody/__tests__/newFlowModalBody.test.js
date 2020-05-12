@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LABELS } from '../newFlowModalBodyLabels';
 import { createElement } from 'lwc';
 import NewFlowModalBody from 'builder_platform_interaction/newFlowModalBody';

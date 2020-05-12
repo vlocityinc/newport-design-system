@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { assignmentReducer } from '../assignmentReducer';
 import {
     AddListItemEvent,

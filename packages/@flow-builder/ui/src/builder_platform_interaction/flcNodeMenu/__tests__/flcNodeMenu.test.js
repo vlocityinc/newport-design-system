@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import FlcNodeMenu from 'builder_platform_interaction/flcNodeMenu';
 import {

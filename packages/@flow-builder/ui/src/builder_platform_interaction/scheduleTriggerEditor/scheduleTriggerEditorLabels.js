@@ -1,3 +1,4 @@
+// @ts-nocheck
 import frequencyInputLabel from '@salesforce/label/FlowBuilderStartEditor.frequencyInputLabel';
 import frequencyInputHelp from '@salesforce/label/FlowBuilderStartEditor.frequencyInputHelp';
 import triggerFrequencyOnce from '@salesforce/label/FlowBuilderStartEditor.triggerFrequencyOnce';

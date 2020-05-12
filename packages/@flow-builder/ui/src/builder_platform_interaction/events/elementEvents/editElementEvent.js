@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used to open a property editor for the given element.
  */

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { formatLhs, formatOperator, formatRhs } from 'builder_platform_interaction/conditionListItemUtil';
 import {
     getResourceByUniqueIdentifier,

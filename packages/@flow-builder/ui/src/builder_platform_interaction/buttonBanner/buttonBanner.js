@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 

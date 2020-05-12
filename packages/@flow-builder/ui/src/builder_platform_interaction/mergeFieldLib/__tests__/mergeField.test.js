@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { resolveReferenceFromIdentifier } from '../mergeField';
 import * as mockStoreData from 'mock/storeData';
 import { autolaunchedFlowUIModel } from 'mock/storeDataAutolaunched';

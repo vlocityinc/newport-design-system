@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used by fixed layout canvas to support selection mode.
  */

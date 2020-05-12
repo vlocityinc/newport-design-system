@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import invocableActionTemplate from './invocableActionTemplate.html';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenInputFieldPropertiesEditor from '../screenInputFieldPropertiesEditor';
 import { query, createTestScreenField, SCREEN_NO_DEF_VALUE } from 'builder_platform_interaction/builderTestUtils';

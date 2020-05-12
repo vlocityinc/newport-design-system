@@ -1,3 +1,4 @@
+// @ts-nocheck
 import recordChangeTriggerTypeInputLabel from '@salesforce/label/FlowBuilderStartEditor.recordChangeTriggerTypeInputLabel';
 import createOrUpdateInputLabel from '@salesforce/label/FlowBuilderStartEditor.createOrUpdateInputLabel';
 import recordTriggerTypeUpdated from '@salesforce/label/FlowBuilderStartEditor.recordTriggerTypeUpdated';

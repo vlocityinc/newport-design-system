@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import CalloutEditorContainer from '../calloutEditorContainer';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';

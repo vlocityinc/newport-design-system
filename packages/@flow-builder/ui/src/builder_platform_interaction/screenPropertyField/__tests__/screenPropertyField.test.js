@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenPropertyField from '../screenPropertyField';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';

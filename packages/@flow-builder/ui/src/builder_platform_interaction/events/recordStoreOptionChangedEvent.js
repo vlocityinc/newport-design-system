@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'recordstoreoptionchanged';
 
 export class RecordStoreOptionChangedEvent extends Event {

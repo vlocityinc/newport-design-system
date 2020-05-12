@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { focusOnDockingPanel } from 'builder_platform_interaction/builderUtils';
 import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingLib';

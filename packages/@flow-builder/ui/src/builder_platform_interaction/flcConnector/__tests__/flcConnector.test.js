@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import FlcConnector from 'builder_platform_interaction/flcConnector';
 import { ConditionType } from 'builder_platform_interaction/flowUtils';

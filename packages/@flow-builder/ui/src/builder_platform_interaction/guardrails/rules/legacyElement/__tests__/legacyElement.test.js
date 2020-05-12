@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LegacyElement } from '../legacyElement';
 import { Result } from 'analyzer_framework/api';
 

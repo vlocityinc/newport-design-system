@@ -1,3 +1,4 @@
+// @ts-nocheck
 import endPointTitle from '@salesforce/label/FlowBuilderCanvasElement.endPointTitle';
 import endPointTitleA11yText from '@salesforce/label/FlowBuilderCanvasElement.endPointTitleA11yText';
 import nodeIconA11yText from '@salesforce/label/FlowBuilderCanvasElement.nodeIconA11yText';

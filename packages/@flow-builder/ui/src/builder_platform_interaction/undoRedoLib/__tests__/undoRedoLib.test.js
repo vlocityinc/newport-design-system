@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { UNDO, REDO, INIT, CLEAR_UNDO_REDO } from '../undoRedoLib';
 
 const initialStoreState = {

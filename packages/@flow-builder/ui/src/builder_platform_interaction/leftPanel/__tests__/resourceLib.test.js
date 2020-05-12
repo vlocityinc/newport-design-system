@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getResourceSections, getElementSections, getResourceIconName } from '../resourceLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createSelector } from 'builder_platform_interaction/storeLib';
 
 const peripheralDataSelector = state => state.peripheralData;

@@ -1,3 +1,4 @@
+// @ts-nocheck
 // eslint-disable-next-line lwc-core/no-interop-create, lwc-core/no-interop-dispatch, lwc-core/no-interop-render
 import { createComponent, dispatchGlobalEvent, renderComponent } from 'aura';
 import {

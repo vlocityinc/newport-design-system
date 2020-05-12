@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Returns element given the path though nested shadow roots.
  */

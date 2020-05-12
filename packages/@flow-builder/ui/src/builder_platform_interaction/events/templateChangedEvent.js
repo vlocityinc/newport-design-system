@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'templatechanged';
 
 export class TemplateChangedEvent {

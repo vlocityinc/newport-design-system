@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { BaseCommand } from './baseCommand';
 import shiftFocusForwardCommandLabel from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.shiftFocusForwardCommandLabel';
 export class ShiftFocusForwardCommand extends BaseCommand {

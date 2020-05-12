@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { isMatch, PARAM_PROPERTY, SUBTYPE, getDataType } from 'builder_platform_interaction/ruleLib';
 import {
     ELEMENT_TYPE,

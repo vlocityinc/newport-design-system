@@ -1,3 +1,4 @@
+// @ts-nocheck
 import startElementSetSchedule from '@salesforce/label/FlowBuilderCanvasElement.startElementSetSchedule';
 import recordTriggerTypeUpdated from '@salesforce/label/FlowBuilderStartEditor.recordTriggerTypeUpdated';
 import recordTriggerTypeCreated from '@salesforce/label/FlowBuilderStartEditor.recordTriggerTypeCreated';

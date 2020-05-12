@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { api, LightningElement, unwrap, track } from 'lwc';
 import { createConfigurationEditor } from 'builder_platform_interaction/builderUtils';
 import { LABELS } from './customPropertyEditorLabels';

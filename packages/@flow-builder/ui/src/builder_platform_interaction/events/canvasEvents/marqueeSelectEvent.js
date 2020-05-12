@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used by canvas to marquee select the canvas elements and connectors
  */

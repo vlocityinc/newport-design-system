@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { multiComparator, stringComparator } from '../sortLib';
 
 describe('stringComparator', () => {

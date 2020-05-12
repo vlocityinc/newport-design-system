@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ParameterItem from 'builder_platform_interaction/parameterItem';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';

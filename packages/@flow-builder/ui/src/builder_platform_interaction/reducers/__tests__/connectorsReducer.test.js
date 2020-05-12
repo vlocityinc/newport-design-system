@@ -1,3 +1,4 @@
+// @ts-nocheck
 import reducer from '../connectorsReducer';
 import {
     ADD_CONNECTOR,

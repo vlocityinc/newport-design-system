@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { LABELS } from './useAdvancedOptionsCheckboxLabels';
 import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';

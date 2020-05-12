@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getElementForPropertyEditor } from '../propertyEditorFactory';
 import {
     stringVariable,

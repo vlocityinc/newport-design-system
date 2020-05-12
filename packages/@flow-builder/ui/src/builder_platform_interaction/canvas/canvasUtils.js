@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';

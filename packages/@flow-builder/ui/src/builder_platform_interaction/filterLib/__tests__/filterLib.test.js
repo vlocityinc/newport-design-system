@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { labelFilter, resourceFilter, canvasElementFilter } from '../filterLib';
 import { isAutomaticOutputElementWithoutChildren } from 'builder_platform_interaction/complexTypeLib';

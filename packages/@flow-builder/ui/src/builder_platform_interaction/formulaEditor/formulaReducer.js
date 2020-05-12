@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { formulaValidation } from './formulaValidation';

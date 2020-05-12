@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { textTemplateReducer } from '../textTemplateReducer';
 import * as mockStoreData from 'mock/storeData';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';

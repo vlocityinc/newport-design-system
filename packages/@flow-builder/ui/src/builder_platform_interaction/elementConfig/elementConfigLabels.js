@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import subflowSingularLabel from '@salesforce/label/FlowBuilderElementConfig.subflowSingularLabel';
 import subflowPluralLabel from '@salesforce/label/FlowBuilderElementConfig.subflowPluralLabel';

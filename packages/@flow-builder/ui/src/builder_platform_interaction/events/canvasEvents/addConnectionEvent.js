@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used by canvas to add a connection
  */

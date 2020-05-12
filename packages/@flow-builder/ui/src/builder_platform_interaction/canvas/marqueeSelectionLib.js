@@ -1,3 +1,4 @@
+// @ts-nocheck
 const NODE_LENGTH = 48;
 
 /**

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Library for using the flow operator rules
  *

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LABELS } from '../../apexPluginEditor/apexPluginEditorLabels';
 import { MERGE_WARNING_TYPE, getParameterItemWarning } from 'builder_platform_interaction/calloutEditorLib';
 

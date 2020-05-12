@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 
 /**

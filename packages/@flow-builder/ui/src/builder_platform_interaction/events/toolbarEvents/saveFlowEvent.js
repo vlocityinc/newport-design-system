@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used to save a flow.
  */

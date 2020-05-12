@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ContextDataProvider } from 'analyzer_framework/api';
 import { Flow } from './flow';
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenField from '../screenField';
 import { createTestScreenField, SCREEN_NO_DEF_VALUE, ticks } from 'builder_platform_interaction/builderTestUtils';

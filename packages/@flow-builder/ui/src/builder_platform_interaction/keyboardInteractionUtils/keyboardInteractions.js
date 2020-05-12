@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { CommandRegistry, KeyboardShortcutServiceImpl } from 'builder_framework/command';
 
 export class KeyboardInteractions {

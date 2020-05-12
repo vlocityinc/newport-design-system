@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { fieldServiceMobileFlowUIModel } from './fieldServiceMobileFlowUIModel';
 export * from './fieldServiceMobileFlowUIModel';
 

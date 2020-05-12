@@ -1,3 +1,4 @@
+// @ts-nocheck
 import systemVariableCategory from '@salesforce/label/FlowBuilderSystemVariables.systemVariableCategory';
 import { readonly } from 'lwc';
 

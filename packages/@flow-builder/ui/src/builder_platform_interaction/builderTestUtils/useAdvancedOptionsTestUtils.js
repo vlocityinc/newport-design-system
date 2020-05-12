@@ -1,3 +1,4 @@
+// @ts-nocheck
 const SELECTORS = {
     useAdvancedOptionsCheckboxComponent: 'builder_platform_interaction-use-advanced-options-checkbox',
     lightningInput: 'lightning-input'

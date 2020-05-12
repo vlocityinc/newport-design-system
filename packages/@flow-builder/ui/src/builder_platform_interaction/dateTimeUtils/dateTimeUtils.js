@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { parseDateTimeUTC, syncUTCToWallTime, syncWallTimeToUTC } from 'lightning/internalLocalizationService';
 
 import shortDateTimeFormat from '@salesforce/i18n/dateTime.shortDateTimeFormat';

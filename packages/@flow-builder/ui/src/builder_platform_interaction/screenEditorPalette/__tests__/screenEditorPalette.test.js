@@ -1,3 +1,4 @@
+// @ts-nocheck
 import ScreenPalette from 'builder_platform_interaction/screenEditorPalette';
 import { createElement } from 'lwc';
 import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';

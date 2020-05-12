@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_interaction/recordEditorLib';
 /* Labels */
 import variableAndFieldMappingLabel from '@salesforce/label/FlowBuilderRecordEditor.variableAndFieldMappingLabel';

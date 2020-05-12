@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';

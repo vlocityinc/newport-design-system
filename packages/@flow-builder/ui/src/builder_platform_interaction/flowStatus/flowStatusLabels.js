@@ -1,3 +1,4 @@
+// @ts-nocheck
 import draftLabel from '@salesforce/label/FlowStatus.draftLabel';
 import draftTitle from '@salesforce/label/FlowStatus.draftTitle';
 import activeLabel from '@salesforce/label/FlowStatus.activeLabel';

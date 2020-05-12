@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used by combobox to indicate that updated menu data is needed
  */

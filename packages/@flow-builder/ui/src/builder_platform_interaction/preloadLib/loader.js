@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { format } from 'builder_platform_interaction/commonUtils';
 import { fetchOnce, SERVER_ACTION_TYPE, getAuraCallback } from 'builder_platform_interaction/serverDataLib';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';

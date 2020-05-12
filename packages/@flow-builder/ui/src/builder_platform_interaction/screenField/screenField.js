@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { hydrateWithErrors, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { isObject, isReference } from 'builder_platform_interaction/commonUtils';

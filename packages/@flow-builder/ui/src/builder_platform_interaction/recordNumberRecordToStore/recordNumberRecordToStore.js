@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { NumberRecordToStoreChangedEvent } from 'builder_platform_interaction/events';
 import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';

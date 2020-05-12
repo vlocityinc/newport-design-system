@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import field from '@salesforce/label/FlowBuilderRecordEditor.field';
 import getFieldPlaceholder from '@salesforce/label/FlowBuilderRecordEditor.getFieldPlaceholder';

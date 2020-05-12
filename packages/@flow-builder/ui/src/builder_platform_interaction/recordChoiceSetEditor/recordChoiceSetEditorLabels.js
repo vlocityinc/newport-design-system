@@ -1,3 +1,4 @@
+// @ts-nocheck
 import entityPickerLabel from '@salesforce/label/FlowBuilderRecordChoiceSetEditor.entityPickerLabel';
 import entityPickerPlaceholder from '@salesforce/label/FlowBuilderRecordChoiceSetEditor.entityPickerPlaceholder';
 import choiceLimitLabel from '@salesforce/label/FlowBuilderRecordChoiceSetEditor.choiceLimitLabel';

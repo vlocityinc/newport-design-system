@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import UseAdvancedOptionsCheckbox from '../useAdvancedOptionsCheckbox';
 import { LABELS } from '../useAdvancedOptionsCheckboxLabels';

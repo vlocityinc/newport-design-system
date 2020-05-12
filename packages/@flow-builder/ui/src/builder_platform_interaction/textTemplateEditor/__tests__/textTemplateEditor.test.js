@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import TextTemplateEditor from '../textTemplateEditor';
 import { textTemplateReducer } from '../textTemplateReducer';

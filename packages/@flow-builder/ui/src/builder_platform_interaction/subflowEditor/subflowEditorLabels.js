@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import subtitle from '@salesforce/label/FlowBuilderSubflowEditor.subtitle';
 import runInMode from '@salesforce/label/FlowBuilderSubflowEditor.runInMode';

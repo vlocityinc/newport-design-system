@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'toggleflowstatus';
 
 export class ToggleFlowStatusEvent {

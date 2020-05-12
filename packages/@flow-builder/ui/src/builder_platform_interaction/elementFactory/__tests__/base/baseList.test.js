@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createListRowItem } from '../../base/baseList';
 
 const listRowItem = {

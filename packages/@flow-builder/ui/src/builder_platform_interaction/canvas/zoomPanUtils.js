@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ZOOM_ACTION } from 'builder_platform_interaction/events';
 import { getFlowBounds } from 'builder_platform_interaction/connectorUtils';
 

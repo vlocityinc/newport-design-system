@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import LoopEditor from 'builder_platform_interaction/loopEditor';
 import * as autolaunchedFlow from 'mock/flows/autolaunchedFlow.json';

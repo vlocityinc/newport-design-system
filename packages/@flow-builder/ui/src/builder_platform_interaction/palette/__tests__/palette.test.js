@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import { PaletteItemChevronClickedEvent, LocatorIconClickedEvent } from 'builder_platform_interaction/events';
 import Palette from 'builder_platform_interaction/palette';

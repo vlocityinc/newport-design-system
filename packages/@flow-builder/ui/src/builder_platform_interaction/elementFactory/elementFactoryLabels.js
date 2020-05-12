@@ -1,3 +1,4 @@
+// @ts-nocheck
 import emptyDefaultOutcomeLabel from '@salesforce/label/FlowBuilderDecisionEditor.emptyDefaultOutcomeLabel';
 import emptyDefaultWaitPathLabel from '@salesforce/label/FlowBuilderWaitEditor.emptyDefaultWaitPathLabel';
 import startElementLabel from '@salesforce/label/FlowBuilderCanvas.startElementLabel';

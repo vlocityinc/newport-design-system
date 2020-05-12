@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { combinedReducer } from '../combinedReducer';
 
 const state = {

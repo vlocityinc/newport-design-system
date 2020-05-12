@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { decisionReducer, resetDeletedGuids } from '../decisionReducer';
 import {
     PropertyChangedEvent,

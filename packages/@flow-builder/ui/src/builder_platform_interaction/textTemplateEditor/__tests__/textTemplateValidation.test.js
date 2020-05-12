@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { textTemplateValidation, MAX_TEXT_LENGTH } from '../textTemplateValidation';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { LABELS } from '../../validationRules/validationRulesLabels';

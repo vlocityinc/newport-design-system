@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Fired by the combobox to get a filtered menu data based on value
  */

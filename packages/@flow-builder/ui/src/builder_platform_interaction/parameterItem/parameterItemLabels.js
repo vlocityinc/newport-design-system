@@ -1,3 +1,4 @@
+// @ts-nocheck
 import toggleActive from '@salesforce/label/FlowBuilderParameterItem.toggleActive';
 import toggleInactive from '@salesforce/label/FlowBuilderParameterItem.toggleInactive';
 import parameterPlaceholder from '@salesforce/label/FlowBuilderParameterItem.parameterPlaceholder';

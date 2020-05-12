@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 
 import sanity from './flcUiModels/sanity';

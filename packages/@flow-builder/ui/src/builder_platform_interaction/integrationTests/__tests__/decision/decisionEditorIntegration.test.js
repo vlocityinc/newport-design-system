@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement, unwrap } from 'lwc';
 import DecisionEditor from 'builder_platform_interaction/decisionEditor';
 import { ReorderListEvent } from 'builder_platform_interaction/events';

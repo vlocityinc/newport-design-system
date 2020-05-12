@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const flowCollectionServicesDemo = {
     createdById: '005xx00000000tnAAA',
     createdDate: '2018-10-12T15:08:48.000+0000',

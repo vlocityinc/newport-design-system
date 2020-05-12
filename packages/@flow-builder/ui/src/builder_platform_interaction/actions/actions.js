@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { UNDO, REDO, CLEAR_UNDO_REDO } from 'builder_platform_interaction/undoRedoLib';
 

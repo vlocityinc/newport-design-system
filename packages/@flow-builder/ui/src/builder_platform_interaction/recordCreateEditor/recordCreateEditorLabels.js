@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import searchRecords from '@salesforce/label/FlowBuilderRecordEditor.searchRecords';
 import searchRecordCollections from '@salesforce/label/FlowBuilderRecordEditor.searchRecordCollections';

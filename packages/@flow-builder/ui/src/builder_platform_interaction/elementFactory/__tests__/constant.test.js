@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createConstant, createConstantForStore, createConstantMetadataObject } from '../constant';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';

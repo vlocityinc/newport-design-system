@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import recordVariableOrRecordCollectionVariable from '@salesforce/label/FlowBuilderRecordEditor.recordVariableOrRecordCollectionVariable';
 import recordUpdateTitle from '@salesforce/label/FlowBuilderRecordEditor.recordUpdateTitle';

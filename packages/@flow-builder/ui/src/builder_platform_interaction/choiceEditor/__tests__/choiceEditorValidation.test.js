@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ChoiceEditor from '../choiceEditor';
 import { choiceValidation } from '../choiceValidation.js';

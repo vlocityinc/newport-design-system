@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { LABELS } from './richTextPlainTextSwitchLabels';
 import { RichTextPlainTextSwitchChangedEvent } from 'builder_platform_interaction/events';

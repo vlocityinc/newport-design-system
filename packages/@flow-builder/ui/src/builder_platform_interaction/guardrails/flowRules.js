@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { RuleFactory, RuleFactoryItem } from 'analyzer_framework/api';
 import { NoDMLInLoop, UnclosedLoop, LegacyElement } from './rules/index';
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { addItem, insertItem, replaceItem, deleteItem, shallowCopyArray } from '../arrayMutation';
 
 const arr = [

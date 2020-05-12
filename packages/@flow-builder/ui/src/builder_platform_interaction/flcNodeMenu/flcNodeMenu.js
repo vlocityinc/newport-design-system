@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { api, track } from 'lwc';
 import {
     CopySingleElementEvent,

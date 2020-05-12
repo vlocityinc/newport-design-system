@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'paste';
 export class PasteEvent {
     constructor(prev, next, parent, childIndex) {

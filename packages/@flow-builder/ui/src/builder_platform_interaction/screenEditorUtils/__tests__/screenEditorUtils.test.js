@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { booleanAttributeValue } from 'builder_platform_interaction/screenEditorUtils';
 
 const bar = 'bar';

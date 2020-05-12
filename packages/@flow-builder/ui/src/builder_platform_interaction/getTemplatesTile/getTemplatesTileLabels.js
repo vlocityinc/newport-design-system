@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import title from '@salesforce/label/FlowBuilderGetTemplatesTile.title';
 import description from '@salesforce/label/FlowBuilderGetTemplatesTile.description';

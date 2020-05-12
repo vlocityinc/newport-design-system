@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './startNodeContextButtonLabels';

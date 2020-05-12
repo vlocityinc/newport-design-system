@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { subflowValidation } from './subflowValidation';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';

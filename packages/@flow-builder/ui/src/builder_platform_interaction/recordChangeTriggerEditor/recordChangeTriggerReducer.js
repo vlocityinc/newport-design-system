@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { recordChangeTriggerValidation } from './recordChangeTriggerValidation';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';

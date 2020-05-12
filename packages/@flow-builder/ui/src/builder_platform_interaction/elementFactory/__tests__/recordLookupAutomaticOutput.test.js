@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createRecordLookup, createRecordLookupMetadataObject } from '../recordLookup';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import eventLabel from '@salesforce/label/FlowBuilderWaitEditor.eventLabel';
 import selectEventLabel from '@salesforce/label/FlowBuilderWaitEditor.selectEventLabel';
 import filterEventLabel from '@salesforce/label/FlowBuilderWaitEditor.filterEventLabel';

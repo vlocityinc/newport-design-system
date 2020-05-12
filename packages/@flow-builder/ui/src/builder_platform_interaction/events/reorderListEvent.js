@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used to indicate that the order of the items in a list
  * (e.g. outcomes in a decision or events in a wait)

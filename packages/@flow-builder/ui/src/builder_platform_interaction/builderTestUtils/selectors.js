@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const LIGHTNING_COMPONENTS_SELECTORS = {
     LIGHTNING_BUTTON: 'lightning-button',
     LIGHTNING_BUTTON_ICON: 'lightning-button-icon',

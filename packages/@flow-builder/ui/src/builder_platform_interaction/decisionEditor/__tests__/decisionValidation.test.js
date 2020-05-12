@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { decisionValidation } from '../decisionValidation';
 
 import { LABELS } from '../../validationRules/validationRulesLabels';

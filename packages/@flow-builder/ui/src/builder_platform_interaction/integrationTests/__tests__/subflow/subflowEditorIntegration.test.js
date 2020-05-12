@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import SubflowEditor from 'builder_platform_interaction/subflowEditor';
 import { resolveRenderCycles } from '../resolveRenderCycles';

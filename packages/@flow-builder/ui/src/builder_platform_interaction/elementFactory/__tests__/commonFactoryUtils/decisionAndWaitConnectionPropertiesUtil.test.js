@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getConnectionProperties } from '../../commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 

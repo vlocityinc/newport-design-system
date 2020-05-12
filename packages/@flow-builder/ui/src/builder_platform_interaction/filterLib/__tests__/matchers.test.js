@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { booleanMatcher, containsMatcher, equalsMatcher, notEqualsMatcher, startsWithMatcher } from '../matchers';
 
 const verifyValidation = matcher => {

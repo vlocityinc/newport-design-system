@@ -1,3 +1,4 @@
+// @ts-nocheck
 import cancelLabel from '@salesforce/label/AlcNodeContextualMenu.cancelLabel';
 import cancelTitle from '@salesforce/label/AlcNodeContextualMenu.cancelTitle';
 import copyActionLabel from '@salesforce/label/AlcNodeContextualMenu.copyActionLabel';

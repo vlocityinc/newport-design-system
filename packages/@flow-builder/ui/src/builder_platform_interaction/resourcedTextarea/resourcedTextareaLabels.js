@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import resourcePickerTitle from '@salesforce/label/FlowBuilderResourcedTextArea.resourcePickerTitle';
 import resourcePickerPlaceholder from '@salesforce/label/FlowBuilderResourcedTextArea.resourcePickerPlaceholder';

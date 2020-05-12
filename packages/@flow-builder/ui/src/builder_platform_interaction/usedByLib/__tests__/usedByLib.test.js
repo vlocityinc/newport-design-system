@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { usedBy, usedByStoreAndElementState } from 'builder_platform_interaction/usedByLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { decision1Outcome1 } from 'mock/storeData';

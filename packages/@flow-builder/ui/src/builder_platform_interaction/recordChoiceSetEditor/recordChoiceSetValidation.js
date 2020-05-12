@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { Validation } from 'builder_platform_interaction/validation';
 import { RECORD_FILTER_CRITERIA, SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';

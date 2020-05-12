@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ScreenExtensionAttributeEditor from 'builder_platform_interaction/screenExtensionAttributeEditor';
 import { query, ticks } from 'builder_platform_interaction/builderTestUtils';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LABELS, TRIGGER_TYPE_LABELS } from './processTypeLibLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { ALL_PROCESS_TYPE, getProcessTypeIcon, getTriggerTypeIcon } from './processTypeUtils';

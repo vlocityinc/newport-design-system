@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { getStyleFromGeometry } from 'builder_platform_interaction/flcComponentsUtils';
 import { SelectMenuItemEvent } from 'builder_platform_interaction/events';

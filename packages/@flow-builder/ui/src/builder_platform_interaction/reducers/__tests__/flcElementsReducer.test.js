@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
     ADD_CANVAS_ELEMENT,
     ADD_START_ELEMENT,

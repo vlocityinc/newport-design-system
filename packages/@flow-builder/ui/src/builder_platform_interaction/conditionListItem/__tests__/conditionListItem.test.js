@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import { DeleteListItemEvent } from 'builder_platform_interaction/events';
 import ConditionListItem from 'builder_platform_interaction/conditionListItem';

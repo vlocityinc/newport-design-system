@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import subtitle from '@salesforce/label/FlowBuilderInvocableActionEditor.subtitle';
 import inputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.inputHeader';

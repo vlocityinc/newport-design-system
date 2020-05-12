@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'deletewaitevent';
 
 export class DeleteWaitEventEvent {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { translateFlowToUIModel, getFlowStartElementReference } from '../flowToUiTranslator';
 
 const flowWithDummyElement = {

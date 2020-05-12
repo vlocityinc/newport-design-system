@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LABELS } from './mergeFieldValidationLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { WAIT_EVENT_FIELDS } from 'builder_platform_interaction/flowMetadata';
 
 /**

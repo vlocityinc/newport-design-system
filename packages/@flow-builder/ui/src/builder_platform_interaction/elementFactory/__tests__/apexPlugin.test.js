@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createApexPlugin, createDuplicateApexPlugin, createApexPluginMetadataObject } from '../apexPlugin';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';

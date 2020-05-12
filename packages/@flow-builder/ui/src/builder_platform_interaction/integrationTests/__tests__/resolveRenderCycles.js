@@ -1,3 +1,4 @@
+// @ts-nocheck
 const MAX_PROMISES = 50;
 
 /**

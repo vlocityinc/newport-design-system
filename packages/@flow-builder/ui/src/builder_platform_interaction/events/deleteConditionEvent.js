@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'deletecondition';
 
 export class DeleteConditionEvent {

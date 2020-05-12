@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createOutputAssignment, createOutputAssignmentMetadataObject } from '../../base/outputAssignments';
 
 jest.mock('builder_platform_interaction/storeLib', () => {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FlowDataProvider } from '../flowDataProvider/flowDataProvider';
 import { FLOW_PROPERTIES } from '../flowDataProvider/flow';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';

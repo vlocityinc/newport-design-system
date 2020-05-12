@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { LABELS } from './recordSortLabels';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';

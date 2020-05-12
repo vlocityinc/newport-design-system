@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { setEntities, clearEntityFieldsCache } from 'builder_platform_interaction/sobjectLib';
 import { setAuraFetch, resetFetchOnceCache } from 'builder_platform_interaction/serverDataLib';
 import { setGlobalVariables, resetSystemVariables } from 'builder_platform_interaction/systemLib';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { combinedReducer } from 'builder_platform_interaction/storeLib';
 import flowPropertiesReducer from './flowPropertiesReducer';
 import ffcElementsReducer from './elementsReducer';

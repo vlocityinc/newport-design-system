@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used by fixed canvas to reorder connectors
  */

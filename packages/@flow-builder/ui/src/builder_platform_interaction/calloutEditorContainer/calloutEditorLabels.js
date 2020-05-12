@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 import filterByCategoryOption from '@salesforce/label/FlowBuilderActionSelector.filterByCategoryOption';

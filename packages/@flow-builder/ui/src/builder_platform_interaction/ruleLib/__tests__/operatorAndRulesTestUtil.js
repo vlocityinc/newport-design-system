@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { RULE_TYPES } from '../rules';
 
 export const { ASSIGNMENT, COMPARISON } = RULE_TYPES;

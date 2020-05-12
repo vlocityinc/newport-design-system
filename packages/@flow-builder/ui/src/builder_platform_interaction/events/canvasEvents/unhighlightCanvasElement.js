@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used by canvas to unhighlight the canvas element
  */

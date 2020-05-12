@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import scaleLabel from '@salesforce/label/FlowBuilderDataTypePicker.scaleLabel';
 import dataTypeLabel from '@salesforce/label/FlowBuilderDataTypePicker.dataTypeLabel';

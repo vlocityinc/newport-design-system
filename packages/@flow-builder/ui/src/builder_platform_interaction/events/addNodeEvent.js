@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'addnode';
 
 export class AddNodeEvent {

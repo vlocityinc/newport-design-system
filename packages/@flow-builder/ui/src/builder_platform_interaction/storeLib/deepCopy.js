@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Function for making deep copy of an object
  * @param {Object} obj object to be copied

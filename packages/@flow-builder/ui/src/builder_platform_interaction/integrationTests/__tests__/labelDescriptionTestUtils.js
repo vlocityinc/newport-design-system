@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 
 const LABEL_DESCRIPTION_SELECTORS = {

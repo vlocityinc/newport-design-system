@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import ReorderableVerticalNavigationItem from 'builder_platform_interaction/reorderableVerticalNavigationItem';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';

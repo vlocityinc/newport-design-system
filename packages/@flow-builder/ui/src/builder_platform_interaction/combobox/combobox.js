@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track, unwrap } from 'lwc';
 import {
     FetchMenuDataEvent,

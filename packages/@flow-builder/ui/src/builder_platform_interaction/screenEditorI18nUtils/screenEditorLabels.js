@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import errorRequired from '@salesforce/label/FlowBuilderScreenEditor.errorRequired';
 // import reviewErrors from '@salesforce/label/FlowBuilderScreenEditor.reviewErrors';

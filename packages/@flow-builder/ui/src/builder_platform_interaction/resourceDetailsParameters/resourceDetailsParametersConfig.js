@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 
 /**

@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'updatelistitem';
 
 export class UpdateListItemEvent {

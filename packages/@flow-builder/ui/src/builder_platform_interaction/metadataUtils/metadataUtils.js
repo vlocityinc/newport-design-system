@@ -1,3 +1,4 @@
+// @ts-nocheck
 const topLevelBlackList = [
     'createdById',
     'createdDate',

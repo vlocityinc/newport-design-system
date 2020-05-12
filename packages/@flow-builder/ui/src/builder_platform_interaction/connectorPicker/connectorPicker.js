@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { format } from 'builder_platform_interaction/commonUtils';
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { FLOW_BUILDER_VALIDATION_ERROR_MESSAGES } from './integrationTestUtils';

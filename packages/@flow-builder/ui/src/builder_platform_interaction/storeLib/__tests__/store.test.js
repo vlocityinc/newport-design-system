@@ -1,3 +1,4 @@
+// @ts-nocheck
 const canvasElementsReducer = jest.fn().mockImplementation((canvasElements = [], action) => {
     switch (action.type) {
         case 'updateCanvasElements':

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import RecordCreateEditor from '../recordCreateEditor';
 import * as expressionUtilsMock from 'builder_platform_interaction/expressionUtils';

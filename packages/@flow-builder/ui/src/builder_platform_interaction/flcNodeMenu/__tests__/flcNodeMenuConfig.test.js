@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { CONTEXTUAL_MENU_MODE, ELEMENT_ACTION_CONFIG, getMenuConfiguration } from '../flcNodeMenuConfig';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from '../flcNodeMenuLabels';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import BaseExpressionBuilder from '../baseExpressionBuilder.js';
 import { RowContentsChangedEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction/events';

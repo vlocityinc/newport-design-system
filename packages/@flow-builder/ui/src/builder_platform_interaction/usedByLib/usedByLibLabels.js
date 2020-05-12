@@ -1,3 +1,4 @@
+// @ts-nocheck
 import deleteAlertSingleDeleteHeaderTitle from '@salesforce/label/FlowBuilderAlertModal.singleDeleteHeaderTitle';
 import deleteAlertMultiDeleteHeaderTitle from '@salesforce/label/FlowBuilderAlertModal.multiDeleteHeaderTitle';
 import deleteAlertSingleDeleteBodyTextOne from '@salesforce/label/FlowBuilderAlertModal.singleDeleteBodyTextOne';

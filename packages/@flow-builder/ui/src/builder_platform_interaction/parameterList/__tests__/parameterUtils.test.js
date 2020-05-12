@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { compareParamsByRequired, compareParamsByLabel } from '../parameterUtils';
 
 describe('compareParamsByRequired', () => {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 
 import { setRules, setOperators } from 'builder_platform_interaction/ruleLib';

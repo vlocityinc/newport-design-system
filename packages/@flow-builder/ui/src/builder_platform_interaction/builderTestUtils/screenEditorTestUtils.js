@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getScreenFieldTypeByName, getLocalExtensionFieldType } from 'builder_platform_interaction/screenEditorUtils';
 import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';

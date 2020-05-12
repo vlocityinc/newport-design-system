@@ -1,3 +1,4 @@
+// @ts-nocheck
 import errorPopOverHeader from '@salesforce/label/FlowBuilderValidation.errorPopOverHeader';
 import warningPopOverHeader from '@salesforce/label/FlowBuilderValidation.warningPopOverHeader';
 

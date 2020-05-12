@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import MarqueeSelectionBox from 'builder_platform_interaction/marqueeSelectionBox';
 

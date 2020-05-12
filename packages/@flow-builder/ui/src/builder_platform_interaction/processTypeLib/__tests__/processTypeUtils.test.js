@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getProcessTypesWithIcons } from '../processTypeUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { MOCK_ALL_PROCESS_TYPES } from 'mock/processTypesData';

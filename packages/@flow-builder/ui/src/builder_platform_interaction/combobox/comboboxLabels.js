@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import currencyErrorMessage from '@salesforce/label/FlowBuilderCombobox.currencyErrorMessage';
 import numberErrorMessage from '@salesforce/label/FlowBuilderCombobox.numberErrorMessage';

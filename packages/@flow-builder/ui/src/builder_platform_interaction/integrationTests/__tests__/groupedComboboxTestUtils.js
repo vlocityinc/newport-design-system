@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ticks, selectEvent, blurEvent } from 'builder_platform_interaction/builderTestUtils';
 
 export const getGroupedComboboxItemBy = (groupedCombobox, propertyName, propertyValue) => {

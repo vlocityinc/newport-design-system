@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import PicklistChoiceSetEditor from '../picklistChoiceSetEditor';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';

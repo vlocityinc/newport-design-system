@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'addelementfault';
 
 export class AddElementFaultEvent extends CustomEvent {

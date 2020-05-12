@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const FLOW_PROCESS_TYPE = {
     ACTION_CADENCE_FLOW: 'ActionCadenceFlow',
     ACTION_PLAN: 'ActionPlan',

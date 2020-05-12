@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const MOCK_AUTO_TEMPLATE = {
     Label: 'Autolaunched template',
     EnumOrId: '301xx000003Gblb',

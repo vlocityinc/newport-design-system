@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { compareParamsByRequired, compareParamsByLabel } from './parameterUtils';

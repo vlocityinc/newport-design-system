@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import Combobox, { MENU_DATA_PAGE_SIZE } from 'builder_platform_interaction/combobox';
 import { comboboxInitialConfig, secondLevelMenuData, thirdLevelMenuData } from 'mock/comboboxData';

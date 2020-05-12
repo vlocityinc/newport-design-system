@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { NewResourceEvent } from 'builder_platform_interaction/events';
 import { addElement } from 'builder_platform_interaction/actions';
 import { Store } from 'builder_platform_interaction/storeLib';

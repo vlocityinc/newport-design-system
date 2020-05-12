@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { normalizeFEROV, getMenuData } from 'builder_platform_interaction/expressionUtils';
 import { getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';

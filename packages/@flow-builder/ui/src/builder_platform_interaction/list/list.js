@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { AddListItemEvent } from 'builder_platform_interaction/events';
 import { format } from 'builder_platform_interaction/commonUtils';

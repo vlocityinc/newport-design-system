@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createEmailAlert, createDuplicateEmailAlert } from '../emailAlert';
 import { emailAlertOnAccount } from 'mock/storeData';
 

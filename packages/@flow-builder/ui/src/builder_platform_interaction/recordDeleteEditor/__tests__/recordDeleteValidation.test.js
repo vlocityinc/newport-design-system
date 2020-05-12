@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { recordDeleteValidation, getRules } from '../recordDeleteValidation';
 import * as storeMockedData from 'mock/storeData';
 import { LABELS } from 'builder_platform_interaction/validationRules';

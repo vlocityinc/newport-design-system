@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { swapUidsForDevNames, swapDevNamesToUids, swapSingleExpression, getSwapValueFunction } from '../uidSwapping';
 
 const elementUidMap = { before: { name: 'after' }, pre: { name: 'post' } };

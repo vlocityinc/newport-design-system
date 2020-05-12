@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getMenuData } from '../resourcePickerUtils';
 import { filterAndMutateMenuData, filterFieldsForChosenElement } from '../menuDataRetrieval';
 import { getStoreElements } from '../storeElementsFilter';

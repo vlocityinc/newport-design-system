@@ -1,3 +1,4 @@
+// @ts-nocheck
 import GetTemplatesTile from 'builder_platform_interaction/getTemplatesTile';
 import { createElement } from 'lwc';
 import { APP_EXCHANGE_LINK } from 'builder_platform_interaction/commonUtils';

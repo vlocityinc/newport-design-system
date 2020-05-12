@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { ProcessTypeSelectedEvent } from 'builder_platform_interaction/events';
 import {

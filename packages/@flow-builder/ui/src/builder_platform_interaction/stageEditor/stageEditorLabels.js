@@ -1,3 +1,4 @@
+// @ts-nocheck
 import orderSectionLabel from '@salesforce/label/FlowBuilderStageEditor.orderSectionLabel';
 import orderHelpText from '@salesforce/label/FlowBuilderStageEditor.orderHelpText';
 import activeByDefaultLabel from '@salesforce/label/FlowBuilderStageEditor.activeByDefaultLabel';

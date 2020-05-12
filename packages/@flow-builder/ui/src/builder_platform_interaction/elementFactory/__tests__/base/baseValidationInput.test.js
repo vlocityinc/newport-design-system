@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createValidationRuleObject } from '../../base/baseValidationInput';
 
 const validationRule = {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { baseResource } from './baseElement';
 import { baseResourceMetadataObject } from './baseMetadata';
 import { createPicklistChoiceSetForStore } from '../picklistChoiceSet';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { describeExtensions } from 'builder_platform_interaction/flowExtensionLib';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';

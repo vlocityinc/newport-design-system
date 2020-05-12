@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'redo';
 
 export class RedoEvent {

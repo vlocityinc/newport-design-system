@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import VisualPickerList from 'builder_platform_interaction/visualPickerList';
 import { VisualPickerListChangedEvent } from 'builder_platform_interaction/events';

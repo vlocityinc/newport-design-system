@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { applyDynamicTypeMappings } from '../invocableActionLib';
 
 describe('applyDynamicTypeMappings', () => {

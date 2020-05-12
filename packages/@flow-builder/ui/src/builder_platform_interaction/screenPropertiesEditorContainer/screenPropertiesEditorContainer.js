@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track, readonly } from 'lwc';
 import * as screenEditorUtils from 'builder_platform_interaction/screenEditorUtils';
 import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';

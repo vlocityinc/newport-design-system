@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createScreenNodeSelectedEvent } from 'builder_platform_interaction/events';
 
 describe('Screen Editor Event', () => {

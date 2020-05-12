@@ -1,3 +1,4 @@
+// @ts-nocheck
 import recordLookupAsResourceText from '@salesforce/label/FlowBuilderElementLabels.recordLookupAsResourceText';
 import collectionVariablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.collectionVariablePluralLabel';
 import sObjectCollectionPluralLabel from '@salesforce/label/FlowBuilderElementConfig.sObjectCollectionPluralLabel';

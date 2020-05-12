@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { invocableActionReducer } from '../invocableActionReducer';
 import {
     MERGE_WITH_PARAMETERS,

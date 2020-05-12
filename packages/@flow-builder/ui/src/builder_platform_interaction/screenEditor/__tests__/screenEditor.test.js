@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Screen-editor tests for the following handlers:
  *      handleAddScreenField

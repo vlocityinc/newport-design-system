@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Used by invocableActionEditorIntegration.test.js for W-5715080
 export const flowWithApexActionSubmitForApproval = {
     createdById: '005xx000001X7i5AAC',

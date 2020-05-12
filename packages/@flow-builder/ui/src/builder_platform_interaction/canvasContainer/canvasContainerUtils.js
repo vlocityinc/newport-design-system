@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { canvasSelector } from 'builder_platform_interaction/selectors';
 import { selectOnCanvas, toggleOnCanvas, addConnector } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';

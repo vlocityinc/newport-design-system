@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { showDeleteCondition, getConditionsWithPrefixes } from '../conditionListUtils';
 import andPrefixLabel from '@salesforce/label/FlowBuilderConditionList.andPrefixLabel';

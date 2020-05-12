@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import FlowPropertiesEditor from '../flowPropertiesEditor';
 import { SaveType } from 'builder_platform_interaction/saveType';

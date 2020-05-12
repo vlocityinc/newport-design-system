@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { getResourceTypesMenuData } from 'builder_platform_interaction/expressionUtils';
 import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction/validationRules';

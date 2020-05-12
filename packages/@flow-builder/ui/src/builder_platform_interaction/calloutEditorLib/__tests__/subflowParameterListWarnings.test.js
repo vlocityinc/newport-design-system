@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LABELS } from '../../subflowEditor/subflowEditorLabels';
 import { MERGE_WARNING_TYPE, getParameterItemWarning } from 'builder_platform_interaction/calloutEditorLib';
 

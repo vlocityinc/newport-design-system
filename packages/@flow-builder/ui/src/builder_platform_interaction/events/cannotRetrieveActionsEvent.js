@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'cannotretrieveactions';
 
 export class CannotRetrieveActionsEvent {

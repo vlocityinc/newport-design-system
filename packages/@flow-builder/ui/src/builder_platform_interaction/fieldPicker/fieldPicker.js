@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { filterFieldsForChosenElement } from 'builder_platform_interaction/expressionUtils';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';

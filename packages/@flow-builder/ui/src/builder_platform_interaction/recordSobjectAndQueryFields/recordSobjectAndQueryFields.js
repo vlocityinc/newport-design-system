@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { LABELS } from './recordSobjectAndQueryFieldsLabels';
 import { format } from 'builder_platform_interaction/commonUtils';

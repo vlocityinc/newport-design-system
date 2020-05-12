@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import DecisionEditor from 'builder_platform_interaction/decisionEditor';
 import { decisionReducer } from '../decisionReducer';

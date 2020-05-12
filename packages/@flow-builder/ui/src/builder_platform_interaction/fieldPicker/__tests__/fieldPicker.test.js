@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import FieldPicker from '../fieldPicker';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';

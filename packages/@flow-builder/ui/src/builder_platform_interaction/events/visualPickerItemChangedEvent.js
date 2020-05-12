@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used to report a click action on a visual picker item.
  */

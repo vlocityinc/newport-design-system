@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'updateparameteritem';
 
 export class UpdateParameterItemEvent {

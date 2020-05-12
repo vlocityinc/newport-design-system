@@ -1,3 +1,4 @@
+// @ts-nocheck
 import variableDataTypeHelpText from '@salesforce/label/FlowBuilderVariableConstantEditor.variableDataTypeHelpText';
 import constantDataTypeHelpText from '@salesforce/label/FlowBuilderVariableConstantEditor.constantDataTypeHelpText';
 import collectionHelpText from '@salesforce/label/FlowBuilderVariableConstantEditor.collectionHelpText';

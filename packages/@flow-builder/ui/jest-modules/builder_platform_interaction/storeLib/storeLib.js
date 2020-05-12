@@ -1,3 +1,4 @@
+// @ts-nocheck
 const storeLib = require('builder_platform_interaction/storeLib');
 
 /**

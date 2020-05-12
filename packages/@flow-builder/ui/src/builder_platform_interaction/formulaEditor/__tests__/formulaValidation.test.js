@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { formulaValidation } from '../formulaValidation';
 import { LABELS } from 'builder_platform_interaction/validationRules';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';

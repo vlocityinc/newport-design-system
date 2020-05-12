@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { addToParentElementCache, getElementFromParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import { comboboxInitialConfig } from 'mock/comboboxData';
 

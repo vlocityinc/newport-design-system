@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseResource, baseElementsArrayToMap } from './base/baseElement';
 import { baseResourceMetadataObject } from './base/baseMetadata';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createRecordCreate, createDuplicateRecordCreate, createRecordCreateMetadataObject } from '../recordCreate';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';

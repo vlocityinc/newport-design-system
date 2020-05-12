@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { scheduleTriggerValidation } from './scheduleTriggerValidation';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';

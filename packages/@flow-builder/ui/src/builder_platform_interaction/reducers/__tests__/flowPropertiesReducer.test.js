@@ -1,3 +1,4 @@
+// @ts-nocheck
 import reducer from '../flowPropertiesReducer';
 import {
     UPDATE_FLOW,

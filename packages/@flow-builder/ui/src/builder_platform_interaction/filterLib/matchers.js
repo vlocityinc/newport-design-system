@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { escapeForRegExp, isObject } from 'builder_platform_interaction/commonUtils';
 
 const validateMatcherArgs = (obj, key) => {

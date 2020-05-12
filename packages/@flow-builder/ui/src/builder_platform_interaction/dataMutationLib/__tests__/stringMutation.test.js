@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { capitalizeFirstLetter } from '../stringMutation';
 
 describe('String Mutation Library', () => {

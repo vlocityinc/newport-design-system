@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { createWaitEvent, createDuplicateWait, createWaitWithWaitEvents } from '../wait';
 import { createInputParameter, createInputParameterMetadataObject } from '../inputParameter';

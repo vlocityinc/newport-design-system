@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Deep find given element in object
  * @param {Object} object

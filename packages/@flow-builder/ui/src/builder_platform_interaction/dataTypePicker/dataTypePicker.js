@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { LABELS } from './dataTypePickerLabels';
 import { FLOW_DATA_TYPE, SCALE_RANGE, SCALE_DEFAULT } from 'builder_platform_interaction/dataTypeLib';

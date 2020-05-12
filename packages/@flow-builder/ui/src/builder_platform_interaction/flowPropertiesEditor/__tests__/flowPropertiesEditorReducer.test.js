@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { flowPropertiesEditorReducer } from '../flowPropertiesEditorReducer';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { deepCopy } from 'builder_platform_interaction/storeLib';

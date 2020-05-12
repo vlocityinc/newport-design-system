@@ -1,3 +1,4 @@
+// @ts-nocheck
 export class ContextDataProvider {}
 export class RuleFactory {}
 export class RuleFactoryItem {}

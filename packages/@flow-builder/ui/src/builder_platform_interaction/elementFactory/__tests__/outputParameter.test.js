@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createOutputParameter, createOutputParameterMetadataObject } from '../outputParameter';
 
 const valuePropertyName = 'value';

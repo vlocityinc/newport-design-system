@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
     NUMBER_RECORDS_TO_STORE,
     WAY_TO_STORE_FIELDS,

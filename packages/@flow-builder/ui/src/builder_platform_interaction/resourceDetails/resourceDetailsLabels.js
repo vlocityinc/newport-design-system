@@ -1,3 +1,4 @@
+// @ts-nocheck
 import typeText from '@salesforce/label/FlowBuilderResourceDetailsPanel.typeText';
 import usageText from '@salesforce/label/FlowBuilderResourceDetailsPanel.usageText';
 import createdByText from '@salesforce/label/FlowBuilderResourceDetailsPanel.createdByText';

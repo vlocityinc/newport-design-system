@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { UnclosedLoop } from '../unclosedLoop';
 import { Result } from 'analyzer_framework/api';
 

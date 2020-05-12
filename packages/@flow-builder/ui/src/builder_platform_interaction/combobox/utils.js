@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * A set of utility functions to manipulate combobox menu data, which could be grouped, as if the menu was flat, with
  * all menu levels expanded to form one flat list.

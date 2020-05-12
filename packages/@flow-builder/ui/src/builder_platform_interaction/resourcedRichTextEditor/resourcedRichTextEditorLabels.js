@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* Labels */
 import inputRequiredTitle from '@salesforce/label/FlowBuilderResourcedRichTextEditor.inputRequiredTitle';
 import resourcePickerTitle from '@salesforce/label/FlowBuilderResourcedRichTextEditor.resourcePickerTitle';

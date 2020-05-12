@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as metricsService from 'instrumentation/service';
 
 let appName = 'FLOW_BUILDER';

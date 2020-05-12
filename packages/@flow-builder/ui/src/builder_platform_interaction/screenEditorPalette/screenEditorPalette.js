@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LightningElement, track, api } from 'lwc';
 import { labelFilter } from 'builder_platform_interaction/filterLib';
 import { getAllCachedExtensionTypes } from 'builder_platform_interaction/flowExtensionLib';

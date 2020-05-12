@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
     logPerfTransactionStart,
     logPerfTransactionEnd,

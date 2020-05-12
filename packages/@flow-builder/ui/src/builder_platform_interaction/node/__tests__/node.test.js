@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createElement } from 'lwc';
 import { EditElementEvent, DeleteElementEvent, SelectNodeEvent } from 'builder_platform_interaction/events';
 import Node from 'builder_platform_interaction/node';

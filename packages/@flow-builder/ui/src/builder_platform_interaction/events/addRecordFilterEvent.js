@@ -1,3 +1,4 @@
+// @ts-nocheck
 const eventName = 'addrecordfilter';
 
 export class AddRecordFilterEvent {

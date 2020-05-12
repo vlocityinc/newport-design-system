@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Used by zoom/pan panel to marquee select on the canvas
  */

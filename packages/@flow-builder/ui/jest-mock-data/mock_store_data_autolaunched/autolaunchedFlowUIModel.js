@@ -1,3 +1,4 @@
+// @ts-nocheck
 // To update autolaunchedFlowUIModel from autoLaunchedFlow, run flowTranslator.test.js and follow instructions
 export const autolaunchedFlowUIModel = {
     elements: {
