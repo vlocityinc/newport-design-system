@@ -95,7 +95,7 @@ export function processScreenExtensionTypes(screen) {
  */
 export function processRequiredParamsForExtensionsInScreen(screen, callback) {
     // Get all extension fields
-    const extensionFields = screen.fields.filter(f => f.fieldType === COMPONENT_INSTANCE);
+    const extensionFields = getAllChildExtensionFields(screen);
 
     // Get the extension names
     const extensions = extensionFields.map(f => f.extensionName.value);
@@ -133,6 +133,24 @@ export function processRequiredParamsForExtensionsInScreen(screen, callback) {
             processFn(descs);
         }
     }
+}
+
+/**
+ * returns all children of the provided parent that are of type extension
+ *
+ * @param {Object} parent - The object with child extension fields
+ * @return {Array} extensionFields - Array of child fields
+ */
+function getAllChildExtensionFields(parent) {
+    let extensionFields = [];
+    parent.fields.forEach(field => {
+        if (isExtensionField(field)) {
+            extensionFields.push(field);
+        } else if (field.fields && field.fields.length > 0) {
+            extensionFields = extensionFields.concat(getAllChildExtensionFields(field));
+        }
+    });
+    return extensionFields;
 }
 
 /**
