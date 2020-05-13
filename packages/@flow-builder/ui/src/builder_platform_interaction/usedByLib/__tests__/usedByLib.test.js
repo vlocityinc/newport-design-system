@@ -411,5 +411,104 @@ describe('Used by library', () => {
             const actualResult = usedByStoreAndElementState(decision1Outcome1.guid, 'SCREEN_1', []);
             expect(actualResult).not.toHaveLength(0);
         });
+
+        describe('used by of nested screen fields structure', () => {
+            const screenFields = [
+                {
+                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    guid: 'region-container-1',
+                    fieldType: 'RegionContainer',
+                    fields: [
+                        {
+                            elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                            fieldType: 'Region',
+                            guid: 'region-container-1-region-1',
+                            fields: [
+                                {
+                                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                                    fieldType: 'InputField',
+                                    guid: 'region-container-1-region-1-text-1'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    fieldType: 'Region',
+                    guid: 'region-container-1-region-1',
+                    fields: [
+                        {
+                            elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                            fieldType: 'InputField',
+                            guid: 'region-container-1-region-1-text-1'
+                        }
+                    ]
+                },
+                {
+                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    fieldType: 'InputField',
+                    guid: 'region-container-1-region-1-text-1'
+                },
+                {
+                    elementType: ELEMENT_TYPE.SCREEN_FIELD,
+                    fieldType: 'InputField',
+                    guid: 'referencing-screen-field',
+                    defaultValue: {
+                        value: 'region-container-1-region-1-text-1',
+                        error: null
+                    },
+                    defaultValueDataType: 'reference'
+                }
+            ];
+
+            it('returns the referencing element when a screen field element is deleted that is referenced by another screen field element', () => {
+                const actualResult = usedByStoreAndElementState(
+                    'region-container-1-region-1-text-1',
+                    'region-container-1',
+                    screenFields
+                );
+                expect(actualResult).toHaveLength(1);
+                const expectedResult = [
+                    {
+                        guid: 'referencing-screen-field',
+                        elementGuidsReferenced: ['region-container-1-region-1-text-1']
+                    }
+                ];
+                expect(actualResult).toMatchObject(expectedResult);
+            });
+
+            it('returns the referencing element when a section is deleted with a screen field element that is referenced by another screen field element', () => {
+                const actualResult = usedByStoreAndElementState(
+                    'region-container-1',
+                    'region-container-1',
+                    screenFields
+                );
+                expect(actualResult).toHaveLength(1);
+                const expectedResult = [
+                    {
+                        guid: 'referencing-screen-field',
+                        elementGuidsReferenced: ['region-container-1-region-1-text-1']
+                    }
+                ];
+                expect(actualResult).toMatchObject(expectedResult);
+            });
+
+            it('returns the referencing element when a column is deleted with a screen field element that is referenced by another screen field element', () => {
+                const actualResult = usedByStoreAndElementState(
+                    'region-container-1-region-1',
+                    'region-container-1',
+                    screenFields
+                );
+                expect(actualResult).toHaveLength(1);
+                const expectedResult = [
+                    {
+                        guid: 'referencing-screen-field',
+                        elementGuidsReferenced: ['region-container-1-region-1-text-1']
+                    }
+                ];
+                expect(actualResult).toMatchObject(expectedResult);
+            });
+        });
     });
 });

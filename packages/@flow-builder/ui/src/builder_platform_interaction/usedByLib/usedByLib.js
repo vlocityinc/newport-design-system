@@ -38,13 +38,18 @@ export function usedBy(
             .filter(element => !listOfGuidsToSkip.includes(element))
             .reduce((acc, key) => {
                 if (!updatedElementGuids.includes(key)) {
-                    const elementGuidsReferenced = findReference(updatedElementGuids, elements[key]);
-                    if (elementGuidsReferenced && elementGuidsReferenced.size > 0) {
-                        const usedByElement = createUsedByElement({
-                            element: elements[key],
-                            elementGuidsReferenced: [...elementGuidsReferenced]
-                        });
-                        return [...acc, usedByElement];
+                    const element = elements[key];
+                    // This can be moved into a helper function later to check the elements with special rules
+                    // that only find the references based on certain keys (e.g cfv for screen section)
+                    if (element && element.fieldType !== 'RegionContainer' && element.fieldType !== 'Region') {
+                        const elementGuidsReferenced = findReference(updatedElementGuids, element);
+                        if (elementGuidsReferenced && elementGuidsReferenced.size > 0) {
+                            const usedByElement = createUsedByElement({
+                                element,
+                                elementGuidsReferenced: [...elementGuidsReferenced]
+                            });
+                            return [...acc, usedByElement];
+                        }
                     }
                 }
                 return acc;
@@ -141,9 +146,33 @@ export function usedByStoreAndElementState(guid, parentGuid, internalElements) {
         return acc;
     }, []);
 
-    const locallyUsedElements = usedBy([guid], mapOfChildElements, undefined, null);
+    const locallyUsedElements = usedBy(
+        [guid, ...getChildElementGuids(mapOfChildElements[guid])],
+        mapOfChildElements,
+        undefined,
+        null
+    );
     const globallyUsedElements = usedBy([guid], undefined, listOfGuidsToSkipWhenCheckingUsedByGlobally);
     return unionOfArrays(locallyUsedElements, globallyUsedElements);
+}
+
+/**
+ * This function gets all the nested children element guids
+ * (e.g if a section/column is deleted, will also get its children's guids)
+ * @param {Object} element list of elements
+ * @returns {Array} list of children element guids
+ */
+function getChildElementGuids(element) {
+    let childElementGuids = [];
+    if (element && element.fields) {
+        element.fields.forEach(field => {
+            if (field && field.guid) {
+                childElementGuids.push(field.guid);
+            }
+            childElementGuids = [...childElementGuids, ...getChildElementGuids(field)];
+        });
+    }
+    return childElementGuids;
 }
 
 /**

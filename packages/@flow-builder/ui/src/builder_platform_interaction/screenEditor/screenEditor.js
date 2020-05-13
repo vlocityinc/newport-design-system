@@ -213,7 +213,11 @@ export default class ScreenEditor extends LightningElement {
     handleDeleteScreenElement = event => {
         const state = this.screen;
         const parent = event.parent ? event.parent : this.screen;
-        const usedElements = usedByStoreAndElementState(event.detail.screenElement.guid, parent.guid, state.fields);
+        const usedElements = usedByStoreAndElementState(
+            event.detail.screenElement.guid,
+            parent.guid,
+            this.getAllScreenFields(state.fields)
+        );
         if (usedElements && usedElements.length > 0) {
             invokeUsedByAlertModal(usedElements, [event.detail.screenElement.guid], ELEMENT_TYPE.SCREEN_FIELD);
         } else {
@@ -246,6 +250,39 @@ export default class ScreenEditor extends LightningElement {
             });
         }
     };
+
+    /**
+     * Get all the fields from the screen state fields.
+     * @param {Array} fields screen state fields
+     * @returns {Array} all the screen fields
+     */
+    getAllScreenFields(fields) {
+        let allFields = [];
+        fields.forEach(field => {
+            allFields = [...allFields, ...this.flattenScreenFields(field)];
+        });
+        return [...fields, ...allFields];
+    }
+
+    /**
+     * Recursively flatten the screen field elements.
+     * @param {Object} screenField
+     * @returns {Array} all the screen fields after the flatten
+     */
+    flattenScreenFields(screenField) {
+        if (!screenField) {
+            return [];
+        }
+        const allFields = [];
+        const fields = screenField.fields;
+        if (fields) {
+            fields.forEach(field => {
+                allFields.push(field);
+                allFields.push(...this.flattenScreenFields(field));
+            });
+        }
+        return allFields;
+    }
 
     /**
      * Handler for screen state changed events
