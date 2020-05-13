@@ -17,4 +17,6 @@ export class HighlightPathsToDeleteEvent {
             }
         });
     }
+
+    static EVENT_NAME = eventName;
 }

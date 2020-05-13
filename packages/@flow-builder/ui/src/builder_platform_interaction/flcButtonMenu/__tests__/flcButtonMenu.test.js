@@ -1,62 +1,72 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import FlcButtonMenu from 'builder_platform_interaction/flcButtonMenu';
-import { ticks, blurEvent, focusEvent } from 'builder_platform_interaction/builderTestUtils';
+import { blurEvent, focusEvent } from 'builder_platform_interaction/builderTestUtils';
 import { ToggleMenuEvent } from 'builder_platform_interaction/events';
 
-// button menu tests
-
-const createComponentUnderTest = (isSelectionMode = false) => {
+const createComponentUnderTest = (isNodeGettingDeleted = false, isSelectionMode = false) => {
     const el = createElement('builder_platform_interaction-flc-button-menu', {
         is: FlcButtonMenu
     });
+    el.isNodeGettingDeleted = isNodeGettingDeleted;
     el.isSelectionMode = isSelectionMode;
     el.connectionInfo = {};
     document.body.appendChild(el);
     return el;
 };
 
-describe('the node menu', () => {
+const selectors = {
+    button: '.slds-button',
+    toBeDeletedButton: '.slds-button.node-to-be-deleted'
+};
+
+describe('the button menu', () => {
     it('renders the component ', () => {
-        const menu = createComponentUnderTest();
-        expect(menu).toBeDefined();
+        const buttonMenu = createComponentUnderTest();
+        expect(buttonMenu).toBeDefined();
     });
+
     it('Renders a button ', () => {
-        const menu = createComponentUnderTest().shadowRoot.querySelector('.slds-button');
-        expect(menu).toBeDefined();
+        const button = createComponentUnderTest().shadowRoot.querySelector(selectors.button);
+        expect(button).toBeDefined();
     });
-    it('should call send the blur event ', async () => {
+
+    it('should call send the blur event ', () => {
         const cmp = createComponentUnderTest();
-        await ticks(1);
-        const button = cmp.shadowRoot.querySelector('.slds-button');
+        const button = cmp.shadowRoot.querySelector(selectors.button);
         const callback = jest.fn();
         cmp.addEventListener('blur', callback);
         button.dispatchEvent(blurEvent);
         expect(callback).toHaveBeenCalled();
     });
-    // TODO: Figure out why this test is flapping
-    // it('should dispatch the toggleMenu event if we are NOT in selection mode', async () => {
-    //     const cmp = createComponentUnderTest(false);
-    //     await ticks(1);
-    //     const button = cmp.shadowRoot.querySelector('.slds-button');
-    //     const callback = jest.fn();
-    //     cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
-    //     button.click();
-    //     expect(callback).toHaveBeenCalled();
-    // });
-    it('should not dispatch the toggleMenu event if we are in selection mode', async () => {
+
+    it('should add "node-to-be-deleted" class when isNodeGettingDeleted is true', () => {
         const cmp = createComponentUnderTest(true);
-        await ticks(1);
-        const button = cmp.shadowRoot.querySelector('.slds-button');
+        const button = cmp.shadowRoot.querySelector(selectors.toBeDeletedButton);
+        expect(button).not.toBeNull();
+    });
+
+    it('should dispatch the toggleMenu event if we are NOT in selection mode', () => {
+        const cmp = createComponentUnderTest();
+        const button = cmp.shadowRoot.querySelector(selectors.button);
+        const callback = jest.fn();
+        cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
+        button.click();
+        expect(callback).toHaveBeenCalled();
+    });
+
+    it('should not dispatch the toggleMenu event if we are in selection mode', () => {
+        const cmp = createComponentUnderTest(false, true);
+        const button = cmp.shadowRoot.querySelector(selectors.button);
         const callback = jest.fn();
         cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
         button.click();
         expect(callback).not.toHaveBeenCalled();
     });
-    it('should send a focus event on focus', async () => {
+
+    it('should send a focus event on focus', () => {
         const cmp = createComponentUnderTest();
-        await ticks(1);
-        const button = cmp.shadowRoot.querySelector('.slds-button');
+        const button = cmp.shadowRoot.querySelector(selectors.button);
         const callback = jest.fn();
         cmp.addEventListener('focus', callback);
         button.dispatchEvent(focusEvent);

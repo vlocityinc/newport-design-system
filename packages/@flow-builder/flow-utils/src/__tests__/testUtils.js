@@ -61,11 +61,12 @@ function flowModelFromElements(elements) {
 
 function createFlowRenderContext(custom) {
     const defaultFlowRenderContext = {
-        interactionState: { menuInfo: {} },
+        interactionState: { menuInfo: {}, deletionPathInfo: {} },
         elementsMetadata,
         layoutConfig,
         progress: 1,
-        nodeLayoutMap: {}
+        nodeLayoutMap: {},
+        isDeletingBranch: false
     };
 
     return { ...defaultFlowRenderContext, ...custom };
@@ -115,7 +116,14 @@ function getFlowWithDecisionWithOneElementOnLeftBranchContext() {
     const elements = linkElements([START_ELEMENT, branchElement, END_ELEMENT]);
     elements.push(leftBranchHead);
     const flowModel = flowModelFromElements([ROOT_ELEMENT, ...elements]);
-    return createFlowRenderContext({ flowModel });
+    const interactionState = {
+        menuInfo: {},
+        deletionPathInfo: {
+            childIndexToKeep: 1,
+            elementGuidToDelete: BRANCH_ELEMENT_GUID
+        }
+    };
+    return createFlowRenderContext({ flowModel, interactionState });
 }
 
 export {

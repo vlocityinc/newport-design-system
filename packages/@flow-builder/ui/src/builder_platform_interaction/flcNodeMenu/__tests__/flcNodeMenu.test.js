@@ -4,15 +4,16 @@ import FlcNodeMenu from 'builder_platform_interaction/flcNodeMenu';
 import {
     CopySingleElementEvent,
     DeleteElementEvent,
+    HighlightPathsToDeleteEvent,
     EditElementEvent,
     ToggleMenuEvent
 } from 'builder_platform_interaction/events';
 import { ELEMENT_ACTION_CONFIG } from '../flcNodeMenuConfig';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { LABELS } from '../flcNodeMenuLabels';
 
 const dummySimpleElement = {
+    guid: 'simpleElementGuid',
     section: 'Dummy_Section',
     icon: 'standard:lightning_component',
     description: 'Dummy Description',
@@ -23,6 +24,7 @@ const dummySimpleElement = {
 };
 
 const dummyBranchElement = {
+    guid: 'branchElementGuid',
     section: 'Dummy_Section',
     icon: 'standard:lightning_component',
     description: 'Dummy Description',
@@ -30,6 +32,17 @@ const dummyBranchElement = {
     value: 'Dummy_Value',
     elementType: ELEMENT_TYPE.DECISION,
     type: 'default'
+};
+
+const dummyEndElement = {
+    guid: 'endElementGuid',
+    section: 'Logic',
+    icon: 'standard:first_non_empty',
+    description: 'End Description',
+    label: 'End',
+    value: 'END_ELEMENT',
+    elementType: 'END_ELEMENT',
+    type: 'end'
 };
 
 const conditionOptions = [
@@ -46,16 +59,6 @@ const conditionOptions = [
         value: 'NO_PATH'
     }
 ];
-
-const dummyEndElement = {
-    section: 'Logic',
-    icon: 'standard:first_non_empty',
-    description: 'End Description',
-    label: 'End',
-    value: 'END_ELEMENT',
-    elementType: 'END_ELEMENT',
-    type: 'end'
-};
 
 const selectors = {
     header: '.node-menu-header',
@@ -76,7 +79,7 @@ const createComponentUnderTest = (metaData, passedConditionOptions) => {
     });
     el.conditionOptions = passedConditionOptions;
     el.elementMetadata = metaData;
-    el.guid = 'dummyGuid';
+    el.guid = metaData.guid;
     document.body.appendChild(el);
     return el;
 };
@@ -190,11 +193,9 @@ describe('Node Menu', () => {
                 const callback = jest.fn();
                 menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
                 deleteRow.click();
-                expect(callback.mock.calls[0][0]).toMatchObject({
-                    detail: {
-                        selectedElementGUID: ['dummyGuid'],
-                        selectedElementType: dummySimpleElement.elementType
-                    }
+                expect(callback.mock.calls[0][0].detail).toMatchObject({
+                    selectedElementGUID: [dummySimpleElement.guid],
+                    selectedElementType: dummySimpleElement.elementType
                 });
             });
 
@@ -242,6 +243,10 @@ describe('Node Menu', () => {
                 expect(editButton.label).toBe(ELEMENT_ACTION_CONFIG.EDIT_DETAILS_ACTION.buttonTextLabel);
             });
 
+            it('Edit Button title should be as set in the config', () => {
+                expect(editButton.title).toBe(ELEMENT_ACTION_CONFIG.EDIT_DETAILS_ACTION.buttonTextTitle);
+            });
+
             it('Edit Button icon-name should be as set in the config', () => {
                 expect(editButton.iconName).toBe(ELEMENT_ACTION_CONFIG.EDIT_DETAILS_ACTION.buttonIcon);
             });
@@ -272,10 +277,29 @@ describe('Node Menu', () => {
 
     describe('Element Action Node Menu for a Branch Element', () => {
         let menu;
-        beforeEach(async () => {
+        const highlightPathCallback = jest.fn();
+        const toggleMenuCallback = jest.fn();
+
+        beforeEach(() => {
             menu = createComponentUnderTest(dummyBranchElement, conditionOptions);
+            menu.addEventListener(HighlightPathsToDeleteEvent.EVENT_NAME, highlightPathCallback);
+            menu.addEventListener(ToggleMenuEvent.EVENT_NAME, toggleMenuCallback);
             menu.shadowRoot.querySelectorAll(selectors.menuActionRow)[1].click();
-            await ticks(1);
+        });
+
+        it('Clicking the Delete Action should dispatch HighlightPathsToDeleteEvent', () => {
+            expect(highlightPathCallback).toHaveBeenCalled();
+        });
+
+        it('HighlightPathsToDeleteEvent should be dispatched with the right details', () => {
+            expect(highlightPathCallback.mock.calls[0][0].detail).toMatchObject({
+                childIndexToKeep: 0,
+                elementGuidToDelete: dummyBranchElement.guid
+            });
+        });
+
+        it('Clicking the Delete Action should not dispatch ToggleMenuEvent', () => {
+            expect(toggleMenuCallback).not.toHaveBeenCalled();
         });
 
         it('Clicking on the Delete Action should reveal the path picking combobox', () => {
@@ -319,6 +343,10 @@ describe('Node Menu', () => {
                 expect(deleteButton.label).toBe(ELEMENT_ACTION_CONFIG.DELETE_BRANCH_ELEMENT_ACTION.buttonTextLabel);
             });
 
+            it('Delete Button Title should be as set in the config', () => {
+                expect(deleteButton.title).toBe(ELEMENT_ACTION_CONFIG.DELETE_BRANCH_ELEMENT_ACTION.buttonTextTitle);
+            });
+
             it('Delete Button icon-name should be as set in the config', () => {
                 expect(deleteButton.iconName).toBe(ELEMENT_ACTION_CONFIG.DELETE_BRANCH_ELEMENT_ACTION.buttonIcon);
             });
@@ -346,7 +374,7 @@ describe('Node Menu', () => {
                 deleteButton.click();
                 expect(callback.mock.calls[0][0]).toMatchObject({
                     detail: {
-                        selectedElementGUID: ['dummyGuid'],
+                        selectedElementGUID: [dummyBranchElement.guid],
                         selectedElementType: dummyBranchElement.elementType,
                         childIndexToKeep: 0
                     }
