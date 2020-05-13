@@ -95,7 +95,8 @@ $tabel-view-switch: 'medium';
 	.nds-b2b-table_cell-label {
 		display: block;
 	}
-
+	
+	.nds-b2b-table_transition-hide,
 	.nds-b2b-table_head {
 		display: none;
 	}
@@ -113,6 +114,11 @@ $tabel-view-switch: 'medium';
 
 	.nds-b2b-table_cell {
 		flex: 0 0 50%;
+		padding: $spacing-small $spacing-medium;
+	}
+
+	.nds-b2b-table_cell-full {
+		flex: 0 0 100%;
 	}
 	
 	.nds-b2b-icon_cell {
