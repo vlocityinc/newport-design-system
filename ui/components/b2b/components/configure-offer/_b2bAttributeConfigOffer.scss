@@ -24,9 +24,9 @@
 .nds-b2b-attribute-config-offer_radio {
   .nds-b2b-config-label {
     color: #000;
-    font-size: 1rem;
+    font-size: 0.8rem;
     font-weight: 400;
-    margin-bottom: 1rem;
+    margin-bottom: 0.6rem;
   }
 
   .nds-b2b-config-radio_container input[type="radio"] {
@@ -45,6 +45,7 @@
     color: #1589ee;
     margin-right: 0.8rem;
     transition: all 0.35s;
+    margin-right: -6px;
     cursor: pointer;
   }
 
@@ -147,9 +148,9 @@
     color: #595959;
   }
   .nds-b2b-attribute-each-row {
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
     .nds-b2b-combobox-label {
-      font-size: 1rem;
+      font-size: 0.8rem;
     }
   }
   .nds-b2b-trash_icon {
