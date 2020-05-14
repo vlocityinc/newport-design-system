@@ -324,6 +324,9 @@ describe('record-lookup-reducer', () => {
                     it('should NOT reset "sortField"', () => {
                         expect(newState.sortField.value).toBe(originalState.sortField.value);
                     });
+                    it('should reset "filterLogic"', () => {
+                        expect(newState.filterLogic.value).toBe(CONDITION_LOGIC.AND);
+                    });
                 });
             });
             describe('update wayToStoreFields from sObject to SeparateVariable', () => {

@@ -172,4 +172,20 @@ describe('Check validations update using fields', () => {
             expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
     });
+    it('should return an error if filterLogic is empty', () => {
+        recordUpdateUsingFields.filterLogic = { value: '', error: null };
+        const recordupdateEditor = createComponentForTest(recordUpdateUsingFields);
+        const errors = validate(recordupdateEditor.node);
+        expect(errors).toHaveLength(1);
+        expect(errors[0].key).toBe('filterLogic');
+        expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+    });
+    it('should return an error if filterLogic is blank', () => {
+        recordUpdateUsingFields.filterLogic = { value: '     ', error: null };
+        const recordupdateEditor = createComponentForTest(recordUpdateUsingFields);
+        const errors = validate(recordupdateEditor.node);
+        expect(errors).toHaveLength(1);
+        expect(errors[0].key).toBe('filterLogic');
+        expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+    });
 });

@@ -2,12 +2,7 @@
 import { LightningElement, api, track } from 'lwc';
 import { recordLookupReducer } from './recordLookupReducer';
 import { ENTITY_TYPE, fetchFieldsForEntity, getEntity } from 'builder_platform_interaction/sobjectLib';
-import {
-    LABELS,
-    NUMBER_RECORDS_OPTIONS,
-    WAY_TO_STORE_FIELDS_OPTIONS,
-    VARIABLE_AND_FIELD_MAPPING_OPTIONS
-} from './recordLookupEditorLabels';
+import { LABELS, NUMBER_RECORDS_OPTIONS, WAY_TO_STORE_FIELDS_OPTIONS } from './recordLookupEditorLabels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
@@ -327,10 +322,6 @@ export default class RecordLookupEditor extends LightningElement {
 
     get wayToStoreFieldsOptions() {
         return WAY_TO_STORE_FIELDS_OPTIONS;
-    }
-
-    get variableAndFieldMappingOptions() {
-        return VARIABLE_AND_FIELD_MAPPING_OPTIONS;
     }
 
     get variableAndFieldMappingValue() {

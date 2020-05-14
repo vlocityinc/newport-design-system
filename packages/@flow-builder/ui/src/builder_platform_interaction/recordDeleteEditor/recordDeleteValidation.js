@@ -35,6 +35,7 @@ export const getRules = (nodeElement, { isSObjectMode }) => {
     } else {
         overrideRules.object = validateAgainstBlankNullOrUndefined(nodeElement.objectIndex);
         if (nodeElement.object.value !== '' && !nodeElement.object.error) {
+            overrideRules.filterLogic = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
             overrideRules.filters = validateFilters();
         }
     }

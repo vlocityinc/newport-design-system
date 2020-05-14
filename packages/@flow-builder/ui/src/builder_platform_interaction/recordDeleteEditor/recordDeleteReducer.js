@@ -11,6 +11,7 @@ import {
     RecordStoreOptionChangedEvent
 } from 'builder_platform_interaction/events';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
 /**
  * Property names
@@ -91,6 +92,8 @@ const resetFilters = state => {
  */
 const resetRecordDelete = (state, resetObject) => {
     state = resetFilters(state);
+    // reset FilterLogic
+    state = set(state, 'filterLogic', { value: CONDITION_LOGIC.AND, error: null });
     if (resetObject) {
         state = set(state, PROP_NAMES.object, { value: '', error: null });
     }

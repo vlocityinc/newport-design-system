@@ -254,6 +254,22 @@ describe('Record Lookup Validation', () => {
             expect(errors[0].key).toBe('rightHandSide');
             expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
+        it('should return an error if filterLogic is empty', () => {
+            recordLookupEditorNode.filterLogic = { value: '', error: null };
+            const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
+            const errors = validate(recordLookupEditor.node);
+            expect(errors).toHaveLength(1);
+            expect(errors[0].key).toBe('filterLogic');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+        });
+        it('should return an error if filterLogic has only blank', () => {
+            recordLookupEditorNode.filterLogic = { value: '     ', error: null };
+            const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
+            const errors = validate(recordLookupEditor.node);
+            expect(errors).toHaveLength(1);
+            expect(errors[0].key).toBe('filterLogic');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+        });
     });
     describe('sortField is not valid', () => {
         it('should not be validated if sortOrder equals "NOT SORTED"', () => {

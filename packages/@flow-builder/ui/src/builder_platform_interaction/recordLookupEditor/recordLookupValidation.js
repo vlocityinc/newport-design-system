@@ -45,7 +45,8 @@ const validateQueriedField = () => {
     };
 };
 const additionalRules = {
-    object: [ValidationRules.shouldNotBeBlank]
+    object: [ValidationRules.shouldNotBeBlank],
+    filterLogic: [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank]
 };
 
 export const recordLookupValidation = new Validation(additionalRules);

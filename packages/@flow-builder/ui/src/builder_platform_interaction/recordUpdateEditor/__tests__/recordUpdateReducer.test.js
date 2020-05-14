@@ -42,7 +42,7 @@ const recordUpdateUsingFieldsTemplate = () => {
                 rowIndex: 'RECORDUPDATEFILTERITEM_1'
             }
         ],
-        filterLogic: { value: CONDITION_LOGIC.AND, error: null },
+        filterLogic: { value: CONDITION_LOGIC.OR, error: null },
         object: { value: 'account', error: null }
     };
 };
@@ -277,6 +277,9 @@ describe('record-update-reducer using fields', () => {
             it('should reset inputAssignments', () => {
                 expect(newState.inputAssignments).toHaveLength(1);
                 expect(newState.inputAssignments[0].leftHandSide.value).toBe('');
+            });
+            it('should reset "filterLogic"', () => {
+                expect(newState.filterLogic.value).toBe(CONDITION_LOGIC.AND);
             });
         });
         describe('update getFirstRecord from true to false', () => {

@@ -243,6 +243,8 @@ const resetSubSections = state => {
         filterLogic: { value: CONDITION_LOGIC.AND, error: null }
     });
     state = resetFilters(state);
+    // reset FilterLogic
+    state = set(state, 'filterLogic', { value: CONDITION_LOGIC.AND, error: null });
     // reset storing options
     return resetStoreOptions(state);
 };

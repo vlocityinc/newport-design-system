@@ -119,6 +119,8 @@ const updateRecordRecordFieldAssignment = (state, event) => {
 
 const resetRecordUpdate = (state, resetObject) => {
     state = resetFilter(state);
+    // reset FilterLogic
+    state = set(state, 'filterLogic', { value: CONDITION_LOGIC.AND, error: null });
     // reset inputAssignments : create one empty assignment item
     state = set(state, INPUTASSIGNMENTS_PROP, [emptyAssignmentItem()]);
     if (resetObject) {

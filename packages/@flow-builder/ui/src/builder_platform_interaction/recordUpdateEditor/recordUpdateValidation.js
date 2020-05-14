@@ -44,6 +44,7 @@ export const getRules = nodeElement => {
         overrideRules.object = validateInputReference(nodeElement.objectIndex);
         if (nodeElement.object.value !== '' && !nodeElement.object.error) {
             overrideRules.inputAssignments = validateAssignments();
+            overrideRules.filterLogic = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
             // validate filters if filter logic is equal to 'No conditions'
             if (nodeElement.filterLogic.value !== CONDITION_LOGIC.NO_CONDITIONS) {
                 overrideRules.filters = validateFilter();

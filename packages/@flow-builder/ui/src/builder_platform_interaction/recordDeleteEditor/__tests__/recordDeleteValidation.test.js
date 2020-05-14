@@ -140,6 +140,20 @@ describe('Record delete validations using fields', () => {
                 });
             });
         });
+        it('should return an error if filterLogic is empty', () => {
+            recordDeleteUsingFields.filterLogic = { value: '', error: null };
+            const errors = validate(recordDeleteUsingFields);
+            expect(errors).toHaveLength(1);
+            expect(errors[0].key).toBe('filterLogic');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+        });
+        it('should return an error if filterLogic is blank', () => {
+            recordDeleteUsingFields.filterLogic = { value: '     ', error: null };
+            const errors = validate(recordDeleteUsingFields);
+            expect(errors).toHaveLength(1);
+            expect(errors[0].key).toBe('filterLogic');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+        });
         describe('"error"', () => {
             describe('When object is an incorrect value', () => {
                 test('should return an error for the object but not for the filters', () => {

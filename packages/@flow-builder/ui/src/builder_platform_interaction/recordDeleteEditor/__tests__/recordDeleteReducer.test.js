@@ -8,11 +8,13 @@ import {
     UpdateRecordFilterEvent
 } from 'builder_platform_interaction/events';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
 const INPUT_REFERENCE_PROPERTY_NAME = 'inputReference',
     OBJECT_PROPERTY_NAME = 'object',
     FILTERS_PROPERTY_NAME = 'filters',
-    MOCK_GUID = '724cafc2-7744-4e46-8eaa-f2df29539d1d';
+    MOCK_GUID = '724cafc2-7744-4e46-8eaa-f2df29539d1d',
+    MOCK_GUID_FILTER = '724cafc2-7744-4e46-8eaa-f2df29539d2a';
 
 const recordDeleteUsingSobjectState = () => {
         return {
@@ -43,6 +45,7 @@ const recordDeleteUsingSobjectState = () => {
             locationY: 227,
             useSobject: false,
             name: { value: 'record_delete_with_fields', error: null },
+            filterLogic: { value: CONDITION_LOGIC.OR, error: null },
             filters: [
                 {
                     leftHandSide: {
@@ -53,6 +56,16 @@ const recordDeleteUsingSobjectState = () => {
                     rightHandSide: { value: 'my address', error: null },
                     rightHandSideDataType: { value: 'String', error: null },
                     rowIndex: MOCK_GUID
+                },
+                {
+                    leftHandSide: {
+                        value: 'Account.BillingAddress',
+                        error: null
+                    },
+                    operator: { value: 'EqualTo', error: null },
+                    rightHandSide: { value: '21 Jump Street', error: null },
+                    rightHandSideDataType: { value: 'String', error: null },
+                    rowIndex: MOCK_GUID_FILTER
                 }
             ],
             [OBJECT_PROPERTY_NAME]: { value: 'account', error: null }
@@ -173,6 +186,9 @@ describe('record delete reducer using fields', () => {
                     expect(newState[FILTERS_PROPERTY_NAME]).toHaveLength(1);
                     expect(newState[FILTERS_PROPERTY_NAME][0].leftHandSide.value).toHaveLength(0);
                 });
+                it('should reset "filterLogic"', () => {
+                    expect(newState.filterLogic.value).toBe(CONDITION_LOGIC.AND);
+                });
             });
 
             describe('update "getFirstRecordOnly" from true to false', () => {
@@ -185,6 +201,9 @@ describe('record delete reducer using fields', () => {
                 test('should reset "inputReference" property', () => {
                     expect(newState[INPUT_REFERENCE_PROPERTY_NAME].value).toHaveLength(0);
                 });
+                it('should reset "filterLogic"', () => {
+                    expect(newState.filterLogic.value).toBe(CONDITION_LOGIC.AND);
+                });
             });
         });
     });
@@ -195,7 +214,7 @@ describe('record delete reducer using fields', () => {
                 type: AddRecordFilterEvent.EVENT_NAME
             };
             const newState = recordDeleteReducer(originalState, event);
-            expect(newState[FILTERS_PROPERTY_NAME]).toHaveLength(2);
+            expect(newState[FILTERS_PROPERTY_NAME]).toHaveLength(3);
             expect(newState).not.toBe(originalState);
         });
         it('delete filter item', () => {
@@ -206,7 +225,7 @@ describe('record delete reducer using fields', () => {
                 }
             };
             const newState = recordDeleteReducer(originalState, event);
-            expect(newState.filters).toHaveLength(0);
+            expect(newState.filters).toHaveLength(1);
             expect(newState).not.toBe(originalState);
         });
 
@@ -224,7 +243,7 @@ describe('record delete reducer using fields', () => {
                 }
             };
             const newState = recordDeleteReducer(originalState, event);
-            expect(newState.filters).toHaveLength(1);
+            expect(newState.filters).toHaveLength(2);
             expect(newState.filters[0].leftHandSide.value).toBe('Account.Description');
             expect(newState).not.toBe(originalState);
         });
@@ -243,7 +262,7 @@ describe('record delete reducer using fields', () => {
                 }
             };
             const newState = recordDeleteReducer(originalState, event);
-            expect(newState.filters).toHaveLength(1);
+            expect(newState.filters).toHaveLength(2);
             expect(newState.filters[0].rightHandSide.value).toBe('my NEW address');
             expect(newState).not.toBe(originalState);
         });
@@ -261,7 +280,7 @@ describe('record delete reducer using fields', () => {
                 }
             };
             const newState = recordDeleteReducer(originalState, event);
-            expect(newState.filters).toHaveLength(1);
+            expect(newState.filters).toHaveLength(2);
             expect(newState.filters[0].operator.value).toBe('StartsWith');
             expect(newState).not.toBe(originalState);
         });
