@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import {
     getAllCachedExtensionTypes,
@@ -457,6 +456,8 @@ export function getPlaceHolderLabel(fieldName) {
     for (const type of getAllScreenFieldTypes()) {
         if (fieldName === type.name) {
             return '[' + type.label + ']';
+        } else if (fieldName === getColumnFieldType().name) {
+            return LABELS.defaultColumnLabel;
         }
     }
     throw new Error('No type found for ' + fieldName);

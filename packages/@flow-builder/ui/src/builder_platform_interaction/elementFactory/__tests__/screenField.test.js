@@ -316,7 +316,7 @@ describe('screenField', () => {
 
                 expect(result).toMatchObject({
                     name: 'undefined_Column1',
-                    fieldText: 'Column 1',
+                    fieldText: '',
                     fieldType: 'Region',
                     fields: [],
                     inputParameters: [

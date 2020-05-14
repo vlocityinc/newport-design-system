@@ -329,7 +329,6 @@ export function createEmptyScreenFieldOfType(typeName, sectionCount = 0) {
         const newChildScreenField = createScreenField(
             {
                 name: newScreenField.name + '_Column1',
-                fieldText: 'Column 1',
                 guid: generateGuid(),
                 fieldType: 'Region',
                 fields: [],
@@ -344,7 +343,6 @@ export function createEmptyScreenFieldOfType(typeName, sectionCount = 0) {
             // TODO: correct name and fieldText. Also, this code needs to be consolidated
             // with the code above that creates the default column for a new section.
             name: newScreenField.name + '_Column1',
-            fieldText: 'Column 1',
             guid: generateGuid(),
             fieldType: 'Region',
             fields: [],

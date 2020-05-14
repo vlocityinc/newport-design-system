@@ -86,6 +86,7 @@ import addColumn from '@salesforce/label/FlowBuilderScreenEditor.addColumn';
 import columnsWidthTitle from '@salesforce/label/FlowBuilderScreenEditor.columnsWidthTitle';
 import fullWidth from '@salesforce/label/FlowBuilderScreenEditor.fullWidth';
 import columnsTooltip from '@salesforce/label/FlowBuilderScreenEditor.columnsTooltip';
+import defaultColumnLabel from '@salesforce/label/FlowBuilderScreenEditor.defaultColumnLabel';
 
 export const LABELS = {
     errorRequired,
@@ -173,5 +174,6 @@ export const LABELS = {
     addColumn,
     columnsWidthTitle,
     fullWidth,
-    columnsTooltip
+    columnsTooltip,
+    defaultColumnLabel
 };

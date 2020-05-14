@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import { SCREEN_EDITOR_GUIDS } from 'builder_platform_interaction/screenEditorUtils';
+import { SCREEN_EDITOR_GUIDS, getPlaceHolderLabel } from 'builder_platform_interaction/screenEditorUtils';
 import { ReorderListEvent, createAddScreenFieldEvent } from 'builder_platform_interaction/events';
 const DRAGGING_REGION_SELECTOR = '.screen-canvas-dragging-region';
 const INSERTION_LINE_SELECTOR = '.screen-canvas-insertion-line';
@@ -38,7 +38,7 @@ export default class ScreenCanvas extends LightningElement {
     }
 
     get emptyPlaceHolderText() {
-        return this.element && this.element.fieldText ? this.element.fieldText.value : null;
+        return this.element && this.element.type ? getPlaceHolderLabel(this.element.type.name) : null;
     }
 
     handleDrop(event) {
