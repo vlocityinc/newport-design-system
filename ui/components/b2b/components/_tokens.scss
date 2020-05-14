@@ -2,13 +2,12 @@ $font-size-category-name: 0.9rem !default;
 $font-size-sub-category-name: 0.8rem !default;
 $b2b-product-item-max-width: 27rem !default;
 $b2b-product-item-min-height: 11.7rem !default;
-$b2b-product-item-min-width: 20rem !default;
+$b2b-product-item-min-width: 19rem !default;
 @mixin multiLineEllipsis($lineHeight: 1.2em, $lineCount: 1, $bgColor: white) {
   overflow: hidden;
   position: relative;
   line-height: $lineHeight;
   max-height: $lineHeight * $lineCount;
-  text-align: justify;
   margin-right: -1em;
   padding-right: 1em;
   &:before {
@@ -30,17 +29,16 @@ $b2b-product-item-min-width: 20rem !default;
 @mixin cardsHeaderAttributes {
   overflow: hidden;
   .nds-b2b-each-attribute {
-    margin-right: 2rem;
+    margin: 0 1.5rem;
     .nds-b2b-attribute_label {
-      text-transform: uppercase;
-      font-size: 0.7rem;
+      font-size: .7rem;
       font-weight: 400;
-      letter-spacing: 0.3px;
-      color: #B3B3B3;
+      letter-spacing: .3px;
+      color: #706E6B;
     }
     .nds-b2b-attribute_value {
-      font-size: 0.8rem;
-      font-weight: 400;
+      font-size: 1rem;
+      font-weight: bold;
     }
   }
 }

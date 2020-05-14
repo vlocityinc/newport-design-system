@@ -1,4 +1,4 @@
-.nds-b2b-offer-addons {
+.nds-b2b-offer-addons1 {
   margin-left: 1rem;
   border-top: 2px solid #000;
   padding-top: 0.5rem;
@@ -30,7 +30,7 @@
     }
     .nds-b2b-attribute-each-row {
       padding: 0.75rem 0;
-      border-bottom: 1px solid #F2F2F2;
+      border-bottom: 1px solid #f2f2f2;
       &:last-child {
         border-bottom: none;
       }
@@ -56,10 +56,10 @@
         }
 
         /* Firefox */
-        input.nds-b2b-quantity[type=number] {
+        input.nds-b2b-quantity[type="number"] {
           -moz-appearance: textfield;
         }
-        input.nds-b2b-quantity:focus{
+        input.nds-b2b-quantity:focus {
           outline: none;
         }
         .nds-b2b-delete-icon {
@@ -78,4 +78,17 @@
       }
     }
   }
+}
+
+
+.nds-b2b-child-addons {
+  padding-top: 0.5rem;
+  .nds-b2b-child-addons_title {
+    font-size: 1rem;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+}
+.b2b-config-child-container {
+  margin-top: 1.5rem;
 }

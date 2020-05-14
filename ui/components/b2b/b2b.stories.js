@@ -310,26 +310,41 @@ storiesOf(`${base}`, module)
         <div class="nds-b2b-card_tabs">
           <div class="nds-b2b-card_tab">
             <input type="checkbox" id="chck1" class="nds-b2b-card_checkbox">
-            <label class="nds-b2b-card_tab-label" for="chck1">Details
-              <div class="nds-grid nds-wrap nds-b2b-attributes_info">
-                <div class="nds-b2b-each-attribute">
-                  <p class="nds-b2b-attribute_label">Contract Term</p>
-                  <p class="nds-b2b-attribute_value">12 mo</p>
-                </div>
-                <div class="nds-b2b-each-attribute">
-                  <p class="nds-b2b-attribute_label">Download Speed</p>
-                  <p class="nds-b2b-attribute_value">500 Mbps</p>
-                </div>
-              </div>
-              <div class="nds-grid nds-wrap nds-b2b-price_info">
-                <div class="nds-b2b-each-attribute">
-                <p class="nds-b2b-attribute_label">One Time Total</p>
-                <p class="nds-b2b-attribute_value">123</p>
-                </div>
-                <div class="nds-b2b-each-attribute">
-                <p class="nds-b2b-attribute_label">Monthly Total</p>
-                <p class="nds-b2b-attribute_value">19</p>
-                </div>
+            <label class="nds-b2b-card_tab-label" for="chck1">
+              <div class="nds-grid">
+                <span class="nds-b2b-card_title">Details</span>
+                <div>
+                
+                  <!-- Quantity -->
+                  <div class="nds-b2b-quantity">
+                    <p class="nds-b2b-configure_label">Quantity</p>
+                    <p><input class="nds-b2b-quantity_value" type="number" value="1" /></p>
+                  </div>
+
+                  <!-- Attributes -->
+                  <div class="nds-grid nds-wrap nds-b2b-attributes_info">
+                    <div class="nds-b2b-each-attribute">
+                      <p class="nds-b2b-attribute_label">Contract Term</p>
+                      <p class="nds-b2b-attribute_value">12 mo</p>
+                    </div>
+                    <div class="nds-b2b-each-attribute">
+                      <p class="nds-b2b-attribute_label">Download Speed</p>
+                      <p class="nds-b2b-attribute_value">500 Mbps</p>
+                    </div>
+                  </div>
+
+                  <!-- Prices Container -->
+                  <div class="nds-b2b-price_info">
+                    <div class="nds-b2b-each-attribute">
+                      <p class="nds-b2b-attribute_label nds-text-align_right">One Time</p>
+                      <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1420.00</p>
+                    </div>
+                    <div class="nds-b2b-each-attribute">
+                      <p class="nds-b2b-attribute_label nds-text-align_right">Monthly</p>
+                      <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1350.00</p>
+                    </div>
+                  </div>
+                <div>
               </div>
             </label>
             <div class="nds-b2b-card_tab-content">
@@ -548,7 +563,7 @@ storiesOf(`${base}`, module)
       <vlocity_cmt-icon>
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 52 52"><path fill="#1589ee" d="m3.5 44c-0.7 0-1.5 0.7-1.5 1.5v3c0 0.8 0.8 1.5 1.5 1.5h23.9c0.8 0 1.6-0.8 1.6-1.5v-33.2c0-0.9 1-1.3 1.7-0.7l5.6 5.6c0.6 0.6 1.5 0.6 2.1 0l2.1-2.1c0.6-0.6 0.6-1.5 0-2.1l-13.5-13.6c-0.6-0.6-1.5-0.6-2.1 0l-13.5 13.5c-0.6 0.6-0.6 1.5 0 2.1l2.1 2.1c0.6 0.6 1.5 0.6 2.1 0l5.6-5.6c0.6-0.6 1.8-0.2 1.8 0.7v27.3c0 1.6-1.6 1.5-1.6 1.5h-17.9z"></path></svg>
       </vlocity_cmt-icon>
-      Internet Service
+      <span class="nds-b2b-child-card_path-title">Internet Service<span>
     </div>
     <div class="nds-b2b-card nds-b2b-child-card">
       <div class="nds-b2b-card_container">
@@ -585,5 +600,67 @@ storiesOf(`${base}`, module)
       </div>
     </div>
     `);
-  });
+  })
+  .add("b2bTotalBar", () => {
+    return withExample(`
+    <div class="nds-grid nds-wrap nds-b2b-total-bar">
+      <div class="nds-b2b-configure_container">
+        <p class="nds-b2b-configure_label">Configuring</p>
+        <p class="nds-b2b-configure_locations">
+          5 locations
+          <span class="nds-b2b-configure_locations-view">View</span>
+        </p>
+      </div>
+      <div class="nds-grid nds-wrap nds-b2b-price_container">
+        <div class="nds-b2b-quantity">
+          <p class="nds-b2b-configure_label">Qty Per Location</p>
+          <p><input class="nds-b2b-quantity_value" type="number" value="1" /></p>
+        </div>
+        <div class="nds-b2b-total">
+          <p class="nds-b2b-configure_label">One Time Total</p>
+          <p class="nds-b2b-configure_locations">$641.75</p>
+        </div>
+        <div class="nds-b2b-total">
+          <p class="nds-b2b-configure_label nds-text-align_right">Monthly Total</p>
+          <p class="nds-b2b-configure_locations">$675.00</p>
+        </div>
+        <div class="nds-b2b-menu nds-m-left_xx-small">
+          <c-menu theme="nds" icon-name="utility:threedots_vertical" position="right">
+              <svg class="nds-button__icon nds-icon_xx-small" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.2 20.3c0-1.5 1.3-2.8 2.8-2.8s2.8 1.3 2.8 2.8-1.3 2.8-2.8 2.8-2.8-1.3-2.8-2.8zm0-8.3c0-1.5 1.3-2.8 2.8-2.8s2.8 1.3 2.8 2.8-1.3 2.8-2.8 2.8-2.8-1.3-2.8-2.8zm0-8.3C9.2 2.2 10.5.9 12 .9s2.8 1.3 2.8 2.8-1.3 2.8-2.8 2.8-2.8-1.3-2.8-2.8z"></path></svg>
+          </c-menu>
+        </div>
+        <button class="nds-button nds-b2b-location-button">Add To Locations</button>
+      </div>
+    </div>
+    `);
+  })
+  .add("b2bItemsGridChild", () => {
+    return withExample(`
+    <div class="nds-b2b-grid-child">
+      <div class="nds-b2b-product-item_container">
+        <div class="nds-b2b-product-name">
+          <c-icon theme="nds" icon-name="utility:rows" size="small" extraclass="nds-icon-text-default" class="nds-b2b-product-icon">
+            <span class="nds-icon_container nds-icon-utility-wifi">
+              <svg class="nds-icon nds-icon-text-default nds-icon_x-small" xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52">
+                <path fill="#1589ee" d="m47.7 15.8c-5.5-6.1-13.3-9.5-21.6-9.5s-16.1 3.4-21.6 9.5c-0.4 0.4-0.3 1.1 0.1 1.4l3 2.6c0.4 0.4 1 0.3 1.4-0.1 4.4-4.7 10.6-7.4 17.1-7.4s12.7 2.7 17.1 7.4c0.4 0.4 1 0.4 1.4 0.1l3-2.6c0.4-0.4 0.5-1 0.1-1.4z m-21.6 4.5c-4.2 0-8.2 1.8-11 5-0.4 0.4-0.3 1.1 0.1 1.5l3.2 2.4c0.4 0.3 1 0.3 1.3-0.1 1.7-1.8 4-2.8 6.4-2.8s4.7 1 6.3 2.7c0.3 0.4 0.9 0.4 1.3 0.1l3.2-2.4c0.5-0.4 0.5-1 0.1-1.5-2.7-3.1-6.7-4.9-10.9-4.9z m0.1 13.9c2.7 0 5 2.2 5 5s-2.2 5-5 5-5-2.2-5-5 2.3-5 5-5z"></path>
+              </svg>
+            </span>
+          </c-icon>
+          Recommended Ethernet Product Name 
+        </div>
+        <div class="nds-b2b-product-description">A short description of how best to use this product and what it includes.Lorem ipsum dolar sit amet, consectetur, adipisci velit5</div>
+        <div class="nds-b2b-price_info">
+          <div class="nds-b2b-each-attribute">
+            <p class="nds-b2b-attribute_label nds-text-align_right">Monthly</p>
+            <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$250.00</p>
+          </div>
+          <div class="nds-b2b-each-attribute">
+            <p class="nds-b2b-attribute_label nds-text-align_right">One Time</p>
+            <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$125.00</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    `);
+  });;
 

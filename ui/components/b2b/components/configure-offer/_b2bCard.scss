@@ -1,8 +1,6 @@
 // Layout
 .nds-b2b-card {
-  display: flex;
-  margin: 2rem;
-  padding: 0.2rem 2rem;
+  margin: 1.5rem 0;
   background: white;
   input.nds-b2b-card_checkbox {
     position: absolute;
@@ -20,8 +18,9 @@
         transition: all 0.25s ease-in;
         &-label {
           display: flex;
+          position: relative;
           justify-content: space-between;
-          padding: 1em 0;
+          padding: 1em 1.5rem;
           background: #fff;
           font-weight: bold;
           font-size: 1.3rem;
@@ -36,58 +35,131 @@
             font-size: 1.6rem;
             text-align: center;
             transition: all 0.35s;
-            color: #B0ADAB;
+            color: #b0adab;
+          }
+          .nds-b2b-card_title {
+            width: 19vw;
           }
           .nds-b2b-attributes_info {
-            position: absolute;
-            left: 20rem;
             @include cardsHeaderAttributes;
+            .nds-b2b-each-attribute {
+              .nds-b2b-attribute_label {
+                text-transform: uppercase;
+              }
+              .nds-b2b-attribute_value {
+                font-size: 0.9rem;
+                font-weight: 400;
+              }
+            }
+            display: none;
           }
           .nds-b2b-price_info {
-            right: 12rem;
-            position: absolute;
+            @include cardsHeaderAttributes;
             display: flex;
-            @include cardsHeaderAttributes
+            position: absolute;
+            right: 5vw;
+            .nds-b2b-each-attribute {
+              .nds-b2b-attribute_value {
+                border-bottom: 1px dashed #000;
+                float: right;
+              }
+            }
+          }
+          .nds-b2b-quantity {
+            width: 10vw;
+            margin: 0 1rem;
+            .nds-b2b-quantity_value {
+              border: 1px solid #dddbda;
+              height: 1.4rem;
+              width: 3rem;
+              padding-left: 1.2rem;
+              font-size: 0.9rem;
+              &:focus {
+                outline: none;
+                -webkit-appearance: none;
+                margin: 0;
+              }
+              &:disabled {
+                background-color: #f6f6f6;
+              }
+            }
+            /* Chrome, Safari, Edge, Opera */
+            input.nds-b2b-quantity_value::-webkit-outer-spin-button,
+            input.nds-b2b-quantity_value::-webkit-inner-spin-button {
+              -webkit-appearance: none;
+              margin: 0;
+            }
+            .nds-b2b-configure_label {
+              color: #706e6b;
+              font-size: 0.65rem;
+              font-weight: 400;
+              letter-spacing: 0.4px;
+            }
+          }
+          @media screen and (min-width: 60rem) {
+            .nds-b2b-attributes_info {
+              display: flex;
+            }
           }
         }
         &-content {
+          padding: 0 1.5rem;
           max-height: 0;
           background: white;
           transition: all 0.35s;
           color: #595959;
+          overflow: auto;
         }
         input.nds-b2b-card_checkbox:checked {
           + .nds-b2b-card_tab-label {
             &::after {
               transform: rotate(90deg);
             }
-            .nds-b2b-attributes_info {
-              display: none;
-            }
           }
           ~ .nds-b2b-card_tab-content {
             max-height: inherit;
-            padding: 2rem 0 1rem 0;
+            padding: 1.5rem;
             border-top: 1px solid #d8d8d8;
           }
         }
       }
     }
   }
+  &.nds-b2b-product-group {
+    background: #f6f6f6;
+    margin: 0;
+    .nds-b2b-card_container {
+      .nds-b2b-card_tabs {
+        .nds-b2b-card_tab {
+          &-label {
+            background: #f6f6f6;
+            .nds-b2b-price_info {
+              .nds-b2b-each-attribute {
+                .nds-b2b-attribute_value {
+                  border-bottom: none;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
   &.nds-b2b-child-card {
-    margin: 0 2rem 2rem 4rem;
-    position: relative;
-    .nds-b2b-delete-offer_btn {
-      transition: all 0.25s ease-in;
-      font-size: 0.7rem;
-      font-weight: 300;
-      color: #ff2953;
-      padding: 0 1.5rem;
-      right: 5rem;
-      position: absolute;
-      &:hover {
-        background-color: #ff2953;
-        color: #fff;
+    margin: 0;
+    padding: 0;
+    .nds-b2b-card_container {
+      .nds-b2b-card_tabs {
+        .nds-b2b-card_tab {
+          &-label {
+            background: #fff;
+            padding: 0 0 1em 0;
+            border-bottom: 1px solid #d8d8d8;
+            .nds-b2b-price_info {
+              right: 3vw;
+            }
+          }
+        }
       }
     }
   }
@@ -95,11 +167,19 @@
 .nds-b2b-child-card_path {
   background: #fff;
   padding: 0.4rem 2rem;
-  color: #1589ee;
   margin: 2rem 2rem 0 4rem;
   border-bottom: 1px solid #d8d8d8;
-  font-weight: 300;
+  .nds-b2b-child-card_path-title {
+    font-weight: 300;
+    color: #1589ee;
+    cursor: pointer;
+    transition: all 0.35s;
+    &:hover {
+      font-weight: bold;
+    }
+  }
 }
+
 .nds-theme_default {
-  background-color: #f6f6f6 !important;
+  background: #f6f6f6 !important;
 }
