@@ -15,6 +15,7 @@ export default class CustomPropertyEditor extends LightningElement {
     _elementInfo = {};
     _builderContext = {};
     _inputVariables = [];
+    _typeMappings = [];
     _unrenderFn;
     _createComponentErrors = [];
 
@@ -72,6 +73,21 @@ export default class CustomPropertyEditor extends LightningElement {
 
     get configurationEditorInputVariables() {
         return this._inputVariables;
+    }
+
+    @api
+    set configurationEditorTypeMappings(typeMappings) {
+        this._typeMappings = typeMappings ? unwrap(typeMappings) : [];
+        if (this._isComponentCreated) {
+            const configurationEditorTemplate = this.getConfigurationEditorTemplate();
+            if (configurationEditorTemplate) {
+                configurationEditorTemplate.typeMappings = this._typeMappings;
+            }
+        }
+    }
+
+    get configurationEditorTypeMappings() {
+        return this._typeMappings;
     }
 
     /** Public methods */
@@ -194,7 +210,8 @@ export default class CustomPropertyEditor extends LightningElement {
             attr: {
                 elementInfo: this.elementInfo,
                 builderContext: this.builderContext,
-                inputVariables: this.configurationEditorInputVariables
+                inputVariables: this.configurationEditorInputVariables,
+                typeMappings: this.configurationEditorTypeMappings
             }
         };
         this._unrenderFn = createConfigurationEditor(params);
