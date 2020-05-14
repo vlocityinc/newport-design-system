@@ -11,7 +11,7 @@ $tabel-view-switch: 'medium';
 	&:not(.nds-b2b-table_head-row):hover {
 		background-color: $color-background-row-hover;
 
-		.nds-transition-hide {
+		.nds-b2b-row_hover-show {
 			opacity: 1;
 		}
 	}
@@ -44,6 +44,16 @@ $tabel-view-switch: 'medium';
 		display: none;
 		color: $color-text-weak;
 		font-size: $font-size-small;
+	}
+
+	//override default sytles of form elements when inside nds-b2b-table-cell
+	.nds-form-container {
+		padding: 0;
+		margin-bottom: 0;
+	}
+	.nds-input {
+		min-height: initial;
+		line-height: 1;
 	}
 }
 
@@ -106,7 +116,7 @@ $tabel-view-switch: 'medium';
 		flex-wrap: wrap;
 		padding-left: $spacing-x-large;
 		
-		.nds-transition-hide {
+		.nds-b2b-row_hover-show {
 			opacity: 1
 		}
 
