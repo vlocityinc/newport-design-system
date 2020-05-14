@@ -3,7 +3,6 @@ import { getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import {
     describeExtensions,
     getCachedExtensions,
-    COMPONENT_INSTANCE,
     EXTENSION_TYPE_SOURCE,
     getCachedExtensionType
 } from 'builder_platform_interaction/flowExtensionLib';
@@ -76,8 +75,9 @@ export function extendFlowExtensionScreenField(field) {
  * @returns {object} the processed screen
  */
 export function processScreenExtensionTypes(screen) {
-    for (const field of screen.fields) {
-        if (field.fieldType === COMPONENT_INSTANCE && field.type.source === EXTENSION_TYPE_SOURCE.LOCAL) {
+    const extensionFields = getAllChildExtensionFields(screen);
+    for (const field of extensionFields) {
+        if (field.type.source === EXTENSION_TYPE_SOURCE.LOCAL) {
             field.type = getCachedExtensionType(field.type.name);
             extendFlowExtensionScreenField(field);
         }
@@ -147,7 +147,7 @@ function getAllChildExtensionFields(parent) {
         if (isExtensionField(field)) {
             extensionFields.push(field);
         } else if (field.fields && field.fields.length > 0) {
-            extensionFields = extensionFields.concat(getAllChildExtensionFields(field));
+            extensionFields = [...extensionFields, ...getAllChildExtensionFields(field)];
         }
     });
     return extensionFields;
