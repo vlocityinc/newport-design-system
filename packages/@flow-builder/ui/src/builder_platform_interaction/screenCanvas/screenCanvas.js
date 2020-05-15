@@ -2,7 +2,7 @@
 import { LightningElement, api } from 'lwc';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { SCREEN_EDITOR_GUIDS, getPlaceHolderLabel } from 'builder_platform_interaction/screenEditorUtils';
-import { ReorderListEvent, createAddScreenFieldEvent } from 'builder_platform_interaction/events';
+import { createAddScreenFieldEvent, createScreenElementMovedEvent } from 'builder_platform_interaction/events';
 const DRAGGING_REGION_SELECTOR = '.screen-canvas-dragging-region';
 const INSERTION_LINE_SELECTOR = '.screen-canvas-insertion-line';
 const CANVAS_BODY_SELECTOR = '.screen-canvas-body';
@@ -62,22 +62,15 @@ export default class ScreenCanvas extends LightningElement {
             } else {
                 // Existing field is being moved around.
                 const sourceGuid = event.dataTransfer.getData('text');
-                const positions = this.element.getFieldIndexesByGUID(sourceGuid);
-                const sourceIndex = positions[0];
-                const destIndex = range.index > sourceIndex ? range.index - 1 : range.index;
-                const destScreenField = this.element.fields[destIndex];
-                if (destScreenField) {
-                    const destGuid = destScreenField.guid;
-                    if (sourceGuid && destIndex !== sourceIndex) {
-                        this.fireReorder(sourceGuid, destGuid);
-                        this.clearDraggingState();
-                    }
+                if (sourceGuid && this.element.fields.length >= range.index) {
+                    this.fireMoveEvent(sourceGuid, this.element.guid, range.index);
+                    this.clearDraggingState();
                 } else {
                     throw new Error(
-                        'No screen field found at drag destination. Source index: ' +
-                            sourceIndex +
+                        'No screen field found at drag destination. Source guid: ' +
+                            sourceGuid +
                             '. Destination index: ' +
-                            destIndex +
+                            range.index +
                             '. Event: ' +
                             event.dataTransfer.effectAllowed +
                             '. Number of screen fields: ' +
@@ -191,10 +184,8 @@ export default class ScreenCanvas extends LightningElement {
         return null;
     }
 
-    fireReorder(sourceIndex, destIndex) {
-        if (sourceIndex !== destIndex) {
-            const reorderListEvent = new ReorderListEvent(sourceIndex, destIndex);
-            this.dispatchEvent(reorderListEvent);
-        }
+    fireMoveEvent(sourceGuid, destinationParentGuid, destinationIndex) {
+        const moveFieldEvent = createScreenElementMovedEvent(sourceGuid, destinationParentGuid, destinationIndex);
+        this.dispatchEvent(moveFieldEvent);
     }
 }

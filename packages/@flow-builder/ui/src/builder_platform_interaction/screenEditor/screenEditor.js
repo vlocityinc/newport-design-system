@@ -331,7 +331,7 @@ export default class ScreenEditor extends LightningElement {
      * Handles reordering a list of the screen fields
      * @param {event} event - reorderListEvent
      */
-    handleReorder = event => {
+    handleMoveScreenElement = event => {
         this.screen = screenReducer(this.screen, event);
         event.stopPropagation();
     };

@@ -13,7 +13,7 @@ import { createElement } from 'lwc';
 import { createTestScreen, createTestScreenField } from 'builder_platform_interaction/builderTestUtils';
 import {
     PropertyChangedEvent,
-    ReorderListEvent,
+    createScreenElementMovedEvent,
     createAddScreenFieldEvent,
     createScreenElementDeletedEvent,
     createScreenElementSelectedEvent,
@@ -248,7 +248,7 @@ describe('Event handling on editor', () => {
         const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
         const field1 = screenEditorElement.node.fields[3];
         const field2 = screenEditorElement.node.fields[5];
-        canvas.dispatchEvent(new ReorderListEvent(field1.guid, field2.guid));
+        canvas.dispatchEvent(createScreenElementMovedEvent(field1.guid, screenEditorElement.node.guid, 6));
         expect(screenEditorElement.node.fields[4].guid).toBe(field2.guid);
         expect(screenEditorElement.node.fields[5].guid).toBe(field1.guid);
     });

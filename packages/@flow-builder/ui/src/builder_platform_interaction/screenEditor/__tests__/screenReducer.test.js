@@ -8,7 +8,7 @@ import { screenReducer } from '../screenReducer';
 
 import {
     PropertyChangedEvent,
-    ReorderListEvent,
+    createScreenElementMovedEvent,
     createScreenElementDeletedEvent,
     createAddScreenFieldEvent,
     UseAdvancedOptionsSelectionChangedEvent,
@@ -355,13 +355,7 @@ describe('screen reducer', () => {
 
     it('reorders fields', () => {
         const screen = createTestScreen(SCREEN_NAME, null);
-        const event = {
-            type: ReorderListEvent.EVENT_NAME,
-            detail: {
-                sourceGuid: screen.fields[0].guid,
-                destinationGuid: screen.fields[2].guid
-            }
-        };
+        const event = createScreenElementMovedEvent(screen.fields[0].guid, screen.guid, 3);
 
         const newScreen = screenReducer(screen, event);
         expect(screen.fields[0]).toBe(newScreen.fields[2]);
@@ -390,14 +384,7 @@ describe('screen reducer', () => {
             ]
         };
         screen.fields[1] = section;
-        const event = {
-            type: ReorderListEvent.EVENT_NAME,
-            detail: {
-                sourceGuid: field1.guid,
-                destinationGuid: field2.guid
-            }
-        };
-
+        const event = createScreenElementMovedEvent(field1.guid, column2Guid, 0);
         const newScreen = screenReducer(screen, event);
         const newSection = newScreen.fields[1];
         expect(newSection.fields[0].fields).toHaveLength(0);
@@ -408,42 +395,21 @@ describe('screen reducer', () => {
 
     it('reorders fields when dest and source are the same results in no change', () => {
         const screen = createTestScreen(SCREEN_NAME, null);
-        const event = {
-            type: ReorderListEvent.EVENT_NAME,
-            detail: {
-                sourceGuid: screen.fields[0].guid,
-                destinationGuid: screen.fields[0].guid
-            }
-        };
-
+        const event = createScreenElementMovedEvent(screen.fields[0].guid, screen.guid, 0);
         const newScreen = screenReducer(screen, event);
         expect(newScreen.fields).toEqual(screen.fields);
     });
 
-    it('invalid guid for destination field results in no change', () => {
+    it('invalid index for destination results in no change', () => {
         const screen = createTestScreen(SCREEN_NAME, null);
-        const event = {
-            type: ReorderListEvent.EVENT_NAME,
-            detail: {
-                sourceGuid: screen.fields[0].guid,
-                destinationGuid: screen.guid
-            }
-        };
-
+        const event = createScreenElementMovedEvent(screen.fields[0].guid, screen.guid, -1);
         const newScreen = screenReducer(screen, event);
         expect(newScreen.fields).toEqual(screen.fields);
     });
 
     it('invalid guid for source field results in no change', () => {
         const screen = createTestScreen(SCREEN_NAME, null);
-        const event = {
-            type: ReorderListEvent.EVENT_NAME,
-            detail: {
-                sourceGuid: screen.guid,
-                destinationGuid: screen.fields[0].guid
-            }
-        };
-
+        const event = createScreenElementMovedEvent(screen.guid, screen.fields[0].guid, 0);
         const newScreen = screenReducer(screen, event);
         expect(newScreen.fields).toEqual(screen.fields);
     });

@@ -18,7 +18,6 @@ import {
     getValueFromHydratedItem
 } from 'builder_platform_interaction/dataMutationLib';
 import {
-    ReorderListEvent,
     PropertyChangedEvent,
     ValidationRuleChangedEvent,
     SCREEN_EDITOR_EVENT_NAME,
@@ -427,22 +426,30 @@ const deleteScreenField = (screen, event) => {
 };
 
 /**
- * Rearranges fields in a screen.
+ * Moves a field from one location in a screen to another.
  * @param {object} screen - The screen
- * @param {event} event - The add screen field event
+ * @param {event} event - The screen element moved event
  * @returns {object} - A new screen with the changes applied
  */
-const reorderFields = (screen, event) => {
-    const movedField = screen.getFieldByGUID(event.detail.sourceGuid);
-    const destinationPositions = screen.getFieldIndexesByGUID(event.detail.destinationGuid);
-    const destinationIndex = destinationPositions && destinationPositions.length > 0 ? destinationPositions[0] : -1;
-    if (destinationIndex >= 0 && movedField) {
-        const updatedScreen = removeScreenFieldFromParent(screen, null, movedField);
-        // TODO: This needs some love. We should include the new parent as part of the event details.
-        // It will be the screen when we drop the field onto the canvas, it will be a column when we
-        // drop the field onto a column within a section.
-        const destinationParent = findParentByAncestorPositions(updatedScreen, destinationPositions);
-        return insertScreenFieldIntoParent(updatedScreen, destinationParent, movedField, destinationIndex);
+const moveScreenField = (screen, event) => {
+    const sourceField = screen.getFieldByGUID(event.detail.sourceGuid);
+    if (sourceField) {
+        const sourcePositions = screen.getFieldIndexesByGUID(event.detail.sourceGuid);
+        const sourceParent = findParentByAncestorPositions(screen, sourcePositions);
+        const sourceIndex = sourcePositions && sourcePositions.length > 0 ? sourcePositions[0] : -1;
+        const updatedScreen = removeScreenFieldFromParent(screen, sourceParent, sourceField);
+        const destinationParentGuid = event.detail.destinationParentGuid;
+        const destinationParent =
+            updatedScreen.guid === destinationParentGuid
+                ? updatedScreen
+                : updatedScreen.getFieldByGUID(destinationParentGuid);
+        let destinationIndex = event.detail.destinationIndex;
+        if (sourceParent.guid === destinationParent.guid && sourceIndex >= 0 && sourceIndex <= destinationIndex) {
+            destinationIndex--;
+        }
+        if (destinationIndex >= 0) {
+            return insertScreenFieldIntoParent(updatedScreen, destinationParent, sourceField, destinationIndex);
+        }
     }
     return screen;
 };
@@ -802,8 +809,8 @@ export const screenReducer = (state, event, selectedNode) => {
         case SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_DELETED:
             return deleteScreenField(state, event);
 
-        case ReorderListEvent.EVENT_NAME:
-            return reorderFields(state, event);
+        case SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_MOVED:
+            return moveScreenField(state, event);
 
         case SCREEN_EDITOR_EVENT_NAME.CHOICE_ADDED:
             return addChoice(state, event, selectedNode);

@@ -2,6 +2,7 @@
 export const SCREEN_EDITOR_EVENT_NAME = {
     SCREEN_FIELD_ADDED: 'addscreenfield',
     SCREEN_ELEMENT_DELETED: 'screenelementdeleted',
+    SCREEN_ELEMENT_MOVED: 'screenelementmoved',
     SCREEN_ELEMENT_DESELECTED: 'screenelementdeselected',
     SCREEN_ELEMENT_SELECTED: 'screenelementselected',
     SCREEN_NODE_SELECTED: 'screennodeselected',
@@ -75,6 +76,21 @@ export function createScreenElementDeletedEvent(screenElement, property, parent 
         property,
         parent,
         callback
+    });
+}
+
+/**
+ * Creates an event to be fired when the user drags and drops a screen element from one location in the canvas to another
+ * @param {string} sourceGuid - The guid of the screen element being moved
+ * @param {string} destinationParentGuid - The guid of the screen element to which the source element is being moved
+ * @param {number} destinationIndex - The position at which the source element should be inserted within the parent
+ * @returns {event} The event
+ */
+export function createScreenElementMovedEvent(sourceGuid, destinationParentGuid, destinationIndex) {
+    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_MOVED, {
+        sourceGuid,
+        destinationParentGuid,
+        destinationIndex
     });
 }
 

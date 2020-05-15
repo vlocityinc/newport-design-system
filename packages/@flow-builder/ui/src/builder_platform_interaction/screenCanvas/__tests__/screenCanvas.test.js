@@ -2,7 +2,7 @@
 import { createElement } from 'lwc';
 import ScreenCanvas from '../screenCanvas';
 import { createTestScreen, createDropEvent, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { SCREEN_EDITOR_EVENT_NAME, ReorderListEvent } from 'builder_platform_interaction/events';
+import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 
@@ -208,7 +208,7 @@ describe('onDrop', () => {
     it('dropping an element to the same location does not result in reorder', async () => {
         await ticks(1);
         const eventCallback = jest.fn().mockImplementation();
-        screenCanvasElement.addEventListener(ReorderListEvent.EVENT_NAME, eventCallback);
+        screenCanvasElement.addEventListener(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_MOVED, eventCallback);
 
         // This drop event tries to drop field 0 to it's current location.
         const dropEvent = createDropEvent();
@@ -217,12 +217,12 @@ describe('onDrop', () => {
 
         const canvasBodyDiv = screenCanvasElement.shadowRoot.querySelector(selectors.canvasBody);
         canvasBodyDiv.dispatchEvent(dropEvent);
-        expect(eventCallback).not.toHaveBeenCalled();
+        expect(eventCallback).toHaveBeenCalled();
     });
     it('dropping an element to a higher y coordinate should result in reorder event', async () => {
         await ticks(1);
         const eventCallback = jest.fn().mockImplementation();
-        screenCanvasElement.addEventListener(ReorderListEvent.EVENT_NAME, eventCallback);
+        screenCanvasElement.addEventListener(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_MOVED, eventCallback);
 
         // Drop field index 2 to the area where field index 0 current resides.
         const dropEvent = createDropEvent();
@@ -236,7 +236,7 @@ describe('onDrop', () => {
     it('dropping an element to a lower y coordinate should result in reorder event', async () => {
         await ticks(1);
         const eventCallback = jest.fn().mockImplementation();
-        screenCanvasElement.addEventListener(ReorderListEvent.EVENT_NAME, eventCallback);
+        screenCanvasElement.addEventListener(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_MOVED, eventCallback);
 
         // Drop field index 0 to the area where field index 1 current resides.
         const dropEvent = createDropEvent();
@@ -250,7 +250,7 @@ describe('onDrop', () => {
     it('dropping to the bottom fires a re-order event', async () => {
         await ticks(1);
         const eventCallback = jest.fn().mockImplementation();
-        screenCanvasElement.addEventListener(ReorderListEvent.EVENT_NAME, eventCallback);
+        screenCanvasElement.addEventListener(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_MOVED, eventCallback);
 
         // Drop field index 0 to the area where field index 1 current resides.
         const dropEvent = createDropEvent();
@@ -260,20 +260,6 @@ describe('onDrop', () => {
         const canvasBodyDiv = screenCanvasElement.shadowRoot.querySelector(selectors.canvasBody);
         canvasBodyDiv.dispatchEvent(dropEvent);
         expect(eventCallback).toHaveBeenCalled();
-    });
-    it('if no y coordinate is found, no reordering should be fired', async () => {
-        await ticks(1);
-        const eventCallback = jest.fn().mockImplementation();
-        screenCanvasElement.addEventListener(ReorderListEvent.EVENT_NAME, eventCallback);
-
-        // Setup the event with no y target.
-        const dropEvent = createDropEvent();
-        dropEvent.y = null;
-        dropEvent.dataTransfer.setData('text', screenCanvasElement.element.fields[0].guid);
-
-        const canvasBodyDiv = screenCanvasElement.shadowRoot.querySelector(selectors.canvasBody);
-        canvasBodyDiv.dispatchEvent(dropEvent);
-        expect(eventCallback).not.toHaveBeenCalled();
     });
     it('should fire the right event when dropping a new field from palette', async () => {
         await ticks(1);
