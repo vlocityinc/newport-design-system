@@ -38,7 +38,9 @@
   .nds-b2b-config-radio_container label {
     display: inline-block;
     background-color: #fff;
-    padding: 0.34rem 1.875rem;
+    padding: 0.34rem 3.5vw;
+    min-width: 6rem;
+    text-align: center;
     font-size: 13px;
     border: 1px solid #d8d8d8;
     border-radius: 3px;

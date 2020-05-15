@@ -3,9 +3,12 @@
   color: #B0ADAB;
 }
 .b2b-config-offer {
-  margin: 0.5rem;
+  padding-bottom: 2rem;
   background: #F6F6F6;
-  padding: 0.5rem;
+  @media screen and (min-width: 48rem){
+    margin: 0.5rem;
+    padding: 0.5rem;
+  }
   @media screen and (min-width: 80rem) {
     margin: 2rem;
     min-height: 110vh;
