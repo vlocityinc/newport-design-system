@@ -33,6 +33,7 @@ export const EXTENSION_PARAM_PREFIX = {
 };
 
 export const SELECTED_CLASS = 'selected';
+export const HOVERING_CLASS = 'hovering';
 export const DRAGGING_CLASS = 'dragging';
 export const CONTAINER_DIV_SELECTOR = 'div.highlight';
 

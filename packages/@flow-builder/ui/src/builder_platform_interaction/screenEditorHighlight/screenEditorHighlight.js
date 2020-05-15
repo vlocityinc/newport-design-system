@@ -4,6 +4,7 @@ import { createScreenElementSelectedEvent, createScreenElementDeletedEvent } fro
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import {
     SELECTED_CLASS,
+    HOVERING_CLASS,
     DRAGGING_CLASS,
     CONTAINER_DIV_SELECTOR,
     booleanAttributeValue
@@ -20,11 +21,17 @@ export default class ScreenEditorHighlight extends LightningElement {
     @api displayIcons = false;
     @api draggable = false;
     @api selected = false;
+    hovering = false;
 
     labels = LABELS;
 
     get classList() {
-        return 'highlight slds-is-relative ' + (booleanAttributeValue(this, 'selected') ? SELECTED_CLASS : '');
+        return (
+            'highlight slds-is-relative ' +
+            (booleanAttributeValue(this, 'selected') ? SELECTED_CLASS : '') +
+            ' ' +
+            (booleanAttributeValue(this, 'hovering') ? HOVERING_CLASS : '')
+        );
     }
 
     get isDraggable() {
@@ -55,6 +62,16 @@ export default class ScreenEditorHighlight extends LightningElement {
     handleDelete = event => {
         event.stopPropagation();
         this.dispatchEvent(createScreenElementDeletedEvent(this.screenElement, this.property));
+    };
+
+    handleMouseOver = event => {
+        event.stopPropagation();
+        this.hovering = true;
+    };
+
+    handleMouseOut = event => {
+        event.stopPropagation();
+        this.hovering = false;
     };
 
     handleDragStart(event) {

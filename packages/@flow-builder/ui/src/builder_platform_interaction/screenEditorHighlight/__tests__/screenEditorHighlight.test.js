@@ -2,8 +2,13 @@
 import { createElement } from 'lwc';
 import ScreenEditorHighlight from 'builder_platform_interaction/screenEditorHighlight';
 import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
-import { DRAGGING_CLASS, CONTAINER_DIV_SELECTOR } from 'builder_platform_interaction/screenEditorUtils';
-import { createTestScreenField, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { DRAGGING_CLASS, HOVERING_CLASS, CONTAINER_DIV_SELECTOR } from 'builder_platform_interaction/screenEditorUtils';
+import {
+    createTestScreenField,
+    ticks,
+    mouseoverEvent,
+    mouseoutEvent
+} from 'builder_platform_interaction/builderTestUtils';
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-screen-editor-highlight', { is: ScreenEditorHighlight });
@@ -91,5 +96,38 @@ describe('onDragEnd', () => {
         hightlightDiv.dispatchEvent(dragStartEvent);
         hightlightDiv.dispatchEvent(dragEndEvent);
         expect(hightlightDiv.classList).not.toContain(DRAGGING_CLASS);
+    });
+});
+
+describe('highlight behavior on hover', () => {
+    let highlight;
+    beforeEach(() => {
+        highlight = createComponentForTest({
+            screenElement: createTestScreenField('Name', 'TextBox')
+        });
+    });
+
+    it('mouse over sets the correct styling', async () => {
+        await ticks(1);
+
+        const highlightDiv = highlight.shadowRoot.querySelector(CONTAINER_DIV_SELECTOR);
+        expect(highlightDiv.classList).not.toContain(HOVERING_CLASS);
+
+        highlightDiv.dispatchEvent(mouseoverEvent());
+        await ticks(1);
+        expect(highlightDiv.classList).toContain(HOVERING_CLASS);
+    });
+
+    it('mouse out sets the correct styling', async () => {
+        await ticks(1);
+
+        const highlightDiv = highlight.shadowRoot.querySelector(CONTAINER_DIV_SELECTOR);
+
+        highlightDiv.dispatchEvent(mouseoverEvent());
+        await ticks(1);
+
+        highlightDiv.dispatchEvent(mouseoutEvent());
+        await ticks(1);
+        expect(highlightDiv.classList).not.toContain(HOVERING_CLASS);
     });
 });

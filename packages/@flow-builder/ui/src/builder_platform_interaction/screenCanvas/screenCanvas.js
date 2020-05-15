@@ -174,16 +174,6 @@ export default class ScreenCanvas extends LightningElement {
         delete this.top;
     }
 
-    getSelectedElement() {
-        for (const highlight of this.template.querySelectorAll(HIGHLIGHT_SELECTOR)) {
-            if (highlight.selected) {
-                return highlight;
-            }
-        }
-
-        return null;
-    }
-
     fireMoveEvent(sourceGuid, destinationParentGuid, destinationIndex) {
         const moveFieldEvent = createScreenElementMovedEvent(sourceGuid, destinationParentGuid, destinationIndex);
         this.dispatchEvent(moveFieldEvent);

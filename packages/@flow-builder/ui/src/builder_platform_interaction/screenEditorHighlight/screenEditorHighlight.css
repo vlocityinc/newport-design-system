@@ -26,7 +26,6 @@
 }
 
 .highlight:not(.dragging).selected > .highlight-header,
-.highlight:not(.dragging):hover > .highlight-header,
 .highlight:not(.dragging):focus > .highlight-header {
     visibility: visible;
     z-index: 4; /* Or the frame border (with the shadow) will appear on top of the header */
@@ -34,8 +33,8 @@
 
 .highlight:not(.dragging).selected > .highlight-frame,
 .highlight:not(.dragging).selected > .slds-grid > .highlight-frame,
-.highlight:not(.dragging):hover > .highlight-frame,
-.highlight:not(.dragging):hover > .slds-grid > .highlight-frame,
+.highlight:not(.dragging).hovering > .highlight-frame,
+.highlight:not(.dragging).hovering > .slds-grid > .highlight-frame,
 .highlight:not(.dragging):focus > .highlight-frame,
 .highlight:not(.dragging):focus > .slds-grid > .highlight-frame {
     height: 100%;
@@ -45,8 +44,8 @@
 
 .highlight:not(.dragging).selected > .highlight-frame > .highlight-icons-container,
 .highlight:not(.dragging).selected > .slds-grid > .highlight-frame > .highlight-icons-container,
-.highlight:not(.dragging):hover > .highlight-frame > .highlight-icons-container,
-.highlight:not(.dragging):hover > .slds-grid > .highlight-frame > .highlight-icons-container,
+.highlight:not(.dragging).hovering > .highlight-frame > .highlight-icons-container,
+.highlight:not(.dragging).hovering > .slds-grid > .highlight-frame > .highlight-icons-container,
 .highlight:not(.dragging):focus > .highlight-frame > .highlight-icons-container,
 .highlight:not(.dragging):focus > .slds-grid > .highlight-frame > .highlight-icons-container {
     visibility: visible;

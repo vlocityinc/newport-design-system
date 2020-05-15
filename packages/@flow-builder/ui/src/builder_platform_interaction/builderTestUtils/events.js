@@ -46,6 +46,20 @@ export const clickEvent = () => {
     });
 };
 
+export const mouseoverEvent = () => {
+    return new CustomEvent('mouseover', {
+        bubbles: true,
+        cancelable: false
+    });
+};
+
+export const mouseoutEvent = () => {
+    return new CustomEvent('mouseout', {
+        bubbles: true,
+        cancelable: false
+    });
+};
+
 export const checkboxChangeEvent = (checked = true) => {
     return new CustomEvent('change', {
         bubbles: true,
