@@ -41,8 +41,20 @@ export const loadEventTypes = () =>
         setEventTypes(data, RUNTIME);
     });
 
+export const loadEventType = (type, apiName) =>
+    fetchOnce(SERVER_ACTION_TYPE.GET_EVENT_TYPE, { eventTypeApiName: apiName }, { disableErrorModal: true }).then(
+        data => {
+            setEventTypes([data], type);
+        }
+    );
+
 export const loadEntities = crudType =>
     fetchOnce(SERVER_ACTION_TYPE.GET_ENTITIES, { crudType }, { disableErrorModal: true }).then(setEntities);
+
+export const loadEntity = entityApiName =>
+    fetchOnce(SERVER_ACTION_TYPE.GET_ENTITY, { entityApiName }, { disableErrorModal: true }).then(data => {
+        setEntities([data]);
+    });
 
 export const loadWorkflowEnabledEntities = () =>
     fetchOnce(SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES, {}, { disableErrorModal: true }).then(

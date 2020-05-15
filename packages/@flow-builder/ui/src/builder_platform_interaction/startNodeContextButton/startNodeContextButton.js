@@ -10,6 +10,7 @@ import {
     EDIT_START_JOURNEY_CONTEXT
 } from 'builder_platform_interaction/elementConfig';
 import { EditElementEvent } from 'builder_platform_interaction/events';
+import { getEntitiesMenuData } from 'builder_platform_interaction/expressionUtils';
 
 const { BEFORE_SAVE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
 
@@ -67,7 +68,16 @@ export default class startNodeContextButton extends LightningElement {
     }
 
     get selectedObject() {
-        return this.node.object;
+        let item = '';
+        switch (this.node.triggerType) {
+            case AFTER_SAVE:
+            case BEFORE_SAVE:
+            case SCHEDULED:
+                item = getEntitiesMenuData().find(menuItem => menuItem.value === this.node.object);
+                return item ? item.displayText : this.node.object;
+            default:
+                return this.node.object;
+        }
     }
 
     get editLabel() {

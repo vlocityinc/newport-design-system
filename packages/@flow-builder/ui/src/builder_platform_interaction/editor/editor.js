@@ -103,7 +103,9 @@ import {
     loadParametersForInvocableApexActionsInFlowFromMetadata,
     loadOnStart,
     loadOnProcessTypeChange,
-    initializeLoader
+    initializeLoader,
+    loadEntity,
+    loadEventType
 } from 'builder_platform_interaction/preloadLib';
 import {
     ShiftFocusForwardCommand,
@@ -520,7 +522,9 @@ export default class Editor extends LightningElement {
             this.spinners.showFlowMetadataSpinner = false;
         } else {
             // We need to load the parameters first, so as having some information needed at the factory level (e.g. for Action with anonymous output we need parameter related information see actionCall#createActionCall)
-            loadParametersForInvocableApexActionsInFlowFromMetadata((data.metadata || data).actionCalls).then(() => {
+            // Also needed to load entity/eventType for the start element on canvas.
+            this.preloadRequiredDatafromFlowMetadata(data).then(() => {
+                // double dispatch is required for loop factory (we need to get the corresponding looped variable for auto output)
                 storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
 
                 if (!data.metadata) {
@@ -539,6 +543,27 @@ export default class Editor extends LightningElement {
             this.canRunDebugWithVAD = canRunDebugWith(data.metadata.runInMode, data.metadata.status);
         }
     };
+
+    preloadRequiredDatafromFlowMetadata(data) {
+        const promises = [];
+        const flowMetadata = data.metadata || data;
+        if (flowMetadata.start) {
+            const { object, triggerType } = flowMetadata.start;
+            if (triggerType && object) {
+                if (
+                    triggerType === FLOW_TRIGGER_TYPE.SCHEDULED ||
+                    triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE ||
+                    triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE
+                ) {
+                    promises.push(loadEntity(object));
+                } else if (triggerType === FLOW_TRIGGER_TYPE.PLATFORM_EVENT) {
+                    promises.push(loadEventType(MANAGED_SETUP, object));
+                }
+            }
+        }
+        promises.push(loadParametersForInvocableApexActionsInFlowFromMetadata(flowMetadata.actionCalls));
+        return Promise.all(promises);
+    }
 
     /**
      * Internal only callback which gets executed when we get a flow for diffing.

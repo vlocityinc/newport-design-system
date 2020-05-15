@@ -51,6 +51,10 @@ jest.mock('builder_platform_interaction/commonUtils', () => ({
     format: jest.fn()
 }));
 
+jest.mock('builder_platform_interaction/expressionUtils', () => ({
+    getEntitiesMenuData: jest.fn().mockReturnValue([])
+}));
+
 describe('Context Button', () => {
     it('Checks if non configured before record changed context button rendered text correctly', () => {
         const nodeComponent = createComponentUnderTest(FLOW_TRIGGER_TYPE.BEFORE_SAVE);

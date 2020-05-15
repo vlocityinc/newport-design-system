@@ -100,6 +100,10 @@ export default class contextRecordEditor extends LightningElement {
         }
     }
 
+    get queryableFilter() {
+        return ENTITY_TYPE.QUERYABLE;
+    }
+
     get workflowEnabledFilter() {
         return ENTITY_TYPE.WORKFLOW_ENABLED;
     }

@@ -6,6 +6,7 @@ const { BEFORE_SAVE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY, PLATFORM_EVENT } 
 const { CREATE, UPDATE, CREATE_AND_UPDATE } = FLOW_TRIGGER_SAVE_TYPE;
 import { LABELS } from './startNodeTriggerButtonLabels';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import { getEventTypes, MANAGED_SETUP } from 'builder_platform_interaction/sobjectLib';
 
 export default class startNodeTriggerButton extends LightningElement {
     @api
@@ -66,7 +67,14 @@ export default class startNodeTriggerButton extends LightningElement {
             }
         }
         if (this.node.triggerType === PLATFORM_EVENT) {
-            return this.node.object;
+            const eventTypes = getEventTypes(MANAGED_SETUP);
+            if (eventTypes) {
+                for (const item of eventTypes) {
+                    if (item.qualifiedApiName === this.node.object) {
+                        return item.label;
+                    }
+                }
+            }
         }
         return this.node.label;
     }
