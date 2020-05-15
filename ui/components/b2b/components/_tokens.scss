@@ -29,7 +29,7 @@ $b2b-product-item-min-width: 19rem !default;
 @mixin cardsHeaderAttributes {
   overflow: hidden;
   .nds-b2b-each-attribute {
-    margin: 0 1.5rem;
+    margin-left: 1.5rem;
     .nds-b2b-attribute_label {
       font-size: .7rem;
       font-weight: 400;
@@ -39,6 +39,9 @@ $b2b-product-item-min-width: 19rem !default;
     .nds-b2b-attribute_value {
       font-size: 1rem;
       font-weight: bold;
+    }
+    @media screen and (min-width: 48rem){
+      margin: 0 1.5rem;
     }
   }
 }

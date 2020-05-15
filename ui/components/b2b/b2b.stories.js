@@ -4,7 +4,7 @@ import notes from "./doc.md";
 import {
   withExample,
   withDocs,
-  commentToHTML
+  commentToHTML,
 } from "../../../scripts/storybook";
 storiesOf(`${base}`, module)
   .addDecorator(withDocs(notes))
@@ -311,10 +311,9 @@ storiesOf(`${base}`, module)
           <div class="nds-b2b-card_tab">
             <input type="checkbox" id="chck1" class="nds-b2b-card_checkbox">
             <label class="nds-b2b-card_tab-label" for="chck1">
-              <div class="nds-grid">
+              <div class="nds-grid nds-b2b-label-container">
                 <span class="nds-b2b-card_title">Details</span>
-                <div>
-                
+                <div class="nds-grid nds-wrap nds-b2b-label-details">
                   <!-- Quantity -->
                   <div class="nds-b2b-quantity">
                     <p class="nds-b2b-configure_label">Quantity</p>
@@ -344,7 +343,7 @@ storiesOf(`${base}`, module)
                       <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1350.00</p>
                     </div>
                   </div>
-                <div>
+                </div>
               </div>
             </label>
             <div class="nds-b2b-card_tab-content">
@@ -662,5 +661,4 @@ storiesOf(`${base}`, module)
       </div>
     </div>
     `);
-  });;
-
+  });
