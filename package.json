@@ -49,7 +49,8 @@
         "update:lwcPackages": "node ./scripts/updateLwcVersions && yarn install",
         "update:syncPomToCore": "node ./scripts/pom sync -b $npm_package_config_branch",
         "update:versions": "yarn update:lwcPomVersion && yarn update:auraPomVersion && yarn update:lwcPackages",
-        "utils:copy-to-nba": "./scripts/copyToNba.sh -b $npm_package_config_branch"
+        "utils:copy-to-nba": "./scripts/copyToNba.sh -b $npm_package_config_branch",
+        "postinstall": "./scripts/fix-lwc-testrunner.sh"
     },
     "repository": {
         "type": "git",
@@ -75,6 +76,8 @@
         "@rollup/plugin-replace": "^2.3.1",
         "@salesforce/eslint-config-lwc": "^0.3.0",
         "@types/jest": "^25.1.4",
+        "@typescript-eslint/eslint-plugin": "^2.32.0",
+        "@typescript-eslint/parser": "^2.32.0",
         "await-exec": "^0.1.2",
         "babel-jest": "^25.1.0",
         "chalk": "^3.0.0",
@@ -100,7 +103,7 @@
         "rollup-plugin-terser": "^5.3.0",
         "semver": "^7.1.1",
         "tslint": "^5.20.1",
-        "typescript": "~3.7.4",
+        "typescript": "~3.8.3",
         "xml2js": "^0.4.23",
         "yargs": "^15.1.0"
     },
@@ -114,7 +117,7 @@
     "husky": {
         "hooks": {
             "pre-commit": [
-                "lint-staged"
+                "node ./scripts/genTsConfig.js && git add packages/@flow-builder/ui/tsconfig.json && lint-staged "
             ],
             "pre-push": [
                 "yarn check:pom && yarn test:nba-components && yarn check:goldFiles -l"
@@ -125,12 +128,8 @@
         "*.{js,ts,css,json,yaml,md,html}": [
             "prettier --write"
         ],
-        "!(scripts|src)/**/*.js": [
+        "!(scripts|src)/**/*.ts": [
             "eslint --fix --max-warnings 0"
-        ],
-        "packages/@flow-builder/ui/jsconfig.json": [
-            "node ./scripts/genJsConfig.js > packages/@flow-builder/ui/jsconfig.json",
-            "git add packages/@flow-builder/ui/jsconfig.json"
         ]
     }
 }

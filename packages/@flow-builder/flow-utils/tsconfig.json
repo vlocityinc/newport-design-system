@@ -3,9 +3,8 @@
 
     "compilerOptions": {
         "outDir": "build/esNext",
-        "declarationDir": "dist/types",
-        "experimentalDecorators": true
+        "declarationDir": "build/esNext/types"
     },
 
-    "include": ["src/", "typings/"]
+    "include": ["src"]
 }

@@ -59,7 +59,9 @@ import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLi
  * @param {Object} updatedChild - The field that was actually modified
  */
 const updateAncestors = (parent, positions, updatedChild) => {
-    if (positions && positions.length === 0) return updatedChild;
+    if (positions && positions.length === 0) {
+        return updatedChild;
+    }
     const parentPosition = positions.pop();
     if (positions.length > 0) {
         updatedChild = updateAncestors(parent.fields[parentPosition], positions, updatedChild);

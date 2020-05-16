@@ -161,7 +161,7 @@ describe('Event handling on editor', () => {
         });
     });
 
-    describe('delete screen field event', function() {
+    describe('delete screen field event', () => {
         it('invokes the delete confirmation modal with the right data', async () => {
             // handleDeleteScreenElement - Field (onscreenelementdeleted)
             await ticks(1);

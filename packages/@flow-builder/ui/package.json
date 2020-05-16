@@ -8,9 +8,10 @@
         "ui": true
     },
     "scripts": {
+        "build:tsc": "tsc",
         "test": "lwc-test src",
         "coverage": "lwc-test src -- --coverage",
-        "lint": "eslint --max-warnings 0 src"
+        "lint": "eslint --max-warnings 0 src/**/*.ts"
     },
     "files": [
         "src/builder_platform_interaction/*/!(__container__|__integration__|__perf__|__raptorMocks__|__test__|__tests__)"
