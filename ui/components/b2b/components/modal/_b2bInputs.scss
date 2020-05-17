@@ -1,0 +1,20 @@
+.nds-b2b-modal {
+    .nds-card {
+        border: none;
+        box-shadow: none;
+    }
+
+    .nds-b2b-input {
+        border: 2px solid gray;
+    }
+
+    .nds-is-selected {
+        
+        background-color: white;
+    }
+    .nds-visual-picker input:checked ~ label .nds-visual-picker__icon {    
+        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+        border: 1px solid #dddbda;
+        border-radius: 0.25rem;
+    }
+}
