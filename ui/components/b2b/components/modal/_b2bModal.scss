@@ -1,0 +1,80 @@
+.nds-b2b-modal {
+    .slds-modal__content {
+        background-color: $white-smoke;
+    }
+
+    article {
+        background-color: $white-smoke;
+        border-radius: unset;
+    }
+
+    @media screen and (max-width: 48rem) {
+        .slds-modal__container {
+            margin: 0;
+        }
+        .slds-modal__header {
+            position: absolute;
+            top: 0;
+            border-radius: unset;
+            width: 100%;
+            text-align: left;
+        }
+
+        .slds-text-heading_medium {
+            padding-left: 2em;
+        }
+
+        .slds-modal__content {
+            position: absolute;
+            top: 58px;
+            width: 100%;
+        }
+
+        .slds-modal__close {
+            top: 1em;
+            right: unset;
+        }
+
+        .slds-icon {
+            fill: $black-primary;
+        }
+
+        .slds-modal__container {
+            position: relative;
+            background-color: #171B20;
+            margin: auto;
+            padding: 0;
+            border: 0.0625rem solid #888;
+            width: 100%;
+            -webkit-animation-name: animatetop;
+            -webkit-animation-duration: 0.4s;
+            animation-name: animatetop;
+            animation-duration: 0.4s;
+        }
+          
+          
+          /* Add Animation */
+          
+        @-webkit-keyframes animatetop {
+            from {
+              top: -300px;
+              opacity: 0;
+            }
+            to {
+              top: 0;
+              opacity: 1;
+            }
+        }
+          
+        @keyframes animatetop {
+            from {
+              top: -300px;
+              opacity: 0;
+            }
+            to {
+              top: 0;
+              opacity: 1;
+            }
+        }
+    }
+}
