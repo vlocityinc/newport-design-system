@@ -1,4 +1,4 @@
-$tabel-view-switch: 'medium';
+$table-view-switch: 'medium';
 .nds-b2b-table {
 	background-color: $white;
     table-layout: fixed;
@@ -22,16 +22,7 @@ $tabel-view-switch: 'medium';
 }
 
 .nds-b2b-table_cell {
-	// display: table-cell;
 	padding: $spacing-medium;
-
-	// &:first-child {
-	// 	 padding-left: $spacing-large;
-	// }
-
-	// &:last-child {
- //    	padding-right: $spacing-large;
-	// }
 
 	.nds-b2b-table_head-row & {
 		font-weight: bold;
@@ -98,7 +89,7 @@ $tabel-view-switch: 'medium';
 	}
 }
 
-@media (max-width: #{(map-get($breakpoints, $tabel-view-switch))}) {
+@media (max-width: #{(map-get($breakpoints, $table-view-switch))}) {
 	.nds-b2b-table,
 	.nds-b2b-table_body,
 	.nds-b2b-table_cell,
