@@ -236,7 +236,7 @@ storiesOf(`${base}`, module)
                       <div class="nds-grid nds-grid_vertical-align-center">
                       <div class="nds-large-order_1 nds-m-left_medium">
                         <c-b2b-button theme="nds" variant="neutral" label="Add" icon-name="utility:add" icon-size="x-small" hide-label="below:large">
-                          <button type="button" class="vlocity-btn nds-button nds-button_brand nds-b2b-button">
+                          <button type="button" class="nds-button nds-button_brand nds-b2b-button">
                             <span class="nds-hide_large nds-b2b-icon_large-adj-below">
                               <vlocity_cmt-icon>
                                 <svg aria-hidden="true" class="nds-b2b-button_icon nds-icon_x-small" style="fill: rgb(255, 255, 255);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.5 8.8h-5.2c-1.2 0-1.9-.8-1.9-2V1.7c0-.5-.3-.8-.8-.8H5c-1.2 0-2.2 1-2.2 2.2v17.8c0 1.2 1 2.2 2.2 2.2h14c1.2 0 2.2-1 2.2-2.2V9.5c0-.4-.3-.7-.7-.7zm.6-2.8l-4.9-4.9c-.1-.1-.3-.2-.4-.2-.3 0-.6.3-.6.5v4c0 .8.8 1.5 1.6 1.5h3.9c.3 0 .5-.3.5-.5s0-.4-.1-.4z"></path></svg>
@@ -249,7 +249,7 @@ storiesOf(`${base}`, module)
                       </div>
                         <div class="nds-m-left_medium">
                           <c-b2b-button theme="nds" variant="brand" icon-name="utility:page" icon-size="x-small" label="Preview" icon-fill="#fff" hide-label="below:large" hide-icon="above:large">
-                            <button type="button" class="vlocity-btn nds-button nds-button_neutral nds-b2b-button">
+                            <button type="button" class="nds-button nds-button_neutral nds-b2b-button">
                               <span class="nds-b2b-icon_large-adj-below">
                                 <vlocity_cmt-icon>
                                   <svg aria-hidden="true" class="nds-b2b-button_icon nds-icon_x-small" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.8 13.4h7.7c.3 0 .7-.3.7-.7v-1.4c0-.4-.4-.7-.7-.7h-7.7c-.2 0-.4-.2-.4-.4V2.5c0-.3-.3-.7-.7-.7h-1.4c-.4 0-.7.4-.7.7v7.7c0 .2-.2.4-.4.4H2.5c-.3 0-.7.3-.7.7v1.4c0 .4.4.7.7.7h7.7c.2 0 .4.2.4.4v7.7c0 .3.3.7.7.7h1.4c.4 0 .7-.4.7-.7v-7.7c0-.2.2-.4.4-.4z"></path></svg>
@@ -323,7 +323,7 @@ storiesOf(`${base}`, module)
                         <span class="nds-button nds-button_neutral">Add Manually</span>
                     </label>
                 </div>
-                <button type="button" class="vlocity-btn nds-button nds-button_brand">Choose File</button>
+                <button type="button" class="nds-button nds-button_brand">Choose File</button>
             </div>
         </div>
     </div>`);
@@ -610,14 +610,14 @@ storiesOf(`${base}`, module)
           </table>  
       </div>
       <div class="nds-grid nds-m-around_x-small nds-grid_align-end">
-          <button type="button" class="vlocity-btn nds-button">
+          <button type="button" class="nds-button">
               <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
                   <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronleft"></use>
               </svg>
           </button>
-          <button type="button" class="vlocity-btn nds-button nds-button_brand">1</button>
-          <button type="button" class="vlocity-btn nds-button nds-button_brand">2</button>
-          <button type="button" class="vlocity-btn nds-button ">
+          <button type="button" class="nds-button nds-button_brand">1</button>
+          <button type="button" class="nds-button nds-button_brand">2</button>
+          <button type="button" class="nds-button">
              <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
                 <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
             </svg>
@@ -924,14 +924,14 @@ storiesOf(`${base}`, module)
           </table>  
       </div>
       <div class="nds-grid nds-m-around_x-small nds-grid_align-end">
-          <button type="button" class="vlocity-btn nds-button">
+          <button type="button" class="nds-button">
               <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
                   <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronleft"></use>
               </svg>
           </button>
-          <button type="button" class="vlocity-btn nds-button nds-button_brand">1</button>
-          <button type="button" class="vlocity-btn nds-button nds-button_brand">2</button>
-          <button type="button" class="vlocity-btn nds-button ">
+          <button type="button" class="nds-button nds-button_brand">1</button>
+          <button type="button" class="nds-button nds-button_brand">2</button>
+          <button type="button" class="nds-button">
              <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
                 <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
             </svg>
