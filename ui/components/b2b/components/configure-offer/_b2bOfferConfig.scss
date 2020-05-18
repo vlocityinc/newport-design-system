@@ -1,10 +1,10 @@
 .nds-b2b-hr {
   margin: 0;
-  color: #B0ADAB;
+  color: $palette-warm-gray-7;
 }
 .b2b-config-offer {
   padding-bottom: 2rem;
-  background: #F6F6F6;
+  background: $white-smoke;
   @media screen and (min-width: 48rem){
     margin: 0.5rem;
     padding: 0.5rem;
