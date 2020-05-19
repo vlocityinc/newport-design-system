@@ -329,14 +329,29 @@ describe('Record Lookup Editor', () => {
                     ).toBeDefined();
                 });
             });
-            describe('Filter logic change to custom', () => {
-                it('Custom condition logic input should be displayed', async () => {
+            describe('Filter logic change from all condition to custom', () => {
+                it('Custom condition logic input should be displayed with AND operator', async () => {
                     getFilterConditionLogicCombobox(recordLookupComponent).dispatchEvent(
                         changeEvent(CONDITION_LOGIC.CUSTOM_LOGIC)
                     );
                     await ticks(1);
                     expect(getFilterCustomConditionLogicInput(recordLookupComponent)).not.toBeNull();
                     expect(getFilterCustomConditionLogicInput(recordLookupComponent).value).toBe('1 AND 2');
+                });
+            });
+            describe('Filter logic change to any condition then custom', () => {
+                it('Custom condition logic input should be displayed with OR operator', async () => {
+                    getFilterConditionLogicCombobox(recordLookupComponent).dispatchEvent(
+                        changeEvent(CONDITION_LOGIC.OR)
+                    );
+                    await ticks(1);
+                    getFilterConditionLogicCombobox(recordLookupComponent).dispatchEvent(
+                        changeEvent(CONDITION_LOGIC.CUSTOM_LOGIC)
+                    );
+                    await ticks(1);
+                    const filterCustomConditionLogic = getFilterCustomConditionLogicInput(recordLookupComponent);
+                    expect(filterCustomConditionLogic).not.toBeNull();
+                    expect(filterCustomConditionLogic.value).toBe('1 OR 2');
                 });
             });
         });
@@ -437,6 +452,20 @@ describe('Record Lookup Editor', () => {
                         },
                         rightHandSide: {
                             value: 'San Francisco'
+                        },
+                        rightHandSideDataType: {
+                            value: 'String'
+                        }
+                    });
+                    expect(recordFilter.filterItems[1]).toMatchObject({
+                        leftHandSide: {
+                            value: 'Account.BillingCountry'
+                        },
+                        operator: {
+                            value: 'EqualTo'
+                        },
+                        rightHandSide: {
+                            value: 'USA'
                         },
                         rightHandSideDataType: {
                             value: 'String'
