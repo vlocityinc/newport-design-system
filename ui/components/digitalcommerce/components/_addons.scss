@@ -1,11 +1,14 @@
 .nds-dc-add_to-cart-btn {
-  font-weight: $font-weight-light;
-  color: $white;
-  background-color: $blue-background-primary;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  padding: 0.5rem 0.625rem;
   width: 9rem;
+  color: $white;
+  background-color: $newport-background-primary-blue;
+  text-align: center;
+  border-radius: 0.3125rem;
+  margin: 1.875rem auto;
+  padding: 0 $spacing-large-offer-config;
+}
+.nds-dc-addons-btn_container{
+  text-align: center;
 }
 
 .nds-dc-offer_navigation {

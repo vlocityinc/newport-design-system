@@ -1,0 +1,35 @@
+$font-size-category-name: 0.9rem !default;
+$font-size-sub-category-name: 0.8rem !default;
+$b2b-product-item-max-width: 27rem !default;
+$b2b-product-item-min-height: 11.7rem !default;
+$b2b-product-item-min-width: 20rem !default;
+@mixin multiLineEllipsis($lineHeight: 1.2em, $lineCount: 1, $bgColor: white) {
+  overflow: hidden;
+  position: relative;
+  line-height: $lineHeight;
+  max-height: $lineHeight * $lineCount;
+  text-align: justify;
+  margin-right: -1em;
+  padding-right: 1em;
+  &:before {
+    content: "...";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    width: 1em;
+    height: 1em;
+    margin-top: 0.2em;
+    background: $bgColor;
+  }
+}
+@mixin Ellipsis($maxWidth: 10rem) {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: $maxWidth;
+}
