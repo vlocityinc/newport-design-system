@@ -101,6 +101,10 @@
           }
           .nds-b2b-label-container {
             display: block;
+            .nds-b2b-child-indicator {
+              position: absolute;
+              top: 0;
+            }
             .nds-b2b-label-details {
               margin-top: 1rem;
             }
@@ -142,10 +146,12 @@
           }
           ~ .nds-b2b-card_tab-content {
             max-height: inherit;
-            padding: 1rem;
             border-top: 1px solid $light-silver;
-            @media screen and (min-width: 48rem){
-              padding: 1.5rem;
+            &.nds-b2b-extra-padding {
+              padding: 1rem;
+              @media screen and (min-width: 48rem){
+                padding: 1.5rem;
+              }
             }
           }
         }
@@ -168,42 +174,61 @@
               }
             }
           }
+          &-content {
+            padding: 0;
+            background: $white-smoke;
+          }
+          input.nds-b2b-card_checkbox:checked {
+            ~ .nds-b2b-card_tab-content {
+              padding: 0;
+            }
+          }
         }
       }
     }
   }
   &.nds-b2b-child-card {
-    margin: 0;
+    margin: 0 0 1rem 0;
     padding: 0;
     .nds-b2b-card_container {
       .nds-b2b-card_tabs {
         .nds-b2b-card_tab {
           &-label {
             background: $white;
-            padding: 1rem 0;
             border-bottom: 1px solid $light-silver;
             .nds-b2b-price_info {
-              right: 0;
               .nds-b2b-each-attribute {
                 .nds-b2b-attribute_value {
                   border-bottom: 1px dashed $black-primary;
                 }
               }
               @media screen and (min-width: 48rem){
-                right: 3.5rem;
+                right: 5rem;
               }
             }
           }
           &-content {
             padding: 0;
+            background: $white;
+            &.nds-b2b-extra-padding {
+              padding: 0 1.5rem;
+            }
           }
           input.nds-b2b-card_checkbox:checked {
             ~ .nds-b2b-card_tab-content {
-              padding: 1.5rem 0 0 0;
+              &.nds-b2b-extra-padding {
+                padding: 1rem;
+                @media screen and (min-width: 48rem){
+                  padding: 1.5rem;
+                }
+              }
             }
           }
         }
       }
+    }
+    &.nds-b2b-grand-child-card {
+      margin-bottom: 0;
     }
   }
 }
