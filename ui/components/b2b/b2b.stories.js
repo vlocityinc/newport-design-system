@@ -317,24 +317,25 @@ storiesOf(`${base}`, module)
             <input type="checkbox" id="chck1" class="nds-b2b-card_checkbox">
             <label class="nds-b2b-card_tab-label" for="chck1">
               <div class="nds-grid nds-b2b-label-container">
-                <span class="nds-b2b-card_title">Details</span>
+                <span class="nds-b2b-card_title">
+                  Business Internet
+                  <!-- Attributes -->
+                  <div class="nds-b2b-attributes_info">
+                    <span class="nds-b2b-each-attribute">
+                      <span class="nds-b2b-attribute_label">Contract Term</span>
+                      <span class="nds-b2b-attribute_value">12 mo</span>
+                    </span>
+                    <span class="nds-b2b-each-attribute">
+                      <span class="nds-b2b-attribute_label">Download Speed</span>
+                      <span class="nds-b2b-attribute_value">500 Mbps</span>
+                    </span>
+                  </div>
+                </span>
                 <div class="nds-grid nds-wrap nds-b2b-label-details">
                   <!-- Quantity -->
                   <div class="nds-b2b-quantity">
                     <p class="nds-b2b-configure_label">Quantity</p>
                     <p><input class="nds-b2b-quantity_value" type="number" value="1" /></p>
-                  </div>
-
-                  <!-- Attributes -->
-                  <div class="nds-grid nds-wrap nds-b2b-attributes_info">
-                    <div class="nds-b2b-each-attribute">
-                      <p class="nds-b2b-attribute_label">Contract Term</p>
-                      <p class="nds-b2b-attribute_value">12 mo</p>
-                    </div>
-                    <div class="nds-b2b-each-attribute">
-                      <p class="nds-b2b-attribute_label">Download Speed</p>
-                      <p class="nds-b2b-attribute_value">500 Mbps</p>
-                    </div>
                   </div>
 
                   <!-- Prices Container -->
@@ -351,7 +352,7 @@ storiesOf(`${base}`, module)
                 </div>
               </div>
             </label>
-            <div class="nds-b2b-card_tab-content">
+            <div class="nds-b2b-card_tab-content nds-b2b-extra-padding">
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum, reiciendis!
             </div>
           </div>
@@ -368,7 +369,7 @@ storiesOf(`${base}`, module)
           <div class="nds-b2b-card_tab">
             <input type="checkbox" id="chck2" class="nds-b2b-card_checkbox">
             <label class="nds-b2b-card_tab-label" for="chck2">Details</label>
-            <div class="nds-b2b-card_tab-content">
+            <div class="nds-b2b-card_tab-content nds-b2b-extra-padding">
               <c-b2b-attribute-configure-offer>
                 <div class="nds-b2b-attribute-config-offer_radio">
                   <div class="nds-b2b-config-label">Contract Term</div>
@@ -399,7 +400,7 @@ storiesOf(`${base}`, module)
           <div class="nds-b2b-card_tab">
             <input type="checkbox" id="chck2" class="nds-b2b-card_checkbox">
             <label class="nds-b2b-card_tab-label" for="chck2">Details</label>
-            <div class="nds-b2b-card_tab-content">
+            <div class="nds-b2b-card_tab-content nds-b2b-extra-padding">
               <c-b2b-attribute-configure-offer>
                 <div class="nds-b2b-attribute-config-offer_matrix">
                   <div class="nds-b2b-config-label">Maximum Download Speed</div>
@@ -497,7 +498,7 @@ storiesOf(`${base}`, module)
                   </div>
                 </div>
               </label>
-              <div class="nds-b2b-card_tab-content">
+              <div class="nds-b2b-card_tab-content nds-b2b-extra-padding">
                 <div class="nds-b2b-child_radio-container"> 
                   <div class="nds-grid nds-b2b-label-container">
                     <span class="nds-b2b-card_title">
