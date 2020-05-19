@@ -447,7 +447,7 @@ export default class Editor extends LightningElement {
                 } = loadOnProcessTypeChange(flowProcessType, definitionId);
                 this.propertyEditorBlockerCalls.push(loadPeripheralMetadataPromise);
 
-                const actionsPromise = loadActionsPromise.then(() => {
+                loadActionsPromise.then(() => {
                     const actions = getInvocableActions();
                     if (actions) {
                         this.supportedActions = actions;
@@ -458,7 +458,7 @@ export default class Editor extends LightningElement {
                 });
 
                 if (useFixedLayoutCanvas()) {
-                    Promise.all([toolboxPromise, actionsPromise, palettePromise]).then(() => {
+                    Promise.all([toolboxPromise, palettePromise]).then(() => {
                         this.elementsMetadata = getElementsMetadata(this.toolboxElements, this.palette);
                     });
                 }
