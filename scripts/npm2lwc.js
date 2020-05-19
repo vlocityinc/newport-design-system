@@ -157,7 +157,7 @@ function exportPackageToLwcModule(packageRootPath, pkg, modulesPath, npm2lwcName
 function transpileTs(fullSourcePath, modulePath) {
     const babelOptions = {
         babelrc: false,
-        plugins: [babelTsPlugin],
+        plugins: [[babelTsPlugin, { allowDeclareFields: true }]],
         parserOpts: {
             plugins: [
                 ['decorators', { decoratorsBeforeExport: true }],
