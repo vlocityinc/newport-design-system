@@ -251,12 +251,12 @@ textarea:focus::placeholder {
   }
 }
 
-.nds-form-container .nds-form-element__control-animated-label .nds-form-element__label label{
+.nds-form-container .nds-form-element__control-animated-label .nds-form-element__label label {
   display: inline-block;
-  max-width: calc(100% - 3.5rem);
+  max-width: 100%;
 }
-
-.nds-form-container .nds-form-element__control-animated-label.nds-input-has-icon_right .nds-form-element__label label{
+.nds-container_fluid.nds-input-has-icon_right .nds-form-element__label label,
+.nds-form-container .nds-form-element__control-animated-label.nds-input-has-icon_right .nds-form-element__label label {
   max-width: calc(100% - 3.5rem);
 }
 
