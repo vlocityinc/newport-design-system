@@ -7,63 +7,17 @@
     margin-bottom: var(--lwc-borderWidthThin);
 }
 
-.highlight.selected > .highlight-header,
-.highlight.selected > .highlight-icons-container,
-.highlight.selected > .highlight-frame > .highlight-icons-container,
-.highlight.selected > .slds-grid > .highlight-frame > .highlight-icons-container {
-    background-color: var(--lwc-colorBrandDarker);
-}
-
-.highlight.selected > .highlight-frame,
-.highlight.selected > .slds-grid > .highlight-frame {
-    border-color: var(--lwc-colorBrandDarker);
-}
-
-.highlight:not(.dragging).selected:focus > .has-box-shadow,
-.highlight:not(.dragging).selected:focus > .slds-grid > .has-box-shadow {
-    outline: 0;
-    box-shadow: var(--lwc-shadowButtonFocus);
-}
-
-.highlight:not(.dragging).selected > .highlight-header,
-.highlight:not(.dragging):focus > .highlight-header {
-    visibility: visible;
-    z-index: 4; /* Or the frame border (with the shadow) will appear on top of the header */
-}
-
-.highlight:not(.dragging).selected > .highlight-frame,
-.highlight:not(.dragging).selected > .slds-grid > .highlight-frame,
-.highlight:not(.dragging).hovering > .highlight-frame,
-.highlight:not(.dragging).hovering > .slds-grid > .highlight-frame,
-.highlight:not(.dragging):focus > .highlight-frame,
-.highlight:not(.dragging):focus > .slds-grid > .highlight-frame {
-    height: 100%;
-    border: var(--lwc-borderWidthThick) solid var(--lwc-colorBrandDarker);
-    z-index: 3;
-}
-
-.highlight:not(.dragging).selected > .highlight-frame > .highlight-icons-container,
-.highlight:not(.dragging).selected > .slds-grid > .highlight-frame > .highlight-icons-container,
-.highlight:not(.dragging).hovering > .highlight-frame > .highlight-icons-container,
-.highlight:not(.dragging).hovering > .slds-grid > .highlight-frame > .highlight-icons-container,
-.highlight:not(.dragging):focus > .highlight-frame > .highlight-icons-container,
-.highlight:not(.dragging):focus > .slds-grid > .highlight-frame > .highlight-icons-container {
-    visibility: visible;
-    background-color: var(--lwc-colorBrandDark);
-    top: 0; /* for preventevents false, as in that case this div is absolute */
-    right: 0; /* for preventevents false, as in that case this div is absolute */
-}
-
 .highlight-header {
     visibility: hidden;
     left: 50%;
     transform: translateX(-50%);
     top: calc(-1 * var(--lwc-varSpacingVerticalLarge));
     line-height: var(--lwc-varSpacingVerticalLarge);
-    background-color: var(--lwc-colorBrandDark);
+    background-color: var(--lwc-colorBrandDarker);
     border-radius: var(--lwc-borderRadiusMedium) var(--lwc-borderRadiusMedium) 0 0;
     color: var(--lwc-colorTextBrandPrimary);
     max-width: 80%;
+    z-index: 3;
 }
 
 .highlight-frame {
@@ -89,6 +43,37 @@
     top: -2px;
     display: inline-flex;
     border-radius: 0;
+}
+
+.highlight:not(.dragging).selected > .highlight-header,
+.highlight:not(.dragging):focus > .highlight-header {
+    visibility: visible;
+}
+
+.highlight:not(.dragging).hovering > .highlight-frame,
+.highlight:not(.dragging).hovering > .slds-grid > .highlight-frame {
+    border-style: solid;
+}
+
+.highlight:not(.dragging).selected > .highlight-frame,
+.highlight:not(.dragging).selected > .slds-grid > .highlight-frame,
+.highlight:not(.dragging):focus > .highlight-frame,
+.highlight:not(.dragging):focus > .slds-grid > .highlight-frame {
+    border-style: solid;
+    border-color: var(--lwc-colorBrandDarker);
+}
+
+.highlight:not(.dragging).hovering > .highlight-frame > .highlight-icons-container,
+.highlight:not(.dragging).hovering > .slds-grid > .highlight-frame > .highlight-icons-container {
+    visibility: visible;
+}
+
+.highlight:not(.dragging).selected > .highlight-frame > .highlight-icons-container,
+.highlight:not(.dragging).selected > .slds-grid > .highlight-frame > .highlight-icons-container,
+.highlight:not(.dragging):focus > .highlight-frame > .highlight-icons-container,
+.highlight:not(.dragging):focus > .slds-grid > .highlight-frame > .highlight-icons-container {
+    visibility: visible;
+    background-color: var(--lwc-colorBrandDarker);
 }
 
 .highlight-icon-container:focus,
