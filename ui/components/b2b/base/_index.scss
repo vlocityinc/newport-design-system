@@ -9,6 +9,13 @@
 @import '../components/cart-summary/b2bButtonResp';
 @import '../components/cart-summary/b2bDropdown';
 @import '../components/cart-summary/b2bCart';
+// Configure Offer Components
+@import '../components/configure-offer/b2bConfigCard';
+@import '../components/configure-offer/b2bAttributeConfigOffer';
+@import '../components/configure-offer/b2bOfferAddons';
+@import '../components/configure-offer/b2bTotalBar';
+@import '../components/configure-offer/b2b-items-grid-child';
+@import '../components/configure-offer/b2bOfferConfig';
 
 //Data Table with upload Box
 @import '../components/data-table/b2bUploadBox';

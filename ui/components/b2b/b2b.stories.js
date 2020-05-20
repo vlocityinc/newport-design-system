@@ -4,7 +4,7 @@ import notes from "./doc.md";
 import {
   withExample,
   withDocs,
-  commentToHTML
+  commentToHTML,
 } from "../../../scripts/storybook";
 storiesOf(`${base}`, module)
   .addDecorator(withDocs(notes))
@@ -137,11 +137,10 @@ storiesOf(`${base}`, module)
           Recommended Ethernet Product Name 
         </div>
         <div class="nds-b2b-product-description">A short description of how best to use this product and what it includes.Lorem ipsum dolar sit amet, consectetur, adipisci velit5</div>
-        <div class="nds-b2b-product-badge_container">
-          <span class="nds-badge nds-b2b-product-badge">Family Owned</span>
-          <span class="nds-badge nds-b2b-product-badge">Small Business</span>
+        <div class="nds-b2b-price_info">
+          <div class="nds-b2b-each-attribute">$250.00</div>
+          <div class="nds-b2b-each-attribute">$125.00</div>
         </div>
-        <div class="nds-b2b-product_price-range">$6,600 - $6,945</div>
       </div>
     </div>`);
   })
@@ -170,7 +169,10 @@ storiesOf(`${base}`, module)
                   <span class="nds-badge nds-b2b-product-badge">Family Owned</span>
                   <span class="nds-badge nds-b2b-product-badge">Small Business</span>
                 </div>
-                <div class="nds-b2b-product_price-range">$6,600 - $6,945</div>
+                <div class="nds-b2b-price_info">
+                  <div class="nds-b2b-each-attribute">$250.00</div>
+                  <div class="nds-b2b-each-attribute">$125.00</div>
+                </div>
               </div>
             </div>
 
@@ -191,7 +193,10 @@ storiesOf(`${base}`, module)
                   <span class="nds-badge nds-b2b-product-badge">Family Owned</span>
                   <span class="nds-badge nds-b2b-product-badge">Small Business</span>
                 </div>
-                <div class="nds-b2b-product_price-range">$6,600 - $6,945</div>
+                <div class="nds-b2b-price_info">
+                  <div class="nds-b2b-each-attribute">$250.00</div>
+                  <div class="nds-b2b-each-attribute">$125.00</div>
+                </div>
               </div>
             </div>
           </slot>
@@ -303,642 +308,322 @@ storiesOf(`${base}`, module)
     </div>
     </div>`);
   })
-  .add("b2bFileUpload", () => {
+  .add("b2bCard", () => {
     return withExample(`
-    <div class="nds-align_absolute-center nds-b2b-upload_wrapper">
-        <div class="nds-color__background_gray-1 nds-size_12-of-12 nds-small-size_10-of-12 nds-large-size_6-of-12 nds-p-around_large">
-            <h2 class="nds-b2b-title nds-m-bottom_xx-small">Add Location</h2>
-            <div class="nds-b2b-upload_box nds-p-around_large nds-align_absolute-center">
-                Drop Files Here
-            </div>
-            <div class="nds-m-top_medium nds-grid nds-grid_align-end">
-                <div class="nds-file-selector nds-file-selector_files nds-m-right_medium">
-                    <label class="nds-file-selector__body slds-file-selector__body">
-                        <input 
-                            class="nds-file-selector__input nds-assistive-text nds-b2b-file-selector" 
-                            type="file"
-                            accept=".csv, .xlsx, .xls"
-                            onchange={readHandler}
-                        />
-                        <span class="nds-button nds-button_neutral">Add Manually</span>
-                    </label>
+    <div class="nds-b2b-card">
+      <div class="nds-b2b-card_container">
+        <div class="nds-b2b-card_tabs">
+          <div class="nds-b2b-card_tab">
+            <input type="checkbox" id="chck1" class="nds-b2b-card_checkbox">
+            <label class="nds-b2b-card_tab-label" for="chck1">
+              <div class="nds-grid nds-b2b-label-container">
+                <span class="nds-b2b-card_title">
+                  Business Internet
+                  <!-- Attributes -->
+                  <div class="nds-b2b-attributes_info">
+                    <span class="nds-b2b-each-attribute">
+                      <span class="nds-b2b-attribute_label">Contract Term</span>
+                      <span class="nds-b2b-attribute_value">12 mo</span>
+                    </span>
+                    <span class="nds-b2b-each-attribute">
+                      <span class="nds-b2b-attribute_label">Download Speed</span>
+                      <span class="nds-b2b-attribute_value">500 Mbps</span>
+                    </span>
+                  </div>
+                </span>
+                <div class="nds-grid nds-wrap nds-b2b-label-details">
+                  <!-- Quantity -->
+                  <div class="nds-b2b-quantity">
+                    <p class="nds-b2b-configure_label">Quantity</p>
+                    <p><input class="nds-b2b-quantity_value" type="number" value="1" /></p>
+                  </div>
+
+                  <!-- Prices Container -->
+                  <div class="nds-b2b-price_info">
+                    <div class="nds-b2b-each-attribute">
+                      <p class="nds-b2b-attribute_label nds-text-align_right">One Time</p>
+                      <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1420.00</p>
+                    </div>
+                    <div class="nds-b2b-each-attribute">
+                      <p class="nds-b2b-attribute_label nds-text-align_right">Monthly</p>
+                      <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1350.00</p>
+                    </div>
+                  </div>
                 </div>
-                <button type="button" class="nds-button nds-button_brand">Choose File</button>
+              </div>
+            </label>
+            <div class="nds-b2b-card_tab-content nds-b2b-extra-padding">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum, reiciendis!
             </div>
+          </div>
         </div>
-    </div>`);
-  })
-  .add("b2bDataTable", () => {
-    return withExample(`
-    <div class="nds-m-vertical_medium">
-      <div class="nds-grid nds-color__background_gray-1 nds-wrap nds-grid_vertical-align-center nds-p-top_small">
-          <div class="nds-col nds-size_6-of-12 nds-large-size_3-of-12 nds-p-horizontal_medium nds-p-bottom_small">
-              <div class="nds-grid nds-grid_vertical-align-center">  
-                  <label class="nds-size_3-of-12 nds-m-right_medium nds-b2b-table_transition-hide">Group by</label> 
-                  <div class="nds-b2b-input">
-                      <div class="nds-form-element nds-form-container">
-                          <div aria-expanded="false" aria-haspopup="listbox" role="combobox" class="nds-combobox nds-dropdown-trigger nds-dropdown-trigger_click">
-                              <div class="nds-form-element__control">
-                                  <div class="nds-combobox_container">
-                                      <div role="none" class="nds-combobox__form-element nds-input-has-icon nds-input-has-icon_right nds-form-element__control nds-form-element__control-animated-label">
-                                          <input value="No Group" readonly="" class="nds-input nds-listbox__option-text_entity nds-not-empty nds-is-dirty">
-                                          <div class="nds-form-element__label nds-align-middle nds-animated-label__ease-out">
-                                              <label></label>
-                                          </div>
-                                          <span class="nds-icon_container nds-icon-utility-down nds-input__icon nds-input__icon_right">
-                                              <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
-                                              </svg>
-                                          </span>
-                                      </div>
-                                  </div>
-                                  <div class="nds-form-element">
-                                      <div role="listbox" class="nds-dropdown nds-dropdown_fluid nds-p-bottom_none">
-                                          <ul role="presentation" class="listbox nds-listbox nds-listbox_vertical">
-                                              <li class="nds-listbox__item">
-                                                  <div data-value="none" data-label="No Grouping" role="option" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-is-selected">
-                                                      <span class="nds-media__body">
-                                                          <span class="nds-listbox__option-text nds-listbox__option-text_entity">No Grouping</span>
-                                                      </span>
-                                                  </div>
-                                              </li>
-                                              <li class="nds-listbox__item">
-                                                  <div data-value="First Name" data-label="First Name" role="option" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-is-selected">
-                                                      <span class="nds-media__body">
-                                                          <span class="nds-listbox__option-text nds-listbox__option-text_entity">First Name</span>
-                                                      </span>
-                                                  </div>
-                                              </li>
-                                              <li class="nds-listbox__item">
-                                                  <div data-value="Last Name" data-label="Last Name" role="option" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-is-selected">
-                                                      <span class="nds-media__body">
-                                                          <span class="nds-listbox__option-text nds-listbox__option-text_entity">Last Name</span>
-                                                      </span>
-                                                  </div>
-                                              </li>
-                                          </ul>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-
-          <div class="nds-col nds-size_6-of-12 nds-large-size_3-of-12 nds-p-horizontal_medium nds-p-bottom_small">
-              <div class="nds-grid nds-grid_vertical-align-center">  
-                  <label class="nds-size_3-of-12 nds-m-right_medium nds-b2b-table_transition-hide">Displaying</label> 
-                  <div class="nds-b2b-input">
-                      <div class="nds-form-element nds-form-container">
-                          <div aria-expanded="false" aria-haspopup="listbox" role="combobox" class="nds-combobox nds-dropdown-trigger nds-dropdown-trigger_click">
-                              <div class="nds-form-element__control">
-                                  <div class="nds-combobox_container">
-                                      <div role="none" class="nds-combobox__form-element nds-input-has-icon nds-input-has-icon_right nds-form-element__control nds-form-element__control-animated-label">
-                                          <input value="All" readonly="" class="nds-input nds-listbox__option-text_entity nds-not-empty nds-is-dirty">
-                                          <div class="nds-form-element__label nds-align-middle nds-animated-label__ease-out">
-                                              <label></label>
-                                          </div>
-                                          <span class="nds-icon_container nds-icon-utility-down nds-input__icon nds-input__icon_right">
-                                              <span class="nds-icon_container nds-icon-utility-down nds-input__icon nds-input__icon_right">
-                                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                                                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
-                                                  </svg>
-                                              </span>
-                                          </span>
-                                      </div>
-                                  </div>
-                                  <div class="nds-form-element">
-                                      <div role="listbox" class="nds-dropdown nds-dropdown_fluid nds-p-bottom_none">
-                                          <ul role="presentation" class="listbox nds-listbox nds-listbox_vertical">
-                                              <li class="nds-listbox__item">
-                                                  <div data-value="none" data-label="All" role="option" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-is-selected">
-                                                      <span class="nds-media__body">
-                                                          <span class="nds-listbox__option-text nds-listbox__option-text_entity">All</span>
-                                                      </span>
-                                                  </div>
-                                              </li>
-                                              <li class="nds-listbox__item">
-                                                  <div data-value="First Name" data-label="Primary" role="option" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-is-selected">
-                                                      <span class="nds-media__body">
-                                                          <span class="nds-listbox__option-text nds-listbox__option-text_entity">Primary</span>
-                                                      </span>
-                                                  </div>
-                                              </li>
-                                              <li class="nds-listbox__item">
-                                                  <div data-value="Last Name" data-label="Secondary" role="option" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-is-selected">
-                                                      <span class="nds-media__body">
-                                                          <span class="nds-listbox__option-text nds-listbox__option-text_entity">Secondary</span>
-                                                      </span>
-                                                  </div>
-                                              </li>
-                                          </ul>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-
-          <div class="nds-size_6-of-12 nds-large-size_3-of-12 nds-p-horizontal_medium nds-text-body_small nds-p-bottom_small">
-              <span>Total : 12</span>
-              <span class="nds-m-left_medium">Showing : 4</span>
-          </div>
-         
-          <div class="nds-size_6-of-12 nds-large-size_3-of-12 nds-b2b-input nds-p-horizontal_medium nds-p-bottom_small">
-              <div class="nds-grid nds-grid_vertical-align-center">  
-                <label class=" nds-size_3-of-12 nds-m-right_medium nds-b2b-table_transition-hide">Search</label> 
-                <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left">
-                    <svg class="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default nds-icon_xx-small" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
-                    </svg>
-                    <input type="text" class="nds-input" placeholder="search" onkeyup={searchKeyChangeHandler} value="search">
-                </div>
-              </div>  
-          </div>
       </div>
-      <div class="nds-is-relative">
-          <table class="nds-b2b-table nds-m-top_medium" style="border-collapse:collapse">
-              <thead class="nds-b2b-table_head">
-                  <tr class="nds-line-height_reset nds-b2b-table_row nds-b2b-table_head-row">
-                      <th class="nds-b2b-table_cell nds-b2b-icon_cell">
-                          <div class="nds-form-element">
-                              <div class="nds-form-element__control nds-b2b-table_checkbox">
-                                  <label class="nds-checkbox nds-p-top_none">
-                                      <input type="checkbox" data-check="checkall" value="All">
-                                      <span class="nds-checkbox_faux"></span>
-                                  </label>
-                              </div>
-                          </div>
-                      </th>
-                      <th class="nds-b2b-table_cell" >
-                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_cell-sort" role="button" tabindex="-1">
-                              <span class="nds-truncate">First Name</span>
-                              <div class="nds-icon_container">
-                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
-                                  </svg>
-                              </div>
-                          </a>
-                      </th>
-                      <th class="nds-b2b-table_cell" >
-                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_cell-sort" role="button" tabindex="-1">
-                              <span class="nds-truncate">Last Name</span>
-                              <div class="nds-icon_container">
-                                  <span aria-hidden="true">
-                                      <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                                          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
-                                      </svg>
-                                  </span>
-                              </div>
-                          </a>
-                      </th>
-                      <th class="nds-b2b-table_cell" >
-                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_cell-sort" role="button" tabindex="-1">
-                              <span class="nds-truncate">Address</span>
-                              <div class="nds-icon_container">
-                                  <span aria-hidden="true">
-                                       <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
-                                        </svg>
-                                  </span>
-                              </div>
-                          </a>
-                      </th>
-                      <th class="nds-b2b-table_cell" >
-                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_cell-sort" role="button" tabindex="-1">
-                              <span class="nds-truncate">Projects</span>
-                              <div class="nds-icon_container">
-                                  <span aria-hidden="true">
-                                       <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                                          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
-                                      </svg>
-                                  </span>
-                              </div>
-                          </a>
-                      </th>
-                  </tr>
-              </thead>
-              <tbody class="nds-b2b-table_body">
-                  <tr class="nds-b2b-table_row">    
-                      <td class="nds-b2b-table_cell nds-b2b-icon_cell">
-                          <div class="nds-form-element">
-                              <div class="nds-form-element__control nds-b2b-table_checkbox">
-                                  <label class="nds-checkbox">
-                                      <input type="checkbox" name="options" value="dd">
-                                      <span class="nds-checkbox_faux nds-transition-hide nds-b2b-row_hover-show"></span>
-                                  </label>
-                              </div>
-                          </div>
-                      </td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">First Name</label>
-                          <div>Sam</div>
-                      </td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">Last Name</label>
-                          <div>Walter</div>
-                      </td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">Address</label>
-                          <div>Easton, PA</div>
-                      </td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">Projects</label>
-                          <div>25</div>
-                      </td>
-                  </tr>
-                  <tr class="nds-b2b-table_row">    
-                      <td class="nds-b2b-table_cell nds-b2b-icon_cell">
-                          <div class="nds-form-element">
-                              <div class="nds-form-element__control nds-b2b-table_checkbox">
-                                  <label class="nds-checkbox">
-                                      <input type="checkbox" name="options" value="dd">
-                                      <span class="nds-checkbox_faux nds-transition-hide nds-b2b-row_hover-show"></span>
-                                  </label>
-                              </div>
-                          </div>
-                      </td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">First Name</label>
-                          <div>Cathy</div>
-                      </td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">Last Name</label>
-                          <div>Doe</div>
-                      </td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">Address</label>
-                          <div>Jersey City, NJ</div>
-                      </td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">Projects</label>
-                          <div>27</div>
-                      </td>
-                  </tr>
-                  <tr class="nds-b2b-table_row">    
-                      <td class="nds-b2b-table_cell nds-b2b-icon_cell">
-                          <div class="nds-form-element">
-                              <div class="nds-form-element__control nds-b2b-table_checkbox">
-                                  <label class="nds-checkbox">
-                                      <input type="checkbox" name="options" value="dd">
-                                      <span class="nds-checkbox_faux nds-transition-hide nds-b2b-row_hover-show"></span>
-                                  </label>
-                              </div>
-                          </div>
-                      </td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">First Name</label>
-                          <div>John</div>
-                      </td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">Last Name</label>
-                          <div>Doe</div>
-                      </td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">Address</label>
-                          <div>Philadelphia, Pa</div>
-                      </td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">Projects</label>
-                          <div>27</div>
-                      </td>
-                  </tr>
-              </tbody>
-          </table>  
-      </div>
-      <div class="nds-grid nds-m-around_x-small nds-grid_align-end">
-          <button type="button" class="nds-button">
-              <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronleft"></use>
-              </svg>
-          </button>
-          <button type="button" class="nds-button nds-button_brand">1</button>
-          <button type="button" class="nds-button nds-button_brand">2</button>
-          <button type="button" class="nds-button">
-             <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
-            </svg>
-          </button>
-      </div>
-    </div>  
+    </div>
     `);
   })
-  .add("b2bDataTableGroups", () => {
+  .add("b2bCardRadioAttribute", () => {
     return withExample(`
-    <div class="nds-m-vertical_medium">
-      <div class="nds-grid nds-color__background_gray-1 nds-wrap nds-grid_vertical-align-center nds-p-top_small">
-          <div class="nds-col nds-size_6-of-12 nds-large-size_3-of-12 nds-p-horizontal_medium nds-p-bottom_small">
-              <div class="nds-grid nds-grid_vertical-align-center">  
-                  <label class="nds-size_3-of-12 nds-m-right_medium nds-b2b-table_transition-hide">Group by</label> 
-                  <div class="nds-b2b-input">
-                      <div class="nds-form-element nds-form-container">
-                          <div aria-expanded="false" aria-haspopup="listbox" role="combobox" class="nds-combobox nds-dropdown-trigger nds-dropdown-trigger_click">
-                              <div class="nds-form-element__control">
-                                  <div class="nds-combobox_container">
-                                      <div role="none" class="nds-combobox__form-element nds-input-has-icon nds-input-has-icon_right nds-form-element__control nds-form-element__control-animated-label">
-                                          <input value="No Group" readonly="true" class="nds-input nds-listbox__option-text_entity nds-not-empty nds-is-dirty">
-                                          <div class="nds-form-element__label nds-align-middle nds-animated-label__ease-out">
-                                              <label></label>
-                                          </div>
-                                          <span class="nds-icon_container nds-icon-utility-down nds-input__icon nds-input__icon_right">
-                                              <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
-                                              </svg>
-                                          </span>
-                                      </div>
-                                  </div>
-                                  <div class="nds-form-element">
-                                      <div role="listbox" class="nds-dropdown nds-dropdown_fluid nds-p-bottom_none">
-                                          <ul role="presentation" class="listbox nds-listbox nds-listbox_vertical">
-                                              <li class="nds-listbox__item">
-                                                  <div data-value="none" data-label="No Grouping" role="option" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-is-selected">
-                                                      <span class="nds-media__body">
-                                                          <span class="nds-listbox__option-text nds-listbox__option-text_entity">No Grouping</span>
-                                                      </span>
-                                                  </div>
-                                              </li>
-                                              <li class="nds-listbox__item">
-                                                  <div data-value="First Name" data-label="First Name" role="option" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-is-selected">
-                                                      <span class="nds-media__body">
-                                                          <span class="nds-listbox__option-text nds-listbox__option-text_entity">First Name</span>
-                                                      </span>
-                                                  </div>
-                                              </li>
-                                              <li class="nds-listbox__item">
-                                                  <div data-value="Last Name" data-label="Last Name" role="option" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-is-selected">
-                                                      <span class="nds-media__body">
-                                                          <span class="nds-listbox__option-text nds-listbox__option-text_entity">Last Name</span>
-                                                      </span>
-                                                  </div>
-                                              </li>
-                                          </ul>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
+    <div class="nds-b2b-card">
+      <div class="nds-b2b-card_container">
+        <div class="nds-b2b-card_tabs">
+          <div class="nds-b2b-card_tab">
+            <input type="checkbox" id="chck2" class="nds-b2b-card_checkbox">
+            <label class="nds-b2b-card_tab-label" for="chck2">Details</label>
+            <div class="nds-b2b-card_tab-content nds-b2b-extra-padding">
+              <c-b2b-attribute-configure-offer>
+                <div class="nds-b2b-attribute-config-offer_radio">
+                  <div class="nds-b2b-config-label">Contract Term</div>
+                  <div class="nds-b2b-config-radio_container radio-toolbar">
+                    <input type="radio" id="radio12" name="radioMonths" value="12" checked>
+                    <label for="radio12">12 Months</label>
+                
+                    <input type="radio" id="radio24" name="radioMonths" value="24">
+                    <label for="radio24">24 Months</label>
+                
+                    <input type="radio" id="radio36" name="radioMonths" value="36">
+                    <label for="radio36">36 Months</label> 
                   </div>
-              </div>
-          </div>
-
-          <div class="nds-col nds-size_6-of-12 nds-large-size_3-of-12 nds-p-horizontal_medium nds-p-bottom_small">
-              <div class="nds-grid nds-grid_vertical-align-center">  
-                  <label class="nds-size_3-of-12 nds-m-right_medium nds-b2b-table_transition-hide">Displaying</label> 
-                  <div class="nds-b2b-input">
-                      <div class="nds-form-element nds-form-container">
-                          <div aria-expanded="false" aria-haspopup="listbox" role="combobox" class="nds-combobox nds-dropdown-trigger nds-dropdown-trigger_click">
-                              <div class="nds-form-element__control">
-                                  <div class="nds-combobox_container">
-                                      <div role="none" class="nds-combobox__form-element nds-input-has-icon nds-input-has-icon_right nds-form-element__control nds-form-element__control-animated-label">
-                                          <input value="All" readonly="" class="nds-input nds-listbox__option-text_entity nds-not-empty nds-is-dirty">
-                                          <div class="nds-form-element__label nds-align-middle nds-animated-label__ease-out">
-                                              <label></label>
-                                          </div>
-                                          <span class="nds-icon_container nds-icon-utility-down nds-input__icon nds-input__icon_right">
-                                               <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                                                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
-                                              </svg>
-                                          </span>
-                                      </div>
-                                  </div>
-                                  <div class="nds-form-element">
-                                      <div role="listbox" class="nds-dropdown nds-dropdown_fluid nds-p-bottom_none">
-                                          <ul role="presentation" class="listbox nds-listbox nds-listbox_vertical">
-                                              <li class="nds-listbox__item">
-                                                  <div data-value="none" data-label="All" role="option" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-is-selected">
-                                                      <span class="nds-media__body">
-                                                          <span class="nds-listbox__option-text nds-listbox__option-text_entity">All</span>
-                                                      </span>
-                                                  </div>
-                                              </li>
-                                              <li class="nds-listbox__item">
-                                                  <div data-value="First Name" data-label="Primary" role="option" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-is-selected">
-                                                      <span class="nds-media__body">
-                                                          <span class="nds-listbox__option-text nds-listbox__option-text_entity">Primary</span>
-                                                      </span>
-                                                  </div>
-                                              </li>
-                                              <li class="nds-listbox__item">
-                                                  <div data-value="Last Name" data-label="Secondary" role="option" class="nds-media nds-listbox__option nds-listbox__option_plain nds-media_small nds-is-selected">
-                                                      <span class="nds-media__body">
-                                                          <span class="nds-listbox__option-text nds-listbox__option-text_entity">Secondary</span>
-                                                      </span>
-                                                  </div>
-                                              </li>
-                                          </ul>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-
-          <div class="nds-size_6-of-12 nds-large-size_3-of-12 nds-p-horizontal_medium nds-text-body_small nds-p-bottom_small">
-              <span>Total : 12</span>
-              <span class="nds-m-left_medium">Showing : 4</span>
-          </div>
-         
-          <div class="nds-size_6-of-12 nds-large-size_3-of-12 nds-b2b-input nds-p-horizontal_medium nds-p-bottom_small">
-              <div class="nds-grid nds-grid_vertical-align-center">  
-                <label class=" nds-size_3-of-12 nds-m-right_medium nds-b2b-table_transition-hide">Search</label> 
-                <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left">
-                    <svg class="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default nds-icon_xx-small" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
-                    </svg>
-                    <input type="text" class="nds-input" placeholder="search" onkeyup={searchKeyChangeHandler} value="search">
                 </div>
-              </div>  
+              </c-b2b-attribute-configure-offer>
+            </div>
           </div>
+        </div>
       </div>
-      <div class="nds-is-relative">
-          <table class="nds-b2b-table nds-m-top_medium" style="border-collapse:collapse">
-              <thead class="nds-b2b-table_head">
-                  <tr class="nds-line-height_reset nds-b2b-table_row nds-b2b-table_head-row">
-                      <th class="nds-b2b-table_cell nds-b2b-icon_cell">
-                          <div class="nds-form-element">
-                              <div class="nds-form-element__control nds-b2b-table_checkbox">
-                                  <label class="nds-checkbox nds-p-top_none">
-                                      <input type="checkbox" data-check="checkall" value="All">
-                                      <span class="nds-checkbox_faux"></span>
-                                  </label>
-                              </div>
-                          </div>
-                      </th>
-                      <th class="nds-b2b-table_cell">
-                          Group By
-                      </th>
-                      <th class="nds-b2b-table_cell" >
-                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_cell-sort" role="button" tabindex="-1">
-                              <span class="nds-truncate">First Name</span>
-                              <div class="nds-icon_container">
-                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
-                                  </svg>
-                              </div>
-                          </a>
-                      </th>
-                      <th class="nds-b2b-table_cell" >
-                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_cell-sort" role="button" tabindex="-1">
-                              <span class="nds-truncate">Last Name</span>
-                              <div class="nds-icon_container">
-                                  <span aria-hidden="true">
-                                      <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                                          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
-                                      </svg>
-                                  </span>
-                              </div>
-                          </a>
-                      </th>
-                      <th class="nds-b2b-table_cell" >
-                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_cell-sort" role="button" tabindex="-1">
-                              <span class="nds-truncate">Address</span>
-                              <div class="nds-icon_container">
-                                  <span aria-hidden="true">
-                                       <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
-                                        </svg>
-                                  </span>
-                              </div>
-                          </a>
-                      </th>
-                      <th class="nds-b2b-table_cell" >
-                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_cell-sort" role="button" tabindex="-1">
-                              <span class="nds-truncate">Projects</span>
-                              <div class="nds-icon_container">
-                                  <span aria-hidden="true">
-                                       <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                                          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
-                                      </svg>
-                                  </span>
-                              </div>
-                          </a>
-                      </th>
-                  </tr>
-              </thead>
-              <tbody class="nds-b2b-table_body">
-                  <tr class="nds-b2b-table_row">    
-                      <td class="nds-b2b-table_cell nds-b2b-table_transition-hide"></td>
-                      <td class="nds-b2b-table_cell" colspan="5">
-                          Walter
-                      </td>
-                  </tr>
-                  <tr class="nds-b2b-table_row">
-                      <td class="nds-b2b-table_cell nds-b2b-icon_cell">
-                          <div class="nds-form-element">
-                              <div class="nds-form-element__control nds-b2b-table_checkbox">
-                                  <label class="nds-checkbox">
-                                      <input type="checkbox" name="options" value="dd">
-                                      <span class="nds-checkbox_faux nds-transition-hide nds-b2b-row_hover-show"></span>
-                                  </label>
-                              </div>
-                          </div>
-                      </td>
-                      <td class="nds-b2b-table_cell nds-b2b-table_transition-hide"></td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">First Name</label>
-                          <div>Sam</div>
-                      </td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">Last Name</label>
-                          <div>Walter</div>
-                      </td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">Address</label>
-                          <div>Easton, PA</div>
-                      </td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">Projects</label>
-                          <div>25</div>
-                      </td>
-                  </tr>
-                  <tr class="nds-b2b-table_row">    
-                    <td class="nds-b2b-table_cell nds-b2b-table_transition-hide"></td>
-                    <td class="nds-b2b-table_cell" colspan="5">
-                        Doe
-                    </td>
-                  </tr>
-                  <tr class="nds-b2b-table_row">    
-                      <td class="nds-b2b-table_cell nds-b2b-icon_cell">
-                          <div class="nds-form-element">
-                              <div class="nds-form-element__control nds-b2b-table_checkbox">
-                                  <label class="nds-checkbox">
-                                      <input type="checkbox" name="options" value="dd">
-                                      <span class="nds-checkbox_faux nds-transition-hide nds-b2b-row_hover-show"></span>
-                                  </label>
-                              </div>
-                          </div>
-                      </td>
-                      <td class="nds-b2b-table_cell nds-b2b-table_transition-hide"></td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">First Name</label>
-                          <div>Cathy</div>
-                      </td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">Last Name</label>
-                          <div>Doe</div>
-                      </td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">Address</label>
-                          <div>Jersey City, NJ</div>
-                      </td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">Projects</label>
-                          <div>27</div>
-                      </td>
-                  </tr>
-                  <tr class="nds-b2b-table_row"> 
-                      <td class="nds-b2b-table_cell nds-b2b-icon_cell">
-                          <div class="nds-form-element">
-                              <div class="nds-form-element__control nds-b2b-table_checkbox">
-                                  <label class="nds-checkbox">
-                                      <input type="checkbox" name="options" value="dd">
-                                      <span class="nds-checkbox_faux nds-transition-hide nds-b2b-row_hover-show"></span>
-                                  </label>
-                              </div>
-                          </div>
-                      </td>
-                      <td class="nds-b2b-table_cell nds-b2b-table_transition-hide"></td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">First Name</label>
-                          <div>John</div>
-                      </td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">Last Name</label>
-                          <div>Doe</div>
-                      </td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">Address</label>
-                          <div>Philadelphia, Pa</div>
-                      </td>
-                      <td class="nds-b2b-table_cell">
-                          <label class="nds-b2b-table_cell-label">Projects</label>
-                          <div>27</div>
-                      </td>
-                  </tr>
-              </tbody>
-          </table>  
-      </div>
-      <div class="nds-grid nds-m-around_x-small nds-grid_align-end">
-          <button type="button" class="nds-button">
-              <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronleft"></use>
-              </svg>
-          </button>
-          <button type="button" class="nds-button nds-button_brand">1</button>
-          <button type="button" class="nds-button nds-button_brand">2</button>
-          <button type="button" class="nds-button">
-             <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
-            </svg>
-          </button>
-      </div>
-    </div>  
+    </div>
     `);
   })
+  .add("b2bCardMatrix", () => {
+    return withExample(`
+    <div class="nds-b2b-card">
+      <div class="nds-b2b-card_container">
+        <div class="nds-b2b-card_tabs">
+          <div class="nds-b2b-card_tab">
+            <input type="checkbox" id="chck2" class="nds-b2b-card_checkbox">
+            <label class="nds-b2b-card_tab-label" for="chck2">Details</label>
+            <div class="nds-b2b-card_tab-content nds-b2b-extra-padding">
+              <c-b2b-attribute-configure-offer>
+                <div class="nds-b2b-attribute-config-offer_matrix">
+                  <div class="nds-b2b-config-label">Maximum Download Speed</div>
+                  <table>
+                    <tr>
+                      <th></th>
+                      <th></th>
+                      <th>12 MONTHS</th>
+                      <th>24 MONTHS</th>
+                      <th>36 MONTHS</th>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="nds-radio nds-b2b-attribute-radio">
+                          <input type="radio" id="radio-1" name="options" value="on">
+                          <label class="nds-radio__label" for="radio-1">
+                            <span class="nds-radio_faux"></span>
+                          </label>
+                        </span>
+                        30 Mbps
+                      </td>
+                      <td>$0.00</td>
+                      <td>$75.00/mo</td>
+                      <td>$70.00/mo</td>
+                      <td>$60.00/mo</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="nds-radio nds-b2b-attribute-radio">
+                          <input type="radio" id="radio-2" name="options" value="on">
+                          <label class="nds-radio__label" for="radio-2">
+                            <span class="nds-radio_faux"></span>
+                          </label>
+                        </span>
+                        150 Mbps
+                      </td>
+                      <td>$0.00</td>
+                      <td>$75.00/mo</td>
+                      <td>$70.00/mo</td>
+                      <td>$60.00/mo</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="nds-radio nds-b2b-attribute-radio">
+                          <input type="radio" id="radio-3" name="options" value="on">
+                          <label class="nds-radio__label" for="radio-3">
+                            <span class="nds-radio_faux"></span>
+                          </label>
+                        </span>
+                        500 Mbps
+                      </td>
+                      <td>$0.00</td>
+                      <td>$75.00/mo</td>
+                      <td>$70.00/mo</td>
+                      <td>$60.00/mo</td>
+                    </tr>
+                  </table>
+                </div>
+              </c-b2b-attribute-configure-offer>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    `);
+  })
+  .add("b2bCardChildAddons", () => {
+    return withExample(`
+      <div class="nds-b2b-card">
+        <div class="nds-b2b-card_container">
+          <div class="nds-b2b-card_tabs">
+            <div class="nds-b2b-card_tab">
+              <input type="checkbox" id="chck1" class="nds-b2b-card_checkbox">
+              <label class="nds-b2b-card_tab-label" for="chck1">
+                <div class="nds-grid nds-b2b-label-container">
+                  <span class="nds-b2b-card_title">Details</span>
+                  <div class="nds-grid nds-wrap nds-b2b-label-details">
+                    <!-- Quantity -->
+                    <div class="nds-b2b-quantity">
+                      <p class="nds-b2b-configure_label">Quantity</p>
+                      <p><input class="nds-b2b-quantity_value" type="number" value="1" /></p>
+                    </div>
 
-;
+                    <!-- Prices Container -->
+                    <div class="nds-b2b-price_info">
+                      <div class="nds-b2b-each-attribute">
+                        <p class="nds-b2b-attribute_label nds-text-align_right">One Time</p>
+                        <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1420.00</p>
+                      </div>
+                      <div class="nds-b2b-each-attribute">
+                        <p class="nds-b2b-attribute_label nds-text-align_right">Monthly</p>
+                        <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1350.00</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </label>
+              <div class="nds-b2b-card_tab-content nds-b2b-extra-padding">
+                <div class="nds-b2b-child_radio-container"> 
+                  <div class="nds-grid nds-b2b-label-container">
+                    <span class="nds-b2b-card_title">
+                      <span class="nds-radio nds-b2b-attribute-radio">
+                        <input type="radio" id="radio-1" name="options" value="on">
+                        <label class="nds-radio__label" for="radio-1">
+                          <span class="nds-radio_faux"></span>
+                        </label>
+                      </span>
+                      Details Child1
+                    </span>
+                    <div class="nds-grid nds-wrap nds-b2b-label-details">
+                      <!-- Quantity -->
+                      <div class="nds-b2b-quantity">
+                        <p class="nds-b2b-configure_label">Quantity</p>
+                        <p><input class="nds-b2b-quantity_value" type="number" value="1" /></p>
+                      </div>
+
+                      <!-- Prices Container -->
+                      <div class="nds-b2b-price_info">
+                        <div class="nds-b2b-each-attribute">
+                          <p class="nds-b2b-attribute_label nds-text-align_right">One Time</p>
+                          <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1420.00</p>
+                        </div>
+                        <div class="nds-b2b-each-attribute">
+                          <p class="nds-b2b-attribute_label nds-text-align_right">Monthly</p>
+                          <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1350.00</p>
+                        </div>
+                      </div>
+                    </div>  
+                  </div>
+                </div>
+
+                <div class="nds-b2b-child_radio-container"> 
+                  <div class="nds-grid nds-b2b-label-container">
+                    <span class="nds-b2b-card_title">
+                      <span class="nds-radio nds-b2b-attribute-radio">
+                        <input type="radio" id="radio-2" name="options" value="child2" selected>
+                        <label class="nds-radio__label" for="radio-2">
+                          <span class="nds-radio_faux"></span>
+                        </label>
+                      </span>
+                      Details Child2
+                    </span>
+                    <div class="nds-grid nds-wrap nds-b2b-label-details">
+                      <!-- Quantity -->
+                      <div class="nds-b2b-quantity">
+                        <p class="nds-b2b-configure_label">Quantity</p>
+                        <p><input class="nds-b2b-quantity_value" type="number" value="1" /></p>
+                      </div>
+
+                      <!-- Prices Container -->
+                      <div class="nds-b2b-price_info">
+                        <div class="nds-b2b-each-attribute">
+                          <p class="nds-b2b-attribute_label nds-text-align_right">One Time</p>
+                          <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1420.00</p>
+                        </div>
+                        <div class="nds-b2b-each-attribute">
+                          <p class="nds-b2b-attribute_label nds-text-align_right">Monthly</p>
+                          <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1350.00</p>
+                        </div>
+                      </div>
+                    </div>  
+                  </div>
+                </div>
+
+                <div class="nds-b2b-child_radio-container"> 
+                  <div class="nds-grid nds-b2b-label-container">
+                    <span class="nds-b2b-card_title">
+                      <span class="nds-radio nds-b2b-attribute-radio">
+                        <input type="radio" id="radio-3" name="options" value="child3">
+                        <label class="nds-radio__label" for="radio-3">
+                          <span class="nds-radio_faux"></span>
+                        </label>
+                      </span>
+                      Details Child3
+                    </span>
+                    <div class="nds-grid nds-wrap nds-b2b-label-details">
+                      <!-- Quantity -->
+                      <div class="nds-b2b-quantity">
+                        <p class="nds-b2b-configure_label">Quantity</p>
+                        <p><input class="nds-b2b-quantity_value" type="number" value="1" /></p>
+                      </div>
+
+                      <!-- Prices Container -->
+                      <div class="nds-b2b-price_info">
+                        <div class="nds-b2b-each-attribute">
+                          <p class="nds-b2b-attribute_label nds-text-align_right">One Time</p>
+                          <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1420.00</p>
+                        </div>
+                        <div class="nds-b2b-each-attribute">
+                          <p class="nds-b2b-attribute_label nds-text-align_right">Monthly</p>
+                          <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1350.00</p>
+                        </div>
+                      </div>
+                    </div>  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `);
+  })
+  .add("b2bTotalBar", () => {
+    return withExample(`
+    <div class="nds-grid nds-wrap nds-b2b-total-bar">
+      <div class="nds-b2b-configure_container">
+      </div>
+      <div class="nds-grid nds-wrap nds-b2b-price_container">
+        <div class="nds-b2b-quantity">
+          <p class="nds-b2b-configure_label">Locations</p>
+          <p><input class="nds-b2b-quantity_value" type="number" value="1" /></p>
+        </div>
+        <div class="nds-b2b-total">
+          <p class="nds-b2b-configure_label">One Time Total</p>
+          <p class="nds-b2b-configure_locations">$641.75</p>
+        </div>
+        <div class="nds-b2b-total">
+          <p class="nds-b2b-configure_label nds-text-align_right">Monthly Total</p>
+          <p class="nds-b2b-configure_locations">$675.00</p>
+        </div>
+        <button class="nds-button nds-b2b-location-button">Add To Locations</button>
+      </div>
+    </div>
+    `);
+  });
