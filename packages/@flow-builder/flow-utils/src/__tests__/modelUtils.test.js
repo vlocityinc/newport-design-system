@@ -245,12 +245,13 @@ describe('modelUtils', () => {
 
             expect(deleteElement(elements, inlineElement, 0, getSubElementGuids)).toEqual(expectedState);
         });
-        it('deletes branching element', () => {
+        it('deletes branching element that supports a fault branch as well', () => {
             const branchingElement = {
                 guid: 'branching-element',
                 children: ['branch-head-element'],
                 prev: null,
-                next: 'merge-element'
+                next: 'merge-element',
+                fault: 'fault-branch-head-element'
             };
 
             const branchHeadElement = {
@@ -268,7 +269,28 @@ describe('modelUtils', () => {
                 next: null
             };
 
-            const elements = toElementsMap(branchingElement, mergeElement, branchHeadElement);
+            const faultBranchHeadElement = {
+                guid: 'fault-branch-head-element',
+                childIndex: -1,
+                parent: 'branching-element',
+                isTerminal: true,
+                prev: null,
+                next: 'fault-branch-end-element'
+            };
+
+            const faultBranchEndElement = {
+                guid: 'fault-branch-end-element',
+                prev: 'fault-branch-head-element',
+                next: null
+            };
+
+            const elements = toElementsMap(
+                branchingElement,
+                mergeElement,
+                branchHeadElement,
+                faultBranchHeadElement,
+                faultBranchEndElement
+            );
 
             const expectedState = {
                 'branch-head-element': {

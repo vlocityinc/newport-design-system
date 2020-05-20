@@ -358,7 +358,10 @@ function deleteElementDescendents(
         elementsToDelete = (element as ParentNodeModel).children.filter(
             (child, i) => child != null && i !== childIndexToKeep
         );
-    } else if (element.fault != null) {
+    }
+
+    // Action, CRUD and Wait (branching) elements can have a Fault path
+    if (element.fault != null) {
         elementsToDelete = [element.fault];
     }
 
