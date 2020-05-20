@@ -798,48 +798,56 @@ storiesOf(`${base}`, module)
                           </div>
                       </th>
                       <th class="nds-b2b-table_cell" >
-                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_cell-sort" role="button" tabindex="-1">
+                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_sort" role="button" tabindex="-1">
                               <span class="nds-truncate">First Name</span>
-                              <div class="nds-icon_container">
-                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
-                                  </svg>
+                              <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                    <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                                    </svg>
+                                </div>
                               </div>
                           </a>
                       </th>
                       <th class="nds-b2b-table_cell" >
-                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_cell-sort" role="button" tabindex="-1">
+                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_sort" role="button" tabindex="-1">
                               <span class="nds-truncate">Last Name</span>
-                              <div class="nds-icon_container">
-                                  <span aria-hidden="true">
-                                      <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                                          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
-                                      </svg>
-                                  </span>
-                              </div>
-                          </a>
-                      </th>
-                      <th class="nds-b2b-table_cell" >
-                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_cell-sort" role="button" tabindex="-1">
-                              <span class="nds-truncate">Address</span>
-                              <div class="nds-icon_container">
-                                  <span aria-hidden="true">
-                                       <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                              <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                    <span aria-hidden="true">
+                                        <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
                                             <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                                         </svg>
-                                  </span>
+                                    </span>
+                                </div>
                               </div>
                           </a>
                       </th>
                       <th class="nds-b2b-table_cell" >
-                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_cell-sort" role="button" tabindex="-1">
+                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_sort" role="button" tabindex="-1">
+                              <span class="nds-truncate">Address</span>
+                              <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                    <span aria-hidden="true">
+                                         <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                                          </svg>
+                                    </span>
+                                </div>
+                              </div>
+                          </a>
+                      </th>
+                      <th class="nds-b2b-table_cell" >
+                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_sort" role="button" tabindex="-1">
                               <span class="nds-truncate">Projects</span>
-                              <div class="nds-icon_container">
-                                  <span aria-hidden="true">
-                                       <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                                          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
-                                      </svg>
-                                  </span>
+                              <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                    <span aria-hidden="true">
+                                         <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                                        </svg>
+                                    </span>
+                                </div>
                               </div>
                           </a>
                       </th>
@@ -859,19 +867,55 @@ storiesOf(`${base}`, module)
                       </td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">First Name</label>
-                          <div>Sam</div>
-                      </td>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>Sam</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
+                      </td>      
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">Last Name</label>
-                          <div>Walter</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>Walter</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">Address</label>
-                          <div>Easton, PA</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>Easton PA</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">Projects</label>
-                          <div>25</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>25</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                   </tr>
                   <tr class="nds-b2b-table_row">    
@@ -887,19 +931,55 @@ storiesOf(`${base}`, module)
                       </td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">First Name</label>
-                          <div>Cathy</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>Cathy</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">Last Name</label>
-                          <div>Doe</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>Doe</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">Address</label>
-                          <div>Jersey City, NJ</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>Jersey City, NJ</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">Projects</label>
-                          <div>27</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>27</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                   </tr>
                   <tr class="nds-b2b-table_row">    
@@ -915,19 +995,55 @@ storiesOf(`${base}`, module)
                       </td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">First Name</label>
-                          <div>John</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>John</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">Last Name</label>
-                          <div>Doe</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>Doe</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">Address</label>
-                          <div>Philadelphia, Pa</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>Philadelphia, PA</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">Projects</label>
-                          <div>27</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>29</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                   </tr>
               </tbody>
@@ -1097,48 +1213,56 @@ storiesOf(`${base}`, module)
                           Group By
                       </th>
                       <th class="nds-b2b-table_cell" >
-                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_cell-sort" role="button" tabindex="-1">
+                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_sort" role="button" tabindex="-1">
                               <span class="nds-truncate">First Name</span>
-                              <div class="nds-icon_container">
-                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
-                                  </svg>
+                              <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                    <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                                    </svg>
+                                </div>
                               </div>
                           </a>
                       </th>
                       <th class="nds-b2b-table_cell" >
-                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_cell-sort" role="button" tabindex="-1">
+                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_sort" role="button" tabindex="-1">
                               <span class="nds-truncate">Last Name</span>
-                              <div class="nds-icon_container">
-                                  <span aria-hidden="true">
-                                      <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                                          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
-                                      </svg>
-                                  </span>
-                              </div>
-                          </a>
-                      </th>
-                      <th class="nds-b2b-table_cell" >
-                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_cell-sort" role="button" tabindex="-1">
-                              <span class="nds-truncate">Address</span>
-                              <div class="nds-icon_container">
-                                  <span aria-hidden="true">
-                                       <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                              <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                    <span aria-hidden="true">
+                                        <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
                                             <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                                         </svg>
-                                  </span>
+                                    </span>
+                                </div>
                               </div>
                           </a>
                       </th>
                       <th class="nds-b2b-table_cell" >
-                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_cell-sort" role="button" tabindex="-1">
+                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_sort" role="button" tabindex="-1">
+                              <span class="nds-truncate">Address</span>
+                              <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                    <span aria-hidden="true">
+                                         <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                                          </svg>
+                                    </span>
+                                </div>
+                              </div>
+                          </a>
+                      </th>
+                      <th class="nds-b2b-table_cell" >
+                          <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_sort" role="button" tabindex="-1">
                               <span class="nds-truncate">Projects</span>
-                              <div class="nds-icon_container">
-                                  <span aria-hidden="true">
-                                       <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                                          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
-                                      </svg>
-                                  </span>
+                              <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                    <span aria-hidden="true">
+                                         <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                                        </svg>
+                                    </span>
+                                </div>
                               </div>
                           </a>
                       </th>
@@ -1147,7 +1271,7 @@ storiesOf(`${base}`, module)
               <tbody class="nds-b2b-table_body">
                   <tr class="nds-b2b-table_row">    
                       <td class="nds-b2b-table_cell nds-b2b-table_transition-hide"></td>
-                      <td class="nds-b2b-table_cell" colspan="5">
+                      <td class="nds-b2b-table_cell nds-b2b-table_cell-readonly" colspan="5">
                           Walter
                       </td>
                   </tr>
@@ -1162,27 +1286,63 @@ storiesOf(`${base}`, module)
                               </div>
                           </div>
                       </td>
-                      <td class="nds-b2b-table_cell nds-b2b-table_transition-hide"></td>
+                      <td class="nds-b2b-table_cell nds-b2b-table_cell-readonly nds-b2b-table_transition-hide"></td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">First Name</label>
-                          <div>Sam</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>Sam</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">Last Name</label>
-                          <div>Walter</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>Walter</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">Address</label>
-                          <div>Easton, PA</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>Easton, PA</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">Projects</label>
-                          <div>25</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>29</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                   </tr>
                   <tr class="nds-b2b-table_row">    
-                    <td class="nds-b2b-table_cell nds-b2b-table_transition-hide"></td>
-                    <td class="nds-b2b-table_cell" colspan="5">
+                    <td class="nds-b2b-table_cell nds-b2b-table_cell-readonly nds-b2b-table_transition-hide"></td>
+                    <td class="nds-b2b-table_cell nds-b2b-table_cell-readonly" colspan="5">
                         Doe
                     </td>
                   </tr>
@@ -1197,22 +1357,58 @@ storiesOf(`${base}`, module)
                               </div>
                           </div>
                       </td>
-                      <td class="nds-b2b-table_cell nds-b2b-table_transition-hide"></td>
+                      <td class="nds-b2b-table_cell nds-b2b-table_cell-readonly nds-b2b-table_transition-hide"></td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">First Name</label>
-                          <div>Cathy</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>Cathy</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">Last Name</label>
-                          <div>Doe</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>Doe</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">Address</label>
-                          <div>Jersey City, NJ</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>Jersey City, NJ</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">Projects</label>
-                          <div>27</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>29</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                   </tr>
                   <tr class="nds-b2b-table_row"> 
@@ -1229,19 +1425,55 @@ storiesOf(`${base}`, module)
                       <td class="nds-b2b-table_cell nds-b2b-table_transition-hide"></td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">First Name</label>
-                          <div>John</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>John</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">Last Name</label>
-                          <div>Doe</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>Doe</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">Address</label>
-                          <div>Philadelphia, Pa</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>Philadelphia, PA</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                       <td class="nds-b2b-table_cell">
                           <label class="nds-b2b-table_cell-label">Projects</label>
-                          <div>27</div>
+                          <div class="nds-grid nds-grid_align-spread">
+                            <div>29</div>
+                            <div class="nds-b2b-hover-icon nds-transition-hide">
+                                <div class="nds-icon_container">
+                                  <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
+                                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                  </svg>
+                                </div>
+                            </div>
+                          </div>
                       </td>
                   </tr>
               </tbody>
