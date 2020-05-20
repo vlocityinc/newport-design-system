@@ -12,7 +12,7 @@
       margin-top: 1rem;
     }
     .nds-b2b-card_title {
-      width: 20vw;
+      width: 38vw;
       font-weight: $font-weight-light;
       font-size: 1rem;
       color: $black-primary;
@@ -27,6 +27,9 @@
         &::after {
           background-color: $azure;
         }
+      }
+      @media screen and (min-width: 80rem) {
+        width: 38vw;
       }
     }
     .nds-b2b-price_info {
@@ -75,6 +78,7 @@
       display: flex;
       .nds-b2b-card_title {
         font-size: 1rem;
+        width: 37vw;
         &.selected {
           font-size: 1.3rem;
         }
