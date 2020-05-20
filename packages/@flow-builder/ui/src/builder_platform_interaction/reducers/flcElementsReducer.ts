@@ -31,6 +31,7 @@ import {
     deleteElement,
     addElement,
     deleteFault,
+    findLastElement,
     FAULT_INDEX
 } from 'builder_platform_interaction/flowUtils';
 import { getSubElementGuids } from './reducersUtils';
@@ -381,9 +382,30 @@ function _pasteOnFixedCanvas(
         deleteBranchHeadProperties(newState[next]);
     }
 
-    // Updating the parent's children to include the top-most pasted element's guid at the right index
     if (parent) {
-        newState[parent].children[childIndex] = canvasElementGuidMap[topCutOrCopiedGuid];
+        if (childIndex === FAULT_INDEX) {
+            // Updating the parent's fault to to point to the top-most pasted element's guid
+            newState[parent].fault = canvasElementGuidMap[topCutOrCopiedGuid];
+        } else {
+            // Updating the parent's children to include the top-most pasted element's guid at the right index
+            newState[parent].children[childIndex] = canvasElementGuidMap[topCutOrCopiedGuid];
+        }
+    }
+
+    // Adding end elements to the pasted fault branches
+    const pastedElementGuids = Object.values(canvasElementGuidMap);
+    for (let i = 0; i < pastedElementGuids.length; i++) {
+        const pastedElement = newState[pastedElementGuids[i]];
+        if (pastedElement.fault) {
+            // Adding an end element and connecting it to the last element in the pasted Fault Branch
+            const lastFaultBranchElement = findLastElement(newState[pastedElement.fault], newState);
+            const endElement = createEndElement({
+                prev: lastFaultBranchElement.guid,
+                next: null
+            });
+            addElementToState(endElement, newState);
+            lastFaultBranchElement.next = endElement.guid;
+        }
     }
 
     return newState;

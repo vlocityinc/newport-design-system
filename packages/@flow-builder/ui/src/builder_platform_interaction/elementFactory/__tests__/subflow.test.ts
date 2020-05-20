@@ -252,17 +252,17 @@ describe('subflow', () => {
                 connectorCount: 1,
                 maxConnections: 1
             },
-            newGuid: 'updatedScreen1Guid',
-            newName: 'updatedScreenName'
+            newGuid: 'updatedSubflowGuid',
+            newName: 'updatedSubflowName'
         };
 
         const { pastedCanvasElement } = createPastedSubflow(dataForPasting);
 
         it('has the new guid', () => {
-            expect(pastedCanvasElement.guid).toEqual('updatedScreen1Guid');
+            expect(pastedCanvasElement.guid).toEqual('updatedSubflowGuid');
         });
         it('has the new name', () => {
-            expect(pastedCanvasElement.name).toEqual('updatedScreenName');
+            expect(pastedCanvasElement.name).toEqual('updatedSubflowName');
         });
         it('has the updated locationX', () => {
             expect(pastedCanvasElement.locationX).toEqual(

@@ -4,6 +4,7 @@ import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
     createAvailableConnection,
+    createPastedCanvasElement,
     duplicateCanvasElement,
     automaticOutputHandlingSupport
 } from './base/baseElement';
@@ -97,6 +98,36 @@ export function createActionCall(actionCall = {}, elementType = ELEMENT_TYPE.ACT
     });
 
     return actionCallObject;
+}
+
+export function createPastedActionCall({
+    canvasElementToPaste,
+    newGuid,
+    newName,
+    canvasElementGuidMap,
+    topCutOrCopiedGuid,
+    bottomCutOrCopiedGuid,
+    prev,
+    next,
+    parent,
+    childIndex
+}) {
+    const { duplicatedElement } = createDuplicateActionCall(canvasElementToPaste, newGuid, newName);
+
+    const pastedCanvasElement = createPastedCanvasElement(
+        duplicatedElement,
+        canvasElementGuidMap,
+        topCutOrCopiedGuid,
+        bottomCutOrCopiedGuid,
+        prev,
+        next,
+        parent,
+        childIndex
+    );
+
+    return {
+        pastedCanvasElement
+    };
 }
 
 export function createDuplicateActionCall(actionCall, newGuid, newName) {

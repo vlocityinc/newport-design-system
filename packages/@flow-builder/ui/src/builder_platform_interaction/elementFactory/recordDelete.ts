@@ -3,6 +3,7 @@ import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flow
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
+    createPastedCanvasElement,
     duplicateCanvasElement,
     createAvailableConnection
 } from './base/baseElement';
@@ -54,6 +55,36 @@ export function createRecordDelete(recordDelete = {}) {
         dataType: FLOW_DATA_TYPE.BOOLEAN.value,
         useSobject
     });
+}
+
+export function createPastedRecordDelete({
+    canvasElementToPaste,
+    newGuid,
+    newName,
+    canvasElementGuidMap,
+    topCutOrCopiedGuid,
+    bottomCutOrCopiedGuid,
+    prev,
+    next,
+    parent,
+    childIndex
+}) {
+    const { duplicatedElement } = createDuplicateRecordDelete(canvasElementToPaste, newGuid, newName);
+
+    const pastedCanvasElement = createPastedCanvasElement(
+        duplicatedElement,
+        canvasElementGuidMap,
+        topCutOrCopiedGuid,
+        bottomCutOrCopiedGuid,
+        prev,
+        next,
+        parent,
+        childIndex
+    );
+
+    return {
+        pastedCanvasElement
+    };
 }
 
 export function createDuplicateRecordDelete(recordDelete, newGuid, newName) {

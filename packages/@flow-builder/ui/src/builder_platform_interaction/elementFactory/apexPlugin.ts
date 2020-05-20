@@ -4,6 +4,7 @@ import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
     createAvailableConnection,
+    createPastedCanvasElement,
     duplicateCanvasElement
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
@@ -48,6 +49,36 @@ export function createApexPlugin(apexPlugin = {}) {
     });
 
     return apexPluginObject;
+}
+
+export function createPastedApexPlugin({
+    canvasElementToPaste,
+    newGuid,
+    newName,
+    canvasElementGuidMap,
+    topCutOrCopiedGuid,
+    bottomCutOrCopiedGuid,
+    prev,
+    next,
+    parent,
+    childIndex
+}) {
+    const { duplicatedElement } = createDuplicateApexPlugin(canvasElementToPaste, newGuid, newName);
+
+    const pastedCanvasElement = createPastedCanvasElement(
+        duplicatedElement,
+        canvasElementGuidMap,
+        topCutOrCopiedGuid,
+        bottomCutOrCopiedGuid,
+        prev,
+        next,
+        parent,
+        childIndex
+    );
+
+    return {
+        pastedCanvasElement
+    };
 }
 
 export function createDuplicateApexPlugin(apexPlugin, newGuid, newName) {

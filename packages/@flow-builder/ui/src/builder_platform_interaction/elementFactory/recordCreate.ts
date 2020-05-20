@@ -3,6 +3,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
+    createPastedCanvasElement,
     duplicateCanvasElement,
     createAvailableConnection,
     automaticOutputHandlingSupport,
@@ -115,6 +116,36 @@ export function createRecordCreate(recordCreate = {}, { elements } = Store.getSt
     }
 
     return recordCreateObject;
+}
+
+export function createPastedRecordCreate({
+    canvasElementToPaste,
+    newGuid,
+    newName,
+    canvasElementGuidMap,
+    topCutOrCopiedGuid,
+    bottomCutOrCopiedGuid,
+    prev,
+    next,
+    parent,
+    childIndex
+}) {
+    const { duplicatedElement } = createDuplicateRecordCreate(canvasElementToPaste, newGuid, newName);
+
+    const pastedCanvasElement = createPastedCanvasElement(
+        duplicatedElement,
+        canvasElementGuidMap,
+        topCutOrCopiedGuid,
+        bottomCutOrCopiedGuid,
+        prev,
+        next,
+        parent,
+        childIndex
+    );
+
+    return {
+        pastedCanvasElement
+    };
 }
 
 export function createDuplicateRecordCreate(recordCreate, newGuid, newName) {

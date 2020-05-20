@@ -254,8 +254,8 @@ describe('createPastedCanvasElement Function', () => {
             expect(pastedCanvasElement).toMatchObject({
                 guid: 'pastedScreen3',
                 config: { isSelected: false, isHighlighted: false, isSelectable: true },
-                prev: undefined,
-                next: undefined,
+                prev: null,
+                next: null,
                 parent: 'pastedDecision1',
                 childIndex: 0
             });
@@ -412,6 +412,76 @@ describe('createPastedCanvasElement Function', () => {
                 config: { isSelected: false, isHighlighted: false, isSelectable: true },
                 prev: 'pastedDecision1',
                 next: 'screen1'
+            });
+        });
+    });
+
+    describe('When element has a fault branch', () => {
+        const canvasElementGuidMap = {
+            pause1: 'pastedPause1',
+            pause2: 'pastedPause2'
+        };
+        const topCutOrCopiedGuid = 'pause1';
+        const bottomCutOrCopiedGuid = 'pause1';
+        const prev = 'pause2';
+        const next = 'end2';
+
+        it('Pasted Pause 1 should have updated guid, prev, next and fault properties', () => {
+            const duplicatedElement = {
+                guid: 'pastedPause1',
+                prev: 'start1',
+                next: 'end1',
+                fault: 'pause2'
+            };
+
+            const pastedCanvasElement = createPastedCanvasElement(
+                duplicatedElement,
+                canvasElementGuidMap,
+                topCutOrCopiedGuid,
+                bottomCutOrCopiedGuid,
+                prev,
+                next,
+                null,
+                null
+            );
+
+            expect(pastedCanvasElement).toEqual({
+                guid: 'pastedPause1',
+                config: { isSelected: false, isHighlighted: false, isSelectable: true },
+                prev: 'pause2',
+                next: 'end2',
+                fault: 'pastedPause2'
+            });
+        });
+
+        it('Pasted Pause 2 should have updated guid, prev and next properties. Fault property should be removed', () => {
+            const duplicatedElement = {
+                guid: 'pastedPause2',
+                prev: null,
+                next: 'end2',
+                parent: 'pause1',
+                childIndex: -1,
+                fault: 'assignment1'
+            };
+
+            const pastedCanvasElement = createPastedCanvasElement(
+                duplicatedElement,
+                canvasElementGuidMap,
+                topCutOrCopiedGuid,
+                bottomCutOrCopiedGuid,
+                prev,
+                next,
+                null,
+                null
+            );
+
+            expect(pastedCanvasElement).toEqual({
+                guid: 'pastedPause2',
+                config: { isSelected: false, isHighlighted: false, isSelectable: true },
+                prev: null,
+                next: null,
+                parent: 'pastedPause1',
+                childIndex: -1
             });
         });
     });

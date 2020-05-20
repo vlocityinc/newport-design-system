@@ -47,6 +47,7 @@ function addBaseCanvasElementProperties(canvasElement, newCanvasElement) {
         children = null,
         childIndex = null,
         parent = null,
+        fault = null,
         isTerminal = null
     } = canvasElement;
     if (supportsChildren(canvasElement)) {
@@ -55,6 +56,10 @@ function addBaseCanvasElementProperties(canvasElement, newCanvasElement) {
 
     if (parent) {
         Object.assign(newCanvasElement, { parent, childIndex, isTerminal });
+    }
+
+    if (fault) {
+        Object.assign(newCanvasElement, { fault });
     }
 
     Object.assign(newCanvasElement, { next, prev });
@@ -104,8 +109,8 @@ export function createPastedCanvasElement(
 ) {
     const pastedCanvasElement = Object.assign(duplicatedElement, {
         config: { isSelected: false, isHighlighted: false, isSelectable: true },
-        prev: canvasElementGuidMap[duplicatedElement.prev],
-        next: canvasElementGuidMap[duplicatedElement.next]
+        prev: canvasElementGuidMap[duplicatedElement.prev] || null,
+        next: canvasElementGuidMap[duplicatedElement.next] || null
     });
 
     // If the parent hasn't been cut or copied, and the pasted element is same as topCutOrCopiedElement, then update the prev, parent and childIndex properties.
@@ -135,6 +140,17 @@ export function createPastedCanvasElement(
         pastedCanvasElement.children = pastedCanvasElement.children.map(childGuid => {
             return canvasElementGuidMap[childGuid] || null;
         });
+    }
+
+    // Updating the pasted element's fault property if it exists
+    if (pastedCanvasElement.fault) {
+        // If the fault element has been cut or copied, then update the fault reference
+        // to the newly pasted element, else delete it
+        if (canvasElementGuidMap[pastedCanvasElement.fault]) {
+            pastedCanvasElement.fault = canvasElementGuidMap[pastedCanvasElement.fault];
+        } else {
+            delete pastedCanvasElement.fault;
+        }
     }
 
     // Deleting the isTerminal property from the pastedCanvasElement. We reset it if needed in the reducer

@@ -201,7 +201,7 @@ class FlcList {
  *
  * @param element - The element
  * @param state - The flow model
- * @returns The guid of the last element
+ * @returns The last element
  */
 function findLastElement(element: NodeModel, state: FlowModel): NodeModel {
     return new FlcList(state, element.guid).last();
@@ -212,7 +212,7 @@ function findLastElement(element: NodeModel, state: FlowModel): NodeModel {
  *
  * @param element - The element
  * @param state - The flow model
- * @returns The guid of the first element
+ * @returns The first element
  */
 function findFirstElement(element: NodeModel, state: FlowModel): BranchHeadNodeModel {
     return new FlcList(state, element.guid, { down: false }).last() as BranchHeadNodeModel;

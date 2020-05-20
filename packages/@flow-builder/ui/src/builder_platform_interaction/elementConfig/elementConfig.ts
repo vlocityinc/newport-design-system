@@ -102,8 +102,17 @@ import {
     createStartElementMetadataObject,
     createPastedScreen,
     createPastedDecision,
+    createPastedWait,
     createPastedAssignment,
-    createPastedSubflow
+    createPastedSubflow,
+    createPastedRecordCreate,
+    createPastedRecordDelete,
+    createPastedRecordLookup,
+    createPastedRecordUpdate,
+    createPastedActionCall,
+    createPastedApexCall,
+    createPastedApexPlugin,
+    createPastedEmailAlert
 } from 'builder_platform_interaction/elementFactory';
 import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
@@ -263,6 +272,7 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createActionCall,
+            pasteElement: createPastedActionCall,
             duplicateElement: createDuplicateActionCall,
             uiToFlow: createActionCallMetadataObject,
             flowToUi: createActionCallForStore
@@ -294,6 +304,7 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createActionCall,
+            pasteElement: createPastedActionCall,
             duplicateElement: createDuplicateActionCall,
             uiToFlow: createActionCallMetadataObject,
             flowToUi: createActionCallForStore
@@ -324,6 +335,7 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createApexPlugin,
+            pasteElement: createPastedApexPlugin,
             duplicateElement: createDuplicateApexPlugin,
             uiToFlow: createApexPluginMetadataObject,
             flowToUi: createApexPluginWithConnectors
@@ -355,6 +367,7 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createApexCall,
+            pasteElement: createPastedApexCall,
             duplicateElement: createDuplicateApexCall,
             uiToFlow: createActionCallMetadataObject,
             flowToUi: createActionCallForStore
@@ -386,6 +399,7 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createEmailAlert,
+            pasteElement: createPastedEmailAlert,
             duplicateElement: createDuplicateEmailAlert,
             uiToFlow: createActionCallMetadataObject,
             flowToUi: createActionCallForStore
@@ -535,6 +549,7 @@ export const elementTypeToConfigMap = {
         factory: {
             propertyEditor: createWaitWithWaitEvents,
             closePropertyEditor: createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor,
+            pasteElement: createPastedWait,
             duplicateElement: createDuplicateWait,
             uiToFlow: createWaitMetadataObject,
             flowToUi: createWaitWithWaitEventReferences
@@ -611,6 +626,7 @@ export const elementTypeToConfigMap = {
         nonHydratableProperties: ['numberRecordsToStore'],
         factory: {
             propertyEditor: createRecordCreate,
+            pasteElement: createPastedRecordCreate,
             duplicateElement: createDuplicateRecordCreate,
             uiToFlow: createRecordCreateMetadataObject,
             flowToUi: createRecordCreateWithConnectors
@@ -646,6 +662,7 @@ export const elementTypeToConfigMap = {
         ],
         factory: {
             propertyEditor: createRecordLookup,
+            pasteElement: createPastedRecordLookup,
             duplicateElement: createDuplicateRecordLookup,
             uiToFlow: createRecordLookupMetadataObject,
             flowToUi: createRecordLookupWithConnectors
@@ -674,6 +691,7 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createRecordDelete,
+            pasteElement: createPastedRecordDelete,
             duplicateElement: createDuplicateRecordDelete,
             uiToFlow: createRecordDeleteMetadataObject,
             flowToUi: createRecordDeleteWithConnectors
@@ -702,6 +720,7 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createRecordUpdate,
+            pasteElement: createPastedRecordUpdate,
             duplicateElement: createDuplicateRecordUpdate,
             uiToFlow: createRecordUpdateMetadataObject,
             flowToUi: createRecordUpdateWithConnectors

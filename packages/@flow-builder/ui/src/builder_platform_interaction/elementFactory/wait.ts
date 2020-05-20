@@ -9,6 +9,7 @@ import {
 } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
+    createPastedCanvasElement,
     duplicateCanvasElementWithChildElements,
     baseCanvasElementsArrayToMap,
     baseChildElement,
@@ -201,6 +202,52 @@ export function createWaitWithWaitEvents(wait = {}) {
 }
 
 /**
+ * Function to create the pasted Wait element
+ *
+ * @param {Object} dataForPasting - Data required to create the pasted element
+ */
+export function createPastedWait({
+    canvasElementToPaste,
+    newGuid,
+    newName,
+    canvasElementGuidMap,
+    childElementGuidMap,
+    childElementNameMap,
+    cutOrCopiedChildElements,
+    topCutOrCopiedGuid,
+    bottomCutOrCopiedGuid,
+    prev,
+    next,
+    parent,
+    childIndex
+}) {
+    const { duplicatedElement, duplicatedChildElements } = createDuplicateWait(
+        canvasElementToPaste,
+        newGuid,
+        newName,
+        childElementGuidMap,
+        childElementNameMap,
+        cutOrCopiedChildElements
+    );
+
+    const pastedCanvasElement = createPastedCanvasElement(
+        duplicatedElement,
+        canvasElementGuidMap,
+        topCutOrCopiedGuid,
+        bottomCutOrCopiedGuid,
+        prev,
+        next,
+        parent,
+        childIndex
+    );
+
+    return {
+        pastedCanvasElement,
+        pastedChildElements: duplicatedChildElements
+    };
+}
+
+/**
  * Function to create the duplicate Wait element
  *
  * @param {Object} wait - Wait element being copied
@@ -210,9 +257,17 @@ export function createWaitWithWaitEvents(wait = {}) {
  * the duplicated child elements
  * @param {Object} childElementNameMap - Map of child element names to newly generated unique names that will be used for
  * the duplicated child elements
+ * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements. Undefined in the case of duplication on Free Form Canvas
  * @return {Object} Returns an object containing the duplicated element and the duplicated childElements
  */
-export function createDuplicateWait(wait, newGuid, newName, childElementGuidMap, childElementNameMap) {
+export function createDuplicateWait(
+    wait,
+    newGuid,
+    newName,
+    childElementGuidMap,
+    childElementNameMap,
+    cutOrCopiedChildElements
+) {
     const defaultAvailableConnections = [
         {
             type: CONNECTOR_TYPE.DEFAULT
@@ -233,6 +288,7 @@ export function createDuplicateWait(wait, newGuid, newName, childElementGuidMap,
         newName,
         childElementGuidMap,
         childElementNameMap,
+        cutOrCopiedChildElements,
         createWaitEvent,
         childReferenceKeys.childReferencesKey,
         childReferenceKeys.childReferenceKey,

@@ -124,41 +124,43 @@ describe('FLC Canvas Utils test', () => {
                     guid: 'guid1',
                     elementType: ELEMENT_TYPE.SCREEN,
                     config: {
-                        isSelected: false
+                        isSelected: true
                     },
                     prev: null,
                     next: 'guid2'
                 },
                 guid2: {
                     guid: 'guid2',
-                    elementType: ELEMENT_TYPE.DECISION,
+                    elementType: ELEMENT_TYPE.WAIT,
                     config: {
-                        isSelected: true
+                        isSelected: false
                     },
                     prev: 'guid1',
                     next: 'guid3',
-                    children: ['guid4', 'guid5']
+                    children: ['guid4', null],
+                    fault: 'guid5'
                 },
                 guid3: {
                     guid: 'guid3',
-                    elementType: ELEMENT_TYPE.DECISION,
+                    elementType: ELEMENT_TYPE.SCREEN,
                     config: {
                         isSelected: false
                     },
                     prev: 'guid2',
-                    next: null,
-                    children: ['guid6', null]
+                    next: 'end1'
                 },
                 guid4: {
                     guid: 'guid4',
-                    elementType: ELEMENT_TYPE.SCREEN,
+                    elementType: ELEMENT_TYPE.WAIT,
                     config: {
                         isSelected: false
                     },
                     parent: 'guid2',
                     prev: null,
                     next: null,
-                    childIndex: 0
+                    childIndex: 0,
+                    children: [null, null],
+                    fault: 'guid6'
                 },
                 guid5: {
                     guid: 'guid5',
@@ -168,8 +170,8 @@ describe('FLC Canvas Utils test', () => {
                     },
                     parent: 'guid2',
                     prev: null,
-                    next: null,
-                    childIndex: 1
+                    next: 'end2',
+                    childIndex: -1
                 },
                 guid6: {
                     guid: 'guid6',
@@ -177,20 +179,38 @@ describe('FLC Canvas Utils test', () => {
                     config: {
                         isSelected: false
                     },
-                    parent: 'guid3',
+                    parent: 'guid4',
                     prev: null,
-                    next: null,
-                    childIndex: 0
+                    next: 'end3',
+                    childIndex: -1
+                },
+                end1: {
+                    guid: 'end1',
+                    elementType: ELEMENT_TYPE.END_ELEMENT,
+                    prev: 'guid3',
+                    next: null
+                },
+                end2: {
+                    guid: 'end2',
+                    elementType: ELEMENT_TYPE.END_ELEMENT,
+                    prev: 'guid5',
+                    next: null
+                },
+                end3: {
+                    guid: 'end3',
+                    elementType: ELEMENT_TYPE.END_ELEMENT,
+                    prev: 'guid6',
+                    next: null
                 }
             };
 
-            const result = getCanvasElementSelectionData(flowModel, 'guid6', 'guid2');
+            const result = getCanvasElementSelectionData(flowModel, 'guid3', 'guid1');
             checkSelectionDeselectionResultEquality(
                 result,
-                ['guid6', 'guid3', 'guid4', 'guid5'],
+                ['guid3', 'guid4', 'guid6', 'guid2'],
                 [],
-                ['guid2', 'guid1', 'guid4', 'guid5', 'guid3', 'guid6'],
-                'guid2'
+                ['guid1', 'guid2', 'guid4', 'guid6', 'guid5', 'guid3'],
+                'guid1'
             );
         });
 
@@ -377,13 +397,14 @@ describe('FLC Canvas Utils test', () => {
                     },
                     guid2: {
                         guid: 'guid2',
-                        elementType: ELEMENT_TYPE.DECISION,
+                        elementType: ELEMENT_TYPE.WAIT,
                         config: {
                             isSelected: true
                         },
                         prev: 'guid1',
                         next: 'guid3',
-                        children: ['guid4', null]
+                        children: ['guid4', null],
+                        fault: 'guid5'
                     },
                     guid3: {
                         guid: 'guid3',
@@ -392,18 +413,60 @@ describe('FLC Canvas Utils test', () => {
                             isSelected: true
                         },
                         prev: 'guid2',
-                        next: null
+                        next: 'end1'
                     },
                     guid4: {
                         guid: 'guid4',
-                        elementType: ELEMENT_TYPE.SCREEN,
+                        elementType: ELEMENT_TYPE.WAIT,
                         config: {
                             isSelected: true
                         },
                         parent: 'guid2',
                         prev: null,
                         next: null,
-                        childIndex: 0
+                        childIndex: 0,
+                        children: [null, null],
+                        fault: 'guid6'
+                    },
+                    guid5: {
+                        guid: 'guid5',
+                        elementType: ELEMENT_TYPE.SCREEN,
+                        config: {
+                            isSelected: true
+                        },
+                        parent: 'guid2',
+                        prev: null,
+                        next: 'end2',
+                        childIndex: -1
+                    },
+                    guid6: {
+                        guid: 'guid6',
+                        elementType: ELEMENT_TYPE.SCREEN,
+                        config: {
+                            isSelected: true
+                        },
+                        parent: 'guid4',
+                        prev: null,
+                        next: 'end3',
+                        childIndex: -1
+                    },
+                    end1: {
+                        guid: 'end1',
+                        elementType: ELEMENT_TYPE.END_ELEMENT,
+                        prev: 'guid3',
+                        next: null
+                    },
+                    end2: {
+                        guid: 'end2',
+                        elementType: ELEMENT_TYPE.END_ELEMENT,
+                        prev: 'guid5',
+                        next: null
+                    },
+                    end3: {
+                        guid: 'end3',
+                        elementType: ELEMENT_TYPE.END_ELEMENT,
+                        prev: 'guid6',
+                        next: null
                     }
                 };
 
@@ -411,7 +474,7 @@ describe('FLC Canvas Utils test', () => {
                 checkSelectionDeselectionResultEquality(
                     result,
                     [],
-                    ['guid2', 'guid4'],
+                    ['guid2', 'guid4', 'guid6', 'guid5'],
                     ['guid3', 'guid2', 'guid1'],
                     'guid3'
                 );
@@ -464,7 +527,7 @@ describe('FLC Canvas Utils test', () => {
                 const flowModel = {
                     guid1: {
                         guid: 'guid1',
-                        elementType: ELEMENT_TYPE.SCREEN,
+                        elementType: ELEMENT_TYPE.ASSIGNMENT,
                         config: {
                             isSelected: true
                         },
@@ -473,13 +536,14 @@ describe('FLC Canvas Utils test', () => {
                     },
                     guid2: {
                         guid: 'guid2',
-                        elementType: ELEMENT_TYPE.DECISION,
+                        elementType: ELEMENT_TYPE.WAIT,
                         config: {
                             isSelected: true
                         },
                         prev: 'guid1',
                         next: 'guid3',
-                        children: ['guid4', 'guid5']
+                        children: ['guid4', null],
+                        fault: 'guid5'
                     },
                     guid3: {
                         guid: 'guid3',
@@ -488,18 +552,20 @@ describe('FLC Canvas Utils test', () => {
                             isSelected: true
                         },
                         prev: 'guid2',
-                        next: null
+                        next: 'end1'
                     },
                     guid4: {
                         guid: 'guid4',
-                        elementType: ELEMENT_TYPE.SCREEN,
+                        elementType: ELEMENT_TYPE.WAIT,
                         config: {
-                            isSelected: false
+                            isSelected: true
                         },
                         parent: 'guid2',
                         prev: null,
                         next: null,
-                        childIndex: 0
+                        childIndex: 0,
+                        children: [null, null],
+                        fault: 'guid6'
                     },
                     guid5: {
                         guid: 'guid5',
@@ -509,8 +575,37 @@ describe('FLC Canvas Utils test', () => {
                         },
                         parent: 'guid2',
                         prev: null,
-                        next: null,
-                        childIndex: 1
+                        next: 'end2',
+                        childIndex: -1
+                    },
+                    guid6: {
+                        guid: 'guid6',
+                        elementType: ELEMENT_TYPE.SCREEN,
+                        config: {
+                            isSelected: true
+                        },
+                        parent: 'guid4',
+                        prev: null,
+                        next: 'end3',
+                        childIndex: -1
+                    },
+                    end1: {
+                        guid: 'end1',
+                        elementType: ELEMENT_TYPE.END_ELEMENT,
+                        prev: 'guid3',
+                        next: null
+                    },
+                    end2: {
+                        guid: 'end2',
+                        elementType: ELEMENT_TYPE.END_ELEMENT,
+                        prev: 'guid5',
+                        next: null
+                    },
+                    end3: {
+                        guid: 'end3',
+                        elementType: ELEMENT_TYPE.END_ELEMENT,
+                        prev: 'guid6',
+                        next: null
                     }
                 };
 
@@ -518,8 +613,8 @@ describe('FLC Canvas Utils test', () => {
                 checkSelectionDeselectionResultEquality(
                     result,
                     [],
-                    ['guid2', 'guid5', 'guid3'],
-                    ['guid1', 'guid2', 'guid4', 'guid5', 'guid3'],
+                    ['guid2', 'guid4', 'guid6', 'guid5', 'guid3'],
+                    ['guid1', 'guid2', 'guid4', 'guid6', 'guid5', 'guid3'],
                     'guid1'
                 );
             });
@@ -627,7 +722,7 @@ describe('FLC Canvas Utils test', () => {
             checkSelectionDeselectionResultEquality(result, [], ['guid2', 'guid3'], [], '');
         });
 
-        it('Deselects all selected branch elements and following select elements', () => {
+        it('Deselects all selected branch elements and following selected elements', () => {
             const flowModel = {
                 guid1: {
                     guid: 'guid1',
@@ -745,7 +840,7 @@ describe('FLC Canvas Utils test', () => {
                 },
                 guid7: {
                     guid: 'guid7',
-                    elementType: ELEMENT_TYPE.DECISION,
+                    elementType: ELEMENT_TYPE.WAIT,
                     config: {
                         isSelected: true
                     },
@@ -753,7 +848,8 @@ describe('FLC Canvas Utils test', () => {
                     prev: null,
                     next: null,
                     childIndex: 1,
-                    children: [null, null]
+                    children: [null, null],
+                    fault: 'guid9'
                 },
                 guid8: {
                     guid: 'guid8',
@@ -763,6 +859,23 @@ describe('FLC Canvas Utils test', () => {
                     },
                     prev: 'guid1',
                     next: null
+                },
+                guid9: {
+                    guid: 'guid9',
+                    elementType: ELEMENT_TYPE.ASSIGNMENT,
+                    config: {
+                        isSelected: true
+                    },
+                    prev: null,
+                    next: 'end1',
+                    parent: 'guid7',
+                    childIndex: -1
+                },
+                end1: {
+                    guid: 'end1',
+                    elementType: ELEMENT_TYPE.END_ELEMENT,
+                    prev: 'guid9',
+                    next: null
                 }
             };
 
@@ -770,7 +883,7 @@ describe('FLC Canvas Utils test', () => {
             checkSelectionDeselectionResultEquality(
                 result,
                 [],
-                ['guid1', 'guid2', 'guid4', 'guid7', 'guid3', 'guid8'],
+                ['guid1', 'guid2', 'guid4', 'guid7', 'guid9', 'guid3', 'guid8'],
                 [],
                 ''
             );

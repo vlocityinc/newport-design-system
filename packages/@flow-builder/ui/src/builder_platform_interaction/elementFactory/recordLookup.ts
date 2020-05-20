@@ -3,6 +3,7 @@ import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flow
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
+    createPastedCanvasElement,
     duplicateCanvasElement,
     createAvailableConnection,
     automaticOutputHandlingSupport,
@@ -252,6 +253,36 @@ function createRecordLookupWithAutomaticOutputHandling(recordLookup = {}) {
         getFirstRecordOnly,
         variableAndFieldMapping
     });
+}
+
+export function createPastedRecordLookup({
+    canvasElementToPaste,
+    newGuid,
+    newName,
+    canvasElementGuidMap,
+    topCutOrCopiedGuid,
+    bottomCutOrCopiedGuid,
+    prev,
+    next,
+    parent,
+    childIndex
+}) {
+    const { duplicatedElement } = createDuplicateRecordLookup(canvasElementToPaste, newGuid, newName);
+
+    const pastedCanvasElement = createPastedCanvasElement(
+        duplicatedElement,
+        canvasElementGuidMap,
+        topCutOrCopiedGuid,
+        bottomCutOrCopiedGuid,
+        prev,
+        next,
+        parent,
+        childIndex
+    );
+
+    return {
+        pastedCanvasElement
+    };
 }
 
 export function createDuplicateRecordLookup(recordLookup, newGuid, newName) {

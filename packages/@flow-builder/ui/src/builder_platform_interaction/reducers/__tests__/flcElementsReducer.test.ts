@@ -37,7 +37,7 @@ jest.mock('../elementsReducer', () => {
 });
 
 jest.mock('builder_platform_interaction/elementFactory', () => {
-    const { createPastedAssignment, createPastedDecision, createPastedScreen } = jest.requireActual(
+    const { createPastedAssignment, createPastedDecision, createPastedScreen, createPastedWait } = jest.requireActual(
         'builder_platform_interaction/elementFactory'
     );
     return {
@@ -46,7 +46,8 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
         })),
         createPastedAssignment,
         createPastedDecision,
-        createPastedScreen
+        createPastedScreen,
+        createPastedWait
     };
 });
 
@@ -69,7 +70,9 @@ jest.mock('builder_platform_interaction/flowUtils', () => {
 });
 
 jest.mock('builder_platform_interaction/flcBuilderUtils', () => {
+    const { addFlcProperties } = jest.requireActual('builder_platform_interaction/flcBuilderUtils');
     return {
+        addFlcProperties,
         supportsChildren: jest.fn()
     };
 });
@@ -346,24 +349,25 @@ describe('elements-reducer', () => {
             guid: 'assignment1',
             name: 'assignment1',
             elementType: ELEMENT_TYPE.ASSIGNMENT,
-            next: 'decision1'
+            next: 'wait1'
         };
 
-        const decision1 = {
-            guid: 'decision1',
-            name: 'decision1',
-            elementType: ELEMENT_TYPE.DECISION,
-            outcomeReferences: [
+        const wait1 = {
+            guid: 'wait1',
+            name: 'wait1',
+            elementType: ELEMENT_TYPE.WAIT,
+            waitEventReferences: [
                 {
-                    outcomeReference: 'outcome1'
+                    waitEventReference: 'waitEvent1'
                 },
                 {
-                    outcomeReference: 'outcome2'
+                    waitEventReference: 'waitEvent2'
                 }
             ],
             prev: 'assignment1',
             next: null,
-            children: ['screen1', null, 'screen2']
+            children: ['screen1', null, 'screen2'],
+            fault: 'screen3'
         };
 
         const screen1 = {
@@ -372,7 +376,7 @@ describe('elements-reducer', () => {
             elementType: ELEMENT_TYPE.SCREEN,
             prev: null,
             next: null,
-            parent: 'decision1',
+            parent: 'wait1',
             childIndex: 0,
             isTerminal: false
         };
@@ -383,49 +387,64 @@ describe('elements-reducer', () => {
             elementType: ELEMENT_TYPE.SCREEN,
             prev: null,
             next: null,
-            parent: 'decision1',
+            parent: 'wait1',
             childIndex: 2,
             isTerminal: true
         };
 
-        const outcome1 = {
-            guid: 'outcome1',
-            name: 'outcome1'
+        const screen3 = {
+            guid: 'screen3',
+            name: 'screen3',
+            elementType: ELEMENT_TYPE.SCREEN,
+            fieldReferences: [],
+            prev: null,
+            next: null,
+            parent: 'wait1',
+            childIndex: -1,
+            isTerminal: true
         };
 
-        const outcome2 = {
-            guid: 'outcome2',
-            name: 'outcome2'
+        const waitEvent1 = {
+            guid: 'waitEvent1',
+            name: 'waitEvent1'
+        };
+
+        const waitEvent2 = {
+            guid: 'waitEvent2',
+            name: 'waitEvent2'
         };
 
         const canvasElementGuidMap = {
             assignment1: 'assignment1_0',
-            decision1: 'decision1_0'
+            wait1: 'wait1_0',
+            screen3: 'screen3_0'
         };
         const childElementGuidMap = {
-            outcome1: 'outcome1_0',
-            outcome2: 'outcome2_0'
+            waitEvent1: 'waitEvent1_0',
+            waitEvent2: 'waitEvent2_0'
         };
         const cutOrCopiedCanvasElements = {
             assignment1,
-            decision1
+            wait1,
+            screen3
         };
         const cutOrCopiedChildElements = {
-            outcome1,
-            outcome2
+            waitEvent1,
+            waitEvent2
         };
         const topCutOrCopiedGuid = 'assignment1';
-        const bottomCutOrCopiedGuid = 'decision1';
+        const bottomCutOrCopiedGuid = 'wait1';
 
         beforeEach(() => {
             mockStoreData = {
                 elements: {
                     assignment1,
-                    decision1,
+                    wait1,
                     screen1,
                     screen2,
-                    outcome1,
-                    outcome2
+                    screen3,
+                    waitEvent1,
+                    waitEvent2
                 }
             };
 
@@ -450,7 +469,7 @@ describe('elements-reducer', () => {
                         topCutOrCopiedGuid,
                         bottomCutOrCopiedGuid,
                         prev: 'assignment1',
-                        next: 'decision1',
+                        next: 'wait1',
                         parent: null,
                         childIndex: null
                     }
@@ -459,9 +478,10 @@ describe('elements-reducer', () => {
 
             it('Pasted elements should be included in the updated state', () => {
                 expect(Object.keys(updatedState).includes('assignment1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('decision1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('outcome1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('outcome2_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('wait1_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('waitEvent1_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('waitEvent2_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('screen3_0')).toBeTruthy();
             });
 
             it('Previous Element next property should be updated', () => {
@@ -469,13 +489,17 @@ describe('elements-reducer', () => {
             });
 
             it('Next Element previous property should be updated', () => {
-                expect(updatedState.decision1.prev).toEqual('decision1_0');
+                expect(updatedState.wait1.prev).toEqual('wait1_0');
             });
 
             it('Next Element should not have parent, childIndex or isTerminal property', () => {
-                expect(Object.keys(updatedState.decision1).includes('parent')).toBeFalsy();
-                expect(Object.keys(updatedState.decision1).includes('childIndex')).toBeFalsy();
-                expect(Object.keys(updatedState.decision1).includes('isTerminal')).toBeFalsy();
+                expect(Object.keys(updatedState.wait1).includes('parent')).toBeFalsy();
+                expect(Object.keys(updatedState.wait1).includes('childIndex')).toBeFalsy();
+                expect(Object.keys(updatedState.wait1).includes('isTerminal')).toBeFalsy();
+            });
+
+            it('Pasted Fault Branch Element (screen3_0), should have the updated next property', () => {
+                expect(updatedState.screen3_0.next).toEqual('end-element-guid');
             });
         });
 
@@ -494,7 +518,7 @@ describe('elements-reducer', () => {
                         bottomCutOrCopiedGuid,
                         prev: null,
                         next: 'screen1',
-                        parent: 'decision1',
+                        parent: 'wait1',
                         childIndex: 0
                     }
                 });
@@ -502,9 +526,10 @@ describe('elements-reducer', () => {
 
             it('Pasted elements should be included in the updated state', () => {
                 expect(Object.keys(updatedState).includes('assignment1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('decision1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('outcome1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('outcome2_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('wait1_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('waitEvent1_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('waitEvent2_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('screen3_0')).toBeTruthy();
             });
 
             it('assignment1_0 should have the right isTerminal property', () => {
@@ -512,7 +537,7 @@ describe('elements-reducer', () => {
             });
 
             it('Next Element previous property should be updated', () => {
-                expect(updatedState.screen1.prev).toEqual('decision1_0');
+                expect(updatedState.screen1.prev).toEqual('wait1_0');
             });
 
             it('Next Element should not have parent, childIndex or isTerminal property', () => {
@@ -522,7 +547,11 @@ describe('elements-reducer', () => {
             });
 
             it('Parent element children property should be updated', () => {
-                expect(updatedState.decision1.children).toEqual(['assignment1_0', null, 'screen2']);
+                expect(updatedState.wait1.children).toEqual(['assignment1_0', null, 'screen2']);
+            });
+
+            it('Pasted Fault Branch Element (screen3_0), should have the updated next property', () => {
+                expect(updatedState.screen3_0.next).toEqual('end-element-guid');
             });
         });
 
@@ -541,7 +570,7 @@ describe('elements-reducer', () => {
                         bottomCutOrCopiedGuid,
                         prev: null,
                         next: null,
-                        parent: 'decision1',
+                        parent: 'wait1',
                         childIndex: 1
                     }
                 });
@@ -549,9 +578,10 @@ describe('elements-reducer', () => {
 
             it('Pasted elements should be included in the updated state', () => {
                 expect(Object.keys(updatedState).includes('assignment1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('decision1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('outcome1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('outcome2_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('wait1_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('waitEvent1_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('waitEvent2_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('screen3_0')).toBeTruthy();
             });
 
             it('assignment1_0 should have the right isTerminal property', () => {
@@ -559,7 +589,11 @@ describe('elements-reducer', () => {
             });
 
             it('Parent element children property should be updated', () => {
-                expect(updatedState.decision1.children).toEqual(['screen1', 'assignment1_0', 'screen2']);
+                expect(updatedState.wait1.children).toEqual(['screen1', 'assignment1_0', 'screen2']);
+            });
+
+            it('Pasted Fault Branch Element (screen3_0), should have the updated next property', () => {
+                expect(updatedState.screen3_0.next).toEqual('end-element-guid');
             });
         });
 
@@ -578,7 +612,7 @@ describe('elements-reducer', () => {
                         bottomCutOrCopiedGuid,
                         prev: null,
                         next: 'screen2',
-                        parent: 'decision1',
+                        parent: 'wait1',
                         childIndex: 2
                     }
                 });
@@ -586,9 +620,10 @@ describe('elements-reducer', () => {
 
             it('Pasted elements should be included in the updated state', () => {
                 expect(Object.keys(updatedState).includes('assignment1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('decision1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('outcome1_0')).toBeTruthy();
-                expect(Object.keys(updatedState).includes('outcome2_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('wait1_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('waitEvent1_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('waitEvent2_0')).toBeTruthy();
+                expect(Object.keys(updatedState).includes('screen3_0')).toBeTruthy();
             });
 
             it('assignment1_0 should have the right isTerminal property', () => {
@@ -602,7 +637,11 @@ describe('elements-reducer', () => {
             });
 
             it('Parent element children property should be updated', () => {
-                expect(updatedState.decision1.children).toEqual(['screen1', null, 'assignment1_0']);
+                expect(updatedState.wait1.children).toEqual(['screen1', null, 'assignment1_0']);
+            });
+
+            it('Pasted Fault Branch Element (screen3_0), should have the updated next property', () => {
+                expect(updatedState.screen3_0.next).toEqual('end-element-guid');
             });
         });
     });
