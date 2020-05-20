@@ -12,16 +12,21 @@ import { EXPRESSION_RE } from 'builder_platform_interaction/flowMetadata';
  * d) "guidOrLiteral" references a complex type element, and "fieldNames" is a field path on that complex type
  * e) "guidOrLiteral" holds an a complex type api name, and fieldNames is a field path on that sobject
  *
- * @typedef {Object} complexGuid
+ * @typedef {Object} ComplexGuid
  * @param {String} guidOrLiteral                 a flow element's guid OR a literal
  * @param {String[]|undefined} fieldNames  if the flow element is an sobjectVar this may be a field on that sobject, or undefined
  */
+type ComplexGuid = {
+    guidOrLiteral: string;
+    fieldNames: string[] | undefined;
+};
+
 /**
  * If a guid contains more than one level, separates it out to two parts
  * @param {String} potentialGuid The guid to sanitize. This can be the value in the case of literals.
  * @returns {complexGuid} The complex object containing the guid and the field names. Returns an empty object in the literals case.
  */
-export const sanitizeGuid = potentialGuid => {
+export const sanitizeGuid = (potentialGuid: string): ComplexGuid => {
     const complexGuid = {};
     if (typeof potentialGuid === 'string') {
         const periodIndex = potentialGuid.indexOf('.');

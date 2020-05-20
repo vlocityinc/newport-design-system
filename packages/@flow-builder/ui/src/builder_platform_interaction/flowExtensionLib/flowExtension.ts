@@ -146,7 +146,10 @@ export function getExtensionFieldTypes(flowProcessType) {
  * @param {String} name - The FQN of the component
  * @returns {Promise} A promise to the extension description
  */
-export function describeExtension(name, { background = false, disableErrorModal = false, messageForErrorModal } = {}) {
+export function describeExtension(
+    name,
+    { background = false, disableErrorModal = false, messageForErrorModal = undefined } = {}
+) {
     return describeExtensions([name], {
         background,
         disableErrorModal,

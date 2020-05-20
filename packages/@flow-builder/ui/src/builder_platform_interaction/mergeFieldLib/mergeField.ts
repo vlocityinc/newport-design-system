@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { getResourceByUniqueIdentifier } from 'builder_platform_interaction/expressionUtils';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 import { getPropertiesForClass, getApexPropertyWithName } from 'builder_platform_interaction/apexTypeLib';
@@ -21,7 +20,7 @@ import { fetchActiveOrLatestFlowOutputVariables } from 'builder_platform_interac
  * @param {String} triggerType the current trigger type
  * @returns {Boolean} true if lookup traversal is supported, false otherwise
  */
-export const isLookupTraversalSupported = (processType, triggerType) => {
+export const isLookupTraversalSupported = (processType: string, triggerType: string) => {
     return isLookupTraversalSupportedByProcessType(processType) && isLookupTraversalSupportedByTriggerType(triggerType);
 };
 
@@ -32,10 +31,10 @@ export const isLookupTraversalSupported = (processType, triggerType) => {
  *
  * @returns {Promise<Object[]|undefined>} Array with first item being the element (resource/global constant ...) and next items being the fields. Returns undefined if not a valid reference
  */
-export function resolveReferenceFromIdentifier(identifier) {
+export function resolveReferenceFromIdentifier(identifier: string): Promise<object[] | undefined> {
     const elementOrResource = getResourceByUniqueIdentifier(identifier);
     if (!elementOrResource) {
-        return Promise.resolve();
+        return Promise.resolve(undefined);
     }
     if (isComplexType(elementOrResource.dataType)) {
         const { fieldNames } = sanitizeGuid(identifier);
@@ -44,7 +43,7 @@ export function resolveReferenceFromIdentifier(identifier) {
     return Promise.resolve([elementOrResource]);
 }
 
-function resolveComplexTypeReference(flowResource, fieldNames) {
+function resolveComplexTypeReference(flowResource, fieldNames?: string[]): Promise<object[] | undefined> {
     if (!fieldNames || fieldNames.length === 0) {
         return Promise.resolve([flowResource]);
     }
@@ -68,11 +67,11 @@ function resolveComplexTypeReference(flowResource, fieldNames) {
     return Promise.resolve(undefined);
 }
 
-function fetchPropertiesForClass(clazz) {
+function fetchPropertiesForClass(clazz: string) {
     return loadApexClasses().then(() => getPropertiesForClass(clazz));
 }
 
-function resolveApexPropertyReference(clazz, fieldNames) {
+function resolveApexPropertyReference(clazz: string, fieldNames: string[]) {
     if (fieldNames.length === 0) {
         return Promise.resolve([]);
     }
@@ -98,7 +97,7 @@ function resolveApexPropertyReference(clazz, fieldNames) {
     });
 }
 
-function resolveEntityFieldReference(entityName, fieldNames) {
+function resolveEntityFieldReference(entityName: string, fieldNames: string[]): Promise<object[] | undefined> {
     if (fieldNames.length === 0) {
         return Promise.resolve([]);
     }
@@ -111,6 +110,9 @@ function resolveEntityFieldReference(entityName, fieldNames) {
                 return undefined;
             }
             const referenceToName = getReferenceToName(field, specificEntityName);
+            if (!referenceToName) {
+                return undefined;
+            }
             return resolveEntityFieldReference(referenceToName, remainingFieldNames).then(remainingFields => {
                 return remainingFields ? [field, ...remainingFields] : undefined;
             });
@@ -123,7 +125,10 @@ function resolveEntityFieldReference(entityName, fieldNames) {
     });
 }
 
-function resolveLightningComponentOutputReference(extensionName, fieldNames) {
+function resolveLightningComponentOutputReference(
+    extensionName: string,
+    fieldNames: string[]
+): Promise<object[] | undefined> {
     if (fieldNames.length === 0) {
         return Promise.resolve([]);
     }
@@ -142,7 +147,7 @@ function resolveLightningComponentOutputReference(extensionName, fieldNames) {
     });
 }
 
-function resolveApexPropertyOrEntityFieldReference(field, fieldNames) {
+function resolveApexPropertyOrEntityFieldReference(field, fieldNames: string[]): Promise<object[] | undefined> {
     if (field.dataType === FLOW_DATA_TYPE.APEX.value) {
         return resolveApexPropertyReference(field.subtype, fieldNames);
     } else if (field.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
@@ -151,7 +156,10 @@ function resolveApexPropertyOrEntityFieldReference(field, fieldNames) {
     return Promise.resolve(undefined);
 }
 
-function resolveActionOutputReference({ actionType, actionName }, fieldNames) {
+function resolveActionOutputReference(
+    { actionType, actionName }: { actionType: string; actionName: string },
+    fieldNames: string[]
+): Promise<object[] | undefined> {
     if (fieldNames.length === 0) {
         return Promise.resolve([]);
     }
@@ -170,7 +178,10 @@ function resolveActionOutputReference({ actionType, actionName }, fieldNames) {
     });
 }
 
-function resolveSubflowOutputReference({ flowName }, fieldNames) {
+function resolveSubflowOutputReference(
+    { flowName }: { flowName: string },
+    fieldNames: string[]
+): Promise<object[] | undefined> {
     if (fieldNames.length === 0) {
         return Promise.resolve([]);
     }
@@ -189,7 +200,7 @@ function resolveSubflowOutputReference({ flowName }, fieldNames) {
     });
 }
 
-export function getReferenceToName(field, specificEntityName) {
+export function getReferenceToName(field, specificEntityName?: string): string | undefined {
     let referenceToName;
     if (specificEntityName) {
         if (!field.isPolymorphic || !entityFieldIncludesReferenceToName(field, specificEntityName)) {
@@ -205,14 +216,16 @@ export function getReferenceToName(field, specificEntityName) {
     return referenceToName;
 }
 
-function entityFieldIncludesReferenceToName(entityField, referenceToName) {
+function entityFieldIncludesReferenceToName(entityField, referenceToName: string): boolean {
     referenceToName = referenceToName.toLowerCase();
     return entityField.referenceToNames.some(
         fieldReferenceToName => fieldReferenceToName.toLowerCase() === referenceToName
     );
 }
 
-export function getPolymorphicRelationShipName(fieldName) {
+export function getPolymorphicRelationShipName(
+    fieldName: string
+): { relationshipName: string; specificEntityName?: string } {
     const index = fieldName.indexOf(':');
     if (index < 0) {
         return { relationshipName: fieldName };
@@ -223,7 +236,7 @@ export function getPolymorphicRelationShipName(fieldName) {
     };
 }
 
-export function getEntityFieldWithRelationshipName(fields, relationshipName) {
+export function getEntityFieldWithRelationshipName(fields, relationshipName: string) {
     relationshipName = relationshipName.toLowerCase();
     for (const apiName in fields) {
         if (fields.hasOwnProperty(apiName)) {
@@ -247,7 +260,7 @@ function getExtensionOutputParamDescriptions(extension) {
     }, {});
 }
 
-function fetchExtensionOutputParameters(extensionName) {
+function fetchExtensionOutputParameters(extensionName: string) {
     return describeExtension(extensionName, {
         disableErrorModal: true
     }).then(extension => getExtensionOutputParamDescriptions(extension));
@@ -262,7 +275,7 @@ function getActionOutputParameterDescriptions(details) {
         }, {});
 }
 
-function fetchActionOutputParameters({ actionType, actionName }) {
+function fetchActionOutputParameters({ actionType, actionName }: { actionType: string; actionName: string }) {
     return fetchDetailsForInvocableAction(
         { actionType, actionName },
         {

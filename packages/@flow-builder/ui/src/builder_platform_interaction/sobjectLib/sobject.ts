@@ -175,7 +175,7 @@ export const areFieldsForEntityAlreadyFetched = entityName => {
  */
 export const fetchFieldsForEntity = (
     entityName,
-    { background = false, disableErrorModal = false, messageForErrorModal } = {}
+    { background = false, disableErrorModal = false, messageForErrorModal = undefined } = {}
 ) => {
     if (cachedEntityFields[entityName]) {
         return Promise.resolve(cachedEntityFields[entityName]);

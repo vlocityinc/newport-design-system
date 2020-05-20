@@ -19,7 +19,7 @@ export function getInvocableActions() {
 
 export function fetchDetailsForInvocableAction(
     { actionName, actionType },
-    { background = false, disableErrorModal = false, messageForErrorModal } = {}
+    { background = false, disableErrorModal = false, messageForErrorModal = undefined } = {}
 ) {
     const key = `${actionName}-${actionType}`;
     if (cachedDetails[key]) {

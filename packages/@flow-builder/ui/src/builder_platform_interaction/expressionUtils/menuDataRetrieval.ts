@@ -136,7 +136,7 @@ export function isElementAllowed(
     allowedParamTypes,
     element,
     showComplexObjectsForFields = false,
-    sObjectSelectorConfig
+    sObjectSelectorConfig?
 ) {
     // allowedParamTypes that comes along sObjectSelectorConfig are only used for validation of manual entered fields.
     // menu data only relies on on the sobject selector config

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { resolveReferenceFromIdentifier } from './mergeFieldLib';
 import { recursiveSwap, getSwapValueFunction } from 'builder_platform_interaction/translatorLib';
 
@@ -9,7 +8,7 @@ import { recursiveSwap, getSwapValueFunction } from 'builder_platform_interactio
  * @returns {Promise} the promise is resolved once all references have been resolved (description retrieved from server if necessary)
  */
 export function loadReferencesIn(object) {
-    const promises = [];
+    const promises: Promise<unknown>[] = [];
     let firstError;
     const loadReferenceFromUid = uid => {
         promises.push(

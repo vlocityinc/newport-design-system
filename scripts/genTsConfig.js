@@ -19,7 +19,7 @@ fs.writeFileSync(
 
     "compilerOptions": {
         "declaration": false,
-        "strict": false,
+        "strict": true,
         "noUnusedLocals": false,
         "noImplicitAny": false,
         "outDir": "./build/builder_platform_interaction",
