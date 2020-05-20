@@ -82,6 +82,10 @@ export const ADD_END_ELEMENT = 'ADD_END_ELEMENT';
 
 export const UPDATE_APEX_CLASSES = 'UPDATE_APEX_CLASSES';
 
+export const DECORATE_CANVAS = 'DECORATE_CANVAS';
+
+export const CLEAR_CANVAS_DECORATION = 'CLEAR_CANVAS_DECORATION';
+
 /**
  * Helper function to create actions.
  *
@@ -393,3 +397,16 @@ export const updateInlineResourceProperties = payload => createAction(UPDATE_INL
 export const updateApexClasses = payload => createAction(UPDATE_APEX_CLASSES, payload);
 
 export const updateEntities = payload => createAction(UPDATE_ENTITIES, payload);
+
+/**
+ * Action for decorating a flow on the canvas (example, highlighting connectors and elements)
+ * @param {Object} payload - canvas decorator object
+ * @returns {Object} action - decorateCanvas action
+ */
+export const decorateCanvas = payload => createAction(DECORATE_CANVAS, payload);
+
+/**
+ * Action for clearing any current canvas decorations (example, highlighted connectors)
+ * @returns {Object} action - clearCanvasDecoration action
+ */
+export const clearCanvasDecoration = createAction(CLEAR_CANVAS_DECORATION);
