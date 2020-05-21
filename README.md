@@ -4,13 +4,49 @@ Welcome to the Vlocity Newport Design System brought to you by [Vlocity](https:/
 
 Tailored for building Vlocity Newport apps: Using the Newport Design System markup and CSS framework results in UIs that reflect the Vlocity Newport look and feel. Includes Storybook.js previewer to help you customize and rebrand all of Vlocity's newport based templates in one place.
 
+## Pre-requisites
+
+> NOTE: You'll need to use the command line to work with Newport, if you're not familar with the command line we recommend following the short *Git Tower Command Line 101* tutorial: https://www.git-tower.com/learn/git/ebook/en/command-line/appendix/command-line-101
+
+You'll need the following installed:
+
+ - Install Git: https://git-scm.com/downloads
+ - Install Node.js: https://nodejs.org/en/download/
+ - Install gulp-cli - after installing the above open your command prompt and run `npm install --global gulp-cli`
+
+
+
 ## Quick start
 
-1. Clone the project with `git clone https://github.com/vlocityinc/newport-design-system.git`
-2. Change into the `newport-design-system` folder using `cd newport-design-system`.
-3. Switch to the right branch for your version of the package, for example `git checkout ins-106.0`
-4. Run `npm install`.
-5. Run `npm start` to launch storybook.
+Clone the project with
+
+```bash
+git clone https://github.com/vlocityinc/newport-design-system.git
+```
+
+Change into the `newport-design-system` folder using
+
+```bash
+cd newport-design-system
+```
+
+(optional) Switch to the right branch for your version of the Salesforce package, for example
+
+```bash
+git checkout ins-108.0
+```
+
+Install the dependencies by running:
+
+```bash
+npm install
+```
+
+Finally you can launch Storybook previewer by running:
+
+```bash
+npm start
+```
 
 ![Preview in Storybook](./docs/previewer.v1.png)
 
@@ -18,44 +54,29 @@ Having trouble getting these steps to work on your machine? Follow the [troubles
 
 ## Docs
 
-For more indepth documentation please checkout the documentation section in storybook.
+For more indepth documentation please checkout the *documentation* section in storybook.
 
 ## Browser compatibility
 
 We support the latest versions of all browsers and IE 11.
 
-## Tasks
+### Generating the zip to deploy
 
-Install [gulp](http://gulpjs.com/) globally:
-
-```bash
-npm install --global gulp
-```
-
-### `npm start`
-
-Start the Newport Design System storybook.
-
-### `gulp lint`
-
-Lint the code base for syntax and stylistic errors.
+When you have an updated version of Newport that you're happy with and want to test in an org you can run the following command:
 
 ```bash
-# Lint indentation, Sass, JavaScript files
-gulp lint
+npm run build && npm run dist
 ```
 
-### Compilation
-
-### `npm run build && npm run dist`
-
-Generate the Newport Design System into the `.dist` directory and generate a zipped up version to be uploaded into Salesforce in the `dist` folder.
+This will generate a zipped up version to be uploaded into Salesforce in the `dist` folder in your workspace.
 
 If you also want to deploy it to an org then run it with the following env variables:
 
 ```bash
 SF_USERNAME=myusername@email.com SF_PASSWORD=mypassword npm run dist
 ```
+
+
 
 ## Troubleshooting
 
