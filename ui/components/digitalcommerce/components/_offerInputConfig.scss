@@ -1,0 +1,19 @@
+.nds-dc-offer-config-input-field {
+    .nds-dc-offer-attribute-label {
+        display: inline-block;
+        width: 4.75rem;
+        font-size: 0.875rem;
+    }
+    input {
+        width: 5rem;
+        padding: 0.313rem;
+        border: none;
+        border-bottom: 0.063rem solid $palette-cool-gray-5;
+        background-color: $palette-cool-gray-1;
+    }
+    @media only screen and (min-width: 48rem) {
+      .nds-dc-offer-attribute-label {
+        font-size: .8125rem;
+      }
+    }
+}

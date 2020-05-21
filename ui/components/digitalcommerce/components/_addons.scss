@@ -1,0 +1,19 @@
+.nds-dc-add_to-cart-btn {
+  font-weight: $font-weight-light;
+  color: $white;
+  background-color: $blue-background-primary;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.625rem;
+  width: 9rem;
+}
+
+.nds-dc-offer_navigation {
+  padding: 0.625rem 0.625rem 3.125rem 0.625rem;
+}
+
+@media screen and (min-width: 48rem) {
+  .nds-dc-offer_navigation {
+    padding: 0.93rem 1.88rem 3.125rem 1.88rem;
+  }
+}

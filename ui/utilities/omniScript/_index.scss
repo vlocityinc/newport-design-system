@@ -1,0 +1,54 @@
+.nds-omni-typeahead {
+
+  // stylelint-disable-next-line selector-class-pattern
+  &:not(.is-edit-mode)~* {
+    display: none;
+  }
+}
+
+
+.nds-omni-lookup {
+
+  // The following rule disables the cursor.
+  input {
+    color: transparent;
+    text-shadow: 0 0 0 $color-text-default;
+  }
+}
+
+/**
+* This styles overrides the lightning-file-upload styles that can't be customized on the component
+*/
+.nds-card {
+
+  // stylelint-disable-next-line selector-class-pattern
+  .slds-file-selector.slds-file-selector_files {
+    width: 100%;
+  }
+
+  // stylelint-disable-next-line selector-class-pattern
+  .slds-file-selector__dropzone {
+    border: 0;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  // stylelint-disable-next-line selector-class-pattern
+  .omni-file-input {
+
+    // stylelint-disable-next-line selector-class-pattern
+    .slds-form-element__label {
+      display: none;
+    }
+
+    // stylelint-disable-next-line selector-class-pattern
+    .slds-file-selector__body {
+      white-space: nowrap;
+    }
+
+    // stylelint-disable-next-line selector-class-pattern
+    .slds-file-selector__button {
+      white-space: nowrap;
+    }
+  }
+}
