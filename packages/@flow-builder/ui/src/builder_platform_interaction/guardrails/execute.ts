@@ -5,7 +5,7 @@
  * Company Confidential
  */
 
-import { Registry, RuleFilter, Engine } from 'analyzer_framework/engine';
+import { Registry, RuleFilterBasic, Engine } from 'analyzer_framework/engine';
 import { ContextInfo } from 'analyzer_framework/api';
 import { FLOW_CONTEXT } from './rules/constants';
 import { FlowDataProvider } from './flowDataProvider/flowDataProvider';
@@ -25,7 +25,7 @@ export class FlowGuardrailsExecutor {
         // Optional filtering based on tags
         const includeTags = [];
         const excludeTags = [];
-        const ruleFilter = new RuleFilter(includeTags, excludeTags);
+        const ruleFilter = new RuleFilterBasic(includeTags, excludeTags);
 
         // Create registry which has data provider and rules
         const registry = new Registry(ruleFilter);

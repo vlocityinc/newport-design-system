@@ -7,7 +7,7 @@ export class Registry {
     registerRules = mockRegistryRegisterRules;
 }
 
-export class RuleFilter {}
+export class RuleFilterBasic {}
 
 export const mockEngineExecute = jest.fn();
 export class Engine {
