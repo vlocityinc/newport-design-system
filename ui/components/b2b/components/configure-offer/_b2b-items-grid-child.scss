@@ -105,4 +105,11 @@
       }
     }
   }
+  &.product-group-child {
+    .nds-b2b-label-container {
+      .nds-b2b-price_info {
+        right: 3.5rem;
+      }
+    }
+  }
 }
