@@ -1,21 +1,29 @@
 const fs = require('fs');
+const { resolve } = require('path');
 
-const packageDir = 'packages/@flow-builder/ui';
-const lwcModuleDir = `${packageDir}/src/builder_platform_interaction`;
+const workspaces = require(resolve('.', 'package.json')).workspaces;
 
-const paths = fs
-    .readdirSync(lwcModuleDir, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
-    .map(
-        dirent =>
-            `            "builder_platform_interaction/${dirent.name}": ["./builder_platform_interaction/${dirent.name}/${dirent.name}.ts"]`
-    )
-    .join(',\n');
+function genJsConfig(packageDir) {
+    const npm2lwc = require(resolve(`./${packageDir}`, 'package.json')).npm2lwc;
 
-fs.writeFileSync(
-    `${packageDir}/tsconfig.json`,
-    `{
-    "extends": "../../../tsconfig.json",
+    if (!npm2lwc || !npm2lwc.ui) {
+        return;
+    }
+
+    const lwcModuleDir = `${packageDir}/src/builder_platform_interaction`;
+
+    const paths = fs
+        .readdirSync(lwcModuleDir, { withFileTypes: true })
+        .filter(dirent => dirent.isDirectory())
+        .map(
+            dirent =>
+                `            "builder_platform_interaction/${dirent.name}": ["./builder_platform_interaction/${dirent.name}/${dirent.name}.ts"]`
+        )
+        .join(',\n');
+
+    fs.writeFileSync(
+        `${packageDir}/tsconfig.json`,
+        `{
 
     "compilerOptions": {
         "declaration": false,
@@ -27,11 +35,14 @@ fs.writeFileSync(
          "paths": {
             "lwc": ["../../../../node_modules/@lwc/engine/dist/modules/es2017/engine.js"],
             "lightning/utils": ["../../../../node_modules/lwc-components-lightning/src/lightning/utils/utils.js"],
-            "builder_platform_interaction/flowUtils": ["../../flow-utils/build/esNext/types/index.d.ts"],
+            "builder_platform_interaction/autoLayoutCanvas": ["../../auto-layout-canvas/dist/types/index.d.js"],
             ${paths}
          }
     },
 
     "include": ["src/**/*"]
 }`
-);
+    );
+}
+
+workspaces.forEach(workspace => genJsConfig(workspace));

@@ -156,7 +156,6 @@ export const CONDITION_LOGIC = {
 
 // Property names in wait event
 export const WAIT_EVENT_FIELDS = {
-    EVENT_TYPE: 'eventType',
     INPUT_PARAMETERS: 'inputParameters',
     OUTPUT_PARAMETERS: 'outputParameters'
 };

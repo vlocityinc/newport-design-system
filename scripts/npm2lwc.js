@@ -215,7 +215,7 @@ function mvUiModule(src, dest, options) {
                     transpileTs(src, modulePath);
                 }
 
-                return !src.endsWith('flowUtils.js') && !src.endsWith('.ts');
+                return !src.endsWith('autoLayoutCanvas.js') && !src.endsWith('.ts');
             }
         });
 

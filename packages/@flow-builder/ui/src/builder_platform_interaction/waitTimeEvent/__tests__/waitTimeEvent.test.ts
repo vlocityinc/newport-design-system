@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
-import { WAIT_TIME_EVENT_TYPE, WAIT_EVENT_FIELDS } from 'builder_platform_interaction/flowMetadata';
+import { WAIT_TIME_EVENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     PropertyChangedEvent,
     UpdateParameterItemEvent,
@@ -163,9 +163,7 @@ describe('waitTimeEvent', () => {
 
             radio.dispatchEvent(changedEvent);
             await ticks(1);
-            expect(updateWaitEventEventTypeSpy.mock.calls[0][0].detail.propertyName).toEqual(
-                WAIT_EVENT_FIELDS.EVENT_TYPE
-            );
+            expect(updateWaitEventEventTypeSpy.mock.calls[0][0].detail.propertyName).toEqual('eventType');
             expect(updateWaitEventEventTypeSpy.mock.calls[0][0].detail.value).toEqual(mockPayload.value);
         });
 

@@ -11,7 +11,7 @@ import screenComponentLabel from '@salesforce/label/FlowBuilderLeftPanelElements
 import waitLogicDescription from '@salesforce/label/FlowBuilderLeftPanelElements.waitLogicDescription';
 import waitLogicLabel from '@salesforce/label/FlowBuilderLeftPanelElements.waitLogicLabel';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { ElementType } from 'builder_platform_interaction/flowUtils';
+import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 
 
 export default [

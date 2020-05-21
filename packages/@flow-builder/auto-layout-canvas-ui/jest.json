@@ -1,0 +1,31 @@
+{
+    "moduleNameMapper": {
+        "^builder_platform_interaction_mocks/(.+)$": "<rootDir>/jest-modules/builder_platform_interaction/$1/$1",
+        "^builder_platform_interaction/autoLayoutCanvas$": "<rootDir>/../auto-layout-canvas/dist/index.dev.js",
+        "^(builder_platform_interaction)/storeLib$": "<rootDir>/../ui/src/builder_platform_interaction/storeLib/storeLib",
+        "^(builder_platform_interaction)/zoomPanel$": "<rootDir>/../ui/src/builder_platform_interaction/zoomPanel/zoomPanel",
+        "^(builder_platform_interaction)/builderTestUtils/events$": "<rootDir>/../ui/src/builder_platform_interaction/builderTestUtils/events",
+        "^(builder_platform_interaction)/builderTestUtils/commonTestUtils$": "<rootDir>/../ui/src/builder_platform_interaction/builderTestUtils/commonTestUtils",
+        "^(builder_platform_interaction)/events$": "<rootDir>/../ui/src/builder_platform_interaction/events/events",
+        "^(builder_platform_interaction)/(.+)$": "<rootDir>/src/$1/$2/$2"
+    },
+    "clearMocks": true,
+    "coverageDirectory": "../../../coverage",
+    "collectCoverageFrom": [
+        "<rootDir>/src/*/!(builderTestUtils)**/*.ts",
+        "!**/*Labels.ts",
+        "!**/integrationTests/**/*.ts",
+        "!**/__tests__/**/*.ts"
+    ],
+    "reporters": [
+        "default",
+        [
+            "../../../node_modules/jest-html-reporter",
+            {
+                "pageTitle": "ui-interaction-builder-components Jest test report",
+                "outputPath": "../../../jest-report/auto-layout-canvas-ui/index.html",
+                "includeFailureMsg": true
+            }
+        ]
+    ]
+}

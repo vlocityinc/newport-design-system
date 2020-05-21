@@ -1,0 +1,18 @@
+{
+    "extends": ["../../../.eslintrc.json"],
+    "rules": {
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/no-use-before-define": "off",
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/adjacent-overload-signatures": "off",
+        "@typescript-eslint/no-this-alias": "off",
+        "@typescript-eslint/camelcase": "off",
+        "@typescript-eslint/class-name-casing": "off",
+
+        "jest/no-alias-methods": "off",
+        "jest/valid-expect-in-promise": "off",
+        "jest/valid-expect": "off",
+        "jest/valid-describe": "off"
+    }
+}

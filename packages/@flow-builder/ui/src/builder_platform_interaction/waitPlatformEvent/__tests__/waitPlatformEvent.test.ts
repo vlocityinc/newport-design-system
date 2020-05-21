@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import WaitPlatformEvent from '../waitPlatformEvent';
-import { CONDITION_LOGIC, ELEMENT_TYPE, WAIT_EVENT_FIELDS } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getInputParametersForEventType, getEventTypes } from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from '../waitPlatformEventLabels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -129,7 +129,7 @@ describe('wait-platform-event', () => {
             );
             expect(updateWaitEventTypeHandler.mock.calls[0][0].detail.oldValue).toBe(platformEvent);
             expect(updateWaitEventTypeHandler.mock.calls[0][0].detail.value).toBe(platformEventUpdated);
-            expect(updateWaitEventTypeHandler.mock.calls[0][0].detail.propertyName).toBe(WAIT_EVENT_FIELDS.EVENT_TYPE);
+            expect(updateWaitEventTypeHandler.mock.calls[0][0].detail.propertyName).toBe('eventType');
             expect(updateWaitEventTypeHandler.mock.calls[0][0].detail.error).toBeNull();
         });
     });

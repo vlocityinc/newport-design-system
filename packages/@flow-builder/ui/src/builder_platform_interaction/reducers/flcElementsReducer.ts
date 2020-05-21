@@ -33,7 +33,7 @@ import {
     deleteFault,
     findLastElement,
     FAULT_INDEX
-} from 'builder_platform_interaction/flowUtils';
+} from 'builder_platform_interaction/autoLayoutCanvas';
 import { getSubElementGuids } from './reducersUtils';
 
 /**

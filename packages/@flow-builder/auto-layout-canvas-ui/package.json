@@ -1,0 +1,26 @@
+{
+    "name": "@flow-builder/auto-layout-canvas-ui",
+    "version": "0.0.1",
+    "description": "Auto Layout Canvas Components",
+    "private": true,
+    "npm2lwc": {
+        "deployToCore": true,
+        "namespace": "builder_platform_interaction",
+        "ui": true
+    },
+    "scripts": {
+        "test": "lwc-test src",
+        "coverage": "lwc-test src -- --coverage",
+        "lint": "eslint --max-warnings 0 src/**/*.ts"
+    },
+    "files": [
+        "src/builder_platform_interaction"
+    ],
+    "lwc": {
+        "mapNamespaceFromPath": true,
+        "modules": [
+            "src"
+        ]
+    },
+    "devDependencies": {}
+}

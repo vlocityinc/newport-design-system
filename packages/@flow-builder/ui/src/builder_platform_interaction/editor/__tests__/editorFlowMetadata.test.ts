@@ -6,6 +6,8 @@ import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { initializeAuraFetch } from '../../integrationTests/__tests__/serverDataTestUtils';
 
+jest.mock('builder_platform_interaction/flcBuilder', () => require('builder_platform_interaction_mocks/flcBuilder'));
+
 const createComponentUnderTest = props => {
     const el = createElement('builder_platform_interaction-editor', {
         is: Editor

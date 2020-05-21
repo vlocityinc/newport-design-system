@@ -15,6 +15,7 @@
     "scripts": {
         "check:goldFiles": "./scripts/checkGoldFiles.sh -b $npm_package_config_branch",
         "check:pom": "node ./scripts/pom.js check -b $npm_package_config_branch",
+        "check:pr": "yarn test:unit && yarn ci:lint",
         "clean:install": "rm -rf node_modules && yarn",
         "clean": "rm -rf src/main/modules && lerna run clean",
         "clean:force": "git clean -xfd && yarn clean",
@@ -34,12 +35,12 @@
         "watch": "lerna run watch --parallel",
         "watch:core": "yarn build:core && node ./scripts/npm2lwc.js packages src/main/modules --watch --core",
         "test:unit": "lerna exec -- yarn run test",
-        "test:unit:flowutils": "lerna exec --scope @flow-builder/flow-utils -- yarn run test",
+        "test:unit:auto-layout-canvas": "lerna exec --scope @flow-builder/auto-layout-canvas -- yarn run test",
         "test:unit:coverage": "lerna exec --scope @flow-builder/ui -- yarn run coverage",
         "test:unit:coverage:clean": "rm -rf coverage",
         "test:unit:jestreport:clean": "rm -rf jest-report",
         "test:unit:clean": "yarn test:unit:coverage:clean && yarn test:unit:jestreport:clean",
-        "test:unit:ci:coverage": "yarn run test:unit:coverage && yarn run test:unit:flowutils",
+        "test:unit:ci:coverage": "yarn run test:unit:coverage && yarn run test:unit:auto-layout-canvas",
         "generate:sfdc-components-package": "node ./scripts/generateNpmPackage.js",
         "release:sfdc-components-package": "cd dist/builder-platform-interaction-components && npm publish --verbose --registry=https://nexus-proxy-prd.soma.salesforce.com/nexus/content/repositories/npmjs-internal/",
         "update:auraPomVersion": "mvn versions:update-property -Dproperty=aura.version -DnewVersion=[$npm_package_config_auraVersion] -DallowDowngrade=true -DgenerateBackupPoms=false",
@@ -108,7 +109,8 @@
         "yargs": "^15.1.0"
     },
     "workspaces": [
-        "packages/@flow-builder/flow-utils",
+        "packages/@flow-builder/auto-layout-canvas",
+        "packages/@flow-builder/auto-layout-canvas-ui",
         "packages/@flow-builder/ui",
         "packages/flow-builder-pocs"
     ],
@@ -117,7 +119,7 @@
     "husky": {
         "hooks": {
             "pre-commit": [
-                "node ./scripts/genTsConfig.js && git add packages/@flow-builder/ui/tsconfig.json && lint-staged "
+                "node ./scripts/genTsConfig.js && git add **/tsconfig.json && lint-staged "
             ],
             "pre-push": [
                 "yarn check:pom && yarn test:nba-components && yarn check:goldFiles -l"

@@ -19,19 +19,19 @@ done
 
 . scripts/setupEnv.sh "${BRANCH}"
 
-# need to build @flow-builder/flow-utils
+# need to build @flow-builder/auto-layout-canvas
 yarn build
 
 UI_INTERACTION_BUILDER_COMPONENTS_COPY=$NBA_HOME/ui-interaction-builder-components-copy
-UI_INTERACTION_BUILDER_COMPONENTS_COPY_FLOW_UTILS=$UI_INTERACTION_BUILDER_COMPONENTS_COPY/src/builder_platform_interaction/flowUtils
+UI_INTERACTION_BUILDER_COMPONENTS_COPY_FLOW_UTILS=$UI_INTERACTION_BUILDER_COMPONENTS_COPY/src/builder_platform_interaction/autoLayoutCanvas
 
 find $UI_INTERACTION_BUILDER_COMPONENTS_COPY -type f | xargs p4 edit -c $CL
 rm -rf $UI_INTERACTION_BUILDER_COMPONENTS_COPY/*
 rsync -azh packages/@flow-builder/ui/* $UI_INTERACTION_BUILDER_COMPONENTS_COPY
 
-# copy over the built @flow-builder/flow-utils
+# copy over the built @flow-builder/auto-layout-canvas
 mkdir -p $UI_INTERACTION_BUILDER_COMPONENTS_COPY_FLOW_UTILS
-cp 'packages/@flow-builder/flow-utils/dist/index.dev.js' $UI_INTERACTION_BUILDER_COMPONENTS_COPY_FLOW_UTILS/flowUtils.js
+cp 'packages/@flow-builder/auto-layout-canvas/dist/index.dev.js' $UI_INTERACTION_BUILDER_COMPONENTS_COPY_FLOW_UTILS/autoLayoutCanvas.js
 
 find $UI_INTERACTION_BUILDER_COMPONENTS_COPY -type f | xargs p4 add -c $CL
 find $UI_INTERACTION_BUILDER_COMPONENTS_COPY -type f | xargs p4 revert -a

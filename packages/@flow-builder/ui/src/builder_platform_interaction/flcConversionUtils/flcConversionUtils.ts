@@ -5,7 +5,7 @@ import {
     addElementToState,
     linkElement,
     FAULT_INDEX
-} from 'builder_platform_interaction/flowUtils';
+} from 'builder_platform_interaction/autoLayoutCanvas';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createEndElement, createConnector } from 'builder_platform_interaction/elementFactory';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';

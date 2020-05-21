@@ -1,6 +1,4 @@
 {
-    "extends": "../../../tsconfig.json",
-
     "compilerOptions": {
         "declaration": false,
         "strict": true,
@@ -11,7 +9,7 @@
         "paths": {
             "lwc": ["../../../../node_modules/@lwc/engine/dist/modules/es2017/engine.js"],
             "lightning/utils": ["../../../../node_modules/lwc-components-lightning/src/lightning/utils/utils.js"],
-            "builder_platform_interaction/flowUtils": ["../../flow-utils/build/esNext/types/index.d.ts"],
+            "builder_platform_interaction/autoLayoutCanvas": ["../../auto-layout-canvas/dist/types/index.d.js"],
             "builder_platform_interaction/actionSelector": [
                 "./builder_platform_interaction/actionSelector/actionSelector.ts"
             ],
@@ -155,35 +153,15 @@
             "builder_platform_interaction/filterTypeLib": [
                 "./builder_platform_interaction/filterTypeLib/filterTypeLib.ts"
             ],
-            "builder_platform_interaction/flcBuilder": ["./builder_platform_interaction/flcBuilder/flcBuilder.ts"],
             "builder_platform_interaction/flcBuilderContainer": [
                 "./builder_platform_interaction/flcBuilderContainer/flcBuilderContainer.ts"
             ],
             "builder_platform_interaction/flcBuilderUtils": [
                 "./builder_platform_interaction/flcBuilderUtils/flcBuilderUtils.ts"
             ],
-            "builder_platform_interaction/flcButtonMenu": [
-                "./builder_platform_interaction/flcButtonMenu/flcButtonMenu.ts"
-            ],
-            "builder_platform_interaction/flcComponentsUtils": [
-                "./builder_platform_interaction/flcComponentsUtils/flcComponentsUtils.ts"
-            ],
-            "builder_platform_interaction/flcCompoundNode": [
-                "./builder_platform_interaction/flcCompoundNode/flcCompoundNode.ts"
-            ],
-            "builder_platform_interaction/flcConnector": [
-                "./builder_platform_interaction/flcConnector/flcConnector.ts"
-            ],
-            "builder_platform_interaction/flcConnectorMenu": [
-                "./builder_platform_interaction/flcConnectorMenu/flcConnectorMenu.ts"
-            ],
             "builder_platform_interaction/flcConversionUtils": [
                 "./builder_platform_interaction/flcConversionUtils/flcConversionUtils.ts"
             ],
-            "builder_platform_interaction/flcFlow": ["./builder_platform_interaction/flcFlow/flcFlow.ts"],
-            "builder_platform_interaction/flcMenu": ["./builder_platform_interaction/flcMenu/flcMenu.ts"],
-            "builder_platform_interaction/flcNode": ["./builder_platform_interaction/flcNode/flcNode.ts"],
-            "builder_platform_interaction/flcNodeMenu": ["./builder_platform_interaction/flcNodeMenu/flcNodeMenu.ts"],
             "builder_platform_interaction/flowExtensionLib": [
                 "./builder_platform_interaction/flowExtensionLib/flowExtensionLib.ts"
             ],
@@ -240,7 +218,6 @@
             "builder_platform_interaction/marqueeSelectionBox": [
                 "./builder_platform_interaction/marqueeSelectionBox/marqueeSelectionBox.ts"
             ],
-            "builder_platform_interaction/menu": ["./builder_platform_interaction/menu/menu.ts"],
             "builder_platform_interaction/mergeFieldLib": [
                 "./builder_platform_interaction/mergeFieldLib/mergeFieldLib.ts"
             ],

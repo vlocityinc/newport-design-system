@@ -16,7 +16,7 @@ import {
     linkElement,
     linkBranchOrFault,
     FAULT_INDEX
-} from 'builder_platform_interaction/flowUtils';
+} from 'builder_platform_interaction/autoLayoutCanvas';
 
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import flcElementsReducer from '../flcElementsReducer';
@@ -59,8 +59,8 @@ jest.mock('builder_platform_interaction/flcConversionUtils', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/flowUtils', () => {
-    return Object.assign({}, jest.requireActual('builder_platform_interaction/flowUtils'), {
+jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
+    return Object.assign({}, jest.requireActual('builder_platform_interaction/autoLayoutCanvas'), {
         addElement: jest.fn(),
         addElementToState: jest.fn(),
         deleteElement: jest.fn(),
