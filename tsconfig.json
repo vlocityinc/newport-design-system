@@ -14,6 +14,6 @@
         "lib": ["dom", "es2018"]
     },
 
-    "exclude": ["**/__tests__", "node_modules"],
+    "exclude": ["node_modules"],
     "files": ["./packages/@types/index.d.ts"]
 }

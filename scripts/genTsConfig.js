@@ -33,7 +33,6 @@ function genJsConfig(packageDir) {
         "outDir": "./build/builder_platform_interaction",
         "baseUrl": "./src",
          "paths": {
-            "lwc": ["../../../../node_modules/@lwc/engine/dist/modules/es2017/engine.js"],
             "lightning/utils": ["../../../../node_modules/lwc-components-lightning/src/lightning/utils/utils.js"],
             "builder_platform_interaction/autoLayoutCanvas": ["../../auto-layout-canvas/dist/types/index.d.js"],
             ${paths}
