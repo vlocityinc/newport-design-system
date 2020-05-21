@@ -1,0 +1,89 @@
+.nds-dc-catalog-wrapper {
+  display: none;
+}
+.nds-dc-mobile-catalog-wrapper {
+  padding: 1.25rem 0.625rem;
+  border-bottom: 1px solid $newport-border-gray;
+  .nds-dc-menu-icon {
+    height: 3rem;
+    width: 3rem;
+  }
+  .nds-dc-catalog-mobile {
+    &.active {
+      color: $newport-color-brand-orange;
+    }
+  }
+  .nds-dc-mobile-menu-list {
+    display: none;
+  }
+  .nds-dc-mobile-menu-list-open {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 10;
+    display: block;
+    background-color: $newport-text-highlight;
+    .nds-dc-menu-icon {
+      margin: 0.625rem 0 0 0.625rem;
+      color: $white;
+      font-size: 1.5rem;
+    }
+    ul {
+      border-bottom: 1px solid $white;
+      border-top: 1px solid $white;
+      margin-top: 0.625rem;
+      list-style-type: none;
+      padding: 0;
+      li {
+        margin: 0 1.25rem;
+        padding: 1rem 0.625rem;
+        color: $white;
+        border-bottom: 1px solid $white;
+        cursor: pointer;
+        font-size: 1.25rem;
+      }
+      li:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+}
+@media only screen and (min-width: 48rem) {
+  .nds-dc-mobile-catalog-wrapper {
+    display: none;
+  }
+  .nds-dc-catalog-wrapper {
+    display: block;
+    height: 9.375rem;
+    -ms-overflow-style: none;
+    background-color: $newport-card-background-light-blue;
+    margin: 1.25rem 0 2.5rem 0;
+    padding: 0;
+    .nds-dc-catalog-scrollable {
+      display: flex;
+      overflow: auto;
+      overflow-y: hidden;
+      height: 11rem;
+      .nds-dc-catalog-item {
+        padding: 1.25rem;
+        height: 9.375rem;
+        border: 0.5px solid $newport-border-gray;
+        text-align: center;
+        min-width: 8.875rem;
+        &.nds-dc-active-catalog {
+          background-color: $newport-color-brand-orange;
+          height: 11rem;
+          color: $white;
+        }
+        svg, img {
+          height: 3.75rem;
+          width: 3.75rem;
+          margin-bottom: 0.625rem;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+.nds-dc-offer-button-set {
+        overflow: auto;
+        display: flex;
+        .nds-dc-offer-attribute-label, 
+        .nds-dc-offer-attribute {
+            display: inline-block;
+        }
+        .nds-dc-offer-attribute-label {
+            width: 4.75rem;
+            min-width: 4.375rem;
+            font-size: 0.875rem;
+        }
+        .nds-dc-offer-attribute {
+            padding-top: 0.625rem;
+            height: 2.5rem;
+            width: 6.25rem;
+            border: 0.063rem solid $palette-cool-gray-5;
+            text-align: center;
+            margin-right: 5px;
+            cursor: pointer;
+            font-size: 0.813rem;
+            min-width: 4.688rem;
+            margin-bottom: 0.625rem;
+            &.nds-dc-active {
+                border: 0.063rem solid $newport-color-brand-orange;
+            }
+            &.nds-dc-disable {
+                pointer-events: none;
+                opacity: 0.3;
+            }
+        }
+        
+        @media only screen and (min-width: 48rem) {
+            .nds-dc-offer-attribute, .nds-dc-offer-attribute-label  {
+                font-size: .8125rem;
+                min-width: unset;
+            }
+        }
+        @media only screen and (min-width: 64rem) {
+            .nds-dc-offer-attribute{
+                margin-bottom: 0;
+            }
+        }
+}

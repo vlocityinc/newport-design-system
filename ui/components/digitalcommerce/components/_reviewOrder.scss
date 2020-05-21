@@ -1,0 +1,43 @@
+.nds-dc-review-order_container {
+    .nds-dc-step_label {
+      color: $kashmir-blue;
+      font-weight: $font-weight-regular;
+      margin: 1rem 0;
+    }
+    .nds-dc-form_label {
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+      font-weight: $font-weight-regular;
+    }
+    .nds-dc-form-element {
+      margin-top: 2rem;
+    }
+    .nds-dc-checkout_review-order {
+      .nds-dc-checkout_details-container {
+        border: 1px solid $newport-border-gray;
+        box-shadow: 3px 3px 0 0 $black-transparent-10;
+        padding: .8rem .8rem 1.3rem 1.5rem;
+        margin: 1.25rem 0;
+        .nds-dc-review_title {
+          color: $kashmir-blue;
+          font-size: $font-size-7;
+          font-weight: $font-weight-bold;
+        }
+        .nds-dc-review_details-body {
+          margin: 0.5rem 0;
+          .nds-dc-review_name {
+            font-weight: $font-weight-light;
+            font-size: $font-size-4;
+            margin-top: 0.2rem;
+          }
+          &.nds-dc-checkout_payment-review {
+            display: flex;
+            .nds-dc-review_name {
+              margin-right: $spacing-medium;
+            }
+          }
+        }
+      }
+    }
+  }
+  

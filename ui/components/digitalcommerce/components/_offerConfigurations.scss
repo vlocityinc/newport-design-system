@@ -1,0 +1,28 @@
+.nds-dc-text-attributes {
+    display: flex;
+    overflow: auto;
+    padding: $spacing-medium-offer-configuration 0 1.25rem 0;
+    .nds-dc-offer-text-set {
+        min-width: 5rem;
+        margin-right: $spacing-medium-offer-configuration;
+        &.nds-dc-addborder {
+            border-right: 1px solid $palette-cool-gray-5;
+        }
+        .nds-dc-offer-text-attribute-label {
+            font-size: 0.75rem;
+        }
+        .nds-dc-spacer {
+            height: 0.313rem;
+        }
+        .nds-dc-offer-text-attribute-value {
+            font-size: 0.875rem;
+            margin-right: $spacing-medium-offer-configuration;
+        }
+    }
+   
+   @media only screen and (min-width: 48rem) {
+        .nds-dc-offer-text-set .nds-dc-offer-text-attribute-value {
+            font-size: 1rem;
+        }
+   }
+}

@@ -25,11 +25,35 @@
 
 // for Edit Block
 @media screen and (max-width: 48em) {
+
   /* stylelint-disable selector-class-pattern */
   .via-nds .nds-max-medium-table_stacked-horizontal tr>td:last-child {
     overflow: visible;
     position: relative;
     height: 3rem;
   }
+
   /* stylelint-enable selector-class-pattern */
+}
+
+// for block action buttons
+.nds-block_container {
+  .nds-is-absolute {
+    &.nds-button-group {
+      top: 0.5rem;
+      right: 0.7rem;
+      font-size: .8125rem;
+      font-weight: 400;
+    }
+  }
+}
+
+// For OmniScript repeat icons. Allows user to select the repeat icons even when an element is read only
+.omni-repeat-button-group {
+  pointer-events: auto;
+}
+
+// Applies positioning for tooltips
+.nds-tooltip__container span .tooltipSection {
+  position: absolute;
 }
