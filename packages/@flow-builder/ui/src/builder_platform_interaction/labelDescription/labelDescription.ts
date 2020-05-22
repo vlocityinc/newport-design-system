@@ -129,17 +129,14 @@ export default class LabelDescription extends LightningElement {
         return this.state.description;
     }
 
-    @api
     get hasDescription() {
         return this.description.value !== '';
     }
 
-    @api
     get isEditable() {
         return this.editPressed || this.mode === AddElementEvent.EVENT_NAME || this.mode === undefined;
     }
 
-    @api
     get readOnlyLabel() {
         if (this.hideLabel) {
             return '';
@@ -147,7 +144,6 @@ export default class LabelDescription extends LightningElement {
         return this.state.label.value;
     }
 
-    @api
     get readOnlyDevName() {
         if (this.hideDevName) {
             return '';
@@ -158,7 +154,6 @@ export default class LabelDescription extends LightningElement {
         return `(${this.state.devName.value})`;
     }
 
-    @api
     get editButtonClass() {
         if (this.isVertical) {
             return 'test-edit-button slds-m-left_xx-small slds-float_right';
@@ -166,7 +161,6 @@ export default class LabelDescription extends LightningElement {
         return 'test-edit-button slds-m-left_xx-small slds-align_center';
     }
 
-    @api
     get readOnlyInfoClass() {
         if (this.isVertical) {
             return 'test-read-only-info slds-grid';
@@ -184,7 +178,6 @@ export default class LabelDescription extends LightningElement {
         return 'slds-p-bottom_small';
     }
 
-    @api
     get readOnlyDescriptionClass() {
         if (this.isVertical) {
             return 'slds-line-clamp_small slds-text-color_weak slds-text-body_small slds-p-bottom_xx-small';
@@ -192,7 +185,6 @@ export default class LabelDescription extends LightningElement {
         return 'slds-line-clamp_small slds-text-color_weak slds-text-body_small slds-m-bottom_small';
     }
 
-    @api
     get conditionalColumnClassInfo() {
         if (this.isVertical) {
             return 'slds-text-heading_small slds-truncate slds-col';
@@ -200,7 +192,6 @@ export default class LabelDescription extends LightningElement {
         return 'slds-text-heading_small slds-truncate_container_75 slds-grid';
     }
 
-    @api
     get conditionalColumnClassButton() {
         if (this.isVertical) {
             return 'slds-col';
@@ -208,7 +199,6 @@ export default class LabelDescription extends LightningElement {
         return '';
     }
 
-    @api
     get readOnlyDevNameClass() {
         if (this.isVertical) {
             return 'slds-col slds-truncate slds-text-body_regular';
