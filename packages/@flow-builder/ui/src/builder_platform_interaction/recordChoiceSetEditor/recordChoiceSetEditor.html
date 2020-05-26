@@ -30,16 +30,18 @@
             <!-- Record Filter component  -->
             <builder_platform_interaction-record-filter
                 element-type={recordChoiceSetResource.elementType}
+                element-guid={recordChoiceSetResource.guid}
                 filter-items={recordChoiceSetResource.filters}
+                filter-logic={recordChoiceSetResource.filterLogic}
+                hide-new-resource={hideNewResourceButton}
                 record-entity-name={recordChoiceSetResource.object.value}
                 resource-display-text={resourceDisplayText}
                 record-fields={recordFieldsForFilter}
-                filter-type={recordChoiceSetResource.filterType.value}
-                hide-new-resource={hideNewResourceButton}
-                onrecordfiltertypechanged={handleFilterTypeChanged}
+                use-filter-with-custom-logic="true"
                 onaddrecordfilter={handleListItemChanged}
                 onupdaterecordfilter={handleListItemChanged}
                 ondeleterecordfilter={handleListItemChanged}
+                onpropertychanged={handlePropertyChanged}
             >
             </builder_platform_interaction-record-filter>
 

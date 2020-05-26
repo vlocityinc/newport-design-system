@@ -4,7 +4,7 @@ import {
     createRecordChoiceSetMetadataObject,
     createRecordChoiceSetForStore
 } from '../recordChoiceSet';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseElementsArrayToMap } from '../base/baseElement';
 import { createFilter } from '../base/baseRecordElement';
 
@@ -43,6 +43,7 @@ const mockDefaultValuesForRecordChoiceSet = {
     object: null,
     sortField: null,
     outputAssignments: [],
+    filterLogic: CONDITION_LOGIC.AND,
     filters: [createFilter()]
 };
 const paramElementForRecordChoiceSet = {
@@ -56,6 +57,7 @@ const mockRecordChoiceSetResult = {
     object: 'mockObject',
     sortField: 'mockField',
     outputAssignments: [],
+    filterLogic: CONDITION_LOGIC.NO_CONDITIONS,
     filters: [createFilter()]
 };
 describe('createRecordChoiceSet', () => {

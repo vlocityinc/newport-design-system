@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import RecordChoiceSetEditor from '../recordChoiceSetEditor';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { recordChoiceSetValidation, getRules } from '../recordChoiceSetValidation';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
@@ -56,8 +56,8 @@ describe('Record Choice Set Validation', () => {
             value: 'guid',
             error: null
         },
-        filterType: {
-            value: 'none',
+        filterLogic: {
+            value: CONDITION_LOGIC.NO_CONDITIONS,
             error: null
         },
         sortOrder: {
@@ -88,8 +88,8 @@ describe('Record Choice Set Validation', () => {
             value: 'Text',
             error: null
         },
-        filterType: {
-            value: 'all',
+        filterLogic: {
+            value: CONDITION_LOGIC.AND,
             error: null
         },
         filters: [
@@ -172,8 +172,8 @@ describe('Record Choice Set Validation', () => {
             const keysFromRules = Object.keys(rules);
             const expectedKeysFromRules = ['label', 'name', 'object', 'limit'];
 
-            it('returns rules object with number of keys as 4', () => {
-                expect(keysFromRules).toHaveLength(4);
+            it('returns rules object with number of keys as 5', () => {
+                expect(keysFromRules).toHaveLength(5);
             });
 
             it('rules object should contain rule for key:', () => {
@@ -191,6 +191,7 @@ describe('Record Choice Set Validation', () => {
                 'label',
                 'limit',
                 'name',
+                'filterLogic',
                 'object',
                 'sortField',
                 'displayField',
@@ -198,8 +199,8 @@ describe('Record Choice Set Validation', () => {
                 'outputAssignments'
             ];
 
-            it('returns rules object with number of keys as 9', () => {
-                expect(keysFromRules).toHaveLength(9);
+            it('returns rules object with number of keys as 10', () => {
+                expect(keysFromRules).toHaveLength(10);
             });
 
             it('rules object should contain rule for key:', () => {

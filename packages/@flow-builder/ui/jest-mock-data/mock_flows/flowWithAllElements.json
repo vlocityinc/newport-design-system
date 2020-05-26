@@ -626,6 +626,15 @@
                 "isInput": false,
                 "isOutput": false,
                 "scale": 2
+            },
+            {
+                "name": "vAccountId",
+                "description": "",
+                "dataType": "String",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "scale": 2
             }
         ],
         "constants": [
@@ -767,6 +776,7 @@
                 "locationX": 412,
                 "locationY": 987,
                 "object": "Account",
+                "filterLogic": "no_conditions",
                 "filters": [],
                 "queriedFields": null,
                 "storeOutputAutomatically": true,
@@ -1184,6 +1194,49 @@
                 "description": "",
                 "dataType": "Number",
                 "choiceText": "Choice 1"
+            }
+        ],
+        "dynamicChoiceSets": [
+            {
+                "name": "recordChoiceSet",
+                "description": "",
+                "limit": "5",
+                "displayField": "Name",
+                "valueField": "Name",
+                "dataType": "String",
+                "sortOrder": "Asc",
+                "object": "Account",
+                "sortField": "AccountSource",
+                "outputAssignments": [
+                    {
+                        "field": "Id",
+                        "assignToReference": "vAccountId"
+                    }
+                ],
+                "filterLogic": "or",
+                "filters": [
+                    {
+                        "field": "BillingCity",
+                        "operator": "EqualTo",
+                        "value": {
+                            "elementReference": "getAccountAutoWithFields.BillingCity"
+                        }
+                    },
+                    {
+                        "field": "BillingCountry",
+                        "operator": "EqualTo",
+                        "value": {
+                            "elementReference": "accountSObjectVariable.BillingCountry"
+                        }
+                    },
+                    {
+                        "field": "Name",
+                        "operator": "Contains",
+                        "value": {
+                            "elementReference": "getAccountAutoWithFields.Name"
+                        }
+                    }
+                ]
             }
         ],
         "description": "",

@@ -4,12 +4,12 @@ import { recordChoiceSetValidation, getRules } from './recordChoiceSetValidation
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { set, deleteItem, hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { createFilter, createOutputAssignment } from 'builder_platform_interaction/elementFactory';
-import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import {
     AddRecordFieldAssignmentEvent,
     DeleteRecordFieldAssignmentEvent,
     UpdateRecordFieldAssignmentEvent
 } from 'builder_platform_interaction/events';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
 const addRecordFilter = recordChoice => {
     const path = ['filters', recordChoice.filters.length];
@@ -66,11 +66,11 @@ const manageUpdateProperty = (recordChoice, action) => {
         recordChoice = addEmptyOutputAssignment(recordChoice);
     }
 
-    // Handle filterType property
-    if (action.payload.propertyName === 'filterType') {
-        if (action.payload.value === RECORD_FILTER_CRITERIA.NONE) {
+    // Handle filterLogic property
+    if (action.payload.propertyName === 'filterLogic') {
+        if (action.payload.value === CONDITION_LOGIC.NO_CONDITIONS) {
             recordChoice = Object.assign({}, recordChoice, { filters: [] });
-        } else if (action.payload.value === RECORD_FILTER_CRITERIA.ALL && recordChoice.filters.length === 0) {
+        } else if (action.payload.value !== CONDITION_LOGIC.NO_CONDITIONS && recordChoice.filters.length === 0) {
             recordChoice = addRecordFilter(recordChoice, action);
         }
     }

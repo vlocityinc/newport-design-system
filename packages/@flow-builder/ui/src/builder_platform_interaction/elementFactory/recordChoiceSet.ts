@@ -1,11 +1,11 @@
 // @ts-nocheck
 import { createDynamicChoiceSet, createDynamicChoiceSetMetadataObject } from './base/dynamicChoiceSet';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseElementsArrayToMap } from './base/baseElement';
 import { createOutputAssignment, createOutputAssignmentMetadataObject } from './base/outputAssignments';
 import { createFilterMetadataObject, createFilter } from './base/baseRecordElement';
-import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+
 /**
  * Record choice set factory function
  * @param {Object} element - record choice set element
@@ -13,7 +13,9 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
  */
 export const createRecordChoiceSet = (element = {}) => {
     const recordChoiceSetElement = createDynamicChoiceSet(element);
-    const { object = null, objectIndex = generateGuid(), sortField = null, outputAssignments = [] } = element;
+    const { object = null, sortField = null, outputAssignments = [] } = element;
+    let { filterLogic = CONDITION_LOGIC.AND } = element;
+    const objectIndex = generateGuid();
     const translatedOutputAssignments = outputAssignments.map(outputAssignment =>
         createOutputAssignment(outputAssignment, object)
     );
@@ -24,14 +26,18 @@ export const createRecordChoiceSet = (element = {}) => {
         const newFilter = createFilter();
         filters = [newFilter];
     }
-    const filterType = filters[0].leftHandSide ? RECORD_FILTER_CRITERIA.ALL : RECORD_FILTER_CRITERIA.NONE;
+
+    // For the existing element if no filters has been set we need to assign No Conditions to the filterLogic.
+    if (object && object !== '' && !filters[0].leftHandSide && filterLogic === CONDITION_LOGIC.AND) {
+        filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
+    }
 
     Object.assign(recordChoiceSetElement, {
         elementType: ELEMENT_TYPE.RECORD_CHOICE_SET,
         object,
         objectIndex,
         sortField,
-        filterType,
+        filterLogic,
         filters,
         outputAssignments: translatedOutputAssignments
     });
@@ -59,9 +65,9 @@ export const createRecordChoiceSetMetadataObject = element => {
         throw new Error('Element is required to create dynamic choice set meta data object');
     }
     const baseDynamicChoiceMetadataObject = createDynamicChoiceSetMetadataObject(element);
-    const { object, sortField, outputAssignments, filterType } = element;
+    const { object, sortField, outputAssignments, filterLogic } = element;
     let { filters } = element;
-    if (filterType === RECORD_FILTER_CRITERIA.NONE) {
+    if (filterLogic === CONDITION_LOGIC.NO_CONDITIONS) {
         filters = [];
     } else {
         filters = filters.map(filter => createFilterMetadataObject(filter));
@@ -69,12 +75,12 @@ export const createRecordChoiceSetMetadataObject = element => {
     const outputAssignmentsMetadataObject = outputAssignments.map(outputAssignment =>
         createOutputAssignmentMetadataObject(outputAssignment)
     );
-    const recordChoiceSetMetadataObject = Object.assign(baseDynamicChoiceMetadataObject, {
+
+    return Object.assign(baseDynamicChoiceMetadataObject, {
         object,
         sortField,
         outputAssignments: outputAssignmentsMetadataObject,
+        filterLogic,
         filters
     });
-
-    return recordChoiceSetMetadataObject;
 };

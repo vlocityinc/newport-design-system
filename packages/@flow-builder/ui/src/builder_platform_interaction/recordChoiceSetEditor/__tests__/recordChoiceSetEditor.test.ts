@@ -1,11 +1,10 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import RecordChoiceSetEditor from '../recordChoiceSetEditor';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     PropertyChangedEvent,
     ValueChangedEvent,
-    RecordFilterTypeChangedEvent,
     AddRecordFieldAssignmentEvent,
     DeleteRecordFieldAssignmentEvent,
     UpdateRecordFieldAssignmentEvent
@@ -18,6 +17,9 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -77,56 +79,9 @@ function getComboboxStateChangedEvent() {
         detail: newRecordObjectOrField
     });
 }
+
 describe('record-choice-set-editor', () => {
-    const recordChoiceObject = {
-        elementType: ELEMENT_TYPE.RECORD_CHOICE_SET,
-        guid: 'guid1',
-        name: {
-            value: 'recordChoice1',
-            error: null
-        },
-        description: {
-            value: 'This is record choice',
-            error: null
-        },
-        object: {
-            value: 'Account',
-            error: null
-        },
-        objectIndex: {
-            value: 'guid',
-            error: null
-        },
-        dataType: {
-            value: 'Text',
-            error: null
-        },
-        filterType: {
-            value: 'none',
-            error: null
-        },
-        sortField: {
-            value: 'AccountSource',
-            error: null
-        },
-        sortOrder: {
-            value: 'Asc',
-            error: null
-        },
-        limit: {
-            value: '',
-            error: null
-        },
-        displayField: {
-            value: 'AccountSource',
-            error: null
-        },
-        valueField: {
-            value: 'AccountSource',
-            error: null
-        },
-        outputAssignments: []
-    };
+    let recordChoiceObject, recordChoiceEditor;
 
     const recordChoiceObjectWithoutObjectField = {
         elementType: ELEMENT_TYPE.RECORD_CHOICE_SET,
@@ -154,11 +109,14 @@ describe('record-choice-set-editor', () => {
     afterAll(() => {
         Store.resetStore();
     });
+    beforeEach(() => {
+        const recordChoiceSetElement = getElementByDevName('recordChoiceSet');
+        recordChoiceObject = getElementForPropertyEditor(recordChoiceSetElement);
+        recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
+    });
     describe('Label description component', () => {
-        let recordChoiceEditor;
         let labelDescription;
         beforeEach(() => {
-            recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
             labelDescription = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION);
         });
 
@@ -189,10 +147,8 @@ describe('record-choice-set-editor', () => {
     });
 
     describe('Entity-Resource-Picker for Record Choice Object', () => {
-        let recordChoiceEditor;
         let entityResourcePicker;
         beforeEach(() => {
-            recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
             entityResourcePicker = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
         });
 
@@ -202,7 +158,7 @@ describe('record-choice-set-editor', () => {
 
         it('Changing value in entity-resource-picker should update object', () => {
             entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
-            expect(createAction.mock.calls[1][1]).toEqual({
+            expect(createAction.mock.calls[0][1]).toEqual({
                 propertyName: 'object',
                 value: 'Contact',
                 error: null,
@@ -216,18 +172,11 @@ describe('record-choice-set-editor', () => {
             expect(fetchFieldsForEntity).toHaveBeenCalledTimes(1);
         });
 
-        it('Changing value in entity-resource-picker should add an empty output assignment', () => {
+        it('Changing value in entity-resource-picker should update filterLogic', () => {
             entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
-            expect(createAction.mock.calls[0][1]).toEqual({
-                propertyName: 'outputAssignments'
-            });
-        });
-
-        it('Changing value in entity-resource-picker should update filterType', () => {
-            entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
-            expect(createAction.mock.calls[2][1]).toEqual({
-                propertyName: 'filterType',
-                value: 'none',
+            expect(createAction.mock.calls[1][1]).toEqual({
+                propertyName: 'filterLogic',
+                value: CONDITION_LOGIC.AND,
                 error: null,
                 doValidateProperty: false
             });
@@ -235,7 +184,7 @@ describe('record-choice-set-editor', () => {
 
         it('Changing value in entity-resource-picker should update sortOrder', () => {
             entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
-            expect(createAction.mock.calls[3][1]).toEqual({
+            expect(createAction.mock.calls[2][1]).toEqual({
                 propertyName: 'sortOrder',
                 value: 'NotSorted',
                 error: null,
@@ -245,7 +194,7 @@ describe('record-choice-set-editor', () => {
 
         it('Changing value in entity-resource-picker should update sortField', () => {
             entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
-            expect(createAction.mock.calls[4][1]).toEqual({
+            expect(createAction.mock.calls[3][1]).toEqual({
                 propertyName: 'sortField',
                 value: null,
                 error: null,
@@ -255,7 +204,7 @@ describe('record-choice-set-editor', () => {
 
         it('Changing value in entity-resource-picker should update displayField', () => {
             entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
-            expect(createAction.mock.calls[5][1]).toEqual({
+            expect(createAction.mock.calls[4][1]).toEqual({
                 propertyName: 'displayField',
                 value: null,
                 error: null,
@@ -265,7 +214,7 @@ describe('record-choice-set-editor', () => {
 
         it('Changing value in entity-resource-picker should update valueField', () => {
             entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
-            expect(createAction.mock.calls[6][1]).toEqual({
+            expect(createAction.mock.calls[5][1]).toEqual({
                 propertyName: 'valueField',
                 value: null,
                 error: null,
@@ -275,10 +224,8 @@ describe('record-choice-set-editor', () => {
     });
 
     describe('Choice Value Field Picker', () => {
-        let recordChoiceEditor;
         let fieldPicker;
         beforeEach(() => {
-            recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
             fieldPicker = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.FIELD_PICKER);
         });
 
@@ -292,7 +239,6 @@ describe('record-choice-set-editor', () => {
     });
 
     describe('second-section', () => {
-        let recordChoiceEditor;
         let recordFilter, recordSort, displayField, dataTypePicker, valueField, outputAssignment;
 
         describe('record-filter', () => {
@@ -313,15 +259,11 @@ describe('record-choice-set-editor', () => {
                     expect(recordFilter).not.toBeNull();
                 });
 
-                it('Handles the RecordFilterTypeChangedEvent Changed event', () => {
-                    const filterTypeChangedEvent = new RecordFilterTypeChangedEvent('all');
-                    recordFilter.dispatchEvent(filterTypeChangedEvent);
-                    expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
-                        propertyName: 'filterType',
-                        value: 'all',
-                        error: null,
-                        doValidateProperty: true
-                    });
+                it('Handles the RecordFilterTypeChangedEvent Changed event', async () => {
+                    const propertyChangeEvent = new PropertyChangedEvent('filterLogic', CONDITION_LOGIC.AND);
+                    recordFilter.dispatchEvent(propertyChangeEvent);
+                    await ticks(1);
+                    expect(recordChoiceEditor.node.filterLogic.value).toBe(CONDITION_LOGIC.OR);
                 });
             });
         });
@@ -391,10 +333,10 @@ describe('record-choice-set-editor', () => {
                 expect(choiceLimit).not.toBeNull();
             });
 
-            it('default value is empty string', () => {
+            it('Should be 5', () => {
                 recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
                 const choiceLimit = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.CHOICE_LIMIT_INPUT);
-                expect(choiceLimit.value).toBe('');
+                expect(choiceLimit.value).toBe('5');
             });
         });
 
@@ -420,7 +362,7 @@ describe('record-choice-set-editor', () => {
 
                     it('Changing value in displayField field-picker should update displayField value', () => {
                         displayField.dispatchEvent(getComboboxStateChangedEvent());
-                        expect(createAction.mock.calls[1][1]).toEqual({
+                        expect(createAction.mock.calls[0][1]).toEqual({
                             propertyName: 'displayField',
                             value: 'Contact',
                             error: null,
@@ -472,7 +414,7 @@ describe('record-choice-set-editor', () => {
 
                     it('Changing value in Datatype Picker should update valueField', () => {
                         dispatchValueChangedEvent({ dataType: 'Number' });
-                        expect(createAction.mock.calls[2][1]).toEqual({
+                        expect(createAction.mock.calls[1][1]).toEqual({
                             propertyName: 'valueField',
                             value: null,
                             error: null,
@@ -503,7 +445,7 @@ describe('record-choice-set-editor', () => {
 
                     it('Changing value in valueField field-picker should update valueField value', () => {
                         valueField.dispatchEvent(getComboboxStateChangedEvent());
-                        expect(createAction.mock.calls[1][1]).toEqual({
+                        expect(createAction.mock.calls[0][1]).toEqual({
                             propertyName: 'valueField',
                             value: 'Contact',
                             error: null,
@@ -573,9 +515,9 @@ describe('record-choice-set-editor', () => {
     describe('Validation', () => {
         it('Calls reducer with validate all event', () => {
             const hydratedRecordChoiceObject = hydrateWithErrors(recordChoiceObject, ['guid', 'elementType']);
-            const recordChoiceEditor = setupComponentUnderTest(hydratedRecordChoiceObject);
+            recordChoiceEditor = setupComponentUnderTest(hydratedRecordChoiceObject);
             recordChoiceEditor.validate();
-            expect(recordChoiceSetReducer.mock.calls[1][1]).toEqual({
+            expect(recordChoiceSetReducer.mock.calls[0][1]).toEqual({
                 showSecondSection: true,
                 type: VALIDATE_ALL
             });

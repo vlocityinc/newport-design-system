@@ -9,11 +9,12 @@ import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker'
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { format } from 'builder_platform_interaction/commonUtils';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
-import { SORT_ORDER, RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
+import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
 const RECORD_CHOICE_SET_FIELDS = {
     RECORD_OBJECT: 'object',
-    FILTER_TYPE: 'filterType',
+    FILTER_LOGIC: 'filterLogic',
     SORT_FIELD: 'sortField',
     SORT_ORDER: 'sortOrder',
     LIMIT: 'limit',
@@ -242,7 +243,8 @@ export default class RecordChoiceSetEditor extends LightningElement {
                 // Getting the entityFields only when a valid value is entered.
                 this.getEntityFields();
             }
-            this.updateProperty(RECORD_CHOICE_SET_FIELDS.FILTER_TYPE, RECORD_FILTER_CRITERIA.NONE, null, false);
+
+            this.updateProperty(RECORD_CHOICE_SET_FIELDS.FILTER_LOGIC, CONDITION_LOGIC.AND, null, false);
             this.updateProperty(RECORD_CHOICE_SET_FIELDS.SORT_ORDER, SORT_ORDER.NOT_SORTED, null, false);
             this.updateProperty(RECORD_CHOICE_SET_FIELDS.SORT_FIELD, null, null, false);
             this.updateProperty(RECORD_CHOICE_SET_FIELDS.DISPLAY_FIELD, null, null, false);
@@ -279,15 +281,6 @@ export default class RecordChoiceSetEditor extends LightningElement {
         const value = event.detail.value;
         const error = event.detail.error || null;
         this.updateProperty(event.detail.propertyName, value, error);
-    }
-
-    /**
-     * @param {Object} event recordFilterType changed event from record-filter component
-     */
-    handleFilterTypeChanged(event) {
-        event.stopPropagation();
-        const value = event.detail.filterType;
-        this.updateProperty(RECORD_CHOICE_SET_FIELDS.FILTER_TYPE, value, null);
     }
 
     /**

@@ -1,11 +1,13 @@
 // @ts-nocheck
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { Validation } from 'builder_platform_interaction/validation';
-import { RECORD_FILTER_CRITERIA, SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
+import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 const additionalRules = {
     object: [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank],
-    limit: [ValidationRules.shouldBeInRange(1, 200)]
+    limit: [ValidationRules.shouldBeInRange(1, 200)],
+    filterLogic: [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank]
 };
 /**
  * Validate the filter item. Here we can't use the ValidationRules.validateExpressionWith3Properties because this function allows empty RHS
@@ -50,7 +52,7 @@ export const recordChoiceSetValidation = new Validation(additionalRules);
 export const getRules = (recordChoice, showSecondSection) => {
     const overrideRules = Object.assign({}, recordChoiceSetValidation.finalizedRules);
     overrideRules.object.push(ValidationRules.validateResourcePicker(recordChoice.objectIndex));
-    if (recordChoice.filterType && recordChoice.filterType.value === RECORD_FILTER_CRITERIA.ALL) {
+    if (recordChoice.filterLogic.value !== CONDITION_LOGIC.NO_CONDITIONS) {
         overrideRules.filters = validateFilter();
     }
 
