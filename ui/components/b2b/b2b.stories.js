@@ -626,4 +626,98 @@ storiesOf(`${base}`, module)
       </div>
     </div>
     `);
+  })
+  .add("b2bOverridePriceOffer", () => {
+    return withExample(`
+    <div class="nds-b2b-override-price-offer">
+      <!-- Radio price witch -->
+      <div class="nds-b2b-override-select-price">
+        <div class="nds-b2b-config-radio_container radio-toolbar">
+          <input type="radio" id="oneTime" name="prices" value="oneTime">
+          <label for="oneTime">One Time</label>
+      
+          <input type="radio" id="monthly" name="prices" value="monthly" checked>
+          <label for="monthly">Monthly</label>
+        </div>
+      </div>
+
+      <!-- Price Waterfall -->
+      <div class="nds-b2b-waterfall-container">
+        <div class="nds-b2b-override-header">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 52 52"><path fill="#1589ee" d="m20.5 9.1c0.2 0.6 0.8 0.9 1.4 0.9h8.1c0.6 0 1.2-0.3 1.4-0.9l3.2-5.9c0.2-0.6-0.2-1.2-0.8-1.2h-15.6c-0.6 0-1 0.6-0.7 1.1l3 6z m10.2 5.6h-9.4c-7.9 0-14.3 6.5-14.3 14.5v16c0 2.6 2.1 4.8 4.8 4.8h28.4c2.6 0 4.8-2.2 4.8-4.8v-16c0-8-6.5-14.5-14.3-14.5z m-2.3 27v2.7c0 0.5-0.5 0.8-1 0.8h-3.2c-0.5 0-0.6-0.3-0.6-0.8v-2.6c-2.4-0.5-4.4-1.5-4.9-2-0.6-0.6-0.8-1.1-0.3-1.8l1-1.6c0.2-0.4 0.7-0.6 1.2-0.6 0.3 0 0.6 0.1 0.8 0.2h0.1c1.6 1 3 1.4 4 1.4 1.1 0 2-0.6 2-1.2 0-0.5-0.3-1.3-3.3-2.3-2.7-1-6-2.6-6-6.3 0-2.2 1.4-4.7 5.4-5.5v-2.4c0-0.5 0.2-0.8 0.6-0.8h3.2c0.5 0 1 0.3 1 0.8v2.3c1.6 0.4 3.3 1.2 3.9 1.6 0.3 0.2 0.5 0.6 0.6 1 0.1 0.4-0.1 0.8-0.3 1l-1.4 1.4c-0.3 0.4-0.9 0.7-1.3 0.7-0.2 0-0.5-0.1-0.7-0.2-1.6-0.9-2.9-1.4-3.8-1.4-1.3 0-1.9 0.6-1.9 1 0 0.6 0.3 1.2 3 2.2 3.3 1.1 7 2.9 7 6.7 0.1 2.6-2 4.9-5.1 5.7z"></path></svg>
+          <span class="nds-b2b-override-header_title">Price Waterfall</span>
+        </div>
+        <div class="nds-b2b-override-prices-container">
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-override-prices_row">
+            <div class="nds-size_3-of-4">Base Price</div>
+            <div class="nds-size_1-of-4 nds-text-align_right">$200.00</div>
+          </div>
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-override-prices_row">
+            <div class="nds-size_3-of-4">
+              Volume Discount (Ethernet Discounts)
+              <span class="nds-b2b-override-by">Applied by Vlocity CME Adminstrator</span>
+            </div>
+            <div class="nds-size_1-of-4 nds-text-align_right">-5.0%</div>
+          </div>
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-override-prices_row">
+            <div class="nds-size_3-of-4"></div>
+            <div class="nds-size_1-of-4 nds-text-align_right">$190.00</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nds-form-element nds-b2b-search-discount">
+        <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left">
+          <svg class="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default nds-m-left_small" aria-hidden="true">
+            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+          </svg>
+          <input type="text" id="text-input-id-1" class="nds-input nds-b2b-search-discount_input" placeholder="Search">
+        </div>
+      </div>
+
+      <!-- Adjust Pricing -->
+      <div class="nds-b2b-waterfall-container">
+        <div class="nds-b2b-override-header">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 52 52"><g fill="#1589ee"><path d="m35 23h-18c-0.6 0-1 0.4-1 1v3c0 0.6 0.4 1 1 1h18c0.6 0 1-0.4 1-1v-3c0-0.6-0.4-1-1-1z m-2 9h-14c-0.6 0-1 0.4-1 1v3c0 0.6 0.4 1 1 1h14c0.6 0 1-0.4 1-1v-3c0-0.6-0.4-1-1-1z m12.8-19.7l-9.6-9.2c-0.8-0.7-1.8-1.1-2.8-1.1h-14.8c-1 0-2 0.4-2.8 1.1l-9.6 9.2c-0.8 0.8-1.2 1.8-1.2 2.9v30.8c0 2.2 1.8 4 4 4h34c2.2 0 4-1.8 4-4v-30.8c0-1.1-0.4-2.1-1.2-2.9z m-19.8-7.3c2.2 0 4 1.8 4 4s-1.8 4-4 4-4-1.8-4-4 1.8-4 4-4z m15 37.5c0 0.8-0.7 1.5-1.5 1.5h-27c-0.8 0-1.5-0.7-1.5-1.5v-25c0-0.8 0.7-1.5 1.5-1.5h27c0.8 0 1.5 0.7 1.5 1.5v25z"></path></g></svg>
+          <span class="nds-b2b-override-header_title">Price Waterfall</span>
+        </div>
+        <div class="nds-b2b-adjust-prices-container">
+          <div class="nds-b2b-override-container_header">Add Custom Discount</div>
+
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-custom-discount">
+            <div class="nds-form-element nds-size_3-of-7">
+              <div class="nds-m-right_small">
+                <div class="nds-form-element__control">
+                  <span class="nds-b2b-input-icon">$</span>
+                  <span class="nds-b2b-input-icon right">/mo</span>
+                  <input type="number" id="text-input-id-1" class="nds-input nds-b2b-input">
+                </div>
+              </div>
+            </div>
+            <div class="nds-form-element nds-size_3-of-7">
+              <div class="nds-m-right_small">
+                <div class="nds-form-element__control">
+                  <span class="nds-b2b-input-icon right">%</span>
+                  <input type="number" id="text-input-id-1" class="nds-input nds-b2b-input">
+                </div>
+              </div>
+            </div>
+            <div class="nds-size_1-of-7 nds-text-align_right"><button class="nds-button nds-b2b-add-button">Add</button></div>
+          </div>
+
+          <div class="nds-b2b-override-container_header">Available Discount</div>
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-override-discounts_row">
+            <div class="nds-size_3-of-7">Standard Discount</div>
+            <div class="nds-size_3-of-7 nds-text-align_right">-2.5%</div>
+            <div class="nds-size_1-of-7 nds-b2b-add-button_text nds-text-align_right">Add</div>
+          </div>
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-override-discounts_row">
+            <div class="nds-size_3-of-7">Industry Discount</div>
+            <div class="nds-size_3-of-7 nds-text-align_right">-3.75%</div>
+            <div class="nds-size_1-of-7 nds-b2b-add-button_text nds-text-align_right">Add</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    `);
   });
