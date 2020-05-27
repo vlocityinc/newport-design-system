@@ -9,7 +9,9 @@ import {
     DESELECT_ON_CANVAS,
     MARQUEE_SELECT_ON_CANVAS,
     MODIFY_DECISION_WITH_OUTCOMES,
-    MODIFY_WAIT_WITH_WAIT_EVENTS
+    MODIFY_WAIT_WITH_WAIT_EVENTS,
+    DECORATE_CANVAS,
+    CLEAR_CANVAS_DECORATION
 } from 'builder_platform_interaction/actions';
 import { addItem, updateProperties, replaceItem } from 'builder_platform_interaction/dataMutationLib';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -58,6 +60,10 @@ export default function connectorsReducer(state = [], action) {
                 action.payload.childElements,
                 action.payload.deletedChildElementGuids
             );
+        case DECORATE_CANVAS:
+            return _highlightConnectors(_deselectConnectors(state), action.payload.connectorsToHighlight);
+        case CLEAR_CANVAS_DECORATION:
+            return _clearConnectorHighlights(state);
         default:
             return state;
     }
@@ -286,6 +292,62 @@ function _marqueeSelect(connectors, guidsToSelect, guidsToDeselect) {
             return updateProperties(connector, {
                 config: {
                     isSelected: false
+                }
+            });
+        }
+        return connector;
+    });
+
+    return hasStateChanged ? newState : connectors;
+}
+
+/**
+ * Helper function to highlight connectors. Iterates over the connectorsToHighlight array
+ * and sets the isHighlighted property of the corresponding connector in the store to true.
+ *
+ * @param connectors - current state of connectors in the store
+ * @param connectorsToHighlight - Array of connectors to be highlighted
+ */
+function _highlightConnectors(connectors: object[], connectorsToHighlight: object[]) {
+    let hasStateChanged = false;
+    const newState = connectors.map(connector => {
+        // Check if the connector exists in the connectorsToHighlight list by matching source element and connector type,
+        // and if a child source (like decision outcome) exists, match that as well
+        const foundConnector = connectorsToHighlight.some(connectorToHighlight => {
+            return (
+                connectorToHighlight.source === connector.source &&
+                connectorToHighlight.type === connector.type &&
+                (!connectorToHighlight.childSource || connectorToHighlight.childSource === connector.childSource)
+            );
+        });
+        // Set the isHighlighted property of the connector to true if found in connectorsToHighlight list, else keep previous value
+        if (foundConnector) {
+            hasStateChanged = true;
+            return updateProperties(connector, {
+                config: {
+                    isHighlighted: true
+                }
+            });
+        }
+        return connector;
+    });
+
+    return hasStateChanged ? newState : connectors;
+}
+
+/**
+ * Helper function to clear highlighting on all connectors.
+ *
+ * @param connectors - current state of connectors in the store
+ */
+function _clearConnectorHighlights(connectors: object[]) {
+    let hasStateChanged = false;
+    const newState = connectors.map(connector => {
+        if (connector.config.isHighlighted) {
+            hasStateChanged = true;
+            return updateProperties(connector, {
+                config: {
+                    isHighlighted: false
                 }
             });
         }

@@ -9,7 +9,9 @@ import {
     DO_DUPLICATE,
     DELETE_ELEMENT,
     MODIFY_DECISION_WITH_OUTCOMES,
-    MODIFY_WAIT_WITH_WAIT_EVENTS
+    MODIFY_WAIT_WITH_WAIT_EVENTS,
+    DECORATE_CANVAS,
+    CLEAR_CANVAS_DECORATION
 } from 'builder_platform_interaction/actions';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 
@@ -530,6 +532,195 @@ describe('connectors-reducer', () => {
                     })
                 ).toEqual([connectorsState[1]]);
             });
+        });
+    });
+
+    describe('Decorate Canvas', () => {
+        it('should highlight connectors if a connector match is found', () => {
+            const initialConnectorsState = [
+                {
+                    guid: 'c1',
+                    source: 's1',
+                    type: CONNECTOR_TYPE.REGULAR,
+                    config: {}
+                },
+                {
+                    guid: 'c2',
+                    source: 's2',
+                    config: { isSelected: true }
+                },
+                {
+                    guid: 'c3',
+                    source: 's3',
+                    config: { isHighlighted: true }
+                }
+            ];
+
+            const expectedNewConnectorsState = [
+                {
+                    guid: 'c1',
+                    source: 's1',
+                    type: CONNECTOR_TYPE.REGULAR,
+                    config: { isHighlighted: true }
+                },
+                {
+                    guid: 'c2',
+                    source: 's2',
+                    config: { isSelected: false }
+                },
+                {
+                    guid: 'c3',
+                    source: 's3',
+                    config: { isHighlighted: true }
+                }
+            ];
+
+            expect(
+                reducer(initialConnectorsState, {
+                    type: DECORATE_CANVAS,
+                    payload: {
+                        connectorsToHighlight: [{ source: 's1', type: CONNECTOR_TYPE.REGULAR }]
+                    }
+                })
+            ).toEqual(expectedNewConnectorsState);
+        });
+
+        it('should highlight connectors if a child connector match is found', () => {
+            const initialConnectorsState = [
+                {
+                    guid: 'c1',
+                    source: 's1',
+                    childSource: 'cs1',
+                    type: CONNECTOR_TYPE.REGULAR,
+                    config: {}
+                }
+            ];
+
+            const expectedNewConnectorsState = [
+                {
+                    guid: 'c1',
+                    source: 's1',
+                    childSource: 'cs1',
+                    type: CONNECTOR_TYPE.REGULAR,
+                    config: { isHighlighted: true }
+                }
+            ];
+
+            expect(
+                reducer(initialConnectorsState, {
+                    type: DECORATE_CANVAS,
+                    payload: {
+                        connectorsToHighlight: [{ source: 's1', childSource: 'cs1', type: CONNECTOR_TYPE.REGULAR }]
+                    }
+                })
+            ).toEqual(expectedNewConnectorsState);
+        });
+
+        it('should not highlight connectors if no connector match on source is found', () => {
+            const initialConnectorsState = [
+                {
+                    guid: 'c1',
+                    source: 's1',
+                    type: CONNECTOR_TYPE.REGULAR,
+                    config: {}
+                }
+            ];
+
+            expect(
+                reducer(initialConnectorsState, {
+                    type: DECORATE_CANVAS,
+                    payload: {
+                        connectorsToHighlight: [{ source: 's2', type: CONNECTOR_TYPE.REGULAR }]
+                    }
+                })
+            ).toEqual(initialConnectorsState);
+        });
+
+        it('should not highlight connectors if no connector match on type is found', () => {
+            const initialConnectorsState = [
+                {
+                    guid: 'c1',
+                    source: 's1',
+                    type: CONNECTOR_TYPE.REGULAR,
+                    config: {}
+                }
+            ];
+
+            expect(
+                reducer(initialConnectorsState, {
+                    type: DECORATE_CANVAS,
+                    payload: {
+                        connectorsToHighlight: [{ source: 's1', type: CONNECTOR_TYPE.FAULT }]
+                    }
+                })
+            ).toEqual(initialConnectorsState);
+        });
+
+        it('should not highlight connectors if no connector match on child source is found', () => {
+            const initialConnectorsState = [
+                {
+                    guid: 'c1',
+                    source: 's1',
+                    childSource: 'cs1',
+                    type: CONNECTOR_TYPE.REGULAR,
+                    config: {}
+                }
+            ];
+
+            expect(
+                reducer(initialConnectorsState, {
+                    type: DECORATE_CANVAS,
+                    payload: {
+                        connectorsToHighlight: [{ source: 's1', childSource: 'cs2', type: CONNECTOR_TYPE.REGULAR }]
+                    }
+                })
+            ).toEqual(initialConnectorsState);
+        });
+    });
+
+    describe('Clear Canvas Decorate', () => {
+        it('should de-highlight connectors', () => {
+            const initialConnectorsState = [
+                {
+                    guid: 'c1',
+                    source: 's1',
+                    config: { isHighlighted: true }
+                },
+                {
+                    guid: 'c2',
+                    source: 's2',
+                    config: { isHighlighted: true }
+                },
+                {
+                    guid: 'c3',
+                    source: 's3',
+                    config: {}
+                }
+            ];
+
+            const expectedNewConnectorsState = [
+                {
+                    guid: 'c1',
+                    source: 's1',
+                    config: { isHighlighted: false }
+                },
+                {
+                    guid: 'c2',
+                    source: 's2',
+                    config: { isHighlighted: false }
+                },
+                {
+                    guid: 'c3',
+                    source: 's3',
+                    config: {}
+                }
+            ];
+
+            expect(
+                reducer(initialConnectorsState, {
+                    type: CLEAR_CANVAS_DECORATION
+                })
+            ).toEqual(expectedNewConnectorsState);
         });
     });
 });
