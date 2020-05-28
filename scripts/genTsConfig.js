@@ -24,10 +24,9 @@ function genJsConfig(packageDir) {
     fs.writeFileSync(
         `${packageDir}/tsconfig.json`,
         `{
-
+    "extends": "../../../tsconfig.json",
     "compilerOptions": {
         "declaration": false,
-        "strict": true,
         "noUnusedLocals": false,
         "noImplicitAny": false,
         "outDir": "./build/builder_platform_interaction",
