@@ -36,6 +36,8 @@
             text-align: center;
             transition: all 0.35s;
             color: $palette-warm-gray-7;
+            right: 2rem;
+            position: relative;
           }
           .nds-b2b-card_title {
             width: 40vw;
@@ -77,7 +79,7 @@
               }
             }
             @media screen and (min-width: 48rem) {
-              right: 5rem;
+              right: 7rem;
             }
           }
           .nds-b2b-quantity {
@@ -121,8 +123,21 @@
               margin-top: 1rem;
             }
           }
+          .nds-b2b-menu {
+            position: absolute;
+            right: 1.5rem;
+            .nds-is-open .nds-dropdown_right {
+              overflow: visible;
+              position: relative;
+              margin-top: -20px;
+              z-index: 1;
+            }
+          }
           @media screen and (min-width: 48rem) {
-            padding: 1.5rem;
+            padding: 1.5rem 3rem 1.5rem 1.5rem;
+            &::after {
+              right: 0rem;
+            }
             .nds-b2b-quantity {
               margin: -0.5rem 2rem 0 2rem;
             }
@@ -213,9 +228,6 @@
                 .nds-b2b-attribute_value {
                   border-bottom: 1px dashed $black-primary;
                 }
-              }
-              @media screen and (min-width: 48rem) {
-                right: 5rem;
               }
             }
           }
