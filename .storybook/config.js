@@ -18,7 +18,8 @@ addParameters({
   options: {
     name: 'Newport Design System',
     isFullScreen: false,
-    showPanel: true
+    showPanel: true,
+    hierarchySeparator: /\//,
   }
 });
 
