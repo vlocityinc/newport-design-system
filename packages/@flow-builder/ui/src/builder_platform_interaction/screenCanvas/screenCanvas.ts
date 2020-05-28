@@ -1,7 +1,11 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import { SCREEN_EDITOR_GUIDS, getPlaceHolderLabel } from 'builder_platform_interaction/screenEditorUtils';
+import {
+    SCREEN_EDITOR_GUIDS,
+    getPlaceHolderLabel,
+    getDragFieldValue
+} from 'builder_platform_interaction/screenEditorUtils';
 import { createAddScreenFieldEvent, createScreenElementMovedEvent } from 'builder_platform_interaction/events';
 const DRAGGING_REGION_SELECTOR = '.screen-canvas-dragging-region';
 const INSERTION_LINE_SELECTOR = '.screen-canvas-insertion-line';
@@ -45,47 +49,50 @@ export default class ScreenCanvas extends LightningElement {
         event.preventDefault();
         event.stopPropagation();
         this.handleDragEnd();
-        const range = this.getDraggingRange(event);
-        // Make sure range is not null
-        if (range) {
-            // Figure out if we're adding a field or moving a field and fire the correct event.
-            if (
-                event.dataTransfer &&
-                (event.dataTransfer.effectAllowed === 'copy' ||
-                    event.dataTransfer.getData('dragStartLocation') === SCREEN_EDITOR_GUIDS.PALETTE)
-            ) {
-                // Field is being added from the palette.
-                const fieldTypeName = event.dataTransfer.getData('text');
-                const addFieldEvent = createAddScreenFieldEvent(fieldTypeName, range.index, this.element);
-                this.dispatchEvent(addFieldEvent);
-                this.clearDraggingState();
-            } else {
-                // Existing field is being moved around.
-                const sourceGuid = event.dataTransfer.getData('text');
-                if (sourceGuid && this.element.fields.length >= range.index) {
-                    this.fireMoveEvent(sourceGuid, this.element.guid, range.index);
+        if (!this.isSectionWithinField()) {
+            const range = this.getDraggingRange(event);
+            // Make sure range is not null
+            if (range) {
+                // Figure out if we're adding a field or moving a field and fire the correct event.
+                if (
+                    event.dataTransfer &&
+                    (event.dataTransfer.effectAllowed === 'copy' ||
+                        event.dataTransfer.getData('dragStartLocation') === SCREEN_EDITOR_GUIDS.PALETTE)
+                ) {
+                    // Field is being added from the palette.
+                    const fieldTypeName = event.dataTransfer.getData('text');
+                    const addFieldEvent = createAddScreenFieldEvent(fieldTypeName, range.index, this.element);
+                    this.dispatchEvent(addFieldEvent);
                     this.clearDraggingState();
                 } else {
-                    throw new Error(
-                        'No screen field found at drag destination. Source guid: ' +
-                            sourceGuid +
-                            '. Destination index: ' +
-                            range.index +
-                            '. Event: ' +
-                            event.dataTransfer.effectAllowed +
-                            '. Number of screen fields: ' +
-                            this.element.fields.length
-                    );
+                    // Existing field is being moved around.
+                    const sourceGuid = event.dataTransfer.getData('text');
+                    if (sourceGuid && this.element.fields.length >= range.index) {
+                        this.fireMoveEvent(sourceGuid, this.element.guid, range.index);
+                        this.clearDraggingState();
+                    } else {
+                        throw new Error(
+                            'No screen field found at drag destination. Source guid: ' +
+                                sourceGuid +
+                                '. Destination index: ' +
+                                range.index +
+                                '. Event: ' +
+                                event.dataTransfer.effectAllowed +
+                                '. Number of screen fields: ' +
+                                this.element.fields.length
+                        );
+                    }
                 }
             }
         }
     }
 
     handleDragEnter(event) {
-        this.template.querySelector(DRAGGING_REGION_SELECTOR).classList.remove(SLDS_HIDE_CLASS);
+        if (!this.isSectionWithinField()) {
+            this.template.querySelector(DRAGGING_REGION_SELECTOR).classList.remove(SLDS_HIDE_CLASS);
+        }
         event.preventDefault();
         event.stopPropagation();
-
         this.dragEnterCounter++;
         // TODO: dispatch an event telling the screen editor canvas body to remove its dragging region
     }
@@ -111,16 +118,18 @@ export default class ScreenCanvas extends LightningElement {
     }
 
     handleDragOver(event) {
-        const range = this.getDraggingRange(event);
-        if (range) {
-            if (!this.top) {
-                this.top = this.template.querySelector(DRAGGING_REGION_SELECTOR).getBoundingClientRect().top;
+        if (!this.isSectionWithinField()) {
+            const range = this.getDraggingRange(event);
+            if (range) {
+                if (!this.top) {
+                    this.top = this.template.querySelector(DRAGGING_REGION_SELECTOR).getBoundingClientRect().top;
+                }
+
+                this.template.querySelector(INSERTION_LINE_SELECTOR).style.top = range.top - this.top + 'px';
             }
 
-            this.template.querySelector(INSERTION_LINE_SELECTOR).style.top = range.top - this.top + 'px';
+            event.preventDefault();
         }
-
-        event.preventDefault();
         event.stopPropagation();
     }
 
@@ -177,5 +186,16 @@ export default class ScreenCanvas extends LightningElement {
     fireMoveEvent(sourceGuid, destinationParentGuid, destinationIndex) {
         const moveFieldEvent = createScreenElementMovedEvent(sourceGuid, destinationParentGuid, destinationIndex);
         this.dispatchEvent(moveFieldEvent);
+    }
+
+    isSectionWithinField() {
+        const draggedFieldValue = getDragFieldValue();
+        if (draggedFieldValue) {
+            return (
+                (draggedFieldValue === 'RegionContainer' || draggedFieldValue === 'Section') &&
+                this.element.elementType === 'SCREEN_FIELD'
+            );
+        }
+        return false;
     }
 }

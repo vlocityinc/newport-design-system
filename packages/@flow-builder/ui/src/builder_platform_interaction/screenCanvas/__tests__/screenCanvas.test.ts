@@ -5,8 +5,17 @@ import { createTestScreen, createDropEvent, ticks } from 'builder_platform_inter
 import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/screenEditorUtils', () => {
+    const actual = jest.requireActual('builder_platform_interaction/screenEditorUtils');
+    return Object.assign({}, actual, {
+        getDragFieldValue: jest.fn().mockImplementation(() => {
+            return 'Section';
+        })
+    });
+});
 
 const createComponentUnderTest = props => {
     const el = createElement('builder_platform_interaction-screen-canvas', {
@@ -129,11 +138,33 @@ describe('handleDragEnter', () => {
     let screenCanvasElement;
     beforeEach(() => {
         screenCanvasElement = createComponentUnderTest({
-            element: createTestScreen('Screen 1', null),
-            labels: {}
+            element: createTestScreen('Screen1', null)
         });
     });
     it('dragEnter removes the expect class from the highlight', async () => {
+        await ticks(1);
+        const dragEnterEvent = new CustomEvent('dragenter');
+        // Before firing the event, we should see the class in question.
+        const draggingRegion = screenCanvasElement.shadowRoot.querySelector(selectors.draggingRegion);
+        expect(draggingRegion.classList).toContain('slds-hide');
+
+        // Fire dragEnter event on the canvas
+        const canvasBody = screenCanvasElement.shadowRoot.querySelector(selectors.canvasBody);
+        canvasBody.dispatchEvent(dragEnterEvent);
+        expect(draggingRegion.classList).not.toContain('slds-hide');
+    });
+});
+
+describe('handleDragEnterForSectionWithinField', () => {
+    let screenCanvasElement;
+    const testScreen = createTestScreen('Screen1');
+    testScreen.elementType = ELEMENT_TYPE.SCREEN_FIELD;
+    beforeEach(() => {
+        screenCanvasElement = createComponentUnderTest({
+            element: testScreen
+        });
+    });
+    it('dragEnter does not remove the expect class from the highlight', async () => {
         await ticks(1);
         const dragEnterEvent = new CustomEvent('dragenter');
 
@@ -144,7 +175,7 @@ describe('handleDragEnter', () => {
         // Fire dragEnter event on the canvas
         const canvasBody = screenCanvasElement.shadowRoot.querySelector(selectors.canvasBody);
         canvasBody.dispatchEvent(dragEnterEvent);
-        expect(draggingRegion.classList).not.toContain('slds-hide');
+        expect(draggingRegion.classList).toContain('slds-hide');
     });
 });
 

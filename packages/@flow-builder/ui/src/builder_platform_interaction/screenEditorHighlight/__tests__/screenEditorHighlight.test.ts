@@ -10,6 +10,13 @@ import {
     mouseoutEvent
 } from 'builder_platform_interaction/builderTestUtils';
 
+jest.mock('builder_platform_interaction/screenEditorUtils', () => {
+    const actual = jest.requireActual('builder_platform_interaction/screenEditorUtils');
+    return Object.assign({}, actual, {
+        setDragFieldValue: () => {}
+    });
+});
+
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-screen-editor-highlight', { is: ScreenEditorHighlight });
     Object.assign(el, props);

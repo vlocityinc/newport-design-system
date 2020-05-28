@@ -69,7 +69,9 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => ({
 
     SCREEN_EDITOR_GUIDS: {
         PALETTE: 'palette'
-    }
+    },
+
+    setDragFieldValue: () => {}
 }));
 
 describe('Screen Editor Palette', () => {

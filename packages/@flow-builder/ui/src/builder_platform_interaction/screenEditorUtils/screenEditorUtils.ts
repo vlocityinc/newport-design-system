@@ -90,3 +90,21 @@ export function compareValues(value1, value2, includeErrors = false) {
 
     return result;
 }
+
+/**
+ * Sets the value of the field being dragged from the palette or screen canvas
+ *
+ * @param {*} field - The field value
+ */
+export function setDragFieldValue(field) {
+    this._draggedFieldValue = field;
+}
+
+/**
+ * Returns the value of the field being dragged from the palette or screen canvas
+ *
+ * @returns The field value
+ */
+export function getDragFieldValue() {
+    return this._draggedFieldValue;
+}

@@ -7,7 +7,8 @@ import {
     HOVERING_CLASS,
     DRAGGING_CLASS,
     CONTAINER_DIV_SELECTOR,
-    booleanAttributeValue
+    booleanAttributeValue,
+    setDragFieldValue
 } from 'builder_platform_interaction/screenEditorUtils';
 
 /*
@@ -80,6 +81,7 @@ export default class ScreenEditorHighlight extends LightningElement {
         event.dataTransfer.effectAllowed = 'move';
         // Cannot use a different attribute here because only 'text' works in IE
         event.dataTransfer.setData('text', this.screenElement.guid);
+        setDragFieldValue(this.screenElement.fieldType);
     }
 
     handleDragEnd(/* event */) {

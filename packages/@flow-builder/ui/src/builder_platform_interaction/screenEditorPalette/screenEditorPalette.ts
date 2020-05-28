@@ -2,7 +2,11 @@
 import { LightningElement, track, api } from 'lwc';
 import { labelFilter } from 'builder_platform_interaction/filterLib';
 import { getAllCachedExtensionTypes } from 'builder_platform_interaction/flowExtensionLib';
-import { getAllScreenFieldTypes, SCREEN_EDITOR_GUIDS } from 'builder_platform_interaction/screenEditorUtils';
+import {
+    getAllScreenFieldTypes,
+    SCREEN_EDITOR_GUIDS,
+    setDragFieldValue
+} from 'builder_platform_interaction/screenEditorUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { createAddScreenFieldEvent } from 'builder_platform_interaction/events';
@@ -84,6 +88,7 @@ export default class ScreenPalette extends LightningElement {
         event.dataTransfer.setData('text', fieldTypeName);
         event.dataTransfer.effectAllowed = 'copy';
         event.dataTransfer.setData('dragStartLocation', SCREEN_EDITOR_GUIDS.PALETTE); // Needed for safari browser. effectAllowed always resolves to 'all' and it is not supported by safari.
+        setDragFieldValue(fieldTypeName);
     }
 
     /* TODO - W-5617771
