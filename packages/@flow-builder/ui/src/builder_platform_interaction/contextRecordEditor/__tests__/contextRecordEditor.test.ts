@@ -1,16 +1,15 @@
 // @ts-nocheck
 import contextRecordEditor from '../contextRecordEditor';
 import { createElement } from 'lwc';
-import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     AddRecordFilterEvent,
     DeleteRecordFilterEvent,
     UpdateRecordFilterEvent,
-    RecordFilterTypeChangedEvent,
     ConfigurationEditorChangeEvent,
-    UpdateNodeEvent
+    UpdateNodeEvent,
+    PropertyChangedEvent
 } from 'builder_platform_interaction/events';
-import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import * as store from 'mock/storeData';
 import * as expressionUtilsMock from 'builder_platform_interaction/expressionUtils';
 import { ticks, INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
@@ -99,7 +98,7 @@ describe('context-record-editor', () => {
             name: { value: '', error: null },
             object: { value: 'Account', error: null },
             objectIndex: { value: 'guid', error: null },
-            filterType: {},
+            filterLogic: CONDITION_LOGIC.AND,
             filters: [],
             frequency: { value: 'Once', error: null },
             startDate: undefined,
@@ -115,7 +114,7 @@ describe('context-record-editor', () => {
             name: { value: '', error: null },
             object: { value: 'Account', error: null },
             objectIndex: { value: 'guid', error: null },
-            filterType: {},
+            filterLogic: CONDITION_LOGIC.NO_CONDITIONS,
             filters: [],
             frequency: undefined,
             startDate: undefined,
@@ -132,7 +131,7 @@ describe('context-record-editor', () => {
             name: { value: '', error: null },
             object: { value: 'Account', error: null },
             objectIndex: { value: 'guid', error: null },
-            filterType: RECORD_FILTER_CRITERIA.ALL,
+            filterLogic: CONDITION_LOGIC.AND,
             filters: [
                 {
                     rowIndex: 'a0e8a02d-60fb-4481-8165-10a01fe7031c',
@@ -168,7 +167,7 @@ describe('context-record-editor', () => {
             name: { value: '', error: null },
             object: { value: 'Account', error: null },
             objectIndex: { value: 'guid', error: null },
-            filterType: RECORD_FILTER_CRITERIA.NONE,
+            filterLogic: CONDITION_LOGIC.NO_CONDITIONS,
             filters: [],
             frequency: { value: 'Once', error: null },
             startDate: undefined,
@@ -184,7 +183,7 @@ describe('context-record-editor', () => {
             name: { value: '', error: null },
             object: { value: 'Audience', error: null },
             objectIndex: { value: 'guid', error: null },
-            filterType: RECORD_FILTER_CRITERIA.NONE,
+            filterLogic: CONDITION_LOGIC.NO_CONDITIONS,
             filters: [],
             frequency: { value: 'Once', error: null },
             startDate: undefined,
@@ -205,13 +204,13 @@ describe('context-record-editor', () => {
 
     it('record filter type should be "none" ', () => {
         const contextEditor = createComponentForTest(scheduledNewStartElementWithoutFilters());
-        expect(getRecordFilter(contextEditor).filterType).toBe(RECORD_FILTER_CRITERIA.NONE);
+        expect(getRecordFilter(contextEditor).filterLogic).toBe(CONDITION_LOGIC.NO_CONDITIONS);
     });
 
     it('record filter type should be "all" ', () => {
         expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(store.accountSObjectVariable);
         const contextEditor = createComponentForTest(scheduledNewStartElementWithFilters());
-        expect(getRecordFilter(contextEditor).filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
+        expect(getRecordFilter(contextEditor).filterLogic).toBe(CONDITION_LOGIC.AND);
     });
 
     describe('handle events', () => {
@@ -238,11 +237,11 @@ describe('context-record-editor', () => {
             await ticks(1);
             expect(contextEditor.node.filters).toHaveLength(2);
         });
-        it('handle record filter type Change event', async () => {
-            const recordFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(RECORD_FILTER_CRITERIA.ALL);
-            getRecordFilter(contextEditor).dispatchEvent(recordFilterTypeChangedEvent);
+        it('handle record filter logic Change event', async () => {
+            const propertyChangeEvent = new PropertyChangedEvent('filterLogic', CONDITION_LOGIC.OR);
+            getRecordFilter(contextEditor).dispatchEvent(propertyChangeEvent);
             await ticks(1);
-            expect(contextEditor.node.filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
+            expect(contextEditor.node.filterLogic.value).toBe(CONDITION_LOGIC.OR);
         });
         it('record filter fire DeleteRecordFilterEvent', async () => {
             const deleteRecordFilterEvent = new DeleteRecordFilterEvent(0); // This is using the numerical rowIndex not the property rowIndex
@@ -296,13 +295,15 @@ describe('context-record-editor', () => {
                 })
             );
         });
-        it('handle RecordFilterTypeChangedEvent should dispatch an UpdateNodeEvent', async () => {
+        it('handle PropertyChangedEvent from filterLogic should dispatch an UpdateNodeEvent', async () => {
             contextEditor.node = scheduledNewStartElementWithFilters();
             const updateNodeCallback = jest.fn();
             contextEditor.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
 
-            const recordFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(RECORD_FILTER_CRITERIA.ALL);
-            getRecordFilter(contextEditor).dispatchEvent(recordFilterTypeChangedEvent);
+            const propertyChangeEvent = new PropertyChangedEvent('filterLogic', CONDITION_LOGIC.OR);
+            getRecordFilter(contextEditor).dispatchEvent(propertyChangeEvent);
+            await ticks(1);
+            expect(contextEditor.node.filterLogic.value).toBe(CONDITION_LOGIC.OR);
             expect(updateNodeCallback).toHaveBeenCalledWith(
                 expect.objectContaining({
                     detail: { node: contextEditor.node }

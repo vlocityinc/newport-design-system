@@ -229,16 +229,6 @@ export default class contextRecordEditor extends LightningElement {
     }
 
     /**
-     * Handle filterType change and via reducer update element's state accordingly
-     * @param {Object} event - event
-     */
-    handleFilterTypeChanged(event) {
-        event.stopPropagation();
-        const { filterType, error } = event.detail;
-        this.updateProperty('filterType', filterType, error, true, this.startElement.filterType);
-    }
-
-    /**
      * @param {Object} event - property changed event coming from label-description component or the list item changed events (add/update/delete)
      */
     handlePropertyOrListItemChanged(event) {

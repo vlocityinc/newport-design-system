@@ -316,7 +316,7 @@ export const START_ELEMENT_FIELDS = {
     FREQUENCY: 'frequency',
     START_DATE: 'startDate',
     START_TIME: 'startTime',
-    FILTER_TYPE: 'filterType'
+    FILTER_LOGIC: 'filterLogic'
 };
 
 export function isSystemElement(elementType) {

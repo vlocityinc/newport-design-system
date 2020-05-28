@@ -52,6 +52,7 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     RECORD_QUERY_FIELDS_COMPONENT: 'builder_platform_interaction-record-query-fields',
     RESOURCED_RICH_TEXT_EDITOR: 'builder_platform_interaction-resourced-rich-text-editor',
     RESOURCED_TEXTAREA: 'builder_platform_interaction-resourced-textarea',
+    RICH_LABEL: 'builder_platform_interaction-rich-label',
     RICH_TEXT_PLAIN_TEXT_SWITCH: 'builder_platform_interaction-rich-text-plain-text-switch',
     ROW: 'builder_platform_interaction-row',
     SCREEN_EDITOR_CANVAS: 'builder_platform_interaction-screen-editor-canvas',

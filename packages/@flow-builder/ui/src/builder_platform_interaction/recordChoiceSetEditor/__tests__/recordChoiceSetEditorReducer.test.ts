@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { recordChoiceSetReducer } from '../recordChoiceSetReducer';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
 describe('Record Choice Set Reducer', () => {
     const recordChoiceObject = {
@@ -22,8 +23,8 @@ describe('Record Choice Set Reducer', () => {
             value: 'Text',
             error: null
         },
-        filterType: {
-            value: 'none',
+        filterLogic: {
+            value: CONDITION_LOGIC.NO_CONDITIONS,
             error: null
         },
         sortField: {
@@ -88,21 +89,21 @@ describe('Record Choice Set Reducer', () => {
             });
         });
 
-        describe('update the property for propname filtertype', () => {
+        describe('update the property for propname filterLogic', () => {
             const action = {
                 type: PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
                 payload: {
-                    propertyName: 'filterType',
-                    value: 'none',
+                    propertyName: 'filterLogic',
+                    value: CONDITION_LOGIC.NO_CONDITIONS,
                     error: null,
                     doValidateProperty: true
                 }
             };
             const resultObj = recordChoiceSetReducer(recordChoiceObject, action);
 
-            it('filterType is set to none', () => {
-                expect(resultObj.filterType).toEqual({
-                    value: 'none',
+            it('filterLogic is set to none', () => {
+                expect(resultObj.filterLogic).toEqual({
+                    value: CONDITION_LOGIC.NO_CONDITIONS,
                     error: null
                 });
             });

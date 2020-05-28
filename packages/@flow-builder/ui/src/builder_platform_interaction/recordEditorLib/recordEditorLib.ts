@@ -1,14 +1,5 @@
 // @ts-nocheck
 /**
- * The record filter type using to filter a record.
- * @type {{ALL: string, NONE: string}}
- */
-export const RECORD_FILTER_CRITERIA = {
-    ALL: 'all',
-    NONE: 'none'
-};
-
-/**
  * The number of records to store.
  * @type {{FIRST_RECORD: string, ALL_RECORDS: string}}
  */

@@ -12,8 +12,7 @@ import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressio
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 import { deleteItem, set, updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
+import { CONDITION_LOGIC, ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE,
     OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR,
@@ -23,7 +22,7 @@ const RHS_DATA_TYPE = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE;
 const PROPS = {
     object: 'object',
     filters: 'filters',
-    filterType: 'filterType',
+    filterLogic: 'filterLogic',
     recordTriggerType: 'recordTriggerType'
 };
 
@@ -50,14 +49,14 @@ const resetFilters = state => {
 };
 
 /**
- * Reset filterType, filters, outputReference, queriedFields, sort order, sort field, assignment to null, storing options
+ * Reset filterLogic, filters, outputReference, queriedFields, sort order, sort field, assignment to null, storing options
  * @param {Object} state - current element state
  * @returns {Object} updated state
  */
 const resetSubSections = state => {
-    // reset filters & filterType
+    // reset filters & filterLogic
     state = updateProperties(state, {
-        [PROPS.filterType]: RECORD_FILTER_CRITERIA.ALL
+        [PROPS.filterLogic]: { value: CONDITION_LOGIC.AND, error: null }
     });
     return resetFilters(state);
 };
@@ -108,12 +107,8 @@ const propertyChanged = (state, event) => {
         ) {
             state = resetSubSections(state);
         }
-    } else if (event.detail.propertyName === PROPS.filterType) {
-        state = resetSubSections(state);
-        state = updateProperties(state, {
-            [event.detail.propertyName]: event.detail.value
-        });
-        if (event.detail.value === RECORD_FILTER_CRITERIA.NONE) {
+    } else if (event.detail.propertyName === PROPS.filterLogic) {
+        if (event.detail.value === CONDITION_LOGIC.NO_CONDITIONS) {
             // reset errors in filters if any, and preserve values
             state = resetFilters(state);
         }

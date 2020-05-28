@@ -351,6 +351,22 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
               FlowBuilderRecordEditor.findRecords
             </h3>
             <div
+              class="slds-p-horizontal_small slds-m-top_xx-small slds-grid slds-grid_vertical-align-center"
+            >
+              <lightning-icon
+                class="slds-m-right_xx-small"
+                title="FlowBuilderRecordEditor.warning"
+              >
+                #shadow-root(open)
+              </lightning-icon>
+              <builder_platform_interaction-rich-label
+                class="slds-m-left_xx-small slds-m-top_xx-small"
+              >
+                #shadow-root(open)
+                  FlowBuilderRecordEditor.getAllRecords
+              </builder_platform_interaction-rich-label>
+            </div>
+            <div
               class="slds-p-horizontal_small"
             >
               <builder_platform_interaction-condition-list>

@@ -53,7 +53,6 @@ export { ComboboxStateChangedEvent } from './comboboxStateChangedEvent';
 export { AddRecordFilterEvent } from './addRecordFilterEvent';
 export { UpdateRecordFilterEvent } from './updateRecordFilterEvent';
 export { DeleteRecordFilterEvent } from './deleteRecordFilterEvent';
-export { RecordFilterTypeChangedEvent } from './recordFilterTypeChangedEvent';
 export { LocatorIconClickedEvent } from './paletteEvents/locatorIconClickedEvent';
 export { PaletteItemChevronClickedEvent } from './paletteEvents/paletteItemChevronClickedEvent';
 export { RecordStoreOptionChangedEvent } from './recordStoreOptionChangedEvent';

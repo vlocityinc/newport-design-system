@@ -1,19 +1,8 @@
 <template>
-    <div if:false={useFilterWithCustomLogic} class={containerClasses}>
+    <div class={containerClasses}>
         <h3 if:true={showTitle} class="slds-text-heading_small slds-p-around_small">
             {filterRecordsTitle}
         </h3>
-
-        <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small">
-            <lightning-combobox
-                label={filterLabel}
-                value={selectedFilter}
-                options={filterOptions}
-                onchange={handleFilterTypeChanged}
-                dropdown-alignment="auto"
-            >
-            </lightning-combobox>
-        </div>
         <div
             class="slds-p-horizontal_small slds-m-top_xx-small slds-grid slds-grid_vertical-align-center"
             if:true={showWarningMessage}
@@ -33,51 +22,6 @@
             >
             </builder_platform_interaction-rich-label>
         </div>
-        <div class="slds-p-horizontal_small ">
-            <builder_platform_interaction-list
-                if:true={showFilterList}
-                items={filterItems}
-                onaddlistitem={handleAddFilter}
-                onupdatelistitem={handleUpdateFilter}
-                ondeletelistitem={handleDeleteFilter}
-                add-label={labels.addCriteria}
-            >
-                <div slot="listBody">
-                    <template for:each={filterItems} for:item="filterItem" for:index="filterIndex">
-                        <div class="slds-list__item slds-is-relative" key={filterItem.rowIndex}>
-                            <builder_platform_interaction-row
-                                item-index={filterIndex}
-                                show-delete={showDeleteFilter}
-                                show-prefix={showPrefix}
-                            >
-                                <div slot="rowBody">
-                                    <builder_platform_interaction-field-to-ferov-expression-builder
-                                        object-type={recordEntityName}
-                                        rules={rules}
-                                        container-element={elementType}
-                                        lhs-fields={recordFields}
-                                        expression={filterItem}
-                                        lhs-label={labels.filterLhsLabel}
-                                        operator-label={labels.filterOperatorLabel}
-                                        rhs-label={labels.filterRhsLabel}
-                                        lhs-placeholder={labels.filterLhsPlaceholder}
-                                        hide-new-resource={hideNewResource}
-                                        hide-system-variables={hideSystemVariables}
-                                        operator-placeholder={labels.filterOperatorPlaceholder}
-                                        default-operator={defaultOperator}
-                                    ></builder_platform_interaction-field-to-ferov-expression-builder>
-                                </div>
-                            </builder_platform_interaction-row>
-                        </div>
-                    </template>
-                </div>
-            </builder_platform_interaction-list>
-        </div>
-    </div>
-    <div class={containerClasses} if:true={useFilterWithCustomLogic}>
-        <h3 if:true={showTitle} class="slds-text-heading_small slds-p-around_small">
-            {filterRecordsTitle}
-        </h3>
         <div class="slds-p-horizontal_small ">
             <builder_platform_interaction-condition-list
                 parent-guid={elementGuid}

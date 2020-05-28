@@ -3,13 +3,13 @@ import {
     ELEMENT_TYPE,
     FLOW_TRIGGER_FREQUENCY,
     FLOW_TRIGGER_TYPE,
-    FLOW_TRIGGER_SAVE_TYPE
+    FLOW_TRIGGER_SAVE_TYPE,
+    CONDITION_LOGIC
 } from 'builder_platform_interaction/flowMetadata';
 import { baseCanvasElement, baseCanvasElementsArrayToMap } from './base/baseElement';
 import { createStartElementConnector, createConnectorObjects } from './connector';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createRecordFilters, createFilterMetadataObject } from './base/baseRecordElement';
-import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/systemLib';
@@ -45,18 +45,14 @@ export function createStartElement(startElement = {}) {
     } = startElement;
     const triggerType = startElement.triggerType || FLOW_TRIGGER_TYPE.NONE;
     const { startDate, startTime } = startElement.schedule || startElement;
-    let { filterType, recordTriggerType, frequency } = startElement.schedule || startElement;
+    let { filterLogic = CONDITION_LOGIC.AND, recordTriggerType, frequency } = startElement.schedule || startElement;
 
-    if (!filterType) {
-        // If filter type is not set (eg. when loading from metadata), we can infer that it is NONE if object is set but no filters are set.
-        // For all other cases we default to ALL.
-        if (object && filters.length === 0) {
-            filterType = RECORD_FILTER_CRITERIA.NONE;
-        } else {
-            filterType = RECORD_FILTER_CRITERIA.ALL;
-        }
+    // For the existing element if no filters has been set we need to assign No Conditions to the filterLogic.
+    if (filters.length === 0 && filterLogic === CONDITION_LOGIC.AND) {
+        filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
     }
-    const recordFilters = filterType === RECORD_FILTER_CRITERIA.ALL ? createRecordFilters(filters, object) : [];
+
+    const recordFilters = filterLogic !== CONDITION_LOGIC.NO_CONDITIONS ? createRecordFilters(filters, object) : [];
 
     const isoStartTime =
         startTime && !isUndefinedOrNull(startTime.timeInMillis)
@@ -75,7 +71,7 @@ export function createStartElement(startElement = {}) {
 
     if (triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE && recordTriggerType === undefined) {
         recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.CREATE;
-        filterType = RECORD_FILTER_CRITERIA.NONE;
+        filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
     }
 
     Object.assign(newStartElement, {
@@ -84,7 +80,7 @@ export function createStartElement(startElement = {}) {
         locationY,
         maxConnections,
         triggerType,
-        filterType,
+        filterLogic,
         startDate,
         startTime: isoStartTime,
         recordTriggerType,
@@ -145,11 +141,12 @@ export function createStartElementMetadataObject(startElement, config = {}) {
         recordTriggerType,
         startTime,
         frequency,
+        filterLogic,
         filters = []
     } = startElement;
 
     const recordFilters =
-        filters.length > 0 && filters[0].leftHandSide ? filters.map(filter => createFilterMetadataObject(filter)) : [];
+        filterLogic === CONDITION_LOGIC.NO_CONDITIONS ? [] : filters.map(filter => createFilterMetadataObject(filter));
     const schedule = startDate && startTime && frequency ? { startDate, startTime, frequency } : undefined;
 
     return Object.assign(startElementMetadata, {
@@ -161,6 +158,7 @@ export function createStartElementMetadataObject(startElement, config = {}) {
         object: object === '' ? undefined : object,
         objectContainer,
         recordTriggerType: recordTriggerType === '' ? undefined : recordTriggerType,
+        filterLogic: triggerType === FLOW_TRIGGER_TYPE.NONE ? undefined : filterLogic,
         filters: recordFilters
     });
 }

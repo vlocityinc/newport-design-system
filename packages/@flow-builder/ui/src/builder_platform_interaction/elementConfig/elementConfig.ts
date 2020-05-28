@@ -1,11 +1,5 @@
 // @ts-nocheck
-import {
-    ACTION_TYPE,
-    METADATA_KEY,
-    ELEMENT_TYPE,
-    START_ELEMENT_FIELDS,
-    FLOW_TRIGGER_TYPE
-} from 'builder_platform_interaction/flowMetadata';
+import { ACTION_TYPE, METADATA_KEY, ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { ICONS_LARGE } from 'builder_platform_interaction/imageLib';
 import { LABELS } from './elementConfigLabels';
 import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
@@ -184,7 +178,7 @@ export const elementTypeToConfigMap = {
             maxConnections: 1
         },
         canvasElement: true,
-        nonHydratableProperties: [START_ELEMENT_FIELDS.FILTER_TYPE],
+        nonHydratableProperties: [],
         isDeletable: false,
         canBeDuplicated: false,
         metadataKey: METADATA_KEY.START,
@@ -655,7 +649,6 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         nonHydratableProperties: [
             'numberRecordsToStore',
-            'filterType',
             'sortOrder',
             'assignNullValuesIfNoRecordsFound',
             'variableAndFieldMapping'

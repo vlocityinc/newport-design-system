@@ -19,7 +19,7 @@ export const autolaunchedFlowUIModel = {
             elementType: 'START_ELEMENT',
             maxConnections: 1,
             triggerType: 'Scheduled',
-            filterType: 'none',
+            filterLogic: 'no_conditions',
             startDate: '2019-11-18',
             startTime: '05:45:00.000',
             frequency: 'Once',

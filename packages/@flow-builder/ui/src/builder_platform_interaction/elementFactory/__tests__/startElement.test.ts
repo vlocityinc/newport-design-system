@@ -6,18 +6,13 @@ import {
     START_ELEMENT_LOCATION
 } from '../startElement';
 import { baseCanvasElementMetadataObject } from '../base/baseMetadata';
-import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
 const startElementReference = 'assignment1';
 
-const baseRecordElement = jest.requireActual('../base/baseRecordElement');
-baseRecordElement.createRecordFilters = jest.fn().mockImplementation = () => {
-    return [{ leftHandSide: 'foo' }];
-};
+const MOCK_GUID = 'mockGuid';
 
-baseRecordElement.createFilterMetadataObject = jest.fn().mockImplementation = () => {
-    return { leftHandSide: 'foo' };
-};
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('../base/baseMetadata');
 baseCanvasElementMetadataObject.mockImplementation(element => {
@@ -25,14 +20,16 @@ baseCanvasElementMetadataObject.mockImplementation(element => {
 });
 
 describe('Start element', () => {
+    const storeLib = require('builder_platform_interaction/storeLib');
+    storeLib.generateGuid = jest.fn().mockReturnValue(MOCK_GUID);
     describe('createStartElement function', () => {
         it('with empty base start element object', () => {
             const expectedResult = {
                 description: '',
                 locationX: START_ELEMENT_LOCATION.x,
                 locationY: START_ELEMENT_LOCATION.y,
-                filterType: RECORD_FILTER_CRITERIA.ALL,
-                filters: [{ leftHandSide: 'foo' }],
+                filters: [],
+                filterLogic: CONDITION_LOGIC.NO_CONDITIONS,
                 isCanvasElement: true,
                 connectorCount: 0,
                 config: {
@@ -50,8 +47,16 @@ describe('Start element', () => {
             const startElement = {
                 locationX: 10,
                 locationY: 20,
-                filterType: RECORD_FILTER_CRITERIA.NONE,
-                filters: [],
+                filterLogic: CONDITION_LOGIC.AND,
+                filters: [
+                    {
+                        field: 'Name',
+                        operator: 'EqualTo',
+                        value: {
+                            stringValue: 'myAccount'
+                        }
+                    }
+                ],
                 object: 'Account',
                 objectContainer: 'MarketAudience',
                 triggerType: 'scheduled',
@@ -63,8 +68,16 @@ describe('Start element', () => {
                 description: '',
                 locationX: 10,
                 locationY: 20,
-                filterType: RECORD_FILTER_CRITERIA.NONE,
-                filters: [],
+                filterLogic: 'and',
+                filters: [
+                    {
+                        leftHandSide: 'Account.Name',
+                        operator: 'EqualTo',
+                        rightHandSide: 'myAccount',
+                        rightHandSideDataType: 'String',
+                        rowIndex: MOCK_GUID
+                    }
+                ],
                 object: 'Account',
                 objectContainer: 'MarketAudience',
                 triggerType: 'scheduled',
@@ -101,7 +114,7 @@ describe('Start element', () => {
                 description: '',
                 locationX: 10,
                 locationY: 20,
-                filterType: RECORD_FILTER_CRITERIA.NONE,
+                filterLogic: 'no_conditions',
                 filters: [],
                 object: 'Account',
                 triggerType: 'scheduled',
@@ -148,7 +161,7 @@ describe('Start element', () => {
 
         it('creates start element metadata object', () => {
             const startElement = {
-                filterType: RECORD_FILTER_CRITERIA.ALL,
+                filterLogic: CONDITION_LOGIC.NO_CONDITIONS,
                 filters: [],
                 object: 'Account',
                 objectContainer: 'MarketAudience',
@@ -163,6 +176,7 @@ describe('Start element', () => {
                 description: undefined,
                 label: undefined,
                 filters: [],
+                filterLogic: 'no_conditions',
                 object: 'Account',
                 objectContainer: 'MarketAudience',
                 triggerType: 'scheduled',
@@ -179,8 +193,30 @@ describe('Start element', () => {
 
         it('creates start element metadata object with filters', () => {
             const startElement = {
-                filterType: RECORD_FILTER_CRITERIA.ALL,
-                filters: [{ leftHandSide: 'foo' }],
+                filterLogic: '1 AND 2 OR 3',
+                filters: [
+                    {
+                        leftHandSide: 'Account.Name',
+                        operator: 'EqualTo',
+                        rightHandSide: 'myAccount',
+                        rightHandSideDataType: 'String',
+                        rowIndex: MOCK_GUID
+                    },
+                    {
+                        leftHandSide: 'Account.NumberOfEmployees',
+                        operator: 'EqualTo',
+                        rightHandSide: '5',
+                        rightHandSideDataType: 'Number',
+                        rowIndex: MOCK_GUID
+                    },
+                    {
+                        leftHandSide: 'Account.Name',
+                        operator: 'EqualTo',
+                        rightHandSide: 'yourAccount',
+                        rightHandSideDataType: 'String',
+                        rowIndex: MOCK_GUID
+                    }
+                ],
                 object: 'Account',
                 triggerType: 'scheduled',
                 frequency: 'hourly',
@@ -192,7 +228,30 @@ describe('Start element', () => {
                 name: undefined,
                 description: undefined,
                 label: undefined,
-                filters: [{ leftHandSide: 'foo' }],
+                filters: [
+                    {
+                        field: 'Name',
+                        operator: 'EqualTo',
+                        value: {
+                            stringValue: 'myAccount'
+                        }
+                    },
+                    {
+                        field: 'NumberOfEmployees',
+                        operator: 'EqualTo',
+                        value: {
+                            numberValue: '5'
+                        }
+                    },
+                    {
+                        field: 'Name',
+                        operator: 'EqualTo',
+                        value: {
+                            stringValue: 'yourAccount'
+                        }
+                    }
+                ],
+                filterLogic: '1 AND 2 OR 3',
                 object: 'Account',
                 triggerType: 'scheduled',
                 schedule: {
@@ -208,8 +267,16 @@ describe('Start element', () => {
 
         it('creates start element metadata object with no schedule set', () => {
             const startElement = {
-                filterType: RECORD_FILTER_CRITERIA.ALL,
-                filters: [{ leftHandSide: 'foo' }],
+                filterLogic: 'and',
+                filters: [
+                    {
+                        leftHandSide: 'Account.Name',
+                        operator: 'EqualTo',
+                        rightHandSide: 'myAccount',
+                        rightHandSideDataType: 'String',
+                        rowIndex: MOCK_GUID
+                    }
+                ],
                 object: 'Account',
                 triggerType: 'invoked'
             };
@@ -218,7 +285,16 @@ describe('Start element', () => {
                 name: undefined,
                 description: undefined,
                 label: undefined,
-                filters: [{ leftHandSide: 'foo' }],
+                filterLogic: CONDITION_LOGIC.AND,
+                filters: [
+                    {
+                        field: 'Name',
+                        operator: 'EqualTo',
+                        value: {
+                            stringValue: 'myAccount'
+                        }
+                    }
+                ],
                 object: 'Account',
                 triggerType: 'invoked',
                 schedule: undefined

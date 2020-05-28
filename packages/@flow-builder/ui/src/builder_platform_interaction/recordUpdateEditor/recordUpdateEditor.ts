@@ -209,11 +209,6 @@ export default class RecordUpdateEditor extends LightningElement {
         this.state.recordUpdateElement = recordUpdateReducer(this.state.recordUpdateElement, event);
     }
 
-    handleFilterTypeChanged(event) {
-        event.stopPropagation();
-        this.updateProperty('filterType', event.detail.filterType, event.detail.error, false);
-    }
-
     updateProperty(propertyName, newValue, error, ignoreValidate, oldValue) {
         const propChangedEvent = new PropertyChangedEvent(propertyName, newValue, error, null, oldValue);
         propChangedEvent.detail.ignoreValidate = ignoreValidate;

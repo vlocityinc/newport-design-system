@@ -42,21 +42,22 @@
         </div>
         <div if:true={isScheduledTrigger}>
             <builder_platform_interaction-record-filter
-                element-type={elementType}
-                filter-items={startElement.filters}
-                record-entity-name={recordEntityName}
-                resource-display-text={resourceDisplayText}
-                record-fields={recordFields}
-                filter-type={startElement.filterType}
-                onrecordfiltertypechanged={handleFilterTypeChanged}
-                onaddrecordfilter={handlePropertyOrListItemChanged}
-                onupdaterecordfilter={handlePropertyOrListItemChanged}
-                ondeleterecordfilter={handlePropertyOrListItemChanged}
                 hide-title
                 hide-new-resource
                 hide-system-variables
                 show-prefix
+                element-type={elementType}
+                element-guid={startElement.guid}
+                filter-items={startElement.filters}
+                filter-logic={startElement.filterLogic}
+                record-entity-name={recordEntityName}
+                resource-display-text={resourceDisplayText}
+                record-fields={recordFields}
                 variant="startElement"
+                onaddrecordfilter={handlePropertyOrListItemChanged}
+                onupdaterecordfilter={handlePropertyOrListItemChanged}
+                ondeleterecordfilter={handlePropertyOrListItemChanged}
+                onpropertychanged={handlePropertyOrListItemChanged}
             >
             </builder_platform_interaction-record-filter>
         </div>

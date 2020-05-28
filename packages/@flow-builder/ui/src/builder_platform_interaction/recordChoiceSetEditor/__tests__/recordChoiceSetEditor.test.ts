@@ -259,7 +259,7 @@ describe('record-choice-set-editor', () => {
                     expect(recordFilter).not.toBeNull();
                 });
 
-                it('Handles the RecordFilterTypeChangedEvent Changed event', async () => {
+                it('Handles the Property Changed event for filter logic', async () => {
                     const propertyChangeEvent = new PropertyChangedEvent('filterLogic', CONDITION_LOGIC.AND);
                     recordFilter.dispatchEvent(propertyChangeEvent);
                     await ticks(1);

@@ -1,14 +1,7 @@
 // @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    LABELS,
-    CRITERIA_RECORDS_LABELS,
-    WARNING_LABELS,
-    NO_CRITERIA_LABELS,
-    ALL_CRITERIA_LABELS,
-    filterLogicOptions
-} from './recordFilterLabels';
+import { LABELS, CRITERIA_RECORDS_LABELS, WARNING_LABELS, filterLogicOptions } from './recordFilterLabels';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { getRulesForElementType, RULE_TYPES, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
@@ -16,7 +9,6 @@ import {
     AddRecordFilterEvent,
     DeleteRecordFilterEvent,
     UpdateRecordFilterEvent,
-    RecordFilterTypeChangedEvent,
     PropertyChangedEvent
 } from 'builder_platform_interaction/events';
 import { getConditionsWithPrefixes } from 'builder_platform_interaction/conditionListUtils';
@@ -27,9 +19,6 @@ export default class RecordFilter extends LightningElement {
     defaultOperator = RULE_OPERATOR.EQUAL_TO;
     labels = LABELS;
     showPrefixValue = false;
-
-    @track
-    selectedFilter = RECORD_FILTER_CRITERIA.NONE;
 
     @api
     filterLogic = { value: CONDITION_LOGIC.AND, error: null };
@@ -58,28 +47,12 @@ export default class RecordFilter extends LightningElement {
     @api
     elementGuid;
 
-    @api
-    useFilterWithCustomLogic = false;
-
     get rules() {
         return this.elementType ? getRulesForElementType(RULE_TYPES.COMPARISON, this.elementType) : undefined;
     }
 
     @api
     resourceDisplayText = '';
-
-    /**
-     * The filter type to pass as value of the rule for finding record drop down
-     * @param {String} value - it's RECORD_FILTER_CRITERIA.NONE or RECORD_FILTER_CRITERIA.ALL
-     */
-    set filterType(value) {
-        this.selectedFilter = value;
-    }
-
-    @api
-    get filterType() {
-        return this.selectedFilter;
-    }
 
     /**
      * The filter items
@@ -131,8 +104,7 @@ export default class RecordFilter extends LightningElement {
     get showPrefix() {
         return (
             this.showPrefixValue ||
-            (this.useFilterWithCustomLogic &&
-                this.filterLogic.value !== CONDITION_LOGIC.AND &&
+            (this.filterLogic.value !== CONDITION_LOGIC.AND &&
                 this.filterLogic.value !== CONDITION_LOGIC.OR &&
                 this.filterLogic.value !== CONDITION_LOGIC.NO_CONDITIONS)
         );
@@ -162,19 +134,6 @@ export default class RecordFilter extends LightningElement {
         return !this.hideTitle;
     }
 
-    get filterOptions() {
-        return [
-            {
-                label: format(NO_CRITERIA_LABELS[this.elementType], this.resourceDisplayText),
-                value: RECORD_FILTER_CRITERIA.NONE
-            },
-            {
-                label: ALL_CRITERIA_LABELS[this.elementType],
-                value: RECORD_FILTER_CRITERIA.ALL
-            }
-        ];
-    }
-
     get showFilterList() {
         return this.selectedFilter === RECORD_FILTER_CRITERIA.ALL;
     }
@@ -192,24 +151,12 @@ export default class RecordFilter extends LightningElement {
             (this.elementType === ELEMENT_TYPE.RECORD_LOOKUP ||
                 this.elementType === ELEMENT_TYPE.RECORD_UPDATE ||
                 this.elementType === ELEMENT_TYPE.RECORD_DELETE) &&
-            this.selectedFilter === RECORD_FILTER_CRITERIA.NONE
+            this.filterLogic.value === CONDITION_LOGIC.NO_CONDITIONS
         );
     }
 
     get filterRecordsTitle() {
         return format(this.labels.findRecords, this.resourceDisplayText);
-    }
-
-    /**
-     * handle event when changing the filter type in the rule for finding record dropdown
-     * @param {Object} event the filter type changed event
-     */
-    handleFilterTypeChanged(event) {
-        event.stopPropagation();
-        this.selectedFilter = event.detail.value;
-        // fire RecordFilterTypeChangedEvent
-        const recordFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(this.selectedFilter);
-        this.dispatchEvent(recordFilterTypeChangedEvent);
     }
 
     /**

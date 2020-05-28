@@ -1,8 +1,7 @@
 // @ts-nocheck
 import { Validation } from 'builder_platform_interaction/validation';
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
-import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
-import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 const defaultRules = {};
 
 /**
@@ -12,7 +11,8 @@ const defaultRules = {};
 const validateFilter = () => ValidationRules.validateExpressionWith3PropertiesWithNoEmptyRHS();
 
 const additionalRules = {
-    object: [ValidationRules.shouldNotBeBlank]
+    object: [ValidationRules.shouldNotBeBlank],
+    filterLogic: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined]
 };
 
 export const contextValidation = new Validation(defaultRules);
@@ -20,10 +20,10 @@ export const contextValidation = new Validation(defaultRules);
 /**
  * Build specific overridden rules
  * @param {Object} nodeElement the element that need to be validated
- * @param {string} nodeElement.filterType - current element's filterType
+ * @param {string} nodeElement.filterLogic - current element's filterLogic
  * @return {Object} the overridden rules
  */
-export const getRules = ({ filterType, object, triggerType }) => {
+export const getRules = ({ filterLogic, object, triggerType }) => {
     let overriddenRules = {};
 
     if (
@@ -34,7 +34,7 @@ export const getRules = ({ filterType, object, triggerType }) => {
     }
 
     // validate filters if filter type is ALL and there is a valid Object
-    if (filterType === RECORD_FILTER_CRITERIA.ALL && object.value !== '' && !object.error) {
+    if (filterLogic !== CONDITION_LOGIC.NO_CONDITIONS && object.value !== '' && !object.error) {
         overriddenRules.filters = validateFilter();
     }
     return overriddenRules;
