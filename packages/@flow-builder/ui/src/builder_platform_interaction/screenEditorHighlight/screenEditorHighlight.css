@@ -22,15 +22,33 @@
 
 .highlight-frame {
     height: 100%;
-    border: var(--lwc-borderWidthThick) hidden var(--lwc-colorBrandDark);
     z-index: 3;
+}
+
+.highlight-frame-allow-events {
+    outline-style: solid;
+    outline-width: var(--lwc-borderWidthThick);
+    outline-offset: calc(-1 * var(--lwc-borderWidthThick));
+    outline-color: transparent;
+}
+
+.highlight-frame-prevent-events {
+    border: var(--lwc-borderWidthThick) hidden var(--lwc-colorBrandDark);
 }
 
 .highlight-icons-container {
     visibility: hidden;
     background-color: var(--lwc-colorBrandDark);
-    top: 0; /* for preventevents false, as in that case this div is absolute */
-    right: 0; /* for preventevents false, as in that case this div is absolute */
+}
+
+.highlight-icons-container-allow-events {
+    top: var(--lwc-borderWidthThick); /* for preventevents false, as in that case this div is absolute */
+    right: var(--lwc-borderWidthThick); /* for preventevents false, as in that case this div is absolute */
+}
+
+.highlight-icons-container-prevent-events {
+    top: 0px; /* for preventevents true, as in that case this div is relative */
+    right: 0px; /* for preventevents true, as in that case this div is relative */
 }
 
 .highlight-icon-container {
@@ -50,17 +68,29 @@
     visibility: visible;
 }
 
-.highlight:not(.dragging).hovering > .highlight-frame,
-.highlight:not(.dragging).hovering > .slds-grid > .highlight-frame {
+.highlight:not(.dragging).hovering > .highlight-frame-prevent-events,
+.highlight:not(.dragging).hovering > .slds-grid > .highlight-frame-prevent-events {
     border-style: solid;
 }
 
-.highlight:not(.dragging).selected > .highlight-frame,
-.highlight:not(.dragging).selected > .slds-grid > .highlight-frame,
-.highlight:not(.dragging):focus > .highlight-frame,
-.highlight:not(.dragging):focus > .slds-grid > .highlight-frame {
+.highlight:not(.dragging).selected > .highlight-frame-prevent-events,
+.highlight:not(.dragging).selected > .slds-grid > .highlight-frame-prevent-events,
+.highlight:not(.dragging):focus > .highlight-frame-prevent-events,
+.highlight:not(.dragging):focus > .slds-grid > .highlight-frame-prevent-events {
     border-style: solid;
     border-color: var(--lwc-colorBrandDarker);
+}
+
+.highlight:not(.dragging).hovering > .highlight-frame-allow-events,
+.highlight:not(.dragging).hovering > .slds-grid > .highlight-frame-allow-events {
+    outline-color: var(--lwc-colorBrandDark);
+}
+
+.highlight:not(.dragging).selected > .highlight-frame-allow-events,
+.highlight:not(.dragging).selected > .slds-grid > .highlight-frame-allow-events,
+.highlight:not(.dragging):focus > .highlight-frame-allow-events,
+.highlight:not(.dragging):focus > .slds-grid > .highlight-frame-allow-events {
+    outline-color: var(--lwc-colorBrandDarker);
 }
 
 .highlight:not(.dragging).hovering > .highlight-frame > .highlight-icons-container,
