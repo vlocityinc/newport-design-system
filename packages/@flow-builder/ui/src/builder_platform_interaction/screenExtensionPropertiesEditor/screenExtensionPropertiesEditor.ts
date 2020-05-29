@@ -181,6 +181,20 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
     }
 
     /**
+     * Returns list of dynamic type mappings for configuration editor
+     */
+    get configurationEditorTypeMappings() {
+        if (this._shouldCreateConfigurationEditor() && this._field && this._field.dynamicTypeMappings) {
+            const typeMappings = this._field.dynamicTypeMappings.filter(({ typeValue }) => !!typeValue);
+            return typeMappings.map(({ typeName, typeValue }) => ({
+                name: getValueFromHydratedItem(typeName),
+                value: getValueFromHydratedItem(typeValue)
+            }));
+        }
+        return [];
+    }
+
+    /**
      * Returns the current flow state. Shape is same as flow metadata.
      */
     get builderContext() {
@@ -243,6 +257,22 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         };
         swapDevNamesToGuids(Store.getStore().getCurrentState().elements, obj);
         this._updateInputParameter({ ...obj, ...{ refValue } });
+    }
+
+    /**
+     * @param {object} event - type mapping changed event coming from parameter dynamic type of custom property editor
+     */
+    handleCpeTypeMappingChangeEvent(event) {
+        event.stopPropagation();
+        if (event && event.detail) {
+            const { name, value } = event.detail;
+            this.dispatchEvent(
+                new DynamicTypeMappingChangeEvent({
+                    typeName: name,
+                    typeValue: value
+                })
+            );
+        }
     }
 
     /**

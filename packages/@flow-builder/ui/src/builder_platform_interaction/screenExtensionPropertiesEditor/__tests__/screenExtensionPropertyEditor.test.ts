@@ -12,7 +12,10 @@ import { screenExtensionPropertiesEventReducer } from '../screenExtensionPropert
 import {
     UseAdvancedOptionsSelectionChangedEvent,
     ItemSelectedEvent,
+    ConfigurationEditorChangeEvent,
+    ConfigurationEditorTypeMappingChangeEvent,
     DynamicTypeMappingChangeEvent,
+    PropertyChangedEvent,
     ComboboxStateChangedEvent
 } from 'builder_platform_interaction/events';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
@@ -21,6 +24,7 @@ import {
     createFlowExtensionWithDynamicTypes,
     createScreenFieldWithDynamicTypes
 } from './screenExtensionDynamicTypesMocks';
+import { createScreenFieldForCPE, createFlowExtensionForCPE } from './screenExtensionCustomPropertyEditorMocks';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -36,6 +40,16 @@ jest.mock('builder_platform_interaction/selectors', () => {
         readableElementsSelector: jest.fn(data => Object.values(data.elements))
     };
 });
+
+jest.mock('builder_platform_interaction/translatorLib', () => ({
+    translateUIModelToFlow: jest.fn(),
+    swapDevNamesToGuids: jest.fn(),
+    swapUidsForDevNames: jest.fn()
+}));
+
+jest.mock('builder_platform_interaction/builderUtils', () => ({
+    createConfigurationEditor: jest.fn()
+}));
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/ruleLib');
@@ -78,6 +92,7 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
 const SELECTORS = {
     CONTAINER_DIV: 'div.container',
     NAME_FIELD: 'builder_platform_interaction-screen-property-field[name="name"]',
+    CUSTOM_PROPERTY_EDITOR: 'builder_platform_interaction-custom-property-editor',
     DYNAMIC_TYPE_MAPPINGS: 'builder_platform_interaction-entity-resource-picker',
     INPUT_EDITOR: 'builder_platform_interaction-screen-extension-attribute-editor[attributeType="input"]',
     OUTPUT_EDITOR: 'builder_platform_interaction-screen-extension-attribute-editor[attributeType="output"]',
@@ -484,6 +499,55 @@ describe('Screen Extension Properties Editor', () => {
 
             await ticks(1);
             expect(getStoreOutputVariableTitleElement(extensionEditor)).not.toBeDefined();
+        });
+    });
+
+    describe('custom property editor', () => {
+        const createComponentWithCPE = () =>
+            createComponentForTest({
+                configurationEditor: 'c:lookup',
+                field: createScreenFieldForCPE(),
+                extensionDescription: createFlowExtensionForCPE(),
+                processType: 'Something'
+            });
+
+        it('renders', () => {
+            createComponentWithCPE();
+        });
+
+        it('handles cpe property change event', async () => {
+            const propertyEditorCmp = createComponentWithCPE();
+            const cpeCmp = propertyEditorCmp.shadowRoot.querySelector(SELECTORS.CUSTOM_PROPERTY_EDITOR);
+            const handler = jest.fn();
+            propertyEditorCmp.addEventListener(PropertyChangedEvent.EVENT_NAME, handler);
+            cpeCmp.dispatchEvent(new ConfigurationEditorChangeEvent('inputName', 'newInputValue', 'String'));
+            await Promise.resolve();
+            expect(handler).toHaveBeenCalled();
+            expect(handler.mock.calls[0][0].detail).toMatchObject({
+                propertyName: '$$input$$.inputName',
+                value: { value: 'newInputValue', error: null },
+                error: null,
+                guid: 'newInputValue',
+                oldValue: { value: 'inputValue', error: null },
+                listIndex: undefined,
+                dataType: 'String'
+            });
+        });
+
+        it('handles cpe type mapping change event', async () => {
+            const propertyEditorCmp = createComponentWithCPE();
+            const cpeCmp = propertyEditorCmp.shadowRoot.querySelector(SELECTORS.CUSTOM_PROPERTY_EDITOR);
+            const handler = jest.fn();
+            propertyEditorCmp.addEventListener(DynamicTypeMappingChangeEvent.EVENT_NAME, handler);
+            cpeCmp.dispatchEvent(new ConfigurationEditorTypeMappingChangeEvent('T', 'Account'));
+            await Promise.resolve();
+            expect(handler).toHaveBeenCalled();
+            expect(handler.mock.calls[0][0].detail).toMatchObject({
+                typeName: 'T',
+                typeValue: 'Account',
+                error: undefined,
+                rowIndex: undefined
+            });
         });
     });
 
