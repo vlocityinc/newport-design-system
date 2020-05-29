@@ -18,9 +18,9 @@
     }
   }
   .nds-b2b-override-price-offer {
-    background-color: #f6f6f6;
+    background-color: $white-smoke;
     padding: 1.5rem 0rem;
-    color: #525252;
+    color: $grey-35;
     .nds-b2b-override-select-price {
       padding-left: 2.5rem;
       .nds-b2b-config-label {
@@ -70,7 +70,7 @@
     .nds-b2b-waterfall-container {
       background-color: $white;
       margin-top: 1.5rem;
-      border: 1px solid #dddbda;
+      border: 1px solid $newport-border-gray;
       border-radius: 0.25rem;
       width: 100%;
       .nds-b2b-override-prices-container {
@@ -80,7 +80,7 @@
           padding: 0.6rem 0;
           .nds-b2b-override-by {
             font-size: 0.6rem;
-            color: #666666;
+            color: $grey-40;
             width: 100%;
             display: block;
             @media screen and (min-width: 48rem) {
@@ -98,7 +98,7 @@
       .nds-b2b-adjust-prices-container {
         font-size: 1rem;
         .nds-b2b-override-container_header {
-          background-color: #f3f9fe;
+          background-color: $alice-blue;
           padding: 0.5rem 2.6rem;
           font-size: 0.8rem;
         }
@@ -110,16 +110,16 @@
             top: 50%;
             margin-top: -0.4rem;
             line-height: 1;
-            color: #b0adab;
+            color: $palette-gray-7;
             margin-left: 0.8rem;
             font-size: 0.8rem;
-            font-weight: 700;
+            font-weight: $font-weight-bold;
             &.right {
               right: 1.5rem;
             }
           }
           .nds-b2b-input {
-            border: 1px solid #dddbda;
+            border: 1px solid $newport-border-gray;
             border-radius: 0.25rem;
             padding: 0 2rem;
             height: 2.4rem;
@@ -143,7 +143,7 @@
         }
         .nds-b2b-override-discounts_row {
           padding: 1rem 2.6rem;
-          border-bottom: 1px solid #dddbda;
+          border-bottom: 1px solid $newport-border-gray;
           .nds-b2b-add-button_text {
             color: $azure;
             font-size: 0.8rem;
@@ -153,7 +153,7 @@
       }
     }
     .nds-b2b-override-header {
-      border-bottom: 1px solid #dddbda;
+      border-bottom: 1px solid $newport-border-gray;
       padding: 0.9rem;
       &_title {
         font-size: 1rem;
@@ -165,7 +165,7 @@
       margin: 1.5rem 1rem 1.5rem 0;
       text-align: right;
       .nds-b2b-search-discount_input {
-        border: 1px solid #dddbda;
+        border: 1px solid $newport-border-gray;
         border-radius: 0.25rem;
         padding: 0 2rem;
         width: 20rem;
