@@ -970,7 +970,10 @@ export const elementTypeToConfigMap = {
 
 const END_ELEMENT_CONFIG = {
     nodeConfig: {
-        iconName: 'standard:first_non_empty',
+        iconBackgroundColor: 'background-red',
+        iconName: 'utility:stop',
+        iconShape: ICON_SHAPE.CIRCLE,
+        iconSize: 'medium',
         maxConnections: 0,
         section: LABELS.flowControlLogicLabel,
         description: LABELS.endElementDescription

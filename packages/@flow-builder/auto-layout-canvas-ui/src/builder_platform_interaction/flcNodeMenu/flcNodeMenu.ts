@@ -10,7 +10,7 @@ import {
 
 import Menu from 'builder_platform_interaction/menu';
 import { CONTEXTUAL_MENU_MODE, ELEMENT_ACTION_CONFIG, getMenuConfiguration } from './flcNodeMenuConfig';
-import { supportsChildrenForType } from 'builder_platform_interaction/flcComponentsUtils';
+import { supportsChildrenForType, ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { LABELS } from './flcNodeMenuLabels';
 
 /**
@@ -46,6 +46,10 @@ export default class FlcNodeMenu extends Menu {
 
     set menuConfiguration(config) {
         return config;
+    }
+
+    get menuWrapper() {
+        return this.elementMetadata.iconShape === ICON_SHAPE.DIAMOND ? 'diamond-element-menu' : '';
     }
 
     get isBaseActionMode() {

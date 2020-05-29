@@ -42,6 +42,10 @@ button.node-in-selection-mode:focus {
     transform: scale(1);
 }
 
+button.circular-icon {
+    border-radius: var(--lwc-borderRadiusCircle);
+}
+
 button.connector:focus {
     background-color: #f4f6f9;
     border-color: var(--lwc-colorBrandDark);
@@ -55,4 +59,15 @@ button.connector:focus {
 
 :host(.slds-is-open) button.connector {
     background-color: rgb(54, 117, 224);
+}
+
+.default-container {
+    background-color: var(--lwc-colorBackgroundAlt);
+    height: 56px;
+    width: 56px;
+}
+
+.default-container.rotate-icon-container {
+    border-radius: var(--lwc-borderRadiusMedium);
+    transform: rotate(45deg);
 }

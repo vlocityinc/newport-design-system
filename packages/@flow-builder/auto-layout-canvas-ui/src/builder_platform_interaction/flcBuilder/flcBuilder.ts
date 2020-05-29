@@ -176,16 +176,23 @@ export default class FlcBuilder extends LightningElement {
     }
 
     /**
+     * Helper function that converts this._elementsMetadata to map of elementType -> metaData
+     */
+    _convertToElementMetadataMap() {
+        return this._elementsMetadata.reduce((acc, elementMetadata) => {
+            acc[elementMetadata.elementType] = elementMetadata;
+            return acc;
+        }, {});
+    }
+
+    /**
      * Creates the initial flow render context
      *
      * @return {FlowRenderContext} A new flow render context
      */
     createInitialFlowRenderContext() {
         // transforms the elementsMetadata array to a map
-        const elementsMetadataMap = this._elementsMetadata.reduce((acc, elementMetadata) => {
-            acc[elementMetadata.elementType] = elementMetadata;
-            return acc;
-        }, {});
+        const elementsMetadataMap = this._convertToElementMetadataMap();
 
         return {
             flowModel: this._flowModel,
@@ -201,6 +208,9 @@ export default class FlcBuilder extends LightningElement {
      * Handles a elements selection change
      */
     handleSelectionChange() {
+        // transforms the elementsMetadata array to a map
+        const elementsMetadataMap = this._elementsMetadata ? this._convertToElementMetadataMap() : {};
+
         if (this._isSelectionMode) {
             this.closeNodeOrConnectorMenu();
         } else if (this._topSelectedGuid) {
@@ -209,11 +219,7 @@ export default class FlcBuilder extends LightningElement {
                 canvasElementGuidsToDeselect,
                 selectableCanvasElementGuids,
                 topSelectedGuid
-            } = getCanvasElementDeselectionDataOnToggleOff(
-                this.elementsMetadata,
-                this._flowModel,
-                this._topSelectedGuid
-            );
+            } = getCanvasElementDeselectionDataOnToggleOff(elementsMetadataMap, this._flowModel, this._topSelectedGuid);
 
             this._topSelectedGuid = topSelectedGuid;
 
@@ -335,6 +341,9 @@ export default class FlcBuilder extends LightningElement {
     handleNodeSelectionDeselection = event => {
         const flowModel = this._flowModel;
 
+        // transforms the elementsMetadata array to a map
+        const elementsMetadataMap = this._convertToElementMetadataMap();
+
         if (event && event.detail) {
             const {
                 canvasElementGuidsToSelect,
@@ -343,13 +352,13 @@ export default class FlcBuilder extends LightningElement {
                 topSelectedGuid
             } = !event.detail.isSelected
                 ? getCanvasElementSelectionData(
-                      this.elementsMetadata,
+                      elementsMetadataMap,
                       flowModel,
                       event.detail.canvasElementGUID,
                       this._topSelectedGuid
                   )
                 : getCanvasElementDeselectionData(
-                      this.elementsMetadata,
+                      elementsMetadataMap,
                       flowModel,
                       event.detail.canvasElementGUID,
                       this._topSelectedGuid

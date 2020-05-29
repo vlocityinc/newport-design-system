@@ -5,3 +5,28 @@
 .paste-icon {
     background-color: var(--lwc-colorGray8);
 }
+
+.background-navy {
+    background-color: #54698d;
+}
+
+.background-red {
+    background-color: var(--lwc-colorBackgroundError);
+}
+
+.rotate-icon-container {
+    transform: rotate(45deg);
+    border-radius: var(--lwc-borderRadiusMedium);
+}
+
+.rotate-icon-svg {
+    transform: rotate(-45deg);
+    background: transparent;
+}
+
+.end-element-svg {
+    width: var(--lwc-squareIconUtilityLarge);
+    height: var(--lwc-squareIconUtilityLarge);
+    padding: 5px;
+    border-radius: var(--lwc-borderRadiusCircle);
+}

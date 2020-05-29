@@ -1,3 +1,24 @@
+.background-green {
+    background-color: #53b6b4;
+}
+
+.background-navy {
+    background-color: #54698d;
+}
+
+.background-red {
+    background-color: var(--lwc-colorBackgroundError);
+}
+
+.rotated-icon-radius {
+    border-radius: var(--lwc-borderRadiusMedium);
+}
+
+.rotate-icon-svg {
+    transform: rotate(-45deg);
+    background: transparent;
+}
+
 .selection-checkbox {
     bottom: 0;
     left: 50%;
@@ -33,8 +54,4 @@
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-}
-
-.slds-icon-utility-right {
-    background-color: #53b6b4;
 }

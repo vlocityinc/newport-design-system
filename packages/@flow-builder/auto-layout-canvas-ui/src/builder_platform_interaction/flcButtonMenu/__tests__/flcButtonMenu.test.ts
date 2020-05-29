@@ -3,11 +3,45 @@ import { createElement } from 'lwc';
 import FlcButtonMenu from 'builder_platform_interaction/flcButtonMenu';
 import { blurEvent, focusEvent } from 'builder_platform_interaction/builderTestUtils/events';
 import { ToggleMenuEvent } from 'builder_platform_interaction/flcEvents';
+import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 
-const createComponentUnderTest = (isNodeGettingDeleted = false, isSelectionMode = false) => {
+const startMetadata = {
+    canHaveFaultConnector: false,
+    elementType: 'Start',
+    icon: 'standard:start',
+    iconShape: ICON_SHAPE.CIRCLE,
+    label: 'Start',
+    section: null,
+    type: 'start',
+    value: 'Start'
+};
+
+const screenMetadata = {
+    canHaveFaultConnector: false,
+    elementType: 'Screen',
+    icon: 'standard:screen',
+    label: 'Screen',
+    section: null,
+    type: 'default',
+    value: 'Screen'
+};
+
+const decisionMetadata = {
+    canHaveFaultConnector: false,
+    elementType: 'Decision',
+    icon: 'standard:decision',
+    iconShape: ICON_SHAPE.DIAMOND,
+    label: 'Decision',
+    section: null,
+    type: 'branch',
+    value: 'Decision'
+};
+
+const createComponentUnderTest = (metadata = screenMetadata, isNodeGettingDeleted = false, isSelectionMode = false) => {
     const el = createElement('builder_platform_interaction-flc-button-menu', {
         is: FlcButtonMenu
     });
+    el.elementMetadata = metadata;
     el.isNodeGettingDeleted = isNodeGettingDeleted;
     el.isSelectionMode = isSelectionMode;
     el.connectionInfo = {};
@@ -16,24 +50,39 @@ const createComponentUnderTest = (isNodeGettingDeleted = false, isSelectionMode 
 };
 
 const selectors = {
-    button: '.slds-button',
-    toBeDeletedButton: '.slds-button.node-to-be-deleted'
+    defaultTriggerContainer: '.default-container.slds-p-around_xx-small',
+    diamondTriggerContainer: '.default-container.rotate-icon-container.slds-p-around_xx-small',
+    triggerButton: 'button',
+    circularTriggerButton: '.circular-icon',
+    toBeDeletedButton: '.node-to-be-deleted'
 };
 
 describe('the button menu', () => {
     it('renders the component ', () => {
         const buttonMenu = createComponentUnderTest();
-        expect(buttonMenu).toBeDefined();
+        expect(buttonMenu).not.toBeNull();
+    });
+
+    it('Renders a default trigger container', () => {
+        const triggerContainer = createComponentUnderTest().shadowRoot.querySelector(selectors.defaultTriggerContainer);
+        expect(triggerContainer).not.toBeNull();
+    });
+
+    it('Renders a diamond trigger container when iconShape in metadata is diamond', () => {
+        const triggerContainer = createComponentUnderTest(decisionMetadata).shadowRoot.querySelector(
+            selectors.defaultTriggerContainer
+        );
+        expect(triggerContainer).not.toBeNull();
     });
 
     it('Renders a button ', () => {
-        const button = createComponentUnderTest().shadowRoot.querySelector(selectors.button);
-        expect(button).toBeDefined();
+        const button = createComponentUnderTest().shadowRoot.querySelector(selectors.triggerButton);
+        expect(button).not.toBeNull();
     });
 
     it('should call send the blur event ', () => {
         const cmp = createComponentUnderTest();
-        const button = cmp.shadowRoot.querySelector(selectors.button);
+        const button = cmp.shadowRoot.querySelector(selectors.triggerButton);
         const callback = jest.fn();
         cmp.addEventListener('blur', callback);
         button.dispatchEvent(blurEvent);
@@ -41,18 +90,25 @@ describe('the button menu', () => {
     });
 
     it('should add "node-to-be-deleted" class when isNodeGettingDeleted is true', () => {
-        const cmp = createComponentUnderTest(true);
+        const cmp = createComponentUnderTest(screenMetadata, true);
         const button = cmp.shadowRoot.querySelector(selectors.toBeDeletedButton);
         expect(button).not.toBeNull();
     });
 
+    it('should add "circular-icon" class when iconShape is circle in the metadata', () => {
+        const button = createComponentUnderTest(startMetadata).shadowRoot.querySelector(
+            selectors.circularTriggerButton
+        );
+        expect(button).not.toBeNull();
+    });
+
     /*
-     TODO: This test is flapping for some reason. Commenting it out until we can figure
+    TODO: This test is flapping for some reason. Commenting it out until we can figure
     out why
 
     it('should dispatch the toggleMenu event if we are NOT in selection mode', () => {
         const cmp = createComponentUnderTest();
-        const button = cmp.shadowRoot.querySelector(selectors.button);
+        const button = cmp.shadowRoot.querySelector(selectors.triggerButton);
         const callback = jest.fn();
         cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
         button.click();
@@ -61,8 +117,8 @@ describe('the button menu', () => {
     */
 
     it('should not dispatch the toggleMenu event if we are in selection mode', () => {
-        const cmp = createComponentUnderTest(false, true);
-        const button = cmp.shadowRoot.querySelector(selectors.button);
+        const cmp = createComponentUnderTest(screenMetadata, false, true);
+        const button = cmp.shadowRoot.querySelector(selectors.triggerButton);
         const callback = jest.fn();
         cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
         button.click();
@@ -71,7 +127,7 @@ describe('the button menu', () => {
 
     it('should send a focus event on focus', () => {
         const cmp = createComponentUnderTest();
-        const button = cmp.shadowRoot.querySelector(selectors.button);
+        const button = cmp.shadowRoot.querySelector(selectors.triggerButton);
         const callback = jest.fn();
         cmp.addEventListener('focus', callback);
         button.dispatchEvent(focusEvent);

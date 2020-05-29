@@ -4,6 +4,7 @@ import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { EditElementEvent, SelectNodeEvent } from 'builder_platform_interaction/events';
 import { FlcSelectDeselectNodeEvent } from 'builder_platform_interaction/flcEvents';
 import { classSet } from 'lightning/utils';
+import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { LABELS } from './flcNodeLabels';
 
 /**
@@ -36,6 +37,31 @@ export default class FlcNode extends LightningElement {
             ];
         }
         return conditionOptionsForNode;
+    }
+
+    get rotateIconClass() {
+        return this.nodeInfo.metadata.iconShape === ICON_SHAPE.DIAMOND
+            ? 'rotated-icon-radius slds-icon-standard-decision'
+            : '';
+    }
+
+    get svgClass() {
+        let classes = '';
+        if (this.nodeInfo.metadata.iconBackgroundColor) {
+            classes = this.nodeInfo.metadata.iconBackgroundColor;
+        }
+
+        if (this.nodeInfo.metadata.iconShape === ICON_SHAPE.CIRCLE) {
+            classes = `${classes} slds-icon__container_circle`;
+        } else if (this.nodeInfo.metadata.iconShape === ICON_SHAPE.DIAMOND) {
+            classes = `${classes} rotate-icon-svg`;
+        }
+
+        return classes;
+    }
+
+    get iconSize() {
+        return this.nodeInfo.metadata.iconSize || 'large';
     }
 
     get showCheckboxInSelectionMode() {

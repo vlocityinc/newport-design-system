@@ -29,11 +29,12 @@
                                     role="option"
                                     tabindex="0"
                                 >
-                                    <span class="slds-media__figure slds-listbox__option-icon">
+                                    <span class={item.iconContainerClass}>
                                         <lightning-icon
                                             class={item.iconClass}
                                             icon-name={item.icon}
-                                            size="small"
+                                            size={item.iconSize}
+                                            variant={item.iconVariant}
                                         ></lightning-icon>
                                     </span>
                                     <span class="slds-media__body">

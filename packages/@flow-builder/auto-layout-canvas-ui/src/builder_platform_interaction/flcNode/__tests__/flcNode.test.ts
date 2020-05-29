@@ -3,6 +3,7 @@ import { createElement } from 'lwc';
 import FlcNode from 'builder_platform_interaction/flcNode';
 import { FlcSelectDeselectNodeEvent } from 'builder_platform_interaction/flcEvents';
 import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { LABELS } from '../flcNodeLabels';
 
 const createComponentUnderTest = (props = {}) => {
@@ -18,101 +19,165 @@ const createComponentUnderTest = (props = {}) => {
 };
 
 const selectors = {
+    diamondIconWrapper: '.rotated-icon-radius.slds-icon-standard-decision',
+    startIcon: '.background-green.slds-icon__container_circle',
+    decisionIcon: '.rotate-icon-svg',
     selectionCheckbox: '.selection-checkbox'
 };
 
 describe('FlcNode', () => {
     let nodeInfo;
-    beforeEach(() => {
-        nodeInfo = {
+
+    describe('Node Icon', () => {
+        const startNodeInfo = {
             guid: 'guid',
             config: {
                 isSelected: false,
                 isSelectable: true
             },
             metadata: {
-                icon: 'dummyIcon',
+                icon: 'utility:right',
+                iconBackgroundColor: 'background-green',
+                iconShape: ICON_SHAPE.CIRCLE,
+                iconSize: 'medium',
                 label: 'elementType',
-                type: ElementType.DEFAULT
+                type: ElementType.START
             },
             menuOpened: false
         };
+
+        const decisionNodeInfo = {
+            guid: 'guid',
+            config: {
+                isSelected: false,
+                isSelectable: true
+            },
+            metadata: {
+                icon: 'standard:decision',
+                iconShape: ICON_SHAPE.DIAMOND,
+                label: 'elementType',
+                type: ElementType.BRANCH
+            },
+            menuOpened: false
+        };
+
+        it('Should have the diamondIconWrapper when iconShape is diamond', () => {
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo: decisionNodeInfo, isSelectionMode: false });
+            const iconWrapper = flcNodeComponent.shadowRoot.querySelector(selectors.diamondIconWrapper);
+            expect(iconWrapper).not.toBeNull();
+        });
+
+        it('Should have the correct icon classes when iconShape is circle and background color is defined', () => {
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo: startNodeInfo, isSelectionMode: false });
+            const startIcon = flcNodeComponent.shadowRoot.querySelector(selectors.startIcon);
+            expect(startIcon).not.toBeNull();
+        });
+
+        it('Should have the correct icon classes when iconShape is diamond', () => {
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo: decisionNodeInfo, isSelectionMode: false });
+            const decisionIcon = flcNodeComponent.shadowRoot.querySelector(selectors.decisionIcon);
+            expect(decisionIcon).not.toBeNull();
+        });
+
+        it('Should have the correct icon size (medium) when iconSize is defined in the nodeInfo', () => {
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo: startNodeInfo, isSelectionMode: false });
+            const startIcon = flcNodeComponent.shadowRoot.querySelector(selectors.startIcon);
+            expect(startIcon.size).toBe('medium');
+        });
     });
 
-    it('Does not show the selection checkbox in Base Mode', () => {
-        const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: false });
-        const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
-        expect(selectionCheckbox).toBeNull();
-    });
+    describe('Selection Checkbox', () => {
+        beforeEach(() => {
+            nodeInfo = {
+                guid: 'guid',
+                config: {
+                    isSelected: false,
+                    isSelectable: true
+                },
+                metadata: {
+                    icon: 'dummyIcon',
+                    label: 'elementType',
+                    type: ElementType.DEFAULT
+                },
+                menuOpened: false
+            };
+        });
 
-    it('Shows the selection checkbox in Selection Mode', () => {
-        const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
-        const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
-        expect(selectionCheckbox).not.toBeNull();
-    });
+        it('Does not show the selection checkbox in Base Mode', () => {
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: false });
+            const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
+            expect(selectionCheckbox).toBeNull();
+        });
 
-    it('Does not show selection box for Start Element in Selection Mode', () => {
-        nodeInfo.metadata.type = ElementType.START;
-        const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
-        const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
-        expect(selectionCheckbox).toBeNull();
-    });
+        it('Shows the selection checkbox in Selection Mode', () => {
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
+            const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
+            expect(selectionCheckbox).not.toBeNull();
+        });
 
-    it('Does not show selection box for End Element in Selection Mode', () => {
-        nodeInfo.metadata.type = ElementType.END;
-        const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
-        const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
-        expect(selectionCheckbox).toBeNull();
-    });
+        it('Does not show selection box for Start Element in Selection Mode', () => {
+            nodeInfo.metadata.type = ElementType.START;
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
+            const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
+            expect(selectionCheckbox).toBeNull();
+        });
 
-    it('The Selection Box should have the correct alternative text', () => {
-        const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
-        const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
-        expect(selectionCheckbox.alternativeText).toBe(LABELS.selectionCheckboxAltText);
-    });
+        it('Does not show selection box for End Element in Selection Mode', () => {
+            nodeInfo.metadata.type = ElementType.END;
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
+            const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
+            expect(selectionCheckbox).toBeNull();
+        });
 
-    it('The Selection Box should not be disabled when isSelectable is true', () => {
-        const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
-        const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
-        expect(selectionCheckbox.disabled).toBeFalsy();
-    });
+        it('The Selection Box should have the correct alternative text', () => {
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
+            const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
+            expect(selectionCheckbox.alternativeText).toBe(LABELS.selectionCheckboxAltText);
+        });
 
-    it('The Selection Box should be disabled when isSelectable is false', () => {
-        nodeInfo.config.isSelectable = false;
-        const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
-        const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
-        expect(selectionCheckbox.disabled).toBeTruthy();
-    });
+        it('The Selection Box should not be disabled when isSelectable is true', () => {
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
+            const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
+            expect(selectionCheckbox.disabled).toBeFalsy();
+        });
 
-    it('The Selection Box should have the correct icon name and variant when not selected', () => {
-        const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
-        const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
-        expect(selectionCheckbox.iconName).toEqual('utility:add');
-        expect(selectionCheckbox.variant).toEqual('border-filled');
-    });
+        it('The Selection Box should be disabled when isSelectable is false', () => {
+            nodeInfo.config.isSelectable = false;
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
+            const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
+            expect(selectionCheckbox.disabled).toBeTruthy();
+        });
 
-    it('The Selection Box should have the correct icon name and variant when selected', () => {
-        nodeInfo.config.isSelected = true;
-        const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
-        const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
-        expect(selectionCheckbox.iconName).toEqual('utility:check');
-        expect(selectionCheckbox.variant).toEqual('brand');
-    });
+        it('The Selection Box should have the correct icon name and variant when not selected', () => {
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
+            const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
+            expect(selectionCheckbox.iconName).toEqual('utility:add');
+            expect(selectionCheckbox.variant).toEqual('border-filled');
+        });
 
-    it('Should dispatch FlcSelectDeselectNodeEvent event on checkbox click (when the checkbox is not selected)', () => {
-        const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
-        const eventCallback = jest.fn();
-        flcNodeComponent.addEventListener(FlcSelectDeselectNodeEvent.EVENT_NAME, eventCallback);
-        flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox).click();
-        expect(eventCallback).toHaveBeenCalled();
-    });
+        it('The Selection Box should have the correct icon name and variant when selected', () => {
+            nodeInfo.config.isSelected = true;
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
+            const selectionCheckbox = flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox);
+            expect(selectionCheckbox.iconName).toEqual('utility:check');
+            expect(selectionCheckbox.variant).toEqual('brand');
+        });
 
-    it('Should dispatch FlcSelectDeselectNodeEvent event on checkbox click (when the checkbox is selected)', () => {
-        nodeInfo.config.isSelected = true;
-        const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
-        const eventCallback = jest.fn();
-        flcNodeComponent.addEventListener(FlcSelectDeselectNodeEvent.EVENT_NAME, eventCallback);
-        flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox).click();
-        expect(eventCallback).toHaveBeenCalled();
+        it('Should dispatch FlcSelectDeselectNodeEvent event on checkbox click (when the checkbox is not selected)', () => {
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
+            const eventCallback = jest.fn();
+            flcNodeComponent.addEventListener(FlcSelectDeselectNodeEvent.EVENT_NAME, eventCallback);
+            flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox).click();
+            expect(eventCallback).toHaveBeenCalled();
+        });
+
+        it('Should dispatch FlcSelectDeselectNodeEvent event on checkbox click (when the checkbox is selected)', () => {
+            nodeInfo.config.isSelected = true;
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo, isSelectionMode: true });
+            const eventCallback = jest.fn();
+            flcNodeComponent.addEventListener(FlcSelectDeselectNodeEvent.EVENT_NAME, eventCallback);
+            flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox).click();
+            expect(eventCallback).toHaveBeenCalled();
+        });
     });
 });

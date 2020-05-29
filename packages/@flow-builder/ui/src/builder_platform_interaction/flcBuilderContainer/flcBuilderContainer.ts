@@ -29,6 +29,10 @@ function augmentElementsMetadata(elementsMetadata) {
         {
             section: endElement.nodeConfig.section,
             icon: endElement.nodeConfig.iconName,
+            iconBackgroundColor: endElement.nodeConfig.iconBackgroundColor,
+            iconShape: endElement.nodeConfig.iconShape,
+            iconSize: endElement.nodeConfig.iconSize,
+
             description: endElement.nodeConfig.description,
             label: endElement.labels.singular,
             value: ELEMENT_TYPE.END_ELEMENT,
@@ -39,6 +43,9 @@ function augmentElementsMetadata(elementsMetadata) {
         {
             section: null,
             icon: startElement.nodeConfig.iconName,
+            iconBackgroundColor: startElement.nodeConfig.iconBackgroundColor,
+            iconShape: startElement.nodeConfig.iconShape,
+            iconSize: startElement.nodeConfig.iconSize,
             label: startElement.labels.singular,
             value: ELEMENT_TYPE.START_ELEMENT,
             elementType: ELEMENT_TYPE.START_ELEMENT,

@@ -820,17 +820,31 @@ export function getElementsMetadata(toolboxElements, palette) {
     const elementsMetadata = [];
 
     getElementSections(toolboxElements, palette).forEach(section => {
-        (section._children || []).forEach(({ iconName, label, description, elementType, canHaveFaultConnector }) => {
-            elementsMetadata.push({
-                section: section.label,
-                label,
-                icon: iconName,
-                elementType,
-                value: elementType, // TODO: FLC remove this property and just use elementType
+        (section._children || []).forEach(
+            ({
+                canHaveFaultConnector,
                 description,
-                canHaveFaultConnector
-            });
-        });
+                elementType,
+                label,
+                iconBackgroundColor,
+                iconName,
+                iconShape,
+                iconSize
+            }) => {
+                elementsMetadata.push({
+                    section: section.label,
+                    canHaveFaultConnector,
+                    description,
+                    elementType,
+                    label,
+                    iconBackgroundColor,
+                    icon: iconName,
+                    iconShape,
+                    iconSize,
+                    value: elementType // TODO: FLC remove this property and just use elementType
+                });
+            }
+        );
     });
 
     return elementsMetadata;

@@ -1,6 +1,12 @@
 import { classSet } from 'lightning/utils';
 import { ElementType, getElementMetadata } from 'builder_platform_interaction/autoLayoutCanvas';
 
+enum ICON_SHAPE {
+    DIAMOND = 'diamond', // Example, Decision
+    CIRCLE = 'circle', // Example, Start Element
+    SQUARE = 'square'
+}
+
 function isSystemElement(elementsMetadata, elementType) {
     const type = getElementMetadata(elementsMetadata, elementType).type;
     switch (type) {
@@ -17,6 +23,10 @@ const ELEMENT_SELECTED_ACTION = 'element_selected_action';
 const ELEMENT_DESELECTED_ACTION = 'element_deselected_action';
 
 /**
+ * Return true iff an element can have children
+ *
+ * @param {Object} elementsMetadata - Contains elementType -> data map
+ * @param {Object} element - Element being checked for supporting children
  * @return true iff an element can have children
  */
 function supportsChildren(elementsMetadata, { elementType }) {
@@ -24,6 +34,12 @@ function supportsChildren(elementsMetadata, { elementType }) {
     return supportsChildrenForType(type);
 }
 
+/**
+ * Function to check if a given element type supports children
+ *
+ * @param {String} type - Type of a given element
+ * @returns true if the element is of type Branch
+ */
 function supportsChildrenForType(type) {
     return type === ElementType.BRANCH;
 }
@@ -46,6 +62,7 @@ function _shouldTraverseDown(action, currentBranchElement) {
 /**
  * Gets the branch elements present child branches of a Decision or Pause
  *
+ * @param {Object} elementsMetadata - Contains elementType -> data map
  * @param {String} action - Selection or Deselection action
  * @param {Object} parentElement - Parent Element of a given tree in the flow
  * @param {Object} flowModel - Representation of the flow as presented in the Canvas
@@ -77,6 +94,7 @@ function _getChildBranchElements(elementsMetadata, action, parentElement, flowMo
 /**
  * Gets all the elements present in the Fault branch of a given element
  *
+ * @param {Object} elementsMetadata - Contains elementType -> data map
  * @param {String} action - Selection or Deselection action
  * @param {Object} parentElement - Parent Element of a given tree in the flow
  * @param {Object} flowModel - Representation of the flow as presented in the Canvas
@@ -101,6 +119,7 @@ function _getFaultBranchElements(elementsMetadata, action, parentElement, flowMo
 /**
  * Gets all the elements present in the child and/or fault branches of a given parent element
  *
+ * @param {Object} elementsMetadata - Contains elementType -> data map
  * @param {String} action - Selection or Deselection action
  * @param {Object} parentElement - Parent Element of a given tree in the flow
  * @param {Object} flowModel - Representation of the flow as presented in the Canvas
@@ -126,6 +145,7 @@ function _getSubtreeElements(elementsMetadata, action, parentElement, flowModel)
 /**
  * Helper function to get all the possible elements that can be selected/deselected next
  *
+ * @param {Object} elementsMetadata - Contains elementType -> data map
  * @param {String} topSelectedGuid - Guid of the top-most selected element
  * @param {Object} flowModel - Representation of the flow as presented in the Canvas
  * @returns {String[]} selectableCanvasElementGuids - An array containing all the selectable Canvas Element Guids
@@ -166,6 +186,7 @@ function _getSelectableCanvasElementGuids(elementsMetadata, topSelectedGuid, flo
  * Function to get all the selection data which includes canvasElementGuidsToSelect, canvasElementGuidsToDeselect,
  * selectableCanvasElementGuids and the updated topSelectedGuid
  *
+ * @param {Object} elementsMetadata - Contains elementType -> data map
  * @param {Object} flowModel - Representation of the flow as presented in the Canvas
  * @param {String} selectedCanvasElementGuid - Guid of the Canvas Element that just got selected
  * @param {String} topSelectedGuid - Guid of the top-most selected element
@@ -262,6 +283,7 @@ const getCanvasElementSelectionData = (elementsMetadata, flowModel, selectedCanv
  * Function to get all the deselection data which includes canvasElementGuidsToSelect, canvasElementGuidsToDeselect,
  * selectableCanvasElementGuids and the updated topSelectedGuid
  *
+ * @param {Object} elementsMetadata - Contains elementType -> data map
  * @param {Object} flowModel - Representation of the flow as presented in the Canvas
  * @param {String} deselectedCanvasElementGuid - Guid of the Canvas Element that just got deselected
  * @param {String} topSelectedGuid - Guid of the top-most selected element
@@ -321,6 +343,7 @@ const getCanvasElementDeselectionData = (elementsMetadata, flowModel, deselected
  * Function to get the guids of all the canvas elements that need to be deselected when toggling off the selection mode.
  * Also setting the topSelectedGuid to null.
  *
+ * @param {Object} elementsMetadata - Contains elementType -> data map
  * @param {Object} flowModel - Representation of the flow as presented in the Canvas
  * @param {String} topSelectedGuid - Guid of the top-most selected element
  */
@@ -465,6 +488,7 @@ function connectorKey(connectorInfo) {
 }
 
 export {
+    ICON_SHAPE,
     supportsChildrenForType,
     connectorKey,
     getStyleFromGeometry,

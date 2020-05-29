@@ -7,6 +7,7 @@ import { classSet } from 'lightning/utils';
 // import { handleKeyDownOnMenuItem, handleKeyDownOnMenuTrigger } from './keyboard';
 
 import { ToggleMenuEvent } from 'builder_platform_interaction/flcEvents';
+import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { MenuType } from 'builder_platform_interaction/autoLayoutCanvas';
 
 const i18n = {
@@ -204,6 +205,14 @@ export default class FlcButtonMenu extends LightningElement {
         }
     }
 
+    get triggerContainerClass() {
+        return this.variant !== 'connector'
+            ? this.elementMetadata.iconShape === ICON_SHAPE.DIAMOND
+                ? 'default-container rotate-icon-container slds-p-around_xx-small'
+                : 'default-container slds-p-around_xx-small'
+            : '';
+    }
+
     get computedAriaExpanded() {
         return String(this._dropdownVisible); // default value must be a string for the attribute to always be present with a string value
     }
@@ -267,6 +276,7 @@ export default class FlcButtonMenu extends LightningElement {
             'node-in-selection-mode': this.isSelectionMode,
             connector: this.variant === 'connector',
             'node-to-be-deleted': this.isNodeGettingDeleted,
+            'circular-icon': this.variant !== 'connector' && this.elementMetadata.iconShape === ICON_SHAPE.CIRCLE,
             'slds-button_icon-xx-small': this.iconSize === 'xx-small',
             'slds-button_icon-x-small': this.iconSize === 'x-small',
             'slds-button_icon-small': this.iconSize === 'small'

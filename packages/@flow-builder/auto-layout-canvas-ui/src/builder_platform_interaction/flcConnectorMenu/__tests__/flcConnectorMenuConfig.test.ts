@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { pasteSection, configureMenu } from '../flcConnectorMenuConfig';
 import { LABELS } from '../flcConnectorMenuLabels';
 
@@ -19,13 +20,25 @@ const metaData = [
         description: 'Collect information from'
     },
     {
-        section: 'Data Operation',
-        type: 'default',
-        icon: 'standard:record_create',
-        label: 'RecordCreate',
-        value: 'RecordCreate',
-        elementType: 'RecordCreate',
-        description: 'Create Salesforce recor'
+        section: 'Logic',
+        type: 'branch',
+        icon: 'standard:decision',
+        iconShape: ICON_SHAPE.DIAMOND,
+        label: 'Decision',
+        value: 'Decision',
+        elementType: 'Decision',
+        description: 'Create Decision'
+    },
+    {
+        section: 'Logic',
+        type: 'end',
+        icon: 'utility:stop',
+        iconBackgroundColor: 'background-red',
+        iconShape: ICON_SHAPE.CIRCLE,
+        label: 'End',
+        value: 'End',
+        elementType: 'End',
+        description: 'Create End'
     }
 ];
 
@@ -39,6 +52,10 @@ const metaDataResponse = [
                 elementType: 'Screen',
                 guid: 1,
                 icon: 'standard:screen',
+                iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+                iconClass: '',
+                iconSize: 'small',
+                iconVariant: '',
                 label: 'Screen'
             }
         ],
@@ -46,17 +63,33 @@ const metaDataResponse = [
     },
     {
         guid: 1,
-        heading: 'Data Operation',
+        heading: 'Logic',
         items: [
             {
-                description: 'Create Salesforce recor',
-                elementType: 'RecordCreate',
+                description: 'Create Decision',
+                elementType: 'Decision',
                 guid: 1,
-                icon: 'standard:record_create',
-                label: 'RecordCreate'
+                icon: 'standard:decision',
+                iconContainerClass:
+                    'slds-media__figure slds-listbox__option-icon rotate-icon-container slds-icon-standard-decision',
+                iconClass: ' rotate-icon-svg',
+                iconSize: 'small',
+                iconVariant: '',
+                label: 'Decision'
+            },
+            {
+                description: 'Create End',
+                elementType: 'End',
+                guid: 1,
+                icon: 'utility:stop',
+                iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+                iconClass: 'background-red end-element-svg',
+                iconSize: 'xx-small',
+                iconVariant: 'inverse',
+                label: 'End'
             }
         ],
-        label: 'Data Operation'
+        label: 'Logic'
     }
 ];
 
@@ -66,11 +99,11 @@ describe('connector menu config', () => {
     });
 
     it('should have the paste element in the object and the correct transformed data ', () => {
-        expect(configureMenu(metaData, false, true)).toEqual({ sections: [pasteSection, ...metaDataResponse] });
+        expect(configureMenu(metaData, true, true)).toEqual({ sections: [pasteSection, ...metaDataResponse] });
     });
 
     it('should not have the paste element in the object and the correct transformed data', () => {
-        expect(configureMenu(metaData, false, false)).toEqual({ sections: [...metaDataResponse] });
+        expect(configureMenu(metaData, true, false)).toEqual({ sections: [...metaDataResponse] });
     });
 
     it('pasteSection should have the right label', () => {
