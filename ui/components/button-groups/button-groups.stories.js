@@ -46,7 +46,7 @@ storiesOf(`${base}`, module)
     <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-button_last">
       <button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-haspopup="true" title="Show More">
         <svg class="nds-button__icon" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
         </svg>
         <span class="nds-assistive-text">Show More</span>
       </button>
@@ -62,7 +62,7 @@ storiesOf(`${base}`, module)
       <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-button_last nds-is-open">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-haspopup="true" title="Show More">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -103,7 +103,7 @@ storiesOf(`${base}`, module)
     <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-button_last">
       <button class="nds-button nds-button_icon nds-button_icon-border-filled" disabled="" aria-haspopup="true" title="More Actions">
         <svg class="nds-button__icon" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
         </svg>
         <span class="nds-assistive-text">More Actions</span>
       </button>

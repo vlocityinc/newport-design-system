@@ -16,7 +16,7 @@ storiesOf(`${base}`, module)
   <h3 class="nds-section__title">
     <button aria-controls="expando-unique-id" aria-expanded="true" class="nds-button nds-section__title-action">
       <svg class="nds-section__title-action-icon nds-button__icon nds-button__icon_left" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
       </svg>
       <span class="nds-truncate" title="Section Title">Section Title</span>
     </button>
@@ -32,7 +32,7 @@ storiesOf(`${base}`, module)
   <h3 class="nds-section__title">
     <button aria-controls="expando-unique-id" aria-expanded="false" class="nds-button nds-section__title-action">
       <svg class="nds-section__title-action-icon nds-button__icon nds-button__icon_left" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
       </svg>
       <span class="nds-truncate" title="Section Title">Section Title</span>
     </button>

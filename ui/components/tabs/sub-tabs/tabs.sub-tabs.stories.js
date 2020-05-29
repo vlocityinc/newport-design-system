@@ -18,7 +18,7 @@ storiesOf(`${base}`, module)
       <a aria-controls="subtab-tabpanel-01" aria-selected="true" class="nds-tabs_default__link nds-p-horizontal_xx-small" href="javascript:void(0);" id="subtab-tabitem-01" role="tab" tabindex="0" title="00071938">
         <div class="nds-icon_container" title="Case">
           <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
           </svg>
           <span class="nds-assistive-text">
             Case
@@ -32,7 +32,7 @@ storiesOf(`${base}`, module)
       <div class="nds-col_bump-left nds-p-left_none nds-p-right_none">
         <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close 00071938">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Close 00071938</span>
         </button>
@@ -42,7 +42,7 @@ storiesOf(`${base}`, module)
       <a aria-controls="subtab-tabpanel-02" aria-selected="false" class="nds-tabs_default__link nds-p-horizontal_xx-small" href="javascript:void(0);" id="subtab-tabitem-02" role="tab" tabindex="-1" title="Chat - Customer">
         <div class="nds-icon_container" title="Live Chat">
           <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#live_chat"></use>
+            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#live_chat"></use>
           </svg>
           <span class="nds-assistive-text">
             Live Chat
@@ -56,7 +56,7 @@ storiesOf(`${base}`, module)
       <div class="nds-col_bump-left nds-p-left_none nds-p-right_none">
         <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Chat - Customer">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Close Chat - Customer</span>
         </button>
@@ -74,7 +74,7 @@ storiesOf(`${base}`, module)
       <a aria-controls="subtab-tabpanel-01" aria-selected="true" class="nds-tabs_default__link nds-p-horizontal_xx-small" href="javascript:void(0);" id="subtab-tabitem-01" role="tab" tabindex="0" title="00071938">
         <div class="nds-icon_container" title="Case">
           <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
           </svg>
           <span class="nds-assistive-text">
             Case
@@ -88,7 +88,7 @@ storiesOf(`${base}`, module)
       <div class="nds-col_bump-left nds-p-left_none nds-p-right_none">
         <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close 00071938">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Close 00071938</span>
         </button>
@@ -98,7 +98,7 @@ storiesOf(`${base}`, module)
       <a aria-controls="subtab-tabpanel-02" aria-selected="false" class="nds-tabs_default__link nds-p-horizontal_xx-small" href="javascript:void(0);" id="subtab-tabitem-02" role="tab" tabindex="-1" title="Chat - Customer">
         <div class="nds-icon_container" title="Live Chat">
           <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#live_chat"></use>
+            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#live_chat"></use>
           </svg>
           <span class="nds-assistive-text">
             Live Chat
@@ -112,7 +112,7 @@ storiesOf(`${base}`, module)
       <div class="nds-col_bump-left nds-p-left_none nds-p-right_none">
         <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Chat - Customer">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Close Chat - Customer</span>
         </button>
@@ -131,7 +131,7 @@ storiesOf(`${base}`, module)
         <abbr class="nds-indicator_unsaved" title="Tab Not Saved" aria-label="Tab Not Saved">*</abbr>
         <div class="nds-icon_container" title="Case">
           <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
           </svg>
           <span class="nds-assistive-text">
             Case
@@ -145,7 +145,7 @@ storiesOf(`${base}`, module)
       <div class="nds-col_bump-left nds-p-left_none nds-p-right_none">
         <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close 00071938">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Close 00071938</span>
         </button>
@@ -155,7 +155,7 @@ storiesOf(`${base}`, module)
       <a aria-controls="subtab-tabpanel-02" aria-selected="false" class="nds-tabs_default__link nds-p-horizontal_xx-small" href="javascript:void(0);" id="subtab-tabitem-02" role="tab" tabindex="-1" title="Chat - Customer">
         <div class="nds-icon_container" title="Live Chat">
           <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#live_chat"></use>
+            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#live_chat"></use>
           </svg>
           <span class="nds-assistive-text">
             Live Chat
@@ -169,7 +169,7 @@ storiesOf(`${base}`, module)
       <div class="nds-col_bump-left nds-p-left_none nds-p-right_none">
         <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Chat - Customer">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Close Chat - Customer</span>
         </button>
@@ -187,7 +187,7 @@ storiesOf(`${base}`, module)
       <a aria-controls="subtab-tabpanel-01" aria-selected="true" class="nds-tabs_default__link nds-p-horizontal_xx-small" href="javascript:void(0);" id="subtab-tabitem-01" role="tab" tabindex="0" title="00071938">
         <div class="nds-icon_container" title="Case">
           <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
           </svg>
           <span class="nds-assistive-text">
             Case
@@ -201,7 +201,7 @@ storiesOf(`${base}`, module)
       <div class="nds-col_bump-left nds-p-left_none nds-p-right_none">
         <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close 00071938">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Close 00071938</span>
         </button>
@@ -211,7 +211,7 @@ storiesOf(`${base}`, module)
       <a aria-controls="subtab-tabpanel-02" aria-selected="false" class="nds-tabs_default__link nds-p-horizontal_xx-small" href="javascript:void(0);" id="subtab-tabitem-02" role="tab" tabindex="-1" title="Chat - Customer">
         <div class="nds-icon_container" title="Live Chat">
           <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#live_chat"></use>
+            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#live_chat"></use>
           </svg>
           <span class="nds-assistive-text">
             Live Chat
@@ -225,7 +225,7 @@ storiesOf(`${base}`, module)
       <div class="nds-col_bump-left nds-p-left_none nds-p-right_none">
         <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Chat - Customer">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Close Chat - Customer</span>
         </button>
@@ -243,7 +243,7 @@ storiesOf(`${base}`, module)
       <a aria-controls="subtab-tabpanel-01" aria-selected="true" class="nds-tabs_default__link nds-p-horizontal_xx-small" href="javascript:void(0);" id="subtab-tabitem-01" role="tab" tabindex="0" title="00071938">
         <div class="nds-icon_container" title="Case">
           <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
           </svg>
           <span class="nds-assistive-text">
             Case
@@ -257,7 +257,7 @@ storiesOf(`${base}`, module)
       <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
         <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="0" title="Actions for 00071938">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
           </svg>
           <span class="nds-assistive-text">Actions for 00071938</span>
         </button>
@@ -265,7 +265,7 @@ storiesOf(`${base}`, module)
       <div class="nds-col_bump-left nds-p-left_none nds-p-right_none">
         <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close 00071938">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Close 00071938</span>
         </button>
@@ -275,7 +275,7 @@ storiesOf(`${base}`, module)
       <a aria-controls="subtab-tabpanel-02" aria-selected="false" class="nds-tabs_default__link nds-p-horizontal_xx-small" href="javascript:void(0);" id="subtab-tabitem-02" role="tab" tabindex="-1" title="Chat - Customer">
         <div class="nds-icon_container" title="Live Chat">
           <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#live_chat"></use>
+            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#live_chat"></use>
           </svg>
           <span class="nds-assistive-text">
             Live Chat
@@ -289,7 +289,7 @@ storiesOf(`${base}`, module)
       <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
         <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Chat - Customer">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
           </svg>
           <span class="nds-assistive-text">Actions for Chat - Customer</span>
         </button>
@@ -297,7 +297,7 @@ storiesOf(`${base}`, module)
       <div class="nds-col_bump-left nds-p-left_none nds-p-right_none">
         <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Chat - Customer">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Close Chat - Customer</span>
         </button>
@@ -315,7 +315,7 @@ storiesOf(`${base}`, module)
       <a aria-controls="subtab-tabpanel-01" aria-selected="true" class="nds-tabs_default__link nds-p-horizontal_xx-small" href="javascript:void(0);" id="subtab-tabitem-01" role="tab" tabindex="0" title="00071938">
         <div class="nds-icon_container" title="Case">
           <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
           </svg>
           <span class="nds-assistive-text">
             Case
@@ -329,7 +329,7 @@ storiesOf(`${base}`, module)
       <div class="nds-col_bump-left nds-p-left_none nds-p-right_none">
         <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close 00071938">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Close 00071938</span>
         </button>
@@ -347,7 +347,7 @@ storiesOf(`${base}`, module)
         </span>
         <div class="nds-icon_container" title="Live Chat">
           <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#live_chat"></use>
+            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#live_chat"></use>
           </svg>
           <span class="nds-assistive-text">
             Live Chat
@@ -361,7 +361,7 @@ storiesOf(`${base}`, module)
       <div class="nds-col_bump-left nds-p-left_none nds-p-right_none">
         <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Chat - Customer">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Close Chat - Customer</span>
         </button>

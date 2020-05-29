@@ -18,7 +18,7 @@ storiesOf(`${base}`, module)
       <header class="nds-modal__header nds-theme_error nds-theme_alert-texture">
         <button class="nds-button nds-button_icon nds-modal__close nds-button_icon-inverse" title="Close">
           <svg class="nds-button__icon nds-button__icon_large" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Close</span>
         </button>

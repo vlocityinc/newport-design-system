@@ -22,7 +22,7 @@ storiesOf(`${base}`, module)
                 <svg aria-hidden="true"
                      class="nds-icon nds-m-around_xxx-small slds-m-right_small nds-icon-text-default nds-icon_small"
                      style="fill: rgb(5, 166, 223);">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#display_text">
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#display_text">
                   </use>
                 </svg>
                 <span class="nds-assistive-text">My Action</span>
