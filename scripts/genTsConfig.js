@@ -1,9 +1,7 @@
 const fs = require('fs');
 const { resolve } = require('path');
 
-const workspaces = require(resolve('.', 'package.json')).workspaces;
-
-function genJsConfig(packageDir) {
+function genTsConfig(packageDir) {
     const npm2lwc = require(resolve(`./${packageDir}`, 'package.json')).npm2lwc;
 
     if (!npm2lwc || !npm2lwc.ui) {
@@ -43,4 +41,5 @@ function genJsConfig(packageDir) {
     );
 }
 
-workspaces.forEach(workspace => genJsConfig(workspace));
+// only auto gen for "@flow-builder/ui"
+genTsConfig('packages/@flow-builder/ui');

@@ -7,6 +7,11 @@ import { classSet } from 'lightning/utils';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { LABELS } from './flcNodeLabels';
 
+enum ConditionOptions {
+    DEFAULT_PATH = 'DEFAULT_PATH',
+    NO_PATH = 'NO_PATH'
+}
+
 /**
  * Autolayout Canvas Node Component
  */
@@ -20,6 +25,8 @@ export default class FlcNode extends LightningElement {
     get labels() {
         return LABELS;
     }
+    @api
+    isReconnecting;
 
     get conditionOptionsForNode() {
         let conditionOptionsForNode;
@@ -28,11 +35,11 @@ export default class FlcNode extends LightningElement {
                 ...this.nodeInfo.conditionOptions,
                 {
                     label: this.nodeInfo.defaultConnectorLabel,
-                    value: 'DEFAULT_PATH'
+                    value: ConditionOptions.DEFAULT_PATH
                 },
                 {
                     label: this.labels.deleteAllPathsComboboxLabel,
-                    value: 'NO_PATH'
+                    value: ConditionOptions.NO_PATH
                 }
             ];
         }
@@ -66,7 +73,11 @@ export default class FlcNode extends LightningElement {
 
     get showCheckboxInSelectionMode() {
         const { type } = this.nodeInfo.metadata;
-        return this.isSelectionMode && ![ElementType.START, ElementType.END, ElementType.ROOT].includes(type);
+        const isValidType =
+            (this.isReconnecting && type === ElementType.END) ||
+            ![ElementType.START, ElementType.END, ElementType.ROOT].includes(type);
+
+        return this.isSelectionMode && isValidType;
     }
 
     get shouldDisableCheckbox() {

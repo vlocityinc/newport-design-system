@@ -13,6 +13,9 @@ export default class FlcFlow extends LightningElement {
     @api
     isSelectionMode;
 
+    @api
+    isReconnecting;
+
     get preConnector() {
         const { preConnector } = this.flow;
         return preConnector && getFlcConnectorData(preConnector);

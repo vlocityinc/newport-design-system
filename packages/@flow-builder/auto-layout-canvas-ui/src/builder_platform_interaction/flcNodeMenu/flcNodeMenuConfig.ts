@@ -67,17 +67,15 @@ export const getMenuConfiguration = (
     contextualMenuMode,
     elementHasFault
 ) => {
-    let nodeActions = [];
-    if (type === ElementType.END) {
-        nodeActions = [ELEMENT_ACTION_CONFIG.DELETE_END_ELEMENT_ACTION];
-    } else {
-        nodeActions = [ELEMENT_ACTION_CONFIG.COPY_ACTION, ELEMENT_ACTION_CONFIG.DELETE_ACTION];
+    const nodeActions =
+        type === ElementType.END
+            ? [ELEMENT_ACTION_CONFIG.DELETE_END_ELEMENT_ACTION]
+            : [ELEMENT_ACTION_CONFIG.COPY_ACTION, ELEMENT_ACTION_CONFIG.DELETE_ACTION];
 
-        if (canHaveFaultConnector) {
-            nodeActions.push(
-                elementHasFault ? ELEMENT_ACTION_CONFIG.DELETE_FAULT_ACTION : ELEMENT_ACTION_CONFIG.ADD_FAULT_ACTION
-            );
-        }
+    if (canHaveFaultConnector) {
+        nodeActions.push(
+            elementHasFault ? ELEMENT_ACTION_CONFIG.DELETE_FAULT_ACTION : ELEMENT_ACTION_CONFIG.ADD_FAULT_ACTION
+        );
     }
 
     const menuConfiguration = {

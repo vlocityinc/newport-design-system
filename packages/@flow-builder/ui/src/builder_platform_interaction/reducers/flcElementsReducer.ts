@@ -13,7 +13,8 @@ import {
     PASTE_ON_FIXED_CANVAS,
     REORDER_CONNECTORS,
     ADD_FAULT,
-    DELETE_FAULT
+    DELETE_FAULT,
+    FLC_CREATE_CONNECTION
 } from 'builder_platform_interaction/actions';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
@@ -31,8 +32,9 @@ import {
     deleteElement,
     addElement,
     deleteFault,
-    findLastElement,
-    FAULT_INDEX
+    FAULT_INDEX,
+    reconnectBranchElement,
+    findLastElement
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import { getSubElementGuids } from './reducersUtils';
 
@@ -49,6 +51,9 @@ export default function flcElementsReducer(state = {}, action) {
     switch (action.type) {
         case ADD_START_ELEMENT:
             state = addRootAndEndElements(state, action.payload.guid);
+            break;
+        case FLC_CREATE_CONNECTION:
+            state = _reconnectBranchElement(state, action.payload);
             break;
         case ADD_FAULT:
             state = _addFault(state, action.payload);
@@ -112,6 +117,10 @@ function addRootAndEndElements(elements, startElementGuid) {
 
 function _getElementFromActionPayload(payload) {
     return payload.screen || payload.canvasElement || payload;
+}
+
+function _reconnectBranchElement(elements, { sourceGuid, targetGuid }) {
+    return reconnectBranchElement(elements, sourceGuid, targetGuid);
 }
 
 /**

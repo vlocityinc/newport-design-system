@@ -10,17 +10,26 @@ import {
     animate,
     MenuType,
     panzoom,
-    ElementType
+    ElementType,
+    getElementMetadata,
+    getTargetGuidsForBranchReconnect,
+    getChild,
+    findParentElement
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
-import { ZOOM_ACTION, ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
-import { FlcSelectionEvent } from 'builder_platform_interaction/flcEvents';
+import {
+    ZOOM_ACTION,
+    ClosePropertyEditorEvent,
+    DeleteElementEvent,
+    ToggleSelectionModeEvent
+} from 'builder_platform_interaction/events';
+
+import { FlcSelectionEvent, FlcCreateConnectionEvent } from 'builder_platform_interaction/flcEvents';
 import { getStyleFromGeometry, getFlcFlowData } from 'builder_platform_interaction/flcComponentsUtils';
 
 import {
     getCanvasElementSelectionData,
-    getCanvasElementDeselectionData,
-    getCanvasElementDeselectionDataOnToggleOff
+    getCanvasElementDeselectionData
 } from 'builder_platform_interaction/flcComponentsUtils';
 
 const MAX_ZOOM = 1;
@@ -81,6 +90,9 @@ export default class FlcBuilder extends LightningElement {
     /* the top most selected element's guid */
     _topSelectedGuid;
 
+    /* the guid of the element we are reconnecting to another element */
+    _reconnectSourceGuid;
+
     /* the current scale with a domain of [MIN_ZOOM, MAX_ZOOM] */
     _scale;
 
@@ -110,6 +122,10 @@ export default class FlcBuilder extends LightningElement {
 
     @api
     isPasteAvailable;
+
+    get isReconnecting() {
+        return this._reconnectSourceGuid != null;
+    }
 
     @api
     set elementsMetadata(elementsMetadata) {
@@ -208,28 +224,17 @@ export default class FlcBuilder extends LightningElement {
      * Handles a elements selection change
      */
     handleSelectionChange() {
-        // transforms the elementsMetadata array to a map
-        const elementsMetadataMap = this._elementsMetadata ? this._convertToElementMetadataMap() : {};
-
         if (this._isSelectionMode) {
             this.closeNodeOrConnectorMenu();
-        } else if (this._topSelectedGuid) {
-            const {
-                canvasElementGuidsToSelect,
-                canvasElementGuidsToDeselect,
-                selectableCanvasElementGuids,
-                topSelectedGuid
-            } = getCanvasElementDeselectionDataOnToggleOff(elementsMetadataMap, this._flowModel, this._topSelectedGuid);
+        } else {
+            this._topSelectedGuid = null;
 
-            this._topSelectedGuid = topSelectedGuid;
-
-            const flcSelectionEvent = new FlcSelectionEvent(
-                canvasElementGuidsToSelect,
-                canvasElementGuidsToDeselect,
-                selectableCanvasElementGuids,
-                this._topSelectedGuid
-            );
-            this.dispatchEvent(flcSelectionEvent);
+            // make all elements selectable and unselected when exiting selection mode
+            if (this._flowModel != null) {
+                const allGuids = Object.keys(this._flowModel);
+                const flcSelectionEvent = new FlcSelectionEvent([], allGuids, allGuids);
+                this.dispatchEvent(flcSelectionEvent);
+            }
         }
     }
 
@@ -292,6 +297,7 @@ export default class FlcBuilder extends LightningElement {
      */
     createMenuRenderProperties(detail, menuButtonHalfWidth) {
         let { left, top } = detail;
+        const { guid, next, parent, childIndex } = detail;
         const { x, y } = this.getDomElementGeometry(this._flowContainerElement);
 
         left = left - x + detail.offsetX + menuButtonHalfWidth;
@@ -302,12 +308,31 @@ export default class FlcBuilder extends LightningElement {
             y: top * (1 / this.scale) + menuButtonHalfWidth
         });
 
-        const guid = detail.guid;
         const elementHasFault = guid ? this._flowModel[guid].fault : false;
+        const targetGuid = childIndex != null ? getChild(this._flowModel[parent], childIndex) : next;
+
+        const targetElement = this.flowModel[targetGuid];
+
+        let canMergeEndedBranch = false;
+
+        if (targetElement != null) {
+            const targetParentElement = findParentElement(targetElement, this._flowModel);
+            const isTargetParentRoot =
+                getElementMetadata(this._flowRenderContext.elementsMetadata, targetParentElement.elementType).type ===
+                ElementType.ROOT;
+
+            const isTargetEnd =
+                getElementMetadata(this._flowRenderContext.elementsMetadata, targetElement.elementType).type ===
+                ElementType.END;
+            canMergeEndedBranch = targetParentElement.fault == null && !isTargetParentRoot && isTargetEnd;
+        }
+
         return {
+            canMergeEndedBranch,
             elementHasFault,
             ...detail,
             connectorMenu: detail.type,
+            next: targetGuid,
             elementsMetadata: this._elementsMetadata,
             style
         };
@@ -319,6 +344,14 @@ export default class FlcBuilder extends LightningElement {
      */
     handleToggleMenu = event => {
         const { detail } = event;
+        const { type, elementMetadata } = detail;
+        const isNodeMenu = type === MenuType.NODE;
+
+        // return if a node doesn't support a menu
+        if (isNodeMenu && !elementMetadata.supportsMenu) {
+            return;
+        }
+
         const interactionState = toggleFlowMenu(detail, this._flowRenderContext.interactionState);
 
         if (interactionState.menuInfo != null) {
@@ -336,43 +369,68 @@ export default class FlcBuilder extends LightningElement {
     };
 
     /**
+     * Handles the "merge with existing path" connector menu item selection
+     */
+    handleMergeWithExistingPath = event => {
+        event.stopPropagation();
+
+        const { targetGuid } = event.detail;
+        this._reconnectSourceGuid = targetGuid;
+
+        const selectableGuids = getTargetGuidsForBranchReconnect(this.flowModel, targetGuid);
+        if (selectableGuids.length > 1) {
+            this.dispatchEvent(new ToggleSelectionModeEvent());
+            const flcSelectionEvent = new FlcSelectionEvent([], [], selectableGuids, null);
+            this.dispatchEvent(flcSelectionEvent);
+        } else if (selectableGuids.length === 1) {
+            this.dispatchCreateConnectionEvent(selectableGuids[0]);
+        } else {
+            // no merge point or elements on other branches, so just delete the end node to reconnect
+            this.dispatchEvent(new DeleteElementEvent([targetGuid], this.flowModel[targetGuid].elementType));
+        }
+    };
+
+    dispatchCreateConnectionEvent(targetGuid) {
+        this.dispatchEvent(new FlcCreateConnectionEvent(this._reconnectSourceGuid, targetGuid));
+        this._reconnectSourceGuid = null;
+    }
+
+    dispatchFlcSelectionEvent({ isSelected, canvasElementGUID }) {
+        // transforms the elementsMetadata array to a map
+        const elementsMetadataMap = this._convertToElementMetadataMap();
+        const flowModel = this._flowModel;
+
+        const {
+            canvasElementGuidsToSelect,
+            canvasElementGuidsToDeselect,
+            selectableCanvasElementGuids,
+            topSelectedGuid
+        } = !isSelected
+            ? getCanvasElementSelectionData(elementsMetadataMap, flowModel, canvasElementGUID, this._topSelectedGuid)
+            : getCanvasElementDeselectionData(elementsMetadataMap, flowModel, canvasElementGUID, this._topSelectedGuid);
+
+        this._topSelectedGuid = topSelectedGuid;
+
+        const flcSelectionEvent = new FlcSelectionEvent(
+            canvasElementGuidsToSelect,
+            canvasElementGuidsToDeselect,
+            selectableCanvasElementGuids,
+            this._topSelectedGuid
+        );
+        this.dispatchEvent(flcSelectionEvent);
+    }
+
+    /**
      * Handles node selection and deleselection
      */
     handleNodeSelectionDeselection = event => {
-        const flowModel = this._flowModel;
+        event.stopPropagation();
 
-        // transforms the elementsMetadata array to a map
-        const elementsMetadataMap = this._convertToElementMetadataMap();
-
-        if (event && event.detail) {
-            const {
-                canvasElementGuidsToSelect,
-                canvasElementGuidsToDeselect,
-                selectableCanvasElementGuids,
-                topSelectedGuid
-            } = !event.detail.isSelected
-                ? getCanvasElementSelectionData(
-                      elementsMetadataMap,
-                      flowModel,
-                      event.detail.canvasElementGUID,
-                      this._topSelectedGuid
-                  )
-                : getCanvasElementDeselectionData(
-                      elementsMetadataMap,
-                      flowModel,
-                      event.detail.canvasElementGUID,
-                      this._topSelectedGuid
-                  );
-
-            this._topSelectedGuid = topSelectedGuid;
-
-            const flcSelectionEvent = new FlcSelectionEvent(
-                canvasElementGuidsToSelect,
-                canvasElementGuidsToDeselect,
-                selectableCanvasElementGuids,
-                this._topSelectedGuid
-            );
-            this.dispatchEvent(flcSelectionEvent);
+        if (this._reconnectSourceGuid != null) {
+            this.dispatchCreateConnectionEvent(event.detail.canvasElementGUID);
+            this.dispatchEvent(new ToggleSelectionModeEvent());
+        } else {
+            this.dispatchFlcSelectionEvent(event.detail);
         }
     };
 

@@ -9,6 +9,9 @@
         "@typescript-eslint/no-this-alias": "off",
         "@typescript-eslint/camelcase": "off",
         "@typescript-eslint/class-name-casing": "off",
+        "@typescript-eslint/ban-ts-ignore": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
 
         "jest/no-alias-methods": "off",
         "jest/valid-expect-in-promise": "off",

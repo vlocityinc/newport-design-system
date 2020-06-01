@@ -834,6 +834,7 @@ export function getElementsMetadata(toolboxElements, palette) {
                 elementsMetadata.push({
                     section: section.label,
                     canHaveFaultConnector,
+                    supportsMenu: true,
                     description,
                     elementType,
                     label,

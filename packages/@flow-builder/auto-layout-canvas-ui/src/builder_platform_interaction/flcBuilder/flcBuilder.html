@@ -8,6 +8,7 @@
                     flow={flow.flowInfo}
                     is-paste-available={isPasteAvailable}
                     is-selection-mode={isSelectionMode}
+                    is-reconnecting={isReconnecting}
                     onflcselectdeselectnode={handleNodeSelectionDeselection}
                 >
                 </builder_platform_interaction-flc-flow>
@@ -19,9 +20,11 @@
                         prev={menu.prev}
                         next={menu.next}
                         parent={menu.parent}
+                        can-merge-ended-branch={menu.canMergeEndedBranch}
                         child-index={menu.childIndex}
                         is-paste-available={isPasteAvailable}
                         elements-metadata={menu.elementsMetadata}
+                        onmergewithexistingpath={handleMergeWithExistingPath}
                     ></builder_platform_interaction-flc-connector-menu>
                 </template>
                 <template if:true={showNodeMenu}>

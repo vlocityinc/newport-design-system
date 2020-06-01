@@ -4,7 +4,10 @@ import {
     findFirstElement,
     findLastElement,
     deleteElement,
-    deleteFault
+    deleteFault,
+    getTargetGuidsForBranchReconnect,
+    reconnectBranchElement,
+    addElement
 } from '../modelUtils';
 import { FAULT_INDEX } from '../model';
 
@@ -19,7 +22,145 @@ function getSubElementGuids() {
     return [];
 }
 
+/**
+ * Util to create a branching element
+ *
+ * @param {Guid} parent - A parent guid
+ * @param {Guid[][]} branches - An array of branches. A branch is an array of guids, where null denotes an end node
+ * @param {Guid} parentNext - A parent next guid
+ */
+function createBranch(parent, branches, parentNext) {
+    const elements = [];
+
+    const branchingElement = {
+        guid: parent,
+        next: parentNext,
+        children: branches.map((branch, childIndex) => {
+            const headGuid = branch.length > 0 ? branch[0] : null;
+
+            if (headGuid != null) {
+                const branchHeadElement = {
+                    guid: `${parent}:${childIndex}-${headGuid}`,
+                    parent,
+                    childIndex,
+                    isTerminal: true
+                };
+                elements.push(branchHeadElement);
+
+                let prevElement = branchHeadElement;
+                let isTerminal = false;
+
+                branch.forEach((elementGuid, i) => {
+                    if (i === 0) {
+                        // skip the head
+                        return;
+                    }
+                    let guid = `${parent}:${childIndex}-${elementGuid}`;
+
+                    if (elementGuid == null) {
+                        isTerminal = true;
+                        guid = `${parent}:${childIndex}-end-guid`;
+                    }
+
+                    const element = {
+                        guid,
+                        prev: prevElement.guid
+                    };
+
+                    elements.push(element);
+                    prevElement.next = element.guid;
+                    prevElement = element;
+                });
+
+                branchHeadElement.isTerminal = isTerminal;
+                return branchHeadElement.guid;
+            }
+
+            return null;
+        })
+    };
+
+    elements.push(branchingElement);
+
+    if (parentNext != null) {
+        elements.push({
+            guid: parentNext,
+            prev: branchingElement.guid
+        });
+    }
+
+    return toElementsMap(...elements);
+}
+
 describe('modelUtils', () => {
+    describe('addElement', () => {
+        it('add end node to left branch of decision with empty branches', () => {
+            const elements = createBranch('parent-guid', [[], []], 'parent-next-guid');
+            addElement(elements, { guid: 'new-end-element-guid', parent: 'parent-guid', childIndex: 0 }, true);
+            expect(elements).toMatchSnapshot();
+        });
+
+        it('add end node to left branch of decision with with non-empty right branch', () => {
+            const elements = createBranch('parent-guid', [[], ['head-guid']], 'parent-next-guid');
+            addElement(elements, { guid: 'new-end-element-guid', parent: 'parent-guid', childIndex: 0 }, true);
+            expect(elements).toMatchSnapshot();
+        });
+
+        it('add end node to left branch of decision with with non-empty left branch', () => {
+            const elements = createBranch('parent-guid', [['head-guid'], []], 'parent-next-guid');
+            addElement(elements, { guid: 'new-end-element-guid', prev: 'parent-guid:0-head-guid' }, true);
+            expect(elements).toMatchSnapshot();
+        });
+    });
+
+    describe('getTargetGuidsForBranchReconnect', () => {
+        it('returns elements on a different branch', () => {
+            const elements = createBranch('parent-guid', [
+                ['head-guid', null],
+                ['head-guid', 'random-guid', null]
+            ]);
+
+            expect(getTargetGuidsForBranchReconnect(elements, 'parent-guid:0-end-guid')).toEqual([
+                'parent-guid:1-head-guid',
+                'parent-guid:1-random-guid',
+                'parent-guid:1-end-guid'
+            ]);
+        });
+
+        it('returns the merge element when parent has next', () => {
+            const elements = createBranch(
+                'parent-guid',
+                [['head-guid', null], ['head-guid', 'random-guid'], ['head-guid']],
+                'merge-guid'
+            );
+
+            expect(getTargetGuidsForBranchReconnect(elements, 'parent-guid:0-end-guid')).toEqual(['merge-guid']);
+        });
+    });
+
+    describe('reconnectBranchElement', () => {
+        it('reconnects to an element on another branch', () => {
+            const elements = createBranch('parent-guid', [
+                ['head-guid', null],
+                ['head-guid', 'random-guid', null]
+            ]);
+
+            expect(
+                reconnectBranchElement(elements, 'parent-guid:0-end-guid', 'parent-guid:1-random-guid')
+            ).toMatchSnapshot();
+        });
+
+        it('reconnects to the merge element', () => {
+            const elements = createBranch(
+                'parent-guid',
+                [['head-guid', null], ['head-guid', 'random-guid'], ['head-guid']],
+                'merge-guid'
+            );
+
+            expect(reconnectBranchElement(elements, 'parent-guid:0-end-guid', 'merge-guid')).toMatchSnapshot();
+        });
+    });
+
     describe('linkElement', () => {
         it('updates pointers and adds to state', () => {
             const prevElement = {

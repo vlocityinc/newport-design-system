@@ -29,17 +29,6 @@ const dummyBranchElement = {
     type: ElementType.BRANCH
 };
 
-const dummyEndElement = {
-    guid: 'endElementGuid',
-    section: 'Logic',
-    icon: 'standard:first_non_empty',
-    description: 'End Description',
-    label: 'End',
-    value: 'END_ELEMENT',
-    elementType: 'END_ELEMENT',
-    type: ElementType.END
-};
-
 const conditionOptions = [
     {
         label: 'outcome1',
@@ -382,54 +371,6 @@ describe('Node Menu', () => {
                 deleteButton.click();
                 expect(callback).toHaveBeenCalled();
             });
-        });
-    });
-
-    describe('Element Action Node Menu for End Element', () => {
-        let menu;
-        let deleteRow;
-        beforeEach(() => {
-            menu = createComponentUnderTest(dummyEndElement);
-            deleteRow = menu.shadowRoot.querySelector(selectors.menuActionRow);
-        });
-
-        it('Should only have one dropdown item', () => {
-            const dropDownItems = menu.shadowRoot.querySelectorAll(selectors.menuActionRow);
-            expect(dropDownItems).toHaveLength(1);
-        });
-
-        it('The delete row icon should have the right icon-name', () => {
-            const deleteIcon = deleteRow.querySelector(selectors.menuActionRowIcon);
-            expect(deleteIcon.iconName).toBe(ELEMENT_ACTION_CONFIG.DELETE_END_ELEMENT_ACTION.icon);
-        });
-
-        it('The delete row icon should have the right variant', () => {
-            const deleteIcon = deleteRow.querySelector(selectors.menuActionRowIcon);
-            expect(deleteIcon.variant).toBe(ELEMENT_ACTION_CONFIG.DELETE_END_ELEMENT_ACTION.iconVariant);
-        });
-
-        it('The delete row should have the right label', () => {
-            const deleteRowLabel = deleteRow.querySelector(selectors.menuActionRowLabel);
-            expect(deleteRowLabel.textContent).toBe(ELEMENT_ACTION_CONFIG.DELETE_END_ELEMENT_ACTION.label);
-        });
-
-        it('Clicking on the Delete Action dispatches the DeleteElementEvent', () => {
-            const callback = jest.fn();
-            menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
-            deleteRow.click();
-            expect(callback).toHaveBeenCalled();
-        });
-
-        it('Clicking on the Delete Action dispatches the toggle menu event ', () => {
-            const callback = jest.fn();
-            menu.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
-            deleteRow.click();
-            expect(callback).toHaveBeenCalled();
-        });
-
-        it('Should not have a Footer area', () => {
-            const footer = menu.shadowRoot.querySelector(selectors.footer);
-            expect(footer).toBeNull();
         });
     });
 });

@@ -143,13 +143,13 @@ function renderSimpleNode(node: NodeModel, context: FlowRenderContext): NodeRend
     const { guid, label, config } = node;
 
     const { elementsMetadata, nodeLayoutMap, progress, layoutConfig, isDeletingBranch } = context;
-    const { y, h } = getLayout(node.guid, progress, nodeLayoutMap);
+    const { y, h, x } = getLayout(node.guid, progress, nodeLayoutMap);
 
     const metadata = getElementMetadata(elementsMetadata, node.elementType);
 
     const nodeRenderInfo = {
         guid,
-        geometry: { x: 0, y, w: layoutConfig.node.icon.w, h },
+        geometry: { x, y, w: layoutConfig.node.icon.w, h },
         menuOpened: isMenuOpened(node.guid, MenuType.NODE, context.interactionState),
         label: label || guid,
         metadata,
@@ -578,12 +578,12 @@ function createPreConnector(
 ): ConnectorRenderInfo {
     const { interactionState, elementsMetadata, isDeletingBranch } = context;
 
-    const [branchHeadNode, childCount] =
+    const [branchHeadGuid, childCount] =
         childIndex === FAULT_INDEX
             ? [parentNode.fault, 1]
             : [parentNode.children[childIndex], parentNode.children.length];
 
-    const isEmptyBranch = branchHeadNode == null;
+    const isEmptyBranch = branchHeadGuid == null;
     const variant = getConnectorVariant(parentNode.guid, childIndex, context, childCount);
     const { elementType } = parentNode;
     const metadata = getElementMetadata(elementsMetadata, elementType);
@@ -681,7 +681,7 @@ function createMergeConnectors(
     const { progress, nodeLayoutMap, layoutConfig } = context;
 
     return [leftMergeIndex, rightMergeIndex]
-        .map(mergeIndex => {
+        .map((mergeIndex, i) => {
             if (mergeIndex == null) {
                 return null;
             }
@@ -690,11 +690,18 @@ function createMergeConnectors(
             // or if it's associated with the element being deleted and not equal to it's childIndexToKeep
             const connectorToBeDeleted = shouldDeleteConnector(context, parentNode.guid, mergeIndex);
 
+            const isLeft = i === 0;
             const branchLayout = getBranchLayout(parentNode.guid, mergeIndex, progress, nodeLayoutMap);
-            const connectorType = branchLayout.x < 0 ? ConnectorType.MERGE_LEFT : ConnectorType.MERGE_RIGHT;
+            let connectorType: ConnectorType | null = null;
             const geometry = createBranchOrMergeConnectorGeometry(branchLayout, layoutConfig, !IS_BRANCH, joinOffsetY);
 
-            if (branchLayout.x !== 0) {
+            if (branchLayout.x < 0 && isLeft) {
+                connectorType = ConnectorType.MERGE_LEFT;
+            } else if (branchLayout.x > 0 && !isLeft) {
+                connectorType = ConnectorType.MERGE_RIGHT;
+            }
+
+            if (connectorType != null) {
                 return createMergeConnector(
                     parentNode.guid,
                     leftMergeIndex!,

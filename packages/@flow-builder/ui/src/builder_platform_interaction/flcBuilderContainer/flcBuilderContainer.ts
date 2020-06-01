@@ -24,7 +24,8 @@ function augmentElementsMetadata(elementsMetadata) {
             elementType: ELEMENT_TYPE.ROOT_ELEMENT,
             value: ELEMENT_TYPE.ROOT_ELEMENT,
             type: getFlcElementType(ELEMENT_TYPE.ROOT_ELEMENT),
-            canHaveFaultConnector: false
+            canHaveFaultConnector: false,
+            supportsMenu: false
         },
         {
             section: endElement.nodeConfig.section,
@@ -38,7 +39,8 @@ function augmentElementsMetadata(elementsMetadata) {
             value: ELEMENT_TYPE.END_ELEMENT,
             elementType: ELEMENT_TYPE.END_ELEMENT,
             type: getFlcElementType(ELEMENT_TYPE.END_ELEMENT),
-            canHaveFaultConnector: false
+            canHaveFaultConnector: false,
+            supportsMenu: false
         },
         {
             section: null,
@@ -50,7 +52,8 @@ function augmentElementsMetadata(elementsMetadata) {
             value: ELEMENT_TYPE.START_ELEMENT,
             elementType: ELEMENT_TYPE.START_ELEMENT,
             type: getFlcElementType(ELEMENT_TYPE.START_ELEMENT),
-            canHaveFaultConnector: false
+            canHaveFaultConnector: false,
+            supportsMenu: true
         }
     ]);
 }

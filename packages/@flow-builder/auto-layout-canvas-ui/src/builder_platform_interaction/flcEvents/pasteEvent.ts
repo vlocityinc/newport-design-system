@@ -1,8 +1,17 @@
-// @ts-nocheck
+import { NodeRef } from 'builder_platform_interaction/autoLayoutCanvas';
+
 const eventName = 'paste';
-export class PasteEvent {
-    constructor(prev, next, parent, childIndex) {
-        return new CustomEvent(eventName, {
+
+interface PasteEventDetail {
+    prev: NodeRef;
+    next: NodeRef;
+    parent: NodeRef;
+    childIndex: number;
+}
+
+export class PasteEvent extends CustomEvent<PasteEventDetail> {
+    constructor(prev: NodeRef, next: NodeRef, parent: NodeRef, childIndex: number) {
+        super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,

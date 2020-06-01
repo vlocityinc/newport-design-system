@@ -2,7 +2,7 @@ import { LightningElement, track } from 'lwc';
 
 import { Store } from 'builder_platform_interaction/storeLib';
 import { AddElementEvent, DeleteElementEvent } from 'builder_platform_interaction/events';
-import { addElement, addElementFault, deleteElementFault, updateFlow, deleteElements } from 'builder_platform_interaction/actions';
+import { addElement, addElementFault, deleteElementFault, updateFlow, deleteElements, flcCreateConnection, selectionOnFixedCanvas } from 'builder_platform_interaction/actions';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementForStore, getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -54,6 +54,9 @@ function translateEventToAction(event) {
 export default class Builder extends LightningElement {
     elementsMetadata = elementsMetadataForScreenFlow;
 
+    @track
+    isSelectionMode = false;
+
     constructor() {
         super();
 
@@ -104,6 +107,18 @@ export default class Builder extends LightningElement {
         storeInstance.dispatch(deleteElementFault(event.detail.guid));
     }
 
-    @track
-    isSelectionMode = false;
+    handleFlcCreateConnection = event => {
+        const { sourceGuid, targetGuid } = event.detail;
+        storeInstance.dispatch(flcCreateConnection({ sourceGuid, targetGuid }));
+    };
+
+    handleFlcSelection = event => {
+        const { canvasElementGuidsToSelect, canvasElementGuidsToDeselect, selectableGuids } = event.detail;
+        const payload = {
+            canvasElementGuidsToSelect,
+            canvasElementGuidsToDeselect,
+            selectableGuids
+        };
+        storeInstance.dispatch(selectionOnFixedCanvas(payload));
+    };
 }

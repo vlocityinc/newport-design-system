@@ -21,6 +21,7 @@ import {
     updateElement,
     selectOnCanvas,
     selectionOnFixedCanvas,
+    flcCreateConnection,
     pasteOnFixedCanvas,
     undo,
     redo,
@@ -1394,6 +1395,10 @@ export default class Editor extends LightningElement {
 
     handleFocusOnDockingPanel = () => {
         focusOnDockingPanel();
+    };
+
+    handleFlcCreateConnection = event => {
+        storeInstance.dispatch(flcCreateConnection(event.detail));
     };
 
     @api

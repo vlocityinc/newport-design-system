@@ -1,10 +1,12 @@
 // @ts-nocheck
 import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { LABELS } from './flcConnectorMenuLabels';
 
 export const PASTE_ACTION = 'Paste';
+export const MERGE_PATH_ACTION = 'mergePath';
 
 export const pasteSection = {
     guid: generateGuid(),
@@ -26,14 +28,39 @@ export const pasteSection = {
     separator: true
 };
 
+export const mergePathSection = {
+    guid: generateGuid(),
+    heading: LABELS.mergePathSectionLabel,
+    items: [
+        {
+            guid: generateGuid(),
+            description: LABELS.mergePathItemDescription,
+            icon: 'standard:branch_merge',
+            iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+            iconClass: 'branch-merge',
+            iconSize: 'small',
+            iconVariant: '',
+            label: LABELS.mergePathItemLabel,
+            elementType: MERGE_PATH_ACTION
+        }
+    ],
+    label: LABELS.mergePathSectionLabel
+};
+
 /**
  * Create FLC menu configuration from the elements metadata
  * @param {Object} elementsMetadata
- * @param {Boolean} showEndElement
- * @param {Boolean} isPasteAvailable
+ * @param {Boolean} showEndElement - Whether to show the end element item
+ * @param {Boolean} canMergePath - Whether to show the merge path item
+ * @param {Boolean} isPasteAvailable - If paste is available
  */
-export const configureMenu = (elementsMetadata = [], showEndElement, isPasteAvailable) => {
+export const configureMenu = (elementsMetadata, showEndElement, isPasteAvailable, canMergePath) => {
     const sectionDefinitionsMap = {};
+
+    const extraSections = isPasteAvailable ? [pasteSection] : [];
+    if (canMergePath) {
+        extraSections.push(mergePathSection);
+    }
 
     const sections = elementsMetadata.reduce(
         (acc, { section = null, description, icon, iconShape, iconBackgroundColor, label, elementType, type }) => {
@@ -85,7 +112,7 @@ export const configureMenu = (elementsMetadata = [], showEndElement, isPasteAvai
 
             return acc;
         },
-        isPasteAvailable ? [pasteSection] : []
+        extraSections
     );
 
     return { sections };

@@ -98,24 +98,6 @@ describe('getMenuConfiguration tests', () => {
                 );
             });
         });
-
-        describe('When elementType is END_ELEMENT', () => {
-            let configuration;
-            beforeEach(() => {
-                configuration = getMenuConfiguration(
-                    getElementMetadata(ElementType.END, true),
-                    CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE
-                );
-            });
-
-            it('Body should have the right actions', () => {
-                expect(configuration.body.nodeActions).toEqual([ELEMENT_ACTION_CONFIG.DELETE_END_ELEMENT_ACTION]);
-            });
-
-            it('Should not have Footer', () => {
-                expect(configuration.footer).toBeUndefined();
-            });
-        });
     });
 
     describe('When contextualMode is DELETE_BRANCH_ELEMENT_MODE', () => {

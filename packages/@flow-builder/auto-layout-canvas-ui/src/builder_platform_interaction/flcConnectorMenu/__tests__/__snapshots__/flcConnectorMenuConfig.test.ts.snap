@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`connector menu config should have the reconnect branch menu item 1`] = `
+Object {
+  "sections": Array [
+    Object {
+      "guid": 1,
+      "heading": "Path Actions",
+      "items": Array [
+        Object {
+          "description": "Delete the end element and merge this path",
+          "elementType": "mergePath",
+          "guid": 1,
+          "icon": "standard:branch_merge",
+          "iconClass": "branch-merge",
+          "iconContainerClass": "slds-media__figure slds-listbox__option-icon",
+          "iconSize": "small",
+          "iconVariant": "",
+          "label": "Merge with existing path",
+        },
+      ],
+      "label": "Path Actions",
+    },
+    Object {
+      "guid": 1,
+      "heading": "Interaction",
+      "items": Array [
+        Object {
+          "description": "Collect information from",
+          "elementType": "Screen",
+          "guid": 1,
+          "icon": "standard:screen",
+          "iconClass": "",
+          "iconContainerClass": "slds-media__figure slds-listbox__option-icon",
+          "iconSize": "small",
+          "iconVariant": "",
+          "label": "Screen",
+        },
+      ],
+      "label": "Interaction",
+    },
+    Object {
+      "guid": 1,
+      "heading": "Logic",
+      "items": Array [
+        Object {
+          "description": "Create Decision",
+          "elementType": "Decision",
+          "guid": 1,
+          "icon": "standard:decision",
+          "iconClass": " rotate-icon-svg",
+          "iconContainerClass": "slds-media__figure slds-listbox__option-icon rotate-icon-container slds-icon-standard-decision",
+          "iconSize": "small",
+          "iconVariant": "",
+          "label": "Decision",
+        },
+      ],
+      "label": "Logic",
+    },
+  ],
+}
+`;

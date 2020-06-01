@@ -13,6 +13,7 @@ const createComponentUnderTest = (props = {}) => {
 
     el.nodeInfo = props.nodeInfo;
     el.isSelectionMode = props.isSelectionMode;
+    el.isReconnecting = false;
 
     document.body.appendChild(el);
     return el;

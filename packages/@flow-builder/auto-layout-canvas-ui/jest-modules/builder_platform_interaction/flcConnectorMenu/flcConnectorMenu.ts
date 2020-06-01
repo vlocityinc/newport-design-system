@@ -19,4 +19,7 @@ export default class FlcConnectorMenu extends LightningElement {
 
     @api
     isPasteAvailable;
+
+    @api
+    canMergeEndedBranch;
 }

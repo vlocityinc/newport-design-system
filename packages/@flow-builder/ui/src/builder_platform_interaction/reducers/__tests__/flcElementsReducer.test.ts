@@ -6,7 +6,8 @@ import {
     SELECTION_ON_FIXED_CANVAS,
     ADD_FAULT,
     REORDER_CONNECTORS,
-    PASTE_ON_FIXED_CANVAS
+    PASTE_ON_FIXED_CANVAS,
+    FLC_CREATE_CONNECTION
 } from 'builder_platform_interaction/actions';
 import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
 import {
@@ -15,7 +16,8 @@ import {
     addElementToState,
     linkElement,
     linkBranchOrFault,
-    FAULT_INDEX
+    FAULT_INDEX,
+    reconnectBranchElement
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
@@ -65,7 +67,8 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         addElementToState: jest.fn(),
         deleteElement: jest.fn(),
         linkElement: jest.fn(),
-        linkBranchOrFault: jest.fn()
+        linkBranchOrFault: jest.fn(),
+        reconnectBranchElement: jest.fn()
     });
 });
 
@@ -87,6 +90,18 @@ const oldElements = { guid1: getElement('guid1', 'ass1') };
 const payload = getElement('guid2', 'ass2');
 
 describe('elements-reducer', () => {
+    describe('Flc Create Connection', () => {
+        it('calls reconnect branch element', () => {
+            const elements = {};
+
+            flcElementsReducer(elements, {
+                type: FLC_CREATE_CONNECTION,
+                payload: { sourceGuid: 'source-guid', targetGuid: 'target-guid' }
+            });
+            expect(reconnectBranchElement).toHaveBeenLastCalledWith({}, 'source-guid', 'target-guid');
+        });
+    });
+
     describe('Add Canvas Element', () => {
         it('with state set to undefined & action type set to empty should return an empty object', () => {
             expect(flcElementsReducer(undefined, {})).toEqual({});

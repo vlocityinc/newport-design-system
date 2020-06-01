@@ -108,10 +108,6 @@ export function getDefaultLayoutConfig(): LayoutConfig {
                 start: {
                     w: 100,
                     h: 200
-                },
-                end: {
-                    w: 100,
-                    h: 150
                 }
             }
         },

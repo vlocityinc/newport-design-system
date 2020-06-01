@@ -1,6 +1,5 @@
-// @ts-nocheck
 const eventName = 'togglemenu';
-export class ToggleMenuEvent extends CustomEvent {
+export class ToggleMenuEvent extends CustomEvent<any> {
     constructor(detail) {
         super(eventName, {
             bubbles: true,

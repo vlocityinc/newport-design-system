@@ -6,32 +6,23 @@
         "noImplicitAny": false,
         "outDir": "./build/builder_platform_interaction",
         "baseUrl": "./src",
-        "paths": {
+         "paths": {
             "lightning/utils": ["../../../../node_modules/lwc-components-lightning/src/lightning/utils/utils.js"],
+            "builder_platform_interaction/events": ["../../ui/src/builder_platform_interaction/events/events.ts"],
             "builder_platform_interaction/autoLayoutCanvas": ["../../auto-layout-canvas/dist/types/index.d.js"],
             "builder_platform_interaction/flcBuilder": ["./builder_platform_interaction/flcBuilder/flcBuilder.ts"],
-            "builder_platform_interaction/flcButtonMenu": [
-                "./builder_platform_interaction/flcButtonMenu/flcButtonMenu.ts"
-            ],
-            "builder_platform_interaction/flcComponentsUtils": [
-                "./builder_platform_interaction/flcComponentsUtils/flcComponentsUtils.ts"
-            ],
-            "builder_platform_interaction/flcCompoundNode": [
-                "./builder_platform_interaction/flcCompoundNode/flcCompoundNode.ts"
-            ],
-            "builder_platform_interaction/flcConnector": [
-                "./builder_platform_interaction/flcConnector/flcConnector.ts"
-            ],
-            "builder_platform_interaction/flcConnectorMenu": [
-                "./builder_platform_interaction/flcConnectorMenu/flcConnectorMenu.ts"
-            ],
+            "builder_platform_interaction/flcButtonMenu": ["./builder_platform_interaction/flcButtonMenu/flcButtonMenu.ts"],
+            "builder_platform_interaction/flcComponentsUtils": ["./builder_platform_interaction/flcComponentsUtils/flcComponentsUtils.ts"],
+            "builder_platform_interaction/flcCompoundNode": ["./builder_platform_interaction/flcCompoundNode/flcCompoundNode.ts"],
+            "builder_platform_interaction/flcConnector": ["./builder_platform_interaction/flcConnector/flcConnector.ts"],
+            "builder_platform_interaction/flcConnectorMenu": ["./builder_platform_interaction/flcConnectorMenu/flcConnectorMenu.ts"],
             "builder_platform_interaction/flcEvents": ["./builder_platform_interaction/flcEvents/flcEvents.ts"],
             "builder_platform_interaction/flcFlow": ["./builder_platform_interaction/flcFlow/flcFlow.ts"],
             "builder_platform_interaction/flcMenu": ["./builder_platform_interaction/flcMenu/flcMenu.ts"],
             "builder_platform_interaction/flcNode": ["./builder_platform_interaction/flcNode/flcNode.ts"],
             "builder_platform_interaction/flcNodeMenu": ["./builder_platform_interaction/flcNodeMenu/flcNodeMenu.ts"],
             "builder_platform_interaction/menu": ["./builder_platform_interaction/menu/menu.ts"]
-        }
+         }
     },
 
     "include": ["src/**/*"]

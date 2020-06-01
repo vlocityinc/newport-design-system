@@ -30,7 +30,8 @@ const connectorToggleMenuEvent = new ToggleMenuEvent({
     offsetX: 2,
     prev: '837e0692-6f17-4d5c-ba5d-854851d31fcb',
     top: 84,
-    type: MenuType.CONNECTOR
+    type: MenuType.CONNECTOR,
+    elementMetadata: { supportsMenu: true }
 });
 
 const nodeToggleMenuEvent = new ToggleMenuEvent({
@@ -38,10 +39,11 @@ const nodeToggleMenuEvent = new ToggleMenuEvent({
     left: 702.0999755859375,
     offsetX: 2.4000244140625,
     top: -2.3999996185302734,
-    type: MenuType.NODE
+    type: MenuType.NODE,
+    elementMetadata: { supportsMenu: true }
 });
 
-const closeToggleMenuEvent = new ToggleMenuEvent();
+const closeToggleMenuEvent = new ToggleMenuEvent({});
 
 jest.mock('builder_platform_interaction/zoomPanel', () => require('builder_platform_interaction_mocks/zoomPanel'));
 jest.mock('builder_platform_interaction/flcFlow', () => require('builder_platform_interaction_mocks/flcFlow'));

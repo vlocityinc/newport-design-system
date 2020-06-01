@@ -7,6 +7,71 @@ import { NodeModel, FlowModel, ParentNodeModel, BranchHeadNodeModel, NodeRef, Gu
 const DELETE_ALL = -2;
 
 /**
+ * Reconnects a branch element to a valid target element
+ *
+ * @param elements - The flow model
+ * @param endElementGuid - The guid of the end element
+ * @param targetGuid - The guid of the target element
+ * @returns The updated flow model
+ */
+function reconnectBranchElement(elements: FlowModel, endElementGuid: Guid, targetGuid: Guid): FlowModel {
+    const endElement = elements[endElementGuid];
+    const { prev } = endElement;
+
+    const branchHeadElement =
+        prev != null ? findFirstElement(endElement, elements) : (endElement as BranchHeadNodeModel);
+
+    // non-terminal since we are reconnecting the branch
+    branchHeadElement.isTerminal = false;
+
+    const parentElement = elements[branchHeadElement.parent] as ParentNodeModel;
+
+    // delete the end element
+    deleteElement(elements, endElement);
+
+    // nothing else to do if we are reconnecting to the merge element
+    if (parentElement.next === targetGuid) {
+        return elements;
+    }
+
+    // otherwise the targetElement becomes the merge element
+    const targetElement = elements[targetGuid];
+    connectElements(elements, parentElement, targetElement);
+
+    return elements;
+}
+
+/**
+ * Connects a source element to a target element
+ *
+ * @param elements - The flow model
+ * @param sourceElement - The source element
+ * @param targetElement - The target element
+ */
+function connectElements(elements: FlowModel, sourceElement: NodeModel, targetElement: NodeModel) {
+    const { prev } = targetElement as BranchHeadNodeModel;
+
+    if (prev != null) {
+        // if the target element has a prev element, unconnect it
+        elements[prev].next = null;
+        targetElement.prev = null;
+
+        // go up the branch from prev, and mark its head as non-terminal, as the branch is now reconnected
+        findFirstElement(elements[prev], elements).isTerminal = false;
+    } else {
+        //  otherwise the target element must be a branch head: clear its value in the parent's children array
+        const targetElementAsBranchHead = targetElement as BranchHeadNodeModel;
+        const { parent, childIndex } = targetElementAsBranchHead;
+        (elements[parent] as ParentNodeModel).children[childIndex] = null;
+        deleteBranchHeadProperties(targetElementAsBranchHead);
+    }
+
+    //  update pointers
+    sourceElement.next = targetElement.guid;
+    targetElement.prev = sourceElement.guid;
+}
+
+/**
  * Adds an element to the guid -> elements map and optionally to the canvasElements array
  * @param element - the element to add
  * @param elements - the guid -> elements map
@@ -51,7 +116,7 @@ function deleteBranchHeadProperties(headElement: BranchHeadNodeModel) {
  * @param childIndex - The child index  (FAULT_INDEX for a fault)
  * @return The guid for the child or fault
  */
-function getChild(element: NodeModel, childIndex: number) {
+function getChild(element: NodeModel, childIndex: number): NodeRef {
     return childIndex === FAULT_INDEX ? element.fault : (element as ParentNodeModel).children[childIndex];
 }
 
@@ -130,7 +195,7 @@ function linkBranchOrFault(
     }
 }
 
-type FlcListCallback = (element: NodeModel, index?: number) => NodeModel;
+type FlcListCallback = (element: NodeModel, index?: number) => any;
 type FlcListPredicate = (guid: string) => boolean;
 
 /**
@@ -165,7 +230,7 @@ class FlcList {
         return this._map(null, false).last;
     }
 
-    map(callback: FlcListCallback): NodeModel[] {
+    map(callback: FlcListCallback): any[] {
         return this._map(callback).results;
     }
 
@@ -194,6 +259,43 @@ class FlcList {
 
         return { results, last: currElement || this.elements[this.head] };
     }
+}
+
+/**
+ * Returns an array of valid target guids to reconnect a branch element to
+ *
+ * @param elements - The flow model
+ * @param sourceGuid - The guid of a branch element
+ * @returns An array of valid target guids
+ */
+function getTargetGuidsForBranchReconnect(elements: FlowModel, sourceGuid: Guid): Guid[] {
+    const { parent, childIndex } = findFirstElement(elements[sourceGuid], elements);
+    const branchingElement = elements[parent!] as ParentNodeModel;
+
+    // if the branching element has a next element, then that is the only valid target guid
+    if (branchingElement.next != null) {
+        return [branchingElement.next];
+    }
+
+    // otherwise all the other branches must terminals
+    if (
+        branchingElement.children.findIndex(
+            child => child != null && !(elements[child] as BranchHeadNodeModel).isTerminal
+        ) !== -1
+    ) {
+        return [];
+    }
+
+    // and any element on those branches is a valid target
+    return branchingElement.children.reduce((acc: Guid[], child: NodeRef, index: number) => {
+        // only elements on other branches can be targets
+        if (child != null && index !== childIndex) {
+            const branchElements = new FlcList(elements, child).map(element => element.guid) as Guid[];
+            return acc.concat(branchElements);
+        }
+
+        return acc;
+    }, []);
 }
 
 /**
@@ -285,8 +387,8 @@ function deleteFault(state: FlowModel, elementWithFaultGuid: Guid, getSubElement
 function deleteElement(
     state: FlowModel,
     element: NodeModel,
-    childIndexToKeep: number | null,
-    getSubElementGuids: GetSubElementGuids
+    childIndexToKeep?: number,
+    getSubElementGuids?: GetSubElementGuids
 ): FlowModel {
     const { prev, next, parent, childIndex } = element as BranchHeadNodeModel;
 
@@ -329,7 +431,9 @@ function deleteElement(
     delete state[element.guid];
 
     // now delete its decendents that need to be deleted
-    deleteElementDescendents(state, element, childIndexToKeep, getSubElementGuids);
+    if (getSubElementGuids != null) {
+        deleteElementDescendents(state, element, childIndexToKeep, getSubElementGuids!);
+    }
 
     return state;
 }
@@ -345,7 +449,7 @@ function deleteElement(
 function deleteElementDescendents(
     state: FlowModel,
     element: NodeModel,
-    childIndexToKeep: number | null,
+    childIndexToKeep: number | undefined,
     getSubElementGuids: GetSubElementGuids
 ): void {
     let elementsToDelete: NodeRef[] = [];
@@ -433,7 +537,7 @@ function restructureFlow(element: NodeModel, state: FlowModel): void {
     if (nonTerminalBranchIndexes.length === 1) {
         // we have one non-terminal branch, so we need to restructure
         const [branchIndex] = nonTerminalBranchIndexes;
-        const branchHead = children[branchIndex];
+        let branchHead = children[branchIndex];
         const parentNext = resolveNode(state, parentElement.next);
 
         const branchTail = branchHead ? findLastElement(state[branchHead], state) : null;
@@ -446,12 +550,21 @@ function restructureFlow(element: NodeModel, state: FlowModel): void {
             // its an empty branch, so make the elements that follow the parent element be the branch itself
             parentNext.prev = null;
             linkBranchOrFault(state, parentElement, branchIndex, parentNext);
+            (parentNext as BranchHeadNodeModel).isTerminal = true;
+            branchHead = parentNext.guid;
         }
+
+        if (branchHead != null) {
+            (resolveNode(state, branchHead) as BranchHeadNodeModel).isTerminal = true;
+        }
+
         parentElement.next = null;
     }
 }
 
 export {
+    getTargetGuidsForBranchReconnect,
+    reconnectBranchElement,
     addElementToState,
     linkElement,
     deleteBranchHeadProperties,
@@ -462,5 +575,6 @@ export {
     findParentElement,
     deleteElement,
     addElement,
-    deleteFault
+    deleteFault,
+    getChild
 };

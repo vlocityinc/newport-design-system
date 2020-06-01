@@ -1,0 +1,168 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`modelUtils addElement add end node to left branch of decision with empty branches 1`] = `
+Object {
+  "new-end-element-guid": Object {
+    "childIndex": 0,
+    "guid": "new-end-element-guid",
+    "isTerminal": true,
+    "parent": "parent-guid",
+    "prev": null,
+  },
+  "parent-guid": Object {
+    "children": Array [
+      "new-end-element-guid",
+      "parent-next-guid",
+    ],
+    "guid": "parent-guid",
+    "next": null,
+  },
+  "parent-next-guid": Object {
+    "childIndex": 1,
+    "guid": "parent-next-guid",
+    "isTerminal": true,
+    "parent": "parent-guid",
+    "prev": null,
+  },
+}
+`;
+
+exports[`modelUtils addElement add end node to left branch of decision with with non-empty left branch 1`] = `
+Object {
+  "new-end-element-guid": Object {
+    "guid": "new-end-element-guid",
+    "prev": "parent-guid:0-head-guid",
+  },
+  "parent-guid": Object {
+    "children": Array [
+      "parent-guid:0-head-guid",
+      "parent-next-guid",
+    ],
+    "guid": "parent-guid",
+    "next": null,
+  },
+  "parent-guid:0-head-guid": Object {
+    "childIndex": 0,
+    "guid": "parent-guid:0-head-guid",
+    "isTerminal": true,
+    "next": "new-end-element-guid",
+    "parent": "parent-guid",
+  },
+  "parent-next-guid": Object {
+    "childIndex": 1,
+    "guid": "parent-next-guid",
+    "isTerminal": true,
+    "parent": "parent-guid",
+    "prev": null,
+  },
+}
+`;
+
+exports[`modelUtils addElement add end node to left branch of decision with with non-empty right branch 1`] = `
+Object {
+  "new-end-element-guid": Object {
+    "childIndex": 0,
+    "guid": "new-end-element-guid",
+    "isTerminal": true,
+    "parent": "parent-guid",
+    "prev": null,
+  },
+  "parent-guid": Object {
+    "children": Array [
+      "new-end-element-guid",
+      "parent-guid:1-head-guid",
+    ],
+    "guid": "parent-guid",
+    "next": null,
+  },
+  "parent-guid:1-head-guid": Object {
+    "childIndex": 1,
+    "guid": "parent-guid:1-head-guid",
+    "isTerminal": true,
+    "next": "parent-next-guid",
+    "parent": "parent-guid",
+  },
+  "parent-next-guid": Object {
+    "guid": "parent-next-guid",
+    "prev": "parent-guid:1-head-guid",
+  },
+}
+`;
+
+exports[`modelUtils reconnectBranchElement reconnects to an element on another branch 1`] = `
+Object {
+  "parent-guid": Object {
+    "children": Array [
+      "parent-guid:0-head-guid",
+      "parent-guid:1-head-guid",
+    ],
+    "guid": "parent-guid",
+    "next": "parent-guid:1-random-guid",
+  },
+  "parent-guid:0-head-guid": Object {
+    "childIndex": 0,
+    "guid": "parent-guid:0-head-guid",
+    "isTerminal": false,
+    "next": null,
+    "parent": "parent-guid",
+  },
+  "parent-guid:1-end-guid": Object {
+    "guid": "parent-guid:1-end-guid",
+    "prev": "parent-guid:1-random-guid",
+  },
+  "parent-guid:1-head-guid": Object {
+    "childIndex": 1,
+    "guid": "parent-guid:1-head-guid",
+    "isTerminal": false,
+    "next": null,
+    "parent": "parent-guid",
+  },
+  "parent-guid:1-random-guid": Object {
+    "guid": "parent-guid:1-random-guid",
+    "next": "parent-guid:1-end-guid",
+    "prev": "parent-guid",
+  },
+}
+`;
+
+exports[`modelUtils reconnectBranchElement reconnects to the merge element 1`] = `
+Object {
+  "merge-guid": Object {
+    "guid": "merge-guid",
+    "prev": "parent-guid",
+  },
+  "parent-guid": Object {
+    "children": Array [
+      "parent-guid:0-head-guid",
+      "parent-guid:1-head-guid",
+      "parent-guid:2-head-guid",
+    ],
+    "guid": "parent-guid",
+    "next": "merge-guid",
+  },
+  "parent-guid:0-head-guid": Object {
+    "childIndex": 0,
+    "guid": "parent-guid:0-head-guid",
+    "isTerminal": false,
+    "next": null,
+    "parent": "parent-guid",
+  },
+  "parent-guid:1-head-guid": Object {
+    "childIndex": 1,
+    "guid": "parent-guid:1-head-guid",
+    "isTerminal": false,
+    "next": "parent-guid:1-random-guid",
+    "parent": "parent-guid",
+  },
+  "parent-guid:1-random-guid": Object {
+    "guid": "parent-guid:1-random-guid",
+    "prev": "parent-guid:1-head-guid",
+  },
+  "parent-guid:2-head-guid": Object {
+    "childIndex": 2,
+    "guid": "parent-guid:2-head-guid",
+    "isTerminal": false,
+    "parent": "parent-guid",
+  },
+}
+`;
