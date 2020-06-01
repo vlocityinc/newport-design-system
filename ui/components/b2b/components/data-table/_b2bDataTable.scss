@@ -1,4 +1,4 @@
-$table-view-switch: 'medium';
+$table-view-switch: 'large';
 $b2b-table-border: $palette-gray-5;
 .nds-b2b-table {
 	background-color: $white;
@@ -10,13 +10,13 @@ $b2b-table-border: $palette-gray-5;
 .nds-b2b-table_row {
 	border-bottom: 1px solid $b2b-table-border;
 
-	&:not(.nds-b2b-table_head-row):hover {
-		background-color: $palette-gray-3 ;//$color-background-row-hover;
+	// &:not(.nds-b2b-table_head-row):hover {
+	// 	background-color: $palette-gray-3 ;//$color-background-row-hover;
 
-		.nds-b2b-row_hover-show {
-			opacity: 1;
-		}
-	}
+	// 	.nds-b2b-row_hover-show {
+	// 		opacity: 1;
+	// 	}
+	// }
 
 	.nds-b2b-table_row-header {
 		border-color: $color-gray-7
@@ -24,7 +24,7 @@ $b2b-table-border: $palette-gray-5;
 }
 
 .nds-b2b-table_cell {
-	padding: $spacing-small;
+	padding: $spacing-small $spacing-x-small;
 
 	.nds-b2b-table_head-row & {
 		font-weight: bold;
@@ -125,6 +125,7 @@ $b2b-table-border: $palette-gray-5;
 		display: flex;
 		flex-wrap: wrap;
 		padding-left: $spacing-x-large;
+		position: relative;
 		
 		.nds-b2b-row_hover-show {
 			opacity: 1
@@ -134,7 +135,7 @@ $b2b-table-border: $palette-gray-5;
 
 	.nds-b2b-table_cell {
 		flex: 0 0 50%;
-		padding: $spacing-small $spacing-medium;
+		padding: $spacing-x-small;
 	}
 
 	.nds-b2b-table_cell-full {
@@ -148,8 +149,41 @@ $b2b-table-border: $palette-gray-5;
 		.nds-checkbox {
 			position: absolute;
 			left: -#{$spacing-medium};
-			top: $spacing-large;
+			top: $spacing-medium;
 			transform: translateY(-50%);
+		}
+	}
+
+	.nds-b2b-table_cell-box {
+		display: flex;
+	}
+	
+	.nds-b2b-table_cell-label {
+		flex: 0 0 50%;
+	}
+
+	.nds-b2b-action_cell {
+		position: absolute;
+		right: 0;
+		width: $spacing-large;
+		top: $spacing-x-small;
+	}
+}
+
+@media (max-width: #{(map-get($breakpoints, 'medium'))}) {
+	.nds-b2b-table_cell {
+		flex: 0 0 100%;
+	}	
+}
+
+@media (min-width: #{(map-get($breakpoints, $table-view-switch))}) {
+	.nds-b2b-table_row {
+		&:not(.nds-b2b-table_head-row):hover {
+			background-color: $palette-gray-3 ;//$color-background-row-hover;
+
+			.nds-b2b-row_hover-show {
+				opacity: 1;
+			}
 		}
 	}
 }
