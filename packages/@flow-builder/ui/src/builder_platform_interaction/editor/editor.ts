@@ -7,7 +7,8 @@ import {
     invokeModalInternalData,
     invokeNewFlowModal,
     invokeKeyboardHelpDialog,
-    focusOnDockingPanel
+    focusOnDockingPanel,
+    invokeDebugEditor
 } from 'builder_platform_interaction/builderUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
@@ -41,6 +42,7 @@ import {
     ELEMENT_TYPE,
     FLOW_STATUS,
     isSystemElement,
+    FLOW_PROCESS_TYPE,
     FLOW_TRIGGER_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
@@ -268,6 +270,8 @@ export default class Editor extends LightningElement {
     elementBeingEditedInPanel = null;
 
     propertyEditorBlockerCalls = [];
+
+    debugEditorBlockerCalls = [];
 
     @track
     isCutCopyDisabled = true;
@@ -734,22 +738,43 @@ export default class Editor extends LightningElement {
     };
 
     /**
+     * Callback after run debug interivew initiated by pop-over footer and no errors.
+     */
+    runDebugInterviewCallback = () => {
+        // TODO: notify editor & trigger debugger service.
+    };
+
+    /**
      * Helper method to construct the url for the run/debug mode and launch the window in a new tab
      * @param {String} runOrDebug - Used for deciding whether the user is trying to run the flow or debug it.
      */
     runOrDebugFlow = (runOrDebug = RUN) => {
         const currentState = storeInstance.getCurrentState();
+        const processType = this.properties.processType;
+        const runDebugInterviewCallback = this.runDebugInterviewCallback;
         let flowDevName;
         let url;
+        let flowId;
+
         if (currentState && currentState.properties) {
             flowDevName = currentState.properties.name;
-            url = `${this.runDebugUrl}${flowDevName}/${this.flowId}`;
+            flowId = this.flowId;
+            url = `${this.runDebugUrl}${flowDevName}/${flowId}`;
             if (runOrDebug === DEBUG) {
-                url = `${url}?flow__debug=true`;
+                if (processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW) {
+                    this.queueOpenFlowDebugEditor(() => {
+                        return {
+                            flowId,
+                            flowDevName,
+                            runDebugInterviewCallback
+                        };
+                    });
+                } else {
+                    url = `${url}?flow__debug=true`;
+                    window.open(url, '_blank');
+                }
             }
         }
-
-        window.open(url, '_blank');
     };
 
     /**
@@ -910,7 +935,6 @@ export default class Editor extends LightningElement {
      */
     handleEditFlowProperties = () => {
         const mode = EditElementEvent.EVENT_NAME;
-
         // Pop flow properties editor and do the following on callback.
         const flowProperties = storeInstance.getCurrentState().properties;
         const triggerType = getTriggerType();
@@ -949,14 +973,14 @@ export default class Editor extends LightningElement {
     };
 
     /**
-     * Handles the run flow event fired by the toolbar. Opens and runs the flow in a different tab.
+     * Handles the run flow event fired by the toolbar. Opens and runs the flow in a different tab or a modal.
      */
     handleRunFlow = () => {
         this.runOrDebugFlow();
     };
 
     /**
-     * Handles the debug flow event fired by the toolbar. Opens the flow debug window in a different tab.
+     * Handles the debug flow event fired by the toolbar. Opens the flow debug window in a different tab or a modal.
      */
     handleDebugFlow = () => {
         this.runOrDebugFlow(DEBUG);
@@ -1069,6 +1093,24 @@ export default class Editor extends LightningElement {
             })
             .catch(() => {
                 // we don't open the property editor because at least one promise was rejected
+                this.spinners.showPropertyEditorSpinner = false;
+            });
+    };
+
+    /**
+     * Queuing up the call out for display debug editor's pop-over modal.
+     */
+    queueOpenFlowDebugEditor = paramsProvider => {
+        // borrow editor's spinner, UX approved.
+        this.spinners.showPropertyEditorSpinner = true;
+        // debug editor probably has pre setup also.
+        Promise.all(this.debugEditorBlockerCalls)
+            .then(() => {
+                this.spinners.showPropertyEditorSpinner = false;
+                this.debugEditorBlockerCalls = [];
+                invokeDebugEditor(paramsProvider());
+            })
+            .catch(() => {
                 this.spinners.showPropertyEditorSpinner = false;
             });
     };

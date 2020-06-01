@@ -457,6 +457,86 @@ export function invokePropertyEditor(cmpName, attributes) {
 }
 
 /**
+ * Invokes the debug modal.
+ * @param {object} attributes - contains a callback and actual data
+ */
+export function invokeDebugEditor(attributes) {
+    if (!attributes || !attributes.flowId) {
+        throw new Error('Attributes passed to invoke debug editor is not correct. Must contain flow Id');
+    }
+
+    const flowName = attributes.flowDevName;
+    const flowId = attributes.flowId;
+
+    showDebugEditorPopover(
+        'builder_platform_interaction:modalHeader',
+        'builder_platform_interaction:debugEditorPopover',
+        'builder_platform_interaction:debugEditorPopoverFooter',
+        {
+            flowName,
+            flowId
+        },
+        {
+            panelType: MODAL,
+            flavor: 'medium slds-modal_medium',
+            closeOnClickOut: true,
+            showCloseButton: true
+        }
+    );
+}
+
+/**
+ * Open Debug Editor Popover.
+ * @param {string} cmpHeader - Name of the header component to be created.
+ * @param {string} cmpBody - Name of the body component to be created.
+ * @param {string} cmpFooter - Name of the footer component to be created.
+ * @param {object} cmpAttributes - Contains components' attributes.
+ * @param {object} popoverProps - Contains popover properties
+ */
+function showDebugEditorPopover(cmpHeader, cmpFooter, cmpBody, cmpAttributes = {}, popoverProps) {
+    if (isPopoverOpen()) {
+        return;
+    }
+
+    const { direction, flavor, onClose, referenceElement, closeOnClickOut, showCloseButton, panelType } = popoverProps;
+
+    popoverState = {
+        panelInstance: null,
+        referenceElement,
+        onClose
+    };
+
+    const headerPromise = createComponentPromise(cmpHeader, {
+        headerTitle: LABELS.newDebugEditorTitle
+    });
+    const footerPromise = createComponentPromise(cmpFooter, cmpAttributes);
+    const bodyPromise = createComponentPromise(cmpBody, cmpAttributes);
+
+    Promise.all([bodyPromise, headerPromise, footerPromise])
+        .then(newComponents => {
+            const createPanelEventAttributes = {
+                panelType,
+                visible: true,
+                panelConfig: {
+                    footer: newComponents[0],
+                    header: newComponents[1],
+                    body: newComponents[2],
+                    flavor,
+                    direction,
+                    closeAction: onDestroyPopover,
+                    closeOnClickOut: !!closeOnClickOut,
+                    showCloseButton
+                },
+                onCreate: onCreatePopover
+            };
+            dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
+        })
+        .catch(errorMessage => {
+            throw new Error('Status Icon Panel creation failed : ' + errorMessage);
+        });
+}
+
+/**
  * Invokes modals with the specified header, body, and footer promises.
  * @param data - contains data for modal header/body/footer
  * @param modalHeaderPromise - the promise for the header.
