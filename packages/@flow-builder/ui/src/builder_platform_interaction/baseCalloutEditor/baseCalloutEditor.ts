@@ -31,6 +31,12 @@ export default class BaseCalloutEditor extends LightningElement {
     @api
     editorParams;
 
+    /**
+     * List of dynamic type mappings for configuration editor
+     */
+    @api
+    configurationEditorTypeMappings;
+
     labels = LABELS;
 
     /**

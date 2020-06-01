@@ -303,6 +303,20 @@ export default class InvocableActionEditor extends LightningElement {
     }
 
     /**
+     * Returns list of dynamic type mappings for configuration editor
+     */
+    get configurationEditorTypeMappings() {
+        if (this._shouldCreateConfigurationEditor() && this.actionCallNode && this.actionCallNode.dataTypeMappings) {
+            const typeMappings = this.actionCallNode.dataTypeMappings.filter(({ typeValue }) => !!typeValue);
+            return typeMappings.map(({ typeName, typeValue }) => ({
+                name: getValueFromHydratedItem(typeName),
+                value: getValueFromHydratedItem(typeValue)
+            }));
+        }
+        return [];
+    }
+
+    /**
      * Returns the current flow state. Shape is same as flow metadata.
      */
     get builderContext() {
@@ -436,5 +450,14 @@ export default class InvocableActionEditor extends LightningElement {
 
         this.updateDataTypeMappings();
         this.fetchActionParameters();
+    }
+
+    /**
+     * @param {object} event - type mapping changed event coming from parameter dynamic type of custom property editor
+     */
+    handleCpeTypeMappingChangeEvent(event) {
+        event.detail.typeName = event.detail.name;
+        event.detail.typeValue = event.detail.value;
+        this.handleDataTypeMappingChanged(event);
     }
 }

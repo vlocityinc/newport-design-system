@@ -76,6 +76,12 @@ export default class ParameterList extends LightningElement {
     builderContext;
 
     /**
+     * List of dynamic type mappings for configuration editor
+     */
+    @api
+    configurationEditorTypeMappings;
+
+    /**
      * List of input ParameterItem
      *
      */

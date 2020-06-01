@@ -15,7 +15,8 @@ import {
     UseAdvancedOptionsSelectionChangedEvent,
     ConfigurationEditorChangeEvent,
     ConfigurationEditorPropertyDeleteEvent,
-    DynamicTypeMappingChangeEvent
+    DynamicTypeMappingChangeEvent,
+    ConfigurationEditorTypeMappingChangeEvent
 } from 'builder_platform_interaction/events';
 import {
     updateParameterItem,
@@ -206,6 +207,7 @@ export const invocableActionReducer = (state, event, elements) => {
         case REMOVE_UNSET_PARAMETERS:
             return removeUnsetParameters(state);
         case DynamicTypeMappingChangeEvent.EVENT_NAME:
+        case ConfigurationEditorTypeMappingChangeEvent.EVENT_NAME:
             return setDynamicTypeMappingTypeValue(state, event);
         case VALIDATE_ALL:
             return invocableActionValidation.validateAll(state);
