@@ -21,7 +21,7 @@ export const isRunInModeSupported = triggerType => {
  * @returns {Boolean} true if lookup traversal is supported for this trigger type, false otherwise
  */
 export const isLookupTraversalSupported = triggerType => {
-    return isUndefinedOrNoneTriggerType(triggerType);
+    return !triggerType || triggerType !== FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY;
 };
 
 /**

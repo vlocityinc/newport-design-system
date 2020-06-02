@@ -30,7 +30,7 @@ import { getActiveOrLatestFlowOutputVariables } from 'builder_platform_interacti
 const MERGE_FIELD_START_CHARS = '{!';
 const MERGE_FIELD_END_CHARS = '}';
 
-const MERGEFIELD_REGEX = /\{!(\$\w+\.\w+|\w+(\.[A-Za-z0-9_:]+)*|\$Record)\}/g;
+const MERGEFIELD_REGEX = /\{!(\$\w+\.\w+|(\w+|\$Record)(\.[A-Za-z0-9_:]+)*)\}/g;
 
 const MAXIMUM_NUMBER_OF_LEVELS = 10;
 

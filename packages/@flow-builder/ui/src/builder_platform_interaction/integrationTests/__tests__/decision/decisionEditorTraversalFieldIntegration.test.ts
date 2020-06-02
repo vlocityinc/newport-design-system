@@ -1,6 +1,7 @@
 // @ts-nocheck
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import * as autoLaunchedFlow from 'mock/flows/autolaunchedFlow.json';
+import * as autoLaunchedFlowScheduledJourney from 'mock/flows/autoLaunchedFlowScheduledJourney.json';
 import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
@@ -61,8 +62,8 @@ describe('Decision Editor', () => {
             await expectCanBeTraversed(rhsCombobox, 'text', ['accountSObjectVariable', 'CreatedBy']);
         });
     });
-    describe('AutoLaunched flow : does not support traversal if trigger type set', () => {
-        describe('Trigger type is set', () => {
+    describe('AutoLaunched flow : All Trigger Types except ScheduledJourney are supported', () => {
+        describe('Trigger type is not ScheduledJourney and is set', () => {
             beforeEach(async () => {
                 await loadFlow(autoLaunchedFlow, store);
 
@@ -70,14 +71,14 @@ describe('Decision Editor', () => {
                 decisionForPropertyEditor = getElementForPropertyEditor(element);
                 decisionEditor = createComponentForTest(decisionForPropertyEditor);
             });
-            it('does not show up chevron on fields in LHS', async () => {
+            it('should be traverse-able in the LHS', async () => {
                 const lhsCombobox = getLHSGroupedCombobox(decisionEditor);
-                await expectCannotBeSelected(lhsCombobox, 'text', ['accountVariable', 'CreatedBy']);
+                await expectCanBeTraversed(lhsCombobox, 'text', ['accountVariable', 'CreatedBy']);
                 await expectCannotBeTraversed(lhsCombobox, 'text', ['accountVariable', 'CreatedById']);
             });
-            it('does not show up chevron on fields in RHS', async () => {
+            it('should be traverse-able in the RHS', async () => {
                 const rhsCombobox = getRHSGroupedCombobox(decisionEditor);
-                await expectCannotBeSelected(rhsCombobox, 'text', ['accountVariable', 'CreatedBy']);
+                await expectCanBeTraversed(rhsCombobox, 'text', ['accountVariable', 'CreatedBy']);
                 await expectCannotBeTraversed(rhsCombobox, 'text', ['accountVariable', 'CreatedById']);
             });
             describe('Validation', () => {
@@ -116,6 +117,25 @@ describe('Decision Editor', () => {
                         await expect(lhsCombobox.errorMessage).toEqual(expectedErrorMessage);
                     });
                 });
+            });
+        });
+    });
+    describe('AutoLaunched Scheduled Journey flow : All Trigger Types except ScheduledJourney are supported', () => {
+        describe('Trigger type is ScheduledJourney', () => {
+            beforeEach(async () => {
+                await loadFlow(autoLaunchedFlowScheduledJourney, store);
+
+                const element = getElementByDevName('decision');
+                decisionForPropertyEditor = getElementForPropertyEditor(element);
+                decisionEditor = createComponentForTest(decisionForPropertyEditor);
+            });
+            it('does not show up chevron on fields in LHS', async () => {
+                const lhsCombobox = getLHSGroupedCombobox(decisionEditor);
+                await expectCannotBeSelected(lhsCombobox, 'text', ['accountVariable', 'CreatedBy']);
+            });
+            it('does not show up chevron on fields in RHS', async () => {
+                const rhsCombobox = getRHSGroupedCombobox(decisionEditor);
+                await expectCannotBeSelected(rhsCombobox, 'text', ['accountVariable', 'CreatedBy']);
             });
         });
     });
