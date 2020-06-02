@@ -772,9 +772,11 @@ export default class Editor extends LightningElement {
                     });
                 } else {
                     url = `${url}?flow__debug=true`;
-                    window.open(url, '_blank');
                 }
             }
+        }
+        if (runOrDebug === RUN || (runOrDebug === DEBUG && processType !== FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW)) {
+            window.open(url, '_blank');
         }
     };
 
