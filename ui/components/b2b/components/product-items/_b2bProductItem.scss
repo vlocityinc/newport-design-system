@@ -6,8 +6,29 @@
   border-radius: 0.35rem;
   border: 1px solid $palette-warm-gray-4;
   padding: 0.5rem;
-  margin-bottom: 0.7rem;
+  margin: 0.5rem 0 0.7rem 0.5rem;
   box-shadow: 0px 3px 5px 0px $palette-warm-gray-4;
+  &.nds-b2b-hide {
+    background: $palette-gray-90;
+    pointer-events: none;
+    .nds-b2b-product-item_container {
+      background: $palette-gray-90;
+      pointer-events: none;
+      border: none;
+      .nds-b2b-product-description {
+        &:after {
+          background: $palette-gray-90;
+        }
+      }
+      &:hover {
+        border: none;
+        background-color: $palette-gray-90;
+        .nds-b2b-product-description {
+          @include multiLineEllipsis(1rem, 2, $palette-gray-90);
+        }
+      }
+    }
+  }
   .nds-b2b-product-item_container {
     border: 1px solid $white;
     border-radius: 0.3rem;
@@ -53,7 +74,7 @@
     }
   }
   @media screen and (min-width: 48rem) {
-    margin-right: 0.7rem;
+    margin-left: 0.7rem;
     max-width: $b2b-product-item-max-width;
   }
 }
