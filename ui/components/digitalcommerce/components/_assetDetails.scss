@@ -41,21 +41,13 @@
     }
     .nds-dc-toggle-container {
       flex: 1;
-      position: relative;
-      top: -0.3125rem;
       .nds-dc-toggle_icons {
-        width: 1.3em;
-        height: 1.3em;
+        width: 1rem;
+        height: 1rem;
         font-size: 1.6rem;
         text-align: center;
         transition: all 0.35s;
         color: $palette-gray-7;
-        &.nds-dc-toggle_expand::after {
-          content: "\02C3";
-        }
-        &.nds-dc-toggle_icons.nds-dc-toggle_collase::after {
-          content: "\02C5"
-        }
       }
     }
   }
