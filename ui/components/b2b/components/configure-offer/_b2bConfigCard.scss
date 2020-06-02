@@ -36,6 +36,8 @@
             text-align: center;
             transition: all 0.35s;
             color: $palette-warm-gray-7;
+            right: 2rem;
+            position: relative;
           }
           .nds-b2b-card_title {
             width: 40vw;
@@ -61,7 +63,7 @@
                 padding: 0 0.25rem;
               }
             }
-            @media screen and (min-width: 48rem){
+            @media screen and (min-width: 48rem) {
               position: absolute;
             }
           }
@@ -76,8 +78,8 @@
                 float: right;
               }
             }
-            @media screen and (min-width: 48rem){
-              right: 5rem;
+            @media screen and (min-width: 48rem) {
+              right: 7rem;
             }
           }
           .nds-b2b-quantity {
@@ -121,9 +123,22 @@
               margin-top: 1rem;
             }
           }
-          @media screen and (min-width: 48rem){
-            padding: 1.5rem;
-            .nds-b2b-quantity { 
+          .nds-b2b-menu {
+            position: absolute;
+            right: 1.5rem;
+            .nds-is-open .nds-dropdown_right {
+              overflow: visible;
+              position: relative;
+              margin-top: -20px;
+              z-index: 1;
+            }
+          }
+          @media screen and (min-width: 48rem) {
+            padding: 1.5rem 3rem 1.5rem 1.5rem;
+            &::after {
+              right: 0rem;
+            }
+            .nds-b2b-quantity {
               margin: -0.5rem 2rem 0 2rem;
             }
             .nds-b2b-label-container {
@@ -146,7 +161,7 @@
           transition: all 0.35s;
           color: $grey-35;
           overflow: auto;
-          @media screen and (min-width: 48rem){
+          @media screen and (min-width: 48rem) {
             padding: 0 1.5rem;
           }
         }
@@ -161,7 +176,7 @@
             border-top: 1px solid $light-silver;
             &.nds-b2b-extra-padding {
               padding: 1rem;
-              @media screen and (min-width: 48rem){
+              @media screen and (min-width: 48rem) {
                 padding: 1.5rem;
               }
             }
@@ -214,9 +229,6 @@
                   border-bottom: 1px dashed $black-primary;
                 }
               }
-              @media screen and (min-width: 48rem){
-                right: 5rem;
-              }
             }
           }
           &-content {
@@ -230,7 +242,7 @@
             ~ .nds-b2b-card_tab-content {
               &.nds-b2b-extra-padding {
                 padding: 1rem;
-                @media screen and (min-width: 48rem){
+                @media screen and (min-width: 48rem) {
                   padding: 1.5rem;
                 }
               }

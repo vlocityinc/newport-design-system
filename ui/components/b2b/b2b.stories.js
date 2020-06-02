@@ -626,4 +626,102 @@ storiesOf(`${base}`, module)
       </div>
     </div>
     `);
+  })
+  .add("b2bOverridePriceOffer", () => {
+    return withExample(`
+    <div class="nds-b2b-override-price-offer">
+      <!-- Radio price witch -->
+      <div class="nds-b2b-override-select-price">
+        <div class="nds-b2b-config-radio_container radio-toolbar">
+          <input type="radio" id="oneTime" name="prices" value="oneTime">
+          <label for="oneTime">One Time</label>
+      
+          <input type="radio" id="monthly" name="prices" value="monthly" checked>
+          <label for="monthly">Monthly</label>
+        </div>
+      </div>
+
+      <!-- Price Waterfall -->
+      <div class="nds-b2b-waterfall-container">
+        <div class="nds-b2b-override-header">
+          <svg class="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default nds-m-left_small" aria-hidden="true">
+            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#moneybag"></use>
+          </svg>
+          <span class="nds-b2b-override-header_title">Price Waterfall</span>
+        </div>
+        <div class="nds-b2b-override-prices-container">
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-override-prices_row">
+            <div class="nds-size_3-of-4">Base Price</div>
+            <div class="nds-size_1-of-4 nds-text-align_right">$200.00</div>
+          </div>
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-override-prices_row">
+            <div class="nds-size_3-of-4">
+              Volume Discount (Ethernet Discounts)
+              <span class="nds-b2b-override-by">Applied by Vlocity CME Adminstrator</span>
+            </div>
+            <div class="nds-size_1-of-4 nds-text-align_right">-5.0%</div>
+          </div>
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-override-prices_row">
+            <div class="nds-size_3-of-4"></div>
+            <div class="nds-size_1-of-4 nds-text-align_right">$190.00</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nds-form-element nds-b2b-search-discount">
+        <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left">
+          <svg class="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default nds-m-left_small" aria-hidden="true">
+            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+          </svg>
+          <input type="text" id="text-input-id-1" class="nds-input nds-b2b-search-discount_input" placeholder="Search">
+        </div>
+      </div>
+
+      <!-- Adjust Pricing -->
+      <div class="nds-b2b-waterfall-container">
+        <div class="nds-b2b-override-header">
+          <svg class="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default nds-m-left_small" aria-hidden="true">
+            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#quote"></use>
+          </svg>
+          <span class="nds-b2b-override-header_title">Price Waterfall</span>
+        </div>
+        <div class="nds-b2b-adjust-prices-container">
+          <div class="nds-b2b-override-container_header">Add Custom Discount</div>
+
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-custom-discount">
+            <div class="nds-form-element nds-size_3-of-7">
+              <div class="nds-m-right_small">
+                <div class="nds-form-element__control">
+                  <span class="nds-b2b-input-icon">$</span>
+                  <span class="nds-b2b-input-icon right">/mo</span>
+                  <input type="number" id="text-input-id-1" class="nds-input nds-b2b-input">
+                </div>
+              </div>
+            </div>
+            <div class="nds-form-element nds-size_3-of-7">
+              <div class="nds-m-right_small">
+                <div class="nds-form-element__control">
+                  <span class="nds-b2b-input-icon right">%</span>
+                  <input type="number" id="text-input-id-1" class="nds-input nds-b2b-input">
+                </div>
+              </div>
+            </div>
+            <div class="nds-size_1-of-7 nds-text-align_right"><button class="nds-button nds-b2b-add-button">Add</button></div>
+          </div>
+
+          <div class="nds-b2b-override-container_header">Available Discount</div>
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-override-discounts_row">
+            <div class="nds-size_3-of-7">Standard Discount</div>
+            <div class="nds-size_3-of-7 nds-text-align_right">-2.5%</div>
+            <div class="nds-size_1-of-7 nds-b2b-add-button_text nds-text-align_right">Add</div>
+          </div>
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-override-discounts_row">
+            <div class="nds-size_3-of-7">Industry Discount</div>
+            <div class="nds-size_3-of-7 nds-text-align_right">-3.75%</div>
+            <div class="nds-size_1-of-7 nds-b2b-add-button_text nds-text-align_right">Add</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    `);
   });
