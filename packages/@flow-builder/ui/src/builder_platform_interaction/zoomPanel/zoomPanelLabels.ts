@@ -1,4 +1,3 @@
-// @ts-nocheck
 import marqueeTitle from '@salesforce/label/FlowBuilderZoomPanel.marqueeTitle';
 import zoomOutTitle from '@salesforce/label/FlowBuilderZoomPanel.zoomOutTitle';
 import zoomToFitTitle from '@salesforce/label/FlowBuilderZoomPanel.zoomToFitTitle';

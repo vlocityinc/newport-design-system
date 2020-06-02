@@ -1,15 +1,12 @@
-// @ts-nocheck
 /**
  * A case-insensitive string comparison function used to sort arrays of objects
  * by a given field.
  *
- * @param {String}
- *            field name of the object field to use for the comparison
- * @param {boolean}
- *            reverse inverts the return value for reverse sorts when true
- * @returns {Function} case-insensitive string comparison function
+ * @param field name of the object field to use for the comparison
+ * @param reverse inverts the return value for reverse sorts when true
+ * @returns case-insensitive string comparison function
  */
-export const stringComparator = (field, reverse) => {
+export const stringComparator = (field: string, reverse = false): Comparator => {
     // Objects can technically have undefined, null, or empty string keys but it
     // seems like a coding error if that happens.
     if (typeof field !== 'string' || field.length === 0) {
@@ -38,16 +35,16 @@ export const labelComparator = stringComparator('label');
  */
 export const nameComparator = stringComparator('name');
 
+type Comparator = (a: any, b: any) => number;
+
 /**
  * A comparison function that uses a list of comparators for primary, secondary,
  * etc sorting.
  *
- * @param {Array}
- *            comparators list of comparators
- * @returns {Function} a comparison function using the given comparators for
- *          tiebreakers
+ * @param comparators list of comparators
+ * @returns a comparison function using the given comparators for tiebreakers
  */
-export const multiComparator = comparators => {
+export const multiComparator = (comparators: Comparator[]): Comparator => {
     if (!Array.isArray(comparators) || comparators.length === 0) {
         throw new TypeError('comparators must be a non-empty array');
     }

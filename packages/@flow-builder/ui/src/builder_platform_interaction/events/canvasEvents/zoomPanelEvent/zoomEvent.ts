@@ -1,12 +1,15 @@
-// @ts-nocheck
 /**
  * Used by zoom panel to zoom in or out of the canvas
  */
 const eventName = 'clicktozoom';
 
-export class ClickToZoomEvent {
-    constructor(action = null) {
-        return new CustomEvent(eventName, {
+interface CustomEventDetail {
+    action: string;
+}
+
+export class ClickToZoomEvent extends CustomEvent<CustomEventDetail> {
+    constructor(action: string) {
+        super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,

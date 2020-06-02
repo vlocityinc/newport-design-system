@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { ToggleMarqueeOnEvent, ClickToZoomEvent, ZOOM_ACTION } from 'builder_platform_interaction/events';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
@@ -13,19 +12,19 @@ import { LABELS } from './zoomPanelLabels';
  */
 export default class ZoomPanel extends LightningElement {
     @api
-    showMarqueeButton;
+    showMarqueeButton!: boolean;
 
     @api
-    isMarqueeModeOn;
+    isMarqueeModeOn!: boolean;
 
     @api
-    isZoomOutDisabled;
+    isZoomOutDisabled!: boolean;
 
     @api
-    isZoomToView;
+    isZoomToView!: boolean;
 
     @api
-    isZoomInDisabled;
+    isZoomInDisabled!: boolean;
 
     get labels() {
         return LABELS;
@@ -34,7 +33,7 @@ export default class ZoomPanel extends LightningElement {
     /**
      * Handles click on the drag button and fires toggle marquee mode event.
      */
-    handleToggleMarqueeOn = event => {
+    handleToggleMarqueeOn = (event: Event) => {
         event.stopPropagation();
 
         const toggleMarqueeOnEvent = new ToggleMarqueeOnEvent();
@@ -45,7 +44,7 @@ export default class ZoomPanel extends LightningElement {
     /**
      * Handles click on the zoom out button and fires click to zoom event.
      */
-    handleZoomOutClick = event => {
+    handleZoomOutClick = (event: Event) => {
         event.stopPropagation();
 
         const action = ZOOM_ACTION.ZOOM_OUT;
@@ -57,7 +56,7 @@ export default class ZoomPanel extends LightningElement {
     /**
      * Handles click on the zoom to fit button and fires click to zoom event.
      */
-    handleZoomToFitClick = event => {
+    handleZoomToFitClick = (event: Event) => {
         event.stopPropagation();
 
         const action = ZOOM_ACTION.ZOOM_TO_FIT;
@@ -69,7 +68,7 @@ export default class ZoomPanel extends LightningElement {
     /**
      * Handles click on the zoom to view button and fires click to zoom event.
      */
-    handleZoomToViewClick = event => {
+    handleZoomToViewClick = (event: Event) => {
         event.stopPropagation();
 
         const action = ZOOM_ACTION.ZOOM_TO_VIEW;
@@ -81,7 +80,7 @@ export default class ZoomPanel extends LightningElement {
     /**
      * Handles click on the zoom in button and fires click to zoom event.
      */
-    handleZoomInClick = event => {
+    handleZoomInClick = (event: Event) => {
         event.stopPropagation();
 
         const action = ZOOM_ACTION.ZOOM_IN;
