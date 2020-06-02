@@ -12,7 +12,7 @@
       flex: 9;
       h3 {
         color: $kashmir-blue;
-        font-weight: 700;
+        font-weight: $font-weight-bold;
         font-size: 1.25rem;
       }
       .nds-dc-asset-item_header-details {
@@ -21,9 +21,9 @@
         .nds-dc-asset-item_label {
           color: $kashmir-blue;
           display: block;
-          font-weight: bold;
+          font-weight: $font-weight-bold;
         }
-        div {
+        .nds-dc-asset-item_header-fields {
           flex: 1;
           text-align: right;
         }
@@ -119,7 +119,7 @@
           flex: 1;
           text-align: right;
           color: $kashmir-blue;
-          font-weight: bold;
+          font-weight: $font-weight-bold;
         }
         .nds-dc-asset-label_qty {
           text-align: center;

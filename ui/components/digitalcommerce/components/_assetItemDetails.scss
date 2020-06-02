@@ -14,13 +14,13 @@
         padding-bottom: 0.25rem;
         border-bottom: 1px solid $newport-gray-border-primary;
         font-size: 0.875rem;
-        font-weight: 700;
+        font-weight: $font-weight-bold;
         min-height: 2.5rem;
         text-align: left;
         .nds-dc-asset-addon_desc {
           font-size: 0.625rem;
           color: $palette-cool-gray-10;
-          font-weight: normal;
+          font-weight: $font-weight-regular;
           padding: 0.3125rem 0;
         }
         .nds-dc-level_down-icon {
