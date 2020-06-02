@@ -2,6 +2,7 @@
 import { Validation } from 'builder_platform_interaction/validation';
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+
 const defaultRules = {};
 
 /**
@@ -10,9 +11,12 @@ const defaultRules = {};
  */
 const validateFilter = () => ValidationRules.validateExpressionWith3PropertiesWithNoEmptyRHS();
 
-const additionalRules = {
-    object: [ValidationRules.shouldNotBeBlank],
+const validateFilterLogic = {
     filterLogic: [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined]
+};
+
+const additionalRules = {
+    object: [ValidationRules.shouldNotBeBlank]
 };
 
 export const contextValidation = new Validation(defaultRules);
@@ -33,8 +37,15 @@ export const getRules = ({ filterLogic, object, triggerType }) => {
         overriddenRules = { ...additionalRules };
     }
 
+    if (
+        triggerType.value === FLOW_TRIGGER_TYPE.SCHEDULED ||
+        triggerType.value === FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY
+    ) {
+        overriddenRules = { ...validateFilterLogic };
+    }
+
     // validate filters if filter type is ALL and there is a valid Object
-    if (filterLogic !== CONDITION_LOGIC.NO_CONDITIONS && object.value !== '' && !object.error) {
+    if (filterLogic.value !== CONDITION_LOGIC.NO_CONDITIONS && object.value !== '' && !object.error) {
         overriddenRules.filters = validateFilter();
     }
     return overriddenRules;

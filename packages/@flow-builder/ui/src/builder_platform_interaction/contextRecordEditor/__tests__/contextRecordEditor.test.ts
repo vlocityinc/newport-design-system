@@ -98,7 +98,7 @@ describe('context-record-editor', () => {
             name: { value: '', error: null },
             object: { value: 'Account', error: null },
             objectIndex: { value: 'guid', error: null },
-            filterLogic: CONDITION_LOGIC.AND,
+            filterLogic: { value: CONDITION_LOGIC.AND, error: null },
             filters: [],
             frequency: { value: 'Once', error: null },
             startDate: undefined,
@@ -114,7 +114,7 @@ describe('context-record-editor', () => {
             name: { value: '', error: null },
             object: { value: 'Account', error: null },
             objectIndex: { value: 'guid', error: null },
-            filterLogic: CONDITION_LOGIC.NO_CONDITIONS,
+            filterLogic: { value: CONDITION_LOGIC.NO_CONDITIONS, error: null },
             filters: [],
             frequency: undefined,
             startDate: undefined,
@@ -131,7 +131,7 @@ describe('context-record-editor', () => {
             name: { value: '', error: null },
             object: { value: 'Account', error: null },
             objectIndex: { value: 'guid', error: null },
-            filterLogic: CONDITION_LOGIC.AND,
+            filterLogic: { value: CONDITION_LOGIC.AND, error: null },
             filters: [
                 {
                     rowIndex: 'a0e8a02d-60fb-4481-8165-10a01fe7031c',
@@ -167,7 +167,7 @@ describe('context-record-editor', () => {
             name: { value: '', error: null },
             object: { value: 'Account', error: null },
             objectIndex: { value: 'guid', error: null },
-            filterLogic: CONDITION_LOGIC.NO_CONDITIONS,
+            filterLogic: { value: CONDITION_LOGIC.NO_CONDITIONS, error: null },
             filters: [],
             frequency: { value: 'Once', error: null },
             startDate: undefined,
@@ -183,7 +183,7 @@ describe('context-record-editor', () => {
             name: { value: '', error: null },
             object: { value: 'Audience', error: null },
             objectIndex: { value: 'guid', error: null },
-            filterLogic: CONDITION_LOGIC.NO_CONDITIONS,
+            filterLogic: { value: CONDITION_LOGIC.NO_CONDITIONS, error: null },
             filters: [],
             frequency: { value: 'Once', error: null },
             startDate: undefined,
@@ -202,15 +202,15 @@ describe('context-record-editor', () => {
         expect(getEntityResourcePicker(contextEditor).value).toBe('Account');
     });
 
-    it('record filter type should be "none" ', () => {
+    it('record filter logic should be "no conditions" ', () => {
         const contextEditor = createComponentForTest(scheduledNewStartElementWithoutFilters());
-        expect(getRecordFilter(contextEditor).filterLogic).toBe(CONDITION_LOGIC.NO_CONDITIONS);
+        expect(getRecordFilter(contextEditor).filterLogic.value).toBe(CONDITION_LOGIC.NO_CONDITIONS);
     });
 
-    it('record filter type should be "all" ', () => {
+    it('record filter logic should be "and" ', () => {
         expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(store.accountSObjectVariable);
         const contextEditor = createComponentForTest(scheduledNewStartElementWithFilters());
-        expect(getRecordFilter(contextEditor).filterLogic).toBe(CONDITION_LOGIC.AND);
+        expect(getRecordFilter(contextEditor).filterLogic.value).toBe(CONDITION_LOGIC.AND);
     });
 
     describe('handle events', () => {

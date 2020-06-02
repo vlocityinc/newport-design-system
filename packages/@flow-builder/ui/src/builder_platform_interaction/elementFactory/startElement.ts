@@ -48,11 +48,9 @@ export function createStartElement(startElement = {}) {
     let { filterLogic = CONDITION_LOGIC.AND, recordTriggerType, frequency } = startElement.schedule || startElement;
 
     // For the existing element if no filters has been set we need to assign No Conditions to the filterLogic.
-    if (filters.length === 0 && filterLogic === CONDITION_LOGIC.AND) {
+    if (object !== '' && filters.length === 0 && filterLogic === CONDITION_LOGIC.AND) {
         filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
     }
-
-    const recordFilters = filterLogic !== CONDITION_LOGIC.NO_CONDITIONS ? createRecordFilters(filters, object) : [];
 
     const isoStartTime =
         startTime && !isUndefinedOrNull(startTime.timeInMillis)
@@ -73,6 +71,8 @@ export function createStartElement(startElement = {}) {
         recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.CREATE;
         filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
     }
+
+    const recordFilters = filterLogic !== CONDITION_LOGIC.NO_CONDITIONS ? createRecordFilters(filters, object) : [];
 
     Object.assign(newStartElement, {
         elementType,
@@ -146,7 +146,7 @@ export function createStartElementMetadataObject(startElement, config = {}) {
     } = startElement;
 
     const recordFilters =
-        filterLogic === CONDITION_LOGIC.NO_CONDITIONS ? [] : filters.map(filter => createFilterMetadataObject(filter));
+        filters.length > 0 && filters[0].leftHandSide ? filters.map(filter => createFilterMetadataObject(filter)) : [];
     const schedule = startDate && startTime && frequency ? { startDate, startTime, frequency } : undefined;
 
     return Object.assign(startElementMetadata, {

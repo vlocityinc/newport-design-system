@@ -28,8 +28,16 @@ describe('Start element', () => {
                 description: '',
                 locationX: START_ELEMENT_LOCATION.x,
                 locationY: START_ELEMENT_LOCATION.y,
-                filters: [],
-                filterLogic: CONDITION_LOGIC.NO_CONDITIONS,
+                filters: [
+                    {
+                        leftHandSide: '',
+                        operator: '',
+                        rightHandSide: '',
+                        rightHandSideDataType: '',
+                        rowIndex: MOCK_GUID
+                    }
+                ],
+                filterLogic: CONDITION_LOGIC.AND,
                 isCanvasElement: true,
                 connectorCount: 0,
                 config: {
