@@ -115,16 +115,6 @@ export const isLookupTraversalSupported = processType => {
 };
 
 /**
- * Determines whether the given process type supports having the new start element metadata element
- * TODO We need to remove this hardcoded check and all references to this function; see W-6462807 and W-6462716
- * @param {String} processType
- * @returns {Boolean}
- */
-export const isStartMetadataSupported = processType => {
-    return processType !== FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE && processType !== FLOW_PROCESS_TYPE.DIGITAL_FORM;
-};
-
-/**
  * Determines whether the given process type supports conditional field visibility in screens
  * @param {String} processType
  * @returns {Boolean}

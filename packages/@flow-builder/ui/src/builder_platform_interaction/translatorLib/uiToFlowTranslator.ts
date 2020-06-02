@@ -3,12 +3,11 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { swapUidsForDevNames } from './uidSwapping';
 import { getFlowBounds } from 'builder_platform_interaction/connectorUtils';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
-import { isStartMetadataSupported } from 'builder_platform_interaction/processTypeLib';
 import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 import { convertFromFlc } from 'builder_platform_interaction/flcConversionUtils';
 
-const getXYTranslate = (canvasElements, isStartMetadataElementSupported = true) => {
-    const EXTRA_SPACING = isStartMetadataElementSupported ? 50 : 180;
+const getXYTranslate = canvasElements => {
+    const EXTRA_SPACING = 50;
 
     const flowBounds = getFlowBounds(canvasElements);
 
@@ -40,7 +39,6 @@ export function translateUIModelToFlow(uiModel) {
     const connectors = uiModel.connectors;
     const { name, versionNumber } = uiModel.properties;
     const flowProperties = getElementForUiToFlowTranslation(uiModel.properties);
-    const isStartMetadataElementSupported = isStartMetadataSupported(flowProperties.processType);
 
     // Get map of source element guids to connectors
     const connectorMap = {};
@@ -54,7 +52,7 @@ export function translateUIModelToFlow(uiModel) {
 
     // Get x, y coordinate translate numbers
     const canvasElements = uiModel.canvasElements.map(guid => elements[guid]);
-    const xyTranslate = getXYTranslate(canvasElements, isStartMetadataElementSupported);
+    const xyTranslate = getXYTranslate(canvasElements);
 
     const config = { xyTranslate, connectorMap };
 
@@ -73,14 +71,7 @@ export function translateUIModelToFlow(uiModel) {
         }
 
         if (element.elementType === ELEMENT_TYPE.START_ELEMENT) {
-            if (isStartMetadataElementSupported) {
-                metadata[elementInfo.metadataKey] = getElementForUiToFlowTranslation(element, config);
-            } else {
-                const startConnectors = connectorMap[element.guid];
-                if (startConnectors && startConnectors.length > 0) {
-                    startElementId = startConnectors[0].target;
-                }
-            }
+            metadata[elementInfo.metadataKey] = getElementForUiToFlowTranslation(element, config);
         } else if (elementInfo.metadataKey) {
             if (!metadata[elementInfo.metadataKey]) {
                 metadata[elementInfo.metadataKey] = [];
