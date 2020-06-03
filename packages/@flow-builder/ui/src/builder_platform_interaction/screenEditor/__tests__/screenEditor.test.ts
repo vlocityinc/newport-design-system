@@ -155,7 +155,9 @@ describe('Event handling on editor', () => {
             const callback = jest.fn();
 
             const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
-            editor.dispatchEvent(createAddScreenFieldEvent('Column', 0, screenEditorElement.node.fields[0], callback));
+            editor.dispatchEvent(
+                createAddScreenFieldEvent('Column', 0, screenEditorElement.node.fields[0].guid, callback)
+            );
 
             expect(callback).toHaveBeenCalled();
         });
@@ -358,7 +360,7 @@ describe('Extension events', () => {
                 const originalNode = screenEditorElement.node;
 
                 const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
-                const event = createAddScreenFieldEvent('pausedText', 0, parent);
+                const event = createAddScreenFieldEvent('pausedText', 0, parent.guid);
 
                 editor.dispatchEvent(event);
 
@@ -383,7 +385,7 @@ describe('Extension events', () => {
                 };
 
                 const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
-                const event = createAddScreenFieldEvent('pausedText', 0, parent);
+                const event = createAddScreenFieldEvent('pausedText', 0, parent.guid);
 
                 editor.dispatchEvent(event);
                 expect(screenEditorElement.getSelectedItemGuid()).toEqual(parent.guid);

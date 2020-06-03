@@ -49,15 +49,15 @@ export function createScreenEditorEvent(type, detail = {}, cancelable = true, co
  * Creates an event to be fired when the user adds an element to the canvas
  * @param {string} typeName - The type of the field to add
  * @param {number} position - The position in the canvas
- * @param {object} parent - The new field's parent, i.e. a column
+ * @param {object} parentGuid - The guid of the new field's parent, i.e. a column
  * @param {function} callback - Function called after the add occurs successfully
  * @returns {event} The event
  */
-export function createAddScreenFieldEvent(typeName, position, parent = null, callback) {
+export function createAddScreenFieldEvent(typeName, position, parentGuid = null, callback) {
     return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_FIELD_ADDED, {
         typeName,
         position,
-        parent,
+        parentGuid,
         callback
     });
 }
@@ -66,15 +66,15 @@ export function createAddScreenFieldEvent(typeName, position, parent = null, cal
  * Creates an event to be fired when the user clicks the delete button for a screen element in the canvas
  * @param {object} screenElement - The screen element, either a screen or a screen field
  * @param {string} property - Applies only for when screenElement is a SCREEN, and it marks the property to toggle (showHeader or showFooter)
- * @param {object} parent - The deleted field's parent, i.e. a column
+ * @param {object} parentGuid - The guid of the deleted field's parent, i.e. a column
  * @param {function} callback - Function called after the delete occurs successfully
  * @returns {event} The event
  */
-export function createScreenElementDeletedEvent(screenElement, property, parent = null, callback = () => {}) {
+export function createScreenElementDeletedEvent(screenElement, property, parentGuid = null, callback = () => {}) {
     return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_DELETED, {
         screenElement,
         property,
-        parent,
+        parentGuid,
         callback
     });
 }

@@ -278,7 +278,8 @@ const resizeColumnsForSection = (screen, sectionGuid) => {
  * @returns {object} - A new screen with the changes applied
  */
 const addScreenField = (screen, event) => {
-    const parent = event.parent ? event.parent : screen;
+    let parent = event.parentGuid ? screen.getFieldByGUID(event.parentGuid) : screen;
+    parent = parent ? parent : screen;
 
     // If it is a section, figure out how many sections the screen already has (needed to generate a
     // a unique API name)
@@ -392,14 +393,10 @@ const deleteChoice = (screen, event, field) => {
  * @param {object} screen - The screen
  * @param {object} parent - The parent of the field to be removed
  * @param {object} field - The field to be removed
+ * @param {object} positions - an array of indexes that indicate the location of a screen field in the screen field tree
  * @returns {object} - A new screen with the changes applied
  */
-const removeScreenFieldFromParent = (screen, parent, field) => {
-    const positions = screen.getFieldIndexesByGUID(field.guid);
-    if (!parent) {
-        parent = findParentByAncestorPositions(screen, positions);
-    }
-    parent = parent ? parent : screen;
+const removeScreenFieldFromParent = (screen, parent, field, positions) => {
     if (positions && positions.length > 0) {
         const deletedItemIndex = positions.splice(0, 1);
         const updatedItems = deleteItem(parent.fields, deletedItemIndex[0]);
@@ -424,7 +421,12 @@ const removeScreenFieldFromParent = (screen, parent, field) => {
  * @returns {object} - A new screen with the changes applied
  */
 const deleteScreenField = (screen, event) => {
-    return removeScreenFieldFromParent(screen, event.parent, event.screenElement);
+    const positions = screen.getFieldIndexesByGUID(event.screenElement.guid);
+    let parent = event.parentGuid
+        ? screen.getFieldByGUID(event.parentGuid)
+        : findParentByAncestorPositions(screen, positions);
+    parent = parent ? parent : screen;
+    return removeScreenFieldFromParent(screen, parent, event.screenElement, positions);
 };
 
 /**
@@ -439,7 +441,7 @@ const moveScreenField = (screen, event) => {
         const sourcePositions = screen.getFieldIndexesByGUID(event.detail.sourceGuid);
         const sourceParent = findParentByAncestorPositions(screen, sourcePositions);
         const sourceIndex = sourcePositions && sourcePositions.length > 0 ? sourcePositions[0] : -1;
-        const updatedScreen = removeScreenFieldFromParent(screen, sourceParent, sourceField);
+        const updatedScreen = removeScreenFieldFromParent(screen, sourceParent, sourceField, sourcePositions);
         const destinationParentGuid = event.detail.destinationParentGuid;
         const destinationParent =
             updatedScreen.guid === destinationParentGuid

@@ -61,7 +61,7 @@ export default class ScreenCanvas extends LightningElement {
                 ) {
                     // Field is being added from the palette.
                     const fieldTypeName = event.dataTransfer.getData('text');
-                    const addFieldEvent = createAddScreenFieldEvent(fieldTypeName, range.index, this.element);
+                    const addFieldEvent = createAddScreenFieldEvent(fieldTypeName, range.index, this.element.guid);
                     this.dispatchEvent(addFieldEvent);
                     this.clearDraggingState();
                 } else {

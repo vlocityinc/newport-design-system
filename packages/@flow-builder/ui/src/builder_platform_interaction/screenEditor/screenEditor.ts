@@ -182,8 +182,8 @@ export default class ScreenEditor extends LightningElement {
 
         // select the new field on the canvas.
         let parent = this.screen;
-        if (event.parent && event.parent.elementType !== ELEMENT_TYPE.SCREEN) {
-            parent = this.screen.getFieldByGUID(event.parent.guid);
+        if (event.parentGuid && event.parentGuid !== this.screen.guid) {
+            parent = this.screen.getFieldByGUID(event.parentGuid);
         }
         const position = Number.isInteger(event.position) ? event.position : parent.fields.length - 1;
         this.setSelectedNode(parent.fields[position]);
@@ -202,7 +202,7 @@ export default class ScreenEditor extends LightningElement {
         }
 
         // Get the updated parent and select it
-        const parent = this.screen.getFieldByGUID(event.parent.guid);
+        const parent = this.screen.getFieldByGUID(event.parentGuid);
         this.setSelectedNode(parent);
     };
 
@@ -212,7 +212,10 @@ export default class ScreenEditor extends LightningElement {
      */
     handleDeleteScreenElement = event => {
         const state = this.screen;
-        const parent = event.parent ? event.parent : this.screen;
+        const parent =
+            event.parentGuid && event.parentGuid !== this.screen.guid
+                ? this.screen.getFieldByGUID(event.parentGuid)
+                : this.screen;
         const usedElements = usedByStoreAndElementState(
             event.detail.screenElement.guid,
             parent.guid,

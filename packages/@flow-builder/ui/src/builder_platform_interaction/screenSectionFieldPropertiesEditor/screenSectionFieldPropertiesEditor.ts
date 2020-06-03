@@ -76,7 +76,7 @@ export default class ScreenSectionFieldPropertiesEditor extends LightningElement
         const addFieldEvent = createAddScreenFieldEvent(
             getColumnFieldType().name,
             this.field.fields.length,
-            this.field
+            this.field.guid
         );
 
         this.dispatchEvent(addFieldEvent);
@@ -85,7 +85,7 @@ export default class ScreenSectionFieldPropertiesEditor extends LightningElement
     handleDeleteColumn(e) {
         const column = this.field.fields[e.detail.index];
         this.dispatchEvent(
-            createScreenElementDeletedEvent(column, null, this.field, () => {
+            createScreenElementDeletedEvent(column, null, this.field.guid, () => {
                 this.dispatchEvent(createScreenElementSelectedEvent(this.field));
             })
         );

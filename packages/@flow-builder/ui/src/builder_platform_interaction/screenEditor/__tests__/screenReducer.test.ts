@@ -311,7 +311,7 @@ describe('screen reducer', () => {
         it('adds a child field', () => {
             const fieldType = 'TextBox';
 
-            const event = createAddScreenFieldEvent(fieldType, 0, screen.fields[1].fields[1]);
+            const event = createAddScreenFieldEvent(fieldType, 0, screen.fields[1].fields[1].guid);
             const newScreen = screenReducer(screen, event);
             const childFields = newScreen.fields[1].fields[1].fields;
             expect(childFields).toHaveLength(3);
@@ -321,7 +321,7 @@ describe('screen reducer', () => {
         it('resizes columns if column added to section', async () => {
             expect.assertions(2);
 
-            const event = createAddScreenFieldEvent('Column', 0, screen.fields[1]);
+            const event = createAddScreenFieldEvent('Column', 0, screen.fields[1].guid);
             const newScreen = screenReducer(screen, event);
             const childFields = newScreen.fields[1].fields;
             expect(childFields).toHaveLength(3);
@@ -329,7 +329,7 @@ describe('screen reducer', () => {
         });
 
         it('deletes a child field', () => {
-            const event = createScreenElementDeletedEvent(field1, null, screen.fields[1].fields[1]);
+            const event = createScreenElementDeletedEvent(field1, null, screen.fields[1].fields[1].guid);
             const newScreen = screenReducer(screen, event);
             const childFields = newScreen.fields[1].fields[1].fields;
             expect(childFields).toHaveLength(1);
@@ -337,7 +337,7 @@ describe('screen reducer', () => {
         });
 
         it('resizes columns if column deleted from section', () => {
-            const event = createScreenElementDeletedEvent(screen.fields[1].fields[0], null, screen.fields[1]);
+            const event = createScreenElementDeletedEvent(screen.fields[1].fields[0], null, screen.fields[1].guid);
             const newScreen = screenReducer(screen, event);
             const column = newScreen.fields[1].fields[0];
             expect(column.inputParameters[0].value).toEqual(12);

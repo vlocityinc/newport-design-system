@@ -27,6 +27,7 @@ describe('screen-section-field-properties-editor', () => {
         it('dispatches an AddScreenField', () => {
             const screenSectionFieldPropEditor = createComponentUnderTest({
                 field: {
+                    guid: 'guid',
                     fields: []
                 }
             });
@@ -42,7 +43,7 @@ describe('screen-section-field-properties-editor', () => {
                     expect.objectContaining({
                         typeName: getColumnFieldType().name,
                         position: 0,
-                        parent: screenSectionFieldPropEditor.field
+                        parentGuid: screenSectionFieldPropEditor.field.guid
                     })
                 );
             });
