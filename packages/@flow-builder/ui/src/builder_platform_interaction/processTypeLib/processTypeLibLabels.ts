@@ -10,6 +10,7 @@ import newProcessTypeDescription from '@salesforce/label/FlowBuilderProcessTypeT
 import newContactRequestFlowDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newContactRequestFlowDescription';
 import newScheduledFlowDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newScheduledFlowDescription';
 import newBeforeSaveFlowDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newBeforeSaveFlowDescription';
+import newAppProcessDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newAppProcessDescription';
 import newScheduledFlowLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newScheduledFlowLabel';
 import newBeforeSaveFlowLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newBeforeSaveFlowLabel';
 import newPlatformEventFlowLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newPlatformEventFlowLabel';
@@ -22,6 +23,7 @@ export const LABELS = {
     [FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE]: newFieldServiceMobileDescription,
     [FLOW_PROCESS_TYPE.FIELD_SERVICE_WEB]: newFieldServiceWebDescription,
     [FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW]: newContactRequestFlowDescription,
+    [FLOW_PROCESS_TYPE.APP_PROCESS]: newAppProcessDescription,
     [FLOW_TRIGGER_TYPE.SCHEDULED]: newScheduledFlowDescription,
     [FLOW_TRIGGER_TYPE.BEFORE_SAVE]: newBeforeSaveFlowDescription
 };
