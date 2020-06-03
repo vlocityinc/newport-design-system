@@ -1,0 +1,115 @@
+.nds-b2b-child_radio-container {
+  background: $white;
+  border: 1px solid $palette-warm-gray-4;
+  border-radius: 0.25rem;
+  box-shadow: 0 3px 0.25rem 0 $palette-warm-gray-4;
+  padding: 1rem;
+  margin-bottom: 0.7rem;
+  .nds-b2b-label-container {
+    display: block;
+    position: relative;
+    .nds-b2b-label-details {
+      margin-top: 1rem;
+    }
+    .nds-b2b-card_title {
+      width: 25.5rem;
+      font-weight: $font-weight-light;
+      font-size: 1rem;
+      color: $black-primary;
+      .nds-b2b-attribute-radio {
+        margin-right: 0.25rem;
+      }
+      .nds-b2b-attribute-radio
+        [type="radio"]:checked
+        + .nds-radio__label
+        .nds-radio_faux {
+        border-color: $azure;
+        &::after {
+          background-color: $azure;
+        }
+      }
+      @media screen and (min-width: 80rem) {
+        width: 25.5rem;
+      }
+    }
+    .nds-b2b-price_info {
+      @include cardsHeaderAttributes;
+      display: flex;
+      position: absolute;
+      right: 1.5rem;
+      .nds-b2b-each-attribute {
+        .nds-b2b-attribute_value {
+          float: right;
+          color: $black-primary;
+          font-size: 1rem;
+          font-weight: $font-weight-light;
+        }
+      }
+    }
+    .nds-b2b-quantity {
+      width: auto;
+      min-height: 2rem;
+      .nds-b2b-quantity_value {
+        border: 1px solid $newport-border-gray;
+        height: 1.4rem;
+        width: 3rem;
+        padding-left: 1.2rem;
+        font-size: 0.9rem;
+        &:disabled {
+          background-color: $white-smoke;
+        }
+      }
+      .nds-b2b-configure_label {
+        color: $palette-warm-gray-9;
+        font-size: 0.65rem;
+        font-weight: $font-weight-regular;
+        letter-spacing: 0.025rem;
+        margin-bottom: 0.25rem;
+      }
+    }
+  }
+
+  @media screen and (min-width: 48rem) {
+    padding: 1.5rem;
+    .nds-b2b-quantity {
+      margin: -0.5rem 2rem 0 2rem;
+    }
+    .nds-b2b-label-container {
+      display: flex;
+      .nds-b2b-card_title {
+        font-size: 1rem;
+        width: 37vw;
+        &.selected {
+          font-size: 1.3rem;
+        }
+      }
+      .nds-b2b-label-details {
+        margin-top: 0;
+      }
+    }
+  }
+  &.selected {
+    .nds-b2b-label-container {
+      .nds-b2b-card_title {
+        font-weight: $font-weight-bold;
+      }
+      .nds-b2b-price_info {
+        .nds-b2b-each-attribute {
+          .nds-b2b-attribute_value {
+            border-bottom: 1px dashed $black-primary;
+            font-size: 1rem;
+            font-weight: $font-weight-bold;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+  &.product-group-child {
+    .nds-b2b-label-container {
+      .nds-b2b-price_info {
+        right: 3.5rem;
+      }
+    }
+  }
+}
