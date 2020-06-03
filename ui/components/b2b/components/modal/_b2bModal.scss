@@ -1,16 +1,20 @@
 .nds-b2b-modal {
   .slds-modal__content {
-    background-color: $white-smoke;
+    background-color: $white;
   }
 
   article {
-    background-color: $white-smoke;
+    background-color: $white;
     border-radius: unset;
   }
 
   @media screen and (max-width: 48rem) {
+    .nds-card__body--inner, .nds-card__body_inner {
+      padding: 0;
+    }
     .slds-modal__container {
       margin: 0;
+      padding: 0;
     }
     .slds-modal__header {
       position: absolute;
@@ -18,6 +22,7 @@
       border-radius: unset;
       width: 100%;
       text-align: left;
+      z-index: 20;
     }
 
     .slds-text-heading_medium {
@@ -25,9 +30,12 @@
     }
 
     .slds-modal__content {
-      position: absolute;
-      top: 58px;
+      margin-top: 58px;
+      margin-bottom: 60px;
       width: 100%;
+      height: 100%;
+      padding: 0;
+      overflow-y: scroll;
     }
 
     .slds-modal__close {
@@ -41,10 +49,10 @@
 
     .slds-modal__container {
       position: relative;
-      background-color: #171b20;
+      background-color: $black-primary;
       margin: auto;
       padding: 0;
-      border: 0.0625rem solid #888;
+      border: 0.0625rem solid $dc-modal-border-color;
       width: 100%;
       -webkit-animation-name: animatetop;
       -webkit-animation-duration: 0.4s;
