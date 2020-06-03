@@ -1,0 +1,110 @@
+.nds-dc-asset-each-item {
+  padding: 0.625rem;
+  border: 1px solid $newport-gray-border-primary;
+  &.nds-dc-asset-each-item_parent {
+    margin-top: 0.625rem;
+  }
+  .nds-dc-asset-item_details {
+    display: flex;
+    text-align: center;
+    padding-top: 0.625rem;
+    .nds-dc-asset-addon-container {
+      flex: 1;
+      .nds-dc-asset-addon_title {
+        padding-bottom: 0.25rem;
+        border-bottom: 1px solid $newport-gray-border-primary;
+        font-size: 0.875rem;
+        font-weight: $font-weight-bold;
+        min-height: 2.5rem;
+        text-align: left;
+        .nds-dc-asset-addon_desc {
+          font-size: 0.625rem;
+          color: $palette-cool-gray-10;
+          font-weight: $font-weight-regular;
+          padding: 0.3125rem 0;
+        }
+        .nds-dc-level_down-icon {
+          height: 0.625rem;
+          width: 0.625rem;
+        }
+      }
+      .nds-dc-asset-item_header {
+        display: flex;
+        text-align: center;
+        padding-right: 0.625rem;
+        padding-top: 0.625rem;
+        div {
+          flex: 1;
+        }
+        .nds-dc-asset-item_price {
+          text-align: right;
+        }
+        .nds-dc-asset-item_label {
+          color: $kashmir-blue;
+          font-size: 1rem;
+          display: block;
+        }
+      }
+    }
+    .nds-dc-asset-selection-placeholder,.nds-dc-toggle-container {
+      display: none;
+    }
+  }
+}
+
+@media only screen and (min-width: 48rem) {
+  .nds-dc-asset-each-item {
+    .nds-dc-asset-item_details {
+      .nds-dc-asset-addon-container {
+        .nds-dc-asset-item_header {
+          display: flex;
+          flex: 9;
+          .nds-dc-asset-item_label {
+            display: none;
+          }
+        }
+      }
+      .nds-dc-asset-selection-placeholder {
+        width: 3.125rem;
+        text-align: left;
+        flex: none;
+        display: flex;
+      }
+      .nds-dc-toggle-container {
+        width: 0.9375rem;
+        display: flex;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 64rem) {
+  .nds-dc-asset-each-item {
+    display: flex;
+    padding: 0.625rem 0;
+    .nds-dc-asset-item_details {
+      flex: 1;
+      .nds-dc-asset-addon-container {
+        flex: 9;
+        display: flex;
+        .nds-dc-asset-addon_title {
+          padding-bottom: 0;
+          border-bottom: none;
+          flex: 1;
+          text-align: left;
+        }
+        .nds-dc-asset-item_header {
+          display: flex;
+          flex: 1;
+        }
+      }
+      .nds-dc-asset-selection-placeholder {
+        width: 3.125rem;
+        flex: none;
+      }
+      .nds-dc-toggle-container {
+        width: 0.9375rem;
+      }
+    }
+  }
+}
