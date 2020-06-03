@@ -49,7 +49,7 @@ export function createScreenEditorEvent(type, detail = {}, cancelable = true, co
  * Creates an event to be fired when the user adds an element to the canvas
  * @param {string} typeName - The type of the field to add
  * @param {number} position - The position in the canvas
- * @param {object} parentGuid - The guid of the new field's parent, i.e. a column
+ * @param {string} parentGuid - The guid of the new field's parent, i.e. a column
  * @param {function} callback - Function called after the add occurs successfully
  * @returns {event} The event
  */
@@ -66,7 +66,7 @@ export function createAddScreenFieldEvent(typeName, position, parentGuid = null,
  * Creates an event to be fired when the user clicks the delete button for a screen element in the canvas
  * @param {object} screenElement - The screen element, either a screen or a screen field
  * @param {string} property - Applies only for when screenElement is a SCREEN, and it marks the property to toggle (showHeader or showFooter)
- * @param {object} parentGuid - The guid of the deleted field's parent, i.e. a column
+ * @param {string} parentGuid - The guid of the deleted field's parent, i.e. a column
  * @param {function} callback - Function called after the delete occurs successfully
  * @returns {event} The event
  */
