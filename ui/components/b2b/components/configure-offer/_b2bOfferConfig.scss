@@ -1,0 +1,18 @@
+.nds-b2b-hr {
+  margin: 0;
+  color: $palette-warm-gray-7;
+}
+.b2b-config-offer {
+  padding-bottom: 2rem;
+  background: $white-smoke;
+  @media screen and (min-width: 48rem){
+    margin: 0.5rem;
+    padding: 0.5rem;
+  }
+  @media screen and (min-width: 80rem) {
+    margin: 2rem;
+    min-height: 110vh;
+    height:auto;
+    padding: 2rem 6rem;
+  }
+}
