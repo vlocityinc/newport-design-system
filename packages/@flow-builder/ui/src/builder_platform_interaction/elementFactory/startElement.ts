@@ -158,7 +158,7 @@ export function createStartElementMetadataObject(startElement, config = {}) {
         object: object === '' ? undefined : object,
         objectContainer,
         recordTriggerType: recordTriggerType === '' ? undefined : recordTriggerType,
-        filterLogic: triggerType === FLOW_TRIGGER_TYPE.NONE ? undefined : filterLogic,
+        filterLogic: triggerType === FLOW_TRIGGER_TYPE.SCHEDULED ? filterLogic : undefined,
         filters: recordFilters
     });
 }

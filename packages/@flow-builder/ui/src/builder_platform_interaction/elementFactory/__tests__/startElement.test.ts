@@ -184,7 +184,7 @@ describe('Start element', () => {
                 description: undefined,
                 label: undefined,
                 filters: [],
-                filterLogic: 'no_conditions',
+                filterLogic: undefined,
                 object: 'Account',
                 objectContainer: 'MarketAudience',
                 triggerType: 'scheduled',
@@ -259,7 +259,7 @@ describe('Start element', () => {
                         }
                     }
                 ],
-                filterLogic: '1 AND 2 OR 3',
+                filterLogic: undefined,
                 object: 'Account',
                 triggerType: 'scheduled',
                 schedule: {
@@ -293,7 +293,7 @@ describe('Start element', () => {
                 name: undefined,
                 description: undefined,
                 label: undefined,
-                filterLogic: CONDITION_LOGIC.AND,
+                filterLogic: undefined,
                 filters: [
                     {
                         field: 'Name',
