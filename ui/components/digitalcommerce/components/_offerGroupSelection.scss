@@ -98,7 +98,6 @@
     border-top: 1px solid $newport-border-gray;
     margin: 0;
     .nds-dc-quantity {
-      width: 50%;
       margin-top: 0.5rem;
       text-align: inherit;
       padding: 0.625rem;
@@ -120,7 +119,7 @@
         text-align: center;
         order: 2;
         .nds-dc-quantity_label {
-          font-size: 0.9rem;
+          font-size: 0.625rem;
           padding-left: 0.3125rem;
           color: $newport-input-font-kashmiri-blue;
         }
@@ -129,10 +128,11 @@
           border: none;
           box-shadow: none;
           border-bottom: 2px solid $geyser;
-          font-size: 0.875rem;
+          font-size: 1.5625rem;
           text-align: center;
           z-index: 1;
           min-height: 1.875rem;
+          padding-left: 0.313rem;
           &:active,
           &:focus {
             outline: 0;
@@ -229,13 +229,6 @@
       .nds-dc-plan_item-price-section {
         font-size: 1.5625rem;
       }
-      .nds-dc-single_price-quantity {
-        .nds-dc-quantity {
-          .nds-dc-quantity_input {
-            font-size: 1.125rem;
-          }
-        }
-      }
     }
     .nds-dc-single_price-quantity {
       display: flex;
@@ -243,6 +236,8 @@
       .nds-dc-quantity {
         .nds-dc-quantity_input {
           width: 4rem;
+          font-size: 1.5625rem;
+          padding-left: 0.313rem;
         }
       }
     }
@@ -263,7 +258,7 @@
     }
     .nds-dc-plan_name {
       font-size: 0.875rem;
-      font-weight: bold;
+      font-weight: $font-weight-bold;
       white-space: pre-line;
       min-height: 2.5rem;
       overflow-y: auto;
@@ -273,11 +268,12 @@
         border-top: 1px solid $newport-border-gray;
         margin: 0;
         .nds-dc-quantity {
-          width: 50%;
           padding: 0.625rem;
           padding-bottom: 0;
           .nds-dc-quantity_input {
             width: 5rem;
+            font-size: 1.5625rem;
+            padding-left: 0.875rem;
           }
         }
       }
@@ -292,7 +288,6 @@
         padding: 0.625rem;
         font-size: 1.5625rem;
         border: none;
-        width: 50%;
       }
   
       &.nds-dc-checked {

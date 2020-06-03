@@ -4,7 +4,7 @@ import notes from "./doc.md";
 import {
   withExample,
   withDocs,
-  commentToHTML
+  commentToHTML,
 } from "../../../scripts/storybook";
 storiesOf(`${base}`, module)
   .addDecorator(withDocs(notes))
@@ -137,11 +137,10 @@ storiesOf(`${base}`, module)
           Recommended Ethernet Product Name 
         </div>
         <div class="nds-b2b-product-description">A short description of how best to use this product and what it includes.Lorem ipsum dolar sit amet, consectetur, adipisci velit5</div>
-        <div class="nds-b2b-product-badge_container">
-          <span class="nds-badge nds-b2b-product-badge">Family Owned</span>
-          <span class="nds-badge nds-b2b-product-badge">Small Business</span>
+        <div class="nds-b2b-price_info">
+          <div class="nds-b2b-each-attribute">$250.00</div>
+          <div class="nds-b2b-each-attribute">$125.00</div>
         </div>
-        <div class="nds-b2b-product_price-range">$6,600 - $6,945</div>
       </div>
     </div>`);
   })
@@ -170,7 +169,10 @@ storiesOf(`${base}`, module)
                   <span class="nds-badge nds-b2b-product-badge">Family Owned</span>
                   <span class="nds-badge nds-b2b-product-badge">Small Business</span>
                 </div>
-                <div class="nds-b2b-product_price-range">$6,600 - $6,945</div>
+                <div class="nds-b2b-price_info">
+                  <div class="nds-b2b-each-attribute">$250.00</div>
+                  <div class="nds-b2b-each-attribute">$125.00</div>
+                </div>
               </div>
             </div>
 
@@ -191,7 +193,10 @@ storiesOf(`${base}`, module)
                   <span class="nds-badge nds-b2b-product-badge">Family Owned</span>
                   <span class="nds-badge nds-b2b-product-badge">Small Business</span>
                 </div>
-                <div class="nds-b2b-product_price-range">$6,600 - $6,945</div>
+                <div class="nds-b2b-price_info">
+                  <div class="nds-b2b-each-attribute">$250.00</div>
+                  <div class="nds-b2b-each-attribute">$125.00</div>
+                </div>
               </div>
             </div>
           </slot>
@@ -236,7 +241,7 @@ storiesOf(`${base}`, module)
                       <div class="nds-grid nds-grid_vertical-align-center">
                       <div class="nds-large-order_1 nds-m-left_medium">
                         <c-b2b-button theme="nds" variant="neutral" label="Add" icon-name="utility:add" icon-size="x-small" hide-label="below:large">
-                          <button type="button" class="vlocity-btn nds-button nds-button_brand nds-b2b-button">
+                          <button type="button" class="nds-button nds-button_brand nds-b2b-button">
                             <span class="nds-hide_large nds-b2b-icon_large-adj-below">
                               <vlocity_cmt-icon>
                                 <svg aria-hidden="true" class="nds-b2b-button_icon nds-icon_x-small" style="fill: rgb(255, 255, 255);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.5 8.8h-5.2c-1.2 0-1.9-.8-1.9-2V1.7c0-.5-.3-.8-.8-.8H5c-1.2 0-2.2 1-2.2 2.2v17.8c0 1.2 1 2.2 2.2 2.2h14c1.2 0 2.2-1 2.2-2.2V9.5c0-.4-.3-.7-.7-.7zm.6-2.8l-4.9-4.9c-.1-.1-.3-.2-.4-.2-.3 0-.6.3-.6.5v4c0 .8.8 1.5 1.6 1.5h3.9c.3 0 .5-.3.5-.5s0-.4-.1-.4z"></path></svg>
@@ -249,7 +254,7 @@ storiesOf(`${base}`, module)
                       </div>
                         <div class="nds-m-left_medium">
                           <c-b2b-button theme="nds" variant="brand" icon-name="utility:page" icon-size="x-small" label="Preview" icon-fill="#fff" hide-label="below:large" hide-icon="above:large">
-                            <button type="button" class="vlocity-btn nds-button nds-button_neutral nds-b2b-button">
+                            <button type="button" class="nds-button nds-button_neutral nds-b2b-button">
                               <span class="nds-b2b-icon_large-adj-below">
                                 <vlocity_cmt-icon>
                                   <svg aria-hidden="true" class="nds-b2b-button_icon nds-icon_x-small" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.8 13.4h7.7c.3 0 .7-.3.7-.7v-1.4c0-.4-.4-.7-.7-.7h-7.7c-.2 0-.4-.2-.4-.4V2.5c0-.3-.3-.7-.7-.7h-1.4c-.4 0-.7.4-.7.7v7.7c0 .2-.2.4-.4.4H2.5c-.3 0-.7.3-.7.7v1.4c0 .4.4.7.7.7h7.7c.2 0 .4.2.4.4v7.7c0 .3.3.7.7.7h1.4c.4 0 .7-.4.7-.7v-7.7c0-.2.2-.4.4-.4z"></path></svg>
@@ -302,4 +307,421 @@ storiesOf(`${base}`, module)
       <div class="nds-p-around_small nds-show_large nds-large-size_2-of-12"></div>
     </div>
     </div>`);
+  })
+  .add("b2bCard", () => {
+    return withExample(`
+    <div class="nds-b2b-card">
+      <div class="nds-b2b-card_container">
+        <div class="nds-b2b-card_tabs">
+          <div class="nds-b2b-card_tab">
+            <input type="checkbox" id="chck1" class="nds-b2b-card_checkbox">
+            <label class="nds-b2b-card_tab-label" for="chck1">
+              <div class="nds-grid nds-b2b-label-container">
+                <span class="nds-b2b-card_title">
+                  Business Internet
+                  <!-- Attributes -->
+                  <div class="nds-b2b-attributes_info">
+                    <span class="nds-b2b-each-attribute">
+                      <span class="nds-b2b-attribute_label">Contract Term</span>
+                      <span class="nds-b2b-attribute_value">12 mo</span>
+                    </span>
+                    <span class="nds-b2b-each-attribute">
+                      <span class="nds-b2b-attribute_label">Download Speed</span>
+                      <span class="nds-b2b-attribute_value">500 Mbps</span>
+                    </span>
+                  </div>
+                </span>
+                <div class="nds-grid nds-wrap nds-b2b-label-details">
+                  <!-- Quantity -->
+                  <div class="nds-b2b-quantity">
+                    <p class="nds-b2b-configure_label">Quantity</p>
+                    <p><input class="nds-b2b-quantity_value" type="number" value="1" /></p>
+                  </div>
+
+                  <!-- Prices Container -->
+                  <div class="nds-b2b-price_info">
+                    <div class="nds-b2b-each-attribute">
+                      <p class="nds-b2b-attribute_label nds-text-align_right">One Time</p>
+                      <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1420.00</p>
+                    </div>
+                    <div class="nds-b2b-each-attribute">
+                      <p class="nds-b2b-attribute_label nds-text-align_right">Monthly</p>
+                      <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1350.00</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </label>
+            <div class="nds-b2b-card_tab-content nds-b2b-extra-padding">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum, reiciendis!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    `);
+  })
+  .add("b2bCardRadioAttribute", () => {
+    return withExample(`
+    <div class="nds-b2b-card">
+      <div class="nds-b2b-card_container">
+        <div class="nds-b2b-card_tabs">
+          <div class="nds-b2b-card_tab">
+            <input type="checkbox" id="chck2" class="nds-b2b-card_checkbox">
+            <label class="nds-b2b-card_tab-label" for="chck2">Details</label>
+            <div class="nds-b2b-card_tab-content nds-b2b-extra-padding">
+              <c-b2b-attribute-configure-offer>
+                <div class="nds-b2b-attribute-config-offer_radio">
+                  <div class="nds-b2b-config-label">Contract Term</div>
+                  <div class="nds-b2b-config-radio_container radio-toolbar">
+                    <input type="radio" id="radio12" name="radioMonths" value="12" checked>
+                    <label for="radio12">12 Months</label>
+                
+                    <input type="radio" id="radio24" name="radioMonths" value="24">
+                    <label for="radio24">24 Months</label>
+                
+                    <input type="radio" id="radio36" name="radioMonths" value="36">
+                    <label for="radio36">36 Months</label> 
+                  </div>
+                </div>
+              </c-b2b-attribute-configure-offer>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    `);
+  })
+  .add("b2bCardMatrix", () => {
+    return withExample(`
+    <div class="nds-b2b-card">
+      <div class="nds-b2b-card_container">
+        <div class="nds-b2b-card_tabs">
+          <div class="nds-b2b-card_tab">
+            <input type="checkbox" id="chck2" class="nds-b2b-card_checkbox">
+            <label class="nds-b2b-card_tab-label" for="chck2">Details</label>
+            <div class="nds-b2b-card_tab-content nds-b2b-extra-padding">
+              <c-b2b-attribute-configure-offer>
+                <div class="nds-b2b-attribute-config-offer_matrix">
+                  <div class="nds-b2b-config-label">Maximum Download Speed</div>
+                  <table>
+                    <tr>
+                      <th></th>
+                      <th></th>
+                      <th>12 MONTHS</th>
+                      <th>24 MONTHS</th>
+                      <th>36 MONTHS</th>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="nds-radio nds-b2b-attribute-radio">
+                          <input type="radio" id="radio-1" name="options" value="on">
+                          <label class="nds-radio__label" for="radio-1">
+                            <span class="nds-radio_faux"></span>
+                          </label>
+                        </span>
+                        30 Mbps
+                      </td>
+                      <td>$0.00</td>
+                      <td>$75.00/mo</td>
+                      <td>$70.00/mo</td>
+                      <td>$60.00/mo</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="nds-radio nds-b2b-attribute-radio">
+                          <input type="radio" id="radio-2" name="options" value="on">
+                          <label class="nds-radio__label" for="radio-2">
+                            <span class="nds-radio_faux"></span>
+                          </label>
+                        </span>
+                        150 Mbps
+                      </td>
+                      <td>$0.00</td>
+                      <td>$75.00/mo</td>
+                      <td>$70.00/mo</td>
+                      <td>$60.00/mo</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="nds-radio nds-b2b-attribute-radio">
+                          <input type="radio" id="radio-3" name="options" value="on">
+                          <label class="nds-radio__label" for="radio-3">
+                            <span class="nds-radio_faux"></span>
+                          </label>
+                        </span>
+                        500 Mbps
+                      </td>
+                      <td>$0.00</td>
+                      <td>$75.00/mo</td>
+                      <td>$70.00/mo</td>
+                      <td>$60.00/mo</td>
+                    </tr>
+                  </table>
+                </div>
+              </c-b2b-attribute-configure-offer>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    `);
+  })
+  .add("b2bCardChildAddons", () => {
+    return withExample(`
+      <div class="nds-b2b-card">
+        <div class="nds-b2b-card_container">
+          <div class="nds-b2b-card_tabs">
+            <div class="nds-b2b-card_tab">
+              <input type="checkbox" id="chck1" class="nds-b2b-card_checkbox">
+              <label class="nds-b2b-card_tab-label" for="chck1">
+                <div class="nds-grid nds-b2b-label-container">
+                  <span class="nds-b2b-card_title">Details</span>
+                  <div class="nds-grid nds-wrap nds-b2b-label-details">
+                    <!-- Quantity -->
+                    <div class="nds-b2b-quantity">
+                      <p class="nds-b2b-configure_label">Quantity</p>
+                      <p><input class="nds-b2b-quantity_value" type="number" value="1" /></p>
+                    </div>
+
+                    <!-- Prices Container -->
+                    <div class="nds-b2b-price_info">
+                      <div class="nds-b2b-each-attribute">
+                        <p class="nds-b2b-attribute_label nds-text-align_right">One Time</p>
+                        <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1420.00</p>
+                      </div>
+                      <div class="nds-b2b-each-attribute">
+                        <p class="nds-b2b-attribute_label nds-text-align_right">Monthly</p>
+                        <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1350.00</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </label>
+              <div class="nds-b2b-card_tab-content nds-b2b-extra-padding">
+                <div class="nds-b2b-child_radio-container"> 
+                  <div class="nds-grid nds-b2b-label-container">
+                    <span class="nds-b2b-card_title">
+                      <span class="nds-radio nds-b2b-attribute-radio">
+                        <input type="radio" id="radio-1" name="options" value="on">
+                        <label class="nds-radio__label" for="radio-1">
+                          <span class="nds-radio_faux"></span>
+                        </label>
+                      </span>
+                      Details Child1
+                    </span>
+                    <div class="nds-grid nds-wrap nds-b2b-label-details">
+                      <!-- Quantity -->
+                      <div class="nds-b2b-quantity">
+                        <p class="nds-b2b-configure_label">Quantity</p>
+                        <p><input class="nds-b2b-quantity_value" type="number" value="1" /></p>
+                      </div>
+
+                      <!-- Prices Container -->
+                      <div class="nds-b2b-price_info">
+                        <div class="nds-b2b-each-attribute">
+                          <p class="nds-b2b-attribute_label nds-text-align_right">One Time</p>
+                          <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1420.00</p>
+                        </div>
+                        <div class="nds-b2b-each-attribute">
+                          <p class="nds-b2b-attribute_label nds-text-align_right">Monthly</p>
+                          <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1350.00</p>
+                        </div>
+                      </div>
+                    </div>  
+                  </div>
+                </div>
+
+                <div class="nds-b2b-child_radio-container"> 
+                  <div class="nds-grid nds-b2b-label-container">
+                    <span class="nds-b2b-card_title">
+                      <span class="nds-radio nds-b2b-attribute-radio">
+                        <input type="radio" id="radio-2" name="options" value="child2" selected>
+                        <label class="nds-radio__label" for="radio-2">
+                          <span class="nds-radio_faux"></span>
+                        </label>
+                      </span>
+                      Details Child2
+                    </span>
+                    <div class="nds-grid nds-wrap nds-b2b-label-details">
+                      <!-- Quantity -->
+                      <div class="nds-b2b-quantity">
+                        <p class="nds-b2b-configure_label">Quantity</p>
+                        <p><input class="nds-b2b-quantity_value" type="number" value="1" /></p>
+                      </div>
+
+                      <!-- Prices Container -->
+                      <div class="nds-b2b-price_info">
+                        <div class="nds-b2b-each-attribute">
+                          <p class="nds-b2b-attribute_label nds-text-align_right">One Time</p>
+                          <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1420.00</p>
+                        </div>
+                        <div class="nds-b2b-each-attribute">
+                          <p class="nds-b2b-attribute_label nds-text-align_right">Monthly</p>
+                          <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1350.00</p>
+                        </div>
+                      </div>
+                    </div>  
+                  </div>
+                </div>
+
+                <div class="nds-b2b-child_radio-container"> 
+                  <div class="nds-grid nds-b2b-label-container">
+                    <span class="nds-b2b-card_title">
+                      <span class="nds-radio nds-b2b-attribute-radio">
+                        <input type="radio" id="radio-3" name="options" value="child3">
+                        <label class="nds-radio__label" for="radio-3">
+                          <span class="nds-radio_faux"></span>
+                        </label>
+                      </span>
+                      Details Child3
+                    </span>
+                    <div class="nds-grid nds-wrap nds-b2b-label-details">
+                      <!-- Quantity -->
+                      <div class="nds-b2b-quantity">
+                        <p class="nds-b2b-configure_label">Quantity</p>
+                        <p><input class="nds-b2b-quantity_value" type="number" value="1" /></p>
+                      </div>
+
+                      <!-- Prices Container -->
+                      <div class="nds-b2b-price_info">
+                        <div class="nds-b2b-each-attribute">
+                          <p class="nds-b2b-attribute_label nds-text-align_right">One Time</p>
+                          <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1420.00</p>
+                        </div>
+                        <div class="nds-b2b-each-attribute">
+                          <p class="nds-b2b-attribute_label nds-text-align_right">Monthly</p>
+                          <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1350.00</p>
+                        </div>
+                      </div>
+                    </div>  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `);
+  })
+  .add("b2bTotalBar", () => {
+    return withExample(`
+    <div class="nds-grid nds-wrap nds-b2b-total-bar">
+      <div class="nds-b2b-configure_container">
+      </div>
+      <div class="nds-grid nds-wrap nds-b2b-price_container">
+        <div class="nds-b2b-quantity">
+          <p class="nds-b2b-configure_label">Locations</p>
+          <p><input class="nds-b2b-quantity_value" type="number" value="1" /></p>
+        </div>
+        <div class="nds-b2b-total">
+          <p class="nds-b2b-configure_label">One Time Total</p>
+          <p class="nds-b2b-configure_locations">$641.75</p>
+        </div>
+        <div class="nds-b2b-total">
+          <p class="nds-b2b-configure_label nds-text-align_right">Monthly Total</p>
+          <p class="nds-b2b-configure_locations">$675.00</p>
+        </div>
+        <button class="nds-button nds-b2b-location-button">Add To Locations</button>
+      </div>
+    </div>
+    `);
+  })
+  .add("b2bOverridePriceOffer", () => {
+    return withExample(`
+    <div class="nds-b2b-override-price-offer">
+      <!-- Radio price witch -->
+      <div class="nds-b2b-override-select-price">
+        <div class="nds-b2b-config-radio_container radio-toolbar">
+          <input type="radio" id="oneTime" name="prices" value="oneTime">
+          <label for="oneTime">One Time</label>
+      
+          <input type="radio" id="monthly" name="prices" value="monthly" checked>
+          <label for="monthly">Monthly</label>
+        </div>
+      </div>
+
+      <!-- Price Waterfall -->
+      <div class="nds-b2b-waterfall-container">
+        <div class="nds-b2b-override-header">
+          <svg class="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default nds-m-left_small" aria-hidden="true">
+            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#moneybag"></use>
+          </svg>
+          <span class="nds-b2b-override-header_title">Price Waterfall</span>
+        </div>
+        <div class="nds-b2b-override-prices-container">
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-override-prices_row">
+            <div class="nds-size_3-of-4">Base Price</div>
+            <div class="nds-size_1-of-4 nds-text-align_right">$200.00</div>
+          </div>
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-override-prices_row">
+            <div class="nds-size_3-of-4">
+              Volume Discount (Ethernet Discounts)
+              <span class="nds-b2b-override-by">Applied by Vlocity CME Adminstrator</span>
+            </div>
+            <div class="nds-size_1-of-4 nds-text-align_right">-5.0%</div>
+          </div>
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-override-prices_row">
+            <div class="nds-size_3-of-4"></div>
+            <div class="nds-size_1-of-4 nds-text-align_right">$190.00</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nds-form-element nds-b2b-search-discount">
+        <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left">
+          <svg class="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default nds-m-left_small" aria-hidden="true">
+            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+          </svg>
+          <input type="text" id="text-input-id-1" class="nds-input nds-b2b-search-discount_input" placeholder="Search">
+        </div>
+      </div>
+
+      <!-- Adjust Pricing -->
+      <div class="nds-b2b-waterfall-container">
+        <div class="nds-b2b-override-header">
+          <svg class="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default nds-m-left_small" aria-hidden="true">
+            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#quote"></use>
+          </svg>
+          <span class="nds-b2b-override-header_title">Price Waterfall</span>
+        </div>
+        <div class="nds-b2b-adjust-prices-container">
+          <div class="nds-b2b-override-container_header">Add Custom Discount</div>
+
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-custom-discount">
+            <div class="nds-form-element nds-size_3-of-7">
+              <div class="nds-m-right_small">
+                <div class="nds-form-element__control">
+                  <span class="nds-b2b-input-icon">$</span>
+                  <span class="nds-b2b-input-icon right">/mo</span>
+                  <input type="number" id="text-input-id-1" class="nds-input nds-b2b-input">
+                </div>
+              </div>
+            </div>
+            <div class="nds-form-element nds-size_3-of-7">
+              <div class="nds-m-right_small">
+                <div class="nds-form-element__control">
+                  <span class="nds-b2b-input-icon right">%</span>
+                  <input type="number" id="text-input-id-1" class="nds-input nds-b2b-input">
+                </div>
+              </div>
+            </div>
+            <div class="nds-size_1-of-7 nds-text-align_right"><button class="nds-button nds-b2b-add-button">Add</button></div>
+          </div>
+
+          <div class="nds-b2b-override-container_header">Available Discount</div>
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-override-discounts_row">
+            <div class="nds-size_3-of-7">Standard Discount</div>
+            <div class="nds-size_3-of-7 nds-text-align_right">-2.5%</div>
+            <div class="nds-size_1-of-7 nds-b2b-add-button_text nds-text-align_right">Add</div>
+          </div>
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-override-discounts_row">
+            <div class="nds-size_3-of-7">Industry Discount</div>
+            <div class="nds-size_3-of-7 nds-text-align_right">-3.75%</div>
+            <div class="nds-size_1-of-7 nds-b2b-add-button_text nds-text-align_right">Add</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    `);
   });
