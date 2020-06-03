@@ -35,7 +35,7 @@
       justify-content: space-between;
       .nds-dc-child-catalog-item {
         padding: 0.3125rem;
-        font-weight: bold;
+        font-weight: $font-weight-bold;
         cursor: pointer;
         width: 33.3333333333%;
         -ms-flex: 0 0 33.3333333333%;
@@ -50,7 +50,7 @@
     }
     h3 {
       font-size: 2em;
-      font-weight: bold;
+      font-weight: $font-weight-bold;
     }
   }
 }
