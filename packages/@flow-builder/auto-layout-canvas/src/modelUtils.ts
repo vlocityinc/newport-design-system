@@ -376,6 +376,25 @@ function deleteFault(state: FlowModel, elementWithFaultGuid: Guid, getSubElement
 
     return state;
 }
+
+/**
+ * Deletes a given branch of an element
+ *
+ * @param state - The flow model
+ * @param branchHeadGuid - Guid of the branch head element
+ * @param getSubElementGuids - Function to get sub element guids
+ */
+function deleteBranch(state: FlowModel, branchHeadGuid: Guid, getSubElementGuids: GetSubElementGuids) {
+    new FlcList(state, branchHeadGuid!).forEach(listElement => {
+        const elementToDelete = state[listElement.guid];
+        delete state[listElement.guid];
+        deleteElementDescendents(state, elementToDelete, DELETE_ALL, getSubElementGuids);
+        return elementToDelete;
+    });
+
+    return state;
+}
+
 /**
  * Deletes an element from the flowModel
  *
@@ -466,7 +485,7 @@ function deleteElementDescendents(
 
     // Action, CRUD and Wait (branching) elements can have a Fault path
     if (element.fault != null) {
-        elementsToDelete = [element.fault];
+        elementsToDelete.push(element.fault);
     }
 
     elementsToDelete.forEach((guid: NodeRef) => {
@@ -576,5 +595,6 @@ export {
     deleteElement,
     addElement,
     deleteFault,
+    deleteBranch,
     getChild
 };

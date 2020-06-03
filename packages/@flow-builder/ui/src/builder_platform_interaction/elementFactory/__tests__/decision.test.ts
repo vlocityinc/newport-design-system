@@ -10,6 +10,7 @@ import {
     createDecisionMetadataObject
 } from '../decision';
 import { ELEMENT_TYPE, CONNECTOR_TYPE, CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 import { LABELS } from '../elementFactoryLabels';
 import {
     baseCanvasElement,
@@ -31,18 +32,34 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/contextLib', () => {
+    return {
+        useFixedLayoutCanvas: jest.fn()
+    };
+});
+
 const newDecisionGuid = 'newDecision';
 const existingDecisionGuid = 'existingDecision';
+const decisionWithChildrenGuid = 'newDecisionWithChildren';
+const existingDecisionWithChildrenGuid = 'existingDecisionWithChildren';
+
 const existingDecision = {
     guid: existingDecisionGuid,
     outcomeReferences: [{ outcomeReference: 'existingOutcome1' }, { outcomeReference: 'existingOutcome2' }]
 };
+const existingDecisionWithChildren = {
+    guid: existingDecisionWithChildrenGuid,
+    outcomeReferences: [{ outcomeReference: 'existingOutcome1' }, { outcomeReference: 'existingOutcome2' }],
+    children: ['screen1', 'screen2', null]
+};
 
 getElementByGuid.mockImplementation(guid => {
-    if (guid === newDecisionGuid) {
+    if (guid === newDecisionGuid || guid === decisionWithChildrenGuid) {
         return null;
     } else if (guid === existingDecisionGuid) {
         return existingDecision;
+    } else if (guid === existingDecisionWithChildrenGuid) {
+        return existingDecisionWithChildren;
     }
 
     return {
@@ -300,9 +317,19 @@ describe('decision', () => {
     });
 
     describe('createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor', () => {
+        const shouldUseFlc = useFlc => {
+            useFixedLayoutCanvas.mockImplementation(() => {
+                return useFlc;
+            });
+        };
+
         let decisionFromPropertyEditor;
+        let decisionFromPropertyEditorWithChildren;
+        let existingDecisionFromPropertyEditorWithChildren;
 
         beforeEach(() => {
+            shouldUseFlc(false);
+
             decisionFromPropertyEditor = {
                 guid: newDecisionGuid,
                 outcomes: [
@@ -310,6 +337,26 @@ describe('decision', () => {
                         guid: 'outcome1'
                     }
                 ]
+            };
+
+            decisionFromPropertyEditorWithChildren = {
+                guid: decisionWithChildrenGuid,
+                outcomes: [
+                    {
+                        guid: 'outcome1'
+                    }
+                ],
+                children: null
+            };
+
+            existingDecisionFromPropertyEditorWithChildren = {
+                guid: existingDecisionWithChildrenGuid,
+                outcomes: [
+                    {
+                        guid: 'existingOutcome1'
+                    }
+                ],
+                children: ['screen1', 'screen2', null]
             };
         });
 
@@ -333,6 +380,15 @@ describe('decision', () => {
             );
 
             expect(result.canvasElement.elementType).toEqual(ELEMENT_TYPE.DECISION);
+        });
+
+        it('initializes children correctly for new decision with children', () => {
+            shouldUseFlc(true);
+            const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
+                decisionFromPropertyEditorWithChildren
+            );
+
+            expect(result.canvasElement.children).toEqual([null, null]);
         });
 
         describe('defaultConnectorLabel', () => {
@@ -464,6 +520,24 @@ describe('decision', () => {
                 );
 
                 expect(result.canvasElement.maxConnections).toEqual(2);
+            });
+
+            it('updates children property for existing decision with children', () => {
+                shouldUseFlc(true);
+                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
+                    existingDecisionFromPropertyEditorWithChildren
+                );
+
+                expect(result.canvasElement.children).toEqual(['screen1', null]);
+            });
+
+            it('deletedBranchHeadGuids should include "screen2" for existing decision with children', () => {
+                shouldUseFlc(true);
+                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(
+                    existingDecisionFromPropertyEditorWithChildren
+                );
+
+                expect(result.deletedBranchHeadGuids).toEqual(['screen2']);
             });
         });
     });

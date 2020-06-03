@@ -3,13 +3,13 @@ import {
     ADD_CANVAS_ELEMENT,
     ADD_START_ELEMENT,
     DELETE_ELEMENT,
+    MODIFY_DECISION_WITH_OUTCOMES,
     SELECTION_ON_FIXED_CANVAS,
     ADD_FAULT,
     REORDER_CONNECTORS,
     PASTE_ON_FIXED_CANVAS,
     FLC_CREATE_CONNECTION
 } from 'builder_platform_interaction/actions';
-import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
 import {
     addElement,
     deleteElement,
@@ -115,14 +115,6 @@ describe('elements-reducer', () => {
             });
             expect(spy).toHaveBeenCalled();
         });
-        it('supports children should be called when when dispatching ADD_CANVAS_ELEMENT', () => {
-            const spy = supportsChildren;
-            flcElementsReducer(oldElements, {
-                type: ADD_CANVAS_ELEMENT,
-                payload
-            });
-            expect(spy).toHaveBeenCalled();
-        });
     });
 
     describe('Add Start Element', () => {
@@ -156,6 +148,55 @@ describe('elements-reducer', () => {
             );
 
             expect(deleteElement).toHaveBeenLastCalledWith({}, elementToDelete, 1, getSubElementGuids);
+        });
+    });
+
+    describe('Modify Element With Children', () => {
+        const newDecision = {
+            guid: 'newDecision',
+            name: 'newDecision',
+            children: [null, 'screen1', null]
+        };
+
+        const originalStoreState = {
+            newDecision: {
+                guid: 'newDecision',
+                name: 'newDecision',
+                children: [null, 'screen1', null]
+            },
+            screen1: {
+                guid: 'screen1',
+                name: 'screen1',
+                childIndex: 0
+            },
+            screen2: {
+                guid: 'screen2',
+                name: 'screen2',
+                childIndex: 1,
+                next: 'screen3'
+            },
+            screen3: {
+                guid: 'screen3',
+                name: 'screen3',
+                prev: 'screen2'
+            }
+        };
+
+        const updatedState = flcElementsReducer(originalStoreState, {
+            type: MODIFY_DECISION_WITH_OUTCOMES,
+            payload: { canvasElement: newDecision, deletedBranchHeadGuids: ['screen2'] }
+        });
+
+        it('Updates the childIndex correctly', () => {
+            expect(updatedState.screen1.childIndex).toBe(1);
+        });
+
+        it('screen2 should not be in the store', () => {
+            expect(updatedState.screen2).toBeUndefined();
+        });
+
+        it('screen3 should not be in the store', () => {
+            expect(updatedState.screen3).toBeUndefined();
         });
     });
 

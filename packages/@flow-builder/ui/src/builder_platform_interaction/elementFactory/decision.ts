@@ -17,6 +17,7 @@ import {
 import { LABELS } from './elementFactoryLabels';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { createConnectorObjects } from './connector';
+import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
 const elementType = ELEMENT_TYPE.DECISION;
 
@@ -170,7 +171,10 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
     }
 
     const maxConnections = newOutcomes.length + 1;
-    const deletedOutcomes = getDeletedOutcomesUsingStore(decision, newOutcomes);
+    const { newChildren, deletedOutcomes, deletedBranchHeadGuids } = getUpdatedChildrenAndDeletedOutcomesUsingStore(
+        decision,
+        newOutcomes
+    );
     const deletedOutcomeGuids = deletedOutcomes.map(outcome => outcome.guid);
 
     let originalDecision = getElementByGuid(decision.guid);
@@ -194,6 +198,12 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
         childReferenceKeys.childReferenceKey
     );
 
+    if (useFixedLayoutCanvas()) {
+        Object.assign(newDecision, {
+            children: newChildren
+        });
+    }
+
     Object.assign(newDecision, {
         defaultConnectorLabel,
         outcomeReferences,
@@ -202,10 +212,12 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
         connectorCount,
         availableConnections
     });
+
     return {
         canvasElement: newDecision,
         deletedChildElementGuids: deletedOutcomeGuids,
         childElements: newOutcomes,
+        deletedBranchHeadGuids,
         elementType: ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES
     };
 }
@@ -351,11 +363,12 @@ function updateOutcomeReferences(outcomeReferences = [], outcome) {
     ];
 }
 
-function getDeletedOutcomesUsingStore(originalDecision, newOutcomes = []) {
+// TODO: Refactor Decision and Wait functions here to use common code path
+function getUpdatedChildrenAndDeletedOutcomesUsingStore(originalDecision, newOutcomes = []) {
     if (!originalDecision) {
         throw new Error('decision is not defined');
     }
-    const { guid } = originalDecision;
+    const { guid, children } = originalDecision;
     const decisionFromStore = getElementByGuid(guid);
     let outcomeReferencesFromStore;
     if (decisionFromStore) {
@@ -363,13 +376,41 @@ function getDeletedOutcomesUsingStore(originalDecision, newOutcomes = []) {
             outcomeReference => outcomeReference.outcomeReference
         );
     }
+
+    const newOutcomeGuids = newOutcomes.map(newOutcome => newOutcome.guid);
+
+    // Initializing the new children array
+    const newChildren = new Array(newOutcomeGuids.length + 1).fill(null);
+    let deletedOutcomes = [];
+    const deletedBranchHeadGuids = [];
+
     if (outcomeReferencesFromStore) {
-        const newOutcomeGuids = newOutcomes.map(newOutcome => newOutcome.guid);
-        return outcomeReferencesFromStore
+        deletedOutcomes = outcomeReferencesFromStore
             .filter(outcomeReferenceGuid => {
                 return !newOutcomeGuids.includes(outcomeReferenceGuid);
             })
             .map(outcomeReference => getElementByGuid(outcomeReference));
+
+        if (useFixedLayoutCanvas()) {
+            // For outcomes that previously existed, finding the associated children
+            // and putting them at the right indexes in newChildren
+            for (let i = 0; i < newOutcomeGuids.length; i++) {
+                const foundAtIndex = outcomeReferencesFromStore.indexOf(newOutcomeGuids[i]);
+                if (foundAtIndex !== -1) {
+                    newChildren[i] = children[foundAtIndex];
+                }
+            }
+
+            // Adding the default branch's associated child to the last index of newChildren
+            newChildren[newChildren.length - 1] = children[children.length - 1];
+
+            // Getting the child associated with the deleted outcome
+            for (let i = 0; i < outcomeReferencesFromStore.length; i++) {
+                if (!newOutcomeGuids.includes(outcomeReferencesFromStore[i]) && children[i]) {
+                    deletedBranchHeadGuids.push(children[i]);
+                }
+            }
+        }
     }
-    return [];
+    return { newChildren, deletedOutcomes, deletedBranchHeadGuids };
 }

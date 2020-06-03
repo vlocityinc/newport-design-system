@@ -10,6 +10,7 @@ import {
     CONNECTOR_TYPE,
     WAIT_TIME_EVENT_PARAMETER_NAMES
 } from 'builder_platform_interaction/flowMetadata';
+import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 import {
     baseCanvasElementMetadataObject,
     baseChildElementMetadataObject,
@@ -30,6 +31,13 @@ const existingWaitGuid = 'existingWait';
 const existingWait = {
     guid: existingWaitGuid,
     waitEventReferences: [{ waitEventReference: 'existingWaitEvent1' }, { waitEventReference: 'existingWaitEvent2' }]
+};
+const waitWithChildrenGuid = 'newWaitWithChildren';
+const existingWaitWithChildrenGuid = 'existingWaitWithChildren';
+const existingWaitWithChildren = {
+    guid: existingWaitWithChildrenGuid,
+    waitEventReferences: [{ waitEventReference: 'existingWaitEvent1' }, { waitEventReference: 'existingWaitEvent2' }],
+    children: ['screen1', 'screen2', null]
 };
 
 const existingWaitEventGuid = 'existingWaitEvent';
@@ -63,8 +71,14 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/contextLib', () => {
+    return {
+        useFixedLayoutCanvas: jest.fn()
+    };
+});
+
 getElementByGuid.mockImplementation(guid => {
-    if (guid === newWaitGuid) {
+    if (guid === newWaitGuid || guid === waitWithChildrenGuid) {
         return null;
     } else if (guid === existingWaitGuid) {
         return existingWait;
@@ -72,6 +86,8 @@ getElementByGuid.mockImplementation(guid => {
         return existingWaitEvent;
     } else if (guid === emptyParameterValueWaitEventGuid) {
         return emptyParameterValueWaitEvent;
+    } else if (guid === existingWaitWithChildrenGuid) {
+        return existingWaitWithChildren;
     }
 
     return {
@@ -432,9 +448,19 @@ describe('wait', () => {
     });
 
     describe('createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor', () => {
+        const shouldUseFlc = useFlc => {
+            useFixedLayoutCanvas.mockImplementation(() => {
+                return useFlc;
+            });
+        };
+
         let waitFromPropertyEditor;
+        let waitFromPropertyEditorWithChildren;
+        let existingWaitFromPropertyEditorWithChildren;
 
         beforeEach(() => {
+            shouldUseFlc(false);
+
             waitFromPropertyEditor = {
                 guid: newWaitGuid,
                 waitEvents: [
@@ -442,6 +468,26 @@ describe('wait', () => {
                         guid: 'waitEvent1'
                     }
                 ]
+            };
+
+            waitFromPropertyEditorWithChildren = {
+                guid: waitWithChildrenGuid,
+                waitEvents: [
+                    {
+                        guid: 'waitEvent1'
+                    }
+                ],
+                children: null
+            };
+
+            existingWaitFromPropertyEditorWithChildren = {
+                guid: existingWaitWithChildrenGuid,
+                waitEvents: [
+                    {
+                        guid: 'existingWaitEvent1'
+                    }
+                ],
+                children: ['screen1', 'screen2', null]
             };
         });
 
@@ -461,6 +507,15 @@ describe('wait', () => {
             const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
 
             expect(result.canvasElement.elementType).toEqual(ELEMENT_TYPE.WAIT);
+        });
+
+        it('initializes children correctly for new wait with children', () => {
+            shouldUseFlc(true);
+            const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
+                waitFromPropertyEditorWithChildren
+            );
+
+            expect(result.canvasElement.children).toEqual([null, null]);
         });
 
         describe('defaultConnectorLabel', () => {
@@ -583,6 +638,24 @@ describe('wait', () => {
                 const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
 
                 expect(result.canvasElement.maxConnections).toEqual(3);
+            });
+
+            it('updates children property for existing wait with children', () => {
+                shouldUseFlc(true);
+                const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
+                    existingWaitFromPropertyEditorWithChildren
+                );
+
+                expect(result.canvasElement.children).toEqual(['screen1', null]);
+            });
+
+            it('deletedBranchHeadGuids should include "screen2" for existing wait with children', () => {
+                shouldUseFlc(true);
+                const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
+                    existingWaitFromPropertyEditorWithChildren
+                );
+
+                expect(result.deletedBranchHeadGuids).toEqual(['screen2']);
             });
         });
     });

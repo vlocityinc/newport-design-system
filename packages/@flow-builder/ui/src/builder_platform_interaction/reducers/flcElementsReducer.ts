@@ -22,8 +22,7 @@ import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import elementsReducer from './elementsReducer';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
-import { initializeChildren, createRootElement } from 'builder_platform_interaction/flcConversionUtils';
-import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
+import { createRootElement } from 'builder_platform_interaction/flcConversionUtils';
 import {
     addElementToState,
     linkElement,
@@ -32,6 +31,7 @@ import {
     deleteElement,
     addElement,
     deleteFault,
+    deleteBranch,
     FAULT_INDEX,
     reconnectBranchElement,
     findLastElement
@@ -70,7 +70,7 @@ export default function flcElementsReducer(state = {}, action) {
             break;
         case MODIFY_WAIT_WITH_WAIT_EVENTS:
         case MODIFY_DECISION_WITH_OUTCOMES:
-            state = _addCanvasElement(state, action, true);
+            state = _modifyCanvasElementWithChildren(state, action);
             break;
         case DELETE_ELEMENT:
             // TODO: FLC find a better solution for getSubElementGuids
@@ -151,18 +151,33 @@ function _deleteFault(state, elementGuid) {
  * Function to add a canvas element on the fixed canvas
  * @param {Object} state - State of elements in the store
  * @param {Object} action - Action dispatched to the store
- * @param {boolean} isUpdate - Wheter we are updating the element
  */
-function _addCanvasElement(state, action, isUpdate = false) {
-    let element = _getElementFromActionPayload(action.payload);
-    element = isUpdate ? state[element.guid] : element;
+function _addCanvasElement(state, action) {
+    const element = _getElementFromActionPayload(action.payload);
 
-    if (supportsChildren(element)) {
-        initializeChildren(element);
+    addElement(state, element, action.type === ADD_END_ELEMENT);
+
+    return state;
+}
+
+/**
+ * Function to add a canvas element on the fixed canvas
+ * @param {Object} state - State of elements in the store
+ * @param {Object} action - Action dispatched to the store
+ */
+function _modifyCanvasElementWithChildren(state, action) {
+    let element = _getElementFromActionPayload(action.payload);
+    element = state[element.guid];
+
+    for (let i = 0; i < element.children.length; i++) {
+        if (element.children[i]) {
+            state[element.children[i]].childIndex = i;
+        }
     }
 
-    if (!isUpdate) {
-        addElement(state, element, action.type === ADD_END_ELEMENT);
+    const deletedBranchHeadGuids = action.payload.deletedBranchHeadGuids;
+    for (let i = 0; i < deletedBranchHeadGuids.length; i++) {
+        deleteBranch(state, deletedBranchHeadGuids[i], getSubElementGuids);
     }
 
     return state;

@@ -5,6 +5,7 @@ import {
     findLastElement,
     deleteElement,
     deleteFault,
+    deleteBranch,
     getTargetGuidsForBranchReconnect,
     reconnectBranchElement,
     addElement
@@ -548,6 +549,41 @@ describe('modelUtils', () => {
 
             expect(element).toEqual(elementWithoutFault);
             expect(elements).toEqual({ [elementWithoutFault.guid]: elementWithoutFault });
+        });
+    });
+
+    describe('deleteBranch', () => {
+        it('deletes all the elements in the branch', () => {
+            const faultElement = {
+                guid: 'fault-element-guid'
+            };
+
+            const element = {
+                guid: 'element-guid',
+                fault: faultElement.guid
+            };
+
+            const elements = {
+                decision1: {
+                    guid: 'decision1',
+                    next: 'screen2',
+                    children: ['screen1', null]
+                },
+                screen1: {
+                    guid: 'screen1',
+                    parent: 'decision1',
+                    childIndex: 0
+                },
+                screen2: {
+                    guid: 'screen2',
+                    prev: 'decision1'
+                }
+            };
+
+            deleteBranch(elements, 'decision1', getSubElementGuids);
+            expect(elements['decision1']).toBeUndefined();
+            expect(elements['screen1']).toBeUndefined();
+            expect(elements['screen2']).toBeUndefined();
         });
     });
 });

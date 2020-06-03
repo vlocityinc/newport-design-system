@@ -28,6 +28,7 @@ import {
 import { isObject, isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementFactoryLabels';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
 const elementType = ELEMENT_TYPE.WAIT;
 const MAX_CONNECTIONS_DEFAULT = 2;
@@ -413,7 +414,10 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
     }
 
     const maxConnections = newWaitEvents.length + 2;
-    const deletedWaitEvents = getDeletedWaitEventsUsingStore(wait, newWaitEvents);
+    const { newChildren, deletedWaitEvents, deletedBranchHeadGuids } = getUpdatedChildrenDeletedWaitEventsUsingStore(
+        wait,
+        newWaitEvents
+    );
     const deletedWaitEventGuids = deletedWaitEvents.map(waitEvent => waitEvent.guid);
 
     let originalWait = getElementByGuid(wait.guid);
@@ -450,6 +454,12 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
         connectorCount += 1;
     }
 
+    if (useFixedLayoutCanvas()) {
+        Object.assign(newWait, {
+            children: newChildren
+        });
+    }
+
     Object.assign(newWait, {
         waitEventReferences,
         elementType,
@@ -463,6 +473,7 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
         canvasElement: newWait,
         deletedChildElementGuids: deletedWaitEventGuids,
         childElements: newWaitEvents,
+        deletedBranchHeadGuids,
         elementType: ELEMENT_TYPE.WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS
     };
 }
@@ -585,11 +596,12 @@ function updateWaitEventReferences(waitEventReferences = [], waitEvent) {
     ];
 }
 
-function getDeletedWaitEventsUsingStore(originalWait, newWaitEvents = []) {
+// TODO: Refactor Decision and Wait functions here to use common code path
+function getUpdatedChildrenDeletedWaitEventsUsingStore(originalWait, newWaitEvents = []) {
     if (!originalWait) {
         throw new Error('wait is not defined');
     }
-    const { guid } = originalWait;
+    const { guid, children } = originalWait;
     const waitFromStore = getElementByGuid(guid);
     let waitEventReferencesFromStore;
     if (waitFromStore) {
@@ -597,13 +609,41 @@ function getDeletedWaitEventsUsingStore(originalWait, newWaitEvents = []) {
             waitEventReference => waitEventReference.waitEventReference
         );
     }
+
+    const newWaitEventGuids = newWaitEvents.map(newWaitEvent => newWaitEvent.guid);
+
+    // Initializing the new children array
+    const newChildren = new Array(newWaitEventGuids.length + 1).fill(null);
+    let deletedWaitEvents = [];
+    const deletedBranchHeadGuids = [];
+
     if (waitEventReferencesFromStore) {
-        const newWaitEventGuids = newWaitEvents.map(newWaitEvent => newWaitEvent.guid);
-        return waitEventReferencesFromStore
+        deletedWaitEvents = waitEventReferencesFromStore
             .filter(waitEventReferenceGuid => {
                 return !newWaitEventGuids.includes(waitEventReferenceGuid);
             })
             .map(waitEventReference => getElementByGuid(waitEventReference));
+
+        if (useFixedLayoutCanvas()) {
+            // For wait events that previously existed, finding the associated children
+            // and putting them at the right indexes in newChildren
+            for (let i = 0; i < newWaitEventGuids.length; i++) {
+                const foundAtIndex = waitEventReferencesFromStore.indexOf(newWaitEventGuids[i]);
+                if (foundAtIndex !== -1) {
+                    newChildren[i] = children[foundAtIndex];
+                }
+            }
+
+            // Adding the default branch's associated child to the last index of newChildren
+            newChildren[newChildren.length - 1] = children[children.length - 1];
+
+            // Getting the child associated with the deleted wait event
+            for (let i = 0; i < waitEventReferencesFromStore.length; i++) {
+                if (!newWaitEventGuids.includes(waitEventReferencesFromStore[i]) && children[i]) {
+                    deletedBranchHeadGuids.push(children[i]);
+                }
+            }
+        }
     }
-    return [];
+    return { newChildren, deletedWaitEvents, deletedBranchHeadGuids };
 }
