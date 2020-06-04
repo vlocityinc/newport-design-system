@@ -2,11 +2,11 @@
 
 In this short example we'll look at the steps to take a Newport button from looking like:
 
-![Newport Design System Brand Button](/docs/newport-brand-default-button.png)
+![Newport Design System Brand Button](./docs/newport-brand-default-button.png)
 
 to:
 
-![Customised Newport Design System Brand Button](/docs/customised-newport-brand-default-button_png.png)
+![Customised Newport Design System Brand Button](./docs/customised-newport-brand-default-button_png.png)
 
 ## Getting Started
 
@@ -39,7 +39,7 @@ $button-border-radius: 0rem !default;
 
 Save the file and check out the preview tool:
 
-![Changing border radius of button](/docs/customize-button-border-radius.png)
+![Changing border radius of button](./docs/customize-button-border-radius.png)
 
 You should see some nice square borders.
 
@@ -69,7 +69,7 @@ $color-background-button-brand: $newport-pink-background !default;
 
 Hit save and go to the previewer:
 
-![Changing background of button](/docs/customize-button-background.png)
+![Changing background of button](./docs/customize-button-background.png)
 
 
 ### Changing the border-color
@@ -82,7 +82,7 @@ $button-color-border-brand-primary: $newport-pink-background !default;
 
 Save your changes and checkout the previewer:
 
-![Changing border color of a button](/docs/customize-button-border-color.png)
+![Changing border color of a button](./docs/customize-button-border-color.png)
 
 ### Next steps...
 
