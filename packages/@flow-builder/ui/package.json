@@ -8,7 +8,8 @@
         "ui": true
     },
     "scripts": {
-        "build:tsc": "tsc",
+        "build:ts": "tsc",
+        "build": "yarn build:ts",
         "test": "lwc-test src",
         "coverage": "lwc-test src -- --coverage",
         "lint": "eslint --max-warnings 0 src/**/*.ts"

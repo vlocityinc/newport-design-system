@@ -8,7 +8,12 @@
         "namespace": "builder_platform_interaction",
         "ui": true
     },
+    "dependencies": {
+        "@flow-builder/auto-layout-canvas": "0.0.1"
+    },
     "scripts": {
+        "build:ts": "tsc",
+        "build": "yarn build:ts",
         "test": "lwc-test src",
         "coverage": "lwc-test src -- --coverage",
         "lint": "eslint --max-warnings 0 src/**/*.ts"

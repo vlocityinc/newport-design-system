@@ -17,11 +17,21 @@ const FEROV_TYPES = {
     Boolean: ['BOOLEAN']
 };
 
+type ScreenFieldType = {
+    name: string;
+    fieldType: string;
+    dataType?: string;
+    label?: string;
+    icon?: string;
+    category?: string;
+    type?: string;
+};
+
 /**
  * All screen field types
  * Property type represents the actual data type of the field (used as part of ferov handling)
  */
-const screenFieldTypes = [
+const screenFieldTypes: ScreenFieldType[] = [
     {
         name: 'TextBox',
         fieldType: 'InputField',

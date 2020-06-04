@@ -68,7 +68,7 @@ function _shouldTraverseDown(action, currentBranchElement) {
  * @param {Object} flowModel - Representation of the flow as presented in the Canvas
  */
 function _getChildBranchElements(elementsMetadata, action, parentElement, flowModel) {
-    let branchElementGuidsToSelectOrDeselect = [];
+    let branchElementGuidsToSelectOrDeselect: string[] = [];
     if (parentElement && parentElement.children && parentElement.children.length > 0) {
         const branchRootsToVisitStack = parentElement.children;
 
@@ -100,7 +100,7 @@ function _getChildBranchElements(elementsMetadata, action, parentElement, flowMo
  * @param {Object} flowModel - Representation of the flow as presented in the Canvas
  */
 function _getFaultBranchElements(elementsMetadata, action, parentElement, flowModel) {
-    let branchElementGuidsToSelectOrDeselect = [];
+    let branchElementGuidsToSelectOrDeselect: string[] = [];
     let currentBranchElement = flowModel[parentElement.fault];
 
     // Iterate only up till the End Element of the Fault Branch
@@ -125,7 +125,7 @@ function _getFaultBranchElements(elementsMetadata, action, parentElement, flowMo
  * @param {Object} flowModel - Representation of the flow as presented in the Canvas
  */
 function _getSubtreeElements(elementsMetadata, action, parentElement, flowModel) {
-    let canvasElementGuidsArray = [];
+    let canvasElementGuidsArray: string[] = [];
     // Getting all the elements present in the child branches based on the selection/deselection action
     if (supportsChildren(elementsMetadata, parentElement)) {
         canvasElementGuidsArray = canvasElementGuidsArray.concat(
@@ -151,7 +151,7 @@ function _getSubtreeElements(elementsMetadata, action, parentElement, flowModel)
  * @returns {String[]} selectableCanvasElementGuids - An array containing all the selectable Canvas Element Guids
  */
 function _getSelectableCanvasElementGuids(elementsMetadata, topSelectedGuid, flowModel) {
-    let selectableCanvasElementGuids = [];
+    let selectableCanvasElementGuids: string[] = [];
     if (topSelectedGuid) {
         const topSelectedElement = flowModel[topSelectedGuid];
         let currentCanvasElement = topSelectedElement;
@@ -193,7 +193,7 @@ function _getSelectableCanvasElementGuids(elementsMetadata, topSelectedGuid, flo
  * @returns {canvasElementGuidsToSelect: String[], canvasElementGuidsToDeselect: String[], selectableCanvasElementGuids: String[], topSelectedGuid: String} - Selection Data as needed by the store
  */
 const getCanvasElementSelectionData = (elementsMetadata, flowModel, selectedCanvasElementGuid, topSelectedGuid) => {
-    let canvasElementGuidsToSelect = [];
+    let canvasElementGuidsToSelect: string[] = [];
 
     const selectedCanvasElement = flowModel[selectedCanvasElementGuid];
     if (!topSelectedGuid) {
@@ -291,7 +291,7 @@ const getCanvasElementSelectionData = (elementsMetadata, flowModel, selectedCanv
  */
 const getCanvasElementDeselectionData = (elementsMetadata, flowModel, deselectedCanvasElementGuid, topSelectedGuid) => {
     const deselectedCanvasElement = flowModel[deselectedCanvasElementGuid];
-    let canvasElementGuidsToDeselect = [];
+    let canvasElementGuidsToDeselect: string[] = [];
 
     if (deselectedCanvasElementGuid === topSelectedGuid) {
         // Top-most element is being deselected, we don't need to deselect anything else. Just have to reset the
@@ -349,7 +349,7 @@ const getCanvasElementDeselectionData = (elementsMetadata, flowModel, deselected
  */
 const getCanvasElementDeselectionDataOnToggleOff = (elementsMetadata, flowModel, topSelectedGuid) => {
     const topSelectedElement = flowModel[topSelectedGuid];
-    let canvasElementGuidsToDeselect = [];
+    let canvasElementGuidsToDeselect: string[] = [];
 
     let currentCanvasElement = topSelectedElement;
     // When toggling out of the selection mode, everything needs to be deselected
