@@ -37,7 +37,7 @@
     "coverageDirectory": "../../../coverage",
     "collectCoverageFrom": [
         "<rootDir>/src/*/!(builderTestUtils)**/*",
-        "!**/*Labels",
+        "!**/*Labels*",
         "!**/integrationTests/**/*",
         "!**/__tests__/**/*"
     ],
@@ -46,7 +46,7 @@
         [
             "../../../node_modules/jest-html-reporter",
             {
-                "pageTitle": "ui-interaction-builder-components Jest test report",
+                "pageTitle": "ui-interaction-builder-components Jest tests report",
                 "outputPath": "../../../jest-report/index.html",
                 "includeFailureMsg": true
             }
