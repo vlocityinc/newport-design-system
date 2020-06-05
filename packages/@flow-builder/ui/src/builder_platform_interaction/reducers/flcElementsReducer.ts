@@ -22,7 +22,10 @@ import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import elementsReducer from './elementsReducer';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
-import { createRootElement } from 'builder_platform_interaction/flcConversionUtils';
+import { createRootElement, initializeChildren } from 'builder_platform_interaction/flcConversionUtils';
+
+import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
+
 import {
     addElementToState,
     linkElement,
@@ -154,6 +157,10 @@ function _deleteFault(state, elementGuid) {
  */
 function _addCanvasElement(state, action) {
     const element = _getElementFromActionPayload(action.payload);
+
+    if (supportsChildren(element)) {
+        initializeChildren(element);
+    }
 
     addElement(state, element, action.type === ADD_END_ELEMENT);
 

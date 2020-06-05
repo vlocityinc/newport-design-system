@@ -19,7 +19,7 @@
         onmouseout={handleComboboxMouseOut}
         onmouseover={handleComboboxMouseOver}
     ></lightning-combobox>
-    <div if:true={isDefaultOrFault} class={connectorBadgeClass} style={connectorLabelStyle}>
+    <div if:true={hasConnectorBadge} class={connectorBadgeClass} style={connectorLabelStyle}>
         <span class="slds-truncate">{connectorBadgeLabel}</span>
     </div>
 

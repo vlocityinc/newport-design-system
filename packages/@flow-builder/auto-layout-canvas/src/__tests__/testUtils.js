@@ -7,6 +7,7 @@ const ROOT_ELEMENT_GUID = 'root';
 const START_ELEMENT_GUID = 'start-guid';
 const END_ELEMENT_GUID = 'end-guid';
 const BRANCH_ELEMENT_GUID = 'branch-guid';
+const LOOP_ELEMENT_GUID = 'loop-guid';
 
 const ROOT_ELEMENT = { guid: ROOT_ELEMENT_GUID, elementType: ElementType.ROOT, children: [START_ELEMENT_GUID] };
 const START_ELEMENT = {
@@ -26,6 +27,12 @@ const BRANCH_ELEMENT = {
     defaultConnectorLabel: 'Default Connector Label'
 };
 
+const LOOP_ELEMENT = {
+    guid: LOOP_ELEMENT_GUID,
+    elementType: ElementType.LOOP,
+    children: [null]
+};
+
 const elementsMetadata = {
     [ElementType.ROOT]: {
         type: ElementType.ROOT,
@@ -37,6 +44,10 @@ const elementsMetadata = {
     },
     [ElementType.BRANCH]: {
         type: ElementType.BRANCH,
+        icon: 'standard:default'
+    },
+    [ElementType.LOOP]: {
+        type: ElementType.LOOP,
         icon: 'standard:default'
     },
     [ElementType.END]: {
@@ -102,6 +113,12 @@ function getFlowWithEmptyDecisionContext() {
     return createFlowRenderContext({ flowModel });
 }
 
+function getFlowWithEmptyLoopContext() {
+    const elements = linkElements([START_ELEMENT, LOOP_ELEMENT, END_ELEMENT]);
+    const flowModel = flowModelFromElements([ROOT_ELEMENT, ...elements]);
+    return createFlowRenderContext({ flowModel });
+}
+
 function getFlowWithEmptyDeciisionWith3BranchesContext() {
     const branchElement = { ...BRANCH_ELEMENT, children: [null, null, null] };
     const elements = linkElements([START_ELEMENT, branchElement, END_ELEMENT]);
@@ -139,5 +156,6 @@ export {
     getEmptyFlowContext,
     getFlowWithEmptyDecisionContext,
     getFlowWithEmptyDeciisionWith3BranchesContext,
-    getFlowWithDecisionWithOneElementOnLeftBranchContext
+    getFlowWithDecisionWithOneElementOnLeftBranchContext,
+    getFlowWithEmptyLoopContext
 };

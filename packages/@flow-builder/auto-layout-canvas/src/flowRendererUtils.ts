@@ -67,7 +67,8 @@ export interface Dimension {
 export enum ConnectorVariant {
     DEFAULT = 'default',
     EDGE = 'edge',
-    CENTER = 'center'
+    CENTER = 'center',
+    LOOP = 'loop'
 }
 
 interface ConnectorTypeLayoutConfig {
@@ -75,7 +76,7 @@ interface ConnectorTypeLayoutConfig {
     addOffset: number;
     labelOffset?: number;
     variants?: {
-        [key in ConnectorVariant]: any;
+        [key in ConnectorVariant]?: any;
     };
     svgMarginTop?: number;
     svgMarginBottom?: number;
@@ -147,6 +148,7 @@ export interface ConnectorConnectionInfo {
 
 export interface ConnectorRenderInfo {
     type: ConnectorType;
+    variant?: ConnectorVariant;
     geometry: Geometry;
     svgInfo: SvgInfo;
     addInfo?: ConnectorAddInfo;

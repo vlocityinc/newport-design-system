@@ -87,9 +87,16 @@ export const createRootElement = (startElementGuid = null) => {
  * @param {Object} element
  */
 export function initializeChildren(element) {
-    const elementConfig = getConfigForElementType(element.elementType);
+    const { elementType } = element;
+    const elementConfig = getConfigForElementType(elementType);
 
-    const childCount = element.maxConnections - (elementConfig.canHaveFaultConnector ? 1 : 0);
+    let childCount;
+
+    if (elementType === ELEMENT_TYPE.LOOP) {
+        childCount = 1;
+    } else {
+        childCount = element.maxConnections - (elementConfig.canHaveFaultConnector ? 1 : 0);
+    }
     const children = element.children || [];
     const childCountDiff = childCount - children.length;
 

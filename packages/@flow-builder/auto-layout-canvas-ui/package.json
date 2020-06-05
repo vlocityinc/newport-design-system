@@ -15,6 +15,7 @@
         "build:ts": "tsc",
         "build": "yarn build:ts",
         "test": "lwc-test src",
+        "test:update-snapshots": "lwc-test --updateSnapshot",
         "coverage": "lwc-test src -- --coverage",
         "lint": "eslint --max-warnings 0 src/**/*.ts"
     },

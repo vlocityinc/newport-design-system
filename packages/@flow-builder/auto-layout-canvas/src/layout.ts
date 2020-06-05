@@ -124,7 +124,7 @@ function getNextNodeConnectorType(
 
     if (elementType === ElementType.END || elementType === ElementType.ROOT) {
         nextNodeConnectorType = null;
-    } else if (elementType === ElementType.BRANCH) {
+    } else if (elementType === ElementType.BRANCH || elementType === ElementType.LOOP) {
         if (isBranchHead) {
             nextNodeConnectorType = nodeGuid == null ? ConnectorType.BRANCH_EMPTY_HEAD : ConnectorType.BRANCH_HEAD;
         } else {
@@ -186,6 +186,17 @@ function getExtraHeightForMenu({
 }
 
 /**
+ * Get the ElementType of a node
+ *
+ * @param context - The flow render context
+ * @param nodeModel - The node model
+ * @returns the ElementType for the node
+ */
+function getElementType(context: FlowRenderContext, nodeModel: NodeModel): ElementType {
+    return getElementMetadata(context.elementsMetadata, nodeModel.elementType).type;
+}
+
+/**
  * Calculates the layout for a node
  *
  * @param nodeModel - The node model
@@ -194,12 +205,11 @@ function getExtraHeightForMenu({
  * @returns A NodeLayout for the node
  */
 function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, offsetY: number): NodeLayout {
-    const { nodeLayoutMap, elementsMetadata, layoutConfig } = context;
+    const { nodeLayoutMap, layoutConfig } = context;
 
     let layout;
     const { guid } = nodeModel;
     let layoutInfo = nodeLayoutMap[guid];
-    const nodeMetadata = getElementMetadata(elementsMetadata, nodeModel.elementType);
 
     // handle the layout for any branches
     const branchingInfo = calculateBranchingLayout(nodeModel as ParentNodeModel, context, offsetY);
@@ -208,7 +218,8 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
         calculateBranchLayout(nodeModel as ParentNodeModel, FAULT_INDEX, context);
     }
 
-    const nextNodeConnectorType = getNextNodeConnectorType(nodeMetadata.type, nodeModel.guid, nodeModel.next, false);
+    const elementType = getElementType(context, nodeModel);
+    const nextNodeConnectorType = getNextNodeConnectorType(elementType, nodeModel.guid, nodeModel.next, false);
     const nextNodeConnectorHeight =
         nextNodeConnectorType != null ? getConnectorHeight(nextNodeConnectorType, layoutConfig) : 0;
 
@@ -221,7 +232,7 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
             ? getExtraHeightForMenu({
                   hasNext: nodeModel.next != null,
                   menuType,
-                  elementType: nodeMetadata.type,
+                  elementType,
                   connectorType: nextNodeConnectorType!,
                   connectorHeight:
                       menuType === MenuType.CONNECTOR && nextNodeConnectorType === ConnectorType.POST_MERGE
@@ -275,32 +286,54 @@ function createLayoutForNewNode(nodeModel: NodeModel, nodeLayoutMap: NodeLayoutM
     return nextLayoutInfo != null ? cloneLayout(nextLayoutInfo.prevLayout) : createDefaultLayout();
 }
 
+/**
+ * Calculates the branching layout
+ *
+ * @param nodeModel - The branching node model
+ * @param context - The flow render context
+ * @param offsetY - The offset-y of the branching element
+ * @returns branching layout information
+ */
 function calculateBranchingLayout(nodeModel: ParentNodeModel, context: FlowRenderContext, offsetY: number) {
-    const childCount = (nodeModel.children || []).length;
+    const type = getElementType(context, nodeModel);
 
-    if (childCount < 1) {
+    const children = nodeModel.children || [];
+
+    if (children.length < 1) {
         return { w: 0, h: 0, offsetX: 0 };
     }
 
-    let branchingHeight = 0;
-
     let branchOffsetX = 0;
-    const branchLayouts = [];
+    let offsetX;
+    let w;
+    let h = 0;
 
-    for (let i = 0; i < childCount; i++) {
-        const branchLayout = calculateBranchLayout(nodeModel, i, context, offsetY);
+    if (type === ElementType.LOOP) {
+        const lastConnectorSpacing = context.layoutConfig.grid.h * 2.5;
 
-        // make the branch's stem the origin
-        branchLayout.x = branchOffsetX + branchLayout.offsetX;
+        const branchLayout = calculateBranchLayout(nodeModel, 0, context, offsetY);
+        offsetX = branchLayout.offsetX + lastConnectorSpacing;
+        branchLayout.x = 0;
+        branchLayout.h += context.layoutConfig.grid.h;
+        h = branchLayout.h;
+        w = branchLayout.w + 2 * lastConnectorSpacing;
+    } else {
+        const branchLayouts = children.map((child, i) => {
+            const branchLayout = calculateBranchLayout(nodeModel, i, context, offsetY);
 
-        branchOffsetX += branchLayout.w;
-        branchingHeight = Math.max(branchingHeight, branchLayout.h);
-        branchLayouts.push(branchLayout);
+            // make the branch's stem the origin
+            branchLayout.x = branchOffsetX + branchLayout.offsetX;
+
+            branchOffsetX += branchLayout.w;
+            h = Math.max(h, branchLayout.h);
+            return branchLayout;
+        });
+
+        offsetX = centerLayouts(branchLayouts);
+        w = branchOffsetX;
     }
 
-    const offsetX = centerLayouts(branchLayouts);
-
-    return { w: branchOffsetX, h: branchingHeight, offsetX };
+    return { w, h, offsetX };
 }
 
 /**
@@ -330,7 +363,7 @@ function calculateBranchLayout(
     context: FlowRenderContext,
     offsetY: number = 0
 ): LayoutInfo {
-    const { flowModel, nodeLayoutMap, elementsMetadata, layoutConfig } = context;
+    const { flowModel, nodeLayoutMap, layoutConfig } = context;
 
     const prevLayout = getBranchLayout(parentNodeModel.guid, childIndex, nodeLayoutMap)
         ? getBranchLayout(parentNodeModel.guid, childIndex, nodeLayoutMap).layout
@@ -343,13 +376,13 @@ function calculateBranchLayout(
         layout: branchLayout
     });
 
-    const parentNodeMetadata = getElementMetadata(elementsMetadata, parentNodeModel.elementType);
+    const parentNodeType = getElementType(context, parentNodeModel);
     const branchHeadGuid = getLayoutChildOrFault(parentNodeModel, childIndex);
 
     let node: NodeModel | null = branchHeadGuid != null ? resolveNode(flowModel, branchHeadGuid) : null;
 
     const nextNodeConnectorType: ConnectorType = getNextNodeConnectorType(
-        parentNodeMetadata.type,
+        parentNodeType,
         branchHeadGuid,
         branchHeadGuid,
         true
@@ -377,11 +410,9 @@ function calculateBranchLayout(
     while (node) {
         const { layout } = calculateNodeLayout(node, context, height);
 
-        const nodeMetadata = getElementMetadata(elementsMetadata, node.elementType);
+        const nodeType = getElementType(context, node);
         isTerminal =
-            isTerminal ||
-            (nodeMetadata.type === ElementType.END && parentNodeModel.next != null) ||
-            childIndex === FAULT_INDEX;
+            isTerminal || (nodeType === ElementType.END && parentNodeModel.next != null) || childIndex === FAULT_INDEX;
 
         if (node.fault != null) {
             faultLayout = getBranchLayout(node.guid, FAULT_INDEX, nodeLayoutMap).layout;

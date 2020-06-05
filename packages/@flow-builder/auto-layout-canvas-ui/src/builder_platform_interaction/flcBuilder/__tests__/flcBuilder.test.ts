@@ -65,6 +65,12 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         calculateFlowLayout: jest.fn(),
         getDefaultLayoutConfig,
         animate: jest.fn(),
+        findParentElement: jest.fn(() => ({ elementType: 'Decision' })),
+        getElementMetadata: jest.fn(() => ({
+            Decision: {
+                type: ElementType.BRANCH
+            }
+        })),
         MenuType: autoLayoutCanvas.MenuType,
         panzoom,
         ElementType

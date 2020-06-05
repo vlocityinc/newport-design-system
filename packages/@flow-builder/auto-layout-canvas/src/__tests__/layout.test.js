@@ -4,7 +4,8 @@ import {
     getEmptyFlowContext,
     getFlowWithEmptyDecisionContext,
     getFlowWithEmptyDeciisionWith3BranchesContext,
-    getFlowWithDecisionWithOneElementOnLeftBranchContext
+    getFlowWithDecisionWithOneElementOnLeftBranchContext,
+    getFlowWithEmptyLoopContext
 } from './testUtils';
 
 function calculateLayoutAndAssert(ctx) {
@@ -41,6 +42,10 @@ describe('layout', () => {
 
         it('flow with empty decision', () => {
             calculateLayoutAndAssert(getFlowWithEmptyDecisionContext());
+        });
+
+        it('flow with empty loop', () => {
+            calculateLayoutAndAssert(getFlowWithEmptyLoopContext());
         });
 
         it('flow with empty decision with 3 branches', () => {

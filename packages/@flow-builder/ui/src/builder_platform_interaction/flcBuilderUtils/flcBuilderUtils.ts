@@ -7,7 +7,9 @@ import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
  * @return true iff an element can have children
  */
 export function supportsChildren({ elementType }) {
-    return elementType === ELEMENT_TYPE.DECISION || elementType === ELEMENT_TYPE.WAIT;
+    return (
+        elementType === ELEMENT_TYPE.DECISION || elementType === ELEMENT_TYPE.WAIT || elementType === ELEMENT_TYPE.LOOP
+    );
 }
 
 /**

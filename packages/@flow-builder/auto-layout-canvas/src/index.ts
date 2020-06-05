@@ -4,12 +4,19 @@ import { renderFlow } from './flowRenderer';
 import { toggleFlowMenu, closeFlowMenu, updateDeletionPathInfo } from './interactionUtils';
 import { calculateFlowLayout } from './layout';
 import { getDefaultLayoutConfig } from './defaultLayoutConfig';
+import { Geometry } from './svgUtils';
 
 import MenuType from './MenuType';
 import ElementType from './ElementType';
 import ConnectorType from './ConnectorTypeEnum';
 
-import { ConditionType } from './flowRendererUtils';
+import {
+    ConditionType,
+    ConnectorVariant,
+    ConnectorRenderInfo,
+    NodeRenderInfo,
+    FlowRenderInfo
+} from './flowRendererUtils';
 
 export * from './animate';
 export * from './model';
@@ -25,6 +32,11 @@ export {
     MenuType,
     ElementType,
     ConnectorType,
+    ConnectorVariant,
     panzoom,
-    ConditionType
+    ConditionType,
+    ConnectorRenderInfo,
+    NodeRenderInfo,
+    FlowRenderInfo,
+    Geometry
 };

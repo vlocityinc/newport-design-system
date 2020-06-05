@@ -41,6 +41,7 @@
         "test:unit:jestreport:clean": "rm -rf jest-report",
         "test:unit:clean": "yarn test:unit:coverage:clean && yarn test:unit:jestreport:clean",
         "test:unit:ci:coverage": "yarn run test:unit:coverage && yarn run test:unit:auto-layout-canvas",
+        "test:update-snapshots": "lerna run test:update-snapshots --stream",
         "generate:sfdc-components-package": "node ./scripts/generateNpmPackage.js",
         "release:sfdc-components-package": "cd dist/builder-platform-interaction-components && npm publish --verbose --registry=https://nexus-proxy-prd.soma.salesforce.com/nexus/content/repositories/npmjs-internal/",
         "update:auraPomVersion": "mvn versions:update-property -Dproperty=aura.version -DnewVersion=[$npm_package_config_auraVersion] -DallowDowngrade=true -DgenerateBackupPoms=false",

@@ -29,7 +29,7 @@ describe('svgUtils', () => {
                 x: 0,
                 y: -3,
                 w: 100,
-                h: 6
+                h: 9
             },
             path: expectedPath
         });
@@ -86,6 +86,69 @@ describe('svgUtils', () => {
                 y: 0,
                 w: 100,
                 h: 56
+            },
+            path: expectedPath
+        });
+    });
+
+    it('loop back curve', () => {
+        const pathParams = {
+            start: { x: 0, y: 120 },
+            offsets: [
+                [0, 8],
+                [16, 16],
+                [56, 0],
+                [16, -16],
+                [0, -112],
+                [-16, -16],
+                [-72, 0]
+            ]
+        };
+
+        const expectedPath =
+            'M 0, 120\nL 0, 128\nA 16 16 0 0 0, 16, 144\nL 72, 144\nA 16 16 0 0 0, 88, 128\nL 88, 16\nA 16 16 0 0 0, 72, 0\nL 0, 0';
+
+        expect(createSvgPath(pathParams)).toEqual(expectedPath);
+
+        const svgInfo = createSvgInfo(pathParams);
+
+        expect(svgInfo).toEqual({
+            geometry: {
+                h: 144,
+                w: 88,
+                x: 0,
+                y: 0
+            },
+            path: expectedPath
+        });
+    });
+
+    it('loop after curve', () => {
+        const pathParams = {
+            start: { x: 88, y: 0 },
+            offsets: [
+                [-72, 0],
+                [-16, 16],
+                [0, 136],
+                [16, 16],
+                [56, 0],
+                [16, 16],
+                [0, 8]
+            ]
+        };
+
+        const expectedPath =
+            'M 88, 0\nL 16, 0\nA 16 16 0 0 0, 0, 16\nL 0, 152\nA 16 16 0 0 0, 16, 168\nL 72, 168\nA 16 16 0 0 1, 88, 184\nL 88, 192';
+        expect(createSvgPath(pathParams)).toEqual(expectedPath);
+
+        const svgInfo = createSvgInfo(pathParams);
+
+        expect(svgInfo).toEqual({
+            geometry: {
+                h: 192,
+                w: 88,
+                x: 0,
+                y: 0
             },
             path: expectedPath
         });

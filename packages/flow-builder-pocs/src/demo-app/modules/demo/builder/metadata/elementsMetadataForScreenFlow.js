@@ -10,6 +10,8 @@ import screenComponentDescription from '@salesforce/label/FlowBuilderLeftPanelEl
 import screenComponentLabel from '@salesforce/label/FlowBuilderLeftPanelElements.screenComponentLabel';
 import waitLogicDescription from '@salesforce/label/FlowBuilderLeftPanelElements.waitLogicDescription';
 import waitLogicLabel from '@salesforce/label/FlowBuilderLeftPanelElements.waitLogicLabel';
+import loopLogicDescription from '@salesforce/label/FlowBuilderLeftPanelElements.loopLogicDescription';
+import loopLogicLabel from '@salesforce/label/FlowBuilderLeftPanelElements.loopLogicLabel';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 
@@ -60,6 +62,16 @@ export default [
         description: waitLogicDescription,
         canHaveFaultConnector: true,
         supportsMenu: true
+    },
+    {
+        section: 'Flow Control',
+        type: ElementType.LOOP,
+        icon: 'standard:loop',
+        label: loopLogicLabel,
+        value: ELEMENT_TYPE.LOOP,
+        elementType: ELEMENT_TYPE.LOOP,
+        description: loopLogicDescription,
+        canHaveFaultConnector: false
     },
     {
         section: 'Data Operation',

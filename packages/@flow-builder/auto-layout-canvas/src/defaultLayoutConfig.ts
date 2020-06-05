@@ -30,61 +30,71 @@ export function getDefaultLayoutConfig(): LayoutConfig {
             },
             types: {
                 straight: {
-                    addOffset: gridHeight * 3,
-                    h: 6 * gridHeight,
+                    addOffset: gridHeight * 2.5,
+                    h: gridHeight * 5,
                     labelOffset: gridHeight,
                     variants: {
                         edge: {
                             svgMarginTop: gridHeight
                         },
                         center: {},
-                        default: {}
+                        default: {},
+                        loop: {}
                     }
                 },
                 branchHead: {
-                    addOffset: gridHeight * 4.5,
+                    addOffset: gridHeight * 3.5,
                     labelOffset: gridHeight * 2,
-                    h: 7 * gridHeight,
+                    h: 6 * gridHeight,
                     variants: {
                         edge: {
                             svgMarginTop: gridHeight
                         },
                         center: { svgMarginBottom: -gridHeight },
-                        default: {}
+                        default: {},
+                        loop: {}
                     }
                 },
                 branchEmptyHead: {
-                    addOffset: gridHeight * 4.5,
+                    addOffset: gridHeight * 3.5,
                     labelOffset: gridHeight * 2,
-                    h: 6 * gridHeight,
+                    h: 5 * gridHeight,
                     variants: {
                         edge: {
                             svgMarginTop: gridHeight,
                             svgMarginBottom: gridHeight
                         },
                         center: { svgMarginBottom: -gridHeight },
-                        default: {}
+                        default: {},
+                        loop: { svgMarginBottom: gridHeight * 2 }
                     }
                 },
+                loopAfterLast: {
+                    h: 0,
+                    addOffset: 0,
+                    labelOffset: gridHeight * 2
+                },
                 branchTail: {
-                    addOffset: gridHeight * 3,
-                    h: 5 * gridHeight,
+                    addOffset: gridHeight * 2.5,
+                    h: 4 * gridHeight,
                     variants: {
                         edge: {
                             svgMarginBottom: gridHeight
                         },
                         center: { svgMarginBottom: -gridHeight },
-                        default: {}
+                        default: {},
+                        loop: { svgMarginBottom: gridHeight * 2 }
                     }
                 },
                 postMerge: {
-                    addOffset: gridHeight * 2,
-                    h: 5 * gridHeight,
+                    addOffset: gridHeight * 1.5,
+                    h: 4 * gridHeight,
                     svgMarginTop: gridHeight,
                     variants: {
                         edge: { svgMarginBottom: gridHeight },
                         center: { svgMarginBottom: -gridHeight },
-                        default: {}
+                        default: {},
+                        loop: {}
                     }
                 }
             }
@@ -105,6 +115,10 @@ export function getDefaultLayoutConfig(): LayoutConfig {
                     w: 100,
                     h: 225
                 },
+                loop: {
+                    w: 100,
+                    h: 225
+                },
                 start: {
                     w: 100,
                     h: 200
@@ -113,7 +127,7 @@ export function getDefaultLayoutConfig(): LayoutConfig {
         },
         branch: {
             defaultWidth: gridWidth * 2,
-            emptyWidth: gridWidth * (3 / 2)
+            emptyWidth: (gridWidth * 4) / 3
         }
     };
 }

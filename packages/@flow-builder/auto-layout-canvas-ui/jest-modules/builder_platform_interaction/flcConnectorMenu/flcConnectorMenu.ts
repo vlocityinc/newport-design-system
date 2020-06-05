@@ -22,4 +22,7 @@ export default class FlcConnectorMenu extends LightningElement {
 
     @api
     canMergeEndedBranch;
+
+    @api
+    hasEndElement;
 }

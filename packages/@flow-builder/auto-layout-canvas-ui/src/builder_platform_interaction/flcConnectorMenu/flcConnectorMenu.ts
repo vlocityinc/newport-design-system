@@ -12,30 +12,38 @@ import { LABELS } from './flcConnectorMenuLabels';
  */
 export default class FlcConnectorMenu extends Menu {
     @api
-    childIndex: number | undefined;
+    childIndex!: number;
 
     @api
     elementsMetadata: ElementsMetadata | undefined;
 
     /* true if this branch can be merged, false otherwise*/
     @api
-    canMergeEndedBranch: boolean | undefined;
+    canMergeEndedBranch!: boolean;
 
     @api
-    next: Guid | undefined;
+    next!: Guid;
 
     @api
-    parent: Guid | undefined;
+    parent!: Guid;
 
     @api
-    prev: Guid | undefined;
+    prev!: Guid;
 
     @api
-    isPasteAvailable: boolean | undefined;
+    isPasteAvailable!: boolean;
+
+    /* whether the end element should be shown in the menu */
+    @api
+    hasEndElement!: boolean;
 
     get menuConfiguration() {
-        const showEndElement = this.next == null;
-        return configureMenu(this.elementsMetadata, showEndElement, this.isPasteAvailable, this.canMergeEndedBranch);
+        return configureMenu(
+            this.elementsMetadata,
+            this.hasEndElement,
+            this.isPasteAvailable,
+            this.canMergeEndedBranch
+        );
     }
 
     get labels(): Labels {

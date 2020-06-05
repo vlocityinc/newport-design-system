@@ -1,6 +1,10 @@
-// @ts-nocheck
 import { LightningElement, api } from 'lwc';
-import { ConditionType } from 'builder_platform_interaction/autoLayoutCanvas';
+import {
+    ConditionType,
+    ConnectorType,
+    ConnectorVariant,
+    ConnectorRenderInfo
+} from 'builder_platform_interaction/autoLayoutCanvas';
 import { getStyleFromGeometry } from 'builder_platform_interaction/flcComponentsUtils';
 import { ReorderConnectorsEvent } from 'builder_platform_interaction/flcEvents';
 import { LABELS } from './flcConnectorLabels';
@@ -10,13 +14,10 @@ import { LABELS } from './flcConnectorLabels';
  */
 export default class FlcConnector extends LightningElement {
     @api
-    connectorInfo;
+    connectorInfo!: ConnectorRenderInfo;
 
     @api
-    isSelectionMode;
-
-    // Variable to track if the connector has been rendered yet once or not
-    _isRendered = false;
+    isSelectionMode!: boolean;
 
     get labels() {
         return LABELS;
@@ -33,7 +34,7 @@ export default class FlcConnector extends LightningElement {
      * Gets the location for the add element button
      */
     get buttonMenuStyle() {
-        return getStyleFromGeometry({ y: this.connectorInfo.addInfo.offsetY });
+        return getStyleFromGeometry({ y: this.connectorInfo.addInfo!.offsetY });
     }
 
     /**
@@ -77,21 +78,21 @@ export default class FlcConnector extends LightningElement {
     }
 
     get hasOneOption() {
-        return this.hasConditions() && this.connectorInfo.conditionOptions.length === 1;
+        return this.hasConditions() && this.connectorInfo.conditionOptions!.length === 1;
     }
 
     get canSelectLabel() {
         return this.hasConditions() && !this.isDefaultOrFault;
     }
 
-    get isDefaultOrFault() {
-        return this.isDefaultBranchConnector() || this.isFaultConnector();
+    get hasConnectorBadge() {
+        return this.isDefaultBranchConnector() || this.isFaultConnector() || this.isLoopConnectorWithBadge();
     }
 
     get connectorBadgeClass() {
         let classes = 'connector-badge slds-align_absolute-center slds-badge';
 
-        if (this.isDefaultBranchConnector()) {
+        if (this.isDefaultBranchConnector() || this.isLoopConnectorWithBadge()) {
             classes = `default-badge ${classes}`;
         } else {
             classes = `fault-badge ${classes}`;
@@ -101,9 +102,19 @@ export default class FlcConnector extends LightningElement {
     }
 
     get connectorBadgeLabel() {
-        return this.isDefaultBranchConnector()
-            ? this.connectorInfo.defaultConnectorLabel
-            : this.labels.faultConnectorBadgeLabel;
+        const connectorType = this.connectorInfo.type;
+        if (
+            (connectorType === ConnectorType.BRANCH_HEAD || connectorType === ConnectorType.BRANCH_EMPTY_HEAD) &&
+            this.connectorInfo.variant === ConnectorVariant.LOOP
+        ) {
+            return LABELS.forEachBadgeLabel;
+        } else if (connectorType === ConnectorType.LOOP_AFTER_LAST) {
+            return LABELS.afterLastBadgeLabel;
+        }
+
+        return this.isFaultConnector()
+            ? this.labels.faultConnectorBadgeLabel
+            : this.connectorInfo.defaultConnectorLabel;
     }
 
     /**
@@ -120,6 +131,16 @@ export default class FlcConnector extends LightningElement {
 
     get connectorLabelStyle() {
         return getStyleFromGeometry({ y: this.connectorInfo.labelOffsetY });
+    }
+
+    isLoopConnectorWithBadge() {
+        const { type, variant } = this.connectorInfo;
+
+        if (variant === ConnectorVariant.LOOP) {
+            return type === ConnectorType.BRANCH_HEAD || type === ConnectorType.BRANCH_EMPTY_HEAD;
+        }
+
+        return type === ConnectorType.LOOP_AFTER_LAST;
     }
 
     /**

@@ -115,6 +115,7 @@ function createConnectorToNextNode(
     const geometry = { x: 0, y: offsetY, w: strokeWidth, h: height };
 
     const connectorRenderInfo = {
+        variant,
         geometry,
         addInfo: { offsetY: addOffset, menuOpened },
         connectionInfo,
@@ -285,6 +286,74 @@ function createMergeConnector(
 }
 
 /**
+ * Creates a ConnectorRenderInfo for a loop after connector.
+ * This is the connector that joins the loop element to the first element following a loop
+ *
+ * @param parent - The parent guid
+ * @param geometry - The geometry for the connector
+ * @param layoutConfig - The config for the layout
+ * @param isFault - Whether this is part of a fault connector
+ * @param toBeDeleted - True if the connector is going to get deleted
+ * @returns a ConnectorRenderInfo for the loop connector
+ */
+function createLoopAfterLastConnector(
+    parent: Guid,
+    geometry: Geometry,
+    layoutConfig: LayoutConfig,
+    isFault: boolean,
+    toBeDeleted: boolean
+): ConnectorRenderInfo {
+    const { w, h } = geometry;
+    const connectorType = ConnectorType.LOOP_AFTER_LAST;
+    const { labelOffset } = layoutConfig.connector.types[connectorType]!;
+    return {
+        geometry,
+        svgInfo: createLoopSvgInfo(w, h, connectorType, layoutConfig),
+        type: connectorType,
+        connectionInfo: {
+            parent
+        },
+        isFault,
+        labelOffsetY: labelOffset,
+        toBeDeleted
+    };
+}
+
+/**
+ * Creates a ConnectorRenderInfo for a loop back connector.
+ * This is the connector that the last element of a loop back to the loop element
+ *
+ * @param parent - The parent guid
+ * @param childIndex - The child branch index
+ * @param geometry - The geometry for the connector
+ * @param layoutConfig - The config for the layout
+ * @param isFault - Whether this is part of a fault connector
+ * @param toBeDeleted - True if the connector is going to get deleted
+ * @returns a ConnectorRenderInfo for the loop connector
+ */
+function createLoopBackConnector(
+    parent: Guid,
+    geometry: Geometry,
+    layoutConfig: LayoutConfig,
+    isFault: boolean,
+    toBeDeleted: boolean
+): ConnectorRenderInfo {
+    const { w, h } = geometry;
+    const connectorType = ConnectorType.LOOP_BACK;
+
+    return {
+        geometry,
+        svgInfo: createLoopSvgInfo(w, h, connectorType, layoutConfig),
+        connectionInfo: {
+            parent
+        },
+        type: connectorType,
+        isFault,
+        toBeDeleted
+    };
+}
+
+/**
  * Create an SvgInfo for a merge connector
  *
  * @param width - Connector width
@@ -298,7 +367,7 @@ function createMergeSvgInfo(
     height: number,
     connectorType: ConnectorType.MERGE_LEFT | ConnectorType.MERGE_RIGHT,
     layoutConfig: LayoutConfig
-) {
+): SvgInfo {
     const { strokeWidth } = layoutConfig.connector;
     const offset: Offset = [strokeWidth / 2, 0];
 
@@ -306,6 +375,32 @@ function createMergeSvgInfo(
         connectorType === ConnectorType.MERGE_LEFT
             ? getMergeLeftPathParams(width, height, layoutConfig)
             : getMergeRightPathParams(width, height, layoutConfig);
+
+    return createSvgInfo(svgPathParams, offset);
+}
+
+/**
+ * Create an SvgInfo for a loop connector
+ *
+ * @param width - Connector width
+ * @param height - Connector height
+ * @param connectorType - Left or right merge connector type
+ * @param layoutConfig  - The layout config
+ * @returns an SvgInfo for the connector
+ */
+function createLoopSvgInfo(
+    width: number,
+    height: number,
+    connectorType: ConnectorType.LOOP_BACK | ConnectorType.LOOP_AFTER_LAST,
+    layoutConfig: LayoutConfig
+): SvgInfo {
+    const { strokeWidth } = layoutConfig.connector;
+    const offset: Offset = [strokeWidth / 2, strokeWidth / 2];
+
+    const svgPathParams =
+        connectorType === ConnectorType.LOOP_BACK
+            ? getLoopBackPathParams(width, height, layoutConfig)
+            : getLoopAfterLastPathParams(width, height, layoutConfig);
 
     return createSvgInfo(svgPathParams, offset);
 }
@@ -360,4 +455,64 @@ function getMergeRightPathParams(width: number, height: number, layoutConfig: La
     };
 }
 
-export { createConnectorToNextNode, createMergeConnector, createBranchConnector };
+/**
+ * Returns the params needed to draw an svg path for a loop back connector
+ *
+ * @param width - The connector width
+ * @param height - The connector height
+ * @param layoutConfig - The layout config
+ * @returns The params for the loop back svg path
+ */
+function getLoopBackPathParams(width: number, height: number, layoutConfig: LayoutConfig): SvgPathParams {
+    const { curveRadius } = layoutConfig.connector;
+
+    const offsetY = height - layoutConfig.grid.h * 2;
+    const preRadiusHeight = layoutConfig.grid.h - curveRadius;
+
+    return {
+        start: { x: 0, y: offsetY },
+        offsets: [
+            [0, preRadiusHeight],
+            [curveRadius, curveRadius],
+            [width - 2 * curveRadius, 0],
+            [curveRadius, -curveRadius],
+            [0, -offsetY + preRadiusHeight],
+            [-curveRadius, -curveRadius],
+            [-(width - curveRadius), 0]
+        ]
+    };
+}
+
+/**
+ * Returns the params needed to draw an svg path for a loop after connector
+ *
+ * @param width - The connector width
+ * @param height - The connector height
+ * @param layoutConfig - The layout config
+ * @returns The params for the loop after svg path
+ */
+function getLoopAfterLastPathParams(width: number, height: number, layoutConfig: LayoutConfig): SvgPathParams {
+    const { curveRadius } = layoutConfig.connector;
+    const preRadiusHeight = layoutConfig.grid.h - curveRadius;
+
+    return {
+        start: { x: width, y: 0 },
+        offsets: [
+            [-(width - curveRadius), 0],
+            [-curveRadius, curveRadius],
+            [0, height - layoutConfig.grid.h - preRadiusHeight],
+            [curveRadius, curveRadius],
+            [width - curveRadius * 2, 0],
+            [curveRadius, curveRadius],
+            [0, preRadiusHeight]
+        ]
+    };
+}
+
+export {
+    createConnectorToNextNode,
+    createMergeConnector,
+    createBranchConnector,
+    createLoopAfterLastConnector,
+    createLoopBackConnector
+};

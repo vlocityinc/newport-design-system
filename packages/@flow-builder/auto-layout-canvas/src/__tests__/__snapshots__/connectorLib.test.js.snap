@@ -1,0 +1,270 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`connectorLib createBranchConnector 1`] = `
+Object {
+  "connectionInfo": Object {
+    "childIndex": 0,
+    "parent": "guid",
+  },
+  "geometry": Object {
+    "h": 28,
+    "w": 100,
+    "x": 0,
+    "y": 0,
+  },
+  "isFault": false,
+  "svgInfo": Object {
+    "startOffset": Array [
+      3,
+      3,
+    ],
+    "svgPathParams": Object {
+      "offsets": Array [
+        Array [
+          -84,
+          0,
+        ],
+        Array [
+          -16,
+          16,
+        ],
+        Array [
+          0,
+          12,
+        ],
+      ],
+      "start": Object {
+        "x": 100,
+        "y": 0,
+      },
+    },
+  },
+  "toBeDeleted": undefined,
+  "type": "branchLeft",
+}
+`;
+
+exports[`connectorLib createConnectorToNextNode 1`] = `
+Object {
+  "addInfo": Object {
+    "menuOpened": false,
+    "offsetY": 60,
+  },
+  "conditionType": undefined,
+  "connectionInfo": Object {
+    "next": "nextGuid",
+    "prev": "prevGuid",
+  },
+  "geometry": Object {
+    "h": 144,
+    "w": 6,
+    "x": 0,
+    "y": 0,
+  },
+  "isFault": false,
+  "labelOffsetY": 24,
+  "svgInfo": Object {
+    "geometry": Object {
+      "h": 144,
+      "w": 6,
+      "x": -3,
+      "y": 0,
+    },
+    "path": Object {
+      "pathParams": Object {
+        "offsets": Array [
+          Array [
+            0,
+            144,
+          ],
+        ],
+        "start": Object {
+          "location": Object {
+            "x": 0,
+            "y": 0,
+          },
+          "offset": Array [
+            3,
+            0,
+          ],
+        },
+      },
+      "startOffset": undefined,
+    },
+  },
+  "toBeDeleted": undefined,
+  "type": "straight",
+  "variant": "default",
+}
+`;
+
+exports[`connectorLib createLoopAfterLastConnector 1`] = `
+Object {
+  "connectionInfo": Object {
+    "parent": "guid",
+  },
+  "geometry": Object {
+    "h": 168,
+    "w": 88,
+    "x": -88,
+    "y": 0,
+  },
+  "isFault": false,
+  "labelOffsetY": 48,
+  "svgInfo": Object {
+    "startOffset": Array [
+      3,
+      3,
+    ],
+    "svgPathParams": Object {
+      "offsets": Array [
+        Array [
+          -72,
+          0,
+        ],
+        Array [
+          -16,
+          16,
+        ],
+        Array [
+          0,
+          136,
+        ],
+        Array [
+          16,
+          16,
+        ],
+        Array [
+          56,
+          0,
+        ],
+        Array [
+          16,
+          16,
+        ],
+        Array [
+          0,
+          8,
+        ],
+      ],
+      "start": Object {
+        "x": 88,
+        "y": 0,
+      },
+    },
+  },
+  "toBeDeleted": false,
+  "type": "loopAfterLast",
+}
+`;
+
+exports[`connectorLib createLoopBackConnector 1`] = `
+Object {
+  "connectionInfo": Object {
+    "parent": "guid",
+  },
+  "geometry": Object {
+    "h": 168,
+    "w": 88,
+    "x": 0,
+    "y": 0,
+  },
+  "isFault": false,
+  "svgInfo": Object {
+    "startOffset": Array [
+      3,
+      3,
+    ],
+    "svgPathParams": Object {
+      "offsets": Array [
+        Array [
+          0,
+          8,
+        ],
+        Array [
+          16,
+          16,
+        ],
+        Array [
+          56,
+          0,
+        ],
+        Array [
+          16,
+          -16,
+        ],
+        Array [
+          0,
+          -112,
+        ],
+        Array [
+          -16,
+          -16,
+        ],
+        Array [
+          -72,
+          0,
+        ],
+      ],
+      "start": Object {
+        "x": 0,
+        "y": 120,
+      },
+    },
+  },
+  "toBeDeleted": false,
+  "type": "loopBack",
+}
+`;
+
+exports[`connectorLib createMergeConnector 1`] = `
+Object {
+  "connectionInfo": Object {
+    "childIndex": 0,
+    "parent": "guid",
+  },
+  "geometry": Object {
+    "h": 28,
+    "w": 100,
+    "x": 0,
+    "y": 0,
+  },
+  "isFault": false,
+  "svgInfo": Object {
+    "startOffset": Array [
+      3,
+      0,
+    ],
+    "svgPathParams": Object {
+      "offsets": Array [
+        Array [
+          0,
+          -2,
+        ],
+        Array [
+          16,
+          16,
+        ],
+        Array [
+          68,
+          0,
+        ],
+        Array [
+          16,
+          16,
+        ],
+        Array [
+          0,
+          -2,
+        ],
+      ],
+      "start": Object {
+        "x": 0,
+        "y": 0,
+      },
+    },
+  },
+  "toBeDeleted": undefined,
+  "type": "mergeLeft",
+}
+`;

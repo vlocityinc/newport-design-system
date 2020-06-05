@@ -55,10 +55,10 @@ function createSegment(start: Location, offset: Offset, nextOffset: Offset = [0,
                 curveDirection = dx < 0 ? 1 : 0;
             }
         } else {
-            if (nextDy > 0) {
-                curveDirection = dx < 0 ? 1 : 0;
-            } else {
+            if (nextDy >= 0) {
                 curveDirection = dx < 0 ? 0 : 1;
+            } else {
+                curveDirection = dx < 0 ? 1 : 0;
             }
         }
 
@@ -130,12 +130,44 @@ function createSvgPath(pathParams: SvgPathParams, startOffset: Offset = [0, 0]):
  * @param height - The height of the svg
  * @param svgPathParams  - The path params
  * @param offset - The offset to account for path "bleeding"
+ * @returns An svg info for the path
  */
 function createSvgInfo(svgPathParams: SvgPathParams, offset: Offset = [0, 0]): SvgInfo {
-    const [width, height] = svgPathParams.offsets.reduce(([prevDx, prevDy], [dx, dy]) => [prevDx + dx, prevDy + dy], [
-        0,
-        0
-    ]);
+    const result = svgPathParams.offsets.reduce(
+        (acc, [dx, dy]) => {
+            const [prevX, prevY] = acc.offsets;
+            const [currX, currY] = [prevX + dx, prevY + dy];
+            let { minX, maxX, minY, maxY } = acc;
+
+            // update minX or maxX if needed
+            if (currX < minX) {
+                minX = currX;
+            } else if (currX > maxX) {
+                maxX = currX;
+            }
+
+            // update minY or maxY if needed
+            if (currY < minY) {
+                minY = currY;
+            } else if (currY > maxY) {
+                maxY = currY;
+            }
+
+            const newOffsets: Offset = [currX, currY];
+            return { minX, maxX, minY, maxY, offsets: newOffsets };
+        },
+        {
+            offsets: offset,
+            minX: 0,
+            maxX: 0,
+            minY: 0,
+            maxY: 0
+        }
+    );
+
+    const { minX, maxX, minY, maxY } = result;
+    const width = maxX - minX;
+    const height = maxY - minY;
 
     return {
         geometry: createSvgGeometry(Math.abs(width), Math.abs(height), offset),

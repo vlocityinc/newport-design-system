@@ -17,8 +17,10 @@
         "build:target:npm": "rollup -c ../../../scripts/rollup/rollup-npm.config.js",
         "build:dev": "yarn build:ts && yarn build:target:lwc",
         "build": "yarn build:dev && yarn build:target:npm",
+        "watch": "watch -p 'src/**/*.ts' -c 'yarn build:dev'",
         "lint": "eslint --max-warnings 0 src/**/*.ts",
-        "test": "jest src/**/*.test.js"
+        "test": "jest src/**/*.test.js",
+        "test:update-snapshots": "yarn test -u"
     },
     "dependencies": {
         "panzoom": "8.7.0"

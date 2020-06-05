@@ -24,7 +24,13 @@ enum ConnectorType {
     POST_MERGE = 'postMerge',
 
     /* connector that follows the last node in a branch */
-    BRANCH_TAIL = 'branchTail'
+    BRANCH_TAIL = 'branchTail',
+
+    /* connector that loops back from the last element in the loop branch to the loop parent */
+    LOOP_BACK = 'loopBack',
+
+    /* after last loop connector */
+    LOOP_AFTER_LAST = 'loopAfterLast'
 }
 
 export default ConnectorType;

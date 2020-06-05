@@ -1,4 +1,10 @@
-import { createBranchConnector, createMergeConnector, createConnectorToNextNode } from '../connectorLib';
+import {
+    createBranchConnector,
+    createMergeConnector,
+    createConnectorToNextNode,
+    createLoopBackConnector,
+    createLoopAfterLastConnector
+} from '../connectorLib';
 import ConnectorType from '../ConnectorTypeEnum';
 import { ConnectorVariant } from '../flowRendererUtils';
 import { getDefaultLayoutConfig } from '../defaultLayoutConfig';
@@ -12,6 +18,30 @@ jest.mock('../svgUtils.ts', () => {
 });
 
 describe('connectorLib', () => {
+    it('createLoopBackConnector', () => {
+        const connectorRenderInfo = createLoopBackConnector(
+            'guid',
+            { x: 0, y: 0, w: 88, h: 168 },
+            getDefaultLayoutConfig(),
+            false,
+            false
+        );
+
+        expect(connectorRenderInfo).toMatchSnapshot();
+    });
+
+    it('createLoopAfterLastConnector', () => {
+        const connectorRenderInfo = createLoopAfterLastConnector(
+            'guid',
+            { x: -88, y: 0, w: 88, h: 168 },
+            getDefaultLayoutConfig(),
+            false,
+            false
+        );
+
+        expect(connectorRenderInfo).toMatchSnapshot();
+    });
+
     it('createBranchConnector', () => {
         const connectorRenderInfo = createBranchConnector(
             'guid',
@@ -22,36 +52,7 @@ describe('connectorLib', () => {
             false
         );
 
-        const expectedConnectorRenderInfo = {
-            connectionInfo: {
-                childIndex: 0,
-                parent: 'guid'
-            },
-            geometry: {
-                h: 28,
-                w: 100,
-                x: 0,
-                y: 0
-            },
-            isFault: false,
-            svgInfo: {
-                startOffset: [3, 3],
-                svgPathParams: {
-                    offsets: [
-                        [-84, 0],
-                        [-16, 16],
-                        [0, 12]
-                    ],
-                    start: {
-                        x: 100,
-                        y: 0
-                    }
-                }
-            },
-            type: 'branchLeft'
-        };
-
-        expect(connectorRenderInfo).toEqual(expectedConnectorRenderInfo);
+        expect(connectorRenderInfo).toMatchSnapshot();
     });
 
     it('createMergeConnector', () => {
@@ -64,38 +65,7 @@ describe('connectorLib', () => {
             false
         );
 
-        const expectedConnectorRenderInfo = {
-            connectionInfo: {
-                childIndex: 0,
-                parent: 'guid'
-            },
-            geometry: {
-                h: 28,
-                w: 100,
-                x: 0,
-                y: 0
-            },
-            isFault: false,
-            svgInfo: {
-                startOffset: [3, 0],
-                svgPathParams: {
-                    offsets: [
-                        [0, -2],
-                        [16, 16],
-                        [68, 0],
-                        [16, 16],
-                        [0, -2]
-                    ],
-                    start: {
-                        x: 0,
-                        y: 0
-                    }
-                }
-            },
-            type: 'mergeLeft'
-        };
-
-        expect(connectorRenderInfo).toEqual(expectedConnectorRenderInfo);
+        expect(connectorRenderInfo).toMatchSnapshot();
     });
 
     it('createConnectorToNextNode', () => {
@@ -110,49 +80,6 @@ describe('connectorLib', () => {
             ConnectorVariant.DEFAULT
         );
 
-        const expectedConnectorRenderInfo = {
-            addInfo: {
-                menuOpened: false,
-                offsetY: 72
-            },
-            conditionOptions: undefined,
-            conditionType: undefined,
-            conditionValue: undefined,
-            connectionInfo: {
-                next: 'nextGuid',
-                prev: 'prevGuid'
-            },
-            geometry: {
-                h: 144,
-                w: 6,
-                x: 0,
-                y: 0
-            },
-            isFault: false,
-            labelOffsetY: 24,
-            svgInfo: {
-                geometry: {
-                    h: 144,
-                    w: 6,
-                    x: -3,
-                    y: 0
-                },
-                path: {
-                    pathParams: {
-                        offsets: [[0, 144]],
-                        start: {
-                            location: {
-                                x: 0,
-                                y: 0
-                            },
-                            offset: [3, 0]
-                        }
-                    },
-                    startOffset: undefined
-                }
-            },
-            type: 'straight'
-        };
-        expect(connectorRenderInfo).toEqual(expectedConnectorRenderInfo);
+        expect(connectorRenderInfo).toMatchSnapshot();
     });
 });

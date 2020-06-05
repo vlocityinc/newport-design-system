@@ -4,6 +4,8 @@
         "^builder_platform_interaction/autoLayoutCanvas$": "<rootDir>/../auto-layout-canvas/dist/index.dev.js",
         "^(builder_platform_interaction)/storeLib$": "<rootDir>/../ui/src/builder_platform_interaction/storeLib/storeLib",
         "^(builder_platform_interaction)/zoomPanel$": "<rootDir>/../ui/src/builder_platform_interaction/zoomPanel/zoomPanel",
+        "^(builder_platform_interaction)/commonUtils$": "<rootDir>/../ui/src/builder_platform_interaction/commonUtils/commonUtils",
+        "^(builder_platform_interaction)/contextLib$": "<rootDir>/../ui/src/builder_platform_interaction/contextLib/contextLib",
         "^(builder_platform_interaction)/builderTestUtils/events$": "<rootDir>/../ui/src/builder_platform_interaction/builderTestUtils/events",
         "^(builder_platform_interaction)/builderTestUtils/commonTestUtils$": "<rootDir>/../ui/src/builder_platform_interaction/builderTestUtils/commonTestUtils",
         "^(builder_platform_interaction)/events$": "<rootDir>/../ui/src/builder_platform_interaction/events/events",

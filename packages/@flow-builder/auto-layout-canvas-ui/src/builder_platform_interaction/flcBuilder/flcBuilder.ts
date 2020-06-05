@@ -327,8 +327,18 @@ export default class FlcBuilder extends LightningElement {
             canMergeEndedBranch = targetParentElement.fault == null && !isTargetParentRoot && isTargetEnd;
         }
 
+        const parentElement =
+            parent != null ? this._flowModel[parent] : findParentElement(this._flowModel[guid], this._flowModel);
+
+        const isParentLoop =
+            getElementMetadata(this._flowRenderContext.elementsMetadata, parentElement.elementType).type ===
+            ElementType.LOOP;
+
+        const hasEndElement = targetGuid == null && !isParentLoop;
+
         return {
             canMergeEndedBranch,
+            hasEndElement,
             elementHasFault,
             ...detail,
             connectorMenu: detail.type,
