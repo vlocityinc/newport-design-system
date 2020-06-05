@@ -32,7 +32,7 @@ In a 105 org go to Settings in your org and query for Custom Settings. Look for 
 * `Key` - `NULL`
 * `Value` - You will need to go to the staticresource you uploaded in step 2. Right click on `view file` in your browser and from the context menu choose `Copy Link Address`:
 
-![Preview tool](/docs/copy_link_address_of_static_resource.png)
+![Preview tool](./docs/copy_link_address_of_static_resource.png)
 
 Now paste this value into `Value` field and you will need to edit it to be in the format: `/resource/{sobjectid}/{ns_}ResourceName`.
 
