@@ -2,7 +2,14 @@
 import { createElement } from 'lwc';
 import ScreenEditorHighlight from 'builder_platform_interaction/screenEditorHighlight';
 import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
-import { DRAGGING_CLASS, HOVERING_CLASS, CONTAINER_DIV_SELECTOR } from 'builder_platform_interaction/screenEditorUtils';
+import {
+    DRAGGING_CLASS,
+    HOVERING_CLASS,
+    HIGHLIGHT_FRAME_PREVENT_EVENTS_CLASS,
+    HIGHLIGHT_FRAME_ALLOW_EVENTS_CLASS,
+    FRAME_DIV_SELECTOR,
+    CONTAINER_DIV_SELECTOR
+} from 'builder_platform_interaction/screenEditorUtils';
 import {
     createTestScreenField,
     ticks,
@@ -136,5 +143,43 @@ describe('highlight behavior on hover', () => {
         highlightDiv.dispatchEvent(mouseoutEvent());
         await ticks(1);
         expect(highlightDiv.classList).not.toContain(HOVERING_CLASS);
+    });
+});
+
+describe('setting preventEvents to true', () => {
+    let highlight;
+    beforeEach(() => {
+        highlight = createComponentForTest({
+            screenElement: createTestScreenField('Name', 'TextBox'),
+            preventEvents: true
+        });
+    });
+
+    it('results in correct styling', async () => {
+        await ticks(1);
+
+        const frameDiv = highlight.shadowRoot.querySelector(FRAME_DIV_SELECTOR);
+        expect(frameDiv).toBeDefined();
+        expect(frameDiv.classList).toContain(HIGHLIGHT_FRAME_PREVENT_EVENTS_CLASS);
+        expect(frameDiv.classList).not.toContain(HIGHLIGHT_FRAME_ALLOW_EVENTS_CLASS);
+    });
+});
+
+describe('setting preventEvents to false', () => {
+    let highlight;
+    beforeEach(() => {
+        highlight = createComponentForTest({
+            screenElement: createTestScreenField('Name', 'TextBox'),
+            preventEvents: false
+        });
+    });
+
+    it('results in correct styling', async () => {
+        await ticks(1);
+
+        const frameDiv = highlight.shadowRoot.querySelector(FRAME_DIV_SELECTOR);
+        expect(frameDiv).toBeDefined();
+        expect(frameDiv.classList).toContain(HIGHLIGHT_FRAME_ALLOW_EVENTS_CLASS);
+        expect(frameDiv.classList).not.toContain(HIGHLIGHT_FRAME_PREVENT_EVENTS_CLASS);
     });
 });
