@@ -36,4 +36,4 @@ npm start
 
 The link for the preview tool should be in your terminal, but it is usually hosted at: [http://localhost:6006](http://localhost:6006)
 
-![Preview tool](/docs/previewer.v1.png)
+![Preview tool](./docs/previewer.v1.png)
