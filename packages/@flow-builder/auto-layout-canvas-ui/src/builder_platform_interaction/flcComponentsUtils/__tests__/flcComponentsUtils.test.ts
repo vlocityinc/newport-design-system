@@ -3,8 +3,11 @@ import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 import {
     getCanvasElementSelectionData,
     getCanvasElementDeselectionData,
-    getCanvasElementDeselectionDataOnToggleOff
+    getCanvasElementDeselectionDataOnToggleOff,
+    getFlcMenuData
 } from '../flcComponentsUtils';
+
+import * as autoLayoutTestUtils from '../../../../../auto-layout-canvas/src/__tests__/testUtils.js';
 
 const ELEMENT_TYPE_ASSIGNMENT = 'Assignment';
 const ELEMENT_TYPE_DECISION = 'Decision';
@@ -38,7 +41,61 @@ const checkSelectionDeselectionResultEquality = (
     }
 };
 
+function testGetFlcMenuData(toggleMenuDetail, expectedHasEndElement) {
+    const flowRenderContext = autoLayoutTestUtils.getFlowWithDecisionWithEndedLeftBranchContext();
+
+    const { flowModel } = flowRenderContext;
+
+    const menuButtonHalfWidth = 12;
+    const containerElementGeometry = {
+        x: 0,
+        y: 0,
+        w: 500,
+        h: 500
+    };
+
+    const menuData = getFlcMenuData({ detail: toggleMenuDetail }, menuButtonHalfWidth, containerElementGeometry, 1, {
+        flowModel,
+        elementsMetadata: flowRenderContext.elementsMetadata
+    });
+
+    expect(menuData.hasEndElement).toEqual(expectedHasEndElement);
+}
+
 describe('FLC Canvas Utils test', () => {
+    describe('getFlcMenuData', () => {
+        it('hasEndElement is true on branch when next element is not end node', () => {
+            const hasEndElement = true;
+
+            testGetFlcMenuData(
+                {
+                    top: 0,
+                    left: 0,
+                    elementMetadata: { type: ElementType.DEFAULT },
+                    parent: 'branch-guid',
+                    childIndex: 1
+                },
+                hasEndElement
+            );
+        });
+
+        it('hasEndElement is false on branch when next element is end node', () => {
+            const hasEndElement = false;
+
+            testGetFlcMenuData(
+                {
+                    top: 0,
+                    left: 0,
+                    elementMetadata: { type: ElementType.DEFAULT },
+                    parent: 'branch-guid',
+                    childIndex: 0,
+                    next: 'branch-left-head-guid'
+                },
+                hasEndElement
+            );
+        });
+    });
+
     describe('getCanvasElementSelectionData function', () => {
         it('When no element has been previously selected', () => {
             const flowModel = {

@@ -73,6 +73,7 @@ function connectElements(elements: FlowModel, sourceElement: NodeModel, targetEl
 
 /**
  * Adds an element to the guid -> elements map and optionally to the canvasElements array
+ *
  * @param element - the element to add
  * @param elements - the guid -> elements map
  */

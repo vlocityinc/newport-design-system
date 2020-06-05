@@ -15,7 +15,8 @@ import {
     ConnectorVariant,
     ConnectorRenderInfo,
     NodeRenderInfo,
-    FlowRenderInfo
+    FlowRenderInfo,
+    FlowRenderContext
 } from './flowRendererUtils';
 
 export * from './animate';
@@ -38,5 +39,6 @@ export {
     ConnectorRenderInfo,
     NodeRenderInfo,
     FlowRenderInfo,
-    Geometry
+    Geometry,
+    FlowRenderContext
 };

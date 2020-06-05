@@ -1,13 +1,15 @@
-import ElementType from '../ElementType';
-import { getDefaultLayoutConfig } from '../defaultLayoutConfig';
+import { ElementType, getDefaultLayoutConfig } from 'builder_platform_interaction/autoLayoutCanvas';
 
 const layoutConfig = getDefaultLayoutConfig();
+
+const SCREEN_ELEMENT_TYPE = 'Screen';
 
 const ROOT_ELEMENT_GUID = 'root';
 const START_ELEMENT_GUID = 'start-guid';
 const END_ELEMENT_GUID = 'end-guid';
 const BRANCH_ELEMENT_GUID = 'branch-guid';
 const LOOP_ELEMENT_GUID = 'loop-guid';
+const SCREEN_ELEMENT_GUID = 'screen-guid';
 
 const ROOT_ELEMENT = { guid: ROOT_ELEMENT_GUID, elementType: ElementType.ROOT, children: [START_ELEMENT_GUID] };
 const START_ELEMENT = {
@@ -33,6 +35,11 @@ const LOOP_ELEMENT = {
     children: [null]
 };
 
+const SCREEN_ELEMENT = {
+    guid: SCREEN_ELEMENT_GUID,
+    elementType: SCREEN_ELEMENT_TYPE
+};
+
 const elementsMetadata = {
     [ElementType.ROOT]: {
         type: ElementType.ROOT,
@@ -53,13 +60,21 @@ const elementsMetadata = {
     [ElementType.END]: {
         type: ElementType.END,
         icon: 'standard:default'
+    },
+    [SCREEN_ELEMENT_TYPE]: {
+        type: ElementType.DEFAULT,
+        icon: 'standard:default'
     }
 };
 
 function createDefaultElement(guid) {
+    return createElementWithElementType(guid, ElementType.DEFAULT);
+}
+
+function createElementWithElementType(guid, elementType) {
     return {
         guid,
-        elementType: ElementType.DEFAULT
+        elementType
     };
 }
 
@@ -107,6 +122,12 @@ function getEmptyFlowContext() {
     return createFlowRenderContext({ flowModel });
 }
 
+function getSimpleFlowContext() {
+    const elements = linkElements([START_ELEMENT, SCREEN_ELEMENT, END_ELEMENT]);
+    const flowModel = flowModelFromElements([ROOT_ELEMENT, ...elements]);
+    return createFlowRenderContext({ flowModel });
+}
+
 function getFlowWithEmptyDecisionContext() {
     const elements = linkElements([START_ELEMENT, BRANCH_ELEMENT, END_ELEMENT]);
     const flowModel = flowModelFromElements([ROOT_ELEMENT, ...elements]);
@@ -126,8 +147,13 @@ function getFlowWithEmptyDeciisionWith3BranchesContext() {
     return createFlowRenderContext({ flowModel });
 }
 
-function getFlowWithDecisionWithOneElementOnLeftBranchContext() {
-    let leftBranchHead = createDefaultElement('branch-left-head-guid');
+function getFlowWithDecisionWithEndedLeftBranchContext() {
+    const leftBranchHead = createElementWithElementType('branch-left-head-guid', ElementType.END);
+    return getFlowWithDecisionWithOneElementOnLeftBranchContext(leftBranchHead);
+}
+
+function getFlowWithDecisionWithOneElementOnLeftBranchContext(leftBranchHead) {
+    leftBranchHead = leftBranchHead || createDefaultElement('branch-left-head-guid');
     const branchElement = { ...BRANCH_ELEMENT, children: [null, null] };
     leftBranchHead = linkBranchOrFault(branchElement, leftBranchHead, 0);
     const elements = linkElements([START_ELEMENT, branchElement, END_ELEMENT]);
@@ -157,5 +183,7 @@ export {
     getFlowWithEmptyDecisionContext,
     getFlowWithEmptyDeciisionWith3BranchesContext,
     getFlowWithDecisionWithOneElementOnLeftBranchContext,
-    getFlowWithEmptyLoopContext
+    getFlowWithEmptyLoopContext,
+    getSimpleFlowContext,
+    getFlowWithDecisionWithEndedLeftBranchContext
 };

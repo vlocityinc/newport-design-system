@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { LightningElement, track, api } from 'lwc';
 import {
     renderFlow,
@@ -11,10 +10,9 @@ import {
     MenuType,
     panzoom,
     ElementType,
-    getElementMetadata,
     getTargetGuidsForBranchReconnect,
-    getChild,
-    findParentElement
+    Guid,
+    NodeRenderInfo
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import {
@@ -25,12 +23,13 @@ import {
 } from 'builder_platform_interaction/events';
 
 import { FlcSelectionEvent, FlcCreateConnectionEvent } from 'builder_platform_interaction/flcEvents';
-import { getStyleFromGeometry, getFlcFlowData } from 'builder_platform_interaction/flcComponentsUtils';
+import { getFlcFlowData, getFlcMenuData } from 'builder_platform_interaction/flcComponentsUtils';
 
 import {
     getCanvasElementSelectionData,
     getCanvasElementDeselectionData
 } from 'builder_platform_interaction/flcComponentsUtils';
+import { FlowRenderContext, FlowRenderInfo } from '../../../../auto-layout-canvas/dist/types/flowRendererUtils';
 
 const MAX_ZOOM = 1;
 const MIN_ZOOM = 0.1;
@@ -76,25 +75,25 @@ export default class FlcBuilder extends LightningElement {
     _flowModel;
 
     /* map fo element metadata */
-    _elementsMetadata;
+    _elementsMetadata?: any[];
 
     /* the rendering context */
-    _flowRenderContext;
+    _flowRenderContext!: FlowRenderContext;
 
     /* the rendered flow */
-    _flowRenderInfo;
+    _flowRenderInfo!: FlowRenderInfo;
 
     /* the selection mode */
-    _isSelectionMode;
+    _isSelectionMode!: boolean;
 
     /* the top most selected element's guid */
-    _topSelectedGuid;
+    _topSelectedGuid!: Guid | null;
 
     /* the guid of the element we are reconnecting to another element */
-    _reconnectSourceGuid;
+    _reconnectSourceGuid!: Guid | null;
 
     /* the current scale with a domain of [MIN_ZOOM, MAX_ZOOM] */
-    _scale;
+    _scale!: number;
 
     /* offsets to center the zoom */
     _panzoomOffsets;
@@ -121,20 +120,20 @@ export default class FlcBuilder extends LightningElement {
     disableAnimation = false;
 
     @api
-    isPasteAvailable;
+    isPasteAvailable!: boolean;
 
     get isReconnecting() {
         return this._reconnectSourceGuid != null;
     }
 
     @api
-    set elementsMetadata(elementsMetadata) {
+    set elementsMetadata(elementsMetadata: any[]) {
         this._elementsMetadata = elementsMetadata;
         this.updateFlowRenderContext();
     }
 
-    get elementsMetadata() {
-        return this._elementsMetadata;
+    get elementsMetadata(): any[] {
+        return this._elementsMetadata!;
     }
 
     @api
@@ -195,7 +194,7 @@ export default class FlcBuilder extends LightningElement {
      * Helper function that converts this._elementsMetadata to map of elementType -> metaData
      */
     _convertToElementMetadataMap() {
-        return this._elementsMetadata.reduce((acc, elementMetadata) => {
+        return this._elementsMetadata!.reduce((acc, elementMetadata) => {
             acc[elementMetadata.elementType] = elementMetadata;
             return acc;
         }, {});
@@ -204,9 +203,9 @@ export default class FlcBuilder extends LightningElement {
     /**
      * Creates the initial flow render context
      *
-     * @return {FlowRenderContext} A new flow render context
+     * @return A new flow render context
      */
-    createInitialFlowRenderContext() {
+    createInitialFlowRenderContext(): FlowRenderContext {
         // transforms the elementsMetadata array to a map
         const elementsMetadataMap = this._convertToElementMetadataMap();
 
@@ -217,7 +216,7 @@ export default class FlcBuilder extends LightningElement {
             elementsMetadata: elementsMetadataMap,
             layoutConfig: { ...getDefaultLayoutConfig() },
             isDeletingBranch: false
-        };
+        } as FlowRenderContext;
     }
 
     /**
@@ -232,7 +231,7 @@ export default class FlcBuilder extends LightningElement {
             // make all elements selectable and unselected when exiting selection mode
             if (this._flowModel != null) {
                 const allGuids = Object.keys(this._flowModel);
-                const flcSelectionEvent = new FlcSelectionEvent([], allGuids, allGuids);
+                const flcSelectionEvent = new FlcSelectionEvent([], allGuids, allGuids, null);
                 this.dispatchEvent(flcSelectionEvent);
             }
         }
@@ -289,67 +288,8 @@ export default class FlcBuilder extends LightningElement {
     }
 
     /**
-     * Creates an object with the properties needed to render the node + connector menus
-     *
-     * @param {ToggleMenuEvent} detail - The toggle menu event
-     * @param {number} menuButtonHalfWidth - The half-width of the menu trigger button
-     * @return {Object} object with menu properties
-     */
-    createMenuRenderProperties(detail, menuButtonHalfWidth) {
-        let { left, top } = detail;
-        const { guid, next, parent, childIndex } = detail;
-        const { x, y } = this.getDomElementGeometry(this._flowContainerElement);
-
-        left = left - x + detail.offsetX + menuButtonHalfWidth;
-        top -= y;
-
-        const style = getStyleFromGeometry({
-            x: left * (1 / this.scale),
-            y: top * (1 / this.scale) + menuButtonHalfWidth
-        });
-
-        const elementHasFault = guid ? this._flowModel[guid].fault : false;
-        const targetGuid = childIndex != null ? getChild(this._flowModel[parent], childIndex) : next;
-
-        const targetElement = this.flowModel[targetGuid];
-
-        let canMergeEndedBranch = false;
-
-        if (targetElement != null) {
-            const targetParentElement = findParentElement(targetElement, this._flowModel);
-            const isTargetParentRoot =
-                getElementMetadata(this._flowRenderContext.elementsMetadata, targetParentElement.elementType).type ===
-                ElementType.ROOT;
-
-            const isTargetEnd =
-                getElementMetadata(this._flowRenderContext.elementsMetadata, targetElement.elementType).type ===
-                ElementType.END;
-            canMergeEndedBranch = targetParentElement.fault == null && !isTargetParentRoot && isTargetEnd;
-        }
-
-        const parentElement =
-            parent != null ? this._flowModel[parent] : findParentElement(this._flowModel[guid], this._flowModel);
-
-        const isParentLoop =
-            getElementMetadata(this._flowRenderContext.elementsMetadata, parentElement.elementType).type ===
-            ElementType.LOOP;
-
-        const hasEndElement = targetGuid == null && !isParentLoop;
-
-        return {
-            canMergeEndedBranch,
-            hasEndElement,
-            elementHasFault,
-            ...detail,
-            connectorMenu: detail.type,
-            next: targetGuid,
-            elementsMetadata: this._elementsMetadata,
-            style
-        };
-    }
-
-    /**
      * Toggles the node or connector menu
+     *
      * @param {ToggleMenuEvent} event - the toggle menu event
      */
     handleToggleMenu = event => {
@@ -368,8 +308,13 @@ export default class FlcBuilder extends LightningElement {
             const connectorMenu = detail.type;
             const menuButtonHalfWidth =
                 connectorMenu === MenuType.CONNECTOR ? CONNECTOR_ICON_SIZE / 2 : MENU_ICON_SIZE / 2;
+            const containerGeometry = this.getDomElementGeometry(this._flowContainerElement);
 
-            this.menu = this.createMenuRenderProperties(detail, menuButtonHalfWidth);
+            this.menu = Object.assign(
+                getFlcMenuData(event, menuButtonHalfWidth, containerGeometry, this._scale, this._flowRenderContext),
+                { elementsMetadata: this._elementsMetadata }
+            );
+
             this.zoomForMenuDisplay(detail, menuButtonHalfWidth);
         } else {
             this.menu = null;
@@ -396,7 +341,7 @@ export default class FlcBuilder extends LightningElement {
             this.dispatchCreateConnectionEvent(selectableGuids[0]);
         } else {
             // no merge point or elements on other branches, so just delete the end node to reconnect
-            this.dispatchEvent(new DeleteElementEvent([targetGuid], this.flowModel[targetGuid].elementType));
+            this.dispatchEvent(new DeleteElementEvent([targetGuid], this.flowModel[targetGuid].elementType, null));
         }
     };
 
@@ -511,7 +456,7 @@ export default class FlcBuilder extends LightningElement {
      */
     renderFlow(progress) {
         this._flowRenderInfo = renderFlow(this._flowRenderContext, progress);
-        this.flow = getFlcFlowData(this._flowRenderInfo, { guid: ElementType.ROOT }, 0);
+        this.flow = getFlcFlowData(this._flowRenderInfo, { guid: ElementType.ROOT } as NodeRenderInfo, 0);
     }
 
     /**

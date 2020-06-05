@@ -1,5 +1,21 @@
+import { Guid, ElementMetadata, MenuType } from 'builder_platform_interaction/autoLayoutCanvas';
+
 const eventName = 'togglemenu';
-export class ToggleMenuEvent extends CustomEvent<any> {
+
+interface ToggleMenuEventDetail {
+    top: number;
+    left: number;
+    offsetX: number;
+    type: MenuType;
+    elementMetadata: ElementMetadata;
+
+    next?: Guid;
+    guid?: Guid;
+    parent?: Guid;
+    childIndex?: number;
+}
+
+export class ToggleMenuEvent extends CustomEvent<ToggleMenuEventDetail> {
     constructor(detail) {
         super(eventName, {
             bubbles: true,

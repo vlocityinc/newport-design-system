@@ -8,18 +8,23 @@ import {
     ParentNodeModel,
     NodeModel,
     Guid,
-    NodeRef,
     BranchHeadNodeModel,
     ConnectorRenderInfo,
     NodeRenderInfo,
-    FlowRenderInfo
+    FlowRenderInfo,
+    findParentElement,
+    getChild,
+    Geometry,
+    FlowRenderContext
 } from 'builder_platform_interaction/autoLayoutCanvas';
+
+import { ToggleMenuEvent } from 'builder_platform_interaction/flcEvents';
 
 interface CanvasElementSelectionData {
     canvasElementGuidsToSelect: Guid[];
     canvasElementGuidsToDeselect: Guid[];
     selectableCanvasElementGuids: Guid[];
-    topSelectedGuid: NodeRef;
+    topSelectedGuid: Guid | null;
 }
 
 enum ICON_SHAPE {
@@ -243,7 +248,7 @@ const getCanvasElementSelectionData = (
     elementsMetadata: ElementsMetadata,
     flowModel: FlowModel,
     selectedCanvasElementGuid: Guid,
-    topSelectedGuid: Guid
+    topSelectedGuid: Guid | null
 ): CanvasElementSelectionData => {
     let canvasElementGuidsToSelect: Guid[] = [];
 
@@ -550,6 +555,67 @@ function getFlcNodeData(nodeInfo: NodeRenderInfo) {
 }
 
 /**
+ * Creates an object with the properties needed to render the node + connector menus
+ *
+ * @param detail - The toggle menu event
+ * @param menuButtonHalfWidth - The half-width of the menu trigger button
+ * @return object with menu properties
+ */
+function getFlcMenuData(
+    event: ToggleMenuEvent,
+    menuButtonHalfWidth: number,
+    containerElementGeometry: Geometry,
+    scale: number,
+    context: FlowRenderContext
+) {
+    const detail = event.detail;
+    let { left, top } = detail;
+    const { guid, next, parent, childIndex } = detail;
+    const { x, y } = containerElementGeometry;
+    const { flowModel, elementsMetadata } = context;
+
+    left = left - x + detail.offsetX + menuButtonHalfWidth;
+    top -= y;
+
+    const style = getStyleFromGeometry({
+        x: left * (1 / scale),
+        y: top * (1 / scale) + menuButtonHalfWidth
+    });
+
+    const elementHasFault = guid ? flowModel[guid].fault : false;
+    const targetGuid = childIndex != null ? getChild(flowModel[parent!], childIndex) : next;
+
+    const targetElement = targetGuid != null ? flowModel[targetGuid] : null;
+
+    let canMergeEndedBranch = false;
+
+    if (targetElement != null) {
+        const targetParentElement = findParentElement(targetElement, flowModel);
+        const isTargetParentRoot =
+            getElementMetadata(elementsMetadata, targetParentElement.elementType).type === ElementType.ROOT;
+
+        const isTargetEnd = getElementMetadata(elementsMetadata, targetElement.elementType).type === ElementType.END;
+        canMergeEndedBranch = targetParentElement.fault == null && !isTargetParentRoot && isTargetEnd;
+    }
+
+    const parentElement = parent != null ? flowModel[parent] : findParentElement(flowModel[guid!], flowModel);
+
+    const isParentLoop = getElementMetadata(elementsMetadata, parentElement.elementType).type === ElementType.LOOP;
+
+    const hasEndElement = targetGuid == null && !isParentLoop;
+
+    return {
+        canMergeEndedBranch,
+        hasEndElement,
+        elementHasFault,
+        ...detail,
+        connectorMenu: detail.type,
+        next: targetGuid,
+        style
+    };
+}
+
+/**
  * Creates a unique key for a connector
  *
  * @param connectorInfo- The connector render info
@@ -571,6 +637,7 @@ export {
     getFlcCompoundNodeData,
     getFlcFlowData,
     getFlcConnectorData,
+    getFlcMenuData,
     getCanvasElementSelectionData,
     getCanvasElementDeselectionData,
     getCanvasElementDeselectionDataOnToggleOff
