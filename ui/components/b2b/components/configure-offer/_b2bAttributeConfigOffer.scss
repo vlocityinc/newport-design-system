@@ -169,6 +169,7 @@
   flex: 0 0 100%;
   width: 100%;
   max-width: 37rem;
+  min-width: 16rem;
   @media screen and (min-width: 48rem){
     width: auto;
     margin: 0 2rem 1rem 0;
