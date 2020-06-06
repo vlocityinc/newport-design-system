@@ -91,11 +91,7 @@ function _duplicateConnector(
     let newState = connectors.map(connector => {
         // Deselect each connector to be duplicated (since the duplicated connectors will now be selected)
         if (connector.config && connector.config.isSelected) {
-            return Object.assign({}, connector, {
-                config: {
-                    isSelected: false
-                }
-            });
+            return _updateConnectorConfig(connector, { isSelected: false });
         }
         return connector;
     });
@@ -203,18 +199,14 @@ function _selectConnector(connectors, selectedGUID) {
         if (connector.guid === selectedGUID) {
             if (!connector.config.isSelected) {
                 hasStateChanged = true;
-                return updateProperties(connector, {
-                    config: {
-                        isSelected: true
-                    }
+                return _updateConnectorConfig(connector, {
+                    isSelected: true
                 });
             }
         } else if (connector.config.isSelected) {
             hasStateChanged = true;
-            return updateProperties(connector, {
-                config: {
-                    isSelected: false
-                }
+            return _updateConnectorConfig(connector, {
+                isSelected: false
             });
         }
         return connector;
@@ -234,10 +226,8 @@ function _selectConnector(connectors, selectedGUID) {
 function _toggleConnector(connectors, selectedGUID) {
     const index = connectors.findIndex(connector => connector.guid === selectedGUID);
     if (index !== -1) {
-        const newConnector = updateProperties(connectors[index], {
-            config: {
-                isSelected: !connectors[index].config.isSelected
-            }
+        const newConnector = _updateConnectorConfig(connectors[index], {
+            isSelected: !connectors[index].config.isSelected
         });
         return replaceItem(connectors, newConnector, index);
     }
@@ -257,10 +247,8 @@ function _deselectConnectors(connectors) {
     const newState = connectors.map(connector => {
         if (connector.config.isSelected) {
             hasStateChanged = true;
-            return updateProperties(connector, {
-                config: {
-                    isSelected: false
-                }
+            return _updateConnectorConfig(connector, {
+                isSelected: false
             });
         }
         return connector;
@@ -282,17 +270,13 @@ function _marqueeSelect(connectors, guidsToSelect, guidsToDeselect) {
     const newState = connectors.map(connector => {
         if (guidsToSelect.includes(connector.guid)) {
             hasStateChanged = true;
-            return updateProperties(connector, {
-                config: {
-                    isSelected: true
-                }
+            return _updateConnectorConfig(connector, {
+                isSelected: true
             });
         } else if (guidsToDeselect.includes(connector.guid)) {
             hasStateChanged = true;
-            return updateProperties(connector, {
-                config: {
-                    isSelected: false
-                }
+            return _updateConnectorConfig(connector, {
+                isSelected: false
             });
         }
         return connector;
@@ -321,12 +305,10 @@ function _highlightConnectors(connectors: object[], connectorsToHighlight: objec
             );
         });
         // Set the isHighlighted property of the connector to true if found in connectorsToHighlight list, else keep previous value
-        if (foundConnector) {
+        if (foundConnector && !connector.config.isHighlighted) {
             hasStateChanged = true;
-            return updateProperties(connector, {
-                config: {
-                    isHighlighted: true
-                }
+            return _updateConnectorConfig(connector, {
+                isHighlighted: true
             });
         }
         return connector;
@@ -345,14 +327,19 @@ function _clearConnectorHighlights(connectors: object[]) {
     const newState = connectors.map(connector => {
         if (connector.config.isHighlighted) {
             hasStateChanged = true;
-            return updateProperties(connector, {
-                config: {
-                    isHighlighted: false
-                }
+            return _updateConnectorConfig(connector, {
+                isHighlighted: false
             });
         }
         return connector;
     });
 
     return hasStateChanged ? newState : connectors;
+}
+
+/**
+ * Helper function to update properties in connector config
+ */
+function _updateConnectorConfig(connector: object, updatedConfig: object) {
+    return updateProperties(connector, { config: updateProperties(connector.config, updatedConfig) });
 }

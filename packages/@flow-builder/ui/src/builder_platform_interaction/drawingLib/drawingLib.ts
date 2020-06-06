@@ -76,6 +76,11 @@ class DrawingLib {
         },
         hoverFaultConnector: {
             stroke: '#a61a14'
+        },
+        highlightedConnector: {
+            strokeWidth: 5,
+            stroke: '#FFB75D',
+            dashstyle: '0'
         }
     };
 
@@ -323,6 +328,27 @@ class DrawingLib {
         }
         connection.removeClass('connector-selected');
         this.setPaintStyleAndLabel(connection, paintStyle, hoverPaintStyle, cssClass);
+    };
+
+    /**
+     * Sets up the paint style of the connector when it's highlighted.
+     * @param connection - The connector that has been highlighted
+     * @param connectorType - Type of connector
+     */
+    highlightConnector = (connection: object, connectorType: string) => {
+        const cssClass = connectorType === CONNECTOR_TYPE.FAULT ? 'fault-label-highlighted' : 'label-highlighted';
+        connection.addClass('connector-highlighted');
+        this.setPaintStyleAndLabel(connection, this.connectorStyles.highlightedConnector, {}, cssClass);
+    };
+
+    /**
+     * Sets up the paint style of the connector when it's not highlighted.
+     * @param connection - The connector that has been de-highlighted
+     * @param connectorType - Type of connector
+     */
+    dehighlightConnector = (connection: object, connectorType: string) => {
+        connection.removeClass('connector-highlighted');
+        this.deselectConnector(connection, connectorType);
     };
 
     /**

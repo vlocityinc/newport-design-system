@@ -542,7 +542,7 @@ describe('connectors-reducer', () => {
                     guid: 'c1',
                     source: 's1',
                     type: CONNECTOR_TYPE.REGULAR,
-                    config: {}
+                    config: { isSelected: true }
                 },
                 {
                     guid: 'c2',
@@ -561,7 +561,7 @@ describe('connectors-reducer', () => {
                     guid: 'c1',
                     source: 's1',
                     type: CONNECTOR_TYPE.REGULAR,
-                    config: { isHighlighted: true }
+                    config: { isHighlighted: true, isSelected: false }
                 },
                 {
                     guid: 'c2',

@@ -202,6 +202,27 @@ const _hasConnectorSelectionChanged = (isConnectorSelected, jsPlumbConnector) =>
 };
 
 /**
+ * Check if connector highlighted state (updated in the store) has been changed from the previous one
+ * (jsPlumbConnector contains the connector-highlighted class when the connector is selected), if so then
+ * update its properties, otherwise skip updating the style and making heavy call from Jsplumb
+ *
+ * @param isConnectorHighlighted - New isHighlighted state of the connector
+ * @param jsPlumbConnector - JsPlumb Connector
+ * @returns true if connector selected state has changed
+ */
+const _hasConnectorHighlightChanged = (isConnectorHighlighted: boolean, jsPlumbConnector: object): boolean => {
+    if (!jsPlumbConnector) {
+        throw new Error('jsPlumbConnector is not defined. It must be defined.');
+    }
+    return (
+        isConnectorHighlighted !==
+        (jsPlumbConnector &&
+            jsPlumbConnector.getClass() &&
+            jsPlumbConnector.getClass().includes('connector-highlighted'))
+    );
+};
+
+/**
  * Helper function to update the styling of the connector based on it's selected state.
  *
  * @param {Object} connector - Object containing the connector data
@@ -222,6 +243,14 @@ const _updateConnectorStyling = (connector, jsPlumbConnector) => {
             lib.selectConnector(jsPlumbConnector, connector.type);
         } else {
             lib.deselectConnector(jsPlumbConnector, connector.type);
+        }
+    }
+
+    if (_hasConnectorHighlightChanged(!!connector.config.isHighlighted, jsPlumbConnector)) {
+        if (connector.config.isHighlighted) {
+            lib.highlightConnector(jsPlumbConnector, connector.type);
+        } else {
+            lib.dehighlightConnector(jsPlumbConnector, connector.type);
         }
     }
 };
@@ -338,6 +367,10 @@ export const setupConnectors = (connectors, jsPlumbConnectorMap, canvasElementGu
 
             if (connector.config && connector.config.isSelected) {
                 lib.selectConnector(jsPlumbConnector, connector.type);
+            }
+
+            if (connector.config && connector.config.isHighlighted) {
+                lib.highlightConnector(jsPlumbConnector, connector.type);
             }
         } else {
             _updateConnectorStyling(connector, jsPlumbConnector);
