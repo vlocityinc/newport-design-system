@@ -221,7 +221,7 @@ export const loadOnStart = () => loader.loadOnStart();
  * @param {String} processType Process type
  * @param {String} flowDefinitionId
  */
-export const loadOnProcessTypeChange = (processType, flowDefinitionId) =>
+export const loadOnProcessTypeChange = (processType, flowDefinitionId?) =>
     loader.loadOnProcessTypeChange(processType, flowDefinitionId);
 
 /**

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { setEntities, clearEntityFieldsCache } from 'builder_platform_interaction/sobjectLib';
 import { setAuraFetch, resetFetchOnceCache } from 'builder_platform_interaction/serverDataLib';
 import { setGlobalVariables, resetSystemVariables } from 'builder_platform_interaction/systemLib';
@@ -24,7 +23,9 @@ import { updateFlow } from 'builder_platform_interaction/actions';
 
 export const FLOW_BUILDER_VALIDATION_ERROR_MESSAGES = {
     CANNOT_BE_BLANK: 'FlowBuilderValidation.cannotBeBlank',
-    GENERIC: 'FlowBuilderCombobox.genericErrorMessage'
+    GENERIC: 'FlowBuilderCombobox.genericErrorMessage',
+    MERGE_FIELD_INVALID_DATA_TYPE: 'FlowBuilderMergeFieldValidation.invalidDataType',
+    MERGE_FIELD_CANNOT_BE_USED: 'FlowBuilderMergeFieldValidation.resourceCannotBeUsedAsMergeField'
 };
 
 /**
@@ -39,9 +40,8 @@ export const translateFlowToUIAndDispatch = (flow, store) => {
     return uiFlow;
 };
 
-export const getChildComponent = (parentComponent, childComponentSelector) => {
-    return parentComponent.shadowRoot.querySelector(childComponentSelector);
-};
+export const getChildComponent = (parentComponent, childComponentSelector) =>
+    parentComponent.shadowRoot.querySelector(childComponentSelector);
 
 export const changeComboboxValue = (combobox, newValue) => {
     combobox.dispatchEvent(textInputEvent(newValue));

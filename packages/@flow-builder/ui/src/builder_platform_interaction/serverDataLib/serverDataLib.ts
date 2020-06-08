@@ -95,7 +95,7 @@ let auraCallback;
  * Set the generic function to get server data
  * @param {Function} fn aura fetch function
  */
-export function setAuraFetch(fn) {
+export function setAuraFetch(fn?) {
     auraFetch = fn;
 }
 

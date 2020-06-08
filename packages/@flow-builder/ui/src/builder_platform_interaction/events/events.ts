@@ -96,3 +96,4 @@ export { ToggleElementEvent } from './elementEvents/toggleElementEvent';
 export { AddNodeEvent } from './addNodeEvent';
 export { UpdateNodeEvent } from './updateNodeEvent';
 export { ConfigurationEditorTypeMappingChangeEvent } from './configurationEditorTypeMappingChangeEvent';
+export { RemoveMergeFieldPillEvent } from './removeMergeFieldPillEvent';

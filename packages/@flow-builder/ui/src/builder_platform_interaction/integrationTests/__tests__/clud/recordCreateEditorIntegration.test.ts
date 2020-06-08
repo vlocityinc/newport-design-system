@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createElement } from 'lwc';
 import RecordCreateEditor from 'builder_platform_interaction/recordCreateEditor';
 import { resolveRenderCycles } from '../resolveRenderCycles';
@@ -18,17 +17,18 @@ import {
     flowWithCreateRecordUsingFields
 } from 'mock/flows/flowWithCreateRecord';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     getAdvancedOptionCheckbox,
     getUseAdvancedOptionComponent,
     deepQuerySelector,
     focusoutEvent,
     clickEvent,
-    ticks
+    ticks,
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { getLhsCombobox } from '../expressionBuilderTestUtils';
+import { getLhsCombobox, getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
 import {
     selectComboboxItemBy,
     getComboboxItems,
@@ -37,11 +37,9 @@ import {
     expectCannotBeTraversed,
     expectCannotBeSelected
 } from '../comboboxTestUtils';
-import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
 import { getGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
 import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import {
-    SELECTORS,
     getResourceGroupedCombobox,
     getResourceCombobox,
     getOutputResourcePickerCombobox,
@@ -52,25 +50,25 @@ import {
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'Flow';
 
-const VALIDATION_ERROR_MESSAGES = {
-    INVALID_DATA_TYPE: 'FlowBuilderMergeFieldValidation.invalidDataType',
-    ...FLOW_BUILDER_VALIDATION_ERROR_MESSAGES
-};
-
 const getSObjectOrSObjectCollectionPicker = recordEditor =>
-    recordEditor.shadowRoot.querySelector(SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
-const getRecordStoreOption = recordEditor => recordEditor.shadowRoot.querySelector(SELECTORS.RECORD_STORE_OPTION);
+    recordEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
+const getRecordStoreOption = recordEditor =>
+    recordEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_STORE_OPTION);
 const getInputOutputAssignments = recordEditor =>
-    recordEditor.shadowRoot.querySelector(SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
+    recordEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
 const getEntityResourcePickerComboboxElement = entityResourcePicker =>
     deepQuerySelector(entityResourcePicker, [
-        SELECTORS.BASE_RESOURCE_PICKER,
-        SELECTORS.COMBOBOX,
-        SELECTORS.LIGHTNING_GROUPED_COMBOBOX
+        INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
+        INTERACTION_COMPONENTS_SELECTORS.COMBOBOX,
+        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
     ]);
 const getExpressionBuilderComboboxElement = expressionBuilder =>
-    deepQuerySelector(expressionBuilder, [SELECTORS.INTERACTION_COMBOBOX, SELECTORS.LIGHTNING_GROUPED_COMBOBOX]);
-const getOutputResourcePicker = recordEditor => recordEditor.shadowRoot.querySelector(SELECTORS.OUTPUT_RESOURCE_PICKER);
+    deepQuerySelector(expressionBuilder, [
+        INTERACTION_COMPONENTS_SELECTORS.COMBOBOX,
+        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
+    ]);
+const getOutputResourcePicker = recordEditor =>
+    recordEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.OUTPUT_RESOURCE_PICKER);
 
 const createComponentForTest = (node, processType = MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE) => {
     const el = createElement('builder_platform_interaction-record-create-editor', { is: RecordCreateEditor });
@@ -126,7 +124,9 @@ describe('Record Create Editor', () => {
                 labelInput.value = newLabel;
                 labelInput.dispatchEvent(focusoutEvent);
                 await ticks(1);
-                expect(recordCreateElement.node.label.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
+                expect(recordCreateElement.node.label.error).toBe(
+                    FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
+                );
             });
             it('displays error if devName is cleared', async () => {
                 const newDevName = '';
@@ -135,7 +135,9 @@ describe('Record Create Editor', () => {
                 devNameInput.value = newDevName;
                 devNameInput.dispatchEvent(focusoutEvent);
                 await ticks(1);
-                expect(recordCreateElement.node.name.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
+                expect(recordCreateElement.node.name.error).toBe(
+                    FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
+                );
             });
         });
         describe('Add new element', () => {
@@ -257,8 +259,8 @@ describe('Record Create Editor', () => {
                 const clickAddFieldButton = async () => {
                     const inputAssignments = getInputOutputAssignments(recordCreateElement);
                     const addFieldButton = deepQuerySelector(inputAssignments, [
-                        SELECTORS.LIST,
-                        SELECTORS.LIGHTNING_BUTTON
+                        INTERACTION_COMPONENTS_SELECTORS.LIST,
+                        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_BUTTON
                     ]);
                     addFieldButton.dispatchEvent(clickEvent());
                     await ticks(50);
@@ -300,7 +302,9 @@ describe('Record Create Editor', () => {
                     const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
                     changeComboboxValue(comboboxElement, '');
                     await ticks(1);
-                    expect(recordCreateElement.node.object.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
+                    expect(recordCreateElement.node.object.error).toBe(
+                        FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
+                    );
                     expect(getInputOutputAssignments(recordCreateElement)).toBeNull();
                     const recordStoreElement = getRecordStoreOption(recordCreateElement);
                     const radioGroupElements = getRadioGroups(recordStoreElement);
@@ -312,9 +316,9 @@ describe('Record Create Editor', () => {
                     await selectEntity('invalidValue');
                     expect(getInputOutputAssignments(recordCreateElement)).toBeNull();
                     expect(getOutputResourcePicker(recordCreateElement)).toBeNull();
-                    expect(recordCreateElement.node.object.error).toBe(VALIDATION_ERROR_MESSAGES.GENERIC);
+                    expect(recordCreateElement.node.object.error).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC);
                 });
-                it('enter an valid value in the entity resource picker should not display an error', async () => {
+                it('enter a valid value in the entity resource picker should not display an error', async () => {
                     await selectEntity('Case');
                     expect(recordCreateElement.node.object.error).toBeNull();
                     expect(getInputOutputAssignments(recordCreateElement)).not.toBeNull();
@@ -409,7 +413,8 @@ describe('Record Create Editor', () => {
                     it('Should display no fields once all creatable fields have been selected', async () => {
                         await selectEntity('Feed Item');
                         inputAssignments = getInputOutputAssignments(recordCreateElement);
-                        const creatableFields = Object.values(feedItemFields)
+                        const feedItemFieldsArray: { creatable; apiName }[] = Object.values(feedItemFields);
+                        const creatableFields = feedItemFieldsArray
                             .filter(field => field.creatable)
                             .map(field => field.apiName);
                         expect(creatableFields.length).toBeGreaterThan(15);
@@ -422,11 +427,11 @@ describe('Record Create Editor', () => {
                             const creatableFieldsLength = creatableFields.length;
                             const creatableField = creatableFields[i];
                             const inputOutputAssignments = inputAssignments;
-                            promise = promise.then(() => {
+                            promise = promise.then(async () => {
                                 const fieldToFerovExpressionBuilder = getFieldToFerovExpressionBuilders(
                                     inputOutputAssignments
                                 );
-                                const lhsCombobox = getLhsCombobox(fieldToFerovExpressionBuilder[i]);
+                                const lhsCombobox = await getLhsCombobox(fieldToFerovExpressionBuilder[i]);
                                 expect(getComboboxItems(lhsCombobox)).toHaveLength(creatableFieldsLength - i);
                                 return selectComboboxItemBy(lhsCombobox, 'displayText', [creatableField]).then(() =>
                                     clickAddFieldButton()
@@ -435,7 +440,7 @@ describe('Record Create Editor', () => {
                         }
                         await promise;
                         const fieldToFerovExpressionBuilder = getFieldToFerovExpressionBuilders(inputAssignments);
-                        const lhsCombobox = getLhsCombobox(fieldToFerovExpressionBuilder[creatableFields.length]);
+                        const lhsCombobox = await getLhsCombobox(fieldToFerovExpressionBuilder[creatableFields.length]);
                         expect(getComboboxItems(lhsCombobox)).toHaveLength(0);
                     });
                 });
@@ -524,14 +529,14 @@ describe('Record Create Editor', () => {
                     changeComboboxValue(sObjectOrSObjectCollectionPicker, '{!apexComplexTypeVariable}');
 
                     expect(getResourceCombobox(recordCreateElement).errorMessage).toBe(
-                        VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE
+                        FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.MERGE_FIELD_INVALID_DATA_TYPE
                     );
                 });
                 it('should throw validation error if manually entering an SObject collection', async () => {
                     changeComboboxValue(sObjectOrSObjectCollectionPicker, '{!accountSObjectCollectionVariable}');
 
                     expect(getResourceCombobox(recordCreateElement).errorMessage).toBe(
-                        VALIDATION_ERROR_MESSAGES.GENERIC
+                        FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC
                     );
                 });
             });
@@ -583,10 +588,10 @@ describe('Record Create Editor', () => {
                 const expectedGuid = getElementByDevName('apexComplexTypeVariable').guid;
                 expect(selectedItem).toMatchObject({
                     displayText: '{!apexComplexTypeVariable.name}',
-                    value: expectedGuid + '.name'
+                    value: `${expectedGuid}.name`
                 });
                 expect(outputResourcePickerCombobox.errorMessage).toBeNull();
-                expect(recordCreateElement.node.assignRecordIdToReference.value).toBe(expectedGuid + '.name');
+                expect(recordCreateElement.node.assignRecordIdToReference.value).toBe(`${expectedGuid}.name`);
             });
             it('cannot select account field from apex class to store id', async () => {
                 // When

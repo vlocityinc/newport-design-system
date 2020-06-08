@@ -7,7 +7,10 @@ import { setupStateForFlow, resetState, translateFlowToUIAndDispatch } from '../
 import {
     ticks,
     deepQuerySelector,
-    INTERACTION_COMPONENTS_SELECTORS
+    INTERACTION_COMPONENTS_SELECTORS,
+    clickPill,
+    getComboboxPill,
+    removeEvent
 } from 'builder_platform_interaction/builderTestUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import {
@@ -35,25 +38,20 @@ import {
 jest.mock('@salesforce/label/FlowBuilderElementLabels.actionAsResourceText', () => ({ default: 'Outputs from {0}' }), {
     virtual: true
 });
-
 jest.mock('@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel', () => ({ default: 'New Resource' }), {
     virtual: true
 });
-
 jest.mock('@salesforce/label/FlowBuilderElementLabels.subflowAsResourceText', () => ({ default: 'Outputs from {0}' }), {
     virtual: true
 });
-
 jest.mock('@salesforce/label/FlowBuilderElementConfig.variablePluralLabel', () => ({ default: 'Variables' }), {
     virtual: true
 });
-
 jest.mock(
     '@salesforce/label/FlowBuilderElementConfig.sObjectPluralLabel',
     () => ({ default: 'Record (Single) Variables' }),
     { virtual: true }
 );
-
 jest.mock(
     '@salesforce/label/FlowBuilderElementConfig.apexVariablePluralLabel',
     () => ({ default: 'Apex-Defined Variables' }),
@@ -63,11 +61,9 @@ jest.mock(
 jest.mock('@salesforce/label/FlowBuilderElementConfig.subflowPluralLabel', () => ({ default: 'Subflows' }), {
     virtual: true
 });
-
 jest.mock('@salesforce/label/FlowBuilderElementConfig.actionPluralLabel', () => ({ default: 'Actions' }), {
     virtual: true
 });
-
 jest.mock('@salesforce/label/FlowBuilderDataTypes.textDataTypeLabel', () => ({ default: 'Text' }), { virtual: true });
 
 jest.mock(
@@ -88,6 +84,13 @@ jest.mock(
     },
     { virtual: true }
 );
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.lightningComponentScreenFieldAsResourceText',
+    () => {
+        return { default: '{0}' };
+    },
+    { virtual: true }
+);
 
 const createComponentForTest = assignmentElement => {
     const el = createElement('builder_platform_interaction-assignment-editor', {
@@ -98,9 +101,8 @@ const createComponentForTest = assignmentElement => {
     return el;
 };
 
-const getFerToFerovExpressionBuilder = assignment => {
-    return deepQuerySelector(assignment, [INTERACTION_COMPONENTS_SELECTORS.FER_TO_FEROV_EXPRESSION_BUILDER]);
-};
+const getFerToFerovExpressionBuilder = assignment =>
+    deepQuerySelector(assignment, [INTERACTION_COMPONENTS_SELECTORS.FER_TO_FEROV_EXPRESSION_BUILDER]);
 
 describe('Assignment Editor', () => {
     let assignment, expressionBuilder;
@@ -115,7 +117,6 @@ describe('Assignment Editor', () => {
         const assignmentElement = getElementByDevName('assignment1');
         const assignmentForPropertyEditor = getElementForPropertyEditor(assignmentElement);
         assignment = createComponentForTest(assignmentForPropertyEditor);
-        await ticks();
         expressionBuilder = getFerToFerovExpressionBuilder(assignment);
     });
     describe('Validation', () => {
@@ -190,8 +191,8 @@ describe('Assignment Editor', () => {
             });
             describe('Operator reset when changing LHS value if new value does not support previous operator', () => {
                 let lhsCombobox;
-                beforeEach(() => {
-                    lhsCombobox = getLhsCombobox(expressionBuilder);
+                beforeEach(async () => {
+                    lhsCombobox = await getLhsCombobox(expressionBuilder, true);
                 });
                 function isOperatorReset(originalOperator) {
                     return getOperatorCombobox(expressionBuilder).value !== originalOperator;
@@ -209,13 +210,35 @@ describe('Assignment Editor', () => {
                 `(
                     'Should reset operator when switching LHS from $originalLhs to $newLhs: $resetOperator',
                     async ({ originalLhs, originalOperator, newLhs, resetOperator }) => {
-                        await typeReferenceOrValueInCombobox(lhsCombobox, originalLhs);
+                        await typeReferenceOrValueInCombobox(lhsCombobox, originalLhs, true);
                         expect(selectOperator(expressionBuilder, originalOperator)).toBe(true);
-                        await typeReferenceOrValueInCombobox(lhsCombobox, newLhs);
+                        await typeReferenceOrValueInCombobox(lhsCombobox, newLhs, true);
 
                         expect(isOperatorReset(originalOperator)).toBe(resetOperator);
                     }
                 );
+            });
+            it('Operator and RHS disabled (without pill) when LHS value is emptied (LHS was initially in pill mode)', async () => {
+                const lhsCombobox = await getLhsCombobox(expressionBuilder);
+                expect(lhsCombobox.pill).not.toBeNull();
+                await typeReferenceOrValueInCombobox(lhsCombobox, '', true);
+                const operatorCombobox = getOperatorCombobox(expressionBuilder);
+                expect(operatorCombobox.disabled).toBe(true);
+                const rhsCombobox = await getRhsCombobox(expressionBuilder);
+                expect(rhsCombobox.pill).toBeNull();
+                expect(rhsCombobox.disabled).toBe(true);
+            });
+            it('Operator and RHS disabled (without pill) when LHS pill removed)', async () => {
+                const lhsCombobox = await getLhsCombobox(expressionBuilder);
+                expect(lhsCombobox.pill).not.toBeNull();
+                const pillCombobox = getComboboxPill(lhsCombobox);
+                pillCombobox.dispatchEvent(removeEvent());
+                await ticks(1);
+                const operatorCombobox = getOperatorCombobox(expressionBuilder);
+                expect(operatorCombobox.disabled).toBe(true);
+                const rhsCombobox = await getRhsCombobox(expressionBuilder);
+                expect(rhsCombobox.pill).toBeNull();
+                expect(rhsCombobox.disabled).toBe(true);
             });
         });
         describe('When using Apex types on LHS or RHS', () => {
@@ -230,10 +253,11 @@ describe('Assignment Editor', () => {
             ${'{!accountSObjectVariable}'}                  | ${'Assign'} | ${'{!apexComplexTypeVariable.doesNotExist}'}            | ${'FlowBuilderMergeFieldValidation.unknownRecordField'}
             `();
             it('can traverse more than 2 levels in the LHS', async () => {
-                const lhsCombobox = getLhsCombobox(expressionBuilder);
+                const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
                 expect(await selectComboboxItemBy(lhsCombobox, 'text', ['apexCarVariable', 'wheel'])).toMatchObject({
                     displayText: '{!apexCarVariable.wheel}'
                 });
+                await clickPill(lhsCombobox);
                 expect(
                     await selectComboboxItemBy(lhsCombobox, 'text', ['apexCarVariable', 'wheel', 'type'])
                 ).toMatchObject({
@@ -241,7 +265,7 @@ describe('Assignment Editor', () => {
                 });
             });
             it('can traverse SObject in the Apex types', async () => {
-                const lhsCombobox = getLhsCombobox(expressionBuilder);
+                const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
                 expect(
                     await selectComboboxItemBy(lhsCombobox, 'text', [
                         'apexComplexTypeVariable',
@@ -253,7 +277,7 @@ describe('Assignment Editor', () => {
                 });
             });
             it('cannot traverse more than one level of an SObject in the Apex types', async () => {
-                const lhsCombobox = getLhsCombobox(expressionBuilder);
+                const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
                 expect(
                     await selectComboboxItemBy(lhsCombobox, 'text', ['apexComplexTypeVariable', 'acct', 'CreatedBy'])
                 ).toBeUndefined();
@@ -290,7 +314,7 @@ describe('Assignment Editor', () => {
                 dataType: 'String'
             });
             setNextInlineResource(inlineVariable);
-            const lhsCombobox = getLhsCombobox(expressionBuilder);
+            const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
             await selectComboboxItemBy(lhsCombobox, 'text', ['New Resource']);
             await ticks(50);
             expect(lhsCombobox.value).toMatchObject({
@@ -302,8 +326,8 @@ describe('Assignment Editor', () => {
     describe('Traversal', () => {
         it('is limited to 10 levels', async () => {
             // Given
-            const lhsCombobox = getLhsCombobox(expressionBuilder);
-            const rhsCombobox = getRhsCombobox(expressionBuilder);
+            const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
+            const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
             await typeMergeFieldInCombobox(lhsCombobox, '{!stringVariable}');
             selectOperator(expressionBuilder, 'Assign');
 
@@ -337,20 +361,162 @@ describe('Assignment Editor', () => {
             ${'{!apexComplexTypeVariable.doesNotExist}'}  | ${'FlowBuilderMergeFieldValidation.unknownRecordField'}
             ${'{!apexComplexTypeVariable.doesNotExist.}'} | ${'FlowBuilderCombobox.genericErrorMessage'}
         `('error for "$lhs should be : $expectedErrorMessage', async ({ lhs, expectedErrorMessage }) => {
-            const lhsCombobox = getLhsCombobox(expressionBuilder);
+            const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
             await typeReferenceOrValueInCombobox(lhsCombobox, lhs);
             expect(lhsCombobox.errorMessage).toEqual(expectedErrorMessage);
+        });
+    });
+    describe('pill', () => {
+        describe('pill in error?', () => {
+            describe('RHS change', () => {
+                it('should  not display RHS pill in error after changing RHS value to one incompatible with LHS value', async () => {
+                    const lhsCombobox = await getLhsCombobox(expressionBuilder);
+                    expect(lhsCombobox.value.displayText).toEqual('{!stringVariable}');
+                    expect(lhsCombobox.pill).toEqual({ label: 'stringVariable', iconName: 'utility:text' });
+                    const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
+                    await typeMergeFieldInCombobox(rhsCombobox, '{!feedItemVariable}');
+                    expect(rhsCombobox.errorMessage).not.toBeNull();
+                    expect(rhsCombobox.pill).toBeNull();
+                });
+            });
+        });
+        describe('On typing and blur (LHS/RHS changes)', () => {
+            describe('No error', () => {
+                it.each`
+                    lhs                                                          | rhs                                                          | expectedLhsPill                                                                                                    | expectedRhsPill
+                    ${'{!feedItemVariable}'}                                     | ${'{!feedItemVariable}'}                                     | ${{ iconName: 'utility:sobject', label: 'feedItemVariable' }}                                                      | ${{ iconName: 'utility:sobject', label: 'feedItemVariable' }}
+                    ${'{!stringVariable}'}                                       | ${'{!feedItemVariable.CreatedBy:User.Name}'}                 | ${{ iconName: 'utility:text', label: 'stringVariable' }}                                                           | ${{ iconName: 'utility:text', label: 'feedItemVariable > Created By ID (User) > Full Name' }}
+                    ${'{!stringVariable}'}                                       | ${'{!stringConstant}'}                                       | ${{ iconName: 'utility:text', label: 'stringVariable' }}                                                           | ${{ iconName: 'utility:text', label: 'stringConstant' }}
+                    ${'{!stringVariable}'}                                       | ${'{!textTemplate1}'}                                        | ${{ iconName: 'utility:text', label: 'stringVariable' }}                                                           | ${{ iconName: 'utility:text', label: 'textTemplate1' }}
+                    ${'{!dateVariable}'}                                         | ${'{!dateVariable}'}                                         | ${{ iconName: 'utility:event', label: 'dateVariable' }}                                                            | ${{ iconName: 'utility:event', label: 'dateVariable' }}
+                    ${'{!numberVariable}'}                                       | ${'{!numberVariable}'}                                       | ${{ iconName: 'utility:topic2', label: 'numberVariable' }}                                                         | ${{ iconName: 'utility:topic2', label: 'numberVariable' }}
+                    ${'{!currencyVariable}'}                                     | ${'{!currencyVariable}'}                                     | ${{ iconName: 'utility:currency', label: 'currencyVariable' }}                                                     | ${{ iconName: 'utility:currency', label: 'currencyVariable' }}
+                    ${'{!feedItemVariable.IsClosed}'}                            | ${'{!feedItemVariable.IsClosed}'}                            | ${{ iconName: 'utility:crossfilter', label: 'feedItemVariable > Is Closed' }}                                      | ${{ iconName: 'utility:crossfilter', label: 'feedItemVariable > Is Closed' }}
+                    ${'{!apexComplexTypeVariable.acct}'}                         | ${'{!apexComplexTypeVariable.acct}'}                         | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acct' }}                                        | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acct' }}
+                    ${'{!apexComplexTypeVariable.acct.BillingCity}'}             | ${'{!apexComplexTypeVariable.acct.BillingCity}'}             | ${{ iconName: 'utility:text', label: 'apexComplexTypeVariable > acct > Billing City' }}                            | ${{ iconName: 'utility:text', label: 'apexComplexTypeVariable > acct > Billing City' }}
+                    ${'{!feedItemVariable.IsClosed}'}                            | ${'{!feedItemVariable.IsClosed}'}                            | ${{ iconName: 'utility:crossfilter', label: 'feedItemVariable > Is Closed' }}                                      | ${{ iconName: 'utility:crossfilter', label: 'feedItemVariable > Is Closed' }}
+                    ${'{!emailScreenFieldAutomaticOutput.readonly}'}             | ${'{!emailScreenFieldAutomaticOutput.readonly}'}             | ${{ iconName: 'utility:crossfilter', label: 'emailScreenFieldAutomaticOutput > Read Only' }}                       | ${{ iconName: 'utility:crossfilter', label: 'emailScreenFieldAutomaticOutput > Read Only' }}
+                    ${'{!apexCall_Car_automatic_output.car}'}                    | ${'{!apexCall_Car_automatic_output.car}'}                    | ${{ iconName: 'utility:apex', label: 'Outputs from apexCall_Car_automatic_output > car' }}                         | ${{ iconName: 'utility:apex', label: 'Outputs from apexCall_Car_automatic_output > car' }}
+                    ${'{!subflowAutomaticOutput.accountOutput}'}                 | ${'{!subflowAutomaticOutput.accountOutput}'}                 | ${{ iconName: 'utility:sobject', label: 'Outputs from subflowAutomaticOutput > accountOutput' }}                   | ${{ iconName: 'utility:sobject', label: 'Outputs from subflowAutomaticOutput > accountOutput' }}
+                    ${'{!subflowAutomaticOutput.accountOutput.BillingLatitude}'} | ${'{!subflowAutomaticOutput.accountOutput.BillingLatitude}'} | ${{ iconName: 'utility:topic2', label: 'Outputs from subflowAutomaticOutput > accountOutput > Billing Latitude' }} | ${{ iconName: 'utility:topic2', label: 'Outputs from subflowAutomaticOutput > accountOutput > Billing Latitude' }}
+                    ${'{!lookupRecordAutomaticOutput}'}                          | ${'{!lookupRecordAutomaticOutput}'}                          | ${{ iconName: 'utility:sobject', label: 'Account from lookupRecordAutomaticOutput' }}                              | ${{ iconName: 'utility:sobject', label: 'Account from lookupRecordAutomaticOutput' }}
+                    ${'{!lookupRecordAutomaticOutput.BillingCity}'}              | ${'{!lookupRecordAutomaticOutput.BillingCity}'}              | ${{ iconName: 'utility:text', label: 'Account from lookupRecordAutomaticOutput > Billing City' }}                  | ${{ iconName: 'utility:text', label: 'Account from lookupRecordAutomaticOutput > Billing City' }}
+                `(
+                    'LHS Pill should be: $expectedLhsPill for LHS: $lhs, RHS pill should be: $expectedRhsPill for RHS: $rhs',
+                    async ({ lhs, rhs, expectedLhsPill, expectedRhsPill }) => {
+                        const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
+                        await typeMergeFieldInCombobox(lhsCombobox, lhs);
+                        expect(lhsCombobox.pill).toEqual(expectedLhsPill);
+                        const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
+                        await typeMergeFieldInCombobox(rhsCombobox, rhs);
+                        expect(rhsCombobox.pill).toEqual(expectedRhsPill);
+                    }
+                );
+            });
+            describe('LHS error', () => {
+                describe('RHS emptied', () => {
+                    beforeEach(async () => {
+                        const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
+                        await typeReferenceOrValueInCombobox(rhsCombobox, '');
+                    });
+                    it.each`
+                        lhs
+                        ${'{!feedItemVariableItDoesNotExistThatsForSure}'}
+                        ${'{!feedItemVariable.CreatedBy:User.Name}'}
+                        ${'{!apexComplexTypeVariable.acct.BillingCity2}'}
+                    `('LHS should have no pill as in error state with empty RHS', async ({ lhs }) => {
+                        const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
+                        await typeMergeFieldInCombobox(lhsCombobox, lhs);
+                        expect(lhsCombobox.errorMessage).not.toBeNull();
+                        expect(lhsCombobox.pill).toBeNull();
+                    });
+                });
+                describe('RHS kept as it is (incompatible type)', () => {
+                    it('should see RHS pill in error after changing LHS value to one incompatible with RHS value', async () => {
+                        const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
+                        expect(lhsCombobox.pill).toBeNull();
+                        expect(lhsCombobox.value.displayText).toEqual('{!stringVariable}');
+                        await selectComboboxItemBy(lhsCombobox, 'text', ['feedItemVariable']);
+                        expect(lhsCombobox.value.displayText).toEqual('{!feedItemVariable}');
+                        expect(lhsCombobox.pill).toEqual({ label: 'feedItemVariable', iconName: 'utility:sobject' });
+                        const rhsCombobox = await getRhsCombobox(expressionBuilder);
+                        expect(rhsCombobox.errorMessage).not.toBeNull();
+                        expect(rhsCombobox.hasPillError).toBe(true);
+                        expect(rhsCombobox.pill).toEqual({ label: 'numberVariable', iconName: 'utility:topic2' });
+                        expect(rhsCombobox.pillTooltip).toEqual(expect.stringContaining(rhsCombobox.errorMessage));
+                    });
+                });
+            });
+            describe('RHS error', () => {
+                beforeEach(async () => {
+                    const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
+                    await typeMergeFieldInCombobox(lhsCombobox, '{!dateVariable}');
+                });
+                it.each`
+                    rhs
+                    ${'{!feedItemVariable}'}
+                    ${'{!feedItemVariableItDoesNotExistThatsForSure}'}
+                    ${'{!feedItemVariable.CreatedBy:User.Name}'}
+                    ${'{!feedItemVariable.IsClosed}'}
+                    ${'{!apexComplexTypeVariable.acct}'}
+                    ${'{!apexComplexTypeVariable.acct.BillingCity}'}
+                    ${'{!accountSObjectVariable}'}
+                `(
+                    'RHS should have no pill as in error state for RHS: $rhs and LHS (with incompatible type): {!dateVariable}',
+                    async ({ rhs }) => {
+                        const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
+                        await typeMergeFieldInCombobox(rhsCombobox, rhs);
+                        expect(rhsCombobox.errorMessage).not.toBeNull();
+                        expect(rhsCombobox.pill).toBeNull();
+                    }
+                );
+            });
+        });
+        describe('On selecting and blur (LHS/RHS changes)', () => {
+            describe('No error', () => {
+                it.each`
+                    lhs                                                                    | rhs                                                                    | expectedLhsPill                                                                                                    | expectedRhsPill
+                    ${'feedItemVariable'}                                                  | ${'feedItemVariable'}                                                  | ${{ iconName: 'utility:sobject', label: 'feedItemVariable' }}                                                      | ${{ iconName: 'utility:sobject', label: 'feedItemVariable' }}
+                    ${'stringVariable'}                                                    | ${'stringVariable'}                                                    | ${{ iconName: 'utility:text', label: 'stringVariable' }}                                                           | ${{ iconName: 'utility:text', label: 'stringVariable' }}
+                    ${'stringVariable'}                                                    | ${'feedItemVariable.CreatedBy (User).Name'}                            | ${{ iconName: 'utility:text', label: 'stringVariable' }}                                                           | ${{ iconName: 'utility:text', label: 'feedItemVariable > Created By ID (User) > Full Name' }}
+                    ${'stringVariable'}                                                    | ${'stringConstant'}                                                    | ${{ iconName: 'utility:text', label: 'stringVariable' }}                                                           | ${{ iconName: 'utility:text', label: 'stringConstant' }}
+                    ${'stringVariable'}                                                    | ${'textTemplate1'}                                                     | ${{ iconName: 'utility:text', label: 'stringVariable' }}                                                           | ${{ iconName: 'utility:text', label: 'textTemplate1' }}
+                    ${'dateVariable'}                                                      | ${'dateVariable'}                                                      | ${{ iconName: 'utility:event', label: 'dateVariable' }}                                                            | ${{ iconName: 'utility:event', label: 'dateVariable' }}
+                    ${'numberVariable'}                                                    | ${'numberVariable'}                                                    | ${{ iconName: 'utility:topic2', label: 'numberVariable' }}                                                         | ${{ iconName: 'utility:topic2', label: 'numberVariable' }}
+                    ${'currencyVariable'}                                                  | ${'currencyVariable'}                                                  | ${{ iconName: 'utility:currency', label: 'currencyVariable' }}                                                     | ${{ iconName: 'utility:currency', label: 'currencyVariable' }}
+                    ${'Outputs from apexCall_Car_automatic_output.car'}                    | ${'Outputs from apexCall_Car_automatic_output.car'}                    | ${{ iconName: 'utility:apex', label: 'Outputs from apexCall_Car_automatic_output > car' }}                         | ${{ iconName: 'utility:apex', label: 'Outputs from apexCall_Car_automatic_output > car' }}
+                    ${'Outputs from subflowAutomaticOutput.accountOutput'}                 | ${'Outputs from subflowAutomaticOutput.accountOutput'}                 | ${{ iconName: 'utility:sobject', label: 'Outputs from subflowAutomaticOutput > accountOutput' }}                   | ${{ iconName: 'utility:sobject', label: 'Outputs from subflowAutomaticOutput > accountOutput' }}
+                    ${'Outputs from subflowAutomaticOutput.accountOutput.BillingLatitude'} | ${'Outputs from subflowAutomaticOutput.accountOutput.BillingLatitude'} | ${{ iconName: 'utility:topic2', label: 'Outputs from subflowAutomaticOutput > accountOutput > Billing Latitude' }} | ${{ iconName: 'utility:topic2', label: 'Outputs from subflowAutomaticOutput > accountOutput > Billing Latitude' }}
+                    ${'accountSObjectVariable'}                                            | ${'accountSObjectVariable'}                                            | ${{ iconName: 'utility:sobject', label: 'accountSObjectVariable' }}                                                | ${{ iconName: 'utility:sobject', label: 'accountSObjectVariable' }}
+                    ${'accountSObjectVariable.BillingCity'}                                | ${'accountSObjectVariable.BillingCity'}                                | ${{ iconName: 'utility:text', label: 'accountSObjectVariable > Billing City' }}                                    | ${{ iconName: 'utility:text', label: 'accountSObjectVariable > Billing City' }}
+                    ${'Account from lookupRecordAutomaticOutput'}                          | ${'Account from lookupRecordAutomaticOutput'}                          | ${{ iconName: 'utility:sobject', label: 'Account from lookupRecordAutomaticOutput' }}                              | ${{ iconName: 'utility:sobject', label: 'Account from lookupRecordAutomaticOutput' }}
+                    ${'Account from lookupRecordAutomaticOutput.BillingCity'}              | ${'Account from lookupRecordAutomaticOutput.BillingCity'}              | ${{ iconName: 'utility:text', label: 'Account from lookupRecordAutomaticOutput > Billing City' }}                  | ${{ iconName: 'utility:text', label: 'Account from lookupRecordAutomaticOutput > Billing City' }}
+                    ${'apexComplexTypeVariable.acct'}                                      | ${'apexComplexTypeVariable.acct'}                                      | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acct' }}                                        | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acct' }}
+                    ${'apexComplexTypeVariable.acct.BillingCity'}                          | ${'apexComplexTypeVariable.acct.BillingCity'}                          | ${{ iconName: 'utility:text', label: 'apexComplexTypeVariable > acct > Billing City' }}                            | ${{ iconName: 'utility:text', label: 'apexComplexTypeVariable > acct > Billing City' }}
+                    ${'feedItemVariable.IsClosed'}                                         | ${'feedItemVariable.IsClosed'}                                         | ${{ iconName: 'utility:crossfilter', label: 'feedItemVariable > Is Closed' }}                                      | ${{ iconName: 'utility:crossfilter', label: 'feedItemVariable > Is Closed' }}
+                `(
+                    'LHS Pill should be: $expectedLhsPill for LHS: $lhs , RHS pill should be: $expectedRhsPill for RHS: $rhs',
+                    async ({ lhs, rhs, expectedLhsPill, expectedRhsPill }) => {
+                        const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
+                        await selectComboboxItemBy(lhsCombobox, 'text', lhs.split('.'));
+                        expect(lhsCombobox.pill).toEqual(expectedLhsPill);
+                        const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
+                        await selectComboboxItemBy(rhsCombobox, 'text', rhs.split('.'));
+                        expect(rhsCombobox.pill).toEqual(expectedRhsPill);
+                    }
+                );
+            });
         });
     });
     describe('Selection using comboboxes', () => {
         const itCanSelectInLhs = (lhs, expectedItem = {}) =>
             it(`can select [${lhs}] on lhs`, async () => {
-                const lhsCombobox = getLhsCombobox(expressionBuilder);
+                const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
                 await expectCanSelectInCombobox(lhsCombobox, 'text', lhs, expectedItem);
             });
         const itCanSelectInRhs = (rhs, expectedItem = {}) =>
             it(`can select [${rhs}] on rhs`, async () => {
-                const rhsCombobox = getRhsCombobox(expressionBuilder);
+                const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
                 await expectCanSelectInCombobox(rhsCombobox, 'text', rhs, expectedItem);
             });
         describe('groups', () => {
@@ -361,8 +527,8 @@ describe('Assignment Editor', () => {
                 ${'Outputs from apexCall_Car_automatic_output'}      | ${'ACTIONS'}
                 ${'AccountId from createAccountWithAutomaticOutput'} | ${'VARIABLES'}
                 ${'Account from lookupRecordAutomaticOutput'}        | ${'RECORD (SINGLE) VARIABLES'}
-            `('$item should be in group $group', ({ item, group }) => {
-                const lhsCombobox = getLhsCombobox(expressionBuilder);
+            `('$item should be in group $group', async ({ item, group }) => {
+                const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
                 const groupLabel = getComboboxGroupLabel(lhsCombobox, 'text', item);
                 expect(groupLabel).toEqual(group);
             });
@@ -408,7 +574,7 @@ describe('Assignment Editor', () => {
         });
         describe('subflow automatic output', () => {
             it('The items in the combobox are the output variables from the active version', async () => {
-                const lhsCombobox = getLhsCombobox(expressionBuilder);
+                const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
                 await selectComboboxItemBy(lhsCombobox, 'text', ['Outputs from subflowAutomaticOutput'], {
                     blur: false
                 });
@@ -448,7 +614,7 @@ describe('Assignment Editor', () => {
                 displayText: '{!loopOnApexAutoOutput.name}'
             });
             it('cannot select loop with manual output', async () => {
-                const lhsCombobox = getLhsCombobox(expressionBuilder);
+                const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
                 await typeReferenceOrValueInCombobox(lhsCombobox, '{!loopOnTextCollectionManualOutput}');
                 expect(lhsCombobox.errorMessage).toBe('FlowBuilderCombobox.genericErrorMessage');
             });

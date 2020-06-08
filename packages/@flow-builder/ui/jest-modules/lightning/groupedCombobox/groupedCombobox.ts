@@ -37,4 +37,7 @@ export default class GroupedCombobox extends LightningElement {
     focusAndOpenDropdownIfNotEmpty() {
         // toggle dropdown menu
     }
+
+    @api
+    focus() {}
 }

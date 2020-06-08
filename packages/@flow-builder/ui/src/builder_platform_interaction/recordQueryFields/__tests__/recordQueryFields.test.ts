@@ -13,8 +13,7 @@ import RecordQueryFields from 'builder_platform_interaction/recordQueryFields';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import * as store from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ticks, INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -33,29 +32,14 @@ const queried2Fields = [
     { field: { value: 'Fax', error: null }, rowIndex: 'RECORD_LOOKUP_FIELD_2' }
 ];
 
-const selectors = {
-    fieldsList: 'builder_platform_interaction-list',
-    recordFieldPicker: 'builder_platform_interaction-record-field-picker-row',
-    idCombobox: 'builder_platform_interaction-combobox',
-    fieldPicker: 'builder_platform_interaction-field-picker'
-};
-
-const getFieldList = recordStoreFieldsComponent => {
-    return recordStoreFieldsComponent.shadowRoot.querySelector(selectors.fieldsList);
-};
-
-const getRecordFieldPickers = recordStoreFieldsComponent => {
-    return recordStoreFieldsComponent.shadowRoot.querySelectorAll(selectors.recordFieldPicker);
-};
-
-const getIdCombobox = recordStoreFieldsComponent => {
-    return recordStoreFieldsComponent.shadowRoot.querySelector(selectors.idCombobox);
-};
-
-const getFieldPicker = recordFieldPicker => {
-    return recordFieldPicker.shadowRoot.querySelector(selectors.fieldPicker);
-};
-
+const getFieldList = recordStoreFieldsComponent =>
+    recordStoreFieldsComponent.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.LIST);
+const getRecordFieldPickers = recordStoreFieldsComponent =>
+    recordStoreFieldsComponent.shadowRoot.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.RECORD_FIELD_PICKER_ROW);
+const getCombobox = recordStoreFieldsComponent =>
+    recordStoreFieldsComponent.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
+const getFieldPicker = recordFieldPicker =>
+    recordFieldPicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_FIELD_PICKER);
 const createComponentUnderTest = props => {
     const el = createElement('builder_platform_interaction-record-query-fields', {
         is: RecordQueryFields
@@ -80,7 +64,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 
 describe('record-store-fields', () => {
     beforeAll(() => {
-        Store.setMockState(flowWithAllElementsUIModel);
+        Store.setMockState(store.flowWithAllElementsUIModel);
     });
     afterAll(() => {
         Store.resetStore();
@@ -91,9 +75,9 @@ describe('record-store-fields', () => {
             recordQueryFields = createComponentUnderTest({
                 outputReference: store.accountSObjectVariable.guid
             });
-            const idCombobox = getIdCombobox(recordQueryFields);
-            expect(idCombobox.value.value).toEqual('Id');
-            expect(idCombobox.disabled).toBeTruthy();
+            const combobox = getCombobox(recordQueryFields);
+            expect(combobox.value.value).toEqual('Id');
+            expect(combobox.disabled).toBeTruthy();
         });
 
         it('show one empty row in fields', () => {
@@ -119,7 +103,6 @@ describe('record-store-fields', () => {
             expect(getFieldPicker(fieldPickers[1]).value).toEqual(queried2Fields[1].field.value);
         });
     });
-
     describe('handle events', () => {
         let recordQueryFields, fieldList;
         beforeEach(() => {
@@ -169,5 +152,10 @@ describe('record-store-fields', () => {
                 }
             });
         });
+    });
+    it('oes not support pill', () => {
+        const recordQueryFields = createComponentUnderTest();
+        const combobox = getCombobox(recordQueryFields);
+        expect(combobox.isPillSupported).toBe(false);
     });
 });

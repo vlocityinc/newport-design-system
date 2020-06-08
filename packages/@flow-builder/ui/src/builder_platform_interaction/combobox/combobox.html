@@ -1,22 +1,39 @@
 <template>
-    <lightning-grouped-combobox
-        label={label}
-        items={state.currentMenuData}
-        value={state.displayText}
-        variant={variant}
-        input-text={state.displayText}
-        input-icon-name={state.inputIcon}
-        placeholder={placeholder}
-        disabled={disabled}
-        show-activity-indicator={showActivityIndicator}
-        onfocus={handleFocus}
-        ontextinput={handleTextInput}
-        onblur={handleBlur}
-        onselect={handleSelect}
-        onendreached={handleEndReached}
-        required={required}
-        field-level-help={fieldLevelHelp}
-        message-when-value-missing={messageWhenValueMissing}
-    >
-    </lightning-grouped-combobox>
+    <div>
+        <div class="divParentPillGroupedComboxBox" if:true={pill}>
+            <label class="slds-form-element__label">{label}</label>
+            <div class="slds-pill_container" title={pillTooltip}>
+                <lightning-pill
+                    href="javascript:void(0);"
+                    label={state.pill.label}
+                    has-error={hasPillError}
+                    onclick={handlePillClick}
+                    onremove={handlePillRemove}
+                >
+                    <lightning-icon icon-name={state.pill.iconName}> </lightning-icon
+                ></lightning-pill>
+            </div>
+        </div>
+        <lightning-grouped-combobox
+            if:false={pill}
+            label={label}
+            items={state.currentMenuData}
+            value={state.displayText}
+            variant={variant}
+            input-icon-name={state.inputIcon}
+            input-text={state.displayText}
+            placeholder={placeholder}
+            disabled={disabled}
+            show-activity-indicator={showActivityIndicator}
+            onfocus={handleFocus}
+            ontextinput={handleTextInput}
+            onblur={handleBlur}
+            onselect={handleSelect}
+            onendreached={handleEndReached}
+            required={required}
+            field-level-help={fieldLevelHelp}
+            message-when-value-missing={messageWhenValueMissing}
+        >
+        </lightning-grouped-combobox>
+    </div>
 </template>

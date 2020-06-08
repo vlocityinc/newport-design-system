@@ -5,7 +5,7 @@ import { FilterMatchesEvent } from 'builder_platform_interaction/events';
 import { filterMatches } from 'builder_platform_interaction/expressionUtils';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
 import BaseResourcePicker from '../baseResourcePicker';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ticks, INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 
 const setupComponentUnderTest = props => {
     const element = createElement('builder_platform_interaction-base-resource-picker', {
@@ -14,10 +14,6 @@ const setupComponentUnderTest = props => {
     Object.assign(element, props);
     document.body.appendChild(element);
     return element;
-};
-
-const selectors = {
-    COMBOBOX: 'builder_platform_interaction-combobox'
 };
 
 const filteredMenuData = ['filteredMenuData'];
@@ -59,7 +55,7 @@ describe('base-resource-picker', () => {
     it('contains one flow combobox', async () => {
         const baseResourcePicker = setupComponentUnderTest({ comboboxConfig });
         await ticks(1);
-        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
+        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
         expect(flowCombobox).toBeDefined();
     });
 
@@ -73,7 +69,7 @@ describe('base-resource-picker', () => {
                 value: 123
             });
             await ticks(1);
-            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
+            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
             expect(flowCombobox.label).toEqual(comboboxConfig.label);
             expect(flowCombobox.placeholder).toEqual(comboboxConfig.placeholder);
             expect(flowCombobox.literalsAllowed).toEqual(comboboxConfig.literalsAllowed);
@@ -86,7 +82,7 @@ describe('base-resource-picker', () => {
                 value: 'test display text'
             });
             await ticks(1);
-            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
+            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
             expect(flowCombobox.type).toEqual(comboboxConfig.type);
         });
     });
@@ -98,7 +94,7 @@ describe('base-resource-picker', () => {
             value: defaultValue
         });
         await ticks(1);
-        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
+        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
         expect(flowCombobox.value).toEqual(defaultValue);
     });
 
@@ -109,7 +105,7 @@ describe('base-resource-picker', () => {
             value: defaultDisplayText
         });
         await ticks(1);
-        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
+        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
         expect(flowCombobox.value).toEqual(defaultDisplayText);
     });
 
@@ -120,7 +116,7 @@ describe('base-resource-picker', () => {
             errorMessage
         });
         await ticks(1);
-        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
+        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
         expect(flowCombobox.errorMessage).toEqual(errorMessage);
     });
 
@@ -130,7 +126,7 @@ describe('base-resource-picker', () => {
             allowedParamTypes
         });
         await ticks(1);
-        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
+        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
         expect(flowCombobox.allowedParamTypes).toEqual(allowedParamTypes);
     });
 
@@ -141,7 +137,7 @@ describe('base-resource-picker', () => {
             });
             const fullMenuData = ['full menu data'];
             baseResourcePicker.setMenuData(fullMenuData);
-            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
+            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
             flowCombobox.dispatchEvent(new FilterMatchesEvent('someValue', false));
             await ticks(1);
             expect(filterMatches).toHaveBeenCalledWith('someValue', fullMenuData, false);
@@ -152,7 +148,7 @@ describe('base-resource-picker', () => {
             const baseResourcePicker = setupComponentUnderTest({
                 comboboxConfig
             });
-            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
+            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
             const isMergeField = true;
             flowCombobox.dispatchEvent(new FilterMatchesEvent('someValue', isMergeField));
             await ticks(1);
@@ -169,10 +165,18 @@ describe('base-resource-picker', () => {
             placeholder: 'abc',
             value: 123
         });
-        await Promise.resolve();
+        await ticks(1);
 
-        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
+        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
         expect(flowCombobox.placeholder).not.toEqual(comboboxConfig.placeholder);
         expect(flowCombobox.placeholder).toEqual('abc');
+    });
+
+    it('does not support pill', async () => {
+        const baseResourcePicker = setupComponentUnderTest();
+        await ticks(1);
+
+        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
+        expect(flowCombobox.isPillSupported).toBe(false);
     });
 });

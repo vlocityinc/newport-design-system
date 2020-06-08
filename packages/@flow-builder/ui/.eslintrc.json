@@ -41,7 +41,8 @@
                     "@lwc/lwc/no-async-await": [
                         "**/builder_platform_interaction/guardrails/execute.ts",
                         "**/builder_platform_interaction/propertyEditorPanel/propertyEditorPanel.ts",
-                        "**/builder_platform_interaction/commands/baseCommand.ts"
+                        "**/builder_platform_interaction/commands/baseCommand.ts",
+                        "**/builder_platform_interaction/builderTestUtils/combobox.ts"
                     ],
 
                     "no-empty-function": ["**/builder_platform_interaction/flcConnectorMenu/flcConnectorMenu.ts"],

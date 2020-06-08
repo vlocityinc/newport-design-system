@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { sliceMenu, getMenuLength, setSelectableMenuItem } from '../utils';
 
 const flatMenu = [
@@ -276,11 +275,11 @@ describe('Combobox Menu Utils', () => {
         });
 
         describe('grouped menu', () => {
-            it('should the compute legth of a fully grouped menu', () => {
+            it('should the compute length of a fully grouped menu', () => {
                 expect(getMenuLength(groupedMenu)).toEqual(20);
             });
 
-            it('should the compute legth of a mixed grouped menu', () => {
+            it('should the compute length of a mixed grouped menu', () => {
                 expect(getMenuLength(mixedMenu)).toEqual(12);
             });
         });

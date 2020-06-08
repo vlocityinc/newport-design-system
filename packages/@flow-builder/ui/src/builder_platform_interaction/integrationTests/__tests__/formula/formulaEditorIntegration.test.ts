@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createElement } from 'lwc';
 import FormulaEditor from 'builder_platform_interaction/formulaEditor';
 import {
@@ -44,29 +43,21 @@ const VALIDATION_ERROR_MESSAGES = {
     UNKNOWN_RECORD_FIELD: 'FlowBuilderMergeFieldValidation.unknownRecordField'
 };
 
-const getDataTypePickerElement = editor => {
-    return editor.shadowRoot.querySelector(SELECTORS.DATA_TYPE_PICKER);
-};
+const getDataTypePickerElement = editor => editor.shadowRoot.querySelector(SELECTORS.DATA_TYPE_PICKER);
 
-const getDataTypeComboboxElement = editor => {
-    return getDataTypePickerElement(editor).shadowRoot.querySelector(SELECTORS.LIGHTNING_COMBOBOX);
-};
+const getDataTypeComboboxElement = editor =>
+    getDataTypePickerElement(editor).shadowRoot.querySelector(SELECTORS.LIGHTNING_COMBOBOX);
 
-const getResourcedTextArea = editor => {
-    return editor.shadowRoot.querySelector(SELECTORS.RESOURCED_TEXTAREA);
-};
+const getResourcedTextArea = editor => editor.shadowRoot.querySelector(SELECTORS.RESOURCED_TEXTAREA);
 
-const getFormulaTextArea = editor => {
-    return getResourcedTextArea(editor).shadowRoot.querySelector(SELECTORS.TEXTAREA);
-};
+const getFormulaTextArea = editor => getResourcedTextArea(editor).shadowRoot.querySelector(SELECTORS.TEXTAREA);
 
-const getFerovResourcePicker = editor => {
-    return getResourcedTextArea(editor).shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
-};
+const getFerovResourcePicker = editor =>
+    getResourcedTextArea(editor).shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
 
 const getResourceGroupedCombobox = editor => {
     const baseResourcePicker = getFerovResourcePicker(editor).shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
-    const interactionCombobox = baseResourcePicker.shadowRoot.querySelector(SELECTORS.INTERACTION_COMBOBOX);
+    const interactionCombobox = baseResourcePicker.shadowRoot.querySelector(SELECTORS.COMBOBOX);
     return interactionCombobox.shadowRoot.querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
 };
 

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createElement } from 'lwc';
 import RecordLookupEditor from 'builder_platform_interaction/recordLookupEditor';
 import { resolveRenderCycles } from '../resolveRenderCycles';
@@ -28,7 +27,6 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import {
-    SELECTORS,
     getResourceGroupedCombobox,
     getResourceCombobox,
     newFilterItem,
@@ -40,43 +38,35 @@ import {
 } from './cludEditorTestUtils';
 import { getGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
 import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
-import { expectCanBeTraversed, expectCannotBeTraversed, expectCannotBeSelected } from '../comboboxTestUtils';
+import {
+    expectCanBeTraversed,
+    expectCannotBeTraversed,
+    expectCannotBeSelected,
+    selectComboboxItemBy
+} from '../comboboxTestUtils';
 
-const getRecordSobjectAndQueryFieldElement = recordLookupEditor => {
-    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_SOBJECT_AND_QUERY_FIELDS_COMPONENT);
-};
-
-const getSObjectOrSObjectCollectionPicker = recordLookupEditor => {
-    return getRecordSobjectAndQueryFieldElement(recordLookupEditor).shadowRoot.querySelector(
-        SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER
+const getRecordSobjectAndQueryFieldElement = recordLookupEditor =>
+    recordLookupEditor.shadowRoot.querySelector(
+        INTERACTION_COMPONENTS_SELECTORS.RECORD_SOBJECT_AND_QUERY_FIELDS_COMPONENT
     );
-};
-
-const getSobjectAndFieldsElement = recordLookupEditor => {
-    return getRecordSobjectAndQueryFieldElement(recordLookupEditor).shadowRoot.querySelector(
-        SELECTORS.RECORD_QUERY_FIELDS_COMPONENT
+const getSObjectOrSObjectCollectionPicker = recordLookupEditor =>
+    getRecordSobjectAndQueryFieldElement(recordLookupEditor).shadowRoot.querySelector(
+        INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER
     );
-};
-
-const getRecordStoreOption = recordLookupEditor => {
-    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_STORE_OPTION);
-};
-
-const getRecordFilter = recordLookupEditor => {
-    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_FILTER);
-};
-
-const getRecordSort = recordLookupEditor => {
-    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_SORT);
-};
-
-const getInputOutputAssignments = recordLookupEditor => {
-    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
-};
-
-const getAllRecordFieldPickerRows = recordStoreFieldsComponent => {
-    return recordStoreFieldsComponent.shadowRoot.querySelectorAll(SELECTORS.RECORD_FIELD_PICKER_ROW);
-};
+const getSobjectAndFieldsElement = recordLookupEditor =>
+    getRecordSobjectAndQueryFieldElement(recordLookupEditor).shadowRoot.querySelector(
+        INTERACTION_COMPONENTS_SELECTORS.RECORD_QUERY_FIELDS_COMPONENT
+    );
+const getRecordStoreOption = recordLookupEditor =>
+    recordLookupEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_STORE_OPTION);
+const getRecordFilter = recordLookupEditor =>
+    recordLookupEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER);
+const getRecordSort = recordLookupEditor =>
+    recordLookupEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_SORT);
+const getInputOutputAssignments = recordLookupEditor =>
+    recordLookupEditor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
+const getAllRecordFieldPickerRows = recordStoreFieldsComponent =>
+    recordStoreFieldsComponent.shadowRoot.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.RECORD_FIELD_PICKER_ROW);
 
 const getEntityResourcePickerComboboxElement = entityResourcePicker => {
     return deepQuerySelector(entityResourcePicker, [
@@ -86,9 +76,8 @@ const getEntityResourcePickerComboboxElement = entityResourcePicker => {
     ]);
 };
 
-const getRecordObjectAndQueryFieldResourceGroupedCombobox = editor => {
-    return getResourceGroupedCombobox(getRecordSobjectAndQueryFieldElement(editor));
-};
+const getRecordObjectAndQueryFieldResourceGroupedCombobox = editor =>
+    getResourceGroupedCombobox(getRecordSobjectAndQueryFieldElement(editor));
 
 const createComponentForTest = (
     node,
@@ -218,7 +207,7 @@ describe('Record Lookup Editor', () => {
                     );
                 });
             });
-            it('Enter an valid value in the entity resource picker should not display an error', () => {
+            it('Enter a valid value in the entity resource picker should not display an error', () => {
                 const entityResourcePicker = getEntityResourcePicker(recordLookupComponent);
                 const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
                 changeComboboxValue(comboboxElement, 'Case');
@@ -240,7 +229,10 @@ describe('Record Lookup Editor', () => {
             describe('Filter', () => {
                 let recordFilter;
                 beforeEach(() => {
-                    recordFilter = getChildComponent(recordLookupComponent, SELECTORS.RECORD_FILTER);
+                    recordFilter = getChildComponent(
+                        recordLookupComponent,
+                        INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER
+                    );
                 });
                 it('should be displayed', () => {
                     expect(recordFilter).not.toBeNull();
@@ -495,6 +487,34 @@ describe('Record Lookup Editor', () => {
                             ])
                         );
                     });
+                });
+                it('does not display LHS/RHS pill as literal values used', () => {
+                    const baseExpressionBuilderComponent = getBaseExpressionBuilder(fieldToFerovExpressionBuilders[0]);
+                    const [lhsCombobox, rhsCombobox] = baseExpressionBuilderComponent.shadowRoot.querySelectorAll(
+                        INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
+                    );
+                    expect(lhsCombobox.isPillSupported).toBe(true);
+                    expect(rhsCombobox.isPillSupported).toBe(true);
+                    expect(lhsCombobox.value.displayText).toEqual('BillingCity');
+                    expect(lhsCombobox.pill).toBeNull();
+                    expect(rhsCombobox.value).toEqual('San Francisco');
+                    expect(rhsCombobox.pill).toBeNull();
+                });
+                it('does display RHS pill when RHS value changed and is no a literal', async () => {
+                    const baseExpressionBuilderComponent = getBaseExpressionBuilder(fieldToFerovExpressionBuilders[0]);
+                    const [lhsCombobox, rhsCombobox] = baseExpressionBuilderComponent.shadowRoot.querySelectorAll(
+                        INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
+                    );
+                    expect(lhsCombobox.isPillSupported).toBe(true);
+                    expect(lhsCombobox.value.displayText).toEqual('BillingCity');
+                    expect(lhsCombobox.pill).toBeNull();
+                    await selectComboboxItemBy(rhsCombobox, 'text', ['stringVariable']);
+                    expect(rhsCombobox.value.displayText).toEqual('{!stringVariable}');
+                    expect(rhsCombobox.pill).toEqual({
+                        iconName: 'utility:text',
+                        label: 'stringVariable'
+                    });
+                    expect(rhsCombobox.pillTooltip).toEqual('stringVariable');
                 });
                 describe('Filter logic change to custom', () => {
                     it('Custom condition logic input should be displayed', async () => {

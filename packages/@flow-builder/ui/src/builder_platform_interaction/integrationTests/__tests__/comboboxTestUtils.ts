@@ -1,10 +1,10 @@
-// @ts-nocheck
 import {
     ticks,
     deepQuerySelector,
     LIGHTNING_COMPONENTS_SELECTORS,
     blurEvent,
-    textInputEvent
+    textInputEvent,
+    clickPill
 } from 'builder_platform_interaction/builderTestUtils';
 import {
     addCurlyBraces,
@@ -40,7 +40,17 @@ export const typeMergeFieldInCombobox = async (combobox, mergeField) => {
     groupedCombobox.dispatchEvent(blurEvent);
 };
 
-export const typeReferenceOrValueInCombobox = async (combobox, referenceOrValue) => {
+/**
+ * Type into combobox given value
+ * @param {HTMLElement} combobox - combobox box you type into
+ * @param {string} referenceOrValue - value typed in
+ * @param {boolean} [clickOnPill=false] - if true we click on the combobox pill switching to merge field notation
+ * @returns {Promise<void>} fulfilled promise
+ */
+export const typeReferenceOrValueInCombobox = async (combobox, referenceOrValue, clickOnPill = false) => {
+    if (clickOnPill) {
+        await clickPill(combobox);
+    }
     if (isReference(referenceOrValue)) {
         await typeMergeFieldInCombobox(combobox, referenceOrValue);
     } else {

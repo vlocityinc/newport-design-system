@@ -1,4 +1,3 @@
-// @ts-nocheck
 export const LIGHTNING_COMPONENTS_SELECTORS = {
     LIGHTNING_BUTTON: 'lightning-button',
     LIGHTNING_BUTTON_ICON: 'lightning-button-icon',
@@ -10,7 +9,8 @@ export const LIGHTNING_COMPONENTS_SELECTORS = {
     LIGHTNING_RADIO_GROUP: 'lightning-radio-group',
     LIGHTNING_TAB: 'lightning-tab',
     LIGHTNING_TEXTAREA: 'lightning-textarea',
-    LIGHTNING_VERTICAL_NAVIGATION: 'lightning-vertical-navigation'
+    LIGHTNING_VERTICAL_NAVIGATION: 'lightning-vertical-navigation',
+    LIGHTNING_PILL: 'lightning-pill'
 };
 
 export const INTERACTION_COMPONENTS_SELECTORS = {
@@ -28,7 +28,6 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker',
     FIELD_TO_FEROV_EXPRESSION_BUILDER: 'builder_platform_interaction-field-to-ferov-expression-builder',
     GET_TEMPLATES_TILE: 'builder_platform_interaction-get-templates-tile',
-    INTERACTION_COMBOBOX: 'builder_platform_interaction-combobox',
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
     LEFT_PANEL: 'builder_platform_interaction-left-panel',
     LEFT_PANEL_RESOURCES: 'builder_platform_interaction-left-panel-resources',

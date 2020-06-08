@@ -8,3 +8,4 @@ export * from './domTestUtils';
 export * from './complexTypeTestUtils';
 export * from './selectors';
 export * from './events';
+export * from './combobox';

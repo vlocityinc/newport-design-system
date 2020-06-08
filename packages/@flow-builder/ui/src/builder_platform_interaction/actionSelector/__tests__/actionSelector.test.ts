@@ -12,11 +12,6 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 
-export const SELECTORS = {
-    ...INTERACTION_COMPONENTS_SELECTORS,
-    ...LIGHTNING_COMPONENTS_SELECTORS
-};
-
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock(
@@ -79,8 +74,10 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 
 describe('Action selector', () => {
     let actionSelectorComponent;
-    const interactionCombobox = () => actionSelectorComponent.shadowRoot.querySelector(SELECTORS.INTERACTION_COMBOBOX);
-    const groupedCombobox = () => interactionCombobox().shadowRoot.querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
+    const interactionCombobox = () =>
+        actionSelectorComponent.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
+    const groupedCombobox = () =>
+        interactionCombobox().shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
     beforeAll(() => {
         Store.setMockState({
             properties: {
@@ -463,6 +460,14 @@ describe('Action selector', () => {
             await ticks(1);
             const item = groupedComboboxItemWithValue('mynamespace__lookUpAccountPlugin');
             expect(item.subText).toBe('mynamespace__lookUpAccountPlugin');
+        });
+    });
+    describe('Pill', () => {
+        it('does not support pill', async () => {
+            actionSelectorComponent = createComponentUnderTest();
+            const combobox = interactionCombobox();
+            expect(combobox.isPillSupported).toBe(false);
+            expect(combobox.pill).toBeNull();
         });
     });
 });

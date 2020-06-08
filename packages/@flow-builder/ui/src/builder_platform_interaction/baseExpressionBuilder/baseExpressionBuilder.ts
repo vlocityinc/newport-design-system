@@ -660,7 +660,15 @@ export default class BaseExpressionBuilder extends LightningElement {
     handleFilterLhsMatches(event) {
         event.stopPropagation();
         // TODO: W-5340967 add the full combobox value to filter matches so it can be used here
-        this.state.operatorAndRhsDisabled = !this.template.querySelector('.lhs').value;
+        const hasNoLhsComboboxValue = !this._getLHSCombobox().value;
+        if (hasNoLhsComboboxValue) {
+            const rhsCombobox = this._getRHSCombobox();
+            if (rhsCombobox.pill) {
+                rhsCombobox.resetPill();
+            }
+        }
+        this.state.operatorAndRhsDisabled = hasNoLhsComboboxValue;
+
         if (this.state[LHS_FULL_MENU_DATA]) {
             this.state[LHS_FILTERED_MENU_DATA] = filterMatches(
                 event.detail.value,
@@ -705,6 +713,22 @@ export default class BaseExpressionBuilder extends LightningElement {
      */
     handleFetchRhsMenuData(event) {
         this.populateRhsMenuData(!!event.detail.item, event.detail.item);
+    }
+
+    /**
+     * Handle RHS combobox pill removal event
+     * @param {Object} event - {@link RemoveMergeFieldPillEvent} event
+     * @param {Object} event.detail.item - combobox current selected item
+     * @param {boolean} event.detail.resetMenuDataAndDisplayText - if true combobox reset false otherwise
+     */
+    handleLhsRemoveMergeFieldPill(event) {
+        event.stopPropagation();
+        const { item, resetMenuDataAndDisplayText } = event.detail;
+        const rhsCombobox = this._getRHSCombobox();
+        if (rhsCombobox.pill && resetMenuDataAndDisplayText) {
+            rhsCombobox.resetPill();
+        }
+        this.state.operatorAndRhsDisabled = item === null;
     }
 
     /**
@@ -1146,5 +1170,23 @@ export default class BaseExpressionBuilder extends LightningElement {
 
     operatorForRules() {
         return this.hideOperator ? RULE_OPERATOR.ASSIGN : this.operatorValue;
+    }
+
+    /**
+     * Returns LHS combobox
+     * @returns {LightningElement} LHS combobox
+     * @private
+     */
+    private _getLHSCombobox(): LightningElement {
+        return this.template.querySelector('.lhs');
+    }
+
+    /**
+     * Returns RHS combobox
+     * @returns {LightningElement} RHS combobox
+     * @private
+     */
+    private _getRHSCombobox(): LightningElement {
+        return this.template.querySelector('.rhs');
     }
 }

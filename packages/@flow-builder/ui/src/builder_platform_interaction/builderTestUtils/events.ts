@@ -67,3 +67,13 @@ export const checkboxChangeEvent = (checked = true) => {
         detail: { checked }
     });
 };
+
+/**
+ * Remove event (used on pill for instance)
+ */
+export const removeEvent = (): CustomEvent => {
+    return new CustomEvent('remove', {
+        bubbles: true,
+        cancelable: false
+    });
+};

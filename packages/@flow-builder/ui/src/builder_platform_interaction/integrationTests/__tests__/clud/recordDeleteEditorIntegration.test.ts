@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createElement } from 'lwc';
 import RecordDeleteEditor from 'builder_platform_interaction/recordDeleteEditor';
 import {
@@ -16,7 +15,6 @@ import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { EditElementEvent } from 'builder_platform_interaction/events';
 import { getGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
 import {
-    SELECTORS,
     getResourceGroupedCombobox,
     newFilterItem,
     getRecordVariablePickerChildGroupedComboboxComponent,
@@ -27,10 +25,15 @@ import {
     getFilterConditionLogicCombobox
 } from './cludEditorTestUtils';
 import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
-import { changeEvent, ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    changeEvent,
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    ticks
+} from 'builder_platform_interaction/builderTestUtils';
 import { expectCanBeTraversed, expectCannotBeTraversed, expectCannotBeSelected } from '../comboboxTestUtils';
 
-const createComponentForTest = (node, mode, processType) => {
+const createComponentForTest = (node, mode?, processType?) => {
     const el = createElement('builder_platform_interaction-record-delete-editor', { is: RecordDeleteEditor });
     Object.assign(el, { node, processType, mode });
     document.body.appendChild(el);
@@ -58,7 +61,10 @@ describe('Record Delete Editor', () => {
         describe('Filtering (store options)', () => {
             let storeOptions;
             beforeEach(() => {
-                storeOptions = getChildComponent(recordDeleteComponent, SELECTORS.RECORD_STORE_OPTION);
+                storeOptions = getChildComponent(
+                    recordDeleteComponent,
+                    INTERACTION_COMPONENTS_SELECTORS.RECORD_STORE_OPTION
+                );
             });
             it('should be displayed', () => {
                 expect(storeOptions).not.toBeNull();
@@ -72,7 +78,7 @@ describe('Record Delete Editor', () => {
             beforeEach(() => {
                 recordVariablePicker = getChildComponent(
                     recordDeleteComponent,
-                    SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER
+                    INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER
                 );
             });
             it('should be displayed', () => {
@@ -143,7 +149,10 @@ describe('Record Delete Editor', () => {
             describe('Filtering (store options)', () => {
                 let storeOptions;
                 beforeEach(() => {
-                    storeOptions = getChildComponent(recordDeleteComponent, SELECTORS.RECORD_STORE_OPTION);
+                    storeOptions = getChildComponent(
+                        recordDeleteComponent,
+                        INTERACTION_COMPONENTS_SELECTORS.RECORD_STORE_OPTION
+                    );
                 });
                 it('should be displayed', () => {
                     expect(storeOptions).not.toBeNull();
@@ -157,7 +166,7 @@ describe('Record Delete Editor', () => {
                 beforeEach(() => {
                     recordVariablePicker = getChildComponent(
                         recordDeleteComponent,
-                        SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER
+                        INTERACTION_COMPONENTS_SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER
                     );
                 });
                 it('should be displayed', () => {
@@ -203,7 +212,10 @@ describe('Record Delete Editor', () => {
             describe('Filtering (store options)', () => {
                 let storeOptions;
                 beforeEach(() => {
-                    storeOptions = getChildComponent(recordDeleteComponent, SELECTORS.RECORD_STORE_OPTION);
+                    storeOptions = getChildComponent(
+                        recordDeleteComponent,
+                        INTERACTION_COMPONENTS_SELECTORS.RECORD_STORE_OPTION
+                    );
                 });
                 it('should be displayed', () => {
                     expect(storeOptions).not.toBeNull();
@@ -249,7 +261,9 @@ describe('Record Delete Editor', () => {
                     });
                     it('should NOT display record filters', async () => {
                         await ticks(1);
-                        expect(getChildComponent(recordDeleteComponent, SELECTORS.RECORD_FILTER)).toBeNull();
+                        expect(
+                            getChildComponent(recordDeleteComponent, INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER)
+                        ).toBeNull();
                     });
                     it('should display invalid entry error', async () => {
                         await ticks(1);
@@ -276,14 +290,22 @@ describe('Record Delete Editor', () => {
                         expect(recordDeleteComponent.node.object.error).toBeNull();
                     });
                     it('should display record filters', () => {
-                        expect(getChildComponent(recordDeleteComponent, SELECTORS.RECORD_FILTER)).not.toBeNull();
+                        expect(
+                            getChildComponent(recordDeleteComponent, INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER)
+                        ).not.toBeNull();
                     });
                     it('should display 1 filters item', () => {
-                        filterItems = getChildComponent(recordDeleteComponent, SELECTORS.RECORD_FILTER).filterItems;
+                        filterItems = getChildComponent(
+                            recordDeleteComponent,
+                            INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER
+                        ).filterItems;
                         expect(filterItems).toHaveLength(1);
                     });
                     it('filters item LHS/Operator/RHS', () => {
-                        filterItems = getChildComponent(recordDeleteComponent, SELECTORS.RECORD_FILTER).filterItems;
+                        filterItems = getChildComponent(
+                            recordDeleteComponent,
+                            INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER
+                        ).filterItems;
                         expect(filterItems[0]).toMatchObject(newFilterItem());
                     });
                 });
@@ -296,7 +318,9 @@ describe('Record Delete Editor', () => {
                     });
                     it('should NOT display record filters', async () => {
                         await ticks(1);
-                        expect(getChildComponent(recordDeleteComponent, SELECTORS.RECORD_FILTER)).toBeNull();
+                        expect(
+                            getChildComponent(recordDeleteComponent, INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER)
+                        ).toBeNull();
                     });
                     it('should display required value error', async () => {
                         await ticks(1);
@@ -309,7 +333,10 @@ describe('Record Delete Editor', () => {
             describe('Record Filter', () => {
                 let recordFilter;
                 beforeEach(() => {
-                    recordFilter = getChildComponent(recordDeleteComponent, SELECTORS.RECORD_FILTER);
+                    recordFilter = getChildComponent(
+                        recordDeleteComponent,
+                        INTERACTION_COMPONENTS_SELECTORS.RECORD_FILTER
+                    );
                 });
                 it('should be displayed', () => {
                     expect(recordFilter).not.toBeNull();
@@ -335,7 +362,7 @@ describe('Record Delete Editor', () => {
                     );
                     const operatorsComboboxComponent = getChildComponent(
                         baseExpressionBuilderComponent,
-                        SELECTORS.LIGHTNING_COMBOBOX
+                        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX
                     );
                     expect(operatorsComboboxComponent.options).toHaveLength(6);
                     expect(operatorsComboboxComponent.options).toEqual(

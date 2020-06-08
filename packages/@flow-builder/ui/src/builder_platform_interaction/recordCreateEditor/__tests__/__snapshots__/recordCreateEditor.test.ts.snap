@@ -202,19 +202,21 @@ exports[`record-create-editor existing element using sObject single record Proce
                 #shadow-root(open)
                   <builder_platform_interaction-combobox>
                     #shadow-root(open)
-                      <lightning-grouped-combobox>
-                        #shadow-root(open)
-                          <lightning-base-combobox>
-                            #shadow-root(open)
-                              <input />
-                          </lightning-base-combobox>
-                          <lightning-base-combobox
-                            data-id="lookup"
-                          >
-                            #shadow-root(open)
-                              <input />
-                          </lightning-base-combobox>
-                      </lightning-grouped-combobox>
+                      <div>
+                        <lightning-grouped-combobox>
+                          #shadow-root(open)
+                            <lightning-base-combobox>
+                              #shadow-root(open)
+                                <input />
+                            </lightning-base-combobox>
+                            <lightning-base-combobox
+                              data-id="lookup"
+                            >
+                              #shadow-root(open)
+                                <input />
+                            </lightning-base-combobox>
+                        </lightning-grouped-combobox>
+                      </div>
                   </builder_platform_interaction-combobox>
               </builder_platform_interaction-base-resource-picker>
           </builder_platform_interaction-entity-resource-picker>
@@ -416,19 +418,21 @@ exports[`record-create-editor existing element using sObject single record chang
                 #shadow-root(open)
                   <builder_platform_interaction-combobox>
                     #shadow-root(open)
-                      <lightning-grouped-combobox>
-                        #shadow-root(open)
-                          <lightning-base-combobox>
-                            #shadow-root(open)
-                              <input />
-                          </lightning-base-combobox>
-                          <lightning-base-combobox
-                            data-id="lookup"
-                          >
-                            #shadow-root(open)
-                              <input />
-                          </lightning-base-combobox>
-                      </lightning-grouped-combobox>
+                      <div>
+                        <lightning-grouped-combobox>
+                          #shadow-root(open)
+                            <lightning-base-combobox>
+                              #shadow-root(open)
+                                <input />
+                            </lightning-base-combobox>
+                            <lightning-base-combobox
+                              data-id="lookup"
+                            >
+                              #shadow-root(open)
+                                <input />
+                            </lightning-base-combobox>
+                        </lightning-grouped-combobox>
+                      </div>
                   </builder_platform_interaction-combobox>
               </builder_platform_interaction-base-resource-picker>
           </builder_platform_interaction-entity-resource-picker>
@@ -738,19 +742,21 @@ exports[`record-create-editor new element process type NOT supporting automatic 
                 #shadow-root(open)
                   <builder_platform_interaction-combobox>
                     #shadow-root(open)
-                      <lightning-grouped-combobox>
-                        #shadow-root(open)
-                          <lightning-base-combobox>
-                            #shadow-root(open)
-                              <input />
-                          </lightning-base-combobox>
-                          <lightning-base-combobox
-                            data-id="lookup"
-                          >
-                            #shadow-root(open)
-                              <input />
-                          </lightning-base-combobox>
-                      </lightning-grouped-combobox>
+                      <div>
+                        <lightning-grouped-combobox>
+                          #shadow-root(open)
+                            <lightning-base-combobox>
+                              #shadow-root(open)
+                                <input />
+                            </lightning-base-combobox>
+                            <lightning-base-combobox
+                              data-id="lookup"
+                            >
+                              #shadow-root(open)
+                                <input />
+                            </lightning-base-combobox>
+                        </lightning-grouped-combobox>
+                      </div>
                   </builder_platform_interaction-combobox>
               </builder_platform_interaction-base-resource-picker>
           </builder_platform_interaction-entity-resource-picker>

@@ -3,10 +3,7 @@ import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import * as autoLaunchedFlow from 'mock/flows/autolaunchedFlow.json';
 import * as autoLaunchedFlowScheduledJourney from 'mock/flows/autoLaunchedFlowScheduledJourney.json';
 import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
-import {
-    LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS
-} from 'builder_platform_interaction/builderTestUtils';
+import { LIGHTNING_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { setupState, resetState, loadFlow } from '../integrationTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
@@ -20,22 +17,10 @@ import {
     expectCannotBeTraversed
 } from '../comboboxTestUtils';
 
-const SELECTORS = {
-    ...LIGHTNING_COMPONENTS_SELECTORS,
-    ...INTERACTION_COMPONENTS_SELECTORS
-};
-
-const getLHSGroupedCombobox = decision => {
-    return getLhsCombobox(getFerToFerovExpressionBuilder(decision)).shadowRoot.querySelector(
-        SELECTORS.LIGHTNING_GROUPED_COMBOBOX
-    );
-};
-
-const getRHSGroupedCombobox = decision => {
-    return getRhsCombobox(getFerToFerovExpressionBuilder(decision)).shadowRoot.querySelector(
-        SELECTORS.LIGHTNING_GROUPED_COMBOBOX
-    );
-};
+const getLHSGroupedCombobox = combobox =>
+    combobox.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
+const getRHSGroupedCombobox = combobox =>
+    combobox.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
 
 describe('Decision Editor', () => {
     let decisionForPropertyEditor, decisionEditor, store;
@@ -46,50 +31,55 @@ describe('Decision Editor', () => {
         resetState();
     });
     describe('Process type that supports lookup traversal', () => {
+        let expressionBuilder;
         beforeEach(async () => {
             await loadFlow(flowWithAllElements, store);
-
             const element = getElementByDevName('decision');
             decisionForPropertyEditor = getElementForPropertyEditor(element);
             decisionEditor = createComponentForTest(decisionForPropertyEditor);
+            expressionBuilder = getFerToFerovExpressionBuilder(decisionEditor);
         });
-        it('shows up chevron on fields in LHS', async () => {
-            const lhsCombobox = getLHSGroupedCombobox(decisionEditor);
-            await expectCanBeTraversed(lhsCombobox, 'text', ['accountSObjectVariable', 'CreatedBy']);
+        it('should be traverse-able in the LHS', async () => {
+            const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
+            const lhsGroupedCombobox = getLHSGroupedCombobox(lhsCombobox);
+            await expectCanBeTraversed(lhsGroupedCombobox, 'text', ['accountSObjectVariable', 'CreatedBy']);
         });
-        it('shows up chevron on fields in RHS', async () => {
-            const rhsCombobox = getRHSGroupedCombobox(decisionEditor);
-            await expectCanBeTraversed(rhsCombobox, 'text', ['accountSObjectVariable', 'CreatedBy']);
+        it('should be traverse-able in the RHS', async () => {
+            const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
+            const rhsGroupedCombobox = getRHSGroupedCombobox(rhsCombobox);
+            await expectCanBeTraversed(rhsGroupedCombobox, 'text', ['accountSObjectVariable', 'CreatedBy']);
         });
     });
-    describe('AutoLaunched flow : All Trigger Types except ScheduledJourney are supported', () => {
+    describe('AutoLaunched flow: All Trigger Types except ScheduledJourney are supported', () => {
         describe('Trigger type is not ScheduledJourney and is set', () => {
+            let expressionBuilder;
             beforeEach(async () => {
                 await loadFlow(autoLaunchedFlow, store);
-
                 const element = getElementByDevName('decision');
                 decisionForPropertyEditor = getElementForPropertyEditor(element);
                 decisionEditor = createComponentForTest(decisionForPropertyEditor);
+                expressionBuilder = getFerToFerovExpressionBuilder(decisionEditor);
             });
             it('should be traverse-able in the LHS', async () => {
-                const lhsCombobox = getLHSGroupedCombobox(decisionEditor);
-                await expectCanBeTraversed(lhsCombobox, 'text', ['accountVariable', 'CreatedBy']);
-                await expectCannotBeTraversed(lhsCombobox, 'text', ['accountVariable', 'CreatedById']);
+                const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
+                const lhsGroupedCombobox = getLHSGroupedCombobox(lhsCombobox);
+                await expectCanBeTraversed(lhsGroupedCombobox, 'text', ['accountVariable', 'CreatedBy']);
+                await expectCannotBeTraversed(lhsGroupedCombobox, 'text', ['accountVariable', 'CreatedById']);
             });
             it('should be traverse-able in the RHS', async () => {
-                const rhsCombobox = getRHSGroupedCombobox(decisionEditor);
-                await expectCanBeTraversed(rhsCombobox, 'text', ['accountVariable', 'CreatedBy']);
-                await expectCannotBeTraversed(rhsCombobox, 'text', ['accountVariable', 'CreatedById']);
+                const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
+                const rhsGroupedCombobox = getRHSGroupedCombobox(rhsCombobox);
+                await expectCanBeTraversed(rhsGroupedCombobox, 'text', ['accountVariable', 'CreatedBy']);
+                await expectCannotBeTraversed(rhsGroupedCombobox, 'text', ['accountVariable', 'CreatedById']);
             });
             describe('Validation', () => {
-                let expressionBuilder;
                 beforeEach(() => {
                     expressionBuilder = getFerToFerovExpressionBuilder(decisionEditor);
                 });
                 describe('Selection using comboboxes', () => {
                     const itCanSelectInLhs = (lhs, expectedItem = {}) =>
                         it(`can select [${lhs}] on lhs`, async () => {
-                            const lhsCombobox = getLhsCombobox(expressionBuilder);
+                            const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
                             lhsCombobox.value = null;
                             await expectCanSelectInCombobox(lhsCombobox, 'text', lhs, expectedItem);
                         });
@@ -112,7 +102,7 @@ describe('Decision Editor', () => {
                         ${'{!apexComplexTypeVariable.doesNotExist}'}  | ${'FlowBuilderMergeFieldValidation.unknownRecordField'}
                         ${'{!apexComplexTypeVariable.doesNotExist.}'} | ${'FlowBuilderCombobox.genericErrorMessage'}
                     `('error for "$lhs should be : $expectedErrorMessage', async ({ lhs, expectedErrorMessage }) => {
-                        const lhsCombobox = getLhsCombobox(expressionBuilder);
+                        const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
                         await typeReferenceOrValueInCombobox(lhsCombobox, lhs);
                         await expect(lhsCombobox.errorMessage).toEqual(expectedErrorMessage);
                     });
@@ -120,42 +110,52 @@ describe('Decision Editor', () => {
             });
         });
     });
-    describe('AutoLaunched Scheduled Journey flow : All Trigger Types except ScheduledJourney are supported', () => {
+    describe('AutoLaunched Scheduled Journey flow: All Trigger Types except ScheduledJourney are supported', () => {
         describe('Trigger type is ScheduledJourney', () => {
-            beforeEach(async () => {
+            let expressionBuilder;
+            beforeAll(async () => {
                 await loadFlow(autoLaunchedFlowScheduledJourney, store);
-
+            });
+            beforeEach(() => {
                 const element = getElementByDevName('decision');
                 decisionForPropertyEditor = getElementForPropertyEditor(element);
                 decisionEditor = createComponentForTest(decisionForPropertyEditor);
+                expressionBuilder = getFerToFerovExpressionBuilder(decisionEditor);
             });
-            it('does not show up chevron on fields in LHS', async () => {
-                const lhsCombobox = getLHSGroupedCombobox(decisionEditor);
-                await expectCannotBeSelected(lhsCombobox, 'text', ['accountVariable', 'CreatedBy']);
+            it('should NOT be traverse-able in the LHS', async () => {
+                const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
+                const lhsGroupedCombobox = getLHSGroupedCombobox(lhsCombobox);
+                await expectCannotBeSelected(lhsGroupedCombobox, 'text', ['accountVariable', 'CreatedBy']);
             });
-            it('does not show up chevron on fields in RHS', async () => {
-                const rhsCombobox = getRHSGroupedCombobox(decisionEditor);
-                await expectCannotBeSelected(rhsCombobox, 'text', ['accountVariable', 'CreatedBy']);
+            it('should NOT be traverse-able in the RHS', async () => {
+                const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
+                const rhsGroupedCombobox = getRHSGroupedCombobox(rhsCombobox);
+                await expectCannotBeSelected(rhsGroupedCombobox, 'text', ['accountVariable', 'CreatedBy']);
             });
         });
     });
     describe('Process type that does not support lookup traversal', () => {
-        beforeEach(async () => {
+        let expressionBuilder;
+        beforeAll(async () => {
             await loadFlow(fieldServiceMobileFlow, store);
-
+        });
+        beforeEach(async () => {
             const element = getElementByDevName('decision');
             decisionForPropertyEditor = getElementForPropertyEditor(element);
             decisionEditor = createComponentForTest(decisionForPropertyEditor);
+            expressionBuilder = getFerToFerovExpressionBuilder(decisionEditor);
         });
         it('does not show up chevron on fields in LHS', async () => {
-            const lhsCombobox = getLHSGroupedCombobox(decisionEditor);
-            await expectCannotBeSelected(lhsCombobox, 'text', ['vMyTestAccount', 'CreatedBy']);
-            await expectCannotBeTraversed(lhsCombobox, 'text', ['vMyTestAccount', 'CreatedById']);
+            const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
+            const lhsGroupedCombobox = getLHSGroupedCombobox(lhsCombobox);
+            await expectCannotBeSelected(lhsGroupedCombobox, 'text', ['vMyTestAccount', 'CreatedBy']);
+            await expectCannotBeTraversed(lhsGroupedCombobox, 'text', ['vMyTestAccount', 'CreatedById']);
         });
         it('does not show up chevron on fields in RHS', async () => {
-            const rhsCombobox = getRHSGroupedCombobox(decisionEditor);
-            await expectCannotBeSelected(rhsCombobox, 'text', ['vMyTestAccount', 'CreatedBy']);
-            await expectCannotBeTraversed(rhsCombobox, 'text', ['vMyTestAccount', 'CreatedById']);
+            const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
+            const rhsGroupedCombobox = getRHSGroupedCombobox(rhsCombobox);
+            await expectCannotBeSelected(rhsGroupedCombobox, 'text', ['vMyTestAccount', 'CreatedBy']);
+            await expectCannotBeTraversed(rhsGroupedCombobox, 'text', ['vMyTestAccount', 'CreatedById']);
         });
     });
 });
