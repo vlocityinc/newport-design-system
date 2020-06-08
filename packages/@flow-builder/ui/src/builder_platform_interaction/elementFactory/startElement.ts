@@ -45,7 +45,8 @@ export function createStartElement(startElement = {}) {
     } = startElement;
     const triggerType = startElement.triggerType || FLOW_TRIGGER_TYPE.NONE;
     const { startDate, startTime } = startElement.schedule || startElement;
-    let { filterLogic = CONDITION_LOGIC.AND, recordTriggerType, frequency } = startElement.schedule || startElement;
+    let { recordTriggerType, frequency } = startElement.schedule || startElement;
+    let { filterLogic = CONDITION_LOGIC.AND } = startElement;
 
     // For the existing element if no filters has been set we need to assign No Conditions to the filterLogic.
     if (object !== '' && filters.length === 0 && filterLogic === CONDITION_LOGIC.AND) {
@@ -158,7 +159,10 @@ export function createStartElementMetadataObject(startElement, config = {}) {
         object: object === '' ? undefined : object,
         objectContainer,
         recordTriggerType: recordTriggerType === '' ? undefined : recordTriggerType,
-        filterLogic: triggerType === FLOW_TRIGGER_TYPE.SCHEDULED ? filterLogic : undefined,
+        filterLogic:
+            triggerType === FLOW_TRIGGER_TYPE.SCHEDULED && filterLogic !== CONDITION_LOGIC.NO_CONDITIONS
+                ? filterLogic
+                : undefined,
         filters: recordFilters
     });
 }
