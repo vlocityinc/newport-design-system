@@ -163,7 +163,11 @@
     padding-left: 1.2rem;
   }
 }
-
+.nds-b2b-attribute-category-name {
+  font-size: 1rem;
+  font-weight: $font-weight-bold;
+  color: $black-primary;
+}
 .nds-b2b-attribute-container {
   margin-bottom: 1rem;
   flex: 0 0 100%;
