@@ -307,12 +307,12 @@
   padding: 1rem 1.5rem;
 }
 .nds-b2b-delete-offer {
-  .slds-modal__header {
+  .nds-modal__header {
     background-color: $newport-color-error;
     color: $white;
     font-size: 1rem;
   }
-  .slds-modal__content {
+  .nds-modal__content {
     color: $black-primary;
   }
 }
