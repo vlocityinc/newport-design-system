@@ -1,5 +1,6 @@
 import panzoom from 'panzoom';
 
+import { animate } from './animate';
 import { renderFlow } from './flowRenderer';
 import { toggleFlowMenu, closeFlowMenu, updateDeletionPathInfo } from './interactionUtils';
 import { calculateFlowLayout } from './layout';
@@ -19,11 +20,38 @@ import {
     FlowRenderContext
 } from './flowRendererUtils';
 
-export * from './animate';
-export * from './model';
-export * from './modelUtils';
+export {
+    Guid,
+    FlowModel,
+    NodeRef,
+    NodeModel,
+    ParentNodeModel,
+    BranchHeadNodeModel,
+    ElementMetadata,
+    ElementsMetadata,
+    FAULT_INDEX,
+    resolveNode,
+    getRootNode,
+    canHaveChildren,
+    getElementMetadata
+} from './model';
 
 export {
+    addElementToState,
+    linkElement,
+    deleteBranchHeadProperties,
+    linkBranchOrFault,
+    FlcList,
+    findLastElement,
+    findFirstElement,
+    findParentElement,
+    deleteElement,
+    addElement,
+    deleteFault
+} from './modelUtils';
+
+export {
+    animate,
     renderFlow,
     toggleFlowMenu,
     closeFlowMenu,
