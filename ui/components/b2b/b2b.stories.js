@@ -342,11 +342,12 @@ storiesOf(`${base}`, module)
                   <div class="nds-b2b-price_info">
                     <div class="nds-b2b-each-attribute">
                       <p class="nds-b2b-attribute_label nds-text-align_right">One Time</p>
-                      <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1420.00</p>
+                      <p class="nds-b2b-attribute_value nds-text-align_right">$1420.00</p>
+                      <p class="nds-b2b-attribute_value nds-b2b-adjustment-price nds-text-align_right"><strike>$50.00</strike></p>
                     </div>
                     <div class="nds-b2b-each-attribute">
                       <p class="nds-b2b-attribute_label nds-text-align_right">Monthly</p>
-                      <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1350.00</p>
+                      <p class="nds-b2b-attribute_value nds-text-align_right">$1350.00</p>
                     </div>
                   </div>
                 </div>
