@@ -47,7 +47,9 @@ export {
     findParentElement,
     deleteElement,
     addElement,
-    deleteFault
+    deleteFault,
+    getChild,
+    getTargetGuidsForBranchReconnect
 } from './modelUtils';
 
 export {
