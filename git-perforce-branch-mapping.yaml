@@ -1,3 +1,4 @@
 # quotes are required to parse 226 as a string vs a number
 'master': '//app/main/...'
 '226': '//app/226/patch/...'
+'226-freeze': '//app/226/freeze/...'
