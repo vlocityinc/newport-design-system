@@ -9,10 +9,10 @@ import newFieldServiceWebDescription from '@salesforce/label/FlowBuilderProcessT
 import newProcessTypeDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newProcessTypeDescription';
 import newContactRequestFlowDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newContactRequestFlowDescription';
 import newScheduledFlowDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newScheduledFlowDescription';
-import newBeforeSaveFlowDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newBeforeSaveFlowDescription';
+import newRecordChangedFlowDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newRecordChangedFlowDescription';
 import newAppProcessDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newAppProcessDescription';
 import newScheduledFlowLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newScheduledFlowLabel';
-import newBeforeSaveFlowLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newBeforeSaveFlowLabel';
+import newRecordChangedFlowLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newRecordChangedFlowLabel';
 import newPlatformEventFlowLabel from '@salesforce/label/FlowBuilderProcessTypeTemplates.newPlatformEventFlowLabel';
 
 export const LABELS = {
@@ -25,12 +25,13 @@ export const LABELS = {
     [FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW]: newContactRequestFlowDescription,
     [FLOW_PROCESS_TYPE.APP_PROCESS]: newAppProcessDescription,
     [FLOW_TRIGGER_TYPE.SCHEDULED]: newScheduledFlowDescription,
-    [FLOW_TRIGGER_TYPE.BEFORE_SAVE]: newBeforeSaveFlowDescription
+    [FLOW_TRIGGER_TYPE.BEFORE_SAVE]: newRecordChangedFlowDescription,
+    [FLOW_TRIGGER_TYPE.AFTER_SAVE]: newRecordChangedFlowDescription
 };
 
 export const TRIGGER_TYPE_LABELS = {
     [FLOW_TRIGGER_TYPE.SCHEDULED]: newScheduledFlowLabel,
-    [FLOW_TRIGGER_TYPE.BEFORE_SAVE]: newBeforeSaveFlowLabel,
-    [FLOW_TRIGGER_TYPE.AFTER_SAVE]: newBeforeSaveFlowLabel,
+    [FLOW_TRIGGER_TYPE.BEFORE_SAVE]: newRecordChangedFlowLabel,
+    [FLOW_TRIGGER_TYPE.AFTER_SAVE]: newRecordChangedFlowLabel,
     [FLOW_TRIGGER_TYPE.PLATFORM_EVENT]: newPlatformEventFlowLabel
 };

@@ -10,12 +10,13 @@ export const MOCK_ALL_FLOW_ENTRIES = [
         processType: FLOW_PROCESS_TYPE.FLOW
     },
     {
-        label: 'Before Save',
-        description: 'Before Save Description',
+        label: 'Record Changed',
+        description: 'Record Changed Description',
         icon: 'utility:record_update',
         recommended: true,
         processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-        triggerType: FLOW_TRIGGER_TYPE.BEFORE_SAVE
+        defaultTriggerType: FLOW_TRIGGER_TYPE.AFTER_SAVE,
+        triggerTypes: [FLOW_TRIGGER_TYPE.AFTER_SAVE, FLOW_TRIGGER_TYPE.BEFORE_SAVE, FLOW_TRIGGER_TYPE.BEFORE_DELETE]
     },
     {
         label: 'Scheduled',
@@ -23,7 +24,8 @@ export const MOCK_ALL_FLOW_ENTRIES = [
         icon: 'utility:clock',
         recommended: true,
         processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-        triggerType: FLOW_TRIGGER_TYPE.SCHEDULED
+        defaultTriggerType: FLOW_TRIGGER_TYPE.SCHEDULED,
+        triggerTypes: [FLOW_TRIGGER_TYPE.SCHEDULED]
     },
     {
         label: 'Autolaunched Flow',

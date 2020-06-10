@@ -115,12 +115,12 @@ describe('new-flow-modal-body', () => {
                     isSelected: true
                 },
                 {
-                    description: 'Before Save Description',
+                    description: 'Record Changed Description',
                     iconName: 'utility:record_update',
-                    itemId: 'AutoLaunchedFlow-RecordBeforeSave',
-                    label: 'Before Save',
+                    itemId: 'AutoLaunchedFlow-RecordAfterSave',
+                    label: 'Record Changed',
                     processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-                    triggerType: FLOW_TRIGGER_TYPE.BEFORE_SAVE,
+                    defaultTriggerType: FLOW_TRIGGER_TYPE.AFTER_SAVE,
                     recommended: true
                 },
                 {
@@ -129,7 +129,7 @@ describe('new-flow-modal-body', () => {
                     itemId: 'AutoLaunchedFlow-Scheduled',
                     label: 'Scheduled',
                     processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-                    triggerType: FLOW_TRIGGER_TYPE.SCHEDULED,
+                    defaultTriggerType: FLOW_TRIGGER_TYPE.SCHEDULED,
                     recommended: true
                 },
                 {
@@ -176,12 +176,12 @@ describe('new-flow-modal-body', () => {
             const templates = getTemplates(processTypesTemplates);
             expect(templates.items).toMatchObject([
                 {
-                    description: 'Before Save Description',
+                    description: 'Record Changed Description',
                     iconName: 'utility:record_update',
-                    itemId: 'AutoLaunchedFlow-RecordBeforeSave',
-                    label: 'Before Save',
+                    itemId: 'AutoLaunchedFlow-RecordAfterSave',
+                    label: 'Record Changed',
                     processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-                    triggerType: FLOW_TRIGGER_TYPE.BEFORE_SAVE,
+                    defaultTriggerType: FLOW_TRIGGER_TYPE.AFTER_SAVE,
                     isSelected: true
                 },
                 {
@@ -190,7 +190,7 @@ describe('new-flow-modal-body', () => {
                     itemId: 'AutoLaunchedFlow-Scheduled',
                     label: 'Scheduled',
                     processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-                    triggerType: FLOW_TRIGGER_TYPE.SCHEDULED
+                    defaultTriggerType: FLOW_TRIGGER_TYPE.SCHEDULED
                 },
                 {
                     description: 'Autolaunch Flow Description',
@@ -250,12 +250,12 @@ describe('new-flow-modal-body', () => {
                     isSelected: true
                 },
                 {
-                    description: 'Before Save Description',
+                    description: 'Record Changed Description',
                     iconName: 'utility:record_update',
-                    itemId: 'AutoLaunchedFlow-RecordBeforeSave',
-                    label: 'Before Save',
+                    itemId: 'AutoLaunchedFlow-RecordAfterSave',
+                    label: 'Record Changed',
                     processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-                    triggerType: FLOW_TRIGGER_TYPE.BEFORE_SAVE
+                    defaultTriggerType: FLOW_TRIGGER_TYPE.AFTER_SAVE
                 },
                 {
                     description: 'Scheduled Autolaunch Flow Description',
@@ -263,7 +263,7 @@ describe('new-flow-modal-body', () => {
                     itemId: 'AutoLaunchedFlow-Scheduled',
                     label: 'Scheduled',
                     processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-                    triggerType: FLOW_TRIGGER_TYPE.SCHEDULED
+                    defaultTriggerType: FLOW_TRIGGER_TYPE.SCHEDULED
                 },
                 {
                     description: 'Autolaunch Flow Description',

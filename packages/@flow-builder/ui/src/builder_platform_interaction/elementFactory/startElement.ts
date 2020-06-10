@@ -17,7 +17,6 @@ import { isScheduledTriggerType } from 'builder_platform_interaction/triggerType
 import { formatDateTimeUTC, getDayOfTheWeek } from 'builder_platform_interaction/dateTimeUtils';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementFactoryLabels';
-import { format } from 'builder_platform_interaction/commonUtils';
 
 export const START_ELEMENT_LOCATION = {
     x: 50,
@@ -25,7 +24,6 @@ export const START_ELEMENT_LOCATION = {
 };
 const maxConnections = 1;
 const elementType = ELEMENT_TYPE.START_ELEMENT;
-const { CREATE, UPDATE, CREATE_AND_UPDATE } = FLOW_TRIGGER_SAVE_TYPE;
 
 /**
  * Creates a start element object in the shape expected by the store
@@ -59,16 +57,17 @@ export function createStartElement(startElement = {}) {
             : startTime;
 
     let label;
-    if (triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE) {
-        label = getBeforeSaveLabel(object, recordTriggerType);
-    } else if (isScheduledTriggerType(triggerType)) {
+    if (isScheduledTriggerType(triggerType)) {
         label = getscheduledLabel(startDate, isoStartTime, frequency);
         if (!frequency) {
             frequency = FLOW_TRIGGER_FREQUENCY.ONCE;
         }
     }
 
-    if (triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE && recordTriggerType === undefined) {
+    if (
+        (triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE || triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE) &&
+        recordTriggerType === undefined
+    ) {
         recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.CREATE;
         filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
     }
@@ -174,19 +173,6 @@ function getISOTimeFromMillis(timeinMillis) {
         .toISOString()
         .slice(0, -1)
         .split('T')[1];
-}
-
-function getBeforeSaveLabel(object, recordTriggerType) {
-    switch (recordTriggerType) {
-        case CREATE:
-            return format(LABELS.startElementRecordCreated, object);
-        case UPDATE:
-            return format(LABELS.startElementRecordUpdated, object);
-        case CREATE_AND_UPDATE:
-            return format(LABELS.startElementRecordCreatedUpdated, object);
-        default:
-            return '';
-    }
 }
 
 function getscheduledLabel(startDate, startTime, frequency) {

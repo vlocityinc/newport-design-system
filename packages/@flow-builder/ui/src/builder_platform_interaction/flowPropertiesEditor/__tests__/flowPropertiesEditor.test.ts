@@ -351,8 +351,8 @@ describe('FlowPropertiesEditor', () => {
             flowPropertiesEditor = createComponentUnderTest(flowProperties);
             getShowAdvancedButton(flowPropertiesEditor).click();
             await Promise.resolve();
-            expect(getLastProcessType(flowPropertiesEditor).textContent).toEqual('Before Save');
-            expect(getProcessType(flowPropertiesEditor).value).toEqual('AutoLaunchedFlow RecordBeforeSave');
+            expect(getLastProcessType(flowPropertiesEditor).textContent).toEqual('Record Changed');
+            expect(getProcessType(flowPropertiesEditor).value).toEqual('AutoLaunchedFlow RecordAfterSave');
         });
 
         it('displays the label associated with Autolauched Flow and After Save trigger', async () => {
@@ -364,8 +364,8 @@ describe('FlowPropertiesEditor', () => {
             flowPropertiesEditor = createComponentUnderTest(flowProperties);
             getShowAdvancedButton(flowPropertiesEditor).click();
             await Promise.resolve();
-            expect(getLastProcessType(flowPropertiesEditor).textContent).toEqual('Before Save');
-            expect(getProcessType(flowPropertiesEditor).value).toEqual('AutoLaunchedFlow RecordBeforeSave');
+            expect(getLastProcessType(flowPropertiesEditor).textContent).toEqual('Record Changed');
+            expect(getProcessType(flowPropertiesEditor).value).toEqual('AutoLaunchedFlow RecordAfterSave');
         });
 
         describe('versionNumber', () => {

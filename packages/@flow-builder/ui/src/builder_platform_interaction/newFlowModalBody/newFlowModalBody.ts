@@ -19,7 +19,7 @@ const enrichItems = items =>
                 itemId = JSON.stringify(item.flow);
             }
         } else {
-            itemId = item.processType + (item.triggerType ? '-' + item.triggerType : '');
+            itemId = item.processType + (item.defaultTriggerType ? '-' + item.defaultTriggerType : '');
         }
         return {
             itemId,

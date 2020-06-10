@@ -56,10 +56,10 @@ describe('templatesUtils', () => {
             expect(orgHasBeforeSaveEnabled).toHaveBeenCalled();
             expect(autolaunchedProcessTypeTiles).toEqual([
                 {
-                    description: 'FlowBuilderProcessTypeTemplates.newBeforeSaveFlowDescription',
+                    description: 'FlowBuilderProcessTypeTemplates.newRecordChangedFlowDescription',
                     iconName: 'utility:record_update',
                     itemId: 'AutoLaunchedFlow-RecordBeforeSave',
-                    label: 'FlowBuilderProcessTypeTemplates.newBeforeSaveFlowLabel',
+                    label: 'FlowBuilderProcessTypeTemplates.newRecordChangedFlowLabel',
                     processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
                     triggerType: 'RecordBeforeSave'
                 },

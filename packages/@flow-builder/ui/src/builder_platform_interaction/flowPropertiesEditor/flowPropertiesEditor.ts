@@ -171,24 +171,12 @@ export default class FlowPropertiesEditor extends LightningElement {
         if (this._processTypes && this.flowProperties.processType) {
             const processType = this.flowProperties.processType.value;
             if (this.flowProperties.triggerType) {
-                let triggerType = this.flowProperties.triggerType.value;
-                let value = processType + ' ' + triggerType;
+                const triggerType = this.flowProperties.triggerType.value;
+                const value = processType + ' ' + triggerType;
                 result = this._processTypes.find(item => item.value === value);
-
-                // This is a not so good way to find a flow entry for a trigger, which
-                // is not represented with its own flow entry. See W-7348430.
-                if (
-                    !result &&
-                    processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW &&
-                    (triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE || triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE)
-                ) {
-                    if (triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE) {
-                        triggerType = FLOW_TRIGGER_TYPE.AFTER_SAVE;
-                    } else if (triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE) {
-                        triggerType = FLOW_TRIGGER_TYPE.BEFORE_SAVE;
-                    }
-                    value = processType + ' ' + triggerType;
-                    result = this._processTypes.find(item => item.value === value);
+                // Find a flow entry for a trigger, which is not represented with its own flow entry.
+                if (!result) {
+                    result = this._processTypes.find(item => item.triggerTypes.some(type => type === triggerType));
                 }
             }
             if (!result) {
@@ -287,9 +275,10 @@ export default class FlowPropertiesEditor extends LightningElement {
                 // Get rid of all recommended flow templates. The rest should be the list of "blank" entries.
                 .filter(item => !(item.recommended && typeof item.flow === 'string'))
                 // Create a list of items for the combobox
-                .map(({ label, processType, triggerType = FLOW_TRIGGER_TYPE.NONE }) => ({
+                .map(({ label, processType, defaultTriggerType = FLOW_TRIGGER_TYPE.NONE, triggerTypes = [] }) => ({
                     label,
-                    value: processType + ' ' + triggerType
+                    value: processType + ' ' + defaultTriggerType,
+                    triggerTypes
                 }));
         });
     }

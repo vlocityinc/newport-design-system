@@ -54,6 +54,7 @@ export default class startNodeTriggerButton extends LightningElement {
     }
 
     get selectedTriggerLabel() {
+        // Record Change
         if (this.isRecordChangeTrigger()) {
             switch (this.node.recordTriggerType) {
                 case CREATE:
@@ -66,6 +67,7 @@ export default class startNodeTriggerButton extends LightningElement {
                     return '';
             }
         }
+        // Platform Event
         if (this.node.triggerType === PLATFORM_EVENT) {
             const eventTypes = getEventTypes(MANAGED_SETUP);
             if (eventTypes) {
@@ -76,6 +78,7 @@ export default class startNodeTriggerButton extends LightningElement {
                 }
             }
         }
+        // Scheduled Flow
         return this.node.label;
     }
 

@@ -1,66 +1,66 @@
 {
-  "flowEntries":[
+  "flowEntries": [
     {
-      "icon":"utility:desktop",
-      "description":"Guide users through screens that they can access with Salesforce such as those in a Lightning page or a community.",
-      "label":"Screen Flow",
-      "processType":"Flow",
-      "recommended":true
+      "icon": "utility:desktop",
+      "description": "Guide users through screens that they can access with Salesforce such as those in a Lightning page or a community.",
+      "label": "Screen Flow",
+      "processType": "Flow",
+      "recommended": true
     },
     {
-      "icon":"utility:record_update",
-      "description":"Launch a flow in the background when a record is created or updated.",
-      "label":"Record-Changed Flow",
-      "processType":"AutoLaunchedFlow",
-      "triggerType":"RecordBeforeSave",
-      "recommended":true
+      "icon": "utility:record_update",
+      "description": "Launch a flow in the background when a record is created or updated.",
+      "label": "Record-Changed Flow",
+      "processType": "AutoLaunchedFlow",
+      "defaultTriggerType": "RecordAfterSave",
+      "recommended": true
     },
     {
-      "icon":"utility:clock",
-      "description":"Launch a flow in the background at a scheduled time and frequency.",
-      "label":"Scheduled Flow",
-      "processType":"AutoLaunchedFlow",
-      "triggerType":"Scheduled",
-      "recommended":true
+      "icon": "utility:clock",
+      "description": "Launch a flow in the background at a scheduled time and frequency.",
+      "label": "Scheduled Flow",
+      "processType": "AutoLaunchedFlow",
+      "defaultTriggerType": "Scheduled",
+      "recommended": true
     },
     {
-      "icon":"utility:magicwand",
-      "description":"Launch a flow in the background when a platform event message is received.",
-      "label":"Platform Event Flow",
-      "processType":"AutoLaunchedFlow",
-      "triggerType":"PlatformEvent",
-      "recommended":true
+      "icon": "utility:magicwand",
+      "description": "Launch a flow in the background when a platform event message is received.",
+      "label": "Platform Event Flow",
+      "processType": "AutoLaunchedFlow",
+      "defaultTriggerType": "PlatformEvent",
+      "recommended": true
     },
     {
-      "icon":"utility:magicwand",
-      "description":"Launch a flow in the background from another flow, a process, a button, or code such as Apex.",
-      "label":"Autolaunched Flow",
-      "processType":"AutoLaunchedFlow",
-      "recommended":true
+      "icon": "utility:magicwand",
+      "description": "Launch a flow in the background from another flow, a process, a button, or code such as Apex.",
+      "label": "Autolaunched Flow",
+      "processType": "AutoLaunchedFlow",
+      "recommended": true
     },
     {
-      "icon":"utility:user",
-      "description":"Create a user account and link it to a third-party service or app.",
-      "label":"User Provisioning Flow",
-      "processType":"UserProvisioningFlow"
+      "icon": "utility:user",
+      "description": "Create a user account and link it to a third-party service or app.",
+      "label": "User Provisioning Flow",
+      "processType": "UserProvisioningFlow"
     },
     {
-      "icon":"utility:phone_portrait",
-      "description":"Build a flow for the Field Service Lightning mobile app.",
-      "label":"Field Service Mobile Flow",
-      "processType":"FieldServiceMobile"
+      "icon": "utility:phone_portrait",
+      "description": "Build a flow for the Field Service Lightning mobile app.",
+      "label": "Field Service Mobile Flow",
+      "processType": "FieldServiceMobile"
     },
     {
-      "icon":"utility:insert_tag_field",
-      "description":"Let users schedule, modify, and cancel an appointment.",
-      "label":"Embedded Appointment Management Flow",
-      "processType":"FieldServiceWeb"
+      "icon": "utility:insert_tag_field",
+      "description": "Let users schedule, modify, and cancel an appointment.",
+      "label": "Embedded Appointment Management Flow",
+      "processType": "FieldServiceWeb"
     },
     {
-      "icon":"utility:contact_request",
-      "description":"Create self-service forms to collect contact details.",
-      "label":"Contact Request Flow",
-      "processType":"ContactRequestFlow"
+      "icon": "utility:contact_request",
+      "description": "Create self-service forms to collect contact details.",
+      "label": "Contact Request Flow",
+      "processType": "ContactRequestFlow"
     }
   ]
 }

@@ -1673,7 +1673,7 @@ export default class Editor extends LightningElement {
             this.spinners.showFlowMetadataSpinner = true;
         } else {
             // Create a blank flow of the specified process type and started by a specified trigger.
-            const { processType, triggerType } = item;
+            const { processType, defaultTriggerType } = item;
             if (processType) {
                 logInteraction(
                     `create-new-flow-button`,
@@ -1684,7 +1684,7 @@ export default class Editor extends LightningElement {
                 );
                 // create the empty flow for the selected process type
                 this.spinners.showFlowMetadataSpinner = true;
-                this.createFlowFromProcessType(processType, triggerType);
+                this.createFlowFromProcessType(processType, defaultTriggerType);
                 this.spinners.showFlowMetadataSpinner = false;
             }
             modal.close();
