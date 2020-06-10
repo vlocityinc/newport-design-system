@@ -21,5 +21,13 @@ It is build and managed using `yarn`.
 To add a new branch under SFCI you need to do the following:
  - Edit the `git-perforce-branch-mapping.yaml` and `sfci.yaml`
  - In the repo's github Settings, make the new branch protected
- - Run a SFCI seed job like here https://sfcirelease.dop.sfdc.net/job/SFCI%20MIGRATION%20JOBS/job/SFCI%20seed%20job/3626/parameters/
+ - Run a SFCI seed job like here https://sfcirelease.dop.sfdc.net/job/SFCI%20MIGRATION%20JOBS/job/SFCI%20seed%20job/
+ ```text
+ git_organization_name: automation-platform
+ git_repository_name: ui-interaction-builder-components	
+ git_branches: master,226,226-freeze
+ existing_Jenkins_URL: https://automation-builderci.dop.sfdc.ne
+ jenkinsfile_path: Jenkinsfile
+```
+
  - Reach out to the SFCI team (`#sfci-support` on slack) and ask them to point the managed pipeline file to that seed job. (This is needed because we are using a managed pipeline, and we don't have a Jenkins file)
