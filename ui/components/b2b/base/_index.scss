@@ -9,6 +9,9 @@
 @import '../components/cart-summary/b2bButtonResp';
 @import '../components/cart-summary/b2bDropdown';
 @import '../components/cart-summary/b2bCart';
+//Header components
+@import '../components/header/b2bHeader';
+@import '../components/header/b2bShowMore';
 // Configure Offer Components
 @import '../components/configure-offer/b2bConfigCard';
 @import '../components/configure-offer/b2bAttributeConfigOffer';
@@ -25,6 +28,3 @@
 //Common
 @import '../common/b2bFormElements';
 @import '../common/b2bTitles';
-
-
-
