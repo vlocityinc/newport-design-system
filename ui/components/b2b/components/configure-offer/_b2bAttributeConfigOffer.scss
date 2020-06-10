@@ -16,7 +16,7 @@
     color: $grey-35;
   }
   .nds-b2b-attribute-each-row {
-    margin-bottom: 1rem;
+    margin-bottom: 0.3rem;
   }
 }
 
@@ -151,7 +151,7 @@
     color: $grey-35;
   }
   .nds-b2b-attribute-each-row {
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.3rem;
     .nds-b2b-combobox-label {
       font-size: 0.8rem;
     }
@@ -163,12 +163,17 @@
     padding-left: 1.2rem;
   }
 }
-
+.nds-b2b-attribute-category-name {
+  font-size: 1rem;
+  font-weight: $font-weight-bold;
+  color: $black-primary;
+}
 .nds-b2b-attribute-container {
   margin-bottom: 1rem;
   flex: 0 0 100%;
   width: 100%;
   max-width: 37rem;
+  min-width: 16rem;
   @media screen and (min-width: 48rem){
     width: auto;
     margin: 0 2rem 1rem 0;

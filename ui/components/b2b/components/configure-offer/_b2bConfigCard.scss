@@ -45,7 +45,15 @@
           .nds-b2b-attributes_info {
             @include cardsHeaderAttributes;
             position: inherit;
+            width: inherit;
             margin-top: -0.5rem;
+            overflow: auto;
+            white-space: nowrap;
+            /* Hide scrollbars */
+            -ms-overflow-style: none;
+            &::-webkit-scrollbar {
+              display: none;
+            }
             .nds-b2b-each-attribute {
               min-width: auto;
               .nds-b2b-attribute_label {
@@ -76,6 +84,18 @@
               .nds-b2b-attribute_value {
                 border-bottom: 1px dashed $black-primary;
                 float: right;
+                &:focus {
+                  border: 1px solid $azure;
+                  border-radius: 0.25rem;
+                  padding: 0 0.5rem;
+                }
+                &.nds-b2b-adjustment-price {
+                  width: 100%;
+                  border-bottom: none;
+                  font-weight: $font-weight-light;
+                  font-size: 0.7rem;
+                  margin-top: 0.2rem;
+                }
               }
             }
             @media screen and (min-width: 48rem) {
@@ -89,7 +109,7 @@
               border: 1px solid $palette-warm-gray-5;
               height: 1.4rem;
               width: 3rem;
-              padding-left: 1.2rem;
+              padding-left: 0.8rem;
               font-size: 0.9rem;
               &:focus {
                 outline: none;
@@ -99,12 +119,6 @@
               &:disabled {
                 background-color: $white-smoke;
               }
-            }
-            /* Chrome, Safari, Edge, Opera */
-            input.nds-b2b-quantity_value::-webkit-outer-spin-button,
-            input.nds-b2b-quantity_value::-webkit-inner-spin-button {
-              -webkit-appearance: none;
-              margin: 0;
             }
             .nds-b2b-configure_label {
               color: $palette-warm-gray-9;
@@ -163,6 +177,10 @@
           overflow: auto;
           @media screen and (min-width: 48rem) {
             padding: 0 1.5rem;
+          }
+          &.nds-b2b-card-parent {
+            padding: 0;
+            background: $white-smoke;
           }
         }
         input.nds-b2b-card_checkbox:checked {
@@ -227,6 +245,18 @@
               .nds-b2b-each-attribute {
                 .nds-b2b-attribute_value {
                   border-bottom: 1px dashed $black-primary;
+                  &:focus {
+                    border: 1px solid $azure;
+                    border-radius: 0.25rem;
+                    padding: 0 0.5rem;
+                  }
+                  &.nds-b2b-adjustment-price {
+                    width: 100%;
+                    border-bottom: none;
+                    font-weight: $font-weight-light;
+                    font-size: 0.7rem;
+                    margin-top: 0.2rem;
+                  }
                 }
               }
             }
@@ -269,5 +299,20 @@
     &:hover {
       font-weight: $font-weight-bold;
     }
+  }
+}
+.b2b-parent-attribute-container {
+  background: $white;
+  margin-bottom: 1rem;
+  padding: 1rem 1.5rem;
+}
+.nds-b2b-delete-offer {
+  .nds-modal__header {
+    background-color: $newport-color-error;
+    color: $white;
+    font-size: 1rem;
+  }
+  .nds-modal__content {
+    color: $black-primary;
   }
 }
