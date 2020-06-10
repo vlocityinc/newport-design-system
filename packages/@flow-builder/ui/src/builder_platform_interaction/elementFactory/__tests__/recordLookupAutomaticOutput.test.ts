@@ -128,5 +128,11 @@ describe('recordLookup', () => {
                 expect(actualResult).toMatchObject(recordLookupMetadataWithQueriedFieldNull());
             });
         });
+        it('when filterLogic = no_conditions in the metadata the value should be undefined', () => {
+            const recordLookupFilterNoCondition = recordLookupStore();
+            recordLookupFilterNoCondition.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
+            const actualResult = createRecordLookupMetadataObject(recordLookupFilterNoCondition);
+            expect(actualResult.filterLogic).toBeUndefined();
+        });
     });
 });

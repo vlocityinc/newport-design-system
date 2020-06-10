@@ -85,6 +85,11 @@ describe('createRecordChoiceSetMetadataObject', () => {
             expect(result).toMatchObject(paramElementForRecordChoiceSet);
         });
     });
+    it('when filterLogic = no_conditions in the metadata the value should be undefined', () => {
+        paramElementForRecordChoiceSet.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
+        const result = createRecordChoiceSetMetadataObject(paramElementForRecordChoiceSet);
+        expect(result.filterLogic).toBeUndefined();
+    });
 });
 
 describe('createRecordChoiceForStore', () => {

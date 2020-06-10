@@ -137,7 +137,7 @@ export function createRecordUpdateMetadataObject(recordUpdate, config) {
 
         return Object.assign(recordUpdateMetadata, {
             filters,
-            filterLogic,
+            filterLogic: filterLogic === CONDITION_LOGIC.NO_CONDITIONS ? undefined : filterLogic,
             object,
             inputAssignments
         });

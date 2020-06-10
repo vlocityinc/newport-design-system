@@ -36,7 +36,7 @@ function genTsConfig(packageDir) {
          }
     },
 
-    "include": ["src/**/*"]
+    "include": ["src/**/*", "@types/index.d.ts"]
 }`
     );
 }

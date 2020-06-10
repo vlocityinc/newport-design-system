@@ -348,7 +348,7 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
         if (variableAndFieldMapping === VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC) {
             Object.assign(recordUpdateMetadata, {
                 object,
-                filterLogic,
+                filterLogic: filterLogic === CONDITION_LOGIC.NO_CONDITIONS ? undefined : filterLogic,
                 filters,
                 sortOrder,
                 queriedFields,
@@ -359,7 +359,7 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
         } else {
             Object.assign(recordUpdateMetadata, {
                 object,
-                filterLogic,
+                filterLogic: filterLogic === CONDITION_LOGIC.NO_CONDITIONS ? undefined : filterLogic,
                 filters,
                 queriedFields,
                 sortOrder,
@@ -373,7 +373,7 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
             object,
             outputReference: null,
             assignNullValuesIfNoRecordsFound,
-            filterLogic,
+            filterLogic: filterLogic === CONDITION_LOGIC.NO_CONDITIONS ? undefined : filterLogic,
             filters,
             queriedFields,
             sortOrder,
@@ -385,7 +385,7 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
             object,
             outputReference,
             assignNullValuesIfNoRecordsFound,
-            filterLogic,
+            filterLogic: filterLogic === CONDITION_LOGIC.NO_CONDITIONS ? undefined : filterLogic,
             filters,
             queriedFields,
             sortOrder,
@@ -401,7 +401,7 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
             object,
             outputAssignments,
             assignNullValuesIfNoRecordsFound,
-            filterLogic,
+            filterLogic: filterLogic === CONDITION_LOGIC.NO_CONDITIONS ? undefined : filterLogic,
             filters,
             queriedFields,
             sortOrder,

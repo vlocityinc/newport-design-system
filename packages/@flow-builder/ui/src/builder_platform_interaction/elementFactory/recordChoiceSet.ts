@@ -80,7 +80,7 @@ export const createRecordChoiceSetMetadataObject = element => {
         object,
         sortField,
         outputAssignments: outputAssignmentsMetadataObject,
-        filterLogic,
+        filterLogic: filterLogic === CONDITION_LOGIC.NO_CONDITIONS ? undefined : filterLogic,
         filters
     });
 };

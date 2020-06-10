@@ -272,6 +272,14 @@ describe('recordUpdate Demutation', () => {
             const actualResult = createRecordUpdateMetadataObject(mutatedRecordUpdateWithFields);
             expect(actualResult.filters).toHaveLength(0);
         });
+        it('if "filterLogic" equals no conditions, filter logic should be undefined', () => {
+            mutatedRecordUpdateWithFields = {
+                filters: [mutatedFilterWithValueFieldAndOperator],
+                filterLogic: CONDITION_LOGIC.NO_CONDITIONS
+            };
+            const actualResult = createRecordUpdateMetadataObject(mutatedRecordUpdateWithFields);
+            expect(actualResult.filterLogic).toBeUndefined();
+        });
         it('demutate 1 filter with value and 1 filter without value', () => {
             mutatedRecordUpdateWithFields.filters = [mutatedFilterWithValueFieldAndOperator, mutatedFilterWithField];
             mutatedRecordUpdateWithFields.filterLogic = CONDITION_LOGIC.AND;
