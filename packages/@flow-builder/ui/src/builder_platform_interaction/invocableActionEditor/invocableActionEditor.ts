@@ -169,7 +169,7 @@ export default class InvocableActionEditor extends LightningElement {
     }
 
     get hideParameters() {
-        return this.isNewMode && this.hasUnboundDataTypeMappings;
+        return this.isNewMode && this.hasUnboundDataTypeMappings && !this._shouldCreateConfigurationEditor();
     }
 
     fetchActionParameters() {
@@ -447,7 +447,6 @@ export default class InvocableActionEditor extends LightningElement {
         event.stopPropagation();
         this.actionCallNode = invocableActionReducer(this.actionCallNode, event);
         this.updateNodeForFieldLevelCommit();
-
         this.updateDataTypeMappings();
         this.fetchActionParameters();
     }
@@ -456,8 +455,11 @@ export default class InvocableActionEditor extends LightningElement {
      * @param {object} event - type mapping changed event coming from parameter dynamic type of custom property editor
      */
     handleCpeTypeMappingChangeEvent(event) {
+        event.stopPropagation();
         event.detail.typeName = event.detail.name;
         event.detail.typeValue = event.detail.value;
-        this.handleDataTypeMappingChanged(event);
+        this.actionCallNode = invocableActionReducer(this.actionCallNode, event);
+        this.updateNodeForFieldLevelCommit();
+        this.updateDataTypeMappings();
     }
 }
