@@ -15,3 +15,11 @@ Take a look at the [Setup FAQ](https://salesforce.quip.com/BFVUA1AxQWKb) if you 
 The repo defines multiple npm packages in the `packages` folder. The package `flow-builder/ui` is the npm package for the `ui-interaction-builder-components`. This is where you will find all the code that has been migrated from P4.
 
 It is build and managed using `yarn`.
+
+## SFCI Setup
+
+To add a new branch under SFCI you need to do the following:
+ - Edit the `git-perforce-branch-mapping.yaml` and `sfci.yaml`
+ - In the repo's github Settings, make the new branch protected
+ - Run a SFCI seed job like here https://sfcirelease.dop.sfdc.net/job/SFCI%20MIGRATION%20JOBS/job/SFCI%20seed%20job/3626/parameters/
+ - Reach out to the SFCI team (`#sfci-support` on slack) and ask them to point the managed pipeline file to that seed job. (This is needed because we are using a managed pipeline, and we don't have a Jenkins file)
