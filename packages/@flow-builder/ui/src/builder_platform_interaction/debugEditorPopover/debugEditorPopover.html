@@ -1,3 +1,38 @@
 <template>
-    <div class="container"></div>
+    <div class="container">
+        <div class="options">
+            <h2 class="header">Debug Options</h2>
+            <lightning-input
+                type="checkbox"
+                label={labels.runLatestVersion}
+                checked={debugInput.runLatestVersion}
+                onchange={handleChange}
+            ></lightning-input>
+            <lightning-input
+                type="checkbox"
+                label={labels.showDebugInfo}
+                checked={debugInput.showDebugInfo}
+                field-level-help={labels.showDebugInfoHelptext}
+                onchange={handleChange}
+            ></lightning-input>
+            <lightning-input
+                type="checkbox"
+                label={labels.enableRollbackMode}
+                checked={debugInput.enableRollback}
+                onchange={handleChange}
+            ></lightning-input>
+            <lightning-input
+                type="checkbox"
+                label={labels.runAs}
+                checked={debugInput.runAs}
+                onchange={handleChange}
+            ></lightning-input>
+            <lightning-input
+                type="checkbox"
+                label={labels.governorLimits}
+                checked={debugInput.governorLimits}
+                onchange={handleChange}
+            ></lightning-input>
+        </div>
+    </div>
 </template>

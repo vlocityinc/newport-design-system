@@ -493,7 +493,7 @@ export function invokeDebugEditor(attributes) {
  * @param {object} cmpAttributes - Contains components' attributes.
  * @param {object} popoverProps - Contains popover properties
  */
-function showDebugEditorPopover(cmpHeader, cmpFooter, cmpBody, cmpAttributes = {}, popoverProps) {
+function showDebugEditorPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes = {}, popoverProps) {
     if (isPopoverOpen()) {
         return;
     }
@@ -512,15 +512,15 @@ function showDebugEditorPopover(cmpHeader, cmpFooter, cmpBody, cmpAttributes = {
     const footerPromise = createComponentPromise(cmpFooter, cmpAttributes);
     const bodyPromise = createComponentPromise(cmpBody, cmpAttributes);
 
-    Promise.all([bodyPromise, headerPromise, footerPromise])
+    Promise.all([headerPromise, bodyPromise, footerPromise])
         .then(newComponents => {
             const createPanelEventAttributes = {
                 panelType,
                 visible: true,
                 panelConfig: {
-                    footer: newComponents[0],
-                    header: newComponents[1],
-                    body: newComponents[2],
+                    header: newComponents[0],
+                    body: newComponents[1],
+                    footer: newComponents[2],
                     flavor,
                     direction,
                     closeAction: onDestroyPopover,
