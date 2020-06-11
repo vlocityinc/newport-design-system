@@ -4,7 +4,7 @@
   "version": "108.0.0",
   "author": "Vlocity",
   "devDependencies": {
-    "@babel/core": "^7.3.4",
+    "@babel/core": "^7.10.2",
     "@babel/plugin-proposal-object-rest-spread": "^7.3.4",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
@@ -18,13 +18,13 @@
     "@storybook/theming": "5.3.19",
     "async": "2.3.0",
     "autoprefixer": "6.7.7",
-    "babel-loader": "^8.0.5",
+    "babel-loader": "^8.1.0",
     "babel-plugin-macros": "^2.5.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "classnames": "2.2.5",
     "data.either": "1.5.0",
     "del": "2.2.2",
-    "eslint": "^4.18.2",
+    "eslint": "^7.2.0",
     "eslint-config-prettier": "2.3.0",
     "eslint-config-standard": "10.2.0",
     "eslint-plugin-import": "2.18.2",
@@ -45,13 +45,14 @@
     "gulp-sourcemaps": "2.4.1",
     "gulp-stylelint": "^10.0.0",
     "gulp-zip": "^4.0.0",
+    "husky": "^4.2.5",
     "js-beautify": "^1.9.1",
     "js-yaml": "^3.13.1",
-    "lint-staged": "4.0.4",
+    "lint-staged": "^10.2.9",
     "lodash": "^4.17.15",
     "markdown-it": "^8.3.1",
     "paths.macro": "^2.0.2",
-    "prettier": "1.6.0",
+    "prettier": "^2.0.5",
     "prop-types": "15.5.10",
     "raw-loader": "0.5.1",
     "react": "16.8.3",
@@ -64,14 +65,16 @@
     "uglify-es": "3.0.15",
     "webpack": "^4.43.0",
     "webpack-cli": "3.2.3",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "lwc-services": "2.1.0"
   },
   "optionalDependencies": {
     "fsevents": "*"
   },
   "engines": {
-    "node": ">=8.0.0",
-    "npm": ">=3.10.6"
+    "node": ">=10.13.0",
+    "npm": ">=6.4.1",
+    "yarn": ">=1.9.4"
   },
   "license": "SEE LICENSE IN README.md",
   "repository": {
@@ -80,26 +83,53 @@
   },
   "scripts": {
     "build": "gulp build -v",
+    "build:development": "lwc-services build",
     "build-prod": "gulp build",
-    "build-storybook": "build-storybook -c .storybook -s assets,docs -o .out",
+    "build-storybook": "build-storybook -c .storybook -s . -o .out",
     "dist": "node scripts/dist.js",
     "gulp": "gulp",
     "lint": "gulp lint",
     "start": "npm run build && npm run storybook",
     "precommit": "lint-staged",
-    "storybook": "start-storybook -s ./ -p 6006"
+    "storybook": "start-storybook -s ./ -p 6006",
+    "prettier": "prettier --write \"**/*.{css,html,js,json,md,ts,yaml,yml}\"",
+    "prettier:verify": "prettier --list-different \"**/*.{css,html,js,json,md,ts,yaml,yml}\""
   },
   "lint-staged": {
     "*.{js,jsx}": [
       "prettier --single-quote --write",
       "git add"
+    ],
+    "**/*.{css,html,js,json,md,ts,yaml,yml}": [
+      "prettier --write"
+    ],
+    "./src/**/*.js": [
+      "eslint"
     ]
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "keywords": [
+    "lwc"
+  ],
   "dependencies": {
     "babel-eslint": "^10.0.1",
     "comment-parser": "^0.5.4",
     "gulp-clean-css": "^4.2.0",
     "highlight.js": "^9.15.6",
-    "module": "^1.2.5"
+    "module": "^1.2.5",
+    "compression": "^1.7.4",
+    "express": "^4.17.1",
+    "helmet": "^3.22.0"
+  },
+  "lwc": {
+    "modules": [
+      {
+        "dir": "src/modules"
+      }
+    ]
   }
 }
