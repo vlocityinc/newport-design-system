@@ -29,10 +29,14 @@ export function createRecordUpdate(recordUpdate = {}) {
         inputReference = '',
         inputReferenceIndex = generateGuid(),
         object = '',
-        objectIndex = generateGuid(),
-        filterLogic = CONDITION_LOGIC.AND
+        objectIndex = generateGuid()
     } = recordUpdate;
-    let { filters, inputAssignments = [], availableConnections = getDefaultAvailableConnections() } = recordUpdate;
+    let {
+        filterLogic = CONDITION_LOGIC.AND,
+        filters,
+        inputAssignments = [],
+        availableConnections = getDefaultAvailableConnections()
+    } = recordUpdate;
 
     availableConnections = availableConnections.map(availableConnection =>
         createAvailableConnection(availableConnection)
@@ -43,6 +47,11 @@ export function createRecordUpdate(recordUpdate = {}) {
     const useSobject = inputReference !== '' || object === '';
 
     filters = createRecordFilters(filters, object);
+
+    // For the existing element if no filters has been set we need to assign No Conditions to the filterLogic.
+    if (object && object !== '' && !filters[0].leftHandSide && filterLogic === CONDITION_LOGIC.AND) {
+        filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
+    }
 
     return Object.assign(newRecordUpdate, {
         inputReference,

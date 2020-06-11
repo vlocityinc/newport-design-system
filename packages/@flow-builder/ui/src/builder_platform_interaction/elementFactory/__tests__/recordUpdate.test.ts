@@ -142,11 +142,11 @@ describe('recordUpdate Mutation', () => {
             mutatedRecordUpdateWithFields.filterLogic = CONDITION_LOGIC.AND;
             expect(actualResult).toMatchObject(mutatedRecordUpdateWithFields);
         });
-        it('default filtering mode for a new update element is all', () => {
-            recordUpdateUsingFields.isNewElement = true;
+        it('Empty filter and filterLogic is undefined should return filterLogic = "no_conditions"', () => {
+            recordUpdateUsingFields.filters = [];
+            recordUpdateUsingFields.filterLogic = undefined;
             const actualResult = createRecordUpdate(recordUpdateUsingFields);
-            mutatedRecordUpdateWithFields.filterLogic = CONDITION_LOGIC.AND;
-            expect(actualResult).toMatchObject(mutatedRecordUpdateWithFields);
+            expect(actualResult.filterLogic).toBe(CONDITION_LOGIC.NO_CONDITIONS);
         });
         it('inputAssignments with value should return the expression (RHS/LHS)', () => {
             recordUpdateUsingFields.inputAssignments = [inputAssignmentFieldValue];
