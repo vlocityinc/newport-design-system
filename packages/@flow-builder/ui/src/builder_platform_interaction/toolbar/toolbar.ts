@@ -31,6 +31,9 @@ import { format } from 'builder_platform_interaction/commonUtils';
  */
 export default class Toolbar extends LightningElement {
     @api
+    flowId;
+
+    @api
     flowStatus;
 
     @api
@@ -186,6 +189,7 @@ export default class Toolbar extends LightningElement {
     get activateDisabled() {
         // for the activate button, disables and enables activation or deactivation through the button
         return (
+            this.isStandardFlow() ||
             !this.flowStatus ||
             this.flowStatus === FLOW_STATUS.INVALID_DRAFT ||
             this.isDoingOperation ||
@@ -209,6 +213,14 @@ export default class Toolbar extends LightningElement {
 
     get isDiffFlowAllowed() {
         return orgHasFlowBuilderDebug();
+    }
+
+    /**
+     * Check if the flow Id belongs to a Standard (File Based) Flow Definition (e.g sfdc_checkout__CartToOrder-1),
+     * a normal flow Id always starts with 301.
+     */
+    isStandardFlow() {
+        return this.flowId && !this.flowId.startsWith('301');
     }
 
     handleSelectButtonClick(event) {

@@ -100,6 +100,23 @@ describe('toolbar', () => {
         expect(activateButton.disabled).toBe(true);
     });
 
+    it('Activate button is enabled when given flow is a normal Flow and flow status is valid', () => {
+        const toolbarComponent = createComponentUnderTest({
+            flowId: '301xx000003GZDLAA4',
+            flowStatus: FLOW_STATUS.ACTIVE
+        });
+        const activateButton = toolbarComponent.shadowRoot.querySelector(selectors.activate);
+        expect(activateButton.disabled).toBeUndefined();
+    });
+
+    it('Activate button should be disabled when given flow is a Standard (File Based) Flow', () => {
+        const toolbarComponent = createComponentUnderTest({
+            flowId: 'sfdc_checkout__CartToOrder-1'
+        });
+        const activateButton = toolbarComponent.shadowRoot.querySelector(selectors.activate);
+        expect(activateButton.disabled).toBe(true);
+    });
+
     it('Activate button should be disabled when flow is invalid', () => {
         const toolbarComponent = createComponentUnderTest({
             flowStatus: FLOW_STATUS.INVALID_DRAFT
