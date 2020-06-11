@@ -106,7 +106,8 @@ import {
     createPastedActionCall,
     createPastedApexCall,
     createPastedApexPlugin,
-    createPastedEmailAlert
+    createPastedEmailAlert,
+    createPastedLoop
 } from 'builder_platform_interaction/elementFactory';
 import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
@@ -591,6 +592,7 @@ export const elementTypeToConfigMap = {
         canvasElement: true,
         factory: {
             propertyEditor: createLoop,
+            pasteElement: createPastedLoop,
             duplicateElement: createDuplicateLoop,
             uiToFlow: createLoopMetadataObject,
             flowToUi: createLoopWithConnectors

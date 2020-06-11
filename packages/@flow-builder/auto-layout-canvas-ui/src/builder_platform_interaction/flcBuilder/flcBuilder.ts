@@ -84,7 +84,7 @@ export default class FlcBuilder extends LightningElement {
     _flowRenderInfo!: FlowRenderInfo;
 
     /* the selection mode */
-    _isSelectionMode!: boolean;
+    _isSelectionMode: boolean | undefined;
 
     /* the top most selected element's guid */
     _topSelectedGuid!: Guid | null;

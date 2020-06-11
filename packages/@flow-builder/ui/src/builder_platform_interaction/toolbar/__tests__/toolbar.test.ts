@@ -313,10 +313,11 @@ describe('toolbar', () => {
                 expect(duplicateButton).toBeNull();
             });
 
-            it('Does not display Cut Button in Base Mode', () => {
-                const cutButton = toolbarComponent.shadowRoot.querySelector(selectors.cut);
-                expect(cutButton).toBeNull();
-            });
+            // TODO: Enable this test back when we add support for Cutting of multiple elements
+            // it('Does not display Cut Button in Base Mode', () => {
+            //     const cutButton = toolbarComponent.shadowRoot.querySelector(selectors.cut);
+            //     expect(cutButton).toBeNull();
+            // });
 
             it('Does not display Copy Button in Base Mode', () => {
                 const copyButton = toolbarComponent.shadowRoot.querySelector(selectors.copy);
@@ -362,20 +363,22 @@ describe('toolbar', () => {
                 expect(duplicateButton).toBeNull();
             });
 
-            it('Displays the Cut Button with right configuration when in Selection Mode', () => {
-                const cutButton = toolbarComponent.shadowRoot.querySelector(selectors.cut);
-                expect(cutButton).not.toBeNull();
-                expect(cutButton.alternativeText).toBe(LABELS.cutAltText);
-                expect(cutButton.title).toBe(LABELS.cutTitle);
-                expect(cutButton.disabled).toBeTruthy();
-                expect(cutButton.iconName).toBe('utility:cut');
-            });
+            // TODO: Enable this test back when we add support for Cutting of multiple elements
+            // it('Displays the Cut Button with right configuration when in Selection Mode', () => {
+            //     const cutButton = toolbarComponent.shadowRoot.querySelector(selectors.cut);
+            //     expect(cutButton).not.toBeNull();
+            //     expect(cutButton.alternativeText).toBe(LABELS.cutAltText);
+            //     expect(cutButton.title).toBe(LABELS.cutTitle);
+            //     expect(cutButton.disabled).toBeTruthy();
+            //     expect(cutButton.iconName).toBe('utility:cut');
+            // });
 
-            it('The cut button should be enabled when isCutCopyDisabled is false', () => {
-                toolbarComponent = createComponentUnderTest({ isCutCopyDisabled: false, isSelectionMode: true });
-                const cutButton = toolbarComponent.shadowRoot.querySelector(selectors.cut);
-                expect(cutButton.disabled).toBeFalsy();
-            });
+            // TODO: Enable this test back when we add support for Cutting of multiple elements
+            // it('The cut button should be enabled when isCutCopyDisabled is false', () => {
+            //     toolbarComponent = createComponentUnderTest({ isCutCopyDisabled: false, isSelectionMode: true });
+            //     const cutButton = toolbarComponent.shadowRoot.querySelector(selectors.cut);
+            //     expect(cutButton.disabled).toBeFalsy();
+            // });
 
             it('Displays the Copy Button with right configuration when in Selection Mode', () => {
                 const copyButton = toolbarComponent.shadowRoot.querySelector(selectors.copy);

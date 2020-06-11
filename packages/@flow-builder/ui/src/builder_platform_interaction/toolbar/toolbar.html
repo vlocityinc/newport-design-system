@@ -39,8 +39,9 @@
         </lightning-button-group>
 
         <!-- Cut/Copy in FLC -->
-        <lightning-button-group if:true={isSelectionMode} class="slds-builder-toolbar__item-group">
-            <lightning-button-icon
+        <!-- <lightning-button-group if:true={isSelectionMode} class="slds-builder-toolbar__item-group"> -->
+        <!-- TODO: Enable Cut button back when we add support for Cutting of multiple elements -->
+        <!-- <lightning-button-icon
                 alternative-text={labels.cutAltText}
                 class="test-toolbar-cut"
                 disabled={isCutCopyDisabled}
@@ -48,18 +49,19 @@
                 title={labels.cutTitle}
                 variant="border-filled"
             >
-            </lightning-button-icon>
-            <lightning-button-icon
-                alternative-text={labels.copyAltText}
-                class="test-toolbar-copy"
-                disabled={isCutCopyDisabled}
-                icon-name="utility:copy_to_clipboard"
-                title={labels.copyTitle}
-                variant="border-filled"
-                onclick={handleCopyButtonClick}
-            >
-            </lightning-button-icon>
-        </lightning-button-group>
+            </lightning-button-icon> -->
+        <lightning-button-icon
+            if:true={isSelectionMode}
+            alternative-text={labels.copyAltText}
+            class="slds-builder-toolbar__item-group test-toolbar-copy"
+            disabled={isCutCopyDisabled}
+            icon-name="utility:copy_to_clipboard"
+            title={labels.copyTitle}
+            variant="border-filled"
+            onclick={handleCopyButtonClick}
+        >
+        </lightning-button-icon>
+        <!-- </lightning-button-group> -->
 
         <!-- Duplicate(Copy/Paste) -->
         <lightning-button-icon

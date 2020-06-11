@@ -50,13 +50,13 @@ const ELEMENT_SELECTED_ACTION = 'element_selected_action';
 const ELEMENT_DESELECTED_ACTION = 'element_deselected_action';
 
 /**
- * Return true iff an element can have children
+ * Return true if an element can have child branches
  *
  * @param elementsMetadata - Contains elementType -> data map
- * @param element - Element being checked for supporting children
- * @return true if an element can have children
+ * @param element - Element being checked for supporting child branches
+ * @return true if an element can have child branches
  */
-function supportsChildren(elementsMetadata: ElementsMetadata, { elementType }: NodeModel) {
+function supportsChildBranches(elementsMetadata: ElementsMetadata, { elementType }: NodeModel) {
     const type = getElementMetadata(elementsMetadata, elementType).type;
     return supportsChildrenForType(type);
 }
@@ -68,7 +68,7 @@ function supportsChildren(elementsMetadata: ElementsMetadata, { elementType }: N
  * @returns true if the element is of type Branch
  */
 function supportsChildrenForType(type: ElementType): boolean {
-    return type === ElementType.BRANCH;
+    return type === ElementType.BRANCH || type === ElementType.LOOP;
 }
 
 /**
@@ -169,7 +169,7 @@ function _getSubtreeElements(
 ): Guid[] {
     let canvasElementGuidsArray: Guid[] = [];
     // Getting all the elements present in the child branches based on the selection/deselection action
-    if (supportsChildren(elementsMetadata, parentElement)) {
+    if (supportsChildBranches(elementsMetadata, parentElement)) {
         canvasElementGuidsArray = canvasElementGuidsArray.concat(
             _getChildBranchElements(elementsMetadata, action, parentElement, flowModel)
         );
@@ -267,7 +267,7 @@ const getCanvasElementSelectionData = (
             if (currentCanvasElement.prev) {
                 currentCanvasElement = flowModel[currentCanvasElement.prev];
                 // In case the element supports children, all it's branches need to be marked as selected as well
-                if (supportsChildren(elementsMetadata, currentCanvasElement)) {
+                if (supportsChildBranches(elementsMetadata, currentCanvasElement)) {
                     canvasElementGuidsToSelect = canvasElementGuidsToSelect.concat(
                         _getChildBranchElements(
                             elementsMetadata,
@@ -305,7 +305,7 @@ const getCanvasElementSelectionData = (
                 if (currentCanvasElement.prev) {
                     currentCanvasElement = flowModel[currentCanvasElement.prev];
                     // In case the element supports children, all it's branches need to be marked as selected as well
-                    if (supportsChildren(elementsMetadata, currentCanvasElement)) {
+                    if (supportsChildBranches(elementsMetadata, currentCanvasElement)) {
                         canvasElementGuidsToSelect = canvasElementGuidsToSelect.concat(
                             _getChildBranchElements(
                                 elementsMetadata,
@@ -630,7 +630,6 @@ function connectorKey(connectorInfo: ConnectorRenderInfo): string {
 
 export {
     ICON_SHAPE,
-    supportsChildrenForType,
     connectorKey,
     getStyleFromGeometry,
     getFlcNodeData,

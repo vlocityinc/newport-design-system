@@ -18,6 +18,17 @@ const dummySimpleElement = {
     type: ElementType.DEFAULT
 };
 
+const dummyLoopElement = {
+    guid: 'loopElementGuid',
+    section: 'Dummy_Section',
+    icon: 'standard:lightning_component',
+    description: 'Dummy Description',
+    label: 'Dummy_Label',
+    value: 'Dummy_Value',
+    elementType: 'Dummy_ElementType',
+    type: ElementType.LOOP
+};
+
 const dummyBranchElement = {
     guid: 'branchElementGuid',
     section: 'Dummy_Section',
@@ -180,6 +191,19 @@ describe('Node Menu', () => {
                 expect(callback.mock.calls[0][0].detail).toMatchObject({
                     selectedElementGUID: [dummySimpleElement.guid],
                     selectedElementType: dummySimpleElement.elementType
+                });
+            });
+
+            it('Clicking the Delete Action for Loop should dispatch DeleteElementEvent with right details', () => {
+                menu = createComponentUnderTest(dummyLoopElement);
+                deleteRow = menu.shadowRoot.querySelectorAll(selectors.menuActionRow)[1];
+                const callback = jest.fn();
+                menu.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
+                deleteRow.click();
+                expect(callback.mock.calls[0][0].detail).toMatchObject({
+                    selectedElementGUID: [dummyLoopElement.guid],
+                    selectedElementType: dummyLoopElement.elementType,
+                    childIndexToKeep: 0
                 });
             });
 

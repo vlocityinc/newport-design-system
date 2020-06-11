@@ -1241,7 +1241,7 @@ export default class Editor extends LightningElement {
                         processType
                     };
                 });
-                if (element && element.isCanvasElement) {
+                if (!useFixedLayoutCanvas() && element && element.isCanvasElement) {
                     storeInstance.dispatch(
                         selectOnCanvas({
                             guid

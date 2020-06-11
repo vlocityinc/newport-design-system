@@ -15,6 +15,7 @@ const ELEMENT_TYPE_SCREEN = 'Screen';
 const ELEMENT_TYPE_START_ELEMENT = 'START_ELEMENT';
 const ELEMENT_TYPE_WAIT = 'wait';
 const ELEMENT_TYPE_END_ELEMENT = 'end';
+const ELEMENT_TYPE_LOOP = 'Loop';
 
 const elementsMetadata = {
     [ELEMENT_TYPE_ASSIGNMENT]: { type: ElementType.DEFAULT },
@@ -22,7 +23,8 @@ const elementsMetadata = {
     [ELEMENT_TYPE_WAIT]: { type: ElementType.BRANCH },
     [ELEMENT_TYPE_SCREEN]: { type: ElementType.DEFAULT },
     [ELEMENT_TYPE_START_ELEMENT]: { type: ElementType.START },
-    [ELEMENT_TYPE_END_ELEMENT]: { type: ElementType.END }
+    [ELEMENT_TYPE_END_ELEMENT]: { type: ElementType.END },
+    [ELEMENT_TYPE_LOOP]: { type: ElementType.LOOP }
 };
 const checkSelectionDeselectionResultEquality = (
     result,
@@ -306,13 +308,13 @@ describe('FLC Canvas Utils test', () => {
                 },
                 guid3: {
                     guid: 'guid3',
-                    elementType: ELEMENT_TYPE_DECISION,
+                    elementType: ELEMENT_TYPE_LOOP,
                     config: {
                         isSelected: false
                     },
                     prev: 'guid2',
                     next: null,
-                    children: ['guid6', null]
+                    children: ['guid6']
                 },
                 guid4: {
                     guid: 'guid4',

@@ -7,10 +7,10 @@ import {
     DeleteElementFaultEvent,
     AddElementFaultEvent
 } from 'builder_platform_interaction/flcEvents';
-
 import Menu from 'builder_platform_interaction/menu';
 import { CONTEXTUAL_MENU_MODE, ELEMENT_ACTION_CONFIG, getMenuConfiguration } from './flcNodeMenuConfig';
-import { supportsChildrenForType, ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
+import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
+import { ElementType, DELETE_ALL } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LABELS } from './flcNodeMenuLabels';
 
 /**
@@ -85,11 +85,13 @@ export default class FlcNodeMenu extends Menu {
                 this.dispatchEvent(new CopySingleElementEvent(this.guid));
                 break;
             case ELEMENT_ACTION_CONFIG.DELETE_ACTION.value:
-                if (supportsChildrenForType(this.elementMetadata.type)) {
+                if (this.elementMetadata.type === ElementType.BRANCH) {
                     this.contextualMenuMode = CONTEXTUAL_MENU_MODE.DELETE_BRANCH_ELEMENT_MODE;
                     this._selectedConditionValue = this.conditionOptions[0].value;
                     this.dispatchEvent(new HighlightPathsToDeleteEvent(this.guid, this._childIndexToKeep));
                     closeMenu = false;
+                } else if (this.elementMetadata.type === ElementType.LOOP) {
+                    this.dispatchEvent(new DeleteElementEvent([this.guid], this.elementMetadata.elementType, 0));
                 } else {
                     this.dispatchEvent(new DeleteElementEvent([this.guid], this.elementMetadata.elementType));
                 }
@@ -117,6 +119,10 @@ export default class FlcNodeMenu extends Menu {
         this._childIndexToKeep = this.conditionOptions.findIndex(
             option => option.value === this._selectedConditionValue
         );
+
+        if (this._childIndexToKeep === this.conditionOptions.length - 1) {
+            this._childIndexToKeep = DELETE_ALL;
+        }
         this.dispatchEvent(new HighlightPathsToDeleteEvent(this.guid, this._childIndexToKeep));
     };
 

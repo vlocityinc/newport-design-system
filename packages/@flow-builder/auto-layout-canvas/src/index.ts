@@ -50,7 +50,8 @@ export {
     deleteFault,
     getChild,
     getTargetGuidsForBranchReconnect,
-    deleteBranch
+    deleteBranch,
+    DELETE_ALL
 } from './modelUtils';
 
 export {

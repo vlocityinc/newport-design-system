@@ -2,6 +2,7 @@
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
+    createPastedCanvasElement,
     duplicateCanvasElement,
     baseCanvasElementsArrayToMap,
     INCOMPLETE_ELEMENT
@@ -69,6 +70,41 @@ export function createLoop(loop = {}, { elements } = Store.getStore().getCurrent
         },
         complete ? {} : { [INCOMPLETE_ELEMENT]: true }
     );
+}
+
+/**
+ * Function to create the pasted Loop element
+ *
+ * @param {Object} dataForPasting - Data required to create the pasted element
+ */
+export function createPastedLoop({
+    canvasElementToPaste,
+    newGuid,
+    newName,
+    canvasElementGuidMap,
+    topCutOrCopiedGuid,
+    bottomCutOrCopiedGuid,
+    prev,
+    next,
+    parent,
+    childIndex
+}) {
+    const { duplicatedElement } = createDuplicateLoop(canvasElementToPaste, newGuid, newName);
+
+    const pastedCanvasElement = createPastedCanvasElement(
+        duplicatedElement,
+        canvasElementGuidMap,
+        topCutOrCopiedGuid,
+        bottomCutOrCopiedGuid,
+        prev,
+        next,
+        parent,
+        childIndex
+    );
+
+    return {
+        pastedCanvasElement
+    };
 }
 
 export function createDuplicateLoop(loop, newGuid, newName) {

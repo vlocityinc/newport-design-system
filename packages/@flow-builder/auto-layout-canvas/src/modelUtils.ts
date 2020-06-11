@@ -597,5 +597,6 @@ export {
     addElement,
     deleteFault,
     deleteBranch,
-    getChild
+    getChild,
+    DELETE_ALL
 };
