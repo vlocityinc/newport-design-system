@@ -44,6 +44,14 @@ module.exports = {
       module: {
         rules: [
           {
+            test: /\.(woff|woff2)$/,
+            use: ["file-loader"],
+          },
+          {
+            test: /\.(svg|png|jpg|gif)$/,
+            use: ["file-loader"],
+          },
+          {
             test: /\.(scss|yml|md)$/,
             loaders: ["raw-loader"],
             include: path.resolve(process.cwd()),
