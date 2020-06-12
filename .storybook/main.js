@@ -1,15 +1,15 @@
-require("@babel/register");
-const webpackMerge = require("webpack-merge");
-const path = require("path");
+require('@babel/register');
+const webpackMerge = require('webpack-merge');
+const path = require('path');
 const moduleLoader = require.resolve(
-  "lwc-services/lib/utils/webpack/module-loader"
+  'lwc-services/lib/utils/webpack/module-loader'
 );
-const ModuleResolver = require("lwc-services/lib/utils/webpack/module-resolver");
-const gulp = require("gulp");
-const NewportSassWatcherPlugin = require("./sass-watcher-plugin");
-require("../scripts/gulp/styles");
+const ModuleResolver = require('lwc-services/lib/utils/webpack/module-resolver');
+const gulp = require('gulp');
+const NewportSassWatcherPlugin = require('./sass-watcher-plugin');
+require('../scripts/gulp/styles');
 function getWebpackEntryPaths(entry) {
-  if (typeof entry === "string") {
+  if (typeof entry === 'string') {
     return [entry];
   }
   if (entry instanceof Array) {
@@ -18,7 +18,7 @@ function getWebpackEntryPaths(entry) {
   const paths = [];
   Object.keys(entry).forEach((name) => {
     const path = entry[name];
-    if (typeof path === "string") {
+    if (typeof path === 'string') {
       paths.push(path);
     } else {
       paths.concat(path);
@@ -27,53 +27,38 @@ function getWebpackEntryPaths(entry) {
   return paths;
 }
 module.exports = {
-  stories: ["../ui/**/*.stories.js", "../docs/**/*.stories.js"],
+  stories: [
+    '../ui/**/*.stories.js',
+    '../docs/**/*.stories.js',
+    '../stories/**/*.stories.js',
+  ],
   addons: [
-    "@storybook/addon-knobs",
-    "@storybook/addon-viewport",
-    "@storybook/addon-links",
+    '@storybook/addon-knobs',
+    '@storybook/addon-viewport',
+    '@storybook/addon-links',
   ],
   webpackFinal: (customConfig) => {
     const MODULE_CONFIG = {
-      path: path.resolve("src/modules"),
+      path: path.resolve('src/modules'),
     };
-    // this part tells Webpack which files to the LWC module loader on
-    // it'll match all js, ts, html and css files in the `src/modules` directory
-    // but it'll exclude anything named `*.stories.js/ts` in those directories.
+    // // this part tells Webpack which files to the LWC module loader on
+    // // it'll match all js, ts, html and css files in the `src/modules` directory
+    // // but it'll exclude anything named `*.stories.js/ts` in those directories.
     let serverConfig = {
       module: {
         rules: [
           {
-            test: /\.(woff|woff2)$/,
-            use: ["file-loader"],
-          },
-          {
-            test: /\.(svg|png|jpg|gif)$/,
-            use: ["file-loader"],
-          },
-          {
-            test: /\.(scss|yml|md)$/,
-            loaders: ["raw-loader"],
-            include: path.resolve(process.cwd()),
-          },
-          {
-            test: /\.css$/,
-            use: ["style-loader", "css-loader"],
-            include: path.resolve(__dirname, "../"),
-          },
-          {
             test: /\.(js|ts|html|css)$/,
-            exclude: /\.stories\.(js|ts)$/,
             include: [
               MODULE_CONFIG.path,
-              path.resolve(process.cwd(), "node_modules"),
+              path.resolve(process.cwd(), 'node_modules'),
             ],
             use: [
               {
                 loader: moduleLoader,
                 options: {
                   module: MODULE_CONFIG,
-                  mode: "development",
+                  mode: 'development',
                 },
               },
             ],
@@ -86,9 +71,9 @@ module.exports = {
     // then we end up handing off the compilation to the storybook defaults.
     customConfig.module.rules.forEach((rule) => {
       if (!rule.exclude) {
-        rule.exclude = /(node_modules|modules|lwc)/;
+        rule.exclude = /(node_modules|modules)/;
       } else if (Array.isArray(rule.exclude)) {
-        rule.exclude.push(/(node_modules|modules|lwc)/);
+        rule.exclude.push(/(node_modules|modules)/);
       }
     });
     serverConfig = webpackMerge.smart(serverConfig, customConfig);
@@ -99,10 +84,10 @@ module.exports = {
     const entryPaths = getWebpackEntryPaths(customConfig.entry);
     const lwcModuleResolver = {
       resolve: {
-        extensions: [".js", ".ts", ".json"],
+        extensions: ['.js', '.ts', '.json'],
         alias: {
-          lwc: require.resolve("@lwc/engine"),
-          "@lwc/wire-service": require.resolve("@lwc/wire-service"),
+          lwc: require.resolve('@lwc/engine'),
+          '@lwc/wire-service': require.resolve('@lwc/wire-service'),
         },
         plugins: [
           new ModuleResolver({
@@ -113,12 +98,18 @@ module.exports = {
       },
     };
     serverConfig = webpackMerge.smart(serverConfig, lwcModuleResolver);
+    serverConfig.module.rules.push({
+      test: /\.(scss|yml)$/,
+      loaders: ['raw-loader'],
+      include: path.resolve(__dirname, '../'),
+    });
+
     serverConfig.plugins.push(new NewportSassWatcherPlugin());
     // Sass
-    gulp.series("styles:framework")();
+    gulp.series('styles:framework')();
     // mock fs for comment parser
     serverConfig.node = {
-      fs: "empty",
+      fs: 'empty',
     };
     return serverConfig;
   },
