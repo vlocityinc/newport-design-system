@@ -56,3 +56,13 @@ export { setGlobalVariables, getGlobalVariableTypes, getGlobalVariables, getGlob
 export { setProcessTypes, getProcessTypes, getProcessFeatures, setProcessTypeFeature } from './processTypes';
 export { setRunInModes, getRunInModes } from './runInModes';
 export { setBuilderType, getBuilderType } from './builderConfigs';
+export {
+    isVersioningDataInitialized,
+    setVersioningDataInitialized,
+    cacheVersioningDataForAllProcessTypes,
+    initVersioningInfoForProcessType,
+    getApiVersionsList,
+    getDefaultApiVersion,
+    getLatestApiVersion,
+    getMinApiVersion
+} from './apiVersions';

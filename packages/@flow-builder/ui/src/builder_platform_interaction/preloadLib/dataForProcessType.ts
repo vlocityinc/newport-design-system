@@ -9,7 +9,14 @@ import {
     setWorkflowEnabledEntities,
     RUNTIME
 } from 'builder_platform_interaction/sobjectLib';
-import { setGlobalVariables, setSystemVariables } from 'builder_platform_interaction/systemLib';
+import {
+    cacheVersioningDataForAllProcessTypes,
+    getBuilderType,
+    initVersioningInfoForProcessType,
+    setGlobalVariables,
+    setSystemVariables,
+    setVersioningDataInitialized
+} from 'builder_platform_interaction/systemLib';
 import {
     getFlowSystemVariableComboboxItem,
     getGlobalVariableTypeComboboxItems
@@ -18,6 +25,7 @@ import { addToParentElementCache } from 'builder_platform_interaction/comboboxCa
 import { setInvocableActions } from 'builder_platform_interaction/invocableActionLib';
 import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import { setSubflows } from 'builder_platform_interaction/subflowsLib';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
 
 export const loadActions = flowProcessType =>
     fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, { flowProcessType }, { background: true }).then(
@@ -99,3 +107,16 @@ export const loadPalette = flowProcessType =>
     fetchOnce(SERVER_ACTION_TYPE.GET_PALETTE, {
         flowProcessType
     });
+
+export const loadVersioningData = () =>
+    fetchOnce(SERVER_ACTION_TYPE.GET_VERSIONING_INFO, { builderType: getBuilderType() }, { background: true })
+        .then(data => {
+            if (data) {
+                cacheVersioningDataForAllProcessTypes(data);
+                initVersioningInfoForProcessType(getProcessType());
+            }
+            setVersioningDataInitialized(true);
+        })
+        .catch(() => {
+            setVersioningDataInitialized(true);
+        });

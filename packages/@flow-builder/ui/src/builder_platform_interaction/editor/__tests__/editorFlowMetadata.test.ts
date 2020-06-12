@@ -32,7 +32,8 @@ jest.mock('builder_platform_interaction/preloadLib', () => {
             };
         }),
         loadAllSupportedFeatures: jest.fn().mockResolvedValue({}),
-        loadApexClasses: jest.fn().mockResolvedValue({})
+        loadApexClasses: jest.fn().mockResolvedValue({}),
+        loadVersioningData: jest.fn().mockResolvedValue({})
     };
 });
 

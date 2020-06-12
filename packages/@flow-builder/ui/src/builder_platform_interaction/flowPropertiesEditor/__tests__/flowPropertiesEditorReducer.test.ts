@@ -18,7 +18,8 @@ const state = {
     processType: 'AutoLaunchedFlow',
     runInSystemMode: false,
     status: 'InvalidDraft',
-    versionNumber: 1
+    versionNumber: 1,
+    apiVersion: 49
 };
 
 describe('FlowPropertiesReducer', () => {

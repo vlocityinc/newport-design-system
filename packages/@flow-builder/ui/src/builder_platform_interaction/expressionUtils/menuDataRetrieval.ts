@@ -28,7 +28,8 @@ import {
     getProcessTypes,
     getRunInModes,
     getGlobalVariables,
-    isSystemVariableId
+    isSystemVariableId,
+    getApiVersionsList
 } from 'builder_platform_interaction/systemLib';
 import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
@@ -617,4 +618,14 @@ export const getEventTypesMenuDataRunTime = () => {
         _eventTypesCacheRuntime = mutateEventTypesToComboboxShape(eventTypes);
     }
     return _eventTypesCacheRuntime;
+};
+
+export const getApiVersionMenuData = () => {
+    const apiVersions = getApiVersionsList();
+    return apiVersions.map(apiVersion => {
+        return {
+            value: apiVersion.toString(),
+            label: apiVersion.toString()
+        };
+    });
 };

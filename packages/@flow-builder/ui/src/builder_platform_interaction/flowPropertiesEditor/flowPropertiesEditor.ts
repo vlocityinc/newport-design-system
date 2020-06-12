@@ -11,13 +11,22 @@ import { flowPropertiesEditorReducer } from './flowPropertiesEditorReducer';
 import { format, addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { normalizeDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { SaveType } from 'builder_platform_interaction/saveType';
-import { getRunInModesMenuData } from 'builder_platform_interaction/expressionUtils';
+import { getRunInModesMenuData, getApiVersionMenuData } from 'builder_platform_interaction/expressionUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { SYSTEM_VARIABLES, getBuilderType } from 'builder_platform_interaction/systemLib';
+import {
+    SYSTEM_VARIABLES,
+    getBuilderType,
+    initVersioningInfoForProcessType,
+    getDefaultApiVersion,
+    getLatestApiVersion,
+    getMinApiVersion,
+    isVersioningDataInitialized
+} from 'builder_platform_interaction/systemLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { isRunInModeSupported } from 'builder_platform_interaction/triggerTypeLib';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { loadVersioningData } from 'builder_platform_interaction/preloadLib';
 
 /**
  * Flow Properties property editor for Flow Builder
@@ -60,6 +69,8 @@ export default class FlowPropertiesEditor extends LightningElement {
         this._originalTriggerType = this.flowProperties.triggerType ? this.flowProperties.triggerType.value : null;
         this._originalRunInMode = this.flowProperties.runInMode.value;
         this._originalInterviewLabel = this.flowProperties.interviewLabel.value;
+        this._originalApiVersion = this.flowProperties.apiVersion ? this.flowProperties.apiVersion : null;
+
         if (this.flowProperties.saveType === SaveType.NEW_DEFINITION) {
             this.clearForNewDefinition();
         }
@@ -101,6 +112,9 @@ export default class FlowPropertiesEditor extends LightningElement {
     @track
     isAdvancedShown = false;
 
+    @track
+    apiVersionSpinner = true;
+
     labels = LABELS;
 
     @track
@@ -114,6 +128,8 @@ export default class FlowPropertiesEditor extends LightningElement {
     _originalTriggerType;
     _originalRunInMode;
     _originalInterviewLabel;
+    _apiVersionsList;
+    _originalApiVersion;
 
     saveAsTypeOptions = [
         {
@@ -185,6 +201,20 @@ export default class FlowPropertiesEditor extends LightningElement {
             }
         }
         return result;
+    }
+
+    set apiVersion(value) {
+        if (value) {
+            this.updateProperty('apiVersion', value);
+        }
+    }
+
+    get apiVersion() {
+        let retVal = null;
+        if (this.flowProperties.apiVersion) {
+            retVal = String(this.flowProperties.apiVersion.value);
+        }
+        return retVal;
     }
 
     get runInMode() {
@@ -281,6 +311,27 @@ export default class FlowPropertiesEditor extends LightningElement {
                     triggerTypes
                 }));
         });
+
+        if (isVersioningDataInitialized()) {
+            this.apiVersionSpinner = false;
+            this.initApiVersion();
+        } else {
+            loadVersioningData().then(() => {
+                this.initApiVersion();
+                this.apiVersionSpinner = false;
+            });
+        }
+    }
+
+    initApiVersion() {
+        if (isVersioningDataInitialized()) {
+            this._apiVersionsList = getApiVersionMenuData();
+            this.apiVersion = this._originalApiVersion != null ? this._originalApiVersion : this.defaultApiVersion();
+        }
+    }
+
+    defaultApiVersion() {
+        return this.isSavingExistingFlow() ? getDefaultApiVersion() : getLatestApiVersion();
     }
 
     /**
@@ -340,6 +391,9 @@ export default class FlowPropertiesEditor extends LightningElement {
             this.updateProperty('processType', this._originalProcessType);
             this.updateProperty('triggerType', this._originalTriggerType);
             this.updateProperty('interviewLabel', this._originalInterviewLabel);
+
+            initVersioningInfoForProcessType(this._originalProcessType);
+            this.initApiVersion();
         } else {
             this.clearForNewDefinition();
         }
@@ -385,6 +439,12 @@ export default class FlowPropertiesEditor extends LightningElement {
             triggerType = null;
         }
         this.updateProperty('triggerType', triggerType);
+
+        initVersioningInfoForProcessType(processType);
+        this._apiVersionsList = getApiVersionMenuData();
+        if (this.apiVersion < getMinApiVersion()) {
+            this.apiVersion = getMinApiVersion();
+        }
     }
 
     handleRunInModeChange(event) {
@@ -398,6 +458,11 @@ export default class FlowPropertiesEditor extends LightningElement {
         this.isAdvancedShown = !this.isAdvancedShown;
         this._toggleAdvancedLabel = !this.isAdvancedShown ? showAdvanced : hideAdvanced;
         this._toggleAdvancedClass = !this.isAdvancedShown ? TOGGLE_CLASS_SHOW : TOGGLE_CLASS_HIDE;
+    }
+
+    handleApiVersionChange(event) {
+        event.stopPropagation();
+        this.updateProperty('apiVersion', parseInt(event.detail.value, 10));
     }
 
     handleInstanceLabelChanged(event) {

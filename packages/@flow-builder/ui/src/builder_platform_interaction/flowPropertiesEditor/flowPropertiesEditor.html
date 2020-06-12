@@ -62,6 +62,19 @@
             >
             </lightning-combobox>
 
+            <lightning-combobox
+                class="slds-col slds-grow"
+                label={labels.apiVersionLabel}
+                options={_apiVersionsList}
+                value={apiVersion}
+                required
+                dropdown-alignment="auto"
+                placeholder={labels.processTypePlaceholderLabel}
+                onchange={handleApiVersionChange}
+                spinner-active={apiVersionSpinner}
+            >
+            </lightning-combobox>
+
             <div class="slds-m-top_small">
                 <builder_platform_interaction-resourced-textarea
                     help-text={labels.instanceLabelHelpText}

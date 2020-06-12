@@ -21,7 +21,20 @@ jest.mock('builder_platform_interaction/systemLib', () => {
         },
 
         SYSTEM_VARIABLES: actual.SYSTEM_VARIABLES,
-        getGlobalConstantOrSystemVariable: actual.getGlobalConstantOrSystemVariable
+        getGlobalConstantOrSystemVariable: actual.getGlobalConstantOrSystemVariable,
+        getLatestApiVersion() {
+            return 50;
+        },
+        getMinApiVersion() {
+            return 49;
+        },
+        getDefaultApiVersion() {
+            return 49;
+        },
+        initVersioningInfoForProcessType() {},
+        isVersioningDataInitialized() {
+            return true;
+        }
     };
 });
 
@@ -40,6 +53,19 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
                 {
                     value: 'systemModeWithoutSharing',
                     lable: 'systemModeWithoutSharing'
+                }
+            ];
+        },
+
+        getApiVersionMenuData() {
+            return [
+                {
+                    value: '49',
+                    label: '49'
+                },
+                {
+                    value: '50',
+                    label: '50'
                 }
             ];
         }

@@ -96,7 +96,8 @@ import {
     setProcessTypes,
     getRunInModes,
     setRunInModes,
-    setBuilderType
+    setBuilderType,
+    isVersioningDataInitialized
 } from 'builder_platform_interaction/systemLib';
 import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
 import { getTriggerTypeInfo } from 'builder_platform_interaction/triggerTypeLib';
@@ -108,7 +109,8 @@ import {
     loadOnProcessTypeChange,
     initializeLoader,
     loadEntity,
-    loadEventType
+    loadEventType,
+    loadVersioningData
 } from 'builder_platform_interaction/preloadLib';
 import {
     ShiftFocusForwardCommand,
@@ -466,6 +468,10 @@ export default class Editor extends LightningElement {
                     Promise.all([toolboxPromise, palettePromise]).then(() => {
                         this.elementsMetadata = getElementsMetadata(this.toolboxElements, this.palette);
                     });
+                }
+
+                if (!isVersioningDataInitialized()) {
+                    loadVersioningData();
                 }
             }
 

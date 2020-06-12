@@ -46,7 +46,8 @@ jest.mock('builder_platform_interaction/preloadLib', () => {
                 loadPalettePromise: Promise.resolve({})
             };
         }),
-        initializeLoader: jest.fn()
+        initializeLoader: jest.fn(),
+        loadVersioningData: jest.fn()
     };
 });
 

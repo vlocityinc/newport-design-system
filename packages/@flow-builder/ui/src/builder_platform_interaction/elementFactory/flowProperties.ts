@@ -45,7 +45,8 @@ export function createFlowProperties(flowProperties = {}) {
         processType = null,
         runInMode = null,
         status,
-        triggerType
+        triggerType,
+        apiVersion
     } = flowProperties.metadata || flowProperties;
 
     let {
@@ -87,7 +88,8 @@ export function createFlowProperties(flowProperties = {}) {
         runInMode,
         status,
         triggerType,
-        versionNumber
+        versionNumber,
+        apiVersion
     };
 }
 
@@ -108,7 +110,8 @@ export function createFlowPropertiesMetadataObject(flowProperties) {
         label,
         processType,
         runInMode,
-        status
+        status,
+        apiVersion
     } = flowProperties;
 
     // Adding a bit to make sure that flow is a saved/created in flow builder.
@@ -122,7 +125,8 @@ export function createFlowPropertiesMetadataObject(flowProperties) {
         processMetadataValues,
         processType,
         runInMode,
-        status
+        status,
+        apiVersion
     };
 }
 

@@ -20,6 +20,7 @@ import status from '@salesforce/label/FlowBuilderFlowPropertiesEditor.status';
 import currentType from '@salesforce/label/FlowBuilderFlowPropertiesEditor.currentType';
 import currentVersion from '@salesforce/label/FlowBuilderFlowPropertiesEditor.currentVersion';
 import currentVersionHelpText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.currentVersionHelpText';
+import apiVersionLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.apiVersionLabel';
 
 export const LABELS = {
     nameLabel,
@@ -42,5 +43,6 @@ export const LABELS = {
     status,
     currentType,
     currentVersion,
-    currentVersionHelpText
+    currentVersionHelpText,
+    apiVersionLabel
 };

@@ -42,7 +42,8 @@ export const SERVER_ACTION_TYPE = {
     GET_FLOW_EXTENSION_DETAILS: 'getFlowExtensionDetails',
     GET_FLOW_ENTRIES: 'getFlowEntries',
     GET_TRIGGER_TYPE_INFO: 'getTriggerTypeInfo',
-    GET_PALETTE: 'getPalette'
+    GET_PALETTE: 'getPalette',
+    GET_VERSIONING_INFO: 'getVersioningInfo'
 };
 
 const actionConfig = {
@@ -85,7 +86,8 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_DETAILS]: 'c.getFlowExtensionDetails',
     [SERVER_ACTION_TYPE.GET_FLOW_ENTRIES]: 'c.getFlowEntries',
     [SERVER_ACTION_TYPE.GET_TRIGGER_TYPE_INFO]: 'c.getTriggerTypeInfo',
-    [SERVER_ACTION_TYPE.GET_PALETTE]: 'c.getPalette'
+    [SERVER_ACTION_TYPE.GET_PALETTE]: 'c.getPalette',
+    [SERVER_ACTION_TYPE.GET_VERSIONING_INFO]: 'c.getVersioningInfo'
 };
 
 let auraFetch;
@@ -180,7 +182,8 @@ const KEY_PROVIDER = {
     [SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES]: () => SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES,
     [SERVER_ACTION_TYPE.GET_FLOW_ENTRIES]: params => `${params.builderType}`,
     [SERVER_ACTION_TYPE.GET_TRIGGER_TYPE_INFO]: params => `${params.triggerType}`,
-    [SERVER_ACTION_TYPE.GET_PALETTE]: params => params.flowProcessType
+    [SERVER_ACTION_TYPE.GET_PALETTE]: params => params.flowProcessType,
+    [SERVER_ACTION_TYPE.GET_VERSIONING_INFO]: params => params.builderType
 };
 
 const fetchOnceCache = {};
