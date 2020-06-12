@@ -36,7 +36,7 @@
             min-width: 150px;
         }
     
-        c-checkbox-image-group .nds-form-element__control {
+        [data-omni-key="categorySelect"] .nds-form-element__control {
             display: flex;
             flex-wrap:  wrap;
             align-content: flex-start;

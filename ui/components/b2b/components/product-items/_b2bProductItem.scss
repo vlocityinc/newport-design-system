@@ -8,6 +8,7 @@
   padding: 0.5rem;
   margin: 0.5rem 0 0.7rem 0.5rem;
   box-shadow: 0px 3px 5px 0px $palette-warm-gray-4;
+  position: relative;
   &.nds-b2b-hide {
     background: $palette-gray-90;
     pointer-events: none;
@@ -28,6 +29,9 @@
         }
       }
     }
+  }
+  &.nds-b2b-loading {
+    pointer-events: none;
   }
   .nds-b2b-product-item_container {
     border: 1px solid $white;
