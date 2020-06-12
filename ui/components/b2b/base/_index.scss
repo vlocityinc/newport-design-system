@@ -12,6 +12,9 @@
 //Modal components
 @import '../components/modal/b2bModal';
 @import '../components/modal/b2bInputs';
+//Header components
+@import '../components/header/b2bHeader';
+@import '../components/header/b2bShowMore';
 // Configure Offer Components
 @import '../components/configure-offer/b2bConfigCard';
 @import '../components/configure-offer/b2bAttributeConfigOffer';
@@ -28,6 +31,3 @@
 //Common
 @import '../common/b2bFormElements';
 @import '../common/b2bTitles';
-
-
-

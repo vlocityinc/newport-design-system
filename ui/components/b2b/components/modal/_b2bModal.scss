@@ -1,22 +1,21 @@
 .nds-b2b-modal {
-  .slds-modal__content {
+  .nds-modal__content {
     background-color: $white;
-  }
-
-  article {
-    background-color: $white;
-    border-radius: unset;
+    article {
+      background-color: $white;
+      border-radius: unset;
+    }
   }
 
   @media screen and (max-width: 48rem) {
     .nds-card__body--inner, .nds-card__body_inner {
       padding: 0;
     }
-    .slds-modal__container {
+    .nds-modal__container {
       margin: 0;
       padding: 0;
     }
-    .slds-modal__header {
+    .nds-modal__header {
       position: absolute;
       top: 0;
       border-radius: unset;
@@ -25,11 +24,11 @@
       z-index: 20;
     }
 
-    .slds-text-heading_medium {
+    .nds-text-heading_medium {
       padding-left: 2em;
     }
 
-    .slds-modal__content {
+    .nds-modal__content {
       margin-top: 58px;
       margin-bottom: 60px;
       width: 100%;
@@ -38,41 +37,27 @@
       overflow-y: scroll;
     }
 
-    .slds-modal__close {
+    .nds-modal__close {
       top: 1em;
       right: unset;
     }
 
-    .slds-icon {
+    .nds-icon {
       fill: $black-primary;
     }
 
-    .slds-modal__container {
+    .nds-modal__container {
       position: relative;
       background-color: $black-primary;
       margin: auto;
       padding: 0;
       border: 0.0625rem solid $dc-modal-border-color;
       width: 100%;
-      -webkit-animation-name: animatetop;
-      -webkit-animation-duration: 0.4s;
-      animation-name: animatetop;
+      animation-name: nds-animatetop;
       animation-duration: 0.4s;
     }
 
-    /* Add Animation */
-    @-webkit-keyframes animatetop {
-      from {
-        top: -300px;
-        opacity: 0;
-      }
-      to {
-        top: 0;
-        opacity: 1;
-      }
-    }
-
-    @keyframes animatetop {
+    @keyframes nds-animatetop {
       from {
         top: -300px;
         opacity: 0;

@@ -8,8 +8,12 @@
   border-top: 0.3125rem solid $azure;
   padding: 1rem 2.5rem 1rem 2.8rem;
   margin-bottom: 0.7rem;
+  position: relative;
   cursor: pointer;
 
+  &.nds-b2b-loading {
+    pointer-events: none;
+  }
   .nds-b2b-promo-name {
     font-size: $font-size-6;
   }
