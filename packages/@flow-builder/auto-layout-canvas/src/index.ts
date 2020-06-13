@@ -10,6 +10,7 @@ import { Geometry } from './svgUtils';
 import MenuType from './MenuType';
 import ElementType from './ElementType';
 import ConnectorType from './ConnectorTypeEnum';
+import ConnectorLabelType from './ConnectorLabelTypeEnum';
 
 import {
     ConditionType,
@@ -65,6 +66,7 @@ export {
     MenuType,
     ElementType,
     ConnectorType,
+    ConnectorLabelType,
     ConnectorVariant,
     panzoom,
     ConditionType,

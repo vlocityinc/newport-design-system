@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import FlcConnector from 'builder_platform_interaction/flcConnector';
-import { ConditionType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { ConditionType, ConnectorLabelType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LABELS } from '../flcConnectorLabels';
 
 const selectors = {
@@ -62,7 +62,8 @@ const getDefaultConnectorInfo = (toBeDeleted = false) => {
         labelOffsetY,
         conditionType: ConditionType.DEFAULT,
         defaultConnectorLabel: 'Default Connector Label',
-        toBeDeleted
+        toBeDeleted,
+        labelType: ConnectorLabelType.BRANCH_DEFAULT
     };
 };
 
@@ -80,7 +81,8 @@ const getFaultConnectorInfo = () => {
         isFault: true,
         labelOffsetY,
         conditionType: ConditionType.FAULT,
-        toBeDeleted: false
+        toBeDeleted: false,
+        labelType: ConnectorLabelType.FAULT
     };
 };
 

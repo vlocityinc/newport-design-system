@@ -8,6 +8,7 @@ import {
 import ConnectorType from '../ConnectorTypeEnum';
 import { ConnectorVariant } from '../flowRendererUtils';
 import { getDefaultLayoutConfig } from '../defaultLayoutConfig';
+import ConnectorLabelType from '../ConnectorLabelTypeEnum';
 
 jest.mock('../svgUtils.ts', () => {
     return {
@@ -72,6 +73,7 @@ describe('connectorLib', () => {
         const connectorRenderInfo = createConnectorToNextNode(
             { next: 'nextGuid', prev: 'prevGuid' },
             ConnectorType.STRAIGHT,
+            ConnectorLabelType.NONE,
             0,
             144,
             false,

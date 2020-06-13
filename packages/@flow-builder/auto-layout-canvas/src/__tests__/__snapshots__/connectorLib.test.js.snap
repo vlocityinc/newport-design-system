@@ -13,6 +13,7 @@ Object {
     "y": 0,
   },
   "isFault": false,
+  "labelType": 0,
   "svgInfo": Object {
     "startOffset": Array [
       3,
@@ -62,7 +63,8 @@ Object {
     "y": 0,
   },
   "isFault": false,
-  "labelOffsetY": 24,
+  "labelOffsetY": 48,
+  "labelType": 0,
   "svgInfo": Object {
     "geometry": Object {
       "h": 144,
@@ -94,7 +96,6 @@ Object {
   },
   "toBeDeleted": undefined,
   "type": "straight",
-  "variant": "default",
 }
 `;
 
@@ -111,6 +112,7 @@ Object {
   },
   "isFault": false,
   "labelOffsetY": 48,
+  "labelType": 3,
   "svgInfo": Object {
     "startOffset": Array [
       3,
@@ -170,6 +172,7 @@ Object {
     "y": 0,
   },
   "isFault": false,
+  "labelType": 0,
   "svgInfo": Object {
     "startOffset": Array [
       3,
@@ -230,6 +233,7 @@ Object {
     "y": 0,
   },
   "isFault": false,
+  "labelType": 0,
   "svgInfo": Object {
     "startOffset": Array [
       3,

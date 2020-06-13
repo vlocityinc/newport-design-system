@@ -1,5 +1,6 @@
 import { LayoutInfo, NodeLayoutMap, getBranchLayoutKey } from './layout';
 import ConnectorType from './ConnectorTypeEnum';
+import ConnectorLabelType from './ConnectorLabelTypeEnum';
 import { SvgInfo, Geometry } from './svgUtils';
 import { FlowModel, ElementsMetadata, ElementMetadata, NodeRef, Guid } from './model';
 import MenuType from './MenuType';
@@ -68,10 +69,16 @@ export enum ConnectorVariant {
     DEFAULT = 'default',
     EDGE = 'edge',
     CENTER = 'center',
-    LOOP = 'loop'
+    LOOP = 'loop',
+    FAULT = 'fault',
+    POST_MERGE = 'postMerge',
+    POST_MERGE_TAIL = 'postMergeTail',
+    BRANCH_TAIL = 'branchTail',
+    BRANCH_HEAD = 'branchHead',
+    BRANCH_HEAD_EMPTY = 'branchHeadEmpty'
 }
 
-interface ConnectorTypeLayoutConfig {
+export interface ConnectorTypeLayoutConfig {
     h: number;
     addOffset: number;
     labelOffset?: number;
@@ -148,7 +155,7 @@ export interface ConnectorConnectionInfo {
 
 export interface ConnectorRenderInfo {
     type: ConnectorType;
-    variant?: ConnectorVariant;
+    labelType: ConnectorLabelType;
     geometry: Geometry;
     svgInfo: SvgInfo;
     addInfo?: ConnectorAddInfo;
@@ -216,4 +223,30 @@ function getBranchLayout(
     return getLayoutByKey(key, progress, nodeLayoutMap);
 }
 
-export { getBranchLayout, tween, getLayout };
+/**
+ * Get the config for a connector type and variants
+ *
+ * @param layoutConfig - The layout config
+ * @param connectorType - The connector type
+ * @param connectorVariants - A list of variants
+ * @return A connector layout config for the connector
+ */
+function getConnectorConfig(
+    layoutConfig: LayoutConfig,
+    connectorType: ConnectorType,
+    ...connectorVariants: ConnectorVariant[]
+): ConnectorTypeLayoutConfig {
+    let connectorConfig = layoutConfig.connector.types[connectorType]!;
+
+    // go through variants and override values
+    connectorVariants.forEach((connectorVariant: ConnectorVariant) => {
+        const variantConfig = connectorConfig.variants![connectorVariant];
+        if (variantConfig != null) {
+            connectorConfig = { ...connectorConfig, ...variantConfig } as ConnectorTypeLayoutConfig;
+        }
+    });
+
+    return connectorConfig;
+}
+
+export { getBranchLayout, tween, getLayout, getConnectorConfig };

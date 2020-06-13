@@ -1,5 +1,5 @@
-import { NodeModel, resolveNode, ParentNodeModel, NodeRef, getElementMetadata, FAULT_INDEX } from './model';
-import { FlowRenderContext, LayoutConfig } from './flowRendererUtils';
+import { NodeModel, resolveNode, ParentNodeModel, NodeRef, Guid, getElementMetadata, FAULT_INDEX } from './model';
+import { FlowRenderContext, LayoutConfig, getConnectorConfig, ConnectorVariant } from './flowRendererUtils';
 import MenuType from './MenuType';
 import ElementType from './ElementType';
 import ConnectorType from './ConnectorTypeEnum';
@@ -110,61 +110,30 @@ function cloneLayout(layout?: LayoutInfo): LayoutInfo {
  *
  * @param elementType - The current node's ElementType
  * @param nodeGuid - The current node's guid
- * @param nextNodeGuid - The next node's guid
- * @param isBranchHead - Whether this is a branch head
  * @returns The ConnectorType of the next node connector or null if there is no next node connector
  */
-function getNextNodeConnectorType(
-    elementType: ElementType,
-    nodeGuid: NodeRef,
-    nextNodeGuid: NodeRef,
-    isBranchHead: boolean
-): ConnectorType | null {
-    let nextNodeConnectorType;
-
-    if (elementType === ElementType.END || elementType === ElementType.ROOT) {
-        nextNodeConnectorType = null;
-    } else if (elementType === ElementType.BRANCH || elementType === ElementType.LOOP) {
-        if (isBranchHead) {
-            nextNodeConnectorType = nodeGuid == null ? ConnectorType.BRANCH_EMPTY_HEAD : ConnectorType.BRANCH_HEAD;
-        } else {
-            nextNodeConnectorType = ConnectorType.POST_MERGE;
-        }
-    } else if (nextNodeGuid == null) {
-        nextNodeConnectorType = ConnectorType.BRANCH_TAIL;
-    } else {
-        nextNodeConnectorType = ConnectorType.STRAIGHT;
-    }
-
-    return nextNodeConnectorType;
-}
-
-/**
- * Returns the height of a connector
- *
- * @param connectorType - The type of the connector
- * @param layoutConfig - The config for the layout
- * @returns The height of a connector
- */
-function getConnectorHeight(connectorType: ConnectorType, layoutConfig: LayoutConfig): number {
-    return connectorType == null ? 0 : layoutConfig.connector.types[connectorType]!.h;
+function getNextNodeConnectorType(elementType: ElementType): ConnectorType | null {
+    return elementType === ElementType.END || elementType === ElementType.ROOT ? null : ConnectorType.STRAIGHT;
 }
 
 /**
  * Returns the extra height needed so that an opened menu doens't overlap over its next node
+ *
  * @returns The amount of extra height needed
  */
 function getExtraHeightForMenu({
     menuType,
     elementType,
     connectorType,
+    connectorVariant,
     connectorHeight,
     layoutConfig,
     hasNext
 }: {
     menuType: MenuType | null;
     elementType?: ElementType;
-    connectorType?: ConnectorType;
+    connectorType: ConnectorType;
+    connectorVariant: ConnectorVariant;
     connectorHeight: number;
     layoutConfig: LayoutConfig;
     hasNext: boolean;
@@ -176,7 +145,9 @@ function getExtraHeightForMenu({
     const menuHeight = getMenuHeight({ menuType, elementType, layoutConfig });
     const menuMarginBottom = layoutConfig.menu.marginBottom;
     const menuTriggerOffset =
-        menuType === MenuType.CONNECTOR ? layoutConfig.connector.types[connectorType!]!.addOffset : 0;
+        menuType === MenuType.CONNECTOR
+            ? getConnectorConfig(layoutConfig, connectorType, connectorVariant).addOffset
+            : 0;
 
     const halfIconSize = layoutConfig.node.icon.h / 2;
     const heightFromMenuTriggerToNextNode = connectorHeight - menuTriggerOffset - (hasNext ? halfIconSize : 0);
@@ -219,9 +190,24 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
     }
 
     const elementType = getElementType(context, nodeModel);
-    const nextNodeConnectorType = getNextNodeConnectorType(elementType, nodeModel.guid, nodeModel.next, false);
+    // nodeModel.next == null => tail
+    const nextNodeConnectorType = getNextNodeConnectorType(elementType);
+    let nextNodeConnectorVariant =
+        elementType === ElementType.BRANCH || elementType === ElementType.LOOP
+            ? ConnectorVariant.POST_MERGE
+            : ConnectorVariant.DEFAULT;
+
+    if (nodeModel.next == null) {
+        nextNodeConnectorVariant =
+            nextNodeConnectorVariant === ConnectorVariant.POST_MERGE
+                ? ConnectorVariant.POST_MERGE_TAIL
+                : ConnectorVariant.BRANCH_TAIL;
+    }
+
     const nextNodeConnectorHeight =
-        nextNodeConnectorType != null ? getConnectorHeight(nextNodeConnectorType, layoutConfig) : 0;
+        nextNodeConnectorType != null
+            ? getConnectorConfig(layoutConfig, nextNodeConnectorType, nextNodeConnectorVariant).h
+            : 0;
 
     let height = nextNodeConnectorHeight + branchingInfo.h;
 
@@ -234,11 +220,9 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
                   menuType,
                   elementType,
                   connectorType: nextNodeConnectorType!,
-                  connectorHeight:
-                      menuType === MenuType.CONNECTOR && nextNodeConnectorType === ConnectorType.POST_MERGE
-                          ? nextNodeConnectorHeight
-                          : height,
-                  layoutConfig
+                  connectorHeight: menuType === MenuType.CONNECTOR ? nextNodeConnectorHeight : height,
+                  layoutConfig,
+                  connectorVariant: nextNodeConnectorVariant
               })
             : 0;
 
@@ -381,14 +365,13 @@ function calculateBranchLayout(
 
     let node: NodeModel | null = branchHeadGuid != null ? resolveNode(flowModel, branchHeadGuid) : null;
 
-    const nextNodeConnectorType: ConnectorType = getNextNodeConnectorType(
-        parentNodeType,
-        branchHeadGuid,
-        branchHeadGuid,
-        true
-    )!;
+    const nextNodeConnectorType = getNextNodeConnectorType(parentNodeType)!;
+    const nextNodeConnectorVariant = getNextNodeConnectorVariant(branchHeadGuid, parentNodeType);
 
-    let height = getConnectorHeight(nextNodeConnectorType, layoutConfig);
+    let height =
+        nextNodeConnectorType == null
+            ? 0
+            : getConnectorConfig(layoutConfig, nextNodeConnectorType, nextNodeConnectorVariant).h;
 
     const menuType = getMenuType(getBranchLayoutKey(parentNodeModel.guid, childIndex), context);
 
@@ -397,7 +380,8 @@ function calculateBranchLayout(
         menuType,
         connectorType: nextNodeConnectorType,
         connectorHeight: height,
-        layoutConfig
+        layoutConfig,
+        connectorVariant: nextNodeConnectorVariant
     });
 
     let faultLayout;
@@ -440,7 +424,7 @@ function calculateBranchLayout(
 
     // for faults and terminal branches we need to some extra height so that it won't overlap the merge connectors
     if (isTerminal) {
-        height += getConnectorHeight(ConnectorType.BRANCH_TAIL, layoutConfig);
+        height += getConnectorConfig(layoutConfig, ConnectorType.STRAIGHT, ConnectorVariant.BRANCH_TAIL).h;
     }
 
     if (branchHeadGuid == null) {
@@ -448,6 +432,24 @@ function calculateBranchLayout(
     }
 
     return Object.assign(branchLayout, { w: leftWidth + rightWidth, h: height, offsetX: leftWidth });
+}
+
+/**
+ * Get the variant for the next node connector
+ *
+ * @param parentNodeType - The parent node type
+ * @param branchHeadGuid - The branch head guid
+ * @returns The next node connector variant
+ */
+function getNextNodeConnectorVariant(branchHeadGuid: Guid | null, parentNodeType: ElementType) {
+    let nextNodeConnectorVariant = branchHeadGuid == null ? ConnectorVariant.BRANCH_TAIL : ConnectorVariant.DEFAULT;
+
+    if (parentNodeType === ElementType.BRANCH || parentNodeType === ElementType.LOOP) {
+        nextNodeConnectorVariant =
+            branchHeadGuid == null ? ConnectorVariant.BRANCH_HEAD_EMPTY : ConnectorVariant.BRANCH_HEAD;
+    }
+
+    return nextNodeConnectorVariant;
 }
 
 /**

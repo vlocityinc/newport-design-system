@@ -38,6 +38,9 @@ function translateEventToAction(event) {
                         parent
                     })
                 );
+                if (elementType === ELEMENT_TYPE.WAIT) {
+                    element.canvasElement.children = [null, null, null];
+                }
             }
             return element;
         case DeleteElementEvent.EVENT_NAME:

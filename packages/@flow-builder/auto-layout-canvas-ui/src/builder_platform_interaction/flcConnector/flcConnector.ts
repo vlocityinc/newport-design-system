@@ -1,10 +1,6 @@
 import { LightningElement, api } from 'lwc';
-import {
-    ConditionType,
-    ConnectorType,
-    ConnectorVariant,
-    ConnectorRenderInfo
-} from 'builder_platform_interaction/autoLayoutCanvas';
+import { classSet } from 'lightning/utils';
+import { ConnectorRenderInfo, ConnectorLabelType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { getStyleFromGeometry } from 'builder_platform_interaction/flcComponentsUtils';
 import { ReorderConnectorsEvent } from 'builder_platform_interaction/flcEvents';
 import { LABELS } from './flcConnectorLabels';
@@ -65,14 +61,6 @@ export default class FlcConnector extends LightningElement {
         return this.connectorInfo.conditionOptions;
     }
 
-    isDefaultBranchConnector() {
-        return this.connectorInfo.conditionType === ConditionType.DEFAULT;
-    }
-
-    isFaultConnector() {
-        return this.connectorInfo.conditionType === ConditionType.FAULT;
-    }
-
     get isLabelPickerDisabled() {
         return this.hasOneOption || this.isSelectionMode;
     }
@@ -86,61 +74,46 @@ export default class FlcConnector extends LightningElement {
     }
 
     get hasConnectorBadge() {
-        return this.isDefaultBranchConnector() || this.isFaultConnector() || this.isLoopConnectorWithBadge();
+        return this.connectorInfo.labelType !== ConnectorLabelType.NONE;
     }
 
     get connectorBadgeClass() {
-        let classes = 'connector-badge slds-align_absolute-center slds-badge';
+        const labelType = this.connectorInfo.labelType;
 
-        if (this.isDefaultBranchConnector() || this.isLoopConnectorWithBadge()) {
-            classes = `default-badge ${classes}`;
-        } else {
-            classes = `fault-badge ${classes}`;
-        }
-
-        return classes;
+        return classSet('connector-badge slds-align_absolute-center slds-badge').add({
+            'default-badge': labelType !== ConnectorLabelType.FAULT,
+            'fault-badge': labelType === ConnectorLabelType.FAULT
+        });
     }
 
     get connectorBadgeLabel() {
-        const connectorType = this.connectorInfo.type;
-        if (
-            (connectorType === ConnectorType.BRANCH_HEAD || connectorType === ConnectorType.BRANCH_EMPTY_HEAD) &&
-            this.connectorInfo.variant === ConnectorVariant.LOOP
-        ) {
-            return LABELS.forEachBadgeLabel;
-        } else if (connectorType === ConnectorType.LOOP_AFTER_LAST) {
-            return LABELS.afterLastBadgeLabel;
-        }
+        const labelType: ConnectorLabelType = this.connectorInfo.labelType!;
 
-        return this.isFaultConnector()
-            ? this.labels.faultConnectorBadgeLabel
-            : this.connectorInfo.defaultConnectorLabel;
+        switch (labelType) {
+            case ConnectorLabelType.LOOP_AFTER_LAST:
+                return LABELS.afterLastBadgeLabel;
+            case ConnectorLabelType.FAULT:
+                return LABELS.faultConnectorBadgeLabel;
+            case ConnectorLabelType.LOOP_FOR_EACH:
+                return LABELS.forEachBadgeLabel;
+            case ConnectorLabelType.BRANCH_DEFAULT:
+                return this.connectorInfo.defaultConnectorLabel;
+            default:
+                return '';
+        }
     }
 
     /**
      * Gets the class for the svg
      */
     get svgClassName() {
-        let classes = this.connectorInfo.isFault ? 'fault' : this.connectorInfo.type;
-        if (this.connectorInfo.toBeDeleted) {
-            classes = `${classes} connector-to-be-deleted`;
-        }
-
-        return classes;
+        return classSet(this.connectorInfo.isFault ? 'fault' : this.connectorInfo.type).add({
+            'connector-to-be-deleted': this.connectorInfo.toBeDeleted
+        });
     }
 
     get connectorLabelStyle() {
         return getStyleFromGeometry({ y: this.connectorInfo.labelOffsetY });
-    }
-
-    isLoopConnectorWithBadge() {
-        const { type, variant } = this.connectorInfo;
-
-        if (variant === ConnectorVariant.LOOP) {
-            return type === ConnectorType.BRANCH_HEAD || type === ConnectorType.BRANCH_EMPTY_HEAD;
-        }
-
-        return type === ConnectorType.LOOP_AFTER_LAST;
     }
 
     /**

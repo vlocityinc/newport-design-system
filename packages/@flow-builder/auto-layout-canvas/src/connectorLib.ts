@@ -4,11 +4,13 @@ import {
     Option,
     ConnectorVariant,
     ConditionType,
-    ConnectorConnectionInfo
+    ConnectorConnectionInfo,
+    getConnectorConfig
 } from './flowRendererUtils';
 
 import { Guid } from './model';
 import ConnectorType from './ConnectorTypeEnum';
+import ConnectorLabelType from './ConnectorLabelTypeEnum';
 import {
     createSvgPath,
     Offset,
@@ -81,7 +83,7 @@ function createStraightConnectorSvgInfo(
  * @param menuOpened - True if the contextual menu is open
  * @param layoutConfig - The layout configuration
  * @param isFault - Whether this is part of a fault connector
- * @param variant - The variant for the connector
+ * @param variants - The variants for the connector
  * @param isBranchGettingDeleted - True if the current branch is getting deleted
  * @param conditionOptions - The condition options
  * @param conditionType - The condition type
@@ -90,32 +92,30 @@ function createStraightConnectorSvgInfo(
 function createConnectorToNextNode(
     connectionInfo: ConnectorConnectionInfo,
     connectorType: ConnectorType,
+    connectorLabelType: ConnectorLabelType,
     offsetY: number,
     height: number,
     menuOpened: boolean,
     layoutConfig: LayoutConfig,
     isFault: boolean,
-    variant: ConnectorVariant,
+    variants: ConnectorVariant[],
     isBranchGettingDeleted: boolean,
     conditionOptions?: Option[],
     conditionType?: ConditionType,
     defaultConnectorLabel?: string
 ): ConnectorRenderInfo {
     const { strokeWidth } = layoutConfig.connector;
-    const { addOffset, labelOffset } = layoutConfig.connector.types[connectorType]!;
-    const connectorConfig = layoutConfig.connector.types[connectorType]!;
-    let { svgMarginTop = 0, svgMarginBottom = 0 } = connectorConfig;
 
-    if (connectorConfig.variants != null) {
-        const variantConfig = connectorConfig.variants[variant]!;
-        svgMarginTop = variantConfig.svgMarginTop != null ? variantConfig.svgMarginTop : svgMarginTop;
-        svgMarginBottom = variantConfig.svgMarginBottom != null ? variantConfig.svgMarginBottom : svgMarginBottom;
-    }
+    const { addOffset, labelOffset, svgMarginTop = 0, svgMarginBottom = 0 } = getConnectorConfig(
+        layoutConfig,
+        connectorType,
+        ...(variants || [])
+    );
 
     const geometry = { x: 0, y: offsetY, w: strokeWidth, h: height };
 
     const connectorRenderInfo = {
-        variant,
+        labelType: connectorLabelType,
         geometry,
         addInfo: { offsetY: addOffset, menuOpened },
         connectionInfo,
@@ -238,6 +238,7 @@ function createBranchConnector(
 
     return {
         type: connectorType,
+        labelType: ConnectorLabelType.NONE,
         geometry,
         svgInfo,
         isFault,
@@ -276,6 +277,7 @@ function createMergeConnector(
         geometry,
         svgInfo: createMergeSvgInfo(w, h, connectorType, layoutConfig),
         type: connectorType,
+        labelType: ConnectorLabelType.NONE,
         isFault,
         connectionInfo: {
             parent,
@@ -305,8 +307,10 @@ function createLoopAfterLastConnector(
 ): ConnectorRenderInfo {
     const { w, h } = geometry;
     const connectorType = ConnectorType.LOOP_AFTER_LAST;
-    const { labelOffset } = layoutConfig.connector.types[connectorType]!;
+    const { labelOffset } = getConnectorConfig(layoutConfig, ConnectorType.STRAIGHT);
+
     return {
+        labelType: ConnectorLabelType.LOOP_AFTER_LAST,
         geometry,
         svgInfo: createLoopSvgInfo(w, h, connectorType, layoutConfig),
         type: connectorType,
@@ -348,6 +352,7 @@ function createLoopBackConnector(
             parent
         },
         type: connectorType,
+        labelType: ConnectorLabelType.NONE,
         isFault,
         toBeDeleted
     };

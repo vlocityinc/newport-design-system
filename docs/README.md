@@ -16,6 +16,21 @@ The repo defines multiple npm packages in the `packages` folder. The package `fl
 
 It is build and managed using `yarn`.
 
+## Running the tests
+
+You can run all the tests by doing `yarn test:unit`
+
+If you want to run/debug a single test you should cd to the packages where the test is located and use `yarn lwc-test` eg
+
+`cd packages/@flow-builder/ui`
+`yarn lwc-test src/builder_platform_interaction/editor/__tests__/editor.test.ts`
+
+To debug a test:
+`yarn lwc-test --debug src/builder_platform_interaction/editor/__tests__/editor.test.ts`
+
+To update all the snaphots in a package:
+`yarn lwc-test --updateSnapshot`
+
 ## SFCI Setup
 
 To add a new branch under SFCI you need to do the following:
@@ -33,3 +48,7 @@ jenkinsfile_path: Jenkinsfile
 ```
 
 -   Reach out to the SFCI team (`#sfci-support` on slack) and ask them to point the managed pipeline file to that seed job. (This is needed because we are using a managed pipeline, and we don't have a Jenkins file)
+
+## Troubleshooting FAQ
+
+https://salesforce.quip.com/z8xpAys68qkw

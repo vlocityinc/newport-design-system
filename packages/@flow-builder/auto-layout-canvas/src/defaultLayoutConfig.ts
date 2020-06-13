@@ -32,69 +32,70 @@ export function getDefaultLayoutConfig(): LayoutConfig {
                 straight: {
                     addOffset: gridHeight * 2.5,
                     h: gridHeight * 5,
-                    labelOffset: gridHeight,
+                    labelOffset: gridHeight * 2,
                     variants: {
-                        edge: {
+                        fault: {
+                            labelOffset: gridHeight,
                             svgMarginTop: gridHeight
                         },
-                        center: {},
-                        default: {},
-                        loop: {}
-                    }
-                },
-                branchHead: {
-                    addOffset: gridHeight * 3.5,
-                    labelOffset: gridHeight * 2,
-                    h: 6 * gridHeight,
-                    variants: {
-                        edge: {
-                            svgMarginTop: gridHeight
-                        },
-                        center: { svgMarginBottom: -gridHeight },
-                        default: {},
-                        loop: {}
-                    }
-                },
-                branchEmptyHead: {
-                    addOffset: gridHeight * 3.5,
-                    labelOffset: gridHeight * 2,
-                    h: 5 * gridHeight,
-                    variants: {
-                        edge: {
+                        postMerge: {
+                            addOffset: gridHeight * 1.5,
+                            h: 4 * gridHeight,
                             svgMarginTop: gridHeight,
-                            svgMarginBottom: gridHeight
+                            variants: {
+                                edge: { svgMarginBottom: gridHeight },
+                                center: { svgMarginBottom: -gridHeight }
+                            }
                         },
-                        center: { svgMarginBottom: -gridHeight },
-                        default: {},
-                        loop: { svgMarginBottom: gridHeight * 2 }
-                    }
-                },
-                loopAfterLast: {
-                    h: 0,
-                    addOffset: 0,
-                    labelOffset: gridHeight * 2
-                },
-                branchTail: {
-                    addOffset: gridHeight * 2.5,
-                    h: 4 * gridHeight,
-                    variants: {
-                        edge: {
-                            svgMarginBottom: gridHeight
+                        postMergeTail: {
+                            addOffset: gridHeight * 1.5,
+                            h: 3 * gridHeight,
+                            svgMarginTop: gridHeight,
+                            svgMarginBottom: gridHeight,
+                            variants: {
+                                edge: { svgMarginBottom: gridHeight },
+                                center: { svgMarginBottom: -gridHeight },
+                                loop: {
+                                    svgMarginBottom: 2 * gridHeight
+                                }
+                            }
                         },
-                        center: { svgMarginBottom: -gridHeight },
-                        default: {},
-                        loop: { svgMarginBottom: gridHeight * 2 }
-                    }
-                },
-                postMerge: {
-                    addOffset: gridHeight * 1.5,
-                    h: 4 * gridHeight,
-                    svgMarginTop: gridHeight,
-                    variants: {
-                        edge: { svgMarginBottom: gridHeight },
-                        center: { svgMarginBottom: -gridHeight },
-                        default: {},
-                        loop: {}
+                        branchTail: {
+                            h: 4 * gridHeight,
+                            variants: {
+                                edge: {
+                                    svgMarginBottom: gridHeight
+                                },
+                                center: { svgMarginBottom: -gridHeight },
+                                loop: {
+                                    svgMarginBottom: 2 * gridHeight
+                                }
+                            }
+                        },
+                        branchHead: {
+                            addOffset: gridHeight * 3.5,
+                            h: 6 * gridHeight,
+                            variants: {
+                                edge: {
+                                    svgMarginTop: gridHeight
+                                },
+                                center: { svgMarginBottom: -gridHeight }
+                            }
+                        },
+                        branchHeadEmpty: {
+                            addOffset: gridHeight * 3.5,
+                            h: 5 * gridHeight,
+                            variants: {
+                                edge: {
+                                    svgMarginTop: gridHeight,
+                                    svgMarginBottom: gridHeight
+                                },
+                                loop: {
+                                    svgMarginBottom: 2 * gridHeight
+                                },
+                                center: { svgMarginBottom: -gridHeight }
+                            }
+                        }
                     }
                 }
             }

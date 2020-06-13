@@ -30,6 +30,7 @@ import {
 import ElementType from './ElementType';
 import MenuType from './MenuType';
 import { isMenuOpened } from './interactionUtils';
+import ConnectorLabelType from './ConnectorLabelTypeEnum';
 
 const IS_BRANCH = true;
 
@@ -225,27 +226,6 @@ function renderNode(
 }
 
 /**
- * Get the connector type for the connector the a node's "next" node
- *
- * @param nodeModel - The source node
- * @param type - The source node type
- * @return The ConnectorType to connect to the next node
- */
-function getNextConnectorType(nodeModel: NodeModel, type: ElementType): ConnectorType {
-    let connectorType;
-
-    if (type === ElementType.BRANCH || type === ElementType.LOOP) {
-        connectorType = ConnectorType.POST_MERGE;
-    } else if (nodeModel.next == null) {
-        connectorType = ConnectorType.BRANCH_TAIL;
-    } else {
-        connectorType = ConnectorType.STRAIGHT;
-    }
-
-    return connectorType;
-}
-
-/**
  * Get the height of the connector to the "next" node
  *
  * @param parentNode - The source node's parent
@@ -301,22 +281,33 @@ function createNextConnector(
     let offsetY = 0;
 
     const metadata = getElementMetadata(elementsMetadata, elementType);
-    const connectorType = getNextConnectorType(node, metadata.type);
+    let mainVariant =
+        metadata.type === ElementType.BRANCH || metadata.type === ElementType.LOOP
+            ? ConnectorVariant.POST_MERGE
+            : ConnectorVariant.DEFAULT;
 
-    if (connectorType === ConnectorType.POST_MERGE) {
+    if (mainVariant === ConnectorVariant.POST_MERGE) {
         offsetY = joinOffsetY;
         height = height - joinOffsetY;
     }
 
+    if (node.next == null) {
+        mainVariant =
+            mainVariant === ConnectorVariant.POST_MERGE
+                ? ConnectorVariant.POST_MERGE_TAIL
+                : ConnectorVariant.BRANCH_TAIL;
+    }
+
     return connectorLib.createConnectorToNextNode(
         { prev: node.guid, next: node.next },
-        connectorType,
+        ConnectorType.STRAIGHT,
+        ConnectorLabelType.NONE,
         offsetY,
         height,
         isMenuOpened(node.guid, MenuType.CONNECTOR, interactionState),
         context.layoutConfig,
         context.isFault,
-        variant,
+        [mainVariant, variant],
         isDeletingBranch
     );
 }
@@ -562,7 +553,9 @@ function getConnectorVariant(
 
     const metadata = getElementMetadata(elementsMetadata, parentNode.elementType);
 
-    if (metadata.type === ElementType.LOOP) {
+    if (childIndex === FAULT_INDEX) {
+        variant = ConnectorVariant.FAULT;
+    } else if (metadata.type === ElementType.LOOP) {
         variant = ConnectorVariant.LOOP;
     } else if (branchLayout.x === 0) {
         variant = ConnectorVariant.CENTER;
@@ -573,6 +566,30 @@ function getConnectorVariant(
     return variant;
 }
 
+/**
+ * Utility function to get a connectors' label type
+ * @param options - The options
+ * @return the connector label type
+ */
+function getConnectorLabelType({
+    isFault,
+    isLoop,
+    conditionType
+}: {
+    isFault?: boolean;
+    isLoop?: boolean;
+    conditionType?: ConditionType;
+}) {
+    if (isFault) {
+        return ConnectorLabelType.FAULT;
+    } else if (isLoop) {
+        return ConnectorLabelType.LOOP_FOR_EACH;
+    } else if (conditionType === ConditionType.DEFAULT) {
+        return ConnectorLabelType.BRANCH_DEFAULT;
+    }
+
+    return ConnectorLabelType.NONE;
+}
 /**
  * Creates a pre connector for a branch. This is the connector that precedes the first node in a branch.
  *
@@ -602,7 +619,6 @@ function createPreConnector(
     const { elementType } = parentNode;
     const metadata = getElementMetadata(elementsMetadata, elementType);
 
-    let connectorType;
     let conditionType;
 
     const defaultConditionIndex = metadata.type === ElementType.BRANCH ? childCount - 1 : null;
@@ -615,21 +631,21 @@ function createPreConnector(
         conditionType = ConditionType.STANDARD;
     }
 
+    let variants = [variant];
     if (metadata.type === ElementType.BRANCH || metadata.type === ElementType.LOOP) {
-        connectorType = isEmptyBranch ? ConnectorType.BRANCH_EMPTY_HEAD : ConnectorType.BRANCH_HEAD;
-    } else {
-        connectorType = ConnectorType.STRAIGHT;
+        variants = [isEmptyBranch ? ConnectorVariant.BRANCH_HEAD_EMPTY : ConnectorVariant.BRANCH_HEAD, variant];
     }
 
     return connectorLib.createConnectorToNextNode(
         { parent: parentNode.guid, childIndex },
-        connectorType,
+        ConnectorType.STRAIGHT,
+        getConnectorLabelType({ isFault: context.isFault, isLoop: metadata.type === ElementType.LOOP, conditionType }),
         NO_OFFSET,
         height,
         isMenuOpened(getBranchLayoutKey(parentNode.guid, childIndex), MenuType.CONNECTOR, interactionState),
         context.layoutConfig,
         context.isFault || conditionType === ConditionType.FAULT,
-        variant,
+        variants,
         isDeletingBranch,
         conditionType === ConditionType.DEFAULT || conditionType === ConditionType.FAULT ? undefined : conditionOptions,
         conditionType,
