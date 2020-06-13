@@ -6,6 +6,7 @@
                 type="checkbox"
                 label={labels.runLatestVersion}
                 checked={debugInput.runLatestVersion}
+                class="runLatestVersion"
                 onchange={handleChange}
             ></lightning-input>
             <lightning-input
@@ -13,24 +14,29 @@
                 label={labels.showDebugInfo}
                 checked={debugInput.showDebugInfo}
                 field-level-help={labels.showDebugInfoHelptext}
+                class="showDebugInfo"
                 onchange={handleChange}
             ></lightning-input>
             <lightning-input
                 type="checkbox"
                 label={labels.enableRollbackMode}
                 checked={debugInput.enableRollback}
+                class="enableRollback"
                 onchange={handleChange}
             ></lightning-input>
             <lightning-input
                 type="checkbox"
                 label={labels.runAs}
                 checked={debugInput.runAs}
+                class="runAs"
                 onchange={handleChange}
             ></lightning-input>
+            <lightning-lookup if:true={debugInput.runAs} label="Run this flow as"></lightning-lookup>
             <lightning-input
                 type="checkbox"
                 label={labels.governorLimits}
                 checked={debugInput.governorLimits}
+                class="governorLimits"
                 onchange={handleChange}
             ></lightning-input>
         </div>
