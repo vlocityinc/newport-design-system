@@ -1,5 +1,0 @@
-describe(' ', () => {
-    test(' ', () => {
-        // actual test
-    });
-});

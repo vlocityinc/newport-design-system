@@ -471,69 +471,16 @@ export function invokeDebugEditor(attributes) {
     showDebugEditorPopover(
         'builder_platform_interaction:modalHeader',
         'builder_platform_interaction:debugEditorPopover',
-        'builder_platform_interaction:debugEditorPopoverFooter',
+        'builder_platform_interaction:modalFooter',
         {
             flowName,
             flowId
         },
         {
-            panelType: MODAL,
-            flavor: 'medium slds-modal_medium',
-            closeOnClickOut: true,
-            showCloseButton: true
-        }
+            flavor: 'medium slds-modal_medium'
+        },
+        attributes.runDebugInterviewCallback
     );
-}
-
-/**
- * Open Debug Editor Popover.
- * @param {string} cmpHeader - Name of the header component to be created.
- * @param {string} cmpBody - Name of the body component to be created.
- * @param {string} cmpFooter - Name of the footer component to be created.
- * @param {object} cmpAttributes - Contains components' attributes.
- * @param {object} popoverProps - Contains popover properties
- */
-function showDebugEditorPopover(cmpHeader, cmpBody, cmpFooter, cmpAttributes = {}, popoverProps) {
-    if (isPopoverOpen()) {
-        return;
-    }
-
-    const { direction, flavor, onClose, referenceElement, closeOnClickOut, showCloseButton, panelType } = popoverProps;
-
-    popoverState = {
-        panelInstance: null,
-        referenceElement,
-        onClose
-    };
-
-    const headerPromise = createComponentPromise(cmpHeader, {
-        headerTitle: LABELS.newDebugEditorTitle
-    });
-    const footerPromise = createComponentPromise(cmpFooter, cmpAttributes);
-    const bodyPromise = createComponentPromise(cmpBody, cmpAttributes);
-
-    Promise.all([headerPromise, bodyPromise, footerPromise])
-        .then(newComponents => {
-            const createPanelEventAttributes = {
-                panelType,
-                visible: true,
-                panelConfig: {
-                    header: newComponents[0],
-                    body: newComponents[1],
-                    footer: newComponents[2],
-                    flavor,
-                    direction,
-                    closeAction: onDestroyPopover,
-                    closeOnClickOut: !!closeOnClickOut,
-                    showCloseButton
-                },
-                onCreate: onCreatePopover
-            };
-            dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
-        })
-        .catch(errorMessage => {
-            throw new Error('Status Icon Panel creation failed : ' + errorMessage);
-        });
 }
 
 /**
@@ -582,6 +529,69 @@ export const invokeModalWithComponents = (
             throw new Error('Modal creation failed : ' + errorMessage);
         });
 };
+
+/**
+ * Open Debug Editor Popover.
+ * @param {string} cmpHeader - Name of the header component to be created.
+ * @param {string} cmpBody - Name of the body component to be created.
+ * @param {string} cmpFooter - Name of the footer component to be created.
+ * @param {object} cmpAttributes - Contains components' attributes.
+ * @param {object} popoverProps - Contains popover properties
+ * @param {function} runDebugInterviewCallback - callback after Run button is clicked
+ */
+function showDebugEditorPopover(
+    cmpHeader,
+    cmpBody,
+    cmpFooter,
+    cmpAttributes = {},
+    popoverProps,
+    runDebugInterviewCallback
+) {
+    if (isPopoverOpen()) {
+        return;
+    }
+
+    popoverState = {
+        panelInstance: null,
+        referenceElement: popoverProps.referenceElement,
+        onClose: popoverProps.onClose
+    };
+
+    const headerPromise = createComponentPromise(cmpHeader, {
+        headerTitle: LABELS.newDebugEditorTitle
+    });
+    const footerPromise = createComponentPromise(cmpFooter, {
+        buttons: {
+            buttonOne: {
+                buttonLabel: LABELS.runTitle,
+                buttonVariant: 'brand'
+            },
+            buttonTwo: {
+                buttonLabel: LABELS.cancelButton,
+                buttonVariant: 'neutral',
+                buttonCallback: hidePopover
+            }
+        }
+    });
+    const bodyPromise = createComponentPromise(cmpBody, cmpAttributes);
+
+    const invokeModalWithComponentsOnCreateOverride = (modal, data) => {
+        onCreatePopover(modal);
+        invokeModalWithComponentsOnCreate(modal, data);
+    };
+
+    invokeModalWithComponents(
+        {
+            flavor: popoverProps.flavor,
+            closeCallback: hidePopover,
+            closeModalCallback: runDebugInterviewCallback
+        },
+        headerPromise,
+        bodyPromise,
+        footerPromise,
+        invokeModalWithComponentsOnCreateOverride
+    );
+}
 
 /**
  * Invokes the modal and creates the alert/confirmation modal inside it

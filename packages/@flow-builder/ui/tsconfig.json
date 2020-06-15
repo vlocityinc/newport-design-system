@@ -50,7 +50,6 @@
             "builder_platform_interaction/dataTypePicker": ["./builder_platform_interaction/dataTypePicker/dataTypePicker.ts"],
             "builder_platform_interaction/dateTimeUtils": ["./builder_platform_interaction/dateTimeUtils/dateTimeUtils.ts"],
             "builder_platform_interaction/debugEditorPopover": ["./builder_platform_interaction/debugEditorPopover/debugEditorPopover.ts"],
-            "builder_platform_interaction/debugEditorPopoverFooter": ["./builder_platform_interaction/debugEditorPopoverFooter/debugEditorPopoverFooter.ts"],
             "builder_platform_interaction/decisionEditor": ["./builder_platform_interaction/decisionEditor/decisionEditor.ts"],
             "builder_platform_interaction/draggable": ["./builder_platform_interaction/draggable/draggable.ts"],
             "builder_platform_interaction/drawingLib": ["./builder_platform_interaction/drawingLib/drawingLib.ts"],
