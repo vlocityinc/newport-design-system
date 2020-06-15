@@ -814,6 +814,7 @@ export default class Editor extends LightningElement {
                     storeInstance.dispatch(decorateCanvas({ connectorsToHighlight }));
                 }
                 this.spinners.showDebugSpinner = false;
+                debugModal.close();
             },
             {
                 flowDevName: storeInstance.getCurrentState().properties.name,
