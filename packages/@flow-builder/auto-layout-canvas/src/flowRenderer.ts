@@ -639,7 +639,11 @@ function createPreConnector(
     return connectorLib.createConnectorToNextNode(
         { parent: parentNode.guid, childIndex },
         ConnectorType.STRAIGHT,
-        getConnectorLabelType({ isFault: context.isFault, isLoop: metadata.type === ElementType.LOOP, conditionType }),
+        getConnectorLabelType({
+            isFault: conditionType === ConditionType.FAULT,
+            isLoop: metadata.type === ElementType.LOOP,
+            conditionType
+        }),
         NO_OFFSET,
         height,
         isMenuOpened(getBranchLayoutKey(parentNode.guid, childIndex), MenuType.CONNECTOR, interactionState),

@@ -52,6 +52,7 @@ export {
     getChild,
     getTargetGuidsForBranchReconnect,
     deleteBranch,
+    reconnectBranchElement,
     DELETE_ALL
 } from './modelUtils';
 
