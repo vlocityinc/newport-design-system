@@ -15,7 +15,7 @@ import { SaveFlowEvent } from 'builder_platform_interaction/events';
 import { getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 import {
@@ -28,6 +28,7 @@ import { canUserVAD, orgHasFlowBuilderGuardrails, useFixedLayoutCanvas } from 'b
 import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
 import { getElementSections } from 'builder_platform_interaction/editorElementsUtils';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { getElementByDevName, getStartElement } from 'builder_platform_interaction/storeUtils';
 
 const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
 
@@ -850,3 +851,37 @@ export function getElementsMetadata(toolboxElements, palette) {
 
     return elementsMetadata;
 }
+
+/**
+ * Helper function to construct and return the payload for connector highlighting as expected for the DECORATE_CANVAS action
+ * @param canvasDecorator canvas decorator object returned from the server
+ */
+export const getConnectorsToHighlight = (canvasDecorator: object): array => {
+    const connectorsToHighlight = [];
+    if (canvasDecorator.decoratedElements) {
+        canvasDecorator.decoratedElements.forEach(element => {
+            const storeElement = getElementByDevName(element.elementApiName);
+            if (storeElement && element.decoratedConnectors) {
+                // Add first highlighted connector coming out of the Start element
+                connectorsToHighlight.push({ source: getStartElement().guid, type: CONNECTOR_TYPE.REGULAR });
+                // Add highlighted connectors for the rest of the elements in the decorator object
+                element.decoratedConnectors.forEach(connector => {
+                    const childSource =
+                        connector.childSource &&
+                        getElementByDevName(connector.childSource) &&
+                        getElementByDevName(connector.childSource).guid;
+
+                    if (!connector.childSource || (connector.childSource && childSource)) {
+                        connectorsToHighlight.push({
+                            source: storeElement.guid,
+                            childSource,
+                            type: connector.connectorType
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    return connectorsToHighlight;
+};

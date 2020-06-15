@@ -43,7 +43,8 @@ export const SERVER_ACTION_TYPE = {
     GET_FLOW_ENTRIES: 'getFlowEntries',
     GET_TRIGGER_TYPE_INFO: 'getTriggerTypeInfo',
     GET_PALETTE: 'getPalette',
-    GET_VERSIONING_INFO: 'getVersioningInfo'
+    GET_VERSIONING_INFO: 'getVersioningInfo',
+    RUN_DEBUG: 'runDebug'
 };
 
 const actionConfig = {
@@ -87,7 +88,8 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_FLOW_ENTRIES]: 'c.getFlowEntries',
     [SERVER_ACTION_TYPE.GET_TRIGGER_TYPE_INFO]: 'c.getTriggerTypeInfo',
     [SERVER_ACTION_TYPE.GET_PALETTE]: 'c.getPalette',
-    [SERVER_ACTION_TYPE.GET_VERSIONING_INFO]: 'c.getVersioningInfo'
+    [SERVER_ACTION_TYPE.GET_VERSIONING_INFO]: 'c.getVersioningInfo',
+    [SERVER_ACTION_TYPE.RUN_DEBUG]: 'c.runDebugInterview'
 };
 
 let auraFetch;

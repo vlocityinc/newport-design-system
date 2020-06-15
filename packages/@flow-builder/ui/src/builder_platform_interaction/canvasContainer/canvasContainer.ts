@@ -134,7 +134,7 @@ export default class CanvasContainer extends LightningElement {
             const { sourceGuid, targetGuid } = event.detail;
             if (sourceGuid && targetGuid) {
                 if (shouldCreateStartConnection(storeInstance, sourceGuid)) {
-                    addConnection(storeInstance, sourceGuid, targetGuid)(CONNECTOR_TYPE.START);
+                    addConnection(storeInstance, sourceGuid, targetGuid)(CONNECTOR_TYPE.REGULAR);
                     return;
                 }
                 if (shouldOpenConnectorSelectionModal(storeInstance, sourceGuid)) {

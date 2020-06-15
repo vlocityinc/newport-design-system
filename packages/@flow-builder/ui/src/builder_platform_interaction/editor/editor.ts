@@ -37,7 +37,10 @@ import {
     ADD_START_ELEMENT,
     UPDATE_APEX_CLASSES,
     UPDATE_ENTITIES,
-    SELECTION_ON_FIXED_CANVAS
+    SELECTION_ON_FIXED_CANVAS,
+    decorateCanvas,
+    CLEAR_CANVAS_DECORATION,
+    DECORATE_CANVAS
 } from 'builder_platform_interaction/actions';
 import {
     ELEMENT_TYPE,
@@ -88,7 +91,8 @@ import {
     createStartElement,
     isGuardrailsEnabled,
     getToolboxElements,
-    getElementsMetadata
+    getElementsMetadata,
+    getConnectorsToHighlight
 } from './editorUtils';
 import { cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import {
@@ -97,7 +101,8 @@ import {
     getRunInModes,
     setRunInModes,
     setBuilderType,
-    isVersioningDataInitialized
+    isVersioningDataInitialized,
+    BUILDER_MODE
 } from 'builder_platform_interaction/systemLib';
 import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
 import { getTriggerTypeInfo } from 'builder_platform_interaction/triggerTypeLib';
@@ -168,6 +173,10 @@ export default class Editor extends LightningElement {
     @api
     builderConfig;
 
+    builderMode = BUILDER_MODE.EDIT_MODE;
+
+    debugData;
+
     _guardrailsParams;
 
     /**
@@ -237,8 +246,10 @@ export default class Editor extends LightningElement {
     @track
     spinners = {
         showFlowMetadataSpinner: false,
-        showPropertyEditorSpinner: false
+        showPropertyEditorSpinner: false,
+        showDebugSpinner: false
     };
+
     @track
     hasNotBeenSaved = true;
 
@@ -342,6 +353,14 @@ export default class Editor extends LightningElement {
         return this.builderConfig && this.builderConfig.usePanelForPropertyEditor;
     }
 
+    get useNewDebugExperience() {
+        return (
+            this.properties.processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW &&
+            (!this.triggerType || this.triggerType === FLOW_TRIGGER_TYPE.NONE) &&
+            !this.useFixedLayoutCanvas
+        );
+    }
+
     /** Indicates that the new flow modal is displayed */
     newFlowModalActive = false;
 
@@ -357,7 +376,9 @@ export default class Editor extends LightningElement {
             UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE,
             UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE,
             UPDATE_ENTITIES,
-            SELECTION_ON_FIXED_CANVAS
+            SELECTION_ON_FIXED_CANVAS,
+            DECORATE_CANVAS,
+            CLEAR_CANVAS_DECORATION
         ];
         const groupedActions = [
             TOGGLE_ON_CANVAS, // Used for shift-select elements on canvas.
@@ -413,7 +434,10 @@ export default class Editor extends LightningElement {
 
     get showSpinner() {
         return (
-            this.spinners.showFlowMetadataSpinner || this.spinners.showPropertyEditorSpinner || this.processTypeLoading
+            this.spinners.showFlowMetadataSpinner ||
+            this.spinners.showPropertyEditorSpinner ||
+            this.spinners.showDebugSpinner ||
+            this.processTypeLoading
         );
     }
 
@@ -427,6 +451,32 @@ export default class Editor extends LightningElement {
 
     get toolboxElements() {
         return [...this.supportedElements, ...this.supportedActions];
+    }
+
+    get leftPanelConfig() {
+        return (
+            (this.builderConfig &&
+                this.builderConfig.componentConfigs &&
+                this.builderConfig.componentConfigs[this.builderMode] &&
+                this.builderConfig.componentConfigs[this.builderMode].leftPanelConfig) ||
+            {}
+        );
+    }
+
+    get showLeftPanel() {
+        return !!this.leftPanelConfig.showLeftPanel && !this.isSelectionMode;
+    }
+
+    get showDebugPanel() {
+        return this.builderMode === BUILDER_MODE.DEBUG_MODE;
+    }
+
+    get showRightPanel() {
+        return this.showPropertyEditorRightPanel || this.showDebugPanel;
+    }
+
+    get debugTraces() {
+        return (this.debugData && this.debugData.data && this.debugData.data.debugTrace) || [];
     }
 
     /**
@@ -745,10 +795,36 @@ export default class Editor extends LightningElement {
     };
 
     /**
-     * Callback after run debug interivew initiated by pop-over footer and no errors.
+     * Callback after run debug interivew initiated by the debug modal
      */
-    runDebugInterviewCallback = () => {
-        // TODO: notify editor & trigger debugger service.
+    runDebugInterviewCallback = debugModal => {
+        const debugOptions = debugModal.get('v.body')[0].get('v.debugInputObject') || {};
+        this.spinners.showDebugSpinner = true;
+        fetch(
+            SERVER_ACTION_TYPE.RUN_DEBUG,
+            ({ data, error }) => {
+                this.builderMode = BUILDER_MODE.DEBUG_MODE;
+                this.debugData = {
+                    data: data[0],
+                    error
+                };
+                const canvasDecorator = data[1];
+                if (canvasDecorator) {
+                    const connectorsToHighlight = getConnectorsToHighlight(canvasDecorator);
+                    storeInstance.dispatch(decorateCanvas({ connectorsToHighlight }));
+                }
+                this.spinners.showDebugSpinner = false;
+            },
+            {
+                flowDevName: storeInstance.getCurrentState().properties.name,
+                flowVersionId: this.flowId,
+                arguments: JSON.stringify(debugOptions.inputs),
+                enabledTrace: true,
+                enableRollbackMode: !!debugOptions.enableRollbackMode,
+                useLatestSubflow: !!debugOptions.runLatestVersion,
+                showGovernorlimit: !!debugOptions.governorLimits
+            }
+        );
     };
 
     /**
@@ -757,23 +833,18 @@ export default class Editor extends LightningElement {
      */
     runOrDebugFlow = (runOrDebug = RUN) => {
         const currentState = storeInstance.getCurrentState();
-        const processType = this.properties.processType;
-        const runDebugInterviewCallback = this.runDebugInterviewCallback;
-        let flowDevName;
         let url;
-        let flowId;
 
         if (currentState && currentState.properties) {
-            flowDevName = currentState.properties.name;
-            flowId = this.flowId;
-            url = `${this.runDebugUrl}${flowDevName}/${flowId}`;
+            const flowDevName = currentState.properties.name;
+            url = `${this.runDebugUrl}${flowDevName}/${this.flowId}`;
             if (runOrDebug === DEBUG) {
-                if (processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW) {
+                if (this.useNewDebugExperience) {
                     this.queueOpenFlowDebugEditor(() => {
                         return {
-                            flowId,
+                            flowId: this.flowId,
                             flowDevName,
-                            runDebugInterviewCallback
+                            runDebugInterviewCallback: this.runDebugInterviewCallback
                         };
                     });
                 } else {
@@ -781,7 +852,7 @@ export default class Editor extends LightningElement {
                 }
             }
         }
-        if (runOrDebug === RUN || (runOrDebug === DEBUG && processType !== FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW)) {
+        if (runOrDebug === RUN || (runOrDebug === DEBUG && !this.useNewDebugExperience)) {
             window.open(url, '_blank');
         }
     };

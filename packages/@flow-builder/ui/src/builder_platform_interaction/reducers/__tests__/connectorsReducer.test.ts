@@ -571,7 +571,7 @@ describe('connectors-reducer', () => {
                 {
                     guid: 'c3',
                     source: 's3',
-                    config: { isHighlighted: true }
+                    config: { isHighlighted: false }
                 }
             ];
 

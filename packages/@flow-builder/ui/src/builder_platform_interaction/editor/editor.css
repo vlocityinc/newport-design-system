@@ -3,3 +3,7 @@ builder_platform_interaction-flc-builder-container {
     flex: auto;
     height: 100%;
 }
+
+.cardClass {
+    width: 500px;
+}

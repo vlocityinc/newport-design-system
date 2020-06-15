@@ -30,6 +30,16 @@ const createEditorForTest = () => {
     const el = createElement('builder_platform_interaction-editor', {
         is: Editor
     });
+    el.builderMode = 'editMode';
+    el.builderConfig = {
+        componentConfigs: {
+            editMode: {
+                leftPanelConfig: {
+                    showLeftPanel: true
+                }
+            }
+        }
+    };
     document.body.appendChild(el);
     return el;
 };

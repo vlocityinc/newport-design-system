@@ -42,6 +42,15 @@ export const getElementByDevName = (devName, caseSensitive = false) =>
     getElementByDevNameFromState(Store.getStore().getCurrentState(), devName, caseSensitive);
 
 /**
+ * Fetches the Start element from the store
+ */
+export const getStartElement = (): object => {
+    return Object.values(Store.getStore().getCurrentState().elements).find(element => {
+        return element.elementType === ELEMENT_TYPE.START_ELEMENT;
+    });
+};
+
+/**
  * Common function to return duplicate dev name elements
  * @param {Object[]} elements
  * @param {string} nameToBeTested

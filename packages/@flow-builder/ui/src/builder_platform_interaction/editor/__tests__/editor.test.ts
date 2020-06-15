@@ -201,7 +201,14 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 });
 
 const createComponentUnderTest = (
-    props = { builderType: 'old', builderConfig: { supportedProcessTypes: ['right'] } }
+    props = {
+        builderType: 'old',
+        builderMode: 'editMode',
+        builderConfig: {
+            supportedProcessTypes: ['right'],
+            componentConfigs: { editMode: { leftPanelConfig: { showLeftPanel: true } } }
+        }
+    }
 ) => {
     const el = createElement('builder_platform_interaction-editor', {
         is: Editor
@@ -735,7 +742,12 @@ describe('property editor', () => {
 
         const editorComponent = createComponentUnderTest({
             builderType: 'new',
-            builderConfig: { supportedProcessTypes: ['right'], usePanelForPropertyEditor: true }
+            builderMode: 'editMode',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                usePanelForPropertyEditor: true,
+                componentConfigs: { editMode: { leftPanelConfig: { showLeftPanel: true } } }
+            }
         });
 
         const event = new NewResourceEvent();

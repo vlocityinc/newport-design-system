@@ -55,7 +55,6 @@ export {
 export { setGlobalVariables, getGlobalVariableTypes, getGlobalVariables, getGlobalVariable } from './globalVariables';
 export { setProcessTypes, getProcessTypes, getProcessFeatures, setProcessTypeFeature } from './processTypes';
 export { setRunInModes, getRunInModes } from './runInModes';
-export { setBuilderType, getBuilderType } from './builderConfigs';
 export {
     isVersioningDataInitialized,
     setVersioningDataInitialized,
@@ -66,3 +65,4 @@ export {
     getLatestApiVersion,
     getMinApiVersion
 } from './apiVersions';
+export { setBuilderType, getBuilderType, BUILDER_MODE } from './builderConfigs';

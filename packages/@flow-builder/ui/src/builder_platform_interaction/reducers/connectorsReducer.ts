@@ -61,7 +61,10 @@ export default function connectorsReducer(state = [], action) {
                 action.payload.deletedChildElementGuids
             );
         case DECORATE_CANVAS:
-            return _highlightConnectors(_deselectConnectors(state), action.payload.connectorsToHighlight);
+            return _highlightConnectors(
+                _clearConnectorHighlights(_deselectConnectors(state)),
+                action.payload.connectorsToHighlight
+            );
         case CLEAR_CANVAS_DECORATION:
             return _clearConnectorHighlights(state);
         default:
@@ -304,13 +307,14 @@ function _highlightConnectors(connectors: object[], connectorsToHighlight: objec
                 (!connectorToHighlight.childSource || connectorToHighlight.childSource === connector.childSource)
             );
         });
-        // Set the isHighlighted property of the connector to true if found in connectorsToHighlight list, else keep previous value
+        // Set the isHighlighted property of the connector to true if found in connectorsToHighlight list
         if (foundConnector && !connector.config.isHighlighted) {
             hasStateChanged = true;
             return _updateConnectorConfig(connector, {
                 isHighlighted: true
             });
         }
+
         return connector;
     });
 
