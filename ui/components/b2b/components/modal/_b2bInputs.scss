@@ -1,0 +1,49 @@
+.nds-b2b-modal {
+    .nds-card {
+        border: none;
+        box-shadow: none;
+    }
+
+    .nds-b2b-input {
+        padding: 5px;
+        border-radius: 0.3rem;
+        border: 1px solid $palette-cool-gray-5;
+    }
+
+    .nds-is-selected {
+        
+        background-color: $white;
+    }
+    .nds-visual-picker input:checked ~ label .nds-visual-picker__icon {    
+        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+        border: 1px solid $newport-border-gray;
+        border-radius: 0.25rem;
+    }
+
+    .nds-checkbox_custom-group .nds-img-item_select-container {
+        border: 1px solid $palette-cool-gray-5;
+        border-radius: 0.3rem;
+    }
+
+    .nds-checkbox_custom-group input[type=checkbox]:checked+.nds-img_select-cont .nds-img-item_select-container {
+        border: 1px solid $blue-border-primary;
+        border-radius: 0.3rem;
+    }
+
+    @media screen and (max-width: 48rem) {
+        .nds-checkbox_custom-group {
+            flex: 1 1 150px;
+            min-width: 150px;
+        }
+    
+        [data-omni-key="categorySelect"] .nds-form-element__control {
+            display: flex;
+            flex-wrap:  wrap;
+            align-content: flex-start;
+        }
+    }
+
+    .nds-img-item_select-container {
+        background-color: $white;
+    }
+}
