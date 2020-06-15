@@ -569,7 +569,8 @@ function showDebugEditorPopover(
             buttonTwo: {
                 buttonLabel: LABELS.cancelButton,
                 buttonVariant: 'neutral',
-                buttonCallback: hidePopover
+                buttonCallback: hidePopover,
+                closeCallback: false
             }
         }
     });
