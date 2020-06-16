@@ -8,8 +8,10 @@ import { getColumnFieldType } from 'builder_platform_interaction/screenEditorUti
 import {
     createAddScreenFieldEvent,
     createScreenElementDeletedEvent,
-    createScreenElementSelectedEvent
+    createScreenElementSelectedEvent,
+    createColumnWidthChangedEvent
 } from 'builder_platform_interaction/events';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 
 const MAX_COLUMNS = 4;
 
@@ -23,34 +25,60 @@ export default class ScreenSectionFieldPropertiesEditor extends LightningElement
     @api
     editorParams;
 
+    columnWidths = [
+        { value: '1', label: '1' },
+        { value: '2', label: '2' },
+        { value: '3', label: '3' },
+        { value: '4', label: '4' },
+        { value: '5', label: '5' },
+        { value: '6', label: '6' },
+        { value: '7', label: '7' },
+        { value: '8', label: '8' },
+        { value: '9', label: '9' },
+        { value: '10', label: '10' },
+        { value: '11', label: '11' },
+        { value: '12', label: this.labels.fullWidth }
+    ];
+
     get columns() {
         return this.field.fields.map((column, index) => {
+            const numOfColumns = this.field.fields.length;
+
+            const columnWidth = getValueFromHydratedItem(column.inputParameters[0].value);
+            let maxWidth = '12';
+            if (numOfColumns > 1) {
+                let neighboringColumn;
+                if (index === numOfColumns - 1) {
+                    neighboringColumn = this.field.fields[index - 1];
+                } else if (index < numOfColumns - 1) {
+                    neighboringColumn = this.field.fields[index + 1];
+                }
+                const neighboringColumnWidth = Number(
+                    getValueFromHydratedItem(neighboringColumn.inputParameters[0].value)
+                );
+                maxWidth = Number(columnWidth) + neighboringColumnWidth - 1;
+            }
             return {
                 ...column,
-                width: column.inputParameters[0].value,
+                width: columnWidth,
                 widthLabel: format(this.labels.columnsWidthTitle, index + 1),
-                handleWidthChange: () => {
-                    // TODO: W-7207695
+                widthOptions: this.calculateColumnWidthOptions(maxWidth),
+                handleWidthChange: event => {
+                    this.dispatchEvent(
+                        createColumnWidthChangedEvent(event.target.name, Number(event.detail.value), this.field.guid)
+                    );
                 }
             };
         });
     }
 
-    get columnWidthOptions() {
-        return [
-            { value: 1, label: '1' },
-            { value: 2, label: '2' },
-            { value: 3, label: '3' },
-            { value: 4, label: '4' },
-            { value: 5, label: '5' },
-            { value: 6, label: '6' },
-            { value: 7, label: '7' },
-            { value: 8, label: '8' },
-            { value: 9, label: '9' },
-            { value: 10, label: '10' },
-            { value: 11, label: '11' },
-            { value: 12, label: this.labels.fullWidth }
-        ];
+    calculateColumnWidthOptions(maxWidth) {
+        return this.columnWidths.filter(columnWidth => {
+            if (maxWidth === '12') {
+                return Number(columnWidth.value) === Number(maxWidth);
+            }
+            return Number(columnWidth.value) <= Number(maxWidth);
+        });
     }
 
     get isColumnDeleteEnabled() {

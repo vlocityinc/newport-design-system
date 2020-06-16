@@ -155,14 +155,7 @@ const screenFieldTypes: ScreenFieldType[] = [
  */
 export function getAllScreenFieldTypes() {
     if (orgHasFlowScreenSections()) {
-        const sectionFieldType = {
-            name: 'Section',
-            fieldType: 'RegionContainer',
-            label: LABELS.fieldTypeLabelSection,
-            icon: 'standard:display_text',
-            category: LABELS.fieldCategoryDisplay
-        };
-        return screenFieldTypes.concat(sectionFieldType);
+        return screenFieldTypes.concat(getSectionFieldType());
     }
     return screenFieldTypes;
 }
@@ -179,6 +172,16 @@ export function getLocalExtensionFieldType(name) {
         label: name,
         icon: 'standard:lightning_component',
         source: EXTENSION_TYPE_SOURCE.LOCAL
+    };
+}
+
+export function getSectionFieldType() {
+    return {
+        name: 'Section',
+        fieldType: 'RegionContainer',
+        label: LABELS.fieldTypeLabelSection,
+        icon: 'standard:display_text',
+        category: LABELS.fieldCategoryDisplay
     };
 }
 

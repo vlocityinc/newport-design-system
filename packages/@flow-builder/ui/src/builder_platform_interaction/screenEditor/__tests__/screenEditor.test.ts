@@ -19,7 +19,8 @@ import {
     createScreenElementSelectedEvent,
     createScreenNodeSelectedEvent,
     createScreenElementDeselectedEvent,
-    DynamicTypeMappingChangeEvent
+    DynamicTypeMappingChangeEvent,
+    createColumnWidthChangedEvent
 } from 'builder_platform_interaction/events';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
@@ -28,7 +29,12 @@ import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_intera
 import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
-
+jest.mock('builder_platform_interaction/contextLib', () => {
+    const contextLib = jest.requireActual('builder_platform_interaction/contextLib');
+    return Object.assign({}, contextLib, {
+        orgHasFlowScreenSections: jest.fn().mockReturnValue(true)
+    });
+});
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
@@ -121,13 +127,17 @@ describe('Event handling on editor', () => {
         });
 
         setProcessTypeFeature('flow', supportedFeaturesListForFlow);
-
         const screen = createTestScreen('Screen1', null);
         screen.showHeader = true;
         screen.elementType = ELEMENT_TYPE.SCREEN;
+        const sectionField = createTestScreenField('Section', 'Section');
+        const columnField = createTestScreenField('Column', 'Column');
+        columnField.inputParameters.push({ name: 'width', value: 12 });
+        sectionField.fields.push(columnField);
+        screen.fields.push(sectionField);
         screenEditorElement = createComponentUnderTest({ node: screen });
 
-        expect(screen.fields).toHaveLength(8);
+        expect(screen.fields).toHaveLength(9);
     });
 
     describe('add screen field', () => {
@@ -253,6 +263,19 @@ describe('Event handling on editor', () => {
         canvas.dispatchEvent(createScreenElementMovedEvent(field1.guid, screenEditorElement.node.guid, 6));
         expect(screenEditorElement.node.fields[4].guid).toBe(field2.guid);
         expect(screenEditorElement.node.fields[5].guid).toBe(field1.guid);
+    });
+
+    it('width of column changed', async () => {
+        await ticks(1);
+        const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
+        editor.dispatchEvent(
+            createColumnWidthChangedEvent(
+                screenEditorElement.node.fields[8].fields[0].guid,
+                7,
+                screenEditorElement.node.fields[8].guid
+            )
+        );
+        expect(screenEditorElement.node.fields[8].fields[0].inputParameters[0].value).toBe('7');
     });
 });
 

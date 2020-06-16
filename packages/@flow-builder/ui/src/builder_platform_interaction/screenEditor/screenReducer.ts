@@ -39,11 +39,11 @@ import {
     isMultiSelectPicklistField,
     isMultiSelectCheckboxField,
     isRadioField,
-    isRegionContainerField,
     compareValues,
     EXTENSION_PARAM_PREFIX,
     extendFlowExtensionScreenField,
-    getColumnFieldType
+    getColumnFieldType,
+    isRegionContainerField
 } from 'builder_platform_interaction/screenEditorUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
@@ -263,7 +263,10 @@ const resizeColumnsForSection = (screen, sectionGuid) => {
     // Update the column with a new width input parameter
     parent.fields.forEach(column => {
         const originalInputParameters = column.inputParameters;
-        const inputParameter = Object.assign({}, originalInputParameters[0], { name: 'width', value: newWidth });
+        const inputParameter = Object.assign({}, originalInputParameters[0], {
+            name: 'width',
+            value: String(newWidth)
+        });
         const field = Object.assign({}, column, { inputParameters: [inputParameter] });
         fields.push(field);
     });
@@ -386,6 +389,68 @@ const deleteChoice = (screen, event, field) => {
     // Replace the field in the screen
     const positions = screen.getFieldIndexesByGUID(field.guid);
     return updateAncestors(screen, positions, updatedField);
+};
+
+/**
+ * Update the width input param on the given column with provided value
+ * @param {*} column - The column to update.
+ * @param {*} width - The new width value
+ * @returns {screenfield} - The new column screenfield after the change has been applied
+ */
+const updateColumnWidth = (column, width) => {
+    const originalInputParameters = column.inputParameters;
+    const inputParameter = Object.assign({}, originalInputParameters[0], { name: 'width', value: String(width) });
+    return Object.assign({}, column, { inputParameters: [inputParameter] });
+};
+
+/**
+ * Change the width of a column and the approptiate neighboring column when applicable.
+ * @param {*} screen - The screen.
+ * @param {*} event - The column width changed event.
+ * @returns {object} - A new screen with the changes applied
+ */
+const changeColumnWidth = (screen, event) => {
+    const columnGuid = event.detail.columnGuid;
+    const columnWidth = event.detail.columnWidth;
+    const sectionGuid = event.detail.sectionGuid;
+
+    const section = screen.getFieldByGUID(sectionGuid);
+    const fields = [];
+
+    // Update the appropriate columns with their adjusted width
+    let i = 0;
+    for (i; i < section.fields.length; i++) {
+        const column = section.fields[i];
+        if (column.guid === columnGuid) {
+            if (section.fields.length > 1) {
+                // Get old width and new width and determine the delta
+                const delta = Number(getValueFromHydratedItem(column.inputParameters[0].value)) - columnWidth;
+                if (delta === 0) {
+                    return screen;
+                }
+                if (i === section.fields.length - 1) {
+                    // Adjust width of immediate neighbor to the left
+                    const neighboringColumnWidth =
+                        Number(getValueFromHydratedItem(fields[i - 1].inputParameters[0].value)) + delta;
+                    fields[i - 1] = updateColumnWidth(fields[i - 1], neighboringColumnWidth);
+                    fields.push(updateColumnWidth(column, columnWidth));
+                } else {
+                    // Adjust width of immediate neighbor to the right
+                    fields.push(updateColumnWidth(column, columnWidth));
+                    i++;
+                    const neighboringColumnWidth =
+                        Number(getValueFromHydratedItem(section.fields[i].inputParameters[0].value)) + delta;
+                    fields.push(updateColumnWidth(section.fields[i], neighboringColumnWidth));
+                }
+            } else {
+                fields.push(updateColumnWidth(column, columnWidth));
+            }
+        } else {
+            fields.push(Object.assign({}, column));
+        }
+    }
+
+    return updateField(screen, section, { fields });
 };
 
 /**
@@ -824,6 +889,9 @@ export const screenReducer = (state, event, selectedNode) => {
 
         case SCREEN_EDITOR_EVENT_NAME.CHOICE_DELETED:
             return deleteChoice(state, event, selectedNode);
+
+        case SCREEN_EDITOR_EVENT_NAME.COLUMN_WIDTH_CHANGED:
+            return changeColumnWidth(state, event);
 
         case VALIDATE_ALL:
             return screenValidation.validateAll(state);

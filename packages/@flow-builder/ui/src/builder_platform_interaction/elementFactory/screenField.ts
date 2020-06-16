@@ -6,6 +6,7 @@ import {
     isPicklistField,
     isRegionContainerField,
     isRegionField,
+    getSectionFieldType,
     getColumnFieldType,
     getLocalExtensionFieldType,
     getScreenFieldTypeByName,
@@ -241,8 +242,7 @@ export function createScreenFieldWithFields(screenField = {}) {
     }
 
     Object.assign(newScreenField, {
-        fields: newChildFields,
-        hasNoChildren: newChildFields.length === 0
+        fields: newChildFields
     });
 
     return newScreenField;
@@ -305,7 +305,7 @@ export function createEmptyScreenFieldOfType(typeName, sectionCount = 0) {
     // TODO: We need to replace all of the string literals with references to a
     // constant in screenEditorFieldTypesUtils
     let newScreenField = {
-        name: type.name === 'Section' ? 'Section' + (sectionCount + 1) : undefined,
+        name: undefined,
         isRequired: type.dataType === 'Boolean' ? true : false,
         defaultValue: '',
         dataType: type.dataType,
@@ -323,31 +323,12 @@ export function createEmptyScreenFieldOfType(typeName, sectionCount = 0) {
     };
 
     // Add a single default column for section fields
-    if (type.name === 'Section') {
-        // TODO: Define the 'width' parameter name as a const somewhere
-        const columnWidthParameter = { name: 'width', value: 12, valueDataType: FLOW_DATA_TYPE.STRING.value };
-        const newChildScreenField = createScreenField(
-            {
-                name: newScreenField.name + '_Column1',
-                guid: generateGuid(),
-                fieldType: 'Region',
-                fields: [],
-                inputParameters: [columnWidthParameter]
-            },
-            true
-        );
+    if (type.name === getSectionFieldType().name) {
+        newScreenField.name = 'Section' + (sectionCount + 1);
+        const newChildScreenField = createScreenField(createEmptyColumn('12'), true);
         newScreenField.fields = [newChildScreenField];
     } else if (type.name === getColumnFieldType().name) {
-        const columnWidthParameter = { name: 'width', value: 12, valueDataType: FLOW_DATA_TYPE.STRING.value };
-        Object.assign(newScreenField, {
-            // TODO: correct name and fieldText. Also, this code needs to be consolidated
-            // with the code above that creates the default column for a new section.
-            name: newScreenField.name + '_Column1',
-            guid: generateGuid(),
-            fieldType: 'Region',
-            fields: [],
-            inputParameters: [columnWidthParameter]
-        });
+        Object.assign(newScreenField, createEmptyColumn(undefined));
     } else if (
         // Always add a placeholder choice for any choice based fields.
         type.name === 'RadioButtons' ||
@@ -359,7 +340,6 @@ export function createEmptyScreenFieldOfType(typeName, sectionCount = 0) {
     }
 
     newScreenField = createScreenField(newScreenField, true);
-    newScreenField.hasNoChildren = newScreenField.fields.length === 0;
     return newScreenField;
 }
 
@@ -524,6 +504,22 @@ function createVisibilityRuleObject(visibilityRule) {
     return {
         conditions: conditions.map(condition => createCondition(condition)),
         conditionLogic
+    };
+}
+
+function createEmptyColumn(width) {
+    // TODO: Define the 'width' parameter name as a const somewhere
+    const columnWidthParameter = {
+        name: 'width',
+        value: width,
+        valueDataType: FLOW_DATA_TYPE.STRING.value
+    };
+    return {
+        name: 'NewColumn',
+        guid: generateGuid(),
+        fieldType: getColumnFieldType().fieldType,
+        fields: [],
+        inputParameters: [columnWidthParameter]
     };
 }
 

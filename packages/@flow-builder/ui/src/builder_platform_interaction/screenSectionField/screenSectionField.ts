@@ -1,7 +1,8 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 /**
- * Wrapper used to represent visual preview of screen fields which are are display fields.
+ * Wrapper used to represent visual preview of section fields.
  */
 export default class ScreenSectionField extends LightningElement {
     @api title;
@@ -9,13 +10,18 @@ export default class ScreenSectionField extends LightningElement {
     @api section;
     @api selectedItemGuid;
 
-    // TODO: This approach for setting the slds_size_* of the columns won't work when the user is able to
-    // set the widths of the various columns (rather than all columns being equal width) - W-7207695.
-    get columnClass() {
-        let calculatedColumnClass = 'slds-grow slds-col screen-section-field-column';
-        if (this.section && this.section.fields && this.section.fields.length > 0) {
-            calculatedColumnClass = calculatedColumnClass + ' slds-size_1-of-' + this.section.fields.length;
-        }
-        return calculatedColumnClass;
+    get columns() {
+        return this.section.fields.map(column => {
+            const columnWidth =
+                column.inputParameters && column.inputParameters.length > 0
+                    ? Number(getValueFromHydratedItem(column.inputParameters[0].value))
+                    : 1;
+            const calculatedClass =
+                'slds-grow slds-col screen-section-field-column slds-size_' + columnWidth + '-of-12';
+            return {
+                ...column,
+                calculatedClass
+            };
+        });
     }
 }

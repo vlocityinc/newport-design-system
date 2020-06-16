@@ -8,7 +8,8 @@ export const SCREEN_EDITOR_EVENT_NAME = {
     SCREEN_NODE_SELECTED: 'screennodeselected',
     CHOICE_ADDED: 'choiceadded',
     CHOICE_CHANGED: 'choicechanged',
-    CHOICE_DELETED: 'choicedeleted'
+    CHOICE_DELETED: 'choicedeleted',
+    COLUMN_WIDTH_CHANGED: 'columnwidthchanged'
 };
 
 /**
@@ -158,5 +159,19 @@ export function createChoiceDeletedEvent(screenElement, position) {
     return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.CHOICE_DELETED, {
         screenElement,
         position
+    });
+}
+
+/**
+ * Creates an event to be fired when the user wants to change the width of a column.
+ * @param {string} columnGuid - The guid of the column whose width is changing
+ * @param {number} columnWidth - The column's new width
+ * @param {string} sectionGuid - The guid of the column's parent section
+ */
+export function createColumnWidthChangedEvent(columnGuid, columnWidth, sectionGuid) {
+    return createScreenEditorEvent(SCREEN_EDITOR_EVENT_NAME.COLUMN_WIDTH_CHANGED, {
+        columnGuid,
+        columnWidth,
+        sectionGuid
     });
 }

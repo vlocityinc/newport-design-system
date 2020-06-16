@@ -3,9 +3,9 @@
  -->
 <template>
     <div class="slds-grid">
-        <template for:each={section.fields} for:item="column">
+        <template for:each={columns} for:item="column">
             <builder_platform_interaction-screen-canvas
-                class={columnClass}
+                class={column.calculatedClass}
                 key={column.guid}
                 element={column}
                 selected-item-guid={selectedItemGuid}

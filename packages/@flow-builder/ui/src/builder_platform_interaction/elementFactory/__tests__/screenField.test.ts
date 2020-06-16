@@ -315,14 +315,14 @@ describe('screenField', () => {
                 const result = createEmptyScreenFieldOfType(getColumnFieldType().name);
 
                 expect(result).toMatchObject({
-                    name: 'undefined_Column1',
+                    name: 'NewColumn',
                     fieldText: '',
                     fieldType: 'Region',
                     fields: [],
                     inputParameters: [
                         expect.objectContaining({
                             name: 'width',
-                            value: 12,
+                            value: '',
                             valueDataType: FLOW_DATA_TYPE.STRING.value
                         })
                     ]

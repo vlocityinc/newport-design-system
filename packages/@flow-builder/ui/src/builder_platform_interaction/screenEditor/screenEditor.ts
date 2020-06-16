@@ -339,6 +339,15 @@ export default class ScreenEditor extends LightningElement {
         event.stopPropagation();
     };
 
+    handleColumnWidthChanged = event => {
+        this.screen = screenReducer(this.screen, event);
+        event.stopPropagation();
+
+        // Get the updated parent and select it
+        const section = this.screen.getFieldByGUID(event.sectionGuid);
+        this.setSelectedNode(section);
+    };
+
     /**
      * Hide the popover on actions that results in it losing focus
      */

@@ -28,8 +28,9 @@
                             <div slot="rowBody">
                                 <lightning-combobox
                                     label={column.widthLabel}
+                                    name={column.guid}
                                     value={column.width}
-                                    options={columnWidthOptions}
+                                    options={column.widthOptions}
                                     onchange={column.handleWidthChange}
                                 >
                                 </lightning-combobox>

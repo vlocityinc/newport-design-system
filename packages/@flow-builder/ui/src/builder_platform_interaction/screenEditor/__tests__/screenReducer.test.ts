@@ -12,7 +12,8 @@ import {
     createScreenElementDeletedEvent,
     createAddScreenFieldEvent,
     UseAdvancedOptionsSelectionChangedEvent,
-    DynamicTypeMappingChangeEvent
+    DynamicTypeMappingChangeEvent,
+    createColumnWidthChangedEvent
 } from 'builder_platform_interaction/events';
 
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
@@ -22,6 +23,7 @@ import { flowWithAllElementsUIModel } from 'mock/storeData';
 const section1Guid = 'section1';
 const column1Guid = 'column1';
 const column2Guid = 'column2';
+const column3Guid = 'column3';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -284,7 +286,7 @@ describe('screen reducer', () => {
                         inputParameters: [
                             {
                                 name: 'width',
-                                value: '6'
+                                value: '4'
                             }
                         ],
                         fields: []
@@ -298,10 +300,24 @@ describe('screen reducer', () => {
                         inputParameters: [
                             {
                                 name: 'width',
-                                value: '6'
+                                value: '4'
                             }
                         ],
                         fields: [field1, field2]
+                    },
+                    {
+                        guid: column3Guid,
+                        name: column3Guid,
+                        type: {
+                            name: 'Column'
+                        },
+                        inputParameters: [
+                            {
+                                name: 'width',
+                                value: '4'
+                            }
+                        ],
+                        fields: []
                     }
                 ]
             };
@@ -324,8 +340,8 @@ describe('screen reducer', () => {
             const event = createAddScreenFieldEvent('Column', 0, screen.fields[1].guid);
             const newScreen = screenReducer(screen, event);
             const childFields = newScreen.fields[1].fields;
-            expect(childFields).toHaveLength(3);
-            expect(childFields[0].inputParameters[0].value).toBe(4);
+            expect(childFields).toHaveLength(4);
+            expect(childFields[0].inputParameters[0].value).toBe('3');
         });
 
         it('deletes a child field', () => {
@@ -339,8 +355,31 @@ describe('screen reducer', () => {
         it('resizes columns if column deleted from section', () => {
             const event = createScreenElementDeletedEvent(screen.fields[1].fields[0], null, screen.fields[1].guid);
             const newScreen = screenReducer(screen, event);
-            const column = newScreen.fields[1].fields[0];
-            expect(column.inputParameters[0].value).toEqual(12);
+            const childFields = newScreen.fields[1].fields;
+            expect(childFields).toHaveLength(2);
+            expect(childFields[0].inputParameters[0].value).toEqual('6');
+        });
+
+        it('resizes neighboring column on the right when the width of a column changes', () => {
+            const event = createColumnWidthChangedEvent(column1Guid, 7, section1Guid);
+            const newScreen = screenReducer(screen, event);
+            const column1 = newScreen.fields[1].fields[0];
+            const column2 = newScreen.fields[1].fields[1];
+            const column3 = newScreen.fields[1].fields[2];
+            expect(column1.inputParameters[0].value).toEqual('7');
+            expect(column2.inputParameters[0].value).toEqual('1');
+            expect(column3.inputParameters[0].value).toEqual('4');
+        });
+
+        it('resizes neighboring column on the left when the width of the last column changes', () => {
+            const event = createColumnWidthChangedEvent(column3Guid, 7, section1Guid);
+            const newScreen = screenReducer(screen, event);
+            const column1 = newScreen.fields[1].fields[0];
+            const column2 = newScreen.fields[1].fields[1];
+            const column3 = newScreen.fields[1].fields[2];
+            expect(column1.inputParameters[0].value).toEqual('4');
+            expect(column2.inputParameters[0].value).toEqual('1');
+            expect(column3.inputParameters[0].value).toEqual('7');
         });
     });
 

@@ -7,6 +7,7 @@ import {
     getDragFieldValue
 } from 'builder_platform_interaction/screenEditorUtils';
 import { createAddScreenFieldEvent, createScreenElementMovedEvent } from 'builder_platform_interaction/events';
+import { isRegionContainerField } from 'builder_platform_interaction/screenEditorUtils';
 const DRAGGING_REGION_SELECTOR = '.screen-canvas-dragging-region';
 const INSERTION_LINE_SELECTOR = '.screen-canvas-insertion-line';
 const CANVAS_BODY_SELECTOR = '.screen-canvas-body';
@@ -29,7 +30,8 @@ export default class ScreenCanvas extends LightningElement {
             return this.element.fields.map(field => {
                 return {
                     field,
-                    selected: this.selectedItemGuid === field.guid
+                    selected: this.selectedItemGuid === field.guid,
+                    hasNoChildren: !isRegionContainerField(field)
                 };
             });
         }
