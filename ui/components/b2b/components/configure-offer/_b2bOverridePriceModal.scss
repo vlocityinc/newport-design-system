@@ -23,44 +23,10 @@
     color: $grey-35;
     .nds-b2b-override-select-price {
       padding-left: 2.5rem;
-      .nds-b2b-config-label {
-        color: $black-primary;
-        font-size: 0.8rem;
-        font-weight: $font-weight-regular;
-        margin-bottom: 0.6rem;
-      }
-      .nds-b2b-config-radio_container {
-        display: flex;
-      }
-      .nds-b2b-config-radio_container input[type="radio"] {
-        opacity: 0;
-        position: fixed;
-        width: 0;
-      }
-      .nds-b2b-config-radio_container label {
-        display: inline-block;
-        background-color: $white;
-        padding: 0.34rem 0;
-        text-align: center;
-        font-size: 0.75rem;
-        border: 1px solid $light-silver;
-        border-radius: 0.1875rem;
+      .slds-radio_button__label {
         color: $azure;
-        margin-right: 0.8rem;
-        transition: all 0.35s;
-        margin-right: -0.375rem;
-        cursor: pointer;
-        width: 8.6rem;
-        &.selected {
-          background-color: $azure;
-          border-color: $azure;
-          color: $white;
-        }
       }
-      .nds-b2b-config-radio_container label:hover {
-        background-color: $alice-blue;
-      }
-      .nds-b2b-config-radio_container input[type="radio"]:checked + label {
+      .slds-radio_button [type=radio]:checked+.slds-radio_button__label {
         background-color: $azure;
         border-color: $azure;
         color: $white;
@@ -89,9 +55,25 @@
               margin-left: 0.5rem;
             }
           }
+          .nds-b2b-discount-description {
+            font-size: 0.7rem;
+            color: $palette-gray-7;
+          }
+          .nds-b2b-discount-type {
+            font-size: 0.75rem;
+            margin-left: 0.25rem;
+          }
+          &:hover {
+            background-color: $alice-blue;
+          }
           &:nth-last-child(2) {
             padding-bottom: 1rem;
             border-bottom: 1px solid $black-primary;
+          }
+          &:nth-last-child(1) {
+            &:hover {
+              background-color: none;
+            }
           }
         }
       }
@@ -103,7 +85,8 @@
           font-size: 0.8rem;
         }
         .nds-b2b-custom-discount {
-          padding: 0.5rem 2.6rem;
+          justify-content: flex-end;
+          padding: 0.5rem 1.2rem;
           margin: 0.5rem 0;
           .nds-b2b-input-icon {
             position: absolute;
@@ -121,7 +104,7 @@
           .nds-b2b-input {
             border: 1px solid $newport-border-gray;
             border-radius: 0.25rem;
-            padding: 0 2rem;
+            padding: 0 1rem;
             height: 2.4rem;
             &:focus {
               outline: none;
@@ -140,14 +123,40 @@
             cursor: pointer;
             background-color: $azure;
           }
+          .nds-b2b-adjustment-pricing {
+            .slds-radio_button__label {
+              color: $azure;
+            }
+            .slds-radio_button [type=radio]:checked+.slds-radio_button__label {
+              background-color: $azure;
+              border-color: $azure;
+              color: $white;
+            }
+          }
+          @media screen and (min-width: 48rem) {
+            padding: 0.5rem 2.6rem;
+          }
         }
         .nds-b2b-override-discounts_row {
-          padding: 1rem 2.6rem;
+          padding: 0.8rem 2.6rem;
           border-bottom: 1px solid $newport-border-gray;
           .nds-b2b-add-button_text {
             color: $azure;
             font-size: 0.8rem;
             cursor: pointer;
+          }
+          .nds-b2b-delete-discount {
+            cursor: pointer;
+          }
+          .nds-b2b-discount-type {
+            font-size: 0.75rem;
+          }
+          .nds-b2b-discount-until-date {
+            font-size: 0.7rem;
+            color: $palette-gray-7;
+          }
+          &:hover {
+            background-color: $alice-blue;
           }
         }
       }
