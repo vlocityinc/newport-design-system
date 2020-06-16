@@ -3,9 +3,8 @@ import { LightningElement, api, track } from 'lwc';
 import { LABELS } from './debugEditorPopoverLabels';
 
 export default class DebugEditorPopover extends LightningElement {
-    // TODO: automation engine core
     labels = LABELS;
-    // debug options
+
     @track
     debugInput = {
         runLatestVersion: true,

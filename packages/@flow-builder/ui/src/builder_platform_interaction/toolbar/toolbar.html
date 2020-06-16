@@ -133,6 +133,14 @@
                 >
                 </lightning-button>
                 <lightning-button
+                    if:true={isNewDebugSupported}
+                    label="NewDebug"
+                    title="NewDebug"
+                    onclick={handleNewDebug}
+                    disabled={isRunDebugDisabled}
+                >
+                </lightning-button>
+                <lightning-button
                     if:true={isDiffFlowAllowed}
                     label={labels.diffFlowTitle}
                     title={labels.diffFlowTitle}

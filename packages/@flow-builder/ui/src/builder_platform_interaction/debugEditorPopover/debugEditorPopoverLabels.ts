@@ -4,6 +4,7 @@ import showDebugInfoHelptext from '@salesforce/label/FlowBuilderDebugEditor.show
 import runAs from '@salesforce/label/FlowBuilderDebugEditor.runAs';
 import runLatestVersion from '@salesforce/label/FlowBuilderDebugEditor.runLatestVersion';
 import governorLimits from '@salesforce/label/FlowBuilderDebugEditor.governorLimits';
+import debugOptions from '@salesforce/label/FlowBuilderDebugEditor.debugOptions';
 
 export const LABELS = {
     enableRollbackMode,
@@ -11,5 +12,6 @@ export const LABELS = {
     showDebugInfoHelptext,
     runAs,
     runLatestVersion,
-    governorLimits
+    governorLimits,
+    debugOptions
 };

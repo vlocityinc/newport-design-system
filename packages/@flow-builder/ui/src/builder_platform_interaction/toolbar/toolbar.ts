@@ -12,7 +12,8 @@ import {
     DuplicateEvent,
     ToggleFlowStatusEvent,
     ToggleSelectionModeEvent,
-    ClosePropertyEditorEvent
+    ClosePropertyEditorEvent,
+    NewDebugFlowEvent
 } from 'builder_platform_interaction/events';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { orgHasFlowBuilderDebug } from 'builder_platform_interaction/contextLib';
@@ -80,6 +81,9 @@ export default class Toolbar extends LightningElement {
 
     @api
     isCutCopyDisabled;
+
+    @api
+    isNewDebugSupported;
 
     labels = LABELS;
 
@@ -281,6 +285,13 @@ export default class Toolbar extends LightningElement {
         event.preventDefault();
         const debugFlowEvent = new DebugFlowEvent();
         this.dispatchEvent(debugFlowEvent);
+        logInteraction(`debug-button`, 'toolbar', null, 'click');
+    }
+
+    handleNewDebug(event) {
+        event.preventDefault();
+        const newDebugFlowEvent = new NewDebugFlowEvent();
+        this.dispatchEvent(newDebugFlowEvent);
         logInteraction(`debug-button`, 'toolbar', null, 'click');
     }
 

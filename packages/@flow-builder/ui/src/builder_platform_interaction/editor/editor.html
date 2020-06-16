@@ -23,6 +23,7 @@
                 oneditflowproperties={handleEditFlowProperties}
                 onrunflow={handleRunFlow}
                 ondebugflow={handleDebugFlow}
+                onnewdebugflow={handleNewDebugFlow}
                 onsaveas={handleSaveFlow}
                 onsave={handleSaveFlow}
                 ondiffflow={handleDiffFlow}
@@ -44,6 +45,7 @@
                 is-cut-copy-disabled={isCutCopyDisabled}
                 is-undo-disabled={isUndoDisabled}
                 is-redo-disabled={isRedoDisabled}
+                is-new-debug-supported={useNewDebugExperience}
                 is-lightning-flow-builder={properties.isLightningFlowBuilder}
                 can-only-save-as-new-definition={properties.canOnlySaveAsNewDefinition}
                 has-unsaved-changes={properties.hasUnsavedChanges}

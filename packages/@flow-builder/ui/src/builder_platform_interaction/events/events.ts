@@ -40,6 +40,7 @@ export { UndoEvent } from './toolbarEvents/undoEvent';
 export { RedoEvent } from './toolbarEvents/redoEvent';
 export { RunFlowEvent } from './toolbarEvents/runFlowEvent';
 export { DebugFlowEvent } from './toolbarEvents/debugFlowEvent';
+export { NewDebugFlowEvent } from './toolbarEvents/newDebugFlowEvent';
 export { SaveFlowEvent } from './toolbarEvents/saveFlowEvent';
 export { DiffFlowEvent } from './toolbarEvents/diffFlowEvent';
 export { AddElementEvent } from './elementEvents/addElementEvent';

@@ -138,6 +138,7 @@ let storeInstance;
 
 const RUN = 'run';
 const DEBUG = 'debug';
+const NEWDEBUG = 'new debug';
 
 const EDITOR = 'EDITOR';
 const APP_NAME = 'FLOW_BUILDER';
@@ -840,8 +841,8 @@ export default class Editor extends LightningElement {
         if (currentState && currentState.properties) {
             const flowDevName = currentState.properties.name;
             url = `${this.runDebugUrl}${flowDevName}/${this.flowId}`;
-            if (runOrDebug === DEBUG) {
-                if (this.useNewDebugExperience) {
+            if (runOrDebug === NEWDEBUG || runOrDebug === DEBUG) {
+                if (runOrDebug === NEWDEBUG && this.useNewDebugExperience) {
                     this.queueOpenFlowDebugEditor(() => {
                         return {
                             flowId: this.flowId,
@@ -849,14 +850,13 @@ export default class Editor extends LightningElement {
                             runDebugInterviewCallback: this.runDebugInterviewCallback
                         };
                     });
-                } else {
-                    url = `${url}?flow__debug=true`;
+                    return;
                 }
+                url = `${url}?flow__debug=true`;
             }
         }
-        if (runOrDebug === RUN || (runOrDebug === DEBUG && !this.useNewDebugExperience)) {
-            window.open(url, '_blank');
-        }
+
+        window.open(url, '_blank');
     };
 
     /**
@@ -1068,6 +1068,9 @@ export default class Editor extends LightningElement {
         this.runOrDebugFlow(DEBUG);
     };
 
+    handleNewDebugFlow = () => {
+        this.runOrDebugFlow(NEWDEBUG);
+    };
     /**
      * Handles the save flow event fired by a toolbar. Saves the flow if the flow has already been created.
      * Pops the flowProperties property editor if the flow is being saved for the first time.
