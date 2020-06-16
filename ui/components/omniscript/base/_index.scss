@@ -57,3 +57,10 @@
 .nds-tooltip__container span .tooltipSection {
   position: absolute;
 }
+
+// Removes onclick focus for <article> component in OmniScript
+.omniscript-article {
+  &:focus {
+    outline: none;
+  }
+}
