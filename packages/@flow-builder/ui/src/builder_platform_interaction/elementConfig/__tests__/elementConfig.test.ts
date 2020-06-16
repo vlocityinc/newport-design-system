@@ -1,5 +1,11 @@
 // @ts-nocheck
-import { elementTypeToConfigMap, getConfigForElementType, isCanvasElement, isChildElement } from '../elementConfig';
+import {
+    elementTypeToConfigMap,
+    getConfigForElementType,
+    isCanvasElement,
+    isChildElement,
+    updateElementConfigMapWithSubtypes
+} from '../elementConfig';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 function verifyConfig(elementType, config) {
@@ -52,6 +58,25 @@ describe('element-config', () => {
 
         it('returns false for a top level element', () => {
             expect(isChildElement(ELEMENT_TYPE.ASSIGNMENT)).toEqual(false);
+        });
+    });
+
+    describe('updateElementConfigMapWithSubtypes', () => {
+        it('updates the elementTypeToConfigMap to include subtype configuration', () => {
+            const elements = [
+                {
+                    isElementSubtype: 'true',
+                    name: 'test_subtype_name',
+                    elementType: ELEMENT_TYPE.ASSIGNMENT,
+                    label: 'test_label',
+                    color: 'test_color',
+                    icon: 'test_icon',
+                    description: 'test_description',
+                    flowBuilderConfigComponent: 'test_flowBuilderConfigComponent'
+                }
+            ];
+            updateElementConfigMapWithSubtypes(elements);
+            verifyConfig('test_subtype_name', getConfigForElementType('test_subtype_name'));
         });
     });
 });

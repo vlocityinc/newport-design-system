@@ -2,6 +2,7 @@
 // eslint-disable-next-line lwc-core/no-interop-create, lwc-core/no-interop-dispatch, lwc-core/no-interop-render
 import { createComponent, dispatchGlobalEvent, renderComponent } from 'aura';
 import {
+    getConfigForElement,
     getConfigForElementType,
     MODAL_SIZE,
     EDIT_START_RECORD_CHANGE_CONTEXT,
@@ -20,6 +21,7 @@ import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './builderUtilsLabels';
 import { isObject } from 'builder_platform_interaction/commonUtils';
 import { clearExpressions } from 'builder_platform_interaction/expressionValidator';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 
 /**
  * @constant state of callback result
@@ -87,10 +89,10 @@ const createComponentPromise = (cmpName, attr) => {
  * @param {string} elementType eg: Assignment, Decision, etc
  * @returns {string} title for the modal
  */
-const getTitleForModalHeader = (mode, elementType) => {
-    const elementConfig = getConfigForElementType(elementType);
+const getTitleForModalHeader = (mode, element) => {
+    const elementConfig = getConfigForElement(element);
     if (!elementConfig || !elementConfig.labels) {
-        throw new Error('label is not defined in the element config for the element type: ' + elementType);
+        throw new Error('label is not defined in the element config for the element type: ' + element.elementType);
     }
 
     let titlePrefix = '',
@@ -221,14 +223,13 @@ const getConnectorPickerConfig = (mode, attributes) => {
             'Attributes passed to invoke connector selection panel method are incorrect. Must contain nodeUpdate, comboboxOptions, sourceElementType and targetElementLabel'
         );
     }
-
     const nodeUpdate = attributes.nodeUpdate,
         comboboxOptions = attributes.comboboxOptions,
         elementType = attributes.sourceElementType,
         elementConfig = getConfigForElementType(elementType),
         bodyText = elementConfig.labels.connectorPickerBodyText,
         comboBoxLabel = elementConfig.labels.comboBoxLabel,
-        titleForModal = getTitleForModalHeader(mode, elementType),
+        titleForModal = getTitleForModalHeader(mode, { elementType }),
         targetElementLabel = attributes.targetElementLabel;
 
     const attr = {
@@ -306,8 +307,11 @@ export const getPropertyEditorConfig = (mode, attributes) => {
         newResourceCallback = attributes.newResourceCallback,
         node = attributes.node,
         elementType = attributes.node.elementType,
-        elementConfig = getConfigForElementType(elementType),
-        titleForModal = getTitleForModalHeader(mode, elementType),
+        elementConfig = getConfigForElement(attributes.node),
+        titleForModal = getTitleForModalHeader(mode, {
+            elementType,
+            elementSubtype: getValueFromHydratedItem(attributes.node.elementSubtype)
+        }),
         labelForOkButton = getLabelForOkButton(mode),
         desc = getPropertyEditorDescriptor(mode, elementConfig),
         className = getPropertyEditorClassName(desc),

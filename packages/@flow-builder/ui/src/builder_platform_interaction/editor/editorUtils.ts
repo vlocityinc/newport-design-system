@@ -16,7 +16,10 @@ import { getElementForStore } from 'builder_platform_interaction/propertyEditorF
 import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import {
+    getConfigForElementType,
+    updateElementConfigMapWithSubtypes
+} from 'builder_platform_interaction/elementConfig';
 import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 import {
     baseCanvasElement,
@@ -175,7 +178,7 @@ export const getElementsToBeDeleted = (
 };
 
 /**
- * This function is used to figure save type which is used to figure out if a modal should be displayed or not while saving a flow
+ * This method is used to figure save type which is used to figure out if a modal should be displayed or not while saving a flow
  * @param {String} eventType There are 2 save event type: save and save as
  * @param {String} flowId It will be undefined if it is a brand new flow
  * @param {Boolean} canOnlySaveAsNewDefinition It is needed to handle use case for flow template. They can only be saved as new flow
@@ -807,6 +810,7 @@ export function getToolboxElements(flowProcessType, flowTriggerType) {
             logPerfTransactionEnd(LEFT_PANEL_ELEMENTS, {
                 numOfElements: data.length
             });
+            updateElementConfigMapWithSubtypes(data);
             return data;
         })
         .catch((/* error */) => {

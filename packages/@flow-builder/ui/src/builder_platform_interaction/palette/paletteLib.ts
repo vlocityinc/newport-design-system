@@ -38,6 +38,7 @@ export function createItem(item, level, posinset, setsize) {
         label: item.label,
         description,
         elementType: item.elementType,
+        elementSubtype: item.elementSubtype,
         actionType: item.actionType,
         actionName: item.actionName,
         iconName: item.iconName,

@@ -204,6 +204,7 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
         });
     }
 
+    const elementSubtype = decision.elementSubtype;
     Object.assign(newDecision, {
         defaultConnectorLabel,
         outcomeReferences,
@@ -218,7 +219,8 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
         deletedChildElementGuids: deletedOutcomeGuids,
         childElements: newOutcomes,
         deletedBranchHeadGuids,
-        elementType: ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES
+        elementType: ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES,
+        elementSubtype
     };
 }
 

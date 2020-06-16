@@ -284,7 +284,7 @@ export default class Canvas extends LightningElement {
      */
     handleDrop = event => {
         event.preventDefault();
-        const { elementType, actionType, actionName } = JSON.parse(event.dataTransfer.getData('text'));
+        const { elementType, elementSubtype, actionType, actionName } = JSON.parse(event.dataTransfer.getData('text'));
         if (!isCanvasElement(elementType)) {
             return;
         }
@@ -292,7 +292,14 @@ export default class Canvas extends LightningElement {
         const locationX = (event.clientX - this.innerCanvasArea.getBoundingClientRect().left) / this.currentScale;
         const locationY = (event.clientY - this.innerCanvasArea.getBoundingClientRect().top) / this.currentScale;
 
-        const addElementEvent = new AddElementEvent(elementType, locationX, locationY, actionType, actionName);
+        const addElementEvent = new AddElementEvent(
+            elementType,
+            elementSubtype,
+            locationX,
+            locationY,
+            actionType,
+            actionName
+        );
         this.dispatchEvent(addElementEvent);
     };
 

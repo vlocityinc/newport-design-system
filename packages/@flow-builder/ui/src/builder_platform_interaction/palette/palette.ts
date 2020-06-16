@@ -164,6 +164,7 @@ export default class Palette extends LightningElement {
 
             const eventDetail = {
                 elementType: item.elementType,
+                elementSubtype: item.elementSubtype,
                 actionType: item.actionType,
                 actionName: item.actionName
             };

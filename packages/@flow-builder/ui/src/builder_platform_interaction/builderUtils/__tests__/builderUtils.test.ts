@@ -13,6 +13,11 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
             const config = actual.getConfigForElementType(type);
             config.descriptor = `${mockPackage}:${mockComponent}`;
             return config;
+        }),
+        getConfigForElement: jest.fn(element => {
+            const config = actual.getConfigForElement(element);
+            config.descriptor = `${mockPackage}:${mockComponent}`;
+            return config;
         })
     });
 });

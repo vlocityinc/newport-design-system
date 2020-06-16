@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import { getConfigForElement } from 'builder_platform_interaction/elementConfig';
 import { Store, deepCopy } from 'builder_platform_interaction/storeLib';
 import { swapUidsForDevNames, swapDevNamesToGuids } from 'builder_platform_interaction/translatorLib';
 import { hydrateWithErrors, dehydrate } from 'builder_platform_interaction/dataMutationLib';
@@ -14,7 +14,7 @@ export function getElementForPropertyEditor(element = {}) {
     if (!elementType) {
         throw new Error('ElementType is not defined for creation of resource element');
     }
-    const { factory } = getConfigForElementType(elementType);
+    const { factory } = getConfigForElement(element);
     const { propertyEditor } = factory;
     if (!propertyEditor) {
         throw new Error('property editor factory is not defined to create new element');
@@ -45,7 +45,8 @@ export function getElementForStore(element) {
     }
     // TODO: REMOVE THIS DEEP COPY ASAP W-5501173
     const elementAfterDehydrateAndUnwrap = dehydrate(deepCopy(element));
-    const { factory } = getConfigForElementType(elementType);
+    // const configLookup = elementSubtype && elementSubtype.value ? elementSubtype.value : elementType;
+    const { factory } = getConfigForElement(element);
     const { propertyEditor, closePropertyEditor } = factory;
     let newElement;
     if (closePropertyEditor) {
@@ -69,7 +70,6 @@ function getElementAfterHydratingWithError(element) {
     if (!element) {
         throw new Error('element is not defined to be hydrated');
     }
-    const { elementType } = element;
-    const { nonHydratableProperties } = getConfigForElementType(elementType);
+    const { nonHydratableProperties } = getConfigForElement(element);
     return hydrateWithErrors(element, nonHydratableProperties || []);
 }

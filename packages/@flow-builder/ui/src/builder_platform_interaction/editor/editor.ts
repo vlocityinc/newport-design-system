@@ -510,6 +510,7 @@ export default class Editor extends LightningElement {
                         this.supportedActions = actions;
                     }
                 });
+
                 const palettePromise = loadPalettePromise.then(data => {
                     this.palette = data;
                 });
@@ -1236,6 +1237,7 @@ export default class Editor extends LightningElement {
                 childIndex,
                 parent,
                 elementType,
+                elementSubtype,
                 locationX,
                 locationY,
                 actionType,
@@ -1264,6 +1266,7 @@ export default class Editor extends LightningElement {
                     locationX,
                     locationY,
                     elementType,
+                    elementSubtype,
                     actionType,
                     actionName,
                     isNewElement: true,

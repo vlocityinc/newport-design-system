@@ -67,7 +67,7 @@ function addBaseCanvasElementProperties(canvasElement, newCanvasElement) {
 
 export function baseCanvasElement(canvasElement = {}) {
     const newCanvasElement = baseResource(canvasElement);
-    const { label = '', locationX = 0, locationY = 0, connectorCount = 0 } = canvasElement;
+    const { label = '', locationX = 0, locationY = 0, connectorCount = 0, elementSubtype } = canvasElement;
     let { config } = canvasElement;
     config = createCanvasElementConfig(config);
 
@@ -81,7 +81,8 @@ export function baseCanvasElement(canvasElement = {}) {
         locationY,
         isCanvasElement: true,
         connectorCount,
-        config
+        config,
+        elementSubtype
     });
 }
 

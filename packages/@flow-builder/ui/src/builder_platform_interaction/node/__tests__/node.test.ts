@@ -18,6 +18,15 @@ elementConfig.getConfigForElementType = jest.fn().mockImplementation(elementType
           }
         : elementConfig.elementTypeToConfigMap[elementType];
 });
+elementConfig.getConfigForElement = jest.fn().mockImplementation(element => {
+    return element.elementType === ELEMENT_TYPE.START_ELEMENT
+        ? {
+              isDeletable: false,
+              nodeConfig: { isSelectable: false, isEditable: false },
+              labels: {}
+          }
+        : elementConfig.elementTypeToConfigMap[element.elementType];
+});
 
 const createComponentUnderTest = (isSelected, isHighlighted, elementType = ELEMENT_TYPE.ASSIGNMENT) => {
     const el = createElement('builder_platform_interaction-node', {

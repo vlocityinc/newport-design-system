@@ -23,7 +23,6 @@ export function createAssignment(assignment = {}) {
         const newAssignmentItem = createAssignmentItem();
         assignmentItems = [newAssignmentItem];
     }
-
     const assignmentObject = Object.assign(newAssignment, {
         assignmentItems,
         maxConnections,

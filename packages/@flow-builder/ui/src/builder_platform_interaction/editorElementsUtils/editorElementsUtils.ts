@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import { getConfigForElement } from 'builder_platform_interaction/elementConfig';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { logMetricsServiceErrorTransaction } from 'builder_platform_interaction/loggingUtils';
@@ -19,7 +19,7 @@ const mutateElements = (elements, palette) =>
         try {
             if (headerLabel && headerItems) {
                 headerItems.forEach(headerItem => {
-                    const element = elements.find(el => {
+                    const filteredElements = elements.filter(el => {
                         if (headerItem.type === 'element') {
                             return headerItem.name === el.elementType;
                         }
@@ -29,39 +29,34 @@ const mutateElements = (elements, palette) =>
 
                         return false;
                     });
-                    if (element) {
-                        const elementType = element.elementType || ELEMENT_TYPE.ACTION_CALL;
-                        const { nodeConfig, labels, canHaveFaultConnector } = getConfigForElementType(elementType);
-                        const label = element.elementType ? labels && labels.leftPanel : element.label;
-                        const actionType = element.elementType ? undefined : element.type;
-                        const actionName = element.elementType ? undefined : element.name;
-                        const {
-                            description,
-                            dragImageSrc,
-                            iconBackgroundColor,
-                            iconName,
-                            iconShape,
-                            iconSize
-                        } = nodeConfig;
+                    if (filteredElements.length > 0) {
+                        filteredElements.forEach(element => {
+                            const elementType = element.elementType || ELEMENT_TYPE.ACTION_CALL;
+                            const elementSubtype = element.isElementSubtype ? element.name : null;
+                            const { nodeConfig, labels, canHaveFaultConnector } = getConfigForElement(element);
+                            const label = element.elementType ? labels && labels.leftPanel : element.label;
+                            const actionType = element.elementType ? undefined : element.type;
+                            const actionName = element.elementType ? undefined : element.name;
+                            const { iconName, dragImageSrc, iconBackgroundColor, description } = nodeConfig;
 
-                        if (!acc[headerLabel]) {
-                            acc[headerLabel] = [];
-                        }
-                        const item = {
-                            actionName,
-                            actionType,
-                            canHaveFaultConnector,
-                            description,
-                            dragImageSrc,
-                            elementType,
-                            guid: generateGuid(),
-                            label,
-                            iconBackgroundColor,
-                            iconName,
-                            iconShape,
-                            iconSize
-                        };
-                        acc[headerLabel].push(item);
+                            if (!acc[headerLabel]) {
+                                acc[headerLabel] = [];
+                            }
+                            const item = {
+                                guid: generateGuid(),
+                                iconName,
+                                dragImageSrc,
+                                iconBackgroundColor,
+                                label,
+                                description,
+                                elementType,
+                                elementSubtype,
+                                actionType,
+                                actionName,
+                                canHaveFaultConnector
+                            };
+                            acc[headerLabel].push(item);
+                        });
                     }
                 });
             }

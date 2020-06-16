@@ -3,6 +3,7 @@ import { ACTION_TYPE, METADATA_KEY, ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'buil
 import { ICONS_LARGE } from 'builder_platform_interaction/imageLib';
 import { LABELS } from './elementConfigLabels';
 import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import {
     createActionCall,
     createDuplicateActionCall,
@@ -1004,12 +1005,53 @@ const ROOT_ELEMENT_CONFIG = {
 };
 
 /**
- * @param {string}
- *            elementType - String value to choose the actual component from the
- *            map, if empty, default element is chosen
- * @returns {object} Object containing component config
+ * Updates the elementTypeToConfigMap to include the configuration information for element subtypes retrieved via the Service API.
+ * @param elements - Array of elements retrieved from Service API to populate toolbox elements list in left panel
  */
-export function getConfigForElementType(elementType) {
+export const updateElementConfigMapWithSubtypes = (elements: Array<object>) => {
+    for (let i = 0; i < elements.length; i++) {
+        const element = elements[i];
+        if (element && element.isElementSubtype) {
+            elementTypeToConfigMap[element.name] = JSON.parse(
+                JSON.stringify(elementTypeToConfigMap[element.elementType])
+            );
+
+            const elementToUpdate = elementTypeToConfigMap[element.name];
+            elementToUpdate.elementSubtype = element.name;
+            elementToUpdate.factory = elementTypeToConfigMap[element.elementType].factory;
+            elementToUpdate.labels.singular = element.label;
+            elementToUpdate.labels.leftPanel = element.label;
+            elementToUpdate.labels.newModal = LABELS.newElementHeaderPrefix + ' ' + element.label;
+            elementToUpdate.labels.editModal = LABELS.editButtonLabel + ' ' + element.label;
+            elementToUpdate.color = element.color;
+            elementToUpdate.nodeConfig.iconName = element.icon;
+            elementToUpdate.nodeConfig.description = element.description;
+            elementToUpdate.flowBuilderConfigComponent = element.flowBuilderConfigComponent;
+        }
+    }
+};
+
+/**
+ * Returns the configuration information for the passed element or element subtype
+ * @param element - element to fetch configuration information for based on its element type or subelement type
+ * @returns An object containing component config
+ */
+export function getConfigForElement(element: object): object {
+    let configLookup = null;
+    if (element.isElementSubtype) {
+        configLookup = element.name;
+    } else {
+        configLookup = getValueFromHydratedItem(element.elementSubtype) || element.elementType;
+    }
+    return getConfigForElementType(configLookup);
+}
+
+/**
+ * @param elementType - String value to choose the actual component from the
+ *            map, if empty, default element is chosen
+ * @returns An object containing component config
+ */
+export function getConfigForElementType(elementType: string): object {
     return useFixedLayoutCanvas() ? flcGetConfigForElementType(elementType) : ffcGetConfigForElementType(elementType);
 }
 

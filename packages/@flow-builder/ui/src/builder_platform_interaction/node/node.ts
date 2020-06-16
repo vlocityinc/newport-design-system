@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
-import { getConfigForElementType, ICON_SHAPE } from 'builder_platform_interaction/elementConfig';
+import { getConfigForElement, ICON_SHAPE } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     DragNodeEvent,
@@ -46,7 +46,7 @@ export default class Node extends LightningElement {
     currentNodeLabel = null;
 
     getNodeConfig() {
-        return getConfigForElementType(this.node.elementType).nodeConfig;
+        return getConfigForElement(this.node).nodeConfig;
     }
 
     isSelectable() {
@@ -119,10 +119,7 @@ export default class Node extends LightningElement {
     }
 
     get showTrashIcon() {
-        return (
-            this.node.config.isSelected &&
-            getPropertyOrDefaultToTrue(getConfigForElementType(this.node.elementType), 'isDeletable')
-        );
+        return this.node.config.isSelected && getPropertyOrDefaultToTrue(getConfigForElement(this.node), 'isDeletable');
     }
 
     get nodeIconTitle() {
@@ -139,11 +136,7 @@ export default class Node extends LightningElement {
             }
         }
 
-        return format(
-            LABELS.nodeIconTitle,
-            getConfigForElementType(this.node.elementType).labels.singular,
-            this.node.label
-        );
+        return format(LABELS.nodeIconTitle, getConfigForElement(this.node).labels.singular, this.node.label);
     }
 
     get startIconFlowType() {
@@ -182,11 +175,7 @@ export default class Node extends LightningElement {
     }
 
     get trashCanAlternativeText() {
-        return format(
-            LABELS.trashCanAlternativeText,
-            getConfigForElementType(this.node.elementType).labels.singular,
-            this.node.label
-        );
+        return format(LABELS.trashCanAlternativeText, getConfigForElement(this.node).labels.singular, this.node.label);
     }
 
     get nodeLabel() {
@@ -194,7 +183,7 @@ export default class Node extends LightningElement {
     }
 
     get nodeTypeLabel() {
-        return getConfigForElementType(this.node.elementType).labels.singular;
+        return getConfigForElement(this.node).labels.singular;
     }
 
     /**

@@ -161,6 +161,8 @@ import newApexActionPluginLabel from '@salesforce/label/FlowBuilderElementConfig
 import newStageLabel from '@salesforce/label/FlowBuilderElementConfig.newStageLabel';
 import newWaitLabel from '@salesforce/label/FlowBuilderElementConfig.newWaitLabel';
 import newStepLabel from '@salesforce/label/FlowBuilderElementConfig.newStepLabel';
+import newElementHeaderPrefix from '@salesforce/label/FlowBuilderCommonPropertyEditor.newElementHeaderPrefix';
+import editButtonLabel from '@salesforce/label/FlowBuilderResourceDetailsPanel.editButtonLabel';
 
 export const LABELS = {
     subflowSingularLabel,
@@ -324,6 +326,8 @@ export const LABELS = {
     newStageLabel,
     newWaitLabel,
     newStepLabel,
+    newElementHeaderPrefix,
+    editButtonLabel,
 
     // TODO: FLC replace with imports once we have proper labels
     endElementSingularLabel: 'End',

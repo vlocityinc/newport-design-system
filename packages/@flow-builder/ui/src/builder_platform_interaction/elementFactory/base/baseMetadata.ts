@@ -31,7 +31,7 @@ export function baseCanvasElementMetadataObject(canvasElement = {}, config = {})
 
     let connectorMetadata;
     const connectors = connectorMap[canvasElement.guid];
-    const { elementType } = canvasElement;
+    const { elementType, elementSubtype } = canvasElement;
 
     if (connectors) {
         connectorMetadata = createConnectorMetadataObjects(connectors, hasMultipleRegularConnectors, elementType);
@@ -42,7 +42,8 @@ export function baseCanvasElementMetadataObject(canvasElement = {}, config = {})
         {
             label,
             locationX,
-            locationY
+            locationY,
+            elementSubtype
         },
         connectorMetadata
     );
