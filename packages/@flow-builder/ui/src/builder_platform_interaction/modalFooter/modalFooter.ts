@@ -1,15 +1,22 @@
 // @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 
+import { modalFooterVariant } from 'builder_platform_interaction/builderUtils';
+
 export default class ModalFooter extends LightningElement {
     @api buttons;
     @api closeModalCallback;
     @api keyMap;
+    @api footerVariant;
 
     @track state = {
         buttonOneDisabled: false,
         buttonTwoDisabled: false
     };
+
+    get buttonOneClass() {
+        return this.footerVariant === modalFooterVariant.PROMPT ? '' : 'slds-m-left_x-small slds-float_right';
+    }
 
     closeModal = (closeCallback = true) => {
         if (typeof this.closeModalCallback === 'function' && closeCallback === true) {

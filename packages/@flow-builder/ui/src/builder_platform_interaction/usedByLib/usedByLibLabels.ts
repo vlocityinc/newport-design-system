@@ -1,8 +1,8 @@
 // @ts-nocheck
 import deleteAlertSingleDeleteHeaderTitle from '@salesforce/label/FlowBuilderAlertModal.singleDeleteHeaderTitle';
 import deleteAlertMultiDeleteHeaderTitle from '@salesforce/label/FlowBuilderAlertModal.multiDeleteHeaderTitle';
-import deleteAlertSingleDeleteBodyTextOne from '@salesforce/label/FlowBuilderAlertModal.singleDeleteBodyTextOne';
-import deleteAlertMultiDeleteBodyTextOne from '@salesforce/label/FlowBuilderAlertModal.multiDeleteBodyTextOne';
+import deleteAlertsingleDeleteBodyTextLabel from '@salesforce/label/FlowBuilderAlertModal.singleDeleteBodyTextLabel';
+import deleteAlertMultiDeleteBodyTextLabel from '@salesforce/label/FlowBuilderAlertModal.multiDeleteBodyTextLabel';
 import deleteAlertListSectionHeader from '@salesforce/label/FlowBuilderAlertModal.listSectionHeader';
 import deleteAlertOkayButtonLabel from '@salesforce/label/FlowBuilderAlertModal.okayButtonLabel';
 import interviewLabelLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.instanceLabel';
@@ -10,8 +10,8 @@ import interviewLabelLabel from '@salesforce/label/FlowBuilderFlowPropertiesEdit
 export const LABELS = {
     deleteAlertSingleDeleteHeaderTitle,
     deleteAlertMultiDeleteHeaderTitle,
-    deleteAlertSingleDeleteBodyTextOne,
-    deleteAlertMultiDeleteBodyTextOne,
+    deleteAlertsingleDeleteBodyTextLabel,
+    deleteAlertMultiDeleteBodyTextLabel,
     deleteAlertListSectionHeader,
     deleteAlertOkayButtonLabel,
     interviewLabelLabel

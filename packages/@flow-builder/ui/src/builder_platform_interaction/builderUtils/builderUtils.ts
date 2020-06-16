@@ -39,6 +39,14 @@ const STATE = {
 const MODAL = 'modal';
 const PANEL = 'panel';
 
+export enum modalBodyVariant {
+    WARNING_ON_CANVAS_MODE_TOGGLE
+}
+
+export enum modalFooterVariant {
+    PROMPT
+}
+
 /**
  * @constant Panel type used for popovers.
  * @type {string}
@@ -511,7 +519,10 @@ export const invokeModalWithComponents = (
                     header: newComponents[0],
                     body: newComponents[1],
                     footer: newComponents[2],
+                    modalClass: data.modalClass || '',
+                    headerClass: data.headerClass || '',
                     bodyClass: data.bodyClass || '',
+                    footerClass: data.footerClass || '',
                     flavor: data.flavor || '',
                     closeAction: modal => {
                         let skipCloseAction = false;
@@ -604,16 +615,20 @@ function showDebugEditorPopover(
  */
 export const invokeModal = data => {
     const modalHeaderPromise = createComponentPromise('builder_platform_interaction:modalHeader', {
-        headerTitle: data.headerData.headerTitle
+        headerTitle: data.headerData.headerTitle,
+        headerVariant: data.headerData.headerVariant
     });
     const modalBodyPromise = createComponentPromise('builder_platform_interaction:modalBody', {
         bodyTextOne: data.bodyData.bodyTextOne,
         bodyTextTwo: data.bodyData.bodyTextTwo,
         listSectionHeader: data.bodyData.listSectionHeader,
-        listSectionItems: data.bodyData.listSectionItems
+        listSectionItems: data.bodyData.listSectionItems,
+        listWarningItems: data.bodyData.listWarningItems,
+        bodyVariant: data.bodyData.bodyVariant
     });
     const modalFooterPromise = createComponentPromise('builder_platform_interaction:modalFooter', {
-        buttons: data.footerData
+        buttons: data.footerData,
+        footerVariant: data.footerData.footerVariant
     });
 
     invokeModalWithComponents(

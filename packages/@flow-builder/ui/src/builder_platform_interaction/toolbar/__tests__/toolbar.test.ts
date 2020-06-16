@@ -47,7 +47,8 @@ const selectors = {
     lastSave: '.test-toolbar-last-saved',
     duplicate: '.test-toolbar-duplicate',
     activate: '.test-toolbar-activate',
-    relativedatetime: 'lightning-relative-date-time'
+    relativedatetime: 'lightning-relative-date-time',
+    canvasModeToggle: '.canvas-mode-toggle'
 };
 
 jest.mock('builder_platform_interaction/dateTimeUtils', () => {
@@ -401,6 +402,29 @@ describe('toolbar', () => {
                 toolbarComponent.shadowRoot.querySelector(selectors.copy).click();
                 expect(eventCallback).toHaveBeenCalled();
             });
+        });
+    });
+
+    describe('Canvas Mode Toggling', () => {
+        let toolbarComponent;
+
+        beforeEach(() => {
+            // as the canvas mode toggling is still under construction, we will only show
+            // toggle button is fixed layout canvas
+            setUseFixedLayoutCanvas(true);
+            toolbarComponent = createComponentUnderTest();
+        });
+
+        it('Displays the Canvas Mode Toggle with right configuration when in Selection Mode', () => {
+            const canvasModeToggle = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeToggle);
+            const canvasModeToggleButton = canvasModeToggle.querySelector('lightning-input');
+
+            expect(canvasModeToggleButton).not.toBeNull();
+            expect(canvasModeToggleButton.type).toBe('toggle');
+            expect(canvasModeToggleButton.messageToggleActive).toBe('');
+            expect(canvasModeToggleButton.messageToggleInactive).toBe('');
+            expect(canvasModeToggleButton.label).toBe(LABELS.canvasModeToggleLabel);
+            expect(canvasModeToggleButton.checked).toBeTruthy();
         });
     });
 });

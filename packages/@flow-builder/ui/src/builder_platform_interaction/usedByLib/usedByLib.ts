@@ -86,7 +86,7 @@ export function usedBy(
 export function invokeUsedByAlertModal(usedByElements, elementGuidsToBeDeleted, elementType, storeElements = {}) {
     const elementGuidsToBeDeletedLength = elementGuidsToBeDeleted && elementGuidsToBeDeleted.length;
     let headerTitle = LABELS.deleteAlertMultiDeleteHeaderTitle;
-    let bodyTextOne = LABELS.deleteAlertMultiDeleteBodyTextOne;
+    let bodyTextOne = LABELS.deleteAlertMultiDeleteBodyTextLabel;
     const listSectionHeader = LABELS.deleteAlertListSectionHeader;
     const listSectionItems = dehydrate(usedByElements);
     const buttonVariant = 'Brand';
@@ -102,7 +102,7 @@ export function invokeUsedByAlertModal(usedByElements, elementGuidsToBeDeleted, 
         if (elementConfig && elementConfig.labels && elementConfig.labels.singular) {
             const label = elementConfig.labels.singular.toLowerCase();
             headerTitle = format(LABELS.deleteAlertSingleDeleteHeaderTitle, label);
-            bodyTextOne = format(LABELS.deleteAlertSingleDeleteBodyTextOne, label);
+            bodyTextOne = format(LABELS.deleteAlertsingleDeleteBodyTextLabel, label);
         }
     }
 

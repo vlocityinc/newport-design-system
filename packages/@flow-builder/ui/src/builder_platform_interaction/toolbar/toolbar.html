@@ -94,6 +94,25 @@
 
         <!-- Right Hand Side -->
         <div class="slds-builder-toolbar__actions">
+            <div
+                class="inline-display slds-p-right_medium slds-is-relative canvas-mode-toggle"
+                if:true={useFixedLayoutCanvas}
+            >
+                <lightning-input
+                    type="toggle"
+                    label={labels.canvasModeToggleLabel}
+                    message-toggle-active=""
+                    message-toggle-inactive=""
+                    checked={useFixedLayoutCanvas}
+                    onchange={handleToggleCanvasMode}
+                ></lightning-input>
+                <div
+                    class="slds-popover slds-popover_tooltip slds-nubbin_top slds-is-absolute canvas-mode-toggle-tooltip"
+                    role="tooltip"
+                >
+                    <div class="slds-popover__body">{labels.canvasModeToggleTooltip}</div>
+                </div>
+            </div>
             <button
                 if:true={showLastSavedPill}
                 class="slds-button test-toolbar-last-saved"

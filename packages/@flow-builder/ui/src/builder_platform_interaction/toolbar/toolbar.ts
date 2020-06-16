@@ -22,6 +22,7 @@ import { LABELS } from './toolbarLabels';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
 import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 import { format } from 'builder_platform_interaction/commonUtils';
+import { invokeModal, modalBodyVariant, modalFooterVariant } from 'builder_platform_interaction/builderUtils';
 
 /**
  * Toolbar component for flow builder.
@@ -332,5 +333,61 @@ export default class Toolbar extends LightningElement {
         const operationStatus = this.flowStatus === FLOW_STATUS.OBSOLETE ? 'Activate' : 'Deactivate';
         const context = { operationStatus };
         logInteraction(`activate-button`, 'toolbar', context, 'click');
+    }
+
+    handleToggleCanvasMode(event) {
+        event.stopPropagation();
+        if (event.detail.checked) {
+            // from ffc to flc
+
+            invokeModal({
+                headerData: {
+                    headerTitle: this.labels.unsavedChangesHeaderTitle
+                },
+                bodyData: {
+                    bodyTextOne: this.labels.unsavedChangesBodyTextLabel,
+                    bodyVariant: modalBodyVariant.WARNING_ON_CANVAS_MODE_TOGGLE
+                },
+                footerData: {
+                    buttonOne: {
+                        buttonVariant: 'Brand',
+                        buttonLabel: this.labels.cancelButtonLabel
+                    },
+                    buttonTwo: {
+                        buttonLabel: this.labels.goToAutolayoutButtonLabel
+                    }
+                },
+                headerClass: 'slds-theme_alert-texture slds-theme_warning',
+                bodyClass: 'slds-p-around_medium'
+            });
+        } else {
+            // from flc to ffc
+            const unsupportedFeatureItems = [
+                { message: this.labels.errorMessageMultipleIncomingConnections, key: 1 },
+                { message: this.labels.errorMessageFaultConnectors, key: 2 },
+                { message: this.labels.errorMessageAdditionalUnsupportedFeature, key: 3 }
+            ];
+
+            invokeModal({
+                headerData: {
+                    headerTitle: this.labels.unsupportedFeaturesHeaderTitle
+                },
+                bodyData: {
+                    bodyTextOne: this.labels.unsupportedFeaturesBodyTextLabel,
+                    bodyVariant: modalBodyVariant.WARNING_ON_CANVAS_MODE_TOGGLE,
+                    listWarningItems: unsupportedFeatureItems
+                },
+                footerData: {
+                    buttonOne: {
+                        buttonLabel: this.labels.okayButtonLabel
+                    },
+                    footerVariant: modalFooterVariant.PROMPT
+                },
+                modalClass: 'slds-modal_prompt',
+                headerClass: 'slds-theme_alert-texture slds-theme_warning',
+                bodyClass: 'slds-p-around_medium',
+                footerClass: 'slds-theme_default'
+            });
+        }
     }
 }
