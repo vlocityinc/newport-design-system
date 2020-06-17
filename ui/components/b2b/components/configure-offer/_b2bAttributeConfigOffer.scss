@@ -34,14 +34,6 @@
       }
     }
 
-    /* Radio */
-    .nds-b2b-attribute-config-offer_radio {
-      /* overriding <c-radio-button-group> component */
-      .slds-radio_button [type=radio]:checked+.slds-radio_button__label {
-        background-color: $azure;
-      }
-    }
-
     /* Matrix Table */
     .nds-b2b-attribute-config-offer_matrix {
       .nds-b2b-config-label {
