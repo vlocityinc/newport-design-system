@@ -37,7 +37,7 @@ export class Validation {
      * @param {string} guidToBeValidated
      * @returns {string|null} errorString or null
      */
-    validateDevNameUniquenessLocally = (guidToNameList = [], devNameToBeValidated, guidToBeValidated) => {
+    validateDevNameUniquenessLocally = (guidToNameList: any[] = [], devNameToBeValidated, guidToBeValidated) => {
         const matches = getDuplicateDevNameElements(guidToNameList, devNameToBeValidated, [guidToBeValidated]);
         return matches && matches.length > 0 ? ValidationRules.LABELS.fieldNotUnique : null;
     };

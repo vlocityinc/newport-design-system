@@ -1,4 +1,3 @@
-// @ts-nocheck
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { Validation, defaultRules } from 'builder_platform_interaction/validation';
 
@@ -14,6 +13,22 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const LONG_STRING_LEN = 65535;
 const MAX_SCALE_VALUE = 17;
+
+type Guid = string;
+interface GuidName {
+    guid: Guid;
+    name: string;
+}
+
+// TODO: tighten up
+interface Field {
+    [key: string]: any;
+}
+
+// TODO: tighten up
+interface Rules {
+    [key: string]: any;
+}
 
 const addRules = (property, rules, propertyRules) => {
     if (!rules.hasOwnProperty(property)) {
@@ -58,7 +73,7 @@ const addCommonFieldRules = (rules, { defaultValueIndex }) => {
     addRules('helpText', rules, [ValidationRules.maximumCharactersLimit(LONG_STRING_LEN)]);
 };
 
-const getDescriptorForExtension = extName => {
+const getDescriptorForExtension = (extName: string): any => {
     if (extName) {
         const descriptor = getCachedExtension(extName);
         if (descriptor) {
@@ -69,9 +84,9 @@ const getDescriptorForExtension = extName => {
     throw new Error('Error found trying to determine the descriptor for ' + extName);
 };
 
-const getGenericTypesForExtension = extName => {
+const getGenericTypesForExtension = (extName: string) => {
     if (extName) {
-        const extension = getCachedExtensionType(extName);
+        const extension: any = getCachedExtensionType(extName);
         if (extension) {
             return extension.genericTypes;
         }
@@ -116,18 +131,18 @@ const createTypeValidationRule = (/* type */) => {
 /**
  * Returns a set of rules for the property, checking type and requiredness
  *
- * @param {string} type - The data type
- * @param {boolean} required - Requiredness
- * @returns {object} - The rules
+ * @param type - The data type
+ * @param required - Requiredness
+ * @returns - The rules
  */
-const getExtensionParameterRules = (type, required, rowIndex) => {
-    const rules = [];
+const getExtensionParameterRules = (type: string, required: boolean, rowIndex?: number): Rules => {
+    const rules: any = [];
     if (required) {
         rules.push(ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined);
     }
 
     if (type) {
-        rules.push(createTypeValidationRule(type));
+        rules.push(createTypeValidationRule(/* type */));
     }
 
     rules.push(ValidationRules.validateResourcePicker(rowIndex));
@@ -184,9 +199,9 @@ const getRulesForExtensionField = (field, rules) => {
         if (attributeDescriptors.length < 1) {
             throw new Error('Cannot find parameter ' + outputName + ' in the description of ' + extensionName);
         } else {
-            const type = attributeDescriptors[0].dataType;
+            // const type = attributeDescriptors[0].dataType;
             return {
-                value: [createTypeValidationRule(type), ValidationRules.validateResourcePicker(param.rowIndex)]
+                value: [createTypeValidationRule(/* type */), ValidationRules.validateResourcePicker(param.rowIndex)]
             };
         }
     };
@@ -214,10 +229,10 @@ const createConditionalRuleForTextProperty = dependentValue => {
 
 /**
  * Creates a validation rule that will always return null if the value is a reference, if it is not, the wrapped rule will be executed
- * @param {String} rule - The rule to execute if the value is not a reference
- * @returns {function} - The validation rule
+ * @param rule - The rule to execute if the value is not a reference
+ * @returns - The validation rule
  */
-const createReferenceSafeRule = (rule, dataType) => {
+const createReferenceSafeRule = (rule: any, dataType?: any): Function => {
     return value => {
         if (isReference(value) || (dataType && dataType === 'reference')) {
             return null;
@@ -303,7 +318,7 @@ const getRulesForInputField = (field, rules, newValueIsReference = false) => {
  * @returns {object} rules - The rules
  */
 export const getRulesForField = (field, newValueIsReference = false) => {
-    const rules = {};
+    const rules: Rules = {};
 
     addCommonRules(rules);
     addCommonFieldRules(rules, field);
@@ -324,10 +339,10 @@ export const getRulesForField = (field, newValueIsReference = false) => {
 /**
  * Returns all validation rules for a screen
  *
- * @returns {object} rules - The rules
+ * @returns The rules
  */
-const getScreenAdditionalRules = () => {
-    const rules = {};
+const getScreenAdditionalRules = (): Rules => {
+    const rules: Rules = {};
 
     addCommonRules(rules);
 
@@ -337,39 +352,66 @@ const getScreenAdditionalRules = () => {
 
     return rules;
 };
+
+/**
+ * Create a GuidName for all the entries in fields, recursively.
+ *
+ * @param fields - The fields
+ * @return the GuidName array for the fields
+ */
+export const fieldsToGuidNames = (fields: Field[] = []): GuidName[] => {
+    let guidNameTuples: GuidName[] = [];
+
+    fields.forEach(field => {
+        guidNameTuples.push({ guid: field.guid, name: field.name.value });
+
+        const nestedFields = field.fields;
+        if (nestedFields) {
+            guidNameTuples = [...guidNameTuples, ...fieldsToGuidNames(nestedFields)];
+        }
+    });
+
+    return guidNameTuples;
+};
+
 class ScreenValidation extends Validation {
     /**
      * Method to check if devname is unique locally amongst all other fields and parent screen node state.
-     * @param {Object} state -  overall state of screen node
-     * @param {string} devNameToBeValidated - for uniqueness
-     * @param {string} currentFieldGuid - guid of the current field whose devname is tested for uniquness
-     * @returns {string|null} errorString or null
+     * @param state -  overall state of screen node
+     * @param devNameToBeValidated - for uniqueness
+     * @param currentFieldGuid - guid of the current field whose devname is tested for uniquness
+     * @returns errorString or null
      */
-    validateFieldNameUniquenessLocally = (state, devNameToBeValidated, currentFieldGuid) => {
+    validateFieldNameUniquenessLocally = (
+        state: any,
+        devNameToBeValidated: string,
+        currentFieldGuid: Guid
+    ): string | null => {
         const stateGuidToDevName = [
             {
                 guid: state.guid,
                 name: state.name.value
             }
         ];
-        const fieldsDevNameToGuidList = state.fields.map(field => {
-            return {
-                guid: field.guid,
-                name: field.name.value
-            };
-        });
+        const fieldsDevNameToGuidList = fieldsToGuidNames(state.fields);
         const finalListOfGuidToDevNames = stateGuidToDevName.concat(fieldsDevNameToGuidList);
         return this.validateDevNameUniquenessLocally(finalListOfGuidToDevNames, devNameToBeValidated, currentFieldGuid);
     };
 }
+
+// @ts-ignore
 export const screenValidation = new ScreenValidation(getScreenAdditionalRules());
 
 export const getExtensionParameterValidation = (propertyName, type, required) => {
     const rules = getExtensionParameterRules(type, required);
+
+    // @ts-ignore
     return new Validation({ [propertyName]: rules });
 };
 
 export function getDynamicTypeMappingValidation(rowIndex) {
     const rules = getDynamicTypeMappingRules(rowIndex);
+
+    // @ts-ignore
     return new Validation({ dynamicTypeMapping: rules });
 }

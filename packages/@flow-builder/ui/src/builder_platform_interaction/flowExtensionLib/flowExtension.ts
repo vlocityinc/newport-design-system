@@ -182,7 +182,7 @@ export function getCachedExtensions(names) {
  * @param {[{typeName, typeValue}]} [dynamicTypeMappings] - A list of generic type bindings, which can be optionally applied to the description
  * @returns {ExtensionDescriptor} - The description of the extension or undefined if not found
  */
-export function getCachedExtension(name, dynamicTypeMappings) {
+export function getCachedExtension(name, dynamicTypeMappings = null) {
     let extension = extensionDescriptionCache[name];
     if (extension && dynamicTypeMappings && dynamicTypeMappings.length > 0) {
         extension = {

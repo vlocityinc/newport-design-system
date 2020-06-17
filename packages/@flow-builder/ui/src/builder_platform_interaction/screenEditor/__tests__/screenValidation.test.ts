@@ -363,3 +363,38 @@ it('validates dynamic type mappings', () => {
     expect(validation.validateProperty('dynamicTypeMapping', '')).toBe('FlowBuilderValidation.cannotBeBlank');
     expect(validation.validateProperty('dynamicTypeMapping', 'Asset')).toBeNull();
 });
+
+describe('test validateFieldNameUniquenessLocally method', () => {
+    const state = {
+        guid: '4d5aac2b-4a24-4abc-b16d-c5d717f0eee4',
+        name: { value: 'Section1', error: null },
+        fields: [
+            {
+                guid: '84d10ece-6003-4ded-a378-f1c5d8ea71f5',
+                name: { value: 'NewColumn', error: null },
+                fields: [
+                    {
+                        guid: '79f426c9-5726-4333-b529-18004e72dc43',
+                        name: { value: 'text1', error: null },
+                        fields: []
+                    },
+                    {
+                        guid: 'a5b2e015-b91c-4b6b-880e-fdf0677a1ff5',
+                        name: { value: '', error: null },
+                        fields: []
+                    }
+                ]
+            }
+        ]
+    };
+
+    const guid = 'a5b2e015-b91c-4b6b-880e-fdf0677a1ff5';
+
+    it('fails with duplicate name in section', () => {
+        expect(screenValidation.validateFieldNameUniquenessLocally(state, 'text1', guid)).not.toBeNull();
+    });
+
+    it('passes with unique names in section', () => {
+        expect(screenValidation.validateFieldNameUniquenessLocally(state, 'text2', guid)).toBeNull();
+    });
+});
