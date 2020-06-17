@@ -25,6 +25,7 @@
                     "@lwc/lwc/no-async-operation": [
                         "**/builder_platform_interaction/conditionEditorPopover/conditionEditorPopover.ts",
                         "**/builder_platform_interaction/debugEditorPopover/debugEditorPopover.ts",
+                        "**/builder_platform_interaction/debugEditorInputVariables/debugEditorInputVariables.ts",
                         "**/builder_platform_interaction/flcBuilder/flcBuilder.ts",
                         "**/builder_platform_interaction/flcBuilderContainer/flcBuilderContainer.ts",
                         "**/builder_platform_interaction/flcButtonMenu/keyboard.ts"

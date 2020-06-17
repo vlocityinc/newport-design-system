@@ -589,8 +589,9 @@ function showDebugEditorPopover(
             }
         }
     });
-    const bodyPromise = createComponentPromise(cmpBody, cmpAttributes);
-
+    const bodyPromise = createComponentPromise(cmpBody, {
+        flowName: cmpAttributes.flowName
+    });
     const invokeModalWithComponentsOnCreateOverride = (modal, data) => {
         onCreatePopover(modal);
         invokeModalWithComponentsOnCreate(modal, data);
