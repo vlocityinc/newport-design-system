@@ -85,6 +85,7 @@ const filterElement = {
 describe('context-record-editor', () => {
     let scheduledNewStartElement,
         beforeSaveNewStartElement,
+        beforeSaveNewStartElementWithFilters,
         scheduledNewStartElementWithFilters,
         scheduledNewStartElementWithoutFilters,
         scheduledJourneyStartElement;
@@ -116,6 +117,43 @@ describe('context-record-editor', () => {
             objectIndex: { value: 'guid', error: null },
             filterLogic: { value: CONDITION_LOGIC.NO_CONDITIONS, error: null },
             filters: [],
+            frequency: undefined,
+            startDate: undefined,
+            startTime: undefined,
+            recordTriggerType: { value: 'Update', error: null },
+            triggerType: { value: FLOW_TRIGGER_TYPE.BEFORE_SAVE, error: null }
+        });
+        beforeSaveNewStartElementWithFilters = () => ({
+            description: { value: '', error: null },
+            elementType: 'START_ELEMENT',
+            guid: '326e1b1a-7235-487f-9b44-38db56af4a45',
+            isCanvasElement: true,
+            label: { value: '', error: null },
+            name: { value: '', error: null },
+            object: { value: 'Account', error: null },
+            objectIndex: { value: 'guid', error: null },
+            filterLogic: { value: CONDITION_LOGIC.AND, error: null },
+            filters: [
+                {
+                    rowIndex: 'a0e8a02d-60fb-4481-8165-10a01fe7031c',
+                    leftHandSide: {
+                        value: '',
+                        error: null
+                    },
+                    rightHandSide: {
+                        value: '',
+                        error: null
+                    },
+                    rightHandSideDataType: {
+                        value: '',
+                        error: null
+                    },
+                    operator: {
+                        value: '',
+                        error: null
+                    }
+                }
+            ],
             frequency: undefined,
             startDate: undefined,
             startTime: undefined,
@@ -210,6 +248,12 @@ describe('context-record-editor', () => {
     it('record filter logic should be "and" ', () => {
         expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(store.accountSObjectVariable);
         const contextEditor = createComponentForTest(scheduledNewStartElementWithFilters());
+        expect(getRecordFilter(contextEditor).filterLogic.value).toBe(CONDITION_LOGIC.AND);
+    });
+
+    it('record filter logic should be "and" for DML', () => {
+        expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(store.accountSObjectVariable);
+        const contextEditor = createComponentForTest(beforeSaveNewStartElementWithFilters());
         expect(getRecordFilter(contextEditor).filterLogic.value).toBe(CONDITION_LOGIC.AND);
     });
 

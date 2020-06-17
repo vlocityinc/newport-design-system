@@ -35,6 +35,20 @@ export const isScheduledTriggerType = triggerType => {
 };
 
 /**
+ * Whether or not this trigger type has criteria
+ * @param {String} triggerType
+ * @returns {Boolean} true if it has criteria, false otherwise
+ */
+export const getTriggerHasCriteria = triggerType => {
+    // TODO this information should eventually just come from the trigger type service
+    return (
+        isScheduledTriggerType(triggerType) ||
+        triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE ||
+        triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE
+    );
+};
+
+/**
  * Get trigger type info for a given trigger type
  * @param {String} triggerType
  * @returns {Promise} promise that resolves to the trigger type info

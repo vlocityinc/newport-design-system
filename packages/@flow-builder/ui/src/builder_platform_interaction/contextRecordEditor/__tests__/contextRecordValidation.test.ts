@@ -113,7 +113,7 @@ describe('Check validations', () => {
             expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
     });
-    describe('filterLogic with other trigger Type Flow', () => {
+    describe('No filterLogic with DML Trigger Type Flow', () => {
         let startElement;
         beforeEach(() => {
             startElement = beforeSaveNewStartElement();

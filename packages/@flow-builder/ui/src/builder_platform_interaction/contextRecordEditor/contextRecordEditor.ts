@@ -7,7 +7,11 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { contextReducer } from './contextRecordReducer';
-import { isScheduledTriggerType, getTriggerTypeInfo } from 'builder_platform_interaction/triggerTypeLib';
+import {
+    isScheduledTriggerType,
+    getTriggerTypeInfo,
+    getTriggerHasCriteria
+} from 'builder_platform_interaction/triggerTypeLib';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 
@@ -83,8 +87,12 @@ export default class contextRecordEditor extends LightningElement {
         return isScheduledTriggerType(this.triggerType);
     }
 
-    get isScheduledTrigger() {
-        return this.recordEntityName && this.showScheduleSection && !this.startElement.object.error;
+    get showCriteriaSection() {
+        return getTriggerHasCriteria(this.triggerType);
+    }
+
+    get triggerHasCriteria() {
+        return this.recordEntityName && this.showCriteriaSection && !this.startElement.object.error;
     }
 
     get contextObjectDescription() {
