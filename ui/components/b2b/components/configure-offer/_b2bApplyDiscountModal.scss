@@ -1,0 +1,130 @@
+.nds-b2b-apply-discount-modal {
+  .nds-modal__content {
+    padding: 0;
+  }
+  .nds-modal__container {
+    margin: 0;
+    display: inline;
+    @media screen and (min-width: 48rem) {
+      margin: 0 auto;
+      display: flex;
+    }
+  }
+  .nds-b2b-modal-header {
+    font-size: 1.3rem;
+    color: $black-primary;
+    @media screen and (min-width: 48rem) {
+      font-size: 1.6vw;
+    }
+  }
+  .nds-b2b-adjust-discount {
+    background-color: $white-smoke;
+    padding: 1.5rem 0rem;
+    color: $grey-35;
+
+    .nds-b2b-discounts-container {
+      background-color: $white;
+      margin-top: 1.5rem;
+      border: 1px solid $newport-border-gray;
+      border-radius: 0.25rem;
+      width: 100%;
+      .nds-b2b-apply-discounts-table_container {
+        font-size: 1rem;
+        .nds-b2b-applied-discounts_row {
+          padding: 0.6rem 1rem;
+          border-bottom: 1px solid $newport-border-gray;
+          .nds-b2b-discount-status {
+            font-size: 0.6rem;
+            color: $grey-40;
+            width: 100%;
+            display: block;
+            @media screen and (min-width: 48rem) {
+              width: auto;
+              display: initial;
+              margin-left: 0.5rem;
+            }
+          }
+          .nds-b2b-discount-description {
+            font-size: 0.7rem;
+            color: $palette-gray-7;
+          }
+          .nds-b2b-discount-type {
+            font-size: 0.75rem;
+            margin-left: 0.25rem;
+          }
+          .nds-b2b-delete-discount {
+            cursor: pointer;
+          }
+          &:hover {
+            background-color: $alice-blue;
+          }
+          @media screen and (min-width: 48rem) {
+            padding: 0.5rem 2.3rem;
+          }
+        }
+      }
+      .nds-b2b-available-discounts-container {
+        font-size: 1rem;
+        .nds-b2b-override-discounts_row {
+          padding: 0.8rem 1rem;
+          border-bottom: 1px solid $newport-border-gray;
+          .nds-b2b-add-button_text {
+            color: $azure;
+            font-size: 0.8rem;
+            cursor: pointer;
+          }
+          .nds-b2b-discount-type {
+            font-size: 0.75rem;
+          }
+          .nds-b2b-discount-until-date {
+            font-size: 0.7rem;
+            color: $palette-gray-7;
+          }
+          &:hover {
+            background-color: $alice-blue;
+          }
+          @media screen and (min-width: 48rem) {
+            padding: 0.8rem 2.6rem;
+          }
+        }
+      }
+    }
+    .nds-b2b-override-header {
+      border-bottom: 1px solid $newport-border-gray;
+      padding: 0.9rem;
+      &_title {
+        font-size: 1rem;
+        margin-left: 0.5rem;
+        vertical-align: middle;
+      }
+    }
+    .nds-b2b-search-discount {
+      margin: 1.5rem 1rem 1.5rem 0;
+      text-align: right;
+      .nds-b2b-search-discount_input {
+        border: 1px solid $newport-border-gray;
+        border-radius: 0.25rem;
+        padding: 0 2rem;
+        width: 20rem;
+      }
+    }
+    @media screen and (min-width: 48rem) {
+      padding: 1.5rem 2rem;
+      .nds-b2b-override-select-price {
+        padding-left: 0;
+      }
+      .nds-b2b-search-discount {
+        margin: 1.5rem 0;
+      }
+    }
+  }
+  .nds-b2b-modal-button {
+    color: $azure;
+    padding: 0rem 2.5rem;
+    &.nds-b2b-primary {
+      color: $white;
+      background: $azure;
+      border: 1px solid $azure;
+    }
+  }
+}
