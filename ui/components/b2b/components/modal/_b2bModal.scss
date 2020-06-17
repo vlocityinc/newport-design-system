@@ -1,0 +1,71 @@
+.nds-b2b-modal {
+  .nds-modal__content {
+    background-color: $white;
+    article {
+      background-color: $white;
+      border-radius: unset;
+    }
+  }
+
+  @media screen and (max-width: 48rem) {
+    .nds-card__body--inner, .nds-card__body_inner {
+      padding: 0;
+    }
+    .nds-modal__container {
+      margin: 0;
+      padding: 0;
+    }
+    .nds-modal__header {
+      position: absolute;
+      top: 0;
+      border-radius: unset;
+      width: 100%;
+      text-align: left;
+      z-index: 20;
+    }
+
+    .nds-text-heading_medium {
+      padding-left: 2em;
+    }
+
+    .nds-modal__content {
+      margin-top: 58px;
+      margin-bottom: 60px;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      overflow-y: scroll;
+    }
+
+    .nds-modal__close {
+      top: 1em;
+      right: unset;
+    }
+
+    .nds-icon {
+      fill: $black-primary;
+    }
+
+    .nds-modal__container {
+      position: relative;
+      background-color: $black-primary;
+      margin: auto;
+      padding: 0;
+      border: 0.0625rem solid $dc-modal-border-color;
+      width: 100%;
+      animation-name: nds-animatetop;
+      animation-duration: 0.4s;
+    }
+
+    @keyframes nds-animatetop {
+      from {
+        top: -300px;
+        opacity: 0;
+      }
+      to {
+        top: 0;
+        opacity: 1;
+      }
+    }
+  }
+}
