@@ -10,14 +10,6 @@ $b2b-table-border: $palette-gray-5;
 .nds-b2b-table_row {
 	border-bottom: 1px solid $b2b-table-border;
 
-	// &:not(.nds-b2b-table_head-row):hover {
-	// 	background-color: $palette-gray-3 ;//$color-background-row-hover;
-
-	// 	.nds-b2b-row_hover-show {
-	// 		opacity: 1;
-	// 	}
-	// }
-
 	.nds-b2b-table_row-header {
 		border-color: $color-gray-7
 	}
@@ -95,18 +87,6 @@ $b2b-table-border: $palette-gray-5;
 		}	
 	}
 }
-
-// .nds-b2b-table_cell-editmode {
-// 	position: relative;
-// 	&:after {
-// 		content: '';
-// 		position: absolute;
-// 		bottom: -2px;
-// 		width: 100%;
-// 		height: 1px;
-// 		background-color: $palette-gray-4;
-// 	}
-// }
 
 @media (max-width: #{(map-get($breakpoints, $table-view-switch))}) {
 	.nds-b2b-table,
