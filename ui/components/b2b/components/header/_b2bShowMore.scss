@@ -1,0 +1,23 @@
+.nds-b2b-show-more {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #fff;
+    &.expanded {
+      position: static;
+      padding: 0;
+    }
+  }
+
+.nds-b2b-show-more-text {
+    white-space: nowrap;
+    float: left;
+    &.expanded {
+      white-space: normal;
+    }
+}
+
+.nds-b2b-show-more-description {
+    position: relative;
+    overflow: hidden;
+}

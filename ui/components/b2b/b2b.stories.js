@@ -342,11 +342,12 @@ storiesOf(`${base}`, module)
                   <div class="nds-b2b-price_info">
                     <div class="nds-b2b-each-attribute">
                       <p class="nds-b2b-attribute_label nds-text-align_right">One Time</p>
-                      <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1420.00</p>
+                      <p class="nds-b2b-attribute_value nds-text-align_right">$1420.00</p>
+                      <p class="nds-b2b-attribute_value nds-b2b-adjustment-price nds-text-align_right"><strike>$50.00</strike></p>
                     </div>
                     <div class="nds-b2b-each-attribute">
                       <p class="nds-b2b-attribute_label nds-text-align_right">Monthly</p>
-                      <p class="nds-b2b-attribute_value nds-text-align_right nds-m-top_xx-smal">$1350.00</p>
+                      <p class="nds-b2b-attribute_value nds-text-align_right">$1350.00</p>
                     </div>
                   </div>
                 </div>
@@ -856,7 +857,7 @@ storiesOf(`${base}`, module)
               <tbody class="nds-b2b-table_body">
                   <tr class="nds-b2b-table_row">    
                       <td class="nds-b2b-table_cell nds-b2b-icon_cell">
-                          <div class="nds-form-element">
+                          <div class="nds-b2b-table_cell-box nds-form-element">
                               <div class="nds-form-element__control nds-b2b-table_checkbox">
                                   <label class="nds-checkbox">
                                       <input type="checkbox" name="options" value="dd">
@@ -866,6 +867,7 @@ storiesOf(`${base}`, module)
                           </div>
                       </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">First Name</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>Sam</div>
@@ -877,8 +879,10 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>  
                       </td>      
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">Last Name</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>Walter</div>
@@ -890,8 +894,10 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>  
                       </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">Address</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>Easton PA</div>
@@ -903,8 +909,10 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>  
                       </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">Projects</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>25</div>
@@ -916,11 +924,12 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>  
                       </td>
                   </tr>
                   <tr class="nds-b2b-table_row">    
                       <td class="nds-b2b-table_cell nds-b2b-icon_cell">
-                          <div class="nds-form-element">
+                          <div class="nds-b2b-table_cell-box nds-form-element">
                               <div class="nds-form-element__control nds-b2b-table_checkbox">
                                   <label class="nds-checkbox">
                                       <input type="checkbox" name="options" value="dd">
@@ -930,6 +939,7 @@ storiesOf(`${base}`, module)
                           </div>
                       </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">First Name</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>Cathy</div>
@@ -941,8 +951,10 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>  
                       </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">Last Name</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>Doe</div>
@@ -954,8 +966,10 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>  
                       </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">Address</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>Jersey City, NJ</div>
@@ -967,8 +981,10 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>  
                       </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">Projects</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>27</div>
@@ -980,11 +996,12 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>  
                       </td>
                   </tr>
                   <tr class="nds-b2b-table_row">    
                       <td class="nds-b2b-table_cell nds-b2b-icon_cell">
-                          <div class="nds-form-element">
+                          <div class="nds-b2b-table_cell-box nds-form-element">
                               <div class="nds-form-element__control nds-b2b-table_checkbox">
                                   <label class="nds-checkbox">
                                       <input type="checkbox" name="options" value="dd">
@@ -994,6 +1011,7 @@ storiesOf(`${base}`, module)
                           </div>
                       </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">First Name</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>John</div>
@@ -1005,8 +1023,10 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>  
                       </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">Last Name</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>Doe</div>
@@ -1018,8 +1038,10 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>  
                       </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">Address</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>Philadelphia, PA</div>
@@ -1031,8 +1053,10 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>  
                       </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">Projects</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>29</div>
@@ -1044,6 +1068,7 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>  
                       </td>
                   </tr>
               </tbody>
@@ -1200,7 +1225,7 @@ storiesOf(`${base}`, module)
               <thead class="nds-b2b-table_head">
                   <tr class="nds-line-height_reset nds-b2b-table_row nds-b2b-table_head-row">
                       <th class="nds-b2b-table_cell nds-b2b-icon_cell">
-                          <div class="nds-form-element">
+                          <div class="nds-b2b-table_cell-box nds-form-element">
                               <div class="nds-form-element__control nds-b2b-table_checkbox">
                                   <label class="nds-checkbox nds-p-top_none">
                                       <input type="checkbox" data-check="checkall" value="All">
@@ -1210,9 +1235,10 @@ storiesOf(`${base}`, module)
                           </div>
                       </th>
                       <th class="nds-b2b-table_cell">
-                          Group By
+                          <div class="nds-b2b-table_cell-box">Group By</div>
                       </th>
-                      <th class="nds-b2b-table_cell" >
+                      <th class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_sort" role="button" tabindex="-1">
                               <span class="nds-truncate">First Name</span>
                               <div class="nds-b2b-hover-icon nds-transition-hide">
@@ -1223,8 +1249,10 @@ storiesOf(`${base}`, module)
                                 </div>
                               </div>
                           </a>
+                        </div>  
                       </th>
                       <th class="nds-b2b-table_cell" >
+                        <div class="nds-b2b-table_cell-box">
                           <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_sort" role="button" tabindex="-1">
                               <span class="nds-truncate">Last Name</span>
                               <div class="nds-b2b-hover-icon nds-transition-hide">
@@ -1237,8 +1265,10 @@ storiesOf(`${base}`, module)
                                 </div>
                               </div>
                           </a>
+                          </div>
                       </th>
                       <th class="nds-b2b-table_cell" >
+                        <div class="nds-b2b-table_cell-box">
                           <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_sort" role="button" tabindex="-1">
                               <span class="nds-truncate">Address</span>
                               <div class="nds-b2b-hover-icon nds-transition-hide">
@@ -1251,8 +1281,10 @@ storiesOf(`${base}`, module)
                                 </div>
                               </div>
                           </a>
+                          </div>
                       </th>
                       <th class="nds-b2b-table_cell" >
+                        <div class="nds-b2b-table_cell-box">
                           <a class="nds-text-link_reset nds-grid nds-grid_align-spread nds-b2b-table_sort" role="button" tabindex="-1">
                               <span class="nds-truncate">Projects</span>
                               <div class="nds-b2b-hover-icon nds-transition-hide">
@@ -1265,6 +1297,7 @@ storiesOf(`${base}`, module)
                                 </div>
                               </div>
                           </a>
+                         </div> 
                       </th>
                   </tr>
               </thead>
@@ -1277,7 +1310,7 @@ storiesOf(`${base}`, module)
                   </tr>
                   <tr class="nds-b2b-table_row">
                       <td class="nds-b2b-table_cell nds-b2b-icon_cell">
-                          <div class="nds-form-element">
+                          <div class="nds-b2b-table_cell-box nds-form-element">
                               <div class="nds-form-element__control nds-b2b-table_checkbox">
                                   <label class="nds-checkbox">
                                       <input type="checkbox" name="options" value="dd">
@@ -1286,8 +1319,11 @@ storiesOf(`${base}`, module)
                               </div>
                           </div>
                       </td>
-                      <td class="nds-b2b-table_cell nds-b2b-table_cell-readonly nds-b2b-table_transition-hide"></td>
+                      <td class="nds-b2b-table_cell nds-b2b-table_cell-readonly nds-b2b-table_transition-hide">
+                        <div class="nds-b2b-table_cell-box"></div>
+                      </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">First Name</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>Sam</div>
@@ -1299,8 +1335,10 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>  
                       </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">Last Name</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>Walter</div>
@@ -1312,8 +1350,10 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>  
                       </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">Address</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>Easton, PA</div>
@@ -1325,8 +1365,10 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>  
                       </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">Projects</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>29</div>
@@ -1338,17 +1380,20 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>
                       </td>
                   </tr>
                   <tr class="nds-b2b-table_row">    
-                    <td class="nds-b2b-table_cell nds-b2b-table_cell-readonly nds-b2b-table_transition-hide"></td>
+                    <td class="nds-b2b-table_cell nds-b2b-table_cell-readonly nds-b2b-table_transition-hide">
+                        <div class="nds-b2b-table_cell-box"></div>
+                    </td>
                     <td class="nds-b2b-table_cell nds-b2b-table_cell-readonly" colspan="5">
-                        Doe
+                        <div class="nds-b2b-table_cell-box">Doe</div>
                     </td>
                   </tr>
                   <tr class="nds-b2b-table_row">    
                       <td class="nds-b2b-table_cell nds-b2b-icon_cell">
-                          <div class="nds-form-element">
+                          <div class="nds-b2b-table_cell-box nds-form-element">
                               <div class="nds-form-element__control nds-b2b-table_checkbox">
                                   <label class="nds-checkbox">
                                       <input type="checkbox" name="options" value="dd">
@@ -1357,8 +1402,11 @@ storiesOf(`${base}`, module)
                               </div>
                           </div>
                       </td>
-                      <td class="nds-b2b-table_cell nds-b2b-table_cell-readonly nds-b2b-table_transition-hide"></td>
+                      <td class="nds-b2b-table_cell nds-b2b-table_cell-readonly nds-b2b-table_transition-hide">
+                        <div class="nds-b2b-table_cell-box"></div>
+                      </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">First Name</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>Cathy</div>
@@ -1370,8 +1418,10 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>  
                       </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">Last Name</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>Doe</div>
@@ -1383,8 +1433,10 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>
                       </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">Address</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>Jersey City, NJ</div>
@@ -1396,8 +1448,10 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>  
                       </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">Projects</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>29</div>
@@ -1409,11 +1463,12 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>  
                       </td>
                   </tr>
                   <tr class="nds-b2b-table_row"> 
                       <td class="nds-b2b-table_cell nds-b2b-icon_cell">
-                          <div class="nds-form-element">
+                          <div class="nds-b2b-table_cell-box nds-form-element">
                               <div class="nds-form-element__control nds-b2b-table_checkbox">
                                   <label class="nds-checkbox">
                                       <input type="checkbox" name="options" value="dd">
@@ -1422,8 +1477,11 @@ storiesOf(`${base}`, module)
                               </div>
                           </div>
                       </td>
-                      <td class="nds-b2b-table_cell nds-b2b-table_transition-hide"></td>
+                      <td class="nds-b2b-table_cell nds-b2b-table_transition-hide">
+                        <div class="nds-b2b-table_cell-box"></div>
+                      </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">First Name</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>John</div>
@@ -1435,8 +1493,10 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>  
                       </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">Last Name</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>Doe</div>
@@ -1448,8 +1508,10 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>  
                       </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">Address</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>Philadelphia, PA</div>
@@ -1461,8 +1523,10 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>  
                       </td>
                       <td class="nds-b2b-table_cell">
+                        <div class="nds-b2b-table_cell-box">
                           <label class="nds-b2b-table_cell-label">Projects</label>
                           <div class="nds-grid nds-grid_align-spread">
                             <div>29</div>
@@ -1474,6 +1538,7 @@ storiesOf(`${base}`, module)
                                 </div>
                             </div>
                           </div>
+                        </div>  
                       </td>
                   </tr>
               </tbody>
@@ -1496,4 +1561,103 @@ storiesOf(`${base}`, module)
     </div>  
     `);
   })
-  ;
+  .add("b2bOverridePriceOffer", () => {
+    return withExample(`
+    <div class="nds-b2b-override-price-offer">
+      <!-- Radio price witch -->
+      <div class="nds-b2b-override-select-price">
+        <div class="nds-b2b-config-radio_container radio-toolbar">
+          <input type="radio" id="oneTime" name="prices" value="oneTime">
+          <label for="oneTime">One Time</label>
+      
+          <input type="radio" id="monthly" name="prices" value="monthly" checked>
+          <label for="monthly">Monthly</label>
+        </div>
+      </div>
+
+      <!-- Price Waterfall -->
+      <div class="nds-b2b-waterfall-container">
+        <div class="nds-b2b-override-header">
+          <svg class="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default nds-m-left_small" aria-hidden="true">
+            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#moneybag"></use>
+          </svg>
+          <span class="nds-b2b-override-header_title">Price Waterfall</span>
+        </div>
+        <div class="nds-b2b-override-prices-container">
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-override-prices_row">
+            <div class="nds-size_3-of-4">Base Price</div>
+            <div class="nds-size_1-of-4 nds-text-align_right">$200.00</div>
+          </div>
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-override-prices_row">
+            <div class="nds-size_3-of-4">
+              Volume Discount (Ethernet Discounts)
+              <span class="nds-b2b-override-by">Applied by Vlocity CME Adminstrator</span>
+            </div>
+            <div class="nds-size_1-of-4 nds-text-align_right">-5.0%</div>
+          </div>
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-override-prices_row">
+            <div class="nds-size_3-of-4"></div>
+            <div class="nds-size_1-of-4 nds-text-align_right">$190.00</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nds-form-element nds-b2b-search-discount">
+        <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left">
+          <svg class="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default nds-m-left_small" aria-hidden="true">
+            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+          </svg>
+          <input type="text" id="text-input-id-1" class="nds-input nds-b2b-search-discount_input" placeholder="Search">
+        </div>
+      </div>
+
+      <!-- Adjust Pricing -->
+      <div class="nds-b2b-waterfall-container">
+        <div class="nds-b2b-override-header">
+          <svg class="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default nds-m-left_small" aria-hidden="true">
+            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#quote"></use>
+          </svg>
+          <span class="nds-b2b-override-header_title">Price Waterfall</span>
+        </div>
+        <div class="nds-b2b-adjust-prices-container">
+          <div class="nds-b2b-override-container_header">Add Custom Discount</div>
+
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-custom-discount">
+            <div class="nds-form-element nds-size_3-of-7">
+              <div class="nds-m-right_small">
+                <div class="nds-form-element__control">
+                  <span class="nds-b2b-input-icon">$</span>
+                  <span class="nds-b2b-input-icon right">/mo</span>
+                  <input type="number" id="text-input-id-1" class="nds-input nds-b2b-input">
+                </div>
+              </div>
+            </div>
+            <div class="nds-form-element nds-size_3-of-7">
+              <div class="nds-m-right_small">
+                <div class="nds-form-element__control">
+                  <span class="nds-b2b-input-icon right">%</span>
+                  <input type="number" id="text-input-id-1" class="nds-input nds-b2b-input">
+                </div>
+              </div>
+            </div>
+            <div class="nds-size_1-of-7 nds-text-align_right"><button class="nds-button nds-b2b-add-button">Add</button></div>
+          </div>
+
+          <div class="nds-b2b-override-container_header">Available Discount</div>
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-override-discounts_row">
+            <div class="nds-size_3-of-7">Standard Discount</div>
+            <div class="nds-size_3-of-7 nds-text-align_right">-2.5%</div>
+            <div class="nds-size_1-of-7 nds-b2b-add-button_text nds-text-align_right">Add</div>
+          </div>
+          <div class="nds-grid nds-wrap nds-size_1-of-1 nds-b2b-override-discounts_row">
+            <div class="nds-size_3-of-7">Industry Discount</div>
+            <div class="nds-size_3-of-7 nds-text-align_right">-3.75%</div>
+            <div class="nds-size_1-of-7 nds-b2b-add-button_text nds-text-align_right">Add</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    `);
+  })
+;
+

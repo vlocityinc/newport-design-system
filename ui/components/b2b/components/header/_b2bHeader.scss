@@ -1,0 +1,27 @@
+.nds-b2b-header-container {
+    background-color: $white;
+    color: $black-primary;
+    position: relative;
+}
+
+.nds-b2b-header-title {
+    font-weight: $font-weight-bold;
+}
+
+.nds-b2b-category-icon {
+    vertical-align: text-bottom;
+}
+
+.nd2-b2b-nav-text {
+    vertical-align: bottom;
+}
+
+.nds-b2b-mobile-nav-icon {
+    vertical-align: super;
+}
+
+.nds-b2b-header-description {
+    @media screen and (max-width: 30rem) {
+        padding-left: $spacing-large;
+    }
+}
