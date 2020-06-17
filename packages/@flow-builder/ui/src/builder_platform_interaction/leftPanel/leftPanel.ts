@@ -127,7 +127,11 @@ export default class LeftPanel extends LightningElement {
         const locationX = 0;
         const locationY = 0;
 
-        const addElementEvent = new AddElementEvent(elementType, locationX, locationY);
+        const addElementEvent = new AddElementEvent({
+            elementType,
+            locationX,
+            locationY
+        });
         this.dispatchEvent(addElementEvent);
     }
 

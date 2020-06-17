@@ -64,17 +64,15 @@ export default class FlcConnectorMenu extends Menu {
             default:
                 this.dispatchEvent(
                     // @ts-ignore
-                    new AddElementEvent(
-                        event.currentTarget.getAttribute('data-value'),
-                        0,
-                        0,
-                        null,
-                        null,
-                        this.prev,
-                        this.next,
-                        this.parent,
-                        this.childIndex
-                    )
+                    new AddElementEvent({
+                        elementType: event.currentTarget.getAttribute('data-value'),
+                        locationX: 0,
+                        locationY: 0,
+                        prev: this.prev,
+                        next: this.next,
+                        parent: this.parent,
+                        childIndex: this.childIndex
+                    })
                 );
         }
     }

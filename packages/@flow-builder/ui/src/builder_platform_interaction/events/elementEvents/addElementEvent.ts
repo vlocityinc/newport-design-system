@@ -1,37 +1,26 @@
-// @ts-nocheck
 /**
- * Used to open an empty property editor for the given element type.
+ * Used to open an empty property editor for the given element type
  */
 const eventName = 'addelement';
-export class AddElementEvent extends CustomEvent {
-    constructor(
-        elementType,
-        elementSubtype,
-        locationX = 0,
-        locationY = 0,
-        actionType,
-        actionName,
-        prev,
-        next,
-        parent,
-        childIndex
-    ) {
+interface AddElementEventDetail {
+    elementType: string;
+    elementSubtype?: string;
+    locationX: 0;
+    locationY: 0;
+    actionType?: string;
+    actionName?: string;
+    prev?: string;
+    next?: string;
+    parent?: string;
+    childIndex?: number;
+}
+export class AddElementEvent extends CustomEvent<AddElementEventDetail> {
+    constructor(detail) {
         super(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,
-            detail: {
-                elementType,
-                elementSubtype,
-                locationX,
-                locationY,
-                actionType,
-                actionName,
-                prev,
-                next,
-                parent,
-                childIndex
-            }
+            detail
         });
     }
 

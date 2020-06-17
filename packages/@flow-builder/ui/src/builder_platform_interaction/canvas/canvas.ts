@@ -292,14 +292,14 @@ export default class Canvas extends LightningElement {
         const locationX = (event.clientX - this.innerCanvasArea.getBoundingClientRect().left) / this.currentScale;
         const locationY = (event.clientY - this.innerCanvasArea.getBoundingClientRect().top) / this.currentScale;
 
-        const addElementEvent = new AddElementEvent(
+        const addElementEvent = new AddElementEvent({
             elementType,
             elementSubtype,
             locationX,
             locationY,
             actionType,
             actionName
-        );
+        });
         this.dispatchEvent(addElementEvent);
     };
 
