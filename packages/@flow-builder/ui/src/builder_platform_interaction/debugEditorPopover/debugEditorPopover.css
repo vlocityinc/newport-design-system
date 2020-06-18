@@ -1,24 +1,9 @@
-.container {
-    padding: 16px;
-    width: 100%;
-    background-color: #ffffff;
-}
-
-.header {
-    font-size: 0.8125rem;
-    line-height: 1.25;
-    padding-bottom: 16px;
-    color: #080707;
-}
-
-lightning-input {
-    font-size: 0.75rem;
-    padding-bottom: 12px;
-    color: #3e3e3c;
-}
-
+lightning-input,
 lightning-lookup {
-    padding: 0px 8px 12px;
-    font-size: 0.8125rem;
-    color: #080707;
+    padding-bottom: 12px;
+}
+
+.helptext,
+lightning-input {
+    color: #3e3e3c;
 }

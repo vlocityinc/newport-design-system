@@ -1,9 +1,9 @@
 <template>
-    <div class="container">
-        <div class="header">
-            <h2>{labels.debugOptions}</h2>
-        </div>
-        <div class="options">
+    <div class="slds-p-vertical_x-large slds-p-horizontal_large">
+        <div class="debugOptions">
+            <div class="slds-p-bottom_medium">
+                <h2>{labels.debugOptions}</h2>
+            </div>
             <lightning-input
                 type="checkbox"
                 label={labels.runLatestVersion}
@@ -42,28 +42,23 @@
                 onchange={handleChange}
             ></lightning-input>
         </div>
-        <div class="slds-p-top_large"></div>
-        <p><b> {labels.inputVarTitle}</b></p>
-        <div>
-            <div class="slds-p-top_medium"></div>
-            <template if:false={hasInputVariables}>
-                <p>{labels.noInputVarText}</p>
-            </template>
-            <template if:true={hasInputVariables}>
-                <p>{labels.inputVarText}</p>
-            </template>
-            <div class="slds-p-top_medium"></div>
-            <template for:each={inputVar} for:item="variable" for:index="itemIndex">
+        <div class="inputVariables">
+            <div class="slds-p-top_medium">
+                <p>{labels.inputVarTitle}</p>
+            </div>
+            <div class="helptext slds-p-top_medium">
+                <p if:false={hasInputVariables}>{labels.noInputVarText}</p>
+                <p if:true={hasInputVariables}>{labels.inputVarText}</p>
+            </div>
+            <template for:each={inputVar} for:item="variable">
                 <template if:true={variable.isInput}>
                     <builder_platform_interaction-debug-editor-input-variables
                         oninputevent={handleInputVariable}
                         key={variable.name}
                         variable={variable}
-                    >
-                    </builder_platform_interaction-debug-editor-input-variables>
+                    ></builder_platform_interaction-debug-editor-input-variables>
                 </template>
             </template>
-            <div class="slds-p-top_large"></div>
         </div>
     </div>
 </template>
