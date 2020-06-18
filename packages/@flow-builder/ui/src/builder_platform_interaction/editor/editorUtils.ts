@@ -26,8 +26,7 @@ import {
     createStartElement as createBasicStartElement
 } from 'builder_platform_interaction/elementFactory';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
-import { setUseFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
-import { canUserVAD, orgHasFlowBuilderGuardrails, useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
+import { canUserVAD, orgHasFlowBuilderGuardrails } from 'builder_platform_interaction/contextLib';
 import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
 import { getElementSections } from 'builder_platform_interaction/editorElementsUtils';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
@@ -710,18 +709,13 @@ export const highlightCanvasElement = (storeInstance, elementGuid) => {
  *
  * Create start element
  *
- * @param {object} storeInstance store instancce
+ * @param {object} storeInstance store instance
  */
 export const createStartElement = (storeInstance, triggerType) => {
     const startElement = getElementForStore({
         elementType: ELEMENT_TYPE.START_ELEMENT,
         triggerType
     });
-
-    // TODO: FLC TEMP CODE
-    if (useFixedLayoutCanvas()) {
-        setUseFixedLayoutCanvas(true);
-    }
 
     storeInstance.dispatch(addElement(startElement));
     return startElement;

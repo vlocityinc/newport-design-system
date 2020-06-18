@@ -1,0 +1,104 @@
+<template>
+    <div class="slds-welcome-mat slds-welcome-mat_splash">
+        <div class="slds-welcome-mat__info slds-p-vertical_large">
+            <div class="slds-welcome-mat__info-content">
+                <h2 class="slds-welcome-mat__info-title">
+                    {labels.modalHeading}
+                </h2>
+                <div class="slds-welcome-mat__info-description">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-2">
+                            <article class="slds-card">
+                                <div class="slds-card__header slds-grid">
+                                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                        <div class="slds-media__body">
+                                            <h2 class="slds-card__header-title">
+                                                <strong>{labels.freeFormTileHeader}</strong>
+                                            </h2>
+                                        </div>
+                                    </header>
+                                </div>
+
+                                <div class="slds-card__body slds-card__body_inner">
+                                    <img src="/flow/images/ff_layout_wire.svg" alt="Freeform image" />
+                                    <br />
+                                    <p class="slds-m-vertical_small">
+                                        {labels.freeFormTileDescription}
+                                    </p>
+                                    <ul class="slds-text-align_left slds-m-bottom_small slds-text-body_small">
+                                        <template for:each={freeformFeatureList} for:item="item">
+                                            <li key={item.label} class="slds-item">
+                                                <lightning-icon
+                                                    class="slds-m-right_xx-small"
+                                                    icon-name={item.iconName}
+                                                    alternative-text={item.altText}
+                                                    size="xx-small"
+                                                    title={item.title}
+                                                    variant={item.iconVariant}
+                                                ></lightning-icon>
+                                                {item.label}
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+
+                                <footer class="slds-card__footer" onclick={createFreeFormCanvas}>
+                                    <a class="slds-card__footer-action" href="javascript:void(0);"
+                                        >{labels.freeFormTileFooterLabel}
+                                        <span class="slds-assistive-text"
+                                            >{labels.freeFormTileFooterAssistiveText}</span
+                                        >
+                                    </a>
+                                </footer>
+                            </article>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <article class="slds-card">
+                                <div class="slds-card__header slds-grid">
+                                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                        <div class="slds-media__body">
+                                            <h2 class="slds-card__header-title">
+                                                <strong>{labels.autoLayoutTileHeader} </strong>
+                                                <span class="slds-badge slds-theme_warning">{labels.betaBadge}</span>
+                                            </h2>
+                                        </div>
+                                    </header>
+                                </div>
+                                <div class="slds-card__body slds-card__body_inner">
+                                    <img src="/flow/images/a_layout_wire.svg" alt="Autolayout image" />
+                                    <br />
+                                    <p class="slds-m-vertical_small">
+                                        {labels.autoLayoutTileDescription}
+                                    </p>
+                                    <ul class="slds-text-align_left slds-m-bottom_small slds-text-body_small">
+                                        <template for:each={autoFeatureList} for:item="item">
+                                            <li key={item.label} class="slds-item">
+                                                <lightning-icon
+                                                    class="slds-m-right_xx-small"
+                                                    icon-name={item.iconName}
+                                                    alternative-text={item.altText}
+                                                    size="xx-small"
+                                                    title={item.title}
+                                                    variant={item.iconVariant}
+                                                ></lightning-icon>
+                                                {item.label}
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                                <footer class="slds-card__footer" onclick={createAutoLayoutCanvas}>
+                                    <a class="slds-card__footer-action" href="javascript:void(0);"
+                                        >{labels.autoLayoutTileFooterLabel}
+                                        <span class="slds-assistive-text"
+                                            >{labels.autoLayoutTileFooterAssistiveText}</span
+                                        >
+                                    </a>
+                                </footer>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

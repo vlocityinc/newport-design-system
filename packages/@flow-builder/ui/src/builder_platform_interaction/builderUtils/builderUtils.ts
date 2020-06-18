@@ -22,6 +22,7 @@ import { LABELS } from './builderUtilsLabels';
 import { isObject } from 'builder_platform_interaction/commonUtils';
 import { clearExpressions } from 'builder_platform_interaction/expressionValidator';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
 /**
  * @constant state of callback result
@@ -292,7 +293,12 @@ const invokeModalWithComponentsOnCreate = (modal, data) => {
     const modalFooter = modal.get('v.footer')[0];
     if (data.closeModalCallback) {
         modalFooter.set('v.closeModalCallback', () => {
-            data.closeModalCallback(modal);
+            if (data.processType) {
+                data.closeModalCallback(data.processType, data.triggerType);
+                modal.close();
+            } else {
+                data.closeModalCallback(modal);
+            }
         });
     } else {
         modalFooter.set('v.closeModalCallback', modal.close);
@@ -545,6 +551,33 @@ export const invokeModalWithComponents = (
         });
 };
 
+const invokeWelcomeMatWithComponents = (data, modalBodyPromise, onCreate) => {
+    modalBodyPromise.then(newComponent => {
+        const createPanelEventAttributes = {
+            panelType: MODAL,
+            visible: true,
+            panelConfig: {
+                modalClass: data.modalClass || '',
+                body: newComponent,
+                bodyClass: data.bodyClass || '',
+                closeAction: modal => {
+                    let skipCloseAction = false;
+                    if (data.closeCallback) {
+                        skipCloseAction = data.closeCallback();
+                    }
+                    if (!skipCloseAction) {
+                        modal.close();
+                    }
+                }
+            },
+            onCreate: modal => {
+                onCreate(modal);
+            }
+        };
+        dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
+    });
+};
+
 /**
  * Open Debug Editor Popover.
  * @param {string} cmpHeader - Name of the header component to be created.
@@ -669,6 +702,28 @@ export const invokeModalInternalData = data => {
     );
 };
 
+export const invokeAutoLayoutWelcomeMat = (processType, triggerType, createCallback, closeFlowModalCallback) => {
+    const modalBodyPromise = createComponentPromise('builder_platform_interaction:welcomeMatBody', {
+        processType,
+        triggerType,
+        createCallback
+    });
+
+    const invokeModalWithComponentsOnCreateOverride = modal => {
+        const panelBody = modal.get('v.body')[0];
+        panelBody.set('v.closeCallback', modal.close);
+    };
+
+    invokeWelcomeMatWithComponents(
+        {
+            modalClass: 'slds-modal_small',
+            closeCallback: closeFlowModalCallback
+        },
+        modalBodyPromise,
+        invokeModalWithComponentsOnCreateOverride
+    );
+};
+
 /**
  * @typedef {Object} NewFlowModalProperties
  *
@@ -701,7 +756,7 @@ export const invokeNewFlowModal = (
     const modalFooterPromise = createComponentPromise('builder_platform_interaction:modalFooter', {
         buttons: {
             buttonOne: {
-                buttonLabel: LABELS.createButtonLabel,
+                buttonLabel: useFixedLayoutCanvas() ? LABELS.nextButtonLabel : LABELS.createButtonLabel,
                 buttonVariant: 'brand'
             }
         }

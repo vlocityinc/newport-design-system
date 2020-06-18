@@ -6,6 +6,7 @@ import {
     PROPERTY_EDITOR,
     invokeModalInternalData,
     invokeNewFlowModal,
+    invokeAutoLayoutWelcomeMat,
     invokeKeyboardHelpDialog,
     focusOnDockingPanel,
     invokeDebugEditor
@@ -124,7 +125,7 @@ import {
     FocusOnDockingPanelCommand
 } from 'builder_platform_interaction/commands';
 import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
-import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
+import { useFixedLayoutCanvas, setUseFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLib';
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
@@ -1766,14 +1767,33 @@ export default class Editor extends LightningElement {
                     'click',
                     'user'
                 );
-                // create the empty flow for the selected process type
-                this.spinners.showFlowMetadataSpinner = true;
-                this.createFlowFromProcessType(processType, defaultTriggerType);
-                this.spinners.showFlowMetadataSpinner = false;
+
+                // TODO: Directly call invokeAutoLayoutWelcomeMat when releasing
+                if (useFixedLayoutCanvas()) {
+                    invokeAutoLayoutWelcomeMat(
+                        processType,
+                        defaultTriggerType,
+                        this.setupCanvas,
+                        this.closeFlowModalCallback
+                    );
+                } else {
+                    this.setupCanvas(processType, defaultTriggerType, false);
+                }
             }
             modal.close();
             this.newFlowModalActive = false;
         }
+    };
+
+    setupCanvas = (processType, triggerType, setupInFixedLayoutMode) => {
+        if (setupInFixedLayoutMode) {
+            setUseFixedLayoutCanvas(true);
+        }
+
+        // create the empty flow for the selected process type
+        this.spinners.showFlowMetadataSpinner = true;
+        this.createFlowFromProcessType(processType, triggerType);
+        this.spinners.showFlowMetadataSpinner = false;
     };
 
     /**
@@ -1785,7 +1805,6 @@ export default class Editor extends LightningElement {
         storeInstance.dispatch(updatePropertiesAfterCreatingFlowFromProcessType(payload));
 
         createStartElement(storeInstance, triggerType);
-
         this.disableSave = false;
     };
 
