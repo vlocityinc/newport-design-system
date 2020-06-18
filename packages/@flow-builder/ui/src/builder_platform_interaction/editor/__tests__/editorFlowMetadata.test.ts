@@ -63,6 +63,12 @@ jest.mock('builder_platform_interaction/keyboardInteractionUtils', () =>
     require('builder_platform_interaction_mocks/keyboardInteractionUtils')
 );
 
+jest.mock('builder_platform_interaction/screenFieldTypeLib', () => {
+    return {
+        setSupportedScreenFieldTypes: jest.fn()
+    };
+});
+
 describe('editorMetadata', () => {
     describe('set flowId', () => {
         test.each`

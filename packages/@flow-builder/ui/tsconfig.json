@@ -168,6 +168,7 @@
             "builder_platform_interaction/screenExtensionPropertiesEditor": ["./builder_platform_interaction/screenExtensionPropertiesEditor/screenExtensionPropertiesEditor.ts"],
             "builder_platform_interaction/screenField": ["./builder_platform_interaction/screenField/screenField.ts"],
             "builder_platform_interaction/screenFieldCard": ["./builder_platform_interaction/screenFieldCard/screenFieldCard.ts"],
+            "builder_platform_interaction/screenFieldTypeLib": ["./builder_platform_interaction/screenFieldTypeLib/screenFieldTypeLib.ts"],
             "builder_platform_interaction/screenInputField": ["./builder_platform_interaction/screenInputField/screenInputField.ts"],
             "builder_platform_interaction/screenInputFieldPropertiesEditor": ["./builder_platform_interaction/screenInputFieldPropertiesEditor/screenInputFieldPropertiesEditor.ts"],
             "builder_platform_interaction/screenPropertiesEditor": ["./builder_platform_interaction/screenPropertiesEditor/screenPropertiesEditor.ts"],

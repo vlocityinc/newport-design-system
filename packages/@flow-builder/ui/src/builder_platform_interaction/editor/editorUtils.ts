@@ -33,6 +33,7 @@ import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutat
 import { getElementByDevName, getStartElement } from 'builder_platform_interaction/storeUtils';
 
 const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
+const SCREEN_FIELD_TYPES = 'SCREEN_FIELD_TYPES';
 
 /**
  * Helper method to determine if the connector is an associated connector or not
@@ -805,6 +806,31 @@ export function getToolboxElements(flowProcessType, flowTriggerType) {
                 numOfElements: data.length
             });
             updateElementConfigMapWithSubtypes(data);
+            return data;
+        })
+        .catch((/* error */) => {
+            // Handle error case here if something is needed beyond our automatic generic error modal popup
+        });
+}
+
+/**
+ * Get the supported screen field types
+ */
+export function getScreenFieldTypes(flowProcessType: string, flowTriggerType: string): Promise<any> {
+    logPerfTransactionStart(SCREEN_FIELD_TYPES);
+    return new Promise(resolve => {
+        fetch(SERVER_ACTION_TYPE.GET_SUPPORTED_SCREEN_FIELD_TYPES, resolve, {
+            flowProcessType,
+            flowTriggerType
+        });
+    })
+        .then(({ data, error }) => {
+            if (error) {
+                throw error;
+            }
+            logPerfTransactionEnd(SCREEN_FIELD_TYPES, {
+                numOfScreenFieldTypes: data.length
+            });
             return data;
         })
         .catch((/* error */) => {

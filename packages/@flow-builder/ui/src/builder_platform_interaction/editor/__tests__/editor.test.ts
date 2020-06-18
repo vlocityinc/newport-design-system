@@ -200,6 +200,12 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/screenFieldTypeLib', () => {
+    return {
+        setSupportedScreenFieldTypes: jest.fn()
+    };
+});
+
 const createComponentUnderTest = (
     props = {
         builderType: 'old',
