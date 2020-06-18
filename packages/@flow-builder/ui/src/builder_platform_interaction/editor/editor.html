@@ -107,19 +107,8 @@
                     node-update-callback={propertyEditorParams.attr.nodeUpdate}
                 >
                 </builder_platform_interaction-property-editor-panel>
-
-                <!-- TODO Replace the following code with the actual right panel debug container component and pass in the debugData object. 
-                     The debugData object has a property called 'data' and a property called 'error' (which will contain error details if any 
-                     were returned by the ui tier service). Also please remove the cardClass entry in editor.css -->
-                <template if:true={showDebugPanel} for:each={debugTraces} for:item="trace">
-                    <div class="cardClass" key={trace.debugInfo}>
-                        <lightning-card title={trace.elementApiName}>
-                            <p class="slds-p-horizontal_small">
-                                <lightning-formatted-rich-text value={trace.debugInfo}></lightning-formatted-rich-text>
-                            </p>
-                        </lightning-card>
-                    </div>
-                </template>
+                <builder_platform_interaction-debug-panel if:true={showDebugPanel} debug-traces={debugTraces}>
+                </builder_platform_interaction-debug-panel>
             </builder_platform_interaction-right-panel>
         </div>
     </div>

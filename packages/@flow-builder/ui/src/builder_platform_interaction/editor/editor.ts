@@ -9,7 +9,8 @@ import {
     invokeAutoLayoutWelcomeMat,
     invokeKeyboardHelpDialog,
     focusOnDockingPanel,
-    invokeDebugEditor
+    invokeDebugEditor,
+    hidePopover
 } from 'builder_platform_interaction/builderUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
@@ -826,7 +827,7 @@ export default class Editor extends LightningElement {
                     storeInstance.dispatch(decorateCanvas({ connectorsToHighlight }));
                 }
                 this.spinners.showDebugSpinner = false;
-                debugModal.close();
+                hidePopover();
             },
             {
                 flowDevName: storeInstance.getCurrentState().properties.name,
