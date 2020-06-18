@@ -1,5 +1,14 @@
-import { getPillLabel, getPillTooltip } from '../pill';
 import {
+    convertCapitalizedToSpacedString,
+    getPillLabel,
+    getGlobalConstantOrSystemVariableOrOtherGlobalsLabel,
+    getPillTooltip,
+    getOtherGlobalApiName,
+    getOtherGlobalFieldName,
+    getOtherGlobalLabel
+} from '../pill';
+import {
+    mockGlobalConstantEmptyStringComboboxItem,
     mockAccountVar,
     secondLevelMenuData,
     thirdLevelMenuData,
@@ -36,6 +45,7 @@ describe('getPillLabel', () => {
         ${undefined}                                                     | ${'Account from lookup_account > Billing Country'} | ${'Account from lookup_account > Billing Country'}
         ${undefined}                                                     | ${'car > model'}                                   | ${'car > model'}
         ${undefined}                                                     | ${'apex > car > model'}                            | ${'apex > car > model'}
+        ${mockGlobalConstantEmptyStringComboboxItem}                     | ${undefined}                                       | ${'EmptyString'}
         ${mockAccountVar}                                                | ${undefined}                                       | ${'MyAccount'}
         ${mockSObjectFieldSecondLevelComboboxItem}                       | ${undefined}                                       | ${'MyAccount > Created By ID'}
         ${mockSObjectFieldSecondLevelEmptySubTextComboboxItem}           | ${undefined}                                       | ${'MyAccount > {!MyAccount.CreatedBy}'}
@@ -81,5 +91,91 @@ describe('getPillTooltip', () => {
             const actual = getPillTooltip('vText', errorMessage);
             expect(actual).toEqual(expect.stringContaining(errorMessage));
         });
+    });
+});
+
+describe('getOtherGlobalApiName', () => {
+    test.each`
+        globalEntry                                 | expected
+        ${''}                                       | ${''}
+        ${'$Profile'}                               | ${'Profile'}
+        ${'$Profile.AMiddleNameThisFieldIsCalled'}  | ${'Profile'}
+        ${'$$Profile.AMiddleNameThisFieldIsCalled'} | ${'$Profile'}
+        ${'$Profile$.AMiddleNameThisFieldIsCalled'} | ${'Profile$'}
+    `('Should return $expected for $globalEntry', ({ globalEntry, expected }) => {
+        const actual = getOtherGlobalApiName(globalEntry);
+        expect(actual).toBe(expected);
+    });
+});
+
+describe('getOtherGlobalFieldName', () => {
+    test.each`
+        globalEntry                                         | expected
+        ${''}                                               | ${null}
+        ${undefined}                                        | ${null}
+        ${null}                                             | ${null}
+        ${'$Profile'}                                       | ${null}
+        ${'$Profile.AMiddleNameThisFieldIsCalled'}          | ${'AMiddleNameThisFieldIsCalled'}
+        ${'$$Profile.AMiddleNameThisFieldIsCalled'}         | ${'AMiddleNameThisFieldIsCalled'}
+        ${'$$Profile..AMiddleNameThisFieldIsCalled'}        | ${'.AMiddleNameThisFieldIsCalled'}
+        ${'$Profile$.AMiddleNameThisFieldIsCalled.Subpart'} | ${'AMiddleNameThisFieldIsCalled.Subpart'}
+    `('Should return $expected for $globalEntry', ({ globalEntry, expected }) => {
+        const actual = getOtherGlobalFieldName(globalEntry);
+        expect(actual).toBe(expected);
+    });
+});
+
+describe('getOtherGlobalLabel', () => {
+    test.each`
+        globalEntry                                 | expectedLabel
+        ${''}                                       | ${''}
+        ${'$Profile'}                               | ${'$Profile'}
+        ${'$Profile.AMiddleNameThisFieldIsCalled'}  | ${'A Middle Name This Field Is Called for Profile'}
+        ${'$User.AMiddleNameThisFieldIsCalled'}     | ${'A Middle Name This Field Is Called for User'}
+        ${'$Profile$.AMiddleNameThisFieldIsCalled'} | ${'A Middle Name This Field Is Called for Profile$'}
+    `('Should return $expectedLabel for $globalEntry', ({ globalEntry, expectedLabel }) => {
+        const actual = getOtherGlobalLabel(globalEntry);
+        expect(actual).toBe(expectedLabel);
+    });
+});
+
+describe('convertCapitalizedToSpacedString', () => {
+    test.each`
+        rawString                   | expectedSpacedString
+        ${'ACapitalizedMiddleName'} | ${'A Capitalized Middle Name'}
+        ${'notacapitalizedone'}     | ${'notacapitalizedone'}
+    `(
+        'Converted string for given string $rawString should be: $expectedSpacedString',
+        ({ rawString, expectedSpacedString }) => {
+            const actual = convertCapitalizedToSpacedString(rawString);
+            expect(actual).toBe(expectedSpacedString);
+        }
+    );
+});
+
+describe('getGlobalConstantOrSystemVariableLabel', () => {
+    test.each`
+        rawValue                                    | expectedLabel
+        ${null}                                     | ${''}
+        ${undefined}                                | ${''}
+        ${''}                                       | ${''}
+        ${'$GlobalConstant.True'}                   | ${'True'}
+        ${'$GlobalConstant.False'}                  | ${'False'}
+        ${'$GlobalConstant.EmptyString'}            | ${'EmptyString'}
+        ${'GlobalConstant.False'}                   | ${'GlobalConstant.False'}
+        ${'$Flow.CurrentDate'}                      | ${'Current Date'}
+        ${'$Flow.CurrentDateTime'}                  | ${'Current Date & Time'}
+        ${'$Flow.FaultMessage'}                     | ${'Error Text'}
+        ${'$Flow.CurrentStage'}                     | ${'Current Flow Stage'}
+        ${'$Flow.InterviewStartTime'}               | ${'Flow Start Time'}
+        ${'$Flow.ActiveStages'}                     | ${'Active Flow Stage'}
+        ${'$Flow.InterviewGuid'}                    | ${'Flow Instance Id'}
+        ${'$Flow.CurrentRecord'}                    | ${'Specified Related Record'}
+        ${'$API.Session_ID'}                        | ${'Session Id'}
+        ${'$Profile.AMiddleNameThisFieldIsCalled'}  | ${'A Middle Name This Field Is Called for Profile'}
+        ${'$Profile2.AMiddleNameThisFieldIsCalled'} | ${'$Profile2.AMiddleNameThisFieldIsCalled'}
+    `('Label for $rawValue should be: $expectedLabel', ({ rawValue, expectedLabel }) => {
+        const actual = getGlobalConstantOrSystemVariableOrOtherGlobalsLabel(rawValue);
+        expect(actual).toBe(expectedLabel);
     });
 });

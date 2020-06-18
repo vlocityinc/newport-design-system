@@ -6,216 +6,513 @@
         "noImplicitAny": false,
         "outDir": "./build/builder_platform_interaction",
         "baseUrl": "./src",
-         "paths": {
+        "paths": {
             "lightning/utils": ["../../../../node_modules/lwc-components-lightning/src/lightning/utils/utils.js"],
             "builder_platform_interaction/autoLayoutCanvas": ["../../auto-layout-canvas/dist/types/index.d.js"],
-                        "builder_platform_interaction/actionSelector": ["./builder_platform_interaction/actionSelector/actionSelector.ts"],
+            "builder_platform_interaction/actionSelector": [
+                "./builder_platform_interaction/actionSelector/actionSelector.ts"
+            ],
             "builder_platform_interaction/actions": ["./builder_platform_interaction/actions/actions.ts"],
-            "builder_platform_interaction/apexPluginEditor": ["./builder_platform_interaction/apexPluginEditor/apexPluginEditor.ts"],
+            "builder_platform_interaction/apexPluginEditor": [
+                "./builder_platform_interaction/apexPluginEditor/apexPluginEditor.ts"
+            ],
             "builder_platform_interaction/apexTypeLib": ["./builder_platform_interaction/apexTypeLib/apexTypeLib.ts"],
-            "builder_platform_interaction/assignmentEditor": ["./builder_platform_interaction/assignmentEditor/assignmentEditor.ts"],
-            "builder_platform_interaction/baseCalloutEditor": ["./builder_platform_interaction/baseCalloutEditor/baseCalloutEditor.ts"],
-            "builder_platform_interaction/baseExpressionBuilder": ["./builder_platform_interaction/baseExpressionBuilder/baseExpressionBuilder.ts"],
-            "builder_platform_interaction/baseResourcePicker": ["./builder_platform_interaction/baseResourcePicker/baseResourcePicker.ts"],
-            "builder_platform_interaction/builderTestUtils": ["./builder_platform_interaction/builderTestUtils/builderTestUtils.ts"],
-            "builder_platform_interaction/builderUtils": ["./builder_platform_interaction/builderUtils/builderUtils.ts"],
-            "builder_platform_interaction/buttonBanner": ["./builder_platform_interaction/buttonBanner/buttonBanner.ts"],
-            "builder_platform_interaction/calloutEditor": ["./builder_platform_interaction/calloutEditor/calloutEditor.ts"],
-            "builder_platform_interaction/calloutEditorContainer": ["./builder_platform_interaction/calloutEditorContainer/calloutEditorContainer.ts"],
-            "builder_platform_interaction/calloutEditorLib": ["./builder_platform_interaction/calloutEditorLib/calloutEditorLib.ts"],
+            "builder_platform_interaction/assignmentEditor": [
+                "./builder_platform_interaction/assignmentEditor/assignmentEditor.ts"
+            ],
+            "builder_platform_interaction/baseCalloutEditor": [
+                "./builder_platform_interaction/baseCalloutEditor/baseCalloutEditor.ts"
+            ],
+            "builder_platform_interaction/baseExpressionBuilder": [
+                "./builder_platform_interaction/baseExpressionBuilder/baseExpressionBuilder.ts"
+            ],
+            "builder_platform_interaction/baseResourcePicker": [
+                "./builder_platform_interaction/baseResourcePicker/baseResourcePicker.ts"
+            ],
+            "builder_platform_interaction/builderTestUtils": [
+                "./builder_platform_interaction/builderTestUtils/builderTestUtils.ts"
+            ],
+            "builder_platform_interaction/builderUtils": [
+                "./builder_platform_interaction/builderUtils/builderUtils.ts"
+            ],
+            "builder_platform_interaction/buttonBanner": [
+                "./builder_platform_interaction/buttonBanner/buttonBanner.ts"
+            ],
+            "builder_platform_interaction/calloutEditor": [
+                "./builder_platform_interaction/calloutEditor/calloutEditor.ts"
+            ],
+            "builder_platform_interaction/calloutEditorContainer": [
+                "./builder_platform_interaction/calloutEditorContainer/calloutEditorContainer.ts"
+            ],
+            "builder_platform_interaction/calloutEditorLib": [
+                "./builder_platform_interaction/calloutEditorLib/calloutEditorLib.ts"
+            ],
             "builder_platform_interaction/canvas": ["./builder_platform_interaction/canvas/canvas.ts"],
-            "builder_platform_interaction/canvasContainer": ["./builder_platform_interaction/canvasContainer/canvasContainer.ts"],
-            "builder_platform_interaction/choiceEditor": ["./builder_platform_interaction/choiceEditor/choiceEditor.ts"],
+            "builder_platform_interaction/canvasContainer": [
+                "./builder_platform_interaction/canvasContainer/canvasContainer.ts"
+            ],
+            "builder_platform_interaction/choiceEditor": [
+                "./builder_platform_interaction/choiceEditor/choiceEditor.ts"
+            ],
             "builder_platform_interaction/clampLib": ["./builder_platform_interaction/clampLib/clampLib.ts"],
             "builder_platform_interaction/combobox": ["./builder_platform_interaction/combobox/combobox.ts"],
-            "builder_platform_interaction/comboboxCache": ["./builder_platform_interaction/comboboxCache/comboboxCache.ts"],
+            "builder_platform_interaction/comboboxCache": [
+                "./builder_platform_interaction/comboboxCache/comboboxCache.ts"
+            ],
             "builder_platform_interaction/commands": ["./builder_platform_interaction/commands/commands.ts"],
             "builder_platform_interaction/commonUtils": ["./builder_platform_interaction/commonUtils/commonUtils.ts"],
-            "builder_platform_interaction/complexTypeLib": ["./builder_platform_interaction/complexTypeLib/complexTypeLib.ts"],
-            "builder_platform_interaction/componentVisibility": ["./builder_platform_interaction/componentVisibility/componentVisibility.ts"],
-            "builder_platform_interaction/conditionEditorPopover": ["./builder_platform_interaction/conditionEditorPopover/conditionEditorPopover.ts"],
-            "builder_platform_interaction/conditionList": ["./builder_platform_interaction/conditionList/conditionList.ts"],
-            "builder_platform_interaction/conditionListItem": ["./builder_platform_interaction/conditionListItem/conditionListItem.ts"],
-            "builder_platform_interaction/conditionListItemUtil": ["./builder_platform_interaction/conditionListItemUtil/conditionListItemUtil.ts"],
-            "builder_platform_interaction/conditionListReducer": ["./builder_platform_interaction/conditionListReducer/conditionListReducer.ts"],
-            "builder_platform_interaction/conditionListUtils": ["./builder_platform_interaction/conditionListUtils/conditionListUtils.ts"],
-            "builder_platform_interaction/connectorPicker": ["./builder_platform_interaction/connectorPicker/connectorPicker.ts"],
-            "builder_platform_interaction/connectorUtils": ["./builder_platform_interaction/connectorUtils/connectorUtils.ts"],
+            "builder_platform_interaction/complexTypeLib": [
+                "./builder_platform_interaction/complexTypeLib/complexTypeLib.ts"
+            ],
+            "builder_platform_interaction/componentVisibility": [
+                "./builder_platform_interaction/componentVisibility/componentVisibility.ts"
+            ],
+            "builder_platform_interaction/conditionEditorPopover": [
+                "./builder_platform_interaction/conditionEditorPopover/conditionEditorPopover.ts"
+            ],
+            "builder_platform_interaction/conditionList": [
+                "./builder_platform_interaction/conditionList/conditionList.ts"
+            ],
+            "builder_platform_interaction/conditionListItem": [
+                "./builder_platform_interaction/conditionListItem/conditionListItem.ts"
+            ],
+            "builder_platform_interaction/conditionListItemUtil": [
+                "./builder_platform_interaction/conditionListItemUtil/conditionListItemUtil.ts"
+            ],
+            "builder_platform_interaction/conditionListReducer": [
+                "./builder_platform_interaction/conditionListReducer/conditionListReducer.ts"
+            ],
+            "builder_platform_interaction/conditionListUtils": [
+                "./builder_platform_interaction/conditionListUtils/conditionListUtils.ts"
+            ],
+            "builder_platform_interaction/connectorPicker": [
+                "./builder_platform_interaction/connectorPicker/connectorPicker.ts"
+            ],
+            "builder_platform_interaction/connectorUtils": [
+                "./builder_platform_interaction/connectorUtils/connectorUtils.ts"
+            ],
             "builder_platform_interaction/constant": ["./builder_platform_interaction/constant/constant.ts"],
             "builder_platform_interaction/contextLib": ["./builder_platform_interaction/contextLib/contextLib.ts"],
-            "builder_platform_interaction/contextRecordEditor": ["./builder_platform_interaction/contextRecordEditor/contextRecordEditor.ts"],
-            "builder_platform_interaction/customPropertyEditor": ["./builder_platform_interaction/customPropertyEditor/customPropertyEditor.ts"],
-            "builder_platform_interaction/dataMutationLib": ["./builder_platform_interaction/dataMutationLib/dataMutationLib.ts"],
+            "builder_platform_interaction/contextRecordEditor": [
+                "./builder_platform_interaction/contextRecordEditor/contextRecordEditor.ts"
+            ],
+            "builder_platform_interaction/customPropertyEditor": [
+                "./builder_platform_interaction/customPropertyEditor/customPropertyEditor.ts"
+            ],
+            "builder_platform_interaction/dataMutationLib": [
+                "./builder_platform_interaction/dataMutationLib/dataMutationLib.ts"
+            ],
             "builder_platform_interaction/dataTypeLib": ["./builder_platform_interaction/dataTypeLib/dataTypeLib.ts"],
-            "builder_platform_interaction/dataTypePicker": ["./builder_platform_interaction/dataTypePicker/dataTypePicker.ts"],
-            "builder_platform_interaction/dateTimeUtils": ["./builder_platform_interaction/dateTimeUtils/dateTimeUtils.ts"],
-            "builder_platform_interaction/debugEditorInputVariables": ["./builder_platform_interaction/debugEditorInputVariables/debugEditorInputVariables.ts"],
-            "builder_platform_interaction/debugEditorPopover": ["./builder_platform_interaction/debugEditorPopover/debugEditorPopover.ts"],
-            "builder_platform_interaction/decisionEditor": ["./builder_platform_interaction/decisionEditor/decisionEditor.ts"],
+
+            "builder_platform_interaction/dataTypePicker": [
+                "./builder_platform_interaction/dataTypePicker/dataTypePicker.ts"
+            ],
+            "builder_platform_interaction/dateTimeUtils": [
+                "./builder_platform_interaction/dateTimeUtils/dateTimeUtils.ts"
+            ],
+            "builder_platform_interaction/debugEditorPopover": [
+                "./builder_platform_interaction/debugEditorPopover/debugEditorPopover.ts"
+            ],
+            "builder_platform_interaction/debugEditorPopoverFooter": [
+                "./builder_platform_interaction/debugEditorPopoverFooter/debugEditorPopoverFooter.ts"
+            ],
+            "builder_platform_interaction/decisionEditor": [
+                "./builder_platform_interaction/decisionEditor/decisionEditor.ts"
+            ],
             "builder_platform_interaction/draggable": ["./builder_platform_interaction/draggable/draggable.ts"],
             "builder_platform_interaction/drawingLib": ["./builder_platform_interaction/drawingLib/drawingLib.ts"],
             "builder_platform_interaction/editor": ["./builder_platform_interaction/editor/editor.ts"],
-            "builder_platform_interaction/editorElementsUtils": ["./builder_platform_interaction/editorElementsUtils/editorElementsUtils.ts"],
-            "builder_platform_interaction/elementConfig": ["./builder_platform_interaction/elementConfig/elementConfig.ts"],
-            "builder_platform_interaction/elementFactory": ["./builder_platform_interaction/elementFactory/elementFactory.ts"],
+            "builder_platform_interaction/editorElementsUtils": [
+                "./builder_platform_interaction/editorElementsUtils/editorElementsUtils.ts"
+            ],
+            "builder_platform_interaction/elementConfig": [
+                "./builder_platform_interaction/elementConfig/elementConfig.ts"
+            ],
+            "builder_platform_interaction/elementFactory": [
+                "./builder_platform_interaction/elementFactory/elementFactory.ts"
+            ],
             "builder_platform_interaction/elementIcon": ["./builder_platform_interaction/elementIcon/elementIcon.ts"],
-            "builder_platform_interaction/elementLabelLib": ["./builder_platform_interaction/elementLabelLib/elementLabelLib.ts"],
-            "builder_platform_interaction/entityResourcePicker": ["./builder_platform_interaction/entityResourcePicker/entityResourcePicker.ts"],
+            "builder_platform_interaction/elementLabelLib": [
+                "./builder_platform_interaction/elementLabelLib/elementLabelLib.ts"
+            ],
+            "builder_platform_interaction/entityResourcePicker": [
+                "./builder_platform_interaction/entityResourcePicker/entityResourcePicker.ts"
+            ],
             "builder_platform_interaction/events": ["./builder_platform_interaction/events/events.ts"],
-            "builder_platform_interaction/expressionUtils": ["./builder_platform_interaction/expressionUtils/expressionUtils.ts"],
-            "builder_platform_interaction/expressionValidator": ["./builder_platform_interaction/expressionValidator/expressionValidator.ts"],
-            "builder_platform_interaction/ferToFerovExpressionBuilder": ["./builder_platform_interaction/ferToFerovExpressionBuilder/ferToFerovExpressionBuilder.ts"],
-            "builder_platform_interaction/ferovResourcePicker": ["./builder_platform_interaction/ferovResourcePicker/ferovResourcePicker.ts"],
+            "builder_platform_interaction/expressionUtils": [
+                "./builder_platform_interaction/expressionUtils/expressionUtils.ts"
+            ],
+            "builder_platform_interaction/expressionValidator": [
+                "./builder_platform_interaction/expressionValidator/expressionValidator.ts"
+            ],
+            "builder_platform_interaction/ferToFerovExpressionBuilder": [
+                "./builder_platform_interaction/ferToFerovExpressionBuilder/ferToFerovExpressionBuilder.ts"
+            ],
+            "builder_platform_interaction/ferovResourcePicker": [
+                "./builder_platform_interaction/ferovResourcePicker/ferovResourcePicker.ts"
+            ],
             "builder_platform_interaction/fieldPicker": ["./builder_platform_interaction/fieldPicker/fieldPicker.ts"],
-            "builder_platform_interaction/fieldToFerovExpressionBuilder": ["./builder_platform_interaction/fieldToFerovExpressionBuilder/fieldToFerovExpressionBuilder.ts"],
+            "builder_platform_interaction/fieldToFerovExpressionBuilder": [
+                "./builder_platform_interaction/fieldToFerovExpressionBuilder/fieldToFerovExpressionBuilder.ts"
+            ],
             "builder_platform_interaction/filterLib": ["./builder_platform_interaction/filterLib/filterLib.ts"],
-            "builder_platform_interaction/filterTypeLib": ["./builder_platform_interaction/filterTypeLib/filterTypeLib.ts"],
-            "builder_platform_interaction/flcBuilderContainer": ["./builder_platform_interaction/flcBuilderContainer/flcBuilderContainer.ts"],
-            "builder_platform_interaction/flcBuilderUtils": ["./builder_platform_interaction/flcBuilderUtils/flcBuilderUtils.ts"],
-            "builder_platform_interaction/flcConversionUtils": ["./builder_platform_interaction/flcConversionUtils/flcConversionUtils.ts"],
-            "builder_platform_interaction/flowExtensionLib": ["./builder_platform_interaction/flowExtensionLib/flowExtensionLib.ts"],
-            "builder_platform_interaction/flowMetadata": ["./builder_platform_interaction/flowMetadata/flowMetadata.ts"],
-            "builder_platform_interaction/flowPropertiesEditor": ["./builder_platform_interaction/flowPropertiesEditor/flowPropertiesEditor.ts"],
+            "builder_platform_interaction/filterTypeLib": [
+                "./builder_platform_interaction/filterTypeLib/filterTypeLib.ts"
+            ],
+            "builder_platform_interaction/flcBuilderContainer": [
+                "./builder_platform_interaction/flcBuilderContainer/flcBuilderContainer.ts"
+            ],
+            "builder_platform_interaction/flcBuilderUtils": [
+                "./builder_platform_interaction/flcBuilderUtils/flcBuilderUtils.ts"
+            ],
+            "builder_platform_interaction/flcConversionUtils": [
+                "./builder_platform_interaction/flcConversionUtils/flcConversionUtils.ts"
+            ],
+            "builder_platform_interaction/flowExtensionLib": [
+                "./builder_platform_interaction/flowExtensionLib/flowExtensionLib.ts"
+            ],
+            "builder_platform_interaction/flowMetadata": [
+                "./builder_platform_interaction/flowMetadata/flowMetadata.ts"
+            ],
+            "builder_platform_interaction/flowPropertiesEditor": [
+                "./builder_platform_interaction/flowPropertiesEditor/flowPropertiesEditor.ts"
+            ],
             "builder_platform_interaction/flowStatus": ["./builder_platform_interaction/flowStatus/flowStatus.ts"],
-            "builder_platform_interaction/formulaEditor": ["./builder_platform_interaction/formulaEditor/formulaEditor.ts"],
-            "builder_platform_interaction/getTemplatesTile": ["./builder_platform_interaction/getTemplatesTile/getTemplatesTile.ts"],
+            "builder_platform_interaction/formulaEditor": [
+                "./builder_platform_interaction/formulaEditor/formulaEditor.ts"
+            ],
+            "builder_platform_interaction/getTemplatesTile": [
+                "./builder_platform_interaction/getTemplatesTile/getTemplatesTile.ts"
+            ],
             "builder_platform_interaction/goneCamping": ["./builder_platform_interaction/goneCamping/goneCamping.ts"],
             "builder_platform_interaction/guardrails": ["./builder_platform_interaction/guardrails/guardrails.ts"],
             "builder_platform_interaction/header": ["./builder_platform_interaction/header/header.ts"],
             "builder_platform_interaction/imageLib": ["./builder_platform_interaction/imageLib/imageLib.ts"],
-            "builder_platform_interaction/inlineResourceUtils": ["./builder_platform_interaction/inlineResourceUtils/inlineResourceUtils.ts"],
-            "builder_platform_interaction/integrationTests": ["./builder_platform_interaction/integrationTests/integrationTests.ts"],
-            "builder_platform_interaction/invocableActionEditor": ["./builder_platform_interaction/invocableActionEditor/invocableActionEditor.ts"],
-            "builder_platform_interaction/invocableActionLib": ["./builder_platform_interaction/invocableActionLib/invocableActionLib.ts"],
-            "builder_platform_interaction/keyboardInteractionUtils": ["./builder_platform_interaction/keyboardInteractionUtils/keyboardInteractionUtils.ts"],
-            "builder_platform_interaction/keyboardShortcutsListBody": ["./builder_platform_interaction/keyboardShortcutsListBody/keyboardShortcutsListBody.ts"],
-            "builder_platform_interaction/labelDescription": ["./builder_platform_interaction/labelDescription/labelDescription.ts"],
+            "builder_platform_interaction/inlineResourceUtils": [
+                "./builder_platform_interaction/inlineResourceUtils/inlineResourceUtils.ts"
+            ],
+            "builder_platform_interaction/integrationTests": [
+                "./builder_platform_interaction/integrationTests/integrationTests.ts"
+            ],
+            "builder_platform_interaction/invocableActionEditor": [
+                "./builder_platform_interaction/invocableActionEditor/invocableActionEditor.ts"
+            ],
+            "builder_platform_interaction/invocableActionLib": [
+                "./builder_platform_interaction/invocableActionLib/invocableActionLib.ts"
+            ],
+            "builder_platform_interaction/keyboardInteractionUtils": [
+                "./builder_platform_interaction/keyboardInteractionUtils/keyboardInteractionUtils.ts"
+            ],
+            "builder_platform_interaction/keyboardShortcutsListBody": [
+                "./builder_platform_interaction/keyboardShortcutsListBody/keyboardShortcutsListBody.ts"
+            ],
+            "builder_platform_interaction/labelDescription": [
+                "./builder_platform_interaction/labelDescription/labelDescription.ts"
+            ],
             "builder_platform_interaction/leftPanel": ["./builder_platform_interaction/leftPanel/leftPanel.ts"],
-            "builder_platform_interaction/leftPanelElements": ["./builder_platform_interaction/leftPanelElements/leftPanelElements.ts"],
-            "builder_platform_interaction/leftPanelResources": ["./builder_platform_interaction/leftPanelResources/leftPanelResources.ts"],
+            "builder_platform_interaction/leftPanelElements": [
+                "./builder_platform_interaction/leftPanelElements/leftPanelElements.ts"
+            ],
+            "builder_platform_interaction/leftPanelResources": [
+                "./builder_platform_interaction/leftPanelResources/leftPanelResources.ts"
+            ],
             "builder_platform_interaction/list": ["./builder_platform_interaction/list/list.ts"],
-            "builder_platform_interaction/loggingUtils": ["./builder_platform_interaction/loggingUtils/loggingUtils.ts"],
+            "builder_platform_interaction/loggingUtils": [
+                "./builder_platform_interaction/loggingUtils/loggingUtils.ts"
+            ],
             "builder_platform_interaction/loopEditor": ["./builder_platform_interaction/loopEditor/loopEditor.ts"],
-            "builder_platform_interaction/marqueeSelectionBox": ["./builder_platform_interaction/marqueeSelectionBox/marqueeSelectionBox.ts"],
-            "builder_platform_interaction/mergeFieldLib": ["./builder_platform_interaction/mergeFieldLib/mergeFieldLib.ts"],
-            "builder_platform_interaction/metadataUtils": ["./builder_platform_interaction/metadataUtils/metadataUtils.ts"],
+            "builder_platform_interaction/marqueeSelectionBox": [
+                "./builder_platform_interaction/marqueeSelectionBox/marqueeSelectionBox.ts"
+            ],
+            "builder_platform_interaction/mergeFieldLib": [
+                "./builder_platform_interaction/mergeFieldLib/mergeFieldLib.ts"
+            ],
+            "builder_platform_interaction/metadataUtils": [
+                "./builder_platform_interaction/metadataUtils/metadataUtils.ts"
+            ],
             "builder_platform_interaction/modalBody": ["./builder_platform_interaction/modalBody/modalBody.ts"],
-            "builder_platform_interaction/modalBodyInternalData": ["./builder_platform_interaction/modalBodyInternalData/modalBodyInternalData.ts"],
+            "builder_platform_interaction/modalBodyInternalData": [
+                "./builder_platform_interaction/modalBodyInternalData/modalBodyInternalData.ts"
+            ],
             "builder_platform_interaction/modalFooter": ["./builder_platform_interaction/modalFooter/modalFooter.ts"],
             "builder_platform_interaction/modalHeader": ["./builder_platform_interaction/modalHeader/modalHeader.ts"],
-            "builder_platform_interaction/newFlowModalBody": ["./builder_platform_interaction/newFlowModalBody/newFlowModalBody.ts"],
+            "builder_platform_interaction/newFlowModalBody": [
+                "./builder_platform_interaction/newFlowModalBody/newFlowModalBody.ts"
+            ],
             "builder_platform_interaction/node": ["./builder_platform_interaction/node/node.ts"],
             "builder_platform_interaction/outcome": ["./builder_platform_interaction/outcome/outcome.ts"],
-            "builder_platform_interaction/outputResourcePicker": ["./builder_platform_interaction/outputResourcePicker/outputResourcePicker.ts"],
+            "builder_platform_interaction/outputResourcePicker": [
+                "./builder_platform_interaction/outputResourcePicker/outputResourcePicker.ts"
+            ],
             "builder_platform_interaction/palette": ["./builder_platform_interaction/palette/palette.ts"],
             "builder_platform_interaction/paletteItem": ["./builder_platform_interaction/paletteItem/paletteItem.ts"],
-            "builder_platform_interaction/parameterItem": ["./builder_platform_interaction/parameterItem/parameterItem.ts"],
-            "builder_platform_interaction/parameterList": ["./builder_platform_interaction/parameterList/parameterList.ts"],
-            "builder_platform_interaction/picklistChoiceSetEditor": ["./builder_platform_interaction/picklistChoiceSetEditor/picklistChoiceSetEditor.ts"],
-            "builder_platform_interaction/platformEventEditor": ["./builder_platform_interaction/platformEventEditor/platformEventEditor.ts"],
+            "builder_platform_interaction/parameterItem": [
+                "./builder_platform_interaction/parameterItem/parameterItem.ts"
+            ],
+            "builder_platform_interaction/parameterList": [
+                "./builder_platform_interaction/parameterList/parameterList.ts"
+            ],
+            "builder_platform_interaction/picklistChoiceSetEditor": [
+                "./builder_platform_interaction/picklistChoiceSetEditor/picklistChoiceSetEditor.ts"
+            ],
+            "builder_platform_interaction/platformEventEditor": [
+                "./builder_platform_interaction/platformEventEditor/platformEventEditor.ts"
+            ],
             "builder_platform_interaction/preloadLib": ["./builder_platform_interaction/preloadLib/preloadLib.ts"],
-            "builder_platform_interaction/processTypeLib": ["./builder_platform_interaction/processTypeLib/processTypeLib.ts"],
-            "builder_platform_interaction/processTypesTemplates": ["./builder_platform_interaction/processTypesTemplates/processTypesTemplates.ts"],
-            "builder_platform_interaction/processTypesVerticalNavigation": ["./builder_platform_interaction/processTypesVerticalNavigation/processTypesVerticalNavigation.ts"],
-            "builder_platform_interaction/propertyEditorFactory": ["./builder_platform_interaction/propertyEditorFactory/propertyEditorFactory.ts"],
-            "builder_platform_interaction/propertyEditorPanel": ["./builder_platform_interaction/propertyEditorPanel/propertyEditorPanel.ts"],
-            "builder_platform_interaction/recordChangeTriggerEditor": ["./builder_platform_interaction/recordChangeTriggerEditor/recordChangeTriggerEditor.ts"],
-            "builder_platform_interaction/recordChoiceSetEditor": ["./builder_platform_interaction/recordChoiceSetEditor/recordChoiceSetEditor.ts"],
-            "builder_platform_interaction/recordCreateEditor": ["./builder_platform_interaction/recordCreateEditor/recordCreateEditor.ts"],
-            "builder_platform_interaction/recordDeleteEditor": ["./builder_platform_interaction/recordDeleteEditor/recordDeleteEditor.ts"],
-            "builder_platform_interaction/recordEditorLib": ["./builder_platform_interaction/recordEditorLib/recordEditorLib.ts"],
-            "builder_platform_interaction/recordFieldPickerRow": ["./builder_platform_interaction/recordFieldPickerRow/recordFieldPickerRow.ts"],
-            "builder_platform_interaction/recordFilter": ["./builder_platform_interaction/recordFilter/recordFilter.ts"],
-            "builder_platform_interaction/recordInputOutputAssignments": ["./builder_platform_interaction/recordInputOutputAssignments/recordInputOutputAssignments.ts"],
-            "builder_platform_interaction/recordLookupEditor": ["./builder_platform_interaction/recordLookupEditor/recordLookupEditor.ts"],
-            "builder_platform_interaction/recordLookupVariableAndFieldMapping": ["./builder_platform_interaction/recordLookupVariableAndFieldMapping/recordLookupVariableAndFieldMapping.ts"],
-            "builder_platform_interaction/recordNumberRecordToStore": ["./builder_platform_interaction/recordNumberRecordToStore/recordNumberRecordToStore.ts"],
-            "builder_platform_interaction/recordQueryFields": ["./builder_platform_interaction/recordQueryFields/recordQueryFields.ts"],
-            "builder_platform_interaction/recordSobjectAndQueryFields": ["./builder_platform_interaction/recordSobjectAndQueryFields/recordSobjectAndQueryFields.ts"],
+            "builder_platform_interaction/processTypeLib": [
+                "./builder_platform_interaction/processTypeLib/processTypeLib.ts"
+            ],
+            "builder_platform_interaction/processTypesTemplates": [
+                "./builder_platform_interaction/processTypesTemplates/processTypesTemplates.ts"
+            ],
+            "builder_platform_interaction/processTypesVerticalNavigation": [
+                "./builder_platform_interaction/processTypesVerticalNavigation/processTypesVerticalNavigation.ts"
+            ],
+            "builder_platform_interaction/propertyEditorFactory": [
+                "./builder_platform_interaction/propertyEditorFactory/propertyEditorFactory.ts"
+            ],
+            "builder_platform_interaction/propertyEditorPanel": [
+                "./builder_platform_interaction/propertyEditorPanel/propertyEditorPanel.ts"
+            ],
+            "builder_platform_interaction/recordChangeTriggerEditor": [
+                "./builder_platform_interaction/recordChangeTriggerEditor/recordChangeTriggerEditor.ts"
+            ],
+            "builder_platform_interaction/recordChoiceSetEditor": [
+                "./builder_platform_interaction/recordChoiceSetEditor/recordChoiceSetEditor.ts"
+            ],
+            "builder_platform_interaction/recordCreateEditor": [
+                "./builder_platform_interaction/recordCreateEditor/recordCreateEditor.ts"
+            ],
+            "builder_platform_interaction/recordDeleteEditor": [
+                "./builder_platform_interaction/recordDeleteEditor/recordDeleteEditor.ts"
+            ],
+            "builder_platform_interaction/recordEditorLib": [
+                "./builder_platform_interaction/recordEditorLib/recordEditorLib.ts"
+            ],
+            "builder_platform_interaction/recordFieldPickerRow": [
+                "./builder_platform_interaction/recordFieldPickerRow/recordFieldPickerRow.ts"
+            ],
+            "builder_platform_interaction/recordFilter": [
+                "./builder_platform_interaction/recordFilter/recordFilter.ts"
+            ],
+            "builder_platform_interaction/recordInputOutputAssignments": [
+                "./builder_platform_interaction/recordInputOutputAssignments/recordInputOutputAssignments.ts"
+            ],
+            "builder_platform_interaction/recordLookupEditor": [
+                "./builder_platform_interaction/recordLookupEditor/recordLookupEditor.ts"
+            ],
+            "builder_platform_interaction/recordLookupVariableAndFieldMapping": [
+                "./builder_platform_interaction/recordLookupVariableAndFieldMapping/recordLookupVariableAndFieldMapping.ts"
+            ],
+            "builder_platform_interaction/recordNumberRecordToStore": [
+                "./builder_platform_interaction/recordNumberRecordToStore/recordNumberRecordToStore.ts"
+            ],
+            "builder_platform_interaction/recordQueryFields": [
+                "./builder_platform_interaction/recordQueryFields/recordQueryFields.ts"
+            ],
+            "builder_platform_interaction/recordSobjectAndQueryFields": [
+                "./builder_platform_interaction/recordSobjectAndQueryFields/recordSobjectAndQueryFields.ts"
+            ],
             "builder_platform_interaction/recordSort": ["./builder_platform_interaction/recordSort/recordSort.ts"],
-            "builder_platform_interaction/recordStoreOptions": ["./builder_platform_interaction/recordStoreOptions/recordStoreOptions.ts"],
-            "builder_platform_interaction/recordUpdateEditor": ["./builder_platform_interaction/recordUpdateEditor/recordUpdateEditor.ts"],
+            "builder_platform_interaction/recordStoreOptions": [
+                "./builder_platform_interaction/recordStoreOptions/recordStoreOptions.ts"
+            ],
+            "builder_platform_interaction/recordUpdateEditor": [
+                "./builder_platform_interaction/recordUpdateEditor/recordUpdateEditor.ts"
+            ],
             "builder_platform_interaction/reducers": ["./builder_platform_interaction/reducers/reducers.ts"],
-            "builder_platform_interaction/reorderableVerticalNavigation": ["./builder_platform_interaction/reorderableVerticalNavigation/reorderableVerticalNavigation.ts"],
-            "builder_platform_interaction/reorderableVerticalNavigationItem": ["./builder_platform_interaction/reorderableVerticalNavigationItem/reorderableVerticalNavigationItem.ts"],
-            "builder_platform_interaction/resourceDetails": ["./builder_platform_interaction/resourceDetails/resourceDetails.ts"],
-            "builder_platform_interaction/resourceDetailsParameters": ["./builder_platform_interaction/resourceDetailsParameters/resourceDetailsParameters.ts"],
-            "builder_platform_interaction/resourceEditor": ["./builder_platform_interaction/resourceEditor/resourceEditor.ts"],
-            "builder_platform_interaction/resourceEditorContainer": ["./builder_platform_interaction/resourceEditorContainer/resourceEditorContainer.ts"],
-            "builder_platform_interaction/resourcedRichTextEditor": ["./builder_platform_interaction/resourcedRichTextEditor/resourcedRichTextEditor.ts"],
-            "builder_platform_interaction/resourcedTextarea": ["./builder_platform_interaction/resourcedTextarea/resourcedTextarea.ts"],
+            "builder_platform_interaction/reorderableVerticalNavigation": [
+                "./builder_platform_interaction/reorderableVerticalNavigation/reorderableVerticalNavigation.ts"
+            ],
+            "builder_platform_interaction/reorderableVerticalNavigationItem": [
+                "./builder_platform_interaction/reorderableVerticalNavigationItem/reorderableVerticalNavigationItem.ts"
+            ],
+            "builder_platform_interaction/resourceDetails": [
+                "./builder_platform_interaction/resourceDetails/resourceDetails.ts"
+            ],
+            "builder_platform_interaction/resourceDetailsParameters": [
+                "./builder_platform_interaction/resourceDetailsParameters/resourceDetailsParameters.ts"
+            ],
+            "builder_platform_interaction/resourceEditor": [
+                "./builder_platform_interaction/resourceEditor/resourceEditor.ts"
+            ],
+            "builder_platform_interaction/resourceEditorContainer": [
+                "./builder_platform_interaction/resourceEditorContainer/resourceEditorContainer.ts"
+            ],
+            "builder_platform_interaction/resourcedRichTextEditor": [
+                "./builder_platform_interaction/resourcedRichTextEditor/resourcedRichTextEditor.ts"
+            ],
+            "builder_platform_interaction/resourcedTextarea": [
+                "./builder_platform_interaction/resourcedTextarea/resourcedTextarea.ts"
+            ],
             "builder_platform_interaction/richLabel": ["./builder_platform_interaction/richLabel/richLabel.ts"],
-            "builder_platform_interaction/richTextPlainTextSwitch": ["./builder_platform_interaction/richTextPlainTextSwitch/richTextPlainTextSwitch.ts"],
+            "builder_platform_interaction/richTextPlainTextSwitch": [
+                "./builder_platform_interaction/richTextPlainTextSwitch/richTextPlainTextSwitch.ts"
+            ],
             "builder_platform_interaction/rightPanel": ["./builder_platform_interaction/rightPanel/rightPanel.ts"],
             "builder_platform_interaction/row": ["./builder_platform_interaction/row/row.ts"],
             "builder_platform_interaction/ruleLib": ["./builder_platform_interaction/ruleLib/ruleLib.ts"],
             "builder_platform_interaction/saveType": ["./builder_platform_interaction/saveType/saveType.ts"],
-            "builder_platform_interaction/scheduleTriggerEditor": ["./builder_platform_interaction/scheduleTriggerEditor/scheduleTriggerEditor.ts"],
-            "builder_platform_interaction/screenCanvas": ["./builder_platform_interaction/screenCanvas/screenCanvas.ts"],
-            "builder_platform_interaction/screenChoiceField": ["./builder_platform_interaction/screenChoiceField/screenChoiceField.ts"],
-            "builder_platform_interaction/screenChoiceFieldPropertiesEditor": ["./builder_platform_interaction/screenChoiceFieldPropertiesEditor/screenChoiceFieldPropertiesEditor.ts"],
-            "builder_platform_interaction/screenComponentVisibilitySection": ["./builder_platform_interaction/screenComponentVisibilitySection/screenComponentVisibilitySection.ts"],
-            "builder_platform_interaction/screenDisplayTextField": ["./builder_platform_interaction/screenDisplayTextField/screenDisplayTextField.ts"],
-            "builder_platform_interaction/screenDisplayTextFieldPropertiesEditor": ["./builder_platform_interaction/screenDisplayTextFieldPropertiesEditor/screenDisplayTextFieldPropertiesEditor.ts"],
-            "builder_platform_interaction/screenEditor": ["./builder_platform_interaction/screenEditor/screenEditor.ts"],
-            "builder_platform_interaction/screenEditorCanvas": ["./builder_platform_interaction/screenEditorCanvas/screenEditorCanvas.ts"],
-            "builder_platform_interaction/screenEditorCommonUtils": ["./builder_platform_interaction/screenEditorCommonUtils/screenEditorCommonUtils.ts"],
-            "builder_platform_interaction/screenEditorHighlight": ["./builder_platform_interaction/screenEditorHighlight/screenEditorHighlight.ts"],
-            "builder_platform_interaction/screenEditorI18nUtils": ["./builder_platform_interaction/screenEditorI18nUtils/screenEditorI18nUtils.ts"],
-            "builder_platform_interaction/screenEditorPalette": ["./builder_platform_interaction/screenEditorPalette/screenEditorPalette.ts"],
-            "builder_platform_interaction/screenEditorUtils": ["./builder_platform_interaction/screenEditorUtils/screenEditorUtils.ts"],
-            "builder_platform_interaction/screenExtensionAttributeEditor": ["./builder_platform_interaction/screenExtensionAttributeEditor/screenExtensionAttributeEditor.ts"],
-            "builder_platform_interaction/screenExtensionPropertiesEditor": ["./builder_platform_interaction/screenExtensionPropertiesEditor/screenExtensionPropertiesEditor.ts"],
+            "builder_platform_interaction/scheduleTriggerEditor": [
+                "./builder_platform_interaction/scheduleTriggerEditor/scheduleTriggerEditor.ts"
+            ],
+            "builder_platform_interaction/screenCanvas": [
+                "./builder_platform_interaction/screenCanvas/screenCanvas.ts"
+            ],
+            "builder_platform_interaction/screenChoiceField": [
+                "./builder_platform_interaction/screenChoiceField/screenChoiceField.ts"
+            ],
+            "builder_platform_interaction/screenChoiceFieldPropertiesEditor": [
+                "./builder_platform_interaction/screenChoiceFieldPropertiesEditor/screenChoiceFieldPropertiesEditor.ts"
+            ],
+            "builder_platform_interaction/screenComponentVisibilitySection": [
+                "./builder_platform_interaction/screenComponentVisibilitySection/screenComponentVisibilitySection.ts"
+            ],
+            "builder_platform_interaction/screenDisplayTextField": [
+                "./builder_platform_interaction/screenDisplayTextField/screenDisplayTextField.ts"
+            ],
+            "builder_platform_interaction/screenDisplayTextFieldPropertiesEditor": [
+                "./builder_platform_interaction/screenDisplayTextFieldPropertiesEditor/screenDisplayTextFieldPropertiesEditor.ts"
+            ],
+            "builder_platform_interaction/screenEditor": [
+                "./builder_platform_interaction/screenEditor/screenEditor.ts"
+            ],
+            "builder_platform_interaction/screenEditorCanvas": [
+                "./builder_platform_interaction/screenEditorCanvas/screenEditorCanvas.ts"
+            ],
+            "builder_platform_interaction/screenEditorCommonUtils": [
+                "./builder_platform_interaction/screenEditorCommonUtils/screenEditorCommonUtils.ts"
+            ],
+            "builder_platform_interaction/screenEditorHighlight": [
+                "./builder_platform_interaction/screenEditorHighlight/screenEditorHighlight.ts"
+            ],
+            "builder_platform_interaction/screenEditorI18nUtils": [
+                "./builder_platform_interaction/screenEditorI18nUtils/screenEditorI18nUtils.ts"
+            ],
+            "builder_platform_interaction/screenEditorPalette": [
+                "./builder_platform_interaction/screenEditorPalette/screenEditorPalette.ts"
+            ],
+            "builder_platform_interaction/screenEditorUtils": [
+                "./builder_platform_interaction/screenEditorUtils/screenEditorUtils.ts"
+            ],
+            "builder_platform_interaction/screenExtensionAttributeEditor": [
+                "./builder_platform_interaction/screenExtensionAttributeEditor/screenExtensionAttributeEditor.ts"
+            ],
+            "builder_platform_interaction/screenExtensionPropertiesEditor": [
+                "./builder_platform_interaction/screenExtensionPropertiesEditor/screenExtensionPropertiesEditor.ts"
+            ],
             "builder_platform_interaction/screenField": ["./builder_platform_interaction/screenField/screenField.ts"],
-            "builder_platform_interaction/screenFieldCard": ["./builder_platform_interaction/screenFieldCard/screenFieldCard.ts"],
-            "builder_platform_interaction/screenInputField": ["./builder_platform_interaction/screenInputField/screenInputField.ts"],
-            "builder_platform_interaction/screenInputFieldPropertiesEditor": ["./builder_platform_interaction/screenInputFieldPropertiesEditor/screenInputFieldPropertiesEditor.ts"],
-            "builder_platform_interaction/screenPropertiesEditor": ["./builder_platform_interaction/screenPropertiesEditor/screenPropertiesEditor.ts"],
-            "builder_platform_interaction/screenPropertiesEditorContainer": ["./builder_platform_interaction/screenPropertiesEditorContainer/screenPropertiesEditorContainer.ts"],
-            "builder_platform_interaction/screenPropertyField": ["./builder_platform_interaction/screenPropertyField/screenPropertyField.ts"],
-            "builder_platform_interaction/screenSectionField": ["./builder_platform_interaction/screenSectionField/screenSectionField.ts"],
-            "builder_platform_interaction/screenSectionFieldPropertiesEditor": ["./builder_platform_interaction/screenSectionFieldPropertiesEditor/screenSectionFieldPropertiesEditor.ts"],
-            "builder_platform_interaction/screenTextareaField": ["./builder_platform_interaction/screenTextareaField/screenTextareaField.ts"],
-            "builder_platform_interaction/screenTextareaFieldPropertiesEditor": ["./builder_platform_interaction/screenTextareaFieldPropertiesEditor/screenTextareaFieldPropertiesEditor.ts"],
+            "builder_platform_interaction/screenFieldCard": [
+                "./builder_platform_interaction/screenFieldCard/screenFieldCard.ts"
+            ],
+            "builder_platform_interaction/screenInputField": [
+                "./builder_platform_interaction/screenInputField/screenInputField.ts"
+            ],
+            "builder_platform_interaction/screenInputFieldPropertiesEditor": [
+                "./builder_platform_interaction/screenInputFieldPropertiesEditor/screenInputFieldPropertiesEditor.ts"
+            ],
+            "builder_platform_interaction/screenPropertiesEditor": [
+                "./builder_platform_interaction/screenPropertiesEditor/screenPropertiesEditor.ts"
+            ],
+            "builder_platform_interaction/screenPropertiesEditorContainer": [
+                "./builder_platform_interaction/screenPropertiesEditorContainer/screenPropertiesEditorContainer.ts"
+            ],
+            "builder_platform_interaction/screenPropertyField": [
+                "./builder_platform_interaction/screenPropertyField/screenPropertyField.ts"
+            ],
+            "builder_platform_interaction/screenSectionField": [
+                "./builder_platform_interaction/screenSectionField/screenSectionField.ts"
+            ],
+            "builder_platform_interaction/screenSectionFieldPropertiesEditor": [
+                "./builder_platform_interaction/screenSectionFieldPropertiesEditor/screenSectionFieldPropertiesEditor.ts"
+            ],
+            "builder_platform_interaction/screenTextareaField": [
+                "./builder_platform_interaction/screenTextareaField/screenTextareaField.ts"
+            ],
+            "builder_platform_interaction/screenTextareaFieldPropertiesEditor": [
+                "./builder_platform_interaction/screenTextareaFieldPropertiesEditor/screenTextareaFieldPropertiesEditor.ts"
+            ],
             "builder_platform_interaction/selectors": ["./builder_platform_interaction/selectors/selectors.ts"],
-            "builder_platform_interaction/serverDataLib": ["./builder_platform_interaction/serverDataLib/serverDataLib.ts"],
+            "builder_platform_interaction/serverDataLib": [
+                "./builder_platform_interaction/serverDataLib/serverDataLib.ts"
+            ],
             "builder_platform_interaction/sobjectLib": ["./builder_platform_interaction/sobjectLib/sobjectLib.ts"],
-            "builder_platform_interaction/sobjectOrSobjectCollectionPicker": ["./builder_platform_interaction/sobjectOrSobjectCollectionPicker/sobjectOrSobjectCollectionPicker.ts"],
+            "builder_platform_interaction/sobjectOrSobjectCollectionPicker": [
+                "./builder_platform_interaction/sobjectOrSobjectCollectionPicker/sobjectOrSobjectCollectionPicker.ts"
+            ],
             "builder_platform_interaction/sortLib": ["./builder_platform_interaction/sortLib/sortLib.ts"],
             "builder_platform_interaction/stageEditor": ["./builder_platform_interaction/stageEditor/stageEditor.ts"],
-            "builder_platform_interaction/startNodeContextButton": ["./builder_platform_interaction/startNodeContextButton/startNodeContextButton.ts"],
-            "builder_platform_interaction/startNodeTriggerButton": ["./builder_platform_interaction/startNodeTriggerButton/startNodeTriggerButton.ts"],
+            "builder_platform_interaction/startNodeContextButton": [
+                "./builder_platform_interaction/startNodeContextButton/startNodeContextButton.ts"
+            ],
+            "builder_platform_interaction/startNodeTriggerButton": [
+                "./builder_platform_interaction/startNodeTriggerButton/startNodeTriggerButton.ts"
+            ],
             "builder_platform_interaction/statusIcon": ["./builder_platform_interaction/statusIcon/statusIcon.ts"],
-            "builder_platform_interaction/statusIconSummary": ["./builder_platform_interaction/statusIconSummary/statusIconSummary.ts"],
+            "builder_platform_interaction/statusIconSummary": [
+                "./builder_platform_interaction/statusIconSummary/statusIconSummary.ts"
+            ],
             "builder_platform_interaction/stepEditor": ["./builder_platform_interaction/stepEditor/stepEditor.ts"],
             "builder_platform_interaction/storeLib": ["./builder_platform_interaction/storeLib/storeLib.ts"],
             "builder_platform_interaction/storeUtils": ["./builder_platform_interaction/storeUtils/storeUtils.ts"],
-            "builder_platform_interaction/subflowEditor": ["./builder_platform_interaction/subflowEditor/subflowEditor.ts"],
+            "builder_platform_interaction/subflowEditor": [
+                "./builder_platform_interaction/subflowEditor/subflowEditor.ts"
+            ],
             "builder_platform_interaction/subflowsLib": ["./builder_platform_interaction/subflowsLib/subflowsLib.ts"],
             "builder_platform_interaction/systemLib": ["./builder_platform_interaction/systemLib/systemLib.ts"],
-            "builder_platform_interaction/textTemplateEditor": ["./builder_platform_interaction/textTemplateEditor/textTemplateEditor.ts"],
+            "builder_platform_interaction/textTemplateEditor": [
+                "./builder_platform_interaction/textTemplateEditor/textTemplateEditor.ts"
+            ],
             "builder_platform_interaction/toolbar": ["./builder_platform_interaction/toolbar/toolbar.ts"],
-            "builder_platform_interaction/toolbarStatusIcons": ["./builder_platform_interaction/toolbarStatusIcons/toolbarStatusIcons.ts"],
-            "builder_platform_interaction/translatorLib": ["./builder_platform_interaction/translatorLib/translatorLib.ts"],
-            "builder_platform_interaction/triggerTypeLib": ["./builder_platform_interaction/triggerTypeLib/triggerTypeLib.ts"],
+            "builder_platform_interaction/toolbarStatusIcons": [
+                "./builder_platform_interaction/toolbarStatusIcons/toolbarStatusIcons.ts"
+            ],
+            "builder_platform_interaction/translatorLib": [
+                "./builder_platform_interaction/translatorLib/translatorLib.ts"
+            ],
+            "builder_platform_interaction/triggerTypeLib": [
+                "./builder_platform_interaction/triggerTypeLib/triggerTypeLib.ts"
+            ],
             "builder_platform_interaction/undoRedoLib": ["./builder_platform_interaction/undoRedoLib/undoRedoLib.ts"],
-            "builder_platform_interaction/useAdvancedOptionsCheckbox": ["./builder_platform_interaction/useAdvancedOptionsCheckbox/useAdvancedOptionsCheckbox.ts"],
-            "builder_platform_interaction/usedByContent": ["./builder_platform_interaction/usedByContent/usedByContent.ts"],
-            "builder_platform_interaction/usedByContentItem": ["./builder_platform_interaction/usedByContentItem/usedByContentItem.ts"],
+            "builder_platform_interaction/useAdvancedOptionsCheckbox": [
+                "./builder_platform_interaction/useAdvancedOptionsCheckbox/useAdvancedOptionsCheckbox.ts"
+            ],
+            "builder_platform_interaction/usedByContent": [
+                "./builder_platform_interaction/usedByContent/usedByContent.ts"
+            ],
+            "builder_platform_interaction/usedByContentItem": [
+                "./builder_platform_interaction/usedByContentItem/usedByContentItem.ts"
+            ],
             "builder_platform_interaction/usedByLib": ["./builder_platform_interaction/usedByLib/usedByLib.ts"],
             "builder_platform_interaction/validation": ["./builder_platform_interaction/validation/validation.ts"],
-            "builder_platform_interaction/validationEditor": ["./builder_platform_interaction/validationEditor/validationEditor.ts"],
-            "builder_platform_interaction/validationRules": ["./builder_platform_interaction/validationRules/validationRules.ts"],
-            "builder_platform_interaction/variableConstantEditor": ["./builder_platform_interaction/variableConstantEditor/variableConstantEditor.ts"],
-            "builder_platform_interaction/visualPickerItem": ["./builder_platform_interaction/visualPickerItem/visualPickerItem.ts"],
-            "builder_platform_interaction/visualPickerList": ["./builder_platform_interaction/visualPickerList/visualPickerList.ts"],
+            "builder_platform_interaction/validationEditor": [
+                "./builder_platform_interaction/validationEditor/validationEditor.ts"
+            ],
+            "builder_platform_interaction/validationRules": [
+                "./builder_platform_interaction/validationRules/validationRules.ts"
+            ],
+            "builder_platform_interaction/variableConstantEditor": [
+                "./builder_platform_interaction/variableConstantEditor/variableConstantEditor.ts"
+            ],
+            "builder_platform_interaction/visualPickerItem": [
+                "./builder_platform_interaction/visualPickerItem/visualPickerItem.ts"
+            ],
+            "builder_platform_interaction/visualPickerList": [
+                "./builder_platform_interaction/visualPickerList/visualPickerList.ts"
+            ],
             "builder_platform_interaction/waitEditor": ["./builder_platform_interaction/waitEditor/waitEditor.ts"],
             "builder_platform_interaction/waitEvent": ["./builder_platform_interaction/waitEvent/waitEvent.ts"],
-            "builder_platform_interaction/waitPlatformEvent": ["./builder_platform_interaction/waitPlatformEvent/waitPlatformEvent.ts"],
-            "builder_platform_interaction/waitResumeConditions": ["./builder_platform_interaction/waitResumeConditions/waitResumeConditions.ts"],
-            "builder_platform_interaction/waitTimeEvent": ["./builder_platform_interaction/waitTimeEvent/waitTimeEvent.ts"],
+            "builder_platform_interaction/waitPlatformEvent": [
+                "./builder_platform_interaction/waitPlatformEvent/waitPlatformEvent.ts"
+            ],
+            "builder_platform_interaction/waitResumeConditions": [
+                "./builder_platform_interaction/waitResumeConditions/waitResumeConditions.ts"
+            ],
+            "builder_platform_interaction/waitTimeEvent": [
+                "./builder_platform_interaction/waitTimeEvent/waitTimeEvent.ts"
+            ],
             "builder_platform_interaction/zoomPanel": ["./builder_platform_interaction/zoomPanel/zoomPanel.ts"]
-         }
+        }
     },
 
     "include": ["src/**/*", "@types/index.d.ts"]
