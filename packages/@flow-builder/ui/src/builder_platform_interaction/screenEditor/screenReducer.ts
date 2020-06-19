@@ -196,7 +196,7 @@ function clearGenericFieldParameters(field, genericTypeName) {
  * Clears values of input and output parameters with the generic type in the changed mapping.
  */
 function setDynamicTypeMappingTypeValue(screen, field, event) {
-    const { typeName, typeValue } = event.detail;
+    const { typeName, typeValue, isConfigurable } = event.detail;
     const { dynamicTypeMappings } = field;
 
     // Find the dynamic type mapping. It has to be present in the array already.
@@ -216,11 +216,13 @@ function setDynamicTypeMappingTypeValue(screen, field, event) {
             error: validation.validateProperty('dynamicTypeMapping', typeValue)
         }
     });
+
     // Update dynamic type mappings in the state and return the new state.
     const newDynamicTypeMappings = replaceItem(dynamicTypeMappings, newDynamicTypeMapping, index);
+    const clearField = !isConfigurable ? clearGenericFieldParameters(field, typeName) : {};
     return updateField(screen, field, {
         dynamicTypeMappings: newDynamicTypeMappings,
-        ...clearGenericFieldParameters(field, typeName)
+        ...clearField
     });
 }
 

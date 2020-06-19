@@ -138,6 +138,14 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         return this.state.dynamicTypeMappings && this.state.dynamicTypeMappings.length > 0;
     }
 
+    get showDynamicTypeMappings() {
+        return this.hasDynamicTypeMappings && !this.hasConfigurationEditor;
+    }
+
+    get showExtraSections() {
+        return this.hasConfigurationEditor || !this.hasUnboundDynamicTypeMappings;
+    }
+
     /**
      * configuration editor associated with a component. It is null if it is not defined
      *
@@ -269,7 +277,8 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
             this.dispatchEvent(
                 new DynamicTypeMappingChangeEvent({
                     typeName: name,
-                    typeValue: value
+                    typeValue: value,
+                    isConfigurable: true
                 })
             );
         }
@@ -297,7 +306,8 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
                     ? getValueFromHydratedItem(event.detail.item.value)
                     : event.detail.displayText,
                 rowIndex,
-                error: event.detail.error
+                error: event.detail.error,
+                isConfigurable: false
             })
         );
     }

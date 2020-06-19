@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <name>UI Interaction Builder Components</name>
     <modelVersion>4.0.0</modelVersion>
@@ -7,7 +7,7 @@
     <version>228-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
-        <aura.version>0.6000.2743</aura.version>
+        <aura.version>0.6000.2744</aura.version>
         <lwc.api.version>0.228.8</lwc.api.version>
         <lwc.version>1.7.1</lwc.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

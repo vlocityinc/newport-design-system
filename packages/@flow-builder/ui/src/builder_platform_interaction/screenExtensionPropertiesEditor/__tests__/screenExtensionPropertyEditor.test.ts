@@ -96,7 +96,7 @@ const SELECTORS = {
     DYNAMIC_TYPE_MAPPINGS: 'builder_platform_interaction-entity-resource-picker',
     INPUT_EDITOR: 'builder_platform_interaction-screen-extension-attribute-editor[attributeType="input"]',
     OUTPUT_EDITOR: 'builder_platform_interaction-screen-extension-attribute-editor[attributeType="output"]',
-    COMPONENT_VISIBILITY: 'lightning-accordion-section[name="componentVisibility"]',
+    COMPONENT_VISIBILITY: 'builder_platform_interaction-screen-component-visibility-section',
     H3: 'h3'
 };
 
@@ -548,6 +548,18 @@ describe('Screen Extension Properties Editor', () => {
                 error: undefined,
                 rowIndex: undefined
             });
+        });
+
+        it('renders entity picker for each generic type', () => {
+            const editor = createComponentWithCPE();
+            const pickers = query(editor, SELECTORS.DYNAMIC_TYPE_MAPPINGS, true);
+            expect(pickers).toHaveLength(0);
+        });
+
+        it('renders CFV ', () => {
+            const editor = createComponentWithCPE();
+            const cfv = query(editor, SELECTORS.COMPONENT_VISIBILITY, true);
+            expect(cfv).toHaveLength(1);
         });
     });
 
