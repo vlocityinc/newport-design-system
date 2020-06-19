@@ -15,8 +15,7 @@ import {
     UseAdvancedOptionsSelectionChangedEvent,
     ConfigurationEditorChangeEvent,
     ConfigurationEditorPropertyDeleteEvent,
-    DynamicTypeMappingChangeEvent,
-    ConfigurationEditorTypeMappingChangeEvent
+    DynamicTypeMappingChangeEvent
 } from 'builder_platform_interaction/events';
 import {
     updateParameterItem,
@@ -97,7 +96,7 @@ function clearGenericActionCallParameters(actionCall, genericTypeName) {
 }
 
 function setDynamicTypeMappingTypeValue(actionCall, event) {
-    const { typeName, typeValue, rowIndex } = event.detail;
+    const { typeName, typeValue, rowIndex, isConfigurable } = event.detail;
     // Find an existing dynamic type mapping by the type name or create new.
     const dataTypeMappings = actionCall.dataTypeMappings || [];
     const index = dataTypeMappings.findIndex(mapping => getValueFromHydratedItem(mapping.typeName) === typeName);
@@ -116,7 +115,7 @@ function setDynamicTypeMappingTypeValue(actionCall, event) {
         return actionCall;
     }
     // Update the dynamic type mapping with the new value and validate it.
-    const validation = getDynamicTypeMappingValidation(rowIndex);
+    const validation = getDynamicTypeMappingValidation(dataTypeMapping.rowIndex);
     const newDynamicTypeMapping = updateProperties(dataTypeMapping, {
         typeValue: {
             value: typeValue,
@@ -128,10 +127,15 @@ function setDynamicTypeMappingTypeValue(actionCall, event) {
         index !== -1
             ? replaceItem(dataTypeMappings, newDynamicTypeMapping, index)
             : addItem(dataTypeMappings, newDynamicTypeMapping);
-    return updateProperties(actionCall, {
-        dataTypeMappings: newDynamicTypeMappings,
-        ...clearGenericActionCallParameters(actionCall, typeName)
-    });
+
+    return isConfigurable // not need to clear the params when type mapping is updated from custom property editor
+        ? updateProperties(actionCall, {
+              dataTypeMappings: newDynamicTypeMappings
+          })
+        : updateProperties(actionCall, {
+              dataTypeMappings: newDynamicTypeMappings,
+              ...clearGenericActionCallParameters(actionCall, typeName)
+          });
 }
 
 /**
@@ -207,7 +211,6 @@ export const invocableActionReducer = (state, event, elements) => {
         case REMOVE_UNSET_PARAMETERS:
             return removeUnsetParameters(state);
         case DynamicTypeMappingChangeEvent.EVENT_NAME:
-        case ConfigurationEditorTypeMappingChangeEvent.EVENT_NAME:
             return setDynamicTypeMappingTypeValue(state, event);
         case VALIDATE_ALL:
             return invocableActionValidation.validateAll(state);

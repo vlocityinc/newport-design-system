@@ -3,6 +3,7 @@ import { LightningElement, api, track } from 'lwc';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { compareParamsByRequired, compareParamsByLabel } from './parameterUtils';
 import { multiComparator } from 'builder_platform_interaction/sortLib';
+import { DynamicTypeMappingChangeEvent } from 'builder_platform_interaction/events';
 
 export default class ParameterList extends LightningElement {
     @track
@@ -239,5 +240,22 @@ export default class ParameterList extends LightningElement {
      */
     get cssDivAdvancedMode() {
         return this.automaticOutputHandlingSupported ? 'slds-p-left_xx-large slds-p-right_small' : 'slds-p-right_small';
+    }
+
+    /**
+     * @param {object} event - type mapping changed event coming from parameter dynamic type of custom property editor
+     */
+    handleCpeTypeMappingChangeEvent(event) {
+        event.stopPropagation();
+        if (event && event.detail) {
+            const { name, value } = event.detail;
+            this.dispatchEvent(
+                new DynamicTypeMappingChangeEvent({
+                    typeName: name,
+                    typeValue: value,
+                    isConfigurable: true
+                })
+            );
+        }
     }
 }

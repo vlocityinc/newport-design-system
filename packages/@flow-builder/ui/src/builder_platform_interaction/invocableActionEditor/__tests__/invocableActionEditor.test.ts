@@ -14,8 +14,7 @@ import {
     UseAdvancedOptionsSelectionChangedEvent,
     ConfigurationEditorChangeEvent,
     ConfigurationEditorPropertyDeleteEvent,
-    DynamicTypeMappingChangeEvent,
-    ConfigurationEditorTypeMappingChangeEvent
+    DynamicTypeMappingChangeEvent
 } from 'builder_platform_interaction/events';
 import { untilNoFailure, ticks } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -376,23 +375,6 @@ describe('Invocable Action editor', () => {
             error: null,
             rowIndex: 'b5243fc4-38e8-475e-b046-5c1ed74ca8f9'
         });
-        getBaseCalloutEditor(actionEditorCmp).dispatchEvent(event);
-        expect(updateNodeCallback).toHaveBeenCalledWith(
-            expect.objectContaining({
-                detail: { node: actionEditorCmp.getNode() }
-            })
-        );
-    });
-    it('cpe dynamic data type mapping change event dispatches an UpdateNodeEvent', async () => {
-        expect.assertions(1);
-        const actionEditorCmp = createComponentUnderTest(defaultNode, {
-            isNewMode: false
-        });
-        const updateNodeCallback = jest.fn();
-        actionEditorCmp.addEventListener(UpdateNodeEvent.EVENT_NAME, updateNodeCallback);
-
-        await ticks(1);
-        const event = new ConfigurationEditorTypeMappingChangeEvent('T__param1', 'Account');
         getBaseCalloutEditor(actionEditorCmp).dispatchEvent(event);
         expect(updateNodeCallback).toHaveBeenCalledWith(
             expect.objectContaining({

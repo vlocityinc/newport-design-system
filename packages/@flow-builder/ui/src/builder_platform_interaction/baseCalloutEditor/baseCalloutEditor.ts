@@ -104,6 +104,12 @@ export default class BaseCalloutEditor extends LightningElement {
     @api
     mode;
 
+    @api
+    hideParameters = false;
+
+    @api
+    hasConfigurationEditor = false;
+
     /**
      * Name of configuration editor associated with a component. It is null if it is not defined
      *
@@ -148,11 +154,8 @@ export default class BaseCalloutEditor extends LightningElement {
     }
 
     get showTypeMappings() {
-        return this.state.typeMappings && this.state.typeMappings.length > 0;
+        return this.state.typeMappings && this.state.typeMappings.length > 0 && !this.hasConfigurationEditor;
     }
-
-    @api
-    hideParameters = false;
 
     handleDataTypeMappingChange(event) {
         const dataTypeMapping = this.state.typeMappings.find(({ rowIndex }) => rowIndex === event.target.rowIndex);

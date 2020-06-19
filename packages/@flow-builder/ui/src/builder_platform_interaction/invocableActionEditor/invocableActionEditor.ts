@@ -8,6 +8,8 @@ import {
     getValueFromHydratedItem,
     getErrorsFromHydratedElement
 } from 'builder_platform_interaction/dataMutationLib';
+
+import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { invocableActionReducer, MERGE_WITH_DATA_TYPE_MAPPINGS } from './invocableActionReducer';
 import {
     MERGE_WITH_PARAMETERS,
@@ -156,6 +158,10 @@ export default class InvocableActionEditor extends LightningElement {
 
     get dataTypeMappings() {
         return this.invocableActionDescriptor ? this.actionCallNode.dataTypeMappings : [];
+    }
+
+    get hasConfigurationEditor() {
+        return this.invocableActionDescriptor ? !!this.invocableActionDescriptor.configurationEditor : false;
     }
 
     get hasUnboundDataTypeMappings() {
@@ -443,23 +449,34 @@ export default class InvocableActionEditor extends LightningElement {
         this.updateNodeForFieldLevelCommit();
     }
 
+    /**
+     * Handles dynamic type mapping change event
+     * @param {Object} event - event
+     */
     handleDataTypeMappingChanged(event) {
         event.stopPropagation();
-        this.actionCallNode = invocableActionReducer(this.actionCallNode, event);
-        this.updateNodeForFieldLevelCommit();
-        this.updateDataTypeMappings();
-        this.fetchActionParameters();
+        this.updateActionParamsAndTypeMappings(event);
     }
 
-    /**
-     * @param {object} event - type mapping changed event coming from parameter dynamic type of custom property editor
-     */
-    handleCpeTypeMappingChangeEvent(event) {
-        event.stopPropagation();
-        event.detail.typeName = event.detail.name;
-        event.detail.typeValue = event.detail.value;
-        this.actionCallNode = invocableActionReducer(this.actionCallNode, event);
-        this.updateNodeForFieldLevelCommit();
-        this.updateDataTypeMappings();
+    updateActionParamsAndTypeMappings(event) {
+        if (!this.hideParameters) {
+            this.actionCallNode = invocableActionReducer(this.actionCallNode, event);
+            this.updateNodeForFieldLevelCommit();
+            this.updateDataTypeMappings();
+            if (this.actionCallNode.dataTypeMappings && this.actionCallNode.dataTypeMappings.length > 0) {
+                const { actionName, actionType, dataTypeMappings } = this.actionCallNode;
+                this.invocableActionParametersDescriptor = getParametersForInvocableAction({
+                    actionName: getValueFromHydratedItem(actionName),
+                    actionType: getValueFromHydratedItem(actionType),
+                    dataTypeMappings
+                });
+                this.actionCallNode = invocableActionReducer(
+                    this.actionCallNode,
+                    new CustomEvent(MERGE_WITH_PARAMETERS, {
+                        detail: this.invocableActionParametersDescriptor
+                    })
+                );
+            }
+        }
     }
 }

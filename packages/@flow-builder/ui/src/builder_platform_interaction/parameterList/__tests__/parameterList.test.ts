@@ -8,6 +8,10 @@ import {
     getAdvancedOptionCheckbox,
     getUseAdvancedOptionComponent
 } from 'builder_platform_interaction/builderTestUtils';
+import {
+    ConfigurationEditorTypeMappingChangeEvent,
+    DynamicTypeMappingChangeEvent
+} from 'builder_platform_interaction/events';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -461,6 +465,22 @@ describe('parameter-list', () => {
         it('should not display input divs if configuration editor is defined', () => {
             const inputsDiv = getInputsDiv(parameterList);
             expect(inputsDiv).toBeNull();
+        });
+
+        it('handles cpe type mapping change event and fires the dynamic type mapping changed event', async () => {
+            const configurationEditor = getConfigurationEditor(parameterList);
+            const handler = jest.fn();
+            parameterList.addEventListener(DynamicTypeMappingChangeEvent.EVENT_NAME, handler);
+            configurationEditor.dispatchEvent(new ConfigurationEditorTypeMappingChangeEvent('T__input', 'Account'));
+            await Promise.resolve();
+            expect(handler).toHaveBeenCalled();
+            expect(handler.mock.calls[0][0].detail).toMatchObject({
+                typeName: 'T__input',
+                typeValue: 'Account',
+                isConfigurable: true,
+                error: undefined,
+                rowIndex: undefined
+            });
         });
     });
 });
