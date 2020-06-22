@@ -22,6 +22,7 @@
         "^builder_platform_interaction/autoLayoutCanvas$": "<rootDir>/../auto-layout-canvas/dist/index.dev.js",
         "^builder_platform_interaction/flcBuilder$": "<rootDir>/../auto-layout-canvas-ui/src/builder_platform_interaction/flcBuilder/flcBuilder.ts",
         "^(builder_platform_interaction)/(.+)$": "<rootDir>/src/$1/$2/$2",
+        "^(builder_framework)/(.+)$": "<rootDir>/jest-modules/$1/$2/$2",
         "^lightning/configProvider$": "<rootDir>/jest-modules/lightning/configProvider/configProvider",
         "^lightning/input$": "<rootDir>/jest-modules/lightning/input/input",
         "^lightning/textarea$": "<rootDir>/jest-modules/lightning/textarea/textarea",
@@ -30,7 +31,6 @@
         "^lightning/inputRichText$": "<rootDir>/jest-modules/lightning/inputRichText/inputRichText",
         "^analyzer_framework/(.+)$": "<rootDir>/jest-modules/analyzer_framework/$1/$1"
     },
-
     "moduleFileExtensions": ["ts", "js", "html"],
     "setupFilesAfterEnv": ["<rootDir>/jestSetup.js"],
     "clearMocks": true,
