@@ -77,7 +77,7 @@ export default function flcElementsReducer(state = {}, action) {
             break;
         case DELETE_ELEMENT:
             // TODO: FLC find a better solution for getSubElementGuids
-            state = _deleteElements(state, action, null, getSubElementGuids);
+            state = _deleteElements(state, action);
             break;
         case REORDER_CONNECTORS:
             state = _reorderConnectors(
@@ -197,7 +197,34 @@ function _modifyCanvasElementWithChildren(state, action) {
  */
 function _deleteElements(state, { payload }) {
     const { selectedElements, childIndexToKeep } = payload;
-    selectedElements.forEach(element => deleteElement(state, element, childIndexToKeep, getSubElementGuids));
+    const element = selectedElements[0];
+    const { addEndElement } = deleteElement(state, element, childIndexToKeep, getSubElementGuids);
+
+    if (addEndElement) {
+        const { prev, parent, childIndex } = element;
+        if (prev) {
+            // Adding an end element connected to the previous element
+            const prevElement = state[element.prev];
+            const endElement = createEndElement({
+                prev,
+                next: null
+            });
+            addElementToState(endElement, state);
+            prevElement.next = endElement.guid;
+        } else if (parent) {
+            // Adding an end element connected to the parent element at the right childIndex
+            const parentElement = state[element.parent];
+            const endElement = createEndElement({
+                parent,
+                childIndex,
+                next: null,
+                isTerminal: true
+            });
+            addElementToState(endElement, state);
+            parentElement.children[childIndex] = endElement.guid;
+        }
+    }
+
     return state;
 }
 

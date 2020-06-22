@@ -134,7 +134,14 @@ describe('elements-reducer', () => {
     });
 
     describe('Delete Element', () => {
+        const shouldAddEndElement = addEndElement => {
+            deleteElement.mockImplementation(() => ({
+                addEndElement
+            }));
+        };
+
         it('calls deleteElement', () => {
+            shouldAddEndElement(false);
             const elementToDelete = {
                 guid: 'element-guid'
             };
@@ -148,6 +155,146 @@ describe('elements-reducer', () => {
             );
 
             expect(deleteElement).toHaveBeenLastCalledWith({}, elementToDelete, 1, getSubElementGuids);
+        });
+
+        describe('When addEndElement is true', () => {
+            beforeEach(() => {
+                shouldAddEndElement(true);
+            });
+
+            it('createEndElement should be called if element has a prev', () => {
+                const elementToDelete = {
+                    guid: 'element-guid',
+                    prev: 'dummy-prev'
+                };
+
+                flcElementsReducer(
+                    {
+                        'dummy-prev': {
+                            next: 'element-guid'
+                        }
+                    },
+                    {
+                        type: DELETE_ELEMENT,
+                        payload: { selectedElements: [elementToDelete], connectorsToDelete: [], childIndexToKeep: -2 }
+                    }
+                );
+
+                expect(createEndElement).toHaveBeenLastCalledWith({ prev: 'dummy-prev', next: null });
+            });
+
+            it('addElementToState should have been called if element has a prev', () => {
+                const elementToDelete = {
+                    guid: 'element-guid',
+                    prev: 'dummy-prev'
+                };
+
+                flcElementsReducer(
+                    {
+                        'dummy-prev': {
+                            next: 'element-guid'
+                        }
+                    },
+                    {
+                        type: DELETE_ELEMENT,
+                        payload: { selectedElements: [elementToDelete], connectorsToDelete: [], childIndexToKeep: -2 }
+                    }
+                );
+
+                expect(addElementToState).toHaveBeenCalled();
+            });
+
+            it('prev element should point to end element', () => {
+                const elementToDelete = {
+                    guid: 'element-guid',
+                    prev: 'dummy-prev'
+                };
+
+                const updatedState = flcElementsReducer(
+                    {
+                        'dummy-prev': {
+                            next: 'element-guid'
+                        }
+                    },
+                    {
+                        type: DELETE_ELEMENT,
+                        payload: { selectedElements: [elementToDelete], connectorsToDelete: [], childIndexToKeep: -2 }
+                    }
+                );
+
+                expect(updatedState['dummy-prev'].next).toBe('end-element-guid');
+            });
+
+            it('createEndElement should be called if element has a parent and childIndex', () => {
+                const elementToDelete = {
+                    guid: 'element-guid',
+                    parent: 'dummy-parent',
+                    childIndex: 0
+                };
+
+                flcElementsReducer(
+                    {
+                        'dummy-parent': {
+                            children: ['element-guid', 'dummy-end']
+                        }
+                    },
+                    {
+                        type: DELETE_ELEMENT,
+                        payload: { selectedElements: [elementToDelete], connectorsToDelete: [], childIndexToKeep: -2 }
+                    }
+                );
+
+                expect(createEndElement).toHaveBeenLastCalledWith({
+                    parent: 'dummy-parent',
+                    childIndex: 0,
+                    next: null,
+                    isTerminal: true
+                });
+            });
+
+            it('addElementToState should have been called if element has a parent and childIndex', () => {
+                const elementToDelete = {
+                    guid: 'element-guid',
+                    parent: 'dummy-parent',
+                    childIndex: 0
+                };
+
+                flcElementsReducer(
+                    {
+                        'dummy-parent': {
+                            children: ['element-guid', 'dummy-end']
+                        }
+                    },
+                    {
+                        type: DELETE_ELEMENT,
+                        payload: { selectedElements: [elementToDelete], connectorsToDelete: [], childIndexToKeep: -2 }
+                    }
+                );
+
+                expect(addElementToState).toHaveBeenCalled();
+            });
+
+            it('parent element -> children should point to end element', () => {
+                const elementToDelete = {
+                    guid: 'element-guid',
+                    parent: 'dummy-parent',
+                    childIndex: 0
+                };
+
+                const updatedState = flcElementsReducer(
+                    {
+                        'dummy-parent': {
+                            children: ['element-guid', 'dummy-end']
+                        }
+                    },
+                    {
+                        type: DELETE_ELEMENT,
+                        payload: { selectedElements: [elementToDelete], connectorsToDelete: [], childIndexToKeep: -2 }
+                    }
+                );
+
+                expect(updatedState['dummy-parent'].children[0]).toBe('end-element-guid');
+            });
         });
     });
 

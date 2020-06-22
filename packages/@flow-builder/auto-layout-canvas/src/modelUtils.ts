@@ -397,6 +397,30 @@ function deleteBranch(state: FlowModel, branchHeadGuid: Guid, getSubElementGuids
 }
 
 /**
+ * Determines if an end element needs to be added after deletion of an element
+ *
+ * @param state - the flowModel to mutate
+ * @param element - the element to delete
+ * @param childIndexToKeep - the index of the branch to keep if applicable, or FAULT_INDEX to delete a fault
+ */
+function shouldAddEndElement(state: FlowModel, element: NodeModel, childIndexToKeep?: number) {
+    if (isBranchingElement(element) && childIndexToKeep === DELETE_ALL) {
+        // Filtering out all branches that have been terminated
+        const terminatedBranchHeads = (element as ParentNodeModel).children.filter(branchHeadGuid => {
+            const branchHead = resolveNode(state, branchHeadGuid);
+            return branchHead && (branchHead as BranchHeadNodeModel).isTerminal;
+        });
+
+        // In case all the branches have been terminated, we should be adding an end element after deletion
+        if (terminatedBranchHeads.length === (element as ParentNodeModel).children.length) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
  * Deletes an element from the flowModel
  *
  * @param state - the flowModel to mutate
@@ -409,10 +433,11 @@ function deleteElement(
     element: NodeModel,
     childIndexToKeep?: number,
     getSubElementGuids?: GetSubElementGuids
-): FlowModel {
+): { state: FlowModel; addEndElement: boolean } {
     const { prev, next, parent, childIndex } = element as BranchHeadNodeModel;
 
     let nextElement;
+    let addEndElement = false;
 
     // take care of linking tail of the branch to keep to the next element
     if (isBranchingElement(element) && childIndexToKeep != null) {
@@ -434,6 +459,7 @@ function deleteElement(
             parentElement.fault = null;
         } else {
             (parentElement as ParentNodeModel).children[childIndex] = null;
+            addEndElement = shouldAddEndElement(state, element, childIndexToKeep);
         }
         linkBranchOrFault(state, parentElement as ParentNodeModel, childIndex, nextElement);
     } else if (nextElement) {
@@ -444,6 +470,7 @@ function deleteElement(
         const prevElement = resolveNode(state, prev);
         if (prevElement != null) {
             prevElement.next = null;
+            addEndElement = shouldAddEndElement(state, element, childIndexToKeep);
         }
     }
 
@@ -455,7 +482,7 @@ function deleteElement(
         deleteElementDescendents(state, element, childIndexToKeep, getSubElementGuids!);
     }
 
-    return state;
+    return { state, addEndElement };
 }
 
 /**

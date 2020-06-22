@@ -293,12 +293,7 @@ const invokeModalWithComponentsOnCreate = (modal, data) => {
     const modalFooter = modal.get('v.footer')[0];
     if (data.closeModalCallback) {
         modalFooter.set('v.closeModalCallback', () => {
-            if (data.processType) {
-                data.closeModalCallback(data.processType, data.triggerType);
-                modal.close();
-            } else {
-                data.closeModalCallback(modal);
-            }
+            data.closeModalCallback(modal);
         });
     } else {
         modalFooter.set('v.closeModalCallback', modal.close);
