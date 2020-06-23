@@ -72,7 +72,7 @@ export default class ProcessTypesTemplates extends LightningElement {
                 value.isSelected = true;
                 detail = value.templateId || {
                     processType: this.state.selectedItem.processType,
-                    triggerType: this.state.selectedItem.triggerType
+                    defaultTriggerType: this.state.selectedItem.defaultTriggerType
                 };
             }
             this.dispatchEvent(new TemplateChangedEvent(detail));
