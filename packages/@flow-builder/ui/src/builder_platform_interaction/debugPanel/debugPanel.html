@@ -6,9 +6,10 @@
         <template for:each={debugTraces} for:item="trace">
             <lightning-accordion key={trace.debugInfo} allow-multiple-sections-open>
                 <lightning-accordion-section label={trace.elementApiName}>
-                    <p class="slds-p-horizontal_small">
-                        <lightning-formatted-rich-text value={trace.debugInfo}></lightning-formatted-rich-text>
-                    </p>
+                    <builder_platform_interaction-debug-panel-body
+                        key={trace.debugInfo}
+                        raw-text={trace.debugInfo}
+                    ></builder_platform_interaction-debug-panel-body>
                 </lightning-accordion-section>
             </lightning-accordion>
         </template>

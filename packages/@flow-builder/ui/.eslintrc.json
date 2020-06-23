@@ -26,6 +26,7 @@
                         "**/builder_platform_interaction/conditionEditorPopover/conditionEditorPopover.ts",
                         "**/builder_platform_interaction/debugEditorPopover/debugEditorPopover.ts",
                         "**/builder_platform_interaction/debugPanel/debugPanel.ts",
+                        "**/builder_platform_interaction/debugPanelBody/debugPanelBody.ts",
                         "**/builder_platform_interaction/debugEditorInputVariables/debugEditorInputVariables.ts",
                         "**/builder_platform_interaction/flcBuilder/flcBuilder.ts",
                         "**/builder_platform_interaction/flcBuilderContainer/flcBuilderContainer.ts",
