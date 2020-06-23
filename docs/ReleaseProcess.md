@@ -56,22 +56,50 @@ And then go to github and create a PR against master.
 
 ## freeze
 
-For freeze changes you will need to create a feature branch cut off the latest patch release tag. You then need to modify the `git-perforce-branch-mapping.yaml` and `sfci.yaml` files to include it. For example:
+For freeze changes you will need to :
+
+-   get version for ui-interaction-builder-components.version in freeze/core/pom.xml
+-   create 226-freeze branch cut off this release tag
+
+```sh
+git checkout -b 226-freeze sfci-{version}
+```
+
+-   modify the `git-perforce-branch-mapping.yaml`, `sfci.yaml` and `package.json` files to reference this branch :
 
 sfci.yaml:
 
 ```yaml
-release_branches: ['master', '224', '224-my-freeze-fix']
+release_branches: ['master', '226', '226-freeze']
 ```
 
 git-perforce-branch-mapping.yaml:
 
 ```yaml
-'224-my-freeze-fix': '//app/224/freeze/...'
+'226-freeze': '//app/226/freeze/...'
 ```
 
-You then follow the same process as for `main` and `patch`. In particular you will need to cherry-pick your commit into `224` and `master`.
+package.json:
+
+```json
+    "config": {
+        "branch": "226/freeze"
+    }
+```
+
+-   Follow the instructions [here](/docs/README.md#SFCI-Setup) to add the branch under SFCI.
+-   A branch protection rule need to be created for 226-freeze (settings/branches). Use the same settings than for master. This must be done by a repository admin.
+-   create a PR with your changes. Do not select "Update Core" : this is safer to create a P4 CL instead. Have it approved
+-   merge your PR and wait a few minutes until a jar is released
+-   Wait a few minutes until a jar is released and get the version number for the latest released jar for this branch in https://sfcirelease.dop.sfdc.net/job/automation-platform/job/automation-platform-ui-interaction-builder-components-Jenkinsfile/job/ui-interaction-builder-components/
+-   Create a P4 CL that updates ui-interaction-builder-components.version with this version in freeze/core/pom.xml.
+-   checkin your P4 CL once you get approval.
+-   cherry-pick your commit into the patch branch (`226`) before next patch is promoted and to `master` if necessary.
+-   delete branch protection rule for 226-freeze and then delete 226-freeze branch
 
 ## prod
 
-For prod you follow the freeze workflow. Then in p4 you need to integrate your p4 CL that is in freeze to the prod branch and submit it manually.
+For prod you follow the freeze workflow but with '226-prod'.
+
+If you missed the cutoff for patch, you will also need to release a jar for 226/freeze.
+You will need to resolve a blocked autointegration from prod to freeze. Use the released version for 226/freeze to resolve the merge issue for ui-interaction-builder-components.version in freeze/core/pom.xml. (You will need approval for that)
