@@ -63,6 +63,7 @@ export {
     getApiVersionsList,
     getDefaultApiVersion,
     getLatestApiVersion,
-    getMinApiVersion
+    getMinApiVersion,
+    isVersioningSupported
 } from './apiVersions';
 export { setBuilderType, getBuilderType, BUILDER_MODE } from './builderConfigs';

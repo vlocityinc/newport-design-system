@@ -108,3 +108,10 @@ export const getMinApiVersion = (): number => {
 export const isVersioningDataInitialized = (): boolean => {
     return versioningDataInitialized;
 };
+
+export const isVersioningSupported = (): boolean => {
+    const isListValid: boolean =
+        apiVersionsList !== undefined && Array.isArray(apiVersionsList) && apiVersionsList.length > 0;
+    const isDefaultValueValid: boolean = defaultApiVersion !== undefined && defaultApiVersion !== 0;
+    return isListValid && isDefaultValueValid;
+};

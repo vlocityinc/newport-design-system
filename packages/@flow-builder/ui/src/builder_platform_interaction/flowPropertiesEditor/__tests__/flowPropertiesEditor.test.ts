@@ -34,6 +34,9 @@ jest.mock('builder_platform_interaction/systemLib', () => {
         initVersioningInfoForProcessType() {},
         isVersioningDataInitialized() {
             return true;
+        },
+        isVersioningSupported() {
+            return true;
         }
     };
 });

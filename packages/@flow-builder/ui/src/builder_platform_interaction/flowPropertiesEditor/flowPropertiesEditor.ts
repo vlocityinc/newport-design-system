@@ -20,7 +20,8 @@ import {
     getDefaultApiVersion,
     getLatestApiVersion,
     getMinApiVersion,
-    isVersioningDataInitialized
+    isVersioningDataInitialized,
+    isVersioningSupported
 } from 'builder_platform_interaction/systemLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { isRunInModeSupported } from 'builder_platform_interaction/triggerTypeLib';
@@ -111,6 +112,9 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     @track
     isAdvancedShown = false;
+
+    @track
+    showApiVersionComboBox = false;
 
     @track
     apiVersionSpinner = true;
@@ -204,14 +208,12 @@ export default class FlowPropertiesEditor extends LightningElement {
     }
 
     set apiVersion(value) {
-        if (value) {
-            this.updateProperty('apiVersion', value);
-        }
+        this.updateProperty('apiVersion', value);
     }
 
     get apiVersion() {
         let retVal = null;
-        if (this.flowProperties.apiVersion) {
+        if (this.flowProperties.apiVersion && this.flowProperties.apiVersion.value) {
             retVal = String(this.flowProperties.apiVersion.value);
         }
         return retVal;
@@ -313,25 +315,33 @@ export default class FlowPropertiesEditor extends LightningElement {
         });
 
         if (isVersioningDataInitialized()) {
+            this.initApiVersion(true);
             this.apiVersionSpinner = false;
-            this.initApiVersion();
         } else {
             loadVersioningData().then(() => {
-                this.initApiVersion();
+                this.initApiVersion(true);
                 this.apiVersionSpinner = false;
             });
         }
     }
 
-    initApiVersion() {
+    initApiVersion(setOriginalValue) {
         if (isVersioningDataInitialized()) {
-            this._apiVersionsList = getApiVersionMenuData();
-            this.apiVersion = this._originalApiVersion != null ? this._originalApiVersion : this.defaultApiVersion();
+            this.showApiVersionComboBox = isVersioningSupported();
+            if (this.showApiVersionComboBox) {
+                this._apiVersionsList = getApiVersionMenuData();
+                if (setOriginalValue || this.apiVersion == null) {
+                    this.apiVersion =
+                        this._originalApiVersion !== null ? this._originalApiVersion : this.defaultApiVersion();
+                }
+            } else {
+                this.apiVersion = null;
+            }
         }
     }
 
     defaultApiVersion() {
-        return this.isSavingExistingFlow() ? getDefaultApiVersion() : getLatestApiVersion();
+        return this.node.saveType === SaveType.CREATE ? getLatestApiVersion() : getDefaultApiVersion();
     }
 
     /**
@@ -393,7 +403,7 @@ export default class FlowPropertiesEditor extends LightningElement {
             this.updateProperty('interviewLabel', this._originalInterviewLabel);
 
             initVersioningInfoForProcessType(this._originalProcessType);
-            this.initApiVersion();
+            this.initApiVersion(true);
         } else {
             this.clearForNewDefinition();
         }
@@ -441,8 +451,8 @@ export default class FlowPropertiesEditor extends LightningElement {
         this.updateProperty('triggerType', triggerType);
 
         initVersioningInfoForProcessType(processType);
-        this._apiVersionsList = getApiVersionMenuData();
-        if (this.apiVersion < getMinApiVersion()) {
+        this.initApiVersion(false);
+        if (this.showApiVersionComboBox && this.apiVersion < getMinApiVersion()) {
             this.apiVersion = getMinApiVersion();
         }
     }
@@ -462,7 +472,7 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     handleApiVersionChange(event) {
         event.stopPropagation();
-        this.updateProperty('apiVersion', parseInt(event.detail.value, 10));
+        this.apiVersion = parseInt(event.detail.value, 10);
     }
 
     handleInstanceLabelChanged(event) {
