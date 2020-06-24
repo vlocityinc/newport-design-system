@@ -147,8 +147,15 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Add
                     <builder_platform_interaction-row>
                       #shadow-root(open)
                         <fieldset>
+                          <legend
+                            class="slds-is-absolute slds-p-top_large slds-m-top_xx-small"
+                          >
+                            <strong>
+                              
+                            </strong>
+                          </legend>
                           <div
-                            class="slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
+                            class="slds-m-left_x-large slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
                           >
                             <div
                               class="slds-col"
@@ -534,8 +541,15 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
                     <builder_platform_interaction-row>
                       #shadow-root(open)
                         <fieldset>
+                          <legend
+                            class="slds-is-absolute slds-p-top_large slds-m-top_xx-small"
+                          >
+                            <strong>
+                              
+                            </strong>
+                          </legend>
                           <div
-                            class="slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
+                            class="slds-m-left_x-large slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
                           >
                             <div
                               class="slds-col"
@@ -920,8 +934,15 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
                     <builder_platform_interaction-row>
                       #shadow-root(open)
                         <fieldset>
+                          <legend
+                            class="slds-is-absolute slds-p-top_large slds-m-top_xx-small"
+                          >
+                            <strong>
+                              
+                            </strong>
+                          </legend>
                           <div
-                            class="slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
+                            class="slds-m-left_x-large slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
                           >
                             <div
                               class="slds-col"
