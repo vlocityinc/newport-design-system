@@ -7,12 +7,17 @@ export default class debugEditorInputVariables extends LightningElement {
     @api inputValue;
 
     icon;
+    isBoolean;
 
     inputEvent(event) {
-        this.inputValue = event.target.value;
+        if (event.target.value) {
+            this.inputValue = event.target.value;
+        } else if (event.detail.checked != null) {
+            this.inputValue = event.detail.checked;
+        }
         const temp = {
             name: this.variable.name,
-            value: event.target.value,
+            value: this.inputValue,
             type: this.variable.dataType
         };
         const evt = new CustomEvent('inputevent', {
@@ -22,6 +27,9 @@ export default class debugEditorInputVariables extends LightningElement {
     }
 
     connectedCallback() {
+        if (this.variable.dataType === 'Boolean') {
+            this.isBoolean = true;
+        }
         this.icon = getDataTypeIcons(this.variable.dataType, 'utility');
     }
 }

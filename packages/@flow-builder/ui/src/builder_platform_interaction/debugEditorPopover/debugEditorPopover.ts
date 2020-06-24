@@ -75,22 +75,25 @@ export default class DebugEditorPopover extends LightningElement {
             window.console.log(error);
         } else {
             for (let i = 0; i < data[0].variables.length; i++) {
-                if (data[0].variables[i] && data[0].variables[i].isInput) {
+                const currentVar = data[0].variables[i];
+                if (currentVar && currentVar.isInput && !currentVar.isCollection && currentVar.dataType !== 'Apex') {
                     this.hasInputVariables = true;
-                    this.inputVar.push(data[0].variables[i]);
-                    const values = { name: data[0].variables[i].name, type: data[0].variables[i].dataType, value: '' };
-                    this.dict[data[0].variables[i].name] = values;
+                    this.inputVar.push(currentVar);
+                    const values = { name: currentVar.name, value: '', type: currentVar.dataType };
+                    this.dict[currentVar.name] = values;
                 }
             }
+            this.setInput();
         }
     };
 
-    jsonifyInput() {
+    setInput() {
+        // Reset in case we call it again
+        this.debugInput.inputs = [];
         for (const key in this.dict) {
             if (this.dict.hasOwnProperty(key)) {
                 this.debugInput.inputs.push(this.dict[key]);
             }
         }
-        return JSON.stringify(this.debugInput.inputs);
     }
 }
