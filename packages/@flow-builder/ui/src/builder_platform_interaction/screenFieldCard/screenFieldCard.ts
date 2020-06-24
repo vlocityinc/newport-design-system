@@ -18,10 +18,6 @@ export default class ScreenField extends LightningElement {
         return booleanAttributeValue(this, 'error');
     }
 
-    get computedClass() {
-        return 'slds-card slds-grow ' + (this.hasError ? 'has-error' : 'bordered');
-    }
-
     get iconVariant() {
         return this.hasError ? 'error' : '';
     }

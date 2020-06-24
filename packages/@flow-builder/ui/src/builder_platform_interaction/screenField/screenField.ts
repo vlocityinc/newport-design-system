@@ -25,9 +25,11 @@ export default class ScreenField extends LightningElement {
     labels = LABELS;
 
     get calculatedClass() {
-        let classString = 'slds-p-vertical_x-small';
-        if (!this.isSectionType) {
-            classString = classString.concat(' slds-p-horizontal_small');
+        let classString = '';
+        if (!this.isExtension && !this.hasErrors) {
+            classString = this.isSectionType
+                ? 'slds-p-vertical_medium'
+                : 'slds-p-vertical_x-small slds-p-horizontal_small';
         }
         return classString;
     }

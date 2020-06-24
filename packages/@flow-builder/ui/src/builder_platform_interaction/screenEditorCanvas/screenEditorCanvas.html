@@ -19,10 +19,7 @@
                 >
                     <div slot="screen-element" class="slds-grid slds-grow">
                         <!-- Screen config has errors -->
-                        <div
-                            if:true={screenConfigurationHasErrors}
-                            class="slds-grow slds-p-horizontal_small slds-p-vertical_x-small"
-                        >
+                        <div if:true={screenConfigurationHasErrors} class="slds-grow slds-border_bottom">
                             <builder_platform_interaction-screen-field-card
                                 class="slds-grow"
                                 title={labels.invalidScreen}
@@ -59,6 +56,7 @@
 
                 <!--  body -->
                 <builder_platform_interaction-screen-canvas
+                    class="slds-m-top_small "
                     element={screen}
                     selected-item-guid={selectedItemGuid}
                     show-empty-placeholder="false"
