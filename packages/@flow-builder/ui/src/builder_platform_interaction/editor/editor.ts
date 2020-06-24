@@ -1017,8 +1017,10 @@ export default class Editor extends LightningElement {
             };
             storeInstance.dispatch(doDuplicate(payload));
 
-            const editElementEvent = new EditElementEvent(Object.values(canvasElementGuidMap)[0]);
-            this.handleEditElement(editElementEvent);
+            if (this.usePanelForPropertyEditor) {
+                const editElementEvent = new EditElementEvent(Object.values(canvasElementGuidMap)[0]);
+                this.handleEditElement(editElementEvent);
+            }
         }
     };
 
