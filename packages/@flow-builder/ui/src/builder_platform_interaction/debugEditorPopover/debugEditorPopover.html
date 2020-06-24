@@ -33,7 +33,17 @@
                 class="runAs"
                 onchange={handleChange}
             ></lightning-input>
-            <lightning-lookup if:true={debugInput.runAs} label="Run this flow as"></lightning-lookup>
+            <lightning-lookup
+                if:true={debugInput.runAs}
+                field-name={fieldApiName}
+                object-infos={objectInfos}
+                record={sourceRecord}
+                label={labels.selectUser}
+                max-values={maxValues}
+                required={required}
+                class="selectUser"
+                onchange={handleValueChange}
+            ></lightning-lookup>
             <lightning-input
                 type="checkbox"
                 label={labels.governorLimits}

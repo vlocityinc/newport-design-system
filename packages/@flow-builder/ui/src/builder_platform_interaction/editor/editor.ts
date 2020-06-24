@@ -813,6 +813,11 @@ export default class Editor extends LightningElement {
     runDebugInterviewCallback = debugModal => {
         const debugOptions = debugModal.get('v.body')[0].get('v.debugInputObject') || {};
         this.spinners.showDebugSpinner = true;
+        let selectedUserId = null;
+        if (debugOptions.debugAsUserId) {
+            selectedUserId = debugOptions.debugAsUserId;
+        }
+
         fetch(
             SERVER_ACTION_TYPE.RUN_DEBUG,
             ({ data, error }) => {
@@ -836,7 +841,8 @@ export default class Editor extends LightningElement {
                 enabledTrace: true,
                 enableRollbackMode: !!debugOptions.enableRollbackMode,
                 useLatestSubflow: !!debugOptions.runLatestVersion,
-                showGovernorlimit: !!debugOptions.governorLimits
+                showGovernorlimit: !!debugOptions.governorLimits,
+                debugAsUserId: selectedUserId
             }
         );
     };

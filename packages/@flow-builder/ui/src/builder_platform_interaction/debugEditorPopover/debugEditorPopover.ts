@@ -1,7 +1,10 @@
 // @ts-nocheck
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api, track, wire } from 'lwc';
 import { LABELS } from './debugEditorPopoverLabels';
+import { getRecordCreateDefaults } from 'lightning/uiRecordApi';
 import { fetch, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+
+const DEFAULT_NAME_FIELD = 'Name';
 
 export default class DebugEditorPopover extends LightningElement {
     labels = LABELS;
@@ -14,6 +17,7 @@ export default class DebugEditorPopover extends LightningElement {
         showDebugInfo: true,
         enableRollback: false,
         runAs: false,
+        debugAsUserId: undefined,
         governorLimits: false
     };
 
@@ -95,5 +99,117 @@ export default class DebugEditorPopover extends LightningElement {
                 this.debugInput.inputs.push(this.dict[key]);
             }
         }
+    }
+
+    /**
+     * Max values to select in the lookup.
+     */
+    maxValues = 1;
+
+    /**
+     * Field info for the input field api name
+     */
+    _fieldInfo = {};
+
+    /**
+     * Name field of the target record
+     */
+    _nameField = '';
+
+    /**
+     * Fields of target record
+     * @typedef {Array}
+     */
+    _fields;
+
+    /**
+     * The object infos for the object api name. Its a map of object api name to its object info.
+     */
+    @track
+    objectInfos = {};
+
+    /**
+     * The mocked source record to pass it to search lookup.
+     */
+    @track
+    sourceRecord;
+
+    /**
+     * The API name of the source object.
+     * @typedef {String}
+     * @memberof Lookup
+     */
+    objectApiName = 'User';
+
+    /**
+     * The API name of a lookup field on the source object.
+     * @typedef {String}
+     * @memberof Lookup
+     */
+    fieldApiName = 'CreatedById';
+
+    /** Requiredness for lookup
+     * @typedef {Boolean}
+     * @memberof Lookup
+     */
+    required = false;
+
+    @wire(getRecordCreateDefaults, {
+        objectApiName: '$objectApiName'
+    })
+    wiredLookupMetadata({ error, data }) {
+        if (error || !data) {
+            return;
+        }
+
+        if (data.objectInfos) {
+            // data is readonly, do deep copy to update the values
+            this.objectInfos = JSON.parse(JSON.stringify(data.objectInfos));
+            this._fieldInfo = this.objectInfos[this.objectApiName].fields[this.fieldApiName];
+
+            if (!this._fieldInfo) {
+                return;
+            }
+
+            // get the target record apiName and name field from referenceToInfos
+            // the logic is adopted from function computeReferenceInfos of lookupDesktop/utils
+            const { referenceToInfos } = this._fieldInfo;
+            if (Array.isArray(referenceToInfos) && referenceToInfos.length) {
+                const { nameFields, apiName } = referenceToInfos[0];
+                this._nameField = nameFields.length > 1 ? DEFAULT_NAME_FIELD : nameFields[0];
+                this._fields = [`${apiName}.${this._nameField}`];
+            }
+
+            this.createSourceRecord();
+            // Use the field on field info to control the requiredness as it takes precedence over the required attribute
+            this._fieldInfo.required = this.required;
+        }
+    }
+
+    /**
+     * Handle the lookup value change event.
+     * @param {Object} event value change event
+     */
+    handleValueChange(event) {
+        event.stopPropagation();
+        this.recordId = event.detail.value[0] || '';
+        this.debugInput.debugAsUserId = this.recordId;
+    }
+
+    /**
+     * Create the mock source record to pass it to the search lookup component.
+     */
+    createSourceRecord() {
+        const relationshipName = this._fieldInfo.relationshipName;
+        this.sourceRecord = {
+            apiName: this.objectApiName,
+            fields: {
+                [this.fieldApiName]: {
+                    // this populates the preselected record Id on the lightning-lookup
+                    value: this.recordId
+                },
+                [relationshipName]: ''
+            }
+        };
     }
 }
