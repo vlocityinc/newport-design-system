@@ -16364,6 +16364,50 @@
     },
     {
       "comparisonOperator":{
+        "value":"WasVisited"
+      },
+      "excludeElems":[
+
+      ],
+      "includeElems":[
+        "DECISION",
+        "WAIT"
+      ],
+      "left":{
+        "canBeApexProperty":"CanBe",
+        "canBeSobjectField":"CanBe",
+        "canBeSystemVariable":"CanBe",
+        "cannotBeElements":[
+
+        ],
+        "collection":false,
+        "mustBeElements":[
+          "COLLECTIONPROCESSOR"
+        ],
+        "null":false,
+        "paramType":"Element"
+      },
+      "rhsParams":[
+        {
+          "canBeApexProperty":"CanBe",
+          "canBeSobjectField":"CanBe",
+          "canBeSystemVariable":"CanBe",
+          "cannotBeElements":[
+
+          ],
+          "collection":false,
+          "dataType":"Boolean",
+          "mustBeElements":[
+
+          ],
+          "null":false,
+          "paramType":"Data"
+        }
+      ],
+      "ruleType":"comparison"
+    },
+    {
+      "comparisonOperator":{
         "value":"WasSet"
       },
       "excludeElems":[

@@ -1,6 +1,7 @@
 {
   "resourceTypesForAutoLaunchedFlow":[
     {
+      "isElementSubtype":false,
       "name":"Variable",
       "attributes":[
         {
@@ -40,6 +41,7 @@
       "elementType":"Variable"
     },
     {
+      "isElementSubtype":false,
       "name":"Constant",
       "attributes":[
         {
@@ -73,6 +75,7 @@
       "elementType":"Constant"
     },
     {
+      "isElementSubtype":false,
       "name":"Formula",
       "attributes":[
         {
@@ -107,6 +110,7 @@
       "elementType":"Formula"
     },
     {
+      "isElementSubtype":false,
       "name":"TextTemplate",
       "attributes":[
         {

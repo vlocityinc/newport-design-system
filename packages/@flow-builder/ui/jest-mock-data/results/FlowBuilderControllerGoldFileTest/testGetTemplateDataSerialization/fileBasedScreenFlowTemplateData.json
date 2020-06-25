@@ -2,6 +2,7 @@
   "fileBasedScreenFlowTemplateData":{
   "actionCalls" : [ ],
   "apexPluginCalls" : [ ],
+  "apiVersion" : 50.0,
   "assignments" : [ {
     "assignmentItems" : [ {
       "assignToReference" : "$Flow.CurrentStage",
@@ -32,12 +33,14 @@
       "promptText" : "Hey!"
     }
   } ],
+  "collectionProcessors" : [ ],
   "constants" : [ ],
   "decisions" : [ ],
   "description" : "FTEST - File Based Flow Screen Flow",
   "dynamicChoiceSets" : [ {
     "dataType" : "String",
     "displayField" : "Label",
+    "filterLogic" : "and",
     "filters" : [ {
       "field" : "EntityParticleId",
       "operator" : "EqualTo",

@@ -1,24 +1,28 @@
 {
   "supportedElementsForAutoLaunchedFlow":[
     {
+      "isElementSubtype":false,
       "name":"Assignment",
       "attributes":null,
       "classification":"Node",
       "elementType":"Assignment"
     },
     {
+      "isElementSubtype":false,
       "name":"Decision",
       "attributes":null,
       "classification":"Node",
       "elementType":"Decision"
     },
     {
+      "isElementSubtype":false,
       "name":"Loop",
       "attributes":null,
       "classification":"Node",
       "elementType":"Loop"
     },
     {
+      "isElementSubtype":false,
       "name":"RecordLookup",
       "attributes":[
         {
@@ -50,6 +54,7 @@
       "elementType":"RecordQuery"
     },
     {
+      "isElementSubtype":false,
       "name":"Start",
       "attributes":null,
       "classification":"Node",
