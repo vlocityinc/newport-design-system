@@ -3,25 +3,23 @@ import resultLabel from '@salesforce/label/DebugLogEmail.RecordElementResult';
 
 export default class debugPanelBody extends LightningElement {
     @api rawText;
-
-    splitText = [''];
+    @api title;
     textObj = [{}];
-    title;
 
     connectedCallback() {
-        this.splitText = this.rawText.split(['\\n']);
+        this.getDebugInfoBody();
+    }
 
-        // random empty string
-        this.splitText.shift();
+    getDebugInfoBody() {
+        let splitText = this.rawText.split(['\\n']);
+        if (splitText[0] === '') {
+            splitText = splitText.slice(1);
+        }
 
-        // details
-        this.title = this.splitText[0];
-        this.splitText.shift();
-
-        for (let i = 0; i < this.splitText.length; i++) {
-            const curr = this.splitText[i];
-            if (curr !== '' && !curr.includes('$$:')) {
-                const temp = { value: this.splitText[i], isBold: false, isErr: false };
+        for (let i = 0; i < splitText.length; i++) {
+            const curr = splitText[i];
+            if (curr !== '' && !curr.includes('$$:') && curr !== this.title) {
+                const temp = { value: splitText[i], isBold: false, isErr: false };
                 if (curr === resultLabel || curr.charAt(curr.length - 1) === ':') {
                     temp.isBold = true;
                 }

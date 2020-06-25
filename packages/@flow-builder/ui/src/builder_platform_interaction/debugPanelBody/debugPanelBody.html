@@ -1,7 +1,7 @@
 <template>
     <template for:each={textObj} for:item="currText">
         <template if:false={currText.isBold} key={currText}>
-            <p class="normal" key={currText.value}>{currText.value}</p>
+            <div class="normal" key={currText.value}>{currText.value}</div>
         </template>
         <template if:true={currText.isBold} key={currText}>
             <p class="sub-title" key={currText.value}>{currText.value}</p>

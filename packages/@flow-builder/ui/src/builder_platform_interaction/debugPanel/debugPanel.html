@@ -2,13 +2,13 @@
     <div class="slds-panel__header">
         <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate">{headerTitle}</h2>
     </div>
-    <div class="slds-panel__body">
+    <div class="slds-panel__body slds-scrollable--y ">
         <template for:each={debugTraces} for:item="trace">
             <lightning-accordion key={trace.debugInfo} allow-multiple-sections-open>
-                <lightning-accordion-section label={trace.elementApiName}>
+                <lightning-accordion-section key={trace.debugInfo} label={trace.elementApiName}>
                     <builder_platform_interaction-debug-panel-body
-                        key={trace.debugInfo}
                         raw-text={trace.debugInfo}
+                        title={trace.elementApiName}
                     ></builder_platform_interaction-debug-panel-body>
                 </lightning-accordion-section>
             </lightning-accordion>

@@ -479,7 +479,7 @@ export default class Editor extends LightningElement {
     }
 
     get debugTraces() {
-        return (this.debugData && this.debugData.data && this.debugData.data.debugTrace) || [];
+        return this.debugData || {};
     }
 
     /**
@@ -804,18 +804,22 @@ export default class Editor extends LightningElement {
     runDebugInterviewCallback = debugModal => {
         const debugOptions = debugModal.get('v.body')[0].get('v.debugInputObject') || {};
         this.spinners.showDebugSpinner = true;
+        const startInterviewTime = new Date();
         let selectedUserId = null;
         if (debugOptions.debugAsUserId) {
             selectedUserId = debugOptions.debugAsUserId;
         }
-
         fetch(
             SERVER_ACTION_TYPE.RUN_DEBUG,
             ({ data, error }) => {
+                const endInterviewTime = new Date();
                 this.builderMode = BUILDER_MODE.DEBUG_MODE;
                 this.debugData = {
-                    data: data[0],
-                    error
+                    interviewStatus: data[0].interviewStatus,
+                    debugTrace: data[0].debugTrace,
+                    error,
+                    startInterviewTime,
+                    endInterviewTime
                 };
                 const canvasDecorator = data[1];
                 if (canvasDecorator) {
@@ -830,7 +834,7 @@ export default class Editor extends LightningElement {
                 flowVersionId: this.flowId,
                 arguments: JSON.stringify(debugOptions.inputs),
                 enabledTrace: true,
-                enableRollbackMode: !!debugOptions.enableRollbackMode,
+                enableRollbackMode: !!debugOptions.enableRollback,
                 useLatestSubflow: !!debugOptions.runLatestVersion,
                 showGovernorlimit: !!debugOptions.governorLimits,
                 debugAsUserId: selectedUserId
