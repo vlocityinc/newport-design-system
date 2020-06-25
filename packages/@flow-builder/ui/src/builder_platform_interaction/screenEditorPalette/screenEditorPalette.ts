@@ -1,12 +1,7 @@
 // @ts-nocheck
 import { LightningElement, track, api } from 'lwc';
 import { labelFilter } from 'builder_platform_interaction/filterLib';
-import { getAllCachedExtensionTypes } from 'builder_platform_interaction/flowExtensionLib';
-import {
-    getAllScreenFieldTypes,
-    SCREEN_EDITOR_GUIDS,
-    setDragFieldValue
-} from 'builder_platform_interaction/screenEditorUtils';
+import { SCREEN_EDITOR_GUIDS, setDragFieldValue } from 'builder_platform_interaction/screenEditorUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { createAddScreenFieldEvent } from 'builder_platform_interaction/events';
@@ -19,29 +14,29 @@ const SELECTORS = {
 
 export default class ScreenPalette extends LightningElement {
     @track types;
-    _fieldTypes;
+    _screenFieldTypes;
     _extensionTypes;
 
     appExchangeLink = APP_EXCHANGE_LINK;
 
     labels = LABELS;
 
-    set screenFieldTypes(fieldTypes) {
-        this._fieldTypes = fieldTypes;
-        this.buildModel();
-    }
-
     @api get screenFieldTypes() {
-        return this._fieldTypes;
+        return this._screenFieldTypes;
     }
 
-    set extensionTypes(extTypes) {
-        this._extensionTypes = extTypes;
+    set screenFieldTypes(screenFieldTypes) {
+        this._screenFieldTypes = screenFieldTypes;
         this.buildModel();
     }
 
     @api get extensionTypes() {
         return this._extensionTypes;
+    }
+
+    set extensionTypes(extensionTypes) {
+        this._extensionTypes = extensionTypes;
+        this.buildModel();
     }
 
     // Create palette model
@@ -51,13 +46,15 @@ export default class ScreenPalette extends LightningElement {
         const filterInput = this.template.querySelector(SELECTORS.FILTER_INPUT);
         const pattern = filterInput ? filterInput.value.trim() : undefined;
 
-        const typeMap = getTypeMap(pattern);
-        for (const type in typeMap) {
-            if (typeMap.hasOwnProperty(type)) {
-                const items = typeMap[type];
-                if (items && items.length > 0) {
-                    const section = createSection(type, items.sort(labelComparator));
-                    sections.push(section);
+        if (this.screenFieldTypes && this.extensionTypes) {
+            const typeMap = getTypeMap(pattern, this.screenFieldTypes, this.extensionTypes);
+            for (const type in typeMap) {
+                if (typeMap.hasOwnProperty(type)) {
+                    const items = typeMap[type];
+                    if (items && items.length > 0) {
+                        const section = createSection(type, items.sort(labelComparator));
+                        sections.push(section);
+                    }
                 }
             }
         }
@@ -127,8 +124,8 @@ function createSection(label, items) {
     return section;
 }
 
-function getTypeMap(pattern) {
-    const types = [...getAllScreenFieldTypes(), ...getAllCachedExtensionTypes()].filter(labelFilter(pattern));
+function getTypeMap(pattern: string, screenFieldTypes: Array<any>, extTypes: Array<any>) {
+    const types = [...screenFieldTypes, ...extTypes].filter(labelFilter(pattern));
     const typeMap = types.reduce((acc, type) => {
         const guid = generateGuid();
         const item = {

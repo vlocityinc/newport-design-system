@@ -17,6 +17,8 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { hidePopover } from 'builder_platform_interaction/builderUtils';
 import { setScreenElement } from 'builder_platform_interaction/expressionUtils';
+import { getScreenFieldTypes } from 'builder_platform_interaction/screenFieldTypeLib';
+import { getTriggerType } from 'builder_platform_interaction/storeUtils';
 
 /**
  * Screen editor container and template (3-col layout) for palette, canvas and property editor
@@ -136,11 +138,19 @@ export default class ScreenEditor extends LightningElement {
     }
 
     /**
-     * Retrieves a list of available extensions (LCs) to add to the palette
+     * Retrieves a list of supported screen types and available extensions (LCs) to add to the palette
      */
     processPaletteExtensions() {
-        // Get all screen field types
-        this.screenFieldTypes = getAllScreenFieldTypes();
+        const triggerType = getTriggerType();
+        getScreenFieldTypes(this.processType, triggerType).then(screenFieldTypes => {
+            if (screenFieldTypes) {
+                this.screenFieldTypes = getAllScreenFieldTypes().filter(type =>
+                    screenFieldTypes.some(supportedType => {
+                        return supportedType.name === type.name || supportedType.name === type.fieldType;
+                    })
+                );
+            }
+        });
         getExtensionFieldTypes(this.processType)
             .then(data => {
                 const rawScreen = unwrap(this.screen);

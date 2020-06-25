@@ -173,6 +173,7 @@ const KEY_PROVIDER = {
     [SERVER_ACTION_TYPE.GET_RUN_IN_MODES]: () => SERVER_ACTION_TYPE.GET_RUN_IN_MODES,
     [SERVER_ACTION_TYPE.GET_SUBFLOWS]: params => params.flowProcessType,
     [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS]: params => params.flowProcessType,
+    [SERVER_ACTION_TYPE.GET_SUPPORTED_SCREEN_FIELD_TYPES]: params => params.flowProcessType,
     [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS]: params => `${params.actionName}-${params.actionType}`,
     [SERVER_ACTION_TYPE.GET_APEX_PLUGIN_PARAMETERS]: params => `${params.apexClass}`,
     [SERVER_ACTION_TYPE.GET_ENTITY_FIELDS]: params => params.entityApiName,

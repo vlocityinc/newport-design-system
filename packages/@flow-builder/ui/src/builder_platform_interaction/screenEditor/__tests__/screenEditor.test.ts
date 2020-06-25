@@ -83,7 +83,8 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
         getElementByDevName: jest.fn(),
         getDuplicateDevNameElements: jest.fn(),
         isDevNameInStore: jest.fn(),
-        getProcessType: jest.fn()
+        getProcessType: jest.fn(),
+        getTriggerType: jest.fn()
     };
 });
 

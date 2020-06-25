@@ -94,8 +94,7 @@ import {
     isGuardrailsEnabled,
     getToolboxElements,
     getElementsMetadata,
-    getConnectorsToHighlight,
-    getScreenFieldTypes
+    getConnectorsToHighlight
 } from './editorUtils';
 import { cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import {
@@ -135,7 +134,6 @@ import { getTriggerType, getElementByGuid } from 'builder_platform_interaction/s
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import { getInvocableActions } from 'builder_platform_interaction/invocableActionLib';
 import { usedBy } from 'builder_platform_interaction/usedByLib';
-import { setSupportedScreenFieldTypes } from 'builder_platform_interaction/screenFieldTypeLib';
 
 let unsubscribeStore;
 let storeInstance;
@@ -502,13 +500,6 @@ export default class Editor extends LightningElement {
             });
 
             if (flowProcessTypeChanged) {
-                const getScreenFieldTypesPromise = getScreenFieldTypes(flowProcessType, flowTriggerType);
-                getScreenFieldTypesPromise.then(screenFieldTypes => {
-                    if (screenFieldTypes) {
-                        setSupportedScreenFieldTypes(screenFieldTypes);
-                    }
-                });
-
                 const {
                     loadActionsPromise,
                     loadPeripheralMetadataPromise,

@@ -4,69 +4,64 @@ import { createElement } from 'lwc';
 import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
-function createComponentForTest() {
+function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-screen-editor-palette', { is: ScreenPalette });
     // Using the setter for screenFieldTypes triggers buildModel which populates the palette.
-    el.screenFieldTypes = [];
+    Object.assign(el, props);
     document.body.appendChild(el);
     return el;
 }
 
-jest.mock('builder_platform_interaction/flowExtensionLib', () => ({
-    getAllCachedExtensionTypes: () => {
-        const componentInstanceFieldType = jest.requireActual('builder_platform_interaction/screenEditorUtils')
-            .COMPONENT_INSTANCE;
-        return [
-            {
-                name: 'flowruntime:fileUpload',
-                fieldType: componentInstanceFieldType,
-                dataType: undefined,
-                label: 'File Upload',
-                icon: 'utility:type_tool',
-                category: 'Input'
-            },
-            {
-                name: 'orgns:customComp',
-                fieldType: componentInstanceFieldType,
-                dataType: undefined,
-                label: 'Custom Comp',
-                icon: 'utility:type_tool',
-                category: 'Custom'
-            }
-        ];
+const componentInstanceFieldType = jest.requireActual('builder_platform_interaction/screenEditorUtils')
+    .COMPONENT_INSTANCE;
+
+const extensionTypes = [
+    {
+        name: 'flowruntime:fileUpload',
+        fieldType: componentInstanceFieldType,
+        dataType: undefined,
+        label: 'File Upload',
+        icon: 'utility:type_tool',
+        category: 'Input'
+    },
+    {
+        name: 'orgns:customComp',
+        fieldType: componentInstanceFieldType,
+        dataType: undefined,
+        label: 'Custom Comp',
+        icon: 'utility:type_tool',
+        category: 'Custom'
     }
-}));
+];
+
+const screenFieldTypes = [
+    {
+        name: 'TextBox',
+        fieldType: 'InputField',
+        dataType: 'String',
+        label: 'Text Input',
+        icon: 'utility:type_tool',
+        category: 'Input'
+    },
+    {
+        name: 'LargeTextArea',
+        fieldType: 'LargeTextArea',
+        dataType: undefined,
+        label: 'Text Area',
+        icon: 'utility:type_tool',
+        category: 'Input'
+    },
+    {
+        name: 'ZNumber', // For testing sorting, to ensure we sort by label
+        fieldType: 'InputField',
+        dataType: 'Number',
+        label: 'Number',
+        icon: 'utility:topic2',
+        category: 'Input'
+    }
+];
 
 jest.mock('builder_platform_interaction/screenEditorUtils', () => ({
-    getAllScreenFieldTypes: () => {
-        return [
-            {
-                name: 'TextBox',
-                fieldType: 'InputField',
-                dataType: 'String',
-                label: 'Text Input',
-                icon: 'utility:type_tool',
-                category: 'Input'
-            },
-            {
-                name: 'LargeTextArea',
-                fieldType: 'LargeTextArea',
-                dataType: undefined,
-                label: 'Text Area',
-                icon: 'utility:type_tool',
-                category: 'Input'
-            },
-            {
-                name: 'ZNumber', // For testing sorting, to ensure we sort by label
-                fieldType: 'InputField',
-                dataType: 'Number',
-                label: 'Number',
-                icon: 'utility:topic2',
-                category: 'Input'
-            }
-        ];
-    },
-
     SCREEN_EDITOR_GUIDS: {
         PALETTE: 'palette'
     },
@@ -80,7 +75,7 @@ describe('Screen Editor Palette', () => {
     let eventCallback;
     let guid;
     beforeEach(async () => {
-        element = createComponentForTest();
+        element = createComponentForTest({ screenFieldTypes, extensionTypes });
         eventCallback = jest.fn();
         await ticks(1);
         basePalette = element.shadowRoot.querySelector('builder_platform_interaction-palette');
