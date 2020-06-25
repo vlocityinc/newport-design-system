@@ -798,6 +798,27 @@ describe('property editor', () => {
                 value: elementToAdd
             });
         });
+        // W-7682849: Fix for duplicating elements on canvas causes property editor modal to open automatically
+        it("doesn't open the property editor modal for new element on duplication", async () => {
+            expect.assertions(1);
+
+            const editorComponent = createComponentUnderTest();
+
+            const addElementEvent = new AddElementEvent('ASSIGNMENT');
+            editorComponent.shadowRoot
+                .querySelector('builder_platform_interaction-left-panel')
+                .dispatchEvent(addElementEvent);
+
+            await ticks();
+
+            const toolbar = editorComponent.shadowRoot.querySelector('builder_platform_interaction-toolbar');
+
+            const duplicateEvent = new DuplicateEvent();
+            toolbar.dispatchEvent(duplicateEvent);
+
+            await ticks(1);
+            expect(invokePropertyEditor).toHaveBeenCalledTimes(1);
+        });
     });
 
     describe('in right panel', () => {
