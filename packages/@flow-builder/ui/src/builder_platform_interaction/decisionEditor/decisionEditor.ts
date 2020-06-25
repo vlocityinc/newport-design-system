@@ -194,4 +194,15 @@ export default class DecisionEditor extends LightningElement {
         event.stopPropagation();
         this.activeOutcomeId = event.detail.itemId;
     }
+
+    /**
+     * Handles the change on when an outcome is executed
+     * i.e. whenever the conditions are met or only when the conditions are met for changed values.
+     * @param event
+     */
+    handleOutcomeExecutionOptionChange(event) {
+        event.stopPropagation();
+        this.decisionElement = decisionReducer(this.decisionElement, event);
+        this.dispatchEvent(new UpdateNodeEvent(this.decisionElement));
+    }
 }

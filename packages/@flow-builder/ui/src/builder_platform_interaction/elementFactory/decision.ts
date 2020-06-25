@@ -259,7 +259,7 @@ export function createDecisionWithOutcomeReferences(decision = {}) {
 
 export function createOutcome(outcome = {}) {
     const childElement = baseChildElement(outcome, ELEMENT_TYPE.OUTCOME);
-    const { conditionLogic = CONDITION_LOGIC.AND } = outcome;
+    const { conditionLogic = CONDITION_LOGIC.AND, doesRequireRecordChangedToMeetCriteria = false } = outcome;
     let { conditions = [] } = outcome;
 
     if (conditions.length > 0) {
@@ -269,7 +269,8 @@ export function createOutcome(outcome = {}) {
     }
     return Object.assign(childElement, {
         conditionLogic,
-        conditions
+        conditions,
+        doesRequireRecordChangedToMeetCriteria
     });
 }
 
@@ -287,13 +288,16 @@ export function createDecisionMetadataObject(decision, config = {}) {
 
             let { conditions = [] } = outcome;
             const { conditionLogic } = outcome;
+            const { doesRequireRecordChangedToMeetCriteria = false } = outcome;
 
             if (conditions.length > 0) {
                 conditions = conditions.map(condition => createConditionMetadataObject(condition));
             }
+
             return Object.assign(metadataOutcome, {
                 conditions,
-                conditionLogic
+                conditionLogic,
+                doesRequireRecordChangedToMeetCriteria
             });
         });
     }

@@ -290,6 +290,7 @@ export const flowCollectionServicesDemo = {
                             processMetadataValues: [],
                             targetReference: 'Pop_Element'
                         },
+                        doesRequireRecordChangedToMeetCriteria: false,
                         label: 'Pop Element',
                         name: 'Pop_Element_outcome',
                         processMetadataValues: []
@@ -310,6 +311,7 @@ export const flowCollectionServicesDemo = {
                             processMetadataValues: [],
                             targetReference: 'Get_Position'
                         },
+                        doesRequireRecordChangedToMeetCriteria: false,
                         label: 'Remove Position',
                         name: 'Remove_Position_outcome',
                         processMetadataValues: []
@@ -330,6 +332,7 @@ export const flowCollectionServicesDemo = {
                             processMetadataValues: [],
                             targetReference: 'Get_Position_0'
                         },
+                        doesRequireRecordChangedToMeetCriteria: false,
                         label: 'Add to Start',
                         name: 'Add_to_Start_outcome',
                         processMetadataValues: []
@@ -350,6 +353,7 @@ export const flowCollectionServicesDemo = {
                             processMetadataValues: [],
                             targetReference: 'Remove_After_First'
                         },
+                        doesRequireRecordChangedToMeetCriteria: false,
                         label: 'Remove After First',
                         name: 'Remove_After_First_outcome',
                         processMetadataValues: []
@@ -370,6 +374,7 @@ export const flowCollectionServicesDemo = {
                             processMetadataValues: [],
                             targetReference: 'Set_to_Empty'
                         },
+                        doesRequireRecordChangedToMeetCriteria: false,
                         label: 'Reset',
                         name: 'Reset',
                         processMetadataValues: []
@@ -390,6 +395,7 @@ export const flowCollectionServicesDemo = {
                             processMetadataValues: [],
                             targetReference: 'Remove_All_screen'
                         },
+                        doesRequireRecordChangedToMeetCriteria: false,
                         label: 'Remove All',
                         name: 'Remove_All',
                         processMetadataValues: []
@@ -410,6 +416,7 @@ export const flowCollectionServicesDemo = {
                             processMetadataValues: [],
                             targetReference: 'Remove_Before_First'
                         },
+                        doesRequireRecordChangedToMeetCriteria: false,
                         label: 'Remove Before First',
                         name: 'Remove_Before_First_outcome',
                         processMetadataValues: []
@@ -430,6 +437,7 @@ export const flowCollectionServicesDemo = {
                             processMetadataValues: [],
                             targetReference: 'Remove_First'
                         },
+                        doesRequireRecordChangedToMeetCriteria: false,
                         label: 'Remove First',
                         name: 'Remove_First_outcome',
                         processMetadataValues: []

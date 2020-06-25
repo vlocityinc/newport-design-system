@@ -99,3 +99,4 @@ export { AddNodeEvent } from './addNodeEvent';
 export { UpdateNodeEvent } from './updateNodeEvent';
 export { ConfigurationEditorTypeMappingChangeEvent } from './configurationEditorTypeMappingChangeEvent';
 export { RemoveMergeFieldPillEvent } from './removeMergeFieldPillEvent';
+export { ExecuteWhenOptionChangedEvent } from './executeWhenOptionChangedEvent';

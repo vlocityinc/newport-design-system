@@ -126,6 +126,7 @@ export const flowLegalNameChange = {
                             processMetadataValues: [],
                             targetReference: 'Initial_Info_Screen'
                         },
+                        doesRequireRecordChangedToMeetCriteria: false,
                         label: 'Account is Person Account',
                         name: 'Account_is_Person_Account',
                         processMetadataValues: []
@@ -160,6 +161,7 @@ export const flowLegalNameChange = {
                             processMetadataValues: [],
                             targetReference: 'Assign_recordId_to_Contactid'
                         },
+                        doesRequireRecordChangedToMeetCriteria: false,
                         label: 'Is Contact',
                         name: 'Is_Contact',
                         processMetadataValues: []
@@ -194,6 +196,7 @@ export const flowLegalNameChange = {
                             processMetadataValues: [],
                             targetReference: 'Account_Lookup'
                         },
+                        doesRequireRecordChangedToMeetCriteria: false,
                         label: 'Account',
                         name: 'Account',
                         processMetadataValues: []
@@ -214,6 +217,7 @@ export const flowLegalNameChange = {
                             processMetadataValues: [],
                             targetReference: 'Contact_Lookup'
                         },
+                        doesRequireRecordChangedToMeetCriteria: false,
                         label: 'Contact',
                         name: 'Contact',
                         processMetadataValues: []
@@ -234,6 +238,7 @@ export const flowLegalNameChange = {
                             processMetadataValues: [],
                             targetReference: 'Case_Lookup'
                         },
+                        doesRequireRecordChangedToMeetCriteria: false,
                         label: 'Case',
                         name: 'Case',
                         processMetadataValues: []
@@ -264,6 +269,7 @@ export const flowLegalNameChange = {
                             processMetadataValues: [],
                             targetReference: 'Update_Person_Account'
                         },
+                        doesRequireRecordChangedToMeetCriteria: false,
                         label: 'AccountUpdate',
                         name: 'AccountUpdate',
                         processMetadataValues: []
@@ -284,6 +290,7 @@ export const flowLegalNameChange = {
                             processMetadataValues: [],
                             targetReference: 'Update_Contact'
                         },
+                        doesRequireRecordChangedToMeetCriteria: false,
                         label: 'ContactUpdate',
                         name: 'ContactUpdate',
                         processMetadataValues: []

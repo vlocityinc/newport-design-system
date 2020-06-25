@@ -77,7 +77,8 @@ export const fieldServiceMobileFlowUIModel = {
                     rightHandSideDataType: '',
                     operator: 'EqualTo'
                 }
-            ]
+            ],
+            doesRequireRecordChangedToMeetCriteria: false
         },
         'ecf6b72e-f33e-48a4-a58c-bdcc87a80e40': {
             guid: 'ecf6b72e-f33e-48a4-a58c-bdcc87a80e40',

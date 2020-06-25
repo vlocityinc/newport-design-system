@@ -761,7 +761,8 @@ export const flowWithAllElementsUIModel = {
                     rightHandSideDataType: 'String',
                     operator: 'EqualTo'
                 }
-            ]
+            ],
+            doesRequireRecordChangedToMeetCriteria: false
         },
         'e8161f40-c0f6-4ad8-87ca-942a76a014f2': {
             guid: 'e8161f40-c0f6-4ad8-87ca-942a76a014f2',
@@ -810,7 +811,8 @@ export const flowWithAllElementsUIModel = {
                     rightHandSideDataType: 'reference',
                     operator: 'EqualTo'
                 }
-            ]
+            ],
+            doesRequireRecordChangedToMeetCriteria: false
         },
         '6e77e9cf-2492-44ca-a088-ee4b8159d478': {
             guid: '6e77e9cf-2492-44ca-a088-ee4b8159d478',

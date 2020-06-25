@@ -59,4 +59,21 @@
             </template>
         </div>
     </builder_platform_interaction-condition-list>
+
+    <div class="slds-border_top ">
+        <div class="slds-form_stacked slds-p-around_small slds-no-flex">
+            <div if:false={hideOutcomeExecutionOptions}>
+                <lightning-radio-group
+                    if:true={showOutcomeExecutionOptionsSelector}
+                    name="outcomeExecutionOptionsRadioGroup"
+                    label={labels.executeOutcomeWhen}
+                    options={outcomeExecuteWhenOptions}
+                    value={outcomeExecutionOption}
+                    onchange={handleOutcomeExecutionOptionOnChange}
+                    class="slds-m-top_x-small executeWhenOption"
+                >
+                </lightning-radio-group>
+            </div>
+        </div>
+    </div>
 </template>

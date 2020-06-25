@@ -77,7 +77,8 @@ export const contactRequestFlowUIModel = {
                     rightHandSideDataType: '',
                     operator: 'EqualTo'
                 }
-            ]
+            ],
+            doesRequireRecordChangedToMeetCriteria: false
         },
         'b93ea139-c9df-49cb-a42e-52c5f496ab07': {
             guid: 'b93ea139-c9df-49cb-a42e-52c5f496ab07',

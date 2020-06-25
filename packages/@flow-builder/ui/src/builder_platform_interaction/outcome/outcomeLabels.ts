@@ -13,6 +13,9 @@ import lhsPlaceholder from '@salesforce/label/FlowBuilderConditionList.lhsPlaceh
 import operatorLabel from '@salesforce/label/FlowBuilderConditionList.operatorLabel';
 import operatorPlaceholder from '@salesforce/label/FlowBuilderConditionList.operatorPlaceholder';
 import rhsLabel from '@salesforce/label/FlowBuilderConditionList.rhsLabel';
+import executeOutcomeWhen from '@salesforce/label/FlowBuilderOutcome.executeOutcomeWhen';
+import everyTimeConditionsMet from '@salesforce/label/FlowBuilderOutcome.everyTimeConditionsMet';
+import onlyWhenChangesMeetConditions from '@salesforce/label/FlowBuilderOutcome.onlyWhenChangesMeetConditions';
 
 export const LABELS = {
     outcomeDetailsHeader,
@@ -27,5 +30,26 @@ export const LABELS = {
     lhsPlaceholder,
     operatorLabel,
     operatorPlaceholder,
-    rhsLabel
+    rhsLabel,
+    executeOutcomeWhen,
+    everyTimeConditionsMet,
+    onlyWhenChangesMeetConditions
+};
+
+export const EXECUTE_OUTCOME_WHEN_OPTION_VALUES = {
+    EVERY_TIME_CONDITION_MET: 'trueEveryTime',
+    ONLY_WHEN_CHANGES_MEET_CONDITIONS: 'trueOnChangeOnly'
+};
+
+export const outcomeExecuteWhenOptions = () => {
+    return [
+        {
+            label: everyTimeConditionsMet,
+            value: EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET
+        },
+        {
+            label: onlyWhenChangesMeetConditions,
+            value: EXECUTE_OUTCOME_WHEN_OPTION_VALUES.ONLY_WHEN_CHANGES_MEET_CONDITIONS
+        }
+    ];
 };

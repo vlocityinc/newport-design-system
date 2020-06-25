@@ -123,7 +123,8 @@ export const autolaunchedFlowUIModel = {
                     rightHandSideDataType: 'reference',
                     operator: 'EqualTo'
                 }
-            ]
+            ],
+            doesRequireRecordChangedToMeetCriteria: false
         },
         'ba8a8e41-3944-4099-9655-065f054e811f': {
             guid: 'ba8a8e41-3944-4099-9655-065f054e811f',

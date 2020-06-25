@@ -7,7 +7,8 @@ import {
     ReorderListEvent,
     AddConditionEvent,
     DeleteConditionEvent,
-    UpdateConditionEvent
+    UpdateConditionEvent,
+    ExecuteWhenOptionChangedEvent
 } from 'builder_platform_interaction/events';
 import { conditionListReducer } from 'builder_platform_interaction/conditionListReducer';
 import { createOutcome } from 'builder_platform_interaction/elementFactory';
@@ -31,6 +32,17 @@ const addOutcome = state => {
 
     const outcomes = addItem(state.outcomes, newOutcome);
 
+    return updateProperties(state, { outcomes });
+};
+
+const changeExecuteWhenOption = (state, event) => {
+    const outcomes = state.outcomes.map(outcome => {
+        return outcome.guid === event.detail.guid
+            ? updateProperties(outcome, {
+                  doesRequireRecordChangedToMeetCriteria: event.detail.doesRequireRecordChangedToMeetCriteria
+              })
+            : outcome;
+    });
     return updateProperties(state, { outcomes });
 };
 
@@ -166,6 +178,8 @@ export const decisionReducer = (state, event) => {
             return deleteCondition(state, event);
         case UpdateConditionEvent.EVENT_NAME:
             return updateCondition(state, event);
+        case ExecuteWhenOptionChangedEvent.EVENT_NAME:
+            return changeExecuteWhenOption(state, event);
         case VALIDATE_ALL:
             return decisionValidation.validateAll(state);
         default:
