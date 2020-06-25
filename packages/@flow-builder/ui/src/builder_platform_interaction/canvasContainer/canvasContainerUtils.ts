@@ -8,7 +8,7 @@ import {
     getLabelAndValueForConnectorPickerOptions,
     createNewConnector
 } from 'builder_platform_interaction/connectorUtils';
-import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingLib';
+import { getDrawingLibInstance } from 'builder_platform_interaction/drawingLib';
 
 /** Private functions */
 
@@ -259,7 +259,7 @@ export const calculateDeletedNodeIdsAndCleanUpDrawingLibInstance = (
                 canvasTemplate &&
                 canvasTemplate.getCanvasElementContainer &&
                 canvasTemplate.getCanvasElementContainer(canvasElementGuid);
-            lib.removeNodeFromLib(canvasElementGuid, canvasElementContainer);
+            getDrawingLibInstance().removeNodeFromLib(canvasElementGuid, canvasElementContainer);
         }
     }
 };
@@ -293,7 +293,7 @@ export const calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance = (
             canvasTemplate &&
             canvasTemplate.getJsPlumbConnectorFromMap &&
             canvasTemplate.getJsPlumbConnectorFromMap(connectorGuid);
-        lib.removeConnectorFromLib(connectorToBeDeleted);
+        getDrawingLibInstance().removeConnectorFromLib(connectorToBeDeleted);
 
         // remove jsPlumbConnector from the map
         if (canvasTemplate && canvasTemplate.deleteJsPlumbConnectorFromMap) {

@@ -17,40 +17,38 @@ const CONNECTOR_OVERLAY = {
 /**
  * @type {object} instance
  */
-let instance = null;
-
-let connectionDecorator = null;
+let drawingLibInstance = null;
 
 /** Wrapper class for drawing library (currently jsplumb) **/
 class DrawingLib {
+    private instance = null;
+
     constructor() {
-        if (instance === null) {
-            instance = window.jsPlumb.getInstance({
-                Container: 'innerCanvas',
-                Connector: [
-                    'Flowchart',
-                    {
-                        gap: 7,
-                        stub: [10, 10],
-                        alwaysRespectStubs: true,
-                        cornerRadius: 12
-                    }
-                ],
-                Anchor: 'Continuous',
-                Endpoint: 'Blank',
-                PaintStyle: {
-                    strokeWidth: 2,
-                    stroke: '#919297',
-                    outlineStroke: 'transparent',
-                    outlineWidth: 5,
-                    joinstyle: 'round'
-                },
-                HoverPaintStyle: {
-                    strokeWidth: 2,
-                    stroke: '#1589ee'
+        this.instance = window.jsPlumb.getInstance({
+            Container: 'innerCanvas',
+            Connector: [
+                'Flowchart',
+                {
+                    gap: 7,
+                    stub: [10, 10],
+                    alwaysRespectStubs: true,
+                    cornerRadius: 12
                 }
-            });
-        }
+            ],
+            Anchor: 'Continuous',
+            Endpoint: 'Blank',
+            PaintStyle: {
+                strokeWidth: 2,
+                stroke: '#919297',
+                outlineStroke: 'transparent',
+                outlineWidth: 5,
+                joinstyle: 'round'
+            },
+            HoverPaintStyle: {
+                strokeWidth: 2,
+                stroke: '#1589ee'
+            }
+        });
     }
 
     connectorStyles = {
@@ -89,7 +87,7 @@ class DrawingLib {
      * @param {String|Object} container - id of the element or the whole element where the jsPlumb instance should live
      */
     setContainer = container => {
-        instance.setContainer(container);
+        this.instance.setContainer(container);
     };
 
     /**
@@ -97,7 +95,7 @@ class DrawingLib {
      * @returns {Object} The HTML container where jsPlumb is set
      */
     getContainer = () => {
-        return instance.getContainer();
+        return this.instance.getContainer();
     };
 
     /**
@@ -106,7 +104,7 @@ class DrawingLib {
      * @param {boolean} repaintAfterwards - Instructs jsPlumb to immediately perform full repaint or not
      */
     setSuspendDrawing = (val, repaintAfterwards) => {
-        instance.setSuspendDrawing(val, repaintAfterwards);
+        this.instance.setSuspendDrawing(val, repaintAfterwards);
     };
 
     /**
@@ -114,7 +112,7 @@ class DrawingLib {
      * @param {Integer} zoomValue - Zoom level for the container
      */
     setZoom = zoomValue => {
-        instance.setZoom(zoomValue);
+        this.instance.setZoom(zoomValue);
     };
 
     /**
@@ -123,7 +121,7 @@ class DrawingLib {
      * @param {Object} config - Configuration for the nodeElement we are setting as draggable
      */
     setDraggable = (nodeElement, config) => {
-        instance.draggable(nodeElement, config);
+        this.instance.draggable(nodeElement, config);
     };
 
     /**
@@ -132,7 +130,7 @@ class DrawingLib {
      * @returns {Boolean} Indicating if the iconSection is a source or not
      */
     isSource = canvasElementContainer => {
-        return instance.isSource(canvasElementContainer);
+        return this.instance.isSource(canvasElementContainer);
     };
 
     /**
@@ -140,7 +138,7 @@ class DrawingLib {
      * @param {String} canvasElementContainer - The canvas element container
      */
     makeSource = canvasElementContainer => {
-        instance.makeSource(canvasElementContainer, {
+        this.instance.makeSource(canvasElementContainer, {
             filter: '.end-point',
             endpoint: 'Dot',
             endpointStyle: {},
@@ -155,7 +153,7 @@ class DrawingLib {
      * @returns {Boolean} Indicating if the iconSection is a source or not
      */
     isTarget = canvasElementContainer => {
-        return instance.isTarget(canvasElementContainer);
+        return this.instance.isTarget(canvasElementContainer);
     };
 
     /**
@@ -163,7 +161,7 @@ class DrawingLib {
      * @param {String} canvasElementContainer - The canvas element container
      */
     makeTarget = canvasElementContainer => {
-        instance.makeTarget(canvasElementContainer, {
+        this.instance.makeTarget(canvasElementContainer, {
             allowLoopback: false,
             maxConnections: -1,
             dropOptions: { hoverClass: 'targetHover' }
@@ -211,11 +209,7 @@ class DrawingLib {
             detachable: false
         };
 
-        if (connectionDecorator) {
-            connectionDecorator(connectionInstance, connectorType);
-        }
-
-        const connection = instance.connect(connectionInstance);
+        const connection = this.instance.connect(connectionInstance);
         if (!connection) {
             // guard in case we're editing a flow with unsupported elements
             return null;
@@ -251,7 +245,7 @@ class DrawingLib {
      * @param {Function} connectionAdded - Function to dispatch an addConnection event to the editor
      */
     setNewConnection = connectionAdded => {
-        instance.bind('beforeDrop', connectionAdded);
+        this.instance.bind('beforeDrop', connectionAdded);
     };
 
     /**
@@ -259,7 +253,7 @@ class DrawingLib {
      * @param {Function} connectionClicked - Function to mark the node as selected
      */
     clickConnection = connectionClicked => {
-        instance.bind('click', connectionClicked);
+        this.instance.bind('click', connectionClicked);
     };
 
     /**
@@ -356,7 +350,7 @@ class DrawingLib {
      * @param {Object} nodeElement - The passed element
      */
     addToDragSelection = nodeElement => {
-        instance.addToDragSelection(nodeElement);
+        this.instance.addToDragSelection(nodeElement);
     };
 
     /**
@@ -364,7 +358,7 @@ class DrawingLib {
      * @param {Object} nodeElement - The passed element
      */
     removeFromDragSelection = nodeElement => {
-        instance.removeFromDragSelection(nodeElement);
+        this.instance.removeFromDragSelection(nodeElement);
     };
 
     /**
@@ -377,14 +371,14 @@ class DrawingLib {
             throw new Error('canvasElementContainer is not defined. It must be defined.');
         }
 
-        instance.removeFromDragSelection(canvasElementContainer);
-        instance.unmakeSource(canvasElementContainer);
-        delete instance.sourceEndpointDefinitions[nodeId];
-        instance.unmakeTarget(canvasElementContainer);
-        delete instance.targetEndpointDefinitions[nodeId];
-        instance.destroyDraggable(canvasElementContainer);
-        instance.destroyDroppable(canvasElementContainer);
-        instance.unmanage(nodeId);
+        this.instance.removeFromDragSelection(canvasElementContainer);
+        this.instance.unmakeSource(canvasElementContainer);
+        delete this.instance.sourceEndpointDefinitions[nodeId];
+        this.instance.unmakeTarget(canvasElementContainer);
+        delete this.instance.targetEndpointDefinitions[nodeId];
+        this.instance.destroyDraggable(canvasElementContainer);
+        this.instance.destroyDroppable(canvasElementContainer);
+        this.instance.unmanage(nodeId);
     };
 
     /**
@@ -396,7 +390,7 @@ class DrawingLib {
             throw new Error('connector is not defined. It must be defined.');
         }
 
-        instance.deleteConnection(connector);
+        this.instance.deleteConnection(connector);
     };
 
     /**
@@ -404,19 +398,24 @@ class DrawingLib {
      * @param {Object} canvasElementContainer - The canvas element container
      */
     revalidate = canvasElementContainer => {
-        instance.revalidate(canvasElementContainer);
+        this.instance.revalidate(canvasElementContainer);
     };
 }
 
 export { CONNECTOR_OVERLAY };
-/** Export of the singleton instance of library **/
-export const drawingLibInstance = new DrawingLib();
 
-/**
- * Sets up a decorator to configure new connections when they're created
- * @param {Function} decorator - Function to configure a connector.
- *                               Accepts (connector, connectorType) and can modify the connector
- */
-export function setConnectionDecorator(decorator) {
-    connectionDecorator = decorator;
-}
+/** Export of the singleton instance of library **/
+export const getDrawingLibInstance = () => {
+    if (drawingLibInstance == null) {
+        drawingLibInstance = new DrawingLib();
+    }
+
+    return drawingLibInstance;
+};
+
+export const clearDrawingLibInstance = () => {
+    if (drawingLibInstance != null) {
+        window.jsPlumb.reset();
+        drawingLibInstance = null;
+    }
+};

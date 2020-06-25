@@ -30,6 +30,7 @@ export {
 
 /** Private singleton variables */
 let storeInstance;
+let storeUnsubscribe;
 
 export default class CanvasContainer extends LightningElement {
     /** tracked variables */
@@ -39,9 +40,13 @@ export default class CanvasContainer extends LightningElement {
     /** Component lifecycle hooks */
     connectedCallback() {
         storeInstance = Store.getStore();
-        storeInstance.subscribe(this.mapCanvasStateToStore);
+        storeUnsubscribe = storeInstance.subscribe(this.mapCanvasStateToStore);
         // Calling this function to initialize the nodes and connectors.
         this.mapCanvasStateToStore();
+    }
+
+    disconnectedCallback() {
+        storeUnsubscribe();
     }
 
     /** Public functions */

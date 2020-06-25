@@ -49,6 +49,8 @@
                 is-lightning-flow-builder={properties.isLightningFlowBuilder}
                 can-only-save-as-new-definition={properties.canOnlySaveAsNewDefinition}
                 has-unsaved-changes={properties.hasUnsavedChanges}
+                ontogglecanvasmode={handleToggleCanvasMode}
+                is-auto-layout-canvas={isAutoLayoutCanvas}
             ></builder_platform_interaction-toolbar>
         </div>
         <div class="slds-col slds-grow slds-grid">
@@ -64,7 +66,7 @@
             ></builder_platform_interaction-left-panel>
             <div if:true={hasCanvasElements} class="slds-col">
                 <builder_platform_interaction-flc-builder-container
-                    if:true={useFixedLayoutCanvas}
+                    if:true={isAutoLayoutCanvas}
                     elements-metadata={elementsMetadata}
                     is-selection-mode={isSelectionMode}
                     is-paste-available={isPasteAvailable}
@@ -83,7 +85,7 @@
                 >
                 </builder_platform_interaction-flc-builder-container>
                 <builder_platform_interaction-canvas-container
-                    if:false={useFixedLayoutCanvas}
+                    if:false={isAutoLayoutCanvas}
                     onaddelement={handleAddCanvasElement}
                     oneditelement={handleEditElement}
                     ondeleteelement={handleElementDelete}

@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
 import { focusOnDockingPanel } from 'builder_platform_interaction/builderUtils';
-import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingLib';
+import { getDrawingLibInstance, clearDrawingLibInstance } from 'builder_platform_interaction/drawingLib';
 import { isMultiSelect, setupCanvasElements, setupConnectors } from './canvasUtils';
 import {
     SCALE_BOUNDS,
@@ -129,8 +129,8 @@ export default class Canvas extends LightningElement {
     constructor() {
         super();
         logPerfMarkStart(canvas);
-        lib.setNewConnection(this.connectionAdded);
-        lib.clickConnection(this.connectionClicked);
+        getDrawingLibInstance().setNewConnection(this.connectionAdded);
+        getDrawingLibInstance().clickConnection(this.connectionClicked);
         this.keyboardInteractions = new KeyboardInteractions();
     }
 
@@ -612,7 +612,7 @@ export default class Canvas extends LightningElement {
             this.currentScale = newScale;
 
             // Informing jsPlumb about the zoom level so that connectors are drawn on the new scale
-            lib.setZoom(this.currentScale);
+            getDrawingLibInstance().setZoom(this.currentScale);
 
             // Updating the scale and left and top properties of the canvas
             this.innerCanvasArea.style.transform = `scale(${this.currentScale})`;
@@ -785,19 +785,20 @@ export default class Canvas extends LightningElement {
 
     disconnectedCallback() {
         this.keyboardInteractions.removeKeyDownEventListener(this.template);
+        clearDrawingLibInstance();
     }
 
     renderedCallback() {
-        if (!lib.getContainer()) {
+        if (!getDrawingLibInstance().getContainer()) {
             this.canvasArea = this.template.querySelector(SELECTORS.CANVAS);
             this.innerCanvasArea = this.template.querySelector(SELECTORS.INNER_CANVAS);
-            lib.setContainer(this.innerCanvasArea);
+            getDrawingLibInstance().setContainer(this.innerCanvasArea);
             this.canvasAreaOffsets = [this.canvasArea.offsetLeft, this.canvasArea.offsetTop];
 
             // Only suspend drawing before performing the bulk operation like loading data on page load
-            lib.setSuspendDrawing(true);
+            getDrawingLibInstance().setSuspendDrawing(true);
             this._setupCanvasElementsAndConnectors();
-            lib.setSuspendDrawing(false, true);
+            getDrawingLibInstance().setSuspendDrawing(false, true);
         } else {
             this._setupCanvasElementsAndConnectors();
         }

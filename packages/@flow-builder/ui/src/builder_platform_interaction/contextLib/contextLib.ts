@@ -34,6 +34,13 @@ export function orgHasFlowBuilderDebug() {
     return context.access && context.access.orgHasFlowBuilderDebug;
 }
 
+/*
+ * @returns true if the auto layout feature is available
+ */
+export function autoLayoutCanvasEnabled() {
+    return !isTestMode();
+}
+
 export function orgHasFlowScreenSections() {
     return context.access && context.access.orgHasFlowScreenSections;
 }
@@ -48,14 +55,12 @@ export function orgHasBeforeSaveEnabled() {
 // TODO: FLC TEMP
 let useFlc;
 export function setUseFixedLayoutCanvas(value) {
-    if (useFlc == null) {
-        useFlc = value;
-    }
+    useFlc = value;
 }
 
 export function useFixedLayoutCanvas() {
-    if (useFlc) {
-        return true;
+    if (useFlc != null) {
+        return useFlc;
     }
     // TODO: use metadata to determine to use FLC or FFC
     const hash = window.location.hash;

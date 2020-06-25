@@ -6,7 +6,7 @@ import oneScreen from './flcUiModels/one-screen';
 import oneElementWithFault from './flcUiModels/one-element-with-fault';
 import decisionOneChildOnEachBranchNextIsNotEnd from './flcUiModels/decision-one-child-on-each-branch-next-is-not-end';
 
-import { convertFromFlc, convertToFlc } from '../flcConversionUtils';
+import { convertFromFlc, convertToFlc, canConvertToFlc } from '../flcConversionUtils';
 
 jest.mock('builder_platform_interaction/elementFactory', () => {
     const flowMetadata = require('builder_platform_interaction/flowMetadata');
@@ -88,5 +88,85 @@ describe('converts', () => {
 
     describe('one element with fault', () => {
         testConversions(oneElementWithFault);
+    });
+
+    describe('can convert to flc', () => {
+        describe('empty flow is valid', () => {
+            const startGuid = 'start';
+            const connectors = [{ source: 'start', target: null }];
+            expect(canConvertToFlc(startGuid, connectors)).toBeTruthy();
+        });
+
+        describe('if flow is valid', () => {
+            const startGuid = 'start';
+            const connectors = [
+                { source: 'start', target: 'if' },
+                { source: 'if', target: 'n1' },
+                { source: 'if', target: 'n2' },
+                { source: 'n1', target: 'merge' },
+                { source: 'n2', target: 'merge' }
+            ];
+            expect(canConvertToFlc(startGuid, connectors)).toBeTruthy();
+        });
+
+        // describe('loop flow is valid', () => {
+        //     const startGuid = 'start';
+        //     const connectors = [
+        //         { source: 'start', target: 'loop' },
+        //         { source: 'loop', target: 'n1' },
+        //         { source: 'loop', target: 'n2' },
+        //         { source: 'n1', target: 'loop' }
+        //     ];
+        //     expect(canConvertToFlc(startGuid, connectors)).toBeTruthy();
+        // });
+
+        describe('cross if flow invalid', () => {
+            const startGuid = 'start';
+            const connectors = [
+                { source: 'start', target: 'if' },
+                { source: 'if', target: 'n1' },
+                { source: 'if', target: 'n2' },
+                { source: 'n1', target: 'n2' },
+                { source: 'n1', target: 'merge' },
+                { source: 'n2', target: 'merge' }
+            ];
+            expect(canConvertToFlc(startGuid, connectors)).toBeFalsy();
+        });
+
+        describe('loop back before if flow is invalid', () => {
+            const startGuid = 'start';
+            const connectors = [
+                { source: 'start', target: 'if' },
+                { source: 'if', target: 'n1' },
+                { source: 'if', target: 'n2' },
+                { source: 'n1', target: 'start' }
+            ];
+            expect(canConvertToFlc(startGuid, connectors)).toBeFalsy();
+        });
+
+        describe('loop back to if flow is invalid', () => {
+            const startGuid = 'start';
+            const connectors = [
+                { source: 'start', target: 'if' },
+                { source: 'if', target: 'n1' },
+                { source: 'if', target: 'n2' },
+                { source: 'n1', target: 'if' }
+            ];
+            expect(canConvertToFlc(startGuid, connectors)).toBeFalsy();
+        });
+
+        describe('jump out of if flow is invalid', () => {
+            const startGuid = 'start';
+            const connectors = [
+                { source: 'start', target: 'if' },
+                { source: 'if', target: 'n1' },
+                { source: 'if', target: 'n2' },
+                { source: 'n1', target: 'merge' },
+                { source: 'n2', target: 'merge' },
+                { source: 'merge', target: 'n3' },
+                { source: 'n1', target: 'n3' }
+            ];
+            expect(canConvertToFlc(startGuid, connectors)).toBeFalsy();
+        });
     });
 });

@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { LightningElement, track, api } from 'lwc';
+
 import {
     getPropertyEditorConfig,
     invokePropertyEditor,
@@ -12,7 +13,7 @@ import {
     invokeDebugEditor,
     hidePopover
 } from 'builder_platform_interaction/builderUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
+import { Store, deepCopy } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
 import {
     updateFlow,
@@ -126,7 +127,7 @@ import {
     FocusOnDockingPanelCommand
 } from 'builder_platform_interaction/commands';
 import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
-import { useFixedLayoutCanvas, setUseFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
+import { setUseFixedLayoutCanvas, autoLayoutCanvasEnabled } from 'builder_platform_interaction/contextLib';
 import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLib';
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
@@ -134,6 +135,8 @@ import { getTriggerType, getElementByGuid } from 'builder_platform_interaction/s
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import { getInvocableActions } from 'builder_platform_interaction/invocableActionLib';
 import { usedBy } from 'builder_platform_interaction/usedByLib';
+import { convertToFlc, convertFromFlc } from 'builder_platform_interaction/flcConversionUtils';
+import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
 let unsubscribeStore;
 let storeInstance;
@@ -307,14 +310,13 @@ export default class Editor extends LightningElement {
     supportedElements = [];
     supportedActions = [];
 
-    /** Whether to use the FLC canvas */
-    get useFixedLayoutCanvas() {
-        return useFixedLayoutCanvas();
-    }
+    // true if we are in auto layout canvas editing mode
+    @track
+    isAutoLayoutCanvas = useFixedLayoutCanvas();
 
     /** Whether canvas elements are available. Don't render the canvas until then. */
     get hasCanvasElements() {
-        return this.hasFlow && storeInstance.getCurrentState().canvasElements.length > 0;
+        return (this.hasFlow && storeInstance.getCurrentState().canvasElements.length > 0) || this.isAutoLayoutCanvas;
     }
 
     /** Indicates if the component has a flow to edit (now or in future) */
@@ -360,7 +362,7 @@ export default class Editor extends LightningElement {
         return (
             this.properties.processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW &&
             (!this.triggerType || this.triggerType === FLOW_TRIGGER_TYPE.NONE) &&
-            !this.useFixedLayoutCanvas
+            !this.isAutoLayoutCanvas
         );
     }
 
@@ -518,11 +520,9 @@ export default class Editor extends LightningElement {
                     this.palette = data;
                 });
 
-                if (useFixedLayoutCanvas()) {
-                    Promise.all([toolboxPromise, palettePromise]).then(() => {
-                        this.elementsMetadata = getElementsMetadata(this.toolboxElements, this.palette);
-                    });
-                }
+                Promise.all([toolboxPromise, palettePromise]).then(() => {
+                    this.elementsMetadata = getElementsMetadata(this.toolboxElements, this.palette);
+                });
 
                 if (!isVersioningDataInitialized()) {
                     loadVersioningData();
@@ -592,6 +592,7 @@ export default class Editor extends LightningElement {
                 // double dispatch is required for loop factory (we need to get the corresponding looped variable for auto output)
                 storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
 
+                this.updateCanvasMode(storeInstance.getCurrentState().elements.root, false);
                 if (!data.metadata) {
                     // service does not return the api name but the api name lower cased
 
@@ -1339,7 +1340,7 @@ export default class Editor extends LightningElement {
                         processType
                     };
                 });
-                if (!useFixedLayoutCanvas() && element && element.isCanvasElement) {
+                if (!this.isAutoLayoutCanvas && element && element.isCanvasElement) {
                     storeInstance.dispatch(
                         selectOnCanvas({
                             guid
@@ -1348,6 +1349,31 @@ export default class Editor extends LightningElement {
                 }
             }
         }
+    };
+
+    /**
+     * Updates the canvas mode and optionally converts the flow model
+     *
+     * @param isAutoLayoutCanvas - Whether to use auto layout canvas
+     * @param shouldConvert - Whether to convert the flow model
+     */
+    updateCanvasMode(isAutoLayoutCanvas: boolean, shouldConvert = false) {
+        this.isAutoLayoutCanvas = isAutoLayoutCanvas;
+        setUseFixedLayoutCanvas(isAutoLayoutCanvas);
+
+        if (shouldConvert) {
+            let newFlowState = deepCopy(storeInstance.getCurrentState());
+            newFlowState = this.isAutoLayoutCanvas ? convertToFlc(newFlowState) : convertFromFlc(newFlowState);
+
+            storeInstance.dispatch(updateFlow(newFlowState));
+        }
+    }
+
+    /**
+     * Handles the ToggleCanvasMode event from the toolbar
+     */
+    handleToggleCanvasMode = () => {
+        this.updateCanvasMode(!this.isAutoLayoutCanvas, true);
     };
 
     /**
@@ -1782,7 +1808,7 @@ export default class Editor extends LightningElement {
                 );
 
                 // TODO: Directly call invokeAutoLayoutWelcomeMat when releasing
-                if (useFixedLayoutCanvas()) {
+                if (autoLayoutCanvasEnabled()) {
                     invokeAutoLayoutWelcomeMat(
                         processType,
                         defaultTriggerType,
@@ -1799,9 +1825,7 @@ export default class Editor extends LightningElement {
     };
 
     setupCanvas = (processType, triggerType, setupInFixedLayoutMode) => {
-        if (setupInFixedLayoutMode) {
-            setUseFixedLayoutCanvas(true);
-        }
+        this.updateCanvasMode(setupInFixedLayoutMode, false);
 
         // create the empty flow for the selected process type
         this.spinners.showFlowMetadataSpinner = true;

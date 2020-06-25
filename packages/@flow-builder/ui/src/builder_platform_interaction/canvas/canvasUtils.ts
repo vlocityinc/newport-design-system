@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingLib';
+import { getDrawingLibInstance } from 'builder_platform_interaction/drawingLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 
@@ -49,7 +49,7 @@ const _setElementAsDraggable = (canvasElementContainerTemplate, canvasElementCon
     const isDraggable = getPropertyOrDefaultToTrue(getConfigForElementType(elementType).nodeConfig, 'isDraggable');
 
     if (isDraggable) {
-        lib.setDraggable(canvasElementContainer, {
+        getDrawingLibInstance().setDraggable(canvasElementContainer, {
             start: dragStart,
             stop: dragStop,
             drag
@@ -78,8 +78,8 @@ const _setElementAsTarget = (canvasElementContainer, elementType) => {
         'canBeConnectorTarget'
     );
 
-    if (canBeTarget && !lib.isTarget(canvasElementContainer)) {
-        lib.makeTarget(canvasElementContainer);
+    if (canBeTarget && !getDrawingLibInstance().isTarget(canvasElementContainer)) {
+        getDrawingLibInstance().makeTarget(canvasElementContainer);
     }
 };
 
@@ -103,8 +103,8 @@ const _setElementAsSource = (canvasElementContainer, elementType) => {
         'canBeConnectorSource'
     );
 
-    if (canBeSource && !lib.isSource(canvasElementContainer)) {
-        lib.makeSource(canvasElementContainer);
+    if (canBeSource && !getDrawingLibInstance().isSource(canvasElementContainer)) {
+        getDrawingLibInstance().makeSource(canvasElementContainer);
     }
 };
 
@@ -143,9 +143,9 @@ const _updateDragSelection = (canvasElementContainer, canvasElementConfig = {}) 
 
     if (_hasCanvasElementSelectionChanged(canvasElementConfig.isSelected, canvasElementContainer)) {
         if (canvasElementConfig.isSelected || canvasElementConfig.addToDragSelection) {
-            lib.addToDragSelection(canvasElementContainer);
+            getDrawingLibInstance().addToDragSelection(canvasElementContainer);
         } else {
-            lib.removeFromDragSelection(canvasElementContainer);
+            getDrawingLibInstance().removeFromDragSelection(canvasElementContainer);
         }
     }
 };
@@ -172,7 +172,7 @@ const _setJsPlumbConnection = (connector, sourceElementContainer, targetElementC
         throw new Error('sourceElementContainer is not defined. It must be defined.');
     }
 
-    const jsPlumbConnector = lib.setExistingConnections(
+    const jsPlumbConnector = getDrawingLibInstance().setExistingConnections(
         sourceElementContainer,
         targetElementContainer,
         connector.label,
@@ -238,6 +238,7 @@ const _updateConnectorStyling = (connector, jsPlumbConnector) => {
         throw new Error('jsPlumbConnector is not defined. It must be defined.');
     }
 
+    const lib = getDrawingLibInstance();
     if (_hasConnectorSelectionChanged(connector.config.isSelected, jsPlumbConnector)) {
         if (connector.config.isSelected) {
             lib.selectConnector(jsPlumbConnector, connector.type);
@@ -365,6 +366,7 @@ export const setupConnectors = (connectors, jsPlumbConnectorMap, canvasElementGu
 
             additionJsPlumbConnectorMap[connectorGuid] = jsPlumbConnector;
 
+            const lib = getDrawingLibInstance();
             if (connector.config && connector.config.isSelected) {
                 lib.selectConnector(jsPlumbConnector, connector.type);
             }

@@ -10,7 +10,7 @@ import {
     EditElementEvent,
     DeleteElementEvent
 } from 'builder_platform_interaction/events';
-import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingLib';
+import { getDrawingLibInstance } from 'builder_platform_interaction/drawingLib';
 import { LABELS } from './nodeLabels';
 import { format, getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
@@ -369,7 +369,7 @@ export default class Node extends LightningElement {
 
         // revalidate the specific canvas element when it is being rendered (in case the canvas element's location has been programmatically updated)
         if (canvasElementContainer && canvasElementContainer.getAttribute('id')) {
-            lib.revalidate(canvasElementContainer);
+            getDrawingLibInstance().revalidate(canvasElementContainer);
         }
 
         const textElementLabel = this.template.querySelector('.text-element-label');

@@ -114,8 +114,58 @@ export function initializeChildren(element) {
  * @param {Object} elements - map of guid -> element
  * @return the start element
  */
-function findStartElement(elements) {
+export function findStartElement(elements) {
     return Object.values(elements).find(ele => ele.elementType === ELEMENT_TYPE.START_ELEMENT);
+}
+
+export function canConvertToFlc(startGuid, connectors) {
+    const elementsMap = {};
+    const startElement = (elementsMap[startGuid] = { guid: startGuid, next: [], prev: [], dominator: null });
+
+    connectors.forEach(connector => {
+        const { source, target } = connector;
+
+        const sourceNode = (elementsMap[source] = elementsMap[source] || { guid: source, next: [], prev: [] });
+        if (target != null) {
+            const targetNode = (elementsMap[target] = elementsMap[target] || { guid: target, next: [], prev: [] });
+
+            sourceNode.next.push(targetNode.guid);
+            targetNode.prev.push(sourceNode.guid);
+        }
+    });
+
+    const res = markNodes(elementsMap, startElement, startGuid);
+
+    return res;
+}
+
+// todo orphan nodes
+function markNodes(elementsMap, element, dominator) {
+    const { prev, next } = element;
+
+    if (prev.length > 1 || next.length > 1) {
+        dominator = element.guid;
+    }
+
+    let isValid = true;
+
+    for (let i = 0; i < next.length; i++) {
+        const child = elementsMap[next[i]];
+        const childDominator = child.dominator;
+
+        if (childDominator == null) {
+            child.dominator = dominator;
+            if (!markNodes(elementsMap, child, dominator)) {
+                isValid = false;
+                break;
+            }
+        } else if (childDominator !== dominator) {
+            isValid = false;
+            break;
+        }
+    }
+
+    return isValid;
 }
 
 /**

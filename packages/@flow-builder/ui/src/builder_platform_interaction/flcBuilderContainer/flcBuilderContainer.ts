@@ -67,6 +67,7 @@ let storeInstance;
  * listens to the store, passing on the updated state when there are updates.
  */
 export default class FlcBuilderContainer extends LightningElement {
+    _storeUnsubsribe;
     _elementsMetadata;
 
     @api
@@ -92,25 +93,26 @@ export default class FlcBuilderContainer extends LightningElement {
 
     rootElement = null;
 
-    renderedCallback() {
-        if (!storeInstance) {
-            storeInstance = Store.getStore();
-            storeInstance.subscribe(this.mapCanvasStateToStore);
-            this.mapCanvasStateToStore();
-        }
+    constructor() {
+        super();
+
+        storeInstance = Store.getStore();
+        this._storeUnsubsribe = storeInstance.subscribe(this.mapCanvasStateToStore);
+    }
+
+    disconnectedCallback() {
+        this._storeUnsubsribe();
     }
 
     mapCanvasStateToStore = () => {
-        if (storeInstance != null) {
-            const storeState = storeInstance.getCurrentState();
-            const { elements } = storeState;
+        const storeState = storeInstance.getCurrentState();
+        const { elements } = storeState;
 
-            this.rootElement =
-                this.rootElement || Object.values(elements).find(ele => ele.elementType === ELEMENT_TYPE.ROOT_ELEMENT);
+        this.rootElement =
+            this.rootElement || Object.values(elements).find(ele => ele.elementType === ELEMENT_TYPE.ROOT_ELEMENT);
 
-            if (this.rootElement && this.elementsMetadata) {
-                this.flowModel = storeState.elements;
-            }
+        if (this.rootElement && this.elementsMetadata) {
+            this.flowModel = storeState.elements;
         }
     };
 

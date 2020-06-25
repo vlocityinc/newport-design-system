@@ -10,14 +10,16 @@ export class KeyboardInteractions {
         this.keyboardService = new KeyboardShortcutServiceImpl(this.commandRegistry);
     }
 
+    keydownListener = event => {
+        this.keyboardService.handleKeydown(event);
+    };
+
     addKeyDownEventListener(template) {
-        template.addEventListener('keydown', event => {
-            this.keyboardService.handleKeydown(event);
-        });
+        template.addEventListener('keydown', this.keydownListener);
     }
 
     removeKeyDownEventListener(template) {
-        template.removeEventListener('keydown');
+        template.removeEventListener('keydown', this.keydownListener);
     }
 
     setupCommandAndShortcut(command, shortcutKeys) {

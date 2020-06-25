@@ -30,4 +30,5 @@ const mock = {
 
 export const setConnectionDecorator = jest.fn();
 
-export { mock as drawingLibInstance };
+export const getDrawingLibInstance = () => mock;
+export const clearDrawingLibInstance = jest.fn();

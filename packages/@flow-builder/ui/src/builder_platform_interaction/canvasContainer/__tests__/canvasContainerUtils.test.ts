@@ -14,7 +14,14 @@ import {
     calculateDeletedNodeIdsAndCleanUpDrawingLibInstance,
     calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance
 } from '../canvasContainerUtils';
-jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
+
+jest.mock('builder_platform_interaction/drawingLib', () => {
+    return {
+        getDrawingLibInstance: () => require('builder_platform_interaction_mocks/drawingLib').getDrawingLibInstance()
+    };
+});
+
+const drawingLibInstance = require('builder_platform_interaction/drawingLib').getDrawingLibInstance();
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
@@ -81,7 +88,6 @@ jest.mock('builder_platform_interaction/connectorUtils', () => {
 });
 
 const { invokePropertyEditor } = require('builder_platform_interaction/builderUtils');
-const { drawingLibInstance } = require('builder_platform_interaction/drawingLib');
 
 describe('Canvas container utils test', () => {
     describe('isEmptyArray function', () => {

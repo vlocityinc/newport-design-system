@@ -5,7 +5,7 @@
 
         <!-- Select Button in FLC -->
         <lightning-button
-            if:true={useFixedLayoutCanvas}
+            if:true={isAutoLayoutCanvas}
             class="test-toolbar-select slds-m-right_xx-small"
             icon-name="utility:multi_select_checkbox"
             label={labels.selectLabel}
@@ -65,7 +65,7 @@
 
         <!-- Duplicate(Copy/Paste) -->
         <lightning-button-icon
-            if:false={useFixedLayoutCanvas}
+            if:false={isAutoLayoutCanvas}
             variant="border-filled"
             icon-name="utility:copy"
             title={labels.duplicateTitle}
@@ -96,14 +96,15 @@
         <div class="slds-builder-toolbar__actions">
             <div
                 class="inline-display slds-p-right_medium slds-is-relative canvas-mode-toggle"
-                if:true={useFixedLayoutCanvas}
+                if:true={autoLayoutCanvasEnabled}
             >
                 <lightning-input
+                    class="toggle-canvas-mode"
                     type="toggle"
                     label={labels.canvasModeToggleLabel}
                     message-toggle-active=""
                     message-toggle-inactive=""
-                    checked={useFixedLayoutCanvas}
+                    checked={isAutoLayoutCanvas}
                     onchange={handleToggleCanvasMode}
                 ></lightning-input>
                 <div

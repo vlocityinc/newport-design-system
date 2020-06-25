@@ -13,7 +13,6 @@ import Toolbar from 'builder_platform_interaction/toolbar';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { LABELS } from '../toolbarLabels';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
-import { setUseFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
 jest.mock('builder_platform_interaction/loggingUtils', () => ({
     logInteraction: jest.fn()
@@ -31,6 +30,7 @@ const createComponentUnderTest = (props = {}) => {
     el.flowVersion = props.flowVersion;
     el.isCutCopyDisabled = props.isCutCopyDisabled;
     el.isSelectionMode = props.isSelectionMode;
+    el.isAutoLayoutCanvas = props.isAutoLayoutCanvas;
 
     document.body.appendChild(el);
     return el;
@@ -286,13 +286,10 @@ describe('toolbar', () => {
 
     describe('Fixed Layout Canvas Mode', () => {
         let toolbarComponent;
-        beforeEach(() => {
-            setUseFixedLayoutCanvas(true);
-        });
 
         describe('Base Mode', () => {
             beforeEach(() => {
-                toolbarComponent = createComponentUnderTest();
+                toolbarComponent = createComponentUnderTest({ isAutoLayoutCanvas: true });
             });
 
             it('Displays Select Button with right configuration when in Base Mode', () => {
@@ -335,7 +332,11 @@ describe('toolbar', () => {
 
         describe('Selection Mode', () => {
             beforeEach(() => {
-                toolbarComponent = createComponentUnderTest({ isCutCopyDisabled: true, isSelectionMode: true });
+                toolbarComponent = createComponentUnderTest({
+                    isCutCopyDisabled: true,
+                    isSelectionMode: true,
+                    isAutoLayoutCanvas: true
+                });
             });
 
             it('Displays Select Button with right configuration when in Selection Mode', () => {
@@ -411,8 +412,7 @@ describe('toolbar', () => {
         beforeEach(() => {
             // as the canvas mode toggling is still under construction, we will only show
             // toggle button is fixed layout canvas
-            setUseFixedLayoutCanvas(true);
-            toolbarComponent = createComponentUnderTest();
+            toolbarComponent = createComponentUnderTest({ isAutoLayoutCanvas: true });
         });
 
         it('Displays the Canvas Mode Toggle with right configuration when in Selection Mode', () => {

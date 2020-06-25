@@ -13,20 +13,21 @@ import {
     ToggleFlowStatusEvent,
     ToggleSelectionModeEvent,
     ClosePropertyEditorEvent,
-    NewDebugFlowEvent
+    NewDebugFlowEvent,
+    ToggleCanvasModeEvent
 } from 'builder_platform_interaction/events';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
-import { orgHasFlowBuilderDebug } from 'builder_platform_interaction/contextLib';
+import { orgHasFlowBuilderDebug, autoLayoutCanvasEnabled } from 'builder_platform_interaction/contextLib';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { LABELS } from './toolbarLabels';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
-import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { invokeModal, modalBodyVariant, modalFooterVariant } from 'builder_platform_interaction/builderUtils';
-
+import { canConvertToFlc, findStartElement } from 'builder_platform_interaction/flcConversionUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
 /**
  * Toolbar component for flow builder.
- *
+ *s
  * @ScrumTeam Process UI
  * @author Ankush Bansal
  * @since 214
@@ -86,6 +87,9 @@ export default class Toolbar extends LightningElement {
     @api
     isNewDebugSupported;
 
+    @api
+    isAutoLayoutCanvas;
+
     labels = LABELS;
 
     statusLabelFromStatus = {
@@ -123,8 +127,8 @@ export default class Toolbar extends LightningElement {
         }
     }
 
-    get useFixedLayoutCanvas() {
-        return useFixedLayoutCanvas();
+    get autoLayoutCanvasEnabled() {
+        return autoLayoutCanvasEnabled();
     }
 
     get selectButtonVariant() {
@@ -340,6 +344,15 @@ export default class Toolbar extends LightningElement {
         if (event.detail.checked) {
             // from ffc to flc
 
+            const { elements, connectors } = Store.getStore().getCurrentState();
+            const startGuid = findStartElement(elements).guid;
+            if (!canConvertToFlc(startGuid, connectors)) {
+                // eslint-disable-next-line no-alert
+                alert('cant convert');
+                this.template.querySelector('.toggle-canvas-mode').checked = false;
+                return;
+            }
+
             invokeModal({
                 headerData: {
                     headerTitle: this.labels.unsavedChangesHeaderTitle
@@ -354,7 +367,8 @@ export default class Toolbar extends LightningElement {
                         buttonLabel: this.labels.cancelButtonLabel
                     },
                     buttonTwo: {
-                        buttonLabel: this.labels.goToAutolayoutButtonLabel
+                        buttonLabel: this.labels.goToAutolayoutButtonLabel,
+                        buttonCallback: () => this.dispatchEvent(new ToggleCanvasModeEvent())
                     }
                 },
                 headerClass: 'slds-theme_alert-texture slds-theme_warning',
@@ -379,7 +393,8 @@ export default class Toolbar extends LightningElement {
                 },
                 footerData: {
                     buttonOne: {
-                        buttonLabel: this.labels.okayButtonLabel
+                        buttonLabel: this.labels.okayButtonLabel,
+                        buttonCallback: () => this.dispatchEvent(new ToggleCanvasModeEvent())
                     },
                     footerVariant: modalFooterVariant.PROMPT
                 },

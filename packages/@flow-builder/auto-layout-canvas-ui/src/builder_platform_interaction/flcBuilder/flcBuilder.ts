@@ -65,6 +65,9 @@ function debounce(fct, wait) {
 }
 
 export default class FlcBuilder extends LightningElement {
+    /* if the builder has been disconnected */
+    _isDisconnected = false;
+
     /* the canvas element (ie the viewport) */
     _canvasElement;
 
@@ -404,6 +407,11 @@ export default class FlcBuilder extends LightningElement {
      * @param {boolean} isFirstRender - true if it's the first time rendering the flow
      */
     rerender = isFirstRender => {
+        if (this._isDisconnected) {
+            // return if disconnected; this may occur because of debouncing
+            return;
+        }
+
         calculateFlowLayout(this._flowRenderContext);
 
         if (isFirstRender || this.disableAnimation) {
@@ -541,6 +549,10 @@ export default class FlcBuilder extends LightningElement {
         this._panzoom.smoothZoomAbs(left + x, top + y, scale);
         this.scale = scale;
     };
+
+    disconnectedCallback() {
+        this._isDisconnected = true;
+    }
 
     handleCanvasClick = event => {
         event.stopPropagation();
