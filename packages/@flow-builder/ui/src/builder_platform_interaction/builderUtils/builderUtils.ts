@@ -483,7 +483,7 @@ export function invokeDebugEditor(attributes) {
 
     showDebugEditorPopover(
         'builder_platform_interaction:modalHeader',
-        'builder_platform_interaction:debugEditorPopover',
+        'builder_platform_interaction:debugEditor',
         'builder_platform_interaction:modalFooter',
         {
             flowName,
@@ -618,7 +618,8 @@ function showDebugEditorPopover(
         }
     });
     const bodyPromise = createComponentPromise(cmpBody, {
-        flowName: cmpAttributes.flowName
+        flowName: cmpAttributes.flowName,
+        flowId: cmpAttributes.flowId
     });
     const invokeModalWithComponentsOnCreateOverride = (modal, data) => {
         onCreatePopover(modal);

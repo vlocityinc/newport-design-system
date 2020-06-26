@@ -1,0 +1,94 @@
+<aura:component controller="serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController">
+
+    <!-- Public Attributes -->
+    <aura:attribute name="flowName" type="String"/>
+    <aura:attribute name="flowId" type="String"/>
+
+    <!-- Values for component capabilities -->
+    <aura:attribute name="showIsDebugAsUserAllowed" type="Boolean" default="false"/>
+    <aura:attribute name="showIsDebugAsUserAllowedInNonPrd" type="Boolean" default="true"/>
+    <aura:attribute name="showDebugAsUserLookup" type="Boolean" default="false"/> 
+    <aura:attribute name="runAsHelptext" type="String"/>
+    <aura:attribute name="runAsSelected" type="String"/>
+    <aura:attribute name="hasInputs" type="Boolean" default="false"/>
+
+    <!-- Methods -->
+    <aura:method name="getDebugAsUserId" action="{!c.getDebugAsUserId}" description="User id if the RunAs user"/>
+    <aura:method name="getDebugInput" action="{!c.getDebugInput}"/>
+    
+    <!-- Handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <div class="slds-p-vertical_x-large slds-p-horizontal_large">
+        <!-- Debug Options -->
+        <div class="slds-p-bottom_medium">
+            <h2>{#$Label.FlowDebug.FlowProperties}</h2>
+        </div>
+        
+        <lightning:input class="slds-p-bottom_small" type="checkbox" 
+                aura:id="isRunLatestVersionBox" label="{!$Label.FlowDebug.UseLatest}" 
+                checked="true"/>
+        
+        <lightning:input class="slds-p-bottom_small" type="checkbox"
+                aura:id="isShowDebugInfoBox" label="{!$Label.FlowDebug.ShowDebugInfo}" 
+                checked="true" fieldLevelHelp="{!$Label.FlowDebug.ShowDebugInfoHelp}"/>
+        
+        <lightning:input class="slds-p-bottom_small" type="checkbox" 
+                aura:id="isDebugAsUserAllowedBox" label="{!$Label.FlowDebug.IsDebugAsUserAllowed}" 
+                checked="false" onchange="{!c.handleDebugAsUserCheck}"
+                fieldLevelHelp="{!v.runAsHelptext}" disabled="{!(!v.showIsDebugAsUserAllowed || !v.showIsDebugAsUserAllowedInNonPrd)}"/>
+        
+        <aura:if isTrue="{!v.showDebugAsUserLookup}">
+		    <div class="slds-p-bottom_small" name="debugAsUserList">
+                  <forceSearch:inputLookupDesktop
+                            aura:id="debugAsUserList"
+                            label="{!$Label.FlowDebug.RunThisFlowAs}"
+                            entities="[{ name: 'User' }]"
+                            maxRows="5"
+                            enableCreateNew="false" 
+                            maxValues="1"
+                            source="Event"      
+                            displayErrorOnBlur="false"
+                            values="{!v.runAsSelected}"/>
+		    </div>
+		</aura:if>
+
+        <lightning:input class="slds-p-bottom_small" type="checkbox" 
+                aura:id="isEnableRollbackModeBox" label="{!$Label.FlowDebug.EnableRollbackMode}" 
+                checked="false"/>
+        <lightning:input class="slds-p-bottom_small" type="checkbox"
+                aura:id="isGovernorLimitsBox" label="{!$Label.FlowDebug.GovernorLimits}"
+                checked="false"/>
+
+        <!-- Input Variables -->
+        <div class="slds-p-top_medium">
+            <h2>{#$Label.FlowDebug.InputValues}</h2>
+        </div>
+
+        <aura:if isTrue="{!v.hasInputs}">
+            <div class="slds-p-vertical_medium">{#$Label.FlowDebug.InputValuesInfo}</div>
+            <aura:set attribute="else">
+                <div class="slds-p-vertical_medium">{#$Label.FlowDebug.InputValuesNone}</div>
+            </aura:set>
+        </aura:if>
+
+        <div class="slds-is-relative">
+            <div aria-hidden="false" aura:id="flowInput" class="content">{!v.body}</div>  
+        </div>
+    </div>
+
+    <!-- Libraries -->
+    <aura:import library="flowruntime:utils" property="utils"/>
+    <!-- Dependencies -->
+    <aura:dependency resource="markup://flowruntime:textInput" type="COMPONENT"/>
+    <aura:dependency resource="markup://flowruntime:numberInput" type="COMPONENT"/>
+    <aura:dependency resource="markup://flowruntime:dateInput" type="COMPONENT"/>
+    <aura:dependency resource="markup://flowruntime:dateTimeInput" type="COMPONENT"/>
+    <aura:dependency resource="markup://flowruntime:currencyInput" type="COMPONENT"/>
+    <aura:dependency resource="markup://flowruntime:checkboxInput" type="COMPONENT"/>
+    <aura:dependency resource="markup://flowruntime:dropDownInput" type="COMPONENT"/>
+    <aura:dependency resource="markup://flowruntime:radioButtonInput" type="COMPONENT"/>
+    <aura:dependency resource="markup://flowruntime:multiCheckbox" type="COMPONENT"/>
+    <aura:dependency resource="markup://flowruntime:lookupInput" type="COMPONENT"/>
+
+</aura:component>

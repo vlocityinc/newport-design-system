@@ -803,7 +803,7 @@ export default class Editor extends LightningElement {
      * Callback after run debug interivew initiated by the debug modal
      */
     runDebugInterviewCallback = debugModal => {
-        const debugOptions = debugModal.get('v.body')[0].get('v.debugInputObject') || {};
+        const debugOptions = debugModal.get('v.body')[0].getDebugInput() || {};
         this.spinners.showDebugSpinner = true;
         const startInterviewTime = new Date();
         let selectedUserId = null;

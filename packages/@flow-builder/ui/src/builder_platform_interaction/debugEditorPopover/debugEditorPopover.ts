@@ -12,7 +12,6 @@ export default class DebugEditorPopover extends LightningElement {
     @track
     debugInput = {
         inputs: [],
-        name,
         runLatestVersion: true,
         showDebugInfo: true,
         enableRollback: false,
