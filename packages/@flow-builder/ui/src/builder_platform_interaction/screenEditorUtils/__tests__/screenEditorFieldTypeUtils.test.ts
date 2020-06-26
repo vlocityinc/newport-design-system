@@ -6,7 +6,6 @@ import {
 } from 'builder_platform_interaction/screenEditorUtils';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import * as contextLibMock from 'builder_platform_interaction/contextLib';
 
 jest.mock('builder_platform_interaction/flowExtensionLib', () => {
     const componentInstanceFieldType = jest.requireActual('../screenEditorExtensionUtils').COMPONENT_INSTANCE;
@@ -76,20 +75,6 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 jest.mock('builder_platform_interaction/contextLib', () => {
     return Object.assign({}, require('builder_platform_interaction_mocks/contextLib'), {
         orgHasFlowScreenSections: jest.fn()
-    });
-});
-
-describe('getAllScreenFieldTypes function', () => {
-    it('when sections perm is disabled, section field type is not displayed', () => {
-        contextLibMock.orgHasFlowScreenSections.mockReturnValue(false);
-        const fieldType = getScreenFieldTypeByName('Section');
-        expect(fieldType).toBeUndefined();
-    });
-
-    it('when section perm is enabled, section field type is displayed', () => {
-        contextLibMock.orgHasFlowScreenSections.mockReturnValue(true);
-        const fieldType = getScreenFieldTypeByName('Section');
-        expect(fieldType).toBeDefined();
     });
 });
 

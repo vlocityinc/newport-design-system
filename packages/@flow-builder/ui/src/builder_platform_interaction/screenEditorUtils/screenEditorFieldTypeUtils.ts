@@ -7,7 +7,6 @@ import {
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { orgHasFlowScreenSections } from 'builder_platform_interaction/contextLib';
 
 const FEROV_TYPES = {
     String: ['TEXT', 'STRING', 'PASSWORD', 'PASSWORDFIELD'],
@@ -146,6 +145,13 @@ const screenFieldTypes: ScreenFieldType[] = [
         icon: 'standard:display_text',
         category: LABELS.fieldCategoryDisplay,
         type: 'String'
+    },
+    {
+        name: 'Section',
+        fieldType: 'RegionContainer',
+        label: LABELS.fieldTypeLabelSection,
+        icon: 'standard:display_text',
+        category: LABELS.fieldCategoryDisplay
     }
 ];
 
@@ -154,9 +160,6 @@ const screenFieldTypes: ScreenFieldType[] = [
  * @return {array} - The field types
  */
 export function getAllScreenFieldTypes() {
-    if (orgHasFlowScreenSections()) {
-        return screenFieldTypes.concat(getSectionFieldType());
-    }
     return screenFieldTypes;
 }
 

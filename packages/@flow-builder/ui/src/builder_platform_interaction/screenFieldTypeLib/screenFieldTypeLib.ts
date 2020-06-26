@@ -1,28 +1,14 @@
 import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
 import { SERVER_ACTION_TYPE, fetchOnce } from 'builder_platform_interaction/serverDataLib';
+import { orgHasFlowScreenSections } from 'builder_platform_interaction/contextLib';
+import { getSectionFieldType } from 'builder_platform_interaction/screenEditorUtils';
 
 const SCREEN_FIELD_TYPES = 'SCREEN_FIELD_TYPES';
-
-let supportedScreenFieldTypes: Array<string> = [];
-
-/**
- * Sets the names of all screen field types
- */
-export function setSupportedScreenFieldTypes(fieldTypes: Array<any>) {
-    supportedScreenFieldTypes = fieldTypes.map(fieldType => fieldType.name);
-}
-
-/**
- * Return the names of all screen field types
- */
-export function getSupportedScreenFieldTypes(): Array<string> {
-    return supportedScreenFieldTypes;
-}
 
 /**
  * Get the supported screen field types
  */
-export function getScreenFieldTypes(flowProcessType: string, flowTriggerType: string): Promise<any> {
+export function getSupportedScreenFieldTypes(flowProcessType: string, flowTriggerType: string): Promise<any> {
     logPerfTransactionStart(SCREEN_FIELD_TYPES, null, null);
     const param = { flowProcessType, flowTriggerType };
     return fetchOnce(SERVER_ACTION_TYPE.GET_SUPPORTED_SCREEN_FIELD_TYPES, param)
@@ -34,8 +20,15 @@ export function getScreenFieldTypes(flowProcessType: string, flowTriggerType: st
                 },
                 null
             );
-            setSupportedScreenFieldTypes(data);
-            return data;
+
+            if (orgHasFlowScreenSections()) {
+                return data;
+            }
+
+            // if flowSectionsAndColumns perm is off, remove section from supported screen field types
+            // so that it will not show up in the screen left palette
+            const sectionFieldType = getSectionFieldType().fieldType;
+            return data.filter(type => type.name !== sectionFieldType);
         })
         .catch((/* error */) => {
             // Handle error case here if something is needed beyond our automatic generic error modal popup

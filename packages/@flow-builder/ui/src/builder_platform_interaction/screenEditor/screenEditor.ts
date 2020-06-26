@@ -17,7 +17,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { hidePopover } from 'builder_platform_interaction/builderUtils';
 import { setScreenElement } from 'builder_platform_interaction/expressionUtils';
-import { getScreenFieldTypes } from 'builder_platform_interaction/screenFieldTypeLib';
+import { getSupportedScreenFieldTypes } from 'builder_platform_interaction/screenFieldTypeLib';
 import { getTriggerType } from 'builder_platform_interaction/storeUtils';
 
 /**
@@ -142,10 +142,10 @@ export default class ScreenEditor extends LightningElement {
      */
     processPaletteExtensions() {
         const triggerType = getTriggerType();
-        getScreenFieldTypes(this.processType, triggerType).then(screenFieldTypes => {
-            if (screenFieldTypes) {
+        getSupportedScreenFieldTypes(this.processType, triggerType).then(supportedTypes => {
+            if (supportedTypes) {
                 this.screenFieldTypes = getAllScreenFieldTypes().filter(type =>
-                    screenFieldTypes.some(supportedType => {
+                    supportedTypes.some(supportedType => {
                         return supportedType.name === type.name || supportedType.name === type.fieldType;
                     })
                 );
