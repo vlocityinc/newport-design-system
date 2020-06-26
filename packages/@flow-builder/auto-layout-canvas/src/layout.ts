@@ -384,7 +384,7 @@ function calculateBranchLayout(
         connectorVariant: nextNodeConnectorVariant
     });
 
-    let faultLayout;
+    const faultLayouts = [];
 
     let isTerminal = false;
 
@@ -399,10 +399,11 @@ function calculateBranchLayout(
             isTerminal || (nodeType === ElementType.END && parentNodeModel.next != null) || childIndex === FAULT_INDEX;
 
         if (node.fault != null) {
-            faultLayout = getBranchLayout(node.guid, FAULT_INDEX, nodeLayoutMap).layout;
+            const faultLayoutObject = getBranchLayout(node.guid, FAULT_INDEX, nodeLayoutMap).layout;
 
             // extra height so that the fault doesn't overlap with the merge connectors
-            faultLayout.y = height + layoutConfig.grid.h;
+            faultLayoutObject.y = height + layoutConfig.grid.h;
+            faultLayouts.push(faultLayoutObject);
         }
 
         layout.y = height;
@@ -415,12 +416,12 @@ function calculateBranchLayout(
         node = next ? resolveNode(flowModel, next) : null;
     }
 
-    // if we have a fault, we might need to extend the branch height, otherwise it could overlap the merge connectors
-    if (faultLayout != null) {
+    // Updating layout for all the Fault Branches in a given flow (straight line) such that they don't overlap
+    faultLayouts.reverse().forEach(faultLayout => {
         height = Math.max(faultLayout.y + faultLayout.h, height);
         faultLayout.x = rightWidth + faultLayout.offsetX;
-        rightWidth = rightWidth + faultLayout.w;
-    }
+        rightWidth += faultLayout.w;
+    });
 
     // for faults and terminal branches we need to some extra height so that it won't overlap the merge connectors
     if (isTerminal) {

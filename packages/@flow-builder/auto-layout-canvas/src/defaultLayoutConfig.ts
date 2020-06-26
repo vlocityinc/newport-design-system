@@ -79,7 +79,11 @@ export function getDefaultLayoutConfig(): LayoutConfig {
                                 edge: {
                                     svgMarginTop: gridHeight
                                 },
-                                center: { svgMarginBottom: -gridHeight }
+                                center: { svgMarginBottom: -gridHeight },
+                                fault: {
+                                    labelOffset: gridHeight,
+                                    svgMarginTop: gridHeight
+                                }
                             }
                         },
                         branchHeadEmpty: {
@@ -93,7 +97,11 @@ export function getDefaultLayoutConfig(): LayoutConfig {
                                 loop: {
                                     svgMarginBottom: 2 * gridHeight
                                 },
-                                center: { svgMarginBottom: -gridHeight }
+                                center: { svgMarginBottom: -gridHeight },
+                                fault: {
+                                    labelOffset: gridHeight,
+                                    svgMarginTop: gridHeight
+                                }
                             }
                         }
                     }

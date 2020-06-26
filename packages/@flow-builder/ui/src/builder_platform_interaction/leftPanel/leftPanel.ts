@@ -221,6 +221,12 @@ export default class LeftPanel extends LightningElement {
         }
     }
 
+    connectedCallback() {
+        const { elements = {} } = storeInstance.getCurrentState();
+        this.canvasElements = getElementSections(elements, this.searchString);
+        this.nonCanvasElements = getResourceSections(elements, this.searchString);
+    }
+
     disconnectedCallback() {
         unsubscribeStore();
     }

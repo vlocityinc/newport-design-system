@@ -18,7 +18,7 @@
         >
         </builder_platform_interaction-flc-compound-node>
     </template>
-    <template if:true={faultFlow}>
+    <template for:each={faultFlows} for:item="faultFlow">
         <builder_platform_interaction-flc-flow
             key={faultFlow.key}
             style={faultFlow.style}

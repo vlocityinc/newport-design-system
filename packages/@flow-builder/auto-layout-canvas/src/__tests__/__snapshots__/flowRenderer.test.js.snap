@@ -41,6 +41,10 @@ Object {
                 "edge": Object {
                   "svgMarginTop": 24,
                 },
+                "fault": Object {
+                  "labelOffset": 24,
+                  "svgMarginTop": 24,
+                },
               },
             },
             "branchHeadEmpty": Object {
@@ -52,6 +56,10 @@ Object {
                 },
                 "edge": Object {
                   "svgMarginBottom": 24,
+                  "svgMarginTop": 24,
+                },
+                "fault": Object {
+                  "labelOffset": 24,
                   "svgMarginTop": 24,
                 },
                 "loop": Object {
@@ -265,6 +273,10 @@ Object {
                 "edge": Object {
                   "svgMarginTop": 24,
                 },
+                "fault": Object {
+                  "labelOffset": 24,
+                  "svgMarginTop": 24,
+                },
               },
             },
             "branchHeadEmpty": Object {
@@ -276,6 +288,10 @@ Object {
                 },
                 "edge": Object {
                   "svgMarginBottom": 24,
+                  "svgMarginTop": 24,
+                },
+                "fault": Object {
+                  "labelOffset": 24,
                   "svgMarginTop": 24,
                 },
                 "loop": Object {
@@ -468,6 +484,10 @@ L 3, 120",
                         "edge": Object {
                           "svgMarginTop": 24,
                         },
+                        "fault": Object {
+                          "labelOffset": 24,
+                          "svgMarginTop": 24,
+                        },
                       },
                     },
                     "branchHeadEmpty": Object {
@@ -479,6 +499,10 @@ L 3, 120",
                         },
                         "edge": Object {
                           "svgMarginBottom": 24,
+                          "svgMarginTop": 24,
+                        },
+                        "fault": Object {
+                          "labelOffset": 24,
                           "svgMarginTop": 24,
                         },
                         "loop": Object {
@@ -700,6 +724,10 @@ L 3, 144",
                         "edge": Object {
                           "svgMarginTop": 24,
                         },
+                        "fault": Object {
+                          "labelOffset": 24,
+                          "svgMarginTop": 24,
+                        },
                       },
                     },
                     "branchHeadEmpty": Object {
@@ -711,6 +739,10 @@ L 3, 144",
                         },
                         "edge": Object {
                           "svgMarginBottom": 24,
+                          "svgMarginTop": 24,
+                        },
+                        "fault": Object {
+                          "labelOffset": 24,
                           "svgMarginTop": 24,
                         },
                         "loop": Object {
@@ -1073,6 +1105,10 @@ Object {
                 "edge": Object {
                   "svgMarginTop": 24,
                 },
+                "fault": Object {
+                  "labelOffset": 24,
+                  "svgMarginTop": 24,
+                },
               },
             },
             "branchHeadEmpty": Object {
@@ -1084,6 +1120,10 @@ Object {
                 },
                 "edge": Object {
                   "svgMarginBottom": 24,
+                  "svgMarginTop": 24,
+                },
+                "fault": Object {
+                  "labelOffset": 24,
                   "svgMarginTop": 24,
                 },
                 "loop": Object {
@@ -1276,6 +1316,10 @@ L 3, 120",
                         "edge": Object {
                           "svgMarginTop": 24,
                         },
+                        "fault": Object {
+                          "labelOffset": 24,
+                          "svgMarginTop": 24,
+                        },
                       },
                     },
                     "branchHeadEmpty": Object {
@@ -1287,6 +1331,10 @@ L 3, 120",
                         },
                         "edge": Object {
                           "svgMarginBottom": 24,
+                          "svgMarginTop": 24,
+                        },
+                        "fault": Object {
+                          "labelOffset": 24,
                           "svgMarginTop": 24,
                         },
                         "loop": Object {
@@ -1454,6 +1502,10 @@ L 3, 96",
                         "edge": Object {
                           "svgMarginTop": 24,
                         },
+                        "fault": Object {
+                          "labelOffset": 24,
+                          "svgMarginTop": 24,
+                        },
                       },
                     },
                     "branchHeadEmpty": Object {
@@ -1465,6 +1517,10 @@ L 3, 96",
                         },
                         "edge": Object {
                           "svgMarginBottom": 24,
+                          "svgMarginTop": 24,
+                        },
+                        "fault": Object {
+                          "labelOffset": 24,
                           "svgMarginTop": 24,
                         },
                         "loop": Object {
@@ -1827,6 +1883,10 @@ Object {
                 "edge": Object {
                   "svgMarginTop": 24,
                 },
+                "fault": Object {
+                  "labelOffset": 24,
+                  "svgMarginTop": 24,
+                },
               },
             },
             "branchHeadEmpty": Object {
@@ -1838,6 +1898,10 @@ Object {
                 },
                 "edge": Object {
                   "svgMarginBottom": 24,
+                  "svgMarginTop": 24,
+                },
+                "fault": Object {
+                  "labelOffset": 24,
                   "svgMarginTop": 24,
                 },
                 "loop": Object {
@@ -2030,6 +2094,10 @@ L 3, 120",
                         "edge": Object {
                           "svgMarginTop": 24,
                         },
+                        "fault": Object {
+                          "labelOffset": 24,
+                          "svgMarginTop": 24,
+                        },
                       },
                     },
                     "branchHeadEmpty": Object {
@@ -2041,6 +2109,10 @@ L 3, 120",
                         },
                         "edge": Object {
                           "svgMarginBottom": 24,
+                          "svgMarginTop": 24,
+                        },
+                        "fault": Object {
+                          "labelOffset": 24,
                           "svgMarginTop": 24,
                         },
                         "loop": Object {
@@ -2208,6 +2280,10 @@ L 3, 96",
                         "edge": Object {
                           "svgMarginTop": 24,
                         },
+                        "fault": Object {
+                          "labelOffset": 24,
+                          "svgMarginTop": 24,
+                        },
                       },
                     },
                     "branchHeadEmpty": Object {
@@ -2219,6 +2295,10 @@ L 3, 96",
                         },
                         "edge": Object {
                           "svgMarginBottom": 24,
+                          "svgMarginTop": 24,
+                        },
+                        "fault": Object {
+                          "labelOffset": 24,
                           "svgMarginTop": 24,
                         },
                         "loop": Object {
@@ -2386,6 +2466,10 @@ L 3, 168",
                         "edge": Object {
                           "svgMarginTop": 24,
                         },
+                        "fault": Object {
+                          "labelOffset": 24,
+                          "svgMarginTop": 24,
+                        },
                       },
                     },
                     "branchHeadEmpty": Object {
@@ -2397,6 +2481,10 @@ L 3, 168",
                         },
                         "edge": Object {
                           "svgMarginBottom": 24,
+                          "svgMarginTop": 24,
+                        },
+                        "fault": Object {
+                          "labelOffset": 24,
                           "svgMarginTop": 24,
                         },
                         "loop": Object {
