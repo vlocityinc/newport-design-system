@@ -1,8 +1,0 @@
-<template>
-    <template if:true={isBoolean}>
-        <lightning-input type="checkbox" label={variable.name} onchange={inputEvent}></lightning-input>
-    </template>
-    <template if:false={isBoolean}>
-        <lightning-input type={variable.dataType} oncommit={inputEvent} label={variable.name}></lightning-input>
-    </template>
-</template>

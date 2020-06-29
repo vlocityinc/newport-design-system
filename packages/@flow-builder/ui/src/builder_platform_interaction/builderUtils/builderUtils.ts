@@ -490,7 +490,7 @@ export function invokeDebugEditor(attributes) {
             flowId
         },
         {
-            flavor: 'medium slds-modal_medium'
+            flavor: 'small slds-modal_medium'
         },
         attributes.runDebugInterviewCallback
     );

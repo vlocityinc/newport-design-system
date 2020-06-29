@@ -58,8 +58,8 @@
                 var validationMap = response.getReturnValue();
                 cmp.set('v.showIsDebugAsUserAllowed', validationMap['showIsDebugAsUserAllowed']);
                 cmp.set('v.showIsDebugAsUserAllowedInNonPrd', validationMap['showIsDebugAsUserAllowedInNonPrd']);
-                this.setRunAsHelptext(cmp);
             }
+            this.setRunAsHelptext(cmp);
         });
         $A.enqueueAction(action);
     },

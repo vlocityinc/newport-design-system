@@ -1,0 +1,13 @@
+.THIS h2 {
+    color: #080707;
+}
+
+.THIS .text {
+    color: #3e3e3c;
+}
+
+.THIS .flowruntimeInputWrapper,
+.THIS .flowruntimeLookupInput {
+    padding: 16px 0 0 0;
+    margin: 0;
+}
