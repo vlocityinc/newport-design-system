@@ -112,6 +112,18 @@ export const getTriggerType = () => {
 };
 
 /**
+ * Returns the record trigger type for the current flow
+ * @returns Create, CreateOrUpdate, Update, Delete
+ */
+export const getRecordTriggerType = (): string => {
+    const startElement = Object.values(Store.getStore().getCurrentState().elements).find(element => {
+        return element.elementType === ELEMENT_TYPE.START_ELEMENT;
+    });
+
+    return startElement ? startElement.recordTriggerType : undefined;
+};
+
+/**
  * Returns the process type for the current flow
  * @returns {String}
  */

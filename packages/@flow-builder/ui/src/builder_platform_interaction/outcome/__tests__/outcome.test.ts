@@ -11,6 +11,16 @@ jest.mock('builder_platform_interaction/ferToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/ferToFerovExpressionBuilder')
 );
 
+jest.mock('builder_platform_interaction/conditionListUtils', () => {
+    return {
+        getConditionsWithPrefixes: jest
+            .fn()
+            .mockName('getConditionsWithPrefixes')
+            .mockReturnValue([]),
+        showDeleteCondition: jest.fn().mockName('showDeleteCondition')
+    };
+});
+
 const outcomeWithOneConditional = {
     label: { value: 'Test Name of the Outcome' },
     name: { value: 'Test Dev Name' },
@@ -18,13 +28,41 @@ const outcomeWithOneConditional = {
     conditionLogic: { value: '1' },
     conditions: [{ name: 'condition1', rowIndex: 0 }]
 };
-const outcomeWithOneConditionalAndExecuteWhenOption = {
+const outcomeWithShowOptionsAndPriorConditionSet = {
     label: { value: 'Test Name of the Outcome' },
     name: { value: 'Test Dev Name' },
     guid: { value: '123' },
     conditionLogic: { value: '1' },
     conditions: [{ name: 'condition1', rowIndex: 0 }],
-    doesRequireRecordChangedToMeetCriteria: true
+    doesRequireRecordChangedToMeetCriteria: true,
+    showOutcomeExecutionOptions: true
+};
+const outcomeHideOutcomeExecuteOptionsOnly = {
+    label: { value: 'Test Name of the Outcome' },
+    name: { value: 'Test Dev Name' },
+    guid: { value: '123' },
+    conditionLogic: { value: '1' },
+    conditions: [{ name: 'condition1', rowIndex: 0 }],
+    doesRequireRecordChangedToMeetCriteria: false,
+    showOutcomeExecutionOptions: false
+};
+const outcomeHideOutcomeExecuteOptionsAndPriorFalseCondition1 = {
+    label: { value: 'Test Name of the Outcome' },
+    name: { value: 'Test Dev Name' },
+    guid: { value: '123' },
+    conditionLogic: { value: '1' },
+    conditions: [{ name: 'condition1', rowIndex: 0 }],
+    doesRequireRecordChangedToMeetCriteria: false,
+    showOutcomeExecutionOptions: false
+};
+const outcomeHideOutcomeExecuteOptionsAndPriorFalseCondition2 = {
+    label: { value: 'Test Name of the Outcome' },
+    name: { value: 'Test Dev Name' },
+    guid: { value: '123' },
+    conditionLogic: { value: '1' },
+    conditions: [{ name: 'condition1', rowIndex: 0 }],
+    doesRequireRecordChangedToMeetCriteria: true,
+    showOutcomeExecutionOptions: false
 };
 const outcomeWithThreeConditionals = {
     label: { value: 'Test Name of the Outcome' },
@@ -53,16 +91,6 @@ const selectors = {
     label: '.label'
 };
 
-jest.mock('builder_platform_interaction/conditionListUtils', () => {
-    return {
-        getConditionsWithPrefixes: jest
-            .fn()
-            .mockName('getConditionsWithPrefixes')
-            .mockReturnValue([]),
-        showDeleteCondition: jest.fn().mockName('showDeleteCondition')
-    };
-});
-
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-outcome', {
         is: Outcome
@@ -75,7 +103,7 @@ const createComponentUnderTest = () => {
     return el;
 };
 
-const getExecuteWhenOptionEvent = outcomeExecuteWhenOption => {
+const onChangeExecuteWhenOptionEvent = outcomeExecuteWhenOption => {
     return new CustomEvent('change', {
         detail: {
             value: outcomeExecuteWhenOption
@@ -115,9 +143,27 @@ describe('Outcome', () => {
 
             expect(removeButton).toBeNull();
         });
-        it('has labels resolved for radio button group', async () => {
+        it('does not show the executeWhenOptions show options is not set (and prior condition false is not set)', async () => {
             const element = createComponentUnderTest();
-            element.outcome = outcomeWithOneConditional;
+            element.outcome = outcomeHideOutcomeExecuteOptionsAndPriorFalseCondition1;
+
+            await ticks(1);
+            const executeWhenOptionRadioGroup = element.shadowRoot.querySelector(selectors.radioButton);
+            expect(executeWhenOptionRadioGroup).toBeNull();
+        });
+        it('does not show the executeWhenOptions show options is not set (and prior condition false is set)', async () => {
+            const element = createComponentUnderTest();
+            element.outcome = outcomeHideOutcomeExecuteOptionsAndPriorFalseCondition2;
+
+            await ticks(1);
+            const executeWhenOptionRadioGroup = element.shadowRoot.querySelector(selectors.radioButton);
+            expect(executeWhenOptionRadioGroup).toBeNull();
+        });
+        it('shows the executeWhenOptions when show execute options is set and also has labels resolved for radio button group', async () => {
+            const element = createComponentUnderTest();
+            element.outcome = outcomeWithShowOptionsAndPriorConditionSet;
+            element.showOutcomeExecutionOptions = true;
+
             await ticks(1);
 
             const executeWhenOptionRadioGroup = element.shadowRoot.querySelector(selectors.radioButton);
@@ -132,19 +178,20 @@ describe('Outcome', () => {
         });
         it('has is prior false condition result required unset by default', async () => {
             const element = createComponentUnderTest();
-            element.outcome = outcomeWithOneConditional;
+            element.outcome = outcomeHideOutcomeExecuteOptionsOnly;
 
             await ticks(1);
-
+            // execute when option radio button group is displayed only for
+            // certain trigger types and record save types
             const executeWhenOptionRadioGroup = element.shadowRoot.querySelector(selectors.radioButton);
-            const outcomeExecuteWhenOption = executeWhenOptionRadioGroup.value;
-            expect(outcomeExecuteWhenOption).toBe('trueEveryTime');
+            expect(executeWhenOptionRadioGroup).toBeNull();
         });
         it('has is prior false condition result required set', async () => {
             const element = createComponentUnderTest();
-            element.outcome = outcomeWithOneConditionalAndExecuteWhenOption;
-            await ticks(1);
+            element.outcome = outcomeWithShowOptionsAndPriorConditionSet;
+            element.showOutcomeExecutionOptions = true;
 
+            await ticks(1);
             const executeWhenOptionRadioGroup = element.shadowRoot.querySelector(selectors.radioButton);
             const outcomeExecuteWhenOption = executeWhenOptionRadioGroup.value;
             expect(outcomeExecuteWhenOption).toBe('trueOnChangeOnly');
@@ -265,12 +312,13 @@ describe('Outcome', () => {
     describe('handle outcome change', () => {
         it('fires the corresponding event while capturing the doesRequireRecordChangedToMeetCriteria value', async () => {
             const element = createComponentUnderTest();
-            element.outcome = outcomeWithThreeConditionals;
+            element.outcome = outcomeWithShowOptionsAndPriorConditionSet;
+
             await ticks(1);
             const eventCallback = jest.fn();
             element.addEventListener(ExecuteWhenOptionChangedEvent.EVENT_NAME, eventCallback);
             const executeWhenOptionRadioButton = element.shadowRoot.querySelector(selectors.radioButton);
-            executeWhenOptionRadioButton.dispatchEvent(getExecuteWhenOptionEvent('trueOnChangeOnly'));
+            executeWhenOptionRadioButton.dispatchEvent(onChangeExecuteWhenOptionEvent('trueOnChangeOnly'));
             await Promise.resolve();
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0]).toMatchObject({
@@ -282,12 +330,13 @@ describe('Outcome', () => {
         });
         it('fires the corresponding event while capturing the doesRequireRecordChangedToMeetCriteria value (unset)', async () => {
             const element = createComponentUnderTest();
-            element.outcome = outcomeWithThreeConditionals;
+            element.outcome = outcomeWithShowOptionsAndPriorConditionSet;
+
             await ticks(1);
             const eventCallback = jest.fn();
             element.addEventListener(ExecuteWhenOptionChangedEvent.EVENT_NAME, eventCallback);
             const executeWhenOptionRadioButton = element.shadowRoot.querySelector(selectors.radioButton);
-            executeWhenOptionRadioButton.dispatchEvent(getExecuteWhenOptionEvent('trueEveryTime'));
+            executeWhenOptionRadioButton.dispatchEvent(onChangeExecuteWhenOptionEvent('trueEveryTime'));
             await Promise.resolve();
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0]).toMatchObject({

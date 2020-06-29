@@ -62,7 +62,7 @@
 
     <div class="slds-border_top ">
         <div class="slds-form_stacked slds-p-around_small slds-no-flex">
-            <div if:false={hideOutcomeExecutionOptions}>
+            <div if:true={showOutcomeExecutionOptions}>
                 <lightning-radio-group
                     if:true={showOutcomeExecutionOptionsSelector}
                     name="outcomeExecutionOptionsRadioGroup"

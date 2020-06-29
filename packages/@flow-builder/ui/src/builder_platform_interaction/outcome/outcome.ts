@@ -7,6 +7,7 @@ import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flow
 import { RULE_OPERATOR, RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction/ruleLib';
 import { LABELS } from './outcomeLabels';
 import { EXECUTE_OUTCOME_WHEN_OPTION_VALUES, outcomeExecuteWhenOptions } from './outcomeLabels';
+
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
     CUSTOM_LOGIC: '.customLogic'
@@ -19,12 +20,6 @@ export default class Outcome extends LightningElement {
     @track element = {};
     @track outcomeExecutionOption = EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
 
-    /**
-     * Determines if the execute when options should be displayed.
-     * Should selectively display the conditions based on the trigger type on the flow.
-     */
-    @api hideOutcomeExecutionOptions = false;
-
     labels = LABELS;
     defaultOperator = RULE_OPERATOR.EQUAL_TO;
 
@@ -36,9 +31,11 @@ export default class Outcome extends LightningElement {
 
     set outcome(outcome) {
         this.element = outcome;
-        this.outcomeExecutionOption = this.element.doesRequireRecordChangedToMeetCriteria
-            ? EXECUTE_OUTCOME_WHEN_OPTION_VALUES.ONLY_WHEN_CHANGES_MEET_CONDITIONS
-            : EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
+
+        this.outcomeExecutionOption =
+            this.element.showOutcomeExecutionOptions && this.element.doesRequireRecordChangedToMeetCriteria
+                ? EXECUTE_OUTCOME_WHEN_OPTION_VALUES.ONLY_WHEN_CHANGES_MEET_CONDITIONS
+                : EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
     }
 
     /** Focus the label field of the label description component */
@@ -110,6 +107,9 @@ export default class Outcome extends LightningElement {
         event.detail.guid = this.outcome.guid;
     }
 
+    get showOutcomeExecutionOptions(): boolean {
+        return this.element.showOutcomeExecutionOptions;
+    }
     /**
      * @return true iff a condition exists for the outcome
      */

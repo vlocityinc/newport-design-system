@@ -9,13 +9,14 @@ import {
     createCondition
 } from './base/baseElement';
 import { getConnectionProperties } from './commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil';
+import { getElementByGuid, getTriggerType, getRecordTriggerType } from 'builder_platform_interaction/storeUtils';
 import {
     baseCanvasElementMetadataObject,
     baseChildElementMetadataObject,
     createConditionMetadataObject
 } from './base/baseMetadata';
 import { LABELS } from './elementFactoryLabels';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { FLOW_TRIGGER_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createConnectorObjects } from './connector';
 import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
@@ -24,6 +25,17 @@ const elementType = ELEMENT_TYPE.DECISION;
 const childReferenceKeys = {
     childReferencesKey: 'outcomeReferences',
     childReferenceKey: 'outcomeReference'
+};
+
+const showOutcomeExecuteWhenOptions = (): boolean => {
+    const triggerType = getTriggerType();
+    const saveType = getRecordTriggerType();
+    return (
+        ((triggerType && triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE) ||
+            triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE) &&
+        ((saveType && saveType === FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE) ||
+            saveType === FLOW_TRIGGER_SAVE_TYPE.UPDATE)
+    );
 };
 
 // For Opening Property editor or copying a decision
@@ -36,12 +48,16 @@ export function createDecisionWithOutcomes(decision = {}) {
     if (outcomeReferences && outcomeReferences.length > 0) {
         // decision with outcome references
         // Decouple outcome from store.
-        outcomes = outcomeReferences.map(outcomeReference =>
-            createOutcome(getElementByGuid(outcomeReference.outcomeReference))
-        );
+        outcomes = outcomeReferences.map(outcomeReference => {
+            const outcome = createOutcome(getElementByGuid(outcomeReference.outcomeReference));
+            // establish if outcome execution options should be shown
+            outcome.showOutcomeExecutionOptions = showOutcomeExecuteWhenOptions();
+            return outcome;
+        });
     } else {
         // new decision case
         const newOutcome = createOutcome();
+        newOutcome.showOutcomeExecutionOptions = showOutcomeExecuteWhenOptions();
         outcomes = [newOutcome];
     }
 
@@ -157,6 +173,10 @@ export function createDuplicateDecision(
     };
 }
 
+/**
+ * Decision from the property editor on close goes to the store
+ * @param decision
+ */
 export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision) {
     const newDecision = baseCanvasElement(decision);
     const { defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel, outcomes } = decision;

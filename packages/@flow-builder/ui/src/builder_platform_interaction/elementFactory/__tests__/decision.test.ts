@@ -28,7 +28,9 @@ import { getConnectionProperties } from '../commonFactoryUtils/decisionAndWaitCo
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
-        getElementByGuid: jest.fn()
+        getElementByGuid: jest.fn(),
+        getTriggerType: jest.fn().mockReturnValue('RecordAfterSave'),
+        getRecordTriggerType: jest.fn().mockReturnValue('CreateAndUpdate')
     };
 });
 
