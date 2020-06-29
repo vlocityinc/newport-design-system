@@ -19,6 +19,9 @@ const CONNECTOR_OVERLAY = {
  */
 let drawingLibInstance = null;
 
+// used by nba
+let connectionDecorator = null;
+
 /** Wrapper class for drawing library (currently jsplumb) **/
 class DrawingLib {
     private instance = null;
@@ -208,6 +211,10 @@ class DrawingLib {
             target: targetContainer,
             detachable: false
         };
+
+        if (connectionDecorator) {
+            connectionDecorator(connectionInstance, connectorType);
+        }
 
         const connection = this.instance.connect(connectionInstance);
         if (!connection) {
@@ -418,4 +425,14 @@ export const clearDrawingLibInstance = () => {
         window.jsPlumb.reset();
         drawingLibInstance = null;
     }
+};
+
+/**
+ * Sets up a decorator to configure new connections when they're created
+ * @param {Function} decorator - Function to configure a connector.
+ *                               Accepts (connector, connectorType) and can modify the connector
+ */
+export const setConnectionDecorator = decorator => {
+    connectionDecorator = decorator;
+    return getDrawingLibInstance();
 };

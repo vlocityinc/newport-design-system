@@ -4,6 +4,7 @@
     "ConfigurableStart",
     "LookupTraversal",
     "DynamicTypes",
-    "RollbackModeInDebug"
+    "RollbackModeInDebug",
+    "IsDebugAsUserAllowedInNonPrd"
   ]
 }

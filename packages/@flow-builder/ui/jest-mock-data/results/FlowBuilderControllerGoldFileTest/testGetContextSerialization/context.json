@@ -55,6 +55,18 @@
       },
       "name":"Journey Builder",
       "icon":"utility:checkin",
+      "componentConfigs":{
+        "editMode":{
+          "leftPanelConfig":{
+            "showLeftPanel":true
+          }
+        },
+        "debugMode":{
+          "leftPanelConfig":{
+            "showLeftPanel":false
+          }
+        }
+      },
       "usePanelForPropertyEditor":true,
       "supportedProcessTypes":[
         "Journey"

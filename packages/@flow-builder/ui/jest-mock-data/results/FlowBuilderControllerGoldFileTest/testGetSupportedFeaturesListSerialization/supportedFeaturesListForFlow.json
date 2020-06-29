@@ -3,6 +3,7 @@
     "ConditionalFieldVisibility",
     "StoreOutputAutomatically",
     "LookupTraversal",
-    "DynamicTypes"
+    "DynamicTypes",
+    "IsDebugAsUserAllowedInNonPrd"
   ]
 }

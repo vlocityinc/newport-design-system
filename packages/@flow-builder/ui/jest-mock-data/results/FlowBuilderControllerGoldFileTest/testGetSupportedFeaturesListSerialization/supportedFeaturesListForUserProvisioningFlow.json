@@ -1,6 +1,7 @@
 {
   "supportedFeaturesListForUserProvisioningFlow":[
     "StoreOutputAutomatically",
-    "LookupTraversal"
+    "LookupTraversal",
+    "IsDebugAsUserAllowedInNonPrd"
   ]
 }
