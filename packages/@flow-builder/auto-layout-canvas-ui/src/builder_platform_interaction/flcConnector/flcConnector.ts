@@ -151,6 +151,7 @@ export default class FlcConnector extends LightningElement {
 
     /**
      * Sets the background color of the combobox on hover.
+     *
      * @param {object} event - Mouse over event on the combobox used for connector labels
      */
     handleComboboxMouseOver = event => {
