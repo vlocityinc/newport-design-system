@@ -37,7 +37,7 @@ export function orgHasFlowBuilderDebug() {
 /*
  * @returns true if the auto layout feature is available
  */
-export function autoLayoutCanvasEnabled() {
+export function isAutoLayoutCanvasEnabled() {
     return !isTestMode();
 }
 

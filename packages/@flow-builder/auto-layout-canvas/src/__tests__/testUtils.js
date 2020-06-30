@@ -3,6 +3,7 @@ import { ElementType, getDefaultLayoutConfig } from 'builder_platform_interactio
 const layoutConfig = getDefaultLayoutConfig();
 
 const SCREEN_ELEMENT_TYPE = 'Screen';
+const ACTION_ELEMENT_TYPE = 'Action';
 
 const ROOT_ELEMENT_GUID = 'root';
 const START_ELEMENT_GUID = 'start-guid';
@@ -10,6 +11,7 @@ const END_ELEMENT_GUID = 'end-guid';
 const BRANCH_ELEMENT_GUID = 'branch-guid';
 const LOOP_ELEMENT_GUID = 'loop-guid';
 const SCREEN_ELEMENT_GUID = 'screen-guid';
+const ACTION_ELEMENT_GUID = 'action-guid';
 
 const ROOT_ELEMENT = { guid: ROOT_ELEMENT_GUID, elementType: ElementType.ROOT, children: [START_ELEMENT_GUID] };
 const START_ELEMENT = {
@@ -40,6 +42,11 @@ const SCREEN_ELEMENT = {
     elementType: SCREEN_ELEMENT_TYPE
 };
 
+const ACTION_ELEMENT = {
+    guid: ACTION_ELEMENT_GUID,
+    elementType: ElementType.DEFAULT
+};
+
 const elementsMetadata = {
     [ElementType.ROOT]: {
         type: ElementType.ROOT,
@@ -62,6 +69,10 @@ const elementsMetadata = {
         icon: 'standard:default'
     },
     [SCREEN_ELEMENT_TYPE]: {
+        type: ElementType.DEFAULT,
+        icon: 'standard:default'
+    },
+    [ACTION_ELEMENT_TYPE]: {
         type: ElementType.DEFAULT,
         icon: 'standard:default'
     }
@@ -169,6 +180,27 @@ function getFlowWithDecisionWithOneElementOnLeftBranchContext(leftBranchHead) {
     return createFlowRenderContext({ flowModel, interactionState });
 }
 
+function getFlowWithTwoFaults() {
+    let faultBranchHeadElementOne = createElementWithElementType('fault-branch-head-guid-one', ElementType.END);
+    const actionElementOne = {
+        ...ACTION_ELEMENT,
+        guid: 'action-element-one',
+        fault: faultBranchHeadElementOne.guid
+    };
+    faultBranchHeadElementOne = { ...faultBranchHeadElementOne, parent: actionElementOne.guid, childIndex: -1 };
+    let faultBranchHeadElementTwo = createElementWithElementType('fault-branch-head-guid-two', ElementType.END);
+    const actionElementTwo = {
+        ...ACTION_ELEMENT,
+        guid: 'action-element-two',
+        fault: faultBranchHeadElementTwo.guid
+    };
+    faultBranchHeadElementTwo = { ...faultBranchHeadElementTwo, parent: actionElementTwo.guid, childIndex: -1 };
+    const elements = linkElements([START_ELEMENT, actionElementOne, actionElementTwo, END_ELEMENT]);
+    elements.push(faultBranchHeadElementOne, faultBranchHeadElementTwo);
+    const flowModel = flowModelFromElements([ROOT_ELEMENT, ...elements]);
+    return createFlowRenderContext({ flowModel });
+}
+
 export {
     ROOT_ELEMENT,
     START_ELEMENT,
@@ -185,5 +217,6 @@ export {
     getFlowWithDecisionWithOneElementOnLeftBranchContext,
     getFlowWithEmptyLoopContext,
     getSimpleFlowContext,
-    getFlowWithDecisionWithEndedLeftBranchContext
+    getFlowWithDecisionWithEndedLeftBranchContext,
+    getFlowWithTwoFaults
 };

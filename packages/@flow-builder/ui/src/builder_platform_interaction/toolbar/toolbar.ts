@@ -17,7 +17,7 @@ import {
     ToggleCanvasModeEvent
 } from 'builder_platform_interaction/events';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
-import { orgHasFlowBuilderDebug, autoLayoutCanvasEnabled } from 'builder_platform_interaction/contextLib';
+import { orgHasFlowBuilderDebug, isAutoLayoutCanvasEnabled } from 'builder_platform_interaction/contextLib';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { LABELS } from './toolbarLabels';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
@@ -127,8 +127,8 @@ export default class Toolbar extends LightningElement {
         }
     }
 
-    get autoLayoutCanvasEnabled() {
-        return autoLayoutCanvasEnabled();
+    get isAutoLayoutCanvasEnabled() {
+        return isAutoLayoutCanvasEnabled();
     }
 
     get selectButtonVariant() {

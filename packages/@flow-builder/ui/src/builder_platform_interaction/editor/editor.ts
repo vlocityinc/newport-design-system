@@ -127,7 +127,11 @@ import {
     FocusOnDockingPanelCommand
 } from 'builder_platform_interaction/commands';
 import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
-import { setUseFixedLayoutCanvas, autoLayoutCanvasEnabled } from 'builder_platform_interaction/contextLib';
+import {
+    setUseFixedLayoutCanvas,
+    isAutoLayoutCanvasEnabled,
+    useFixedLayoutCanvas
+} from 'builder_platform_interaction/contextLib';
 import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLib';
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
@@ -136,7 +140,6 @@ import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import { getInvocableActions } from 'builder_platform_interaction/invocableActionLib';
 import { usedBy } from 'builder_platform_interaction/usedByLib';
 import { convertToFlc, convertFromFlc } from 'builder_platform_interaction/flcConversionUtils';
-import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
 let unsubscribeStore;
 let storeInstance;
@@ -1804,7 +1807,7 @@ export default class Editor extends LightningElement {
                 );
 
                 // TODO: Directly call invokeAutoLayoutWelcomeMat when releasing
-                if (autoLayoutCanvasEnabled()) {
+                if (isAutoLayoutCanvasEnabled()) {
                     invokeAutoLayoutWelcomeMat(
                         processType,
                         defaultTriggerType,

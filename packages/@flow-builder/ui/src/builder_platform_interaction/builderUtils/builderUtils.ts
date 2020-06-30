@@ -22,7 +22,7 @@ import { LABELS } from './builderUtilsLabels';
 import { isObject } from 'builder_platform_interaction/commonUtils';
 import { clearExpressions } from 'builder_platform_interaction/expressionValidator';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
+import { isAutoLayoutCanvasEnabled } from 'builder_platform_interaction/contextLib';
 
 /**
  * @constant state of callback result
@@ -752,7 +752,7 @@ export const invokeNewFlowModal = (
     const modalFooterPromise = createComponentPromise('builder_platform_interaction:modalFooter', {
         buttons: {
             buttonOne: {
-                buttonLabel: useFixedLayoutCanvas() ? LABELS.nextButtonLabel : LABELS.createButtonLabel,
+                buttonLabel: isAutoLayoutCanvasEnabled() ? LABELS.nextButtonLabel : LABELS.createButtonLabel,
                 buttonVariant: 'brand'
             }
         }
