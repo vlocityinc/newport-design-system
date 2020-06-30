@@ -806,10 +806,6 @@ export default class Editor extends LightningElement {
         const debugOptions = debugModal.get('v.body')[0].getDebugInput() || {};
         this.spinners.showDebugSpinner = true;
         const startInterviewTime = new Date();
-        let selectedUserId = null;
-        if (debugOptions.debugAsUserId) {
-            selectedUserId = debugOptions.debugAsUserId;
-        }
         fetch(
             SERVER_ACTION_TYPE.RUN_DEBUG,
             ({ data, error }) => {
@@ -838,7 +834,7 @@ export default class Editor extends LightningElement {
                 enableRollbackMode: !!debugOptions.enableRollback,
                 useLatestSubflow: !!debugOptions.runLatestVersion,
                 showGovernorlimit: !!debugOptions.governorLimits,
-                debugAsUserId: selectedUserId
+                debugAsUserId: debugOptions.debugAsUserId
             }
         );
     };
