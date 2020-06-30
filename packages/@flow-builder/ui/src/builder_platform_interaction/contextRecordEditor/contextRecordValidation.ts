@@ -2,6 +2,7 @@
 import { Validation } from 'builder_platform_interaction/validation';
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 
 const defaultRules = {};
 
@@ -30,10 +31,7 @@ export const contextValidation = new Validation(defaultRules);
 export const getRules = ({ filterLogic, object, triggerType }) => {
     let overriddenRules = {};
 
-    if (
-        (triggerType && triggerType.value === FLOW_TRIGGER_TYPE.BEFORE_SAVE) ||
-        triggerType.value === FLOW_TRIGGER_TYPE.AFTER_SAVE
-    ) {
+    if (triggerType && isRecordChangeTriggerType(triggerType.value)) {
         overriddenRules = { ...additionalRules };
     }
 

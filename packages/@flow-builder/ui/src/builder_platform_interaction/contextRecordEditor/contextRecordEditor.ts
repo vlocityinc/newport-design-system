@@ -15,7 +15,7 @@ import {
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 
-const { BEFORE_SAVE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
+const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
 
 export default class contextRecordEditor extends LightningElement {
     /**
@@ -98,6 +98,7 @@ export default class contextRecordEditor extends LightningElement {
     get contextObjectDescription() {
         switch (this.triggerType) {
             case BEFORE_SAVE:
+            case BEFORE_DELETE:
             case AFTER_SAVE:
                 return this.labels.contextObjectDescription;
             case SCHEDULED:

@@ -34,7 +34,8 @@ const PROCESS_TYPES_ICONS = new Map([
 
 const TRIGGER_TYPE_ICONS = new Map([
     [FLOW_TRIGGER_TYPE.SCHEDULED, 'utility:clock'],
-    [FLOW_TRIGGER_TYPE.BEFORE_SAVE, 'utility:record_update']
+    [FLOW_TRIGGER_TYPE.BEFORE_SAVE, 'utility:record_update'],
+    [FLOW_TRIGGER_TYPE.BEFORE_DELETE, 'utility:record_update']
 ]);
 
 export const FLOW_AUTOMATIC_OUTPUT_HANDLING = {

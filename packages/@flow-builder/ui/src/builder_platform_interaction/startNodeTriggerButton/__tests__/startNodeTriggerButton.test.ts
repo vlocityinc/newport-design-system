@@ -169,6 +169,28 @@ describe('Trigger Button', () => {
         );
     });
 
+    it('Checks if configured before delete record change trigger button rendered correctly on delete', () => {
+        const nodeComponent = createComponentUnderTest(
+            FLOW_TRIGGER_TYPE.BEFORE_DELETE,
+            'account',
+            [],
+            FLOW_TRIGGER_SAVE_TYPE.DELETE
+        );
+        expect(runQuerySelector(nodeComponent, selectors.triggerLabel).textContent).toBe(
+            ' FlowBuilderCanvasElement.startElementTrigger '
+        );
+        expect(runQuerySelector(nodeComponent, selectors.selectedTrigger).textContent).toBe(
+            'FlowBuilderStartEditor.recordTriggerTypeDeleted'
+        );
+        expect(runQuerySelector(nodeComponent, selectors.edit).textContent).toBe(
+            'FlowBuilderCanvasElement.startElementEdit'
+        );
+
+        expect(runQuerySelector(nodeComponent, selectors.runFlow).textContent).toBe(
+            'FlowBuilderCanvasElement.startElementRunFlowFlowBuilderStartEditor.triggerTypeBeforeDelete'
+        );
+    });
+
     it('Checks if configured scheduled button rendered correctly', () => {
         const nodeComponent = createComponentUnderTestWithSchedule(FLOW_TRIGGER_TYPE.SCHEDULED);
         expect(runQuerySelector(nodeComponent, selectors.flowStartLabel).textContent).toBe(

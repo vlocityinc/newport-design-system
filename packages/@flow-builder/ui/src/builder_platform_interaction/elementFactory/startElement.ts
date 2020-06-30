@@ -13,7 +13,7 @@ import { createRecordFilters, createFilterMetadataObject } from './base/baseReco
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/systemLib';
-import { isScheduledTriggerType } from 'builder_platform_interaction/triggerTypeLib';
+import { isScheduledTriggerType, isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { formatDateTimeUTC, getDayOfTheWeek } from 'builder_platform_interaction/dateTimeUtils';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementFactoryLabels';
@@ -64,11 +64,12 @@ export function createStartElement(startElement = {}) {
         }
     }
 
-    if (
-        (triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE || triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE) &&
-        recordTriggerType === undefined
-    ) {
-        recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.CREATE;
+    if (isRecordChangeTriggerType(triggerType) && recordTriggerType === undefined) {
+        if (triggerType === FLOW_TRIGGER_TYPE.BEFORE_DELETE) {
+            recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.DELETE;
+        } else {
+            recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.CREATE;
+        }
         filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
     }
 

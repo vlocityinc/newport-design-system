@@ -6,7 +6,7 @@ import {
     START_ELEMENT_LOCATION
 } from '../startElement';
 import { baseCanvasElementMetadataObject } from '../base/baseMetadata';
-import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, FLOW_TRIGGER_SAVE_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const startElementReference = 'assignment1';
 
@@ -193,6 +193,36 @@ describe('Start element', () => {
                     startDate: '1/1/2001',
                     startTime: '18:00:00'
                 }
+            };
+            const actualResult = createStartElementMetadataObject(startElement);
+
+            expect(actualResult).toMatchObject(expectedResult);
+        });
+
+        it('creates start element metadata object for delete', () => {
+            const startElement = {
+                filterLogic: CONDITION_LOGIC.NO_CONDITIONS,
+                filters: [],
+                object: 'Account',
+                objectContainer: undefined,
+                triggerType: FLOW_TRIGGER_TYPE.BEFORE_DELETE,
+                frequency: undefined,
+                startDate: undefined,
+                startTime: undefined,
+                recordTriggerType: FLOW_TRIGGER_SAVE_TYPE.DELETE
+            };
+
+            const expectedResult = {
+                name: undefined,
+                description: undefined,
+                label: undefined,
+                filters: [],
+                filterLogic: undefined,
+                object: 'Account',
+                objectContainer: undefined,
+                triggerType: FLOW_TRIGGER_TYPE.BEFORE_DELETE,
+                recordTriggerType: FLOW_TRIGGER_SAVE_TYPE.DELETE,
+                schedule: undefined
             };
             const actualResult = createStartElementMetadataObject(startElement);
 

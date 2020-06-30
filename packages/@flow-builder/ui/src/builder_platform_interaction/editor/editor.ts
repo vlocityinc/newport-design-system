@@ -108,7 +108,7 @@ import {
     BUILDER_MODE
 } from 'builder_platform_interaction/systemLib';
 import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
-import { getTriggerTypeInfo } from 'builder_platform_interaction/triggerTypeLib';
+import { getTriggerTypeInfo, isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
 import {
     loadFieldsForComplexTypesInFlow,
@@ -619,11 +619,7 @@ export default class Editor extends LightningElement {
         if (flowMetadata.start) {
             const { object, triggerType } = flowMetadata.start;
             if (triggerType && object) {
-                if (
-                    triggerType === FLOW_TRIGGER_TYPE.SCHEDULED ||
-                    triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE ||
-                    triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE
-                ) {
+                if (triggerType === FLOW_TRIGGER_TYPE.SCHEDULED || isRecordChangeTriggerType(triggerType)) {
                     promises.push(loadEntity(object));
                 } else if (triggerType === FLOW_TRIGGER_TYPE.PLATFORM_EVENT) {
                     promises.push(loadEventType(MANAGED_SETUP, object));

@@ -12,7 +12,8 @@ import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressio
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 import { deleteItem, set, updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { CONDITION_LOGIC, ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE,
     OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR,
@@ -100,11 +101,7 @@ const propertyChanged = (state, event) => {
     }
 
     if (event.detail.propertyName === PROPS.object) {
-        if (
-            state.triggerType.value !== FLOW_TRIGGER_TYPE.BEFORE_SAVE &&
-            state.triggerType.value !== FLOW_TRIGGER_TYPE.AFTER_SAVE &&
-            (event.detail.error || !event.detail.value)
-        ) {
+        if (!isRecordChangeTriggerType(state.triggerType.value) && (event.detail.error || !event.detail.value)) {
             state = resetSubSections(state);
         }
     } else if (event.detail.propertyName === PROPS.filterLogic) {

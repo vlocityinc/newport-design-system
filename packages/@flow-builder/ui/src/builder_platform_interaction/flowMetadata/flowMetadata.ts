@@ -294,6 +294,7 @@ export const FLOW_TRIGGER_TYPE = {
     SCHEDULED: 'Scheduled',
     SCHEDULED_JOURNEY: 'ScheduledJourney',
     BEFORE_SAVE: 'RecordBeforeSave',
+    BEFORE_DELETE: 'RecordBeforeDelete',
     AFTER_SAVE: 'RecordAfterSave',
     PLATFORM_EVENT: 'PlatformEvent',
     NONE: 'None'
@@ -302,7 +303,8 @@ export const FLOW_TRIGGER_TYPE = {
 export const FLOW_TRIGGER_SAVE_TYPE = {
     UPDATE: 'Update',
     CREATE: 'Create',
-    CREATE_AND_UPDATE: 'CreateAndUpdate'
+    CREATE_AND_UPDATE: 'CreateAndUpdate',
+    DELETE: 'Delete'
 };
 
 export const FLOW_TRIGGER_FREQUENCY = {

@@ -2,11 +2,12 @@
 import { LightningElement, api } from 'lwc';
 import { FLOW_TRIGGER_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { EditElementEvent } from 'builder_platform_interaction/events';
-const { BEFORE_SAVE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY, PLATFORM_EVENT } = FLOW_TRIGGER_TYPE;
-const { CREATE, UPDATE, CREATE_AND_UPDATE } = FLOW_TRIGGER_SAVE_TYPE;
+const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY, PLATFORM_EVENT } = FLOW_TRIGGER_TYPE;
+const { CREATE, UPDATE, CREATE_AND_UPDATE, DELETE } = FLOW_TRIGGER_SAVE_TYPE;
 import { LABELS } from './startNodeTriggerButtonLabels';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { getEventTypes, MANAGED_SETUP } from 'builder_platform_interaction/sobjectLib';
+import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 
 export default class startNodeTriggerButton extends LightningElement {
     @api
@@ -37,6 +38,7 @@ export default class startNodeTriggerButton extends LightningElement {
     get isSetTrigger() {
         switch (this.node.triggerType) {
             case AFTER_SAVE:
+            case BEFORE_DELETE:
             case BEFORE_SAVE:
                 return true;
             case SCHEDULED:
@@ -55,7 +57,7 @@ export default class startNodeTriggerButton extends LightningElement {
 
     get selectedTriggerLabel() {
         // Record Change
-        if (this.isRecordChangeTrigger()) {
+        if (isRecordChangeTriggerType(this.node.triggerType)) {
             switch (this.node.recordTriggerType) {
                 case CREATE:
                     return LABELS.recordTriggerTypeCreated;
@@ -63,6 +65,8 @@ export default class startNodeTriggerButton extends LightningElement {
                     return LABELS.recordTriggerTypeUpdated;
                 case CREATE_AND_UPDATE:
                     return LABELS.recordTriggerTypeCreatedOrUpdated;
+                case DELETE:
+                    return LABELS.recordTriggerTypeDeleted;
                 default:
                     return '';
             }
@@ -83,7 +87,7 @@ export default class startNodeTriggerButton extends LightningElement {
     }
 
     get triggerLabel() {
-        return this.isRecordChangeTrigger()
+        return isRecordChangeTriggerType(this.node.triggerType)
             ? LABELS.startElementTrigger
             : this.node.triggerType === PLATFORM_EVENT
             ? LABELS.startElementEvent
@@ -91,7 +95,7 @@ export default class startNodeTriggerButton extends LightningElement {
     }
 
     get triggerSize() {
-        return this.isRecordChangeTrigger()
+        return isRecordChangeTriggerType(this.node.triggerType)
             ? 'trigger-label-size'
             : this.node.triggerType === PLATFORM_EVENT
             ? 'platform-event-size'
@@ -103,7 +107,7 @@ export default class startNodeTriggerButton extends LightningElement {
     }
 
     get selectedTriggerSize() {
-        return this.isRecordChangeTrigger()
+        return isRecordChangeTriggerType(this.node.triggerType)
             ? 'selected-trigger-label-size slds-truncate'
             : this.node.triggerType === PLATFORM_EVENT
             ? 'selected-platform-event-size slds-truncate'
@@ -113,6 +117,7 @@ export default class startNodeTriggerButton extends LightningElement {
     get runFlowLabel() {
         switch (this.node.triggerType) {
             case BEFORE_SAVE:
+            case BEFORE_DELETE:
             case AFTER_SAVE:
                 return LABELS.startElementRunFlow;
             case SCHEDULED:
@@ -129,16 +134,14 @@ export default class startNodeTriggerButton extends LightningElement {
                 return LABELS.triggerTypeBeforeSave;
             case AFTER_SAVE:
                 return LABELS.triggerTypeAfterSave;
+            case BEFORE_DELETE:
+                return LABELS.triggerTypeBeforeDelete;
             case SCHEDULED:
             case SCHEDULED_JOURNEY:
                 return this.node.frequency;
             default:
                 return '';
         }
-    }
-
-    isRecordChangeTrigger() {
-        return this.node.triggerType === BEFORE_SAVE || this.node.triggerType === AFTER_SAVE;
     }
 
     getNodeConfig() {

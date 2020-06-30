@@ -26,12 +26,14 @@ export const LABELS = {
     [FLOW_PROCESS_TYPE.APP_PROCESS]: newAppProcessDescription,
     [FLOW_TRIGGER_TYPE.SCHEDULED]: newScheduledFlowDescription,
     [FLOW_TRIGGER_TYPE.BEFORE_SAVE]: newRecordChangedFlowDescription,
+    [FLOW_TRIGGER_TYPE.BEFORE_DELETE]: newRecordChangedFlowDescription,
     [FLOW_TRIGGER_TYPE.AFTER_SAVE]: newRecordChangedFlowDescription
 };
 
 export const TRIGGER_TYPE_LABELS = {
     [FLOW_TRIGGER_TYPE.SCHEDULED]: newScheduledFlowLabel,
     [FLOW_TRIGGER_TYPE.BEFORE_SAVE]: newRecordChangedFlowLabel,
+    [FLOW_TRIGGER_TYPE.BEFORE_DELETE]: newRecordChangedFlowLabel,
     [FLOW_TRIGGER_TYPE.AFTER_SAVE]: newRecordChangedFlowLabel,
     [FLOW_TRIGGER_TYPE.PLATFORM_EVENT]: newPlatformEventFlowLabel
 };

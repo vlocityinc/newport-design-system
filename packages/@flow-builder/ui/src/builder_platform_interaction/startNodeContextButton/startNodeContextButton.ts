@@ -12,7 +12,7 @@ import {
 import { EditElementEvent } from 'builder_platform_interaction/events';
 import { getEntitiesMenuData } from 'builder_platform_interaction/expressionUtils';
 
-const { BEFORE_SAVE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
+const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
 
 export default class startNodeContextButton extends LightningElement {
     @api
@@ -36,6 +36,8 @@ export default class startNodeContextButton extends LightningElement {
         switch (this.node.triggerType) {
             case AFTER_SAVE:
             case BEFORE_SAVE:
+                return LABELS.startElementChooseObject;
+            case BEFORE_DELETE:
                 return LABELS.startElementChooseObject;
             case SCHEDULED:
                 return LABELS.startElementChooseObject;
@@ -72,6 +74,7 @@ export default class startNodeContextButton extends LightningElement {
         switch (this.node.triggerType) {
             case AFTER_SAVE:
             case BEFORE_SAVE:
+            case BEFORE_DELETE:
             case SCHEDULED:
                 item = getEntitiesMenuData().find(menuItem => menuItem.value === this.node.object);
                 return item ? item.displayText : this.node.object;
@@ -99,6 +102,7 @@ export default class startNodeContextButton extends LightningElement {
     getContextMode() {
         switch (this.node.triggerType) {
             case AFTER_SAVE:
+            case BEFORE_DELETE:
             case BEFORE_SAVE:
                 return EDIT_START_RECORD_CHANGE_CONTEXT;
             case SCHEDULED:

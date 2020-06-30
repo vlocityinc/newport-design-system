@@ -24,7 +24,7 @@ import {
     isVersioningSupported
 } from 'builder_platform_interaction/systemLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { isRunInModeSupported } from 'builder_platform_interaction/triggerTypeLib';
+import { isRunInModeSupported, isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { loadVersioningData } from 'builder_platform_interaction/preloadLib';
@@ -438,9 +438,8 @@ export default class FlowPropertiesEditor extends LightningElement {
         if (
             processType === this._originalProcessType &&
             processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW &&
-            (triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE || triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE) &&
-            (this._originalTriggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE ||
-                this._originalTriggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE)
+            isRecordChangeTriggerType(triggerType) &&
+            isRecordChangeTriggerType(this._originalTriggerType)
         ) {
             triggerType = this._originalTriggerType;
         }

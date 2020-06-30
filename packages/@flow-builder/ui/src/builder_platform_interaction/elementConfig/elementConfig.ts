@@ -162,6 +162,7 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.START_ELEMENT]: {
         descriptor: {
             [FLOW_TRIGGER_TYPE.BEFORE_SAVE]: 'builder_platform_interaction:recordChangeTriggerEditor',
+            [FLOW_TRIGGER_TYPE.BEFORE_DELETE]: 'builder_platform_interaction:recordChangeTriggerEditor',
             [FLOW_TRIGGER_TYPE.AFTER_SAVE]: 'builder_platform_interaction:recordChangeTriggerEditor',
             [FLOW_TRIGGER_TYPE.SCHEDULED]: 'builder_platform_interaction:scheduleTriggerEditor',
             [FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY]: 'builder_platform_interaction:scheduleTriggerEditor',

@@ -22,6 +22,7 @@ import { getProcessType } from 'builder_platform_interaction/storeUtils';
 
 import startNode from './startNode.html';
 import nodeElement from './node.html';
+import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 
 /**
  * Node component for flow builder.
@@ -30,7 +31,7 @@ import nodeElement from './node.html';
  * @since 214
  */
 
-const { NONE, BEFORE_SAVE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY, PLATFORM_EVENT } = FLOW_TRIGGER_TYPE;
+const { NONE, SCHEDULED, SCHEDULED_JOURNEY, PLATFORM_EVENT } = FLOW_TRIGGER_TYPE;
 
 export default class Node extends LightningElement {
     @api
@@ -141,8 +142,7 @@ export default class Node extends LightningElement {
 
     get startIconFlowType() {
         if (
-            this.node.triggerType === BEFORE_SAVE ||
-            this.node.triggerType === AFTER_SAVE ||
+            isRecordChangeTriggerType(this.node.triggerType) ||
             this.node.triggerType === SCHEDULED ||
             this.node.triggerType === PLATFORM_EVENT
         ) {

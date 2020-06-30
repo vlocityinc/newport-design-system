@@ -12,8 +12,8 @@ import {
 } from 'builder_platform_interaction/flowMetadata';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 
-const { CREATE, UPDATE, CREATE_AND_UPDATE } = FLOW_TRIGGER_SAVE_TYPE;
-const { BEFORE_SAVE, AFTER_SAVE } = FLOW_TRIGGER_TYPE;
+const { CREATE, UPDATE, CREATE_AND_UPDATE, DELETE } = FLOW_TRIGGER_SAVE_TYPE;
+const { BEFORE_SAVE, AFTER_SAVE, BEFORE_DELETE } = FLOW_TRIGGER_TYPE;
 
 /**
  * Property Editor record change trigger
@@ -24,6 +24,11 @@ export default class RecordChangeTriggerEditor extends LightningElement {
      */
     @track
     startElement;
+
+    // Stores the flow trigger type and record trigger type values which needs to be set to if the user
+    // decides to switch back from DELETE to CREATE, UPDATE or CREATEUPDATE
+    oldRecordTriggerType = '';
+    oldFlowTriggerType = '';
 
     labels = LABELS;
 
@@ -81,6 +86,10 @@ export default class RecordChangeTriggerEditor extends LightningElement {
             {
                 label: LABELS.recordTriggerTypeCreatedOrUpdated,
                 value: CREATE_AND_UPDATE
+            },
+            {
+                label: LABELS.recordTriggerTypeDeleted,
+                value: DELETE
             }
         ];
     }
@@ -90,6 +99,10 @@ export default class RecordChangeTriggerEditor extends LightningElement {
             {
                 label: LABELS.triggerTypeBeforeSave,
                 value: BEFORE_SAVE
+            },
+            {
+                label: LABELS.triggerTypeBeforeDelete,
+                value: BEFORE_DELETE
             },
             {
                 label: LABELS.triggerTypeAfterSave,
@@ -104,6 +117,14 @@ export default class RecordChangeTriggerEditor extends LightningElement {
 
     get isAfterSave() {
         return this.startElement.triggerType.value === AFTER_SAVE;
+    }
+
+    get isBeforeDelete() {
+        return this.startElement.triggerType.value === BEFORE_DELETE;
+    }
+
+    get isDeleteRecordTriggerType() {
+        return this.startElement.recordTriggerType.value === DELETE;
     }
 
     /**
@@ -130,10 +151,31 @@ export default class RecordChangeTriggerEditor extends LightningElement {
 
     handleTriggerSaveTypeChange = event => {
         this._updateField(START_ELEMENT_FIELDS.TRIGGER_SAVE_TYPE, event.detail.value);
+        // if previous record trigger was delete and newly selected record trigger is
+        // create, create or update or update then set the trigger type to old trigger type
+        if (this.oldRecordTriggerType === DELETE && event.detail.value !== DELETE) {
+            if (this.oldFlowTriggerType === AFTER_SAVE) {
+                this.handleTypeAfterSave();
+            } else {
+                this.handleTypeBeforeSave();
+            }
+        }
+
+        // If user is currently selecting the record trigger type as DELETE, store the previous FlowTriggerType
+        // value such that if user flips back to CREATE, UPDATE or CREATEUPDATE, we can fall back to that FlowTriggerType
+        if (event.detail.value === DELETE) {
+            this.oldFlowTriggerType = this.startElement.triggerType.value;
+            this.oldRecordTriggerType = DELETE;
+            this.handleTypeBeforeDelete();
+        }
     };
 
     handleTypeBeforeSave() {
         this._updateField(START_ELEMENT_FIELDS.TRIGGER_TYPE, BEFORE_SAVE);
+    }
+
+    handleTypeBeforeDelete() {
+        this._updateField(START_ELEMENT_FIELDS.TRIGGER_TYPE, BEFORE_DELETE);
     }
 
     handleTypeAfterSave() {

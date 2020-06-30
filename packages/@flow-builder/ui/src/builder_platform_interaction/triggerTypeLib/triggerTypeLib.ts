@@ -35,17 +35,26 @@ export const isScheduledTriggerType = triggerType => {
 };
 
 /**
+ * Whether or not this trigger type is a record change trigger type
+ * @param {String} triggerType
+ * @returns {Boolean} true if it is record change trigger, false otherwise
+ */
+export const isRecordChangeTriggerType = triggerType => {
+    return (
+        triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE ||
+        triggerType === FLOW_TRIGGER_TYPE.BEFORE_DELETE ||
+        triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE
+    );
+};
+
+/**
  * Whether or not this trigger type has criteria
  * @param {String} triggerType
  * @returns {Boolean} true if it has criteria, false otherwise
  */
 export const getTriggerHasCriteria = triggerType => {
     // TODO this information should eventually just come from the trigger type service
-    return (
-        isScheduledTriggerType(triggerType) ||
-        triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE ||
-        triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE
-    );
+    return isScheduledTriggerType(triggerType) || isRecordChangeTriggerType(triggerType);
 };
 
 /**

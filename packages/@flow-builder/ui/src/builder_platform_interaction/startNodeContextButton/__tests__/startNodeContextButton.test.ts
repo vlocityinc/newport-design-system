@@ -64,6 +64,14 @@ describe('Context Button', () => {
         expect(runQuerySelector(nodeComponent, selectors.contextButtonOptionlText)).toBeNull();
     });
 
+    it('Checks if non configured before delete record changed context button rendered text correctly', () => {
+        const nodeComponent = createComponentUnderTest(FLOW_TRIGGER_TYPE.BEFORE_DELETE);
+        expect(runQuerySelector(nodeComponent, selectors.contextButtonText).textContent).toBe(
+            'FlowBuilderCanvasElement.startElementChooseObject'
+        );
+        expect(runQuerySelector(nodeComponent, selectors.contextButtonOptionlText)).toBeNull();
+    });
+
     it('Checks if non configured after record changed context button rendered text correctly', () => {
         const nodeComponent = createComponentUnderTest(FLOW_TRIGGER_TYPE.AFTER_SAVE);
         expect(runQuerySelector(nodeComponent, selectors.contextButtonText).textContent).toBe(
@@ -92,6 +100,14 @@ describe('Context Button', () => {
 
     it('Checks if configured before record changed context button rendered correctly', () => {
         const nodeComponent = createComponentUnderTest(FLOW_TRIGGER_TYPE.BEFORE_SAVE, 'account', []);
+        expect(runQuerySelector(nodeComponent, selectors.startContext).textContent).toBe(
+            ' FlowBuilderCanvasElement.startElementObject accountFlowBuilderCanvasElement.startElementEdit'
+        );
+        expect(runQuerySelector(nodeComponent, selectors.contextButtonOptionlText)).toBeNull();
+    });
+
+    it('Checks if configured before delete record changed context button rendered correctly', () => {
+        const nodeComponent = createComponentUnderTest(FLOW_TRIGGER_TYPE.BEFORE_DELETE, 'account', []);
         expect(runQuerySelector(nodeComponent, selectors.startContext).textContent).toBe(
             ' FlowBuilderCanvasElement.startElementObject accountFlowBuilderCanvasElement.startElementEdit'
         );
