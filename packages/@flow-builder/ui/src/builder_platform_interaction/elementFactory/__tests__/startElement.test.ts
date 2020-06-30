@@ -259,7 +259,7 @@ describe('Start element', () => {
                         }
                     }
                 ],
-                filterLogic: undefined,
+                filterLogic: '1 AND 2 OR 3',
                 object: 'Account',
                 triggerType: 'scheduled',
                 schedule: {
@@ -293,7 +293,7 @@ describe('Start element', () => {
                 name: undefined,
                 description: undefined,
                 label: undefined,
-                filterLogic: undefined,
+                filterLogic: 'and',
                 filters: [
                     {
                         field: 'Name',
@@ -310,6 +310,86 @@ describe('Start element', () => {
             const actualResult = createStartElementMetadataObject(startElement);
 
             expect(actualResult).toMatchObject(expectedResult);
+        });
+        describe('creates start element metadata object from element', () => {
+            const startElement = {
+                filterLogic: undefined,
+                filters: [],
+                object: 'Account',
+                objectContainer: undefined,
+                triggerType: 'RecordBeforeSave',
+                recordTriggerType: 'Create',
+                frequency: 'hourly',
+                startDate: '1/1/2001',
+                startTime: '18:00:00'
+            };
+
+            const expectedStartElement = {
+                name: undefined,
+                description: undefined,
+                label: undefined,
+                filters: [],
+                filterLogic: undefined,
+                object: 'Account',
+                objectContainer: undefined,
+                triggerType: 'RecordBeforeSave',
+                recordTriggerType: 'Create',
+                schedule: {
+                    frequency: 'hourly',
+                    startDate: '1/1/2001',
+                    startTime: '18:00:00'
+                }
+            };
+
+            const filters = [
+                {
+                    leftHandSide: 'Account.Name',
+                    operator: 'EqualTo',
+                    rightHandSide: 'myAccount',
+                    rightHandSideDataType: 'String',
+                    rowIndex: MOCK_GUID
+                },
+                {
+                    leftHandSide: 'Account.NumberOfEmployees',
+                    operator: 'EqualTo',
+                    rightHandSide: '5',
+                    rightHandSideDataType: 'Number',
+                    rowIndex: MOCK_GUID
+                },
+                {
+                    leftHandSide: 'Account.Name',
+                    operator: 'EqualTo',
+                    rightHandSide: 'yourAccount',
+                    rightHandSideDataType: 'String',
+                    rowIndex: MOCK_GUID
+                }
+            ];
+            describe('With filter logic = no_conditions', () => {
+                it('should have filterLogic = undefined', () => {
+                    startElement.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
+                    const actualResult = createStartElementMetadataObject(startElement);
+
+                    expect(actualResult).toMatchObject(expectedStartElement);
+                });
+            });
+            describe('With filter logic = no_conditions and filters ', () => {
+                it('should have filterLogic = undefined', () => {
+                    startElement.filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
+                    startElement.filters = filters;
+
+                    const actualResult = createStartElementMetadataObject(startElement);
+                    expect(actualResult).toMatchObject(expectedStartElement);
+                });
+            });
+            describe('With filter logic = "and" and no filters ', () => {
+                it('should have filterLogic = undefined', () => {
+                    startElement.filterLogic = CONDITION_LOGIC.AND;
+                    startElement.filters = undefined;
+
+                    const actualResult = createStartElementMetadataObject(startElement);
+                    expect(actualResult).toMatchObject(expectedStartElement);
+                });
+            });
         });
     });
 });

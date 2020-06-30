@@ -141,12 +141,18 @@ export function createStartElementMetadataObject(startElement, config = {}) {
         recordTriggerType,
         startTime,
         frequency,
-        filterLogic,
         filters = []
     } = startElement;
+    let { filterLogic } = startElement;
+    let recordFilters;
 
-    const recordFilters =
-        filters.length > 0 && filters[0].leftHandSide ? filters.map(filter => createFilterMetadataObject(filter)) : [];
+    if (filters.length > 0 && filters[0].leftHandSide && filterLogic !== CONDITION_LOGIC.NO_CONDITIONS) {
+        recordFilters = filters.map(filter => createFilterMetadataObject(filter));
+    } else {
+        recordFilters = [];
+        filterLogic = undefined;
+    }
+
     const schedule = startDate && startTime && frequency ? { startDate, startTime, frequency } : undefined;
 
     return Object.assign(startElementMetadata, {
@@ -158,10 +164,7 @@ export function createStartElementMetadataObject(startElement, config = {}) {
         object: object === '' ? undefined : object,
         objectContainer,
         recordTriggerType: recordTriggerType === '' ? undefined : recordTriggerType,
-        filterLogic:
-            triggerType === FLOW_TRIGGER_TYPE.SCHEDULED && filterLogic !== CONDITION_LOGIC.NO_CONDITIONS
-                ? filterLogic
-                : undefined,
+        filterLogic,
         filters: recordFilters
     });
 }
