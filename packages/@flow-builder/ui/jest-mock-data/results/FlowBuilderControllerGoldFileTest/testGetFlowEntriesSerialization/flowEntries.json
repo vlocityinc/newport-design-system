@@ -2,16 +2,16 @@
   "flowEntries":[
     {
       "icon":"utility:desktop",
-      "description":"Guide users through screens that they can access with Salesforce such as those in a Lightning page or a community.",
+      "description":"Guides users through a business process that\u2019s launched from Lightning pages, communities, quick actions, and more.",
       "label":"Screen Flow",
       "processType":"Flow",
       "recommended":true
     },
     {
       "icon":"utility:record_update",
-      "description":"Launch a flow in the background when a record is created or updated.",
+      "description":"Launches when a record is created, updated, or deleted. This autolaunched flow runs in the background.",
       "defaultTriggerType":"RecordAfterSave",
-      "label":"Record-Changed Flow",
+      "label":"Record-Triggered Flow",
       "processType":"AutoLaunchedFlow",
       "triggerTypes":[
         "RecordAfterSave",
@@ -22,9 +22,9 @@
     },
     {
       "icon":"utility:clock",
-      "description":"Launch a flow in the background at a scheduled time and frequency.",
+      "description":"Launches at a specified time and frequency for each record in a batch. This autolaunched flow runs in the background.",
       "defaultTriggerType":"Scheduled",
-      "label":"Scheduled Flow",
+      "label":"Schedule-Triggered Flow",
       "processType":"AutoLaunchedFlow",
       "triggerTypes":[
         "Scheduled"
@@ -33,9 +33,9 @@
     },
     {
       "icon":"utility:magicwand",
-      "description":"Launch a flow in the background when a platform event message is received.",
+      "description":"Launches when a platform event message is received. This autolaunched flow runs in the background.",
       "defaultTriggerType":"PlatformEvent",
-      "label":"Platform Event Flow",
+      "label":"Platform Event\u2014Triggered Flow",
       "processType":"AutoLaunchedFlow",
       "triggerTypes":[
         "PlatformEvent"
@@ -44,8 +44,8 @@
     },
     {
       "icon":"utility:magicwand",
-      "description":"Launch a flow in the background from another flow, a process, a button, or code such as Apex.",
-      "label":"Autolaunched Flow",
+      "description":"Launches when invoked by Apex, processes, REST API, and more. This autolaunched flow runs in the background.",
+      "label":"Autolaunched Flow (No Trigger)",
       "processType":"AutoLaunchedFlow",
       "recommended":true
     },

@@ -21,7 +21,7 @@
       "updateable":true
     },
     {
-      "apiName":"CloudMetricTrackMetrics",
+      "apiName":"InteractionSteppedStage",
       "createable":true,
       "custom":false,
       "deletable":true,
@@ -29,16 +29,6 @@
       "entityLabelPlural":"",
       "queryable":true,
       "updateable":true
-    },
-    {
-      "apiName":"CrossOrgCloudMetricTrackMetrics",
-      "createable":false,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"",
-      "entityLabelPlural":"",
-      "queryable":true,
-      "updateable":false
     },
     {
       "apiName":"OauthTokenLocal",
@@ -1411,6 +1401,36 @@
       "updateable":true
     },
     {
+      "apiName":"AssetWarranty",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Asset Warranty",
+      "entityLabelPlural":"Asset Warranties",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"AssetWarrantyChangeEvent",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Asset Warranty Change Event",
+      "entityLabelPlural":"Asset Warranty Change Event",
+      "queryable":false,
+      "updateable":false
+    },
+    {
+      "apiName":"AssetWarrantyHistory",
+      "createable":true,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Asset Warranty History",
+      "entityLabelPlural":"Asset Warranty History",
+      "queryable":true,
+      "updateable":false
+    },
+    {
       "apiName":"AssetChild__c",
       "createable":true,
       "custom":true,
@@ -2011,6 +2031,86 @@
       "updateable":false
     },
     {
+      "apiName":"B2BOrderMonthlyMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"B2B Combined Order Monthly Metrics",
+      "entityLabelPlural":"B2B Combined Order Monthly Metrics",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"CrossOrgB2BOrderMonthlyMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"B2B Combined Order Monthly Metrics",
+      "entityLabelPlural":"B2B Combined Order Monthly Metrics",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"B2BOrderDailyMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"B2B Combined Org Order Daily Metrics",
+      "entityLabelPlural":"B2B Combined Org Order Daily Metrics",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"CrossOrgB2BOrderDailyMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"B2B Combined Org Order Daily Metrics",
+      "entityLabelPlural":"B2B Combined Org Order Daily Metrics",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"B2BCombinedProductMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"B2B Combined Org Product Metrics",
+      "entityLabelPlural":"B2B Combined Org Product Metrics",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"CrossOrgB2BCombinedProductMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"B2B Combined Org Product Metrics",
+      "entityLabelPlural":"B2B Combined Org Product Metrics",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"B2BCombinedStoreMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"B2B Combined Org Storefront Metrics",
+      "entityLabelPlural":"B2B Combined Org Storefront Metrics",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"CrossOrgB2BCombinedStoreMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"B2B Combined Org Storefront Metrics",
+      "entityLabelPlural":"B2B Combined Org Storefront Metrics",
+      "queryable":true,
+      "updateable":false
+    },
+    {
       "apiName":"B2BCommercePackageMetrics",
       "createable":true,
       "custom":false,
@@ -2107,6 +2207,26 @@
       "deletable":false,
       "entityLabel":"B2B Org Wide Daily Metric",
       "entityLabelPlural":"B2B Org Wide Daily Metric",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"B2BOrgWideMonthlyMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"B2B Org Wide Monthly Metric",
+      "entityLabelPlural":"B2B Org Wide Monthly Metric",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"CrossOrgB2BOrgWideMonthlyMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"B2B Org Wide Monthly Metric",
+      "entityLabelPlural":"B2B Org Wide Monthly Metric",
       "queryable":true,
       "updateable":false
     },
@@ -2229,6 +2349,16 @@
       "entityLabelPlural":"Black Listed Consumers",
       "queryable":true,
       "updateable":true
+    },
+    {
+      "apiName":"BlackTabAuditableAction",
+      "createable":true,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"BlackTabAuditableAction",
+      "entityLabelPlural":"BlackTabAuditableActions",
+      "queryable":true,
+      "updateable":false
     },
     {
       "apiName":"Bookmark",
@@ -2379,16 +2509,6 @@
       "entityLabelPlural":"Business Process Picklist Mapping",
       "queryable":true,
       "updateable":false
-    },
-    {
-      "apiName":"CDPMCSetupUIStatus",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"CDPMarketingCloudSetupUIStatus",
-      "entityLabelPlural":"CDPMarketingCloudSetupUIStatus",
-      "queryable":true,
-      "updateable":true
     },
     {
       "apiName":"CorsWhitelistEntry",
@@ -3009,156 +3129,6 @@
       "entityLabelPlural":"Certificates and Keys",
       "queryable":true,
       "updateable":true
-    },
-    {
-      "apiName":"Certification",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Certification",
-      "entityLabelPlural":"Certifications",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CertificationDef",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Certification Definition",
-      "entityLabelPlural":"Certification Definitions",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CertificationDefFeed",
-      "createable":false,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Certification Definition Feed",
-      "entityLabelPlural":"Certification Definition Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"CertificationDefHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Certification Definition History",
-      "entityLabelPlural":"Certification Definition History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"CertificationDefOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Certification Definition Owner Rule",
-      "entityLabelPlural":"Certification Definition Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CertificationDefShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Certification Definition Share",
-      "entityLabelPlural":"Certification Definition Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CertificationHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Certification History",
-      "entityLabelPlural":"Certification History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"CertificationOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Certification Owner Rule",
-      "entityLabelPlural":"Certification Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CertificationSectionDef",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Certification Section Definition",
-      "entityLabelPlural":"Certification Section Definitions",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CertificationSectionDefHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Certification Section Definition History",
-      "entityLabelPlural":"Certification Section Definition History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"CertificationShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Certification Share",
-      "entityLabelPlural":"Certification Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CertificationStep",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Certification Step",
-      "entityLabelPlural":"Certification Steps",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CertificationStepDef",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Certification Step Definition",
-      "entityLabelPlural":"Certification Step Definitions",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CertificationStepDefHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Certification Step Definition History",
-      "entityLabelPlural":"Certification Step Definition History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"CertificationStepHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Certification Step History",
-      "entityLabelPlural":"Certification Step History",
-      "queryable":true,
-      "updateable":false
     },
     {
       "apiName":"AccountChild__ChangeEvent",
@@ -3961,114 +3931,24 @@
       "updateable":false
     },
     {
-      "apiName":"WorkCoaching",
+      "apiName":"CloudMetricTrackMetrics",
       "createable":true,
       "custom":false,
       "deletable":true,
-      "entityLabel":"Coaching",
-      "entityLabelPlural":"Coaching",
+      "entityLabel":"CloudMetricTrackMetric",
+      "entityLabelPlural":"CloudMetricTrackMetrics",
       "queryable":true,
       "updateable":true
     },
     {
-      "apiName":"WorkCoachingFeed",
+      "apiName":"CrossOrgCloudMetricTrackMetrics",
       "createable":false,
       "custom":false,
-      "deletable":true,
-      "entityLabel":"Coaching Feed",
-      "entityLabelPlural":"Coaching Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkCoachingHistory",
-      "createable":true,
-      "custom":false,
       "deletable":false,
-      "entityLabel":"Coaching History",
-      "entityLabelPlural":"Coaching History",
+      "entityLabel":"CloudMetricTrackMetric",
+      "entityLabelPlural":"CloudMetricTrackMetrics",
       "queryable":true,
       "updateable":false
-    },
-    {
-      "apiName":"WorkCoachingOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Coaching Owner Rule",
-      "entityLabelPlural":"Coaching Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkCoachingShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Coaching Share",
-      "entityLabelPlural":"Coaching Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CodeSetBundle",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Code Set Bundle",
-      "entityLabelPlural":"Code Set Bundles",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CodeSetBundleHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Code Set Bundle  History",
-      "entityLabelPlural":"Code Set Bundle  History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"CodeSetBundleCriteriaSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Code Set Bundle Criteria Rule",
-      "entityLabelPlural":"Code Set Bundle Criteria Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CodeSetBundleOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Code Set Bundle Owner Rule",
-      "entityLabelPlural":"Code Set Bundle Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CodeSetBundleShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Code Set Bundle Share",
-      "entityLabelPlural":"Code Set Bundle Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"CodeSetBundleSharingRuleFilterItem",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Code Set Bundle Sharing Rule Filter Item",
-      "entityLabelPlural":"Code Set Bundle Sharing Rule Filter Item",
-      "queryable":true,
-      "updateable":true
     },
     {
       "apiName":"ColorDefinition",
@@ -4671,24 +4551,24 @@
       "updateable":true
     },
     {
-      "apiName":"ConsoleConfig",
+      "apiName":"ConsentMetrics",
       "createable":true,
       "custom":false,
       "deletable":true,
-      "entityLabel":"Console Layout",
-      "entityLabelPlural":"Console Layout",
+      "entityLabel":"ConsentMetrics",
+      "entityLabelPlural":"ConsentMetrics",
       "queryable":true,
       "updateable":true
     },
     {
-      "apiName":"ConsoleConfigItem",
-      "createable":true,
+      "apiName":"CrossOrgConsentMetrics",
+      "createable":false,
       "custom":false,
-      "deletable":true,
-      "entityLabel":"Console Layout Item",
-      "entityLabelPlural":"Console Layout Item",
+      "deletable":false,
+      "entityLabel":"ConsentMetrics",
+      "entityLabelPlural":"ConsentMetrics",
       "queryable":true,
-      "updateable":true
+      "updateable":false
     },
     {
       "apiName":"ConsolePersonalization",
@@ -5229,6 +5109,16 @@
       "entityLabelPlural":"Content Document Subscriptions",
       "queryable":true,
       "updateable":false
+    },
+    {
+      "apiName":"ContentExternalStorage",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Content External Storage",
+      "entityLabelPlural":"Content External Storage",
+      "queryable":false,
+      "updateable":true
     },
     {
       "apiName":"ContentFolder",
@@ -6247,6 +6137,16 @@
       "deletable":true,
       "entityLabel":"Custom Report Type Object",
       "entityLabelPlural":"Custom Report Type Object",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"Scontrol",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Custom S-Control",
+      "entityLabelPlural":"Custom S-Controls",
       "queryable":true,
       "updateable":true
     },
@@ -7611,6 +7511,16 @@
       "updateable":true
     },
     {
+      "apiName":"FlowElementSubtype",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Element Subtype Definition",
+      "entityLabelPlural":"Element Subtype Definitions",
+      "queryable":true,
+      "updateable":false
+    },
+    {
       "apiName":"EmailRoutingAddress",
       "createable":true,
       "custom":false,
@@ -8221,6 +8131,26 @@
       "updateable":true
     },
     {
+      "apiName":"CrossOrgEIMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Entity Interface Metric",
+      "entityLabelPlural":"Entity Interface Metrics",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"EIMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Entity Interface Metric",
+      "entityLabelPlural":"Entity Interface Metrics",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"QoptimizerLimitOverride",
       "createable":false,
       "custom":false,
@@ -8549,6 +8479,36 @@
       "entityLabelPlural":"Expense Report Criteria Rule",
       "queryable":true,
       "updateable":true
+    },
+    {
+      "apiName":"ExpenseReportEntry",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Expense Report Entry",
+      "entityLabelPlural":"Expense Report Entries",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"ExpenseReportEntryFeed",
+      "createable":false,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Expense Report Entry Feed",
+      "entityLabelPlural":"Expense Report Entry Feed",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"ExpenseReportEntryHistory",
+      "createable":true,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Expense Report Entry History",
+      "entityLabelPlural":"Expense Report Entry History",
+      "queryable":true,
+      "updateable":false
     },
     {
       "apiName":"ExpenseReportFeed",
@@ -9171,206 +9131,6 @@
       "updateable":false
     },
     {
-      "apiName":"WorkFeedback",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback",
-      "entityLabelPlural":"Feedback",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Feedback History",
-      "entityLabelPlural":"Feedback History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkFeedbackOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Owner Rule",
-      "entityLabelPlural":"Feedback Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackQuestion",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Question",
-      "entityLabelPlural":"Feedback Questions",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackQuestionHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Feedback Question History",
-      "entityLabelPlural":"Feedback Question History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkFeedbackQuestionOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Question Owner Rule",
-      "entityLabelPlural":"Feedback Question Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackQuestionSet",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Question Set",
-      "entityLabelPlural":"Feedback Question Sets",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackQuestionSetHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Feedback Question Set History",
-      "entityLabelPlural":"Feedback Question Set History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkFeedbackQuestionSetOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Question Set Owner Rule",
-      "entityLabelPlural":"Feedback Question Set Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackQuestionSetShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Question Set Share",
-      "entityLabelPlural":"Feedback Question Set Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackQuestionShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Question Share",
-      "entityLabelPlural":"Feedback Question Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackRequest",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Request",
-      "entityLabelPlural":"Feedback Requests",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackRequestFeed",
-      "createable":false,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Request Feed",
-      "entityLabelPlural":"Feedback Request Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkFeedbackRequestHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Feedback Request History",
-      "entityLabelPlural":"Feedback Request History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkFeedbackRequestOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Request Owner Rule",
-      "entityLabelPlural":"Feedback Request Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackRequestShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Request Share",
-      "entityLabelPlural":"Feedback Request Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Share",
-      "entityLabelPlural":"Feedback Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackTemplate",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Template",
-      "entityLabelPlural":"Feedback Templates",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackTemplateOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Template Owner Rule",
-      "entityLabelPlural":"Feedback Template Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkFeedbackTemplateShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Feedback Template Share",
-      "entityLabelPlural":"Feedback Template Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"FieldAttributes",
       "createable":true,
       "custom":false,
@@ -9607,6 +9367,26 @@
       "deletable":true,
       "entityLabel":"Flexipage Component Metrics",
       "entityLabelPlural":"Flexipage Component Metrics",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"FlexipageFieldInstance",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Flexipage Field Instance",
+      "entityLabelPlural":"Flexipage Field Instances",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"FlexipageFieldInstanceProperty",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Flexipage Field Instance Property",
+      "entityLabelPlural":"Flexipage Field Instances Properties",
       "queryable":true,
       "updateable":true
     },
@@ -10119,6 +9899,16 @@
       "entityLabelPlural":"Formula Function Categories",
       "queryable":true,
       "updateable":false
+    },
+    {
+      "apiName":"FtestTopLevelWithCrud",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Ftest Top Level Setup With CRUD",
+      "entityLabelPlural":"Ftest Top Level Setup With CRUD Components",
+      "queryable":true,
+      "updateable":true
     },
     {
       "apiName":"FtestAccountChildHistory",
@@ -11541,122 +11331,12 @@
       "updateable":false
     },
     {
-      "apiName":"Goal",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Goal",
-      "entityLabelPlural":"Goals",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"TodayGoal",
       "createable":true,
       "custom":false,
       "deletable":true,
       "entityLabel":"Goal",
       "entityLabelPlural":"Goals",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkGoal",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Goal",
-      "entityLabelPlural":"Goals",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkGoalCollaborator",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Goal Collaborator",
-      "entityLabelPlural":"Goal Collaborators",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkGoalCollaboratorHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Goal Collaborator History",
-      "entityLabelPlural":"Goal Collaborator History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"GoalFeed",
-      "createable":false,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Goal Feed",
-      "entityLabelPlural":"Goal Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkGoalFeed",
-      "createable":false,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Goal Feed",
-      "entityLabelPlural":"Goal Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"GoalHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Goal History",
-      "entityLabelPlural":"Goal History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkGoalHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Goal History",
-      "entityLabelPlural":"Goal History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"GoalLink",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Goal Link",
-      "entityLabelPlural":"Goal Links",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkGoalLink",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Goal Link",
-      "entityLabelPlural":"Goal Links",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"GoalOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Goal Owner Rule",
-      "entityLabelPlural":"Goal Owner Rule",
       "queryable":true,
       "updateable":true
     },
@@ -11671,37 +11351,7 @@
       "updateable":true
     },
     {
-      "apiName":"WorkGoalOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Goal Owner Rule",
-      "entityLabelPlural":"Goal Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"GoalShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Goal Share",
-      "entityLabelPlural":"Goal Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"TodayGoalShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Goal Share",
-      "entityLabelPlural":"Goal Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkGoalShare",
       "createable":true,
       "custom":false,
       "deletable":true,
@@ -12219,36 +11869,6 @@
       "entityLabelPlural":"Idea Themes",
       "queryable":true,
       "updateable":true
-    },
-    {
-      "apiName":"Identifier",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Identifier",
-      "entityLabelPlural":"Identifiers",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"IdentifierFeed",
-      "createable":false,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Identifier  Feed",
-      "entityLabelPlural":"Identifier  Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"IdentifierHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Identifier  History",
-      "entityLabelPlural":"Identifier  History",
-      "queryable":true,
-      "updateable":false
     },
     {
       "apiName":"IdpEventLog",
@@ -12866,7 +12486,7 @@
       "custom":false,
       "deletable":true,
       "entityLabel":"Interaction Wait",
-      "entityLabelPlural":"Interaction Waits",
+      "entityLabelPlural":"Interaction Collection Sort Options",
       "queryable":true,
       "updateable":true
     },
@@ -12887,6 +12507,26 @@
       "deletable":true,
       "entityLabel":"Interaction Wait Event Parameter",
       "entityLabelPlural":"Interaction Wait Event Parameters",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"InteractionCollSortOption",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"InteractionCollSortOption",
+      "entityLabelPlural":"InteractionCollSortOptions",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"InteractionCollectionProc",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"InteractionCollectionProc",
+      "entityLabelPlural":"InteractionCollectionProcs",
       "queryable":true,
       "updateable":true
     },
@@ -13051,16 +12691,6 @@
       "updateable":true
     },
     {
-      "apiName":"JobTracker",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Job Tracker",
-      "entityLabelPlural":"Job Trackers",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"KanbanView",
       "createable":true,
       "custom":false,
@@ -13129,6 +12759,16 @@
       "entityLabelPlural":"Last Used Setup App",
       "queryable":true,
       "updateable":true
+    },
+    {
+      "apiName":"LayoutDefinition",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"LayoutDefinition",
+      "entityLabelPlural":"LayoutDefinitions",
+      "queryable":true,
+      "updateable":false
     },
     {
       "apiName":"CrossOrgLbpmMetrics",
@@ -14514,7 +14154,7 @@
       "apiName":"ManagedContent",
       "createable":false,
       "custom":false,
-      "deletable":true,
+      "deletable":false,
       "entityLabel":"Managed Content",
       "entityLabelPlural":"Managed Contents",
       "queryable":true,
@@ -15191,76 +14831,6 @@
       "updateable":false
     },
     {
-      "apiName":"Metric",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Metric",
-      "entityLabelPlural":"Metrics",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"MetricDataLink",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Metric Data Link",
-      "entityLabelPlural":"Metric Data Links",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"MetricDataLinkHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Metric Data Link History",
-      "entityLabelPlural":"Metric Data Link History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"MetricFeed",
-      "createable":false,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Metric Feed",
-      "entityLabelPlural":"Metric Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"MetricHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Metric History",
-      "entityLabelPlural":"Metric History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"MetricOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Metric Owner Rule",
-      "entityLabelPlural":"Metric Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"MetricShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Metric Share",
-      "entityLabelPlural":"Metric Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"MetricsDataFile",
       "createable":true,
       "custom":false,
@@ -15279,6 +14849,26 @@
       "entityLabelPlural":"Metrics for Apex Test Run Results",
       "queryable":true,
       "updateable":true
+    },
+    {
+      "apiName":"CrossOrgApexTestRunResultMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Metrics for Apex Test Run Results",
+      "entityLabelPlural":"Metrics for Apex Test Run Results",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"CrossOrgMetricsInMQMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Metrics for MetricsInMessageQueue Log Lines",
+      "entityLabelPlural":"Metrics for MetricsInMessageQueue Log Lines",
+      "queryable":true,
+      "updateable":false
     },
     {
       "apiName":"MetricsInMQMetrics",
@@ -15427,6 +15017,26 @@
       "deletable":true,
       "entityLabel":"Mobile Marked Record",
       "entityLabelPlural":"Mobile Marked Record",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"EmbeddedServiceMobilePlatform",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Mobile Platform Configuration For Embedded Service",
+      "entityLabelPlural":"Mobile Platform Configurations For Embedded Service",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"MobilePushNotificationCredential",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Mobile Push Notification Credential",
+      "entityLabelPlural":"Mobile Push Notification Credentials",
       "queryable":true,
       "updateable":true
     },
@@ -17221,56 +16831,6 @@
       "updateable":true
     },
     {
-      "apiName":"WorkPerformanceCycle",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Performance Cycle",
-      "entityLabelPlural":"Performance Cycles",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkPerformanceCycleFeed",
-      "createable":false,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Performance Cycle Feed",
-      "entityLabelPlural":"Performance Cycle Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkPerformanceCycleHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Performance Cycle History",
-      "entityLabelPlural":"Performance Cycle History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkPerformanceCycleOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Performance Cycle Owner Rule",
-      "entityLabelPlural":"Performance Cycle Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkPerformanceCycleShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Performance Cycle Share",
-      "entityLabelPlural":"Performance Cycle Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"Period",
       "createable":false,
       "custom":false,
@@ -17489,146 +17049,6 @@
       "entityLabelPlural":"People",
       "queryable":true,
       "updateable":false
-    },
-    {
-      "apiName":"PersonLanguage",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Person Language",
-      "entityLabelPlural":"Person Languages",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"PersonLanguageFeed",
-      "createable":false,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Person Language  Feed",
-      "entityLabelPlural":"Person Language  Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"PersonLanguageHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Person Language  History",
-      "entityLabelPlural":"Person Language  History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"PersonLanguageCriteriaSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Person Language Criteria Rule",
-      "entityLabelPlural":"Person Language Criteria Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"PersonLanguageOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Person Language Owner Rule",
-      "entityLabelPlural":"Person Language Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"PersonLanguageShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Person Language Share",
-      "entityLabelPlural":"Person Language Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"PersonLanguageSharingRuleFilterItem",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Person Language Sharing Rule Filter Item",
-      "entityLabelPlural":"Person Language Sharing Rule Filter Item",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"PersonName",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Person Name",
-      "entityLabelPlural":"Person Names",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"PersonNameFeed",
-      "createable":false,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Person Name  Feed",
-      "entityLabelPlural":"Person Name  Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"PersonNameHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Person Name  History",
-      "entityLabelPlural":"Person Name  History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"PersonNameCriteriaSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Person Name Criteria Rule",
-      "entityLabelPlural":"Person Name Criteria Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"PersonNameOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Person Name Owner Rule",
-      "entityLabelPlural":"Person Name Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"PersonNameShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Person Name Share",
-      "entityLabelPlural":"Person Name Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"PersonNameSharingRuleFilterItem",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Person Name Sharing Rule Filter Item",
-      "entityLabelPlural":"Person Name Sharing Rule Filter Item",
-      "queryable":true,
-      "updateable":true
     },
     {
       "apiName":"CrossOrgPersonAccountMetrics",
@@ -18901,6 +18321,36 @@
       "updateable":true
     },
     {
+      "apiName":"ProductWarrantyTerm",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Product Warranty Term",
+      "entityLabelPlural":"Product Warranty Terms",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"ProductWarrantyTermFeed",
+      "createable":false,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Product Warranty Term Feed",
+      "entityLabelPlural":"Product Warranty Term Feed",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"ProductWarrantyTermHistory",
+      "createable":true,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Product Warranty Term History",
+      "entityLabelPlural":"Product Warranty Term History",
+      "queryable":true,
+      "updateable":false
+    },
+    {
       "apiName":"CrossOrgProfile",
       "createable":false,
       "custom":false,
@@ -19661,6 +19111,26 @@
       "updateable":true
     },
     {
+      "apiName":"RecommendedSkinnyTable",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Recommended Skinny Table",
+      "entityLabelPlural":"Recommended Skinny Tables",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"RecommendedSkinnyTableField",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Recommended Skinny Table Field",
+      "entityLabelPlural":"Recommended Skinny Table Fields",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"RecordMergeHistory",
       "createable":true,
       "custom":false,
@@ -19849,6 +19319,26 @@
       "entityLabelPlural":"Relationship Domains",
       "queryable":true,
       "updateable":false
+    },
+    {
+      "apiName":"CrossOrgReleaseUpdateMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Release Update Metric",
+      "entityLabelPlural":"Release Update Metrics",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"ReleaseUpdateMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Release Update Metric",
+      "entityLabelPlural":"Release Update Metrics",
+      "queryable":true,
+      "updateable":true
     },
     {
       "apiName":"OauthConsumer",
@@ -20391,146 +19881,6 @@
       "updateable":true
     },
     {
-      "apiName":"WorkReward",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Reward",
-      "entityLabelPlural":"Rewards",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkRewardFund",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Reward Fund",
-      "entityLabelPlural":"Reward Funds",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkRewardFundFeed",
-      "createable":false,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Reward Fund Feed",
-      "entityLabelPlural":"Reward Fund Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkRewardFundHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Reward Fund History",
-      "entityLabelPlural":"Reward Fund History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkRewardFundOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Reward Fund Owner Rule",
-      "entityLabelPlural":"Reward Fund Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkRewardFundShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Reward Fund Share",
-      "entityLabelPlural":"Reward Fund Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkRewardFundType",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Reward Fund Type",
-      "entityLabelPlural":"Reward Fund Types",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkRewardFundTypeFeed",
-      "createable":false,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Reward Fund Type Feed",
-      "entityLabelPlural":"Reward Fund Type Feed",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkRewardFundTypeHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Reward Fund Type History",
-      "entityLabelPlural":"Reward Fund Type History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkRewardFundTypeOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Reward Fund Type Owner Rule",
-      "entityLabelPlural":"Reward Fund Type Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkRewardFundTypeShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Reward Fund Type Share",
-      "entityLabelPlural":"Reward Fund Type Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkRewardHistory",
-      "createable":true,
-      "custom":false,
-      "deletable":false,
-      "entityLabel":"Reward History",
-      "entityLabelPlural":"Reward History",
-      "queryable":true,
-      "updateable":false
-    },
-    {
-      "apiName":"WorkRewardOwnerSharingRule",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Reward Owner Rule",
-      "entityLabelPlural":"Reward Owner Rule",
-      "queryable":true,
-      "updateable":true
-    },
-    {
-      "apiName":"WorkRewardShare",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Reward Share",
-      "entityLabelPlural":"Reward Share",
-      "queryable":true,
-      "updateable":true
-    },
-    {
       "apiName":"CrossOrgUserRole",
       "createable":false,
       "custom":false,
@@ -20911,6 +20261,16 @@
       "updateable":true
     },
     {
+      "apiName":"ScontrolLocalization",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Scontrol Localization",
+      "entityLabelPlural":"Scontrol Localization",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"Scorecard",
       "createable":true,
       "custom":false,
@@ -21059,6 +20419,106 @@
       "entityLabelPlural":"Sensitive Data Rules",
       "queryable":true,
       "updateable":true
+    },
+    {
+      "apiName":"SerializedProduct",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Serialized Product",
+      "entityLabelPlural":"Serialized Products",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"SerializedProductFeed",
+      "createable":false,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Serialized Product  Feed",
+      "entityLabelPlural":"Serialized Product  Feed",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"SerializedProductHistory",
+      "createable":true,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Serialized Product  History",
+      "entityLabelPlural":"Serialized Product  History",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"SerializedProductCriteriaSharingRule",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Serialized Product Criteria Rule",
+      "entityLabelPlural":"Serialized Product Criteria Rule",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"SerializedProductOwnerSharingRule",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Serialized Product Owner Rule",
+      "entityLabelPlural":"Serialized Product Owner Rule",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"SerializedProductShare",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Serialized Product Share",
+      "entityLabelPlural":"Serialized Product Share",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"SerializedProductSharingRuleFilterItem",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Serialized Product Sharing Rule Filter Item",
+      "entityLabelPlural":"Serialized Product Sharing Rule Filter Item",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"SerializedProductTransaction",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Serialized Product Transaction",
+      "entityLabelPlural":"Serialized Product Transactions",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"SerializedProductTransactionFeed",
+      "createable":false,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Serialized Product Transaction  Feed",
+      "entityLabelPlural":"Serialized Product Transaction  Feed",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"SerializedProductTransactionHistory",
+      "createable":true,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Serialized Product Transaction  History",
+      "entityLabelPlural":"Serialized Product Transaction  History",
+      "queryable":true,
+      "updateable":false
     },
     {
       "apiName":"Service",
@@ -21807,6 +21267,16 @@
       "deletable":true,
       "entityLabel":"Setup Assistant Progress",
       "entityLabelPlural":"Setup Assistant Progress",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"SetupAssistantStep",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Setup Assistant Step",
+      "entityLabelPlural":"Setup Assistant Steps",
       "queryable":true,
       "updateable":true
     },
@@ -24311,6 +23781,16 @@
       "updateable":true
     },
     {
+      "apiName":"TranslationImportExportJob",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Translation Import Export Job",
+      "entityLabelPlural":"Translation Import Export Jobs",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"TranslationUser",
       "createable":true,
       "custom":false,
@@ -24409,6 +23889,26 @@
       "entityLabelPlural":"Two-Factor Registration",
       "queryable":true,
       "updateable":false
+    },
+    {
+      "apiName":"CrossOrgTwoFAUserAdoptionMetrics",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"TwoFactorUserAdoptionMetrics",
+      "entityLabelPlural":"TwoFactorUserAdoptionMetrics",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"TwoFAUserAdoptionMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"TwoFactorUserAdoptionMetrics",
+      "entityLabelPlural":"TwoFactorUserAdoptionMetrics",
+      "queryable":true,
+      "updateable":true
     },
     {
       "apiName":"UiFormulaCriterion",
@@ -24579,6 +24079,16 @@
       "entityLabelPlural":"Usage Subkey History",
       "queryable":true,
       "updateable":false
+    },
+    {
+      "apiName":"PlatformEventCustMetrics",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Usage metric for customers for Platform Events Delivered per Day",
+      "entityLabelPlural":"Usage metrics for customers for Platform Events Delivered per Day",
+      "queryable":true,
+      "updateable":true
     },
     {
       "apiName":"BigObjectsRecordMetrics",
@@ -25421,6 +24931,86 @@
       "updateable":false
     },
     {
+      "apiName":"WarrantyTerm",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Warranty Term",
+      "entityLabelPlural":"Warranty Terms",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WarrantyTermChangeEvent",
+      "createable":false,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Warranty Term Change Event",
+      "entityLabelPlural":"Warranty Term Change Event",
+      "queryable":false,
+      "updateable":false
+    },
+    {
+      "apiName":"WarrantyTermCriteriaSharingRule",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Warranty Term Criteria Rule",
+      "entityLabelPlural":"Warranty Term Criteria Rule",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WarrantyTermFeed",
+      "createable":false,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Warranty Term Feed",
+      "entityLabelPlural":"Warranty Term Feed",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"WarrantyTermHistory",
+      "createable":true,
+      "custom":false,
+      "deletable":false,
+      "entityLabel":"Warranty Term History",
+      "entityLabelPlural":"Warranty Term History",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"WarrantyTermOwnerSharingRule",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Warranty Term Owner Rule",
+      "entityLabelPlural":"Warranty Term Owner Rule",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WarrantyTermShare",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Warranty Term Share",
+      "entityLabelPlural":"Warranty Term Share",
+      "queryable":true,
+      "updateable":true
+    },
+    {
+      "apiName":"WarrantyTermSharingRuleFilterItem",
+      "createable":true,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"Warranty Term Sharing Rule Filter Item",
+      "entityLabelPlural":"Warranty Term Sharing Rule Filter Item",
+      "queryable":true,
+      "updateable":true
+    },
+    {
       "apiName":"WebServiceDefinition",
       "createable":false,
       "custom":false,
@@ -25917,6 +25507,16 @@
       "deletable":false,
       "entityLabel":"Zone",
       "entityLabelPlural":"Zones",
+      "queryable":true,
+      "updateable":false
+    },
+    {
+      "apiName":"AssetWarrantyFeed",
+      "createable":false,
+      "custom":false,
+      "deletable":true,
+      "entityLabel":"__MISSING LABEL__ PropertyFile - val AssetWarranty not found in section StandardFeedLabel",
+      "entityLabelPlural":"__MISSING LABEL__ PropertyFile - val AssetWarranty not found in section StandardFeedLabel",
       "queryable":true,
       "updateable":false
     },

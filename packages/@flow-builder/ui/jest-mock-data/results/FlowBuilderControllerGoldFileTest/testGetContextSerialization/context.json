@@ -38,6 +38,7 @@
     "screens" : [ ],
     "stages" : [ ],
     "start" : {
+      "doesRequireRecordChangedToMeetCriteria" : false,
       "filters" : [ ],
       "locationX" : 50,
       "locationY" : 50,
@@ -45,6 +46,7 @@
       "processMetadataValues" : [ ],
       "triggerType" : "ScheduledJourney"
     },
+    "steppedStages" : [ ],
     "steps" : [ ],
     "subflows" : [ ],
     "textTemplates" : [ ],

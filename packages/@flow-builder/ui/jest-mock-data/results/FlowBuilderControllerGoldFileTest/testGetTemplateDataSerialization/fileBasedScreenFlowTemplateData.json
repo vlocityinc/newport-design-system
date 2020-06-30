@@ -145,12 +145,14 @@
       "processMetadataValues" : [ ],
       "targetReference" : "SetTheStage"
     },
+    "doesRequireRecordChangedToMeetCriteria" : false,
     "filters" : [ ],
     "locationX" : 50,
     "locationY" : 50,
     "processMetadataValues" : [ ]
   },
   "status" : "Active",
+  "steppedStages" : [ ],
   "steps" : [ ],
   "subflows" : [ ],
   "textTemplates" : [ ],
