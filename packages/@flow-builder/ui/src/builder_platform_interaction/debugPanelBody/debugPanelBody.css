@@ -1,13 +1,31 @@
 p.sub-title {
-    font-weight: bold;
-    font-size: 3;
-    width: 352px;
+    font-size: 2;
+}
+
+p.normal {
+    font-size: 2;
+    width: 338px;
     border: 16px;
 }
 
 div.normal {
     font-size: 2;
-    width: 352px;
+    width: 338px;
     border: 16px;
     word-wrap: break-word;
+}
+
+p.withIcon {
+    margin-left: 4px;
+    width: 338px;
+    border: 16px;
+    font-size: 2;
+}
+
+div.slds-box {
+    width: 340px;
+}
+
+p.box {
+    width: 315px;
 }

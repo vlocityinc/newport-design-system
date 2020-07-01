@@ -1,10 +1,39 @@
 <template>
     <template for:each={textObj} for:item="currText">
-        <template if:false={currText.isBold} key={currText}>
-            <div class="normal" key={currText.value}>{currText.value}</div>
+        <template if:false={currText.isTitle} key={currText}>
+            <div
+                if:true={currText.isWarn}
+                class="custom-builder-baseCallOutEditor__mode-info slds-grid"
+                key={currText.value}
+            >
+                <lightning-icon
+                    class="warning"
+                    icon-name="utility:warning"
+                    alternative-text="Info"
+                    variant="warning"
+                    size="xx-small"
+                >
+                </lightning-icon>
+                <p class="withIcon">{currText.value}</p>
+            </div>
+            <div if:false={currText.isWarn} key={currText.value}>
+                <div if:false={currText.isError} class="normal" key={currText.value}>{currText.value}</div>
+                <div if:true={currText.isError} key={currText.value}>
+                    <div key={currText.value} class="helptext slds-p-top_medium"></div>
+                    <div class="slds-box" key={currText.value}>
+                        <div key={currText.value}>
+                            <p class="slds-text-color_weak">{currText.bold}</p>
+                            <p class="box">{currText.value}</p>
+                        </div>
+                    </div>
+                    <div key={currText.value} class="helptext slds-p-top_medium"></div>
+                </div>
+            </div>
         </template>
-        <template if:true={currText.isBold} key={currText}>
-            <p class="sub-title" key={currText.value}>{currText.value}</p>
+        <template if:true={currText.isTitle} key={currText}>
+            <div key={currText.value} class="slds-p-top_xx-small"></div>
+            <p class="sub-title slds-text-color_weak" key={currText.value}>{currText.value}</p>
+            <div key={currText.value} class="helptext slds-p-top_xx-small"></div>
         </template>
     </template>
 </template>
