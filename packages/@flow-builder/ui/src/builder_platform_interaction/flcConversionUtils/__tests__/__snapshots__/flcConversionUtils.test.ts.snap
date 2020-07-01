@@ -73,6 +73,11 @@ Object {
           "type": "DEFAULT",
         },
       ],
+      "childReferences": Array [
+        Object {
+          "childReference": "outcome-element-guid",
+        },
+      ],
       "connectorCount": 0,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -84,11 +89,6 @@ Object {
       "locationY": 0,
       "maxConnections": 2,
       "name": "d1",
-      "outcomeReferences": Array [
-        Object {
-          "outcomeReference": "outcome-element-guid",
-        },
-      ],
     },
     "outcome-element-guid": Object {
       "conditionLogic": "and",

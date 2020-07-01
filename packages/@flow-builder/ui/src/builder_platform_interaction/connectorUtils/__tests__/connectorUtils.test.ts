@@ -69,7 +69,7 @@ describe('Connector Utils', () => {
         it('Sorting options in connector picker for Decision Element', () => {
             const sourceElement = {
                 elementType: ELEMENT_TYPE.DECISION,
-                outcomeReferences: [{ outcomeReference: 'outcome1' }, { outcomeReference: 'outcome2' }]
+                childReferences: [{ childReference: 'outcome1' }, { childReference: 'outcome2' }]
             };
             const comboboxOptions = [
                 {
@@ -107,10 +107,7 @@ describe('Connector Utils', () => {
         it('Sorting options in connector picker for Wait Element', () => {
             const sourceElement = {
                 elementType: ELEMENT_TYPE.WAIT,
-                waitEventReferences: [
-                    { waitEventReference: 'waitEventReference1' },
-                    { waitEventReference: 'waitEventReference2' }
-                ]
+                childReferences: [{ childReference: 'waitEventReference1' }, { childReference: 'waitEventReference2' }]
             };
             const comboboxOptions = [
                 {

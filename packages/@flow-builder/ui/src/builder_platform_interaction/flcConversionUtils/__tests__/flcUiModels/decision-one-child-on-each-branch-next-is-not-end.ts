@@ -39,9 +39,9 @@ export default {
             isCanvasElement: true,
             connectorCount: 0,
             defaultConnectorLabel: 'Default Outcome',
-            outcomeReferences: [
+            childReferences: [
                 {
-                    outcomeReference: 'outcome-element-guid'
+                    childReference: 'outcome-element-guid'
                 }
             ],
             elementType: 'Decision',

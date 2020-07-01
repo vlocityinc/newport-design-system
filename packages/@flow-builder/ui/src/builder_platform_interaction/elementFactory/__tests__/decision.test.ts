@@ -47,11 +47,11 @@ const existingDecisionWithChildrenGuid = 'existingDecisionWithChildren';
 
 const existingDecision = {
     guid: existingDecisionGuid,
-    outcomeReferences: [{ outcomeReference: 'existingOutcome1' }, { outcomeReference: 'existingOutcome2' }]
+    childReferences: [{ childReference: 'existingOutcome1' }, { childReference: 'existingOutcome2' }]
 };
 const existingDecisionWithChildren = {
     guid: existingDecisionWithChildrenGuid,
-    outcomeReferences: [{ outcomeReference: 'existingOutcome1' }, { outcomeReference: 'existingOutcome2' }],
+    childReferences: [{ childReference: 'existingOutcome1' }, { childReference: 'existingOutcome2' }],
     children: ['screen1', 'screen2', null]
 };
 
@@ -91,7 +91,7 @@ duplicateCanvasElementWithChildElements
         };
         const updatedChildReferences = [
             {
-                outcomeReference: 'duplicatedOutcomeGuid'
+                childReference: 'duplicatedOutcomeGuid'
             }
         ];
         const availableConnections = [
@@ -188,20 +188,16 @@ describe('decision', () => {
             });
 
             it('includes outcomes for all outcome references present', () => {
-                const outcomeReferences = [
-                    { outcomeReference: 'a' },
-                    { outcomeReference: 'b' },
-                    { outcomeReference: 'c' }
-                ];
+                const childReferences = [{ childReference: 'a' }, { childReference: 'b' }, { childReference: 'c' }];
 
                 const decision = createDecisionWithOutcomes({
-                    outcomeReferences
+                    childReferences
                 });
 
                 expect(decision.outcomes).toHaveLength(3);
-                expect(decision.outcomes[0].guid).toEqual(outcomeReferences[0].outcomeReference);
-                expect(decision.outcomes[1].guid).toEqual(outcomeReferences[1].outcomeReference);
-                expect(decision.outcomes[2].guid).toEqual(outcomeReferences[2].outcomeReference);
+                expect(decision.outcomes[0].guid).toEqual(childReferences[0].childReference);
+                expect(decision.outcomes[1].guid).toEqual(childReferences[1].childReference);
+                expect(decision.outcomes[2].guid).toEqual(childReferences[2].childReference);
             });
         });
     });
@@ -219,9 +215,9 @@ describe('decision', () => {
         const { pastedCanvasElement, pastedChildElements } = createPastedDecision(dataForPasting);
 
         it('pastedCanvasElement in the result should have the updated outcomeReferences', () => {
-            expect(pastedCanvasElement.outcomeReferences).toEqual([
+            expect(pastedCanvasElement.childReferences).toEqual([
                 {
-                    outcomeReference: 'duplicatedOutcomeGuid'
+                    childReference: 'duplicatedOutcomeGuid'
                 }
             ]);
         });
@@ -259,9 +255,9 @@ describe('decision', () => {
         );
 
         it('duplicatedElement has updated outcomeReferences', () => {
-            expect(duplicatedElement.outcomeReferences).toEqual([
+            expect(duplicatedElement.childReferences).toEqual([
                 {
-                    outcomeReference: 'duplicatedOutcomeGuid'
+                    childReference: 'duplicatedOutcomeGuid'
                 }
             ]);
         });
@@ -453,10 +449,10 @@ describe('decision', () => {
                     decisionFromPropertyEditor
                 );
 
-                expect(result.canvasElement.outcomeReferences).toHaveLength(3);
-                expect(result.canvasElement.outcomeReferences[0].outcomeReference).toEqual(outcomes[0].guid);
-                expect(result.canvasElement.outcomeReferences[1].outcomeReference).toEqual(outcomes[1].guid);
-                expect(result.canvasElement.outcomeReferences[2].outcomeReference).toEqual(outcomes[2].guid);
+                expect(result.canvasElement.childReferences).toHaveLength(3);
+                expect(result.canvasElement.childReferences[0].childReference).toEqual(outcomes[0].guid);
+                expect(result.canvasElement.childReferences[1].childReference).toEqual(outcomes[1].guid);
+                expect(result.canvasElement.childReferences[2].childReference).toEqual(outcomes[2].guid);
             });
 
             it('includes outcomes for all outcomes present', () => {
@@ -496,8 +492,8 @@ describe('decision', () => {
                     decisionFromPropertyEditor
                 );
 
-                expect(result.canvasElement.outcomeReferences).toHaveLength(1);
-                expect(result.canvasElement.outcomeReferences[0].outcomeReference).toEqual(
+                expect(result.canvasElement.childReferences).toHaveLength(1);
+                expect(result.canvasElement.childReferences[0].childReference).toEqual(
                     decisionFromPropertyEditor.outcomes[0].guid
                 );
             });
@@ -508,12 +504,8 @@ describe('decision', () => {
                 );
 
                 expect(result.deletedChildElementGuids).toHaveLength(2);
-                expect(result.deletedChildElementGuids[0]).toEqual(
-                    existingDecision.outcomeReferences[0].outcomeReference
-                );
-                expect(result.deletedChildElementGuids[1]).toEqual(
-                    existingDecision.outcomeReferences[1].outcomeReference
-                );
+                expect(result.deletedChildElementGuids[0]).toEqual(existingDecision.childReferences[0].childReference);
+                expect(result.deletedChildElementGuids[1]).toEqual(existingDecision.childReferences[1].childReference);
             });
 
             it('has the right maxConnections', () => {
@@ -603,10 +595,10 @@ describe('decision', () => {
                 const result = createDecisionWithOutcomeReferences(decisionFromFlow);
                 const decision = result.elements[existingDecisionGuid];
 
-                expect(decision.outcomeReferences).toHaveLength(3);
-                expect(decision.outcomeReferences[0].outcomeReference).toEqual(decisionFromFlow.rules[0].guid);
-                expect(decision.outcomeReferences[1].outcomeReference).toEqual(decisionFromFlow.rules[1].guid);
-                expect(decision.outcomeReferences[2].outcomeReference).toEqual(decisionFromFlow.rules[2].guid);
+                expect(decision.childReferences).toHaveLength(3);
+                expect(decision.childReferences[0].childReference).toEqual(decisionFromFlow.rules[0].guid);
+                expect(decision.childReferences[1].childReference).toEqual(decisionFromFlow.rules[1].guid);
+                expect(decision.childReferences[2].childReference).toEqual(decisionFromFlow.rules[2].guid);
             });
 
             it('are included in element map for all rules present', () => {
@@ -624,15 +616,15 @@ describe('decision', () => {
         beforeEach(() => {
             decisionFromStore = {
                 guid: existingDecisionGuid,
-                outcomeReferences: [
+                childReferences: [
                     {
-                        outcomeReference: 'outcome1'
+                        childReference: 'outcome1'
                     },
                     {
-                        outcomeReference: 'outcome2'
+                        childReference: 'outcome2'
                     },
                     {
-                        outcomeReference: 'outcome3'
+                        childReference: 'outcome3'
                     }
                 ]
             };
@@ -649,9 +641,9 @@ describe('decision', () => {
                 const decision = createDecisionMetadataObject(decisionFromStore);
 
                 expect(decision.rules).toHaveLength(3);
-                expect(decision.rules[0].guid).toEqual(decisionFromStore.outcomeReferences[0].outcomeReference);
-                expect(decision.rules[1].guid).toEqual(decisionFromStore.outcomeReferences[1].outcomeReference);
-                expect(decision.rules[2].guid).toEqual(decisionFromStore.outcomeReferences[2].outcomeReference);
+                expect(decision.rules[0].guid).toEqual(decisionFromStore.childReferences[0].childReference);
+                expect(decision.rules[1].guid).toEqual(decisionFromStore.childReferences[1].childReference);
+                expect(decision.rules[2].guid).toEqual(decisionFromStore.childReferences[2].childReference);
             });
 
             it('calls createConditionMetadataObject for each condition given', () => {

@@ -728,9 +728,9 @@ export const flowWithAllElementsUIModel = {
                 isHighlighted: false,
                 isSelectable: true
             },
-            outcomeReferences: [
+            childReferences: [
                 {
-                    outcomeReference: '69030d84-1e7f-49c3-ad89-ddc4db69050a'
+                    childReference: '69030d84-1e7f-49c3-ad89-ddc4db69050a'
                 }
             ],
             defaultConnectorLabel: 'Default Outcome',
@@ -778,9 +778,9 @@ export const flowWithAllElementsUIModel = {
                 isHighlighted: false,
                 isSelectable: true
             },
-            outcomeReferences: [
+            childReferences: [
                 {
-                    outcomeReference: 'a8368340-a386-4406-9118-02389237ad54'
+                    childReference: 'a8368340-a386-4406-9118-02389237ad54'
                 }
             ],
             defaultConnectorLabel: 'Default Outcome',
@@ -2198,21 +2198,21 @@ export const flowWithAllElementsUIModel = {
             pausedText: '',
             showFooter: true,
             showHeader: true,
-            fieldReferences: [
+            childReferences: [
                 {
-                    fieldReference: '7f3aa0ed-17d0-4a43-b89a-395d3d6e609d'
+                    childReference: '7f3aa0ed-17d0-4a43-b89a-395d3d6e609d'
                 },
                 {
-                    fieldReference: 'e46d1655-6558-4c7b-b828-b040906115b0'
+                    childReference: 'e46d1655-6558-4c7b-b828-b040906115b0'
                 },
                 {
-                    fieldReference: '1219bee3-aea6-4567-b155-e5ddb4a543bd'
+                    childReference: '1219bee3-aea6-4567-b155-e5ddb4a543bd'
                 },
                 {
-                    fieldReference: '130d845a-9aeb-42e7-acbc-cdea13693b85'
+                    childReference: '130d845a-9aeb-42e7-acbc-cdea13693b85'
                 },
                 {
-                    fieldReference: '3ce6eb05-97e4-467f-b821-11dfa2cdccf0'
+                    childReference: '3ce6eb05-97e4-467f-b821-11dfa2cdccf0'
                 }
             ],
             elementType: 'Screen',
@@ -2265,7 +2265,7 @@ export const flowWithAllElementsUIModel = {
             },
             fields: [],
             storeOutputAutomatically: true,
-            fieldReferences: []
+            childReferences: []
         },
         'e46d1655-6558-4c7b-b828-b040906115b0': {
             guid: 'e46d1655-6558-4c7b-b828-b040906115b0',
@@ -2313,7 +2313,7 @@ export const flowWithAllElementsUIModel = {
             },
             fields: [],
             storeOutputAutomatically: false,
-            fieldReferences: []
+            childReferences: []
         },
         '1219bee3-aea6-4567-b155-e5ddb4a543bd': {
             guid: '1219bee3-aea6-4567-b155-e5ddb4a543bd',
@@ -2349,7 +2349,7 @@ export const flowWithAllElementsUIModel = {
             },
             fields: [],
             storeOutputAutomatically: true,
-            fieldReferences: []
+            childReferences: []
         },
         '130d845a-9aeb-42e7-acbc-cdea13693b85': {
             guid: '130d845a-9aeb-42e7-acbc-cdea13693b85',
@@ -2385,7 +2385,7 @@ export const flowWithAllElementsUIModel = {
             },
             fields: [],
             storeOutputAutomatically: true,
-            fieldReferences: []
+            childReferences: []
         },
         '3ce6eb05-97e4-467f-b821-11dfa2cdccf0': {
             guid: '3ce6eb05-97e4-467f-b821-11dfa2cdccf0',
@@ -2421,7 +2421,7 @@ export const flowWithAllElementsUIModel = {
             },
             fields: [],
             storeOutputAutomatically: true,
-            fieldReferences: []
+            childReferences: []
         },
         '611f9934-04ec-47a9-8a9f-ade6f3b66435': {
             guid: '611f9934-04ec-47a9-8a9f-ade6f3b66435',
@@ -2444,9 +2444,9 @@ export const flowWithAllElementsUIModel = {
             pausedText: '',
             showFooter: true,
             showHeader: true,
-            fieldReferences: [
+            childReferences: [
                 {
-                    fieldReference: '9cdb5a2b-2fec-4a2f-81b7-ef78564aba74'
+                    childReference: '9cdb5a2b-2fec-4a2f-81b7-ef78564aba74'
                 }
             ],
             elementType: 'Screen',
@@ -2486,7 +2486,7 @@ export const flowWithAllElementsUIModel = {
             },
             fields: [],
             storeOutputAutomatically: true,
-            fieldReferences: []
+            childReferences: []
         },
         '3c67ee2c-bda6-4062-a41a-c4a2ac77ee37': {
             guid: '3c67ee2c-bda6-4062-a41a-c4a2ac77ee37',

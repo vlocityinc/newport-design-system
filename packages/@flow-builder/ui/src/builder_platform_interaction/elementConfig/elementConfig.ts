@@ -452,8 +452,8 @@ export const elementTypeToConfigMap = {
             editModal: LABELS.editScreenLabel
         },
         childReferenceKey: {
-            singular: 'fieldReference',
-            plural: 'fieldReferences'
+            singular: 'childReference',
+            plural: 'childReferences'
         },
         canvasElement: true,
         nonHydratableProperties: [
@@ -500,8 +500,8 @@ export const elementTypeToConfigMap = {
             editModal: LABELS.editDecisionLabel
         },
         childReferenceKey: {
-            singular: 'outcomeReference',
-            plural: 'outcomeReferences'
+            singular: 'childReference',
+            plural: 'childReferences'
         },
         canvasElement: true,
         canHaveDefaultConnector: true,
@@ -537,8 +537,8 @@ export const elementTypeToConfigMap = {
             editModal: LABELS.editWaitLabel
         },
         childReferenceKey: {
-            singular: 'waitEventReference',
-            plural: 'waitEventReferences'
+            singular: 'childReference',
+            plural: 'childReferences'
         },
         canvasElement: true,
         canHaveDefaultConnector: true,

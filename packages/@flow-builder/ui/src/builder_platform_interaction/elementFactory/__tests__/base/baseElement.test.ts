@@ -536,9 +536,9 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             locationY: 20,
             maxConnections: 2,
             elementType: ELEMENT_TYPE.DECISION,
-            outcomeReferences: [
+            childReferences: [
                 {
-                    outcomeReference: 'originalChildElement'
+                    childReference: 'originalChildElement'
                 }
             ]
         };
@@ -562,8 +562,8 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             childElementNameMap,
             undefined,
             createChildElement,
-            'outcomeReferences',
-            'outcomeReference',
+            'childReferences',
+            'childReference',
             defaultAvailableConnections
         );
 
@@ -577,9 +577,9 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
                 connectorCount: 0,
                 maxConnections: 2,
                 elementType: ELEMENT_TYPE.DECISION,
-                outcomeReferences: [
+                childReferences: [
                     {
-                        outcomeReference: 'originalChildElement'
+                        childReference: 'originalChildElement'
                     }
                 ]
             };
@@ -599,7 +599,7 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
         it('updatedChildReferences should be an array containing the updated Child References', () => {
             expect(updatedChildReferences).toEqual([
                 {
-                    outcomeReference: 'duplicateChildElement'
+                    childReference: 'duplicateChildElement'
                 }
             ]);
         });
@@ -625,9 +625,9 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             locationY: 20,
             maxConnections: 1,
             elementType: ELEMENT_TYPE.SCREEN,
-            fieldReferences: [
+            childReferences: [
                 {
-                    fieldReference: 'section1'
+                    childReference: 'section1'
                 }
             ]
         };
@@ -635,7 +635,7 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
         const createDuplicateChildElements = function(originalChildElement) {
             originalChildElement.guid = 'section1';
             return [
-                { guid: 'section1', name: 'section1', fieldReferences: [{ fieldReference: 'column1' }] },
+                { guid: 'section1', name: 'section1', childReferences: [{ childReference: 'column1' }] },
                 { guid: 'column1', name: 'column1' }
             ];
         };
@@ -659,8 +659,8 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             },
             undefined,
             createDuplicateChildElements,
-            'fieldReferences',
-            'fieldReference'
+            'childReferences',
+            'childReference'
         );
 
         it('The duplicated element should have updated properties', () => {
@@ -673,7 +673,7 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
                 connectorCount: 0,
                 maxConnections: 1,
                 elementType: ELEMENT_TYPE.SCREEN,
-                fieldReferences: [{ fieldReference: 'section1' }]
+                childReferences: [{ childReference: 'section1' }]
             };
 
             expect(duplicatedElement).toMatchObject(newElement);
@@ -683,7 +683,7 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             expect(duplicatedChildElements.duplicateSection1).toMatchObject({
                 guid: 'duplicateSection1',
                 name: 'duplicateSection1',
-                fieldReferences: [{ fieldReference: 'duplicateColumn1' }]
+                childReferences: [{ childReference: 'duplicateColumn1' }]
             });
         });
 
@@ -697,7 +697,7 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
         it('The updatedChildReferences should be correct', () => {
             expect(updatedChildReferences).toMatchObject([
                 {
-                    fieldReference: 'duplicateSection1'
+                    childReference: 'duplicateSection1'
                 }
             ]);
         });
@@ -720,7 +720,7 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             locationY: 20,
             maxConnections: 1,
             elementType: ELEMENT_TYPE.SCREEN,
-            fieldReferences: []
+            childReferences: []
         };
 
         const {
@@ -736,8 +736,8 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             childElementNameMap,
             undefined,
             createChildElement,
-            'fieldReferences',
-            'fieldReference'
+            'childReferences',
+            'childReference'
         );
 
         it('The duplicated element should have updated properties', () => {
@@ -750,7 +750,7 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
                 connectorCount: 0,
                 maxConnections: 1,
                 elementType: ELEMENT_TYPE.SCREEN,
-                fieldReferences: []
+                childReferences: []
             };
 
             expect(duplicatedElement).toEqual(newElement);

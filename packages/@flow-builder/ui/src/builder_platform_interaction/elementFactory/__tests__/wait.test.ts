@@ -30,13 +30,13 @@ const newWaitGuid = 'newWait';
 const existingWaitGuid = 'existingWait';
 const existingWait = {
     guid: existingWaitGuid,
-    waitEventReferences: [{ waitEventReference: 'existingWaitEvent1' }, { waitEventReference: 'existingWaitEvent2' }]
+    childReferences: [{ childReference: 'existingWaitEvent1' }, { childReference: 'existingWaitEvent2' }]
 };
 const waitWithChildrenGuid = 'newWaitWithChildren';
 const existingWaitWithChildrenGuid = 'existingWaitWithChildren';
 const existingWaitWithChildren = {
     guid: existingWaitWithChildrenGuid,
-    waitEventReferences: [{ waitEventReference: 'existingWaitEvent1' }, { waitEventReference: 'existingWaitEvent2' }],
+    childReferences: [{ childReference: 'existingWaitEvent1' }, { childReference: 'existingWaitEvent2' }],
     children: ['screen1', 'screen2', null]
 };
 
@@ -113,7 +113,7 @@ jest.mock('../base/baseElement', () => {
                 };
                 const updatedChildReferences = [
                     {
-                        waitEventReference: 'duplicatedWaitEventGuid'
+                        childReference: 'duplicatedWaitEventGuid'
                     }
                 ];
                 const availableConnections = [
@@ -236,20 +236,16 @@ describe('wait', () => {
             });
 
             it('includes wait event for all wait event references present', () => {
-                const waitEventReferences = [
-                    { waitEventReference: 'a' },
-                    { waitEventReference: 'b' },
-                    { waitEventReference: 'c' }
-                ];
+                const childReferences = [{ childReference: 'a' }, { childReference: 'b' }, { childReference: 'c' }];
 
                 const wait = createWaitWithWaitEvents({
-                    waitEventReferences
+                    childReferences
                 });
 
                 expect(wait.waitEvents).toHaveLength(3);
-                expect(wait.waitEvents[0].guid).toEqual(waitEventReferences[0].waitEventReference);
-                expect(wait.waitEvents[1].guid).toEqual(waitEventReferences[1].waitEventReference);
-                expect(wait.waitEvents[2].guid).toEqual(waitEventReferences[2].waitEventReference);
+                expect(wait.waitEvents[0].guid).toEqual(childReferences[0].childReference);
+                expect(wait.waitEvents[1].guid).toEqual(childReferences[1].childReference);
+                expect(wait.waitEvents[2].guid).toEqual(childReferences[2].childReference);
             });
         });
 
@@ -270,10 +266,10 @@ describe('wait', () => {
             {}
         );
 
-        it('duplicatedElement has updated waitEventReferences', () => {
-            expect(duplicatedElement.waitEventReferences).toEqual([
+        it('duplicatedElement has updated childReferences', () => {
+            expect(duplicatedElement.childReferences).toEqual([
                 {
-                    waitEventReference: 'duplicatedWaitEventGuid'
+                    childReference: 'duplicatedWaitEventGuid'
                 }
             ]);
         });
@@ -579,10 +575,10 @@ describe('wait', () => {
             it('wait includes waitEvent references for all waitEvents present', () => {
                 const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
 
-                expect(result.canvasElement.waitEventReferences).toHaveLength(3);
-                expect(result.canvasElement.waitEventReferences[0].waitEventReference).toEqual(waitEvents[0].guid);
-                expect(result.canvasElement.waitEventReferences[1].waitEventReference).toEqual(waitEvents[1].guid);
-                expect(result.canvasElement.waitEventReferences[2].waitEventReference).toEqual(waitEvents[2].guid);
+                expect(result.canvasElement.childReferences).toHaveLength(3);
+                expect(result.canvasElement.childReferences[0].childReference).toEqual(waitEvents[0].guid);
+                expect(result.canvasElement.childReferences[1].childReference).toEqual(waitEvents[1].guid);
+                expect(result.canvasElement.childReferences[2].childReference).toEqual(waitEvents[2].guid);
             });
 
             it('includes waitEvents for all waitEvents present', () => {
@@ -616,8 +612,8 @@ describe('wait', () => {
             it('wait does not include waitEvent references for deleted waitEvents', () => {
                 const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
 
-                expect(result.canvasElement.waitEventReferences).toHaveLength(1);
-                expect(result.canvasElement.waitEventReferences[0].waitEventReference).toEqual(
+                expect(result.canvasElement.childReferences).toHaveLength(1);
+                expect(result.canvasElement.childReferences[0].childReference).toEqual(
                     waitFromPropertyEditor.waitEvents[0].guid
                 );
             });
@@ -626,12 +622,8 @@ describe('wait', () => {
                 const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
 
                 expect(result.deletedChildElementGuids).toHaveLength(2);
-                expect(result.deletedChildElementGuids[0]).toEqual(
-                    existingWait.waitEventReferences[0].waitEventReference
-                );
-                expect(result.deletedChildElementGuids[1]).toEqual(
-                    existingWait.waitEventReferences[1].waitEventReference
-                );
+                expect(result.deletedChildElementGuids[0]).toEqual(existingWait.childReferences[0].childReference);
+                expect(result.deletedChildElementGuids[1]).toEqual(existingWait.childReferences[1].childReference);
             });
 
             it('has the right maxConnections', () => {
@@ -719,10 +711,10 @@ describe('wait', () => {
                 const result = createWaitWithWaitEventReferences(waitFromFlow);
                 const wait = result.elements[existingWaitGuid];
 
-                expect(wait.waitEventReferences).toHaveLength(3);
-                expect(wait.waitEventReferences[0].waitEventReference).toEqual(waitFromFlow.waitEvents[0].guid);
-                expect(wait.waitEventReferences[1].waitEventReference).toEqual(waitFromFlow.waitEvents[1].guid);
-                expect(wait.waitEventReferences[2].waitEventReference).toEqual(waitFromFlow.waitEvents[2].guid);
+                expect(wait.childReferences).toHaveLength(3);
+                expect(wait.childReferences[0].childReference).toEqual(waitFromFlow.waitEvents[0].guid);
+                expect(wait.childReferences[1].childReference).toEqual(waitFromFlow.waitEvents[1].guid);
+                expect(wait.childReferences[2].childReference).toEqual(waitFromFlow.waitEvents[2].guid);
             });
 
             it('are included in element map for all waitEvents present', () => {
@@ -777,15 +769,15 @@ describe('wait', () => {
         beforeEach(() => {
             waitFromStore = {
                 guid: existingWaitGuid,
-                waitEventReferences: [
+                childReferences: [
                     {
-                        waitEventReference: existingWaitEventGuid
+                        childReference: existingWaitEventGuid
                     },
                     {
-                        waitEventReference: 'waitEvent2'
+                        childReference: 'waitEvent2'
                     },
                     {
-                        waitEventReference: 'waitEvent3'
+                        childReference: 'waitEvent3'
                     }
                 ]
             };
@@ -803,8 +795,8 @@ describe('wait', () => {
 
                 expect(wait.waitEvents).toHaveLength(3);
                 expect(wait.waitEvents[0].guid).toEqual(existingWaitEventGuid);
-                expect(wait.waitEvents[1].guid).toEqual(waitFromStore.waitEventReferences[1].waitEventReference);
-                expect(wait.waitEvents[2].guid).toEqual(waitFromStore.waitEventReferences[2].waitEventReference);
+                expect(wait.waitEvents[1].guid).toEqual(waitFromStore.childReferences[1].childReference);
+                expect(wait.waitEvents[2].guid).toEqual(waitFromStore.childReferences[2].childReference);
             });
 
             describe('conditions', () => {
@@ -859,9 +851,9 @@ describe('wait', () => {
             it('sets the input parameters with result of createParameterItemMetadataObject for every input parameter given', () => {
                 waitFromStore = {
                     guid: existingWaitGuid,
-                    waitEventReferences: [
+                    childReferences: [
                         {
-                            waitEventReference: emptyParameterValueWaitEventGuid
+                            childReference: emptyParameterValueWaitEventGuid
                         }
                     ]
                 };
@@ -883,9 +875,9 @@ describe('wait', () => {
             it('sets the output parameters with result of createParameterItemMetadataObject for output parameters with non empty values', () => {
                 waitFromStore = {
                     guid: existingWaitGuid,
-                    waitEventReferences: [
+                    childReferences: [
                         {
-                            waitEventReference: emptyParameterValueWaitEventGuid
+                            childReference: emptyParameterValueWaitEventGuid
                         }
                     ]
                 };

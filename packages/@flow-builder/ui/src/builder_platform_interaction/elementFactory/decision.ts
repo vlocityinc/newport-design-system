@@ -23,8 +23,8 @@ import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 const elementType = ELEMENT_TYPE.DECISION;
 
 const childReferenceKeys = {
-    childReferencesKey: 'outcomeReferences',
-    childReferenceKey: 'outcomeReference'
+    childReferencesKey: 'childReferences',
+    childReferenceKey: 'childReference'
 };
 
 const showOutcomeExecuteWhenOptions = (): boolean => {
@@ -43,13 +43,13 @@ export function createDecisionWithOutcomes(decision = {}) {
     const newDecision = baseCanvasElement(decision);
     const { prev, next } = decision;
     let { outcomes } = decision;
-    const { defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel, outcomeReferences } = decision;
+    const { defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel, childReferences } = decision;
 
-    if (outcomeReferences && outcomeReferences.length > 0) {
+    if (childReferences && childReferences.length > 0) {
         // decision with outcome references
         // Decouple outcome from store.
-        outcomes = outcomeReferences.map(outcomeReference => {
-            const outcome = createOutcome(getElementByGuid(outcomeReference.outcomeReference));
+        outcomes = childReferences.map(childReference => {
+            const outcome = createOutcome(getElementByGuid(childReference.childReference));
             // establish if outcome execution options should be shown
             outcome.showOutcomeExecutionOptions = showOutcomeExecuteWhenOptions();
             return outcome;
@@ -180,13 +180,13 @@ export function createDuplicateDecision(
 export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision) {
     const newDecision = baseCanvasElement(decision);
     const { defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel, outcomes } = decision;
-    let outcomeReferences = [];
+    let childReferences = [];
     let newOutcomes = [];
 
     for (let i = 0; i < outcomes.length; i++) {
         const outcome = outcomes[i];
         const newOutcome = createOutcome(outcome);
-        outcomeReferences = updateOutcomeReferences(outcomeReferences, newOutcome);
+        childReferences = updateOutcomeReferences(childReferences, newOutcome);
         newOutcomes = [...newOutcomes, newOutcome];
     }
 
@@ -206,13 +206,13 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
                     type: CONNECTOR_TYPE.DEFAULT
                 }
             ],
-            outcomeReferences: []
+            childReferences: []
         };
     }
 
     const { connectorCount, availableConnections } = getConnectionProperties(
         originalDecision,
-        outcomeReferences,
+        childReferences,
         deletedOutcomeGuids,
         childReferenceKeys.childReferencesKey,
         childReferenceKeys.childReferenceKey
@@ -227,7 +227,7 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
     const elementSubtype = decision.elementSubtype;
     Object.assign(newDecision, {
         defaultConnectorLabel,
-        outcomeReferences,
+        childReferences,
         elementType,
         maxConnections,
         connectorCount,
@@ -247,7 +247,7 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
 export function createDecisionWithOutcomeReferences(decision = {}) {
     const newDecision = baseCanvasElement(decision);
     let outcomes = [],
-        outcomeReferences = [],
+        childReferences = [],
         availableConnections = [];
     const { defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel, rules = [] } = decision;
     // create connectors for decision which is default value. This can be refactor to update available connection as well.
@@ -258,7 +258,7 @@ export function createDecisionWithOutcomeReferences(decision = {}) {
         const connector = createConnectorObjects(rule, outcome.guid, newDecision.guid);
         outcomes = [...outcomes, outcome];
         // updating outcomeReferences
-        outcomeReferences = updateOutcomeReferences(outcomeReferences, outcome);
+        childReferences = updateOutcomeReferences(childReferences, outcome);
         availableConnections = addRegularConnectorToAvailableConnections(availableConnections, rule);
         // connector is an array. FIX it.
         connectors = [...connectors, ...connector];
@@ -267,7 +267,7 @@ export function createDecisionWithOutcomeReferences(decision = {}) {
     const connectorCount = connectors ? connectors.length : 0;
     const maxConnections = calculateMaxConnections(decision);
     Object.assign(newDecision, {
-        outcomeReferences,
+        childReferences,
         defaultConnectorLabel,
         elementType,
         connectorCount,
@@ -299,11 +299,11 @@ export function createDecisionMetadataObject(decision, config = {}) {
         throw new Error('Decision is not defined');
     }
     const newDecision = baseCanvasElementMetadataObject(decision, config);
-    const { outcomeReferences, defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel } = decision;
+    const { childReferences, defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel } = decision;
     let outcomes;
-    if (outcomeReferences && outcomeReferences.length > 0) {
-        outcomes = outcomeReferences.map(({ outcomeReference }) => {
-            const outcome = getElementByGuid(outcomeReference);
+    if (childReferences && childReferences.length > 0) {
+        outcomes = childReferences.map(({ childReference }) => {
+            const outcome = getElementByGuid(childReference);
             const metadataOutcome = baseChildElementMetadataObject(outcome, config);
 
             let { conditions = [] } = outcome;
@@ -336,8 +336,8 @@ function calculateMaxConnections(decision) {
         length = decision.outcomes.length + 1;
     } else if (decision.rules) {
         length = decision.rules.length + 1;
-    } else if (decision.outcomeReferences) {
-        length = decision.outcomeReferences.length + 1;
+    } else if (decision.childReferences) {
+        length = decision.childReferences.length + 1;
     }
     return length;
 }
@@ -377,14 +377,14 @@ function addDefaultConnectorToAvailableConnections(availableConnections = [], de
     return availableConnections;
 }
 
-function updateOutcomeReferences(outcomeReferences = [], outcome) {
+function updateOutcomeReferences(childReferences = [], outcome) {
     if (!outcome || !outcome.guid) {
         throw new Error('Either outcome or outcome.guid is not defined');
     }
     return [
-        ...outcomeReferences,
+        ...childReferences,
         {
-            outcomeReference: outcome.guid
+            childReference: outcome.guid
         }
     ];
 }
@@ -398,8 +398,8 @@ function getUpdatedChildrenAndDeletedOutcomesUsingStore(originalDecision, newOut
     const decisionFromStore = getElementByGuid(guid);
     let outcomeReferencesFromStore;
     if (decisionFromStore) {
-        outcomeReferencesFromStore = decisionFromStore.outcomeReferences.map(
-            outcomeReference => outcomeReference.outcomeReference
+        outcomeReferencesFromStore = decisionFromStore.childReferences.map(
+            childReference => childReference.childReference
         );
     }
 
@@ -415,7 +415,7 @@ function getUpdatedChildrenAndDeletedOutcomesUsingStore(originalDecision, newOut
             .filter(outcomeReferenceGuid => {
                 return !newOutcomeGuids.includes(outcomeReferenceGuid);
             })
-            .map(outcomeReference => getElementByGuid(outcomeReference));
+            .map(childReference => getElementByGuid(childReference));
 
         if (useFixedLayoutCanvas()) {
             // For outcomes that previously existed, finding the associated children

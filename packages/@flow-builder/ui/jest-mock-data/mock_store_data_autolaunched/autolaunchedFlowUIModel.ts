@@ -90,9 +90,9 @@ export const autolaunchedFlowUIModel = {
                 isHighlighted: false,
                 isSelectable: true
             },
-            outcomeReferences: [
+            childReferences: [
                 {
-                    outcomeReference: '70926b3b-6a78-4e62-a62b-0c6d4c4ca910'
+                    childReference: '70926b3b-6a78-4e62-a62b-0c6d4c4ca910'
                 }
             ],
             defaultConnectorLabel: 'Default Outcome',
@@ -140,9 +140,9 @@ export const autolaunchedFlowUIModel = {
                 isHighlighted: false,
                 isSelectable: true
             },
-            waitEventReferences: [
+            childReferences: [
                 {
-                    waitEventReference: '4afdbe2b-6b5a-4da3-887d-5b755f53b64e'
+                    childReference: '4afdbe2b-6b5a-4da3-887d-5b755f53b64e'
                 }
             ],
             defaultConnectorLabel: 'Default Path',

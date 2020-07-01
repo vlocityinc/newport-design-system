@@ -584,7 +584,7 @@ describe('elements-reducer', () => {
                     description: 'screen 1',
                     guid: 'screen1',
                     elementType: 'Screen',
-                    fieldReferences: [{ fieldReference: 'section1' }]
+                    childReferences: [{ childReference: 'section1' }]
                 }
             ];
 
@@ -595,21 +595,21 @@ describe('elements-reducer', () => {
                     description: 'screen 1',
                     guid: 'screen1',
                     elementType: 'Screen',
-                    fieldReferences: [{ fieldReference: 'section1' }]
+                    childReferences: [{ childReference: 'section1' }]
                 },
                 section1: {
                     name: 'section1',
                     label: 'section 1',
                     description: 'section 1',
                     guid: 'section1',
-                    fieldReferences: [{ fieldReference: 'column1' }]
+                    childReferences: [{ childReference: 'column1' }]
                 },
                 column1: {
                     name: 'column1',
                     label: 'column 1',
                     description: 'column 1',
                     guid: 'column1',
-                    fieldReferences: [{ fieldReference: 'text1' }]
+                    childReferences: [{ childReference: 'text1' }]
                 },
                 text1: {
                     name: 'text1',
@@ -645,7 +645,7 @@ describe('elements-reducer', () => {
                     label: 'decision 1',
                     description: 'desc 1',
                     guid: 'guid1',
-                    outcomeReferences: ['outcome1'],
+                    childReferences: ['outcome1'],
                     connectorCount: 0,
                     availableConnections: [
                         {
@@ -661,7 +661,7 @@ describe('elements-reducer', () => {
                     label: 'decision 1',
                     description: 'desc 1',
                     guid: 'guid1',
-                    outcomeReferences: ['outcome1'],
+                    childReferences: ['outcome1'],
                     connectorCount: 1,
                     availableConnections: []
                 }
@@ -1164,9 +1164,9 @@ describe('elements-reducer', () => {
                 guid: 'guid2',
                 elementType: 'DECISION',
                 name: 'decision2',
-                outcomeReferences: [
+                childReferences: [
                     {
-                        outcomeReference: 'guid3'
+                        childReference: 'guid3'
                     }
                 ]
             },
@@ -1182,9 +1182,9 @@ describe('elements-reducer', () => {
                 guid: 'guid2',
                 elementType: 'DECISION',
                 name: 'decision2',
-                outcomeReferences: [
+                childReferences: [
                     {
-                        outcomeReference: 'guid3'
+                        childReference: 'guid3'
                     }
                 ]
             },
@@ -1220,9 +1220,9 @@ describe('elements-reducer', () => {
                 guid: 'guid1',
                 elementType: 'DECISION',
                 name: 'decison1',
-                outcomeReferences: [
+                childReferences: [
                     {
-                        outcomeReference: 'guid2'
+                        childReference: 'guid2'
                     }
                 ]
             },
@@ -1237,9 +1237,9 @@ describe('elements-reducer', () => {
                 guid: 'guid1',
                 elementType: 'DECISION',
                 name: 'decision2',
-                outcomeReferences: [
+                childReferences: [
                     {
-                        outcomeReference: 'guid2'
+                        childReference: 'guid2'
                     }
                 ]
             },
@@ -1255,9 +1255,9 @@ describe('elements-reducer', () => {
                 guid: 'guid1',
                 elementType: 'DECISION',
                 name: 'decision2',
-                outcomeReferences: [
+                childReferences: [
                     {
-                        outcomeReference: 'guid2'
+                        childReference: 'guid2'
                     }
                 ]
             },
@@ -1293,9 +1293,9 @@ describe('elements-reducer', () => {
                 guid: 'guid1',
                 elementType: 'DECISION',
                 name: 'decison1',
-                outcomeReferences: [
+                childReferences: [
                     {
-                        outcomeReference: 'guid4'
+                        childReference: 'guid4'
                     }
                 ]
             }
@@ -1305,9 +1305,9 @@ describe('elements-reducer', () => {
                 guid: 'guid2',
                 elementType: 'DECISION',
                 name: 'decision2',
-                outcomeReferences: [
+                childReferences: [
                     {
-                        outcomeReference: 'guid3'
+                        childReference: 'guid3'
                     }
                 ]
             },
@@ -1323,9 +1323,9 @@ describe('elements-reducer', () => {
                 guid: 'guid2',
                 elementType: 'DECISION',
                 name: 'decision2',
-                outcomeReferences: [
+                childReferences: [
                     {
-                        outcomeReference: 'guid3'
+                        childReference: 'guid3'
                     }
                 ]
             },
@@ -1368,9 +1368,9 @@ describe('elements-reducer', () => {
                 guid: 'guid2',
                 elementType: 'WAIT',
                 name: 'wait2',
-                waitEventReferences: [
+                childReferences: [
                     {
-                        waitEventReference: 'guid3'
+                        childReference: 'guid3'
                     }
                 ]
             },
@@ -1386,9 +1386,9 @@ describe('elements-reducer', () => {
                 guid: 'guid2',
                 elementType: 'WAIT',
                 name: 'wait2',
-                waitEventReferences: [
+                childReferences: [
                     {
-                        waitEventReference: 'guid3'
+                        childReference: 'guid3'
                     }
                 ]
             },
@@ -1424,9 +1424,9 @@ describe('elements-reducer', () => {
                 guid: 'guid1',
                 elementType: 'WAIT',
                 name: 'wait1',
-                waitEventReferences: [
+                childReferences: [
                     {
-                        waitEventReference: 'guid3'
+                        childReference: 'guid3'
                     }
                 ]
             },
@@ -1441,9 +1441,9 @@ describe('elements-reducer', () => {
                 guid: 'guid1',
                 elementType: 'WAIT',
                 name: 'wait2',
-                waitEventReferences: [
+                childReferences: [
                     {
-                        waitEventReference: 'guid2'
+                        childReference: 'guid2'
                     }
                 ]
             },
@@ -1459,9 +1459,9 @@ describe('elements-reducer', () => {
                 guid: 'guid1',
                 elementType: 'WAIT',
                 name: 'wait2',
-                waitEventReferences: [
+                childReferences: [
                     {
-                        waitEventReference: 'guid2'
+                        childReference: 'guid2'
                     }
                 ]
             },
@@ -1497,9 +1497,9 @@ describe('elements-reducer', () => {
                 guid: 'guid1',
                 elementType: 'WAIT',
                 name: 'wait1',
-                waitEventReferences: [
+                childReferences: [
                     {
-                        waitEventReference: 'guid4'
+                        childReference: 'guid4'
                     }
                 ]
             }
@@ -1509,9 +1509,9 @@ describe('elements-reducer', () => {
                 guid: 'guid2',
                 elementType: 'WAIT',
                 name: 'wait2',
-                waitEventReferences: [
+                childReferences: [
                     {
-                        waitEventReference: 'guid3'
+                        childReference: 'guid3'
                     }
                 ]
             },
@@ -1527,9 +1527,9 @@ describe('elements-reducer', () => {
                 guid: 'guid2',
                 elementType: 'WAIT',
                 name: 'wait2',
-                waitEventReferences: [
+                childReferences: [
                     {
-                        waitEventReference: 'guid3'
+                        childReference: 'guid3'
                     }
                 ]
             },
@@ -1566,7 +1566,7 @@ describe('elements-reducer', () => {
                 guid: 'guid1',
                 elementType: 'SCREEN',
                 name: 'screen1',
-                fieldReferences: ['guid2']
+                childReferences: ['guid2']
             },
             guid2: {
                 guid: 'guid2',
@@ -1580,7 +1580,7 @@ describe('elements-reducer', () => {
                 guid: 'guid1',
                 elementType: 'SCREEN',
                 name: 'screen1',
-                fieldReferences: ['guid2']
+                childReferences: ['guid2']
             },
             deletedFields: [],
             fields: [
@@ -1614,7 +1614,7 @@ describe('elements-reducer', () => {
                 guid: 'guid1',
                 elementType: 'SCREEN',
                 name: 'screen1',
-                fieldReferences: ['guid2']
+                childReferences: ['guid2']
             },
             guid2: {
                 guid: 'guid2',
@@ -1627,7 +1627,7 @@ describe('elements-reducer', () => {
                 guid: 'guid1',
                 elementType: 'SCREEN',
                 name: 'screen2',
-                fieldReferences: ['guid2']
+                childReferences: ['guid2']
             },
             guid2: {
                 guid: 'guid2',
@@ -1641,7 +1641,7 @@ describe('elements-reducer', () => {
                 guid: 'guid1',
                 elementType: 'SCREEN',
                 name: 'screen2',
-                fieldReferences: ['guid2']
+                childReferences: ['guid2']
             },
             deletedFields: [],
             fields: [
@@ -1675,7 +1675,7 @@ describe('elements-reducer', () => {
                 guid: 'guid1',
                 elementType: 'SCREEN',
                 name: 'screen1',
-                fieldReferences: ['guid2']
+                childReferences: ['guid2']
             },
             guid2: {
                 guid: 'guid2',
@@ -1688,7 +1688,7 @@ describe('elements-reducer', () => {
                 guid: 'guid1',
                 elementType: 'SCREEN',
                 name: 'screen1',
-                fieldReferences: []
+                childReferences: []
             }
         };
 
@@ -1697,7 +1697,7 @@ describe('elements-reducer', () => {
                 guid: 'guid1',
                 elementType: 'SCREEN',
                 name: 'screen1',
-                fieldReferences: []
+                childReferences: []
             },
             deletedFields: [
                 {

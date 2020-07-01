@@ -255,7 +255,7 @@ const sectionScreenFieldStore = () => ({
     name: 'section',
     choiceReferences: [],
     fields: [],
-    fieldReferences: [{ fieldReference: componentScreenFieldEmailStoreGuid }],
+    childReferences: [{ childReference: componentScreenFieldEmailStoreGuid }],
     fieldType: 'RegionContainer',
     isNewField: false,
     type: {
@@ -400,7 +400,7 @@ describe('screenField', () => {
                 expect(actualResult.dataType).toBeUndefined();
                 expect(actualResult.isCollection).toBeFalsy();
                 expect(actualResult.subtype).toBeFalsy();
-                expect(actualResult.fieldReferences).toHaveLength(1);
+                expect(actualResult.childReferences).toHaveLength(1);
             });
         });
     });
@@ -421,7 +421,7 @@ describe('screenField', () => {
             const sectionField = {
                 guid: 'sectionField1',
                 fieldType: 'RegionContainer',
-                fieldReferences: [{ fieldReference: 'columnField' }]
+                childReferences: [{ childReference: 'columnField' }]
             };
 
             const result = createDuplicateNestedScreenFields(sectionField);

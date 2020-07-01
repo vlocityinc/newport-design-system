@@ -22,8 +22,8 @@ const elementType = ELEMENT_TYPE.SCREEN;
 const maxConnections = 1;
 
 const childReferenceKeys = {
-    childReferencesKey: 'fieldReferences',
-    childReferenceKey: 'fieldReference'
+    childReferencesKey: 'childReferences',
+    childReferenceKey: 'childReference'
 };
 
 /**
@@ -33,13 +33,13 @@ const childReferenceKeys = {
  */
 export function createScreenWithFields(screen = {}) {
     const newScreen = createScreenElement(screen);
-    const { fieldReferences = [] } = screen;
+    const { childReferences = [] } = screen;
 
     let { fields = [] } = screen;
 
-    for (let i = 0; i < fieldReferences.length; i++) {
-        const fieldReference = fieldReferences[i];
-        const field = getElementByGuid(fieldReference.fieldReference);
+    for (let i = 0; i < childReferences.length; i++) {
+        const childReference = childReferences[i];
+        const field = getElementByGuid(childReference.childReference);
         const newScreenField = createScreenFieldWithFields(field);
         fields = [...fields, newScreenField];
     }
@@ -158,7 +158,7 @@ export function createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(sc
     const newScreen = createScreenElement(screen);
     const { fields } = screen;
 
-    let fieldReferences = [],
+    let childReferences = [],
         newFields = [],
         regionContainerCount = 0;
 
@@ -168,13 +168,13 @@ export function createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(sc
             regionContainerCount++;
         }
         const newField = createScreenFieldWithFieldReferences(field, newFields, newScreen.name, regionContainerCount);
-        fieldReferences = updateScreenFieldReferences(fieldReferences, newField);
+        childReferences = updateScreenFieldReferences(childReferences, newField);
         newFields = [...newFields, newField];
     }
 
     const deletedFields = getDeletedScreenFieldsUsingStore(screen, newFields);
     Object.assign(newScreen, {
-        fieldReferences,
+        childReferences,
         elementType,
         maxConnections
     });
@@ -199,7 +199,7 @@ export function createScreenWithFieldReferences(screen = {}) {
     const connectorCount = connectors ? connectors.length : 0;
 
     let screenFields = [],
-        fieldReferences = [],
+        childReferences = [],
         regionContainerCount = 0;
 
     for (let i = 0; i < fields.length; i++) {
@@ -215,12 +215,12 @@ export function createScreenWithFieldReferences(screen = {}) {
         );
 
         screenFields = [...screenFields, screenField];
-        // updating fieldReferences
-        fieldReferences = updateScreenFieldReferences(fieldReferences, screenField);
+        // updating childReferences
+        childReferences = updateScreenFieldReferences(childReferences, screenField);
     }
 
     Object.assign(newScreen, {
-        fieldReferences,
+        childReferences,
         elementType,
         connectorCount,
         maxConnections
@@ -250,10 +250,10 @@ export function createScreenMetadataObject(screen, config = {}) {
     const { allowBack, allowFinish, allowPause, helpText, pausedText, showFooter, showHeader } = screen;
 
     let { fields = [] } = screen;
-    const { fieldReferences } = screen;
-    if (fieldReferences && fieldReferences.length > 0) {
-        fields = fieldReferences.map(fieldReference => {
-            return createScreenFieldMetadataObject(getElementByGuid(fieldReference.fieldReference));
+    const { childReferences } = screen;
+    if (childReferences && childReferences.length > 0) {
+        fields = childReferences.map(childReference => {
+            return createScreenFieldMetadataObject(getElementByGuid(childReference.childReference));
         });
     }
 
@@ -365,12 +365,12 @@ export function createScreenElement(screen) {
  */
 function getAssociatedScreenFieldReferencesFromStore(parentElementFromStore) {
     const screenFieldReferencesFromStore = [];
-    if (parentElementFromStore.fieldReferences) {
-        for (let i = 0; i < parentElementFromStore.fieldReferences.length; i++) {
-            screenFieldReferencesFromStore.push(parentElementFromStore.fieldReferences[i].fieldReference);
+    if (parentElementFromStore.childReferences) {
+        for (let i = 0; i < parentElementFromStore.childReferences.length; i++) {
+            screenFieldReferencesFromStore.push(parentElementFromStore.childReferences[i].childReference);
             screenFieldReferencesFromStore.push(
                 ...getAssociatedScreenFieldReferencesFromStore(
-                    getElementByGuid(parentElementFromStore.fieldReferences[i].fieldReference)
+                    getElementByGuid(parentElementFromStore.childReferences[i].childReference)
                 )
             );
         }
@@ -395,19 +395,19 @@ function getDeletedScreenFieldsUsingStore(originalScreen, newFields = []) {
             .filter(fieldReferenceGuid => {
                 return !newfieldGuids.includes(fieldReferenceGuid);
             })
-            .map(fieldReference => getElementByGuid(fieldReference));
+            .map(childReference => getElementByGuid(childReference));
     }
     return [];
 }
 
-function updateScreenFieldReferences(fieldReferences = [], field) {
+function updateScreenFieldReferences(childReferences = [], field) {
     if (!field || !field.guid) {
         throw new Error('Either field or field.guid is not defined');
     }
     return [
-        ...fieldReferences,
+        ...childReferences,
         {
-            fieldReference: field.guid
+            childReference: field.guid
         }
     ];
 }

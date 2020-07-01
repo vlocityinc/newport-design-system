@@ -5,7 +5,7 @@ import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 describe('New Decision Element', () => {
     const originalDecision = {
         guid: 'decision1',
-        outcomeReferences: [],
+        childReferences: [],
         availableConnections: [
             {
                 type: CONNECTOR_TYPE.DEFAULT
@@ -15,7 +15,7 @@ describe('New Decision Element', () => {
 
     const newChildReferences = [
         {
-            outcomeReference: 'outcome1'
+            childReference: 'outcome1'
         }
     ];
 
@@ -24,8 +24,8 @@ describe('New Decision Element', () => {
         originalDecision,
         newChildReferences,
         deletedChildElementGuids,
-        'outcomeReferences',
-        'outcomeReference'
+        'childReferences',
+        'childReference'
     );
 
     it('check for connectorCount', () => {
@@ -57,12 +57,12 @@ describe('Existing Decision Element with Default Connection available', () => {
     beforeEach(() => {
         originalDecision = {
             guid: 'decision1',
-            outcomeReferences: [
+            childReferences: [
                 {
-                    outcomeReference: 'outcome1'
+                    childReference: 'outcome1'
                 },
                 {
-                    outcomeReference: 'outcome2'
+                    childReference: 'outcome2'
                 }
             ],
             availableConnections: [
@@ -78,10 +78,10 @@ describe('Existing Decision Element with Default Connection available', () => {
 
         newChildReferences = [
             {
-                outcomeReference: 'outcome1'
+                childReference: 'outcome1'
             },
             {
-                outcomeReference: 'outcome3'
+                childReference: 'outcome3'
             }
         ];
 
@@ -94,8 +94,8 @@ describe('Existing Decision Element with Default Connection available', () => {
                 originalDecision,
                 newChildReferences,
                 deletedChildElementGuids,
-                'outcomeReferences',
-                'outcomeReference'
+                'childReferences',
+                'childReference'
             );
             // outcome2 had an associated connector, but got deleted
             expect(result.connectorCount).toEqual(0);
@@ -106,8 +106,8 @@ describe('Existing Decision Element with Default Connection available', () => {
                 originalDecision,
                 newChildReferences,
                 deletedChildElementGuids,
-                'outcomeReferences',
-                'outcomeReference'
+                'childReferences',
+                'childReference'
             );
             expect(result.availableConnections).toEqual([
                 {
@@ -129,8 +129,8 @@ describe('Existing Decision Element with Default Connection available', () => {
                 originalDecision,
                 newChildReferences,
                 deletedChildElementGuids,
-                'outcomeReferences',
-                'outcomeReference'
+                'childReferences',
+                'childReference'
             );
             expect(result.addFaultConnectionForWaitElement).toBeFalsy();
         });
@@ -142,10 +142,10 @@ describe('Existing Decision Element with Default Connection available', () => {
         beforeEach(() => {
             newChildReferences = [
                 {
-                    outcomeReference: 'outcome2'
+                    childReference: 'outcome2'
                 },
                 {
-                    outcomeReference: 'outcome3'
+                    childReference: 'outcome3'
                 }
             ];
 
@@ -154,8 +154,8 @@ describe('Existing Decision Element with Default Connection available', () => {
                 originalDecision,
                 newChildReferences,
                 deletedChildElementGuids,
-                'outcomeReferences',
-                'outcomeReference'
+                'childReferences',
+                'childReference'
             );
         });
 
@@ -190,12 +190,12 @@ describe('Existing Decision Element with Default Connection unavailable', () => 
     beforeEach(() => {
         originalDecision = {
             guid: 'decision1',
-            outcomeReferences: [
+            childReferences: [
                 {
-                    outcomeReference: 'outcome1'
+                    childReference: 'outcome1'
                 },
                 {
-                    outcomeReference: 'outcome2'
+                    childReference: 'outcome2'
                 }
             ],
             availableConnections: [
@@ -208,10 +208,10 @@ describe('Existing Decision Element with Default Connection unavailable', () => 
 
         newChildReferences = [
             {
-                outcomeReference: 'outcome1'
+                childReference: 'outcome1'
             },
             {
-                outcomeReference: 'outcome3'
+                childReference: 'outcome3'
             }
         ];
 
@@ -224,8 +224,8 @@ describe('Existing Decision Element with Default Connection unavailable', () => 
                 originalDecision,
                 newChildReferences,
                 deletedChildElementGuids,
-                'outcomeReferences',
-                'outcomeReference'
+                'childReferences',
+                'childReference'
             );
             // For the Default Connection
             expect(result.connectorCount).toEqual(1);
@@ -236,8 +236,8 @@ describe('Existing Decision Element with Default Connection unavailable', () => 
                 originalDecision,
                 newChildReferences,
                 deletedChildElementGuids,
-                'outcomeReferences',
-                'outcomeReference'
+                'childReferences',
+                'childReference'
             );
             expect(result.availableConnections).toEqual([
                 {
@@ -256,8 +256,8 @@ describe('Existing Decision Element with Default Connection unavailable', () => 
                 originalDecision,
                 newChildReferences,
                 deletedChildElementGuids,
-                'outcomeReferences',
-                'outcomeReference'
+                'childReferences',
+                'childReference'
             );
             expect(result.addFaultConnectionForWaitElement).toBeFalsy();
         });
@@ -269,10 +269,10 @@ describe('Existing Decision Element with Default Connection unavailable', () => 
         beforeEach(() => {
             newChildReferences = [
                 {
-                    outcomeReference: 'outcome2'
+                    childReference: 'outcome2'
                 },
                 {
-                    outcomeReference: 'outcome3'
+                    childReference: 'outcome3'
                 }
             ];
 
@@ -281,8 +281,8 @@ describe('Existing Decision Element with Default Connection unavailable', () => 
                 originalDecision,
                 newChildReferences,
                 deletedChildElementGuids,
-                'outcomeReferences',
-                'outcomeReference'
+                'childReferences',
+                'childReference'
             );
         });
 
@@ -309,7 +309,7 @@ describe('Existing Decision Element with Default Connection unavailable', () => 
 describe('New Wait Element', () => {
     const originalWait = {
         guid: 'wait1',
-        waitEventReferences: [],
+        childReferences: [],
         availableConnections: [
             {
                 type: CONNECTOR_TYPE.DEFAULT
@@ -322,7 +322,7 @@ describe('New Wait Element', () => {
 
     const newChildReferences = [
         {
-            waitEventReference: 'waitEvent1'
+            childReference: 'waitEvent1'
         }
     ];
 
@@ -331,8 +331,8 @@ describe('New Wait Element', () => {
         originalWait,
         newChildReferences,
         deletedChildElementGuids,
-        'waitEventReferences',
-        'waitEventReference'
+        'childReferences',
+        'childReference'
     );
 
     it('check for connectorCount', () => {
@@ -366,12 +366,12 @@ describe('Existing Wait Element with Fault Connection available', () => {
     beforeEach(() => {
         originalWait = {
             guid: 'wait1',
-            waitEventReferences: [
+            childReferences: [
                 {
-                    waitEventReference: 'waitEvent1'
+                    childReference: 'waitEvent1'
                 },
                 {
-                    waitEventReference: 'waitEvent2'
+                    childReference: 'waitEvent2'
                 }
             ],
             availableConnections: [
@@ -387,10 +387,10 @@ describe('Existing Wait Element with Fault Connection available', () => {
 
         newChildReferences = [
             {
-                waitEventReference: 'waitEvent1'
+                childReference: 'waitEvent1'
             },
             {
-                waitEventReference: 'waitEvent3'
+                childReference: 'waitEvent3'
             }
         ];
 
@@ -403,8 +403,8 @@ describe('Existing Wait Element with Fault Connection available', () => {
                 originalWait,
                 newChildReferences,
                 deletedChildElementGuids,
-                'waitEventReferences',
-                'waitEventReference'
+                'childReferences',
+                'childReference'
             );
             // For the Default Connection
             expect(result.connectorCount).toEqual(1);
@@ -415,8 +415,8 @@ describe('Existing Wait Element with Fault Connection available', () => {
                 originalWait,
                 newChildReferences,
                 deletedChildElementGuids,
-                'waitEventReferences',
-                'waitEventReference'
+                'childReferences',
+                'childReference'
             );
             // Fault Connection isn't present in the availableConnections because that gets added in the wait factory
             expect(result.availableConnections).toEqual([
@@ -436,8 +436,8 @@ describe('Existing Wait Element with Fault Connection available', () => {
                 originalWait,
                 newChildReferences,
                 deletedChildElementGuids,
-                'waitEventReferences',
-                'waitEventReference'
+                'childReferences',
+                'childReference'
             );
             // Since Fault Connection was originally available
             expect(result.addFaultConnectionForWaitElement).toBeTruthy();
@@ -450,10 +450,10 @@ describe('Existing Wait Element with Fault Connection available', () => {
         beforeEach(() => {
             newChildReferences = [
                 {
-                    waitEventReference: 'waitEvent2'
+                    childReference: 'waitEvent2'
                 },
                 {
-                    waitEventReference: 'waitEvent3'
+                    childReference: 'waitEvent3'
                 }
             ];
 
@@ -462,8 +462,8 @@ describe('Existing Wait Element with Fault Connection available', () => {
                 originalWait,
                 newChildReferences,
                 deletedChildElementGuids,
-                'waitEventReferences',
-                'waitEventReference'
+                'childReferences',
+                'childReference'
             );
         });
 
@@ -497,12 +497,12 @@ describe('Existing Wait Element with Fault Connection unavailable', () => {
     beforeEach(() => {
         originalWait = {
             guid: 'wait1',
-            waitEventReferences: [
+            childReferences: [
                 {
-                    waitEventReference: 'waitEvent1'
+                    childReference: 'waitEvent1'
                 },
                 {
-                    waitEventReference: 'waitEvent2'
+                    childReference: 'waitEvent2'
                 }
             ],
             availableConnections: [
@@ -515,10 +515,10 @@ describe('Existing Wait Element with Fault Connection unavailable', () => {
 
         newChildReferences = [
             {
-                waitEventReference: 'waitEvent1'
+                childReference: 'waitEvent1'
             },
             {
-                waitEventReference: 'waitEvent3'
+                childReference: 'waitEvent3'
             }
         ];
 
@@ -531,8 +531,8 @@ describe('Existing Wait Element with Fault Connection unavailable', () => {
                 originalWait,
                 newChildReferences,
                 deletedChildElementGuids,
-                'waitEventReferences',
-                'waitEventReference'
+                'childReferences',
+                'childReference'
             );
             // For Default Connection. The additional connectorCount for the Fault Connection gets added in the wait factory
             expect(result.connectorCount).toEqual(1);
@@ -543,8 +543,8 @@ describe('Existing Wait Element with Fault Connection unavailable', () => {
                 originalWait,
                 newChildReferences,
                 deletedChildElementGuids,
-                'waitEventReferences',
-                'waitEventReference'
+                'childReferences',
+                'childReference'
             );
             expect(result.availableConnections).toEqual([
                 {
@@ -563,8 +563,8 @@ describe('Existing Wait Element with Fault Connection unavailable', () => {
                 originalWait,
                 newChildReferences,
                 deletedChildElementGuids,
-                'waitEventReferences',
-                'waitEventReference'
+                'childReferences',
+                'childReference'
             );
             // Since Fault Connection was originally unavailable
             expect(result.addFaultConnectionForWaitElement).toBeFalsy();
@@ -577,10 +577,10 @@ describe('Existing Wait Element with Fault Connection unavailable', () => {
         beforeEach(() => {
             newChildReferences = [
                 {
-                    waitEventReference: 'waitEvent2'
+                    childReference: 'waitEvent2'
                 },
                 {
-                    waitEventReference: 'waitEvent3'
+                    childReference: 'waitEvent3'
                 }
             ];
 
@@ -589,8 +589,8 @@ describe('Existing Wait Element with Fault Connection unavailable', () => {
                 originalWait,
                 newChildReferences,
                 deletedChildElementGuids,
-                'waitEventReferences',
-                'waitEventReference'
+                'childReferences',
+                'childReference'
             );
         });
 

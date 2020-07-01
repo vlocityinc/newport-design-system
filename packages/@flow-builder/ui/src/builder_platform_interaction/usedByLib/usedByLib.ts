@@ -188,20 +188,20 @@ function insertChildReferences(elementGuids, elements) {
             return acc;
         }
         if (element.elementType === ELEMENT_TYPE.DECISION) {
-            const outcomeReferences = element.outcomeReferences.map(({ outcomeReference }) => {
-                return outcomeReference;
+            const childReferences = element.childReferences.map(({ childReference }) => {
+                return childReference;
             });
-            acc = [...acc, ...outcomeReferences];
+            acc = [...acc, ...childReferences];
         } else if (element.elementType === ELEMENT_TYPE.WAIT) {
-            const waitEventReferences = element.waitEventReferences.map(({ waitEventReference }) => {
-                return waitEventReference;
+            const childReferences = element.childReferences.map(({ childReference }) => {
+                return childReference;
             });
-            acc = [...acc, ...waitEventReferences];
+            acc = [...acc, ...childReferences];
         } else if (element.elementType === ELEMENT_TYPE.SCREEN) {
-            const fieldReferences = element.fieldReferences.map(({ fieldReference }) => {
-                return fieldReference;
+            const childReferences = element.childReferences.map(({ childReference }) => {
+                return childReference;
             });
-            acc = [...acc, ...fieldReferences];
+            acc = [...acc, ...childReferences];
         }
         return addItem(acc, elementGuid);
     }, []);

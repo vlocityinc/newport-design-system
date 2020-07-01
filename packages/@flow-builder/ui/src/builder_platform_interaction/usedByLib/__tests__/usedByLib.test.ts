@@ -9,10 +9,10 @@ jest.mock('builder_platform_interaction/storeLib', () => require('builder_platfo
 
 const elements = {
     WAIT_1: {
-        waitEventReferences: [
-            { waitEventReference: 'WAIT_EVENT_1' },
-            { waitEventReference: 'WAIT_EVENT_2' },
-            { waitEventReference: 'WAIT_EVENT_4' }
+        childReferences: [
+            { childReference: 'WAIT_EVENT_1' },
+            { childReference: 'WAIT_EVENT_2' },
+            { childReference: 'WAIT_EVENT_4' }
         ],
         guid: 'WAIT_1',
         elementType: ELEMENT_TYPE.WAIT
@@ -82,15 +82,15 @@ const elements = {
         config: {
             isSelected: false
         },
-        outcomeReferences: [
+        childReferences: [
             {
-                outcomeReference: 'OUTCOME_1'
+                childReference: 'OUTCOME_1'
             },
             {
-                outcomeReference: 'OUTCOME_2'
+                childReference: 'OUTCOME_2'
             },
             {
-                outcomeReference: 'OUTCOME_4'
+                childReference: 'OUTCOME_4'
             }
         ],
         availableConnections: [
@@ -199,15 +199,15 @@ const elements = {
         config: {
             isSelected: false
         },
-        fieldReferences: [
+        childReferences: [
             {
-                fieldReference: 'FIELD_1'
+                childReference: 'FIELD_1'
             },
             {
-                fieldReference: 'FIELD_2'
+                childReference: 'FIELD_2'
             },
             {
-                fieldReference: 'FIELD_3'
+                childReference: 'FIELD_3'
             }
         ],
         guid: 'SCREEN_1',
@@ -381,10 +381,10 @@ describe('Used by library', () => {
 
     describe('usedByStoreAndElementState', () => {
         it('returns an empty array if an element is only referenced by the parent element', () => {
-            const decisionOneOutcomes = elements.DECISION_1.outcomeReferences.map(ref => {
+            const decisionOneOutcomes = elements.DECISION_1.childReferences.map(ref => {
                 return {
-                    guid: ref.outcomeReference,
-                    name: elements[ref.outcomeReference].name
+                    guid: ref.childReference,
+                    name: elements[ref.childReference].name
                 };
             });
 
@@ -397,10 +397,10 @@ describe('Used by library', () => {
         });
 
         it('returns an empty array if an screen field element is only referenced by the screen element', () => {
-            const screenOneFields = elements.SCREEN_1.fieldReferences.map(ref => {
+            const screenOneFields = elements.SCREEN_1.childReferences.map(ref => {
                 return {
-                    guid: ref.fieldReference,
-                    name: elements[ref.fieldReference].name
+                    guid: ref.childReference,
+                    name: elements[ref.childReference].name
                 };
             });
 

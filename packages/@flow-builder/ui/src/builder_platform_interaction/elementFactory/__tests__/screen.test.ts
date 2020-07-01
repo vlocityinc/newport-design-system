@@ -43,32 +43,32 @@ const existingNestedTextFieldGuid = 'existingNestedTextField1';
 
 const existingScreen = {
     guid: existingScreenGuid,
-    fieldReferences: [{ fieldReference: 'existingScreenField1' }, { fieldReference: 'existingScreenField2' }]
+    childReferences: [{ childReference: 'existingScreenField1' }, { childReference: 'existingScreenField2' }]
 };
 
 const existingScreenWithSectionsAndColumns = {
     guid: existingScreenWithSectionsAndColumnsGuid,
-    fieldReferences: [
+    childReferences: [
         {
-            fieldReference: existingSectionGuid
+            childReference: existingSectionGuid
         }
     ]
 };
 
 const existingSection = {
     guid: existingSectionGuid,
-    fieldReferences: [
+    childReferences: [
         {
-            fieldReference: existingColumnGuid
+            childReference: existingColumnGuid
         }
     ]
 };
 
 const existingColumn = {
     guid: existingColumnGuid,
-    fieldReferences: [
+    childReferences: [
         {
-            fieldReference: existingNestedTextFieldGuid
+            childReference: existingNestedTextFieldGuid
         }
     ]
 };
@@ -121,7 +121,7 @@ duplicateCanvasElementWithChildElements
         };
         const updatedChildReferences = [
             {
-                fieldReference: 'duplicatedFieldGuid'
+                childReference: 'duplicatedFieldGuid'
             }
         ];
 
@@ -232,9 +232,9 @@ describe('screen', () => {
         });
         describe('fields', () => {
             it('includes fields for all field references present', () => {
-                const fieldReferences = [{ fieldReference: 'a' }, { fieldReference: 'b' }, { fieldReference: 'c' }];
+                const childReferences = [{ childReference: 'a' }, { childReference: 'b' }, { childReference: 'c' }];
                 const screen = createScreenWithFields({
-                    fieldReferences
+                    childReferences
                 });
                 expect(screen.fields).toHaveLength(3);
                 expect(screen.fields[0].guid).toEqual(foundElementGuidPrefix + 'a');
@@ -254,10 +254,10 @@ describe('screen', () => {
 
         const { pastedCanvasElement, pastedChildElements } = createPastedScreen(dataForPasting);
 
-        it('pastedCanvasElement in the result should have the updated fieldReferences', () => {
-            expect(pastedCanvasElement.fieldReferences).toEqual([
+        it('pastedCanvasElement in the result should have the updated childReferences', () => {
+            expect(pastedCanvasElement.childReferences).toEqual([
                 {
-                    fieldReference: 'duplicatedFieldGuid'
+                    childReference: 'duplicatedFieldGuid'
                 }
             ]);
         });
@@ -280,10 +280,10 @@ describe('screen', () => {
             {}
         );
 
-        it('duplicatedElement has updated fieldReferences', () => {
-            expect(duplicatedElement.fieldReferences).toEqual([
+        it('duplicatedElement has updated childReferences', () => {
+            expect(duplicatedElement.childReferences).toEqual([
                 {
-                    fieldReference: 'duplicatedFieldGuid'
+                    childReference: 'duplicatedFieldGuid'
                 }
             ]);
         });
@@ -303,15 +303,15 @@ describe('screen', () => {
         beforeEach(() => {
             screenFromStore = {
                 guid: existingScreenGuid,
-                fieldReferences: [
+                childReferences: [
                     {
-                        fieldReference: field1Guid
+                        childReference: field1Guid
                     },
                     {
-                        fieldReference: field2Guid
+                        childReference: field2Guid
                     },
                     {
-                        fieldReference: field3Guid
+                        childReference: field3Guid
                     }
                 ]
             };
@@ -365,7 +365,7 @@ describe('screen', () => {
             it('screen includes fields present', () => {
                 const result = createScreenWithFieldReferences(screenFromFlow);
                 const screen = result.elements[existingScreenGuid];
-                expect(screen.fieldReferences).toHaveLength(3);
+                expect(screen.childReferences).toHaveLength(3);
             });
 
             it('are included in element map for all fields present', () => {
@@ -410,7 +410,7 @@ describe('screen', () => {
                 const fields = [{ guid: 'a' }, { guid: 'b' }, { guid: 'c' }];
                 screenFromPropertyEditor.fields = fields;
                 const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screenFromPropertyEditor);
-                expect(result.screen.fieldReferences).toHaveLength(3);
+                expect(result.screen.childReferences).toHaveLength(3);
             });
             it('includes fields for all fields present', () => {
                 const fields = [{ guid: 'a' }, { guid: 'b' }, { guid: 'c' }];
@@ -436,7 +436,7 @@ describe('screen', () => {
                     ]
                 };
                 const result = createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screenFromPropertyEditor);
-                expect(result.screen.fieldReferences).toHaveLength(1);
+                expect(result.screen.childReferences).toHaveLength(1);
             });
             it('includes all deleted fields when no fields are nested', () => {
                 screenFromPropertyEditor = {

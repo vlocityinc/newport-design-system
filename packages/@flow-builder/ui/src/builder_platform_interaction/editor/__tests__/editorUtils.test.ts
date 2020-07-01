@@ -160,15 +160,15 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
             } else if (elementType === 'Decision') {
                 return {
                     childReferenceKey: {
-                        singular: 'outcomeReference',
-                        plural: 'outcomeReferences'
+                        singular: 'childReference',
+                        plural: 'childReferences'
                     }
                 };
             } else if (elementType === 'Screen') {
                 return {
                     childReferenceKey: {
-                        singular: 'fieldReference',
-                        plural: 'fieldReferences'
+                        singular: 'childReference',
+                        plural: 'childReferences'
                     }
                 };
             }
@@ -672,12 +672,12 @@ describe('Editor Utils Test', () => {
                 decision1: {
                     guid: 'decision1',
                     children: [null, null],
-                    outcomeReferences: [
+                    childReferences: [
                         {
-                            outcomeReference: 'outcome1'
+                            childReference: 'outcome1'
                         },
                         {
-                            outcomeReference: 'outcome2'
+                            childReference: 'outcome2'
                         }
                     ],
                     elementType: ELEMENT_TYPE.DECISION
@@ -707,28 +707,28 @@ describe('Editor Utils Test', () => {
                     guid: 'screen1',
                     config: { isSelected: true },
                     elementType: ELEMENT_TYPE.SCREEN,
-                    fieldReferences: [
+                    childReferences: [
                         {
-                            fieldReference: 'section1'
+                            childReference: 'section1'
                         },
                         {
-                            fieldReference: 'textField1'
+                            childReference: 'textField1'
                         }
                     ]
                 },
                 section1: {
                     guid: 'section1',
                     elementType: ELEMENT_TYPE.SCREEN_FIELD,
-                    fieldReferences: [
+                    childReferences: [
                         {
-                            fieldReference: 'column1'
+                            childReference: 'column1'
                         }
                     ]
                 },
                 column1: {
                     guid: 'column1',
                     elementType: ELEMENT_TYPE.SCREEN_FIELD,
-                    fieldReferences: []
+                    childReferences: []
                 },
                 textField1: {
                     guid: 'textField1',
@@ -741,16 +741,16 @@ describe('Editor Utils Test', () => {
                 section1: {
                     guid: 'section1',
                     elementType: ELEMENT_TYPE.SCREEN_FIELD,
-                    fieldReferences: [
+                    childReferences: [
                         {
-                            fieldReference: 'column1'
+                            childReference: 'column1'
                         }
                     ]
                 },
                 column1: {
                     guid: 'column1',
                     elementType: ELEMENT_TYPE.SCREEN_FIELD,
-                    fieldReferences: []
+                    childReferences: []
                 },
                 textField1: {
                     guid: 'textField1',
@@ -773,9 +773,9 @@ describe('Editor Utils Test', () => {
                     guid: 'decision1',
                     config: { isSelected: true },
                     children: ['assignment2', 'assignment3'],
-                    outcomeReferences: [
+                    childReferences: [
                         {
-                            outcomeReference: 'outcome1'
+                            childReference: 'outcome1'
                         }
                     ],
                     elementType: ELEMENT_TYPE.DECISION
@@ -810,9 +810,9 @@ describe('Editor Utils Test', () => {
                     guid: 'decision1',
                     config: { isSelected: true },
                     children: ['assignment2', 'assignment3'],
-                    outcomeReferences: [
+                    childReferences: [
                         {
-                            outcomeReference: 'outcome1'
+                            childReference: 'outcome1'
                         }
                     ],
                     elementType: ELEMENT_TYPE.DECISION
@@ -845,28 +845,28 @@ describe('Editor Utils Test', () => {
                     guid: 'screen1',
                     config: { isSelected: true },
                     elementType: ELEMENT_TYPE.SCREEN,
-                    fieldReferences: [
+                    childReferences: [
                         {
-                            fieldReference: 'section1'
+                            childReference: 'section1'
                         },
                         {
-                            fieldReference: 'textField1'
+                            childReference: 'textField1'
                         }
                     ]
                 },
                 section1: {
                     guid: 'section1',
                     elementType: ELEMENT_TYPE.SCREEN_FIELD,
-                    fieldReferences: [
+                    childReferences: [
                         {
-                            fieldReference: 'column1'
+                            childReference: 'column1'
                         }
                     ]
                 },
                 column1: {
                     guid: 'column1',
                     elementType: ELEMENT_TYPE.SCREEN_FIELD,
-                    fieldReferences: []
+                    childReferences: []
                 },
                 textField1: {
                     guid: 'textField1',
@@ -879,12 +879,12 @@ describe('Editor Utils Test', () => {
                     guid: 'screen1',
                     config: { isSelected: true },
                     elementType: ELEMENT_TYPE.SCREEN,
-                    fieldReferences: [
+                    childReferences: [
                         {
-                            fieldReference: 'section1'
+                            childReference: 'section1'
                         },
                         {
-                            fieldReference: 'textField1'
+                            childReference: 'textField1'
                         }
                     ]
                 }
@@ -894,16 +894,16 @@ describe('Editor Utils Test', () => {
                 section1: {
                     guid: 'section1',
                     elementType: ELEMENT_TYPE.SCREEN_FIELD,
-                    fieldReferences: [
+                    childReferences: [
                         {
-                            fieldReference: 'column1'
+                            childReference: 'column1'
                         }
                     ]
                 },
                 column1: {
                     guid: 'column1',
                     elementType: ELEMENT_TYPE.SCREEN_FIELD,
-                    fieldReferences: []
+                    childReferences: []
                 },
                 textField1: {
                     guid: 'textField1',
@@ -1004,7 +1004,7 @@ describe('Editor Utils Test', () => {
                     elementType: ELEMENT_TYPE.DECISION,
                     guid: 'guid1',
                     isCanvasElement: true,
-                    outcomeReferences: [{ outcomeReference: 'guid3' }]
+                    childReferences: [{ childReference: 'guid3' }]
                 },
                 guid2: {
                     config: { isSelected: true, isHighlighted: false },
@@ -1012,7 +1012,7 @@ describe('Editor Utils Test', () => {
                     elementType: ELEMENT_TYPE.SCREEN,
                     guid: 'guid2',
                     isCanvasElement: true,
-                    fieldReferences: [{ fieldReference: 'guid4' }, { fieldReference: 'guid5' }]
+                    childReferences: [{ childReference: 'guid4' }, { childReference: 'guid5' }]
                 },
                 guid3: {
                     guid: 'guid3'
@@ -1020,7 +1020,7 @@ describe('Editor Utils Test', () => {
                 guid4: {
                     guid: 'guid4',
                     elementType: ELEMENT_TYPE.SCREEN_FIELD,
-                    fieldReferences: [{ fieldReference: 'guid6' }]
+                    childReferences: [{ childReference: 'guid6' }]
                 },
                 guid5: {
                     guid: 'guid5'
@@ -1028,7 +1028,7 @@ describe('Editor Utils Test', () => {
                 guid6: {
                     guid: 'guid6',
                     elementType: ELEMENT_TYPE.SCREEN_FIELD,
-                    fieldReferences: [{ fieldReference: 'guid7' }]
+                    childReferences: [{ childReference: 'guid7' }]
                 },
                 guid7: {
                     guid: 'guid7'

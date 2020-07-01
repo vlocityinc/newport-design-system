@@ -44,9 +44,9 @@ export const contactRequestFlowUIModel = {
                 isHighlighted: false,
                 isSelectable: true
             },
-            outcomeReferences: [
+            childReferences: [
                 {
-                    outcomeReference: 'be979456-fe7c-4fa6-be9f-e388ea78dd33'
+                    childReference: 'be979456-fe7c-4fa6-be9f-e388ea78dd33'
                 }
             ],
             defaultConnectorLabel: 'Default Outcome',
@@ -335,9 +335,9 @@ export const contactRequestFlowUIModel = {
             pausedText: '',
             showFooter: true,
             showHeader: true,
-            fieldReferences: [
+            childReferences: [
                 {
-                    fieldReference: '9ded932c-cb00-42a7-bbfc-dddb4c2903fd'
+                    childReference: '9ded932c-cb00-42a7-bbfc-dddb4c2903fd'
                 }
             ],
             elementType: 'Screen',
@@ -376,7 +376,7 @@ export const contactRequestFlowUIModel = {
             },
             fields: [],
             storeOutputAutomatically: false,
-            fieldReferences: []
+            childReferences: []
         }
     },
     connectors: [],

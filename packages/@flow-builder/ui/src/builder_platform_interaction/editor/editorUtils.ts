@@ -385,21 +385,21 @@ const getBottomCutOrCopiedGuid = (elementsInStore, topCutOrCopiedGuid) => {
 /**
  * Function to recurse through the screen field references and getting all the nested screen fields to cut or copy
  * @param {Object} elementsInStore - State of the elements in store
- * @param {Object []} fieldReferencesArray - Array containing field reference objects like: {fieldReference: 'fieldGuid'}
+ * @param {Object []} fieldReferencesArray - Array containing field reference objects like: {childReference: 'fieldGuid'}
  * @returns nestedChildElementsToCutOrCopy - Object containing all the nested screen field to cut or copy
  */
 const getNestedChildElementsToCutOrCopy = (elementsInStore, fieldReferencesArray) => {
     let nestedChildElementsToCutOrCopy = {};
     if (fieldReferencesArray && fieldReferencesArray.length > 0) {
         for (let i = 0; i < fieldReferencesArray.length; i++) {
-            const fieldReference = fieldReferencesArray[i].fieldReference;
-            nestedChildElementsToCutOrCopy[fieldReference] = elementsInStore[fieldReference];
-            if (nestedChildElementsToCutOrCopy[fieldReference].fieldReferences) {
+            const childReference = fieldReferencesArray[i].childReference;
+            nestedChildElementsToCutOrCopy[childReference] = elementsInStore[childReference];
+            if (nestedChildElementsToCutOrCopy[childReference].childReferences) {
                 nestedChildElementsToCutOrCopy = {
                     ...nestedChildElementsToCutOrCopy,
                     ...getNestedChildElementsToCutOrCopy(
                         elementsInStore,
-                        nestedChildElementsToCutOrCopy[fieldReference].fieldReferences
+                        nestedChildElementsToCutOrCopy[childReference].childReferences
                     )
                 };
             }
@@ -428,12 +428,12 @@ export const getCopiedChildElements = (elementsInStore, copiedElement) => {
             copiedChildElements[childReference] = elementsInStore[childReference];
 
             // In case of screens we need to look for the nested screen fields too
-            if (copiedChildElements[childReference].fieldReferences) {
+            if (copiedChildElements[childReference].childReferences) {
                 copiedChildElements = {
                     ...copiedChildElements,
                     ...getNestedChildElementsToCutOrCopy(
                         elementsInStore,
-                        copiedChildElements[childReference].fieldReferences
+                        copiedChildElements[childReference].childReferences
                     )
                 };
             }
@@ -507,12 +507,12 @@ export const getPasteElementGuidMaps = (cutOrCopiedCanvasElements, cutOrCopiedCh
  */
 const addNestedChildElementsToGuidMap = (childElementGuid, elementsInStore, childElementGuidMap) => {
     const screenField = elementsInStore[childElementGuid];
-    for (let i = 0; i < screenField.fieldReferences.length; i++) {
-        childElementGuidMap[screenField.fieldReferences[i].fieldReference] = generateGuid();
+    for (let i = 0; i < screenField.childReferences.length; i++) {
+        childElementGuidMap[screenField.childReferences[i].childReference] = generateGuid();
 
-        if (elementsInStore[screenField.fieldReferences[i].fieldReference].fieldReferences) {
+        if (elementsInStore[screenField.childReferences[i].childReference].childReferences) {
             addNestedChildElementsToGuidMap(
-                screenField.fieldReferences[i].fieldReference,
+                screenField.childReferences[i].childReference,
                 elementsInStore,
                 childElementGuidMap
             );
@@ -549,7 +549,7 @@ const setupChildElementGuidMap = (canvasElement, elementsInStore) => {
             childElementGuidMap[childElementGuid] = generateGuid();
 
             // Adding nested screen fields to the childElementGuidMap
-            if (elementsInStore[childElementGuid].fieldReferences) {
+            if (elementsInStore[childElementGuid].childReferences) {
                 childElementGuidMap = addNestedChildElementsToGuidMap(
                     childElementGuid,
                     elementsInStore,

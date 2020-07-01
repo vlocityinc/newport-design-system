@@ -7,9 +7,9 @@ import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
  *
  * @param {Object[]} flatOriginalAvailableConnections - Array containing child references of the available connections
  * along with available "Default" and "Fault" types
- * @param {Object[]} originalChildReferences - Original elements childReferences array (eg: decision.outcomeReferences)
+ * @param {Object[]} originalChildReferences - Original elements childReferences array (eg: decision.childReferences)
  * @param {Object[]} deletedChildElementGuids - Guids of all the child elements that have been deleted
- * @param {String} childReferenceKey - Key for a single childReference in the childReferences array of a given element (eg: outcomeReference)
+ * @param {String} childReferenceKey - Key for a single childReference in the childReferences array of a given element (eg: childReference)
  * @returns {Object[]} usedChildReferences - child references that have an associated connector and have not been deleted
  * @private
  */
@@ -35,8 +35,8 @@ function _getChildReferencesWithAssociatedConnectors(
 /**
  * Helper function to get all the available connections associated with the 'free' child references
  *
- * @param {Object[]} newChildReferences - Child References Array for the updated element state (eg: decision.outcomeReferences)
- * @param {String} childReferenceKey - Key for a single childReference in the childReferences array of a given element (eg: outcomeReference)
+ * @param {Object[]} newChildReferences - Child References Array for the updated element state (eg: decision.childReferences)
+ * @param {String} childReferenceKey - Key for a single childReference in the childReferences array of a given element (eg: childReference)
  * @param {Object[]} usedChildReferences - child references that have an associated connector and have not been deleted
  * @returns {Object[]} childAvailableConnections - availableConnections associated with the 'free' childReferences
  * @private
@@ -98,10 +98,10 @@ function _calculateForDefaultAndFaultAvailableConnections(flatOriginalAvailableC
  * a newly created Decision or Wait element.
  *
  * @param {Object} originalCanvasElement - original state of the canvas element
- * @param {Object[]} newChildReferences - Child References Array for the updated element state (eg: decision.outcomeReferences)
+ * @param {Object[]} newChildReferences - Child References Array for the updated element state (eg: decision.childReferences)
  * @param {Object[]} deletedChildElementGuids - all the deleted child element guids (if any)
- * @param {String} childReferencesKey - Object key for childReferences (eg: "outcomeReferences" for Decision)
- * @param {String} childReferenceKey - Key for a single childReference in the childReferences array of a given element (eg: outcomeReference)
+ * @param {String} childReferencesKey - Object key for childReferences (eg: "childReferences" for Decision)
+ * @param {String} childReferenceKey - Key for a single childReference in the childReferences array of a given element (eg: childReference)
  * @returns {{connectorCount: Number, availableConnections: Object[]}} - availableConnections and connectorCount of the
  * updated element along with the deletedChildElementGuids
  */

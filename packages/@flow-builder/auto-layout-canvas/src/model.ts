@@ -14,8 +14,7 @@ export interface NodeModel {
     maxConnections: number;
     config: { isSelected: boolean; isHighlighted: boolean; isSelectable: boolean };
 
-    outcomeReferences?: Array<{ outcomeReference: string }>;
-    waitEventReferences?: Array<{ waitEventReference: string }>;
+    childReferences?: Array<{ childReference: string }>;
     defaultConnectorLabel?: string;
 
     // connections

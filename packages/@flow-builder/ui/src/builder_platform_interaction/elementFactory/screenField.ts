@@ -168,10 +168,10 @@ export function createScreenField(screenField = {}, isNewField = false) {
 }
 
 /**
- * Recursively created duplicated screen fields using the fieldReferences property on a given screen field
+ * Recursively created duplicated screen fields using the childReferences property on a given screen field
  * @param {Object} screenField - Screen Field in Store
- * @param {Object []} originalFieldReferences - FieldReferences of a given screen
- * @param {Object []} duplicatedScreenFields - Contains duplicated screen field objects (The guid, name and fieldReferences are updated in baseElement)
+ * @param {Object []} originalFieldReferences - childReferences of a given screen
+ * @param {Object []} duplicatedScreenFields - Contains duplicated screen field objects (The guid, name and childReferences are updated in baseElement)
  * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements
  */
 function _getDuplicatedNestedScreenFields(
@@ -183,7 +183,7 @@ function _getDuplicatedNestedScreenFields(
     let newScreenField = createScreenField(screenField);
     if (originalFieldReferences) {
         newScreenField = Object.assign(newScreenField, {
-            fieldReferences: originalFieldReferences
+            childReferences: originalFieldReferences
         });
 
         for (let i = 0; i < originalFieldReferences.length; i++) {
@@ -191,12 +191,12 @@ function _getDuplicatedNestedScreenFields(
             // Using the cutOrCopiedChildElements to get the original screen field in case it has been deleted
             // and not available in the store
             const nestedScreenField = cutOrCopiedChildElements
-                ? cutOrCopiedChildElements[screenFieldReference.fieldReference]
-                : getElementByGuid(screenFieldReference.fieldReference);
+                ? cutOrCopiedChildElements[screenFieldReference.childReference]
+                : getElementByGuid(screenFieldReference.childReference);
 
             _getDuplicatedNestedScreenFields(
                 nestedScreenField,
-                nestedScreenField.fieldReferences,
+                nestedScreenField.childReferences,
                 duplicatedScreenFields,
                 cutOrCopiedChildElements
             );
@@ -216,7 +216,7 @@ export function createDuplicateNestedScreenFields(screenField = {}, cutOrCopiedC
     const duplicatedScreenFields = [];
     _getDuplicatedNestedScreenFields(
         screenField,
-        screenField.fieldReferences,
+        screenField.childReferences,
         duplicatedScreenFields,
         cutOrCopiedChildElements
     );
@@ -231,12 +231,12 @@ export function createDuplicateNestedScreenFields(screenField = {}, cutOrCopiedC
  */
 export function createScreenFieldWithFields(screenField = {}) {
     const newScreenField = createScreenField(screenField);
-    const { fieldReferences = [] } = screenField;
+    const { childReferences = [] } = screenField;
     const newChildFields = [];
 
-    for (let i = 0; i < fieldReferences.length; i++) {
-        const fieldReference = fieldReferences[i];
-        const field = getElementByGuid(fieldReference.fieldReference);
+    for (let i = 0; i < childReferences.length; i++) {
+        const childReference = childReferences[i];
+        const field = getElementByGuid(childReference.childReference);
         const childScreenField = createScreenFieldWithFields(field);
         newChildFields.push(childScreenField);
     }
@@ -272,17 +272,17 @@ export function createScreenFieldWithFieldReferences(screenField = {}, screenFie
     }
 
     const { fields = [] } = screenField;
-    let fieldReferences = [];
+    let childReferences = [];
 
     for (let i = 0; i < fields.length; i++) {
         const field = fields[i];
         const childScreenField = createScreenFieldWithFieldReferences(field, screenFields, fieldName, i + 1);
         screenFields.push(childScreenField);
-        fieldReferences = updateScreenFieldReferences(fieldReferences, childScreenField);
+        childReferences = updateScreenFieldReferences(childReferences, childScreenField);
     }
 
     Object.assign(newScreenField, {
-        fieldReferences,
+        childReferences,
         fields: [],
         name: fieldName
     });
@@ -361,7 +361,7 @@ export function createScreenFieldMetadataObject(screenField) {
         defaultSelectedChoiceReference,
         visibilityRule,
         dynamicTypeMappings,
-        fieldReferences
+        childReferences
     } = screenField;
     let {
         dataType,
@@ -413,9 +413,9 @@ export function createScreenFieldMetadataObject(screenField) {
 
     choiceReferences = choiceReferences.map(choiceReference => createChoiceReferenceMetadatObject(choiceReference));
     fields = fields.map(field => createScreenFieldMetadataObject(field));
-    if (fieldReferences && fieldReferences.length > 0) {
-        fields = fieldReferences.map(fieldReference => {
-            return createScreenFieldMetadataObject(getElementByGuid(fieldReference.fieldReference));
+    if (childReferences && childReferences.length > 0) {
+        fields = childReferences.map(childReference => {
+            return createScreenFieldMetadataObject(getElementByGuid(childReference.childReference));
         });
     }
 
@@ -523,14 +523,14 @@ function createEmptyColumn(width) {
     };
 }
 
-function updateScreenFieldReferences(fieldReferences = [], field) {
+function updateScreenFieldReferences(childReferences = [], field) {
     if (!field || !field.guid) {
         throw new Error('Either field or field.guid is not defined');
     }
     return [
-        ...fieldReferences,
+        ...childReferences,
         {
-            fieldReference: field.guid
+            childReference: field.guid
         }
     ];
 }

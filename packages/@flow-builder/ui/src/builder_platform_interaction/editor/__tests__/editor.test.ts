@@ -329,9 +329,9 @@ beforeEach(() => {
                 elementType: ELEMENT_TYPE.DECISION,
                 label: 'Third Node',
                 description: 'My third test node',
-                outcomeReferences: [
+                childReferences: [
                     {
-                        outcomeReference: '4'
+                        childReference: '4'
                     }
                 ],
                 config: { isSelected: false }

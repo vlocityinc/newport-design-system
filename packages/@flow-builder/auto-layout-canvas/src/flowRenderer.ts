@@ -386,13 +386,13 @@ function createOptionsForConditionReferences(
 function getConditionReferences(parentNode: ParentNodeModel): any {
     if (parentNode.elementType === 'Decision') {
         return {
-            refKey: 'outcomeReference',
-            references: parentNode.outcomeReferences
+            refKey: 'childReference',
+            references: parentNode.childReferences
         };
     } else if (parentNode.elementType === 'Wait') {
         return {
-            refKey: 'waitEventReference',
-            references: parentNode.waitEventReferences
+            refKey: 'childReference',
+            references: parentNode.childReferences
         };
     }
 }

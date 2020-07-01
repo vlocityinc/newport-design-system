@@ -186,12 +186,12 @@ export function duplicateCanvasElement(canvasElement, newGuid, newName) {
 /**
  * Helper function to create duplicated child elements
  *
- * @param {Object} childReference - Object containing the guid of the child element (eg: {outcomeReference: 'outcome1'})
+ * @param {Object} childReference - Object containing the guid of the child element (eg: {childReference: 'outcome1'})
  * @param {Object} childElementGuidMap - Map of child element guids to new guids for the duplicated child elements
  * @param {Object} childElementNameMap - Map of child element names to new names for the duplicated child elements
  * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements
  * @param {Function} createChildElement - Function to create the duplicate child element
- * @param {String} childReferenceKey - Key to access the guid for the child element (eg: outcomeReference)
+ * @param {String} childReferenceKey - Key to access the guid for the child element (eg: childReference)
  * @returns {Object} Returns the duplicated child element with the updated guid and name
  * @private
  */
@@ -275,8 +275,8 @@ function _createDuplicateChildElement(
  * @param {Object} childElementNameMap - Map of child element names to new names for the duplicated child elements
  * @param {Object} cutOrCopiedChildElements - Local copy of the cut ot copied canvas elements
  * @param {Function} createChildElement - Function to create the duplicate child element
- * @param {String} childReferencesKey - Key to access the object containing child references (eg: outcomeReferences)
- * @param {String} childReferenceKey - Key to access the guid for the child element (eg: outcomeReference)
+ * @param {String} childReferencesKey - Key to access the object containing child references (eg: childReferences)
+ * @param {String} childReferenceKey - Key to access the guid for the child element (eg: childReference)
  * @param {Object[]} defaultAvailableConnections - Default Available Connections associated with a canvas element
  * @returns {Object} Returns the object containing the duplicated canvas element, duplicated child elements, updated child
  * references and available connections

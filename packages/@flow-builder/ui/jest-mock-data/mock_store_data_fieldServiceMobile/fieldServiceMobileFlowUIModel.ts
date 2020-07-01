@@ -44,9 +44,9 @@ export const fieldServiceMobileFlowUIModel = {
                 isHighlighted: false,
                 isSelectable: true
             },
-            outcomeReferences: [
+            childReferences: [
                 {
-                    outcomeReference: '6afc7b95-a112-4bd0-99e6-4114704080f2'
+                    childReference: '6afc7b95-a112-4bd0-99e6-4114704080f2'
                 }
             ],
             defaultConnectorLabel: 'Default Outcome',
@@ -366,9 +366,9 @@ export const fieldServiceMobileFlowUIModel = {
             pausedText: '',
             showFooter: true,
             showHeader: true,
-            fieldReferences: [
+            childReferences: [
                 {
-                    fieldReference: 'd7b1d0e5-68d7-4734-b1d1-01247631d93f'
+                    childReference: 'd7b1d0e5-68d7-4734-b1d1-01247631d93f'
                 }
             ],
             elementType: 'Screen',
@@ -420,7 +420,7 @@ export const fieldServiceMobileFlowUIModel = {
             },
             fields: [],
             storeOutputAutomatically: false,
-            fieldReferences: []
+            childReferences: []
         }
     },
     connectors: [],

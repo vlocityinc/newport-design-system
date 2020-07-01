@@ -34,8 +34,8 @@ const elementType = ELEMENT_TYPE.WAIT;
 const MAX_CONNECTIONS_DEFAULT = 2;
 
 const childReferenceKeys = {
-    childReferencesKey: 'waitEventReferences',
-    childReferenceKey: 'waitEventReference'
+    childReferencesKey: 'childReferences',
+    childReferenceKey: 'childReference'
 };
 
 /**
@@ -156,13 +156,13 @@ export const createWaitEventOutputParameters = (eventType, outputParameters = []
  */
 
 /**
- * @typedef waitEventReference
- * @property {String} waitEventReference - guid of the wait event
+ * @typedef childReference
+ * @property {String} childReference - guid of the wait event
  */
 
 /**
- * @typedef waitInStore - A wait object in the shape stored by the store, containing waitEventReferences
- * @property {waitEventReference[]} waitEventReferences - array of references
+ * @typedef waitInStore - A wait object in the shape stored by the store, containing childReferences
+ * @property {childReference[]} childReferences - array of references
  */
 
 /**
@@ -181,12 +181,12 @@ export const createWaitEventOutputParameters = (eventType, outputParameters = []
 export function createWaitWithWaitEvents(wait = {}) {
     const newWait = baseCanvasElement(wait);
     let { waitEvents } = wait;
-    const { defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, waitEventReferences } = wait;
+    const { defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, childReferences } = wait;
 
-    if (waitEventReferences && waitEventReferences.length > 0) {
+    if (childReferences && childReferences.length > 0) {
         // Decouple waitEvent from store.
-        waitEvents = waitEventReferences.map(waitEventReference =>
-            createWaitEvent(getElementByGuid(waitEventReference.waitEventReference))
+        waitEvents = childReferences.map(childReference =>
+            createWaitEvent(getElementByGuid(childReference.childReference))
         );
     } else {
         const newWaitEvent = createWaitEvent();
@@ -353,11 +353,11 @@ export function createWaitMetadataObject(wait, config = {}) {
         throw new Error('Wait is not defined');
     }
     const newWait = baseCanvasElementMetadataObject(wait, config);
-    const { waitEventReferences, defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel } = wait;
+    const { childReferences, defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel } = wait;
     let waitEvents;
-    if (waitEventReferences && waitEventReferences.length > 0) {
-        waitEvents = waitEventReferences.map(({ waitEventReference }) => {
-            const waitEvent = getElementByGuid(waitEventReference);
+    if (childReferences && childReferences.length > 0) {
+        waitEvents = childReferences.map(({ childReference }) => {
+            const waitEvent = getElementByGuid(childReference);
             const metadataWaitEvent = baseChildElementMetadataObject(waitEvent, config);
             const { eventType } = waitEvent;
             let { inputParameters = [], outputParameters, conditions = [], conditionLogic } = waitEvent;
@@ -404,12 +404,12 @@ export function createWaitMetadataObject(wait, config = {}) {
 export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(wait) {
     const newWait = baseCanvasElement(wait);
     const { defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, waitEvents } = wait;
-    let waitEventReferences = [];
+    let childReferences = [];
     let newWaitEvents = [];
     for (let i = 0; i < waitEvents.length; i++) {
         const waitEvent = waitEvents[i];
         const newWaitEvent = createWaitEvent(waitEvent);
-        waitEventReferences = updateWaitEventReferences(waitEventReferences, newWaitEvent);
+        childReferences = updateWaitEventReferences(childReferences, newWaitEvent);
         newWaitEvents = [...newWaitEvents, newWaitEvent];
     }
 
@@ -432,13 +432,13 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
                     type: CONNECTOR_TYPE.FAULT
                 }
             ],
-            waitEventReferences: []
+            childReferences: []
         };
     }
 
     const connectionProperties = getConnectionProperties(
         originalWait,
-        waitEventReferences,
+        childReferences,
         deletedWaitEventGuids,
         childReferenceKeys.childReferencesKey,
         childReferenceKeys.childReferenceKey
@@ -461,7 +461,7 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
     }
 
     Object.assign(newWait, {
-        waitEventReferences,
+        childReferences,
         elementType,
         defaultConnectorLabel,
         maxConnections,
@@ -487,7 +487,7 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
 export function createWaitWithWaitEventReferences(wait = {}) {
     const newWait = baseCanvasElement(wait);
     let newWaitEvents = [],
-        waitEventReferences = [],
+        childReferences = [],
         availableConnections = [];
     const { defaultConnectorLabel = LABELS.emptyDefaultWaitPathLabel, waitEvents = [] } = wait;
     // create connectors for wait, which initially are the default and fault ones.
@@ -498,8 +498,8 @@ export function createWaitWithWaitEventReferences(wait = {}) {
         // add the wait event connector to the list of connectors
         connectors = [...connectors, ...connectorsFromWaitEvent];
         newWaitEvents = [...newWaitEvents, waitEvent];
-        // updating waitEventReferences
-        waitEventReferences = updateWaitEventReferences(waitEventReferences, waitEvent);
+        // updating childReferences
+        childReferences = updateWaitEventReferences(childReferences, waitEvent);
         // updating availableConnections
         availableConnections = addRegularConnectorToAvailableConnections(availableConnections, waitEvents[i]);
     }
@@ -508,7 +508,7 @@ export function createWaitWithWaitEventReferences(wait = {}) {
     const connectorCount = connectors ? connectors.length : 0;
     const maxConnections = calculateMaxWaitConnections(wait);
     Object.assign(newWait, {
-        waitEventReferences,
+        childReferences,
         defaultConnectorLabel,
         elementType,
         connectorCount,
@@ -584,14 +584,14 @@ function addRegularConnectorToAvailableConnections(availableConnections = [], wa
     return availableConnections;
 }
 
-function updateWaitEventReferences(waitEventReferences = [], waitEvent) {
+function updateWaitEventReferences(childReferences = [], waitEvent) {
     if (!waitEvent || !waitEvent.guid) {
         throw new Error('Either waitEvent or waitEvent.guid is not defined');
     }
     return [
-        ...waitEventReferences,
+        ...childReferences,
         {
-            waitEventReference: waitEvent.guid
+            childReference: waitEvent.guid
         }
     ];
 }
@@ -605,8 +605,8 @@ function getUpdatedChildrenDeletedWaitEventsUsingStore(originalWait, newWaitEven
     const waitFromStore = getElementByGuid(guid);
     let waitEventReferencesFromStore;
     if (waitFromStore) {
-        waitEventReferencesFromStore = waitFromStore.waitEventReferences.map(
-            waitEventReference => waitEventReference.waitEventReference
+        waitEventReferencesFromStore = waitFromStore.childReferences.map(
+            childReference => childReference.childReference
         );
     }
 
@@ -622,7 +622,7 @@ function getUpdatedChildrenDeletedWaitEventsUsingStore(originalWait, newWaitEven
             .filter(waitEventReferenceGuid => {
                 return !newWaitEventGuids.includes(waitEventReferenceGuid);
             })
-            .map(waitEventReference => getElementByGuid(waitEventReference));
+            .map(childReference => getElementByGuid(childReference));
 
         if (useFixedLayoutCanvas()) {
             // For wait events that previously existed, finding the associated children

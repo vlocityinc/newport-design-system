@@ -135,9 +135,9 @@ export const sortConnectorPickerComboboxOptions = (sourceElement, comboboxOption
         // Iterating over outcomeReferences and sorting the comboboxOptions in the same order. For default outcome we
         // push it at the end if the option exists in comboboxOptions
         const defaultOutcomeComboboxOption = {};
-        for (let i = 0; i < sourceElement.outcomeReferences.length; i++) {
+        for (let i = 0; i < sourceElement.childReferences.length; i++) {
             comboboxOptions.map(option => {
-                if (option.value === sourceElement.outcomeReferences[i].outcomeReference) {
+                if (option.value === sourceElement.childReferences[i].childReference) {
                     sortedComboboxOptions.push(option);
                 } else if (
                     option.value === CONNECTOR_TYPE.DEFAULT &&
@@ -161,9 +161,9 @@ export const sortConnectorPickerComboboxOptions = (sourceElement, comboboxOption
         // FAULT is pushed at the end in comboboxOptions
         const defaultPathComboboxOption = {};
         const faultComboboxOption = {};
-        for (let i = 0; i < sourceElement.waitEventReferences.length; i++) {
+        for (let i = 0; i < sourceElement.childReferences.length; i++) {
             comboboxOptions.forEach(option => {
-                if (option.value === sourceElement.waitEventReferences[i].waitEventReference) {
+                if (option.value === sourceElement.childReferences[i].childReference) {
                     sortedComboboxOptions.push(option);
                 } else if (
                     option.value === CONNECTOR_TYPE.DEFAULT &&

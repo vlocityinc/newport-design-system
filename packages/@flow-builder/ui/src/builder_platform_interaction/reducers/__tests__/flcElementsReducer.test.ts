@@ -353,12 +353,12 @@ describe('elements-reducer', () => {
                 decision1: {
                     guid: 'decision1',
                     elementType: ELEMENT_TYPE.DECISION,
-                    outcomeReferences: [
+                    childReferences: [
                         {
-                            outcomeReference: 'outcome1'
+                            childReference: 'outcome1'
                         },
                         {
-                            outcomeReference: 'outcome2'
+                            childReference: 'outcome2'
                         }
                     ]
                 }
@@ -373,12 +373,12 @@ describe('elements-reducer', () => {
                 }
             });
 
-            expect(updatedState.decision1.outcomeReferences).toMatchObject([
+            expect(updatedState.decision1.childReferences).toMatchObject([
                 {
-                    outcomeReference: 'outcome2'
+                    childReference: 'outcome2'
                 },
                 {
-                    outcomeReference: 'outcome1'
+                    childReference: 'outcome1'
                 }
             ]);
         });
@@ -559,12 +559,12 @@ describe('elements-reducer', () => {
             guid: 'wait1',
             name: 'wait1',
             elementType: ELEMENT_TYPE.WAIT,
-            waitEventReferences: [
+            childReferences: [
                 {
-                    waitEventReference: 'waitEvent1'
+                    childReference: 'waitEvent1'
                 },
                 {
-                    waitEventReference: 'waitEvent2'
+                    childReference: 'waitEvent2'
                 }
             ],
             prev: 'assignment1',
@@ -599,7 +599,7 @@ describe('elements-reducer', () => {
             guid: 'screen3',
             name: 'screen3',
             elementType: ELEMENT_TYPE.SCREEN,
-            fieldReferences: [],
+            childReferences: [],
             prev: null,
             next: null,
             parent: 'wait1',
