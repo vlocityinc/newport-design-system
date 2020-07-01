@@ -10,7 +10,6 @@ import {
     hasOneAvailableConnection,
     isEmptyArray,
     openConnectorSelectionModal,
-    shouldCreateStartConnection,
     shouldOpenConnectorSelectionModal,
     updateStoreOnSelection
 } from './canvasContainerUtils';
@@ -138,10 +137,6 @@ export default class CanvasContainer extends LightningElement {
         if (event && event.detail) {
             const { sourceGuid, targetGuid } = event.detail;
             if (sourceGuid && targetGuid) {
-                if (shouldCreateStartConnection(storeInstance, sourceGuid)) {
-                    addConnection(storeInstance, sourceGuid, targetGuid)(CONNECTOR_TYPE.REGULAR);
-                    return;
-                }
                 if (shouldOpenConnectorSelectionModal(storeInstance, sourceGuid)) {
                     const mode = event.type;
                     openConnectorSelectionModal(storeInstance, sourceGuid, targetGuid, mode);

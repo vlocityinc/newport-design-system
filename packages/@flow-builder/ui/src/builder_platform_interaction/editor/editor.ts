@@ -810,17 +810,21 @@ export default class Editor extends LightningElement {
             ({ data, error }) => {
                 const endInterviewTime = new Date();
                 this.builderMode = BUILDER_MODE.DEBUG_MODE;
+                const interviewStatus = data && data[0] && data[0].interviewStatus;
+                const debugTrace = data && data[0] && data[0].debugTrace;
                 this.debugData = {
-                    interviewStatus: data[0].interviewStatus,
-                    debugTrace: data[0].debugTrace,
+                    interviewStatus,
+                    debugTrace,
                     error,
                     startInterviewTime,
                     endInterviewTime
                 };
-                const canvasDecorator = data[1];
-                if (canvasDecorator) {
-                    const connectorsToHighlight = getConnectorsToHighlight(canvasDecorator);
-                    storeInstance.dispatch(decorateCanvas({ connectorsToHighlight }));
+                if (data && !error) {
+                    const canvasDecorator = data[1];
+                    if (canvasDecorator) {
+                        const connectorsToHighlight = getConnectorsToHighlight(canvasDecorator);
+                        storeInstance.dispatch(decorateCanvas({ connectorsToHighlight }));
+                    }
                 }
                 this.spinners.showDebugSpinner = false;
                 hidePopover();

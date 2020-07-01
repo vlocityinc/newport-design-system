@@ -4,7 +4,6 @@ import {
     getNodesFromStore,
     getConnectorsFromStore,
     updateStoreOnSelection,
-    shouldCreateStartConnection,
     hasOneAvailableConnection,
     shouldOpenConnectorSelectionModal,
     addConnection,
@@ -162,65 +161,6 @@ describe('Canvas container utils test', () => {
                 type: 'toggleOnCanvas',
                 payload
             });
-        });
-    });
-    describe('shouldCreateStartConnection function', () => {
-        it('throws an error if store instance is not defined', () => {
-            expect(() => {
-                shouldCreateStartConnection();
-            }).toThrow();
-        });
-        it('throws an error if source guid is not defined', () => {
-            const storeInstance = {};
-            expect(() => {
-                shouldCreateStartConnection(storeInstance);
-            }).toThrow();
-        });
-        it('return false if element type is not start element', () => {
-            const getCurrentState = jest.fn().mockImplementation(() => {
-                return {
-                    elements: {
-                        guid1: {
-                            availableConnections: [],
-                            elementType: 'not start Element'
-                        }
-                    }
-                };
-            });
-            const storeInstance = {
-                getCurrentState
-            };
-            expect(shouldCreateStartConnection(storeInstance, 'guid1')).toBe(false);
-        });
-        it('return false if avaiable connections are not defined', () => {
-            const getCurrentState = jest.fn().mockImplementation(() => {
-                return {
-                    elements: {
-                        guid1: {
-                            elementType: 'not start Element'
-                        }
-                    }
-                };
-            });
-            const storeInstance = {
-                getCurrentState
-            };
-            expect(shouldCreateStartConnection(storeInstance, 'guid1')).toBe(false);
-        });
-        it('return true if avaiable connections are not defined and element is a start element', () => {
-            const getCurrentState = jest.fn().mockImplementation(() => {
-                return {
-                    elements: {
-                        guid1: {
-                            elementType: 'START_ELEMENT'
-                        }
-                    }
-                };
-            });
-            const storeInstance = {
-                getCurrentState
-            };
-            expect(shouldCreateStartConnection(storeInstance, 'guid1')).toBe(true);
         });
     });
     describe('hasOneAvailableConnection function', () => {

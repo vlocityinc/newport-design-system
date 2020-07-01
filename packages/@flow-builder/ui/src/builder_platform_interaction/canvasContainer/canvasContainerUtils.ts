@@ -89,20 +89,6 @@ export const updateStoreOnSelection = (storeInstance, payload, isMultiSelection 
 };
 
 /**
- * This function checks whether connector type should be start or not
- * @param {Object} storeInstance instance of the client side model
- * @param {String} sourceGuid Guid of the source element
- * @returns true if element is start element and has no available connections
- */
-export const shouldCreateStartConnection = (storeInstance, sourceGuid) => {
-    const { availableConnections, elementType } = getElement(storeInstance, sourceGuid);
-    if (!availableConnections && elementType === ELEMENT_TYPE.START_ELEMENT) {
-        return true;
-    }
-    return false;
-};
-
-/**
  * This function checks whether element has only one connection left.
  * @param {Object} storeInstance instance of the client side model
  * @param {String} sourceGuid Guid of the source element

@@ -14,9 +14,10 @@ import {
     getPasteElementGuidMaps,
     getDuplicateElementGuidMaps,
     getConnectorToDuplicate,
-    highlightCanvasElement
+    highlightCanvasElement,
+    getConnectorsToHighlight
 } from '../editorUtils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { SaveFlowEvent } from 'builder_platform_interaction/events';
 
@@ -173,6 +174,21 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
                 };
             }
             return {};
+        })
+    };
+});
+
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        getElementByDevName: jest.fn().mockImplementation(devName => {
+            return {
+                guid: devName
+            };
+        }),
+        getStartElement: jest.fn().mockImplementation(() => {
+            return {
+                guid: 'startGuid'
+            };
         })
     };
 });
@@ -1184,6 +1200,63 @@ describe('Editor Utils Test', () => {
                 type: 'highlightOnCanvas',
                 payload
             });
+        });
+    });
+
+    describe('getConnectorsToHighlight function', () => {
+        it('returns highlighted connector from start element if no other decorators are passed in', () => {
+            const expected = [{ source: 'startGuid', type: CONNECTOR_TYPE.REGULAR }];
+            expect(getConnectorsToHighlight({})).toEqual(expected);
+        });
+
+        it('returns highlighted connectors for every element in the canvas decorator', () => {
+            const canvasDecorator = {
+                decoratedElements: [
+                    {
+                        elementApiName: 'element1',
+                        decoratedConnectors: [
+                            {
+                                connectorType: CONNECTOR_TYPE.REGULAR
+                            }
+                        ]
+                    },
+                    {
+                        elementApiName: 'element2',
+                        decoratedConnectors: [
+                            {
+                                connectorType: CONNECTOR_TYPE.FAULT
+                            }
+                        ]
+                    }
+                ]
+            };
+            const expected = [
+                { source: 'startGuid', type: CONNECTOR_TYPE.REGULAR },
+                { source: 'element1', type: CONNECTOR_TYPE.REGULAR },
+                { source: 'element2', type: CONNECTOR_TYPE.FAULT }
+            ];
+            expect(getConnectorsToHighlight(canvasDecorator)).toEqual(expected);
+        });
+
+        it('returns highlighted connectors for elements with child sources in the canvas decorator', () => {
+            const canvasDecorator = {
+                decoratedElements: [
+                    {
+                        elementApiName: 'element1',
+                        decoratedConnectors: [
+                            {
+                                childSource: 'childElement',
+                                connectorType: CONNECTOR_TYPE.REGULAR
+                            }
+                        ]
+                    }
+                ]
+            };
+            const expected = [
+                { source: 'startGuid', type: CONNECTOR_TYPE.REGULAR },
+                { source: 'element1', childSource: 'childElement', type: CONNECTOR_TYPE.REGULAR }
+            ];
+            expect(getConnectorsToHighlight(canvasDecorator)).toEqual(expected);
         });
     });
 });

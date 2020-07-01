@@ -855,24 +855,19 @@ export function getElementsMetadata(toolboxElements, palette) {
  * @param canvasDecorator canvas decorator object returned from the server
  */
 export const getConnectorsToHighlight = (canvasDecorator: object): array => {
-    const connectorsToHighlight = [];
+    // Add first highlighted connector coming out of the Start element
+    const connectorsToHighlight = [{ source: getStartElement().guid, type: CONNECTOR_TYPE.REGULAR }];
     if (canvasDecorator.decoratedElements) {
         canvasDecorator.decoratedElements.forEach(element => {
             const storeElement = getElementByDevName(element.elementApiName);
             if (storeElement && element.decoratedConnectors) {
-                // Add first highlighted connector coming out of the Start element
-                connectorsToHighlight.push({ source: getStartElement().guid, type: CONNECTOR_TYPE.REGULAR });
-                // Add highlighted connectors for the rest of the elements in the decorator object
+                // Add highlighted connectors for the each of the elements in the decorator object
                 element.decoratedConnectors.forEach(connector => {
-                    const childSource =
-                        connector.childSource &&
-                        getElementByDevName(connector.childSource) &&
-                        getElementByDevName(connector.childSource).guid;
-
-                    if (!connector.childSource || (connector.childSource && childSource)) {
+                    const childSourceElement = connector.childSource && getElementByDevName(connector.childSource);
+                    if (!connector.childSource || (connector.childSource && childSourceElement)) {
                         connectorsToHighlight.push({
                             source: storeElement.guid,
-                            childSource,
+                            childSource: childSourceElement && childSourceElement.guid,
                             type: connector.connectorType
                         });
                     }
