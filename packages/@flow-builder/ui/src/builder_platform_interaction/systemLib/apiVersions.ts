@@ -112,6 +112,7 @@ export const isVersioningDataInitialized = (): boolean => {
 export const isVersioningSupported = (): boolean => {
     const isListValid: boolean =
         apiVersionsList !== undefined && Array.isArray(apiVersionsList) && apiVersionsList.length > 0;
-    const isDefaultValueValid: boolean = defaultApiVersion !== undefined && defaultApiVersion !== 0;
+    const isDefaultValueValid: boolean =
+        defaultApiVersion !== null && defaultApiVersion !== undefined && defaultApiVersion !== 0;
     return isListValid && isDefaultValueValid;
 };

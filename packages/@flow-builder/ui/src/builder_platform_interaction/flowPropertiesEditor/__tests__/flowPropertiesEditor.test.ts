@@ -141,7 +141,8 @@ const SELECTORS = {
     LAST_MODIFIED: 'div.lastModified',
     VERSION_NUMBER: 'div.versionNumber',
     RESOURCE_TEXT_AREA: 'builder_platform_interaction-resourced-textarea',
-    RICH_TEXT_PLAIN_TEXT_SWITCH: 'builder_platform_interaction-rich-text-plain-text-switch'
+    RICH_TEXT_PLAIN_TEXT_SWITCH: 'builder_platform_interaction-rich-text-plain-text-switch',
+    API_VERSION: 'lightning-combobox.api-version'
 };
 
 const getLabelDescription = flowPropertiesEditor => {
@@ -189,6 +190,10 @@ const dispatchLabelChangedEvent = (flowPropertiesEditor, newLabelValue, error) =
     labelDescription.dispatchEvent(event);
 };
 
+const getApiVersion = flowPropertiesEditor => {
+    return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.API_VERSION);
+};
+
 describe('FlowPropertiesEditor', () => {
     let flowProperties;
     let flowPropertiesEditor;
@@ -202,7 +207,8 @@ describe('FlowPropertiesEditor', () => {
                 triggerType: { value: 'trigger type', error: null },
                 interviewLabel: { value: '', error: null },
                 runInMode: { value: null, error: null },
-                saveType: SaveType.CREATE
+                saveType: SaveType.CREATE,
+                apiVersion: 49
             };
             flowPropertiesEditor = createComponentUnderTest(flowProperties);
         });
@@ -247,6 +253,7 @@ describe('FlowPropertiesEditor', () => {
                 expect(getAdvancedProperties(flowPropertiesEditor)).toBeNull();
                 expect(getProcessType(flowPropertiesEditor)).toBeNull();
                 expect(getResourceTextArea(flowPropertiesEditor)).toBeNull();
+                expect(getApiVersion(flowPropertiesEditor)).toBeNull();
             });
             it('SHOW Advanced Properties', async () => {
                 const showAdvancedButton = getShowAdvancedButton(flowPropertiesEditor);
@@ -262,6 +269,8 @@ describe('FlowPropertiesEditor', () => {
                 expect(recourcedTextArea.value.value).toBe('');
                 expect(recourcedTextArea.value.error).toBeNull();
                 expect(getRichTextPlainTextSwitch(recourcedTextArea)).toBeNull();
+                expect(getApiVersion(flowPropertiesEditor)).toBeDefined();
+                expect(getApiVersion(flowPropertiesEditor).value).toBe('49');
             });
             it('Last Modified Information should NOT be shown for saveType CREATE', () => {
                 expect(getLastModifiedDetails(flowPropertiesEditor)).toBeNull();
@@ -281,7 +290,8 @@ describe('FlowPropertiesEditor', () => {
                 lastModifiedBy: { value: 'some user' },
                 lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
                 saveType: SaveType.UPDATE,
-                runInMode: { value: null, error: null }
+                runInMode: { value: null, error: null },
+                apiVersion: 50
             };
             flowPropertiesEditor = createComponentUnderTest(flowProperties);
         });
@@ -306,6 +316,8 @@ describe('FlowPropertiesEditor', () => {
                 expect(resourcedTextArea.value.value).toBe(flowProperties.interviewLabel.value);
                 expect(getRichTextPlainTextSwitch(resourcedTextArea)).toBeNull();
                 expect(getProcessType(flowPropertiesEditor).disabled).toBe(true);
+                expect(getApiVersion(flowPropertiesEditor)).not.toBeNull();
+                expect(getApiVersion(flowPropertiesEditor).value).toBe('50');
             });
             describe('Last Modified Information', () => {
                 it('returns the localized label with the correct user name and last modified date/time', async () => {
@@ -489,6 +501,147 @@ describe('FlowPropertiesEditor', () => {
                 expect(flowPropertiesEditor.node.name.value).toBe('');
                 expect(flowPropertiesEditor.node.description.value).toBe('');
                 expect(flowPropertiesEditor.node.interviewLabel.value).toBe('');
+            });
+        });
+    });
+    describe('Api Version', () => {
+        describe('Basic checks', () => {
+            let baseProperties;
+            beforeEach(() => {
+                baseProperties = {
+                    label: { value: 'flow label' },
+                    name: { value: 'flow name' },
+                    description: { value: 'flow description' },
+                    processType: { value: 'process type2' },
+                    status: { value: 'Active' },
+                    interviewLabel: { value: 'interviewLabel' },
+                    lastModifiedBy: { value: 'some user' },
+                    lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
+                    versionNumber: 1,
+                    saveType: SaveType.UPDATE,
+                    runInMode: { value: null, error: null },
+                    apiVersion: 49
+                };
+            });
+
+            it('displays the value associated with the current api Version', async () => {
+                flowProperties = {
+                    ...baseProperties,
+                    apiVersion: 50
+                };
+                flowPropertiesEditor = createComponentUnderTest(flowProperties);
+                getShowAdvancedButton(flowPropertiesEditor).click();
+                await Promise.resolve();
+                expect(getApiVersion(flowPropertiesEditor).value).toEqual('50');
+            });
+        });
+
+        describe('Toggle between save as types', () => {
+            let defaultNode;
+            beforeEach(() => {
+                defaultNode = {
+                    label: { value: 'flow label' },
+                    name: { value: 'flow name' },
+                    description: { value: 'flow description' },
+                    processType: { value: 'AutoLaunchedFlow' },
+                    triggerType: { value: 'RecordBeforeSave' },
+                    status: { value: 'Active' },
+                    interviewLabel: { value: 'interviewLabel' },
+                    versionNumber: 1,
+                    saveType: SaveType.NEW_VERSION,
+                    runInMode: { value: null, error: null },
+                    lastModifiedBy: { value: 'some user' },
+                    lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
+                    apiVersion: 50
+                };
+            });
+
+            it('gets the same apiVersion selected in New Version when switching to New Definiton', async () => {
+                flowPropertiesEditor = createComponentUnderTest(defaultNode);
+                getShowAdvancedButton(flowPropertiesEditor).click();
+                await ticks(1);
+                const apiVersionEvent = new CustomEvent('change', {
+                    detail: { value: '49' }
+                });
+                const apiVersion = getApiVersion(flowPropertiesEditor);
+                apiVersion.dispatchEvent(apiVersionEvent);
+                await ticks(1);
+                expect(getApiVersion(flowPropertiesEditor).value).toBe('49');
+                getSaveAsToggle(flowPropertiesEditor).dispatchEvent(
+                    new CustomEvent('change', {
+                        detail: { value: SaveType.NEW_DEFINITION }
+                    })
+                );
+                await ticks(1);
+                expect(getApiVersion(flowPropertiesEditor).value).toBe('49');
+            });
+
+            it('restores the original ApiVersion properties when toggling back to New Version from new Defintion', async () => {
+                flowPropertiesEditor = createComponentUnderTest(defaultNode);
+                getShowAdvancedButton(flowPropertiesEditor).click();
+                await ticks(1);
+                expect(getApiVersion(flowPropertiesEditor).value).toBe('50');
+                getSaveAsToggle(flowPropertiesEditor).dispatchEvent(
+                    new CustomEvent('change', {
+                        detail: { value: SaveType.NEW_DEFINITION }
+                    })
+                );
+                const apiVersionEvent = new CustomEvent('change', {
+                    detail: { value: '49' }
+                });
+                const apiVersion = getApiVersion(flowPropertiesEditor);
+                apiVersion.dispatchEvent(apiVersionEvent);
+                await ticks(1);
+                expect(getApiVersion(flowPropertiesEditor).value).toBe('49');
+                getSaveAsToggle(flowPropertiesEditor).dispatchEvent(
+                    new CustomEvent('change', {
+                        detail: { value: SaveType.NEW_VERSION }
+                    })
+                );
+                await ticks(1);
+                expect(getApiVersion(flowPropertiesEditor).value).toBe('50');
+            });
+        });
+
+        describe('Toggle between ProcessTypes', () => {
+            let defaultNode;
+            beforeEach(() => {
+                defaultNode = {
+                    label: { value: 'flow label' },
+                    name: { value: 'flow name' },
+                    description: { value: 'flow description' },
+                    processType: { value: 'AutoLaunchedFlow' },
+                    triggerType: { value: 'RecordBeforeSave' },
+                    status: { value: 'Active' },
+                    interviewLabel: { value: 'interviewLabel' },
+                    versionNumber: 1,
+                    saveType: SaveType.NEW_DEFINITION,
+                    runInMode: { value: null, error: null },
+                    lastModifiedBy: { value: 'some user' },
+                    lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
+                    apiVersion: 50
+                };
+            });
+
+            it('gets the same apiVersion selected in New Defintion when switching ProcessTypes', async () => {
+                flowPropertiesEditor = createComponentUnderTest(defaultNode);
+                getShowAdvancedButton(flowPropertiesEditor).click();
+                await ticks(1);
+                expect(getApiVersion(flowPropertiesEditor).value).toBe('50');
+                const apiVersionEvent = new CustomEvent('change', {
+                    detail: { value: '49' }
+                });
+                const apiVersion = getApiVersion(flowPropertiesEditor);
+                apiVersion.dispatchEvent(apiVersionEvent);
+                await ticks(1);
+                expect(getApiVersion(flowPropertiesEditor).value).toBe('49');
+                const processTypeEvent = new CustomEvent('change', {
+                    detail: { value: 'Flow None' }
+                });
+                const processType = getProcessType(flowPropertiesEditor);
+                processType.dispatchEvent(processTypeEvent);
+                await ticks(1);
+                expect(getApiVersion(flowPropertiesEditor).value).toBe('49');
             });
         });
     });
