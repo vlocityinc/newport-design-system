@@ -54,16 +54,35 @@ describe('getMenuConfiguration tests', () => {
                 expect(configuration.body.nodeActions[1].icon).toBe('utility:delete');
             });
 
+            it('Delete Action should have the right icon variant', () => {
+                expect(configuration.body.nodeActions[1].iconVariant).toBe('error');
+            });
+
             it('Delete Action should have the right label', () => {
                 expect(configuration.body.nodeActions[1].label).toBe(LABELS.deleteActionLabel);
             });
 
             it('Add Fault Action should have the right icon', () => {
-                expect(configuration.body.nodeActions[2].icon).toBe('utility:delete');
+                expect(configuration.body.nodeActions[2].icon).toBe('utility:level_down');
             });
 
             it('Add Fault should have the right label', () => {
                 expect(configuration.body.nodeActions[2].label).toBe(LABELS.addFaultActionLabel);
+            });
+
+            it('Delete Fault Action should have the right icon', () => {
+                configuration.body.nodeActions.push(ELEMENT_ACTION_CONFIG.DELETE_FAULT_ACTION);
+                expect(configuration.body.nodeActions[3].icon).toBe('utility:level_down');
+            });
+
+            it('Delete Fault Action should have the right icon variant', () => {
+                configuration.body.nodeActions.push(ELEMENT_ACTION_CONFIG.DELETE_FAULT_ACTION);
+                expect(configuration.body.nodeActions[3].iconVariant).toBe('error');
+            });
+
+            it('Delete Fault should have the right label', () => {
+                configuration.body.nodeActions.push(ELEMENT_ACTION_CONFIG.DELETE_FAULT_ACTION);
+                expect(configuration.body.nodeActions[3].label).toBe(LABELS.deleteFaultActionLabel);
             });
 
             it('Should have Footer', () => {

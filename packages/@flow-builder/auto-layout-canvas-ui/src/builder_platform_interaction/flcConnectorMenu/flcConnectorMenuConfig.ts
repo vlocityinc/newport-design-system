@@ -1,50 +1,42 @@
 // @ts-nocheck
 import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 import { LABELS } from './flcConnectorMenuLabels';
 
 export const PASTE_ACTION = 'Paste';
 export const MERGE_PATH_ACTION = 'mergePath';
 
-export const pasteSection = {
+const actionSection = {
     guid: generateGuid(),
     heading: '',
-    items: [
-        {
-            guid: generateGuid(),
-            description: LABELS.pasteItemDescription,
-            icon: 'standard:record',
-            iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
-            iconClass: 'paste-icon',
-            iconSize: 'small',
-            iconVariant: '',
-            label: LABELS.pasteItemLabel,
-            elementType: PASTE_ACTION
-        }
-    ],
-    label: LABELS.pasteSectionLabel,
+    items: [],
+    label: LABELS.actionSectionLabel,
     separator: true
 };
 
-export const mergePathSection = {
+const pasteActionItem = {
     guid: generateGuid(),
-    heading: LABELS.mergePathSectionLabel,
-    items: [
-        {
-            guid: generateGuid(),
-            description: LABELS.mergePathItemDescription,
-            icon: 'standard:branch_merge',
-            iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
-            iconClass: 'branch-merge',
-            iconSize: 'small',
-            iconVariant: '',
-            label: LABELS.mergePathItemLabel,
-            elementType: MERGE_PATH_ACTION
-        }
-    ],
-    label: LABELS.mergePathSectionLabel
+    icon: 'utility:paste',
+    iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+    iconClass: '',
+    iconSize: 'x-small',
+    iconVariant: '',
+    label: LABELS.pasteItemLabel,
+    elementType: PASTE_ACTION,
+    rowClass: 'slds-listbox__item action-row-line-height'
+};
+
+const mergeActionItem = {
+    guid: generateGuid(),
+    icon: 'utility:merge',
+    iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
+    iconClass: 'branch-merge',
+    iconSize: 'x-small',
+    iconVariant: '',
+    label: LABELS.mergePathItemLabel,
+    elementType: MERGE_PATH_ACTION,
+    rowClass: 'slds-listbox__item action-row-line-height'
 };
 
 /**
@@ -57,9 +49,19 @@ export const mergePathSection = {
 export const configureMenu = (elementsMetadata, showEndElement, isPasteAvailable, canMergePath) => {
     const sectionDefinitionsMap = {};
 
-    const extraSections = isPasteAvailable ? [pasteSection] : [];
-    if (canMergePath) {
-        extraSections.push(mergePathSection);
+    let extraSections = [];
+    actionSection.items = [];
+
+    if (isPasteAvailable || canMergePath) {
+        if (isPasteAvailable) {
+            actionSection.items.push(pasteActionItem);
+        }
+
+        if (canMergePath) {
+            actionSection.items.push(mergeActionItem);
+        }
+
+        extraSections = [actionSection];
     }
 
     const sections = elementsMetadata.reduce(
@@ -107,7 +109,8 @@ export const configureMenu = (elementsMetadata, showEndElement, isPasteAvailable
                 iconContainerClass,
                 iconClass,
                 iconSize,
-                iconVariant
+                iconVariant,
+                rowClass: 'slds-listbox__item'
             });
 
             return acc;

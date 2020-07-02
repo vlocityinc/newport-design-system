@@ -1,25 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`connector menu config should have the reconnect branch menu item 1`] = `
+exports[`connector menu config Match Snapshot with both paste and merge option 1`] = `
 Object {
   "sections": Array [
     Object {
       "guid": 1,
-      "heading": "Path Actions",
+      "heading": "",
       "items": Array [
         Object {
-          "description": "Delete the end element and merge this path",
+          "elementType": "Paste",
+          "guid": 1,
+          "icon": "utility:paste",
+          "iconClass": "",
+          "iconContainerClass": "slds-media__figure slds-listbox__option-icon",
+          "iconSize": "x-small",
+          "iconVariant": "",
+          "label": "AlcConnectorContextualMenu.pasteItemLabel",
+          "rowClass": "slds-listbox__item action-row-line-height",
+        },
+        Object {
           "elementType": "mergePath",
           "guid": 1,
-          "icon": "standard:branch_merge",
+          "icon": "utility:merge",
           "iconClass": "branch-merge",
           "iconContainerClass": "slds-media__figure slds-listbox__option-icon",
-          "iconSize": "small",
+          "iconSize": "x-small",
           "iconVariant": "",
-          "label": "Merge with existing path",
+          "label": "AlcConnectorContextualMenu.mergePathItemLabel",
+          "rowClass": "slds-listbox__item action-row-line-height",
         },
       ],
-      "label": "Path Actions",
+      "label": "AlcConnectorContextualMenu.actionSectionLabel",
+      "separator": true,
     },
     Object {
       "guid": 1,
@@ -35,6 +47,7 @@ Object {
           "iconSize": "small",
           "iconVariant": "",
           "label": "Screen",
+          "rowClass": "slds-listbox__item",
         },
       ],
       "label": "Interaction",
@@ -53,6 +66,7 @@ Object {
           "iconSize": "small",
           "iconVariant": "",
           "label": "Decision",
+          "rowClass": "slds-listbox__item",
         },
       ],
       "label": "Logic",

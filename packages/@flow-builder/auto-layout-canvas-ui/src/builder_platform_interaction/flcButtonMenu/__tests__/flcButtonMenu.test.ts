@@ -4,6 +4,7 @@ import FlcButtonMenu from 'builder_platform_interaction/flcButtonMenu';
 import { blurEvent, focusEvent } from 'builder_platform_interaction/builderTestUtils/events';
 import { ToggleMenuEvent } from 'builder_platform_interaction/flcEvents';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
+import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 
 const startMetadata = {
     canHaveFaultConnector: false,
@@ -12,7 +13,7 @@ const startMetadata = {
     iconShape: ICON_SHAPE.CIRCLE,
     label: 'Start',
     section: null,
-    type: 'start',
+    type: ElementType.START,
     value: 'Start'
 };
 
@@ -22,7 +23,7 @@ const screenMetadata = {
     icon: 'standard:screen',
     label: 'Screen',
     section: null,
-    type: 'default',
+    type: ElementType.DEFAULT,
     value: 'Screen'
 };
 
@@ -33,8 +34,19 @@ const decisionMetadata = {
     iconShape: ICON_SHAPE.DIAMOND,
     label: 'Decision',
     section: null,
-    type: 'branch',
+    type: ElementType.BRANCH,
     value: 'Decision'
+};
+
+const endMetadata = {
+    canHaveFaultConnector: false,
+    elementType: 'End',
+    icon: 'standard:end',
+    iconShape: ICON_SHAPE.CIRCLE,
+    label: 'End',
+    section: null,
+    type: ElementType.END,
+    value: 'End'
 };
 
 const createComponentUnderTest = (metadata = screenMetadata, isNodeGettingDeleted = false, isSelectionMode = false) => {
@@ -54,7 +66,9 @@ const selectors = {
     diamondTriggerContainer: '.default-container.rotate-icon-container.slds-p-around_xx-small',
     triggerButton: 'button',
     circularTriggerButton: '.circular-icon',
-    toBeDeletedButton: '.node-to-be-deleted'
+    toBeDeletedButton: '.node-to-be-deleted',
+    endElement: '.is-end-element',
+    nodeInSelectionMode: '.node-in-selection-mode'
 };
 
 describe('the button menu', () => {
@@ -98,6 +112,18 @@ describe('the button menu', () => {
     it('should add "circular-icon" class when iconShape is circle in the metadata', () => {
         const button = createComponentUnderTest(startMetadata).shadowRoot.querySelector(
             selectors.circularTriggerButton
+        );
+        expect(button).not.toBeNull();
+    });
+
+    it('should add "is-end-element" class when type is end in the metadata', () => {
+        const button = createComponentUnderTest(endMetadata).shadowRoot.querySelector(selectors.endElement);
+        expect(button).not.toBeNull();
+    });
+
+    it('should add "node-in-selection-mode" class when in selection mode', () => {
+        const button = createComponentUnderTest(screenMetadata, false, true).shadowRoot.querySelector(
+            selectors.nodeInSelectionMode
         );
         expect(button).not.toBeNull();
     });

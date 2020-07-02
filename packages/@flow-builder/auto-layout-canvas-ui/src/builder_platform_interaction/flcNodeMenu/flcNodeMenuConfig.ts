@@ -23,13 +23,12 @@ export const ELEMENT_ACTION_CONFIG = {
         value: 'DELETE_ACTION'
     },
     ADD_FAULT_ACTION: {
-        icon: 'utility:delete',
-        iconVariant: 'error',
+        icon: 'utility:level_down',
         label: LABELS.addFaultActionLabel,
         value: 'ADD_FAULT_ACTION'
     },
     DELETE_FAULT_ACTION: {
-        icon: 'utility:delete',
+        icon: 'utility:level_down',
         iconVariant: 'error',
         label: LABELS.deleteFaultActionLabel,
         value: 'DELETE_FAULT_ACTION'

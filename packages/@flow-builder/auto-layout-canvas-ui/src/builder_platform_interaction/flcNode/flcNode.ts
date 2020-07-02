@@ -113,7 +113,8 @@ export default class FlcNode extends LightningElement {
      */
     handleButtonClick(event) {
         event.stopPropagation();
-        if (!this.isSelectionMode) {
+        const { type } = this.nodeInfo.metadata;
+        if (!this.isSelectionMode && type !== ElementType.END) {
             const nodeSelectedEvent = new SelectNodeEvent(
                 this.nodeInfo.guid,
                 undefined,

@@ -13,6 +13,7 @@ button:hover {
     transform: scale(1.05);
 }
 
+button.is-end-element:hover,
 button.node-in-selection-mode:hover {
     cursor: default;
     transform: scale(1);
@@ -37,6 +38,7 @@ button:focus {
     transform: scale(1.1);
 }
 
+button.is-end-element:focus,
 button.node-in-selection-mode:focus {
     box-shadow: none;
     transform: scale(1);
@@ -59,6 +61,7 @@ button.connector:focus {
 
 :host(.slds-is-open) button.connector {
     background-color: rgb(54, 117, 224);
+    border-color: var(--lwc-colorBrandDark);
 }
 
 .default-container {

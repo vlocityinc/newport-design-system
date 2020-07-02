@@ -1,7 +1,6 @@
 // @ts-nocheck
 import { configureMenu } from '../flcConnectorMenuConfig';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
-import { pasteSection } from '../flcConnectorMenuConfig';
 import { LABELS } from '../flcConnectorMenuLabels';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
@@ -43,89 +42,44 @@ const metaData = [
     }
 ];
 
-const metaDataResponse = [
-    {
-        guid: 1,
-        heading: 'Interaction',
-        items: [
-            {
-                description: 'Collect information from',
-                elementType: 'Screen',
-                guid: 1,
-                icon: 'standard:screen',
-                iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
-                iconClass: '',
-                iconSize: 'small',
-                iconVariant: '',
-                label: 'Screen'
-            }
-        ],
-        label: 'Interaction'
-    },
-    {
-        guid: 1,
-        heading: 'Logic',
-        items: [
-            {
-                description: 'Create Decision',
-                elementType: 'Decision',
-                guid: 1,
-                icon: 'standard:decision',
-                iconContainerClass:
-                    'slds-media__figure slds-listbox__option-icon rotate-icon-container slds-icon-standard-decision',
-                iconClass: ' rotate-icon-svg',
-                iconSize: 'small',
-                iconVariant: '',
-                label: 'Decision'
-            },
-            {
-                description: 'Create End',
-                elementType: 'End',
-                guid: 1,
-                icon: 'utility:stop',
-                iconContainerClass: 'slds-media__figure slds-listbox__option-icon',
-                iconClass: 'background-red end-element-svg',
-                iconSize: 'xx-small',
-                iconVariant: 'inverse',
-                label: 'End'
-            }
-        ],
-        label: 'Logic'
-    }
-];
-
 describe('connector menu config', () => {
-    it('should have the reconnect branch menu item', () => {
-        expect(configureMenu(metaData, false, false, true)).toMatchSnapshot();
+    it('Match Snapshot with both paste and merge option', () => {
+        expect(configureMenu(metaData, false, true, true)).toMatchSnapshot();
     });
 
-    it('should have the paste element in the object and the correct transformed data ', () => {
-        expect(configureMenu(metaData, true, true)).toEqual({ sections: [pasteSection, ...metaDataResponse] });
+    it('actionSection should have the right label', () => {
+        expect(configureMenu(metaData, false, true, false).sections[0].label).toBe(LABELS.actionSectionLabel);
     });
 
-    it('should not have the paste element in the object and the correct transformed data', () => {
-        expect(configureMenu(metaData, true, false)).toEqual({ sections: [...metaDataResponse] });
-    });
-
-    it('pasteSection should have the right label', () => {
-        expect(configureMenu(metaData, false, true, false).sections[0].label).toBe(LABELS.pasteSectionLabel);
-    });
-
-    it('pasteSection item should have the right label', () => {
+    it('pasteItem should have the right label', () => {
         expect(configureMenu(metaData, false, true, false).sections[0].items[0].label).toBe(LABELS.pasteItemLabel);
     });
 
-    it('pasteSection item should have the right description', () => {
-        expect(configureMenu(metaData, false, true, false).sections[0].items[0].description).toBe(
-            LABELS.pasteItemDescription
+    it('pasteSection item should have the right icon', () => {
+        expect(configureMenu(metaData, false, true, false).sections[0].items[0].icon).toBe('utility:paste');
+    });
+
+    it('pasteSection item should have the right rowClass', () => {
+        expect(configureMenu(metaData, false, true, false).sections[0].items[0].rowClass).toBe(
+            'slds-listbox__item action-row-line-height'
         );
     });
 
-    it('pasteSection item should have the right icon', () => {
-        expect(configureMenu(metaData, false, true, false).sections[0].items[0].icon).toBe('standard:record');
+    it('mergePath should have the right label', () => {
+        expect(configureMenu(metaData, false, true, true).sections[0].items[1].label).toBe(LABELS.mergePathItemLabel);
     });
 
-    it('pasteSection item should have the right icon class', () => {
-        expect(configureMenu(metaData, false, true, false).sections[0].items[0].iconClass).toBe('paste-icon');
+    it('mergePath item should have the right icon', () => {
+        expect(configureMenu(metaData, false, true, true).sections[0].items[1].icon).toBe('utility:merge');
+    });
+
+    it('mergePath item should have the right icon class', () => {
+        expect(configureMenu(metaData, false, true, true).sections[0].items[1].iconClass).toBe('branch-merge');
+    });
+
+    it('mergePath item should have the right rowClass', () => {
+        expect(configureMenu(metaData, false, true, true).sections[0].items[1].rowClass).toBe(
+            'slds-listbox__item action-row-line-height'
+        );
     });
 });

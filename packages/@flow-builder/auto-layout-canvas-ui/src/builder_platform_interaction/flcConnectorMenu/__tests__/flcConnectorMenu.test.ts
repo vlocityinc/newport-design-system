@@ -4,7 +4,7 @@ import FlcConnectorMenu from 'builder_platform_interaction/flcConnectorMenu';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { AddElementEvent } from 'builder_platform_interaction/events';
 import { ToggleMenuEvent } from 'builder_platform_interaction/flcEvents';
-import { configureMenu } from '../flcConnectorMenuConfig';
+import { configureMenu, PASTE_ACTION, MERGE_PATH_ACTION } from '../flcConnectorMenuConfig';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 
 const metaData = [
@@ -58,7 +58,8 @@ jest.mock('../flcConnectorMenuConfig', () => {
                                 iconClass: '',
                                 iconSize: 'small',
                                 iconVariant: '',
-                                label: 'Screen'
+                                label: 'Screen',
+                                rowClass: 'slds-listbox__item'
                             }
                         ],
                         label: 'Interaction'
@@ -77,7 +78,8 @@ jest.mock('../flcConnectorMenuConfig', () => {
                                 iconClass: ' rotate-icon-svg',
                                 iconSize: 'small',
                                 iconVariant: '',
-                                label: 'Decision'
+                                label: 'Decision',
+                                rowClass: 'slds-listbox__item'
                             },
                             {
                                 description: 'Create End',
@@ -88,7 +90,8 @@ jest.mock('../flcConnectorMenuConfig', () => {
                                 iconClass: 'background-red end-element-svg',
                                 iconSize: 'xx-small',
                                 iconVariant: 'inverse',
-                                label: 'End'
+                                label: 'End',
+                                rowClass: 'slds-listbox__item'
                             }
                         ],
                         label: 'Logic'
@@ -96,7 +99,8 @@ jest.mock('../flcConnectorMenuConfig', () => {
                 ]
             };
         }),
-        PASTE_ACTION: 'Paste'
+        PASTE_ACTION: 'Paste',
+        MERGE_PATH_ACTION: 'mergePath'
     };
 });
 
@@ -149,14 +153,13 @@ describe('connector menu', () => {
                     items: [
                         {
                             guid: 1,
-                            description: 'Paste copied element(s)',
-                            icon: 'standard:textbox',
-                            separator: true,
-                            label: 'Paste',
-                            elementType: 'Paste'
+                            icon: 'utility:paste',
+                            label: 'Paste copied element(s)',
+                            elementType: PASTE_ACTION,
+                            rowClass: 'slds-listbox__item action-row-line-height'
                         }
                     ],
-                    label: 'Paste Section'
+                    label: 'Action Section'
                 }
             ]
         });
@@ -164,6 +167,33 @@ describe('connector menu', () => {
         await ticks(1);
         const callback = jest.fn();
         cmp.addEventListener('paste', callback);
+        cmp.shadowRoot.querySelector(selectors.listboxItem).click();
+        expect(callback).toHaveBeenCalled();
+    });
+
+    it('should dispatch merge path event when merge path is specified ', async () => {
+        configureMenu.mockReturnValueOnce({
+            sections: [
+                {
+                    guid: 1,
+                    heading: '',
+                    items: [
+                        {
+                            guid: 1,
+                            icon: 'utility:merge',
+                            label: 'Merge with existing path',
+                            elementType: MERGE_PATH_ACTION,
+                            rowClass: 'slds-listbox__item action-row-line-height'
+                        }
+                    ],
+                    label: 'Action Section'
+                }
+            ]
+        });
+        const cmp = createComponentUnderTest();
+        await ticks(1);
+        const callback = jest.fn();
+        cmp.addEventListener('mergewithexistingpath', callback);
         cmp.shadowRoot.querySelector(selectors.listboxItem).click();
         expect(callback).toHaveBeenCalled();
     });

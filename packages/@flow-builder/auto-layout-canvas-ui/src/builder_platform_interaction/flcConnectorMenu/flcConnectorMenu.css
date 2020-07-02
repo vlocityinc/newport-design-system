@@ -2,8 +2,12 @@
     height: 16rem;
 }
 
-.paste-icon {
-    background-color: var(--lwc-colorGray8);
+.branch-merge {
+    transform: rotate(90deg);
+}
+
+.action-row-line-height {
+    line-height: 1.5rem;
 }
 
 .background-navy {

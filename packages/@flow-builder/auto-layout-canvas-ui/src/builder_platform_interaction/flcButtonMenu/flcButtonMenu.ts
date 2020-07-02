@@ -8,7 +8,7 @@ import { classSet } from 'lightning/utils';
 
 import { ToggleMenuEvent } from 'builder_platform_interaction/flcEvents';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
-import { MenuType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { MenuType, ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 
 const i18n = {
     showMenu: labelShowMenu
@@ -273,6 +273,7 @@ export default class FlcButtonMenu extends LightningElement {
             'slds-button': true,
             'slds-button_icon': true,
             'border-none': this.variant !== 'connector',
+            'is-end-element': this.variant !== 'connector' && this.elementMetadata.type === ElementType.END,
             'node-in-selection-mode': this.isSelectionMode,
             connector: this.variant === 'connector',
             'node-to-be-deleted': this.isNodeGettingDeleted,
