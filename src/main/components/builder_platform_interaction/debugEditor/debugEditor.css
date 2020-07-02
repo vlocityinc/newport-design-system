@@ -11,3 +11,7 @@
     padding: 16px 0 0 0;
     margin: 0;
 }
+
+.THIS .slds-input {
+    height: 36px;
+}
