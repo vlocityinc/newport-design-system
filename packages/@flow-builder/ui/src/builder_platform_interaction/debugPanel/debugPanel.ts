@@ -11,8 +11,13 @@ const NEWLINE = '\\n';
 export default class DebugPanel extends LightningElement {
     @api debugData;
     debugTraces = [];
+    errorMessage = '';
 
     headerTitle = LABELS.debugInspector;
+
+    get hasErrors() {
+        return this.debugData && this.debugData.error && !!this.debugData.error[0];
+    }
 
     copyAndUpdateDebugTraceObject() {
         this.getStartInterviewInfo();
@@ -23,13 +28,15 @@ export default class DebugPanel extends LightningElement {
     }
 
     connectedCallback() {
-        if (this.debugData && this.debugData.debugTrace) {
+        if (!this.hasErrors && this.debugData && this.debugData.debugTrace) {
             this.copyAndUpdateDebugTraceObject();
+        } else if (this.hasErrors) {
+            this.errorMessage = format(LABELS.faultMessage, this.debugData.error);
         }
     }
 
     getStartInterviewInfo() {
-        const startedInfo = this.debugData.debugTrace[0].debugInfo.split(['\\n']).slice(1);
+        const startedInfo = this.debugData.debugTrace[0].debugInfo.split([NEWLINE]).slice(1);
         startedInfo.push(format(LABELS.interviewStartedAt, this.formatDateHelper(this.debugData.startInterviewTime)));
         if (startedInfo[0].includes(LABELS.interviewStartHeader)) {
             this.debugTraces.push({

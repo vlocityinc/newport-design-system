@@ -3,6 +3,10 @@
         <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate">{headerTitle}</h2>
     </div>
     <div class="slds-panel__body slds-scrollable--y ">
+        <div if:true={hasErrors} class="error">
+            {errorMessage}
+        </div>
+        <!-- if there's an error, there will be no debugData.debugTraces-->
         <template for:each={debugTraces} for:item="trace">
             <lightning-accordion key={trace.debugInfo} allow-multiple-sections-open>
                 <lightning-accordion-section key={trace.debugInfo} label={trace.elementApiName}>

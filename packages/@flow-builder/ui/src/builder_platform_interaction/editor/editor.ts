@@ -807,11 +807,12 @@ export default class Editor extends LightningElement {
         const startInterviewTime = new Date();
         fetch(
             SERVER_ACTION_TYPE.RUN_DEBUG,
-            ({ data, error }) => {
+            ({ data }) => {
                 const endInterviewTime = new Date();
                 this.builderMode = BUILDER_MODE.DEBUG_MODE;
                 const interviewStatus = data && data[0] && data[0].interviewStatus;
                 const debugTrace = data && data[0] && data[0].debugTrace;
+                const error = data && data[0] && data[0].errors;
                 this.debugData = {
                     interviewStatus,
                     debugTrace,

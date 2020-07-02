@@ -9,3 +9,7 @@
     overflow: hidden;
     overflow-y: auto;
 }
+
+div.error {
+    color: var(--lwc-colorTextError);
+}

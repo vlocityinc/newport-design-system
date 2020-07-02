@@ -6,6 +6,7 @@ import interviewStartedAt from '@salesforce/label/FlowBuilderDebugPanel.intervie
 import interviewFinishedAt from '@salesforce/label/FlowBuilderDebugPanel.interviewFinishedAt';
 import interviewErrorAt from '@salesforce/label/FlowBuilderDebugPanel.interviewErrorAt';
 import interviewStartHeader from '@salesforce/label/DebugLogEmail.StartHeader';
+import faultMessage from '@salesforce/label/DebugLogEmail.FaultMessage';
 
 export const LABELS = {
     debugInspector,
@@ -15,5 +16,6 @@ export const LABELS = {
     interviewStartedAt,
     interviewFinishedAt,
     interviewErrorAt,
-    interviewStartHeader
+    interviewStartHeader,
+    faultMessage
 };
