@@ -7,12 +7,14 @@ import {
     ToggleFlowStatusEvent,
     ToggleSelectionModeEvent,
     CopyEvent,
-    ClosePropertyEditorEvent
+    ClosePropertyEditorEvent,
+    EditFlowEvent
 } from 'builder_platform_interaction/events';
 import Toolbar from 'builder_platform_interaction/toolbar';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { LABELS } from '../toolbarLabels';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
+import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 
 jest.mock('builder_platform_interaction/loggingUtils', () => ({
     logInteraction: jest.fn()
@@ -31,6 +33,14 @@ const createComponentUnderTest = (props = {}) => {
     el.isCutCopyDisabled = props.isCutCopyDisabled;
     el.isSelectionMode = props.isSelectionMode;
     el.isAutoLayoutCanvas = props.isAutoLayoutCanvas;
+    el.showCopyPasteButton = getPropertyOrDefaultToTrue(props, 'showCopyPasteButton');
+    el.showEditFlowPropertiesButton = getPropertyOrDefaultToTrue(props, 'showEditFlowPropertiesButton');
+    el.showCanvasModeToggle = getPropertyOrDefaultToTrue(props, 'showCanvasModeToggle');
+    el.showFlowStatus = getPropertyOrDefaultToTrue(props, 'showFlowStatus');
+    el.showEditFlowButton = props.showEditFlowButton;
+    el.showRunButton = getPropertyOrDefaultToTrue(props, 'showRunButton');
+    el.showDebugButton = getPropertyOrDefaultToTrue(props, 'showDebugButton');
+    el.showRestartRunButton = props.showRestartRunButton;
 
     document.body.appendChild(el);
     return el;
@@ -48,7 +58,9 @@ const selectors = {
     duplicate: '.test-toolbar-duplicate',
     activate: '.test-toolbar-activate',
     relativedatetime: 'lightning-relative-date-time',
-    canvasModeToggle: '.canvas-mode-toggle'
+    canvasModeToggle: '.canvas-mode-toggle',
+    editFlow: '.test-toolbar-editflow',
+    restartRun: '.test-toolbar-restartrun'
 };
 
 jest.mock('builder_platform_interaction/dateTimeUtils', () => {
@@ -70,6 +82,39 @@ describe('toolbar', () => {
         const toolbarComponent = createComponentUnderTest();
         const undoRedoGroup = toolbarComponent.shadowRoot.querySelector(selectors.undoRedo);
         expect(undoRedoGroup).not.toBeNull();
+    });
+
+    it('Edit Flow button should not be present by default', () => {
+        const toolbarComponent = createComponentUnderTest();
+        const editFlowButton = toolbarComponent.shadowRoot.querySelector(selectors.editFlow);
+        expect(editFlowButton).toBeNull();
+    });
+
+    it('Edit Flow button should be present if api property is set', () => {
+        const toolbarComponent = createComponentUnderTest({ showEditFlowButton: true });
+        const editFlowButton = toolbarComponent.shadowRoot.querySelector(selectors.editFlow);
+        expect(editFlowButton).not.toBeNull();
+    });
+
+    it('Edit Flow button fires edit flow event when clicked', () => {
+        const toolbarComponent = createComponentUnderTest({ showEditFlowButton: true });
+        const eventCallback = jest.fn();
+        toolbarComponent.addEventListener(EditFlowEvent.EVENT_NAME, eventCallback);
+        const editFlowButton = toolbarComponent.shadowRoot.querySelector(selectors.editFlow);
+        editFlowButton.click();
+        expect(eventCallback).toHaveBeenCalled();
+    });
+
+    it('Restart Run button should not be present by default', () => {
+        const toolbarComponent = createComponentUnderTest();
+        const restartRun = toolbarComponent.shadowRoot.querySelector(selectors.restartRun);
+        expect(restartRun).toBeNull();
+    });
+
+    it('Restart Run button should be present if api property is set', () => {
+        const toolbarComponent = createComponentUnderTest({ showRestartRunButton: true });
+        const restartRun = toolbarComponent.shadowRoot.querySelector(selectors.restartRun);
+        expect(restartRun).not.toBeNull();
     });
 
     it('Status Icons section should be present', () => {

@@ -21,6 +21,7 @@
                 oncopy={handleCopy}
                 onduplicate={handleDuplicate}
                 oneditflowproperties={handleEditFlowProperties}
+                oneditflow={handleEditFlow}
                 onrunflow={handleRunFlow}
                 ondebugflow={handleDebugFlow}
                 onnewdebugflow={handleNewDebugFlow}
@@ -31,6 +32,14 @@
                 onredo={handleRedo}
                 ontoggleflowstatus={handleToggleFlowStatus}
                 onclosepropertyeditor={handleClosePropertyEditor}
+                show-copy-paste-button={toolbarConfig.showCopyPasteButton}
+                show-edit-flow-properties-button={toolbarConfig.showEditFlowPropertiesButton}
+                show-canvas-mode-toggle={toolbarConfig.showCanvasModeToggle}
+                show-edit-flow-button={toolbarConfig.showEditFlowButton}
+                show-run-button={toolbarConfig.showRunButton}
+                show-debug-button={toolbarConfig.showDebugButton}
+                show-restart-run-button={toolbarConfig.showRestartRunButton}
+                show-flow-status={toolbarConfig.showFlowStatus}
                 flow-errors-and-warnings={flowErrorsAndWarnings}
                 save-and-pending-operation-status={saveAndPendingOperationStatus}
                 last-modified-date={properties.lastModifiedDate}

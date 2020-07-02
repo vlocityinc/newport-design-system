@@ -36,6 +36,7 @@ export { ToggleSelectionModeEvent } from './toolbarEvents/toggleSelectionModeEve
 export { CopyEvent } from './toolbarEvents/copyEvent';
 export { DuplicateEvent } from './toolbarEvents/duplicateEvent';
 export { EditFlowPropertiesEvent } from './toolbarEvents/editFlowPropertiesEvent';
+export { EditFlowEvent } from './toolbarEvents/editFlowEvent';
 export { UndoEvent } from './toolbarEvents/undoEvent';
 export { RedoEvent } from './toolbarEvents/redoEvent';
 export { RunFlowEvent } from './toolbarEvents/runFlowEvent';

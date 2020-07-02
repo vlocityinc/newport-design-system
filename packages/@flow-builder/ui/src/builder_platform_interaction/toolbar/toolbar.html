@@ -65,7 +65,7 @@
 
         <!-- Duplicate(Copy/Paste) -->
         <lightning-button-icon
-            if:false={isAutoLayoutCanvas}
+            if:true={showDuplicateElementButton}
             variant="border-filled"
             icon-name="utility:copy"
             title={labels.duplicateTitle}
@@ -83,6 +83,7 @@
 
         <!-- Flow Properties -->
         <lightning-button-icon
+            if:true={showEditFlowPropertiesButton}
             variant="border-filled"
             icon-name="utility:settings"
             alternative-text={labels.flowPropertiesTitle}
@@ -96,7 +97,7 @@
         <div class="slds-builder-toolbar__actions">
             <div
                 class="inline-display slds-p-right_medium slds-is-relative canvas-mode-toggle"
-                if:true={isAutoLayoutCanvasEnabled}
+                if:true={showCanvasToggle}
             >
                 <lightning-input
                     class="toggle-canvas-mode"
@@ -114,6 +115,7 @@
                     <div class="slds-popover__body">{labels.canvasModeToggleTooltip}</div>
                 </div>
             </div>
+
             <button
                 if:true={showLastSavedPill}
                 class="slds-button test-toolbar-last-saved"
@@ -126,7 +128,7 @@
                         <div class="slds-spinner__dot-b"></div>
                     </div>
                 </span>
-                <span if:true={isDoneOperation}
+                <span if:true={showDoneStatus}
                     >{toolbarStatus}&nbsp;<lightning-relative-date-time
                         value={currentDate}
                     ></lightning-relative-date-time
@@ -137,8 +139,20 @@
                 <builder_platform_interaction-toolbar-status-icons flow-errors-and-warnings={flowErrorsAndWarnings}>
                 </builder_platform_interaction-toolbar-status-icons>
             </div>
+
+            <lightning-button
+                if:true={showEditFlowButton}
+                label={labels.editFlowTitle}
+                title={labels.editFlowTitle}
+                icon-name="utility:edit"
+                onclick={handleEditFlow}
+                class="test-toolbar-editflow slds-m-left_xx-small"
+            >
+            </lightning-button>
+
             <lightning-button-group class="slds-m-left_xx-small">
                 <lightning-button
+                    if:true={showRunButton}
                     label={labels.runTitle}
                     title={labels.runTitle}
                     onclick={handleRun}
@@ -146,6 +160,7 @@
                 >
                 </lightning-button>
                 <lightning-button
+                    if:true={showDebugButton}
                     label={labels.debugTitle}
                     title={labels.debugTitle}
                     onclick={handleDebug}
@@ -153,7 +168,7 @@
                 >
                 </lightning-button>
                 <lightning-button
-                    if:true={isNewDebugSupported}
+                    if:true={showNewDebugButton}
                     label="NewDebug"
                     title="NewDebug"
                     onclick={handleNewDebug}
@@ -168,6 +183,15 @@
                 >
                 </lightning-button>
             </lightning-button-group>
+
+            <lightning-button
+                if:true={showRestartRunButton}
+                label={labels.restartRunTitle}
+                title={labels.restartRunTitle}
+                onclick={handleNewDebug}
+                class="test-toolbar-restartrun slds-m-left_xx-small"
+            >
+            </lightning-button>
 
             <lightning-button
                 id="toggleFlowStatusButton"

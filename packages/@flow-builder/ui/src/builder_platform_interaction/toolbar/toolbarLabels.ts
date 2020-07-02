@@ -6,8 +6,10 @@ import flowPropertiesTitle from '@salesforce/label/FlowBuilderToolbar.flowProper
 import canvasModeToggleLabel from '@salesforce/label/FlowBuilderToolbar.canvasModeToggleLabel';
 import canvasModeToggleTooltip from '@salesforce/label/FlowBuilderToolbar.canvasModeToggleTooltip';
 import savingStatus from '@salesforce/label/FlowBuilderToolbar.savingStatus';
+import editFlowTitle from '@salesforce/label/FlowBuilderToolbar.editFlowTitle';
 import runTitle from '@salesforce/label/FlowBuilderToolbar.runTitle';
 import debugTitle from '@salesforce/label/FlowBuilderToolbar.debugTitle';
+import restartRunTitle from '@salesforce/label/FlowBuilderToolbar.restartRunTitle';
 import diffFlowTitle from '@salesforce/label/FlowBuilderToolbar.diffFlowTitle';
 import activateTitle from '@salesforce/label/FlowBuilderToolbar.activateTitle';
 import activating from '@salesforce/label/FlowBuilderToolbar.activating';
@@ -48,8 +50,10 @@ export const LABELS = {
     canvasModeToggleLabel,
     canvasModeToggleTooltip,
     savingStatus,
+    editFlowTitle,
     runTitle,
     debugTitle,
+    restartRunTitle,
     diffFlowTitle,
     activateTitle,
     activating,

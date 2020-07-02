@@ -2,6 +2,7 @@
 import { LightningElement, api } from 'lwc';
 import {
     EditFlowPropertiesEvent,
+    EditFlowEvent,
     RunFlowEvent,
     DebugFlowEvent,
     SaveFlowEvent,
@@ -25,6 +26,7 @@ import { format } from 'builder_platform_interaction/commonUtils';
 import { invokeModal, modalBodyVariant, modalFooterVariant } from 'builder_platform_interaction/builderUtils';
 import { canConvertToFlc, findStartElement } from 'builder_platform_interaction/flcConversionUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
+
 /**
  * Toolbar component for flow builder.
  *s
@@ -90,6 +92,30 @@ export default class Toolbar extends LightningElement {
     @api
     isAutoLayoutCanvas;
 
+    @api
+    showCopyPasteButton;
+
+    @api
+    showEditFlowPropertiesButton;
+
+    @api
+    showCanvasModeToggle;
+
+    @api
+    showFlowStatus;
+
+    @api
+    showEditFlowButton;
+
+    @api
+    showRunButton;
+
+    @api
+    showDebugButton;
+
+    @api
+    showRestartRunButton;
+
     labels = LABELS;
 
     statusLabelFromStatus = {
@@ -129,6 +155,14 @@ export default class Toolbar extends LightningElement {
 
     get isAutoLayoutCanvasEnabled() {
         return isAutoLayoutCanvasEnabled();
+    }
+
+    get showCanvasToggle() {
+        return this.isAutoLayoutCanvasEnabled && this.showCanvasModeToggle;
+    }
+
+    get showDuplicateElementButton() {
+        return this.showCopyPasteButton && !this.isAutoLayoutCanvas;
     }
 
     get selectButtonVariant() {
@@ -177,6 +211,14 @@ export default class Toolbar extends LightningElement {
             this.flowVersion,
             this.statusLabelFromStatus[this.flowStatus] && this.statusLabelFromStatus[this.flowStatus].label
         );
+    }
+
+    get showDoneStatus() {
+        return this.isDoneOperation && this.showFlowStatus;
+    }
+
+    get showNewDebugButton() {
+        return this.isNewDebugSupported && this.showDebugButton;
     }
 
     get currentDate() {
@@ -277,6 +319,13 @@ export default class Toolbar extends LightningElement {
             this.dispatchEvent(editFlowPropertiesEvent);
             logInteraction(`flow-properties-button`, 'toolbar', null, 'click');
         }
+    }
+
+    handleEditFlow(event) {
+        event.preventDefault();
+        const editFlowEvent = new EditFlowEvent();
+        this.dispatchEvent(editFlowEvent);
+        logInteraction(`edit-flow-button`, 'toolbar', null, 'click');
     }
 
     handleRun(event) {

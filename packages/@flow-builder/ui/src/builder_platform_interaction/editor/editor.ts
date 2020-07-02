@@ -43,7 +43,8 @@ import {
     SELECTION_ON_FIXED_CANVAS,
     decorateCanvas,
     CLEAR_CANVAS_DECORATION,
-    DECORATE_CANVAS
+    DECORATE_CANVAS,
+    clearCanvasDecoration
 } from 'builder_platform_interaction/actions';
 import {
     ELEMENT_TYPE,
@@ -461,6 +462,16 @@ export default class Editor extends LightningElement {
         return [...this.supportedElements, ...this.supportedActions];
     }
 
+    get toolbarConfig() {
+        return (
+            (this.builderConfig &&
+                this.builderConfig.componentConfigs &&
+                this.builderConfig.componentConfigs[this.builderMode] &&
+                this.builderConfig.componentConfigs[this.builderMode].toolbarConfig) ||
+            {}
+        );
+    }
+
     get leftPanelConfig() {
         return (
             (this.builderConfig &&
@@ -807,24 +818,30 @@ export default class Editor extends LightningElement {
         const startInterviewTime = new Date();
         fetch(
             SERVER_ACTION_TYPE.RUN_DEBUG,
-            ({ data }) => {
-                const endInterviewTime = new Date();
-                this.builderMode = BUILDER_MODE.DEBUG_MODE;
-                const interviewStatus = data && data[0] && data[0].interviewStatus;
-                const debugTrace = data && data[0] && data[0].debugTrace;
-                const error = data && data[0] && data[0].errors;
-                this.debugData = {
-                    interviewStatus,
-                    debugTrace,
-                    error,
-                    startInterviewTime,
-                    endInterviewTime
-                };
-                if (data && !error) {
-                    const canvasDecorator = data[1];
-                    if (canvasDecorator) {
-                        const connectorsToHighlight = getConnectorsToHighlight(canvasDecorator);
-                        storeInstance.dispatch(decorateCanvas({ connectorsToHighlight }));
+            ({ data, error }) => {
+                if (error) {
+                    // Handle server exception here if something is needed beyond our automatic server error popup
+                } else {
+                    // Setup the debug data object for the debug panel, and switch to debug mode
+                    const endInterviewTime = new Date();
+                    this.builderMode = BUILDER_MODE.DEBUG_MODE;
+                    const interviewStatus = data && data[0] && data[0].interviewStatus;
+                    const debugTrace = data && data[0] && data[0].debugTrace;
+                    const debugError = data && data[0] && data[0].errors;
+                    this.debugData = {
+                        interviewStatus,
+                        debugTrace,
+                        error: debugError,
+                        startInterviewTime,
+                        endInterviewTime
+                    };
+                    // Highlight connectors on the canvas if no errors in the debug run, and no unsaved changes in the current flow
+                    if (!debugError && !this.properties.hasUnsavedChanges) {
+                        const canvasDecorator = data[1];
+                        if (canvasDecorator) {
+                            const connectorsToHighlight = getConnectorsToHighlight(canvasDecorator);
+                            storeInstance.dispatch(decorateCanvas({ connectorsToHighlight }));
+                        }
                     }
                 }
                 this.spinners.showDebugSpinner = false;
@@ -1067,6 +1084,14 @@ export default class Editor extends LightningElement {
         if (!this.isRedoDisabled) {
             storeInstance.dispatch(redo);
         }
+    };
+
+    /**
+     * Handles the edit flow event fired by the toolbar, and switches the current builder mode to Edit mode.
+     */
+    handleEditFlow = () => {
+        this.builderMode = BUILDER_MODE.EDIT_MODE;
+        storeInstance.dispatch(clearCanvasDecoration);
     };
 
     /**
