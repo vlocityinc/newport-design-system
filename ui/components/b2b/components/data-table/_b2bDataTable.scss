@@ -88,6 +88,20 @@ $b2b-table-border: $palette-gray-5;
 	}
 }
 
+.nds-b2b-panel-container {
+	& .nds-is-relative {
+		overflow: 'visible';
+	} 
+	.b2b-nds-panel {
+		position: absolute;
+		right: 0;
+		top: 0;
+		height: 430px;
+		width: 90%;
+		z-index: 10;
+	}
+}
+
 @media (max-width: #{(map-get($breakpoints, $table-view-switch))}) {
 	.nds-b2b-table,
 	.nds-b2b-table_body,
