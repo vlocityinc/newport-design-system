@@ -70,7 +70,6 @@ export function createStartElement(startElement = {}) {
         } else {
             recordTriggerType = FLOW_TRIGGER_SAVE_TYPE.CREATE;
         }
-        filterLogic = CONDITION_LOGIC.NO_CONDITIONS;
     }
 
     const recordFilters = filterLogic !== CONDITION_LOGIC.NO_CONDITIONS ? createRecordFilters(filters, object) : [];

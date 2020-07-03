@@ -23,36 +23,61 @@ describe('Start element', () => {
     const storeLib = require('builder_platform_interaction/storeLib');
     storeLib.generateGuid = jest.fn().mockReturnValue(MOCK_GUID);
     describe('createStartElement function', () => {
+        let startElement = {
+            locationX: START_ELEMENT_LOCATION.x,
+            locationY: START_ELEMENT_LOCATION.y,
+            objectContainer: 'MarketAudience',
+            triggerType: 'None'
+        };
+        let expectedResult = {
+            description: '',
+            locationX: START_ELEMENT_LOCATION.x,
+            locationY: START_ELEMENT_LOCATION.y,
+            filters: [
+                {
+                    leftHandSide: '',
+                    operator: '',
+                    rightHandSide: '',
+                    rightHandSideDataType: '',
+                    rowIndex: MOCK_GUID
+                }
+            ],
+            filterLogic: CONDITION_LOGIC.AND,
+            isCanvasElement: true,
+            connectorCount: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false
+            },
+            elementType: 'START_ELEMENT',
+            maxConnections: 1,
+            triggerType: 'None'
+        };
         it('with empty base start element object', () => {
-            const expectedResult = {
-                description: '',
-                locationX: START_ELEMENT_LOCATION.x,
-                locationY: START_ELEMENT_LOCATION.y,
-                filters: [
-                    {
-                        leftHandSide: '',
-                        operator: '',
-                        rightHandSide: '',
-                        rightHandSideDataType: '',
-                        rowIndex: MOCK_GUID
-                    }
-                ],
-                filterLogic: CONDITION_LOGIC.AND,
-                isCanvasElement: true,
-                connectorCount: 0,
-                config: {
-                    isSelected: false,
-                    isHighlighted: false
-                },
-                elementType: 'START_ELEMENT',
-                maxConnections: 1
-            };
             const actualResult = createStartElement();
+            expect(actualResult).toMatchObject(expectedResult);
+        });
+        it('with empty base start element object and triggerType = RecordBeforeSave', () => {
+            startElement.triggerType = 'RecordBeforeSave';
+            expectedResult.triggerType = 'RecordBeforeSave';
+            const actualResult = createStartElement(startElement);
+            expect(actualResult).toMatchObject(expectedResult);
+        });
+        it('with empty base start element object and triggerType = RecordAfterSave', () => {
+            startElement.triggerType = 'RecordAfterSave';
+            expectedResult.triggerType = 'RecordAfterSave';
+            const actualResult = createStartElement(startElement);
+            expect(actualResult).toMatchObject(expectedResult);
+        });
+        it('with empty base start element object and triggerType = Scheduled', () => {
+            startElement.triggerType = 'Scheduled';
+            expectedResult.triggerType = 'Scheduled';
+            const actualResult = createStartElement(startElement);
             expect(actualResult).toMatchObject(expectedResult);
         });
 
         it('with non-empty start element object', () => {
-            const startElement = {
+            startElement = {
                 locationX: 10,
                 locationY: 20,
                 filterLogic: CONDITION_LOGIC.AND,
@@ -72,7 +97,7 @@ describe('Start element', () => {
                 startDate: '1/1/2001',
                 startTime: '18:00:00'
             };
-            const expectedResult = {
+            expectedResult = {
                 description: '',
                 locationX: 10,
                 locationY: 20,
@@ -106,7 +131,7 @@ describe('Start element', () => {
         });
 
         it('with no filter type specified on the start element object', () => {
-            const startElement = {
+            startElement = {
                 locationX: 10,
                 locationY: 20,
                 filters: [],
@@ -118,7 +143,7 @@ describe('Start element', () => {
                     startTime: '18:00:00'
                 }
             };
-            const expectedResult = {
+            expectedResult = {
                 description: '',
                 locationX: 10,
                 locationY: 20,
