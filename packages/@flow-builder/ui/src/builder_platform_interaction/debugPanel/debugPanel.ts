@@ -2,15 +2,16 @@
 import { LightningElement, api } from 'lwc';
 import { LABELS } from './debugPanelLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
-import { deepCopy } from 'builder_platform_interaction/storeLib';
 
 const FINISHED = 'FINISHED';
 const ERROR = 'ERROR';
 const NEWLINE = '\\n';
 
 export default class DebugPanel extends LightningElement {
-    @api debugData;
+    _debugData;
     debugTraces = [];
+
+    /* this is the error message for a failed debug run, not per flow element errors */
     errorMessage = '';
 
     headerTitle = LABELS.debugInspector;
@@ -19,22 +20,36 @@ export default class DebugPanel extends LightningElement {
         return this.debugData && this.debugData.error && !!this.debugData.error[0];
     }
 
+    @api
+    get debugData() {
+        return this._debugData;
+    }
+
+    set debugData(value) {
+        this._debugData = value;
+        this.updateProperties(this._debugData);
+    }
+
+    updateProperties(data) {
+        this.debugTraces = [];
+        if (!this.hasErrors && data && data.debugTrace) {
+            this.copyAndUpdateDebugTraceObject();
+        } else if (this.hasErrors) {
+            this.errorMessage = format(LABELS.faultMessage, data.error);
+        }
+    }
+
     copyAndUpdateDebugTraceObject() {
         this.getStartInterviewInfo();
         for (let i = 1; i < this.debugData.debugTrace.length; i++) {
-            this.debugTraces.push(deepCopy(this.debugData.debugTrace[i]));
+            this.debugTraces.push(this.debugData.debugTrace[i]);
         }
         this.getEndInterviewInfo();
     }
 
-    connectedCallback() {
-        if (!this.hasErrors && this.debugData && this.debugData.debugTrace) {
-            this.copyAndUpdateDebugTraceObject();
-        } else if (this.hasErrors) {
-            this.errorMessage = format(LABELS.faultMessage, this.debugData.error);
-        }
-    }
-
+    /**
+     * Add the start time to Interview Started debug Info
+     */
     getStartInterviewInfo() {
         const startedInfo = this.debugData.debugTrace[0].debugInfo.split([NEWLINE]).slice(1);
         startedInfo.push(format(LABELS.interviewStartedAt, this.formatDateHelper(this.debugData.startInterviewTime)));

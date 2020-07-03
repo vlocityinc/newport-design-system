@@ -15,10 +15,11 @@ const ERRBODY = LABELS.errorBody.replace(/ \{0\} \(\{1\}\)./, '').trim();
 export default class debugPanelBody extends LightningElement {
     @api rawText;
     @api title;
-    textObj = [{}];
+    _textObj = [{}];
 
-    connectedCallback() {
+    get textObj() {
         this.getDebugInfoBody();
+        return this._textObj;
     }
 
     getDebugInfoBody() {
@@ -57,10 +58,9 @@ export default class debugPanelBody extends LightningElement {
                 } else if (needsGovTitle && this.isGovLimit(curr)) {
                     // Only need one title
                     needsGovTitle = false;
-                    // Insert gov limit title
-                    this.textObj.push({ value: LABELS.govInfo, isTitle: true, isWarn: false });
+                    this._textObj.push({ value: LABELS.govInfo, isTitle: true, isWarn: false });
                 }
-                this.textObj.push(temp);
+                this._textObj.push(temp);
             }
         }
     }
@@ -76,7 +76,7 @@ export default class debugPanelBody extends LightningElement {
             isWarn: false,
             isError: true
         };
-        this.textObj.push(temp);
+        this._textObj.push(temp);
     }
 
     formatErrorBody(currString, index, splitText) {
