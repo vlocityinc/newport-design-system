@@ -315,6 +315,7 @@ export default class FlowPropertiesEditor extends LightningElement {
         });
 
         if (isVersioningDataInitialized()) {
+            initVersioningInfoForProcessType(this._originalProcessType);
             this.initApiVersion(true);
             this.apiVersionSpinner = false;
         } else {
