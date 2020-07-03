@@ -41,6 +41,25 @@
           }
           .nds-b2b-card_title {
             width: 40vw;
+            .nds-b2b-macd-action {
+              padding: 0.5rem 0.75rem;
+              color: $white;
+              border-radius: 1.5rem;
+              background-color: green;
+              font-size: 0.75rem;
+              position: relative;
+              top: -0.3rem;
+              margin-right: 0.5rem;
+              &.Change {
+                background-color: #706E6B;
+              }
+              &.Add {
+                background-color: #04844B;
+              }
+              &.Disconnect {
+                background-color: #FFB75D;
+              }
+            }
           }
           .nds-b2b-attributes_info {
             @include cardsHeaderAttributes;

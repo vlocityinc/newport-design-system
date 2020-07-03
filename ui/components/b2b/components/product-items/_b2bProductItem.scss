@@ -1,7 +1,7 @@
 .nds-b2b-product-item {
   background-color: $white;
-  max-width: 24rem;
-  min-width: $b2b-product-item-min-width;
+  max-width: 21.5rem;
+  min-width: 21.5rem;
   min-height: $b2b-product-item-min-height;
   border-radius: 0.35rem;
   border: 1px solid $palette-warm-gray-4;
@@ -79,6 +79,7 @@
   }
   @media screen and (min-width: 48rem) {
     margin-left: 0.7rem;
+    min-width: $b2b-product-item-min-width;
     max-width: $b2b-product-item-max-width;
   }
 }

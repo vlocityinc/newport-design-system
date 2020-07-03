@@ -4,13 +4,14 @@
   }
   .nds-modal__container {
     margin: 0;
-    display: inline;
+    padding: 0;
     .nds-modal__close {
       display: none;
     }
     @media screen and (min-width: 48rem) {
       margin: 0 auto;
       display: flex;
+      padding: 3rem 0;
     }
   }
   .nds-b2b-modal-header {
