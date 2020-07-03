@@ -6,6 +6,7 @@ import dml from '@salesforce/label/FlowDebug.Dml';
 import soql from '@salesforce/label/FlowDebug.Soql';
 import dmlRow from '@salesforce/label/FlowDebug.Dml_Rows';
 import soqlRow from '@salesforce/label/FlowDebug.SoqlRows';
+import errorBody from '@salesforce/label/InteractionRuntimeError.ErrorBody';
 
 const govInfo = 'Element Governor Limits Info';
 
@@ -18,5 +19,6 @@ export const LABELS = {
     soql,
     dmlRow,
     soqlRow,
-    govInfo
+    govInfo,
+    errorBody
 };

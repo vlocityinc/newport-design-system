@@ -168,9 +168,9 @@
                 >
                 </lightning-button>
                 <lightning-button
-                    if:true={showNewDebugButton}
-                    label="NewDebug"
-                    title="NewDebug"
+                    if:true={isNewDebugSupported}
+                    label="Debug on Canvas (Beta)"
+                    title="Debug on Canvas (Beta)"
                     onclick={handleNewDebug}
                     disabled={isRunDebugDisabled}
                 >
