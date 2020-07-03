@@ -359,7 +359,7 @@ describe('Assignment Editor', () => {
             lhs                                           | expectedErrorMessage
             ${'{!apexComplexTypeVariable.acct}'}          | ${null}
             ${'{!apexComplexTypeVariable.doesNotExist}'}  | ${'FlowBuilderMergeFieldValidation.unknownRecordField'}
-            ${'{!apexComplexTypeVariable.doesNotExist.}'} | ${'FlowBuilderCombobox.genericErrorMessage'}
+            ${'{!apexComplexTypeVariable.doesNotExist.}'} | ${'FlowBuilderMergeFieldValidation.unknownRecordField'}
         `('error for "$lhs should be : $expectedErrorMessage', async ({ lhs, expectedErrorMessage }) => {
             const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
             await typeReferenceOrValueInCombobox(lhsCombobox, lhs);
@@ -616,7 +616,7 @@ describe('Assignment Editor', () => {
             it('cannot select loop with manual output', async () => {
                 const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
                 await typeReferenceOrValueInCombobox(lhsCombobox, '{!loopOnTextCollectionManualOutput}');
-                expect(lhsCombobox.errorMessage).toBe('FlowBuilderCombobox.genericErrorMessage');
+                expect(lhsCombobox.errorMessage).toBe('FlowBuilderMergeFieldValidation.unknownResource');
             });
         });
     });

@@ -100,7 +100,7 @@ describe('Decision Editor', () => {
                         ${'{!apexComplexTypeVariable.acct.Name}'}     | ${null}
                         ${'{!apex.acct.CreatedBy.AboutMe} '}          | ${'FlowBuilderCombobox.genericErrorMessage'}
                         ${'{!apexComplexTypeVariable.doesNotExist}'}  | ${'FlowBuilderMergeFieldValidation.unknownRecordField'}
-                        ${'{!apexComplexTypeVariable.doesNotExist.}'} | ${'FlowBuilderCombobox.genericErrorMessage'}
+                        ${'{!apexComplexTypeVariable.doesNotExist.}'} | ${'FlowBuilderMergeFieldValidation.unknownRecordField'}
                     `('error for "$lhs should be : $expectedErrorMessage', async ({ lhs, expectedErrorMessage }) => {
                         const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
                         await typeReferenceOrValueInCombobox(lhsCombobox, lhs);
