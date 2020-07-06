@@ -2661,5 +2661,24 @@ describe('Combobox', () => {
                 expect(newResourceCallback).toHaveBeenCalled();
             });
         });
+        describe('pill icon', () => {
+            it.each`
+                testTitle | iconName
+                ${'NOT'}  | ${''}
+                ${'NOT'}  | ${null}
+                ${'NOT'}  | ${undefined}
+                ${''}     | ${'utility:text'}
+            `('should $testTitle have a pill icon for selected item with iconName: $iconName', async ({ iconName }) => {
+                createCombobox({ isPillSupported: true });
+                combobox.menuData = secondLevelMenuData;
+                const [comboboxItem] = secondLevelMenuData;
+                comboboxItem.iconName = iconName;
+                groupedCombobox.dispatchEvent(selectEvent(comboboxItem.value));
+                await ticks(1);
+                groupedCombobox.dispatchEvent(blurEvent);
+                await ticks(1);
+                expect(combobox).toMatchSnapshot();
+            });
+        });
     });
 });

@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Combobox pill supported pill icon should  have a pill icon for selected item with iconName: utility:text 1`] = `
+<builder_platform_interaction-combobox>
+  #shadow-root(open)
+    <div>
+      <div
+        class="divParentPillGroupedComboxBox"
+      >
+        <label
+          class="slds-form-element__label"
+        />
+        <div
+          class="slds-pill_container"
+          title="MyAccount > Created By ID"
+        >
+          <lightning-pill>
+            #shadow-root(open)
+              <slot />
+            <lightning-icon>
+              #shadow-root(open)
+            </lightning-icon>
+          </lightning-pill>
+        </div>
+      </div>
+    </div>
+</builder_platform_interaction-combobox>
+`;
+
+exports[`Combobox pill supported pill icon should NOT have a pill icon for selected item with iconName:  1`] = `
+<builder_platform_interaction-combobox>
+  #shadow-root(open)
+    <div>
+      <div
+        class="divParentPillGroupedComboxBox"
+      >
+        <label
+          class="slds-form-element__label"
+        />
+        <div
+          class="slds-pill_container"
+          title="MyAccount > Created By ID"
+        >
+          <lightning-pill>
+            #shadow-root(open)
+              <slot />
+          </lightning-pill>
+        </div>
+      </div>
+    </div>
+</builder_platform_interaction-combobox>
+`;
+
+exports[`Combobox pill supported pill icon should NOT have a pill icon for selected item with iconName: null 1`] = `
+<builder_platform_interaction-combobox>
+  #shadow-root(open)
+    <div>
+      <div
+        class="divParentPillGroupedComboxBox"
+      >
+        <label
+          class="slds-form-element__label"
+        />
+        <div
+          class="slds-pill_container"
+          title="MyAccount > Created By ID"
+        >
+          <lightning-pill>
+            #shadow-root(open)
+              <slot />
+          </lightning-pill>
+        </div>
+      </div>
+    </div>
+</builder_platform_interaction-combobox>
+`;
+
+exports[`Combobox pill supported pill icon should NOT have a pill icon for selected item with iconName: undefined 1`] = `
+<builder_platform_interaction-combobox>
+  #shadow-root(open)
+    <div>
+      <div
+        class="divParentPillGroupedComboxBox"
+      >
+        <label
+          class="slds-form-element__label"
+        />
+        <div
+          class="slds-pill_container"
+          title="MyAccount > Created By ID"
+        >
+          <lightning-pill>
+            #shadow-root(open)
+              <slot />
+          </lightning-pill>
+        </div>
+      </div>
+    </div>
+</builder_platform_interaction-combobox>
+`;
