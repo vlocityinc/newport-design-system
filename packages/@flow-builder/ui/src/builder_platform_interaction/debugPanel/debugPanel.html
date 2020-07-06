@@ -9,10 +9,10 @@
         <!-- if there's an error, there will be no debugData.debugTraces-->
         <template for:each={debugTraces} for:item="trace">
             <lightning-accordion key={trace.debugInfo} allow-multiple-sections-open>
-                <lightning-accordion-section key={trace.debugInfo} label={trace.elementApiName}>
+                <lightning-accordion-section key={trace.debugInfo} label={trace.title}>
                     <builder_platform_interaction-debug-panel-body
                         raw-text={trace.debugInfo}
-                        title={trace.elementApiName}
+                        title={trace.title}
                     ></builder_platform_interaction-debug-panel-body>
                 </lightning-accordion-section>
             </lightning-accordion>

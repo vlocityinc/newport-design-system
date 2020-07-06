@@ -15,15 +15,14 @@ const ERRBODY = LABELS.errorBody.replace(/ \{0\} \(\{1\}\)./, '').trim();
 export default class debugPanelBody extends LightningElement {
     @api rawText;
     @api title;
-    _textObj = [{}];
 
     get textObj() {
-        this.getDebugInfoBody();
-        return this._textObj;
+        return this.getDebugInfoBody();
     }
 
     getDebugInfoBody() {
-        let splitText = this.rawText.split([NEWLINE]);
+        const obj = [{}];
+        let splitText = this.rawText.split(NEWLINE);
         let needsGovTitle = true;
 
         if (splitText[0] === '') {
@@ -37,10 +36,10 @@ export default class debugPanelBody extends LightningElement {
 
             // Check for "Error Occurred:" string
             if (curr.includes(ERROR)) {
-                this.formatErrorMessage(curr);
+                obj.push(this.formatErrorMessage(curr));
                 // Keep out empty strings, breadcrumb, titles
             } else if (curr.includes(ERRBODY)) {
-                this.formatErrorBody(curr, i, splitText);
+                obj.push(this.formatErrorBody(curr, i, splitText));
                 // After error message, no other strings remain
                 break;
             } else if (curr !== '' && !curr.includes('$$:') && curr !== this.title) {
@@ -58,25 +57,25 @@ export default class debugPanelBody extends LightningElement {
                 } else if (needsGovTitle && this.isGovLimit(curr)) {
                     // Only need one title
                     needsGovTitle = false;
-                    this._textObj.push({ value: LABELS.govInfo, isTitle: true, isWarn: false });
+                    obj.push({ value: LABELS.govInfo, isTitle: true, isWarn: false });
                 }
-                this._textObj.push(temp);
+                obj.push(temp);
             }
         }
+        return obj;
     }
 
     // for errors that start with "Error Occurred:"
     formatErrorMessage(currString) {
         // Bold "Error Occurred:" part, leave the rest
         const boldEnd = currString.indexOf(':') + 1;
-        const temp = {
+        return {
             bold: currString.substring(0, boldEnd),
             value: currString.substring(boldEnd),
             isTitle: false,
             isWarn: false,
             isError: true
         };
-        this._textObj.push(temp);
     }
 
     formatErrorBody(currString, index, splitText) {
@@ -92,7 +91,7 @@ export default class debugPanelBody extends LightningElement {
                 temp.value = temp.value + '\n' + splitText[i];
             }
         }
-        this.textObj.push(temp);
+        return temp;
     }
 
     isGovLimit(currString) {
