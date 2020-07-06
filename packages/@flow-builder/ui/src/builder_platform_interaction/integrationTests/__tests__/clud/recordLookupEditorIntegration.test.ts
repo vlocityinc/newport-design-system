@@ -29,12 +29,8 @@ import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import {
     getResourceGroupedCombobox,
     getResourceCombobox,
-    newFilterItem,
     getRadioGroups,
-    getEntityResourcePicker,
-    getFieldToFerovExpressionBuilders,
-    getFilterConditionLogicCombobox,
-    getFilterCustomConditionLogicInput
+    getEntityResourcePicker
 } from './cludEditorTestUtils';
 import { getGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
 import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
@@ -44,6 +40,12 @@ import {
     expectCannotBeSelected,
     selectComboboxItemBy
 } from '../comboboxTestUtils';
+import {
+    getFieldToFerovExpressionBuilders,
+    getFilterConditionLogicCombobox,
+    getFilterCustomConditionLogicInput,
+    newFilterItem
+} from '../recordFilterTestUtils';
 
 const getRecordSobjectAndQueryFieldElement = recordLookupEditor =>
     recordLookupEditor.shadowRoot.querySelector(

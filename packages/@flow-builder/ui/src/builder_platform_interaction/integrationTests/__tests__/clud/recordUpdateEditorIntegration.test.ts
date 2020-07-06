@@ -25,15 +25,17 @@ import {
     changeEvent
 } from 'builder_platform_interaction/builderTestUtils';
 import {
-    newFilterItem,
     getRecordVariablePickerChildGroupedComboboxComponent,
     getEntityResourcePickerChildGroupedComboboxComponent,
-    getEntityResourcePicker,
-    getFieldToFerovExpressionBuilders,
-    getFilterConditionLogicCombobox,
-    getFilterCustomConditionLogicInput
+    getEntityResourcePicker
 } from './cludEditorTestUtils';
 import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
+import {
+    getFieldToFerovExpressionBuilders,
+    getFilterConditionLogicCombobox,
+    getFilterCustomConditionLogicInput,
+    newFilterItem
+} from '../recordFilterTestUtils';
 
 const createComponentForTest = (node, mode) => {
     const el = createElement('builder_platform_interaction-record-update-editor', { is: RecordUpdateEditor });

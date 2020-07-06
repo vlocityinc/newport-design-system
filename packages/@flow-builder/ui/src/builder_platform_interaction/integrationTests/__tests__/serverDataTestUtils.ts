@@ -219,7 +219,8 @@ const allAuraActions = {
     'c.getSupportedElements': createGetterByProcessType({
         [FLOW_PROCESS_TYPE.FLOW]: supportedElementsForFlow,
         [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: supportedElementsForAutoLaunchedFlow
-    })
+    }),
+    'c.getTriggerTypeInfo': createGetter([])
 };
 
 export function initializeAuraFetch(actions = {}) {

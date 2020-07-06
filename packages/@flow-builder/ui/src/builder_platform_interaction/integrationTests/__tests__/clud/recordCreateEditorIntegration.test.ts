@@ -44,9 +44,9 @@ import {
     getResourceCombobox,
     getOutputResourcePickerCombobox,
     getRadioGroups,
-    getEntityResourcePicker,
-    getFieldToFerovExpressionBuilders
+    getEntityResourcePicker
 } from './cludEditorTestUtils';
+import { getFieldToFerovExpressionBuilders } from '../recordFilterTestUtils';
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'Flow';
 

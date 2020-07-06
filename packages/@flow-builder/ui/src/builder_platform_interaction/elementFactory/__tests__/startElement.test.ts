@@ -148,7 +148,15 @@ describe('Start element', () => {
                 locationX: 10,
                 locationY: 20,
                 filterLogic: 'no_conditions',
-                filters: [],
+                filters: [
+                    {
+                        leftHandSide: '',
+                        operator: '',
+                        rightHandSide: '',
+                        rightHandSideDataType: '',
+                        rowIndex: MOCK_GUID
+                    }
+                ],
                 object: 'Account',
                 triggerType: 'scheduled',
                 frequency: 'hourly',

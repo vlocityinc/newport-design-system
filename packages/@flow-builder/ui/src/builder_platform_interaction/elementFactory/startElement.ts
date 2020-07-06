@@ -72,7 +72,7 @@ export function createStartElement(startElement = {}) {
         }
     }
 
-    const recordFilters = filterLogic !== CONDITION_LOGIC.NO_CONDITIONS ? createRecordFilters(filters, object) : [];
+    const recordFilters = createRecordFilters(filters, object);
 
     Object.assign(newStartElement, {
         elementType,

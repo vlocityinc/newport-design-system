@@ -16,13 +16,9 @@ import { EditElementEvent } from 'builder_platform_interaction/events';
 import { getGroupedComboboxItemBy } from '../groupedComboboxTestUtils';
 import {
     getResourceGroupedCombobox,
-    newFilterItem,
     getRecordVariablePickerChildGroupedComboboxComponent,
     getEntityResourcePickerChildGroupedComboboxComponent,
-    getEntityResourcePicker,
-    getFieldToFerovExpressionBuilders,
-    getFilterCustomConditionLogicInput,
-    getFilterConditionLogicCombobox
+    getEntityResourcePicker
 } from './cludEditorTestUtils';
 import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
 import {
@@ -32,6 +28,12 @@ import {
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { expectCanBeTraversed, expectCannotBeTraversed, expectCannotBeSelected } from '../comboboxTestUtils';
+import {
+    getFieldToFerovExpressionBuilders,
+    getFilterConditionLogicCombobox,
+    getFilterCustomConditionLogicInput,
+    newFilterItem
+} from '../recordFilterTestUtils';
 
 const createComponentForTest = (node, mode?, processType?) => {
     const el = createElement('builder_platform_interaction-record-delete-editor', { is: RecordDeleteEditor });
