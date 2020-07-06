@@ -1,0 +1,6 @@
+<template>
+    <li key={info.guid} class="slds-item message" if:true={showLink}>
+        <a onclick={handleClickErrorMessage}>{linkText}</a> - {errorMessage}
+    </li>
+    <li key={info.guid} class="slds-item message" if:false={showLink}><b>{warningLabel}</b>: {errorMessage}</li>
+</template>

@@ -66,7 +66,7 @@ import {
     logPerfTransactionStart,
     setAppName
 } from 'builder_platform_interaction/loggingUtils';
-import { EditElementEvent, NewResourceEvent } from 'builder_platform_interaction/events';
+import { EditElementEvent, NewResourceEvent, LocatorIconClickedEvent } from 'builder_platform_interaction/events';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import { mutateFlowResourceToComboboxShape } from 'builder_platform_interaction/expressionUtils';
@@ -141,6 +141,7 @@ import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import { getInvocableActions } from 'builder_platform_interaction/invocableActionLib';
 import { usedBy } from 'builder_platform_interaction/usedByLib';
 import { convertToFlc, convertFromFlc } from 'builder_platform_interaction/flcConversionUtils';
+import { pubSub, PubSubEvent } from 'builder_platform_interaction/pubSub';
 
 let unsubscribeStore;
 let storeInstance;
@@ -1345,34 +1346,7 @@ export default class Editor extends LightningElement {
         if (event && event.detail && event.type) {
             const mode = event.detail.mode;
             const guid = event.detail.canvasElementGUID;
-            const element = storeInstance.getCurrentState().elements[guid];
-
-            const nodeUpdate = this.deMutateAndUpdateNodeCollection;
-            const newResourceCallback = this.newResourceCallback;
-            const processType = this.properties.processType;
-            if (
-                !isSystemElement(element.elementType) ||
-                (element.elementType === ELEMENT_TYPE.START_ELEMENT && isConfigurableStartSupported(processType))
-            ) {
-                logPerfTransactionStart('PropertyEditor');
-                this.queueOpenPropertyEditor(() => {
-                    const node = getElementForPropertyEditor(element);
-                    return {
-                        mode,
-                        nodeUpdate,
-                        node,
-                        newResourceCallback,
-                        processType
-                    };
-                });
-                if (!this.isAutoLayoutCanvas && element && element.isCanvasElement) {
-                    storeInstance.dispatch(
-                        selectOnCanvas({
-                            guid
-                        })
-                    );
-                }
-            }
+            this.editElement(mode, guid);
         }
     };
 
@@ -1485,15 +1459,7 @@ export default class Editor extends LightningElement {
     handleHighlightOnCanvas = event => {
         if (event && event.detail && event.detail.elementGuid) {
             const elementGuid = event.detail.elementGuid;
-
-            // Panning the canvas element into the viewport if needed
-            const canvasContainer = this.template.querySelector('builder_platform_interaction-canvas-container');
-            if (canvasContainer && canvasContainer.panElementToView) {
-                canvasContainer.panElementToView(elementGuid);
-            }
-
-            // Highlighting the canvas element
-            highlightCanvasElement(storeInstance, elementGuid);
+            this.highlightOnCanvas(elementGuid);
         }
     };
 
@@ -1555,6 +1521,88 @@ export default class Editor extends LightningElement {
     @api
     handleFocusOnToolbox() {
         this.template.querySelector(PANELS.TOOLBOX).focus();
+    }
+
+    /**
+     * Handles the locator icon clicked event, pans the element into the viewport and dispatches an action to the store
+     * to set the isHighlighted state of the canvas element to true.
+     *
+     * @param {object} event - event from subscriber
+     */
+    handleHighlightOnCanvasSubscriber = (event: PubSubEvent) => {
+        const { payload } = event;
+        if (payload && payload.elementGuid) {
+            const elementGuid = payload.elementGuid;
+            this.highlightOnCanvas(elementGuid);
+        }
+    };
+
+    /**
+     * Handles the edit element event and fires up the property editor based on node type
+     * It uses builder-util library to fire up the ui:panel.
+     *
+     * @param {object} event - event from subscriber
+     */
+    handleEditElementSubscriber = (event: PubSubEvent) => {
+        const { eventType, payload } = event;
+        if (payload && eventType) {
+            const mode = payload.mode;
+            const guid = payload.canvasElementGUID;
+            this.editElement(mode, guid);
+        }
+    };
+
+    /**
+     * Method to pan the element into the viewport and dispatches an action to the store
+     * to set the isHighlighted state of the canvas element to true.
+     *
+     * @param {string} elementGuid - Guid of the element being highlighted
+     */
+    highlightOnCanvas(elementGuid: string) {
+        // Panning the canvas element into the viewport if needed
+        const canvasContainer = this.template.querySelector('builder_platform_interaction-canvas-container');
+        if (canvasContainer && canvasContainer.panElementToView) {
+            canvasContainer.panElementToView(elementGuid);
+        }
+        // Highlighting the canvas element
+        highlightCanvasElement(storeInstance, elementGuid);
+    }
+
+    /**
+     * Method to open the property editor of the element needs to be edited
+     *
+     * @param {object} mode - Mode of the event being handled
+     * @param {string} - Guid of element being currently edited
+     */
+    editElement(mode: any, guid: string) {
+        const element = storeInstance.getCurrentState().elements[guid];
+
+        const nodeUpdate = this.deMutateAndUpdateNodeCollection;
+        const newResourceCallback = this.newResourceCallback;
+        const processType = this.properties.processType;
+        if (
+            !isSystemElement(element.elementType) ||
+            (element.elementType === ELEMENT_TYPE.START_ELEMENT && isConfigurableStartSupported(processType))
+        ) {
+            logPerfTransactionStart('PropertyEditor');
+            this.queueOpenPropertyEditor(() => {
+                const node = getElementForPropertyEditor(element);
+                return {
+                    mode,
+                    nodeUpdate,
+                    node,
+                    newResourceCallback,
+                    processType
+                };
+            });
+            if (element && element.isCanvasElement) {
+                storeInstance.dispatch(
+                    selectOnCanvas({
+                        guid
+                    })
+                );
+            }
+        }
     }
 
     /**
@@ -1748,6 +1796,9 @@ export default class Editor extends LightningElement {
     connectedCallback() {
         this.keyboardInteractions.addKeyDownEventListener(this.template);
         this.setupCommandsAndShortcuts();
+
+        pubSub.subscribe(LocatorIconClickedEvent.EVENT_NAME, this.handleHighlightOnCanvasSubscriber.bind(this));
+        pubSub.subscribe(EditElementEvent.EVENT_NAME, this.handleEditElementSubscriber.bind(this));
 
         // Get list of supported process types for the current builder type
         if (!getProcessTypes()) {

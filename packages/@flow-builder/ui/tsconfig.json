@@ -27,6 +27,7 @@
             "builder_platform_interaction/canvasContainer": ["./builder_platform_interaction/canvasContainer/canvasContainer.ts"],
             "builder_platform_interaction/choiceEditor": ["./builder_platform_interaction/choiceEditor/choiceEditor.ts"],
             "builder_platform_interaction/clampLib": ["./builder_platform_interaction/clampLib/clampLib.ts"],
+            "builder_platform_interaction/clickableErrorMessage": ["./builder_platform_interaction/clickableErrorMessage/clickableErrorMessage.ts"],
             "builder_platform_interaction/combobox": ["./builder_platform_interaction/combobox/combobox.ts"],
             "builder_platform_interaction/comboboxCache": ["./builder_platform_interaction/comboboxCache/comboboxCache.ts"],
             "builder_platform_interaction/commands": ["./builder_platform_interaction/commands/commands.ts"],
