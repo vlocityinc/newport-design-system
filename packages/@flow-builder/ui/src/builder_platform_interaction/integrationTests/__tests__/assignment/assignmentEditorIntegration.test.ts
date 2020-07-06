@@ -1,9 +1,13 @@
-// @ts-nocheck
 import { createElement } from 'lwc';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import AssignmentEditor from 'builder_platform_interaction/assignmentEditor';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { setupStateForFlow, resetState, translateFlowToUIAndDispatch } from '../integrationTestUtils';
+import {
+    setupStateForFlow,
+    resetState,
+    translateFlowToUIAndDispatch,
+    FLOW_BUILDER_VALIDATION_ERROR_MESSAGES
+} from '../integrationTestUtils';
 import {
     ticks,
     deepQuerySelector,
@@ -443,7 +447,9 @@ describe('Assignment Editor', () => {
                         expect(rhsCombobox.errorMessage).not.toBeNull();
                         expect(rhsCombobox.hasPillError).toBe(true);
                         expect(rhsCombobox.pill).toEqual({ label: 'numberVariable', iconName: 'utility:topic2' });
-                        expect(rhsCombobox.pillTooltip).toEqual(expect.stringContaining(rhsCombobox.errorMessage));
+                        expect(rhsCombobox.pillTooltip).toEqual(
+                            expect.stringContaining(rhsCombobox.errorMessage || '')
+                        );
                     });
                 });
             });
@@ -505,6 +511,23 @@ describe('Assignment Editor', () => {
                         expect(rhsCombobox.pill).toEqual(expectedRhsPill);
                     }
                 );
+            });
+            describe('Error', () => {
+                // W-7714259
+                it('Lhs on error selecting invalid "$flow" entry', async () => {
+                    const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
+                    await selectComboboxItemBy(lhsCombobox, 'text', ['$Flow']);
+                    expect(lhsCombobox.errorMessage).toEqual(
+                        FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.MERGE_FIELD_NOT_VALID
+                    );
+                    expect(lhsCombobox.pill).toBeNull();
+                    await typeReferenceOrValueInCombobox(lhsCombobox, '');
+                    await selectComboboxItemBy(lhsCombobox, 'text', ['$Flow']);
+                    expect(lhsCombobox.errorMessage).toEqual(
+                        FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.MERGE_FIELD_NOT_VALID
+                    );
+                    expect(lhsCombobox.pill).toBeNull();
+                });
             });
         });
     });

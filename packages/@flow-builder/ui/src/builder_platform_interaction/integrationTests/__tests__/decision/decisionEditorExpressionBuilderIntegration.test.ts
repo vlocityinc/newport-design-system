@@ -4,7 +4,12 @@ import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { validateExpression, getLhsCombobox, getOperatorCombobox, getRhsCombobox } from '../expressionBuilderTestUtils';
 import { createComponentForTest, getFerToFerovExpressionBuilder } from './decisionEditorTestUtils';
 import { getComboboxPill, removeEvent, ticks } from 'builder_platform_interaction/builderTestUtils';
-import { resetState, translateFlowToUIAndDispatch, setupStateForFlow } from '../integrationTestUtils';
+import {
+    resetState,
+    translateFlowToUIAndDispatch,
+    setupStateForFlow,
+    FLOW_BUILDER_VALIDATION_ERROR_MESSAGES
+} from '../integrationTestUtils';
 import { selectComboboxItemBy, typeMergeFieldInCombobox, typeReferenceOrValueInCombobox } from '../comboboxTestUtils';
 
 jest.mock('@salesforce/label/FlowBuilderElementLabels.actionAsResourceText', () => ({ default: 'Outputs from {0}' }), {
@@ -226,6 +231,23 @@ describe('Decision Editor expression builder', () => {
                         expect(rhsCombobox.pill).toEqual(expectedRhsPill);
                     }
                 );
+            });
+            describe('Error', () => {
+                // W-7714259
+                it('Lhs on error selecting invalid "$flow" entry', async () => {
+                    const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
+                    await selectComboboxItemBy(lhsCombobox, 'text', ['$Flow']);
+                    expect(lhsCombobox.errorMessage).toEqual(
+                        FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.MERGE_FIELD_NOT_VALID
+                    );
+                    expect(lhsCombobox.pill).toBeNull();
+                    await typeReferenceOrValueInCombobox(lhsCombobox, '');
+                    await selectComboboxItemBy(lhsCombobox, 'text', ['$Flow']);
+                    expect(lhsCombobox.errorMessage).toEqual(
+                        FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.MERGE_FIELD_NOT_VALID
+                    );
+                    expect(lhsCombobox.pill).toBeNull();
+                });
             });
         });
     });

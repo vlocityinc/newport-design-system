@@ -25,7 +25,8 @@ export const FLOW_BUILDER_VALIDATION_ERROR_MESSAGES = {
     CANNOT_BE_BLANK: 'FlowBuilderValidation.cannotBeBlank',
     GENERIC: 'FlowBuilderCombobox.genericErrorMessage',
     MERGE_FIELD_INVALID_DATA_TYPE: 'FlowBuilderMergeFieldValidation.invalidDataType',
-    MERGE_FIELD_CANNOT_BE_USED: 'FlowBuilderMergeFieldValidation.resourceCannotBeUsedAsMergeField'
+    MERGE_FIELD_CANNOT_BE_USED: 'FlowBuilderMergeFieldValidation.resourceCannotBeUsedAsMergeField',
+    MERGE_FIELD_NOT_VALID: 'FlowBuilderMergeFieldValidation.notAValidMergeField'
 };
 
 /**
