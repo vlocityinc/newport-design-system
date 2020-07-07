@@ -1,4 +1,5 @@
-<aura:component controller="serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController" description="This container is responsible for rendering raptor components and get data from java controller">
+<aura:component controller="serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController"
+    description="This container is responsible for rendering raptor components and get data from java controller">
     <!-- Imports -->
     <builder_platform_interaction:storeLib aura:id="storeLib" />
     <builder_platform_interaction:reducers aura:id="reducers" />
@@ -10,7 +11,8 @@
 
     <!--Attributes-->
     <aura:attribute name="flowId" type="String" description="The id of the flow to load" />
-    <aura:attribute name="flowDefId" type="String" description="The id of the flow definition associated with the flow we are loading" />
+    <aura:attribute name="flowDefId" type="String"
+        description="The id of the flow definition associated with the flow we are loading" />
     <aura:attribute name="builderType" type="String" description="Type of the builder application" />
     <aura:attribute name="builderConfig" type="Object" description="Configuration for the current builder type" />
     <aura:attribute name="guardrailsParams" type="Map" default="{}" description="Params to execute guardrails" />
@@ -24,6 +26,8 @@
     <aura:dependency resource="markup://builder_platform_interaction:propertyEditorFooter" type="COMPONENT" />
     <aura:dependency resource="markup://builder_platform_interaction:debugEditor" type="COMPONENT" />
     <aura:dependency resource="markup://lightning:overlayInteropWrapper" type="COMPONENT" />
+    <aura:dependency resource="markup://force:showToast" type="EVENT" />
+    <aura:dependency resource="markup://force:toastManager" type="COMPONENT" />
 
 
     <!-- Editors must be included here because the dependency chain isn't being enforced by default
@@ -61,17 +65,19 @@
     <aura:dependency resource="markup://builder_platform_interaction:scheduleTriggerEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:platformEventEditor" type="MODULE" />
 
-   <!-- Events -->
-   <aura:registerEvent name="ui:createPanel" type="markup://ui:createPanel" />
-   <aura:registerEvent name="guardrailsResult" type="visualEditor:guardrailsResult" />
+    <!-- Events -->
+    <aura:registerEvent name="ui:createPanel" type="markup://ui:createPanel" />
+    <aura:registerEvent name="guardrailsResult" type="visualEditor:guardrailsResult" />
 
     <div class="flow-builder-container">
+        <force:toastManager global="true" />
         <builder_platform_interaction:editor 
             flowId="{!v.flowId}" 
-            flowDefId="{!v.flowDefId}" 
+            flowDefId="{!v.flowDefId}"
             builderType="{!v.builderType}" 
-            builderConfig="{!v.builderConfig}"
-            guardrailsParams="{!v.guardrailsParams}" 
-            onguardrailresult="{!c.handleGuardrailResult}"/>
+            builderConfig="{!v.builderConfig}" 
+            guardrailsParams="{!v.guardrailsParams}"
+            onguardrailresult="{!c.handleGuardrailResult}" 
+            ondebugtoastevent="{!c.handleDebugToast}" />
     </div>
 </aura:component>

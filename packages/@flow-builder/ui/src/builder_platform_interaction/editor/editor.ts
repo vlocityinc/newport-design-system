@@ -143,6 +143,7 @@ import { getTriggerType, getElementByGuid } from 'builder_platform_interaction/s
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import { getInvocableActions } from 'builder_platform_interaction/invocableActionLib';
 import { usedBy } from 'builder_platform_interaction/usedByLib';
+import { getConfigForElement } from 'builder_platform_interaction/elementConfig';
 import {
     convertToFlc,
     convertFromFlc,
@@ -193,6 +194,11 @@ export default class Editor extends LightningElement {
     builderConfig;
 
     builderMode = BUILDER_MODE.EDIT_MODE;
+
+    @api
+    setBuilderMode(mode) {
+        this.builderMode = mode;
+    }
 
     debugData;
 
@@ -1732,6 +1738,19 @@ export default class Editor extends LightningElement {
      * @param {object} node - node object for the particular property editor update
      */
     deMutateAndUpdateNodeCollection = node => {
+        if (this.builderMode === BUILDER_MODE.DEBUG_MODE) {
+            const elementTypeLabel = getConfigForElement(node).labels.singular;
+            const elementLabel = node.label.value;
+            const debugToastEvent = new CustomEvent('debugtoastevent', {
+                detail: {
+                    elementTypeLabel,
+                    elementLabel
+                }
+            });
+            // Fire the custom event
+            this.dispatchEvent(debugToastEvent);
+        }
+
         // This deepCopy is needed as a temporary workaround because the unwrap() function that the property editor
         // calls on OK doesn't actually work and keeps the proxy wrappers.
         const nodeForStore = getElementForStore(node);

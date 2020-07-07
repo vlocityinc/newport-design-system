@@ -26,6 +26,7 @@ import { getElementForPropertyEditor, getElementForStore } from 'builder_platfor
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { mockEngineExecute } from 'analyzer_framework/engine';
 import { setUseFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
+import { BUILDER_MODE } from 'builder_platform_interaction/systemLib';
 
 jest.mock('builder_platform_interaction/flcBuilder', () => require('builder_platform_interaction_mocks/flcBuilder'));
 
@@ -1263,5 +1264,53 @@ describe('editor guardrails', () => {
         expect(guardrailResult).toHaveBeenCalledTimes(1);
         const actualResult = guardrailResult.mock.calls[0][0].detail.guardrailsResult;
         expect(actualResult.results.get(FLOW_ID)).toEqual([{ data: 'result1' }, { data: 'result2' }]);
+    });
+});
+describe('in debug mode', () => {
+    it('debug toast event is fired on clicking done in property editor', async () => {
+        expect.assertions(1);
+        const debugToast = jest.fn();
+        const editorComponent = createComponentUnderTest();
+        editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
+        await ticks(1);
+        const editElementEvent = new EditElementEvent('1');
+        const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+        canvasContainer.dispatchEvent(editElementEvent);
+        editorComponent.addEventListener('debugtoastevent', debugToast);
+        await ticks(1);
+
+        const elementToAdd = {
+            a: 1,
+            elementType: ELEMENT_TYPE.RECORD_LOOKUP,
+            label: {
+                value: 'ABC'
+            }
+        };
+
+        const nodeUpdate = invokePropertyEditor.mock.calls[0][1].nodeUpdate;
+        nodeUpdate(elementToAdd);
+        expect(debugToast).toHaveBeenCalledTimes(1);
+    });
+    it('no debug toast event is fired on clicking done in property editor in edit mode', async () => {
+        expect.assertions(1);
+        const debugToast = jest.fn();
+        const editorComponent = createComponentUnderTest();
+        const editElementEvent = new EditElementEvent('1');
+        const canvasContainer = editorComponent.shadowRoot.querySelector(selectors.canvasContainer);
+        canvasContainer.dispatchEvent(editElementEvent);
+        editorComponent.addEventListener('debugtoastevent', debugToast);
+        await ticks(1);
+
+        const elementToAdd = {
+            a: 1,
+            elementType: ELEMENT_TYPE.RECORD_LOOKUP,
+            label: {
+                value: 'ABC'
+            }
+        };
+
+        const nodeUpdate = invokePropertyEditor.mock.calls[0][1].nodeUpdate;
+        nodeUpdate(elementToAdd);
+        expect(debugToast).not.toHaveBeenCalled();
     });
 });
