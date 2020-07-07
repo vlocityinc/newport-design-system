@@ -233,7 +233,7 @@
             }
           }
           ~ .nds-b2b-card_tab-content {
-            max-height: calc(200vh);
+            max-height: calc(200vh - 1.3rem);
             border-top: 1px solid $light-silver;
             &.nds-b2b-extra-padding {
               padding: 1rem;
