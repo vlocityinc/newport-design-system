@@ -4,7 +4,10 @@ import {
     linkBranchOrFault,
     addElementToState,
     linkElement,
-    FAULT_INDEX
+    FAULT_INDEX,
+    calculateFlowLayout,
+    getDefaultLayoutConfig,
+    FlowRenderContext
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createEndElement, createConnector } from 'builder_platform_interaction/elementFactory';
@@ -334,7 +337,7 @@ function convertFromFlcHelper(newElements, newConnectors, newCanvasElements, ele
  * @param {Object} uiModel - an FLC ui model
  * @return {Object} an FFC ui model
  */
-export function convertFromFlc(uiModel) {
+export function convertFromFlc(uiModel, canvasWidth = null) {
     const { elements } = uiModel;
 
     const newConnectors = [];
@@ -348,7 +351,9 @@ export function convertFromFlc(uiModel) {
 
     const startElement = findStartElement(newElements);
     if (startElement) {
-        startElement.locationY = LOCATION_Y_FLC_FLOW;
+        if (canvasWidth) {
+            calculateElementCoordinates(elements, newElements, startElement, canvasWidth / 2, 0, 0);
+        }
 
         convertFromFlcHelper(newElements, newConnectors, newCanvasElements, startElement);
 
@@ -362,6 +367,60 @@ export function convertFromFlc(uiModel) {
     }
 
     return { ...uiModel, elements: newElements, connectors: newConnectors, canvasElements: newCanvasElements };
+}
+
+function calculateElementCoordinates(flowModel, newElements, element, prevX, prevY, offsetX) {
+    const nodeLayoutMap = getNodeLayoutMap(flowModel);
+    while (element) {
+        if (element.guid in nodeLayoutMap) {
+            const { y } = nodeLayoutMap[element.guid].layout;
+            element.locationX =
+                element.elementType === ELEMENT_TYPE.START_ELEMENT ? prevX + offsetX - 125 : prevX + offsetX;
+            element.locationY = prevY + y;
+            if (element.children) {
+                for (let i = 0; i < element.children.length; i++) {
+                    const childOffsetX = nodeLayoutMap[element.guid + ':' + i].layout.x;
+                    calculateElementCoordinates(
+                        flowModel,
+                        newElements,
+                        newElements[element.children[i]],
+                        element.locationX,
+                        element.locationY,
+                        childOffsetX
+                    );
+                }
+            }
+            if (element.fault) {
+                const faultOffsetX = nodeLayoutMap[element.guid + ':-1'].layout.x;
+                calculateElementCoordinates(
+                    flowModel,
+                    newElements,
+                    newElements[element.fault],
+                    element.locationX,
+                    element.locationY,
+                    faultOffsetX
+                );
+            }
+            element = newElements[element.next];
+        }
+    }
+}
+
+function getNodeLayoutMap(flowModel) {
+    const flowRenderContext = createInitialFlowRenderContext(flowModel);
+    calculateFlowLayout(flowRenderContext);
+    return flowRenderContext.nodeLayoutMap;
+}
+
+function createInitialFlowRenderContext(flowModel): FlowRenderContext {
+    return {
+        flowModel,
+        nodeLayoutMap: {},
+        interactionState: {},
+        elementsMetadata: {},
+        layoutConfig: { ...getDefaultLayoutConfig() },
+        isDeletingBranch: false
+    } as FlowRenderContext;
 }
 
 function isMergeElement(element) {

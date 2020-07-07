@@ -1379,7 +1379,10 @@ export default class Editor extends LightningElement {
 
         if (shouldConvert) {
             let newFlowState = deepCopy(storeInstance.getCurrentState());
-            newFlowState = this.isAutoLayoutCanvas ? convertToFlc(newFlowState) : convertFromFlc(newFlowState);
+            const flc = this.template.querySelector('builder_platform_interaction-flc-builder-container');
+            newFlowState = this.isAutoLayoutCanvas
+                ? convertToFlc(newFlowState)
+                : convertFromFlc(newFlowState, flc ? flc.clientWidth : null);
 
             storeInstance.dispatch(updateFlow(newFlowState));
         }

@@ -64,7 +64,7 @@ function sortCanvasElementsAndConnectors({ elements, canvasElements, connectors 
 function testConversions(flcUiModel) {
     let ffcUiModel;
     it('from flc', () => {
-        ffcUiModel = sortCanvasElementsAndConnectors(convertFromFlc(deepCopy(flcUiModel)));
+        ffcUiModel = sortCanvasElementsAndConnectors(convertFromFlc(deepCopy(flcUiModel), 1250));
         expect(ffcUiModel).toMatchSnapshot();
     });
 
