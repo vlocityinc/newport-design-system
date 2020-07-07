@@ -108,6 +108,15 @@ export default class ScreenCanvas extends LightningElement {
             event.stopPropagation();
         }
         this.clearDraggingState();
+
+        // dispatch mouseup event to trigger enableKeyboardFocusNavigationRoutines in LWC
+        // @W-7747260 https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000008SPO3IAO/view
+        this.dispatchEvent(
+            new CustomEvent('mouseup', {
+                bubbles: true,
+                cancelable: false
+            })
+        );
     }
 
     handleDragLeave(event) {
