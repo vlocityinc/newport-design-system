@@ -9,6 +9,7 @@ import {
     CopyEvent,
     ClosePropertyEditorEvent,
     EditFlowEvent,
+    ToggleCanvasModeEvent,
     NewDebugFlowEvent,
     DebugFlowEvent
 } from 'builder_platform_interaction/events';
@@ -73,6 +74,17 @@ jest.mock('builder_platform_interaction/dateTimeUtils', () => {
         parseMetadataDateTime: jest.fn().mockName('parseMetadataDateTime')
     };
 });
+
+const change = (component, checked = false) => {
+    const changeEvent = new CustomEvent('change', {
+        bubbles: true,
+        cancelable: true,
+        detail: {
+            checked
+        }
+    });
+    component.dispatchEvent(changeEvent);
+};
 
 describe('toolbar', () => {
     it('fires editflowproperties event when edit flow properties button is clicked', () => {
@@ -505,15 +517,8 @@ describe('toolbar', () => {
     });
 
     describe('Canvas Mode Toggling', () => {
-        let toolbarComponent;
-
-        beforeEach(() => {
-            // as the canvas mode toggling is still under construction, we will only show
-            // toggle button is fixed layout canvas
-            toolbarComponent = createComponentUnderTest({ isAutoLayoutCanvas: true });
-        });
-
-        it('Displays the Canvas Mode Toggle with right configuration when in Selection Mode', () => {
+        it('Displays the Canvas Mode Toggle with right configuration when in Auto-Layout Mode', () => {
+            const toolbarComponent = createComponentUnderTest({ isAutoLayoutCanvas: true, showCanvasModeToggle: true });
             const canvasModeToggle = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeToggle);
             const canvasModeToggleButton = canvasModeToggle.querySelector('lightning-input');
 
@@ -523,6 +528,70 @@ describe('toolbar', () => {
             expect(canvasModeToggleButton.messageToggleInactive).toBe('');
             expect(canvasModeToggleButton.label).toBe(LABELS.canvasModeToggleLabel);
             expect(canvasModeToggleButton.checked).toBeTruthy();
+        });
+
+        it('Displays the Canvas Mode Toggle with right configuration when in Free-Form Mode', () => {
+            const toolbarComponent = createComponentUnderTest({
+                isAutoLayoutCanvas: false,
+                showCanvasModeToggle: true
+            });
+            const canvasModeToggle = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeToggle);
+            const canvasModeToggleButton = canvasModeToggle.querySelector('lightning-input');
+
+            expect(canvasModeToggleButton).not.toBeNull();
+            expect(canvasModeToggleButton.type).toBe('toggle');
+            expect(canvasModeToggleButton.messageToggleActive).toBe('');
+            expect(canvasModeToggleButton.messageToggleInactive).toBe('');
+            expect(canvasModeToggleButton.label).toBe(LABELS.canvasModeToggleLabel);
+            expect(canvasModeToggleButton.checked).toBeFalsy();
+        });
+
+        it('Should not display Canvas Mode Toggle when showCanvasModeToggle is false and mode is Auto-Layout', () => {
+            const toolbarComponent = createComponentUnderTest({
+                isAutoLayoutCanvas: true,
+                showCanvasModeToggle: false
+            });
+            const canvasModeToggle = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeToggle);
+            expect(canvasModeToggle).toBeNull();
+        });
+
+        it('Should not display Canvas Mode Toggle when showCanvasModeToggle is false and mode is Free-Form', () => {
+            const toolbarComponent = createComponentUnderTest({
+                isAutoLayoutCanvas: false,
+                showCanvasModeToggle: false
+            });
+            const canvasModeToggle = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeToggle);
+            expect(canvasModeToggle).toBeNull();
+        });
+
+        it('When in Auto-Layout mode, clicking on the mode toggle button should fire ToggleCanvasModeEvent event and have right configuration', () => {
+            const toolbarComponent = createComponentUnderTest({
+                isAutoLayoutCanvas: true,
+                showCanvasModeToggle: true
+            });
+            const canvasModeToggle = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeToggle);
+            const canvasModeToggleButton = canvasModeToggle.querySelector('lightning-input');
+
+            const eventCallback = jest.fn();
+            toolbarComponent.addEventListener(ToggleCanvasModeEvent.EVENT_NAME, eventCallback);
+            change(canvasModeToggleButton);
+            expect(eventCallback).toHaveBeenCalled();
+            expect(canvasModeToggleButton.checked).toBeFalsy();
+        });
+
+        it('When in Free-Form, clicking on the mode toggle button should fire ToggleCanvasModeEvent event and have right configuration', () => {
+            const toolbarComponent = createComponentUnderTest({
+                isAutoLayoutCanvas: false,
+                showCanvasModeToggle: true
+            });
+            const canvasModeToggle = toolbarComponent.shadowRoot.querySelector(selectors.canvasModeToggle);
+            const canvasModeToggleButton = canvasModeToggle.querySelector('lightning-input');
+
+            const eventCallback = jest.fn();
+            toolbarComponent.addEventListener(ToggleCanvasModeEvent.EVENT_NAME, eventCallback);
+            change(canvasModeToggleButton, true);
+            expect(eventCallback).toHaveBeenCalled();
+            expect(canvasModeToggleButton.checked).toBeFalsy();
         });
     });
 });

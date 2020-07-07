@@ -11,7 +11,10 @@ import {
     invokeKeyboardHelpDialog,
     focusOnDockingPanel,
     invokeDebugEditor,
-    hidePopover
+    hidePopover,
+    invokeModal,
+    modalBodyVariant,
+    modalFooterVariant
 } from 'builder_platform_interaction/builderUtils';
 import { Store, deepCopy } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
@@ -140,7 +143,12 @@ import { getTriggerType, getElementByGuid } from 'builder_platform_interaction/s
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import { getInvocableActions } from 'builder_platform_interaction/invocableActionLib';
 import { usedBy } from 'builder_platform_interaction/usedByLib';
-import { convertToFlc, convertFromFlc } from 'builder_platform_interaction/flcConversionUtils';
+import {
+    convertToFlc,
+    convertFromFlc,
+    canConvertToFlc,
+    findStartElement
+} from 'builder_platform_interaction/flcConversionUtils';
 import { pubSub, PubSubEvent } from 'builder_platform_interaction/pubSub';
 
 let unsubscribeStore;
@@ -1375,7 +1383,65 @@ export default class Editor extends LightningElement {
      * Handles the ToggleCanvasMode event from the toolbar
      */
     handleToggleCanvasMode = () => {
-        this.updateCanvasMode(!this.isAutoLayoutCanvas, true);
+        if (!this.isAutoLayoutCanvas) {
+            // From Free-Form to Auto-Layout Canvas
+            const { elements, connectors } = storeInstance.getCurrentState();
+            const startGuid = findStartElement(elements).guid;
+            if (!canConvertToFlc(startGuid, connectors)) {
+                const unsupportedFeatureItems = [
+                    { message: LABELS.errorMessageMultipleIncomingConnections, key: 1 },
+                    { message: LABELS.errorMessageFaultConnectors, key: 2 },
+                    { message: LABELS.errorMessageAdditionalUnsupportedFeature, key: 3 }
+                ];
+
+                invokeModal({
+                    headerData: {
+                        headerTitle: LABELS.unsupportedFeaturesHeaderTitle
+                    },
+                    bodyData: {
+                        bodyTextOne: LABELS.unsupportedFeaturesBodyTextLabel,
+                        bodyVariant: modalBodyVariant.WARNING_ON_CANVAS_MODE_TOGGLE,
+                        listWarningItems: unsupportedFeatureItems
+                    },
+                    footerData: {
+                        buttonOne: {
+                            buttonLabel: LABELS.okayButtonLabel
+                        },
+                        footerVariant: modalFooterVariant.PROMPT
+                    },
+                    modalClass: 'slds-modal_prompt',
+                    headerClass: 'slds-theme_alert-texture slds-theme_warning',
+                    bodyClass: 'slds-p-around_medium',
+                    footerClass: 'slds-theme_default'
+                });
+            } else if (this.properties.hasUnsavedChanges) {
+                invokeModal({
+                    headerData: {
+                        headerTitle: LABELS.unsavedChangesHeaderTitle
+                    },
+                    bodyData: {
+                        bodyTextOne: LABELS.unsavedChangesBodyTextLabel,
+                        bodyVariant: modalBodyVariant.WARNING_ON_CANVAS_MODE_TOGGLE
+                    },
+                    footerData: {
+                        buttonOne: {
+                            buttonVariant: 'Brand',
+                            buttonLabel: LABELS.cancelButtonLabel
+                        },
+                        buttonTwo: {
+                            buttonLabel: LABELS.goToAutolayoutButtonLabel,
+                            buttonCallback: () => this.updateCanvasMode(!this.isAutoLayoutCanvas, true)
+                        }
+                    },
+                    headerClass: 'slds-theme_alert-texture slds-theme_warning',
+                    bodyClass: 'slds-p-around_medium'
+                });
+            } else {
+                this.updateCanvasMode(!this.isAutoLayoutCanvas, true);
+            }
+        } else {
+            this.updateCanvasMode(!this.isAutoLayoutCanvas, true);
+        }
     };
 
     /**

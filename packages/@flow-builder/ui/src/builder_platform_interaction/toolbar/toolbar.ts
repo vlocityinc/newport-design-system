@@ -23,9 +23,6 @@ import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { LABELS } from './toolbarLabels';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
 import { format } from 'builder_platform_interaction/commonUtils';
-import { invokeModal, modalBodyVariant, modalFooterVariant } from 'builder_platform_interaction/builderUtils';
-import { canConvertToFlc, findStartElement } from 'builder_platform_interaction/flcConversionUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
 
 /**
  * Toolbar component for flow builder.
@@ -390,68 +387,7 @@ export default class Toolbar extends LightningElement {
 
     handleToggleCanvasMode(event) {
         event.stopPropagation();
-        if (event.detail.checked) {
-            // from ffc to flc
-
-            const { elements, connectors } = Store.getStore().getCurrentState();
-            const startGuid = findStartElement(elements).guid;
-            if (!canConvertToFlc(startGuid, connectors)) {
-                // eslint-disable-next-line no-alert
-                alert('cant convert');
-                this.template.querySelector('.toggle-canvas-mode').checked = false;
-                return;
-            }
-
-            invokeModal({
-                headerData: {
-                    headerTitle: this.labels.unsavedChangesHeaderTitle
-                },
-                bodyData: {
-                    bodyTextOne: this.labels.unsavedChangesBodyTextLabel,
-                    bodyVariant: modalBodyVariant.WARNING_ON_CANVAS_MODE_TOGGLE
-                },
-                footerData: {
-                    buttonOne: {
-                        buttonVariant: 'Brand',
-                        buttonLabel: this.labels.cancelButtonLabel
-                    },
-                    buttonTwo: {
-                        buttonLabel: this.labels.goToAutolayoutButtonLabel,
-                        buttonCallback: () => this.dispatchEvent(new ToggleCanvasModeEvent())
-                    }
-                },
-                headerClass: 'slds-theme_alert-texture slds-theme_warning',
-                bodyClass: 'slds-p-around_medium'
-            });
-        } else {
-            // from flc to ffc
-            const unsupportedFeatureItems = [
-                { message: this.labels.errorMessageMultipleIncomingConnections, key: 1 },
-                { message: this.labels.errorMessageFaultConnectors, key: 2 },
-                { message: this.labels.errorMessageAdditionalUnsupportedFeature, key: 3 }
-            ];
-
-            invokeModal({
-                headerData: {
-                    headerTitle: this.labels.unsupportedFeaturesHeaderTitle
-                },
-                bodyData: {
-                    bodyTextOne: this.labels.unsupportedFeaturesBodyTextLabel,
-                    bodyVariant: modalBodyVariant.WARNING_ON_CANVAS_MODE_TOGGLE,
-                    listWarningItems: unsupportedFeatureItems
-                },
-                footerData: {
-                    buttonOne: {
-                        buttonLabel: this.labels.okayButtonLabel,
-                        buttonCallback: () => this.dispatchEvent(new ToggleCanvasModeEvent())
-                    },
-                    footerVariant: modalFooterVariant.PROMPT
-                },
-                modalClass: 'slds-modal_prompt',
-                headerClass: 'slds-theme_alert-texture slds-theme_warning',
-                bodyClass: 'slds-p-around_medium',
-                footerClass: 'slds-theme_default'
-            });
-        }
+        this.dispatchEvent(new ToggleCanvasModeEvent());
+        this.template.querySelector('.toggle-canvas-mode').checked = false;
     }
 }
