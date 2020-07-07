@@ -1,4 +1,3 @@
-/* eslint-disable @lwc/lwc/no-async-operation */
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
 import { EditElementEvent, LocatorIconClickedEvent } from 'builder_platform_interaction/events';
@@ -58,6 +57,10 @@ export default class ClickableMessage extends LightningElement {
     }
 
     get errorMessage() {
+        const currentErrorType: string = errorTypeMap[this.errorCode];
+        if (!this.elementApiName || !currentErrorType || currentErrorType === errorType.NO_API_NAME_ERROR) {
+            return this.info.message.message;
+        }
         const [pre, msg] = this.info.message.message.split(' - ');
         return pre && msg ? msg : this.info && this.info.message && this.info.message.message;
     }

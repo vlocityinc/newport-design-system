@@ -98,7 +98,7 @@ describe('clickableErrorMessage', () => {
             expect(link.textContent).toEqual('a1(Assignment)');
             expect(li.textContent).toEqual(errorMsgComponentWithPre.info.message.message);
         });
-        it('present apiName as link text when there is no prepended info in message', () => {
+        it('presents apiName as link text when there is no prepended info in message', () => {
             // create error message component with error message without prepend info
             const errorMsgComponentWithoutPre = createComponentUnderTest({
                 info: {
@@ -117,6 +117,36 @@ describe('clickableErrorMessage', () => {
                 errorMsgComponentWithoutPre.info.message.erroneousElementApiName +
                 ' - ' +
                 errorMsgComponentWithoutPre.info.message.message;
+            expect(li.textContent).toEqual(expected);
+        });
+    });
+    describe('error message', () => {
+        it('presents error message without modification for NO_API_NAME_ERROR', () => {
+            // create error message component with NO_API_NAME_ERROR
+            const errorMsgComponentWithNoApi = createComponentUnderTest({
+                info: {
+                    message: {
+                        errorCode: 'ELEMENT_HAS_INVALID_DEFAULT_VALUE',
+                        message: 'a1(Assignment) - some error message'
+                    }
+                }
+            });
+            const li = errorMsgComponentWithNoApi.shadowRoot.querySelector(selectors.li);
+            const expected = 'Warning: ' + errorMsgComponentWithNoApi.info.message.message;
+            expect(li.textContent).toEqual(expected);
+        });
+        it('presents error message without modification for error not exist in the errorTypeMap', () => {
+            // create error message component with an error not exist in the errorTypeMap
+            const errorMsgComponentWithNoApi = createComponentUnderTest({
+                info: {
+                    message: {
+                        errorCode: 'FAKE_ERROR_CODE',
+                        message: 'a1(Assignment) - some error message'
+                    }
+                }
+            });
+            const li = errorMsgComponentWithNoApi.shadowRoot.querySelector(selectors.li);
+            const expected = 'Warning: ' + errorMsgComponentWithNoApi.info.message.message;
             expect(li.textContent).toEqual(expected);
         });
     });
