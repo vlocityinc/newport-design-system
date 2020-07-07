@@ -40,7 +40,9 @@
             position: relative;
           }
           .nds-b2b-card_title {
-            width: 40vw;
+            width: 100%;
+            padding-right: 2.5rem;
+            display: inherit;
             .nds-b2b-macd-action {
               padding: 0.5rem 0.75rem;
               color: $white;
@@ -51,14 +53,19 @@
               top: -0.3rem;
               margin-right: 0.5rem;
               &.Change {
-                background-color: #706E6B;
+                background-color: $palette-gray-9;
               }
               &.Add {
-                background-color: #04844B;
+                background-color: $salem;
               }
               &.Disconnect {
-                background-color: #FFB75D;
+                background-color: $koromiko;
               }
+            }
+            @media screen and (min-width: 48rem) {
+              width: 40vw;
+              padding-right: 0;
+              display: block;
             }
           }
           .nds-b2b-attributes_info {
@@ -97,8 +104,8 @@
           .nds-b2b-price_info {
             @include cardsHeaderAttributes;
             display: flex;
-            position: absolute;
             right: 1rem;
+            overflow: auto;
             .nds-b2b-each-attribute {
               .nds-b2b-attribute_value {
                 border-bottom: 1px dashed $black-primary;
@@ -107,6 +114,9 @@
                   border: 1px solid $azure;
                   border-radius: 0.25rem;
                   padding: 0 0.5rem;
+                }
+                &.nds-b2b-no-border {
+                  border-bottom: none;
                 }
                 &.nds-b2b-adjustment-price {
                   width: 100%;
@@ -117,12 +127,9 @@
                 }
               }
             }
-            @media screen and (min-width: 48rem) {
-              right: 7rem;
-            }
           }
           .nds-b2b-quantity {
-            width: auto;
+            width: 6rem;
             min-height: 2rem;
             .nds-b2b-quantity_value {
               border: 1px solid $palette-warm-gray-5;
@@ -136,7 +143,7 @@
                 margin: 0;
               }
               &:disabled {
-                background-color: $white-smoke;
+                background-color: $palette-gray-90;
               }
             }
             .nds-b2b-configure_label {
@@ -148,6 +155,8 @@
           }
           .nds-b2b-label-container {
             display: block;
+            width: 100%;
+            justify-content: space-between;
             .nds-b2b-child-indicator {
               position: absolute;
               top: 0;
@@ -158,30 +167,42 @@
           }
           .nds-b2b-menu {
             position: absolute;
-            right: 1.5rem;
+            right: 0.5rem;
             .nds-is-open .nds-dropdown_right {
               overflow: visible;
               position: relative;
-              margin-top: -20px;
+              margin-top: -1.25rem;
               z-index: 1;
+            }
+            @media screen and (min-width: 48rem) {
+              right: 1.5rem;
+            }
+          }
+          &.nds-b2b-disconnected {
+            background-color: $palette-gray-90;
+            pointer-events: none;
+            .nds-b2b-card_title {
+              .nds-b2b-each-card_title {
+                text-decoration: line-through;
+              }
             }
           }
           @media screen and (min-width: 48rem) {
             padding: 1.5rem 3rem 1.5rem 1.5rem;
             &::after {
-              right: 0rem;
-            }
-            .nds-b2b-quantity {
-              margin: -0.5rem 2rem 0 2rem;
+              right: 0.5rem;
             }
             .nds-b2b-label-container {
               display: flex;
               .nds-b2b-label-details {
                 margin-top: 0;
+                padding-right: 1.5rem;
+                overflow: auto;
               }
             }
           }
           @media screen and (min-width: 60rem) {
+            padding: 1.5rem 3rem 1rem 1.5rem;
             .nds-b2b-attributes_info {
               display: flex;
             }
@@ -200,6 +221,9 @@
           &.nds-b2b-card-parent {
             padding: 0;
             background: $white-smoke;
+          }
+          &.nds-b2b-content-disconnect {
+            pointer-events: none;
           }
         }
         input.nds-b2b-card_checkbox:checked {
@@ -237,6 +261,9 @@
                 }
               }
             }
+            &.nds-b2b-disconnected {
+              background-color: $palette-gray-90; 
+            }
           }
           &-content {
             padding: 0;
@@ -269,6 +296,9 @@
                     border-radius: 0.25rem;
                     padding: 0 0.5rem;
                   }
+                  &.nds-b2b-no-border {
+                    border-bottom: none;
+                  }
                   &.nds-b2b-adjustment-price {
                     width: 100%;
                     border-bottom: none;
@@ -278,6 +308,9 @@
                   }
                 }
               }
+            }
+            &.nds-b2b-disconnected {
+              background-color: $palette-gray-90;
             }
           }
           &-content {
@@ -324,6 +357,9 @@
   background: $white;
   margin-bottom: 1rem;
   padding: 1rem 1.5rem;
+  &.nds-b2b-disconnect {
+    padding: 0;
+  }
 }
 .nds-b2b-delete-offer {
   .nds-modal__header {
