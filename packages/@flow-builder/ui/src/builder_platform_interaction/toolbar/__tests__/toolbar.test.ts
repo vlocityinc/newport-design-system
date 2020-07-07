@@ -8,7 +8,9 @@ import {
     ToggleSelectionModeEvent,
     CopyEvent,
     ClosePropertyEditorEvent,
-    EditFlowEvent
+    EditFlowEvent,
+    NewDebugFlowEvent,
+    DebugFlowEvent
 } from 'builder_platform_interaction/events';
 import Toolbar from 'builder_platform_interaction/toolbar';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
@@ -33,6 +35,7 @@ const createComponentUnderTest = (props = {}) => {
     el.isCutCopyDisabled = props.isCutCopyDisabled;
     el.isSelectionMode = props.isSelectionMode;
     el.isAutoLayoutCanvas = props.isAutoLayoutCanvas;
+    el.isNewDebugSupported = props.isNewDebugSupported;
     el.showCopyPasteButton = getPropertyOrDefaultToTrue(props, 'showCopyPasteButton');
     el.showEditFlowPropertiesButton = getPropertyOrDefaultToTrue(props, 'showEditFlowPropertiesButton');
     el.showCanvasModeToggle = getPropertyOrDefaultToTrue(props, 'showCanvasModeToggle');
@@ -60,6 +63,8 @@ const selectors = {
     relativedatetime: 'lightning-relative-date-time',
     canvasModeToggle: '.canvas-mode-toggle',
     editFlow: '.test-toolbar-editflow',
+    debug: '.test-toolbar-debug',
+    newDebug: '.test-toolbar-newdebug',
     restartRun: '.test-toolbar-restartrun'
 };
 
@@ -102,6 +107,54 @@ describe('toolbar', () => {
         toolbarComponent.addEventListener(EditFlowEvent.EVENT_NAME, eventCallback);
         const editFlowButton = toolbarComponent.shadowRoot.querySelector(selectors.editFlow);
         editFlowButton.click();
+        expect(eventCallback).toHaveBeenCalled();
+    });
+
+    it('Debug button should not be present if show debug button api property is not set', () => {
+        const toolbarComponent = createComponentUnderTest({ showDebugButton: false });
+        const debug = toolbarComponent.shadowRoot.querySelector(selectors.debug);
+        expect(debug).toBeNull();
+    });
+
+    it('Debug button should be present if show debug button api property is set', () => {
+        const toolbarComponent = createComponentUnderTest({ showDebugButton: true });
+        const debug = toolbarComponent.shadowRoot.querySelector(selectors.debug);
+        expect(debug).not.toBeNull();
+    });
+
+    it('Debug button should fire the debug event if clicked', () => {
+        const toolbarComponent = createComponentUnderTest({ showDebugButton: true });
+        const eventCallback = jest.fn();
+        toolbarComponent.addEventListener(DebugFlowEvent.EVENT_NAME, eventCallback);
+        const debug = toolbarComponent.shadowRoot.querySelector(selectors.debug);
+        debug.click();
+        expect(eventCallback).toHaveBeenCalled();
+    });
+
+    it('New Debug button should not be present if new debug is not supported', () => {
+        const toolbarComponent = createComponentUnderTest({ isNewDebugSupported: false, showDebugButton: true });
+        const newDebug = toolbarComponent.shadowRoot.querySelector(selectors.newDebug);
+        expect(newDebug).toBeNull();
+    });
+
+    it('New Debug button should not be present if show debug button api property is not set', () => {
+        const toolbarComponent = createComponentUnderTest({ isNewDebugSupported: true, showDebugButton: false });
+        const newDebug = toolbarComponent.shadowRoot.querySelector(selectors.newDebug);
+        expect(newDebug).toBeNull();
+    });
+
+    it('New Debug button should be present if new debug is supported and show debug button api property is set', () => {
+        const toolbarComponent = createComponentUnderTest({ isNewDebugSupported: true, showDebugButton: true });
+        const newDebug = toolbarComponent.shadowRoot.querySelector(selectors.newDebug);
+        expect(newDebug).not.toBeNull();
+    });
+
+    it('New Debug button should fire the new debug event if clicked', () => {
+        const toolbarComponent = createComponentUnderTest({ isNewDebugSupported: true, showDebugButton: true });
+        const eventCallback = jest.fn();
+        toolbarComponent.addEventListener(NewDebugFlowEvent.EVENT_NAME, eventCallback);
+        const newDebug = toolbarComponent.shadowRoot.querySelector(selectors.newDebug);
+        newDebug.click();
         expect(eventCallback).toHaveBeenCalled();
     });
 

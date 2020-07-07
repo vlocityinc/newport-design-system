@@ -843,6 +843,9 @@ export default class Editor extends LightningElement {
                             const connectorsToHighlight = getConnectorsToHighlight(canvasDecorator);
                             storeInstance.dispatch(decorateCanvas({ connectorsToHighlight }));
                         }
+                    } else {
+                        // Else, clear any existing highlights on the canvas
+                        storeInstance.dispatch(clearCanvasDecoration);
                     }
                 }
                 this.spinners.showDebugSpinner = false;

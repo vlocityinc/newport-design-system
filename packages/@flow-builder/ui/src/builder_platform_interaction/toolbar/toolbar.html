@@ -165,14 +165,16 @@
                     title={labels.debugTitle}
                     onclick={handleDebug}
                     disabled={isRunDebugDisabled}
+                    class="test-toolbar-debug"
                 >
                 </lightning-button>
                 <lightning-button
-                    if:true={isNewDebugSupported}
-                    label="Debug on Canvas (Beta)"
-                    title="Debug on Canvas (Beta)"
+                    if:true={showNewDebugButton}
+                    label={labels.newdebugTitle}
+                    title={labels.newdebugTitle}
                     onclick={handleNewDebug}
                     disabled={isRunDebugDisabled}
+                    class="test-toolbar-newdebug"
                 >
                 </lightning-button>
                 <lightning-button

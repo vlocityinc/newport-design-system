@@ -59,13 +59,51 @@
       "icon":"utility:checkin",
       "componentConfigs":{
         "editMode":{
+          "toolbarConfig":{
+            "showEditFlowPropertiesButton":true,
+            "showCopyPasteButton":true,
+            "showDebugButton":true,
+            "showEditFlowButton":false,
+            "showCanvasModeToggle":true,
+            "showRunButton":true,
+            "showFlowStatus":true,
+            "showRestartRunButton":false
+          },
           "leftPanelConfig":{
             "showLeftPanel":true
+          },
+          "canvasConfig":{
+            "disableAddConnectors":false,
+            "disableDeleteConnectors":false,
+            "disableDeleteElements":false,
+            "disableDragElements":false,
+            "disableAddElements":false,
+            "disableSelectConnectors":false,
+            "disableMultiSelectElements":false
           }
         },
         "debugMode":{
+          "toolbarConfig":{
+            "showEditFlowPropertiesButton":false,
+            "showCopyPasteButton":false,
+            "showDebugButton":false,
+            "showEditFlowButton":true,
+            "showCanvasModeToggle":false,
+            "showRunButton":false,
+            "showFlowStatus":false,
+            "showRestartRunButton":true
+          },
           "leftPanelConfig":{
             "showLeftPanel":false
+          },
+          "canvasConfig":{
+            "disableAddConnectors":true,
+            "disableDeleteConnectors":true,
+            "disableDeleteElements":true,
+            "disableDragElements":true,
+            "disableAddElements":true,
+            "disableSelectConnectors":true,
+            "disableMultiSelectElements":true
           }
         }
       },

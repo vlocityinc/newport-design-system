@@ -17,7 +17,9 @@ import {
     UPDATE_PROPERTIES_AFTER_ACTIVATING,
     UPDATE_APEX_CLASSES,
     UPDATE_ENTITIES,
-    UPDATE_CANVAS_ELEMENT
+    UPDATE_CANVAS_ELEMENT,
+    DECORATE_CANVAS,
+    CLEAR_CANVAS_DECORATION
 } from 'builder_platform_interaction/actions';
 import { createFlowProperties } from 'builder_platform_interaction/elementFactory';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -95,6 +97,8 @@ export default function flowPropertiesReducer(state = flowProperties, { payload,
         case SELECTION_ON_FIXED_CANVAS:
         case UPDATE_APEX_CLASSES:
         case UPDATE_ENTITIES:
+        case DECORATE_CANVAS:
+        case CLEAR_CANVAS_DECORATION:
             return state;
         case UPDATE_CANVAS_ELEMENT:
             // If the start element is updated with a trigger type that does not support
