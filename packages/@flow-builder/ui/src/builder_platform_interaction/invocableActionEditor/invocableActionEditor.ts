@@ -459,10 +459,10 @@ export default class InvocableActionEditor extends LightningElement {
     }
 
     updateActionParamsAndTypeMappings(event) {
+        this.actionCallNode = invocableActionReducer(this.actionCallNode, event);
+        this.updateNodeForFieldLevelCommit();
+        this.updateDataTypeMappings();
         if (!this.hideParameters) {
-            this.actionCallNode = invocableActionReducer(this.actionCallNode, event);
-            this.updateNodeForFieldLevelCommit();
-            this.updateDataTypeMappings();
             if (this.actionCallNode.dataTypeMappings && this.actionCallNode.dataTypeMappings.length > 0) {
                 const { actionName, actionType, dataTypeMappings } = this.actionCallNode;
                 this.invocableActionParametersDescriptor = getParametersForInvocableAction({
