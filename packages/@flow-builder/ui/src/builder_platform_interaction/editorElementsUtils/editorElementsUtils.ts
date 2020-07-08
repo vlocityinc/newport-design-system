@@ -37,7 +37,14 @@ const mutateElements = (elements, palette) =>
                             const label = element.elementType ? labels && labels.leftPanel : element.label;
                             const actionType = element.elementType ? undefined : element.type;
                             const actionName = element.elementType ? undefined : element.name;
-                            const { iconName, dragImageSrc, iconBackgroundColor, description } = nodeConfig;
+                            const {
+                                iconName,
+                                dragImageSrc,
+                                iconBackgroundColor,
+                                description,
+                                iconShape,
+                                iconSize
+                            } = nodeConfig;
 
                             if (!acc[headerLabel]) {
                                 acc[headerLabel] = [];
@@ -53,7 +60,9 @@ const mutateElements = (elements, palette) =>
                                 elementSubtype,
                                 actionType,
                                 actionName,
-                                canHaveFaultConnector
+                                canHaveFaultConnector,
+                                iconShape,
+                                iconSize
                             };
                             acc[headerLabel].push(item);
                         });
