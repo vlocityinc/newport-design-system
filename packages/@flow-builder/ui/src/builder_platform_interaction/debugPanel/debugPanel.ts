@@ -87,10 +87,9 @@ export default class DebugPanel extends LightningElement {
      */
     getEndInterviewInfo() {
         let end;
-        /** getTime() returns ms. Converting to seconds and dividing by 10 because duration seems to be overestimated now*/
         const duration = (
             (this.debugData.endInterviewTime.getTime() - this.debugData.startInterviewTime.getTime()) /
-            600
+            1000
         ).toFixed(2);
         switch (this.debugData.interviewStatus) {
             case FINISHED:
