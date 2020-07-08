@@ -152,7 +152,11 @@ export function usedByStoreAndElementState(guid, parentGuid, internalElements) {
         undefined,
         null
     );
-    const globallyUsedElements = usedBy([guid], undefined, listOfGuidsToSkipWhenCheckingUsedByGlobally);
+    const globallyUsedElements = usedBy(
+        [guid, ...getChildElementGuids(mapOfChildElements[guid])],
+        undefined,
+        listOfGuidsToSkipWhenCheckingUsedByGlobally
+    );
     return unionOfArrays(locallyUsedElements, globallyUsedElements);
 }
 

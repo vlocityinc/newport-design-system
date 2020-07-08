@@ -230,6 +230,37 @@ const elements = {
         label: 'FIELD 3',
         name: 'FIELD 3',
         isCanvasElement: false
+    },
+    SCREEN_2: {
+        childReferences: [
+            {
+                childReference: 'SECTION_FIELD_1'
+            }
+        ],
+        guid: 'SCREEN_2',
+        elementType: ELEMENT_TYPE.SCREEN
+    },
+    SECTION_FIELD_1: {
+        name: 'SECTION FIELD 1',
+        guid: 'SECTION_FIELD_1',
+        childReferences: [
+            {
+                childReference: 'COLUMN_FIELD_1'
+            }
+        ]
+    },
+    COLUMN_FIELD_1: {
+        label: 'COLUMN FIELD 1',
+        guid: 'COLUMN_FIELD_1',
+        childReferences: [
+            {
+                childReference: 'SCREEN_FIELD_1'
+            }
+        ]
+    },
+    SCREEN_FIELD_1: {
+        guid: 'SCREEN_FIELD_1',
+        name: 'SCREEN FIELD 1'
     }
 };
 
@@ -346,6 +377,17 @@ describe('Used by library', () => {
                 name: 'Formula_1',
                 elementGuidsReferenced: ['OUTCOME_3', 'WAIT_EVENT_3'],
                 iconName: 'standard:formula'
+            }
+        ];
+        const actualResult = usedBy(elementGuids, elements);
+        expect(actualResult).toMatchObject(expectedResult);
+    });
+    it('should not delete the section/column/screen field element when it is referenced in screen element with the nested structure', () => {
+        const elementGuids = ['SECTION_FIELD_1', 'COLUMN_FIELD_1', 'SCREEN_FIELD_1'];
+        const expectedResult = [
+            {
+                guid: 'SCREEN_2',
+                elementGuidsReferenced: ['SECTION_FIELD_1']
             }
         ];
         const actualResult = usedBy(elementGuids, elements);
