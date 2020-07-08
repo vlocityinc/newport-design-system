@@ -22,7 +22,16 @@
                     <div key={currText.value} class="helptext slds-p-top_medium"></div>
                     <div class="slds-box" key={currText.value}>
                         <div key={currText.value}>
-                            <p class="slds-text-color_weak">{currText.bold}</p>
+                            <div class="custom-builder-baseCallOutEditor__mode-info slds-grid" key={currText.value}>
+                                <lightning-icon
+                                    class="error"
+                                    icon-name="utility:error"
+                                    alternative-text="Info"
+                                    variant="error"
+                                    size="xx-small"
+                                ></lightning-icon>
+                                <p class="slds-text-color_weak withIcon">{currText.bold}</p>
+                            </div>
                             <p class="box">{currText.value}</p>
                         </div>
                     </div>
