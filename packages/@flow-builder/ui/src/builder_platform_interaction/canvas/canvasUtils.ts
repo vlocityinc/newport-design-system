@@ -294,7 +294,7 @@ export const isMultiSelect = event => {
  * @param {Object[]} canvasElementTemplates - Array of Canvas Element Templates
  * @returns {Object} canvasElementGuidToContainerMap - Map of Guid to Canvas Element Container
  */
-export const setupCanvasElements = canvasElementTemplates => {
+export const setupCanvasElements = (canvasElementTemplates, disableDragElements) => {
     const canvasElementGuidToContainerMap = {};
     const canvasElementTemplatesLength = canvasElementTemplates && canvasElementTemplates.length;
     for (let index = 0; index < canvasElementTemplatesLength; index++) {
@@ -315,7 +315,12 @@ export const setupCanvasElements = canvasElementTemplates => {
             canvasElementContainerTemplate &&
             canvasElementContainerTemplate.node &&
             canvasElementContainerTemplate.node.elementType;
-        _setElementAsDraggable(canvasElementContainerTemplate, canvasElementContainer, elementType);
+        const lib = getDrawingLibInstance();
+        if (!disableDragElements) {
+            _setElementAsDraggable(canvasElementContainerTemplate, canvasElementContainer, elementType);
+        } else {
+            lib.disableDragElement(canvasElementContainer);
+        }
         _setElementAsTarget(canvasElementContainer, elementType);
         _setElementAsSource(canvasElementContainer, elementType);
 

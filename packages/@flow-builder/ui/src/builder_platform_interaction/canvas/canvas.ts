@@ -67,6 +67,9 @@ export default class Canvas extends LightningElement {
     @api
     keyboardInteractions;
 
+    @api
+    canvasConfig = {};
+
     @track
     isMarqueeModeOn = false;
 
@@ -150,9 +153,11 @@ export default class Canvas extends LightningElement {
      */
     connectionClicked = (connection, event) => {
         event.stopPropagation();
-        const isMultiSelectKeyPressed = isMultiSelect(event);
-        const connectorSelectedEvent = new ConnectorSelectedEvent(connection.id, isMultiSelectKeyPressed);
-        this.dispatchEvent(connectorSelectedEvent);
+        if (!this.canvasConfig.disableSelectConnectors) {
+            const isMultiSelectKeyPressed = isMultiSelect(event);
+            const connectorSelectedEvent = new ConnectorSelectedEvent(connection.id, isMultiSelectKeyPressed);
+            this.dispatchEvent(connectorSelectedEvent);
+        }
     };
 
     /* ********************** */
@@ -256,7 +261,7 @@ export default class Canvas extends LightningElement {
      * @param {object} event - key down event
      */
     handleDeleteNodes = () => {
-        if (canDelete(this.isCanvasMouseDown, this.isMarqueeModeOn)) {
+        if (canDelete(this.isCanvasMouseDown, this.isMarqueeModeOn, this.canvasConfig.disableDeleteElements)) {
             // Code block for deletion of selected canvas elements and connectors. This should not happen when mouse is
             // down on the canvas or the marquee mode is turned on
             const deleteEvent = new DeleteElementEvent();
@@ -645,7 +650,10 @@ export default class Canvas extends LightningElement {
     _setupCanvasElementsAndConnectors = () => {
         const canvasElements = this.template.querySelectorAll('builder_platform_interaction-node');
 
-        this.canvasElementGuidToContainerMap = setupCanvasElements(canvasElements);
+        this.canvasElementGuidToContainerMap = setupCanvasElements(
+            canvasElements,
+            this.canvasConfig.disableDragElements
+        );
 
         this.jsPlumbConnectorMap = setupConnectors(
             this.connectors,
@@ -802,7 +810,6 @@ export default class Canvas extends LightningElement {
         } else {
             this._setupCanvasElementsAndConnectors();
         }
-
         logPerfMarkEnd(canvas, { numOfNodes: this.nodes && this.nodes.length });
     }
 

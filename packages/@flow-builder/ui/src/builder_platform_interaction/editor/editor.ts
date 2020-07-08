@@ -169,6 +169,11 @@ const PANELS = {
     CANVAS: 'builder_platform_interaction-canvas-container'
 };
 
+const EDITOR_COMPONENT_CONFIGS = {
+    LEFT_PANEL_CONFIG: 'leftPanelConfig',
+    CANVAS_CONFIG: 'canvasConfig'
+};
+
 /**
  * Editor component for flow builder. This is the top-level smart component for
  * flow builder. It is responsible for maintaining the overall state of app and
@@ -488,13 +493,11 @@ export default class Editor extends LightningElement {
     }
 
     get leftPanelConfig() {
-        return (
-            (this.builderConfig &&
-                this.builderConfig.componentConfigs &&
-                this.builderConfig.componentConfigs[this.builderMode] &&
-                this.builderConfig.componentConfigs[this.builderMode].leftPanelConfig) ||
-            {}
-        );
+        return this.getConfig(EDITOR_COMPONENT_CONFIGS.LEFT_PANEL_CONFIG);
+    }
+
+    get canvasConfig() {
+        return this.getConfig(EDITOR_COMPONENT_CONFIGS.CANVAS_CONFIG);
     }
 
     get showLeftPanel() {
@@ -512,6 +515,19 @@ export default class Editor extends LightningElement {
     get debugTraces() {
         return this.debugData || {};
     }
+
+    /**
+     * Method to return the config based on the passed component(leftPanel, canvas etc.) config value.
+     */
+    getConfig = componentConfig => {
+        return (
+            (this.builderConfig &&
+                this.builderConfig.componentConfigs &&
+                this.builderConfig.componentConfigs[this.builderMode] &&
+                this.builderConfig.componentConfigs[this.builderMode][componentConfig]) ||
+            {}
+        );
+    };
 
     /**
      * Method to map appstate to store. This method get called when store changes.

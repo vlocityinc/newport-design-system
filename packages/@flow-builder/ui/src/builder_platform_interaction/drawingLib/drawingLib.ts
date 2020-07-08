@@ -388,6 +388,10 @@ class DrawingLib {
         this.instance.unmanage(nodeId);
     };
 
+    disableDragElement = el => {
+        this.instance.destroyDraggable(el);
+    };
+
     /**
      * Removes the connector from jsPlumb's instance
      * @param {Object} connector - jsPlumb connector instance

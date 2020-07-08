@@ -2,8 +2,9 @@
     <builder_platform_interaction-canvas
         if:true={shouldCreateCanvas}
         nodes={nodes}
+        canvas-config={canvasConfig}
         connectors={connectors}
-        show-marquee-button
+        show-marquee-button={isMultiSelectEnabled}
         onnodeselected={handleCanvasElementSelection}
         onconnectorselected={handleConnectorSelection}
         oncanvasmouseup={handleElementDeselection}

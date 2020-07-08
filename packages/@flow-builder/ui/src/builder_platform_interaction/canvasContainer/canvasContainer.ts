@@ -36,6 +36,9 @@ export default class CanvasContainer extends LightningElement {
     @track nodes = [];
     @track connectors = [];
 
+    @api
+    canvasConfig = {};
+
     /** Component lifecycle hooks */
     connectedCallback() {
         storeInstance = Store.getStore();
@@ -51,6 +54,10 @@ export default class CanvasContainer extends LightningElement {
     /** Public functions */
     get shouldCreateCanvas() {
         return !isEmptyArray(this.nodes);
+    }
+
+    get isMultiSelectEnabled() {
+        return !this.canvasConfig.disableMultiSelectElements;
     }
 
     /**

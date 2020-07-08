@@ -163,6 +163,14 @@ describe('node', () => {
         expect(nodeComponent.shadowRoot.querySelector(selectors.trash)).toBeNull();
     });
 
+    it('Checks that trash icon is not displayed when disableDelete configuration is enabled (debug mode)', async () => {
+        const nodeComponent = createComponentUnderTest(false, false, ELEMENT_TYPE.ASSIGNMENT);
+        nodeComponent.disableDelete = true;
+        await ticks(1);
+        nodeComponent.shadowRoot.querySelector(selectors.icon).click();
+        expect(nodeComponent.shadowRoot.querySelector(selectors.trash)).toBeNull();
+    });
+
     describe('parent div class', () => {
         const testModeSpecificClassName = `test-node-${ELEMENT_TYPE.ASSIGNMENT.toLowerCase()}`;
         let parentDiv;

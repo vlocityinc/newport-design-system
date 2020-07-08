@@ -81,8 +81,8 @@ export const getOffsetValuesOnPan = ({ scaledOffsetsOnPanStart, mouseDownPoint, 
  * @param {Boolean} isMarqueeModeOn - Checks whether the marquee mode has been turned on or not
  * @return {Boolean}  Returns true if deletion shortcut is used during the event
  */
-export const canDelete = (isCanvasMouseDown, isMarqueeModeOn) => {
-    return !isCanvasMouseDown && !isMarqueeModeOn;
+export const canDelete = (isCanvasMouseDown, isMarqueeModeOn, disableDeleteElements) => {
+    return !isCanvasMouseDown && !isMarqueeModeOn && !disableDeleteElements;
 };
 
 /**

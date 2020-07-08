@@ -39,6 +39,18 @@ export default class Node extends LightningElement {
         config: {}
     };
 
+    @api
+    disableDelete = false;
+
+    @api
+    disableDrag = false;
+
+    @api
+    disableAddConnectors = false;
+
+    @api
+    disableMultiSelect = false;
+
     @track
     endPointStyle = '';
 
@@ -116,11 +128,15 @@ export default class Node extends LightningElement {
     }
 
     get hasAvailableConnections() {
-        return this.node.maxConnections !== this.node.connectorCount;
+        return this.node.maxConnections !== this.node.connectorCount && !this.disableAddConnectors;
     }
 
     get showTrashIcon() {
-        return this.node.config.isSelected && getPropertyOrDefaultToTrue(getConfigForElement(this.node), 'isDeletable');
+        return (
+            this.node.config.isSelected &&
+            getPropertyOrDefaultToTrue(getConfigForElement(this.node), 'isDeletable') &&
+            !this.disableDelete
+        );
     }
 
     get nodeIconTitle() {
@@ -242,7 +258,11 @@ export default class Node extends LightningElement {
         event.stopPropagation();
         const isMultiSelectKeyPressed = this.isMultiSelect(event);
 
-        if (this.isSelectable() && (!this.node.config.isSelected || !this.isNodeDragging)) {
+        if (
+            this.isSelectable() &&
+            (!this.node.config.isSelected || !this.isNodeDragging) &&
+            (!isMultiSelectKeyPressed || (isMultiSelectKeyPressed && !this.disableMultiSelect))
+        ) {
             const nodeSelectedEvent = new SelectNodeEvent(
                 this.node.guid,
                 isMultiSelectKeyPressed,
