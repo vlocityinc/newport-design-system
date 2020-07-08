@@ -1,6 +1,7 @@
 ({
     // Build screen for all input variables and get debugRunAs validation result
     buildInput: function(cmp, flowName) {
+        this.getDebugRunAsValidation(cmp);
         var action = cmp.get('c.getFlowInputOutputVariables');
         action.setParams({ flowName: flowName });
         action.setCallback(this, function(response) {
@@ -8,9 +9,9 @@
             if (state === 'SUCCESS') {
                 this.buildInputVarComponents(cmp, response.getReturnValue()[0]);
             }
+            cmp.set('v.displaySpinner', false);
         });
         $A.enqueueAction(action);
-        this.getDebugRunAsValidation(cmp);
     },
 
     buildInputVarComponents: function(cmp, data) {

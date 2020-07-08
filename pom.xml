@@ -9,7 +9,7 @@
     <properties>
         <aura.version>0.6000.2773</aura.version>
         <lwc.api.version>0.228.10</lwc.api.version>
-        <lwc.version>1.7.4</lwc.version>
+        <lwc.version>1.7.5</lwc.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <component.dir>ui-interaction-builder-components</component.dir>

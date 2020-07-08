@@ -11,6 +11,7 @@
     <aura:attribute name="runAsHelptext" type="String"/>
     <aura:attribute name="runAsSelected" type="String"/>
     <aura:attribute name="hasInputs" type="Boolean" default="false"/>
+    <aura:attribute name="displaySpinner" type="Boolean" default="true"/>
 
     <!-- Methods -->
     <aura:method name="getDebugAsUserId" action="{!c.getDebugAsUserId}" description="User id if the RunAs user"/>
@@ -65,10 +66,17 @@
             <h2>{#$Label.FlowDebug.InputValues}</h2>
         </div>
 
-        <aura:if isTrue="{!v.hasInputs}">
-            <div class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesInfo}</div>
+        <aura:if isTrue="{!v.displaySpinner}">
+            <div class="outer-div slds-p-top_medium">
+                <lightning:spinner class="spinner" size="small" alternativeText="{!$Label.Global.loading}" variant="brand"/>
+            </div>
             <aura:set attribute="else">
-                <div class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesNone}</div>
+                <aura:if isTrue="{!v.hasInputs}">
+                    <div class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesInfo}</div>
+                    <aura:set attribute="else">
+                        <div class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesNone}</div>
+                    </aura:set>
+                </aura:if>
             </aura:set>
         </aura:if>
 

@@ -15,3 +15,11 @@
 .THIS .slds-input {
     height: 36px;
 }
+
+.THIS .spinner {
+    position: absolute;
+}
+
+.THIS .outer-div {
+    position: relative;
+}
