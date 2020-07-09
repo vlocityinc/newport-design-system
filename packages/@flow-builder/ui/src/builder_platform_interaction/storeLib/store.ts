@@ -51,7 +51,7 @@ export class Store {
      * @param {Function} reducer reducer function
      * @returns {Object} instance of the store
      */
-    static getStore(reducer) {
+    static getStore(reducer?) {
         if (!storeInstance) {
             storeInstance = new Store(reducer);
             storeInstance.dispatch({ type: 'INIT' });

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -19,7 +18,72 @@ export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
 // not yet been created. translatorLib.translateFlowToUIModel uses this information to create the ui model in 2 passes
 export const INCOMPLETE_ELEMENT = Symbol('incomplete');
 
-export function baseResource(resource = {}) {
+export type Guid = string;
+
+export type FlowElementType = string;
+export type FlowElementSubtype = string;
+export type Datatype = string;
+
+export interface CanvasElementConfig {
+    isHighlighted: boolean;
+    isSelectable: boolean;
+    isSelected: boolean;
+}
+
+/*
+ * TODO: IMPORTANT: These interfaces represent our expected usages.
+ * The "baseXXX" methods below and their usages in various factories have NOT been updated
+ * and will need to be addressed via a separate refactoring (ideally as they are converted
+ * to typescript).  Ideally, the interfaces and the baseXXX methods are combined in to classes with constructors
+ */
+
+export interface FlowElement {
+    // TODO: IMPORTANT: elementType should *NOT* be optional.  Once baseElement and its usages are cleaned up to always have
+    // an elementType then it should be required here
+    elementType?: FlowElementType;
+
+    guid: Guid;
+
+    // This is the "api name" in the property editor UI
+    name: string;
+
+    description?: string;
+
+    // Maybe all elements have datatypes?  If so, remove `?`
+    dataType?: Datatype;
+}
+
+// since not all canvas elements had an element type historically
+export interface CanvasElement extends FlowElement {
+    // This is the "label" in the property editor UI
+    label?: string;
+
+    locationX: number;
+    locationY: number;
+    // TODO: eventually replace this with type checking
+    isCanvasElement: boolean;
+    connectorCount: number;
+    next?: Guid | null;
+    prev?: Guid | null;
+    maxConnections?: number;
+    config: CanvasElementConfig;
+    elementSubtype: FlowElementSubtype;
+}
+
+//
+export interface ChildElement extends FlowElement {
+    // This is the "label" in the property editor UI
+    label?: string;
+}
+
+/**
+ * TODO: This function is overloaded to support both the construcvtion of resources (variables, constants, etc..)
+ * and as a "super" for methods like baseCanvasElement.  This should be cleaned up by combing the baseXXX
+ * methods with the interfaces to make classes with constructors
+ *
+ * @param resource
+ */
+export function baseResource(resource: { description?: string } = {}): FlowElement {
     const newResource = baseElement(resource);
     const { description = '' } = resource;
     return Object.assign(newResource, {
@@ -27,12 +91,14 @@ export function baseResource(resource = {}) {
     });
 }
 
-export function createAvailableConnection(availableConnection = {}) {
+export function createAvailableConnection(availableConnection: { type?: string } = {}) {
     const { type } = availableConnection;
     return { type };
 }
 
-function createCanvasElementConfig(config = { isSelected: false, isHighlighted: false, isSelectable: true }) {
+function createCanvasElementConfig(
+    config = { isSelected: false, isHighlighted: false, isSelectable: true }
+): CanvasElementConfig {
     const { isSelected, isHighlighted, isSelectable } = config;
     return { isSelected, isHighlighted, isSelectable };
 }
@@ -65,7 +131,7 @@ function addBaseCanvasElementProperties(canvasElement, newCanvasElement) {
     Object.assign(newCanvasElement, { next, prev });
 }
 
-export function baseCanvasElement(canvasElement = {}) {
+export function baseCanvasElement(canvasElement: any = {}): CanvasElement {
     const newCanvasElement = baseResource(canvasElement);
     const { label = '', locationX = 0, locationY = 0, connectorCount = 0, elementSubtype } = canvasElement;
     let { config } = canvasElement;
@@ -107,7 +173,7 @@ export function createPastedCanvasElement(
     next,
     parent,
     childIndex
-) {
+): CanvasElement {
     const pastedCanvasElement = Object.assign(duplicatedElement, {
         config: { isSelected: false, isHighlighted: false, isSelectable: true },
         prev: canvasElementGuidMap[duplicatedElement.prev] || null,
@@ -167,9 +233,9 @@ export function createPastedCanvasElement(
  * @param {string} newName - new name for the duplicate element
  * @returns {Object} duplicated element with a new unique name and guid
  */
-export function duplicateCanvasElement(canvasElement, newGuid, newName) {
+export function duplicateCanvasElement(canvasElement, newGuid, newName): { duplicatedElement: CanvasElement } {
     const { locationX, locationY, maxConnections, elementType } = canvasElement;
-    const duplicatedElement = Object.assign({}, canvasElement, {
+    const duplicatedElement: CanvasElement = Object.assign({}, canvasElement, {
         guid: newGuid,
         name: newName,
         locationX: locationX + DUPLICATE_ELEMENT_XY_OFFSET,
@@ -296,7 +362,7 @@ export function duplicateCanvasElementWithChildElements(
     const { duplicatedElement } = duplicateCanvasElement(canvasElement, newGuid, newName);
     const childReferences = canvasElement[childReferencesKey];
 
-    const additionalAvailableConnections = [];
+    const additionalAvailableConnections: any[] = [];
     let duplicatedChildElements = {};
 
     // Iterating over existing child references to create duplicate child elements and updating available connections.
@@ -339,7 +405,7 @@ export function duplicateCanvasElementWithChildElements(
  * @param {Condition} condition - condition in store shape
  * @return {module:baseList.ListRowItem} the new condition
  */
-export function createCondition(condition = {}) {
+export function createCondition(condition: any = {}) {
     let newCondition = {};
     if (condition.hasOwnProperty('leftValueReference')) {
         const ferov = createFEROV(condition.rightValue, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY);
@@ -373,7 +439,7 @@ export function createCondition(condition = {}) {
  * @param {module:flowMetadata.ELEMENT_TYPE} elementType one of the values defined in ELEMENT_TYPE
  * @return {ChildElement}
  */
-export function baseChildElement(childElement = {}, elementType) {
+export function baseChildElement(childElement: any = {}, elementType): ChildElement {
     if (elementType !== ELEMENT_TYPE.OUTCOME && elementType !== ELEMENT_TYPE.WAIT_EVENT) {
         throw new Error('baseChildElement should only be used for outcomes and wait events');
     } else if (childElement.dataType && childElement.dataType !== FLOW_DATA_TYPE.BOOLEAN.value) {
@@ -395,7 +461,7 @@ export function baseCanvasElementsArrayToMap(elementList = [], connectors = []) 
     });
 }
 
-export function baseElementsArrayToMap(elementList = []) {
+export function baseElementsArrayToMap(elementList: FlowElement[] = []) {
     const elements = elementList.reduce((acc, element) => {
         return Object.assign(acc, { [element.guid]: element });
     }, {});
@@ -404,7 +470,11 @@ export function baseElementsArrayToMap(elementList = []) {
     };
 }
 
-export function baseElement(element = {}) {
+/*
+ * TODO: This method does not return an elementType.  It should.
+ *  When it does, Element.elementType should no longer be optional
+ */
+export function baseElement(element: any = {}): FlowElement {
     const { guid = generateGuid(), name = '' } = element;
     return {
         guid,
@@ -412,7 +482,7 @@ export function baseElement(element = {}) {
     };
 }
 
-export const automaticOutputHandlingSupport = () => {
+export const automaticOutputHandlingSupport = (): boolean => {
     const processType = Store.getStore().getCurrentState().properties.processType;
     const processTypeAutomaticOutPutHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(processType);
     return processTypeAutomaticOutPutHandlingSupport !== FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
