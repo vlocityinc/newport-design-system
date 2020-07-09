@@ -27,6 +27,11 @@ export default {
             next: 'decision-element-guid',
             parent: 'root',
             childIndex: 0,
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            },
             isTerminal: true
         },
         'decision-element-guid': {
@@ -57,7 +62,12 @@ export default {
             ],
             next: 'screen-after-decision-element-guid',
             prev: 'start-element-guid',
-            children: ['screen-left-element-guid', 'screen-right-element-guid']
+            children: ['screen-left-element-guid', 'screen-right-element-guid'],
+            config: {
+                isSelected: false,
+                isHighlighted: false,
+                isSelectable: true
+            }
         },
         'screen-left-element-guid': {
             guid: 'screen-left-element-guid',

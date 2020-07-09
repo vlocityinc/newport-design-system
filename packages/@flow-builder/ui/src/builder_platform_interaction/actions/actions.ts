@@ -87,6 +87,8 @@ export const DECORATE_CANVAS = 'DECORATE_CANVAS';
 
 export const CLEAR_CANVAS_DECORATION = 'CLEAR_CANVAS_DECORATION';
 
+export const UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE = 'UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE';
+
 /**
  * Helper function to create actions.
  *
@@ -412,3 +414,11 @@ export const decorateCanvas = payload => createAction(DECORATE_CANVAS, payload);
  * @returns {Object} action - clearCanvasDecoration action
  */
 export const clearCanvasDecoration = createAction(CLEAR_CANVAS_DECORATION);
+
+/**
+ * Action for updating flow information in the store when switching between Canvas Modes
+ *
+ * @param {Object} payload - contains new flow information with updated element properties
+ * @returns {Object} action new action based on type and payload
+ */
+export const updateFlowOnCanvasModeToggle = payload => createAction(UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE, payload);

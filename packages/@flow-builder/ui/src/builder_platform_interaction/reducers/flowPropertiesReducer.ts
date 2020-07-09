@@ -19,7 +19,8 @@ import {
     UPDATE_ENTITIES,
     UPDATE_CANVAS_ELEMENT,
     DECORATE_CANVAS,
-    CLEAR_CANVAS_DECORATION
+    CLEAR_CANVAS_DECORATION,
+    UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE
 } from 'builder_platform_interaction/actions';
 import { createFlowProperties } from 'builder_platform_interaction/elementFactory';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -46,7 +47,7 @@ const flowProperties = createFlowProperties();
  * In first case, hasUnsavedChanges is set to true.
  *
  */
-
+/* eslint-disable-next-line complexity */
 export default function flowPropertiesReducer(state = flowProperties, { payload, type }) {
     switch (type) {
         case ADD_RESOURCE:
@@ -72,6 +73,12 @@ export default function flowPropertiesReducer(state = flowProperties, { payload,
                 ...state,
                 ...payload.properties,
                 hasUnsavedChanges: false
+            };
+        case UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE:
+            return {
+                ...state,
+                ...payload.properties,
+                hasUnsavedChanges: true
             };
         case UPDATE_PROPERTIES_AFTER_ACTIVATING:
         case UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE:

@@ -78,6 +78,11 @@ Object {
           "childReference": "outcome-element-guid",
         },
       ],
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 0,
       "defaultConnectorLabel": "Default Outcome",
       "description": "",
@@ -192,6 +197,11 @@ Object {
       "triggerType": "None",
     },
     "start-element-guid": Object {
+      "config": Object {
+        "isHighlighted": false,
+        "isSelectable": true,
+        "isSelected": false,
+      },
       "connectorCount": 0,
       "description": "",
       "elementType": "START_ELEMENT",

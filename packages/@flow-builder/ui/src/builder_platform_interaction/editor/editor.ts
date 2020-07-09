@@ -47,7 +47,8 @@ import {
     decorateCanvas,
     CLEAR_CANVAS_DECORATION,
     DECORATE_CANVAS,
-    clearCanvasDecoration
+    clearCanvasDecoration,
+    updateFlowOnCanvasModeToggle
 } from 'builder_platform_interaction/actions';
 import {
     ELEMENT_TYPE,
@@ -767,7 +768,7 @@ export default class Editor extends LightningElement {
             updateStoreAfterSaveFlowIsSuccessful(storeInstance, data);
             updateUrl(this.currentFlowId);
             this.setOriginalFlowValues();
-            this._resetCopyStateOnSaveSuccess();
+            this._resetSelectionState();
         } else if (!data.isSuccess && this.saveType === SaveType.NEW_DEFINITION) {
             // If the save failed and saveType === SaveType.NEW_DEFINITION, then clear the flowId from the url
             // and reset some of the flow properties as if this is a net new flow
@@ -1400,7 +1401,13 @@ export default class Editor extends LightningElement {
                 ? convertToFlc(newFlowState)
                 : convertFromFlc(newFlowState, flc ? flc.clientWidth : null);
 
-            storeInstance.dispatch(updateFlow(newFlowState));
+            storeInstance.dispatch(updateFlowOnCanvasModeToggle(newFlowState));
+
+            // Resetting Select mode and cut/copy/paste variables
+            this._resetSelectionState();
+
+            // Clearing the Undo/Redo stack after switching modes
+            this.clearUndoRedoStack();
         }
     }
 
@@ -2046,7 +2053,7 @@ export default class Editor extends LightningElement {
         );
     };
 
-    _resetCopyStateOnSaveSuccess() {
+    _resetSelectionState() {
         // update tracked properties
         this.isCutCopyDisabled = true;
         this.isPasteAvailable = false;

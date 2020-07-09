@@ -6,7 +6,8 @@ import {
     DELETE_ELEMENT,
     ADD_CANVAS_ELEMENT,
     ADD_DECISION_WITH_OUTCOMES,
-    ADD_WAIT_WITH_WAIT_EVENTS
+    ADD_WAIT_WITH_WAIT_EVENTS,
+    UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE
 } from 'builder_platform_interaction/actions';
 
 const elementToRemove = {
@@ -60,6 +61,24 @@ describe('canvas-elements-reducer', () => {
         expect(
             canvasElementsReducer(undefined, {
                 type: UPDATE_FLOW,
+                payload: { canvasElements: [] }
+            })
+        ).toEqual([]);
+    });
+
+    it('with state set to defined & action type set to UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE should return the array of canvas elements', () => {
+        expect(
+            canvasElementsReducer(oldCanvasElementsState, {
+                type: UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE,
+                payload: { canvasElements: [] }
+            })
+        ).toEqual([]);
+    });
+
+    it('with state undefined & action type set to UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE should return the array of canvas elements', () => {
+        expect(
+            canvasElementsReducer(undefined, {
+                type: UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE,
                 payload: { canvasElements: [] }
             })
         ).toEqual([]);

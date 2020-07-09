@@ -2,6 +2,7 @@
 import elementReducer from '../elementsReducer';
 import {
     UPDATE_FLOW,
+    UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE,
     DO_DUPLICATE,
     ADD_CANVAS_ELEMENT,
     ADD_START_ELEMENT,
@@ -76,6 +77,22 @@ describe('elements-reducer', () => {
             const newElements = { guid2: getElement('guid2', 'ass2') };
             const newElementState = elementReducer(oldElements, {
                 type: UPDATE_FLOW,
+                payload: { elements: newElements }
+            });
+            expect(newElementState).toEqual(newElements);
+        });
+    });
+
+    describe('Update Flow on Canvas Mode Toggle', () => {
+        it('with state set to undefined & action type set to empty should return an empty object', () => {
+            expect(elementReducer(undefined, {})).toEqual({});
+        });
+
+        it('with state set to defined & action type set to UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE should return the new element state with the new elements', () => {
+            const oldElements = { guid1: getElement('guid1', 'ass1') };
+            const newElements = { guid2: getElement('guid2', 'ass2') };
+            const newElementState = elementReducer(oldElements, {
+                type: UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE,
                 payload: { elements: newElements }
             });
             expect(newElementState).toEqual(newElements);

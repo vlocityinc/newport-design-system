@@ -345,7 +345,9 @@ export function convertFromFlc(uiModel, canvasWidth = null) {
 
     // clone all elements
     let newElements = Object.values(elements).reduce((acc, element) => {
-        acc[element.guid] = { ...element };
+        acc[element.guid] = element.isCanvasElement
+            ? { ...element, config: { isSelected: false, isHighlighted: false, isSelectable: true } }
+            : { ...element };
         return acc;
     }, {});
 
@@ -454,7 +456,11 @@ function fixFlcProperties(storeState, element, parentElement, visited = {}) {
         visited[element.guid] = true;
 
         // clear any magic numbers
-        Object.assign(element, { locationX: 0, locationY: 0 });
+        Object.assign(element, {
+            locationX: 0,
+            locationY: 0,
+            config: { isSelected: false, isHighlighted: false, isSelectable: true }
+        });
 
         if (supportsChildren(element) || element.fault != null) {
             fixFlcPropertiesHelper(storeState, element, visited);

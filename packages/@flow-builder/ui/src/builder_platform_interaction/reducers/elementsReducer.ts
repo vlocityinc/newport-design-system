@@ -23,7 +23,8 @@ import {
     ADD_SCREEN_WITH_FIELDS,
     MODIFY_SCREEN_WITH_FIELDS,
     ADD_START_ELEMENT,
-    UPDATE_CANVAS_ELEMENT_LOCATION
+    UPDATE_CANVAS_ELEMENT_LOCATION,
+    UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE
 } from 'builder_platform_interaction/actions';
 import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
 import { updateProperties, omit, addItem } from 'builder_platform_interaction/dataMutationLib';
@@ -41,6 +42,7 @@ import { getSubElementGuids } from './reducersUtils';
 export default function elementsReducer(state = {}, action) {
     switch (action.type) {
         case UPDATE_FLOW:
+        case UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE:
             return { ...action.payload.elements };
         case DO_DUPLICATE:
             return _duplicateElement(
