@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="divParentPillGroupedComboxBox" if:true={pill}>
+        <div if:true={pill}>
             <label class="slds-form-element__label">{label}</label>
             <div class="slds-pill_container" title={pillTooltip}>
                 <lightning-pill
@@ -9,6 +9,7 @@
                     has-error={hasPillError}
                     onclick={handlePillClick}
                     onremove={handlePillRemove}
+                    class="pill"
                 >
                     <lightning-icon if:true={state.pill.iconName} icon-name={state.pill.iconName}> </lightning-icon
                 ></lightning-pill>

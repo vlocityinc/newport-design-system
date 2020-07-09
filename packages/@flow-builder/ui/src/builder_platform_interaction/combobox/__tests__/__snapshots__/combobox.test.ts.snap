@@ -4,9 +4,7 @@ exports[`Combobox pill supported pill icon should  have a pill icon for selected
 <builder_platform_interaction-combobox>
   #shadow-root(open)
     <div>
-      <div
-        class="divParentPillGroupedComboxBox"
-      >
+      <div>
         <label
           class="slds-form-element__label"
         />
@@ -14,7 +12,9 @@ exports[`Combobox pill supported pill icon should  have a pill icon for selected
           class="slds-pill_container"
           title="MyAccount > Created By ID"
         >
-          <lightning-pill>
+          <lightning-pill
+            class="pill"
+          >
             #shadow-root(open)
               <slot />
             <lightning-icon>
@@ -31,9 +31,7 @@ exports[`Combobox pill supported pill icon should NOT have a pill icon for selec
 <builder_platform_interaction-combobox>
   #shadow-root(open)
     <div>
-      <div
-        class="divParentPillGroupedComboxBox"
-      >
+      <div>
         <label
           class="slds-form-element__label"
         />
@@ -41,7 +39,9 @@ exports[`Combobox pill supported pill icon should NOT have a pill icon for selec
           class="slds-pill_container"
           title="MyAccount > Created By ID"
         >
-          <lightning-pill>
+          <lightning-pill
+            class="pill"
+          >
             #shadow-root(open)
               <slot />
           </lightning-pill>
@@ -55,9 +55,7 @@ exports[`Combobox pill supported pill icon should NOT have a pill icon for selec
 <builder_platform_interaction-combobox>
   #shadow-root(open)
     <div>
-      <div
-        class="divParentPillGroupedComboxBox"
-      >
+      <div>
         <label
           class="slds-form-element__label"
         />
@@ -65,7 +63,9 @@ exports[`Combobox pill supported pill icon should NOT have a pill icon for selec
           class="slds-pill_container"
           title="MyAccount > Created By ID"
         >
-          <lightning-pill>
+          <lightning-pill
+            class="pill"
+          >
             #shadow-root(open)
               <slot />
           </lightning-pill>
@@ -79,9 +79,7 @@ exports[`Combobox pill supported pill icon should NOT have a pill icon for selec
 <builder_platform_interaction-combobox>
   #shadow-root(open)
     <div>
-      <div
-        class="divParentPillGroupedComboxBox"
-      >
+      <div>
         <label
           class="slds-form-element__label"
         />
@@ -89,7 +87,9 @@ exports[`Combobox pill supported pill icon should NOT have a pill icon for selec
           class="slds-pill_container"
           title="MyAccount > Created By ID"
         >
-          <lightning-pill>
+          <lightning-pill
+            class="pill"
+          >
             #shadow-root(open)
               <slot />
           </lightning-pill>
