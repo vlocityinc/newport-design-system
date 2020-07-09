@@ -72,9 +72,9 @@
             </div>
             <aura:set attribute="else">
                 <aura:if isTrue="{!v.hasInputs}">
-                    <div class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesInfo}</div>
+                    <div aura:id="inputValuesInfo" class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesInfo}</div>
                     <aura:set attribute="else">
-                        <div class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesNone}</div>
+                        <div aura:id="inputValuesNone" class="text slds-p-top_medium">{#$Label.FlowDebug.InputValuesNone}</div>
                     </aura:set>
                 </aura:if>
             </aura:set>

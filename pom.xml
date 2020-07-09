@@ -7,9 +7,9 @@
     <version>228-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
-        <aura.version>0.6000.2777</aura.version>
+        <aura.version>0.6000.2780</aura.version>
         <lwc.api.version>0.228.10</lwc.api.version>
-        <lwc.version>1.7.5</lwc.version>
+        <lwc.version>1.7.6</lwc.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <component.dir>ui-interaction-builder-components</component.dir>

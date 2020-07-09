@@ -95,7 +95,7 @@
 
     // input variables of unsupported type (collection, Apex) are omitted
     _createSimpleInput: function(argument) {
-        if (argument.isCollection === true) {
+        if (argument.isCollection === true || argument.isInput === false) {
             return undefined; // unsupported
         }
         var compType = this._typeMap[argument.dataType];

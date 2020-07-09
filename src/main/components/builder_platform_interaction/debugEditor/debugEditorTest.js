@@ -283,8 +283,105 @@
                 },
                 function(cmp) {
                     var inputs = cmp.find('flowInput').get('v.body');
-                    $A.test.assertTrue(inputs.length > 1, "Input variables don't show up");
+                    $A.test.assertTrue(inputs.length === 10, "Input variables don't show up");
+                    // inputs[0] is aura$expression by default, so inputs.length = 10 means 9 input variables created correctly
                     $A.test.assertTrue(cmp.get('v.hasInputs'), 'hasInputs is not set properly');
+                    $A.test.assertNotNull(cmp.find('inputValuesInfo'), 'Text for input variables does not show up.');
+                    $A.test.assertUndefined(cmp.find('inputValuesNone'), 'Text for no input variables show up.');
+                }
+            );
+        }
+    },
+
+    testOutputOnlyVariable: {
+        mocks: [
+            {
+                type: 'ACTION',
+                descriptor: 'serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController',
+                stubs: [
+                    {
+                        method: { name: 'getFlowInputOutputVariables' },
+                        answers: [
+                            {
+                                value: [
+                                    {
+                                        variables: [
+                                            {
+                                                dataType: 'String',
+                                                isCollection: false,
+                                                isInput: false,
+                                                isOutput: true,
+                                                name: 'output-only'
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        test: function(cmp) {
+            $A.test.addWaitFor(
+                false,
+                function() {
+                    return $A.test.isActionPending('doInit');
+                },
+                function(cmp) {
+                    var inputs = cmp.find('flowInput').get('v.body');
+                    $A.test.assertTrue(inputs.length === 1, 'Output-only variable should not show up');
+                    // inputs[0] is aura$expression by default, inputs.length = 1 means no output-only variable cmp created
+                    $A.test.assertFalse(cmp.get('v.hasInputs'), 'hasInputs is not set properly');
+                    $A.test.assertUndefined(cmp.find('inputValuesInfo'), 'Text for input variables showes up.');
+                    $A.test.assertNotNull(cmp.find('inputValuesNone'), 'Text for no input variables does not show up.');
+                }
+            );
+        }
+    },
+
+    testCollectionVariable: {
+        mocks: [
+            {
+                type: 'ACTION',
+                descriptor: 'serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController',
+                stubs: [
+                    {
+                        method: { name: 'getFlowInputOutputVariables' },
+                        answers: [
+                            {
+                                value: [
+                                    {
+                                        variables: [
+                                            {
+                                                dataType: 'String',
+                                                isCollection: true,
+                                                isInput: true,
+                                                isOutput: true,
+                                                name: 'collection_var'
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        test: function(cmp) {
+            $A.test.addWaitFor(
+                false,
+                function() {
+                    return $A.test.isActionPending('doInit');
+                },
+                function(cmp) {
+                    var inputs = cmp.find('flowInput').get('v.body');
+                    $A.test.assertTrue(inputs.length === 1, 'collection variable should not show up');
+                    // inputs[0] is aura$expression by default, inputs.length = 1 means no collection variable cmp created
+                    $A.test.assertFalse(cmp.get('v.hasInputs'), 'hasInputs is not set properly');
+                    $A.test.assertUndefined(cmp.find('inputValuesInfo'), 'Text for input variables showes up.');
+                    $A.test.assertNotNull(cmp.find('inputValuesNone'), 'Text for no input variables does not show up.');
                 }
             );
         }
