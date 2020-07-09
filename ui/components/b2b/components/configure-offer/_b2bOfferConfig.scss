@@ -2,6 +2,15 @@
   margin: 0;
   color: $palette-warm-gray-7;
 }
+.nds-b2b-configure-offer-container {
+  margin-bottom: 4rem;
+}
+
+.nds-b2b-error-message {
+  padding: 0.7rem 0 0.7rem 1rem;
+  background: $varden;
+}
+
 .b2b-config-offer {
   padding-bottom: 2rem;
   background: $white-smoke;
