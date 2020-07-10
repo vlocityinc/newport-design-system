@@ -1,10 +1,10 @@
 <template>
     <template for:each={textObj} for:item="currText">
-        <template if:false={currText.isTitle} key={currText}>
+        <template if:false={currText.isTitle} key={currText.id}>
             <div
                 if:true={currText.isWarn}
                 class="custom-builder-baseCallOutEditor__mode-info slds-grid"
-                key={currText.value}
+                key={currText.id}
             >
                 <lightning-icon
                     class="warning"
@@ -12,17 +12,16 @@
                     alternative-text="Info"
                     variant="warning"
                     size="xx-small"
-                >
-                </lightning-icon>
+                ></lightning-icon>
                 <p class="withIcon">{currText.value}</p>
             </div>
-            <div if:false={currText.isWarn} key={currText.value}>
-                <div if:false={currText.isError} class="normal" key={currText.value}>{currText.value}</div>
-                <div if:true={currText.isError} key={currText.value}>
-                    <div key={currText.value} class="helptext slds-p-top_medium"></div>
-                    <div class="slds-box" key={currText.value}>
+            <div if:false={currText.isWarn} key={currText.id}>
+                <div if:false={currText.isError} class="normal" key={currText.id}>{currText.value}</div>
+                <div if:true={currText.isError} key={currText.id}>
+                    <div key={currText.id} class="helptext slds-p-top_medium"></div>
+                    <div class="slds-box" key={currText.id}>
                         <div key={currText.value}>
-                            <div class="custom-builder-baseCallOutEditor__mode-info slds-grid" key={currText.value}>
+                            <div class="custom-builder-baseCallOutEditor__mode-info slds-grid" key={currText.id}>
                                 <lightning-icon
                                     class="error"
                                     icon-name="utility:error"
@@ -35,14 +34,14 @@
                             <p class="box">{currText.value}</p>
                         </div>
                     </div>
-                    <div key={currText.value} class="helptext slds-p-top_medium"></div>
+                    <div key={currText.id} class="helptext slds-p-top_medium"></div>
                 </div>
             </div>
         </template>
-        <template if:true={currText.isTitle} key={currText}>
-            <div key={currText.value} class="slds-p-top_xx-small"></div>
-            <p class="sub-title slds-text-color_weak" key={currText.value}>{currText.value}</p>
-            <div key={currText.value} class="helptext slds-p-top_xx-small"></div>
+        <template if:true={currText.isTitle} key={currText.id}>
+            <div key={currText.id} class="slds-p-top_xx-small"></div>
+            <p class="sub-title slds-text-color_weak" key={currText.id}>{currText.value}</p>
+            <div key={currText.id} class="helptext slds-p-top_xx-small"></div>
         </template>
     </template>
 </template>

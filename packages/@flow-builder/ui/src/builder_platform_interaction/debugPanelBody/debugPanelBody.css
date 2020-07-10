@@ -24,6 +24,7 @@ p.withIcon {
 
 div.slds-box {
     width: 340px;
+    font-size: 2;
 }
 
 p.box {
