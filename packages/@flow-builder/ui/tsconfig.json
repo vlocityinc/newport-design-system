@@ -114,6 +114,7 @@
             "builder_platform_interaction/parameterItem": ["./builder_platform_interaction/parameterItem/parameterItem.ts"],
             "builder_platform_interaction/parameterList": ["./builder_platform_interaction/parameterList/parameterList.ts"],
             "builder_platform_interaction/picklistChoiceSetEditor": ["./builder_platform_interaction/picklistChoiceSetEditor/picklistChoiceSetEditor.ts"],
+            "builder_platform_interaction/pillLib": ["./builder_platform_interaction/pillLib/pillLib.ts"],
             "builder_platform_interaction/platformEventEditor": ["./builder_platform_interaction/platformEventEditor/platformEventEditor.ts"],
             "builder_platform_interaction/preloadLib": ["./builder_platform_interaction/preloadLib/preloadLib.ts"],
             "builder_platform_interaction/processTypeLib": ["./builder_platform_interaction/processTypeLib/processTypeLib.ts"],

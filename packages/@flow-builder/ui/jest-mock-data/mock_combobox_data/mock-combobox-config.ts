@@ -236,6 +236,35 @@ export const mockGlobalConstantEmptyStringComboboxItem = {
     ],
     dataType: 'String'
 };
+export const mockGlobalVariableFlowCurrentDateComboboxItem = {
+    text: [
+        {
+            highlight: true,
+            text: 'CurrentDate'
+        }
+    ],
+    subText: [
+        {
+            highlight: false,
+            text: 'Date'
+        }
+    ],
+    displayText: '{!$Flow.CurrentDate}',
+    iconName: 'utility:event',
+    value: '$Flow.CurrentDate',
+    parent: {
+        value: '$Flow',
+        subtype: '$Flow',
+        text: '$Flow',
+        displayText: '{!$Flow}',
+        type: 'option-card',
+        hasNext: true,
+        iconName: 'utility:system_and_global_variable'
+    },
+    dataType: 'Date',
+    subtype: 'Flow',
+    isCollection: false
+};
 export const mockApexDefinedVariable = {
     text: 'vApexComplexTypeTestOne216',
     value: '9444cfb2-70bc-411d-a466-cd0a9b3e1388',

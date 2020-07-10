@@ -95,6 +95,13 @@ jest.mock(
     },
     { virtual: true }
 );
+jest.mock(
+    '@salesforce/label/FlowBuilderPill.flowCurrentStage',
+    () => {
+        return { default: 'Current Flow Stage' };
+    },
+    { virtual: true }
+);
 
 const createComponentForTest = assignmentElement => {
     const el = createElement('builder_platform_interaction-assignment-editor', {
@@ -398,13 +405,15 @@ describe('Assignment Editor', () => {
                     ${'{!feedItemVariable.IsClosed}'}                            | ${'{!feedItemVariable.IsClosed}'}                            | ${{ iconName: 'utility:crossfilter', label: 'feedItemVariable > Is Closed' }}                                      | ${{ iconName: 'utility:crossfilter', label: 'feedItemVariable > Is Closed' }}
                     ${'{!apexComplexTypeVariable.acct}'}                         | ${'{!apexComplexTypeVariable.acct}'}                         | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acct' }}                                        | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acct' }}
                     ${'{!apexComplexTypeVariable.acct.BillingCity}'}             | ${'{!apexComplexTypeVariable.acct.BillingCity}'}             | ${{ iconName: 'utility:text', label: 'apexComplexTypeVariable > acct > Billing City' }}                            | ${{ iconName: 'utility:text', label: 'apexComplexTypeVariable > acct > Billing City' }}
-                    ${'{!feedItemVariable.IsClosed}'}                            | ${'{!feedItemVariable.IsClosed}'}                            | ${{ iconName: 'utility:crossfilter', label: 'feedItemVariable > Is Closed' }}                                      | ${{ iconName: 'utility:crossfilter', label: 'feedItemVariable > Is Closed' }}
                     ${'{!emailScreenFieldAutomaticOutput.readonly}'}             | ${'{!emailScreenFieldAutomaticOutput.readonly}'}             | ${{ iconName: 'utility:crossfilter', label: 'emailScreenFieldAutomaticOutput > Read Only' }}                       | ${{ iconName: 'utility:crossfilter', label: 'emailScreenFieldAutomaticOutput > Read Only' }}
                     ${'{!apexCall_Car_automatic_output.car}'}                    | ${'{!apexCall_Car_automatic_output.car}'}                    | ${{ iconName: 'utility:apex', label: 'Outputs from apexCall_Car_automatic_output > car' }}                         | ${{ iconName: 'utility:apex', label: 'Outputs from apexCall_Car_automatic_output > car' }}
                     ${'{!subflowAutomaticOutput.accountOutput}'}                 | ${'{!subflowAutomaticOutput.accountOutput}'}                 | ${{ iconName: 'utility:sobject', label: 'Outputs from subflowAutomaticOutput > accountOutput' }}                   | ${{ iconName: 'utility:sobject', label: 'Outputs from subflowAutomaticOutput > accountOutput' }}
                     ${'{!subflowAutomaticOutput.accountOutput.BillingLatitude}'} | ${'{!subflowAutomaticOutput.accountOutput.BillingLatitude}'} | ${{ iconName: 'utility:topic2', label: 'Outputs from subflowAutomaticOutput > accountOutput > Billing Latitude' }} | ${{ iconName: 'utility:topic2', label: 'Outputs from subflowAutomaticOutput > accountOutput > Billing Latitude' }}
                     ${'{!lookupRecordAutomaticOutput}'}                          | ${'{!lookupRecordAutomaticOutput}'}                          | ${{ iconName: 'utility:sobject', label: 'Account from lookupRecordAutomaticOutput' }}                              | ${{ iconName: 'utility:sobject', label: 'Account from lookupRecordAutomaticOutput' }}
                     ${'{!lookupRecordAutomaticOutput.BillingCity}'}              | ${'{!lookupRecordAutomaticOutput.BillingCity}'}              | ${{ iconName: 'utility:text', label: 'Account from lookupRecordAutomaticOutput > Billing City' }}                  | ${{ iconName: 'utility:text', label: 'Account from lookupRecordAutomaticOutput > Billing City' }}
+                    ${'{!feedItemVariable.IsClosed}'}                            | ${'$GlobalConstant.False'}                                   | ${{ iconName: 'utility:crossfilter', label: 'feedItemVariable > Is Closed' }}                                      | ${{ iconName: 'utility:crossfilter', label: 'False' }}
+                    ${'{!feedItemVariable.IsClosed}'}                            | ${'$GlobalConstant.True'}                                    | ${{ iconName: 'utility:crossfilter', label: 'feedItemVariable > Is Closed' }}                                      | ${{ iconName: 'utility:crossfilter', label: 'True' }}
+                    ${'$Flow.CurrentStage'}                                      | ${'$GlobalConstant.EmptyString'}                             | ${{ iconName: 'utility:text', label: 'Current Flow Stage' }}                                                       | ${{ iconName: 'utility:text', label: 'EmptyString' }}
                 `(
                     'LHS Pill should be: $expectedLhsPill for LHS: $lhs, RHS pill should be: $expectedRhsPill for RHS: $rhs',
                     async ({ lhs, rhs, expectedLhsPill, expectedRhsPill }) => {
@@ -500,6 +509,7 @@ describe('Assignment Editor', () => {
                     ${'apexComplexTypeVariable.acct'}                                      | ${'apexComplexTypeVariable.acct'}                                      | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acct' }}                                        | ${{ iconName: 'utility:sobject', label: 'apexComplexTypeVariable > acct' }}
                     ${'apexComplexTypeVariable.acct.BillingCity'}                          | ${'apexComplexTypeVariable.acct.BillingCity'}                          | ${{ iconName: 'utility:text', label: 'apexComplexTypeVariable > acct > Billing City' }}                            | ${{ iconName: 'utility:text', label: 'apexComplexTypeVariable > acct > Billing City' }}
                     ${'feedItemVariable.IsClosed'}                                         | ${'feedItemVariable.IsClosed'}                                         | ${{ iconName: 'utility:crossfilter', label: 'feedItemVariable > Is Closed' }}                                      | ${{ iconName: 'utility:crossfilter', label: 'feedItemVariable > Is Closed' }}
+                    ${'$Flow.CurrentStage'}                                                | ${'$Flow.CurrentStage'}                                                | ${{ iconName: 'utility:text', label: 'Current Flow Stage' }}                                                       | ${{ iconName: 'utility:text', label: 'Current Flow Stage' }}
                 `(
                     'LHS Pill should be: $expectedLhsPill for LHS: $lhs , RHS pill should be: $expectedRhsPill for RHS: $rhs',
                     async ({ lhs, rhs, expectedLhsPill, expectedRhsPill }) => {
@@ -508,6 +518,22 @@ describe('Assignment Editor', () => {
                         expect(lhsCombobox.pill).toEqual(expectedLhsPill);
                         const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
                         await selectComboboxItemBy(rhsCombobox, 'text', rhs.split('.'));
+                        expect(rhsCombobox.pill).toEqual(expectedRhsPill);
+                    }
+                );
+                it.each`
+                    lhs                   | rhs                                | expectedLhsPill                                          | expectedRhsPill
+                    ${['stringVariable']} | ${['$GlobalConstant.True']}        | ${{ iconName: 'utility:text', label: 'stringVariable' }} | ${{ iconName: 'utility:crossfilter', label: 'True' }}
+                    ${['stringVariable']} | ${['$GlobalConstant.False']}       | ${{ iconName: 'utility:text', label: 'stringVariable' }} | ${{ iconName: 'utility:crossfilter', label: 'False' }}
+                    ${['stringVariable']} | ${['$GlobalConstant.EmptyString']} | ${{ iconName: 'utility:text', label: 'stringVariable' }} | ${{ iconName: 'utility:text', label: 'EmptyString' }}
+                `(
+                    'RHS Global constants - LHS Pill should be: $expectedLhsPill for LHS: $lhs, RHS pill should be: $expectedRhsPill for RHS: $rhs',
+                    async ({ lhs, rhs, expectedLhsPill, expectedRhsPill }) => {
+                        const lhsCombobox = await getLhsCombobox(expressionBuilder, true);
+                        await selectComboboxItemBy(lhsCombobox, 'text', lhs);
+                        expect(lhsCombobox.pill).toEqual(expectedLhsPill);
+                        const rhsCombobox = await getRhsCombobox(expressionBuilder, true);
+                        await selectComboboxItemBy(rhsCombobox, 'text', rhs);
                         expect(rhsCombobox.pill).toEqual(expectedRhsPill);
                     }
                 );

@@ -24,10 +24,9 @@ import { LABELS } from './comboboxLabels';
 import {
     validateTextWithMergeFields,
     validateMergeField,
-    isTextWithMergeFields,
-    getPillTooltip,
-    getPillLabel
+    isTextWithMergeFields
 } from 'builder_platform_interaction/mergeFieldLib';
+import { getPillTooltip, getPillLabel } from 'builder_platform_interaction/pillLib';
 import { getElementFromParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import {
     isGlobalConstantOrSystemVariableId,
