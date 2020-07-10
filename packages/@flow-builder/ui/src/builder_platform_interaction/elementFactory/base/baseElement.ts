@@ -53,7 +53,6 @@ export interface FlowElement {
     dataType?: Datatype;
 }
 
-// since not all canvas elements had an element type historically
 export interface CanvasElement extends FlowElement {
     // This is the "label" in the property editor UI
     label?: string;
