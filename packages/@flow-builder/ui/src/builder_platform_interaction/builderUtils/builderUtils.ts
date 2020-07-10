@@ -605,6 +605,8 @@ function showDebugEditorPopover(
     });
     const footerPromise = createComponentPromise(cmpFooter, {
         buttons: {
+            buttonOneClass: '.test-debug-modal-footer-run-button',
+            buttonTwoClass: '.test-debug-modal-footer-cancel-button',
             buttonOne: {
                 buttonLabel: LABELS.runTitle,
                 buttonVariant: 'brand'

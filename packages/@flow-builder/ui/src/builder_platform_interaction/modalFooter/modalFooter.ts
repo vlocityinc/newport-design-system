@@ -8,14 +8,34 @@ export default class ModalFooter extends LightningElement {
     @api closeModalCallback;
     @api keyMap;
     @api footerVariant;
+    _buttonOneClass;
+    _buttonTwoClass;
 
     @track state = {
         buttonOneDisabled: false,
         buttonTwoDisabled: false
     };
 
+    @api
     get buttonOneClass() {
-        return this.footerVariant === modalFooterVariant.PROMPT ? '' : 'slds-m-left_x-small slds-float_right';
+        return this.footerVariant === modalFooterVariant.PROMPT ? '' : this.assignButtonClass(this._buttonOneClass);
+    }
+
+    set buttonOneClass(value) {
+        this._buttonOneClass = value;
+    }
+
+    @api
+    get buttonTwoClass() {
+        return this.assignButtonClass(this._buttonTwoClass);
+    }
+
+    set buttonTwoClass(value) {
+        this._buttonTwoClass = value;
+    }
+
+    assignButtonClass(buttonClass) {
+        return buttonClass ? buttonClass : 'slds-m-left_x-small slds-float_right';
     }
 
     closeModal = (closeCallback = true) => {
