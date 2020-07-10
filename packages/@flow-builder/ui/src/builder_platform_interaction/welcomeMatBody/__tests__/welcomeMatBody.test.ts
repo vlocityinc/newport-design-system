@@ -17,33 +17,33 @@ const createComponentUnderTest = () => {
 };
 
 describe('Welcome Mat Body Actions', () => {
-    it('Clicking on footer button in Freeform Tile should fire createCallback with false as the last param', () => {
+    it('Clicking on Freeform Visual Picker Tile should fire createCallback with false as the last param', () => {
         const welcomeMatBody = createComponentUnderTest();
-        const footer = welcomeMatBody.shadowRoot.querySelectorAll('footer')[0];
-        footer.click();
+        const tile = welcomeMatBody.shadowRoot.querySelectorAll('.slds-visual-picker')[0];
+        tile.click();
         expect(createCallback).toHaveBeenCalled();
         expect(createCallback.mock.calls[0][2]).toBeFalsy();
     });
 
-    it('Clicking on footer button in Freeform Tile should fire closeCallback', () => {
+    it('Clicking on Freeform Visual Picker Tile should fire closeCallback', () => {
         const welcomeMatBody = createComponentUnderTest();
-        const footer = welcomeMatBody.shadowRoot.querySelectorAll('footer')[0];
-        footer.click();
+        const tile = welcomeMatBody.shadowRoot.querySelectorAll('.slds-visual-picker')[0];
+        tile.click();
         expect(closeCallback).toHaveBeenCalled();
     });
 
-    it('Clicking on footer button in Autolayout Tile should fire createCallback', () => {
+    it('Clicking on Autolayout Visual Picker Tile should fire createCallback', () => {
         const welcomeMatBody = createComponentUnderTest();
-        const footer = welcomeMatBody.shadowRoot.querySelectorAll('footer')[1];
-        footer.click();
+        const tile = welcomeMatBody.shadowRoot.querySelectorAll('.slds-visual-picker')[1];
+        tile.click();
         expect(createCallback).toHaveBeenCalled();
         expect(createCallback.mock.calls[0][2]).toBeTruthy();
     });
 
-    it('Clicking on footer button in Autolayout Tile should fire closeCallback', () => {
+    it('Clicking on Autolayout Visual Picker Tile should fire closeCallback', () => {
         const welcomeMatBody = createComponentUnderTest();
-        const footer = welcomeMatBody.shadowRoot.querySelectorAll('footer')[1];
-        footer.click();
+        const tile = welcomeMatBody.shadowRoot.querySelectorAll('.slds-visual-picker')[1];
+        tile.click();
         expect(closeCallback).toHaveBeenCalled();
     });
 });

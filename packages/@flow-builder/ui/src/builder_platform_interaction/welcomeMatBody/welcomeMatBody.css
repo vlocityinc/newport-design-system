@@ -2,11 +2,27 @@
     height: auto;
 }
 
-.slds-welcome-mat__info-description .slds-card .slds-card__header-title {
+.slds-welcome-mat__info-description .slds-card__header-title {
     line-height: var(--lwc-lineHeightTab);
     display: block;
 }
 
-.slds-welcome-mat__info-description .slds-card img {
+.slds-welcome-mat__info-description img {
     max-width: 142px;
+}
+
+.slds-welcome-mat__info-title {
+    display: inline-block;
+}
+
+.tile-body {
+    overflow: auto;
+}
+
+.slds-card__header .slds-badge {
+    display: inline-flex;
+}
+
+.slds-welcome-mat__info {
+    background-image: url('/flow/images/mountain_master_scene.png');
 }

@@ -2,101 +2,121 @@
     <div class="slds-welcome-mat slds-welcome-mat_splash">
         <div class="slds-welcome-mat__info slds-p-vertical_large">
             <div class="slds-welcome-mat__info-content">
-                <h2 class="slds-welcome-mat__info-title">
+                <h2 class="slds-welcome-mat__info-title slds-m-top_large info-title">
                     {labels.modalHeading}
                 </h2>
-                <div class="slds-welcome-mat__info-description">
-                    <div class="slds-grid slds-gutters">
-                        <div class="slds-col slds-size_1-of-2">
-                            <article class="slds-card">
-                                <div class="slds-card__header slds-grid">
-                                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
-                                        <div class="slds-media__body">
-                                            <h2 class="slds-card__header-title">
-                                                <strong>{labels.freeFormTileHeader}</strong>
-                                            </h2>
-                                        </div>
-                                    </header>
+                <div
+                    class="slds-welcome-mat__info-description slds-p-bottom_xx-large slds-m-top_large slds-m-bottom_xx-large"
+                >
+                    <fieldset class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-visual-picker" onclick={createFreeFormCanvas}>
+                                        <input
+                                            type="checkbox"
+                                            id="visual-picker-left"
+                                            value="visual-picker-left"
+                                            name="visual-picker-left"
+                                        />
+                                        <label for="visual-picker-left">
+                                            <span
+                                                class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center"
+                                            >
+                                                <article>
+                                                    <div class="slds-card__header slds-grid">
+                                                        <header
+                                                            class="slds-media slds-media_center slds-has-flexi-truncate"
+                                                        >
+                                                            <div class="slds-media__body">
+                                                                <h2 class="slds-card__header-title">
+                                                                    <strong>{labels.freeFormTileHeader}</strong>
+                                                                </h2>
+                                                            </div>
+                                                        </header>
+                                                    </div>
+                                                    <div class="slds-card__body slds-card__body_inner tile-body">
+                                                        <img
+                                                            src="/flow/images/ff_layout_wire.svg"
+                                                            alt="Freeform image"
+                                                        />
+                                                        <br />
+                                                        <p class="slds-p-vertical_small slds-m-bottom_large">
+                                                            {labels.freeFormTileDescription}
+                                                        </p>
+                                                    </div>
+                                                </article>
+                                            </span>
+                                            <span class="slds-icon_container slds-visual-picker__text-check">
+                                                <svg
+                                                    class="slds-icon slds-icon-text-check slds-icon_x-small"
+                                                    aria-hidden="true"
+                                                >
+                                                    <use
+                                                        xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"
+                                                    ></use>
+                                                </svg>
+                                            </span>
+                                        </label>
+                                    </div>
                                 </div>
-
-                                <div class="slds-card__body slds-card__body_inner">
-                                    <img src="/flow/images/ff_layout_wire.svg" alt="Freeform image" />
-                                    <br />
-                                    <p class="slds-m-vertical_small">
-                                        {labels.freeFormTileDescription}
-                                    </p>
-                                    <ul class="slds-text-align_left slds-m-bottom_small slds-text-body_small">
-                                        <template for:each={freeformFeatureList} for:item="item">
-                                            <li key={item.label} class="slds-item">
-                                                <lightning-icon
-                                                    class="slds-m-right_xx-small"
-                                                    icon-name={item.iconName}
-                                                    alternative-text={item.altText}
-                                                    size="xx-small"
-                                                    title={item.title}
-                                                    variant={item.iconVariant}
-                                                ></lightning-icon>
-                                                {item.label}
-                                            </li>
-                                        </template>
-                                    </ul>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-visual-picker" onclick={createAutoLayoutCanvas}>
+                                        <input
+                                            type="checkbox"
+                                            id="visual-picker-right"
+                                            value="visual-picker-right"
+                                            name="visual-picker-right"
+                                        />
+                                        <label for="visual-picker-right">
+                                            <span
+                                                class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center"
+                                            >
+                                                <article>
+                                                    <div class="slds-card__header slds-grid">
+                                                        <header
+                                                            class="slds-media slds-media_center slds-has-flexi-truncate"
+                                                        >
+                                                            <div class="slds-media__body">
+                                                                <h2 class="slds-card__header-title">
+                                                                    <strong>{labels.autoLayoutTileHeader} </strong>
+                                                                    <span class="slds-badge slds-theme_warning"
+                                                                        >{labels.betaBadge}</span
+                                                                    >
+                                                                </h2>
+                                                            </div>
+                                                        </header>
+                                                    </div>
+                                                    <div class="slds-card__body slds-card__body_inner tile-body">
+                                                        <img
+                                                            src="/flow/images/a_layout_wire.svg"
+                                                            alt="Autolayout image"
+                                                        />
+                                                        <br />
+                                                        <p
+                                                            class="slds-p-vertical_small slds-m-horizontal_smal slds-m-bottom_large"
+                                                        >
+                                                            {labels.autoLayoutTileDescription}
+                                                        </p>
+                                                    </div>
+                                                </article>
+                                            </span>
+                                            <span class="slds-icon_container slds-visual-picker__text-check">
+                                                <svg
+                                                    class="slds-icon slds-icon-text-check slds-icon_x-small"
+                                                    aria-hidden="true"
+                                                >
+                                                    <use
+                                                        xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"
+                                                    ></use>
+                                                </svg>
+                                            </span>
+                                        </label>
+                                    </div>
                                 </div>
-
-                                <footer class="slds-card__footer" onclick={createFreeFormCanvas}>
-                                    <a class="slds-card__footer-action" href="javascript:void(0);"
-                                        >{labels.freeFormTileFooterLabel}
-                                        <span class="slds-assistive-text"
-                                            >{labels.freeFormTileFooterAssistiveText}</span
-                                        >
-                                    </a>
-                                </footer>
-                            </article>
+                            </div>
                         </div>
-                        <div class="slds-col slds-size_1-of-2">
-                            <article class="slds-card">
-                                <div class="slds-card__header slds-grid">
-                                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
-                                        <div class="slds-media__body">
-                                            <h2 class="slds-card__header-title">
-                                                <strong>{labels.autoLayoutTileHeader} </strong>
-                                                <span class="slds-badge slds-theme_warning">{labels.betaBadge}</span>
-                                            </h2>
-                                        </div>
-                                    </header>
-                                </div>
-                                <div class="slds-card__body slds-card__body_inner">
-                                    <img src="/flow/images/a_layout_wire.svg" alt="Autolayout image" />
-                                    <br />
-                                    <p class="slds-m-vertical_small">
-                                        {labels.autoLayoutTileDescription}
-                                    </p>
-                                    <ul class="slds-text-align_left slds-m-bottom_small slds-text-body_small">
-                                        <template for:each={autoFeatureList} for:item="item">
-                                            <li key={item.label} class="slds-item">
-                                                <lightning-icon
-                                                    class="slds-m-right_xx-small"
-                                                    icon-name={item.iconName}
-                                                    alternative-text={item.altText}
-                                                    size="xx-small"
-                                                    title={item.title}
-                                                    variant={item.iconVariant}
-                                                ></lightning-icon>
-                                                {item.label}
-                                            </li>
-                                        </template>
-                                    </ul>
-                                </div>
-                                <footer class="slds-card__footer" onclick={createAutoLayoutCanvas}>
-                                    <a class="slds-card__footer-action" href="javascript:void(0);"
-                                        >{labels.autoLayoutTileFooterLabel}
-                                        <span class="slds-assistive-text"
-                                            >{labels.autoLayoutTileFooterAssistiveText}</span
-                                        >
-                                    </a>
-                                </footer>
-                            </article>
-                        </div>
-                    </div>
+                    </fieldset>
                 </div>
             </div>
         </div>
