@@ -1,5 +1,9 @@
 // @ts-nocheck
-import { getElementByDevName, getDuplicateDevNameElements } from '../storeQuery';
+import {
+    getElementByDevName,
+    getDuplicateDevNameElements,
+    isExecuteOnlyWhenChangeMatchesConditionsPossible
+} from '../storeQuery';
 import { assignmentElement } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
@@ -51,5 +55,35 @@ describe('getDuplicateDevNameElements', () => {
     it('should return an array with one element if duplicate dev name is detected', () => {
         const result = getDuplicateDevNameElements(mockElements, 'testName', 'testGUID');
         expect(result).toEqual([mockElements.mockGuid]);
+    });
+});
+
+describe('isExecuteOnlyWhenChangeMatchesConditionsPossible', () => {
+    it('returns true for after save on update', () => {
+        Store.setMockState({
+            elements: {
+                '07fd2a44-4192-4709-888d-8ccc18cb4580': {
+                    elementType: 'START_ELEMENT',
+                    triggerType: 'RecordAfterSave',
+                    recordTriggerType: 'Update'
+                }
+            }
+        });
+        const result = isExecuteOnlyWhenChangeMatchesConditionsPossible();
+        expect(result).toBeTruthy();
+    });
+
+    it('returns false if trigger type is not after save or before save & save type is create or delete', () => {
+        Store.setMockState({
+            elements: {
+                '07fd2a44-4192-4709-888d-8ccc18cb4580': {
+                    elementType: 'START_ELEMENT',
+                    triggerType: 'Scheduled',
+                    recordTriggerType: 'Create'
+                }
+            }
+        });
+        const result = isExecuteOnlyWhenChangeMatchesConditionsPossible();
+        expect(result).toBeFalsy();
     });
 });

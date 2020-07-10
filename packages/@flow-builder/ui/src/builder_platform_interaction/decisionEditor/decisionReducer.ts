@@ -19,6 +19,7 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { usedByStoreAndElementState, invokeUsedByAlertModal } from 'builder_platform_interaction/usedByLib';
 
 import { LABELS } from './decisionEditorLabels';
+import { isExecuteOnlyWhenChangeMatchesConditionsPossible } from 'builder_platform_interaction/storeUtils';
 
 let deletedOutcomeGuids;
 
@@ -28,6 +29,7 @@ export const resetDeletedGuids = () => {
 
 const addOutcome = state => {
     let newOutcome = createOutcome();
+    newOutcome.showOutcomeExecutionOptions = isExecuteOnlyWhenChangeMatchesConditionsPossible();
     newOutcome = hydrateWithErrors(newOutcome);
 
     const outcomes = addItem(state.outcomes, newOutcome);

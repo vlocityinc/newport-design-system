@@ -22,6 +22,13 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        getElementByGuid: jest.fn(),
+        isExecuteOnlyWhenChangeMatchesConditionsPossible: jest.fn().mockReturnValue(true)
+    };
+});
+
 describe('decision-reducer', () => {
     let originalState;
     beforeAll(() => {
@@ -128,14 +135,19 @@ describe('decision-reducer', () => {
 
             expect(newState.outcomes).toHaveLength(3);
             expect(newState.outcomes[2].guid).toEqual(mockGuid1);
+            expect(newState.outcomes[2].showOutcomeExecutionOptions).toBeTruthy();
 
             const mockGuid2 = 'XYZ';
             storeLib.generateGuid = jest.fn().mockReturnValue(mockGuid2);
+
+            const storeUtils = require('builder_platform_interaction/storeUtils');
+            storeUtils.isExecuteOnlyWhenChangeMatchesConditionsPossible = jest.fn().mockReturnValue(false);
 
             newState = decisionReducer(newState, addOutcomeAction);
 
             expect(newState.outcomes).toHaveLength(4);
             expect(newState.outcomes[3].guid).toEqual(mockGuid2);
+            expect(newState.outcomes[3].showOutcomeExecutionOptions).toBeFalsy();
         });
     });
 

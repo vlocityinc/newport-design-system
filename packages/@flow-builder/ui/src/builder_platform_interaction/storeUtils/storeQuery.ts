@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Store } from 'builder_platform_interaction/storeLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE, FLOW_TRIGGER_SAVE_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 export const getElementByGuidFromState = ({ elements }, guid) => elements[guid];
 
@@ -121,6 +121,21 @@ export const getRecordTriggerType = (): string => {
     });
 
     return startElement ? startElement.recordTriggerType : undefined;
+};
+
+/**
+ * Evaluates if the outcome execution options should be displayed in
+ * Start Element or Decision element.
+ */
+export const isExecuteOnlyWhenChangeMatchesConditionsPossible = (): boolean => {
+    const triggerType = getTriggerType();
+    const saveType = getRecordTriggerType();
+    return (
+        ((triggerType && triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE) ||
+            triggerType === FLOW_TRIGGER_TYPE.AFTER_SAVE) &&
+        ((saveType && saveType === FLOW_TRIGGER_SAVE_TYPE.CREATE_AND_UPDATE) ||
+            saveType === FLOW_TRIGGER_SAVE_TYPE.UPDATE)
+    );
 };
 
 /**
