@@ -4,11 +4,66 @@ import ClickableErrorMessage from '../clickableErrorMessage';
 import { EditElementEvent, LocatorIconClickedEvent } from 'builder_platform_interaction/events';
 import { pubSub } from 'builder_platform_interaction/pubSub';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
-        getElementByDevName: jest.fn(() => {
-            return { guid: '1' };
+        getElementByDevName: jest.fn(name => {
+            const outcome = {
+                guid: 'a8368340-a386-4406-9118-02389237ad54',
+                name: 'outcome',
+                label: 'outcome',
+                elementType: 'OUTCOME',
+                dataType: 'Boolean',
+                conditionLogic: 'and',
+                conditions: [
+                    {
+                        rowIndex: '2bf626b1-9430-49ca-ad02-a75241931b16',
+                        leftHandSide: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
+                        rightHandSide: 'd1fda889-4f3a-48cd-ba79-be4fbca04da2',
+                        rightHandSideDataType: 'reference',
+                        operator: 'EqualTo'
+                    }
+                ],
+                doesRequireRecordChangedToMeetCriteria: false
+            };
+            return name !== 'outcome' ? { guid: '1' } : outcome;
+        }),
+        getElementByGuid: jest.fn(guid => {
+            const decision = {
+                guid: 'e8161f40-c0f6-4ad8-87ca-942a76a014f2',
+                name: 'decision',
+                description: '',
+                label: 'decision',
+                locationX: 846,
+                locationY: 472.3125,
+                isCanvasElement: true,
+                connectorCount: 0,
+                config: {
+                    isSelected: false,
+                    isHighlighted: false,
+                    isSelectable: true
+                },
+                childReferences: [
+                    {
+                        childReference: 'a8368340-a386-4406-9118-02389237ad54'
+                    }
+                ],
+                defaultConnectorLabel: 'Default Outcome',
+                elementType: 'Decision',
+                maxConnections: 2,
+                availableConnections: [
+                    {
+                        type: 'REGULAR',
+                        childReference: 'a8368340-a386-4406-9118-02389237ad54'
+                    },
+                    {
+                        type: 'DEFAULT'
+                    }
+                ]
+            };
+            return guid !== '1' ? decision : {};
         })
     };
 });
@@ -22,6 +77,8 @@ jest.mock('builder_platform_interaction/pubSub', () => {
         pubSub: mockPubSub
     };
 });
+
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const createComponentUnderTest = (props = { info: { message: {} } }) => {
     const el = createElement('builder_platform_clickable-error-message', {
@@ -151,6 +208,12 @@ describe('clickableErrorMessage', () => {
         });
     });
     describe('clicking link', () => {
+        beforeAll(() => {
+            Store.setMockState(flowWithAllElementsUIModel);
+        });
+        afterAll(() => {
+            Store.resetStore();
+        });
         it('highlights erroneous element when error type is CANVAS_ERROR', () => {
             // create error message component with CANVAS_ERROR
             const errorMsgComponentCanvas = createComponentUnderTest({
@@ -223,20 +286,20 @@ describe('clickableErrorMessage', () => {
             const errorMsgComponentParentChild = createComponentUnderTest({
                 info: {
                     message: {
-                        erroneousElementApiName: 'a1',
+                        erroneousElementApiName: 'outcome',
                         errorCode: 'DYNAMIC_TYPE_MAPPING_MISSING',
-                        message: 'a1(Assignment) - some error message'
+                        message: 'o1(outcome) - some error message'
                     }
                 }
             });
             expect.assertions(4);
-            const element = getElementByDevName(errorMsgComponentParentChild.info.message.erroneousElementApiName);
-            const locatorIconClickedEvent = new LocatorIconClickedEvent(element.guid);
-            const highlightElementPayload = { elementGuid: element.guid };
-            const editElementEvent = new EditElementEvent(element.guid);
+            const parent = flowWithAllElementsUIModel.elements['e8161f40-c0f6-4ad8-87ca-942a76a014f2'];
+            const locatorIconClickedEvent = new LocatorIconClickedEvent(parent.guid);
+            const highlightElementPayload = { elementGuid: parent.guid };
+            const editElementEvent = new EditElementEvent(parent.guid);
             const editElementPayload = {
                 mode: editElementEvent.detail.mode,
-                canvasElementGUID: element.guid
+                canvasElementGUID: parent.guid
             };
             errorMsgComponentParentChild.shadowRoot.querySelector(selectors.link).click();
             expect(pubSub.publish.mock.calls[0][0]).toEqual(locatorIconClickedEvent.type);
@@ -262,6 +325,32 @@ describe('clickableErrorMessage', () => {
             errorMsgComponentStartEl.shadowRoot.querySelector(selectors.link).click();
             expect(pubSub.publish.mock.calls[0][0]).toEqual(locatorIconClickedEvent.type);
             expect(pubSub.publish.mock.calls[0][1]).toEqual(highlightElementPayload);
+        });
+        it('highlights erroneous element and open its property editor when error type is not PARENT_CHILD_ERROR but erroneous element has a parent', () => {
+            // create error message component with PROPERTY_EDITOR_ERROR
+            const errorMsgComponentParentChild = createComponentUnderTest({
+                info: {
+                    message: {
+                        erroneousElementApiName: 'outcome',
+                        errorCode: 'RULE_RIGHT_OPERAND_NULL',
+                        message: 'o1(outcome) - some error message'
+                    }
+                }
+            });
+            expect.assertions(4);
+            const parent = flowWithAllElementsUIModel.elements['e8161f40-c0f6-4ad8-87ca-942a76a014f2'];
+            const locatorIconClickedEvent = new LocatorIconClickedEvent(parent.guid);
+            const highlightElementPayload = { elementGuid: parent.guid };
+            const editElementEvent = new EditElementEvent(parent.guid);
+            const editElementPayload = {
+                mode: editElementEvent.detail.mode,
+                canvasElementGUID: parent.guid
+            };
+            errorMsgComponentParentChild.shadowRoot.querySelector(selectors.link).click();
+            expect(pubSub.publish.mock.calls[0][0]).toEqual(locatorIconClickedEvent.type);
+            expect(pubSub.publish.mock.calls[0][1]).toEqual(highlightElementPayload);
+            expect(pubSub.publish.mock.calls[1][0]).toEqual(editElementEvent.type);
+            expect(pubSub.publish.mock.calls[1][1]).toEqual(editElementPayload);
         });
     });
 });
