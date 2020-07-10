@@ -52,6 +52,7 @@
             "builder_platform_interaction/dateTimeUtils": ["./builder_platform_interaction/dateTimeUtils/dateTimeUtils.ts"],
             "builder_platform_interaction/debugPanel": ["./builder_platform_interaction/debugPanel/debugPanel.ts"],
             "builder_platform_interaction/debugPanelBody": ["./builder_platform_interaction/debugPanelBody/debugPanelBody.ts"],
+            "builder_platform_interaction/debugUtils": ["./builder_platform_interaction/debugUtils/debugUtils.ts"],
             "builder_platform_interaction/decisionEditor": ["./builder_platform_interaction/decisionEditor/decisionEditor.ts"],
             "builder_platform_interaction/draggable": ["./builder_platform_interaction/draggable/draggable.ts"],
             "builder_platform_interaction/drawingLib": ["./builder_platform_interaction/drawingLib/drawingLib.ts"],
