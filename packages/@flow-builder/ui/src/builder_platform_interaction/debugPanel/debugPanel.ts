@@ -25,6 +25,13 @@ export default class DebugPanel extends LightningElement {
         return this.debugData && this.debugData.error && !!this.debugData.error[0];
     }
 
+    get allTitles() {
+        if (this.debugTraces) {
+            return this.debugTraces.map(e => e.title);
+        }
+        return [];
+    }
+
     @api
     get debugData() {
         return this._debugData;

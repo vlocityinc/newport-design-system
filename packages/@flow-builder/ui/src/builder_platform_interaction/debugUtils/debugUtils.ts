@@ -29,7 +29,7 @@ export function copyAndUpdateDebugTraceObject(debugData) {
             return !!e;
         });
         debugTraces.push({
-            title: trace[0],
+            title: convertElementTypeToTitleCase(trace[0]),
             debugInfo: trace.slice(1).join(NEWLINE),
             id: generateGuid()
         });
@@ -108,7 +108,20 @@ function getEndInterviewInfo(debugData) {
  * @param dateTime Javascript Date object
  * @return {String} date in specified format in user default locale
  */
-function formatDateHelper(dateTime) {
+export function formatDateHelper(dateTime) {
     const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
     return dateTime.toLocaleDateString(undefined, options);
+}
+
+/**
+ * Convert all capatilized ElementType to title case (ie CREATE RECORDS: createAcc to Create Records: createAcc)
+ * @param str all cap string
+ * @return {String} title case string
+ */
+export function convertElementTypeToTitleCase(str) {
+    const colon = str.indexOf(':');
+    const elementType = str.substr(0, colon).replace(/\w\S*/g, txt => {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+    return elementType + str.substr(colon);
 }

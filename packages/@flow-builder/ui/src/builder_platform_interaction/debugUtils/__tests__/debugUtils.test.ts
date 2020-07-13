@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { copyAndUpdateDebugTraceObject, STATUS } from '../debugUtils';
+import { copyAndUpdateDebugTraceObject, convertElementTypeToTitleCase, formatDateHelper, STATUS } from '../debugUtils';
 import { LABELS } from '../debugUtilsLabels';
 
 const commonUtils = jest.requireActual('builder_platform_interaction/commonUtils');
@@ -51,29 +51,29 @@ const finishedWithErrorsInterview = {
     endInterviewTime: END,
     debugTrace: [
         {
-            debugInfo: '\nHow the Interview Started\nFlow is running on Api Version 50'
+            debugInfo: '\\nHow the Interview Started\\nFlow is running on Api Version 50'
         },
         {
             debugInfo:
-                '\nDECISION: d1\n$$:OutcomeNotExecuted:Number_is_More_than_5\nSkipped this outcome because its conditions' +
-                " weren't met: Number_is_More_than_5\nOutcome conditions: \n{!n1} (null) Greater than or equal 5\n" +
-                '\n$$:DefaultOutcomeExecuted:\nDefault outcome executed.'
+                '\\nDECISION: d1\\n$$:OutcomeNotExecuted:Number_is_More_than_5\\nSkipped this outcome because its conditions' +
+                " weren't met: Number_is_More_than_5\\nOutcome conditions: \\n{!n1} (null) Greater than or equal 5\\n" +
+                '\\n$$:DefaultOutcomeExecuted:\\nDefault outcome executed.'
         },
         {
             debugInfo:
-                '\nFAST LOOKUP: get_all_public_accounts\nFind all Account records where:\nOwnership Equals Public' +
-                '\nStore the values of these fields in get_all_public_accounts: Id, AccountNumber\nResult\nSuccessfully' +
-                ' found records.\n\n\n\nSOQL queries: 1 out of 100\nSOQL query rows: 9 out of 50000'
+                '\\nFAST LOOKUP: get_all_public_accounts\\nFind all Account records where:\\nOwnership Equals Public' +
+                '\\nStore the values of these fields in get_all_public_accounts: Id, AccountNumber\\nResult\\nSuccessfully' +
+                ' found records.\\n\\n\\n\\nSOQL queries: 1 out of 100\\nSOQL query rows: 9 out of 50000'
         },
         {
             debugInfo:
-                '\nCREATE RECORDS: create_Failing_Account\nCreate one Account record where:\nBillingCity = Schmoney\nResult' +
-                '\nFailed to create record.\n\n\n\n$$:Fault:\nError Occurred: This error occurred when the flow tried to create' +
-                ' records: REQUIRED_FIELD_MISSING: Required fields are missing: [Name]. You can look up ExceptionCode values in the SOAP API Developer Guide.\n'
+                '\\nCREATE RECORDS: create_Failing_Account\\nCreate one Account record where:\\nBillingCity = Schmoney\nResult' +
+                '\\nFailed to create record.\\n\\n\\n\\n$$:Fault:\\nError Occurred: This error occurred when the flow tried to create' +
+                ' records: REQUIRED_FIELD_MISSING: Required fields are missing: [Name]. You can look up ExceptionCode values in the SOAP API Developer Guide.'
         },
         {
             debugInfo:
-                '\nRollback\nBecause the flow ran in rollback mode, any changes to add, delete, or modify records were rolled back.'
+                '\\nRollback\\nBecause the flow ran in rollback mode, any changes to add, delete, or modify records were rolled back.'
         }
     ]
 };
@@ -149,5 +149,16 @@ describe('debug utils', () => {
             expect(debugTraces[len - 1].title).toMatch(LABELS.pausedMessage);
             expect(debugTraces[len - 1].debugInfo).toMatch(LABELS.waitingMessage);
         });
+    });
+
+    it('test all cap to title case', () => {
+        const input = 'POST TO CHATTER: actionName';
+        const output = convertElementTypeToTitleCase(input);
+        expect(output).toStrictEqual('Post To Chatter: actionName');
+    });
+
+    it('test date formatter', () => {
+        const outputDate = formatDateHelper(START);
+        expect(outputDate).toMatch('June 17, 2020, 3:24 AM');
     });
 });

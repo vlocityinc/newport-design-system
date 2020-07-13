@@ -8,8 +8,13 @@
         </div>
         <!-- if there's an error, there will be no debugData.debugTraces-->
         <template for:each={debugTraces} for:item="trace">
-            <lightning-accordion key={trace.id} allow-multiple-sections-open>
-                <lightning-accordion-section key={trace.id} label={trace.title}>
+            <lightning-accordion
+                key={trace.id}
+                allow-multiple-sections-open
+                class="slds-has-divider slds-p-top_none slds-m-top_none"
+                active-section-name={allTitles}
+            >
+                <lightning-accordion-section key={trace.id} label={trace.title} name={trace.title}>
                     <builder_platform_interaction-debug-panel-body
                         raw-text={trace.debugInfo}
                         title={trace.title}
