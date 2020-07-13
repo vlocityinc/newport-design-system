@@ -191,17 +191,12 @@ function insertChildReferences(elementGuids, elements) {
         if (!element) {
             return acc;
         }
-        if (element.elementType === ELEMENT_TYPE.DECISION) {
-            const childReferences = element.childReferences.map(({ childReference }) => {
-                return childReference;
-            });
-            acc = [...acc, ...childReferences];
-        } else if (element.elementType === ELEMENT_TYPE.WAIT) {
-            const childReferences = element.childReferences.map(({ childReference }) => {
-                return childReference;
-            });
-            acc = [...acc, ...childReferences];
-        } else if (element.elementType === ELEMENT_TYPE.SCREEN) {
+        const elementType = element.elementType;
+        if (
+            elementType === ELEMENT_TYPE.DECISION ||
+            elementType === ELEMENT_TYPE.WAIT ||
+            elementType === ELEMENT_TYPE.SCREEN
+        ) {
             const childReferences = element.childReferences.map(({ childReference }) => {
                 return childReference;
             });

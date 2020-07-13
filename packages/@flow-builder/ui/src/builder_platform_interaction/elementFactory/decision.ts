@@ -24,11 +24,6 @@ import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
 const elementType = ELEMENT_TYPE.DECISION;
 
-const childReferenceKeys = {
-    childReferencesKey: 'childReferences',
-    childReferenceKey: 'childReference'
-};
-
 // For Opening Property editor or copying a decision
 export function createDecisionWithOutcomes(decision = {}) {
     const newDecision = baseCanvasElement(decision);
@@ -148,13 +143,11 @@ export function createDuplicateDecision(
         childElementNameMap,
         cutOrCopiedChildElements,
         createOutcome,
-        childReferenceKeys.childReferencesKey,
-        childReferenceKeys.childReferenceKey,
         defaultAvailableConnections
     );
 
     const updatedDuplicatedElement = Object.assign(duplicatedElement, {
-        [childReferenceKeys.childReferencesKey]: updatedChildReferences,
+        childReferences: updatedChildReferences,
         availableConnections,
         defaultConnectorLabel: decision.defaultConnectorLabel || LABELS.emptyDefaultOutcomeLabel
     });
@@ -204,9 +197,7 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
     const { connectorCount, availableConnections } = getConnectionProperties(
         originalDecision,
         childReferences,
-        deletedOutcomeGuids,
-        childReferenceKeys.childReferencesKey,
-        childReferenceKeys.childReferenceKey
+        deletedOutcomeGuids
     );
 
     if (useFixedLayoutCanvas()) {

@@ -237,26 +237,25 @@ function _deleteElements(state, { payload }) {
  */
 function _reorderConnectors(state, parentElementGuid, oldChildReferenceGuid, newChildReferenceGuid) {
     const parentElement = state[parentElementGuid];
-    const { singular, plural } = getConfigForElementType(parentElement.elementType).childReferenceKey;
-    const newChildReferences = parentElement[plural].map(childReferenceObject => {
+    const newChildReferences = parentElement.childReferences.map(childReferenceObject => {
         // Swapping the oldChildReferenceGuid with newChildReferenceGuid
-        if (childReferenceObject[singular] === oldChildReferenceGuid) {
+        if (childReferenceObject.childReference === oldChildReferenceGuid) {
             return {
-                [singular]: newChildReferenceGuid
+                childReference: newChildReferenceGuid
             };
         }
 
         // Swapping the newChildReferenceGuid with oldChildReferenceGuid
-        if (childReferenceObject[singular] === newChildReferenceGuid) {
+        if (childReferenceObject.childReference === newChildReferenceGuid) {
             return {
-                [singular]: oldChildReferenceGuid
+                childReference: oldChildReferenceGuid
             };
         }
 
         return childReferenceObject;
     });
 
-    parentElement[plural] = newChildReferences;
+    parentElement.childReferences = newChildReferences;
     return state;
 }
 

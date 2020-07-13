@@ -562,8 +562,6 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             childElementNameMap,
             undefined,
             createChildElement,
-            'childReferences',
-            'childReference',
             defaultAvailableConnections
         );
 
@@ -658,9 +656,7 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
                 column1: 'duplicateColumn1'
             },
             undefined,
-            createDuplicateChildElements,
-            'childReferences',
-            'childReference'
+            createDuplicateChildElements
         );
 
         it('The duplicated element should have updated properties', () => {
@@ -735,9 +731,7 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             childElementGuidMap,
             childElementNameMap,
             undefined,
-            createChildElement,
-            'childReferences',
-            'childReference'
+            createChildElement
         );
 
         it('The duplicated element should have updated properties', () => {

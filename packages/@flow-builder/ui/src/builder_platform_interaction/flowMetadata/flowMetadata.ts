@@ -238,7 +238,6 @@ export const REFERENCE_FIELDS = new Set([
     'assignToReference',
     'assignRecordIdToReference',
     'leftValueReference',
-    'outcomeReference',
     'childReference',
     'source',
     'target',
@@ -249,9 +248,7 @@ export const REFERENCE_FIELDS = new Set([
     'outputReference',
     'inputReference',
     'choiceReference',
-    'defaultSelectedChoiceReference',
-    'fieldReference',
-    'waitEventReference'
+    'defaultSelectedChoiceReference'
 ]);
 
 /**

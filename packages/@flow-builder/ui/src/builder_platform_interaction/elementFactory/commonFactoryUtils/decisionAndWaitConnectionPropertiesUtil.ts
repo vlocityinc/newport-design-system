@@ -9,23 +9,21 @@ import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
  * along with available "Default" and "Fault" types
  * @param {Object[]} originalChildReferences - Original elements childReferences array (eg: decision.childReferences)
  * @param {Object[]} deletedChildElementGuids - Guids of all the child elements that have been deleted
- * @param {String} childReferenceKey - Key for a single childReference in the childReferences array of a given element (eg: childReference)
  * @returns {Object[]} usedChildReferences - child references that have an associated connector and have not been deleted
  * @private
  */
 function _getChildReferencesWithAssociatedConnectors(
     flatOriginalAvailableConnections = [],
     originalChildReferences = [],
-    deletedChildElementGuids = [],
-    childReferenceKey
+    deletedChildElementGuids = []
 ) {
     const usedChildReferences = [];
     for (let i = 0; i < originalChildReferences.length; i++) {
         if (
-            !flatOriginalAvailableConnections.includes(originalChildReferences[i][childReferenceKey]) &&
-            !deletedChildElementGuids.includes(originalChildReferences[i][childReferenceKey])
+            !flatOriginalAvailableConnections.includes(originalChildReferences[i].childReference) &&
+            !deletedChildElementGuids.includes(originalChildReferences[i].childReference)
         ) {
-            usedChildReferences.push(originalChildReferences[i][childReferenceKey]);
+            usedChildReferences.push(originalChildReferences[i].childReference);
         }
     }
 
@@ -36,19 +34,14 @@ function _getChildReferencesWithAssociatedConnectors(
  * Helper function to get all the available connections associated with the 'free' child references
  *
  * @param {Object[]} newChildReferences - Child References Array for the updated element state (eg: decision.childReferences)
- * @param {String} childReferenceKey - Key for a single childReference in the childReferences array of a given element (eg: childReference)
  * @param {Object[]} usedChildReferences - child references that have an associated connector and have not been deleted
  * @returns {Object[]} childAvailableConnections - availableConnections associated with the 'free' childReferences
  * @private
  */
-function _getAvailableConnectionsContainingChildReferences(
-    newChildReferences = [],
-    childReferenceKey,
-    usedChildReferences = []
-) {
+function _getAvailableConnectionsContainingChildReferences(newChildReferences = [], usedChildReferences = []) {
     const childAvailableConnections = [];
     for (let i = 0; i < newChildReferences.length; i++) {
-        const reference = newChildReferences[i][childReferenceKey];
+        const reference = newChildReferences[i].childReference;
         if (!usedChildReferences.includes(reference)) {
             childAvailableConnections.push({
                 childReference: reference,
@@ -100,46 +93,32 @@ function _calculateForDefaultAndFaultAvailableConnections(flatOriginalAvailableC
  * @param {Object} originalCanvasElement - original state of the canvas element
  * @param {Object[]} newChildReferences - Child References Array for the updated element state (eg: decision.childReferences)
  * @param {Object[]} deletedChildElementGuids - all the deleted child element guids (if any)
- * @param {String} childReferencesKey - Object key for childReferences (eg: "childReferences" for Decision)
- * @param {String} childReferenceKey - Key for a single childReference in the childReferences array of a given element (eg: childReference)
  * @returns {{connectorCount: Number, availableConnections: Object[]}} - availableConnections and connectorCount of the
  * updated element along with the deletedChildElementGuids
  */
-export function getConnectionProperties(
-    originalCanvasElement,
-    newChildReferences = [],
-    deletedChildElementGuids = [],
-    childReferencesKey,
-    childReferenceKey
-) {
+export function getConnectionProperties(originalCanvasElement, newChildReferences = [], deletedChildElementGuids = []) {
     let connectorCount = 0;
     let availableConnections = [];
 
     // This is required by the wait factory to add a Fault Connection to our availableConnections
     let addFaultConnectionForWaitElement = false;
 
-    if (
-        originalCanvasElement &&
-        originalCanvasElement.availableConnections &&
-        originalCanvasElement[childReferencesKey]
-    ) {
+    if (originalCanvasElement && originalCanvasElement.availableConnections && originalCanvasElement.childReferences) {
         const flatOriginalAvailableConnections = originalCanvasElement.availableConnections.map(
             availableConnection => availableConnection.childReference || availableConnection.type
         );
-        const originalChildReferences = originalCanvasElement[childReferencesKey];
+        const originalChildReferences = originalCanvasElement.childReferences;
 
         // Gets the childReferences that already have a connector associated. These should not be included in our availableConnections
         const usedChildReferences = _getChildReferencesWithAssociatedConnectors(
             flatOriginalAvailableConnections,
             originalChildReferences,
-            deletedChildElementGuids,
-            childReferenceKey
+            deletedChildElementGuids
         );
 
         // Gets the availableConnections associated with any available childElements
         const childAvailableConnections = _getAvailableConnectionsContainingChildReferences(
             newChildReferences,
-            childReferenceKey,
             usedChildReferences
         );
 

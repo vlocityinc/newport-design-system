@@ -385,12 +385,8 @@ function createOptionsForConditionReferences(
 
 // TODO: FLC use metadata here
 function getConditionReferences(parentNode: ParentNodeModel): any {
-    if (parentNode.elementType === 'Decision') {
-        return {
-            refKey: 'childReference',
-            references: parentNode.childReferences
-        };
-    } else if (parentNode.elementType === 'Wait') {
+    const elementType = parentNode.elementType;
+    if (elementType === 'Decision' || elementType === 'Wait') {
         return {
             refKey: 'childReference',
             references: parentNode.childReferences

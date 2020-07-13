@@ -33,11 +33,6 @@ import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 const elementType = ELEMENT_TYPE.WAIT;
 const MAX_CONNECTIONS_DEFAULT = 2;
 
-const childReferenceKeys = {
-    childReferencesKey: 'childReferences',
-    childReferenceKey: 'childReference'
-};
-
 /**
  * Whether the event type is one of the wait time event types (AlarmEvent or DateRefAlarmEvent)
  * @param {String} eventTypeName event type name
@@ -291,13 +286,11 @@ export function createDuplicateWait(
         childElementNameMap,
         cutOrCopiedChildElements,
         createWaitEvent,
-        childReferenceKeys.childReferencesKey,
-        childReferenceKeys.childReferenceKey,
         defaultAvailableConnections
     );
 
     const updatedDuplicatedElement = Object.assign(duplicatedElement, {
-        [childReferenceKeys.childReferencesKey]: updatedChildReferences,
+        childReferences: updatedChildReferences,
         availableConnections,
         defaultConnectorLabel: wait.defaultConnectorLabel || LABELS.emptyDefaultWaitPathLabel
     });
@@ -436,13 +429,7 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
         };
     }
 
-    const connectionProperties = getConnectionProperties(
-        originalWait,
-        childReferences,
-        deletedWaitEventGuids,
-        childReferenceKeys.childReferencesKey,
-        childReferenceKeys.childReferenceKey
-    );
+    const connectionProperties = getConnectionProperties(originalWait, childReferences, deletedWaitEventGuids);
     let { connectorCount } = connectionProperties;
     const { availableConnections, addFaultConnectionForWaitElement } = connectionProperties;
 

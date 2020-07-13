@@ -31,10 +31,6 @@ function isRootOrEndElement({ elementType }) {
     return elementType === ELEMENT_TYPE.END_ELEMENT || elementType === ELEMENT_TYPE.ROOT_ELEMENT;
 }
 
-function getChildReferencesKey(parentElement) {
-    return getConfigForElementType(parentElement.elementType).childReferenceKey;
-}
-
 function createConnectorHelper({ source, childSource, target, label = '', type = CONNECTOR_TYPE.REGULAR }) {
     return createConnector(source, childSource, target, label, type);
 }
@@ -45,8 +41,7 @@ function createConnectorHelper({ source, childSource, target, label = '', type =
  * @param {number} index
  */
 function findChildSource(parentElement, index) {
-    const { singular, plural } = getChildReferencesKey(parentElement);
-    return parentElement[plural][index - 1][singular];
+    return parentElement.childReferences[index - 1].childReference;
 }
 
 /**
@@ -55,8 +50,7 @@ function findChildSource(parentElement, index) {
  * @param {*} guid
  */
 function findConnectionIndex(parentElement, guid) {
-    const { singular, plural } = getChildReferencesKey(parentElement);
-    const index = parentElement[plural].findIndex(entry => entry[singular] === guid);
+    const index = parentElement.childReferences.findIndex(entry => entry.childReference === guid);
 
     return index === -1 ? 0 : index + 1;
 }

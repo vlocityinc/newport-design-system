@@ -419,12 +419,10 @@ const getNestedChildElementsToCutOrCopy = (elementsInStore, fieldReferencesArray
 export const getCopiedChildElements = (elementsInStore, copiedElement) => {
     let copiedChildElements = {};
     if (hasChildElements(copiedElement)) {
-        const elementConfig = getConfigForElementType(copiedElement.elementType);
-        const childReferenceKey = elementConfig.childReferenceKey;
-        const childReferenceArray = copiedElement[childReferenceKey.plural];
+        const childReferenceArray = copiedElement.childReferences;
 
         for (let j = 0; j < childReferenceArray.length; j++) {
-            const childReference = childReferenceArray[j][childReferenceKey.singular];
+            const childReference = childReferenceArray[j].childReference;
             copiedChildElements[childReference] = elementsInStore[childReference];
 
             // In case of screens we need to look for the nested screen fields too
@@ -535,17 +533,13 @@ const setupChildElementGuidMap = (canvasElement, elementsInStore) => {
         throw new Error('canvasElement is not defined');
     }
 
-    const elementConfig = canvasElement.elementType && getConfigForElementType(canvasElement.elementType);
-    const childReferenceKey = elementConfig && elementConfig.childReferenceKey;
-
     let childElementGuidMap = {};
-    const childReferenceArray =
-        childReferenceKey && childReferenceKey.plural && canvasElement[childReferenceKey.plural];
+    const childReferenceArray = canvasElement && canvasElement.childReferences;
 
-    if (childReferenceArray && childReferenceKey.singular) {
+    if (childReferenceArray) {
         for (let i = 0; i < childReferenceArray.length; i++) {
             const childReferenceObject = childReferenceArray[i];
-            const childElementGuid = childReferenceObject[childReferenceKey.singular];
+            const childElementGuid = childReferenceObject.childReference;
             childElementGuidMap[childElementGuid] = generateGuid();
 
             // Adding nested screen fields to the childElementGuidMap

@@ -21,11 +21,6 @@ import { addFlcProperties } from 'builder_platform_interaction/flcBuilderUtils';
 const elementType = ELEMENT_TYPE.SCREEN;
 const maxConnections = 1;
 
-const childReferenceKeys = {
-    childReferencesKey: 'childReferences',
-    childReferenceKey: 'childReference'
-};
-
 /**
  * Called when opening a property editor or copying a screen element
  * @param {screenInStore} screen
@@ -130,13 +125,11 @@ export function createDuplicateScreen(
         childElementGuidMap,
         childElementNameMap,
         cutOrCopiedChildElements,
-        createDuplicateNestedScreenFields,
-        childReferenceKeys.childReferencesKey,
-        childReferenceKeys.childReferenceKey
+        createDuplicateNestedScreenFields
     );
 
     const updatedDuplicatedElement = Object.assign(duplicateScreen, duplicatedElement, {
-        [childReferenceKeys.childReferencesKey]: updatedChildReferences
+        childReferences: updatedChildReferences
     });
 
     return {

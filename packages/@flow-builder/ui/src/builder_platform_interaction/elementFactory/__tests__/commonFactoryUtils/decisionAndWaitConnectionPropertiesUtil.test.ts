@@ -20,13 +20,7 @@ describe('New Decision Element', () => {
     ];
 
     const deletedChildElementGuids = [];
-    const result = getConnectionProperties(
-        originalDecision,
-        newChildReferences,
-        deletedChildElementGuids,
-        'childReferences',
-        'childReference'
-    );
+    const result = getConnectionProperties(originalDecision, newChildReferences, deletedChildElementGuids);
 
     it('check for connectorCount', () => {
         expect(result.connectorCount).toEqual(0);
@@ -90,25 +84,13 @@ describe('Existing Decision Element with Default Connection available', () => {
 
     describe('Adding an outcome and deleting an outcome with an associated connector', () => {
         it('check for connectorCount', () => {
-            const result = getConnectionProperties(
-                originalDecision,
-                newChildReferences,
-                deletedChildElementGuids,
-                'childReferences',
-                'childReference'
-            );
+            const result = getConnectionProperties(originalDecision, newChildReferences, deletedChildElementGuids);
             // outcome2 had an associated connector, but got deleted
             expect(result.connectorCount).toEqual(0);
         });
 
         it('check for availableConnections', () => {
-            const result = getConnectionProperties(
-                originalDecision,
-                newChildReferences,
-                deletedChildElementGuids,
-                'childReferences',
-                'childReference'
-            );
+            const result = getConnectionProperties(originalDecision, newChildReferences, deletedChildElementGuids);
             expect(result.availableConnections).toEqual([
                 {
                     type: CONNECTOR_TYPE.REGULAR,
@@ -125,13 +107,7 @@ describe('Existing Decision Element with Default Connection available', () => {
         });
 
         it('check for addFaultConnectionForWaitElement', () => {
-            const result = getConnectionProperties(
-                originalDecision,
-                newChildReferences,
-                deletedChildElementGuids,
-                'childReferences',
-                'childReference'
-            );
+            const result = getConnectionProperties(originalDecision, newChildReferences, deletedChildElementGuids);
             expect(result.addFaultConnectionForWaitElement).toBeFalsy();
         });
     });
@@ -150,13 +126,7 @@ describe('Existing Decision Element with Default Connection available', () => {
             ];
 
             deletedChildElementGuids = ['outcome1'];
-            result = getConnectionProperties(
-                originalDecision,
-                newChildReferences,
-                deletedChildElementGuids,
-                'childReferences',
-                'childReference'
-            );
+            result = getConnectionProperties(originalDecision, newChildReferences, deletedChildElementGuids);
         });
 
         it('check for connectorCount', () => {
@@ -220,25 +190,13 @@ describe('Existing Decision Element with Default Connection unavailable', () => 
 
     describe('Adding an outcome and deleting an outcome with an associated connector', () => {
         it('check for connectorCount', () => {
-            const result = getConnectionProperties(
-                originalDecision,
-                newChildReferences,
-                deletedChildElementGuids,
-                'childReferences',
-                'childReference'
-            );
+            const result = getConnectionProperties(originalDecision, newChildReferences, deletedChildElementGuids);
             // For the Default Connection
             expect(result.connectorCount).toEqual(1);
         });
 
         it('check for availableConnections', () => {
-            const result = getConnectionProperties(
-                originalDecision,
-                newChildReferences,
-                deletedChildElementGuids,
-                'childReferences',
-                'childReference'
-            );
+            const result = getConnectionProperties(originalDecision, newChildReferences, deletedChildElementGuids);
             expect(result.availableConnections).toEqual([
                 {
                     type: CONNECTOR_TYPE.REGULAR,
@@ -252,13 +210,7 @@ describe('Existing Decision Element with Default Connection unavailable', () => 
         });
 
         it('check for addFaultConnectionForWaitElement', () => {
-            const result = getConnectionProperties(
-                originalDecision,
-                newChildReferences,
-                deletedChildElementGuids,
-                'childReferences',
-                'childReference'
-            );
+            const result = getConnectionProperties(originalDecision, newChildReferences, deletedChildElementGuids);
             expect(result.addFaultConnectionForWaitElement).toBeFalsy();
         });
     });
@@ -277,13 +229,7 @@ describe('Existing Decision Element with Default Connection unavailable', () => 
             ];
 
             deletedChildElementGuids = ['outcome1'];
-            result = getConnectionProperties(
-                originalDecision,
-                newChildReferences,
-                deletedChildElementGuids,
-                'childReferences',
-                'childReference'
-            );
+            result = getConnectionProperties(originalDecision, newChildReferences, deletedChildElementGuids);
         });
 
         it('check for connectorCount', () => {
@@ -327,13 +273,7 @@ describe('New Wait Element', () => {
     ];
 
     const deletedChildElementGuids = [];
-    const result = getConnectionProperties(
-        originalWait,
-        newChildReferences,
-        deletedChildElementGuids,
-        'childReferences',
-        'childReference'
-    );
+    const result = getConnectionProperties(originalWait, newChildReferences, deletedChildElementGuids);
 
     it('check for connectorCount', () => {
         expect(result.connectorCount).toEqual(0);
@@ -399,25 +339,13 @@ describe('Existing Wait Element with Fault Connection available', () => {
 
     describe('Adding a waitEvent and deleting a waitEvent with an associated connector', () => {
         it('check for connectorCount', () => {
-            const result = getConnectionProperties(
-                originalWait,
-                newChildReferences,
-                deletedChildElementGuids,
-                'childReferences',
-                'childReference'
-            );
+            const result = getConnectionProperties(originalWait, newChildReferences, deletedChildElementGuids);
             // For the Default Connection
             expect(result.connectorCount).toEqual(1);
         });
 
         it('check for availableConnections', () => {
-            const result = getConnectionProperties(
-                originalWait,
-                newChildReferences,
-                deletedChildElementGuids,
-                'childReferences',
-                'childReference'
-            );
+            const result = getConnectionProperties(originalWait, newChildReferences, deletedChildElementGuids);
             // Fault Connection isn't present in the availableConnections because that gets added in the wait factory
             expect(result.availableConnections).toEqual([
                 {
@@ -432,13 +360,7 @@ describe('Existing Wait Element with Fault Connection available', () => {
         });
 
         it('check for addFaultConnectionForWaitElement', () => {
-            const result = getConnectionProperties(
-                originalWait,
-                newChildReferences,
-                deletedChildElementGuids,
-                'childReferences',
-                'childReference'
-            );
+            const result = getConnectionProperties(originalWait, newChildReferences, deletedChildElementGuids);
             // Since Fault Connection was originally available
             expect(result.addFaultConnectionForWaitElement).toBeTruthy();
         });
@@ -458,13 +380,7 @@ describe('Existing Wait Element with Fault Connection available', () => {
             ];
 
             deletedChildElementGuids = ['waitEvent1'];
-            result = getConnectionProperties(
-                originalWait,
-                newChildReferences,
-                deletedChildElementGuids,
-                'childReferences',
-                'childReference'
-            );
+            result = getConnectionProperties(originalWait, newChildReferences, deletedChildElementGuids);
         });
 
         it('check for connectorCount', () => {
@@ -527,25 +443,13 @@ describe('Existing Wait Element with Fault Connection unavailable', () => {
 
     describe('Adding a waitEvent and deleting a waitEvent with an associated connector', () => {
         it('check for connectorCount', () => {
-            const result = getConnectionProperties(
-                originalWait,
-                newChildReferences,
-                deletedChildElementGuids,
-                'childReferences',
-                'childReference'
-            );
+            const result = getConnectionProperties(originalWait, newChildReferences, deletedChildElementGuids);
             // For Default Connection. The additional connectorCount for the Fault Connection gets added in the wait factory
             expect(result.connectorCount).toEqual(1);
         });
 
         it('check for availableConnections', () => {
-            const result = getConnectionProperties(
-                originalWait,
-                newChildReferences,
-                deletedChildElementGuids,
-                'childReferences',
-                'childReference'
-            );
+            const result = getConnectionProperties(originalWait, newChildReferences, deletedChildElementGuids);
             expect(result.availableConnections).toEqual([
                 {
                     type: CONNECTOR_TYPE.REGULAR,
@@ -559,13 +463,7 @@ describe('Existing Wait Element with Fault Connection unavailable', () => {
         });
 
         it('check for addFaultConnectionForWaitElement', () => {
-            const result = getConnectionProperties(
-                originalWait,
-                newChildReferences,
-                deletedChildElementGuids,
-                'childReferences',
-                'childReference'
-            );
+            const result = getConnectionProperties(originalWait, newChildReferences, deletedChildElementGuids);
             // Since Fault Connection was originally unavailable
             expect(result.addFaultConnectionForWaitElement).toBeFalsy();
         });
@@ -585,13 +483,7 @@ describe('Existing Wait Element with Fault Connection unavailable', () => {
             ];
 
             deletedChildElementGuids = ['waitEvent1'];
-            result = getConnectionProperties(
-                originalWait,
-                newChildReferences,
-                deletedChildElementGuids,
-                'childReferences',
-                'childReference'
-            );
+            result = getConnectionProperties(originalWait, newChildReferences, deletedChildElementGuids);
         });
 
         it('check for connectorCount', () => {

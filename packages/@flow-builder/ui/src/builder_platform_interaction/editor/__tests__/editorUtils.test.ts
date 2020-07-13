@@ -158,20 +158,6 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
                     canBeDuplicated: false,
                     isDeletable: false
                 };
-            } else if (elementType === 'Decision') {
-                return {
-                    childReferenceKey: {
-                        singular: 'childReference',
-                        plural: 'childReferences'
-                    }
-                };
-            } else if (elementType === 'Screen') {
-                return {
-                    childReferenceKey: {
-                        singular: 'childReference',
-                        plural: 'childReferences'
-                    }
-                };
             }
             return {};
         })

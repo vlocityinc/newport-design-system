@@ -451,10 +451,6 @@ export const elementTypeToConfigMap = {
             newModal: LABELS.newScreenLabel,
             editModal: LABELS.editScreenLabel
         },
-        childReferenceKey: {
-            singular: 'childReference',
-            plural: 'childReferences'
-        },
         canvasElement: true,
         nonHydratableProperties: [
             'fieldType',
@@ -499,10 +495,6 @@ export const elementTypeToConfigMap = {
             newModal: LABELS.newDecisionLabel,
             editModal: LABELS.editDecisionLabel
         },
-        childReferenceKey: {
-            singular: 'childReference',
-            plural: 'childReferences'
-        },
         canvasElement: true,
         canHaveDefaultConnector: true,
         factory: {
@@ -535,10 +527,6 @@ export const elementTypeToConfigMap = {
             leftPanel: LABELS.waitLogicLabel,
             newModal: LABELS.newWaitLabel,
             editModal: LABELS.editWaitLabel
-        },
-        childReferenceKey: {
-            singular: 'childReference',
-            plural: 'childReferences'
         },
         canvasElement: true,
         canHaveDefaultConnector: true,
