@@ -30,6 +30,7 @@
                 </template>
                 <template if:true={showNodeMenu}>
                     <builder_platform_interaction-flc-node-menu
+                        if:false={isStart}
                         class="menu"
                         condition-options={menu.conditionOptionsForNode}
                         element-has-fault={menu.elementHasFault}
@@ -38,6 +39,17 @@
                         style={menu.style}
                         onhighlightpathstodelete={handleHighlightPathsToDelete}
                     ></builder_platform_interaction-flc-node-menu>
+                    <builder_platform_interaction-flc-node-start-menu
+                        if:true={isStart}
+                        class="menu"
+                        condition-options={menu.conditionOptionsForNode}
+                        element-has-fault={menu.elementHasFault}
+                        element-metadata={menu.elementMetadata}
+                        element-data={elementMetadata}
+                        guid={menu.guid}
+                        style={menu.style}
+                        onhighlightpathstodelete={handleHighlightPathsToDelete}
+                    ></builder_platform_interaction-flc-node-start-menu>
                 </template>
             </div>
         </template>

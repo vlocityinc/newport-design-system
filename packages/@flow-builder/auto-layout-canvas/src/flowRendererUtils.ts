@@ -2,7 +2,7 @@ import { LayoutInfo, NodeLayoutMap, getBranchLayoutKey } from './layout';
 import ConnectorType from './ConnectorTypeEnum';
 import ConnectorLabelType from './ConnectorLabelTypeEnum';
 import { SvgInfo, Geometry } from './svgUtils';
-import { FlowModel, ElementsMetadata, ElementMetadata, NodeRef, Guid } from './model';
+import { FlowModel, ElementsMetadata, ElementMetadata, NodeRef, NodeModel, Guid } from './model';
 import MenuType from './MenuType';
 import ElementType from './ElementType';
 
@@ -58,6 +58,7 @@ export interface NodeRenderInfo {
     menuOpened: boolean;
     isTerminal: boolean;
     toBeDeleted: boolean;
+    node?: NodeModel;
 }
 
 export interface Dimension {

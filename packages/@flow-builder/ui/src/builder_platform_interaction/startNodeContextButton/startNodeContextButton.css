@@ -41,6 +41,10 @@
     width: 67.5%;
 }
 
+.flc-selected-object-label-size {
+    width: 82%;
+}
+
 .text-labels-bold {
     font-weight: var(--lwc-fontWeightBold);
     font-size: var(--lwc-fontSize3);

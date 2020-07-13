@@ -3,9 +3,16 @@ import { LightningElement, api, track } from 'lwc';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
-import { getFlcElementType } from 'builder_platform_interaction/flcBuilderUtils';
+import {
+    getFlcElementType,
+    startElementDescription,
+    hasTrigger,
+    hasContext
+} from 'builder_platform_interaction/flcBuilderUtils';
 import { reorderConnectors } from 'builder_platform_interaction/actions';
 import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
+
+let startElementMetadata = null;
 
 function augmentElementsMetadata(elementsMetadata) {
     const startElement = getConfigForElementType(ELEMENT_TYPE.START_ELEMENT);
@@ -43,6 +50,7 @@ function augmentElementsMetadata(elementsMetadata) {
             supportsMenu: false
         },
         {
+            description: startElementDescription(startElementMetadata.triggerType),
             section: null,
             icon: startElement.nodeConfig.iconName,
             iconBackgroundColor: startElement.nodeConfig.iconBackgroundColor,
@@ -53,7 +61,9 @@ function augmentElementsMetadata(elementsMetadata) {
             elementType: ELEMENT_TYPE.START_ELEMENT,
             type: getFlcElementType(ELEMENT_TYPE.START_ELEMENT),
             canHaveFaultConnector: false,
-            supportsMenu: true
+            supportsMenu: true,
+            hasTrigger: hasTrigger(startElementMetadata.triggerType),
+            hasContext: hasContext(startElementMetadata.triggerType)
         }
     ]);
 }
@@ -73,6 +83,7 @@ export default class FlcBuilderContainer extends LightningElement {
     @api
     set elementsMetadata(elementsMetadata) {
         if (elementsMetadata != null) {
+            this.setStartElementMetadata();
             this._elementsMetadata = augmentElementsMetadata(elementsMetadata);
             this.mapCanvasStateToStore();
         }
@@ -102,6 +113,13 @@ export default class FlcBuilderContainer extends LightningElement {
 
     disconnectedCallback() {
         this._storeUnsubsribe();
+    }
+
+    setStartElementMetadata() {
+        const storeState = storeInstance.getCurrentState();
+        const { elements } = storeState;
+
+        startElementMetadata = Object.values(elements).find(ele => ele.elementType === ELEMENT_TYPE.START_ELEMENT);
     }
 
     mapCanvasStateToStore = () => {

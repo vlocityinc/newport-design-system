@@ -64,6 +64,10 @@ export default class FlcNodeMenu extends Menu {
         return this._selectedConditionValue;
     }
 
+    get descriptionHeader() {
+        return this.menuConfiguration.header.description;
+    }
+
     /**
      * Handles the click on the cancel button and closes the contextual menu
      */

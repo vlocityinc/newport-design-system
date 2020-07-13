@@ -167,6 +167,20 @@ export default class FlcBuilder extends LightningElement {
         return this.menu != null && this.menu.connectorMenu === MenuType.NODE;
     }
 
+    get elementMetadata() {
+        let item;
+        for (item of this.flow.flowInfo.nodes) {
+            if (item.guid === this.menu.guid) {
+                return item.node;
+            }
+        }
+        return undefined;
+    }
+
+    get isStart() {
+        return this.menu.elementMetadata.type === ElementType.START;
+    }
+
     get scale() {
         return this._scale;
     }

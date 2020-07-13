@@ -19,10 +19,10 @@
                 <div class="object-label-size">
                     <span> {objectLabel} </span>
                 </div>
-                <div class="selected-object-label-size slds-truncate">
+                <div class={selectedObjectSize}>
                     <span class="text-labels-bold" title={selectedObject}>{selectedObject}</span>
                 </div>
-                <div class="edit-size">
+                <div if:false={flcMode} class="edit-size">
                     <span class="edit">{editLabel}</span>
                 </div>
             </div>

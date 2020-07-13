@@ -2,6 +2,12 @@
 import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
+import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { TRIGGER_TYPE_LABELS } from 'builder_platform_interaction/processTypeLib';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
+import { getProcessTypes } from 'builder_platform_interaction/systemLib';
+
+const { NONE, BEFORE_SAVE, AFTER_SAVE, SCHEDULED, PLATFORM_EVENT } = FLOW_TRIGGER_TYPE;
 
 /**
  * @return true iff an element can have children
@@ -55,3 +61,45 @@ export function addFlcProperties(object, flcProperties) {
 
     return object;
 }
+
+export const startElementDescription = triggerType => {
+    if (
+        triggerType === BEFORE_SAVE ||
+        triggerType === AFTER_SAVE ||
+        triggerType === SCHEDULED ||
+        triggerType === PLATFORM_EVENT
+    ) {
+        return TRIGGER_TYPE_LABELS[triggerType];
+    }
+    const processType = getProcessType();
+    // Grab the label of the current processType flow type
+    const processTypes = getProcessTypes();
+    if (processTypes) {
+        for (const item of processTypes) {
+            if (item.name === processType) {
+                return item.label;
+            }
+        }
+    }
+
+    return undefined;
+};
+
+export const hasTrigger = triggerType => {
+    switch (triggerType) {
+        case NONE:
+            return false;
+        default:
+            return true;
+    }
+};
+
+export const hasContext = triggerType => {
+    switch (triggerType) {
+        case NONE:
+        case PLATFORM_EVENT:
+            return false;
+        default:
+            return true;
+    }
+};

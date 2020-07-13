@@ -1,0 +1,35 @@
+<template>
+    <div class={menuWrapper}>
+        <builder_platform_interaction-flc-menu>
+            <div class={startNodeClass} role="separator" slot="header">
+                <lightning-button
+                    class="slds-float_right test-cancel-button"
+                    label={labels.cancelLabel}
+                    title={labels.cancelTitle}
+                    variant="base"
+                    onclick={handleCancelButtonClick}
+                ></lightning-button>
+                <div class="slds-m-top_x-large">
+                    <h3 class="slds-text-heading_small slds-truncate test-header-label">
+                        {menuConfiguration.header.label}
+                    </h3>
+                    <p class="slds-text-body_regular slds-truncate test-header-description">
+                        {descriptionHeader}
+                    </p>
+                </div>
+            </div>
+            <div if:true={elementData} slot="body">
+                <builder_platform_interaction-start-node-trigger-button
+                    if:true={hasTrigger}
+                    node={elementData}
+                    flc-mode
+                ></builder_platform_interaction-start-node-trigger-button>
+                <builder_platform_interaction-start-node-context-button
+                    if:true={hasContext}
+                    node={elementData}
+                    flc-mode
+                ></builder_platform_interaction-start-node-context-button>
+            </div>
+        </builder_platform_interaction-flc-menu>
+    </div>
+</template>

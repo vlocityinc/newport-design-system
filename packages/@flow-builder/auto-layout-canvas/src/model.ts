@@ -23,6 +23,17 @@ export interface NodeModel {
     fault: NodeRef;
 }
 
+export interface StartNodeModel extends NodeModel {
+    triggerType?: string;
+    recordTriggerType?: string;
+    object?: string;
+    startDate?: string;
+    startTime?: string;
+    filters?: string;
+    frequency?: string;
+    filterLogic?: string;
+}
+
 export interface ParentNodeModel extends NodeModel {
     children: NodeRef[];
 }

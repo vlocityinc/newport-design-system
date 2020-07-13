@@ -52,6 +52,9 @@ jest.mock('builder_platform_interaction/flcConnectorMenu', () =>
 );
 
 jest.mock('builder_platform_interaction/flcNodeMenu', () => require('builder_platform_interaction_mocks/flcNodeMenu'));
+jest.mock('builder_platform_interaction/flcNodeStartMenu', () =>
+    require('builder_platform_interaction_mocks/flcNodeStartMenu')
+);
 
 jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
     const autoLayoutCanvas = jest.requireActual('builder_platform_interaction/autoLayoutCanvas');
