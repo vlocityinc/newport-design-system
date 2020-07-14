@@ -19,31 +19,31 @@ const createComponentUnderTest = () => {
 describe('Welcome Mat Body Actions', () => {
     it('Clicking on Freeform Visual Picker Tile should fire createCallback with false as the last param', () => {
         const welcomeMatBody = createComponentUnderTest();
-        const tile = welcomeMatBody.shadowRoot.querySelectorAll('.slds-visual-picker')[0];
-        tile.click();
+        const input = welcomeMatBody.shadowRoot.querySelector('input[name="visual-picker-left"]');
+        input.click();
         expect(createCallback).toHaveBeenCalled();
         expect(createCallback.mock.calls[0][2]).toBeFalsy();
     });
 
     it('Clicking on Freeform Visual Picker Tile should fire closeCallback', () => {
         const welcomeMatBody = createComponentUnderTest();
-        const tile = welcomeMatBody.shadowRoot.querySelectorAll('.slds-visual-picker')[0];
-        tile.click();
+        const input = welcomeMatBody.shadowRoot.querySelector('input[name="visual-picker-left"]');
+        input.click();
         expect(closeCallback).toHaveBeenCalled();
     });
 
     it('Clicking on Autolayout Visual Picker Tile should fire createCallback', () => {
         const welcomeMatBody = createComponentUnderTest();
-        const tile = welcomeMatBody.shadowRoot.querySelectorAll('.slds-visual-picker')[1];
-        tile.click();
+        const input = welcomeMatBody.shadowRoot.querySelector('input[name="visual-picker-right"]');
+        input.click();
         expect(createCallback).toHaveBeenCalled();
         expect(createCallback.mock.calls[0][2]).toBeTruthy();
     });
 
     it('Clicking on Autolayout Visual Picker Tile should fire closeCallback', () => {
         const welcomeMatBody = createComponentUnderTest();
-        const tile = welcomeMatBody.shadowRoot.querySelectorAll('.slds-visual-picker')[1];
-        tile.click();
+        const input = welcomeMatBody.shadowRoot.querySelector('input[name="visual-picker-right"]');
+        input.click();
         expect(closeCallback).toHaveBeenCalled();
     });
 });

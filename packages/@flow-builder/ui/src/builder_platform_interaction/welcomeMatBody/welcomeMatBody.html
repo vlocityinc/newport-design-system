@@ -12,12 +12,13 @@
                         <div class="slds-form-element__control">
                             <div class="slds-grid slds-gutters">
                                 <div class="slds-col slds-size_1-of-2">
-                                    <div class="slds-visual-picker" onclick={createFreeFormCanvas}>
+                                    <div class="slds-visual-picker">
                                         <input
                                             type="checkbox"
                                             id="visual-picker-left"
                                             value="visual-picker-left"
                                             name="visual-picker-left"
+                                            onclick={createFreeFormCanvas}
                                         />
                                         <label for="visual-picker-left">
                                             <span
@@ -61,12 +62,13 @@
                                     </div>
                                 </div>
                                 <div class="slds-col slds-size_1-of-2">
-                                    <div class="slds-visual-picker" onclick={createAutoLayoutCanvas}>
+                                    <div class="slds-visual-picker">
                                         <input
                                             type="checkbox"
                                             id="visual-picker-right"
                                             value="visual-picker-right"
                                             name="visual-picker-right"
+                                            onclick={createAutoLayoutCanvas}
                                         />
                                         <label for="visual-picker-right">
                                             <span
