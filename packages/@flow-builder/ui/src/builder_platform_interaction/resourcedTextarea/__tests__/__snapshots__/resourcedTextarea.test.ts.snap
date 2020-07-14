@@ -22,6 +22,8 @@ exports[`Resourced text area "rich text/ plain text mode switch" NOT displayed b
         </div>
         <textarea
           class="slds-textarea slds-input textarea-input"
+          id="[shadow:guid]"
+          name="default"
         />
       </div>
     </div>
@@ -50,6 +52,8 @@ exports[`Resourced text area "rich text/ plain text mode switch" NOT displayed i
         </div>
         <textarea
           class="slds-textarea slds-input textarea-input"
+          id="[shadow:guid]"
+          name="default"
         />
       </div>
     </div>
@@ -88,6 +92,8 @@ exports[`Resourced text area "rich text/ plain text mode switch" displayed if "p
         </div>
         <textarea
           class="slds-textarea slds-input textarea-input"
+          id="[shadow:guid]"
+          name="default"
         />
       </div>
     </div>

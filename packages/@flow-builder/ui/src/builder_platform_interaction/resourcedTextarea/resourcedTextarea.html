@@ -1,9 +1,6 @@
 <template>
-    <lightning-spinner
-        if:true={spinnerActive}
-        variant="brand"
-        alternative-text={spinnerAlternativeText}
-    ></lightning-spinner>
+    <lightning-spinner if:true={spinnerActive} variant="brand" alternative-text={spinnerAlternativeText}>
+    </lightning-spinner>
     <div class="property-input slds-form-element">
         <label if:true={label} for={name} class="slds-form-element__label">
             <abbr if:true={isRequired} title={labels.required} class="slds-required">*</abbr>
@@ -37,6 +34,7 @@
             <textarea
                 class="slds-textarea slds-input textarea-input"
                 name={name}
+                id={name}
                 onblur={handleEvent}
                 onchange={handleEvent}
                 maxlength={maxLength}

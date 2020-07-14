@@ -317,11 +317,7 @@ describe('ResourcedRichTextEditor', () => {
                     isPlainTextMode: true
                 });
                 const resourcedTextarea = getChildElement(resourcedRichTextEditor, SELECTORS.RESOURCED_TEXTAREA);
-                const richTextPlainTextSwitchCompo = getChildElement(
-                    resourcedTextarea,
-                    SELECTORS.RICH_TEXT_PLAIN_TEXT_SWITCH
-                );
-                richTextPlainTextSwitchCompo.dispatchEvent(new RichTextPlainTextSwitchChangedEvent(false));
+                resourcedTextarea.dispatchEvent(new RichTextPlainTextSwitchChangedEvent(false));
                 await ticks(1);
                 expect(resourcedRichTextEditor).toMatchSnapshot();
             });

@@ -33,7 +33,7 @@ export default class ResourcedTextarea extends LightningElement {
     );
 
     @api
-    name;
+    name = 'default';
 
     @api
     rowIndex;

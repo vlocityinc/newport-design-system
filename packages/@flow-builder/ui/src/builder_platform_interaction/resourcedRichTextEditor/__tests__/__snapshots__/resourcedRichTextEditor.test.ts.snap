@@ -107,6 +107,8 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via API Switch to i
                   </div>
                   <textarea
                     class="slds-textarea slds-input textarea-input"
+                    id="[shadow:guid]"
+                    name="default"
                   >
                     
                   </textarea>
@@ -226,6 +228,8 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu
                   </div>
                   <textarea
                     class="slds-textarea slds-input textarea-input"
+                    id="[shadow:guid]"
+                    name="default"
                   >
                     
                   </textarea>
