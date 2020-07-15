@@ -184,10 +184,6 @@ $b2b-popover-background: $palette-gray-2;
 	padding: $spacing-medium;
 	z-index: $z-index-dialog;
 
-	&.open {
-		display: block;
-	}
-
 	&::after {
 		@include square($b2b-popover-arrow-size);
 		background-color: $b2b-popover-background;
@@ -200,5 +196,12 @@ $b2b-popover-background: $palette-gray-2;
 		top: -$b2b-popover-arrow-size / 2;
 		transform: rotate(-45deg);
 		
+	}
+}
+
+.nds-b2b-detail-row_open {
+	~ .nds-b2b-detail-row,
+	.nds-hide {
+		display: block;
 	}
 }
