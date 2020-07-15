@@ -1144,7 +1144,31 @@ export default class Editor extends LightningElement {
     };
 
     handleNewDebugFlow = () => {
-        this.runOrDebugFlow(NEWDEBUG);
+        if (this.properties.hasUnsavedChanges) {
+            invokeModal({
+                headerData: {
+                    headerTitle: LABELS.unsavedChangesHeaderTitle
+                },
+                bodyData: {
+                    bodyTextOne: LABELS.newDebugUnsavedChangesBodyTextLabel,
+                    bodyVariant: modalBodyVariant.WARNING_ON_CANVAS_MODE_TOGGLE
+                },
+                footerData: {
+                    buttonOne: {
+                        buttonVariant: 'Brand',
+                        buttonLabel: LABELS.cancelButtonLabel
+                    },
+                    buttonTwo: {
+                        buttonLabel: LABELS.continueToDebugTitle,
+                        buttonCallback: () => this.runOrDebugFlow(NEWDEBUG)
+                    }
+                },
+                headerClass: 'slds-theme_alert-texture slds-theme_warning',
+                bodyClass: 'slds-p-around_medium'
+            });
+        } else {
+            this.runOrDebugFlow(NEWDEBUG);
+        }
     };
     /**
      * Handles the save flow event fired by a toolbar. Saves the flow if the flow has already been created.
