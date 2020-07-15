@@ -33,6 +33,13 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        getElementByGuid: jest.fn(),
+        isExecuteOnlyWhenChangeMatchesConditionsPossible: jest.fn().mockReturnValue(true)
+    };
+});
+
 const scheduledNewStartElementWithFilters = () => ({
     description: { value: '', error: null },
     elementType: 'START_ELEMENT',

@@ -12,7 +12,12 @@ import {
 } from 'builder_platform_interaction/events';
 import * as store from 'mock/storeData';
 import * as expressionUtilsMock from 'builder_platform_interaction/expressionUtils';
-import { ticks, INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import {
+    ticks,
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS
+} from 'builder_platform_interaction/builderTestUtils';
+import { LABELS, requireRecordChangeOptions } from '../contextRecordEditorLabels';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -39,6 +44,13 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
     };
 });
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        getElementByGuid: jest.fn(),
+        isExecuteOnlyWhenChangeMatchesConditionsPossible: jest.fn().mockReturnValue(true)
+    };
+});
 
 const SELECTORS = {
     ...INTERACTION_COMPONENTS_SELECTORS
@@ -86,6 +98,7 @@ describe('context-record-editor', () => {
     let scheduledNewStartElement,
         beforeSaveNewStartElement,
         beforeSaveNewStartElementWithFilters,
+        beforeSaveNewStartElementWithFiltersOnCreate,
         scheduledNewStartElementWithFilters,
         scheduledNewStartElementWithoutFilters,
         scheduledJourneyStartElement;
@@ -158,6 +171,43 @@ describe('context-record-editor', () => {
             startDate: undefined,
             startTime: undefined,
             recordTriggerType: { value: 'Update', error: null },
+            triggerType: { value: FLOW_TRIGGER_TYPE.BEFORE_SAVE, error: null }
+        });
+        beforeSaveNewStartElementWithFiltersOnCreate = () => ({
+            description: { value: '', error: null },
+            elementType: 'START_ELEMENT',
+            guid: '326e1b1a-7235-487f-9b44-38db56af4a45',
+            isCanvasElement: true,
+            label: { value: '', error: null },
+            name: { value: '', error: null },
+            object: { value: 'Account', error: null },
+            objectIndex: { value: 'guid', error: null },
+            filterLogic: { value: CONDITION_LOGIC.AND, error: null },
+            filters: [
+                {
+                    rowIndex: 'a0e8a02d-60fb-4481-8165-10a01fe7031c',
+                    leftHandSide: {
+                        value: '',
+                        error: null
+                    },
+                    rightHandSide: {
+                        value: '',
+                        error: null
+                    },
+                    rightHandSideDataType: {
+                        value: '',
+                        error: null
+                    },
+                    operator: {
+                        value: '',
+                        error: null
+                    }
+                }
+            ],
+            frequency: undefined,
+            startDate: undefined,
+            startTime: undefined,
+            recordTriggerType: { value: 'Create', error: null },
             triggerType: { value: FLOW_TRIGGER_TYPE.BEFORE_SAVE, error: null }
         });
         scheduledNewStartElementWithFilters = () => ({
@@ -255,6 +305,47 @@ describe('context-record-editor', () => {
         expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(store.accountSObjectVariable);
         const contextEditor = createComponentForTest(beforeSaveNewStartElementWithFilters());
         expect(getRecordFilter(contextEditor).filterLogic.value).toBe(CONDITION_LOGIC.AND);
+    });
+
+    it('does not show the requireRecordChangeOptions when conditions are not set on an update trigger', async () => {
+        const contextEditor = createComponentForTest(beforeSaveNewStartElement());
+
+        await ticks(1);
+        const requireRecordChangeOptionsRadioGroup = contextEditor.shadowRoot.querySelector(
+            LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_RADIO_GROUP
+        );
+        expect(requireRecordChangeOptionsRadioGroup).toBeNull();
+    });
+
+    it('shows the requireRecordChangeOptions when conditions are set on an update trigger', async () => {
+        const contextEditor = createComponentForTest(beforeSaveNewStartElementWithFilters());
+
+        await ticks(1);
+        const requireRecordChangeOptionsRadioGroup = contextEditor.shadowRoot.querySelector(
+            LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_RADIO_GROUP
+        );
+        expect(requireRecordChangeOptionsRadioGroup).not.toBeNull();
+        expect(requireRecordChangeOptionsRadioGroup.label).toBe(LABELS.executeOutcomeWhen);
+        const recordChangeOptions = requireRecordChangeOptionsRadioGroup.options;
+
+        expect(requireRecordChangeOptions()[0].value).toBe('trueEveryTime');
+        expect(requireRecordChangeOptions()[1].value).toBe('trueOnChangeOnly');
+
+        expect(recordChangeOptions[0].value).toBe(requireRecordChangeOptions()[0].value);
+        expect(recordChangeOptions[1].value).toBe(requireRecordChangeOptions()[1].value);
+    });
+
+    it('does not show the requireRecordChangeOptions on a create trigger', async () => {
+        const storeUtils = require('builder_platform_interaction/storeUtils');
+
+        storeUtils.isExecuteOnlyWhenChangeMatchesConditionsPossible = jest.fn().mockReturnValue(false);
+        const contextEditor = createComponentForTest(beforeSaveNewStartElementWithFiltersOnCreate());
+
+        await ticks(1);
+        const requireRecordChangeOptionsRadioGroup = contextEditor.shadowRoot.querySelector(
+            LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_RADIO_GROUP
+        );
+        expect(requireRecordChangeOptionsRadioGroup).toBeNull();
     });
 
     describe('handle events', () => {

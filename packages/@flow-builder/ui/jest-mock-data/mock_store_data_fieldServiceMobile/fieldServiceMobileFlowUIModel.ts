@@ -28,7 +28,8 @@ export const fieldServiceMobileFlowUIModel = {
                     rightHandSideDataType: '',
                     operator: ''
                 }
-            ]
+            ],
+            doesRequireRecordChangedToMeetCriteria: false
         },
         'cf5e6188-117a-47c0-a493-7ed460484c87': {
             guid: 'cf5e6188-117a-47c0-a493-7ed460484c87',

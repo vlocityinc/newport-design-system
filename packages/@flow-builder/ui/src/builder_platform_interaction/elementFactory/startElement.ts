@@ -72,6 +72,7 @@ export function createStartElement(startElement = {}) {
         }
     }
 
+    const requireChangedValues = !!startElement.doesRequireRecordChangedToMeetCriteria;
     const recordFilters = createRecordFilters(filters, object);
 
     Object.assign(newStartElement, {
@@ -95,7 +96,8 @@ export function createStartElement(startElement = {}) {
         dataType: object ? FLOW_DATA_TYPE.SOBJECT.value : undefined,
         subtype: object ? object : undefined,
         isCollection: object ? false : undefined,
-        isAssignable: object ? true : undefined
+        isAssignable: object ? true : undefined,
+        doesRequireRecordChangedToMeetCriteria: requireChangedValues
     });
 
     return newStartElement;
@@ -141,7 +143,9 @@ export function createStartElementMetadataObject(startElement, config = {}) {
         recordTriggerType,
         startTime,
         frequency,
-        filters = []
+
+        filters = [],
+        doesRequireRecordChangedToMeetCriteria
     } = startElement;
     let { filterLogic } = startElement;
     let recordFilters;
@@ -164,6 +168,7 @@ export function createStartElementMetadataObject(startElement, config = {}) {
         object: object === '' ? undefined : object,
         objectContainer,
         recordTriggerType: recordTriggerType === '' ? undefined : recordTriggerType,
+        doesRequireRecordChangedToMeetCriteria,
         filterLogic,
         filters: recordFilters
     });

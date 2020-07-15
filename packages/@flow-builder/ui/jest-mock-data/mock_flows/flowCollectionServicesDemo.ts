@@ -982,6 +982,7 @@ export const flowCollectionServicesDemo = {
         start: {
             locationX: 1000,
             locationY: 2000,
+            doesRequireRecordChangedToMeetCriteria: false,
             connector: {
                 targetReference: 'Build_Word'
             }

@@ -310,13 +310,19 @@ export const FLOW_TRIGGER_FREQUENCY = {
     WEEKLY: 'Weekly'
 };
 
+export const EXECUTE_OUTCOME_WHEN_OPTION_VALUES = {
+    EVERY_TIME_CONDITION_MET: 'trueEveryTime',
+    ONLY_WHEN_CHANGES_MEET_CONDITIONS: 'trueOnChangeOnly'
+};
+
 export const START_ELEMENT_FIELDS = {
     TRIGGER_TYPE: 'triggerType',
     TRIGGER_SAVE_TYPE: 'recordTriggerType',
     FREQUENCY: 'frequency',
     START_DATE: 'startDate',
     START_TIME: 'startTime',
-    FILTER_LOGIC: 'filterLogic'
+    FILTER_LOGIC: 'filterLogic',
+    REQUIRE_RECORD_CHANGE: 'doesRequireRecordChangedToMeetCriteria'
 };
 
 export function isSystemElement(elementType) {

@@ -4,7 +4,12 @@ import { fetchFieldsForEntity, getEntity, ENTITY_TYPE } from 'builder_platform_i
 import { LABELS } from './contextRecordEditorLabels';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { ELEMENT_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    ELEMENT_TYPE,
+    FLOW_TRIGGER_TYPE,
+    EXECUTE_OUTCOME_WHEN_OPTION_VALUES,
+    CONDITION_LOGIC
+} from 'builder_platform_interaction/flowMetadata';
 import { PropertyChangedEvent, UpdateNodeEvent } from 'builder_platform_interaction/events';
 import { contextReducer } from './contextRecordReducer';
 import {
@@ -14,10 +19,14 @@ import {
 } from 'builder_platform_interaction/triggerTypeLib';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { requireRecordChangeOptions } from './contextRecordEditorLabels';
+import { isExecuteOnlyWhenChangeMatchesConditionsPossible } from 'builder_platform_interaction/storeUtils';
 
 const { BEFORE_SAVE, BEFORE_DELETE, AFTER_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
 
 export default class contextRecordEditor extends LightningElement {
+    @track requireRecordChangeOption = EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
+
     /**
      * Internal state for the record change trigger editor
      */
@@ -50,6 +59,9 @@ export default class contextRecordEditor extends LightningElement {
 
     set node(newValue) {
         this.startElement = newValue || {};
+        this.requireRecordChangeOption = this.startElement.doesRequireRecordChangedToMeetCriteria
+            ? EXECUTE_OUTCOME_WHEN_OPTION_VALUES.ONLY_WHEN_CHANGES_MEET_CONDITIONS
+            : EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
     }
 
     /**
@@ -282,5 +294,34 @@ export default class contextRecordEditor extends LightningElement {
         }
 
         return errors;
+    }
+
+    get showRequireRecordChangeOptions() {
+        const conditionLogic = this.startElement.filterLogic;
+        return (
+            this.triggerHasCriteria &&
+            isExecuteOnlyWhenChangeMatchesConditionsPossible() &&
+            conditionLogic &&
+            conditionLogic.value !== CONDITION_LOGIC.NO_CONDITIONS
+        );
+    }
+
+    get requireRecordChangeOptions() {
+        return requireRecordChangeOptions();
+    }
+
+    handleRequireRecordChangeOptionOnChange(event) {
+        event.stopPropagation();
+        const oldRRCMC = this.requireRecordChangeOption !== EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
+        this.requireRecordChangeOption = event.detail.value;
+        const doesRequireRecordChangedToMeetCriteria =
+            this.requireRecordChangeOption !== EXECUTE_OUTCOME_WHEN_OPTION_VALUES.EVERY_TIME_CONDITION_MET;
+        this.updateProperty(
+            'doesRequireRecordChangedToMeetCriteria',
+            doesRequireRecordChangedToMeetCriteria,
+            null,
+            true,
+            oldRRCMC
+        );
     }
 }

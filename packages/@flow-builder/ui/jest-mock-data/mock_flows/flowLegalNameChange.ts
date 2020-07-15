@@ -1207,6 +1207,7 @@ export const flowLegalNameChange = {
         start: {
             locationX: 1000,
             locationY: 2000,
+            doesRequireRecordChangedToMeetCriteria: false,
             connector: {
                 targetReference: 'Check_Object_Type'
             }

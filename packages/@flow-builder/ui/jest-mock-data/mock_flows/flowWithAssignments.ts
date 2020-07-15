@@ -70,7 +70,8 @@ export const flowWithAssignments = {
         stages: [],
         start: {
             locationX: 1000,
-            locationY: 2000
+            locationY: 2000,
+            doesRequireRecordChangedToMeetCriteria: false
         },
         status: 'InvalidDraft',
         steps: [],

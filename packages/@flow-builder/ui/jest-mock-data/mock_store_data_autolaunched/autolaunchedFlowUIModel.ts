@@ -37,7 +37,8 @@ export const autolaunchedFlowUIModel = {
             dataType: 'SObject',
             subtype: 'Account',
             isCollection: false,
-            isAssignable: true
+            isAssignable: true,
+            doesRequireRecordChangedToMeetCriteria: false
         },
         '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929': {
             guid: '60f7e7ac-6177-4f7c-843d-6ebb0b9bd929',

@@ -24,7 +24,8 @@ const PROPS = {
     object: 'object',
     filters: 'filters',
     filterLogic: 'filterLogic',
-    recordTriggerType: 'recordTriggerType'
+    recordTriggerType: 'recordTriggerType',
+    doesRequireRecordChangedToMeetCriteria: 'doesRequireRecordChangedToMeetCriteria'
 };
 
 const NON_HYDRATABLE_PROPS = new Set([...elementTypeToConfigMap[ELEMENT_TYPE.START_ELEMENT].nonHydratableProperties]);
