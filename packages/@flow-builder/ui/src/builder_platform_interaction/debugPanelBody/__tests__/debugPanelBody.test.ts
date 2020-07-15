@@ -1,0 +1,281 @@
+import { createElement } from 'lwc';
+import { LABELS } from '../debugPanelBodyLabels';
+import DebugPanelBody from '../debugPanelBody';
+
+const createComponentUnderTest = (props = {}) => {
+    const element = createElement('builder_platform_interaction-debug-panel-body', { is: DebugPanelBody });
+    Object.assign(element, props);
+    document.body.appendChild(element);
+    return element;
+};
+const SELECTORS = {
+    NORMALTEXT: '.normal',
+    SUBTITLE: '.sub-title',
+    BOX: '.box',
+    WARNING: '.warning',
+    ERROR: '.error'
+};
+const TITLE = 'Test Title';
+const NORMALINPUT = {
+    rawText: 'Admin User (005xx000001X7ib) started the flow interview',
+    title: TITLE
+};
+const varEqualsNull = {
+    rawText: '{!var4} Equals null',
+    title: TITLE
+};
+const varEqualSignNull = {
+    rawText: 'var4 = null',
+    title: TITLE
+};
+const failedFind = {
+    rawText: LABELS.failedFind,
+    title: TITLE
+};
+const varNameIsNull = {
+    rawText: 'null = text',
+    title: TITLE
+};
+const nullPartofString = {
+    rawText: '{!var} = nullify',
+    title: TITLE
+};
+const nullPartofStringAtEnd = {
+    rawText: '{!var} = annull',
+    title: TITLE
+};
+const errorOccurredString = {
+    rawText: LABELS.faultMess + ': something happened',
+    title: TITLE,
+    expectedNormal: 'something happened'
+};
+const errorElementTitle = {
+    rawText: 'The flow failed because something happened',
+    title: LABELS.errorBody
+};
+const resultLabelString = {
+    rawText: 'var = hello\\n' + LABELS.resultLabel,
+    title: 'ASSIGNMENT: assign'
+};
+const stringEndsWithColon = {
+    rawText: 'Find all Task records where:',
+    title: 'FAST LOOKUP: lookup',
+    expected: 'Find all Task records where'
+};
+const endWithColonWhitespave = {
+    rawText: 'Find all Task records where:     ',
+    title: 'FAST LOOKUP: lookup',
+    expected: 'Find all Task records where'
+};
+const governorLimitsSoql = {
+    rawText: LABELS.soql.replace(/\{0\}|\{1\}/, '100'),
+    title: TITLE
+};
+const governorLimitsSoqlRow = {
+    rawText: LABELS.soqlRow.replace(/\{0\}|\{1\}/, '100'),
+    title: TITLE
+};
+const governorLimitsDml = {
+    rawText: LABELS.dml.replace(/\{0\}|\{1\}/, 9),
+    title: TITLE
+};
+const governorLimitsDmlRow = {
+    rawText: LABELS.dmlRow.replace(/\{0\}|\{1\}/, '100'),
+    title: TITLE
+};
+describe('GovernorLimits cases check:', () => {
+    let debugPanelBody;
+    describe('SOQL queries: {0} out of {1}', () => {
+        beforeEach(() => {
+            debugPanelBody = createComponentUnderTest(governorLimitsSoql);
+        });
+        it('normal text that shows the information', () => {
+            const normal = debugPanelBody.shadowRoot.querySelector(SELECTORS.NORMALTEXT);
+            expect(normal).not.toBeNull();
+
+            const text = normal.textContent;
+            expect(text).toContain(governorLimitsSoql.rawText);
+        });
+        it('has Element Governor Limits Info as the title', () => {
+            const subtitle = debugPanelBody.shadowRoot.querySelector(SELECTORS.SUBTITLE);
+            expect(subtitle).not.toBeNull();
+
+            const text = subtitle.textContent;
+            expect(text).toContain(LABELS.govInfo);
+        });
+    });
+    describe('SOQL query rows: {0} out of {1}', () => {
+        beforeEach(() => {
+            debugPanelBody = createComponentUnderTest(governorLimitsSoqlRow);
+        });
+        it('normal text that shows the information', () => {
+            const normal = debugPanelBody.shadowRoot.querySelector(SELECTORS.NORMALTEXT);
+            expect(normal).not.toBeNull();
+
+            const text = normal.textContent;
+            expect(text).toContain(governorLimitsSoqlRow.rawText);
+        });
+        it('has Element Governor Limits Info as the title', () => {
+            const subtitle = debugPanelBody.shadowRoot.querySelector(SELECTORS.SUBTITLE);
+            expect(subtitle).not.toBeNull();
+
+            const text = subtitle.textContent;
+            expect(text).toContain(LABELS.govInfo);
+        });
+    });
+    describe('DML statements: {0} out of {1}', () => {
+        beforeEach(() => {
+            debugPanelBody = createComponentUnderTest(governorLimitsDml);
+        });
+        it('normal text that shows the information', () => {
+            const normal = debugPanelBody.shadowRoot.querySelector(SELECTORS.NORMALTEXT);
+            expect(normal).not.toBeNull();
+
+            const text = normal.textContent;
+            expect(text).toContain(governorLimitsDml.rawText);
+        });
+        it('has Element Governor Limits Info as the title', () => {
+            const subtitle = debugPanelBody.shadowRoot.querySelector(SELECTORS.SUBTITLE);
+            expect(subtitle).not.toBeNull();
+
+            const text = subtitle.textContent;
+            expect(text).toContain(LABELS.govInfo);
+        });
+    });
+    describe('Dml_Rows">DML rows: {0} out of {1}', () => {
+        beforeEach(() => {
+            debugPanelBody = createComponentUnderTest(governorLimitsDmlRow);
+        });
+        it('normal text that shows the information', () => {
+            const normal = debugPanelBody.shadowRoot.querySelector(SELECTORS.NORMALTEXT);
+            expect(normal).not.toBeNull();
+
+            const text = normal.textContent;
+            expect(text).toContain(governorLimitsDmlRow.rawText);
+        });
+        it('has Element Governor Limits Info as the title', () => {
+            const subtitle = debugPanelBody.shadowRoot.querySelector(SELECTORS.SUBTITLE);
+            expect(subtitle).not.toBeNull();
+
+            const text = subtitle.textContent;
+            expect(text).toContain(LABELS.govInfo);
+        });
+    });
+});
+
+describe('debug-panel-body', () => {
+    let debugPanelBody;
+    describe('warning icons positive cases', () => {
+        it('has warning icon when there variable "Equals" null', () => {
+            debugPanelBody = createComponentUnderTest(varEqualsNull);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).not.toBeNull();
+        });
+        it('has warning icon when there variable "=" null', () => {
+            debugPanelBody = createComponentUnderTest(varEqualSignNull);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).not.toBeNull();
+        });
+        it('has warning when record not found', () => {
+            debugPanelBody = createComponentUnderTest(failedFind);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).not.toBeNull();
+        });
+    });
+    describe('Warning Icon negative cases', () => {
+        it('will not have warning icons for base cases', () => {
+            debugPanelBody = createComponentUnderTest(NORMALINPUT);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).toBeNull();
+        });
+        it('has no warning when the name of a var is null', () => {
+            debugPanelBody = createComponentUnderTest(varNameIsNull);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).toBeNull();
+        });
+        it('has no warning when null is part of a string', () => {
+            debugPanelBody = createComponentUnderTest(nullPartofString);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).toBeNull();
+        });
+        it('has no warning when null is part of a string and null is at the end', () => {
+            debugPanelBody = createComponentUnderTest(nullPartofStringAtEnd);
+            const warningIcon = debugPanelBody.shadowRoot.querySelector(SELECTORS.WARNING);
+            expect(warningIcon).toBeNull();
+        });
+    });
+    describe('Error boxes should appear for strings with Error Occurred:', () => {
+        beforeEach(() => {
+            debugPanelBody = createComponentUnderTest(errorOccurredString);
+        });
+        it('has error box with normal text describing the error', () => {
+            const box = debugPanelBody.shadowRoot.querySelector(SELECTORS.BOX);
+            expect(box).not.toBeNull();
+
+            const content = box.textContent;
+            expect(content).toContain(errorOccurredString.expectedNormal);
+        });
+        it('has error icon in error box', () => {
+            const icon = debugPanelBody.shadowRoot.querySelector(SELECTORS.ERROR);
+            expect(icon).not.toBeNull();
+        });
+        it('has has title in error box', () => {
+            const title = debugPanelBody.shadowRoot.querySelector(SELECTORS.SUBTITLE);
+            expect(title).not.toBeNull();
+
+            const text = title.textContent;
+            expect(text).toContain(LABELS.faultMess);
+        });
+    });
+
+    describe('has error box when a title is: Error element', () => {
+        beforeEach(() => {
+            debugPanelBody = createComponentUnderTest(errorElementTitle);
+        });
+        it('has error box with normal text describing the error', () => {
+            const temp = debugPanelBody.shadowRoot.querySelector(SELECTORS.BOX);
+            expect(temp).not.toBeNull();
+
+            const text = temp.textContent;
+            expect(text).toContain(errorElementTitle.rawText);
+        });
+        it('has error icon in error box', () => {
+            const icon = debugPanelBody.shadowRoot.querySelector(SELECTORS.ERROR);
+            expect(icon).not.toBeNull();
+        });
+        it('has title in error box', () => {
+            const title = debugPanelBody.shadowRoot.querySelector(SELECTORS.SUBTITLE);
+            expect(title).not.toBeNull();
+
+            const text = title.textContent;
+            expect(text).toContain(LABELS.faultMess);
+        });
+    });
+
+    describe('Titles are given to Result label and strings ending with :', () => {
+        it('has a title when the result label appears', () => {
+            debugPanelBody = createComponentUnderTest(resultLabelString);
+            const temp = debugPanelBody.shadowRoot.querySelector(SELECTORS.SUBTITLE);
+            expect(temp).not.toBeNull();
+
+            const text = temp.textContent;
+            expect(text).toContain(LABELS.resultLabel);
+        });
+        it('has a title when string ends with : and : is removed', () => {
+            debugPanelBody = createComponentUnderTest(stringEndsWithColon);
+            const temp = debugPanelBody.shadowRoot.querySelector(SELECTORS.SUBTITLE);
+            expect(temp).not.toBeNull();
+
+            const text = temp.textContent;
+            expect(text).toContain(stringEndsWithColon.expected);
+        });
+        it('has a title when string ends with : and trailing whitespace and : removed', () => {
+            debugPanelBody = createComponentUnderTest(endWithColonWhitespave);
+            const temp = debugPanelBody.shadowRoot.querySelector(SELECTORS.SUBTITLE);
+            expect(temp).not.toBeNull();
+
+            const text = temp.textContent;
+            expect(text).toContain(stringEndsWithColon.expected);
+        });
+    });
+});

@@ -42,7 +42,8 @@ export default class debugPanelBody extends LightningElement {
      * - Removes trailing whitespace to help with checking for titles
      */
     getDebugInfoBody() {
-        const obj = [{}];
+        let obj = [{}];
+        obj = obj.splice(1);
         const splitText = this.rawText.split(NEWLINE);
         let needsGovTitle = true;
 
@@ -58,7 +59,7 @@ export default class debugPanelBody extends LightningElement {
             if (curr.includes(ERROR)) {
                 obj.push(this.formatErrorMessage(curr));
             } else if (curr !== '' && !curr.includes('$$:') && curr !== this.title) {
-                const temp = { value: curr, isTitle: false, isWarn: false, id: generateGuid() };
+                const temp = { value: curr, isTitle: false, isWarn: false, isError: false, id: generateGuid() };
                 if (curr === LABELS.resultLabel || curr === LABELS.inputLabel) {
                     temp.isTitle = true;
                 } else if (curr.charAt(curr.length - 1) === ':') {
@@ -68,12 +69,12 @@ export default class debugPanelBody extends LightningElement {
                     temp.isWarn = true;
                 } else if (needsGovTitle && this.isGovLimit(curr)) {
                     needsGovTitle = false;
-                    obj.push({ value: LABELS.govInfo, isTitle: true, isWarn: false });
+                    obj.push({ value: LABELS.govInfo, isTitle: true, isWarn: false, id: generateGuid() });
                 }
+
                 obj.push(temp);
             }
         }
-        obj[0] = { value: '', isTitle: false, isWarn: false, id: generateGuid() };
         return obj;
     }
 
