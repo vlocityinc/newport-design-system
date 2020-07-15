@@ -157,6 +157,18 @@ describe('debug utils', () => {
         expect(output).toStrictEqual('Post To Chatter: actionName');
     });
 
+    it('test element error title', () => {
+        const elementError = 'Error element decision (FlowDecision).';
+        const output = convertElementTypeToTitleCase(elementError);
+        expect(output).toStrictEqual(elementError);
+    });
+
+    it('test rollback title', () => {
+        const rollbackTitle = 'Rollback';
+        const output = convertElementTypeToTitleCase(rollbackTitle);
+        expect(output).toStrictEqual(rollbackTitle);
+    });
+
     it('test date formatter', () => {
         const outputDate = formatDateHelper(START);
         expect(outputDate).toMatch('June 17, 2020, 3:24 AM');

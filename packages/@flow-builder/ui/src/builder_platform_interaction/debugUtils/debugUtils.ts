@@ -119,6 +119,9 @@ export function formatDateHelper(dateTime) {
  * @return {String} title case string
  */
 export function convertElementTypeToTitleCase(str) {
+    if (!str.includes(':')) {
+        return str;
+    }
     const colon = str.indexOf(':');
     const elementType = str.substr(0, colon).replace(/\w\S*/g, txt => {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
