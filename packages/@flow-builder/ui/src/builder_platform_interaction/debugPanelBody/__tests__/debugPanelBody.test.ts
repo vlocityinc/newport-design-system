@@ -93,7 +93,7 @@ describe('GovernorLimits cases check:', () => {
             const normal = debugPanelBody.shadowRoot.querySelector(SELECTORS.NORMALTEXT);
             expect(normal).not.toBeNull();
 
-            const text = normal.textContent;
+            const text = normal.value;
             expect(text).toContain(governorLimitsSoql.rawText);
         });
         it('has Element Governor Limits Info as the title', () => {
@@ -112,7 +112,7 @@ describe('GovernorLimits cases check:', () => {
             const normal = debugPanelBody.shadowRoot.querySelector(SELECTORS.NORMALTEXT);
             expect(normal).not.toBeNull();
 
-            const text = normal.textContent;
+            const text = normal.value;
             expect(text).toContain(governorLimitsSoqlRow.rawText);
         });
         it('has Element Governor Limits Info as the title', () => {
@@ -131,7 +131,7 @@ describe('GovernorLimits cases check:', () => {
             const normal = debugPanelBody.shadowRoot.querySelector(SELECTORS.NORMALTEXT);
             expect(normal).not.toBeNull();
 
-            const text = normal.textContent;
+            const text = normal.value;
             expect(text).toContain(governorLimitsDml.rawText);
         });
         it('has Element Governor Limits Info as the title', () => {
@@ -150,7 +150,7 @@ describe('GovernorLimits cases check:', () => {
             const normal = debugPanelBody.shadowRoot.querySelector(SELECTORS.NORMALTEXT);
             expect(normal).not.toBeNull();
 
-            const text = normal.textContent;
+            const text = normal.value;
             expect(text).toContain(governorLimitsDmlRow.rawText);
         });
         it('has Element Governor Limits Info as the title', () => {
@@ -212,7 +212,7 @@ describe('debug-panel-body', () => {
             const box = debugPanelBody.shadowRoot.querySelector(SELECTORS.BOX);
             expect(box).not.toBeNull();
 
-            const content = box.textContent;
+            const content = box.value;
             expect(content).toContain(errorOccurredString.expectedNormal);
         });
         it('has error icon in error box', () => {
@@ -236,7 +236,7 @@ describe('debug-panel-body', () => {
             const temp = debugPanelBody.shadowRoot.querySelector(SELECTORS.BOX);
             expect(temp).not.toBeNull();
 
-            const text = temp.textContent;
+            const text = temp.value;
             expect(text).toContain(errorElementTitle.rawText);
         });
         it('has error icon in error box', () => {

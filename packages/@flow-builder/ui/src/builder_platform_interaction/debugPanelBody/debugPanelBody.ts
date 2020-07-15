@@ -111,7 +111,8 @@ export default class debugPanelBody extends LightningElement {
         };
         for (let i = 0; i < splitText.length; i++) {
             if (splitText[i] !== '') {
-                temp.value = temp.value + '\n' + splitText[i];
+                const curr = splitText[i].replace(/\\"/g, '"');
+                temp.value = temp.value + '\n' + curr;
             }
         }
         return temp;

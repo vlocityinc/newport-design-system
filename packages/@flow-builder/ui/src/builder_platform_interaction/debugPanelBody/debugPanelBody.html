@@ -13,14 +13,19 @@
                     variant="warning"
                     size="xx-small"
                 ></lightning-icon>
-                <p class="withIcon">{currText.value}</p>
+                <lightning-formatted-rich-text class="withIcon" value={currText.value}></lightning-formatted-rich-text>
             </div>
             <div if:false={currText.isWarn} key={currText.id}>
-                <div if:false={currText.isError} class="normal" key={currText.id}>{currText.value}</div>
+                <lightning-formatted-rich-text
+                    if:false={currText.isError}
+                    class="normal"
+                    key={currText.id}
+                    value={currText.value}
+                ></lightning-formatted-rich-text>
                 <div if:true={currText.isError} key={currText.id}>
                     <div key={currText.id} class="helptext slds-p-top_medium"></div>
                     <div class="slds-box" key={currText.id}>
-                        <div key={currText.value}>
+                        <div key={currText.id}>
                             <div class="custom-builder-baseCallOutEditor__mode-info slds-grid" key={currText.id}>
                                 <lightning-icon
                                     class="error"
@@ -31,7 +36,10 @@
                                 ></lightning-icon>
                                 <p class="slds-text-color_weak withIcon sub-title">{currText.bold}</p>
                             </div>
-                            <p class="box">{currText.value}</p>
+                            <lightning-formatted-rich-text
+                                class="box"
+                                value={currText.value}
+                            ></lightning-formatted-rich-text>
                         </div>
                     </div>
                     <div key={currText.id} class="helptext slds-p-top_medium"></div>

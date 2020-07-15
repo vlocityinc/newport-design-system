@@ -8,6 +8,12 @@ p.normal {
     border: 16px;
 }
 
+lightning-formatted-rich-text.normal {
+    font-size: 2;
+    width: 338px;
+    border: 16px;
+}
+
 div.normal {
     font-size: 2;
     width: 338px;
@@ -22,7 +28,21 @@ p.withIcon {
     font-size: 2;
 }
 
-div.slds-box {
+lightning-formatted-rich-text.withIcon {
+    margin-left: 4px;
+    width: 338px;
+    border: 16px;
+    font-size: 2;
+}
+
+p.withIcon {
+    margin-left: 4px;
+    width: 338px;
+    border: 16px;
+    font-size: 2;
+}
+
+lightning-formatted-rich-text.slds-box {
     width: 340px;
     font-size: 2;
 }
