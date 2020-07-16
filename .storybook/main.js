@@ -1,15 +1,15 @@
-require('@babel/register');
-const webpackMerge = require('webpack-merge');
-const path = require('path');
+require("@babel/register");
+const webpackMerge = require("webpack-merge");
+const path = require("path");
 const moduleLoader = require.resolve(
-  'lwc-services/lib/utils/webpack/module-loader'
+  "lwc-services/lib/utils/webpack/module-loader"
 );
-const ModuleResolver = require('lwc-services/lib/utils/webpack/module-resolver');
-const gulp = require('gulp');
-const NewportSassWatcherPlugin = require('./sass-watcher-plugin');
-require('../scripts/gulp/styles');
+const ModuleResolver = require("lwc-services/lib/utils/webpack/module-resolver");
+const gulp = require("gulp");
+const NewportSassWatcherPlugin = require("./sass-watcher-plugin");
+require("../scripts/gulp/styles");
 function getWebpackEntryPaths(entry) {
-  if (typeof entry === 'string') {
+  if (typeof entry === "string") {
     return [entry];
   }
   if (entry instanceof Array) {
@@ -18,7 +18,7 @@ function getWebpackEntryPaths(entry) {
   const paths = [];
   Object.keys(entry).forEach((name) => {
     const path = entry[name];
-    if (typeof path === 'string') {
+    if (typeof path === "string") {
       paths.push(path);
     } else {
       paths.concat(path);
@@ -26,20 +26,24 @@ function getWebpackEntryPaths(entry) {
   });
   return paths;
 }
+
+const createCompiler = require("@storybook/addon-docs/mdx-compiler-plugin");
+
 module.exports = {
   stories: [
-    '../ui/**/*.stories.js',
-    '../docs/**/*.stories.js',
-    '../stories/**/*.stories.js',
+    "../ui/**/*.stories.@(js|mdx)",
+    "../docs/**/*.stories.js",
+    "../stories/**/*.stories.js",
   ],
   addons: [
-    '@storybook/addon-knobs',
-    '@storybook/addon-viewport',
-    '@storybook/addon-links',
+    "@storybook/addon-knobs",
+    "@storybook/addon-viewport",
+    "@storybook/addon-links",
+    "@storybook/addon-docs/register",
   ],
   webpackFinal: (customConfig) => {
     const MODULE_CONFIG = {
-      path: path.resolve('src/modules'),
+      path: path.resolve("src/modules"),
     };
     // // this part tells Webpack which files to the LWC module loader on
     // // it'll match all js, ts, html and css files in the `src/modules` directory
@@ -51,14 +55,14 @@ module.exports = {
             test: /\.(js|ts|html|css)$/,
             include: [
               MODULE_CONFIG.path,
-              path.resolve(process.cwd(), 'node_modules'),
+              path.resolve(process.cwd(), "node_modules"),
             ],
             use: [
               {
                 loader: moduleLoader,
                 options: {
                   module: MODULE_CONFIG,
-                  mode: 'development',
+                  mode: "development",
                 },
               },
             ],
@@ -84,10 +88,10 @@ module.exports = {
     const entryPaths = getWebpackEntryPaths(customConfig.entry);
     const lwcModuleResolver = {
       resolve: {
-        extensions: ['.js', '.ts', '.json'],
+        extensions: [".js", ".ts", ".json"],
         alias: {
-          lwc: require.resolve('@lwc/engine'),
-          '@lwc/wire-service': require.resolve('@lwc/wire-service'),
+          lwc: require.resolve("@lwc/engine"),
+          "@lwc/wire-service": require.resolve("@lwc/wire-service"),
         },
         plugins: [
           new ModuleResolver({
@@ -100,16 +104,44 @@ module.exports = {
     serverConfig = webpackMerge.smart(serverConfig, lwcModuleResolver);
     serverConfig.module.rules.push({
       test: /\.(scss|yml)$/,
-      loaders: ['raw-loader'],
-      include: path.resolve(__dirname, '../'),
+      loaders: ["raw-loader"],
+      include: path.resolve(__dirname, "../"),
+    });
+
+    serverConfig.module.rules.push({
+      // 2a. Load `.stories.mdx` / `.story.mdx` files as CSF and generate
+      //     the docs page from the markdown
+      test: /\.(stories|story)\.mdx$/,
+      use: [
+        {
+          loader: "babel-loader",
+          // may or may not need this line depending on your app's setup
+          options: {
+            plugins: ["@babel/plugin-transform-react-jsx"],
+          },
+        },
+        {
+          loader: "@mdx-js/loader",
+          options: {
+            compilers: [createCompiler({})],
+          },
+        },
+      ],
+    });
+
+    serverConfig.module.rules.push({
+      test: /\.(stories|story)\.[tj]sx?$/,
+      loader: require.resolve("@storybook/source-loader"),
+      exclude: [/node_modules/],
+      enforce: "pre",
     });
 
     serverConfig.plugins.push(new NewportSassWatcherPlugin());
     // Sass
-    gulp.series('styles:framework')();
+    gulp.series("styles:framework")();
     // mock fs for comment parser
     serverConfig.node = {
-      fs: 'empty',
+      fs: "empty",
     };
     return serverConfig;
   },

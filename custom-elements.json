@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "tags": [
+    {
+      "name": "c-button",
+      "description": "Buttons are clickable items used to perform an action.",
+      "properties": [
+        {
+          "name": "header"
+        }
+      ],
+      "attributes": [],
+      "events": [],
+      "slots": [],
+      "cssProperties": []
+    }
+  ]
+}
