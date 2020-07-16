@@ -402,11 +402,14 @@ export default class Node extends LightningElement {
 
         // End point dynamic position based on start node container height
         if (this.node.elementType === ELEMENT_TYPE.START_ELEMENT && getProcessType()) {
-            const container = this.template.querySelector('.start-node-container');
-            if (container && container.offsetHeight !== this.currentStartNodeHeight) {
-                this.currentStartNodeHeight = container.offsetHeight;
+            const startContainer = this.template.querySelector('.start-node-container');
+            if (startContainer && startContainer.offsetHeight !== this.currentStartNodeHeight) {
+                this.currentStartNodeHeight = startContainer.offsetHeight;
                 const boxTop = (1 - 10 / this.currentStartNodeHeight) * 100;
                 this.endPointStyle = `top: ${boxTop}%;`;
+                if (startContainer.getAttribute('id')) {
+                    getDrawingLibInstance().revalidate(startContainer);
+                }
             }
         }
     }
