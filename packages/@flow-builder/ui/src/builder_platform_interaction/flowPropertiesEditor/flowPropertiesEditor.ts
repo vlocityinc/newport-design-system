@@ -276,11 +276,14 @@ export default class FlowPropertiesEditor extends LightningElement {
      * @return {string}
      */
     get lastModifiedText() {
-        return format(
-            LABELS.lastModifiedText,
-            this.flowProperties.lastModifiedBy.value,
-            normalizeDateTime(this.flowProperties.lastModifiedDate.value, true)
-        );
+        if (this.flowProperties.lastModifiedBy && this.flowProperties.lastModifiedBy.value) {
+            return format(
+                LABELS.lastModifiedText,
+                this.flowProperties.lastModifiedBy.value,
+                normalizeDateTime(this.flowProperties.lastModifiedDate.value, true)
+            );
+        }
+        return '';
     }
 
     /**
