@@ -171,7 +171,9 @@ const PANELS = {
 };
 
 const EDITOR_COMPONENT_CONFIGS = {
+    TOOLBAR_CONFIG: 'toolbarConfig',
     LEFT_PANEL_CONFIG: 'leftPanelConfig',
+    RIGHT_PANEL_CONFIG: 'rightPanelConfig',
     CANVAS_CONFIG: 'canvasConfig'
 };
 
@@ -484,17 +486,15 @@ export default class Editor extends LightningElement {
     }
 
     get toolbarConfig() {
-        return (
-            (this.builderConfig &&
-                this.builderConfig.componentConfigs &&
-                this.builderConfig.componentConfigs[this.builderMode] &&
-                this.builderConfig.componentConfigs[this.builderMode].toolbarConfig) ||
-            {}
-        );
+        return this.getConfig(EDITOR_COMPONENT_CONFIGS.TOOLBAR_CONFIG);
     }
 
     get leftPanelConfig() {
         return this.getConfig(EDITOR_COMPONENT_CONFIGS.LEFT_PANEL_CONFIG);
+    }
+
+    get rightPanelConfig() {
+        return this.getConfig(EDITOR_COMPONENT_CONFIGS.RIGHT_PANEL_CONFIG);
     }
 
     get canvasConfig() {
@@ -506,7 +506,7 @@ export default class Editor extends LightningElement {
     }
 
     get showDebugPanel() {
-        return this.builderMode === BUILDER_MODE.DEBUG_MODE;
+        return !!this.rightPanelConfig.showDebugPanel;
     }
 
     get showRightPanel() {

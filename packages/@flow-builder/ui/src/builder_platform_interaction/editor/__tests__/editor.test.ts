@@ -231,7 +231,9 @@ const selectors = {
     addnewresource: '.test-left-panel-add-resource',
     propertyEditorPanel: 'builder_platform_interaction-property-editor-panel',
     canvasContainer: 'builder_platform_interaction-canvas-container',
+    leftPanel: 'builder_platform_interaction-left-panel',
     rightPanel: 'builder_platform_interaction-right-panel',
+    debugPanel: 'builder_platform_interaction-debug-panel',
     flcBuilderContainer: 'builder_platform_interaction-flc-builder-container'
 };
 
@@ -1266,7 +1268,72 @@ describe('editor guardrails', () => {
         expect(actualResult.results.get(FLOW_ID)).toEqual([{ data: 'result1' }, { data: 'result2' }]);
     });
 });
+describe('in edit mode', () => {
+    it('left panel is displayed', async () => {
+        expect.assertions(1);
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.EDIT_MODE]: { leftPanelConfig: { showLeftPanel: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
+        await ticks(1);
+
+        const leftPanel = editorComponent.shadowRoot.querySelector(selectors.leftPanel);
+        expect(leftPanel).not.toBeNull();
+    });
+    it('right panel is hidden', async () => {
+        expect.assertions(1);
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.EDIT_MODE]: { rightPanelConfig: { showDebugPanel: false } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.EDIT_MODE);
+        await ticks(1);
+
+        const rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+        expect(rightPanel).toBeNull();
+    });
+});
 describe('in debug mode', () => {
+    it('left panel is hidden', async () => {
+        expect.assertions(1);
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.DEBUG_MODE]: { leftPanelConfig: { showLeftPanel: false } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
+        await ticks(1);
+
+        const leftPanel = editorComponent.shadowRoot.querySelector(selectors.leftPanel);
+        expect(leftPanel).toBeNull();
+    });
+    it('right panel panel is displayed', async () => {
+        expect.assertions(2);
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new',
+            builderMode: 'debugMode',
+            builderConfig: {
+                supportedProcessTypes: ['right'],
+                componentConfigs: { [BUILDER_MODE.DEBUG_MODE]: { rightPanelConfig: { showDebugPanel: true } } }
+            }
+        });
+        editorComponent.setBuilderMode(BUILDER_MODE.DEBUG_MODE);
+        await ticks(1);
+
+        const rightPanel = editorComponent.shadowRoot.querySelector(selectors.rightPanel);
+        expect(rightPanel).not.toBeNull();
+        const debugPanel = editorComponent.shadowRoot.querySelector(selectors.debugPanel);
+        expect(debugPanel).not.toBeNull();
+    });
     it('debug toast event is fired on clicking done in property editor', async () => {
         expect.assertions(1);
         const debugToast = jest.fn();
