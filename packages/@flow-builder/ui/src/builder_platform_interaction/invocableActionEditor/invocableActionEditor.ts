@@ -315,8 +315,8 @@ export default class InvocableActionEditor extends LightningElement {
         if (this._shouldCreateConfigurationEditor() && this.actionCallNode && this.actionCallNode.dataTypeMappings) {
             const typeMappings = this.actionCallNode.dataTypeMappings.filter(({ typeValue }) => !!typeValue);
             return typeMappings.map(({ typeName, typeValue }) => ({
-                name: getValueFromHydratedItem(typeName),
-                value: getValueFromHydratedItem(typeValue)
+                typeName: getValueFromHydratedItem(typeName),
+                typeValue: getValueFromHydratedItem(typeValue)
             }));
         }
         return [];

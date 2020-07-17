@@ -65,9 +65,9 @@ describe('Custom Property Editor', () => {
     it('gets the correct type mappings from the proxy ', () => {
         const cpe = createComponentForTest();
         const proxy = new Proxy(mockConfigurationEditorTypeMappings, []);
-        cpe.typeMappings = proxy;
+        cpe.genericTypeMappings = proxy;
 
-        expect(cpe.typeMappings).toMatchObject(mockConfigurationEditorTypeMappings);
+        expect(cpe.genericTypeMappings).toMatchObject(mockConfigurationEditorTypeMappings);
     });
     it('gets the correct builder context from the proxy ', () => {
         const cpe = createComponentForTest();

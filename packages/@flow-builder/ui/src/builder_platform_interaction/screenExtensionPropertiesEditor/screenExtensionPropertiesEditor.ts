@@ -195,8 +195,8 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         if (this._shouldCreateConfigurationEditor() && this._field && this._field.dynamicTypeMappings) {
             const typeMappings = this._field.dynamicTypeMappings.filter(({ typeValue }) => !!typeValue);
             return typeMappings.map(({ typeName, typeValue }) => ({
-                name: getValueFromHydratedItem(typeName),
-                value: getValueFromHydratedItem(typeValue)
+                typeName: getValueFromHydratedItem(typeName),
+                typeValue: getValueFromHydratedItem(typeValue)
             }));
         }
         return [];
@@ -273,11 +273,11 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
     handleCpeTypeMappingChangeEvent(event) {
         event.stopPropagation();
         if (event && event.detail) {
-            const { name, value } = event.detail;
+            const { typeName, typeValue } = event.detail;
             this.dispatchEvent(
                 new DynamicTypeMappingChangeEvent({
-                    typeName: name,
-                    typeValue: value,
+                    typeName,
+                    typeValue,
                     isConfigurable: true
                 })
             );

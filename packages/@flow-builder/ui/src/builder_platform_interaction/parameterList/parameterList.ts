@@ -248,11 +248,11 @@ export default class ParameterList extends LightningElement {
     handleCpeTypeMappingChangeEvent(event) {
         event.stopPropagation();
         if (event && event.detail) {
-            const { name, value } = event.detail;
+            const { typeName, typeValue } = event.detail;
             this.dispatchEvent(
                 new DynamicTypeMappingChangeEvent({
-                    typeName: name,
-                    typeValue: value,
+                    typeName,
+                    typeValue,
                     isConfigurable: true
                 })
             );
