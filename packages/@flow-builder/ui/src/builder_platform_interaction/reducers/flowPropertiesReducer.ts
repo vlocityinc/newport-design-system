@@ -20,7 +20,8 @@ import {
     UPDATE_CANVAS_ELEMENT,
     DECORATE_CANVAS,
     CLEAR_CANVAS_DECORATION,
-    UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE
+    UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE,
+    UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY
 } from 'builder_platform_interaction/actions';
 import { createFlowProperties } from 'builder_platform_interaction/elementFactory';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -77,8 +78,12 @@ export default function flowPropertiesReducer(state = flowProperties, { payload,
         case UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE:
             return {
                 ...state,
-                ...payload.properties,
-                hasUnsavedChanges: true
+                hasUnsavedChanges: payload.updatedHasUnsavedChangesProperty
+            };
+        case UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY:
+            return {
+                ...state,
+                isAutoLayoutCanvas: payload
             };
         case UPDATE_PROPERTIES_AFTER_ACTIVATING:
         case UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE:

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { getElementByGuid, shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
 import { createWaitEvent, createDuplicateWait, createWaitWithWaitEvents } from '../wait';
 import { createInputParameter, createInputParameterMetadataObject } from '../inputParameter';
 import { createOutputParameter, createOutputParameterMetadataObject } from '../outputParameter';
@@ -10,7 +10,6 @@ import {
     CONNECTOR_TYPE,
     WAIT_TIME_EVENT_PARAMETER_NAMES
 } from 'builder_platform_interaction/flowMetadata';
-import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 import {
     baseCanvasElementMetadataObject,
     baseChildElementMetadataObject,
@@ -67,13 +66,8 @@ const emptyParameterValueWaitEvent = {
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
-        getElementByGuid: jest.fn()
-    };
-});
-
-jest.mock('builder_platform_interaction/contextLib', () => {
-    return {
-        useFixedLayoutCanvas: jest.fn()
+        getElementByGuid: jest.fn(),
+        shouldUseAutoLayoutCanvas: jest.fn()
     };
 });
 
@@ -445,7 +439,7 @@ describe('wait', () => {
 
     describe('createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor', () => {
         const shouldUseFlc = useFlc => {
-            useFixedLayoutCanvas.mockImplementation(() => {
+            shouldUseAutoLayoutCanvas.mockImplementation(() => {
                 return useFlc;
             });
         };

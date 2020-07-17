@@ -110,7 +110,6 @@ import {
     createPastedEmailAlert,
     createPastedLoop
 } from 'builder_platform_interaction/elementFactory';
-import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
 export const EDIT_START_SCHEDULE_CONTEXT = 'editStartScheduleContext';
 export const EDIT_START_RECORD_CHANGE_CONTEXT = 'editStartRecordChangeContext';
@@ -949,6 +948,36 @@ export const elementTypeToConfigMap = {
             propertyEditor: createScreenField
         }
     },
+    [ELEMENT_TYPE.END_ELEMENT]: {
+        nodeConfig: {
+            iconBackgroundColor: 'background-red',
+            iconName: 'utility:stop',
+            iconShape: ICON_SHAPE.CIRCLE,
+            iconSize: 'medium',
+            maxConnections: 0,
+            section: LABELS.flowControlLogicLabel,
+            description: LABELS.endElementDescription
+        },
+        bodyCssClass: '',
+        canvasElement: true,
+        labels: {
+            singular: LABELS.endElementSingularLabel,
+            plural: LABELS.endElementPluralLabel
+        }
+    },
+    [ELEMENT_TYPE.ROOT_ELEMENT]: {
+        descriptor: 'builder_platform_interaction:defaultEditor',
+        nodeConfig: {
+            iconName: 'standard:custom',
+            maxConnections: 1
+        },
+        bodyCssClass: '',
+        labels: {
+            singular: '',
+            newModal: '',
+            editModal: ''
+        }
+    },
     [ELEMENT_TYPE.DEFAULT]: {
         // defaultEditor doesn't exist but should lead here making it easier to debug the issue
         descriptor: 'builder_platform_interaction:defaultEditor',
@@ -957,39 +986,6 @@ export const elementTypeToConfigMap = {
             maxConnections: 1
         },
         bodyCssClass: ''
-    }
-};
-
-const END_ELEMENT_CONFIG = {
-    nodeConfig: {
-        iconBackgroundColor: 'background-red',
-        iconName: 'utility:stop',
-        iconShape: ICON_SHAPE.CIRCLE,
-        iconSize: 'medium',
-        maxConnections: 0,
-        section: LABELS.flowControlLogicLabel,
-        description: LABELS.endElementDescription
-    },
-    metadataKey: ELEMENT_TYPE.END_ELEMENT,
-    bodyCssClass: '',
-    canvasElement: true,
-    labels: {
-        singular: LABELS.endElementSingularLabel,
-        plural: LABELS.endElementPluralLabel
-    }
-};
-
-const ROOT_ELEMENT_CONFIG = {
-    descriptor: 'builder_platform_interaction:defaultEditor',
-    nodeConfig: {
-        iconName: 'standard:custom',
-        maxConnections: 1
-    },
-    bodyCssClass: '',
-    labels: {
-        singular: '',
-        newModal: '',
-        editModal: ''
     }
 };
 
@@ -1041,25 +1037,10 @@ export function getConfigForElement(element: object): object {
  * @returns An object containing component config
  */
 export function getConfigForElementType(elementType: string): object {
-    return useFixedLayoutCanvas() ? flcGetConfigForElementType(elementType) : ffcGetConfigForElementType(elementType);
-}
-
-function ffcGetConfigForElementType(elementType) {
     if (elementType === null || elementType === undefined || !elementTypeToConfigMap[elementType]) {
         elementType = ELEMENT_TYPE.DEFAULT;
     }
     return elementTypeToConfigMap[elementType];
-}
-
-function flcGetConfigForElementType(elementType) {
-    switch (elementType) {
-        case ELEMENT_TYPE.ROOT_ELEMENT:
-            return ROOT_ELEMENT_CONFIG;
-        case ELEMENT_TYPE.END_ELEMENT:
-            return END_ELEMENT_CONFIG;
-        default:
-            return ffcGetConfigForElementType(elementType);
-    }
 }
 
 /**

@@ -4,6 +4,12 @@ import { createElement } from 'lwc';
 import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        shouldUseAutoLayoutCanvas: jest.fn()
+    };
+});
+
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-screen-editor-palette', { is: ScreenPalette });
     // Using the setter for screenFieldTypes triggers buildModel which populates the palette.

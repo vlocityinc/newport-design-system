@@ -18,7 +18,7 @@
             <div class={flowResourceListClass}>
                 <lightning-tabset>
                     <lightning-tab
-                        if:true={showElements}
+                        if:true={showElementsTab}
                         value="left-panel-tabitem-elements"
                         label={labels.elementTabText}
                         class="slds-p-around_none"
@@ -54,6 +54,7 @@
                         <builder_platform_interaction-left-panel-resources
                             canvas-elements={canvasElements}
                             non-canvas-elements={nonCanvasElements}
+                            show-locator-icon={showLocatorIcon}
                             onpaletteitemclicked={handleResourceClicked}
                             onshowresourcedetails={handleShowResourceDetails}
                         ></builder_platform_interaction-left-panel-resources>
@@ -64,6 +65,7 @@
                 <builder_platform_interaction-resource-details
                     if:true={showResourceDetailsPanel}
                     resource-details={resourceDetails}
+                    show-locator-icon={showLocatorIcon}
                     ondeleteresource={handleDeleteButtonClicked}
                 ></builder_platform_interaction-resource-details>
             </div>

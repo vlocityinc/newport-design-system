@@ -3,6 +3,7 @@ import reducer from '../flowPropertiesReducer';
 import {
     UPDATE_FLOW,
     UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE,
+    UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY,
     UPDATE_PROPERTIES,
     UPDATE_APEX_CLASSES,
     UPDATE_ENTITIES
@@ -80,18 +81,35 @@ describe('flow-properties-reducer', () => {
         expect(newPropertiesState.hasUnsavedChanges).toBe(false);
     });
 
-    it('with state set to defined & action type set to UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE should return the new state with the updated flow properties', () => {
+    it('with state set to defined & action type set to UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE should return the new state amd update the hasUnsavedChanges accordingly', () => {
+        const updatedHasUnsavedChangesProperty = true;
         const newPropertiesState = reducer(oldProperties, {
             type: UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE,
-            payload: { properties: newProperties }
+            payload: { updatedHasUnsavedChangesProperty }
         });
         expect(newPropertiesState).not.toBe(oldProperties);
         expect(newPropertiesState.name).toEqual(oldProperties.name);
         expect(newPropertiesState.label).toEqual(oldProperties.label);
         expect(newPropertiesState.description).toEqual(oldProperties.description);
-        expect(newPropertiesState.processType).toEqual(newProperties.processType);
-        expect(newPropertiesState.org).toEqual(newProperties.org);
-        expect(newPropertiesState.hasUnsavedChanges).toBe(true);
+        expect(newPropertiesState.processType).toEqual(oldProperties.processType);
+        expect(newPropertiesState.org).toEqual(oldProperties.org);
+        expect(newPropertiesState.hasUnsavedChanges).toBe(updatedHasUnsavedChangesProperty);
+    });
+
+    it('with state set to defined & action type set to UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY should return the new state amd update the isAutoLayoutCanvas accordingly', () => {
+        const isAutoLayoutCanvas = true;
+        const newPropertiesState = reducer(oldProperties, {
+            type: UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY,
+            payload: isAutoLayoutCanvas
+        });
+        expect(newPropertiesState).not.toBe(oldProperties);
+        expect(newPropertiesState.name).toEqual(oldProperties.name);
+        expect(newPropertiesState.label).toEqual(oldProperties.label);
+        expect(newPropertiesState.description).toEqual(oldProperties.description);
+        expect(newPropertiesState.processType).toEqual(oldProperties.processType);
+        expect(newPropertiesState.org).toEqual(oldProperties.org);
+        expect(newPropertiesState.hasUnsavedChanges).toBe(oldProperties.hasUnsavedChanges);
+        expect(newPropertiesState.isAutoLayoutCanvas).toBe(isAutoLayoutCanvas);
     });
 
     test.each([UPDATE_APEX_CLASSES, UPDATE_ENTITIES])('should not set hasUnsavedChanges on %s', action => {

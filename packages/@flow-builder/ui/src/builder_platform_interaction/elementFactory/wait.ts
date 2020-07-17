@@ -19,7 +19,7 @@ import { getConnectionProperties } from './commonFactoryUtils/decisionAndWaitCon
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
 import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
 import { createConnectorObjects } from './connector';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { getElementByGuid, shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
 import {
     baseCanvasElementMetadataObject,
     baseChildElementMetadataObject,
@@ -28,7 +28,6 @@ import {
 import { isObject, isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementFactoryLabels';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
 const elementType = ELEMENT_TYPE.WAIT;
 const MAX_CONNECTIONS_DEFAULT = 2;
@@ -441,7 +440,7 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
         connectorCount += 1;
     }
 
-    if (useFixedLayoutCanvas()) {
+    if (shouldUseAutoLayoutCanvas()) {
         Object.assign(newWait, {
             children: newChildren
         });
@@ -611,7 +610,7 @@ function getUpdatedChildrenDeletedWaitEventsUsingStore(originalWait, newWaitEven
             })
             .map(childReference => getElementByGuid(childReference));
 
-        if (useFixedLayoutCanvas()) {
+        if (shouldUseAutoLayoutCanvas()) {
             // For wait events that previously existed, finding the associated children
             // and putting them at the right indexes in newChildren
             for (let i = 0; i < newWaitEventGuids.length; i++) {

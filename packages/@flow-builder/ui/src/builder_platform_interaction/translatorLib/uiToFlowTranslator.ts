@@ -3,7 +3,6 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { swapUidsForDevNames } from './uidSwapping';
 import { getFlowBounds } from 'builder_platform_interaction/connectorUtils';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
-import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 import { convertFromFlc } from 'builder_platform_interaction/flcConversionUtils';
 
 const getXYTranslate = canvasElements => {
@@ -34,7 +33,8 @@ const getXYTranslate = canvasElements => {
  * @returns {Object} Flow object that can be deserialized into the Flow tooling object
  */
 export function translateUIModelToFlow(uiModel) {
-    uiModel = useFixedLayoutCanvas() ? convertFromFlc(uiModel) : uiModel;
+    const isAutoLayoutCanvas = uiModel.properties.isAutoLayoutCanvas;
+    uiModel = isAutoLayoutCanvas ? convertFromFlc(uiModel) : uiModel;
     const elements = uiModel.elements;
     const connectors = uiModel.connectors;
     const { name, versionNumber } = uiModel.properties;

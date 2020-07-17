@@ -1,15 +1,8 @@
 // @ts-nocheck
 import { swapDevNamesToUids } from './uidSwapping';
-import {
-    ELEMENT_TYPE,
-    METADATA_KEY,
-    isSystemElement,
-    forEachMetadataFlowElement
-} from 'builder_platform_interaction/flowMetadata';
+import { METADATA_KEY, isSystemElement, forEachMetadataFlowElement } from 'builder_platform_interaction/flowMetadata';
 import { createFlowProperties, INCOMPLETE_ELEMENT } from 'builder_platform_interaction/elementFactory';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
-import { useFixedLayoutCanvas, setUseFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
-import { convertToFlc, isFixedLayoutCanvas } from 'builder_platform_interaction/flcConversionUtils';
 
 /**
  * Get the flow startElementReference property if any
@@ -37,13 +30,6 @@ export function translateFlowToUIModel(flow) {
 
     let { storeElements = {} } = storeDataAndConfig;
 
-    // TODO: FLC TEMP CODE
-    const startElement = Object.values(storeElements).find(ele => ele.elementType === ELEMENT_TYPE.START_ELEMENT);
-
-    if (startElement) {
-        setUseFixedLayoutCanvas(isFixedLayoutCanvas(startElement));
-    }
-
     const { storeConnectors = [] } = storeDataAndConfig;
 
     const { translateX } = storeDataAndConfig;
@@ -62,10 +48,6 @@ export function translateFlowToUIModel(flow) {
         storeConnectors,
         properties
     });
-
-    if (useFixedLayoutCanvas()) {
-        convertToFlc({ connectors: storeConnectors, elements: storeElements, canvasElements: canvasElementGuids });
-    }
 
     return {
         elements: storeElements,

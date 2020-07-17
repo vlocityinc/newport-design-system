@@ -1,5 +1,5 @@
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { getElementByGuid, shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { createFEROV } from '../ferov';
@@ -9,7 +9,6 @@ import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
-import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
 
 export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
@@ -103,7 +102,7 @@ function createCanvasElementConfig(
 }
 
 /**
- *  Adds FLC specific ui model properties
+ *  Adds ALC specific ui model properties
  */
 function addBaseCanvasElementProperties(canvasElement, newCanvasElement) {
     const {
@@ -136,7 +135,7 @@ export function baseCanvasElement(canvasElement: any = {}): CanvasElement {
     let { config } = canvasElement;
     config = createCanvasElementConfig(config);
 
-    if (useFixedLayoutCanvas()) {
+    if (shouldUseAutoLayoutCanvas()) {
         addBaseCanvasElementProperties(canvasElement, newCanvasElement);
     }
 

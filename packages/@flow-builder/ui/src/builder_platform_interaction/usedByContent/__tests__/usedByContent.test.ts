@@ -2,21 +2,27 @@
 import { createElement } from 'lwc';
 import UsedByContent from '../usedByContent';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
-import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
+import { shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
 
-jest.mock('builder_platform_interaction/contextLib', () => {
+jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
-        useFixedLayoutCanvas: jest.fn()
+        shouldUseAutoLayoutCanvas: jest.fn()
     };
 });
 
-function createComponentForTest(listSectionHeader, listSectionItems, isResourceDetails = false) {
+function createComponentForTest(
+    listSectionHeader,
+    listSectionItems,
+    isResourceDetails = false,
+    showLocatorIcon = true
+) {
     const el = createElement('builder_platform_interaction-used-by-content', {
         is: UsedByContent
     });
     el.listSectionHeader = listSectionHeader;
     el.listSectionItems = listSectionItems;
     el.isResourceDetails = isResourceDetails;
+    el.showLocatorIcon = showLocatorIcon;
     document.body.appendChild(el);
     return el;
 }
@@ -76,18 +82,18 @@ describe('Used-By-Content component', () => {
             );
             expect(usedBySectionItemContentItem).not.toBeNull();
         });
-        it('Should show locator icon when not in Auto-Layout mode and section list exists', async () => {
-            const usedByContentComponent = createComponentForTest('Section-Header', expectedResult, true);
+        it('Should show locator icon when showLocatorIcon is true and section list exists', async () => {
+            const usedByContentComponent = createComponentForTest('Section-Header', expectedResult, true, true);
             await ticks(1);
             const usedBySectionItemContentItem = usedByContentComponent.shadowRoot.querySelector(
                 selectors.usedByContentItem
             );
             expect(usedBySectionItemContentItem.showLocatorIcon).toBeTruthy();
         });
-        it('Should not show locator icon when in Auto-Layout mode and section list exists', async () => {
-            useFixedLayoutCanvas.mockImplementation(() => true);
+        it('Should not show locator icon when showLocatorIcon is false and section list exists', async () => {
+            shouldUseAutoLayoutCanvas.mockImplementation(() => true);
 
-            const usedByContentComponent = createComponentForTest('Section-Header', expectedResult, true);
+            const usedByContentComponent = createComponentForTest('Section-Header', expectedResult, true, false);
             await ticks(1);
             const usedBySectionItemContentItem = usedByContentComponent.shadowRoot.querySelector(
                 selectors.usedByContentItem

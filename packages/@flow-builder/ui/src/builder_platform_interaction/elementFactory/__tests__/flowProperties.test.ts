@@ -75,7 +75,8 @@ describe('Flow properties', () => {
                 interviewLabel: '',
                 elementType: 'FLOW_PROPERTIES',
                 isLightningFlowBuilder: true,
-                hasUnsavedChanges: false
+                hasUnsavedChanges: false,
+                isAutoLayoutCanvas: false
             };
             const actualResult = createFlowProperties();
             expect(actualResult).toMatchObject(expectedResult);
@@ -137,6 +138,38 @@ describe('Flow properties', () => {
                 const actualResult = createFlowProperties(flowMetadata);
 
                 expect(actualResult.lastModifiedBy).toEqual(someUserName);
+            });
+        });
+
+        describe('isAutoLayoutCanvas', () => {
+            it('return true for isAutoLayoutCanvas when processMetadataValues has canvas mode as auto-layout', () => {
+                const flowMetadataInFlowBuilder = { ...flowMetadataSavedInFlowBuilder };
+                flowMetadataInFlowBuilder.metadata.processMetadataValues = [
+                    {
+                        name: 'CanvasMode',
+                        value: {
+                            stringValue: 'AUTO_LAYOUT_CANVAS'
+                        }
+                    }
+                ];
+
+                const actualResult = createFlowProperties(flowMetadataInFlowBuilder);
+                expect(actualResult.isAutoLayoutCanvas).toBeTruthy();
+            });
+
+            it('return false for isAutoLayoutCanvas when processMetadataValues has canvas mode as free-form', () => {
+                const flowMetadataInFlowBuilder = { ...flowMetadataSavedInFlowBuilder };
+                flowMetadataInFlowBuilder.metadata.processMetadataValues = [
+                    {
+                        name: 'CanvasMode',
+                        value: {
+                            stringValue: 'FREE_FORM_CANVAS'
+                        }
+                    }
+                ];
+
+                const actualResult = createFlowProperties(flowMetadataInFlowBuilder);
+                expect(actualResult.isAutoLayoutCanvas).toBeFalsy();
             });
         });
     });

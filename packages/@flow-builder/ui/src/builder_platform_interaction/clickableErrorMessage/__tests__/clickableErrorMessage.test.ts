@@ -64,7 +64,8 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
                 ]
             };
             return guid !== '1' ? decision : {};
-        })
+        }),
+        shouldUseAutoLayoutCanvas: jest.fn()
     };
 });
 

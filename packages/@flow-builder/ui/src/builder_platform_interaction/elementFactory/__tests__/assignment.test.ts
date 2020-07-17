@@ -82,6 +82,12 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        shouldUseAutoLayoutCanvas: jest.fn()
+    };
+});
+
 describe('Assignment Element Factory', () => {
     describe('createAssignment Function', () => {
         it('returns a new assignment element object with default values when no arguments are passed', () => {

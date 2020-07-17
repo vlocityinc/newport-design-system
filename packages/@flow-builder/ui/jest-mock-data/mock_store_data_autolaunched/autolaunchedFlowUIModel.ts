@@ -539,6 +539,7 @@ export const autolaunchedFlowUIModel = {
         processType: 'AutoLaunchedFlow',
         runInMode: null,
         status: 'Draft',
-        versionNumber: 1
+        versionNumber: 1,
+        isAutoLayoutCanvas: false
     }
 };

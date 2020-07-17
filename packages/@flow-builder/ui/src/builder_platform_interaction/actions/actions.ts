@@ -89,6 +89,8 @@ export const CLEAR_CANVAS_DECORATION = 'CLEAR_CANVAS_DECORATION';
 
 export const UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE = 'UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE';
 
+export const UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY = 'UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY';
+
 /**
  * Helper function to create actions.
  *
@@ -418,7 +420,16 @@ export const clearCanvasDecoration = createAction(CLEAR_CANVAS_DECORATION);
 /**
  * Action for updating flow information in the store when switching between Canvas Modes
  *
- * @param {Object} payload - contains new flow information with updated element properties
- * @returns {Object} action new action based on type and payload
+ * @param payload - contains new flow information with updated element properties
+ * @returns action new action based on type and payload
  */
-export const updateFlowOnCanvasModeToggle = payload => createAction(UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE, payload);
+export const updateFlowOnCanvasModeToggle = (payload: object): object =>
+    createAction(UPDATE_FLOW_ON_CANVAS_MODE_TOGGLE, payload);
+
+/**
+ * Action for updating the isAutoLayoutCanvas property
+ * @param payload - Contains boolean value determining the new value of isAutoLayoutCanvas
+ * @returns action new action based on type and payload
+ */
+export const updateIsAutoLayoutCanvasProperty = (payload: boolean): object =>
+    createAction(UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY, payload);

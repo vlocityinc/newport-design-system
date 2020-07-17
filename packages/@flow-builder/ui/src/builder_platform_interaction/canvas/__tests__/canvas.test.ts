@@ -10,6 +10,12 @@ jest.mock('builder_platform_interaction/keyboardInteractionUtils', () =>
     require('builder_platform_interaction_mocks/keyboardInteractionUtils')
 );
 
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        shouldUseAutoLayoutCanvas: jest.fn()
+    };
+});
+
 const SELECTORS = {
     CANVAS_DIV: '.canvas',
     OVERLAY: '.overlay',

@@ -49,7 +49,6 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
 
             return null;
         },
-
         getElementByDevName(name) {
             const type = name.substring(0, name.length - 1);
             const num = name.substring(name.length - 1);
@@ -61,7 +60,8 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
                 isCollection: false,
                 name
             };
-        }
+        },
+        shouldUseAutoLayoutCanvas: jest.fn()
     };
 });
 

@@ -59,7 +59,7 @@
                 can-only-save-as-new-definition={properties.canOnlySaveAsNewDefinition}
                 has-unsaved-changes={properties.hasUnsavedChanges}
                 ontogglecanvasmode={handleToggleCanvasMode}
-                is-auto-layout-canvas={isAutoLayoutCanvas}
+                is-auto-layout-canvas={properties.isAutoLayoutCanvas}
             ></builder_platform_interaction-toolbar>
         </div>
         <div class="slds-col slds-grow slds-grid">
@@ -72,10 +72,12 @@
                 onlocatoriconclicked={handleHighlightOnCanvas}
                 elements={toolboxElements}
                 palette={palette}
+                show-elements-tab={showLeftPanelElementsTab}
+                show-locator-icon={showLocatorIconInLeftPanel}
             ></builder_platform_interaction-left-panel>
             <div if:true={hasCanvasElements} class="slds-col">
                 <builder_platform_interaction-flc-builder-container
-                    if:true={isAutoLayoutCanvas}
+                    if:true={properties.isAutoLayoutCanvas}
                     elements-metadata={elementsMetadata}
                     is-selection-mode={isSelectionMode}
                     is-paste-available={isPasteAvailable}
@@ -94,7 +96,7 @@
                 >
                 </builder_platform_interaction-flc-builder-container>
                 <builder_platform_interaction-canvas-container
-                    if:false={isAutoLayoutCanvas}
+                    if:false={properties.isAutoLayoutCanvas}
                     canvas-config={canvasConfig}
                     onaddelement={handleAddCanvasElement}
                     oneditelement={handleEditElement}

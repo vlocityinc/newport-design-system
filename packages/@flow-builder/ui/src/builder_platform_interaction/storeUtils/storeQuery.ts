@@ -143,3 +143,15 @@ export const isExecuteOnlyWhenChangeMatchesConditionsPossible = (): boolean => {
  * @returns {String}
  */
 export const getProcessType = () => Store.getStore().getCurrentState().properties.processType;
+
+/**
+ * Returns the value of isAutoLayoutCanvas as in the store. Returns false if the store has not been initialized
+ * @returns true if isAutoLayoutCanvas is set to true in the store. Returns false otherwise
+ */
+export const shouldUseAutoLayoutCanvas = (): boolean => {
+    const currentStoreState = Store.getStore().getCurrentState();
+    if (currentStoreState && currentStoreState.properties) {
+        return currentStoreState.properties.isAutoLayoutCanvas;
+    }
+    return false;
+};

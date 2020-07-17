@@ -14,15 +14,8 @@ import { createEndElement, createConnector } from 'builder_platform_interaction/
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { supportsChildren, flcExtraProps } from 'builder_platform_interaction/flcBuilderUtils';
 
-// TODO: FLC Hack: Temp magic number to identify an flc flow
-const LOCATION_Y_FLC_FLOW = 500;
-
 // TODO: FLC Hack: Magic number to support identifying merge elements
 const LOCATION_X_MERGE_MARKER = 666;
-
-export function isFixedLayoutCanvas(startElement) {
-    return startElement.locationY === LOCATION_Y_FLC_FLOW;
-}
 
 /**
  * @return true if an elementType is root or end
@@ -197,7 +190,7 @@ export function convertToFlc(ffcUiModel) {
     linkBranchOrFault(elements, rootElement, 0, startElement);
     fixFlcProperties(ffcUiModel, startElement, rootElement);
 
-    return { elements, canvasElements: [], connectors: [] };
+    return { ...ffcUiModel, elements, canvasElements: [], connectors: [] };
 }
 
 /**

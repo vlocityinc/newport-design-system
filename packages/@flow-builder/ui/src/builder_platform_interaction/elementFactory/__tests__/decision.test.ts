@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { getElementByGuid, shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
 import {
     createDecisionWithOutcomes,
     createPastedDecision,
@@ -10,7 +10,6 @@ import {
     createDecisionMetadataObject
 } from '../decision';
 import { ELEMENT_TYPE, CONNECTOR_TYPE, CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
-import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 import { LABELS } from '../elementFactoryLabels';
 import {
     baseCanvasElement,
@@ -29,13 +28,8 @@ import { getConnectionProperties } from '../commonFactoryUtils/decisionAndWaitCo
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
         getElementByGuid: jest.fn(),
-        isExecuteOnlyWhenChangeMatchesConditionsPossible: jest.fn().mockReturnValue(true)
-    };
-});
-
-jest.mock('builder_platform_interaction/contextLib', () => {
-    return {
-        useFixedLayoutCanvas: jest.fn()
+        isExecuteOnlyWhenChangeMatchesConditionsPossible: jest.fn().mockReturnValue(true),
+        shouldUseAutoLayoutCanvas: jest.fn()
     };
 });
 
@@ -315,7 +309,7 @@ describe('decision', () => {
 
     describe('createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor', () => {
         const shouldUseFlc = useFlc => {
-            useFixedLayoutCanvas.mockImplementation(() => {
+            shouldUseAutoLayoutCanvas.mockImplementation(() => {
                 return useFlc;
             });
         };

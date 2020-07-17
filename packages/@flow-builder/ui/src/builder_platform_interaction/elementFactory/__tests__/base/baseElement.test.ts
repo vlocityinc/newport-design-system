@@ -13,6 +13,7 @@ import {
 import { CONDITION_LOGIC, ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import * as baseList from '../../base/baseList';
+import { shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
@@ -21,7 +22,8 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
                 guid: 'originalChildElement',
                 name: 'childElement1'
             };
-        })
+        }),
+        shouldUseAutoLayoutCanvas: jest.fn()
     };
 });
 
@@ -158,6 +160,48 @@ describe('Base canvas element function', () => {
                 isHighlighted: false
             }
         };
+        const actualResult = baseCanvasElement(canvasElement);
+        expect(actualResult).toMatchObject(expectedResult);
+    });
+    it('returns a new canvas element object with auto-layout canvas values when no argument is passed and shouldUseAutoLayoutCanvas is true', () => {
+        const expectedResult = {
+            name: '',
+            description: '',
+            label: '',
+            locationX: 0,
+            locationY: 0,
+            connectorCount: 0,
+            isCanvasElement: true,
+            config: {
+                isSelected: false,
+                isSelectable: true,
+                isHighlighted: false
+            },
+            next: null,
+            prev: null
+        };
+        shouldUseAutoLayoutCanvas.mockImplementation(() => true);
+        const actualResult = baseCanvasElement();
+        expect(actualResult).toMatchObject(expectedResult);
+    });
+    it('returns a new canvas element object with auto-layout canvas values when existing resource object is passed as argument and shouldUseAutoLayoutCanvas is true', () => {
+        const expectedResult = {
+            name: 'Assignment 1',
+            description: 'This is description for assignment 1',
+            label: 'Assignment 1',
+            locationX: 10,
+            locationY: 20,
+            connectorCount: 1,
+            isCanvasElement: true,
+            config: {
+                isSelected: true,
+                isSelectable: undefined,
+                isHighlighted: false
+            },
+            next: null,
+            prev: null
+        };
+        shouldUseAutoLayoutCanvas.mockImplementation(() => true);
         const actualResult = baseCanvasElement(canvasElement);
         expect(actualResult).toMatchObject(expectedResult);
     });

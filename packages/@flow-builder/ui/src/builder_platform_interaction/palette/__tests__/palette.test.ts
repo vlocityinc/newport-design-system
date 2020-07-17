@@ -9,6 +9,12 @@ jest.mock('builder_platform_interaction/loggingUtils', () => ({
     logInteraction: jest.fn()
 }));
 
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        shouldUseAutoLayoutCanvas: jest.fn()
+    };
+});
+
 const createComponentUnderTest = (data, detailsButton, showLocatorIcon = 'false') => {
     const el = createElement('builder_platform_interaction-palette', {
         is: Palette

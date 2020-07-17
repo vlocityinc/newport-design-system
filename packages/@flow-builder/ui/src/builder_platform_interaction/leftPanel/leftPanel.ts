@@ -19,7 +19,6 @@ import {
     getResourceTypeLabel
 } from 'builder_platform_interaction/elementLabelLib';
 import { removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
-import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
 let storeInstance;
 let unsubscribeStore;
@@ -48,6 +47,12 @@ export default class LeftPanel extends LightningElement {
     @api
     palette;
 
+    @api
+    showElementsTab;
+
+    @api
+    showLocatorIcon;
+
     @api focus() {
         // Ideally, we should not use shadowRoot to access the child components. The base components
         // should provide overidden focus() method to set focus within the components.
@@ -64,15 +69,6 @@ export default class LeftPanel extends LightningElement {
         super();
         storeInstance = Store.getStore();
         unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
-    }
-
-    get useFixedLayoutCanvas() {
-        return useFixedLayoutCanvas();
-    }
-
-    /** Only show elements tab if we are not using the FLC */
-    get showElements() {
-        return !this.useFixedLayoutCanvas;
     }
 
     mapAppStateToStore = () => {

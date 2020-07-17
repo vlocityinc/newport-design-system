@@ -48,7 +48,9 @@ import {
     CLEAR_CANVAS_DECORATION,
     DECORATE_CANVAS,
     clearCanvasDecoration,
-    updateFlowOnCanvasModeToggle
+    updateFlowOnCanvasModeToggle,
+    updateIsAutoLayoutCanvasProperty,
+    UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY
 } from 'builder_platform_interaction/actions';
 import {
     ELEMENT_TYPE,
@@ -132,11 +134,7 @@ import {
     FocusOnDockingPanelCommand
 } from 'builder_platform_interaction/commands';
 import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
-import {
-    setUseFixedLayoutCanvas,
-    isAutoLayoutCanvasEnabled,
-    useFixedLayoutCanvas
-} from 'builder_platform_interaction/contextLib';
+import { isAutoLayoutCanvasEnabled } from 'builder_platform_interaction/contextLib';
 import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLib';
 import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 import { FlowGuardrailsExecutor, GuardrailsResultEvent } from 'builder_platform_interaction/guardrails';
@@ -337,13 +335,12 @@ export default class Editor extends LightningElement {
     supportedElements = [];
     supportedActions = [];
 
-    // true if we are in auto layout canvas editing mode
-    @track
-    isAutoLayoutCanvas = useFixedLayoutCanvas();
-
     /** Whether canvas elements are available. Don't render the canvas until then. */
     get hasCanvasElements() {
-        return (this.hasFlow && storeInstance.getCurrentState().canvasElements.length > 0) || this.isAutoLayoutCanvas;
+        return (
+            (this.hasFlow && storeInstance.getCurrentState().canvasElements.length > 0) ||
+            this.properties.isAutoLayoutCanvas
+        );
     }
 
     /** Indicates if the component has a flow to edit (now or in future) */
@@ -389,8 +386,16 @@ export default class Editor extends LightningElement {
         return (
             this.properties.processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW &&
             (!this.triggerType || this.triggerType === FLOW_TRIGGER_TYPE.NONE) &&
-            !this.isAutoLayoutCanvas
+            !this.properties.isAutoLayoutCanvas
         );
+    }
+
+    get showLeftPanelElementsTab() {
+        return !this.properties.isAutoLayoutCanvas;
+    }
+
+    get showLocatorIconInLeftPanel() {
+        return !this.properties.isAutoLayoutCanvas;
     }
 
     /** Indicates that the new flow modal is displayed */
@@ -410,7 +415,8 @@ export default class Editor extends LightningElement {
             UPDATE_ENTITIES,
             SELECTION_ON_FIXED_CANVAS,
             DECORATE_CANVAS,
-            CLEAR_CANVAS_DECORATION
+            CLEAR_CANVAS_DECORATION,
+            UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY
         ];
         const groupedActions = [
             TOGGLE_ON_CANVAS, // Used for shift-select elements on canvas.
@@ -638,7 +644,10 @@ export default class Editor extends LightningElement {
                 // double dispatch is required for loop factory (we need to get the corresponding looped variable for auto output)
                 storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
 
-                this.updateCanvasMode(storeInstance.getCurrentState().elements.root, false);
+                if (this.properties.isAutoLayoutCanvas) {
+                    this.updateCanvasMode(this.properties.isAutoLayoutCanvas);
+                }
+
                 if (!data.metadata) {
                     // service does not return the api name but the api name lower cased
 
@@ -1409,37 +1418,56 @@ export default class Editor extends LightningElement {
     };
 
     /**
-     * Updates the canvas mode and optionally converts the flow model
+     * Toggles the isAutoLayoutCanvas if needed, converts the flow into the passed in canvas mode
+     * and updates the store accordingly
      *
-     * @param isAutoLayoutCanvas - Whether to use auto layout canvas
-     * @param shouldConvert - Whether to convert the flow model
+     * @param setupInAutoLayoutCanvas - Determines what mode to setup the Canvas in
      */
-    updateCanvasMode(isAutoLayoutCanvas: boolean, shouldConvert = false) {
-        this.isAutoLayoutCanvas = isAutoLayoutCanvas;
-        setUseFixedLayoutCanvas(isAutoLayoutCanvas);
+    updateCanvasMode(setupInAutoLayoutCanvas = false) {
+        // hansUnsavedChanges property should be set to true only when toggling canvas modes.
+        // It should be false when loading an existing flow. New Flow creation doesn't follow this code path.
+        let updatedHasUnsavedChangesProperty = false;
 
-        if (shouldConvert) {
-            let newFlowState = deepCopy(storeInstance.getCurrentState());
-            const flc = this.template.querySelector('builder_platform_interaction-flc-builder-container');
-            newFlowState = this.isAutoLayoutCanvas
-                ? convertToFlc(newFlowState)
-                : convertFromFlc(newFlowState, flc ? flc.clientWidth : null);
-
-            storeInstance.dispatch(updateFlowOnCanvasModeToggle(newFlowState));
-
-            // Resetting Select mode and cut/copy/paste variables
-            this._resetSelectionState();
-
-            // Clearing the Undo/Redo stack after switching modes
-            this.clearUndoRedoStack();
+        // In case of exiting flows, isAutoLayoutCanvas has already been updated.
+        // Adding a check here to prevent unnecessary update to the store.
+        if (this.properties.isAutoLayoutCanvas !== setupInAutoLayoutCanvas) {
+            updatedHasUnsavedChangesProperty = true;
+            // Updates the isAutoLayoutCanvas property in the store
+            storeInstance.dispatch(updateIsAutoLayoutCanvasProperty(setupInAutoLayoutCanvas));
         }
+
+        const newFlowState = deepCopy(storeInstance.getCurrentState());
+
+        const autoLayoutCanvasContainer = this.template.querySelector(
+            'builder_platform_interaction-flc-builder-container'
+        );
+
+        const { elements, canvasElements, connectors } = setupInAutoLayoutCanvas
+            ? convertToFlc(newFlowState)
+            : convertFromFlc(newFlowState, autoLayoutCanvasContainer ? autoLayoutCanvasContainer.clientWidth : null);
+
+        const payload = {
+            elements,
+            canvasElements,
+            connectors,
+            updatedHasUnsavedChangesProperty
+        };
+
+        // Updates the elements, canvasElements, connectors and hasUnsavedChanges property in the store
+        storeInstance.dispatch(updateFlowOnCanvasModeToggle(payload));
+
+        // Resetting Select mode and cut/copy/paste variables
+        this._resetSelectionState();
+
+        // Clearing the Undo/Redo stack after switching modes
+        this.clearUndoRedoStack();
     }
 
     /**
      * Handles the ToggleCanvasMode event from the toolbar
      */
     handleToggleCanvasMode = () => {
-        if (!this.isAutoLayoutCanvas) {
+        if (!this.properties.isAutoLayoutCanvas) {
             // From Free-Form to Auto-Layout Canvas
             const { elements, connectors } = storeInstance.getCurrentState();
             const startGuid = findStartElement(elements).guid;
@@ -1486,17 +1514,17 @@ export default class Editor extends LightningElement {
                         },
                         buttonTwo: {
                             buttonLabel: LABELS.goToAutolayoutButtonLabel,
-                            buttonCallback: () => this.updateCanvasMode(!this.isAutoLayoutCanvas, true)
+                            buttonCallback: () => this.updateCanvasMode(true)
                         }
                     },
                     headerClass: 'slds-theme_alert-texture slds-theme_warning',
                     bodyClass: 'slds-p-around_medium'
                 });
             } else {
-                this.updateCanvasMode(!this.isAutoLayoutCanvas, true);
+                this.updateCanvasMode(true);
             }
         } else {
-            this.updateCanvasMode(!this.isAutoLayoutCanvas, true);
+            this.updateCanvasMode(false);
         }
     };
 
@@ -2038,8 +2066,10 @@ export default class Editor extends LightningElement {
         }
     };
 
-    setupCanvas = (processType, triggerType, setupInFixedLayoutMode) => {
-        this.updateCanvasMode(setupInFixedLayoutMode, false);
+    setupCanvas = (processType, triggerType, setupInAutoLayoutCanvas) => {
+        // Updating the isAutoLayoutCanvas property in the store based on user's selection.
+        // Elements are accordingly created based on this property.
+        storeInstance.dispatch(updateIsAutoLayoutCanvasProperty(setupInAutoLayoutCanvas));
 
         // create the empty flow for the selected process type
         this.spinners.showFlowMetadataSpinner = true;

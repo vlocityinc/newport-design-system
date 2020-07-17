@@ -28,6 +28,12 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        shouldUseAutoLayoutCanvas: jest.fn()
+    };
+});
+
 const forEachSection = (sections, func) => {
     for (let i = 0; i < sections.length; i++) {
         const section = sections[i];

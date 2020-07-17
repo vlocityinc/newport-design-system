@@ -42,7 +42,8 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
         isDevNameInStore: actual.isDevNameInStore,
         isOrderNumberInStore: actual.isOrderNumberInStore,
         getDuplicateDevNameElements: actual.getDuplicateDevNameElements,
-        getTriggerType: jest.fn()
+        getTriggerType: jest.fn(),
+        shouldUseAutoLayoutCanvas: jest.fn()
     };
 });
 jest.mock('builder_platform_interaction/inlineResourceUtils', () => {

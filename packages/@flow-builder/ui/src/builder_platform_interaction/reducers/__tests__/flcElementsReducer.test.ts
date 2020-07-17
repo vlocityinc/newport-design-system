@@ -80,12 +80,6 @@ jest.mock('builder_platform_interaction/flcBuilderUtils', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/contextLib', () => {
-    return {
-        useFixedLayoutCanvas: jest.fn(() => true)
-    };
-});
-
 const oldElements = { guid1: getElement('guid1', 'ass1') };
 const payload = getElement('guid2', 'ass2');
 

@@ -2,7 +2,8 @@
 import {
     getElementByDevName,
     getDuplicateDevNameElements,
-    isExecuteOnlyWhenChangeMatchesConditionsPossible
+    isExecuteOnlyWhenChangeMatchesConditionsPossible,
+    shouldUseAutoLayoutCanvas
 } from '../storeQuery';
 import { assignmentElement } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -85,5 +86,22 @@ describe('isExecuteOnlyWhenChangeMatchesConditionsPossible', () => {
         });
         const result = isExecuteOnlyWhenChangeMatchesConditionsPossible();
         expect(result).toBeFalsy();
+    });
+});
+
+describe('shouldUseAutoLayoutCanvas', () => {
+    it('returns false when isAutoLayoutCanvas property is set to false', () => {
+        const result = shouldUseAutoLayoutCanvas();
+        expect(result).toBeFalsy();
+    });
+
+    it('returns true when isAutoLayoutCanvas property is set to true', () => {
+        Store.setMockState({
+            properties: {
+                isAutoLayoutCanvas: true
+            }
+        });
+        const result = shouldUseAutoLayoutCanvas();
+        expect(result).toBeTruthy();
     });
 });

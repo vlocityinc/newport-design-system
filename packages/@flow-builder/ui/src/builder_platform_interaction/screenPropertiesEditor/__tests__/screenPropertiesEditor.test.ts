@@ -20,6 +20,12 @@ jest.mock('builder_platform_interaction/selectors', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        shouldUseAutoLayoutCanvas: jest.fn()
+    };
+});
+
 const SELECTORS = {
     NAME_AND_LABEL_FIELD: 'builder_platform_interaction-label-description',
     SHOW_HEADER: 'builder_platform_interaction-screen-property-field[name="showHeader"]',

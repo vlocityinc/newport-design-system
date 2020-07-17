@@ -12,6 +12,12 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        shouldUseAutoLayoutCanvas: jest.fn()
+    };
+});
+
 describe('element-lib', () => {
     describe('When no elements are available', () => {
         it('returns an empty list when elements is undefined', () => {

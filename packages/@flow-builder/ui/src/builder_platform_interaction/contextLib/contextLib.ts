@@ -52,22 +52,6 @@ export function orgHasBeforeSaveEnabled() {
     return context.access.orgHasBeforeSaveEnabled;
 }
 
-// TODO: FLC TEMP
-let useFlc;
-export function setUseFixedLayoutCanvas(value) {
-    useFlc = value;
-}
-
-export function useFixedLayoutCanvas() {
-    if (useFlc != null) {
-        return useFlc;
-    }
-    // TODO: use metadata to determine to use FLC or FFC
-    const hash = window.location.hash;
-    const [key, value] = hash.substring(1).split('=');
-    return key === 'canvasMode' ? value === 'flc' : !window.Aura && !window.runningJestTest;
-}
-
 export function orgHasFlowBuilderGuardrails() {
     return context.access && context.access.orgHasFlowBuilderGuardrails;
 }

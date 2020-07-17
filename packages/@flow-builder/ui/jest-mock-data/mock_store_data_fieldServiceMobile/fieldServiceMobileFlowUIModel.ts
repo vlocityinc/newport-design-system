@@ -454,6 +454,7 @@ export const fieldServiceMobileFlowUIModel = {
         processType: 'FieldServiceMobile',
         runInMode: null,
         status: 'InvalidDraft',
-        versionNumber: 1
+        versionNumber: 1,
+        isAutoLayoutCanvas: false
     }
 };

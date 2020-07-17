@@ -48,7 +48,8 @@ jest.mock('builder_platform_interaction/storeLib', () => require('builder_platfo
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
         getElementByGuid: jest.fn(),
-        isExecuteOnlyWhenChangeMatchesConditionsPossible: jest.fn().mockReturnValue(true)
+        isExecuteOnlyWhenChangeMatchesConditionsPossible: jest.fn().mockReturnValue(true),
+        shouldUseAutoLayoutCanvas: jest.fn()
     };
 });
 

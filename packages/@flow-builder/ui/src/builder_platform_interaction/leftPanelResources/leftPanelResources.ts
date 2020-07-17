@@ -3,13 +3,18 @@ import { LightningElement, api } from 'lwc';
 import { LABELS } from './leftPanelResourcesLabels';
 import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
 import { ShowResourceDetailsEvent } from 'builder_platform_interaction/events';
-import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
 const leftPanelResources = 'LEFT_PANEL_RESOURCES';
 
 export default class LeftPanelResources extends LightningElement {
-    @api canvasElements = [];
-    @api nonCanvasElements = [];
+    @api
+    canvasElements = [];
+
+    @api
+    nonCanvasElements = [];
+
+    @api
+    showLocatorIcon;
 
     constructor() {
         super();
@@ -25,10 +30,6 @@ export default class LeftPanelResources extends LightningElement {
 
     get showCanvasElementsLabel() {
         return this.canvasElements.length > 0;
-    }
-
-    get shouldShowLocatorIcon() {
-        return !useFixedLayoutCanvas();
     }
 
     renderedCallback() {

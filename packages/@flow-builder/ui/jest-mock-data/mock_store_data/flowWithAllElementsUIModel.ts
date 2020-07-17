@@ -2625,6 +2625,7 @@ export const flowWithAllElementsUIModel = {
         processType: 'Flow',
         runInMode: null,
         status: null,
-        versionNumber: 1
+        versionNumber: 1,
+        isAutoLayoutCanvas: false
     }
 };

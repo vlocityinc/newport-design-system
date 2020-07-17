@@ -14,6 +14,12 @@ import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { waitReducer } from '../waitReducer';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        shouldUseAutoLayoutCanvas: jest.fn()
+    };
+});
+
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );

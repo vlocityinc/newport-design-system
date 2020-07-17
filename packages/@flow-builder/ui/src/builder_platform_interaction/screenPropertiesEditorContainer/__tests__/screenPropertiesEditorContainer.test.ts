@@ -23,6 +23,12 @@ jest.mock('builder_platform_interaction/selectors', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        shouldUseAutoLayoutCanvas: jest.fn()
+    };
+});
+
 const createComponentUnderTest = props => {
     const el = createElement('builder_platform_interaction-screen-properties-editor-container', {
         is: ScreenEditorPropertiesEditorContainer

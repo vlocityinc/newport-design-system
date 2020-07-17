@@ -9,8 +9,11 @@ const elementType = ELEMENT_TYPE.FLOW_PROPERTIES;
  */
 
 const BUILDER_TYPE = 'BuilderType';
+const CANVAS_MODE = 'CanvasMode';
 const LIGHTNING_FLOW_BUILDER = 'LightningFlowBuilder';
 const ORIGIN_BUILDER_TYPE = 'OriginBuilderType';
+const AUTO_LAYOUT_CANVAS = 'AUTO_LAYOUT_CANVAS';
+const FREE_FORM_CANVAS = 'FREE_FORM_CANVAS';
 
 /**
  * Either creates a new flow properties or create a new copy of existing flow properties
@@ -52,7 +55,8 @@ export function createFlowProperties(flowProperties = {}) {
     let {
         isLightningFlowBuilder = true,
         isCreatedOutsideLfb = false,
-        canOnlySaveAsNewDefinition = false
+        canOnlySaveAsNewDefinition = false,
+        isAutoLayoutCanvas = false
     } = flowProperties;
 
     const { definitionId } = flowProperties;
@@ -65,6 +69,7 @@ export function createFlowProperties(flowProperties = {}) {
         // 2) After an existing flow is saved for the first time in LFB
         isCreatedOutsideLfb = processMetadataValues.length === 0 || checkIfCreatedOutsideLFB(processMetadataValues);
         isLightningFlowBuilder = checkIfLightningFlowBuilder(processMetadataValues);
+        isAutoLayoutCanvas = checkIfBuiltInAutoLayoutCanvas(processMetadataValues);
     }
     // TODO: make an object that contains lastInlineResourceGuid, lastInlineResourcePosition and lastInlineResourceRowIndex
     return {
@@ -89,7 +94,8 @@ export function createFlowProperties(flowProperties = {}) {
         status,
         triggerType,
         versionNumber,
-        apiVersion
+        apiVersion,
+        isAutoLayoutCanvas
     };
 }
 
@@ -111,11 +117,12 @@ export function createFlowPropertiesMetadataObject(flowProperties) {
         processType,
         runInMode,
         status,
-        apiVersion
+        apiVersion,
+        isAutoLayoutCanvas
     } = flowProperties;
 
-    // Adding a bit to make sure that flow is a saved/created in flow builder.
-    const processMetadataValues = setProcessMetadataValue(isCreatedOutsideLfb);
+    // Adding a bit to make sure that flow is a saved/created in flow builder. And storing the Canvas Mode.
+    const processMetadataValues = setProcessMetadataValue(isCreatedOutsideLfb, isAutoLayoutCanvas);
 
     return {
         description,
@@ -174,16 +181,35 @@ function checkIfLightningFlowBuilder(processMetadataValues = []) {
 }
 
 /**
+ * Check if flow was saved with Canvas Mode 'AUTO-LAYOUT-CANVAS'
+ * @param processMetadataValues array of objects
+ * @returns true if processMetadataValues have a object with name as 'CanvasMode' and stringValue as 'AUTO-LAYOUT-CANVAS'
+ */
+function checkIfBuiltInAutoLayoutCanvas(processMetadataValues: Array<object> = []): boolean {
+    return processMetadataValues.some(processMetadataValue => {
+        return (
+            processMetadataValue.name === CANVAS_MODE &&
+            processMetadataValue.value &&
+            processMetadataValue.value.stringValue === AUTO_LAYOUT_CANVAS
+        );
+    });
+}
+
+/**
  * Setter for processMatadataValue
  * @param {*} isCreatedOutsideLfb if flow was created via CFD, metadata api or any third party builder
+ * @param {*} isAutoLayoutCanvas if flow was saved in Auto-Layout Canvas Mode
  */
-function setProcessMetadataValue(isCreatedOutsideLfb = false) {
+function setProcessMetadataValue(isCreatedOutsideLfb = false, isAutoLayoutCanvas = false) {
     const lfbProcessMetadataValue = createProcessMetadataValue(BUILDER_TYPE, LIGHTNING_FLOW_BUILDER);
+    const canvasTypeProcessMetadataValue = isAutoLayoutCanvas
+        ? createProcessMetadataValue(CANVAS_MODE, AUTO_LAYOUT_CANVAS)
+        : createProcessMetadataValue(CANVAS_MODE, FREE_FORM_CANVAS);
     if (isCreatedOutsideLfb) {
-        return [lfbProcessMetadataValue];
+        return [lfbProcessMetadataValue, canvasTypeProcessMetadataValue];
     }
     const originProcessMetadataValue = createProcessMetadataValue(ORIGIN_BUILDER_TYPE, LIGHTNING_FLOW_BUILDER);
-    return [lfbProcessMetadataValue, originProcessMetadataValue];
+    return [lfbProcessMetadataValue, originProcessMetadataValue, canvasTypeProcessMetadataValue];
 }
 
 /**

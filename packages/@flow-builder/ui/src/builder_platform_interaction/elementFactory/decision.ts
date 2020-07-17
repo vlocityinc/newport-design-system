@@ -11,7 +11,8 @@ import {
 import { getConnectionProperties } from './commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil';
 import {
     getElementByGuid,
-    isExecuteOnlyWhenChangeMatchesConditionsPossible
+    isExecuteOnlyWhenChangeMatchesConditionsPossible,
+    shouldUseAutoLayoutCanvas
 } from 'builder_platform_interaction/storeUtils';
 import {
     baseCanvasElementMetadataObject,
@@ -20,7 +21,6 @@ import {
 } from './base/baseMetadata';
 import { LABELS } from './elementFactoryLabels';
 import { createConnectorObjects } from './connector';
-import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 
 const elementType = ELEMENT_TYPE.DECISION;
 
@@ -200,7 +200,7 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
         deletedOutcomeGuids
     );
 
-    if (useFixedLayoutCanvas()) {
+    if (shouldUseAutoLayoutCanvas()) {
         Object.assign(newDecision, {
             children: newChildren
         });
@@ -399,7 +399,7 @@ function getUpdatedChildrenAndDeletedOutcomesUsingStore(originalDecision, newOut
             })
             .map(childReference => getElementByGuid(childReference));
 
-        if (useFixedLayoutCanvas()) {
+        if (shouldUseAutoLayoutCanvas()) {
             // For outcomes that previously existed, finding the associated children
             // and putting them at the right indexes in newChildren
             for (let i = 0; i < newOutcomeGuids.length; i++) {

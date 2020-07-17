@@ -1,10 +1,9 @@
 // @ts-nocheck
 import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { useFixedLayoutCanvas } from 'builder_platform_interaction/contextLib';
 import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { TRIGGER_TYPE_LABELS } from 'builder_platform_interaction/processTypeLib';
-import { getProcessType } from 'builder_platform_interaction/storeUtils';
+import { getProcessType, shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
 import { getProcessTypes } from 'builder_platform_interaction/systemLib';
 
 const { NONE, BEFORE_SAVE, AFTER_SAVE, SCHEDULED, PLATFORM_EVENT } = FLOW_TRIGGER_TYPE;
@@ -50,7 +49,7 @@ export const flcExtraProps = ['next', 'prev', 'children', 'parent', 'childIndex'
  * @param {*} flcProperties Object containing flc props
  */
 export function addFlcProperties(object, flcProperties) {
-    if (useFixedLayoutCanvas()) {
+    if (shouldUseAutoLayoutCanvas()) {
         flcExtraProps.forEach(propName => {
             const propValue = flcProperties[propName];
             if (propValue !== undefined) {

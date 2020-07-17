@@ -7,7 +7,11 @@ import { LABELS } from './resourceDetailsLabels';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 export default class ResourceDetails extends LightningElement {
-    @api resourceDetails;
+    @api
+    resourceDetails;
+
+    @api
+    showLocatorIcon;
 
     @track
     state = {

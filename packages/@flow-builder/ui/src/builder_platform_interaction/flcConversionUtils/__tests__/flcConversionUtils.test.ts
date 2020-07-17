@@ -33,10 +33,6 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/contextLib', () => {
-    return require('builder_platform_interaction_mocks/contextLib');
-});
-
 jest.mock('builder_platform_interaction/storeLib', () => {
     const actual = require('builder_platform_interaction_mocks/storeLib');
 
@@ -45,6 +41,12 @@ jest.mock('builder_platform_interaction/storeLib', () => {
             return 'end-element-guid';
         }),
         deepCopy: actual.deepCopy
+    };
+});
+
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        shouldUseAutoLayoutCanvas: jest.fn()
     };
 });
 
