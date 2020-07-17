@@ -24,6 +24,11 @@ export default class ActionSelector extends LightningElement {
     @api
     flowProcessType = FLOW_PROCESS_TYPE.FLOW;
 
+    elementTypeToLabelMap = {
+        [ELEMENT_TYPE.ACTION_CALL]: this.labels.actionSearchInputLabel,
+        [ELEMENT_TYPE.SUBFLOW]: this.labels.flowSearchInputLabel
+    };
+
     apexPlugins = [];
     apexPluginsFetched = false;
     subflows = [];
@@ -150,6 +155,10 @@ export default class ActionSelector extends LightningElement {
         }
 
         this.updateActionCombo();
+    }
+
+    get label() {
+        return this.elementTypeToLabelMap[this.state.selectedElementType];
     }
 
     /**

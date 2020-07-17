@@ -22,6 +22,8 @@ import externalServiceTypeOption from '@salesforce/label/FlowBuilderActionSelect
 import externalServiceComboboxPlaceholder from '@salesforce/label/FlowBuilderActionSelector.externalServiceComboboxPlaceholder';
 import loading from '@salesforce/label/FlowBuilderActionSelector.loading';
 import categoryComboboxPlaceholder from '@salesforce/label/FlowBuilderActionSelector.categoryComboboxPlaceholder';
+import flowSearchInputLabel from '@salesforce/label/FlowBuilderActionSelector.flowSearchInputLabel';
+import actionSearchInputLabel from '@salesforce/label/FlowBuilderActionSelector.actionSearchInputLabel';
 
 export const LABELS = {
     loading,
@@ -32,6 +34,8 @@ export const LABELS = {
     filterByCategoryOption,
     filterByTypeOption,
     categoryComboboxPlaceholder,
+    flowSearchInputLabel,
+    actionSearchInputLabel,
     [ELEMENT_TYPE.ACTION_CALL]: {
         TYPE_OPTION_LABEL: actionTypeOption,
         ACTION_COMBO_PLACEHOLDER: actionComboboxPlaceholder
