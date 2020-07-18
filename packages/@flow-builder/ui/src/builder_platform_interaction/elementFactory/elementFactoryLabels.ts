@@ -13,6 +13,7 @@ import triggerFrequencyWeekly from '@salesforce/label/FlowBuilderStartEditor.tri
 import startElementRecordCreated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordCreated';
 import startElementRecordUpdated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordUpdated';
 import startElementRecordCreatedUpdated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordCreatedUpdated';
+import endElementSingularLabel from '@salesforce/label/FlowBuilderElementConfig.endElementSingularLabel';
 
 export const LABELS = {
     emptyDefaultOutcomeLabel,
@@ -28,5 +29,6 @@ export const LABELS = {
     triggerFrequencyWeekly,
     startElementRecordCreated,
     startElementRecordUpdated,
-    startElementRecordCreatedUpdated
+    startElementRecordCreatedUpdated,
+    endElementSingularLabel
 };

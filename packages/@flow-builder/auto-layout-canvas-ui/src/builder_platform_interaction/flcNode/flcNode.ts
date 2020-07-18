@@ -101,6 +101,10 @@ export default class FlcNode extends LightningElement {
         });
     }
 
+    get showElementType() {
+        return this.nodeInfo.metadata.type !== ElementType.END;
+    }
+
     /**
      * Handles the edit element event and fires SelectNodeEvent
      *

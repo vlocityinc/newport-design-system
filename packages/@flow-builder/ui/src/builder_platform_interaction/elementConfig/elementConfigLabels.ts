@@ -70,6 +70,8 @@ import picklistChoiceSetSingularLabel from '@salesforce/label/FlowBuilderElement
 import picklistChoiceSetPluralLabel from '@salesforce/label/FlowBuilderElementConfig.picklistChoiceSetPluralLabel';
 import screenFieldSingularLabel from '@salesforce/label/FlowBuilderElementConfig.screenFieldSingularLabel';
 import screenFieldPluralLabel from '@salesforce/label/FlowBuilderElementConfig.screenFieldPluralLabel';
+import endElementSingularLabel from '@salesforce/label/FlowBuilderElementConfig.endElementSingularLabel';
+import endElementPluralLabel from '@salesforce/label/FlowBuilderElementConfig.endElementPluralLabel';
 import flowInteractionComponentsLabel from '@salesforce/label/FlowBuilderLeftPanelElements.flowInteractionComponentsLabel';
 import flowControlLogicLabel from '@salesforce/label/FlowBuilderLeftPanelElements.flowControlLogicLabel';
 import flowControlDataOperationsLabel from '@salesforce/label/FlowBuilderLeftPanelElements.flowControlDataOperationsLabel';
@@ -96,6 +98,7 @@ import deleteDataOperationDescription from '@salesforce/label/FlowBuilderLeftPan
 import actionFlowComponentDescription from '@salesforce/label/FlowBuilderLeftPanelElements.actionFlowComponentDescription';
 import subflowFlowComponentDescription from '@salesforce/label/FlowBuilderLeftPanelElements.subflowFlowComponentDescription';
 import screenComponentDescription from '@salesforce/label/FlowBuilderLeftPanelElements.screenComponentDescription';
+import endElementDescription from '@salesforce/label/FlowBuilderLeftPanelElements.endElementDescription';
 import resourceTypeLabel from '@salesforce/label/FlowBuilderNewResource.resourceTypeLabel';
 import resourceTypePlaceholderLabel from '@salesforce/label/FlowBuilderNewResource.resourceTypePlaceholderLabel';
 import variableLabel from '@salesforce/label/FlowBuilderNewResource.variableLabel';
@@ -234,6 +237,8 @@ export const LABELS = {
     picklistChoiceSetPluralLabel,
     screenFieldSingularLabel,
     screenFieldPluralLabel,
+    endElementSingularLabel,
+    endElementPluralLabel,
     startElementSingularLabel,
     flowControlLogicLabel,
     flowControlDataOperationsLabel,
@@ -261,6 +266,7 @@ export const LABELS = {
     actionFlowComponentDescription,
     subflowFlowComponentDescription,
     screenComponentDescription,
+    endElementDescription,
     resourceTypeLabel,
     resourceTypePlaceholderLabel,
     variableLabel,
@@ -327,10 +333,5 @@ export const LABELS = {
     newWaitLabel,
     newStepLabel,
     newElementHeaderPrefix,
-    editButtonLabel,
-
-    // TODO: FLC replace with imports once we have proper labels
-    endElementSingularLabel: 'End',
-    endElementPluralLabel: 'End',
-    endElementDescription: 'End Description'
+    editButtonLabel
 };

@@ -39,7 +39,7 @@
         <div class="text-element-label slds-text-body_regular">
             {nodeInfo.label}
         </div>
-        <div class="text-element-type slds-text-body_regular slds-truncate">
+        <div if:true={showElementType} class="text-element-type slds-text-body_regular slds-truncate">
             {nodeInfo.metadata.label}
         </div>
     </div>

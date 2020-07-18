@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { baseCanvasElement } from './base/baseElement';
+import { LABELS } from './elementFactoryLabels';
 
 /**
  * Creates a end element object in the shape expected by the store
@@ -13,7 +14,7 @@ export function createEndElement(element = {}) {
     return {
         ...baseCanvasElement(element),
         elementType,
-        label: null,
+        label: LABELS.endElementSingularLabel,
         value: elementType,
         text: elementType,
         name: elementType

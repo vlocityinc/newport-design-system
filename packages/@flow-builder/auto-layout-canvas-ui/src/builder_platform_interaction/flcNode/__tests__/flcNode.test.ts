@@ -23,7 +23,8 @@ const selectors = {
     diamondIconWrapper: '.rotated-icon-radius.slds-icon-standard-decision',
     startIcon: '.background-green.slds-icon__container_circle',
     decisionIcon: '.rotate-icon-svg',
-    selectionCheckbox: '.selection-checkbox'
+    selectionCheckbox: '.selection-checkbox',
+    textContainerElementType: '.text-element-type'
 };
 
 describe('FlcNode', () => {
@@ -179,6 +180,48 @@ describe('FlcNode', () => {
             flcNodeComponent.addEventListener(FlcSelectDeselectNodeEvent.EVENT_NAME, eventCallback);
             flcNodeComponent.shadowRoot.querySelector(selectors.selectionCheckbox).click();
             expect(eventCallback).toHaveBeenCalled();
+        });
+    });
+
+    describe('Text Container', () => {
+        const decisionNodeInfo = {
+            guid: 'guid',
+            config: {
+                isSelected: false,
+                isSelectable: true
+            },
+            metadata: {
+                icon: 'standard:decision',
+                iconShape: ICON_SHAPE.DIAMOND,
+                label: 'elementType',
+                type: ElementType.BRANCH
+            },
+            menuOpened: false
+        };
+
+        const endNodeInfo = {
+            guid: 'guid',
+            metadata: {
+                icon: 'standard:end',
+                iconShape: ICON_SHAPE.CIRCLE,
+                label: 'End',
+                type: ElementType.END
+            },
+            menuOpened: false
+        };
+
+        it('Should show the element type for Decision Element', () => {
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo: decisionNodeInfo, isSelectionMode: false });
+            const decisionTextElementType = flcNodeComponent.shadowRoot.querySelector(
+                selectors.textContainerElementType
+            );
+            expect(decisionTextElementType).not.toBeNull();
+        });
+
+        it('Should not show the element type for End Element', () => {
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo: endNodeInfo, isSelectionMode: false });
+            const endTextElementType = flcNodeComponent.shadowRoot.querySelector(selectors.textContainerElementType);
+            expect(endTextElementType).toBeNull();
         });
     });
 });
