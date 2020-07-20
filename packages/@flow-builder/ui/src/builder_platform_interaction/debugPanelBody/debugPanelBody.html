@@ -13,7 +13,11 @@
                     variant="warning"
                     size="xx-small"
                 ></lightning-icon>
-                <lightning-formatted-rich-text class="withIcon" value={currText.value}></lightning-formatted-rich-text>
+                <lightning-formatted-rich-text
+                    class="withIcon"
+                    value={currText.value}
+                    disable-linkify="true"
+                ></lightning-formatted-rich-text>
             </div>
             <div if:false={currText.isWarn} key={currText.id}>
                 <lightning-formatted-rich-text
@@ -21,6 +25,7 @@
                     class="normal"
                     key={currText.id}
                     value={currText.value}
+                    disable-linkify="true"
                 ></lightning-formatted-rich-text>
                 <div if:true={currText.isError} key={currText.id}>
                     <div key={currText.id} class="helptext slds-p-top_medium"></div>
@@ -39,6 +44,7 @@
                             <lightning-formatted-rich-text
                                 class="box"
                                 value={currText.value}
+                                disable-linkify="true"
                             ></lightning-formatted-rich-text>
                         </div>
                     </div>
