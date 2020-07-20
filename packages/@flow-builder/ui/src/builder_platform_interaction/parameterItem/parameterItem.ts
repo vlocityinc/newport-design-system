@@ -140,7 +140,7 @@ export default class ParameterItem extends LightningElement {
     }
 
     get comboboxAriaHidden() {
-        const ariaHidden = !this.showCombobox;
+        const ariaHidden = !this.state.toggleStatus;
         return ariaHidden.toString();
     }
 
