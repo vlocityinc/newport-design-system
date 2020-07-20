@@ -25,3 +25,4 @@ export const loopAccountAutomaticOutput = getElementByName('loopAccountAutomatic
 export const loopOnTextCollectionManualOutput = getElementByName('loopOnTextCollection');
 export const loopOnTextCollectionAutomaticOutput = getElementByName('loopOnTextAutomaticOutput');
 export const loopOnApexTypeCollectionAutoOutput = getElementByName('loopOnApexTypeCollectionAutoOutput');
+export const startElementWithAccountAndNoCondition = getElementByName('$Record');

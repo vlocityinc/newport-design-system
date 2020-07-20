@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { LightningElement, api } from 'lwc';
-import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { CONDITION_LOGIC, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './startNodeContextButtonLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
 import {
@@ -97,7 +97,7 @@ export default class startNodeContextButton extends LightningElement {
     }
 
     get isConditions() {
-        return this.node.filters.length > 0 ? true : false;
+        return !!(this.node.filterLogic && this.node.filterLogic !== CONDITION_LOGIC.NO_CONDITIONS);
     }
 
     get recordConditionsLabel() {
