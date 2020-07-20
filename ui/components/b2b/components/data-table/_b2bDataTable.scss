@@ -213,9 +213,13 @@ $b2b-popover-background: $palette-gray-2;
 	}
 }
 
+.nds-b2b-flyout_close {
+	display: none;
+}
+
 .nds-b2b-detail-row_open {
 	~ .nds-b2b-detail-row,
-	.nds-hide {
+	.nds-b2b-flyout_close {
 		display: block;
 	}
 }
