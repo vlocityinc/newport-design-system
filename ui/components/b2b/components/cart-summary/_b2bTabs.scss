@@ -44,6 +44,12 @@
     }
     .nds-tabs_default__item {
         padding: 0;
+        letter-spacing: 0;
+        font-size: 1rem;
+        text-transform: unset;
+        &.nds-is-active {
+            color: $black-primary;
+        }
 
         &:not(:first-child) {
             margin-left: $spacing-large;
