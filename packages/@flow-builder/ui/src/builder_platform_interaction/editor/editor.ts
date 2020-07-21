@@ -278,7 +278,8 @@ export default class Editor extends LightningElement {
     spinners = {
         showFlowMetadataSpinner: false,
         showPropertyEditorSpinner: false,
-        showDebugSpinner: false
+        showDebugSpinner: false,
+        showAutoLayoutSpinner: false
     };
 
     @track
@@ -475,7 +476,8 @@ export default class Editor extends LightningElement {
             this.spinners.showFlowMetadataSpinner ||
             this.spinners.showPropertyEditorSpinner ||
             this.spinners.showDebugSpinner ||
-            this.processTypeLoading
+            this.processTypeLoading ||
+            this.spinners.showAutoLayoutSpinner
         );
     }
 
@@ -574,6 +576,7 @@ export default class Editor extends LightningElement {
 
                 Promise.all([toolboxPromise, palettePromise]).then(() => {
                     this.elementsMetadata = getElementsMetadata(this.toolboxElements, this.palette);
+                    this.spinners.showAutoLayoutSpinner = false;
                 });
 
                 if (!isVersioningDataInitialized()) {
@@ -645,6 +648,7 @@ export default class Editor extends LightningElement {
                 storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
 
                 if (this.properties.isAutoLayoutCanvas) {
+                    this.spinners.showAutoLayoutSpinner = true;
                     this.updateCanvasMode(this.properties.isAutoLayoutCanvas);
                 }
 
@@ -2073,6 +2077,9 @@ export default class Editor extends LightningElement {
 
         // create the empty flow for the selected process type
         this.spinners.showFlowMetadataSpinner = true;
+        if (setupInAutoLayoutCanvas) {
+            this.spinners.showAutoLayoutSpinner = true;
+        }
         this.createFlowFromProcessType(processType, triggerType);
         this.spinners.showFlowMetadataSpinner = false;
     };
