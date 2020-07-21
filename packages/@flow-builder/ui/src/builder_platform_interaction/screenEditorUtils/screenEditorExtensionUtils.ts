@@ -96,25 +96,30 @@ export function processScreenExtensionTypes(screen) {
 export function processRequiredParamsForExtensionsInScreen(screen, callback) {
     // Get all extension fields
     const extensionFields = getAllChildExtensionFields(screen);
-
     // Get the extension names
-    const extensions = extensionFields.map(f => f.extensionName.value);
-
+    const extensions = extensionFields.map(f => getValueFromHydratedItem(f.extensionName));
     const processFn = descriptions => {
         // Create a map field.name = field
         const fieldsMap = extensionFields.reduce((map, field) => {
-            map[field.extensionName.value] = field;
+            const extensionName = getValueFromHydratedItem(field.extensionName);
+            if (map[extensionName]) {
+                // If there is already a value in the map, push the field into the existing array
+                map[extensionName].push(field);
+            } else {
+                // Otherwise create a new array containing the field
+                map[extensionName] = [field];
+            }
             return map;
         }, {});
-
         // For each descriptor add all required attributes not present to the field
         for (const description of descriptions) {
             // Add all required attributes not present in input params
-            const field = fieldsMap[description.name];
-            addRequiredInputParameters(field, description);
+            const fields = fieldsMap[description.name];
+            for (const field of fields) {
+                addRequiredInputParameters(field, description);
+            }
         }
     };
-
     if (callback) {
         // Async, go to server if necessary
         // Get the descriptions
