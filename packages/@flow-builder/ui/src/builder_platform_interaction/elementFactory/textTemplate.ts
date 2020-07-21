@@ -12,9 +12,9 @@ export function createTextTemplate(textTemplate = {}) {
     const textTemplateObject = Object.assign(newTextTemplate, {
         elementType,
         text,
-        dataType: FLOW_DATA_TYPE.STRING.value
+        dataType: FLOW_DATA_TYPE.STRING.value,
+        isPlainTextMode: textTemplate.isPlainTextMode || false
     });
-
     return textTemplateObject;
 }
 
@@ -28,9 +28,10 @@ export function createTextTemplateMetadataObject(textTemplate) {
         throw new Error('textTemplate is not defined');
     }
     const newTextTemplate = baseResourceMetadataObject(textTemplate);
-    const { text } = textTemplate;
+    const { text, isPlainTextMode } = textTemplate;
 
     return Object.assign(newTextTemplate, {
-        text
+        text,
+        isPlainTextMode
     });
 }

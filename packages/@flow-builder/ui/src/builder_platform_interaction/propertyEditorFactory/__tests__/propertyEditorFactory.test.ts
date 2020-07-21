@@ -8,6 +8,7 @@ import {
     accountSObjectVariable,
     stringConstant,
     textTemplate1,
+    textTemplate2,
     elementsForPropertyEditors
 } from 'mock/storeData';
 import { goldObjectMatchers } from 'builder_platform_interaction/builderTestUtils';
@@ -34,6 +35,7 @@ describe('propertyEditorFactory', () => {
                 stringCollectionVariable1,
                 accountSObjectVariable,
                 textTemplate1,
+                textTemplate2,
                 stringConstant
             ];
             const actualElementsForPropertyEditors = elements.reduce((acc, element) => {

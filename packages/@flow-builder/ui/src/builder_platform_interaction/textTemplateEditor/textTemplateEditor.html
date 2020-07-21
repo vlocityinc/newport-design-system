@@ -17,7 +17,9 @@
             plain-text-available
             required
             value={textTemplateResource.text}
+            is-plain-text-mode={textTemplateResource.isPlainTextMode}
             onchange={handleResourceTextAreaChanged}
+            onrichtextplaintextswitchchanged={handleRichTextPlainTextSwitchChange}
             row-index={_rteId}
         >
         </builder_platform_interaction-resourced-rich-text-editor>

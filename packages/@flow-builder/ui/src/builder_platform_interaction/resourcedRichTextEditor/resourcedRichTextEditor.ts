@@ -237,16 +237,6 @@ export default class ResourcedRichTextEditor extends LightningElement {
         }
     }
 
-    /**
-     * Handler on plain/rich text mode change
-     * @param {Object} event - event of @see RichTextPlainTextSwitchChangedEvent type
-     * @param {boolean} event.detail.isPlainText - true if set to plain text mode false otherwise
-     */
-    handleRichTextPlainTextSwitchChange(event) {
-        event.stopPropagation();
-        this.isPlainTextMode = event.detail.isPlainText;
-    }
-
     renderedCallback() {
         if (!this.state.isPlainTextMode) {
             if (!this.initialized) {

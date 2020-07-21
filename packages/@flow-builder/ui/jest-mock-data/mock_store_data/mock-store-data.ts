@@ -75,6 +75,7 @@ export const stageElement = getElementByName('stage1');
 export const stringConstant = getElementByName('stringConstant');
 export const startElement = getStartElement();
 export const textTemplate1 = getElementByName('textTemplate1');
+export const textTemplate2 = getElementByName('textTemplate2');
 export const dateCollectionVariable = getElementByName('dateCollectionVariable');
 export const decision1 = getElementByName('decision1');
 export const decision1Outcome1 = getElementByName('outcome1');
@@ -117,4 +118,7 @@ export const dateVariableForPropertyEditor = () => deepCopy(elementsForPropertyE
 export const stringConstantForPropertyEditor = () => deepCopy(elementsForPropertyEditors[stringConstant.name]);
 export const accountSObjectVariableForPropertyEditor = () =>
     deepCopy(elementsForPropertyEditors[accountSObjectVariable.name]);
-export const textTemplate1ForPropertyEditor = () => deepCopy(elementsForPropertyEditors[textTemplate1.name]);
+export const textTemplateInRichTextModeForPropertyEditor = () =>
+    deepCopy(elementsForPropertyEditors[textTemplate1.name]);
+export const textTemplateInPlainTextModeForPropertyEditor = () =>
+    deepCopy(elementsForPropertyEditors[textTemplate2.name]);

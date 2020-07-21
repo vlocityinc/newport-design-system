@@ -2,7 +2,6 @@
 import { createElement } from 'lwc';
 import ResourcedRichTextEditor from '../resourcedRichTextEditor';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
-import { RichTextPlainTextSwitchChangedEvent } from 'builder_platform_interaction/events';
 import {
     ticks,
     focusEvent,
@@ -295,30 +294,6 @@ describe('ResourcedRichTextEditor', () => {
                     plainTextAvailable: true,
                     isPlainTextMode: false
                 });
-                expect(resourcedRichTextEditor).toMatchSnapshot();
-            });
-        });
-        describe('Change mode via UI (button menu)', () => {
-            it('Switch to it', async () => {
-                resourcedRichTextEditor = createComponentUnderTest({
-                    plainTextAvailable: true
-                });
-                const richTextPlainTextSwitchCompo = getChildElement(
-                    resourcedRichTextEditor,
-                    SELECTORS.RICH_TEXT_PLAIN_TEXT_SWITCH
-                );
-                richTextPlainTextSwitchCompo.dispatchEvent(new RichTextPlainTextSwitchChangedEvent(true));
-                await ticks(1);
-                expect(resourcedRichTextEditor).toMatchSnapshot();
-            });
-            it('Switch off it', async () => {
-                resourcedRichTextEditor = createComponentUnderTest({
-                    plainTextAvailable: true,
-                    isPlainTextMode: true
-                });
-                const resourcedTextarea = getChildElement(resourcedRichTextEditor, SELECTORS.RESOURCED_TEXTAREA);
-                resourcedTextarea.dispatchEvent(new RichTextPlainTextSwitchChangedEvent(false));
-                await ticks(1);
                 expect(resourcedRichTextEditor).toMatchSnapshot();
             });
         });

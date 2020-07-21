@@ -880,6 +880,7 @@ export const elementTypeToConfigMap = {
             editModal: LABELS.editTextTemplateLabel
         },
         canvasElement: false,
+        nonHydratableProperties: ['isPlainTextMode'],
         factory: {
             propertyEditor: createTextTemplate,
             uiToFlow: createTextTemplateMetadataObject,

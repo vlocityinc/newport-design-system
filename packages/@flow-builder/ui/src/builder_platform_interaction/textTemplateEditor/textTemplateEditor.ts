@@ -81,6 +81,14 @@ export default class TextTemplateEditor extends LightningElement {
         this.updateProperty(propertyName, event);
     };
 
+    handleRichTextPlainTextSwitchChange(event) {
+        event.stopPropagation();
+        const propertyName = 'isPlainTextMode';
+        const value = event.detail.isPlainText;
+        const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value });
+        this.textTemplateResource = textTemplateReducer(this.textTemplateResource, action);
+    }
+
     /**
      * Does the update property action with passed in property name, value and error.
      * @param {String} propertyName to update

@@ -57,35 +57,41 @@ jest.mock('../textTemplateReducer', () => {
 const mockHydratedElementWithErrors = [{ key: 'mockKey', errorString: 'mockErrorString' }];
 
 describe('text-template-editor', () => {
-    let textTemplateResource;
+    let textTemplateInRichTextModeResource, textTemplateInPlainTextModeResource;
 
     beforeEach(() => {
-        textTemplateResource = mockStoreData.textTemplate1ForPropertyEditor();
+        textTemplateInRichTextModeResource = mockStoreData.textTemplateInRichTextModeForPropertyEditor();
+        textTemplateInPlainTextModeResource = mockStoreData.textTemplateInPlainTextModeForPropertyEditor();
     });
 
     test('check UI (snapshot) - "RichTextPlainTextSwitch" displayed with "richText" mode checked by default, and correct css class for resource picker', () => {
-        const textTemplateEditor = setupComponentUnderTest(textTemplateResource);
+        const textTemplateEditor = setupComponentUnderTest(textTemplateInRichTextModeResource);
+        expect(textTemplateEditor).toMatchSnapshot();
+    });
+
+    test('check UI (snapshot) - "RichTextPlainTextSwitch" displayed with "richText" mode off', () => {
+        const textTemplateEditor = setupComponentUnderTest(textTemplateInPlainTextModeResource);
         expect(textTemplateEditor).toMatchSnapshot();
     });
 
     it('contains a text template element', async () => {
-        const textTemplateEditor = setupComponentUnderTest(textTemplateResource);
+        const textTemplateEditor = setupComponentUnderTest(textTemplateInRichTextModeResource);
         await ticks(1);
         expect(textTemplateEditor.node.elementType).toEqual(ELEMENT_TYPE.TEXT_TEMPLATE);
-        expect(textTemplateEditor.getNode()).toEqual(textTemplateResource);
+        expect(textTemplateEditor.getNode()).toEqual(textTemplateInRichTextModeResource);
     });
 
     it('has label description component that shows only dev name and description', () => {
-        const textTemplateEditor = setupComponentUnderTest(textTemplateResource);
+        const textTemplateEditor = setupComponentUnderTest(textTemplateInRichTextModeResource);
         const labelDescription = textTemplateEditor.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION);
         expect(labelDescription).toBeDefined();
-        expect(labelDescription.description).toEqual(textTemplateResource.description);
-        expect(labelDescription.devName).toEqual(textTemplateResource.name);
+        expect(labelDescription.description).toEqual(textTemplateInRichTextModeResource.description);
+        expect(labelDescription.devName).toEqual(textTemplateInRichTextModeResource.name);
         expect(labelDescription.hideLabel).toBeTruthy();
     });
 
     it('has resourced-textarea showing the correct text template', () => {
-        const textTemplateEditor = setupComponentUnderTest(textTemplateResource);
+        const textTemplateEditor = setupComponentUnderTest(textTemplateInRichTextModeResource);
         const resourcedRichTextEditor = textTemplateEditor.shadowRoot.querySelector(
             SELECTORS.RESOURCED_RICH_TEXT_EDITOR
         );
@@ -93,11 +99,11 @@ describe('text-template-editor', () => {
         const lightningInputRichText = resourcedRichTextEditor.shadowRoot.querySelector(
             SELECTORS.LIGHTNING_INPUT_RICH_TEXT
         );
-        expect(lightningInputRichText.value).toEqual(textTemplateResource.text.value);
+        expect(lightningInputRichText.value).toEqual(textTemplateInRichTextModeResource.text.value);
     });
 
     it('handles the property changed event and updates the property from label-description', async () => {
-        const textTemplateEditor = setupComponentUnderTest(textTemplateResource);
+        const textTemplateEditor = setupComponentUnderTest(textTemplateInRichTextModeResource);
         await ticks(1);
         const event = new PropertyChangedEvent('description', 'new desc', null);
         textTemplateEditor.shadowRoot
@@ -108,7 +114,7 @@ describe('text-template-editor', () => {
     });
 
     it('handles the change event and updates the property from resourced-textarea', async () => {
-        const textTemplateEditor = setupComponentUnderTest(textTemplateResource);
+        const textTemplateEditor = setupComponentUnderTest(textTemplateInRichTextModeResource);
         const newTextTemplate = '<html> New text in template</html>';
         await ticks(1);
         const event = new CustomEvent('change', {
@@ -127,9 +133,45 @@ describe('text-template-editor', () => {
         expect(textTemplateReducer.mock.calls[0][0]).toEqual(textTemplateEditor.node);
     });
 
+    it('handles the text mode switch event holding mode plain text and updates the property isPlainTextMode', async () => {
+        const textTemplateEditor = setupComponentUnderTest(textTemplateInRichTextModeResource);
+        await ticks(1);
+        const event = new CustomEvent('richtextplaintextswitchchanged', {
+            detail: { isPlainText: true },
+            cancelable: true,
+            composed: true,
+            bubbles: true
+        });
+        textTemplateEditor.shadowRoot.querySelector(SELECTORS.RESOURCED_RICH_TEXT_EDITOR).dispatchEvent(event);
+        expect(createAction.mock.calls[0][0]).toEqual(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY);
+        expect(createAction.mock.calls[0][1]).toEqual({
+            propertyName: 'isPlainTextMode',
+            value: true
+        });
+        expect(textTemplateReducer.mock.calls[0][0]).toEqual(textTemplateEditor.node);
+    });
+
+    it('handles the text mode switch event holding mode rich text and updates the property isPlainTextMode', async () => {
+        const textTemplateEditor = setupComponentUnderTest(textTemplateInPlainTextModeResource);
+        await ticks(1);
+        const event = new CustomEvent('richtextplaintextswitchchanged', {
+            detail: { isPlainText: false },
+            cancelable: true,
+            composed: true,
+            bubbles: true
+        });
+        textTemplateEditor.shadowRoot.querySelector(SELECTORS.RESOURCED_RICH_TEXT_EDITOR).dispatchEvent(event);
+        expect(createAction.mock.calls[0][0]).toEqual(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY);
+        expect(createAction.mock.calls[0][1]).toEqual({
+            propertyName: 'isPlainTextMode',
+            value: false
+        });
+        expect(textTemplateReducer.mock.calls[0][0]).toEqual(textTemplateEditor.node);
+    });
+
     describe('validation', () => {
         it('calls reducer with validate all event', () => {
-            const textTemplateEditor = setupComponentUnderTest(textTemplateResource);
+            const textTemplateEditor = setupComponentUnderTest(textTemplateInRichTextModeResource);
             const node = textTemplateEditor.node;
             textTemplateEditor.validate();
             expect(textTemplateReducer.mock.calls[0][0]).toEqual(node);
@@ -139,7 +181,7 @@ describe('text-template-editor', () => {
         });
 
         it('gets the errors after validating', () => {
-            const textTemplateEditor = setupComponentUnderTest(textTemplateResource);
+            const textTemplateEditor = setupComponentUnderTest(textTemplateInRichTextModeResource);
             getErrorsFromHydratedElement.mockReturnValueOnce(mockHydratedElementWithErrors);
             const result = textTemplateEditor.validate();
             expect(getErrorsFromHydratedElement).toHaveBeenCalledWith(textTemplateEditor.node);

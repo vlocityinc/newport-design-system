@@ -219,7 +219,29 @@ export const elementsForPropertyEditors = {
         dataType: {
             value: 'String',
             error: null
-        }
+        },
+        isPlainTextMode: false
+    },
+    textTemplate2: {
+        guid: 'd66cf236-ca0a-4351-952d-b12df4abdaf8',
+        name: {
+            value: 'textTemplate2',
+            error: null
+        },
+        description: {
+            value: '',
+            error: null
+        },
+        elementType: 'TextTemplate',
+        text: {
+            value: 'This text template is in plain text mode.',
+            error: null
+        },
+        dataType: {
+            value: 'String',
+            error: null
+        },
+        isPlainTextMode: true
     },
     stringConstant: {
         guid: '6160bbc3-c247-458e-b1b8-abc60b4d3d39',
