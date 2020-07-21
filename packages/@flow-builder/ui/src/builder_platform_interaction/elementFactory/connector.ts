@@ -140,7 +140,6 @@ export const createConnectorMetadataObjects = (connectors, hasMultipleRegularCon
     for (let i = 0; i < connectors.length; i++) {
         const connector = connectors[i];
         switch (connector.type) {
-            case CONNECTOR_TYPE.START:
             case CONNECTOR_TYPE.REGULAR: {
                 const connectorObject = createConnectorMetadataObject(connector);
                 if (hasMultipleRegularConnectors) {
@@ -194,6 +193,6 @@ export const createConnectorMetadataObjects = (connectors, hasMultipleRegularCon
 };
 
 export const createStartElementConnector = (startNodeGuid, target) => {
-    const startElementConnector = createConnector(startNodeGuid, null, target, null, CONNECTOR_TYPE.START);
+    const startElementConnector = createConnector(startNodeGuid, null, target, null, CONNECTOR_TYPE.REGULAR);
     return [startElementConnector];
 };

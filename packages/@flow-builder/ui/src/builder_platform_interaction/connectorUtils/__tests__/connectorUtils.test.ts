@@ -202,17 +202,6 @@ describe('Connector Utils', () => {
                 }
             };
 
-            expect(createNewConnector(elements, 'start_1', 'assignment_1', CONNECTOR_TYPE.START)).toEqual({
-                guid: 'CONNECTOR_1',
-                source: 'start_1',
-                target: 'assignment_1',
-                type: CONNECTOR_TYPE.START,
-                label: null,
-                childSource: undefined,
-                config: {
-                    isSelected: false
-                }
-            });
             expect(createNewConnector(elements, 'assignment_1', 'assignment_2', CONNECTOR_TYPE.REGULAR)).toEqual({
                 guid: 'CONNECTOR_1',
                 source: 'assignment_1',

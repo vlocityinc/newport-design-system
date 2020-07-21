@@ -244,7 +244,7 @@ export const createNewConnector = (elements, sourceGuid, targetGuid, valueFromCo
         label,
         childSource;
 
-    if (valueFromCombobox === CONNECTOR_TYPE.START || valueFromCombobox === CONNECTOR_TYPE.REGULAR) {
+    if (valueFromCombobox === CONNECTOR_TYPE.REGULAR) {
         label = null;
     } else if (valueFromCombobox === CONNECTOR_TYPE.DEFAULT) {
         label = elements[sourceGuid].defaultConnectorLabel;

@@ -69,7 +69,6 @@ export const CONNECTOR_TYPE = {
     REGULAR: 'REGULAR',
     FAULT: 'FAULT',
     DEFAULT: 'DEFAULT',
-    START: 'START',
     LOOP_NEXT: 'LOOP_NEXT',
     LOOP_END: 'LOOP_END'
 };
