@@ -111,6 +111,7 @@ export default class contextRecordEditor extends LightningElement {
         switch (this.triggerType) {
             case BEFORE_SAVE:
             case BEFORE_DELETE:
+                return this.labels.contextObjectDeleteDescription;
             case AFTER_SAVE:
                 return this.labels.contextObjectDescription;
             case SCHEDULED:

@@ -4,6 +4,7 @@ import contextObjectHeader from '@salesforce/label/FlowBuilderStartEditor.contex
 import object from '@salesforce/label/FlowBuilderRecordEditor.object';
 import objectPlaceholder from '@salesforce/label/FlowBuilderRecordEditor.objectPlaceholder';
 import contextObjectDescription from '@salesforce/label/FlowBuilderStartEditor.contextObjectDescription';
+import contextObjectDeleteDescription from '@salesforce/label/FlowBuilderStartEditor.contextObjectDeleteDescription';
 import filterRecordsDescription from '@salesforce/label/FlowBuilderStartEditor.filterRecordsDescription';
 import executeOutcomeWhen from '@salesforce/label/FlowBuilderOutcome.executeOutcomeWhen';
 import everyTimeConditionsMet from '@salesforce/label/FlowBuilderOutcome.everyTimeConditionsMet';
@@ -14,6 +15,7 @@ export const LABELS = {
     chooseObjectAndRecord,
     contextObjectHeader,
     contextObjectDescription,
+    contextObjectDeleteDescription,
     filterRecordsDescription,
     object,
     objectPlaceholder,
