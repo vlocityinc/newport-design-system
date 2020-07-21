@@ -103,6 +103,13 @@
   "label" : "LWC Test Component",
   "qualifiedApiName" : "interactiontest:lwcScreensTestComponent",
   "source" : "Standard"
+},
+    {
+  "description" : "Create a script for agents to follow while talking on the phone with customers.",
+  "fieldsToNull" : [ ],
+  "label" : "Call Script",
+  "qualifiedApiName" : "lbpm:flowScript",
+  "source" : "Standard"
 }
   ]
 }
