@@ -125,13 +125,17 @@ export const escapeForRegExp = value => {
     return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 };
 
+const REFERENCE_REGEX = /^\{![^}]+\}$/;
+
 /**
  * Checks to see if the specified value is a reference, such as {!myVar}
- * @param {string} value to check.
- * @return {boolean} if value is a reference.
+ * @param value to check.
+ * @return if value is a reference.
  */
-export function isReference(value) {
-    return typeof value === 'string' && value.startsWith('{!') && value.endsWith('}');
+export function isReference(value: string): boolean {
+    // matches references e.g {!var} or {!Flow.CurrentRecord}
+    // doesn't match templates that start and end with curly braces e.g. {!Flow.CurrentRecord}{!Flow.CurrentRecord}
+    return typeof value === 'string' && REFERENCE_REGEX.test(value);
 }
 
 /**

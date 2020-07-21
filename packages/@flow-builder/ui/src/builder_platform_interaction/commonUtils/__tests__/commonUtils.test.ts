@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { memoize, escapeForRegExp, isValidNumber, format, sanitizeBoolean } from '../commonUtils';
+import { memoize, escapeForRegExp, isValidNumber, format, sanitizeBoolean, isReference } from '../commonUtils';
 
 describe('memoize', () => {
     it('throws an exception if parameter is not a function', () => {
@@ -89,5 +89,31 @@ describe('sanitizeBoolean', () => {
     `('Sanitized boolean for raw value: $rawValue', ({ rawValue, expected }) => {
         const actual = sanitizeBoolean(rawValue);
         expect(actual).toBe(expected);
+    });
+});
+
+describe('isReference', () => {
+    it('returns true for properly format string ', () => {
+        const validString = '{!Flow.CurrentRecord}';
+        const actual = isReference(validString);
+        expect(actual).toBeTruthy();
+    });
+
+    it('returns false for improperly string', () => {
+        const invalidString = '{!Flow.CurrentRecord';
+        const actual = isReference(invalidString);
+        expect(actual).toBeFalsy();
+    });
+
+    it('returns false for multiple merge fields', () => {
+        const invalidString = '{!Flow.CurrentRecord}{!Flow.CurrentRecord}';
+        const actual = isReference(invalidString);
+        expect(actual).toBeFalsy();
+    });
+
+    it('returns false for non-string', () => {
+        const invalidObj = { guid: 1 };
+        const actual = isReference(invalidObj);
+        expect(actual).toBeFalsy();
     });
 });
