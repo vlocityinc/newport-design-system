@@ -6,7 +6,8 @@ import {
     changeComboboxValue,
     setupStateForProcessType,
     resetState,
-    translateFlowToUIAndDispatch
+    translateFlowToUIAndDispatch,
+    changeLightningRadioGroupValue
 } from '../integrationTestUtils';
 import { getLabelDescriptionLabelElement, getLabelDescriptionNameElement } from '../labelDescriptionTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
@@ -17,6 +18,7 @@ import {
     flowWithCreateRecordUsingFields
 } from 'mock/flows/flowWithCreateRecord';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import * as fieldServiceMobileFlow from 'mock/flows/fieldServiceMobileFlow.json';
 import { ELEMENT_TYPE, FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     getAdvancedOptionCheckbox,
@@ -80,6 +82,13 @@ const createComponentForTest = (node, processType = MOCK_PROCESS_TYPE_SUPPORTING
 describe('Record Create Editor', () => {
     let recordCreateNode;
     let store;
+    let sObjectOrSObjectCollectionPicker;
+    const expectCannotBeTraversedInResourcePicker = async textValues => {
+        await expectCannotBeTraversed(sObjectOrSObjectCollectionPicker, 'text', textValues);
+    };
+    const expectCannotBeSelectedInResourcePicker = async textValues => {
+        await expectCannotBeSelected(sObjectOrSObjectCollectionPicker, 'text', textValues);
+    };
     describe('Working in auto launched flow', () => {
         beforeAll(async () => {
             store = await setupStateForProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
@@ -485,15 +494,8 @@ describe('Record Create Editor', () => {
             });
         });
         describe('sObject Or SObject Collection Picker', () => {
-            let sObjectOrSObjectCollectionPicker;
             const expectCanBeTraversedInResourcePicker = async textValues => {
                 await expectCanBeTraversed(sObjectOrSObjectCollectionPicker, 'text', textValues);
-            };
-            const expectCannotBeTraversedInResourcePicker = async textValues => {
-                await expectCannotBeTraversed(sObjectOrSObjectCollectionPicker, 'text', textValues);
-            };
-            const expectCannotBeSelectedInResourcePicker = async textValues => {
-                await expectCannotBeSelected(sObjectOrSObjectCollectionPicker, 'text', textValues);
             };
             describe('create from single value', () => {
                 beforeEach(() => {
@@ -619,6 +621,34 @@ describe('Record Create Editor', () => {
                     expect(outputResourcePickerCombobox.errorMessage).toEqual(expectedErrorMessage);
                 }
             );
+        });
+        // W-7656897
+        describe('flow which does not support automatic output', () => {
+            beforeAll(async () => {
+                translateFlowToUIAndDispatch(fieldServiceMobileFlow, store);
+            });
+            afterAll(() => {
+                resetState();
+            });
+            describe('sObject Or SObject Collection Picker', () => {
+                beforeAll(() => {
+                    const element = getElementByDevName('create_account_from_variable');
+                    recordCreateNode = getElementForPropertyEditor(element);
+                    recordCreateElement = createComponentForTest(recordCreateNode);
+                    sObjectOrSObjectCollectionPicker = getResourceGroupedCombobox(recordCreateElement);
+                });
+                it('is updated when switching to multiple', async () => {
+                    // When
+                    changeLightningRadioGroupValue(
+                        getRadioGroups(getRecordStoreOption(recordCreateElement))[0],
+                        'allRecords'
+                    );
+
+                    // Then
+                    await expectCannotBeTraversedInResourcePicker(['vAccounts']);
+                    await expectCannotBeSelectedInResourcePicker(['vMyTestAccount']);
+                });
+            });
         });
     });
 });

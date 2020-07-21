@@ -14,6 +14,12 @@
     "manageableState": "unmanaged",
     "masterLabel": "fieldServiceMobileFlowWithElements",
     "metadata": {
+        "start": {
+            "locationX": 50,
+            "locationY": 50,
+            "doesRequireRecordChangedToMeetCriteria": false,
+            "filters": []
+        },
         "decisions": [
             {
                 "name": "decision",
@@ -31,7 +37,8 @@
                                 "operator": "EqualTo"
                             }
                         ],
-                        "conditionLogic": "and"
+                        "conditionLogic": "and",
+                        "doesRequireRecordChangedToMeetCriteria": false
                     }
                 ],
                 "defaultConnectorLabel": "Default Outcome"
@@ -87,6 +94,7 @@
                 "object": "Account",
                 "outputReference": "vMyTestAccount",
                 "assignNullValuesIfNoRecordsFound": false,
+                "filterLogic": "and",
                 "filters": [
                     {
                         "field": "Name",
@@ -107,6 +115,7 @@
                 "object": "Account",
                 "outputReference": "vMyTestAccount",
                 "assignNullValuesIfNoRecordsFound": false,
+                "filterLogic": "and",
                 "filters": [
                     {
                         "field": "Name",
@@ -136,6 +145,7 @@
                     }
                 ],
                 "assignNullValuesIfNoRecordsFound": false,
+                "filterLogic": "and",
                 "filters": [
                     {
                         "field": "Name",
@@ -206,6 +216,17 @@
                 "showHeader": true
             }
         ],
+        "recordCreates": [
+            {
+                "name": "create_account_from_variable",
+                "description": "",
+                "label": "create account from variable",
+                "locationX": 154,
+                "locationY": 185,
+                "elementSubtype": null,
+                "inputReference": "vMyTestAccount"
+            }
+        ],
         "description": "",
         "interviewLabel": "fieldServiceMobileFlowWithElements {!$Flow.CurrentDateTime}",
         "isTemplate": false,
@@ -221,6 +242,12 @@
                 "name": "OriginBuilderType",
                 "value": {
                     "stringValue": "LightningFlowBuilder"
+                }
+            },
+            {
+                "name": "CanvasMode",
+                "value": {
+                    "stringValue": "FREE_FORM_CANVAS"
                 }
             }
         ],

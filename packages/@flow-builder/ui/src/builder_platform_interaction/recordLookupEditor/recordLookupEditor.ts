@@ -19,7 +19,7 @@ import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
-import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
+import { getSObjectOrSObjectCollectionFilter } from 'builder_platform_interaction/filterTypeLib';
 
 export default class RecordLookupEditor extends LightningElement {
     labels = LABELS;
@@ -200,9 +200,7 @@ export default class RecordLookupEditor extends LightningElement {
      * @returns {SOBJECT_OR_SOBJECT_COLLECTION_FILTER} whether we should return only sobject, sobject collection or both
      */
     get sobjectCollectionCriterion() {
-        return this.isCollection
-            ? SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_COLLECTION
-            : SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT;
+        return getSObjectOrSObjectCollectionFilter(this.isCollection);
     }
 
     /**

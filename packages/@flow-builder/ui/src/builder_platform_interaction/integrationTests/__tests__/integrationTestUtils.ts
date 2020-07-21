@@ -5,7 +5,12 @@ import { setRules, setOperators } from 'builder_platform_interaction/ruleLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { resetCacheTemplates } from 'builder_platform_interaction/processTypeLib';
-import { focusoutEvent, textInputEvent, blurEvent } from 'builder_platform_interaction/builderTestUtils';
+import {
+    focusoutEvent,
+    textInputEvent,
+    blurEvent,
+    lightningRadioGroupChangeEvent
+} from 'builder_platform_interaction/builderTestUtils';
 import { clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib';
 import { setResourceTypes } from 'builder_platform_interaction/dataTypeLib';
 import { initializeAuraFetch } from './serverDataTestUtils';
@@ -52,6 +57,10 @@ export const changeComboboxValue = (combobox, newValue) => {
 export const changeInputValue = (input, newValue) => {
     input.value = newValue;
     input.dispatchEvent(focusoutEvent);
+};
+
+export const changeLightningRadioGroupValue = (lightningRadioGroup, newValue) => {
+    lightningRadioGroup.dispatchEvent(lightningRadioGroupChangeEvent(newValue));
 };
 
 export const setupState = () => {

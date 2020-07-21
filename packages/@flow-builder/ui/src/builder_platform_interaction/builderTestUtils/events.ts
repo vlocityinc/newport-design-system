@@ -77,3 +77,14 @@ export const removeEvent = (): CustomEvent => {
         cancelable: false
     });
 };
+
+export const lightningRadioGroupChangeEvent = newValue => {
+    return new CustomEvent('change', {
+        detail: {
+            newValue
+        },
+        composed: true,
+        bubbles: true,
+        cancelable: true
+    });
+};

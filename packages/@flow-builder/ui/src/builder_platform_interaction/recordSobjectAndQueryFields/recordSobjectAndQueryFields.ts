@@ -2,6 +2,7 @@
 import { LightningElement, api, track } from 'lwc';
 import { LABELS } from './recordSobjectAndQueryFieldsLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
+import { getSObjectOrSObjectCollectionFilter } from 'builder_platform_interaction/filterTypeLib';
 
 export default class RecordSobjectAndQueryFields extends LightningElement {
     labels = LABELS;
@@ -51,8 +52,9 @@ export default class RecordSobjectAndQueryFields extends LightningElement {
     @api
     queryable;
 
-    @api
-    sobjectCollectionCriterion;
+    get sobjectCollectionCriterion() {
+        return getSObjectOrSObjectCollectionFilter(this.isCollection);
+    }
 
     /**
      * @param {String} entityName the selected entity name (from select object combobox)
