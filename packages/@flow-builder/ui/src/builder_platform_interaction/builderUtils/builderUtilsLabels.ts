@@ -8,7 +8,6 @@ import saveButtonLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.s
 import createButtonLabel from '@salesforce/label/FlowBuilderNewFlowModal.createButtonLabel';
 import nextButtonLabel from '@salesforce/label/FlowBuilderNewFlowModal.nextButtonLabel';
 import headerTitle from '@salesforce/label/FlowBuilderNewFlowModal.headerTitle';
-import newFlowModalInstruction from '@salesforce/label/FlowBuilderNewFlowModal.newFlowModalInstruction';
 import okayButtonLabel from '@salesforce/label/FlowBuilderAlertModal.okayButtonLabel';
 import keyboardShortcutListTitle from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.keyboardShortcutListTitle';
 import cancelButton from '@salesforce/label/FlowBuilderCommonPropertyEditor.cancelButton';
@@ -24,7 +23,6 @@ export const LABELS = {
     createButtonLabel,
     nextButtonLabel,
     headerTitle,
-    newFlowModalInstruction,
     okayButtonLabel,
     keyboardShortcutListTitle,
     cancelButton,

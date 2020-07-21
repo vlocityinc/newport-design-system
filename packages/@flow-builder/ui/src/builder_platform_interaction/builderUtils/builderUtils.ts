@@ -744,8 +744,7 @@ export const invokeNewFlowModal = (
     createFlowFromTemplateCallback
 ) => {
     const modalHeaderPromise = createComponentPromise('builder_platform_interaction:modalHeader', {
-        headerTitle: LABELS.headerTitle,
-        modalInstruction: LABELS.newFlowModalInstruction
+        headerTitle: LABELS.headerTitle
     });
 
     const modalBodyPromise = createComponentPromise('builder_platform_interaction:newFlowModalBody', {
