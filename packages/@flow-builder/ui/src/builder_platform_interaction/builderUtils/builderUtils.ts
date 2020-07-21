@@ -601,8 +601,7 @@ function showDebugEditorPopover(
     };
 
     const headerPromise = createComponentPromise(cmpHeader, {
-        headerTitle: LABELS.newDebugEditorTitle,
-        modalInstruction: LABELS.newDebugEditorInstruction
+        headerTitle: LABELS.newDebugEditorTitle
     });
     const footerPromise = createComponentPromise(cmpFooter, {
         buttons: {
