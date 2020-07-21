@@ -29,7 +29,12 @@ export const isRecordSystemVariableIdentifier = id =>
     !!id && typeof id === 'string' && id.toUpperCase() === SYSTEM_VARIABLE_RECORD_PREFIX.toUpperCase();
 export const isRecordSystemVariableCompositeIdentifier = id =>
     !!id && typeof id === 'string' && isRecordSystemVariableIdentifier(removeCurlyBraces(id).split('.')[0]);
-
+export const isNonRecordGlobalResourceId = id =>
+    !!id &&
+    typeof id === 'string' &&
+    removeCurlyBraces(id).startsWith('$') &&
+    !isRecordSystemVariableIdentifier(id) &&
+    !isRecordSystemVariableCompositeIdentifier(id);
 /**
  * Returns Global Constant or System Variable referenced by id
  *

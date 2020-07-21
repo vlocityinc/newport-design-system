@@ -57,7 +57,7 @@
     },
     {
       "icon":"utility:phone_portrait",
-      "description":"Build a flow for the Field Service Lightning mobile app.",
+      "description":"Build a flow for the Field Service mobile app.",
       "label":"Field Service Mobile Flow",
       "processType":"FieldServiceMobile"
     },

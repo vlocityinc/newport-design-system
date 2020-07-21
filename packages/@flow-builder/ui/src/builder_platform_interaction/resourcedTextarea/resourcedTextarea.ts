@@ -57,15 +57,15 @@ export default class ResourcedTextarea extends LightningElement {
     spinnerAlternativeText;
 
     @api
-    showGlobalVariables = false;
-
-    @api
     plainTextAvailable = false;
 
     // IMPORTANT: For new resource to work, the containing property editor must have newResourcesCallback included
     // in the call to invokePropertyEditor in editor.js
     @api
     hideNewResource = false;
+
+    @api
+    showMultiPicklistGlobalVariables = false;
 
     @track
     error;

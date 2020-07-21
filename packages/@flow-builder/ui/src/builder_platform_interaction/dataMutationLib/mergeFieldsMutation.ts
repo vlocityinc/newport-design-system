@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { getElementByGuid, getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { splitStringBySeparator } from 'builder_platform_interaction/commonUtils';
-import { isGlobalConstantOrSystemVariableId } from 'builder_platform_interaction/systemLib';
+import { isNonRecordGlobalResourceId } from 'builder_platform_interaction/systemLib';
 import { EXPRESSION_RE } from 'builder_platform_interaction/flowMetadata';
 
 /**
@@ -30,7 +30,7 @@ export const sanitizeGuid = (potentialGuid: string): ComplexGuid => {
     const complexGuid = {};
     if (typeof potentialGuid === 'string') {
         const periodIndex = potentialGuid.indexOf('.');
-        if (periodIndex !== -1 && !isGlobalConstantOrSystemVariableId(potentialGuid)) {
+        if (periodIndex !== -1 && !isNonRecordGlobalResourceId(potentialGuid)) {
             complexGuid.guidOrLiteral = potentialGuid.substring(0, periodIndex);
             complexGuid.fieldNames = potentialGuid.substring(periodIndex + 1).split('.');
         } else {

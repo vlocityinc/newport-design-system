@@ -22,6 +22,7 @@ jest.mock('builder_platform_interaction/systemLib', () => {
 
         SYSTEM_VARIABLES: actual.SYSTEM_VARIABLES,
         getGlobalConstantOrSystemVariable: actual.getGlobalConstantOrSystemVariable,
+        getGlobalVariable: actual.getGlobalVariable,
         getLatestApiVersion() {
             return 50;
         },

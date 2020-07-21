@@ -61,6 +61,7 @@ export default class ScreenExtensionAttributeEditor extends LightningElement {
             collection,
             elementConfig: null,
             hideGlobalConstants: this.isOutput,
+            hideGlobalVariables: this.isOutput,
             hideNewResource: false
         };
 

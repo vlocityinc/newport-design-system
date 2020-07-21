@@ -196,7 +196,8 @@ describe('ferov-resource-picker', () => {
                 enableFieldDrilldown: false,
                 includeNewResource: true,
                 showSystemVariables: true,
-                showGlobalVariables: false,
+                showGlobalVariables: true,
+                showMultiPicklistGlobalVariables: false,
                 allowSObjectFieldsTraversal: true
             }
         );
@@ -226,7 +227,8 @@ describe('ferov-resource-picker', () => {
                 enableFieldDrilldown: false,
                 includeNewResource: true,
                 showSystemVariables: true,
-                showGlobalVariables: false,
+                showGlobalVariables: true,
+                showMultiPicklistGlobalVariables: false,
                 allowSObjectFieldsTraversal: true
             }
         );
@@ -256,7 +258,8 @@ describe('ferov-resource-picker', () => {
                 enableFieldDrilldown: false,
                 includeNewResource: true,
                 showSystemVariables: true,
-                showGlobalVariables: false,
+                showGlobalVariables: true,
+                showMultiPicklistGlobalVariables: false,
                 allowSObjectFieldsTraversal: true
             }
         );
@@ -283,7 +286,8 @@ describe('ferov-resource-picker', () => {
                 enableFieldDrilldown: false,
                 includeNewResource: true,
                 showSystemVariables: true,
-                showGlobalVariables: false,
+                showGlobalVariables: true,
+                showMultiPicklistGlobalVariables: false,
                 allowSObjectFieldsTraversal: true
             }
         );
@@ -343,7 +347,8 @@ describe('ferov-resource-picker', () => {
                 enableFieldDrilldown: false,
                 includeNewResource: true,
                 showSystemVariables: true,
-                showGlobalVariables: false,
+                showGlobalVariables: true,
+                showMultiPicklistGlobalVariables: false,
                 allowSObjectFieldsTraversal: true
             }
         );
@@ -497,12 +502,13 @@ describe('ferov-resource-picker', () => {
                     enableFieldDrilldown: false,
                     includeNewResource: true,
                     showSystemVariables: true,
-                    showGlobalVariables: false,
+                    showGlobalVariables: true,
+                    showMultiPicklistGlobalVariables: false,
                     allowSObjectFieldsTraversal: true
                 }
             );
         });
-        it('defaults showGlobalVariables to false', async () => {
+        it('defaults showGlobalVariables to true', async () => {
             setupComponentUnderTest(props);
             await ticks(1);
             expect(getMenuData).toHaveBeenCalledWith(
@@ -517,7 +523,8 @@ describe('ferov-resource-picker', () => {
                     enableFieldDrilldown: false,
                     includeNewResource: true,
                     showSystemVariables: true,
-                    showGlobalVariables: false,
+                    showGlobalVariables: true,
+                    showMultiPicklistGlobalVariables: false,
                     allowSObjectFieldsTraversal: true
                 }
             );
@@ -538,13 +545,14 @@ describe('ferov-resource-picker', () => {
                     enableFieldDrilldown: false,
                     includeNewResource: true,
                     showSystemVariables: false,
-                    showGlobalVariables: false,
+                    showGlobalVariables: true,
+                    showMultiPicklistGlobalVariables: false,
                     allowSObjectFieldsTraversal: true
                 }
             );
         });
-        it('passes along showGlobalVariables setting', async () => {
-            props.showGlobalVariables = true;
+        it('passes along hideGlobalVariables setting', async () => {
+            props.hideGlobalVariables = true;
             setupComponentUnderTest(props);
             await ticks(1);
             expect(getMenuData).toHaveBeenCalledWith(
@@ -559,7 +567,8 @@ describe('ferov-resource-picker', () => {
                     enableFieldDrilldown: false,
                     includeNewResource: true,
                     showSystemVariables: true,
-                    showGlobalVariables: true,
+                    showGlobalVariables: false,
+                    showMultiPicklistGlobalVariables: false,
                     allowSObjectFieldsTraversal: true
                 }
             );

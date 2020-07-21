@@ -411,6 +411,9 @@ export default class BaseExpressionBuilder extends LightningElement {
     @api
     hideNewResource = false;
 
+    @api
+    hideGlobalVariables = false;
+
     /**
      * Set it to true to hide display the expression builder vertically instead of horizontally inline
      * @type {Boolean}
@@ -928,7 +931,8 @@ export default class BaseExpressionBuilder extends LightningElement {
                 isFerov && !this.hideFerovMenuData,
                 DISABLE_HAS_NEXT,
                 picklistValues,
-                !this.hideSystemVariables
+                !this.hideSystemVariables,
+                !this.hideGlobalVariables && !shouldBeWritable
             );
             updateState({
                 [fullMenuData]: menuData,

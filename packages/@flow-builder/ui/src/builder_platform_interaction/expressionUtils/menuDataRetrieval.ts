@@ -291,7 +291,7 @@ export function filterAndMutateMenuData(
     disableHasNext = false,
     activePicklistValues = [],
     showSystemVariables = true,
-    showGlobalVariables = false,
+    showGlobalVariables = true,
     allowSObjectField = true,
     allowsApexCollAnonymousAutoOutput = true
 ) {
@@ -330,7 +330,7 @@ export function filterAndMutateMenuData(
             systemVariablesAllowed,
             showGlobalVariables
         );
-        if (systemAndGlobalVariableMenuData) {
+        if (Array.isArray(systemAndGlobalVariableMenuData) && systemAndGlobalVariableMenuData.length) {
             systemAndGlobalVariableMenuItem = {
                 label: systemGlobalVariableCategoryLabel,
                 items: systemAndGlobalVariableMenuData
@@ -489,9 +489,10 @@ export function filterFieldsForChosenElement(
  * get children items
  *
  * @param {Object} the parent item
+ * @param {boolean} showMultiPicklistGlobalVariables whether we allow global variables of type multipicklist
  * @returns {Promise<Object>} the children items : key is the field name, value is the child item as a complex type field description
  */
-export function getChildrenItemsPromise(parentItem) {
+export function getChildrenItemsPromise(parentItem, showMultiPicklistGlobalVariables = false) {
     const { dataType, subtype } = parentItem;
     let result;
     if (dataType === FLOW_DATA_TYPE.SOBJECT.value) {
@@ -499,7 +500,7 @@ export function getChildrenItemsPromise(parentItem) {
             disableErrorModal: true
         });
     } else {
-        result = Promise.resolve(getChildrenItems(parentItem));
+        result = Promise.resolve(getChildrenItems(parentItem, showMultiPicklistGlobalVariables));
     }
     // no access on sobject fields ...
     return result.catch(() => ({}));
@@ -509,15 +510,16 @@ export function getChildrenItemsPromise(parentItem) {
  * get children items
  *
  * @param {Object} the parent item
+ * @param {boolean} showMultiPicklistGlobalVariables whether we allow global variables of type multipicklist
  * @returns {Object} the children items : key is the field name, value is the child item as a complex type field description
  */
-export function getChildrenItems(parentItem) {
+export function getChildrenItems(parentItem, showMultiPicklistGlobalVariables = false) {
     const { dataType, subtype } = parentItem;
     let result;
     if (subtype === SYSTEM_VARIABLE_PREFIX || subtype === SYSTEM_VARIABLE_CLIENT_PREFIX) {
         result = getSystemVariables(subtype);
-    } else if (getGlobalVariables(subtype)) {
-        result = getGlobalVariables(subtype);
+    } else if (getGlobalVariables(subtype, { showMultiPicklistGlobalVariables })) {
+        result = getGlobalVariables(subtype, { showMultiPicklistGlobalVariables });
     } else if (dataType === FLOW_DATA_TYPE.SOBJECT.value) {
         result = sobjectLib.getFieldsForEntity(subtype);
     } else if (dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value) {

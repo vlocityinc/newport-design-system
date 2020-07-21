@@ -20,7 +20,8 @@ const getFieldMenuData = (
         allowSObjectFields = true,
         allowSObjectFieldsTraversal = true,
         shouldBeWritable = false,
-        sObjectSelectorConfig
+        sObjectSelectorConfig,
+        showMultiPicklistGlobalVariables = false
     } = {}
 ) => {
     const options = {
@@ -35,7 +36,7 @@ const getFieldMenuData = (
     if (entityFields) {
         return Promise.resolve(filterFieldsForChosenElement(parentItem, entityFields, options));
     }
-    return getChildrenItemsPromise(parentItem).then(fields =>
+    return getChildrenItemsPromise(parentItem, showMultiPicklistGlobalVariables).then(fields =>
         filterFieldsForChosenElement(parentItem, fields, options)
     );
 };
@@ -50,7 +51,8 @@ const getFerovMenuData = (
     includeNewResource,
     showSystemVariables,
     showGlobalVariables,
-    allowSObjectFields
+    allowSObjectFields,
+    showMultiPicklistGlobalVariables
 ) => {
     const menuDataElements = getStoreElements(
         storeInstance.getCurrentState(),
@@ -67,7 +69,8 @@ const getFerovMenuData = (
         showSystemVariables,
         showGlobalVariables,
         allowSObjectFields,
-        elementConfig ? elementConfig.allowsApexCollAnonymousAutoOutput : true
+        elementConfig ? elementConfig.allowsApexCollAnonymousAutoOutput : true,
+        showMultiPicklistGlobalVariables
     );
 };
 
@@ -101,7 +104,8 @@ export const getMenuData = (
         allowGlobalConstants = true,
         includeNewResource = true,
         showSystemVariables = true,
-        showGlobalVariables = false,
+        showGlobalVariables = true,
+        showMultiPicklistGlobalVariables = false,
         allowSObjectFieldsTraversal = true,
         allowSObjectFields = true
     } = {}
@@ -111,7 +115,8 @@ export const getMenuData = (
             allowSObjectFields,
             allowSObjectFieldsTraversal,
             shouldBeWritable: !!(elementConfig && elementConfig.shouldBeWritable),
-            sObjectSelectorConfig: elementConfig && elementConfig.sObjectSelectorConfig
+            sObjectSelectorConfig: elementConfig && elementConfig.sObjectSelectorConfig,
+            showMultiPicklistGlobalVariables
         });
     }
     return Promise.resolve(
@@ -125,7 +130,8 @@ export const getMenuData = (
             includeNewResource,
             showSystemVariables,
             showGlobalVariables,
-            allowSObjectFields
+            allowSObjectFields,
+            showMultiPicklistGlobalVariables
         )
     );
 };

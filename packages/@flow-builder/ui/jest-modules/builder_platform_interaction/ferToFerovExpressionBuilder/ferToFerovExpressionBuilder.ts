@@ -46,4 +46,7 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
 
     @api
     hideNewResource;
+
+    @api
+    hideGlobalVariables;
 }

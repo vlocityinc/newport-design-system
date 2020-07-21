@@ -160,7 +160,10 @@ export default class FerovResourcePicker extends LightningElement {
     hideSystemVariables = false;
 
     @api
-    showGlobalVariables = false;
+    hideGlobalVariables = false;
+
+    @api
+    showMultiPicklistGlobalVariables = false;
 
     get parentItem() {
         return this.value && this.value.parent;
@@ -309,7 +312,8 @@ export default class FerovResourcePicker extends LightningElement {
                     allowGlobalConstants: !this.hideGlobalConstants,
                     includeNewResource: !this.hideNewResource,
                     showSystemVariables: !this.hideSystemVariables,
-                    showGlobalVariables: this.showGlobalVariables,
+                    showGlobalVariables: !this.hideGlobalVariables,
+                    showMultiPicklistGlobalVariables: this.showMultiPicklistGlobalVariables,
                     allowSObjectFields: this.comboboxConfig.allowSObjectFields,
                     allowSObjectFieldsTraversal: this.isLookupTraversalSupported()
                 }

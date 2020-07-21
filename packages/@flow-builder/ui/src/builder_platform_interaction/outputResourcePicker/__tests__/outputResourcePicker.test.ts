@@ -166,6 +166,7 @@ describe('output-resource-picker', () => {
             undefined,
             {
                 allowGlobalConstants: false,
+                showGlobalVariables: false,
                 enableFieldDrilldown: false,
                 includeNewResource: true,
                 allowSObjectFieldsTraversal: false
@@ -203,6 +204,7 @@ describe('output-resource-picker', () => {
             undefined,
             {
                 allowGlobalConstants: false,
+                showGlobalVariables: false,
                 enableFieldDrilldown: false,
                 includeNewResource: true,
                 allowSObjectFieldsTraversal: false
@@ -230,6 +232,7 @@ describe('output-resource-picker', () => {
             undefined,
             {
                 allowGlobalConstants: false,
+                showGlobalVariables: false,
                 enableFieldDrilldown,
                 includeNewResource: true,
                 allowSObjectFieldsTraversal: false
@@ -256,6 +259,7 @@ describe('output-resource-picker', () => {
             undefined,
             {
                 allowGlobalConstants: false,
+                showGlobalVariables: false,
                 enableFieldDrilldown: false,
                 includeNewResource: true,
                 allowSObjectFieldsTraversal: false

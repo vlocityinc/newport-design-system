@@ -62,6 +62,10 @@ export const getGlobalConstantOrSystemVariable = id => {
     return GLOBAL_CONSTANT_OBJECTS[removeCurlyBraces(id)] || mockSystemLib.getSystemVariables()[id];
 };
 
+export const isNonRecordGlobalResourceId = id => {
+    return mockSystemLib.getGlobalVariables()[id];
+};
+
 export const getGlobalVariable = mockSystemLib.getGlobalVariable;
 export const getGlobalVariables = mockSystemLib.getGlobalVariables;
 export const getGlobalVariableTypes = mockSystemLib.getGlobalVariableTypes;

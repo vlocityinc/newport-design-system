@@ -6,7 +6,8 @@ import {
     GLOBAL_CONSTANT_PREFIX,
     SYSTEM_VARIABLE_PREFIX,
     SYSTEM_VARIABLE_CLIENT_PREFIX,
-    getGlobalConstantOrSystemVariable
+    getGlobalConstantOrSystemVariable,
+    getGlobalVariable
 } from 'builder_platform_interaction/systemLib';
 import { splitStringBySeparator } from 'builder_platform_interaction/commonUtils';
 import { isElementAllowed, getScreenElement } from 'builder_platform_interaction/expressionUtils';
@@ -131,8 +132,7 @@ export class MergeFieldsValidation {
             return this._validateGlobalConstant(mergeFieldReferenceValue, index);
         }
         if (this._isGlobalVariableMergeField(mergeFieldReferenceValue)) {
-            // TODO : validate global variables
-            return [];
+            return this._validateGlobalVariable(mergeFieldReferenceValue, index);
         }
         if (this._isSystemVariableMergeField(mergeFieldReferenceValue)) {
             return this._validateSystemVariable(mergeFieldReferenceValue, index);
@@ -180,6 +180,24 @@ export class MergeFieldsValidation {
             ];
         }
         if (!this._isElementValidForAllowedParamTypes(systemVariable)) {
+            return [validationErrors.invalidDataType(index, endIndex)];
+        }
+        return [];
+    }
+
+    _validateGlobalVariable(mergeFieldReferenceValue: string, index: number) {
+        const endIndex = index + mergeFieldReferenceValue.length - 1;
+        const globalVariable = getGlobalVariable(mergeFieldReferenceValue);
+        if (!globalVariable) {
+            return [
+                validationErrors.invalidGlobalVariable(
+                    MERGE_FIELD_START_CHARS + mergeFieldReferenceValue + MERGE_FIELD_END_CHARS,
+                    index,
+                    endIndex
+                )
+            ];
+        }
+        if (!this._isElementValidForAllowedParamTypes(globalVariable)) {
             return [validationErrors.invalidDataType(index, endIndex)];
         }
         return [];

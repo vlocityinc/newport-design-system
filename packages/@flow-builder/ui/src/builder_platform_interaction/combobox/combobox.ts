@@ -28,10 +28,7 @@ import {
 } from 'builder_platform_interaction/mergeFieldLib';
 import { getPillTooltip, getPillLabel } from 'builder_platform_interaction/pillLib';
 import { getElementFromParentElementCache } from 'builder_platform_interaction/comboboxCache';
-import {
-    isGlobalConstantOrSystemVariableId,
-    isRecordSystemVariableIdentifier
-} from 'builder_platform_interaction/systemLib';
+import { isNonRecordGlobalResourceId, isRecordSystemVariableIdentifier } from 'builder_platform_interaction/systemLib';
 import {
     normalizeDateTime,
     createMetadataDateTime,
@@ -1415,7 +1412,7 @@ export default class Combobox extends LightningElement {
             value = valueToCheck.substring(2, valueToCheck.length - 1);
         }
 
-        if (isGlobalConstantOrSystemVariableId(value)) {
+        if (isNonRecordGlobalResourceId(value)) {
             return false;
         }
 

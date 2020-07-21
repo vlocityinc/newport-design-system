@@ -35,7 +35,10 @@ export default class FerovResourcePicker extends LightningElement {
     hideSystemVariables;
 
     @api
-    showGlobalVariables;
+    hideGlobalVariables;
+
+    @api
+    showMultiPicklistGlobalVariables;
 
     @api
     rowIndex;

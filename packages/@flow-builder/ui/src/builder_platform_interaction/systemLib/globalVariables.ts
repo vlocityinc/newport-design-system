@@ -30,19 +30,20 @@ const convertData = (data, types) =>
     data.reduce((acc, obj) => {
         const type = types[obj.type.name];
         const name = `${type.name}.${obj.name}`;
-        // TODO: Need to figure out dataType for the icon, it's not coming back from
-        // the service.
         const variable = {
             guid: name,
             label: obj.name,
             name,
+            dataType: obj.datatype,
             apiName: obj.name
         };
 
         if (!acc[type.name]) {
             acc[type.name] = {};
         }
+
         acc[type.name][name] = variable;
+
         return acc;
     }, {});
 
@@ -85,10 +86,26 @@ export const getGlobalVariableTypes = () => {
  *
  * @param {String}
  *            typeName name of the global variable type to get variables for
+ * @param {boolean} showMultiPicklistGlobalVariables whether we allow global variables of type multipicklist
  * @returns {Object} global variables usable in menus
  */
-export const getGlobalVariables = typeName => {
-    return globalVariables && globalVariables[typeName];
+export const getGlobalVariables = (typeName, showMultiPicklistGlobalVariables = false) => {
+    let filteredGlobalVariables;
+    const globalVariableFields = globalVariables && globalVariables[typeName];
+    if (showMultiPicklistGlobalVariables) {
+        return globalVariableFields;
+    } else if (globalVariableFields) {
+        Object.keys(globalVariableFields).forEach(key => {
+            // TODO W-7837206 Remove this once backend support for Multipicklist is added
+            if (globalVariableFields[key].dataType !== 'Multipicklist') {
+                if (!filteredGlobalVariables) {
+                    filteredGlobalVariables = {};
+                }
+                filteredGlobalVariables[key] = globalVariableFields[key];
+            }
+        });
+    }
+    return filteredGlobalVariables;
 };
 
 /**
@@ -101,7 +118,7 @@ export const getGlobalVariable = id => {
     if (id) {
         const ref = id.split('.');
         if (globalVariables && globalVariables[ref[0]]) {
-            return globalVariables[ref[0]][ref[1]];
+            return globalVariables[ref[0]][id];
         }
     }
     return null;

@@ -228,6 +228,7 @@ export default class OutputResourcePicker extends LightningElement {
                 undefined,
                 {
                     allowGlobalConstants: false,
+                    showGlobalVariables: false,
                     enableFieldDrilldown: this.enableFieldDrilldown,
                     includeNewResource: true,
                     allowSObjectFieldsTraversal: false

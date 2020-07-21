@@ -58,8 +58,6 @@ export default class ResourcedRichTextEditor extends LightningElement {
     @api
     required = false;
 
-    @api
-    showGlobalVariables = false;
     // does support or not the plain text mode?
     @api
     plainTextAvailable = false;

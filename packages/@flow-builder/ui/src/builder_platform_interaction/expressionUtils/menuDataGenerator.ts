@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { FLOW_DATA_TYPE, getDataTypeLabel, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import {
-    isGlobalConstantOrSystemVariableId,
+    isNonRecordGlobalResourceId,
     SYSTEM_VARIABLE_PREFIX,
     SYSTEM_VARIABLE_CLIENT_PREFIX,
     SYSTEM_VARIABLE_RECORD_PREFIX,
@@ -470,7 +470,7 @@ export function mutateFlowResourceToComboboxShape(resource) {
         });
         newElement.text = getResourceLabel(resource);
         newElement.value = resource.guid;
-        isNonElement = isGlobalConstantOrSystemVariableId(resource.guid);
+        isNonElement = isNonRecordGlobalResourceId(resource.guid);
     }
     newElement.displayText = addCurlyBraces(resource.isNewField ? resource.name.value : resource.name);
     newElement.subText = isNonElement ? resource.description : getSubText(resourceDataType, resourceLabel, resource);
@@ -593,11 +593,12 @@ const mutateSystemAndGlobalVariablesToComboboxShape = value => {
 export const getGlobalVariableTypeComboboxItems = () => {
     const globalVariableTypes = getGlobalVariableTypes();
     const typeMenuData = [];
-
-    Object.keys(globalVariableTypes).forEach(type => {
-        const globalVariable = globalVariableTypes[type];
-        typeMenuData.push(mutateSystemAndGlobalVariablesToComboboxShape(globalVariable.name));
-    });
+    if (globalVariableTypes) {
+        Object.keys(globalVariableTypes).forEach(type => {
+            const globalVariable = globalVariableTypes[type];
+            typeMenuData.push(mutateSystemAndGlobalVariablesToComboboxShape(globalVariable.name));
+        });
+    }
 
     return typeMenuData;
 };
