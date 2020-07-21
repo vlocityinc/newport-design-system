@@ -24,6 +24,7 @@ type ScreenFieldType = {
     icon?: string;
     category?: string;
     type?: string;
+    description?: string;
 };
 
 /**
@@ -151,7 +152,8 @@ const screenFieldTypes: ScreenFieldType[] = [
         fieldType: 'RegionContainer',
         label: LABELS.fieldTypeLabelSection,
         icon: 'standard:display_text',
-        category: LABELS.fieldCategoryDisplay
+        category: LABELS.fieldCategoryDisplay,
+        description: LABELS.fieldTypeDescriptionSection
     }
 ];
 

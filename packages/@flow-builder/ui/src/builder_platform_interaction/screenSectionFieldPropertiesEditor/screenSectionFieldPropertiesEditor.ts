@@ -26,17 +26,17 @@ export default class ScreenSectionFieldPropertiesEditor extends LightningElement
     editorParams;
 
     columnWidths = [
-        { value: '1', label: '1' },
-        { value: '2', label: '2' },
-        { value: '3', label: '3' },
-        { value: '4', label: '4' },
-        { value: '5', label: '5' },
-        { value: '6', label: '6' },
-        { value: '7', label: '7' },
-        { value: '8', label: '8' },
-        { value: '9', label: '9' },
-        { value: '10', label: '10' },
-        { value: '11', label: '11' },
+        { value: '1', label: this.labels.oneOfTwelveWidth },
+        { value: '2', label: this.labels.twoOfTwelveWidth },
+        { value: '3', label: this.labels.threeOfTwelveWidth },
+        { value: '4', label: this.labels.fourOfTwelveWidth },
+        { value: '5', label: this.labels.fiveOfTwelveWidth },
+        { value: '6', label: this.labels.halfWidth },
+        { value: '7', label: this.labels.sevenOfTwelveWidth },
+        { value: '8', label: this.labels.eightOfTwelveWidth },
+        { value: '9', label: this.labels.nineOfTwelveWidth },
+        { value: '10', label: this.labels.tenOfTwelveWidth },
+        { value: '11', label: this.labels.elevenOfTwelveWidth },
         { value: '12', label: this.labels.fullWidth }
     ];
 
@@ -87,10 +87,6 @@ export default class ScreenSectionFieldPropertiesEditor extends LightningElement
 
     get isAddDisabled() {
         return this.field.fields.length >= MAX_COLUMNS;
-    }
-
-    get columnsLabel() {
-        return this.field.fields ? format(this.labels.columnsSectionTitle, this.field.fields.length) : '';
     }
 
     get maxColumns() {

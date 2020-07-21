@@ -37,6 +37,7 @@ import fieldTypeLabelMultiSelectPicklist from '@salesforce/label/FlowBuilderScre
 import fieldTypeLabelPicklist from '@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelPicklist';
 import fieldTypeLabelDisplayText from '@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelDisplayText';
 import fieldTypeLabelSection from '@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelSection';
+import fieldTypeDescriptionSection from '@salesforce/label/FlowBuilderScreenEditor.fieldTypeDescriptionSection';
 import addChoice from '@salesforce/label/FlowBuilderScreenEditor.addChoice';
 import choices from '@salesforce/label/FlowBuilderScreenEditor.choices';
 import buttonHelpTextAltText from '@salesforce/label/FlowBuilderScreenEditor.buttonHelpTextAltText';
@@ -84,6 +85,17 @@ import columnsSectionTitle from '@salesforce/label/FlowBuilderScreenEditor.colum
 import maxColumns from '@salesforce/label/FlowBuilderScreenEditor.maxColumns';
 import addColumn from '@salesforce/label/FlowBuilderScreenEditor.addColumn';
 import columnsWidthTitle from '@salesforce/label/FlowBuilderScreenEditor.columnsWidthTitle';
+import oneOfTwelveWidth from '@salesforce/label/FlowBuilderScreenEditor.oneOfTwelveWidth';
+import twoOfTwelveWidth from '@salesforce/label/FlowBuilderScreenEditor.twoOfTwelveWidth';
+import threeOfTwelveWidth from '@salesforce/label/FlowBuilderScreenEditor.threeOfTwelveWidth';
+import fourOfTwelveWidth from '@salesforce/label/FlowBuilderScreenEditor.fourOfTwelveWidth';
+import fiveOfTwelveWidth from '@salesforce/label/FlowBuilderScreenEditor.fiveOfTwelveWidth';
+import halfWidth from '@salesforce/label/FlowBuilderScreenEditor.halfWidth';
+import sevenOfTwelveWidth from '@salesforce/label/FlowBuilderScreenEditor.sevenOfTwelveWidth';
+import eightOfTwelveWidth from '@salesforce/label/FlowBuilderScreenEditor.eightOfTwelveWidth';
+import nineOfTwelveWidth from '@salesforce/label/FlowBuilderScreenEditor.nineOfTwelveWidth';
+import tenOfTwelveWidth from '@salesforce/label/FlowBuilderScreenEditor.tenOfTwelveWidth';
+import elevenOfTwelveWidth from '@salesforce/label/FlowBuilderScreenEditor.elevenOfTwelveWidth';
 import fullWidth from '@salesforce/label/FlowBuilderScreenEditor.fullWidth';
 import columnsTooltip from '@salesforce/label/FlowBuilderScreenEditor.columnsTooltip';
 import defaultColumnLabel from '@salesforce/label/FlowBuilderScreenEditor.defaultColumnLabel';
@@ -127,6 +139,7 @@ export const LABELS = {
     fieldTypeLabelPicklist,
     fieldTypeLabelDisplayText,
     fieldTypeLabelSection,
+    fieldTypeDescriptionSection,
     fieldValidation,
     choices,
     buttonHelpTextAltText,
@@ -173,6 +186,17 @@ export const LABELS = {
     maxColumns,
     addColumn,
     columnsWidthTitle,
+    oneOfTwelveWidth,
+    twoOfTwelveWidth,
+    threeOfTwelveWidth,
+    fourOfTwelveWidth,
+    fiveOfTwelveWidth,
+    halfWidth,
+    sevenOfTwelveWidth,
+    eightOfTwelveWidth,
+    nineOfTwelveWidth,
+    tenOfTwelveWidth,
+    elevenOfTwelveWidth,
     fullWidth,
     columnsTooltip,
     defaultColumnLabel
