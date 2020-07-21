@@ -17,6 +17,9 @@ export default class FlcCompoundNode extends LightningElement {
     @api
     isReconnecting;
 
+    @api
+    isCanvasReady;
+
     get simpleNode() {
         return getFlcNodeData(this.node);
     }

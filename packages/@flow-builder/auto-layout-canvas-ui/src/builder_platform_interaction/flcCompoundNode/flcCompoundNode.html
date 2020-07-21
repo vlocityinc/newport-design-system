@@ -5,6 +5,7 @@
         is-selection-mode={isSelectionMode}
         node-info={simpleNode.nodeInfo}
         is-reconnecting={isReconnecting}
+        is-canvas-ready={isCanvasReady}
     ></builder_platform_interaction-flc-node>
 
     <template for:each={logicConnectors} for:item="logicConnector" if:true={node.logicConnectors}>

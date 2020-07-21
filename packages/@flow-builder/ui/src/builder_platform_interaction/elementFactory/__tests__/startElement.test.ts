@@ -14,6 +14,11 @@ const MOCK_GUID = 'mockGuid';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
+jest.mock('builder_platform_interaction/storeUtils', () => ({
+    getProcessType: jest.fn(),
+    shouldUseAutoLayoutCanvas: jest.fn()
+}));
+
 jest.mock('../base/baseMetadata');
 baseCanvasElementMetadataObject.mockImplementation(element => {
     return Object.assign({}, element);

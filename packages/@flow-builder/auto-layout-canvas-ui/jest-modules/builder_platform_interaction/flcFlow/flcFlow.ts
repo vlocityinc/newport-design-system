@@ -13,4 +13,7 @@ export default class FlcFlow extends LightningElement {
 
     @api
     isReconnecting;
+
+    @api
+    isCanvasReady;
 }

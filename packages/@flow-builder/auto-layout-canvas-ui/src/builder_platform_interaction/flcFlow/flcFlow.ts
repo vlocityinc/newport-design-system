@@ -16,6 +16,9 @@ export default class FlcFlow extends LightningElement {
     @api
     isReconnecting;
 
+    @api
+    isCanvasReady;
+
     get preConnector() {
         const { preConnector } = this.flow;
         return preConnector && getFlcConnectorData(preConnector);

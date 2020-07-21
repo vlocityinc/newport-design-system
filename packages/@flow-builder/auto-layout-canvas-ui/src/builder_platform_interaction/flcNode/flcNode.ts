@@ -28,6 +28,9 @@ export default class FlcNode extends LightningElement {
     @api
     isReconnecting;
 
+    @api
+    isCanvasReady;
+
     get conditionOptionsForNode() {
         let conditionOptionsForNode;
         if (this.nodeInfo.conditionOptions) {

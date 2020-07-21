@@ -116,6 +116,9 @@ export default class FlcBuilder extends LightningElement {
     @track
     menu;
 
+    @track
+    isCanvasReady;
+
     @api
     disableDebounce = false;
 
@@ -203,6 +206,7 @@ export default class FlcBuilder extends LightningElement {
             if (flowContainerElement != null) {
                 this._flowContainerElement = flowContainerElement;
                 this.initializePanzoom();
+                this.isCanvasReady = true;
             }
         }
     }
