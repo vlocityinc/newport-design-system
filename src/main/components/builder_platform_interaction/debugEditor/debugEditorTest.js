@@ -340,6 +340,54 @@
         }
     },
 
+    testApexVariable: {
+        mocks: [
+            {
+                type: 'ACTION',
+                descriptor: 'serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController',
+                stubs: [
+                    {
+                        method: { name: 'getFlowInputOutputVariables' },
+                        answers: [
+                            {
+                                value: [
+                                    {
+                                        variables: [
+                                            {
+                                                dataType: 'Apex',
+                                                isCollection: false,
+                                                isInput: true,
+                                                isOutput: false,
+                                                name: 'Apex-defined var',
+                                                objectType: 'test_Greeting'
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        test: function(cmp) {
+            $A.test.addWaitFor(
+                false,
+                function() {
+                    return $A.test.isActionPending('doInit');
+                },
+                function(cmp) {
+                    var inputs = cmp.find('flowInput').get('v.body');
+                    $A.test.assertTrue(inputs.length === 1, 'Apex-defined variable should not show up');
+                    // inputs[0] is aura$expression by default, inputs.length = 1 means no apex-defined variable cmp created
+                    $A.test.assertFalse(cmp.get('v.hasInputs'), 'hasInputs is not set properly');
+                    $A.test.assertUndefined(cmp.find('inputValuesInfo'), 'Text for input variables showes up.');
+                    $A.test.assertNotNull(cmp.find('inputValuesNone'), 'Text for no input variables does not show up.');
+                }
+            );
+        }
+    },
+
     testCollectionVariable: {
         mocks: [
             {
@@ -382,6 +430,62 @@
                     $A.test.assertFalse(cmp.get('v.hasInputs'), 'hasInputs is not set properly');
                     $A.test.assertUndefined(cmp.find('inputValuesInfo'), 'Text for input variables showes up.');
                     $A.test.assertNotNull(cmp.find('inputValuesNone'), 'Text for no input variables does not show up.');
+                }
+            );
+        }
+    },
+
+    testVariableChange: {
+        mocks: [
+            {
+                type: 'ACTION',
+                descriptor: 'serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController',
+                stubs: [
+                    {
+                        method: { name: 'getFlowInputOutputVariables' },
+                        answers: [
+                            {
+                                value: [
+                                    {
+                                        variables: [
+                                            {
+                                                dataType: 'String',
+                                                isCollection: false,
+                                                isInput: true,
+                                                isOutput: false,
+                                                name: 'testVar'
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        test: function(cmp) {
+            $A.test.addWaitFor(
+                false,
+                function() {
+                    return $A.test.isActionPending('doInit');
+                },
+                function(cmp) {
+                    var testString = 'Test inputs';
+                    var testVar = cmp.find('flowInput').get('v.body')[1];
+                    $A.test.assertUndefinedOrNull(testVar.set('v.value'), 'Input value should be empty initially');
+                    testVar.set('v.value', testString);
+                    this.assertObjectEquals(
+                        cmp.getDebugInput()['inputs'],
+                        [
+                            {
+                                name: 'testVar',
+                                type: 'String',
+                                value: testString
+                            }
+                        ],
+                        "Input Variables' value change are not recorded correctly in debugInputObject when click run."
+                    );
                 }
             );
         }
