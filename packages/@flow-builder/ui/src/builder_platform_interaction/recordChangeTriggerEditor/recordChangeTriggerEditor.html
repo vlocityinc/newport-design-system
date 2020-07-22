@@ -67,13 +67,24 @@
                     </div>
 
                     <!-- Display Before Delete Trigger label and description if RecordTriggerType "Delete" is selected -->
-                    <div if:true={isDeleteRecordTriggerType}>
+                    <div if:true={isDeleteRecordTriggerType} class="slds-m-left_large">
                         <label class="slds-radio__label afterSave" for="radio-before-delete">
                             <b><span class="slds-form-element__label">{labels.triggerTypeBeforeDelete}</span></b>
                         </label>
 
                         <div class="slds-form-element__label slds-form-element">
                             {labels.triggerTypeBeforeDeleteDescription}
+                        </div>
+
+                        <div
+                            class="beforeDeleteInfo slds-scoped-notification slds-m-right_small slds-m-top_x-small slds-media slds-media_center slds-color__background_gray-3"
+                        >
+                            <div class="slds-media__figure">
+                                <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
+                            </div>
+                            <div class="slds-media__body">
+                                {labels.noUndeleteFlowMessage}
+                            </div>
                         </div>
                     </div>
                 </div>

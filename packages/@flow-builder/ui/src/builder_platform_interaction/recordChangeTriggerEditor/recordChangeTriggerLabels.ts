@@ -12,6 +12,7 @@ import triggerTypeBeforeSaveDescription from '@salesforce/label/FlowBuilderStart
 import triggerTypeAfterSaveDescription from '@salesforce/label/FlowBuilderStartEditor.triggerTypeAfterSaveDescription';
 import triggerTypeBeforeDeleteDescription from '@salesforce/label/FlowBuilderStartEditor.triggerTypeBeforeDeleteDescription';
 import requiredLabel from '@salesforce/label/FlowBuilderStartEditor.requiredLabel';
+import noUndeleteFlowMessage from '@salesforce/label/FlowBuilderStartEditor.noUndeleteFlowMessage';
 
 export const LABELS = {
     createOrUpdateInputLabel,
@@ -26,5 +27,6 @@ export const LABELS = {
     triggerTypeBeforeSaveDescription,
     triggerTypeAfterSaveDescription,
     triggerTypeBeforeDeleteDescription,
-    requiredLabel
+    requiredLabel,
+    noUndeleteFlowMessage
 };

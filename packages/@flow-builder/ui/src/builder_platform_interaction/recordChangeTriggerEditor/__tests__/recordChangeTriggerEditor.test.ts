@@ -7,7 +7,8 @@ import RecordChangeTriggerEditor from '../recordChangeTriggerEditor';
 const SELECTORS = {
     SAVE_TYPE_SECTION: 'lightning-radio-group.recordCreateOrUpdate',
     TRIGGER_TYPE_BEFORE_SAVE: 'input.beforeSave',
-    TRIGGER_TYPE_AFTER_SAVE: 'input.afterSave'
+    TRIGGER_TYPE_AFTER_SAVE: 'input.afterSave',
+    BEFORE_DELETE_INFO_BOX: 'div.beforeDeleteInfo'
 };
 
 function createComponentForTest(node) {
@@ -64,6 +65,7 @@ describe('record-change-trigger-editor', () => {
         query(element, SELECTORS.TRIGGER_TYPE_AFTER_SAVE).dispatchEvent(event);
 
         expect(element.node.triggerType.value).toBe(FLOW_TRIGGER_TYPE.AFTER_SAVE);
+        expect(query(element, SELECTORS.BEFORE_DELETE_INFO_BOX)).toBeNull();
     });
 
     it('Verify Delete record trigger type auto selects Before Delete as the Flow Trigger', () => {
@@ -74,6 +76,7 @@ describe('record-change-trigger-editor', () => {
         // Setting the record trigger type to Delete should automatically select Before Delete flow trigger type
         expect(element.node.recordTriggerType.value).toBe(FLOW_TRIGGER_SAVE_TYPE.DELETE);
         expect(element.node.triggerType.value).toBe(FLOW_TRIGGER_TYPE.BEFORE_DELETE);
+        expect(query(element, SELECTORS.BEFORE_DELETE_INFO_BOX)).toBeDefined();
     });
 
     it('Verify switching from delete to create auto selects previously selected Flow Trigger type', () => {
