@@ -336,6 +336,14 @@ export function isSystemElement(elementType) {
     }
 }
 
+// TODO: @W-7859399 Create contants for screen field types and replace strings with constants
+export function isSectionOrColumn(element) {
+    return (
+        element.elementType === ELEMENT_TYPE.SCREEN_FIELD &&
+        (element.fieldType === 'RegionContainer' || element.fieldType === 'Region')
+    );
+}
+
 export function forEachMetadataFlowElement(metadata, callback) {
     const metadataKeys = Object.values(METADATA_KEY);
     for (let i = 0, metadataKeysLen = metadataKeys.length; i < metadataKeysLen; i++) {

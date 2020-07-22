@@ -696,6 +696,26 @@ describe('Menu data retrieval', () => {
             expect(element.rightIconName).toBeDefined();
             expect(element.rightIconName).toEqual('');
         });
+        it('does not include section and column screen fields in the result', () => {
+            const dummySection = {
+                elementType: 'SCREEN_FIELD',
+                fieldType: 'RegionContainer'
+            };
+            const dummyColumn = {
+                elementType: 'SCREEN_FIELD',
+                fieldType: 'Region'
+            };
+            const menuData = filterAndMutateMenuData(
+                [dummySection, dummyColumn],
+                undefined,
+                false,
+                false,
+                false,
+                undefined,
+                false
+            );
+            expect(menuData).toHaveLength(0);
+        });
     });
 
     describe('Event types menu data', () => {
