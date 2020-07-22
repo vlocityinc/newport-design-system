@@ -6,12 +6,6 @@ import { FlowModel, ElementsMetadata, ElementMetadata, NodeRef, NodeModel, Guid 
 import MenuType from './MenuType';
 import ElementType from './ElementType';
 
-export enum ConditionType {
-    DEFAULT,
-    FAULT,
-    STANDARD
-}
-
 export interface FlowRenderContext {
     flowModel: FlowModel;
     nodeLayoutMap: NodeLayoutMap;
@@ -163,11 +157,8 @@ export interface ConnectorRenderInfo {
     connectionInfo: ConnectorConnectionInfo;
     isFault: boolean;
     labelOffsetY?: number;
-    conditionOptions?: Option[];
-    conditionValue?: Guid;
-    conditionType?: ConditionType;
+    connectorBadgeLabel?: string;
     isNew?: boolean;
-    defaultConnectorLabel?: string;
     toBeDeleted: boolean;
 }
 

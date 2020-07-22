@@ -6,19 +6,7 @@
         </g>
     </svg>
 
-    <!-- Label Picker -->
-    <lightning-combobox
-        if:true={canSelectLabel}
-        style={connectorLabelStyle}
-        disabled={isLabelPickerDisabled}
-        label="Assistive text"
-        options={connectorInfo.conditionOptions}
-        value={connectorInfo.conditionValue}
-        variant="label-hidden"
-        onchange={handleComboboxChange}
-        onmouseout={handleComboboxMouseOut}
-        onmouseover={handleComboboxMouseOver}
-    ></lightning-combobox>
+    <!-- Connector Label -->
     <div if:true={hasConnectorBadge} class={connectorBadgeClass} style={connectorLabelStyle}>
         <span class="slds-truncate">{connectorBadgeLabel}</span>
     </div>

@@ -35,9 +35,6 @@ lightning-combobox {
     transform: translate(-50%, -50%);
     max-width: 164px;
     min-width: 84px;
-}
-
-.default-badge {
     background-color: var(--lwc-colorBackgroundLight);
     border: 1px solid var(--lwc-colorBorder);
 }

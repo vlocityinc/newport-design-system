@@ -9,7 +9,6 @@ import {
     hasTrigger,
     hasContext
 } from 'builder_platform_interaction/flcBuilderUtils';
-import { reorderConnectors } from 'builder_platform_interaction/actions';
 import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 
 let startElementMetadata = null;
@@ -132,16 +131,6 @@ export default class FlcBuilderContainer extends LightningElement {
         if (this.rootElement && this.elementsMetadata) {
             this.flowModel = storeState.elements;
         }
-    };
-
-    handleConnectorReordering = event => {
-        const { parentElementGuid, oldChildReferenceGuid, newChildReferenceGuid } = event.detail;
-        const payload = {
-            parentElementGuid,
-            oldChildReferenceGuid,
-            newChildReferenceGuid
-        };
-        storeInstance.dispatch(reorderConnectors(payload));
     };
 
     handleFlcBuilderClick = event => {

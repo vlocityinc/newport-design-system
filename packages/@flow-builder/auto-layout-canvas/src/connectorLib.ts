@@ -1,9 +1,7 @@
 import {
     ConnectorRenderInfo,
     LayoutConfig,
-    Option,
     ConnectorVariant,
-    ConditionType,
     ConnectorConnectionInfo,
     getConnectorConfig
 } from './flowRendererUtils';
@@ -20,19 +18,6 @@ import {
     createSvgInfo,
     Geometry
 } from './svgUtils';
-
-/**
- * Get the guid for a condition
- *
- * @param conditionOptions - The condition options
- * @param index - The condition index
- * @returns The condition value guid
- */
-function getConditionValue(conditionOptions: Option[], index: number): Guid | undefined {
-    if (index < conditionOptions.length) {
-        return conditionOptions[index].value;
-    }
-}
 
 /**
  * Creates an SvgInfo for a straight connector
@@ -78,6 +63,7 @@ function createStraightConnectorSvgInfo(
  *
  * @param connectionInfo - The connector connection info
  * @param connectorType - Type of the connector being created
+ * @param connectorLabelType - Type of Connector Label
  * @param offsetY - y offset of the connector relative to the source element
  * @param height - Height of the connector
  * @param menuOpened - True if the contextual menu is open
@@ -85,8 +71,7 @@ function createStraightConnectorSvgInfo(
  * @param isFault - Whether this is part of a fault connector
  * @param variants - The variants for the connector
  * @param isBranchGettingDeleted - True if the current branch is getting deleted
- * @param conditionOptions - The condition options
- * @param conditionType - The condition type
+ * @param connectorBadgeLabel - The label of the standard branch connector. Undefined for Default and Fault Connector
  * @returns The ConnectorRenderInfo for the connector
  */
 function createConnectorToNextNode(
@@ -100,9 +85,7 @@ function createConnectorToNextNode(
     isFault: boolean,
     variants: ConnectorVariant[],
     isBranchGettingDeleted: boolean,
-    conditionOptions?: Option[],
-    conditionType?: ConditionType,
-    defaultConnectorLabel?: string
+    connectorBadgeLabel?: string
 ): ConnectorRenderInfo {
     const { strokeWidth } = layoutConfig.connector;
 
@@ -122,21 +105,13 @@ function createConnectorToNextNode(
         svgInfo: createStraightConnectorSvgInfo(height, svgMarginTop, svgMarginBottom, layoutConfig),
         labelOffsetY: labelOffset,
         type: connectorType,
-        conditionOptions,
-        conditionValue: conditionOptions ? getConditionValue(conditionOptions, connectionInfo.childIndex!) : undefined,
+        connectorBadgeLabel,
         isFault,
-        conditionType,
-        defaultConnectorLabel,
         toBeDeleted: isBranchGettingDeleted
     };
 
-    if (!connectorRenderInfo.defaultConnectorLabel) {
-        delete connectorRenderInfo.defaultConnectorLabel;
-    }
-
-    if (!connectorRenderInfo.conditionOptions) {
-        delete connectorRenderInfo.conditionOptions;
-        delete connectorRenderInfo.conditionValue;
+    if (!connectorRenderInfo.connectorBadgeLabel) {
+        delete connectorRenderInfo.connectorBadgeLabel;
     }
 
     return connectorRenderInfo;

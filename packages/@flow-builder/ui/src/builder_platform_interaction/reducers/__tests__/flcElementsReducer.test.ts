@@ -6,7 +6,6 @@ import {
     MODIFY_DECISION_WITH_OUTCOMES,
     SELECTION_ON_FIXED_CANVAS,
     ADD_FAULT,
-    REORDER_CONNECTORS,
     PASTE_ON_FIXED_CANVAS,
     FLC_CREATE_CONNECTION
 } from 'builder_platform_interaction/actions';
@@ -333,43 +332,6 @@ describe('elements-reducer', () => {
 
         it('screen3 should not be in the store', () => {
             expect(updatedState.screen3).toBeUndefined();
-        });
-    });
-
-    describe('Reorder Connectors', () => {
-        it('outcome1 and outcome2 should be correctly swapped', () => {
-            const elements = {
-                decision1: {
-                    guid: 'decision1',
-                    elementType: ELEMENT_TYPE.DECISION,
-                    childReferences: [
-                        {
-                            childReference: 'outcome1'
-                        },
-                        {
-                            childReference: 'outcome2'
-                        }
-                    ]
-                }
-            };
-
-            const updatedState = flcElementsReducer(elements, {
-                type: REORDER_CONNECTORS,
-                payload: {
-                    parentElementGuid: 'decision1',
-                    oldChildReferenceGuid: 'outcome1',
-                    newChildReferenceGuid: 'outcome2'
-                }
-            });
-
-            expect(updatedState.decision1.childReferences).toMatchObject([
-                {
-                    childReference: 'outcome2'
-                },
-                {
-                    childReference: 'outcome1'
-                }
-            ]);
         });
     });
 

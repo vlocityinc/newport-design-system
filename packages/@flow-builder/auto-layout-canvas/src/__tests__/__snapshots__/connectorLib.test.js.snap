@@ -51,7 +51,6 @@ Object {
     "menuOpened": false,
     "offsetY": 60,
   },
-  "conditionType": undefined,
   "connectionInfo": Object {
     "next": "nextGuid",
     "prev": "prevGuid",

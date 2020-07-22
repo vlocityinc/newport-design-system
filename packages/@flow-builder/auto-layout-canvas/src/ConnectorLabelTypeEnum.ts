@@ -1,6 +1,6 @@
 enum ConnectorLabelType {
     NONE,
-    BRANCH_DEFAULT,
+    BRANCH,
     LOOP_FOR_EACH,
     LOOP_AFTER_LAST,
     FAULT

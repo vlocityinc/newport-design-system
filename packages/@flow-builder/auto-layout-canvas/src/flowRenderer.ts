@@ -23,8 +23,7 @@ import {
     getLayout,
     getBranchLayout,
     Option,
-    FlowRenderContext,
-    ConditionType
+    FlowRenderContext
 } from './flowRendererUtils';
 
 import ElementType from './ElementType';
@@ -568,24 +567,14 @@ function getConnectorVariant(
  * @param options - The options
  * @return the connector label type
  */
-function getConnectorLabelType({
-    isFault,
-    isLoop,
-    conditionType
-}: {
-    isFault?: boolean;
-    isLoop?: boolean;
-    conditionType?: ConditionType;
-}) {
+function getConnectorLabelType({ isFault, isLoop }: { isFault?: boolean; isLoop?: boolean }) {
     if (isFault) {
         return ConnectorLabelType.FAULT;
     } else if (isLoop) {
         return ConnectorLabelType.LOOP_FOR_EACH;
-    } else if (conditionType === ConditionType.DEFAULT) {
-        return ConnectorLabelType.BRANCH_DEFAULT;
     }
 
-    return ConnectorLabelType.NONE;
+    return ConnectorLabelType.BRANCH;
 }
 /**
  * Creates a pre connector for a branch. This is the connector that precedes the first node in a branch.
@@ -616,16 +605,13 @@ function createPreConnector(
     const { elementType } = parentNode;
     const metadata = getElementMetadata(elementsMetadata, elementType);
 
-    let conditionType;
-
     const defaultConditionIndex = metadata.type === ElementType.BRANCH ? childCount - 1 : null;
 
+    let connectorBadgeLabel;
     if (childIndex === defaultConditionIndex) {
-        conditionType = ConditionType.DEFAULT;
-    } else if (childIndex === FAULT_INDEX) {
-        conditionType = ConditionType.FAULT;
-    } else {
-        conditionType = ConditionType.STANDARD;
+        connectorBadgeLabel = parentNode.defaultConnectorLabel;
+    } else if (childIndex !== FAULT_INDEX) {
+        connectorBadgeLabel = conditionOptions && conditionOptions[childIndex].label;
     }
 
     let variants = [variant];
@@ -637,20 +623,17 @@ function createPreConnector(
         { parent: parentNode.guid, childIndex },
         ConnectorType.STRAIGHT,
         getConnectorLabelType({
-            isFault: conditionType === ConditionType.FAULT,
-            isLoop: metadata.type === ElementType.LOOP,
-            conditionType
+            isFault: childIndex === FAULT_INDEX,
+            isLoop: metadata.type === ElementType.LOOP
         }),
         NO_OFFSET,
         height,
         isMenuOpened(getBranchLayoutKey(parentNode.guid, childIndex), MenuType.CONNECTOR, interactionState),
         context.layoutConfig,
-        context.isFault || conditionType === ConditionType.FAULT,
+        context.isFault || childIndex === FAULT_INDEX,
         variants,
         isDeletingBranch,
-        conditionType === ConditionType.DEFAULT || conditionType === ConditionType.FAULT ? undefined : conditionOptions,
-        conditionType,
-        conditionType === ConditionType.DEFAULT ? parentNode.defaultConnectorLabel : undefined
+        connectorBadgeLabel
     );
 }
 

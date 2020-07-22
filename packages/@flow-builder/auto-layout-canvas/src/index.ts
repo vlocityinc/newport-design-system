@@ -13,7 +13,6 @@ import ConnectorType from './ConnectorTypeEnum';
 import ConnectorLabelType from './ConnectorLabelTypeEnum';
 
 import {
-    ConditionType,
     ConnectorVariant,
     ConnectorRenderInfo,
     NodeRenderInfo,
@@ -72,7 +71,6 @@ export {
     ConnectorLabelType,
     ConnectorVariant,
     panzoom,
-    ConditionType,
     ConnectorRenderInfo,
     NodeRenderInfo,
     FlowRenderInfo,

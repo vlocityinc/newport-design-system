@@ -3,7 +3,6 @@ export { FlcSelectionEvent } from './flcSelectionEvent';
 export { FlcCreateConnectionEvent } from './flcCreateConnectionEvent';
 export { MergeWithExistingPathEvent } from './mergeWithExistingPathEvent';
 export { HighlightPathsToDeleteEvent } from './highlightPathsToDeleteEvent';
-export { ReorderConnectorsEvent } from './reorderConnectorsEvent';
 export { SelectMenuItemEvent } from './selectMenuItemEvent';
 export { ToggleMenuEvent } from './toggleMenuEvent';
 export { DeleteElementFaultEvent } from './deleteElementFaultEvent';

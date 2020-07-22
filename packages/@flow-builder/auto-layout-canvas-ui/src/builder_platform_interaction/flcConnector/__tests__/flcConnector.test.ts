@@ -1,13 +1,13 @@
 // @ts-nocheck
 import { createElement } from 'lwc';
 import FlcConnector from 'builder_platform_interaction/flcConnector';
-import { ConditionType, ConnectorLabelType } from 'builder_platform_interaction/autoLayoutCanvas';
+import { ConnectorLabelType } from 'builder_platform_interaction/autoLayoutCanvas';
 import { LABELS } from '../flcConnectorLabels';
 
 const selectors = {
     connectorToBeDeletedSVG: '.connector-to-be-deleted',
     addElementButton: '.circle-text',
-    defaultConnectorBadge: '.connector-badge.default-badge span',
+    defaultConnectorBadge: '.connector-badge span',
     faultConnectorBadge: '.connector-badge.fault-badge span'
 };
 
@@ -42,14 +42,14 @@ const getRegularConnectorInfo = () => {
         },
         isFault: false,
         labelOffsetY,
-        conditionType: ConditionType.STANDARD,
+        connectorBadgeLabel: 'Regular Connector Label',
         toBeDeleted: false
     };
 };
 
 const getDefaultConnectorInfo = (toBeDeleted = false) => {
     return {
-        type: 'branchHead',
+        type: 'straight',
         geometry,
         svgInfo,
         addInfo,
@@ -60,16 +60,15 @@ const getDefaultConnectorInfo = (toBeDeleted = false) => {
         },
         isFault: false,
         labelOffsetY,
-        conditionType: ConditionType.DEFAULT,
-        defaultConnectorLabel: 'Default Connector Label',
+        connectorBadgeLabel: 'Default Connector Label',
         toBeDeleted,
-        labelType: ConnectorLabelType.BRANCH_DEFAULT
+        labelType: ConnectorLabelType.BRANCH
     };
 };
 
 const getFaultConnectorInfo = () => {
     return {
-        type: 'branchHead',
+        type: 'straight',
         geometry,
         svgInfo,
         addInfo,
@@ -80,7 +79,6 @@ const getFaultConnectorInfo = () => {
         },
         isFault: true,
         labelOffsetY,
-        conditionType: ConditionType.FAULT,
         toBeDeleted: false,
         labelType: ConnectorLabelType.FAULT
     };
@@ -119,7 +117,7 @@ describe('Auto-Layout connector tests', () => {
         const defaultConnectorInfo = getDefaultConnectorInfo();
         const defaultConnector = createComponentUnderTest(defaultConnectorInfo);
         const labelBadge = defaultConnector.shadowRoot.querySelector(selectors.defaultConnectorBadge);
-        expect(labelBadge.textContent).toEqual(defaultConnectorInfo.defaultConnectorLabel);
+        expect(labelBadge.textContent).toEqual(defaultConnectorInfo.connectorBadgeLabel);
     });
 
     it('Fault connector should have the label badge', () => {

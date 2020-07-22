@@ -11,7 +11,6 @@ import {
     MODIFY_DECISION_WITH_OUTCOMES,
     DELETE_ELEMENT,
     PASTE_ON_FIXED_CANVAS,
-    REORDER_CONNECTORS,
     ADD_FAULT,
     DELETE_FAULT,
     FLC_CREATE_CONNECTION
@@ -104,14 +103,6 @@ export default function flcElementsReducer(state = {}, action) {
         case DELETE_ELEMENT:
             // TODO: FLC find a better solution for getSubElementGuids
             state = _deleteElements(state, action);
-            break;
-        case REORDER_CONNECTORS:
-            state = _reorderConnectors(
-                state,
-                action.payload.parentElementGuid,
-                action.payload.oldChildReferenceGuid,
-                action.payload.newChildReferenceGuid
-            );
             break;
         case SELECTION_ON_FIXED_CANVAS:
             state = _selectionOnFixedCanvas(
@@ -251,37 +242,6 @@ function _deleteElements(state, { payload }) {
         }
     }
 
-    return state;
-}
-
-/**
- * Function to re-order the connectors in Auto-Layout Canvas
- * @param {Object} state - Current state of elements in the store
- * @param {String} parentElementGuid - Guid of the parent element which can either be a Decision or Pause element
- * @param {String} oldChildReferenceGuid - Previously selected childReference guid
- * @param {String} newChildReferenceGuid - Newly selected childReference guid
- */
-function _reorderConnectors(state, parentElementGuid, oldChildReferenceGuid, newChildReferenceGuid) {
-    const parentElement = state[parentElementGuid];
-    const newChildReferences = parentElement.childReferences.map(childReferenceObject => {
-        // Swapping the oldChildReferenceGuid with newChildReferenceGuid
-        if (childReferenceObject.childReference === oldChildReferenceGuid) {
-            return {
-                childReference: newChildReferenceGuid
-            };
-        }
-
-        // Swapping the newChildReferenceGuid with oldChildReferenceGuid
-        if (childReferenceObject.childReference === newChildReferenceGuid) {
-            return {
-                childReference: oldChildReferenceGuid
-            };
-        }
-
-        return childReferenceObject;
-    });
-
-    parentElement.childReferences = newChildReferences;
     return state;
 }
 
