@@ -22,6 +22,7 @@
 
 .screen-canvas-empty-place-holder {
     height: 100%;
+    font-style: italic;
 }
 
 .field-preview {
