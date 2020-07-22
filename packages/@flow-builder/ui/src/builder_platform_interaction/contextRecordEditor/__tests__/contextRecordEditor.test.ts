@@ -326,7 +326,7 @@ describe('context-record-editor', () => {
             LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_RADIO_GROUP
         );
         expect(requireRecordChangeOptionsRadioGroup).not.toBeNull();
-        expect(requireRecordChangeOptionsRadioGroup.label).toBe(LABELS.executeOutcomeWhen);
+        expect(requireRecordChangeOptionsRadioGroup.label).toBe(LABELS.requireRecordChangeOption);
         const recordChangeOptions = requireRecordChangeOptionsRadioGroup.options;
 
         expect(requireRecordChangeOptions()[0].value).toBe('trueEveryTime');

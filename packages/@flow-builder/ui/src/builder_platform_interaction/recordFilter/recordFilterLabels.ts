@@ -8,6 +8,7 @@ import filterLhsLabel from '@salesforce/label/FlowBuilderRecordEditor.filterLhsL
 import filterOperatorLabel from '@salesforce/label/FlowBuilderRecordEditor.filterOperatorLabel';
 import filterRhsLabel from '@salesforce/label/FlowBuilderRecordEditor.filterRhsLabel';
 import filterNoCriteriaGet from '@salesforce/label/FlowBuilderRecordEditor.filterNoCriteriaGet';
+import filterNoCriteria from '@salesforce/label/FlowBuilderRecordEditor.filterNoCriteria';
 import filterNoCriteriaUpdate from '@salesforce/label/FlowBuilderRecordEditor.filterNoCriteriaUpdate';
 import filterLhsPlaceholder from '@salesforce/label/FlowBuilderRecordEditor.filterLhsPlaceholder';
 import filterOperatorPlaceholder from '@salesforce/label/FlowBuilderRecordEditor.filterOperatorPlaceholder';
@@ -30,6 +31,7 @@ export const LABELS = {
     filterLhsLabel,
     filterOperatorLabel,
     filterRhsLabel,
+    filterNoCriteria,
     filterNoCriteriaGet,
     filterNoCriteriaUpdate,
     filterLhsPlaceholder,
@@ -117,6 +119,25 @@ export const filterLogicOptions = (elementType, recordName) => {
             ];
         case ELEMENT_TYPE.RECORD_DELETE:
             return [
+                {
+                    value: CONDITION_LOGIC.AND,
+                    label: LABELS.andConditionLogicLabel
+                },
+                {
+                    value: CONDITION_LOGIC.OR,
+                    label: LABELS.orConditionLogicLabel
+                },
+                {
+                    value: CONDITION_LOGIC.CUSTOM_LOGIC,
+                    label: LABELS.customConditionLogicLabel
+                }
+            ];
+        case ELEMENT_TYPE.START_ON_DML:
+            return [
+                {
+                    value: CONDITION_LOGIC.NO_CONDITIONS,
+                    label: format(LABELS.filterNoCriteria, recordName)
+                },
                 {
                     value: CONDITION_LOGIC.AND,
                     label: LABELS.andConditionLogicLabel

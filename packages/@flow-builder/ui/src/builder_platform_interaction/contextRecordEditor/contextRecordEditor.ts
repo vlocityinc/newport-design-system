@@ -15,7 +15,8 @@ import { contextReducer } from './contextRecordReducer';
 import {
     isScheduledTriggerType,
     getTriggerTypeInfo,
-    getTriggerHasCriteria
+    getTriggerHasCriteria,
+    isRecordChangeTriggerType
 } from 'builder_platform_interaction/triggerTypeLib';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
@@ -92,6 +93,9 @@ export default class contextRecordEditor extends LightningElement {
     }
 
     get elementType() {
+        if (isRecordChangeTriggerType(this.triggerType)) {
+            return ELEMENT_TYPE.START_ON_DML;
+        }
         return ELEMENT_TYPE.START_ELEMENT;
     }
 

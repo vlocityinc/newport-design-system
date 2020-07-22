@@ -6,9 +6,9 @@ import objectPlaceholder from '@salesforce/label/FlowBuilderRecordEditor.objectP
 import contextObjectDescription from '@salesforce/label/FlowBuilderStartEditor.contextObjectDescription';
 import contextObjectDeleteDescription from '@salesforce/label/FlowBuilderStartEditor.contextObjectDeleteDescription';
 import filterRecordsDescription from '@salesforce/label/FlowBuilderStartEditor.filterRecordsDescription';
-import executeOutcomeWhen from '@salesforce/label/FlowBuilderOutcome.executeOutcomeWhen';
-import everyTimeConditionsMet from '@salesforce/label/FlowBuilderOutcome.everyTimeConditionsMet';
-import onlyWhenChangesMeetConditions from '@salesforce/label/FlowBuilderOutcome.onlyWhenChangesMeetConditions';
+import requireRecordChangeOption from '@salesforce/label/FlowBuilderRecordEditor.requireRecordChangeOption';
+import everyTimeConditionsMet from '@salesforce/label/FlowBuilderRecordEditor.everyTimeConditionsMet';
+import onlyWhenChangesMeetConditions from '@salesforce/label/FlowBuilderRecordEditor.onlyWhenChangesMeetConditions';
 import { EXECUTE_OUTCOME_WHEN_OPTION_VALUES } from 'builder_platform_interaction/flowMetadata';
 
 export const LABELS = {
@@ -19,7 +19,7 @@ export const LABELS = {
     filterRecordsDescription,
     object,
     objectPlaceholder,
-    executeOutcomeWhen
+    requireRecordChangeOption
 };
 
 export const requireRecordChangeOptions = () => {

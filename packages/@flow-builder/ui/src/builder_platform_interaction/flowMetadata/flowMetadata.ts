@@ -54,6 +54,7 @@ export const ELEMENT_TYPE = {
     STEP: 'Step',
     SUBFLOW: 'Subflow',
     START_ELEMENT: 'START_ELEMENT',
+    START_ON_DML: 'START_ON_DML',
     ROOT_ELEMENT: 'root',
     END_ELEMENT: 'END_ELEMENT',
     WAIT: 'Wait',
