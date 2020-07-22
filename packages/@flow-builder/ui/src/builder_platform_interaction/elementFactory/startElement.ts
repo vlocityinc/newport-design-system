@@ -12,15 +12,11 @@ import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createRecordFilters, createFilterMetadataObject } from './base/baseRecordElement';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { SYSTEM_VARIABLE_RECORD_PREFIX, getProcessTypes } from 'builder_platform_interaction/systemLib';
+import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/systemLib';
 import { isScheduledTriggerType, isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { formatDateTimeUTC, getDayOfTheWeek } from 'builder_platform_interaction/dateTimeUtils';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementFactoryLabels';
-import { TRIGGER_TYPE_LABELS } from 'builder_platform_interaction/processTypeLib';
-import { getProcessType } from 'builder_platform_interaction/storeUtils';
-
-const { PLATFORM_EVENT } = FLOW_TRIGGER_TYPE;
 
 export const START_ELEMENT_LOCATION = {
     x: 50,
@@ -60,8 +56,9 @@ export function createStartElement(startElement = {}) {
             ? getISOTimeFromMillis(startTime.timeInMillis)
             : startTime;
 
-    const label = setLabel(triggerType, startDate, isoStartTime, frequency);
+    let label;
     if (isScheduledTriggerType(triggerType)) {
+        label = getscheduledLabel(startDate, isoStartTime, frequency);
         if (!frequency) {
             frequency = FLOW_TRIGGER_FREQUENCY.ONCE;
         }
@@ -184,25 +181,6 @@ function getISOTimeFromMillis(timeinMillis) {
         .toISOString()
         .slice(0, -1)
         .split('T')[1];
-}
-
-function setLabel(triggerType, startDate, isoStartTime, frequency) {
-    if (isRecordChangeTriggerType(triggerType) || triggerType === PLATFORM_EVENT) {
-        return TRIGGER_TYPE_LABELS[triggerType];
-    }
-    if (isScheduledTriggerType(triggerType)) {
-        return getscheduledLabel(startDate, isoStartTime, frequency) || TRIGGER_TYPE_LABELS[triggerType];
-    }
-
-    const currentProcessType = getProcessType();
-    // Grab the label of the current processType flow type
-    const processTypes = getProcessTypes();
-    if (processTypes) {
-        const proccestType = processTypes.find(item => item.name === currentProcessType);
-        return proccestType.label;
-    }
-
-    return undefined;
 }
 
 function getscheduledLabel(startDate, startTime, frequency) {
