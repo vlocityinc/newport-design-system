@@ -43,7 +43,7 @@ export default class BaseResourcePicker extends LightningElement {
      * @property {ComboboxConfig}       the combobox config object
      */
     @track
-    state = {};
+    state = { renderIncrementally: false };
 
     /**
      * The configuration object that contains the api properties of a flow combobox
@@ -128,6 +128,7 @@ export default class BaseResourcePicker extends LightningElement {
     setMenuData(newMenuData) {
         this._fullMenuData = newMenuData;
         this.state.menuData = this._fullMenuData;
+        this.state.renderIncrementally = !!newMenuData && newMenuData.length > 0;
     }
 
     @api

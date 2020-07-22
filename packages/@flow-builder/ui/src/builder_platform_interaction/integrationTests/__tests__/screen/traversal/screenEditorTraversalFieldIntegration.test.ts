@@ -61,15 +61,19 @@ const getCanvasScreenFieldElement = (screenEditor, elementTitle) => {
     return elementAddress.shadowRoot.querySelector('div');
 };
 
-const getGroupedCombobox = extensionPropertiesEditor => {
+const getCombobox = extensionPropertiesEditor => {
     return deepQuerySelector(extensionPropertiesEditor, [
         SELECTORS.SCREEN_EXTENSION_ATTRIBUTE_EDITOR,
         SELECTORS.SCREEN_PROPERTY_FIELD_EDITOR,
         INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER,
         INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
-        INTERACTION_COMPONENTS_SELECTORS.COMBOBOX,
-        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
+        INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
     ]);
+};
+
+const getGroupedCombobox = extensionPropertiesEditor => {
+    const combobox = getCombobox(extensionPropertiesEditor);
+    return combobox.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
 };
 
 describe('ScreenEditor', () => {
@@ -101,7 +105,13 @@ describe('ScreenEditor', () => {
                 await ticks(50);
             });
             it('shows up chevrons on fields', async () => {
-                const groupedCombobox = getGroupedCombobox(getExtensionPropertiesEditorElement(screenEditor));
+                const extensionPropertiesEditor = getExtensionPropertiesEditorElement(screenEditor);
+                // disable render-incrementally on combobox so groupedCombobox gets full menu data
+                const combobox = getCombobox(extensionPropertiesEditor);
+                combobox.renderIncrementally = false;
+                await ticks(1);
+
+                const groupedCombobox = getGroupedCombobox(extensionPropertiesEditor);
                 const accountCreatedByItem = await selectGroupedComboboxItemBy(
                     groupedCombobox,
                     'displayText',

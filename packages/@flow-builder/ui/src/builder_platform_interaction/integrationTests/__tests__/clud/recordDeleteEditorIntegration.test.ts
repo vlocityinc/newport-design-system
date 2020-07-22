@@ -18,7 +18,8 @@ import {
     getResourceGroupedCombobox,
     getRecordVariablePickerChildGroupedComboboxComponent,
     getEntityResourcePickerChildGroupedComboboxComponent,
-    getEntityResourcePicker
+    getEntityResourcePicker,
+    getBaseResourcePickerCombobox
 } from './cludEditorTestUtils';
 import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
 import {
@@ -237,8 +238,12 @@ describe('Record Delete Editor', () => {
                 it('selected entity is correctly displayed', () => {
                     expect(entityResourcePicker.value.displayText).toBe(recordDeleteNode.object.value);
                 });
-                it('only deleteable entities available', () => {
+                it('only deleteable entities available', async () => {
                     // see mock-entity.js (deletable = true)
+                    // Disable render-incrementally on combobox so groupedCombobox gets full menu data
+                    const combobox = getBaseResourcePickerCombobox(entityResourcePicker);
+                    combobox.renderIncrementally = false;
+                    await ticks(1);
                     const comboboxItems = getEntityResourcePickerChildGroupedComboboxComponent(entityResourcePicker)
                         .items;
                     expect(comboboxItems).toContainEqual(expect.objectContaining({ displayText: 'Account' }));

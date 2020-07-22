@@ -130,6 +130,19 @@ describe('base-resource-picker', () => {
         expect(flowCombobox.allowedParamTypes).toEqual(allowedParamTypes);
     });
 
+    it('sets the render-incrementally property on the flow combobox', async () => {
+        const baseResourcePicker = setupComponentUnderTest({
+            comboboxConfig
+        });
+        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
+        expect(flowCombobox.renderIncrementally).toBeFalsy();
+
+        const fullMenuData = ['full menu data'];
+        baseResourcePicker.setMenuData(fullMenuData);
+        await ticks(1);
+        expect(flowCombobox.renderIncrementally).toBeTruthy();
+    });
+
     describe('event handlers', () => {
         it('handles the filter menu data event', async () => {
             const baseResourcePicker = setupComponentUnderTest({

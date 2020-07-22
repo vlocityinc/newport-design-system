@@ -4,7 +4,7 @@ import {
     deepQuerySelector
 } from 'builder_platform_interaction/builderTestUtils';
 
-const getBaseResourcePickerCombobox = element => {
+export const getBaseResourcePickerCombobox = element => {
     return deepQuerySelector(element, [
         INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
         INTERACTION_COMPONENTS_SELECTORS.COMBOBOX

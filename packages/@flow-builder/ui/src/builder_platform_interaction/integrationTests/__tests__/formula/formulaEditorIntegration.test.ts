@@ -55,9 +55,13 @@ const getFormulaTextArea = editor => getResourcedTextArea(editor).shadowRoot.que
 const getFerovResourcePicker = editor =>
     getResourcedTextArea(editor).shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
 
-const getResourceGroupedCombobox = editor => {
+const getResourceCombobox = editor => {
     const baseResourcePicker = getFerovResourcePicker(editor).shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
-    const interactionCombobox = baseResourcePicker.shadowRoot.querySelector(SELECTORS.COMBOBOX);
+    return baseResourcePicker.shadowRoot.querySelector(SELECTORS.COMBOBOX);
+};
+
+const getResourceGroupedCombobox = editor => {
+    const interactionCombobox = getResourceCombobox(editor);
     return interactionCombobox.shadowRoot.querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
 };
 
@@ -149,7 +153,12 @@ describe('Formula Editor', () => {
                     getGroupedComboboxItemBy(groupedCombobox, 'text', 'FlowBuilderExpressionUtils.newResourceLabel')
                 ).toBeDefined();
             });
-            it('contains a "Record Variables" group containing "accountSObjectVariable"', () => {
+            it('contains a "Record Variables" group containing "accountSObjectVariable"', async () => {
+                // disable render-incrementally on combobox so groupedCombobox gets full menu data
+                const comboxbox = getResourceCombobox(propertyEditor);
+                comboxbox.renderIncrementally = false;
+                await ticks(1);
+
                 const groupedCombobox = getResourceGroupedCombobox(propertyEditor);
                 expect(
                     getGroupedComboboxItemInGroup(
@@ -160,7 +169,12 @@ describe('Formula Editor', () => {
                     )
                 ).toBeDefined();
             });
-            it('contains a "Global Variables" group containing $Flow, $Api, $Organization, $Profile, $System, $User', () => {
+            it('contains a "Global Variables" group containing $Flow, $Api, $Organization, $Profile, $System, $User', async () => {
+                // disable render-incrementally on combobox so groupedCombobox gets full menu data
+                const comboxbox = getResourceCombobox(propertyEditor);
+                comboxbox.renderIncrementally = false;
+                await ticks(1);
+
                 const groupedCombobox = getResourceGroupedCombobox(propertyEditor);
                 expect(
                     getGroupedComboboxItemInGroup(groupedCombobox, GROUP_LABELS.GLOBAL_VARIABLES, 'text', '$Flow')
@@ -184,6 +198,11 @@ describe('Formula Editor', () => {
                 ).toBeDefined();
             });
             it('displays the record properties when selecting a record variable', async () => {
+                // disable render-incrementally on combobox so groupedCombobox gets full menu data
+                const comboxbox = getResourceCombobox(propertyEditor);
+                comboxbox.renderIncrementally = false;
+                await ticks(1);
+
                 const groupedCombobox = getResourceGroupedCombobox(propertyEditor);
                 const item = getGroupedComboboxItemInGroup(
                     groupedCombobox,
@@ -197,6 +216,11 @@ describe('Formula Editor', () => {
                 expect(getGroupedComboboxItemBy(groupedCombobox, 'text', 'ShippingLongitude')).toBeDefined();
             });
             it('inserts the resource in the textarea when we select a resource', async () => {
+                // disable render-incrementally on combobox so groupedCombobox gets full menu data
+                const comboxbox = getResourceCombobox(propertyEditor);
+                comboxbox.renderIncrementally = false;
+                await ticks(1);
+
                 const textArea = getFormulaTextArea(propertyEditor);
                 textArea.setSelectionRange(3, 3);
                 const groupedCombobox = getResourceGroupedCombobox(propertyEditor);

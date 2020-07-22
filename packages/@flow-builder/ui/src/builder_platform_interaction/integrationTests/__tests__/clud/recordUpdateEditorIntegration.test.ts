@@ -27,7 +27,8 @@ import {
 import {
     getRecordVariablePickerChildGroupedComboboxComponent,
     getEntityResourcePickerChildGroupedComboboxComponent,
-    getEntityResourcePicker
+    getEntityResourcePicker,
+    getBaseResourcePickerCombobox
 } from './cludEditorTestUtils';
 import { getBaseExpressionBuilder } from '../expressionBuilderTestUtils';
 import {
@@ -236,8 +237,12 @@ describe('Record Update Editor', () => {
                 it('should correctly display the selected entity', () => {
                     expect(entityResourcePicker.value.displayText).toBe(recordUpdateNode.object.value);
                 });
-                it('should have only updateable entities', () => {
+                it('should have only updateable entities', async () => {
                     // see mock-entity.js (updateable = true)
+                    // Disable render-incrementally on combobox so groupedCombobox gets full menu data
+                    const combobox = getBaseResourcePickerCombobox(entityResourcePicker);
+                    combobox.renderIncrementally = false;
+                    await ticks(1);
                     const comboboxItems = getEntityResourcePickerChildGroupedComboboxComponent(entityResourcePicker)
                         .items;
                     expect(comboboxItems).toContainEqual(expect.objectContaining({ displayText: 'Contract' }));
