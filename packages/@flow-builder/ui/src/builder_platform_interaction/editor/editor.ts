@@ -588,6 +588,10 @@ export default class Editor extends LightningElement {
             }
 
             if (triggerTypeChanged) {
+                toolboxPromise.then(() => {
+                    this.elementsMetadata = getElementsMetadata(this.toolboxElements, this.palette);
+                });
+
                 this.triggerType = flowTriggerType;
                 if (this.triggerType && this.triggerType !== FLOW_TRIGGER_TYPE.NONE) {
                     getTriggerTypeInfo(flowTriggerType);
