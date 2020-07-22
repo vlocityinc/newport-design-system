@@ -10,69 +10,19 @@ import {
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
 import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
+import {
+    ChildElement,
+    FlowElement,
+    CanvasElementConfig,
+    BaseCanvasElement,
+    CanvasElement
+} from 'builder_platform_interaction/flowModel';
 
 export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
 
 // Used to mark an element as incomplete. An element is incomplete when it cannot fully be created because the factory needs information from an element that has
 // not yet been created. translatorLib.translateFlowToUIModel uses this information to create the ui model in 2 passes
 export const INCOMPLETE_ELEMENT = Symbol('incomplete');
-
-export type Guid = string;
-
-export type FlowElementType = string;
-export type FlowElementSubtype = string;
-export type Datatype = string;
-
-export interface CanvasElementConfig {
-    isHighlighted: boolean;
-    isSelectable: boolean;
-    isSelected: boolean;
-}
-
-/*
- * TODO: IMPORTANT: These interfaces represent our expected usages.
- * The "baseXXX" methods below and their usages in various factories have NOT been updated
- * and will need to be addressed via a separate refactoring (ideally as they are converted
- * to typescript).  Ideally, the interfaces and the baseXXX methods are combined in to classes with constructors
- */
-
-export interface FlowElement {
-    // TODO: IMPORTANT: elementType should *NOT* be optional.  Once baseElement and its usages are cleaned up to always have
-    // an elementType then it should be required here
-    elementType?: FlowElementType;
-
-    guid: Guid;
-
-    // This is the "api name" in the property editor UI
-    name: string;
-
-    description?: string;
-
-    // Maybe all elements have datatypes?  If so, remove `?`
-    dataType?: Datatype;
-}
-
-export interface CanvasElement extends FlowElement {
-    // This is the "label" in the property editor UI
-    label?: string;
-
-    locationX: number;
-    locationY: number;
-    // TODO: eventually replace this with type checking
-    isCanvasElement: boolean;
-    connectorCount: number;
-    next?: Guid | null;
-    prev?: Guid | null;
-    maxConnections?: number;
-    config: CanvasElementConfig;
-    elementSubtype: FlowElementSubtype;
-}
-
-//
-export interface ChildElement extends FlowElement {
-    // This is the "label" in the property editor UI
-    label?: string;
-}
 
 /**
  * TODO: This function is overloaded to support both the construcvtion of resources (variables, constants, etc..)
@@ -129,7 +79,7 @@ function addBaseCanvasElementProperties(canvasElement, newCanvasElement) {
     Object.assign(newCanvasElement, { next, prev });
 }
 
-export function baseCanvasElement(canvasElement: any = {}): CanvasElement {
+export function baseCanvasElement(canvasElement: any = {}): BaseCanvasElement {
     const newCanvasElement = baseResource(canvasElement);
     const { label = '', locationX = 0, locationY = 0, connectorCount = 0, elementSubtype } = canvasElement;
     let { config } = canvasElement;

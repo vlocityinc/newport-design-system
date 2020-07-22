@@ -1,4 +1,3 @@
-// @ts-nocheck
 export default {
     elements: {
         'start-element-guid': {
@@ -7,7 +6,7 @@ export default {
             locationX: 0,
             locationY: 0,
             isCanvasElement: true,
-            connectorCount: 0,
+            connectorCount: 1,
             elementType: 'START_ELEMENT',
             maxConnections: 1,
             triggerType: 'None',
@@ -42,7 +41,7 @@ export default {
             locationX: 0,
             locationY: 0,
             isCanvasElement: true,
-            connectorCount: 0,
+            connectorCount: 2,
             defaultConnectorLabel: 'Default Outcome',
             childReferences: [
                 {
@@ -51,15 +50,7 @@ export default {
             ],
             elementType: 'Decision',
             maxConnections: 2,
-            availableConnections: [
-                {
-                    childReference: 'outcome-element-guid',
-                    type: 'REGULAR'
-                },
-                {
-                    type: 'DEFAULT'
-                }
-            ],
+            availableConnections: [],
             next: 'screen-after-decision-element-guid',
             prev: 'start-element-guid',
             children: ['screen-left-element-guid', 'screen-right-element-guid'],
@@ -75,7 +66,7 @@ export default {
             locationX: 0,
             locationY: 0,
             isCanvasElement: true,
-            connectorCount: 0,
+            connectorCount: 1,
             config: {
                 isSelected: false,
                 isHighlighted: false,
@@ -108,7 +99,7 @@ export default {
             locationX: 0,
             locationY: 0,
             isCanvasElement: true,
-            connectorCount: 0,
+            connectorCount: 1,
             config: {
                 isSelected: false,
                 isHighlighted: false,
@@ -169,7 +160,8 @@ export default {
             guid: 'end-element-guid (screen-after-decision-element-guid)',
             elementType: 'END_ELEMENT',
             prev: 'screen-after-decision-element-guid',
-            next: null
+            next: null,
+            isCanvasElement: true
         },
         'outcome-element-guid': {
             guid: 'outcome-element-guid',

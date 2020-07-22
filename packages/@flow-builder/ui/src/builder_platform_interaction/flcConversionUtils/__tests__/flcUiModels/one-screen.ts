@@ -7,7 +7,7 @@ export default {
             locationX: 0,
             locationY: 0,
             isCanvasElement: true,
-            connectorCount: 0,
+            connectorCount: 1,
             config: {
                 isSelected: false,
                 isHighlighted: false,
@@ -68,7 +68,8 @@ export default {
             guid: 'end-element-guid (screen-element-guid)',
             elementType: 'END_ELEMENT',
             prev: 'screen-element-guid',
-            next: null
+            next: null,
+            isCanvasElement: true
         },
         root: {
             elementType: 'root',

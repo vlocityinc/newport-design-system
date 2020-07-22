@@ -1,4 +1,5 @@
 // @ts-nocheck
+
 export default {
     elements: {
         'start-element-guid': {
@@ -38,7 +39,8 @@ export default {
             guid: 'end-element-guid (start-element-guid)',
             prev: 'start-element-guid',
             next: null,
-            elementType: 'END_ELEMENT'
+            elementType: 'END_ELEMENT',
+            isCanvasElement: true
         },
         root: {
             elementType: 'root',

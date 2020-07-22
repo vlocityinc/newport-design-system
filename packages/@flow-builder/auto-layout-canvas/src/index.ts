@@ -3,7 +3,7 @@ import panzoom from 'panzoom';
 import { animate } from './animate';
 import { renderFlow } from './flowRenderer';
 import { toggleFlowMenu, closeFlowMenu, updateDeletionPathInfo } from './interactionUtils';
-import { calculateFlowLayout } from './layout';
+import { calculateFlowLayout, getBranchLayoutKey } from './layout';
 import { getDefaultLayoutConfig } from './defaultLayoutConfig';
 import { Geometry } from './svgUtils';
 
@@ -53,7 +53,8 @@ export {
     getTargetGuidsForBranchReconnect,
     deleteBranch,
     reconnectBranchElement,
-    DELETE_ALL
+    DELETE_ALL,
+    areAllBranchesTerminals
 } from './modelUtils';
 
 export {
@@ -64,6 +65,7 @@ export {
     updateDeletionPathInfo,
     getDefaultLayoutConfig,
     calculateFlowLayout,
+    getBranchLayoutKey,
     MenuType,
     ElementType,
     ConnectorType,

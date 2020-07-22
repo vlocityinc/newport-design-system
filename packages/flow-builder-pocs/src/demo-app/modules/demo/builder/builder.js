@@ -1,14 +1,21 @@
 import { LightningElement, track } from 'lwc';
 
-import { Store } from 'builder_platform_interaction/storeLib';
+import { Store, generateGuid } from 'builder_platform_interaction/storeLib';
 import { AddElementEvent, DeleteElementEvent } from 'builder_platform_interaction/events';
-import { addElement, addElementFault, deleteElementFault, updateFlow, deleteElements, flcCreateConnection, selectionOnFixedCanvas } from 'builder_platform_interaction/actions';
+import { addElement, addElementFault, deleteElementFault, updateFlow, deleteElements, flcCreateConnection, selectionOnFixedCanvas, updateIsAutoLayoutCanvasProperty,  updateFlowOnCanvasModeToggle, updateElement } from 'builder_platform_interaction/actions';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementForStore, getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createStartElement, createEndElement } from 'builder_platform_interaction/elementFactory';
 
+import {
+    convertToAutoLayoutCanvas,
+    convertToFreeFormCanvas,
+    removeEndElementsAndConnectorsTransform,
+    addEndElementsAndConnectorsTransform
+} from 'builder_platform_interaction/flcConversionUtils';
 import elementsMetadataForScreenFlow from './metadata/elementsMetadataForScreenFlow';
+
 
 let storeInstance;
 
@@ -39,7 +46,32 @@ function translateEventToAction(event) {
                     })
                 );
                 if (elementType === ELEMENT_TYPE.WAIT) {
-                    element.canvasElement.children = [null, null, null];
+                    const { canvasElement } = element;
+                    storeInstance.dispatch(addElement(element));
+                    const {elements} = storeInstance.getCurrentState();
+                    canvasElement.children = [null, null, null];
+                    canvasElement.maxConnections++;
+
+                    const childElement = elements[canvasElement.childReferences[0].childReference];
+                    const newChildElement = {...childElement};
+                    newChildElement.guid = generateGuid();
+
+                    const availableConnection = {
+                        childReference: newChildElement.guid
+                    };
+
+                    canvasElement.availableConnections.splice(0, 0, availableConnection);
+                    canvasElement.childReferences.splice(0, 0, availableConnection);
+                    const payload = {
+                        elementType: 'WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS',
+                        canvasElement,
+                        deletedChildElementGuids: [],
+                        childElements: [childElement, newChildElement],
+                        deletedBranchHeadGuids: []
+                    };
+
+                    storeInstance.dispatch(updateElement(payload));
+                    return null;
                 }
             }
             return element;
@@ -70,12 +102,15 @@ export default class Builder extends LightningElement {
     }
 
     createStartElement() {
+        storeInstance.dispatch(updateIsAutoLayoutCanvasProperty(true));
         storeInstance.dispatch(addElement(createStartElement()));
     }
 
     handleAddElement(addEvent) {
         const payload = translateEventToAction(addEvent);
-        storeInstance.dispatch(addElement(payload));
+        if (payload != null) {
+            storeInstance.dispatch(addElement(payload));
+        }
     }
 
     handleDeleteElement(deleteEvent) {
@@ -123,5 +158,18 @@ export default class Builder extends LightningElement {
             selectableGuids
         };
         storeInstance.dispatch(selectionOnFixedCanvas(payload));
+    };
+
+    handleConvertRoundTrip = () => {
+        try {
+        const ffcState = removeEndElementsAndConnectorsTransform(convertToFreeFormCanvas(storeInstance.getCurrentState(), [0, 0]));
+        const alcState = convertToAutoLayoutCanvas(addEndElementsAndConnectorsTransform(ffcState));
+
+        storeInstance.dispatch(updateFlowOnCanvasModeToggle(alcState));
+
+        } catch (e) {
+            console.log(e);
+            alert('conversion failed');
+        }
     };
 }

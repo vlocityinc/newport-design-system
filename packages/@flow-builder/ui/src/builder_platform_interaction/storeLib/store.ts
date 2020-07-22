@@ -3,6 +3,10 @@ import { isPlainObject } from './isPlainObject';
 import { isDevMode } from 'builder_platform_interaction/contextLib';
 import { readonly } from 'lwc';
 
+import { StoreState } from 'builder_platform_interaction/flowModel';
+
+export type StoreReducer = (storeState: StoreState, action: object) => StoreState;
+
 /**
  * Library for UI state management
  *
@@ -14,12 +18,12 @@ import { readonly } from 'lwc';
 /**
  * contains the state of the store
  */
-let currentState;
+let currentState: StoreState;
 
 /**
  * contains definition of a reducer which can used to transform state of the store
  */
-let currentReducer;
+let currentReducer: StoreReducer;
 
 /**
  * contains an instance of the store
@@ -48,10 +52,10 @@ export class Store {
 
     /**
      * Static method to create a single instance of a store
-     * @param {Function} reducer reducer function
-     * @returns {Object} instance of the store
+     * @param reducer - reducer function
+     * @returns instance of the store
      */
-    static getStore(reducer?) {
+    static getStore(reducer?: StoreReducer) {
         if (!storeInstance) {
             storeInstance = new Store(reducer);
             storeInstance.dispatch({ type: 'INIT' });
@@ -60,9 +64,9 @@ export class Store {
     }
 
     /**
-     * @returns {Object} current state of the store
+     * @returns the current state of the store
      */
-    getCurrentState() {
+    getCurrentState(): StoreState {
         return currentState;
     }
 

@@ -16,15 +16,14 @@ import {
     DELETE_FAULT,
     FLC_CREATE_CONNECTION
 } from 'builder_platform_interaction/actions';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import elementsReducer from './elementsReducer';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
-import { createRootElement, initializeChildren } from 'builder_platform_interaction/flcConversionUtils';
-
-import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
+import { createRootElement, supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
 
 import {
     addElementToState,
@@ -40,6 +39,33 @@ import {
     findLastElement
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import { getSubElementGuids } from './reducersUtils';
+
+/**
+ * Adds a nulled children array to a parentElement
+ * @param {Object} element
+ */
+function initializeChildren(element) {
+    const { elementType } = element;
+    const elementConfig = getConfigForElementType(elementType);
+
+    let childCount;
+
+    if (elementType === ELEMENT_TYPE.LOOP) {
+        childCount = 1;
+    } else {
+        childCount = element.maxConnections - (elementConfig.canHaveFaultConnector ? 1 : 0);
+    }
+    const children = element.children || [];
+    const childCountDiff = childCount - children.length;
+
+    if (childCountDiff > 0) {
+        for (let i = 0; i < childCountDiff; i++) {
+            children.push(null);
+        }
+    }
+
+    element.children = children;
+}
 
 /**
  * FLC Reducer for elements
@@ -397,6 +423,7 @@ function _pasteOnFixedCanvas(
         blacklistNames.push(pastedElementName);
 
         const elementConfig = getConfigForElementType(cutOrCopiedCanvasElements[elementGuidsToPaste[i]].elementType);
+
         const { pastedCanvasElement, pastedChildElements = {} } =
             elementConfig &&
             elementConfig.factory &&

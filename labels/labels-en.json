@@ -230,7 +230,7 @@
         "emptyStateNoResultText": "No results for \"{0}\"",
         "emptyStateNoResultMRUText": "No results yet...",
         "emptyStateNoResultMRUWithoutText": "Try entering a search term.",
-        "messageWhenBadInputDefault": "Select an option or remove the search term.",
+        "messageWhenBadInputDefault": "Select an option from the picklist or remove the search term.",
         "panelHeaderMobile": "Relate {0} To",
         "recentObject": "Recent {0}",
         "resultsListHeaderMobile": "All Results for \"{0}\"",

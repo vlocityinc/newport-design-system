@@ -3,7 +3,10 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { swapUidsForDevNames } from './uidSwapping';
 import { getFlowBounds } from 'builder_platform_interaction/connectorUtils';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
-import { convertFromFlc } from 'builder_platform_interaction/flcConversionUtils';
+import {
+    convertToFreeFormCanvas,
+    removeEndElementsAndConnectorsTransform
+} from 'builder_platform_interaction/flcConversionUtils';
 
 const getXYTranslate = canvasElements => {
     const EXTRA_SPACING = 50;
@@ -34,7 +37,9 @@ const getXYTranslate = canvasElements => {
  */
 export function translateUIModelToFlow(uiModel) {
     const isAutoLayoutCanvas = uiModel.properties.isAutoLayoutCanvas;
-    uiModel = isAutoLayoutCanvas ? convertFromFlc(uiModel) : uiModel;
+    uiModel = isAutoLayoutCanvas
+        ? removeEndElementsAndConnectorsTransform(convertToFreeFormCanvas(uiModel, [0, 0]))
+        : uiModel;
     const elements = uiModel.elements;
     const connectors = uiModel.connectors;
     const { name, versionNumber } = uiModel.properties;

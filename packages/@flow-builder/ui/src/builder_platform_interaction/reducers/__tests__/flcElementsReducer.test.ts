@@ -53,14 +53,6 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/flcConversionUtils', () => {
-    return {
-        createRootElement: jest.fn(() => ({
-            guid: 'root'
-        }))
-    };
-});
-
 jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
     return Object.assign({}, jest.requireActual('builder_platform_interaction/autoLayoutCanvas'), {
         addElement: jest.fn(),
@@ -76,7 +68,10 @@ jest.mock('builder_platform_interaction/flcBuilderUtils', () => {
     const { addFlcProperties } = jest.requireActual('builder_platform_interaction/flcBuilderUtils');
     return {
         addFlcProperties,
-        supportsChildren: jest.fn()
+        supportsChildren: jest.fn(),
+        createRootElement: jest.fn(() => ({
+            guid: 'root'
+        }))
     };
 });
 

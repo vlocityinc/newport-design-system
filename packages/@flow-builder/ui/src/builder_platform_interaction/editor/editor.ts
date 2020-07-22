@@ -16,7 +16,7 @@ import {
     modalBodyVariant,
     modalFooterVariant
 } from 'builder_platform_interaction/builderUtils';
-import { Store, deepCopy } from 'builder_platform_interaction/storeLib';
+import { Store } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
 import {
     updateFlow,
@@ -143,13 +143,16 @@ import { createEndElement } from 'builder_platform_interaction/elementFactory';
 import { getInvocableActions } from 'builder_platform_interaction/invocableActionLib';
 import { usedBy } from 'builder_platform_interaction/usedByLib';
 import { getConfigForElement } from 'builder_platform_interaction/elementConfig';
-import {
-    convertToFlc,
-    convertFromFlc,
-    canConvertToFlc,
-    findStartElement
-} from 'builder_platform_interaction/flcConversionUtils';
+
 import { pubSub, PubSubEvent } from 'builder_platform_interaction/pubSub';
+
+import {
+    convertToAutoLayoutCanvas,
+    convertToFreeFormCanvas,
+    canConvertToAutoLayoutCanvas,
+    removeEndElementsAndConnectorsTransform,
+    addEndElementsAndConnectorsTransform
+} from 'builder_platform_interaction/flcConversionUtils';
 
 let unsubscribeStore;
 let storeInstance;
@@ -622,7 +625,9 @@ export default class Editor extends LightningElement {
     };
 
     executeGuardrails(flowState) {
-        if (isGuardrailsEnabled() && this.guardrailsParams && this.guardrailsParams.running) {
+        const canvasInitialized = !this.properties.isAutoLayoutCanvas || flowState[ELEMENT_TYPE.ROOT_ELEMENT] != null;
+
+        if (isGuardrailsEnabled() && this.guardrailsParams && this.guardrailsParams.running && canvasInitialized) {
             const flow = translateUIModelToFlow(flowState);
             this.guardrailsEngine.evaluate(flow).then(results => {
                 this.dispatchEvent(new GuardrailsResultEvent(results));
@@ -1440,15 +1445,16 @@ export default class Editor extends LightningElement {
             storeInstance.dispatch(updateIsAutoLayoutCanvasProperty(setupInAutoLayoutCanvas));
         }
 
-        const newFlowState = deepCopy(storeInstance.getCurrentState());
+        const flowState = storeInstance.getCurrentState();
 
         const autoLayoutCanvasContainer = this.template.querySelector(
             'builder_platform_interaction-flc-builder-container'
         );
 
+        const offsetX = autoLayoutCanvasContainer ? autoLayoutCanvasContainer.clientWidth / 2 : 0;
         const { elements, canvasElements, connectors } = setupInAutoLayoutCanvas
-            ? convertToFlc(newFlowState)
-            : convertFromFlc(newFlowState, autoLayoutCanvasContainer ? autoLayoutCanvasContainer.clientWidth : null);
+            ? convertToAutoLayoutCanvas(addEndElementsAndConnectorsTransform(flowState))
+            : removeEndElementsAndConnectorsTransform(convertToFreeFormCanvas(flowState, [offsetX, 0]));
 
         const payload = {
             elements,
@@ -1473,9 +1479,7 @@ export default class Editor extends LightningElement {
     handleToggleCanvasMode = () => {
         if (!this.properties.isAutoLayoutCanvas) {
             // From Free-Form to Auto-Layout Canvas
-            const { elements, connectors } = storeInstance.getCurrentState();
-            const startGuid = findStartElement(elements).guid;
-            if (!canConvertToFlc(startGuid, connectors)) {
+            if (!canConvertToAutoLayoutCanvas(addEndElementsAndConnectorsTransform(storeInstance.getCurrentState()))) {
                 const unsupportedFeatureItems = [
                     { message: LABELS.errorMessageMultipleIncomingConnections, key: 1 },
                     { message: LABELS.errorMessageFaultConnectors, key: 2 },

@@ -2,6 +2,7 @@
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { LABELS } from './connectorUtilsLabels';
+import { FlowConnector, CanvasElement, ConnectorType } from 'builder_platform_interaction/flowModel';
 
 /**
  * Helper method to get the minimum and maximum x and y coordinates of the flow
@@ -233,13 +234,18 @@ export const getLabelAndValueForConnectorPickerOptions = (
  * // TODO: Refactor this code to make it more generic W-5478126
  * Creates the new connector object
  *
- * @param {object} elements - Current state of elements in the store
- * @param {string} sourceGuid - Contains the source guid
- * @param {string} targetGuid - Contains the target guid
- * @param {string} valueFromCombobox - The selected value in the connector-picker
- * @return {object} - New connector object
+ * @param elements - Current state of elements in the store
+ * @param sourceGuid - Contains the source guid
+ * @param targetGuid - Contains the target guid
+ * @param valueFromCombobox - The selected value in the connector-picker
+ * @return A new connector object
  */
-export const createNewConnector = (elements, sourceGuid, targetGuid, valueFromCombobox) => {
+export const createNewConnector = (
+    elements: FlowElements,
+    sourceGuid: Guid,
+    targetGuid: Guid,
+    valueFromCombobox: string
+): FlowConnector => {
     let type = valueFromCombobox,
         label,
         childSource;
@@ -262,3 +268,7 @@ export const createNewConnector = (elements, sourceGuid, targetGuid, valueFromCo
 
     return createConnectorObject(sourceGuid, childSource, targetGuid, label, type);
 };
+
+export function createEndConnector(elements: FlowElements, sourceElement: CanvasElement, type: ConnectorType) {
+    return createNewConnector(elements, sourceElement.guid, generateGuid(), type);
+}

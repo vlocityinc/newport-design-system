@@ -38,6 +38,10 @@ function reconnectBranchElement(elements: FlowModel, endElementGuid: Guid, targe
     const targetElement = elements[targetGuid];
     connectElements(elements, parentElement, targetElement);
 
+    // update the parent branch's head
+    const parentBranchHead = findFirstElement(parentElement, elements);
+    parentBranchHead.isTerminal = areAllBranchesTerminals(parentElement, elements);
+
     return elements;
 }
 
@@ -551,6 +555,18 @@ function addElement(flowModel: FlowModel, element: NodeModel, isEndElement: bool
     }
 }
 
+export function areAllBranchesTerminals(parentElement: ParentNodeModel, state: FlowModel) {
+    let allTerminalBranches = true;
+
+    parentElement.children.forEach(child => {
+        if (child == null || !(state[child] as BranchHeadNodeModel).isTerminal) {
+            allTerminalBranches = false;
+        }
+    });
+
+    return allTerminalBranches;
+}
+
 /**
  * When adding an end element we might need to restructure the flow
  * @param element - end element
@@ -606,6 +622,10 @@ function restructureFlow(element: NodeModel, state: FlowModel): void {
         }
 
         parentElement.next = null;
+    }
+
+    if (areAllBranchesTerminals(parentElement, state)) {
+        findFirstElement(parentElement, state).isTerminal = true;
     }
 }
 

@@ -1,4 +1,3 @@
-// @ts-nocheck
 export default {
     elements: {
         'start-element-guid': {
@@ -7,7 +6,7 @@ export default {
             locationX: 0,
             locationY: 0,
             isCanvasElement: true,
-            connectorCount: 0,
+            connectorCount: 1,
             config: {
                 isSelected: false,
                 isHighlighted: false,
@@ -40,14 +39,14 @@ export default {
             locationX: 0,
             locationY: 0,
             isCanvasElement: true,
-            connectorCount: 0,
+            connectorCount: 1,
             config: {
                 isSelected: false,
                 isHighlighted: false,
                 isSelectable: true
             },
             elementType: 'RecordCreate',
-            maxConnections: 1,
+            maxConnections: 2,
             triggerType: 'None',
             filterType: 'all',
             object: '',
@@ -61,6 +60,7 @@ export default {
                     operator: ''
                 }
             ],
+            availableConnections: [{ type: 'REGULAR' }],
             fault: 'fault-element-guid',
             prev: 'start-element-guid',
             next: 'end-element-guid (record-create-element-guid)'
@@ -80,7 +80,15 @@ export default {
                 isSelectable: true
             },
             elementType: 'RecordCreate',
-            maxConnections: 1,
+            maxConnections: 2,
+            availableConnections: [
+                {
+                    type: 'FAULT'
+                },
+                {
+                    type: 'REGULAR'
+                }
+            ],
             triggerType: 'None',
             filterType: 'all',
             object: '',
@@ -102,13 +110,15 @@ export default {
             guid: 'end-element-guid (fault-element-guid)',
             elementType: 'END_ELEMENT',
             prev: 'fault-element-guid',
-            next: null
+            next: null,
+            isCanvasElement: true
         },
         'end-element-guid (record-create-element-guid)': {
             guid: 'end-element-guid (record-create-element-guid)',
             elementType: 'END_ELEMENT',
             prev: 'record-create-element-guid',
-            next: null
+            next: null,
+            isCanvasElement: true
         },
         root: {
             elementType: 'root',

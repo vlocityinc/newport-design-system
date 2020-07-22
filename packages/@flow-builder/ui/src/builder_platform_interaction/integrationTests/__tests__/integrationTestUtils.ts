@@ -25,6 +25,7 @@ import {
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { updateFlow } from 'builder_platform_interaction/actions';
+import { StoreReducer } from 'builder_platform_interaction/storeLib/store';
 
 export const FLOW_BUILDER_VALIDATION_ERROR_MESSAGES = {
     CANNOT_BE_BLANK: 'FlowBuilderValidation.cannotBeBlank',
@@ -64,7 +65,7 @@ export const changeLightningRadioGroupValue = (lightningRadioGroup, newValue) =>
 };
 
 export const setupState = () => {
-    const store = Store.getStore(reducer);
+    const store = Store.getStore(reducer as StoreReducer);
     initializeAuraFetch();
     initializeLoader(store);
     loadOnStart();
@@ -103,7 +104,7 @@ export const resetState = () => {
     setGlobalVariables({ globalVariableTypes: [], globalVariables: [] });
     setAuraFetch();
     resetFetchOnceCache();
-    const store = Store.getStore(reducer);
+    const store = Store.getStore(reducer as StoreReducer);
     store.dispatch({ type: 'INIT' });
     setRules();
     setOperators();

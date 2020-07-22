@@ -7,11 +7,13 @@ import { getProcessType, shouldUseAutoLayoutCanvas } from 'builder_platform_inte
 import { getProcessTypes } from 'builder_platform_interaction/systemLib';
 
 const { NONE, BEFORE_SAVE, AFTER_SAVE, SCHEDULED, PLATFORM_EVENT } = FLOW_TRIGGER_TYPE;
+import { FlowElement, FlowElements } from 'builder_platform_interaction/flowModel';
 
 /**
  * @return true iff an element can have children
  */
-export function supportsChildren({ elementType }) {
+export function supportsChildren(element: FlowElement) {
+    const { elementType } = element;
     return (
         elementType === ELEMENT_TYPE.DECISION || elementType === ELEMENT_TYPE.WAIT || elementType === ELEMENT_TYPE.LOOP
     );
@@ -41,7 +43,7 @@ export function getFlcElementType(elementType) {
 /**
  * Extra properties used by the flc canvas for elements
  */
-export const flcExtraProps = ['next', 'prev', 'children', 'parent', 'childIndex', 'isTerminal'];
+export const flcExtraProps = ['next', 'prev', 'children', 'parent', 'childIndex', 'isTerminal', 'fault'];
 
 /**
  * Adds flc props that are not undefined to an object
@@ -101,4 +103,39 @@ export const hasContext = triggerType => {
         default:
             return true;
     }
+};
+
+/**
+ * Find the start element
+ *
+ * @param elements - the guid to element map
+ * @return the start element
+ */
+export function findStartElement(elements: FlowElements): FlowElement {
+    return Object.values(elements).find(ele => ele.elementType === ELEMENT_TYPE.START_ELEMENT)!;
+}
+
+function createElementHelper(elementType: string, guid: Guid) {
+    return {
+        elementType,
+        guid,
+        label: elementType,
+        value: elementType,
+        text: elementType,
+        name: elementType,
+        prev: null,
+        next: null
+    };
+}
+
+/**
+ * Creates a root element and links it with the start element
+ *
+ * @param startElementGuid - The start element
+ */
+export const createRootElement = () => {
+    return {
+        ...createElementHelper(ELEMENT_TYPE.ROOT_ELEMENT, ElementType.ROOT),
+        children: []
+    };
 };

@@ -78,6 +78,7 @@
             "builder_platform_interaction/flcConversionUtils": ["./builder_platform_interaction/flcConversionUtils/flcConversionUtils.ts"],
             "builder_platform_interaction/flowExtensionLib": ["./builder_platform_interaction/flowExtensionLib/flowExtensionLib.ts"],
             "builder_platform_interaction/flowMetadata": ["./builder_platform_interaction/flowMetadata/flowMetadata.ts"],
+            "builder_platform_interaction/flowModel": ["./builder_platform_interaction/flowModel/flowModel.ts"],
             "builder_platform_interaction/flowPropertiesEditor": ["./builder_platform_interaction/flowPropertiesEditor/flowPropertiesEditor.ts"],
             "builder_platform_interaction/flowStatus": ["./builder_platform_interaction/flowStatus/flowStatus.ts"],
             "builder_platform_interaction/formulaEditor": ["./builder_platform_interaction/formulaEditor/formulaEditor.ts"],

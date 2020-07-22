@@ -1065,3 +1065,10 @@ export function isCanvasElement(elementType) {
 export function isChildElement(elementType) {
     return !!getConfigForElementType(elementType).isChildElement;
 }
+
+export function getChildReferencesKeys() {
+    return {
+        singular: 'childReference',
+        plural: 'childReferences'
+    };
+}
