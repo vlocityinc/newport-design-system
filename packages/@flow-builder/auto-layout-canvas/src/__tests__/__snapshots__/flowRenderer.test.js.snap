@@ -101,7 +101,6 @@ Object {
             "postMergeTail": Object {
               "addOffset": 36,
               "h": 72,
-              "svgMarginBottom": 24,
               "svgMarginTop": 24,
               "variants": Object {
                 "center": Object {
@@ -344,7 +343,6 @@ Object {
             "postMergeTail": Object {
               "addOffset": 36,
               "h": 72,
-              "svgMarginBottom": 24,
               "svgMarginTop": 24,
               "variants": Object {
                 "center": Object {
@@ -561,7 +559,6 @@ L 3, 120",
                     "postMergeTail": Object {
                       "addOffset": 36,
                       "h": 72,
-                      "svgMarginBottom": 24,
                       "svgMarginTop": 24,
                       "variants": Object {
                         "center": Object {
@@ -805,7 +802,6 @@ L 3, 144",
                     "postMergeTail": Object {
                       "addOffset": 36,
                       "h": 72,
-                      "svgMarginBottom": 24,
                       "svgMarginTop": 24,
                       "variants": Object {
                         "center": Object {
@@ -1200,7 +1196,6 @@ Object {
             "postMergeTail": Object {
               "addOffset": 36,
               "h": 72,
-              "svgMarginBottom": 24,
               "svgMarginTop": 24,
               "variants": Object {
                 "center": Object {
@@ -1417,7 +1412,6 @@ L 3, 120",
                     "postMergeTail": Object {
                       "addOffset": 36,
                       "h": 72,
-                      "svgMarginBottom": 24,
                       "svgMarginTop": 24,
                       "variants": Object {
                         "center": Object {
@@ -1602,7 +1596,6 @@ L 3, 96",
                     "postMergeTail": Object {
                       "addOffset": 36,
                       "h": 72,
-                      "svgMarginBottom": 24,
                       "svgMarginTop": 24,
                       "variants": Object {
                         "center": Object {
@@ -1997,7 +1990,6 @@ Object {
             "postMergeTail": Object {
               "addOffset": 36,
               "h": 72,
-              "svgMarginBottom": 24,
               "svgMarginTop": 24,
               "variants": Object {
                 "center": Object {
@@ -2214,7 +2206,6 @@ L 3, 120",
                     "postMergeTail": Object {
                       "addOffset": 36,
                       "h": 72,
-                      "svgMarginBottom": 24,
                       "svgMarginTop": 24,
                       "variants": Object {
                         "center": Object {
@@ -2399,7 +2390,6 @@ L 3, 96",
                     "postMergeTail": Object {
                       "addOffset": 36,
                       "h": 72,
-                      "svgMarginBottom": 24,
                       "svgMarginTop": 24,
                       "variants": Object {
                         "center": Object {
@@ -2584,7 +2574,6 @@ L 3, 168",
                     "postMergeTail": Object {
                       "addOffset": 36,
                       "h": 72,
-                      "svgMarginBottom": 24,
                       "svgMarginTop": 24,
                       "variants": Object {
                         "center": Object {

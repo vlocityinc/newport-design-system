@@ -51,7 +51,6 @@ export function getDefaultLayoutConfig(): LayoutConfig {
                             addOffset: gridHeight * 1.5,
                             h: 3 * gridHeight,
                             svgMarginTop: gridHeight,
-                            svgMarginBottom: gridHeight,
                             variants: {
                                 edge: { svgMarginBottom: gridHeight },
                                 center: { svgMarginBottom: -gridHeight },
