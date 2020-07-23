@@ -45,8 +45,6 @@ import {
     UPDATE_ENTITIES,
     SELECTION_ON_FIXED_CANVAS,
     decorateCanvas,
-    CLEAR_CANVAS_DECORATION,
-    DECORATE_CANVAS,
     clearCanvasDecoration,
     updateFlowOnCanvasModeToggle,
     updateIsAutoLayoutCanvasProperty,
@@ -418,8 +416,6 @@ export default class Editor extends LightningElement {
             UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE,
             UPDATE_ENTITIES,
             SELECTION_ON_FIXED_CANVAS,
-            DECORATE_CANVAS,
-            CLEAR_CANVAS_DECORATION,
             UPDATE_IS_AUTO_LAYOUT_CANVAS_PROPERTY
         ];
         const groupedActions = [
@@ -900,6 +896,7 @@ export default class Editor extends LightningElement {
                         // Else, clear any existing highlights on the canvas
                         storeInstance.dispatch(clearCanvasDecoration);
                     }
+                    this.clearUndoRedoStack();
                 }
                 this.spinners.showDebugSpinner = false;
                 hidePopover();
@@ -1149,6 +1146,7 @@ export default class Editor extends LightningElement {
     handleEditFlow = () => {
         this.builderMode = BUILDER_MODE.EDIT_MODE;
         storeInstance.dispatch(clearCanvasDecoration);
+        this.clearUndoRedoStack();
     };
 
     /**
