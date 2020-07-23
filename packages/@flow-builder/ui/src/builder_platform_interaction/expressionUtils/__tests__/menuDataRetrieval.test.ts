@@ -5,6 +5,7 @@ import {
     filterAndMutateMenuData,
     getEventTypesMenuDataRunTime,
     getChildrenItemsPromise,
+    getChildrenItems,
     getResourceTypesMenuData,
     filterFieldsForChosenElement
 } from '../menuDataRetrieval';
@@ -24,10 +25,15 @@ import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import variablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.variablePluralLabel';
 import { platformEvent1ApiName, platformEvent1Label } from 'mock/eventTypesData';
 import { getEventTypes, fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
-import { setSystemVariables } from 'builder_platform_interaction_mocks/systemLib';
+import {
+    setSystemVariables,
+    setGlobalVariables,
+    setProcessTypeFeature
+} from 'builder_platform_interaction_mocks/systemLib';
 import { getSystemVariables } from 'builder_platform_interaction/systemLib';
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
+import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
 import {
     mockFlowRuntimeEmailFlowExtensionDescription,
     mockLightningCompWithAccountOutputFlowExtensionDescription
@@ -75,6 +81,10 @@ const parentApexItem = {
     dataType: FLOW_DATA_TYPE.APEX.value,
     subtype: 'ApexClass',
     displayText: 'apexVar'
+};
+
+const parentGlobalItem = {
+    subtype: '$Organization'
 };
 
 const parentLightningComponentScreenFieldItem = {
@@ -190,6 +200,39 @@ jest.mock('../resourceUtils', () => {
         getScreenElement: jest.fn().mockImplementation(() => mockScreenElement)
     };
 });
+
+const mockGlobalVariablesWithMultiPicklist = {
+    globalVariableTypes: [
+        {
+            durableId: 'Flow-$Organization',
+            fieldsToNull: [],
+            label: 'Organization',
+            name: '$Organization'
+        }
+    ],
+    globalVariables: [
+        {
+            datatype: 'String',
+            label: 'Country',
+            name: 'Country',
+            type: {
+                fieldsToNull: [],
+                name: '$Organization'
+            }
+        },
+        {
+            datatype: 'Multipicklist',
+            durableId: 'Flow-$Organization-MP__c',
+            fieldsToNull: [],
+            label: 'MP',
+            name: 'MP__c',
+            type: {
+                fieldsToNull: [],
+                name: '$Organization'
+            }
+        }
+    ]
+};
 
 describe('Menu data retrieval', () => {
     beforeAll(() => {
@@ -696,6 +739,21 @@ describe('Menu data retrieval', () => {
             expect(element.rightIconName).toBeDefined();
             expect(element.rightIconName).toEqual('');
         });
+        it('defaults showGlobalVariables to true', () => {
+            setGlobalVariables(globalVariablesForFlow);
+            setProcessTypeFeature('flow', ['GlobalVariables']);
+            Store.setMockState({
+                properties: {
+                    processType: 'flow',
+                    definitionId: '300xx000000bpCbAAI'
+                },
+                elements: {}
+            });
+            const menuData = filterAndMutateMenuData([], undefined, false, false, false, [], false);
+            const element = menuData[0].items[0];
+            expect(element.value).toBe('$Api');
+            Store.setMockState(flowWithAllElementsUIModel);
+        });
         it('does not include section and column screen fields in the result', () => {
             const dummySection = {
                 elementType: 'SCREEN_FIELD',
@@ -772,6 +830,23 @@ describe('Menu data retrieval', () => {
             expect(getPropertiesForClass).toHaveBeenCalledTimes(1);
             expectFieldsAreComplexTypeFieldDescriptions(items);
         });
+        describe('global variables', () => {
+            beforeEach(() => {
+                setGlobalVariables(mockGlobalVariablesWithMultiPicklist);
+            });
+            it('should fetch properties for global variables and hide multipicklist fields by default', async () => {
+                const items = await getChildrenItemsPromise(parentGlobalItem);
+                expect(Object.keys(items)).toEqual(expect.arrayContaining(['$Organization.Country']));
+                expectFieldsAreComplexTypeFieldDescriptions(items);
+            });
+            it('should show multipicklist fields if showMultiPicklistGlobalVariables is set to true', async () => {
+                const items = await getChildrenItemsPromise(parentGlobalItem, true);
+                expect(Object.keys(items)).toEqual(
+                    expect.arrayContaining(['$Organization.Country', '$Organization.MP__c'])
+                );
+                expectFieldsAreComplexTypeFieldDescriptions(items);
+            });
+        });
         it('should fetch ouput parameters for LC screen field with automatic handling', async () => {
             const items = await getChildrenItemsPromise(parentLightningComponentScreenFieldItem);
             expect(Object.keys(items)).toEqual(expect.arrayContaining(['label', 'value']));
@@ -796,6 +871,26 @@ describe('Menu data retrieval', () => {
                 'output3'
             ]);
             expectFieldsAreComplexTypeFieldDescriptions(items);
+        });
+    });
+
+    describe('getChildrenItems', () => {
+        describe('global variables', () => {
+            beforeEach(() => {
+                setGlobalVariables(mockGlobalVariablesWithMultiPicklist);
+            });
+            it('should fetch properties for global variables and hide multipicklist fields by default', async () => {
+                const items = await getChildrenItems(parentGlobalItem);
+                expect(Object.keys(items)).toEqual(expect.arrayContaining(['$Organization.Country']));
+                expectFieldsAreComplexTypeFieldDescriptions(items);
+            });
+            it('should show multipicklist fields if showMultiPicklistGlobalVariables is set to true', async () => {
+                const items = await getChildrenItems(parentGlobalItem, true);
+                expect(Object.keys(items)).toEqual(
+                    expect.arrayContaining(['$Organization.Country', '$Organization.MP__c'])
+                );
+                expectFieldsAreComplexTypeFieldDescriptions(items);
+            });
         });
     });
 

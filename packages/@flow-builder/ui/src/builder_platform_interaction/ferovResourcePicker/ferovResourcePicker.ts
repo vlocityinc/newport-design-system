@@ -162,8 +162,12 @@ export default class FerovResourcePicker extends LightningElement {
     @api
     hideGlobalVariables = false;
 
+    /**
+     * Set it to true if this resource picker is used in the context of a formula editor,
+     * in which case the menu data will be populated differently
+     */
     @api
-    showMultiPicklistGlobalVariables = false;
+    forFormula = false;
 
     get parentItem() {
         return this.value && this.value.parent;
@@ -313,7 +317,7 @@ export default class FerovResourcePicker extends LightningElement {
                     includeNewResource: !this.hideNewResource,
                     showSystemVariables: !this.hideSystemVariables,
                     showGlobalVariables: !this.hideGlobalVariables,
-                    showMultiPicklistGlobalVariables: this.showMultiPicklistGlobalVariables,
+                    forFormula: this.forFormula,
                     allowSObjectFields: this.comboboxConfig.allowSObjectFields,
                     allowSObjectFieldsTraversal: this.isLookupTraversalSupported()
                 }

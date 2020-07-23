@@ -91,6 +91,7 @@
             "builder_platform_interaction/integrationTests": ["./builder_platform_interaction/integrationTests/integrationTests.ts"],
             "builder_platform_interaction/invocableActionEditor": ["./builder_platform_interaction/invocableActionEditor/invocableActionEditor.ts"],
             "builder_platform_interaction/invocableActionLib": ["./builder_platform_interaction/invocableActionLib/invocableActionLib.ts"],
+            "builder_platform_interaction/jest-report": ["./builder_platform_interaction/jest-report/jest-report.ts"],
             "builder_platform_interaction/keyboardInteractionUtils": ["./builder_platform_interaction/keyboardInteractionUtils/keyboardInteractionUtils.ts"],
             "builder_platform_interaction/keyboardShortcutsListBody": ["./builder_platform_interaction/keyboardShortcutsListBody/keyboardShortcutsListBody.ts"],
             "builder_platform_interaction/labelDescription": ["./builder_platform_interaction/labelDescription/labelDescription.ts"],

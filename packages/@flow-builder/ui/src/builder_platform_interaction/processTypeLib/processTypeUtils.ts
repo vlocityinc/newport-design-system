@@ -48,7 +48,8 @@ export const FLOW_PROCESS_TYPE_FEATURE = {
     STORE_OUTPUT_AUTOMATICALLY: 'StoreOutputAutomatically',
     CONFIGURABLE_START: 'ConfigurableStart',
     LOOKUP_TRAVERSAL: 'LookupTraversal',
-    CONDITIONAL_FIELD_VISIBILITY: 'ConditionalFieldVisibility'
+    CONDITIONAL_FIELD_VISIBILITY: 'ConditionalFieldVisibility',
+    GLOBAL_VARIABLES: 'GlobalVariables'
 };
 
 export const getProcessTypeIcon = processType => PROCESS_TYPES_ICONS.get(processType) || PROCESS_TYPE_DEFAULT_ICON;
@@ -113,6 +114,15 @@ export const isConfigurableStartSupported = processType => {
  */
 export const isLookupTraversalSupported = processType => {
     return hasProcessTypeFeature(processType, FLOW_PROCESS_TYPE_FEATURE.LOOKUP_TRAVERSAL);
+};
+
+/**
+ * Whether or not global variables outside formula is supported
+ * @param {Object} processType the current process type
+ * @returns {Boolean} true if global variables outside formula is supported, false if only supported in formulas
+ */
+export const isGlobalVariablesSupported = processType => {
+    return hasProcessTypeFeature(processType, FLOW_PROCESS_TYPE_FEATURE.GLOBAL_VARIABLES);
 };
 
 /**

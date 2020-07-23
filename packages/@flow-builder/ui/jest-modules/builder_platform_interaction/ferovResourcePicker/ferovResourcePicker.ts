@@ -38,7 +38,7 @@ export default class FerovResourcePicker extends LightningElement {
     hideGlobalVariables;
 
     @api
-    showMultiPicklistGlobalVariables;
+    forFormula;
 
     @api
     rowIndex;

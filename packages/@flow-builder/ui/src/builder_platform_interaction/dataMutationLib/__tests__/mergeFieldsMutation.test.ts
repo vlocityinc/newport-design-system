@@ -114,4 +114,35 @@ describe('sanitizeGuid', () => {
             fieldNames: ['']
         });
     });
+    it('returns the global variable reference as guidOrLiteral', () => {
+        const result = sanitizeGuid('$User.IsActive');
+        expect(result).toEqual({
+            guidOrLiteral: '$User.IsActive'
+        });
+    });
+    it('returns $Flow system variable reference as guidOrLiteral', () => {
+        const result = sanitizeGuid('$Flow.CurrentRecord');
+        expect(result).toEqual({
+            guidOrLiteral: '$Flow.CurrentRecord'
+        });
+    });
+    it('returns $Client system variable reference as guidOrLiteral', () => {
+        const result = sanitizeGuid('$Client.FormFactor');
+        expect(result).toEqual({
+            guidOrLiteral: '$Client.FormFactor'
+        });
+    });
+    it('returns guid and fields for $Record field', () => {
+        const result = sanitizeGuid('$Record.Name');
+        expect(result).toEqual({
+            guidOrLiteral: '$Record',
+            fieldNames: ['Name']
+        });
+    });
+    it('returns $Record as guidOrLiteral', () => {
+        const result = sanitizeGuid('$Record');
+        expect(result).toEqual({
+            guidOrLiteral: '$Record'
+        });
+    });
 });

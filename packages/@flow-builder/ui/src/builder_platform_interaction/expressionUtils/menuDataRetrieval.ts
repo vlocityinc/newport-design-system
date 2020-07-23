@@ -280,9 +280,11 @@ const isApexCollectionAnonymousAutomaticOutput = menuItem => {
  * @param {boolean} disableHasNext if true, then all menu items will have hasNext set to false regardless of the real value
  * @param {Array}   activePicklistValues the picklist values that will be appended to the menu data if picklist values are allowed
  * @param {boolean} showSystemVariables   are system variables allowed in this context
+ * @param {boolean} showGlobalVariables   are global variables allowed in this context
  * @param {boolean} allowSObjectField whether or not to set hasNext on SObject
  * @param {boolean} allowsApexCollAnonymousAutoOutput whether or not apex collection from anonymous automatic outputs are allowed. Default true
- *  @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
+ * @param {boolean} forFormula   is this request coming from a formula editor
+ * @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
  */
 export function filterAndMutateMenuData(
     menuDataElements,
@@ -294,7 +296,8 @@ export function filterAndMutateMenuData(
     showSystemVariables = true,
     showGlobalVariables = true,
     allowSObjectField = true,
-    allowsApexCollAnonymousAutoOutput = true
+    allowsApexCollAnonymousAutoOutput = true,
+    forFormula = false
 ) {
     if (allowGlobalConstants) {
         // global constants should be included in menuData for FEROVs
@@ -330,7 +333,8 @@ export function filterAndMutateMenuData(
     if (systemVariablesAllowed || showGlobalVariables) {
         const systemAndGlobalVariableMenuData = getSystemAndGlobalVariableMenuData(
             systemVariablesAllowed,
-            showGlobalVariables
+            showGlobalVariables,
+            forFormula
         );
         if (Array.isArray(systemAndGlobalVariableMenuData) && systemAndGlobalVariableMenuData.length) {
             systemAndGlobalVariableMenuItem = {
@@ -520,8 +524,8 @@ export function getChildrenItems(parentItem, showMultiPicklistGlobalVariables = 
     let result;
     if (subtype === SYSTEM_VARIABLE_PREFIX || subtype === SYSTEM_VARIABLE_CLIENT_PREFIX) {
         result = getSystemVariables(subtype);
-    } else if (getGlobalVariables(subtype, { showMultiPicklistGlobalVariables })) {
-        result = getGlobalVariables(subtype, { showMultiPicklistGlobalVariables });
+    } else if (getGlobalVariables(subtype, showMultiPicklistGlobalVariables)) {
+        result = getGlobalVariables(subtype, showMultiPicklistGlobalVariables);
     } else if (dataType === FLOW_DATA_TYPE.SOBJECT.value) {
         result = sobjectLib.getFieldsForEntity(subtype);
     } else if (dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value) {

@@ -65,7 +65,7 @@ export default class ResourcedTextarea extends LightningElement {
     hideNewResource = false;
 
     @api
-    showMultiPicklistGlobalVariables = false;
+    forFormula = false;
 
     @track
     error;

@@ -197,7 +197,7 @@ describe('ferov-resource-picker', () => {
                 includeNewResource: true,
                 showSystemVariables: true,
                 showGlobalVariables: true,
-                showMultiPicklistGlobalVariables: false,
+                forFormula: false,
                 allowSObjectFieldsTraversal: true
             }
         );
@@ -228,7 +228,7 @@ describe('ferov-resource-picker', () => {
                 includeNewResource: true,
                 showSystemVariables: true,
                 showGlobalVariables: true,
-                showMultiPicklistGlobalVariables: false,
+                forFormula: false,
                 allowSObjectFieldsTraversal: true
             }
         );
@@ -259,7 +259,7 @@ describe('ferov-resource-picker', () => {
                 includeNewResource: true,
                 showSystemVariables: true,
                 showGlobalVariables: true,
-                showMultiPicklistGlobalVariables: false,
+                forFormula: false,
                 allowSObjectFieldsTraversal: true
             }
         );
@@ -287,7 +287,7 @@ describe('ferov-resource-picker', () => {
                 includeNewResource: true,
                 showSystemVariables: true,
                 showGlobalVariables: true,
-                showMultiPicklistGlobalVariables: false,
+                forFormula: false,
                 allowSObjectFieldsTraversal: true
             }
         );
@@ -348,7 +348,7 @@ describe('ferov-resource-picker', () => {
                 includeNewResource: true,
                 showSystemVariables: true,
                 showGlobalVariables: true,
-                showMultiPicklistGlobalVariables: false,
+                forFormula: false,
                 allowSObjectFieldsTraversal: true
             }
         );
@@ -503,7 +503,7 @@ describe('ferov-resource-picker', () => {
                     includeNewResource: true,
                     showSystemVariables: true,
                     showGlobalVariables: true,
-                    showMultiPicklistGlobalVariables: false,
+                    forFormula: false,
                     allowSObjectFieldsTraversal: true
                 }
             );
@@ -524,7 +524,7 @@ describe('ferov-resource-picker', () => {
                     includeNewResource: true,
                     showSystemVariables: true,
                     showGlobalVariables: true,
-                    showMultiPicklistGlobalVariables: false,
+                    forFormula: false,
                     allowSObjectFieldsTraversal: true
                 }
             );
@@ -546,7 +546,7 @@ describe('ferov-resource-picker', () => {
                     includeNewResource: true,
                     showSystemVariables: false,
                     showGlobalVariables: true,
-                    showMultiPicklistGlobalVariables: false,
+                    forFormula: false,
                     allowSObjectFieldsTraversal: true
                 }
             );
@@ -568,7 +568,7 @@ describe('ferov-resource-picker', () => {
                     includeNewResource: true,
                     showSystemVariables: true,
                     showGlobalVariables: false,
-                    showMultiPicklistGlobalVariables: false,
+                    forFormula: false,
                     allowSObjectFieldsTraversal: true
                 }
             );

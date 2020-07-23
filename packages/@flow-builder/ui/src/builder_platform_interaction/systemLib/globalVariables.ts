@@ -37,7 +37,6 @@ const convertData = (data, types) =>
             dataType: obj.datatype,
             apiName: obj.name
         };
-
         if (!acc[type.name]) {
             acc[type.name] = {};
         }

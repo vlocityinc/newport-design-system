@@ -888,6 +888,70 @@ describe('base expression builder', () => {
             );
         });
     });
+    describe('populate menu data for global variable', () => {
+        it('should return global variables in LHS menu data', () => {
+            createComponentForTest({
+                rules: [],
+                containerElement: ELEMENT_TYPE.DECISION,
+                lhsFields: null,
+                lhsDisplayOption: expressionUtilsMock.LHS_DISPLAY_OPTION.NOT_FIELD,
+                showLhsAsFieldReference: true,
+                lhsMustBeWritable: false
+            });
+            expect(expressionUtilsMock.filterAndMutateMenuData).toHaveBeenCalledWith(
+                expect.anything(),
+                undefined,
+                true,
+                false,
+                false,
+                [],
+                true,
+                true
+            );
+        });
+        it('should not return global variables in LHS menu data if LHS is writable', () => {
+            createComponentForTest({
+                rules: [],
+                containerElement: ELEMENT_TYPE.ASSIGNMENT,
+                lhsFields: null,
+                lhsDisplayOption: expressionUtilsMock.LHS_DISPLAY_OPTION.NOT_FIELD,
+                showLhsAsFieldReference: true,
+                lhsMustBeWritable: true
+            });
+            expect(expressionUtilsMock.filterAndMutateMenuData).toHaveBeenCalledWith(
+                expect.anything(),
+                undefined,
+                true,
+                false,
+                false,
+                [],
+                true,
+                false
+            );
+        });
+        it('should not return global variables in LHS menu data if hideGlobalVariables is true', async () => {
+            createComponentForTest({
+                rules: [],
+                containerElement: ELEMENT_TYPE.ASSIGNMENT,
+                lhsFields: null,
+                lhsDisplayOption: expressionUtilsMock.LHS_DISPLAY_OPTION.NOT_FIELD,
+                showLhsAsFieldReference: true,
+                lhsMustBeWritable: false,
+                hideGlobalVariables: true
+            });
+            await ticks(1);
+            expect(expressionUtilsMock.filterAndMutateMenuData).toHaveBeenCalledWith(
+                expect.anything(),
+                undefined,
+                true,
+                false,
+                false,
+                [],
+                true,
+                false
+            );
+        });
+    });
     describe('RHS literals-allowed can be determined by parent', () => {
         it('rhs literals should not be allowed by default', () => {
             const expressionBuilder = createComponentForTest({

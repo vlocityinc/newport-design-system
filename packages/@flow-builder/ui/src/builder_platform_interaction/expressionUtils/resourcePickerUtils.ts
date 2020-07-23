@@ -52,7 +52,7 @@ const getFerovMenuData = (
     showSystemVariables,
     showGlobalVariables,
     allowSObjectFields,
-    showMultiPicklistGlobalVariables
+    forFormula
 ) => {
     const menuDataElements = getStoreElements(
         storeInstance.getCurrentState(),
@@ -70,7 +70,7 @@ const getFerovMenuData = (
         showGlobalVariables,
         allowSObjectFields,
         elementConfig ? elementConfig.allowsApexCollAnonymousAutoOutput : true,
-        showMultiPicklistGlobalVariables
+        forFormula
     );
 };
 
@@ -105,7 +105,7 @@ export const getMenuData = (
         includeNewResource = true,
         showSystemVariables = true,
         showGlobalVariables = true,
-        showMultiPicklistGlobalVariables = false,
+        forFormula = false,
         allowSObjectFieldsTraversal = true,
         allowSObjectFields = true
     } = {}
@@ -116,7 +116,7 @@ export const getMenuData = (
             allowSObjectFieldsTraversal,
             shouldBeWritable: !!(elementConfig && elementConfig.shouldBeWritable),
             sObjectSelectorConfig: elementConfig && elementConfig.sObjectSelectorConfig,
-            showMultiPicklistGlobalVariables
+            forFormula
         });
     }
     return Promise.resolve(
@@ -131,7 +131,7 @@ export const getMenuData = (
             showSystemVariables,
             showGlobalVariables,
             allowSObjectFields,
-            showMultiPicklistGlobalVariables
+            forFormula
         )
     );
 };

@@ -77,7 +77,7 @@ jest.mock('builder_platform_interaction/systemLib', () => {
             return id.startsWith(globalConstantPrefix) || id.startsWith(systemVariablePrefix);
         },
         isNonRecordGlobalResourceId: id => {
-            return id.startsWith('$');
+            return id.startsWith('$User');
         },
         isRecordSystemVariableIdentifier: id => id.startsWith('$Record')
     };
@@ -1097,6 +1097,22 @@ describe('Combobox', () => {
                     value: '{!MyAccount.customField__c}',
                     parent: {
                         displayText: '{!MyAccount}'
+                    }
+                };
+                groupedCombobox.dispatchEvent(blurEvent);
+                await ticks(1);
+                expect(combobox.errorMessage).toBe(message);
+            });
+
+            it('global variables get treated as merge fields', async () => {
+                const message = 'This merge field does not exist.';
+                validateMergeField.mockReset();
+                validateMergeField.mockReturnValueOnce([{ message }]);
+                combobox.value = {
+                    displayText: '{!$User.IsActive}',
+                    value: '{!$User.IsActive}',
+                    parent: {
+                        displayText: '{!$User}'
                     }
                 };
                 groupedCombobox.dispatchEvent(blurEvent);

@@ -162,6 +162,14 @@ describe('menuDataGenerator', () => {
 
                 expect(mutatedResource.subText).toEqual('');
             });
+            it('sets description as subtext for global variables', () => {
+                const mutatedResource = mutateFlowResourceToComboboxShape({
+                    guid: '$User.Name',
+                    description: 'The user name'
+                });
+                expect(mutatedResource.value).toBe('$User.Name');
+                expect(mutatedResource.subText).toBe('The user name');
+            });
             describe('Loop', () => {
                 it.each`
                     loop                                   | expectedSubtext

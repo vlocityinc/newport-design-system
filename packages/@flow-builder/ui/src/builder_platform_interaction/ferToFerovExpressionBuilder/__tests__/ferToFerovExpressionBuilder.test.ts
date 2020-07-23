@@ -179,6 +179,19 @@ describe('fer-to-ferov-expression-builder', () => {
             expect(baseExpressionBuilder.defaultOperator).toEqual(defaultOperator);
         });
     });
+    describe('global variables', () => {
+        it('should show global variables by default', () => {
+            const defaultOperator = 'someDefaultOperator';
+            const expressionBuilder = createComponentForTest({
+                defaultOperator,
+                containerElement: ELEMENT_TYPE.ASSIGNMENT,
+                expression: createMockPopulatedExpression()
+            });
+            const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
+
+            expect(baseExpressionBuilder.hideGlobalVariables).toBe(false);
+        });
+    });
     describe('parsing LHS', () => {
         it('should handle FER on LHS', () => {
             const expressionBuilder = createComponentForTest({

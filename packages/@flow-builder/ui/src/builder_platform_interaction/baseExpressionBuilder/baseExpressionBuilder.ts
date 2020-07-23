@@ -412,7 +412,17 @@ export default class BaseExpressionBuilder extends LightningElement {
     hideNewResource = false;
 
     @api
-    hideGlobalVariables = false;
+    get hideGlobalVariables() {
+        return this._hideGlobalVariables;
+    }
+
+    /**
+     * @type {boolean} hide hides global variables menu options.
+     */
+    set hideGlobalVariables(hide) {
+        this._hideGlobalVariables = !!hide;
+        this.setLhsMenuData();
+    }
 
     /**
      * Set it to true to hide display the expression builder vertically instead of horizontally inline
@@ -436,6 +446,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     _unsubscribeStore;
     _hideFerovMenuData = false;
     _hideSystemVariables = false;
+    _hideGlobalVariables = false;
 
     get containerClasses() {
         return this.variant === VARIANT_NARROW

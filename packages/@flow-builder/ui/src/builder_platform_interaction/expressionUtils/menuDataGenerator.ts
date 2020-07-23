@@ -18,6 +18,8 @@ import { getResourceLabel } from 'builder_platform_interaction/elementLabelLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { apexClassesSelector } from 'builder_platform_interaction/selectors';
 import { createSelector } from 'builder_platform_interaction/storeLib';
+import { getProcessType } from 'builder_platform_interaction/storeUtils';
+import { isGlobalVariablesSupported } from 'builder_platform_interaction/processTypeLib';
 import { getIconNameFromDataType } from 'builder_platform_interaction/screenEditorUtils';
 import { LABELS } from './expressionUtilsLabels';
 
@@ -625,9 +627,10 @@ const getFlowSystemClientVariableComboboxItem = () =>
  *
  * @param {Boolean} showSystemVariables   should include the system variable category
  * @param {Boolean} showGlobalVariables   should include the global variable categories
+ * @param {Boolean} forFormula   if we are retrieving menu data for formula editor
  * @return {MenuData} menu data showing system variables and/or global variables
  */
-export const getSystemAndGlobalVariableMenuData = (showSystemVariables, showGlobalVariables) => {
+export const getSystemAndGlobalVariableMenuData = (showSystemVariables, showGlobalVariables, forFormula = false) => {
     const categories = [];
     if (showSystemVariables) {
         categories.push(getFlowSystemVariableComboboxItem());
@@ -635,7 +638,7 @@ export const getSystemAndGlobalVariableMenuData = (showSystemVariables, showGlob
             categories.push(getFlowSystemClientVariableComboboxItem());
         }
     }
-    if (showGlobalVariables) {
+    if (showGlobalVariables && (forFormula || isGlobalVariablesSupported(getProcessType()))) {
         categories.push(...getGlobalVariableTypeComboboxItems());
     }
     return categories;
