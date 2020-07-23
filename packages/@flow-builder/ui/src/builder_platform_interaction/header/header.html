@@ -1,6 +1,25 @@
 <template>
     <div class="slds-builder-header flow-builder-header_border_icon">
         <div class="slds-builder-header__item">
+            <a href={backUrl} class="slds-builder-header__item-action test-back-url">
+                <lightning-icon
+                    variant="inverse"
+                    size="x-small"
+                    icon-name="utility:back"
+                    class="slds-icon_container slds-icon-utility-back slds-current-color test-back-utility-icon"
+                    title={labels.backButtonText}
+                    onfocus={handleBackFocus}
+                    onblur={handleBackBlur}
+                    onmouseover={handleBackFocus}
+                    onmouseout={handleBackBlur}
+                >
+                </lightning-icon>
+            </a>
+            <div class={backTooltipClass} role="tooltip" id="backTooltip">
+                <div class="slds-popover__body">{labels.backButtonText}</div>
+            </div>
+        </div>
+        <div class="slds-builder-header__item">
             <div class="slds-builder-header__item-label slds-media slds-media_center">
                 <lightning-icon
                     variant="inverse"
@@ -22,27 +41,20 @@
                 >{currentFlowName}</span
             >
             &nbsp;
-            <span class="custom-builder-header__item-label test-flow-version">{flowVersionNumber}</span>
+            <span class="custom-builder-header__item-label slds-p-right_medium test-flow-version"
+                >{flowVersionNumber}</span
+            >
         </h1>
         <lightning-badge if:true={isSystemMode} label={systemModeLabel} title={systemModeLabel} class={badgeClasses}>
         </lightning-badge>
+        <h1
+            if:true={showInterviewLabel}
+            class="slds-builder-header__item slds-p-horizontal_medium slds-truncate test-interview-label"
+        >
+            {formattedInterviewLabel}
+        </h1>
+        <lightning-badge if:true={showDebugStatus} label={interviewStatus} class={debugBadgeClass}> </lightning-badge>
         <div class="slds-builder-header__item slds-builder-header__utilities">
-            <div class="slds-builder-header__utilities-item">
-                <a href={backUrl} class="slds-builder-header__item-action slds-media slds-media_center test-back-url">
-                    <div class="slds-media__figure">
-                        <lightning-icon
-                            variant="inverse"
-                            size="x-small"
-                            icon-name="utility:back"
-                            class="slds-icon_container slds-icon-utility-back slds-current-color test-back-utility-icon"
-                        >
-                        </lightning-icon>
-                    </div>
-                    <div class="slds-media__body test-back-label">
-                        {labels.backButtonText}
-                    </div>
-                </a>
-            </div>
             <template if:false={isGuardrailsEnabled}>
                 <div class="slds-builder-header__utilities-item">
                     <a

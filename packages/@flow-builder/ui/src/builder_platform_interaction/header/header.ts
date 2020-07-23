@@ -5,6 +5,12 @@ import { api, LightningElement, track } from 'lwc';
 import { LABELS } from './headerLabels';
 import { invokeKeyboardHelpDialog } from 'builder_platform_interaction/builderUtils';
 
+const DEBUG_STATUS = {
+    FINISHED: 'FINISHED',
+    PAUSED: 'WAITING',
+    ERROR: 'ERROR'
+};
+
 export default class Header extends LightningElement {
     @api
     flowName;
@@ -36,6 +42,18 @@ export default class Header extends LightningElement {
     @api
     guardrailsParams;
 
+    @api
+    interviewLabel;
+
+    @api
+    showInterviewLabel;
+
+    @api
+    showDebugStatus;
+
+    @api
+    debugInterviewStatus;
+
     @api focus() {
         const headerFocusableElement = this.template.querySelector('[href].test-back-url');
         if (headerFocusableElement) {
@@ -44,6 +62,8 @@ export default class Header extends LightningElement {
     }
 
     @track isGuardrailsEnabled = orgHasFlowBuilderGuardrails();
+
+    @track backTooltipClass = 'slds-popover slds-popover_tooltip slds-fall-into-ground custom-tooltip';
 
     get labels() {
         return LABELS;
@@ -90,6 +110,32 @@ export default class Header extends LightningElement {
         return this.name + ': ';
     }
 
+    get formattedInterviewLabel() {
+        return LABELS.interviewLabelTitle + this.interviewLabel;
+    }
+
+    get interviewStatus() {
+        const interviewStatus = this.debugInterviewStatus;
+        if (interviewStatus === DEBUG_STATUS.FINISHED) {
+            return LABELS.debugBadgeCompleted;
+        } else if (interviewStatus === DEBUG_STATUS.PAUSED) {
+            return LABELS.debugBadgePaused;
+        }
+        return LABELS.debugBadgeError;
+    }
+
+    get debugBadgeClass() {
+        let badgeClass = 'slds-align-middle slds-m-left_xx-small test-debug-badge';
+        const interviewStatus = this.debugInterviewStatus;
+        if (interviewStatus === DEBUG_STATUS.FINISHED) {
+            badgeClass += ' slds-theme_success';
+        } else if (interviewStatus === DEBUG_STATUS.ERROR) {
+            badgeClass += ' slds-theme_error';
+        } else if (interviewStatus === DEBUG_STATUS.PAUSED) {
+            badgeClass += ' slds-theme_warning';
+        }
+        return badgeClass;
+    }
     /**
      * @return {String} the css class for badge
      */
@@ -130,5 +176,12 @@ export default class Header extends LightningElement {
 
     logHeaderInteraction(menuItem) {
         logInteraction(menuItem, 'header', null, 'click');
+    }
+
+    handleBackFocus() {
+        this.backTooltipClass = 'slds-popover slds-popover_tooltip slds-rise-from-ground custom-tooltip';
+    }
+    handleBackBlur() {
+        this.backTooltipClass = 'slds-popover slds-popover_tooltip slds-fall-into-ground custom-tooltip';
     }
 }

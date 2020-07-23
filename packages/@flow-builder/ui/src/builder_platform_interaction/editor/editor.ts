@@ -172,8 +172,9 @@ const PANELS = {
 const EDITOR_COMPONENT_CONFIGS = {
     TOOLBAR_CONFIG: 'toolbarConfig',
     LEFT_PANEL_CONFIG: 'leftPanelConfig',
-    RIGHT_PANEL_CONFIG: 'rightPanelConfig',
-    CANVAS_CONFIG: 'canvasConfig'
+    CANVAS_CONFIG: 'canvasConfig',
+    HEADER_CONFIG: 'headerConfig',
+    RIGHT_PANEL_CONFIG: 'rightPanelConfig'
 };
 
 /**
@@ -392,6 +393,18 @@ export default class Editor extends LightningElement {
         );
     }
 
+    get debugInterviewStatus() {
+        return this.debugData && this.debugData.interviewStatus;
+    }
+
+    get showInterviewLabel() {
+        return this.headerConfig.showInterviewLabel;
+    }
+
+    get showDebugStatus() {
+        return this.headerConfig.showDebugStatus;
+    }
+
     get showLeftPanelElementsTab() {
         return !this.properties.isAutoLayoutCanvas;
     }
@@ -492,6 +505,10 @@ export default class Editor extends LightningElement {
         return [...this.supportedElements, ...this.supportedActions];
     }
 
+    get headerConfig() {
+        return this.getConfig(EDITOR_COMPONENT_CONFIGS.HEADER_CONFIG);
+    }
+
     get toolbarConfig() {
         return this.getConfig(EDITOR_COMPONENT_CONFIGS.TOOLBAR_CONFIG);
     }
@@ -522,6 +539,15 @@ export default class Editor extends LightningElement {
 
     get debugTraces() {
         return this.debugData || {};
+    }
+
+    get interviewLabel() {
+        const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+        const time =
+            this.debugData &&
+            this.debugData.startInterviewTime &&
+            this.debugData.startInterviewTime.toLocaleDateString(undefined, options);
+        return this.properties.label + ' ' + time;
     }
 
     /**

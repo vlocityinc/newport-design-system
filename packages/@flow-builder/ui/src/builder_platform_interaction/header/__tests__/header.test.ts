@@ -16,10 +16,12 @@ jest.mock('builder_platform_interaction/builderUtils', () => {
     return { invokeKeyboardHelpDialog: jest.fn() };
 });
 
-function createComponentForTest(props) {
+function createComponentForTest(props = {}) {
     const el = createElement('builder_platform_interaction-header', {
         is: Header
     });
+    el.backUrl = '/300';
+    el.helpUrl = '/help';
     Object.assign(el, props);
     document.body.appendChild(el);
     return el;
@@ -40,7 +42,9 @@ const selectors = {
     helpIcon: '.test-help-utility-icon',
     buttonMenu: 'lightning-button-menu',
     lightningMenuItem: 'lightning-menu-item',
-    guardrailsMenuItem: 'analyzer_framework-help-menu-item'
+    guardrailsMenuItem: 'analyzer_framework-help-menu-item',
+    interviewLabel: '.test-interview-label',
+    debugBadge: '.test-debug-badge'
 };
 
 describe('HEADER', () => {
@@ -112,14 +116,6 @@ describe('HEADER', () => {
         expect(headerComponent.shadowRoot.querySelector(selectors.backUrl).pathname).toEqual('/300');
     });
 
-    it('checks the rendering BACK label', async () => {
-        const headerComponent = createComponentForTest();
-        await ticks(1);
-        expect(headerComponent.shadowRoot.querySelector(selectors.backLabel).textContent).toEqual(
-            LABELS.backButtonText
-        );
-    });
-
     it('checks the rendering HELP UTILITY Icon', async () => {
         const headerComponent = createComponentForTest();
         await ticks(1);
@@ -157,6 +153,25 @@ describe('HEADER', () => {
         await ticks(1);
         expect(headerComponent.shadowRoot.querySelector(selectors.buttonMenu)).toBeNull();
         expect(headerComponent.shadowRoot.querySelector(selectors.helpUrl)).toBeDefined();
+    });
+
+    it('should have the interview label when showInterviewLabel is true', async () => {
+        const headerComponent = createComponentForTest({
+            flowName: 'Flow Name',
+            showInterviewLabel: true,
+            interviewLabel: 'Flow Name 12/19/2012, 7:00 PM'
+        });
+        expect(headerComponent.shadowRoot.querySelector(selectors.interviewLabel).textContent).toEqual(
+            LABELS.interviewLabelTitle + headerComponent.interviewLabel
+        );
+    });
+
+    it('should show the debug interview status when showDebugStatus is true', async () => {
+        const headerComponent = createComponentForTest({
+            showDebugStatus: true,
+            debugInterviewStatus: 'FINISHED'
+        });
+        expect(headerComponent.shadowRoot.querySelector(selectors.debugBadge)).toBeDefined();
     });
 
     describe('help menu', () => {

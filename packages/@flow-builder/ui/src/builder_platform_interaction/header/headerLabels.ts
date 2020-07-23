@@ -11,6 +11,10 @@ import trailblazerCommunityText from '@salesforce/label/FlowBuilderHeader.trailb
 import viewGuardrailsText from '@salesforce/label/FlowBuilderHeader.viewGuardrailsText';
 import muteGuardrailsText from '@salesforce/label/FlowBuilderHeader.muteGuardrailsText';
 import unmuteGuardrailsText from '@salesforce/label/FlowBuilderHeader.unmuteGuardrailsText';
+import debugBadgeCompleted from '@salesforce/label/FlowBuilderHeader.debugBadgeCompleted';
+import debugBadgePaused from '@salesforce/label/FlowBuilderHeader.debugBadgePaused';
+import debugBadgeError from '@salesforce/label/FlowBuilderHeader.debugBadgeError';
+import interviewLabelTitle from '@salesforce/label/FlowBuilderHeader.interviewLabelTitle';
 
 export const LABELS = {
     appNameText,
@@ -24,5 +28,9 @@ export const LABELS = {
     trailblazerCommunityText,
     viewGuardrailsText,
     muteGuardrailsText,
-    unmuteGuardrailsText
+    unmuteGuardrailsText,
+    debugBadgeCompleted,
+    debugBadgePaused,
+    debugBadgeError,
+    interviewLabelTitle
 };
