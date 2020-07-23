@@ -1,8 +1,23 @@
 // @ts-nocheck
 import { swapDevNamesToUids } from './uidSwapping';
-import { METADATA_KEY, isSystemElement, forEachMetadataFlowElement } from 'builder_platform_interaction/flowMetadata';
+import {
+    METADATA_KEY,
+    isSystemElement,
+    forEachMetadataFlowElement,
+    FLOW_TRIGGER_TYPE
+} from 'builder_platform_interaction/flowMetadata';
 import { createFlowProperties, INCOMPLETE_ELEMENT } from 'builder_platform_interaction/elementFactory';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
+
+const { BEFORE_SAVE, AFTER_SAVE, SCHEDULED, PLATFORM_EVENT, BEFORE_DELETE } = FLOW_TRIGGER_TYPE;
+const NODE_LENGTH = 48;
+const START_LENGTH = 300;
+const BEFORE_AFTER_SAVE_Y_OFFSET = 181;
+const SCHEDULED_Y_OFFSET = 204;
+const PLATFORM_Y_OFFSET = 122;
+const DEFAULT_Y_OFFSET = 86;
+const RELEASE_226_DATE = new Date('2020-07-18T01:17:24.000+0000');
+let START_Y_OFFSET;
 
 /**
  * Get the flow startElementReference property if any
@@ -25,7 +40,8 @@ export function translateFlowToUIModel(flow) {
     // Create elements, connectors and location translation config from flow Metadata
     const storeDataAndConfig = createElementsUsingFlowMetadata(
         flow.metadata || flow,
-        getFlowStartElementReference(flow)
+        getFlowStartElementReference(flow),
+        properties
     );
 
     let { storeElements = {} } = storeDataAndConfig;
@@ -36,8 +52,7 @@ export function translateFlowToUIModel(flow) {
 
     const { nameToGuid, canvasElementGuids, updatedElements } = updateCanvasElementGuidsAndNameToGuidMap(
         storeElements,
-        translateX,
-        properties
+        translateX
     );
 
     storeElements = updatedElements;
@@ -85,7 +100,7 @@ function updateStoreConnectors(storeConnectors = [], newConnectors = []) {
  * @param {Object} properties flowProperties of a given flow
  * @return {Object} Object containing nameToGuid map, CanvasElementGuids array and updatedElements
  */
-function updateCanvasElementGuidsAndNameToGuidMap(elements = {}, translateX = 0, properties = {}) {
+function updateCanvasElementGuidsAndNameToGuidMap(elements = {}, translateX = 0) {
     const elementGuids = Object.keys(elements),
         nameToGuid = {};
     let updatedElements = elements;
@@ -102,7 +117,7 @@ function updateCanvasElementGuidsAndNameToGuidMap(elements = {}, translateX = 0,
         if (element.isCanvasElement) {
             canvasElementGuids = [...canvasElementGuids, element.guid];
 
-            const updatedElement = updateOverlappingCFDFlowLocation(element, translateX, properties);
+            const updatedElement = updateOverlappingFlowLocation(element, translateX);
             updatedElements = updateStoreElements(updatedElements, {
                 [updatedElement.guid]: updatedElement
             });
@@ -118,14 +133,13 @@ function updateCanvasElementGuidsAndNameToGuidMap(elements = {}, translateX = 0,
 
 /**
  * Updates the location of the canvas element if any element is overlapping with the start element. The location is only
- * updated if the flow originally came from CFD and has never been saved in Flow Builder
+ * updated if the flow originally had the start element metadata and was last modified before RELEASE_226_DATE
  * @param {Object} element canvas element
  * @param {Number} translateX amount by which elements need to be moved in the x-direction
- * @param {Object} properties flowProperties of a given flow
  * @return {Object} Returns the updated/original element
  */
-function updateOverlappingCFDFlowLocation(element = {}, translateX = 0, properties = {}) {
-    if (isElementOverlappingStartElement(element, translateX, properties)) {
+function updateOverlappingFlowLocation(element = {}, translateX = 0) {
+    if (isElementOverlappingStartElement(element, translateX)) {
         return updateCanvasElementLocation(element, translateX);
     }
     return element;
@@ -135,18 +149,10 @@ function updateOverlappingCFDFlowLocation(element = {}, translateX = 0, properti
  * Checks if the element is overlapping with the start element or not
  * @param {Object} element canvas element
  * @param {Number} translateX amount by which elements need to be moved in the x-direction
- * @param {Object} properties flowProperties of a given flow
  * @return {Boolean} Returns boolean value telling if the element overlaps with the start element or not
  */
-function isElementOverlappingStartElement(element = {}, translateX = 0, properties = {}) {
-    return (
-        translateX > 0 &&
-        properties &&
-        !properties.isLightningFlowBuilder &&
-        element &&
-        element.elementType &&
-        !isSystemElement(element.elementType)
-    );
+function isElementOverlappingStartElement(element = {}, translateX = 0) {
+    return translateX > 0 && element && element.elementType && !isSystemElement(element.elementType);
 }
 
 /**
@@ -166,24 +172,106 @@ function updateCanvasElementLocation(element = {}, translateX = 0) {
     return element;
 }
 
-function getTranslateX(metadata) {
-    const EXTRA_SPACING = 180;
-    let minX = EXTRA_SPACING;
-    forEachMetadataFlowElement(metadata, metadataElement => {
-        if (metadataElement && metadataElement.locationX < minX && metadataElement.locationY < EXTRA_SPACING) {
-            minX = metadataElement.locationX;
-        }
-    });
-    const translateX = EXTRA_SPACING - minX;
-    return translateX;
+/**
+ * Helper function to determine how big the start element is in the Y direction.
+ * @param startElement start element metadata structure
+ * @returns Y offset
+ */
+function findStartYOffset(startElement: object): number {
+    switch (startElement.triggerType) {
+        case AFTER_SAVE:
+        case BEFORE_SAVE:
+        case BEFORE_DELETE:
+            return BEFORE_AFTER_SAVE_Y_OFFSET;
+        case SCHEDULED:
+            if (startElement.filters && startElement.filters.length > 0) {
+                return SCHEDULED_Y_OFFSET;
+            }
+            return BEFORE_AFTER_SAVE_Y_OFFSET;
+        case PLATFORM_EVENT:
+            return PLATFORM_Y_OFFSET;
+        default:
+            return DEFAULT_Y_OFFSET;
+    }
 }
 
 /**
- * Helper function to loop over all the flow metadata elements and convert them to client side shape
- * @param {Object} metadata flow metadata
- * @returns {Object} Object containing updated storeConnectors, storeElements and translateX
+ * Helper function to return the top left and bottom right location of the start element box.
+ * @param locationX X location of start element
+ * @param locationY Y location of start element
+ * @param startElement Start element metadata
  */
-function createElementsUsingFlowMetadata(metadata, startElementReference) {
+const _getStartboxPoints = (locationX: number, locationY: number, startElement: object): object => {
+    START_Y_OFFSET = findStartYOffset(startElement);
+    const startFirstPoint = [locationX, locationY];
+    const startEndPoint = [locationX + START_LENGTH, locationY + START_Y_OFFSET];
+    return { startFirstPoint, startEndPoint };
+};
+
+/**
+ * Helper function to return the top left and bottom right location of the element box.
+ * @param locationX X location of element
+ * @param locationY Y location of element
+ */
+const _getElementboxPoints = (locationX: number, locationY: number): object => {
+    const elementFirstPoint = [locationX, locationY];
+    const elementEndPoint = [locationX + NODE_LENGTH, locationY + NODE_LENGTH];
+    return { elementFirstPoint, elementEndPoint };
+};
+
+/**
+ * Helper function to return the top middle and right middle location of the element box.
+ * @param locationX X location of element
+ * @param locationY Y location of element
+ */
+const _getElementboxMidPoints = (locationX: number, locationY: number): object => {
+    const elementMidTop = [locationX + NODE_LENGTH / 2, locationY];
+    const elementMidRight = [locationX + NODE_LENGTH, locationY + NODE_LENGTH / 2];
+    return { elementMidTop, elementMidRight };
+};
+
+/**
+ * Helper function to return the left middle and bottom middle location of the start element box.
+ * @param locationX X location of start element
+ * @param locationY Y location of start element
+ */
+const _getStartBoxMidPoints = (locationX: number, locationY: number): object => {
+    const startMidLeft = [locationX, locationY + START_Y_OFFSET / 2];
+    const startMidBottom = [locationX + START_LENGTH / 2, locationY + START_Y_OFFSET];
+    return { startMidLeft, startMidBottom };
+};
+
+const _checkIfStartOverlapsCanvasElement = (
+    canvasElementStartPoint: object,
+    canvasElementEndPoint: object,
+    startBoxFirstPoint: object,
+    startBoxEndPoint: object
+): boolean => {
+    return !(
+        canvasElementEndPoint[0] < startBoxFirstPoint[0] || // Canvas element is on the left of the box
+        canvasElementStartPoint[0] > startBoxEndPoint[0] || // Canvas element is on the right of the box
+        canvasElementEndPoint[1] < startBoxFirstPoint[1] || // Canvas element is on the top of the box
+        canvasElementStartPoint[1] > startBoxEndPoint[1]
+    ); // Canvas element is on the bottom of the box
+};
+
+/**
+ * Helper function to loop over all the flow metadata elements and convert them to client side shape
+ * @param metadata flow metadata
+ * @param properties flow properties
+ * @returns Object containing updated storeConnectors, storeElements and translateX
+ */
+function createElementsUsingFlowMetadata(metadata: object, startElementReference: object, properties: object): object {
+    const EXTRA_SPACING = 40;
+    let lastModifiedDate;
+    let startFirstPoint, startEndPoint;
+    let targetReference = null;
+    let targetReferenceLocation;
+    let translateX = 0;
+
+    if (properties && properties.lastModifiedDate) {
+        lastModifiedDate = new Date(properties.lastModifiedDate);
+    }
     let storeElements = {};
     let storeConnectors = [];
     const metadataKeyToFlowToUiFunctionMap = getMetadataKeyToFlowToUiFunctionMap();
@@ -204,6 +292,44 @@ function createElementsUsingFlowMetadata(metadata, startElementReference) {
         forEachMetadataFlowElement(metadata, (metadataElement, metadataKey) => {
             let elementsAndConnectors = map.get(metadataElement);
             if (!elementsAndConnectors || areElementsIncomplete(elementsAndConnectors.elements)) {
+                // here
+                if (lastModifiedDate < RELEASE_226_DATE && metadataElement) {
+                    // Start element should always be first in loop
+                    if (metadataKey === METADATA_KEY.START) {
+                        ({ startFirstPoint, startEndPoint } = _getStartboxPoints(
+                            metadataElement.locationX,
+                            metadataElement.locationY,
+                            metadataElement
+                        ));
+                        targetReference = metadataElement.connector && metadataElement.connector.targetReference;
+                    } else {
+                        // Getting the top left and bottom right points of canvas element
+                        const { elementFirstPoint, elementEndPoint } = _getElementboxPoints(
+                            metadataElement.locationX,
+                            metadataElement.locationY
+                        );
+                        // Grabbing the location of start's target reference
+                        if (targetReference && metadataElement.name && targetReference === metadataElement.name) {
+                            targetReferenceLocation = elementFirstPoint;
+                        }
+                        // Checking for overlap on the start node
+                        if (
+                            startFirstPoint &&
+                            _checkIfStartOverlapsCanvasElement(
+                                elementFirstPoint,
+                                elementEndPoint,
+                                startFirstPoint,
+                                startEndPoint
+                            )
+                        ) {
+                            const xDifference = Math.abs(startEndPoint[0] - metadataElement.locationX) + EXTRA_SPACING;
+                            if (xDifference > translateX) {
+                                translateX = xDifference;
+                            }
+                        }
+                    }
+                }
+                // end
                 const elementFactoryFunction = metadataKeyToFlowToUiFunctionMap[metadataKey];
                 elementsAndConnectors =
                     metadataKey === METADATA_KEY.START
@@ -222,13 +348,77 @@ function createElementsUsingFlowMetadata(metadata, startElementReference) {
         });
     }
 
-    const translateX = getTranslateX(metadata);
+    // If no overlap and there is a node connected to the start element
+    if (translateX === 0 && targetReferenceLocation && startFirstPoint && lastModifiedDate < RELEASE_226_DATE) {
+        translateX = bottomLeftOfStartXTranslate(targetReferenceLocation, startFirstPoint, startEndPoint);
+    }
 
     return {
         storeConnectors,
         storeElements,
         translateX
     };
+}
+
+/**
+ * Helper function that determines if the connected element to the start node is underneath with a left emitting connector
+ * If underneath and left connector then translate in the X direction so that it is directly underneath the start.
+ * @param targetReferenceLocation Location of the connected element
+ * @param startFirstPoint Top left position of the start element
+ * @param startEndPoint Bottom right possition of the start element
+ */
+function bottomLeftOfStartXTranslate(
+    targetReferenceLocation: object,
+    startFirstPoint: object,
+    startEndPoint: object
+): number {
+    const { elementMidTop, elementMidRight } = _getElementboxMidPoints(
+        targetReferenceLocation[0],
+        targetReferenceLocation[1]
+    );
+    const { startMidLeft, startMidBottom } = _getStartBoxMidPoints(startFirstPoint[0], startFirstPoint[1]);
+    if (
+        targetReferenceLocation[1] > startEndPoint[1] &&
+        Math.abs(targetReferenceLocation[0] - startFirstPoint[0]) < NODE_LENGTH &&
+        Math.abs(targetReferenceLocation[1] - startEndPoint[1]) < NODE_LENGTH &&
+        !isAlreadyBottomConnected(elementMidTop, elementMidRight, startMidLeft, startMidBottom)
+    ) {
+        return startFirstPoint[0] - targetReferenceLocation[0] + START_LENGTH / 2 - NODE_LENGTH / 2;
+    }
+    return 0;
+}
+/**
+ * Helper function that determines if the connected element to the start node is bottom connected.
+ * Assumed that the element is always underneath and to the left of the start node.
+ * @param elementMidTop Top middle point of the element connect to the start node
+ * @param elementMidRight Middle right point of the element connect to the start node
+ * @param startMidLeft Start node's middle left point
+ * @param startMidBottom Start node's middle bottom point
+ */
+function isAlreadyBottomConnected(
+    elementMidTop: object,
+    elementMidRight: object,
+    startMidLeft: object,
+    startMidBottom: object
+): boolean {
+    // start left to element top
+    const a = elementMidTop[0] - startMidLeft[0];
+    const b = elementMidTop[1] - startMidLeft[1];
+    const distance = Math.hypot(a, b);
+    // start bottom to element top
+    const a2 = elementMidTop[0] - startMidBottom[0];
+    const b2 = elementMidTop[1] - startMidBottom[1];
+    const distance2 = Math.hypot(a2, b2);
+    // start bottom to element right
+    const a3 = elementMidRight[0] - startMidBottom[0];
+    const b3 = elementMidRight[1] - startMidBottom[1];
+    const distance3 = Math.hypot(a3, b3);
+    // start left to element right
+    const a4 = elementMidRight[0] - startMidLeft[0];
+    const b4 = elementMidRight[1] - startMidLeft[1];
+    const distance4 = Math.hypot(a4, b4);
+
+    return (distance2 < distance && distance2 < distance4) || (distance3 < distance && distance2 < distance4);
 }
 
 /**
