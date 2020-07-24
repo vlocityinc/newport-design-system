@@ -71,6 +71,7 @@ function createStraightConnectorSvgInfo(
  * @param isFault - Whether this is part of a fault connector
  * @param variants - The variants for the connector
  * @param isBranchGettingDeleted - True if the current branch is getting deleted
+ * @param showAdd - Whether to show the add button
  * @param connectorBadgeLabel - The label of the standard branch connector. Undefined for Default and Fault Connector
  * @returns The ConnectorRenderInfo for the connector
  */
@@ -85,6 +86,7 @@ function createConnectorToNextNode(
     isFault: boolean,
     variants: ConnectorVariant[],
     isBranchGettingDeleted: boolean,
+    showAdd: boolean,
     connectorBadgeLabel?: string
 ): ConnectorRenderInfo {
     const { strokeWidth } = layoutConfig.connector;
@@ -100,7 +102,7 @@ function createConnectorToNextNode(
     const connectorRenderInfo = {
         labelType: connectorLabelType,
         geometry,
-        addInfo: { offsetY: addOffset, menuOpened },
+        addInfo: showAdd ? { offsetY: addOffset, menuOpened } : undefined,
         connectionInfo,
         svgInfo: createStraightConnectorSvgInfo(height, svgMarginTop, svgMarginBottom, layoutConfig),
         labelOffsetY: labelOffset,

@@ -1,4 +1,13 @@
 import {
+    createFlow,
+    flowModelFromElements,
+    BRANCH_ELEMENT,
+    BRANCH_ELEMENT_GUID,
+    START_ELEMENT_GUID,
+    END_ELEMENT_GUID
+} from './testUtils';
+
+import {
     linkElement,
     linkBranchOrFault,
     findFirstElement,
@@ -12,153 +21,109 @@ import {
 } from '../modelUtils';
 import { FAULT_INDEX } from '../model';
 
-function toElementsMap(...elements) {
-    return elements.reduce((state, element) => {
-        state[element.guid] = element;
-        return state;
-    }, {});
-}
-
 function getSubElementGuids() {
     return [];
-}
-
-/**
- * Util to create a branching element
- *
- * @param {Guid} parent - A parent guid
- * @param {Guid[][]} branches - An array of branches. A branch is an array of guids, where null denotes an end node
- * @param {Guid} parentNext - A parent next guid
- */
-function createBranch(parent, branches, parentNext) {
-    const elements = [];
-
-    const branchingElement = {
-        guid: parent,
-        next: parentNext,
-        children: branches.map((branch, childIndex) => {
-            const headGuid = branch.length > 0 ? branch[0] : null;
-
-            if (headGuid != null) {
-                const branchHeadElement = {
-                    guid: `${parent}:${childIndex}-${headGuid}`,
-                    parent,
-                    childIndex,
-                    isTerminal: true
-                };
-                elements.push(branchHeadElement);
-
-                let prevElement = branchHeadElement;
-                let isTerminal = false;
-
-                branch.forEach((elementGuid, i) => {
-                    if (i === 0) {
-                        // skip the head
-                        return;
-                    }
-                    let guid = `${parent}:${childIndex}-${elementGuid}`;
-
-                    if (elementGuid == null) {
-                        isTerminal = true;
-                        guid = `${parent}:${childIndex}-end-guid`;
-                    }
-
-                    const element = {
-                        guid,
-                        prev: prevElement.guid
-                    };
-
-                    elements.push(element);
-                    prevElement.next = element.guid;
-                    prevElement = element;
-                });
-
-                branchHeadElement.isTerminal = isTerminal;
-                return branchHeadElement.guid;
-            }
-
-            return null;
-        })
-    };
-
-    elements.push(branchingElement);
-
-    if (parentNext != null) {
-        elements.push({
-            guid: parentNext,
-            prev: branchingElement.guid
-        });
-    }
-
-    return toElementsMap(...elements);
 }
 
 describe('modelUtils', () => {
     describe('addElement', () => {
         it('add end node to left branch of decision with empty branches', () => {
-            const elements = createBranch('parent-guid', [[], []], 'parent-next-guid');
-            addElement(elements, { guid: 'new-end-element-guid', parent: 'parent-guid', childIndex: 0 }, true);
+            const elements = createFlow([BRANCH_ELEMENT_GUID]);
+            addElement(elements, { guid: 'new-end-element-guid', parent: 'branch-guid', childIndex: 0 }, true);
             expect(elements).toMatchSnapshot();
         });
 
         it('add end node to left branch of decision with with non-empty right branch', () => {
-            const elements = createBranch('parent-guid', [[], ['head-guid']], 'parent-next-guid');
-            addElement(elements, { guid: 'new-end-element-guid', parent: 'parent-guid', childIndex: 0 }, true);
+            const branchingElement = { ...BRANCH_ELEMENT };
+            branchingElement.children = [null, ['head-guid']];
+            const elements = createFlow([branchingElement]);
+            addElement(elements, { guid: 'new-end-element-guid', parent: 'branch-guid', childIndex: 0 }, true);
             expect(elements).toMatchSnapshot();
         });
 
         it('add end node to left branch of decision with with non-empty left branch', () => {
-            const elements = createBranch('parent-guid', [['head-guid'], []], 'parent-next-guid');
-            addElement(elements, { guid: 'new-end-element-guid', prev: 'parent-guid:0-head-guid' }, true);
+            const branchingElement = { ...BRANCH_ELEMENT };
+            branchingElement.children = [['head-guid'], null];
+            const elements = createFlow([branchingElement]);
+
+            addElement(elements, { guid: 'new-end-element-guid', prev: 'branch-guid:0-head-guid' }, true);
+            expect(elements).toMatchSnapshot();
+        });
+
+        it('add end complex 1', () => {
+            const nestedBranchingElement = { ...BRANCH_ELEMENT };
+            nestedBranchingElement.children = [[END_ELEMENT_GUID], null];
+
+            const branchingElement = { ...BRANCH_ELEMENT };
+            branchingElement.children = [[nestedBranchingElement], null];
+
+            const elements = createFlow([branchingElement]);
+
+            addElement(elements, { guid: 'new-end-element-guid', parent: 'branch-guid', childIndex: 1 }, true);
+            expect(elements).toMatchSnapshot();
+        });
+
+        it('add end complex 2', () => {
+            const nestedBranchingElement = { ...BRANCH_ELEMENT };
+            nestedBranchingElement.children = [[END_ELEMENT_GUID], null];
+
+            const branchingElement = { ...BRANCH_ELEMENT };
+            branchingElement.children = [[nestedBranchingElement], null];
+
+            const elements = createFlow([branchingElement]);
+
+            addElement(
+                elements,
+                { guid: 'new-end-element-guid', parent: 'branch-guid:0-branch-guid', childIndex: 1 },
+                true
+            );
             expect(elements).toMatchSnapshot();
         });
     });
 
     describe('getTargetGuidsForBranchReconnect', () => {
         it('returns elements on a different branch', () => {
-            const elements = createBranch('parent-guid', [
-                ['head-guid', null],
-                ['head-guid', 'random-guid', null]
-            ]);
+            const branchingElement = { ...BRANCH_ELEMENT };
+            branchingElement.children = [
+                ['head-guid', END_ELEMENT_GUID],
+                ['head-guid', 'random-guid', END_ELEMENT_GUID]
+            ];
 
-            expect(getTargetGuidsForBranchReconnect(elements, 'parent-guid:0-end-guid')).toEqual([
-                'parent-guid:1-head-guid',
-                'parent-guid:1-random-guid',
-                'parent-guid:1-end-guid'
+            const elements = createFlow([START_ELEMENT_GUID, branchingElement], false);
+            expect(getTargetGuidsForBranchReconnect(elements, 'branch-guid:0-end-guid')).toEqual([
+                'branch-guid:1-head-guid',
+                'branch-guid:1-random-guid',
+                'branch-guid:1-end-guid'
             ]);
         });
 
         it('returns the merge element when parent has next', () => {
-            const elements = createBranch(
-                'parent-guid',
-                [['head-guid', null], ['head-guid', 'random-guid'], ['head-guid']],
-                'merge-guid'
-            );
-
-            expect(getTargetGuidsForBranchReconnect(elements, 'parent-guid:0-end-guid')).toEqual(['merge-guid']);
+            const branchingElement = { ...BRANCH_ELEMENT };
+            branchingElement.children = [['head-guid', END_ELEMENT_GUID], ['head-guid', 'random-guid'], ['head-guid']];
+            const elements = createFlow([branchingElement]);
+            expect(getTargetGuidsForBranchReconnect(elements, 'branch-guid:0-end-guid')).toEqual(['end-guid']);
         });
     });
 
     describe('reconnectBranchElement', () => {
         it('reconnects to an element on another branch', () => {
-            const elements = createBranch('parent-guid', [
-                ['head-guid', null],
-                ['head-guid', 'random-guid', null]
-            ]);
+            const branchingElement = { ...BRANCH_ELEMENT };
+            branchingElement.children = [
+                ['head-guid', END_ELEMENT_GUID],
+                ['head-guid', 'random-guid', END_ELEMENT_GUID]
+            ];
+            const elements = createFlow([branchingElement]);
 
             expect(
-                reconnectBranchElement(elements, 'parent-guid:0-end-guid', 'parent-guid:1-random-guid')
+                reconnectBranchElement(elements, 'branch-guid:0-end-guid', 'branch-guid:1-random-guid')
             ).toMatchSnapshot();
         });
 
         it('reconnects to the merge element', () => {
-            const elements = createBranch(
-                'parent-guid',
-                [['head-guid', null], ['head-guid', 'random-guid'], ['head-guid']],
-                'merge-guid'
-            );
-
-            expect(reconnectBranchElement(elements, 'parent-guid:0-end-guid', 'merge-guid')).toMatchSnapshot();
+            const branchingElement = { ...BRANCH_ELEMENT };
+            branchingElement.children = [['head-guid', END_ELEMENT_GUID], ['head-guid', 'random-guid'], ['head-guid']];
+            const elements = createFlow([branchingElement]);
+            expect(reconnectBranchElement(elements, 'branch-guid:0-end-guid', 'end-guid')).toMatchSnapshot();
         });
     });
 
@@ -342,7 +307,7 @@ describe('modelUtils', () => {
                 next: null
             };
 
-            const elements = toElementsMap(firstElement, lastElement);
+            const elements = flowModelFromElements([firstElement, lastElement]);
 
             expect(findFirstElement(lastElement, elements)).toBe(firstElement);
             expect(findLastElement(firstElement, elements)).toBe(lastElement);
@@ -369,7 +334,7 @@ describe('modelUtils', () => {
                 next: null
             };
 
-            const elements = toElementsMap(firstElement, inlineElement, lastElement);
+            const elements = flowModelFromElements([firstElement, inlineElement, lastElement]);
 
             const expectedState = {
                 state: {
@@ -438,14 +403,14 @@ describe('modelUtils', () => {
                 next: null
             };
 
-            const elements = toElementsMap(
+            const elements = flowModelFromElements([
                 branchingElement,
                 mergeElement,
                 branchHeadOne,
                 branchHeadTwo,
                 faultBranchHeadElement,
                 faultBranchEndElement
-            );
+            ]);
 
             const expectedState = {
                 state: {
@@ -489,7 +454,7 @@ describe('modelUtils', () => {
                 next: null
             };
 
-            const elements = toElementsMap(branchingElement, mergeElement, branchHeadElement);
+            const elements = flowModelFromElements([branchingElement, mergeElement, branchHeadElement]);
 
             const expectedState = {
                 state: {
@@ -541,7 +506,7 @@ describe('modelUtils', () => {
                 isTerminal: true
             };
 
-            const elements = toElementsMap(firstElement, inlineElement, branchElementOne, branchElementTwo);
+            const elements = flowModelFromElements([firstElement, inlineElement, branchElementOne, branchElementTwo]);
 
             const expectedState = {
                 state: {
@@ -601,14 +566,14 @@ describe('modelUtils', () => {
                 next: null
             };
 
-            const elements = toElementsMap(
+            const elements = flowModelFromElements([
                 firstElement,
                 inlineElement,
                 branchHeadElement,
                 endElementOne,
                 endElementTwo,
                 lastElement
-            );
+            ]);
 
             const expectedState = {
                 state: {
@@ -696,15 +661,6 @@ describe('modelUtils', () => {
 
     describe('deleteBranch', () => {
         it('deletes all the elements in the branch', () => {
-            const faultElement = {
-                guid: 'fault-element-guid'
-            };
-
-            const element = {
-                guid: 'element-guid',
-                fault: faultElement.guid
-            };
-
             const elements = {
                 decision1: {
                     guid: 'decision1',
@@ -723,9 +679,9 @@ describe('modelUtils', () => {
             };
 
             deleteBranch(elements, 'decision1', getSubElementGuids);
-            expect(elements['decision1']).toBeUndefined();
-            expect(elements['screen1']).toBeUndefined();
-            expect(elements['screen2']).toBeUndefined();
+            expect(elements.decision1).toBeUndefined();
+            expect(elements.screen1).toBeUndefined();
+            expect(elements.screen2).toBeUndefined();
         });
     });
 });

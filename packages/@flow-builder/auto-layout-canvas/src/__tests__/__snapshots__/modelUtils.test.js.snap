@@ -1,172 +1,401 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`modelUtils addElement add end complex 1 1`] = `
+Object {
+  "branch-guid": Object {
+    "children": Array [
+      "branch-guid:0-branch-guid",
+      "new-end-element-guid",
+    ],
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid",
+    "next": null,
+    "prev": "start-guid",
+  },
+  "branch-guid:0-branch-guid": Object {
+    "childIndex": 0,
+    "children": Array [
+      "branch-guid:0-branch-guid:0-branch-guid:0-end-guid",
+      "end-guid",
+    ],
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid:0-branch-guid",
+    "isTerminal": true,
+    "next": null,
+    "parent": "branch-guid",
+  },
+  "branch-guid:0-branch-guid:0-branch-guid:0-end-guid": Object {
+    "childIndex": 0,
+    "elementType": "end",
+    "guid": "branch-guid:0-branch-guid:0-branch-guid:0-end-guid",
+    "isTerminal": true,
+    "parent": "branch-guid:0-branch-guid",
+    "prev": "start-guid",
+  },
+  "end-guid": Object {
+    "childIndex": 1,
+    "elementType": "end",
+    "guid": "end-guid",
+    "isTerminal": true,
+    "parent": "branch-guid:0-branch-guid",
+    "prev": null,
+  },
+  "new-end-element-guid": Object {
+    "childIndex": 1,
+    "guid": "new-end-element-guid",
+    "isTerminal": true,
+    "parent": "branch-guid",
+    "prev": null,
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "elementType": "start",
+    "guid": "start-guid",
+    "isTerminal": true,
+    "next": "branch-guid",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils addElement add end complex 2 1`] = `
+Object {
+  "branch-guid": Object {
+    "children": Array [
+      "branch-guid:0-branch-guid",
+      "end-guid",
+    ],
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid",
+    "next": null,
+    "prev": "start-guid",
+  },
+  "branch-guid:0-branch-guid": Object {
+    "childIndex": 0,
+    "children": Array [
+      "branch-guid:0-branch-guid:0-branch-guid:0-end-guid",
+      "new-end-element-guid",
+    ],
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid:0-branch-guid",
+    "isTerminal": true,
+    "parent": "branch-guid",
+  },
+  "branch-guid:0-branch-guid:0-branch-guid:0-end-guid": Object {
+    "childIndex": 0,
+    "elementType": "end",
+    "guid": "branch-guid:0-branch-guid:0-branch-guid:0-end-guid",
+    "isTerminal": true,
+    "parent": "branch-guid:0-branch-guid",
+    "prev": "start-guid",
+  },
+  "end-guid": Object {
+    "childIndex": 1,
+    "elementType": "end",
+    "guid": "end-guid",
+    "isTerminal": true,
+    "parent": "branch-guid",
+    "prev": null,
+  },
+  "new-end-element-guid": Object {
+    "childIndex": 1,
+    "guid": "new-end-element-guid",
+    "isTerminal": true,
+    "parent": "branch-guid:0-branch-guid",
+    "prev": null,
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "elementType": "start",
+    "guid": "start-guid",
+    "isTerminal": true,
+    "next": "branch-guid",
+    "parent": "root",
+  },
+}
+`;
+
 exports[`modelUtils addElement add end node to left branch of decision with empty branches 1`] = `
 Object {
+  "branch-guid": Object {
+    "children": Array [
+      "new-end-element-guid",
+      "end-guid",
+    ],
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid",
+    "next": null,
+    "prev": "start-guid",
+  },
+  "end-guid": Object {
+    "childIndex": 1,
+    "elementType": "end",
+    "guid": "end-guid",
+    "isTerminal": true,
+    "parent": "branch-guid",
+    "prev": null,
+  },
   "new-end-element-guid": Object {
     "childIndex": 0,
     "guid": "new-end-element-guid",
     "isTerminal": true,
-    "parent": "parent-guid",
+    "parent": "branch-guid",
     "prev": null,
   },
-  "parent-guid": Object {
+  "root": Object {
     "children": Array [
-      "new-end-element-guid",
-      "parent-next-guid",
+      "start-guid",
     ],
-    "guid": "parent-guid",
-    "isTerminal": true,
-    "next": null,
+    "elementType": "root",
+    "guid": "root",
   },
-  "parent-next-guid": Object {
-    "childIndex": 1,
-    "guid": "parent-next-guid",
+  "start-guid": Object {
+    "childIndex": 0,
+    "elementType": "start",
+    "guid": "start-guid",
     "isTerminal": true,
-    "parent": "parent-guid",
-    "prev": null,
+    "next": "branch-guid",
+    "parent": "root",
   },
 }
 `;
 
 exports[`modelUtils addElement add end node to left branch of decision with with non-empty left branch 1`] = `
 Object {
-  "new-end-element-guid": Object {
-    "guid": "new-end-element-guid",
-    "prev": "parent-guid:0-head-guid",
-  },
-  "parent-guid": Object {
+  "branch-guid": Object {
     "children": Array [
-      "parent-guid:0-head-guid",
-      "parent-next-guid",
+      "branch-guid:0-head-guid",
+      "end-guid",
     ],
-    "guid": "parent-guid",
-    "isTerminal": true,
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid",
     "next": null,
+    "prev": "start-guid",
   },
-  "parent-guid:0-head-guid": Object {
+  "branch-guid:0-head-guid": Object {
     "childIndex": 0,
-    "guid": "parent-guid:0-head-guid",
+    "guid": "branch-guid:0-head-guid",
     "isTerminal": true,
     "next": "new-end-element-guid",
-    "parent": "parent-guid",
+    "parent": "branch-guid",
   },
-  "parent-next-guid": Object {
+  "end-guid": Object {
     "childIndex": 1,
-    "guid": "parent-next-guid",
+    "elementType": "end",
+    "guid": "end-guid",
     "isTerminal": true,
-    "parent": "parent-guid",
+    "parent": "branch-guid",
     "prev": null,
+  },
+  "new-end-element-guid": Object {
+    "guid": "new-end-element-guid",
+    "prev": "branch-guid:0-head-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "elementType": "start",
+    "guid": "start-guid",
+    "isTerminal": true,
+    "next": "branch-guid",
+    "parent": "root",
   },
 }
 `;
 
 exports[`modelUtils addElement add end node to left branch of decision with with non-empty right branch 1`] = `
 Object {
+  "branch-guid": Object {
+    "children": Array [
+      "new-end-element-guid",
+      "branch-guid:1-head-guid",
+    ],
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid",
+    "next": null,
+    "prev": "start-guid",
+  },
+  "branch-guid:1-head-guid": Object {
+    "childIndex": 1,
+    "guid": "branch-guid:1-head-guid",
+    "isTerminal": true,
+    "next": "end-guid",
+    "parent": "branch-guid",
+  },
+  "end-guid": Object {
+    "elementType": "end",
+    "guid": "end-guid",
+    "prev": "branch-guid:1-head-guid",
+  },
   "new-end-element-guid": Object {
     "childIndex": 0,
     "guid": "new-end-element-guid",
     "isTerminal": true,
-    "parent": "parent-guid",
+    "parent": "branch-guid",
     "prev": null,
   },
-  "parent-guid": Object {
+  "root": Object {
     "children": Array [
-      "new-end-element-guid",
-      "parent-guid:1-head-guid",
+      "start-guid",
     ],
-    "guid": "parent-guid",
-    "isTerminal": true,
-    "next": null,
+    "elementType": "root",
+    "guid": "root",
   },
-  "parent-guid:1-head-guid": Object {
-    "childIndex": 1,
-    "guid": "parent-guid:1-head-guid",
+  "start-guid": Object {
+    "childIndex": 0,
+    "elementType": "start",
+    "guid": "start-guid",
     "isTerminal": true,
-    "next": "parent-next-guid",
-    "parent": "parent-guid",
-  },
-  "parent-next-guid": Object {
-    "guid": "parent-next-guid",
-    "prev": "parent-guid:1-head-guid",
+    "next": "branch-guid",
+    "parent": "root",
   },
 }
 `;
 
 exports[`modelUtils reconnectBranchElement reconnects to an element on another branch 1`] = `
 Object {
-  "parent-guid": Object {
+  "branch-guid": Object {
     "children": Array [
-      "parent-guid:0-head-guid",
-      "parent-guid:1-head-guid",
+      "branch-guid:0-head-guid",
+      "branch-guid:1-head-guid",
     ],
-    "guid": "parent-guid",
-    "isTerminal": false,
-    "next": "parent-guid:1-random-guid",
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid",
+    "next": "branch-guid:1-random-guid",
+    "prev": "start-guid",
   },
-  "parent-guid:0-head-guid": Object {
+  "branch-guid:0-head-guid": Object {
     "childIndex": 0,
-    "guid": "parent-guid:0-head-guid",
+    "guid": "branch-guid:0-head-guid",
     "isTerminal": false,
     "next": null,
-    "parent": "parent-guid",
+    "parent": "branch-guid",
   },
-  "parent-guid:1-end-guid": Object {
-    "guid": "parent-guid:1-end-guid",
-    "prev": "parent-guid:1-random-guid",
+  "branch-guid:1-end-guid": Object {
+    "elementType": "end",
+    "guid": "branch-guid:1-end-guid",
+    "prev": "branch-guid:1-random-guid",
   },
-  "parent-guid:1-head-guid": Object {
+  "branch-guid:1-head-guid": Object {
     "childIndex": 1,
-    "guid": "parent-guid:1-head-guid",
+    "guid": "branch-guid:1-head-guid",
     "isTerminal": false,
     "next": null,
-    "parent": "parent-guid",
+    "parent": "branch-guid",
   },
-  "parent-guid:1-random-guid": Object {
-    "guid": "parent-guid:1-random-guid",
-    "next": "parent-guid:1-end-guid",
-    "prev": "parent-guid",
+  "branch-guid:1-random-guid": Object {
+    "guid": "branch-guid:1-random-guid",
+    "next": "branch-guid:1-end-guid",
+    "prev": "branch-guid",
+  },
+  "end-guid": Object {
+    "elementType": "end",
+    "guid": "end-guid",
+    "prev": "branch-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "elementType": "start",
+    "guid": "start-guid",
+    "isTerminal": false,
+    "next": "branch-guid",
+    "parent": "root",
   },
 }
 `;
 
 exports[`modelUtils reconnectBranchElement reconnects to the merge element 1`] = `
 Object {
-  "merge-guid": Object {
-    "guid": "merge-guid",
-    "prev": "parent-guid",
-  },
-  "parent-guid": Object {
+  "branch-guid": Object {
     "children": Array [
-      "parent-guid:0-head-guid",
-      "parent-guid:1-head-guid",
-      "parent-guid:2-head-guid",
+      "branch-guid:0-head-guid",
+      "branch-guid:1-head-guid",
+      "branch-guid:2-head-guid",
     ],
-    "guid": "parent-guid",
-    "next": "merge-guid",
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid",
+    "next": "end-guid",
+    "prev": "start-guid",
   },
-  "parent-guid:0-head-guid": Object {
+  "branch-guid:0-head-guid": Object {
     "childIndex": 0,
-    "guid": "parent-guid:0-head-guid",
+    "guid": "branch-guid:0-head-guid",
     "isTerminal": false,
     "next": null,
-    "parent": "parent-guid",
+    "parent": "branch-guid",
   },
-  "parent-guid:1-head-guid": Object {
+  "branch-guid:1-head-guid": Object {
     "childIndex": 1,
-    "guid": "parent-guid:1-head-guid",
+    "guid": "branch-guid:1-head-guid",
     "isTerminal": false,
-    "next": "parent-guid:1-random-guid",
-    "parent": "parent-guid",
+    "next": "branch-guid:1-random-guid",
+    "parent": "branch-guid",
   },
-  "parent-guid:1-random-guid": Object {
-    "guid": "parent-guid:1-random-guid",
-    "prev": "parent-guid:1-head-guid",
+  "branch-guid:1-random-guid": Object {
+    "guid": "branch-guid:1-random-guid",
+    "prev": "branch-guid:1-head-guid",
   },
-  "parent-guid:2-head-guid": Object {
+  "branch-guid:2-head-guid": Object {
     "childIndex": 2,
-    "guid": "parent-guid:2-head-guid",
+    "guid": "branch-guid:2-head-guid",
     "isTerminal": false,
-    "parent": "parent-guid",
+    "parent": "branch-guid",
+  },
+  "end-guid": Object {
+    "elementType": "end",
+    "guid": "end-guid",
+    "prev": "branch-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "elementType": "start",
+    "guid": "start-guid",
+    "isTerminal": true,
+    "next": "branch-guid",
+    "parent": "root",
   },
 }
 `;

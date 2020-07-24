@@ -241,7 +241,8 @@
         "searchForInObject": "\"{0}\" in {1}",
         "selectObject": "Choose an object",
         "typeaheadResultsListHeaderMobile": "Initial Results for \"{0}\"",
-        "none": "None"
+        "none": "None",
+        "noAccess": "No access"
     },
     "LightningPicklist": {
         "available": "Available",

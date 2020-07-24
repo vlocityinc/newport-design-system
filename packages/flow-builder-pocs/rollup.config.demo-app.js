@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const lwcCompiler = require('@lwc/rollup-plugin');
 const syntheticShadow = require('./synthetic-shadow');
 import replace from '@rollup/plugin-replace';
@@ -44,7 +45,11 @@ plugins.push({
   resolveId(id) {
     for (const [regex, filepath] of compiledModuleNameMapper.entries()) {
       if (regex.test(id)) {
-        return id.replace(regex, filepath);
+        let resolved = id.replace(regex, filepath);
+        if (!fs.existsSync(resolved)) {
+          resolved = './src/demo-app/missingLabel.js';
+        }
+        return resolved;
       }
     }
     return undefined;

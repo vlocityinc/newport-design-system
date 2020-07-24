@@ -22,10 +22,6 @@
         "headerLabel":"Logic",
         "headerItems":[
           {
-            "name":"SteppedStage",
-            "type":"element"
-          },
-          {
             "name":"Assignment",
             "type":"element"
           },

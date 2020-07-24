@@ -5,6 +5,7 @@
     "LookupTraversal",
     "DynamicTypes",
     "RollbackModeInDebug",
-    "IsDebugAsUserAllowedInNonPrd"
+    "IsDebugAsUserAllowedInNonPrd",
+    "GlobalVariables"
   ]
 }

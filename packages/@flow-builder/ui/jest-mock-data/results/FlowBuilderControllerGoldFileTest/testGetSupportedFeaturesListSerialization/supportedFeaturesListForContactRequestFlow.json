@@ -2,6 +2,7 @@
   "supportedFeaturesListForContactRequestFlow":[
     "StoreOutputAutomatically",
     "LookupTraversal",
-    "IsDebugAsUserAllowedInNonPrd"
+    "IsDebugAsUserAllowedInNonPrd",
+    "GlobalVariables"
   ]
 }

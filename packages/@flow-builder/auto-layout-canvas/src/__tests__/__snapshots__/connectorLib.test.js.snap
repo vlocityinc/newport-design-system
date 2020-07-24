@@ -47,10 +47,7 @@ Object {
 
 exports[`connectorLib createConnectorToNextNode 1`] = `
 Object {
-  "addInfo": Object {
-    "menuOpened": false,
-    "offsetY": 60,
-  },
+  "addInfo": undefined,
   "connectionInfo": Object {
     "next": "nextGuid",
     "prev": "prevGuid",

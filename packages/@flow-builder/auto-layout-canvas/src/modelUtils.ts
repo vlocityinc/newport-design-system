@@ -1,4 +1,8 @@
 import { NodeModel, FlowModel, ParentNodeModel, BranchHeadNodeModel, NodeRef, Guid, FAULT_INDEX } from './model';
+import ElementType from './ElementType';
+
+// TODO: use elementsMetadata
+const LOOP = 'Loop';
 
 /**
  * Utils for the flow model
@@ -344,7 +348,7 @@ function findParentElement(element: NodeModel, flowModel: FlowModel): ParentNode
  * @returns true if it is a branching element, false otherwise
  */
 function isBranchingElement(element: NodeModel): boolean {
-    return element.hasOwnProperty('children');
+    return element.hasOwnProperty('children') && element.elementType !== LOOP;
 }
 
 /**
@@ -356,6 +360,14 @@ function isBranchingElement(element: NodeModel): boolean {
  */
 function resolveNode(flowModel: FlowModel, guid: NodeRef): NodeModel | null {
     return guid != null ? flowModel[guid] : null;
+}
+
+function resolveBranchHead(flowModel: FlowModel, guid: Guid): BranchHeadNodeModel {
+    return resolveNode(flowModel, guid) as BranchHeadNodeModel;
+}
+
+function resolveParent(flowModel: FlowModel, guid: Guid): ParentNodeModel {
+    return resolveNode(flowModel, guid) as ParentNodeModel;
 }
 
 type GetSubElementGuids = (node: NodeModel, state: FlowModel) => Guid[];
@@ -549,12 +561,44 @@ function addElement(flowModel: FlowModel, element: NodeModel, isEndElement: bool
         linkElement(flowModel, element);
     }
 
-    // when adding an end element, we might need to restructure things
     if (isEndElement) {
-        restructureFlow(element, flowModel);
+        let branchHead = findFirstElement(element, flowModel) as BranchHeadNodeModel;
+
+        // mark the branch as a terminal branch
+        branchHead.isTerminal = true;
+
+        let branchParent = resolveParent(flowModel, branchHead.parent)!;
+
+        // when adding an end element, we might need to restructure things:
+        // find the first branching ancestor with a non-null `next` and
+        // attempt to inline branches from there
+        while (!isRoot(branchParent.guid) && branchParent.elementType !== LOOP) {
+            if (branchParent.next != null) {
+                // once we find the first ancestor with a non-null 'next', we can inline from there,
+                // the other parts of the tree are not affected by add end operation
+                inlineBranches(branchParent, flowModel);
+                break;
+            } else {
+                branchHead = findFirstElement(branchParent, flowModel);
+                // as we go up the ancestor chain, update isTerminal as it might have been invalidated
+                // by the new sub tree structure
+                branchHead.isTerminal = areAllBranchesTerminals(branchParent, flowModel);
+                branchParent = resolveParent(flowModel, branchHead.parent)!;
+            }
+        }
     }
 }
 
+export function isRoot(guid: Guid) {
+    return guid === ElementType.ROOT;
+}
+/**
+ * Checks if all branches are terminal
+ *
+ * @param parentElement - the parent element
+ * @param state - the flow state
+ * @return true if all branches are terminal
+ */
 export function areAllBranchesTerminals(parentElement: ParentNodeModel, state: FlowModel) {
     let allTerminalBranches = true;
 
@@ -568,64 +612,55 @@ export function areAllBranchesTerminals(parentElement: ParentNodeModel, state: F
 }
 
 /**
- * When adding an end element we might need to restructure the flow
- * @param element - end element
- * @param state - current state of elements in the store
+ * Inlines branches recursively when possible.
+ * If a parentElement has only one non terminal branch, then the elements following
+ * parentElement can be inlined under that branch.
+ *
+ * @param parentElement - The parent element
+ * @param state - The flow state
  */
-function restructureFlow(element: NodeModel, state: FlowModel): void {
-    const branchFirstElement = findFirstElement(element, state) as BranchHeadNodeModel;
+function inlineBranches(parentElement: ParentNodeModel, state: FlowModel) {
+    const { children } = parentElement;
 
-    // mark the branch as a terminal branch
-    branchFirstElement.isTerminal = true;
-
-    const parentElement = resolveNode(state, branchFirstElement.parent) as ParentNodeModel;
-    if (parentElement == null) {
-        return;
-    }
-
-    const children = parentElement.children;
-
-    // find the indexes of the non-terminal branches
-    // (there will always be at least one when adding an end element)
     const nonTerminalBranchIndexes = children
         .map((child: NodeRef, index: number) => {
-            if (child == null || !(state[child] as BranchHeadNodeModel).isTerminal) {
+            if (child == null || !resolveBranchHead(state, child).isTerminal) {
                 return index;
             } else {
                 return -1;
             }
         })
-        .filter((index: number) => index !== FAULT_INDEX);
+        .filter((index: number | null) => index !== -1);
 
     if (nonTerminalBranchIndexes.length === 1) {
-        // we have one non-terminal branch, so we need to restructure
+        // we have one non-terminal branch, so we can inline
         const [branchIndex] = nonTerminalBranchIndexes;
-        let branchHead = children[branchIndex];
-        const parentNext = resolveNode(state, parentElement.next);
+        let branchHeadGuid = children[branchIndex!];
 
-        const branchTail = branchHead ? findLastElement(state[branchHead], state) : null;
+        const parentNext = resolveParent(state, parentElement.next!);
 
-        if (branchTail != null) {
+        let branchTail;
+        if (branchHeadGuid != null) {
+            branchTail = findLastElement(resolveBranchHead(state, branchHeadGuid), state);
+
             //  reconnect the elements that follow the parent element to the tail of the branch
             branchTail.next = parentElement.next;
             linkElement(state, branchTail);
-        } else if (parentNext != null) {
+        } else {
             // its an empty branch, so make the elements that follow the parent element be the branch itself
             parentNext.prev = null;
             linkBranchOrFault(state, parentElement, branchIndex, parentNext);
-            (parentNext as BranchHeadNodeModel).isTerminal = true;
-            branchHead = parentNext.guid;
+            branchHeadGuid = parentNext.guid;
+            branchTail = parentNext;
         }
 
-        if (branchHead != null) {
-            (resolveNode(state, branchHead) as BranchHeadNodeModel).isTerminal = true;
-        }
-
+        resolveBranchHead(state, branchHeadGuid!).isTerminal = true;
         parentElement.next = null;
-    }
 
-    if (areAllBranchesTerminals(parentElement, state)) {
-        findFirstElement(parentElement, state).isTerminal = true;
+        // recursive inline from the branch tail
+        if (isBranchingElement(branchTail!)) {
+            inlineBranches(branchTail as ParentNodeModel, state);
+        }
     }
 }
 

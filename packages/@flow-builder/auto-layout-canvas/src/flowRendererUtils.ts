@@ -2,7 +2,16 @@ import { LayoutInfo, NodeLayoutMap, getBranchLayoutKey } from './layout';
 import ConnectorType from './ConnectorTypeEnum';
 import ConnectorLabelType from './ConnectorLabelTypeEnum';
 import { SvgInfo, Geometry } from './svgUtils';
-import { FlowModel, ElementsMetadata, ElementMetadata, NodeRef, NodeModel, Guid } from './model';
+import {
+    FlowModel,
+    ElementsMetadata,
+    ElementMetadata,
+    NodeRef,
+    NodeModel,
+    BranchHeadNodeModel,
+    ParentNodeModel,
+    Guid
+} from './model';
 import MenuType from './MenuType';
 import ElementType from './ElementType';
 
@@ -240,5 +249,9 @@ function getConnectorConfig(
 
     return connectorConfig;
 }
+const getMergeOutcomeCount = (flowModel: FlowModel, node: NodeModel) =>
+    (node as ParentNodeModel).children.reduce((count, child) => {
+        return child == null || !(flowModel[child] as BranchHeadNodeModel).isTerminal ? count + 1 : count;
+    }, 0);
 
-export { getBranchLayout, tween, getLayout, getConnectorConfig };
+export { getBranchLayout, tween, getLayout, getConnectorConfig, getMergeOutcomeCount };

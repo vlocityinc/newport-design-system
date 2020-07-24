@@ -69,7 +69,7 @@ async function checkProjectPomProperties(branch) {
         const hasErrors = propertiesNotInSync.length > 0;
 
         if (hasErrors) {
-            printError('\nRun `yarn update:syncPomToCore` to update.');
+            printError('\nEdit pom.xml and update.');
         } else {
             printSuccess('pom.xml in sync with core');
         }

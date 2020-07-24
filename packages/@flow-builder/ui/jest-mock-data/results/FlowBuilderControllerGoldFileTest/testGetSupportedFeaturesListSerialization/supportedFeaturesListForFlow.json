@@ -4,6 +4,7 @@
     "StoreOutputAutomatically",
     "LookupTraversal",
     "DynamicTypes",
-    "IsDebugAsUserAllowedInNonPrd"
+    "IsDebugAsUserAllowedInNonPrd",
+    "GlobalVariables"
   ]
 }

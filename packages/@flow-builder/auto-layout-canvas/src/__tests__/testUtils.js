@@ -47,6 +47,38 @@ const ACTION_ELEMENT = {
     elementType: ElementType.DEFAULT
 };
 
+function getElementByType(type) {
+    let element;
+
+    switch (type) {
+        case SCREEN_ELEMENT_GUID:
+            element = SCREEN_ELEMENT;
+            break;
+        case ACTION_ELEMENT_GUID:
+            element = ACTION_ELEMENT;
+            break;
+        case ROOT_ELEMENT_GUID:
+            element = ROOT_ELEMENT;
+            break;
+        case START_ELEMENT_GUID:
+            element = START_ELEMENT;
+            break;
+        case END_ELEMENT_GUID:
+            element = END_ELEMENT;
+            break;
+        case BRANCH_ELEMENT_GUID:
+            element = BRANCH_ELEMENT;
+            break;
+        case LOOP_ELEMENT_GUID:
+            element = LOOP_ELEMENT;
+            break;
+        default:
+            element = null;
+    }
+
+    return element != null ? deepCopy(element) : null;
+}
+
 const elementsMetadata = {
     [ElementType.ROOT]: {
         type: ElementType.ROOT,
@@ -77,6 +109,10 @@ const elementsMetadata = {
         icon: 'standard:default'
     }
 };
+
+function deepCopy(element) {
+    return JSON.parse(JSON.stringify(element));
+}
 
 function createDefaultElement(guid) {
     return createElementWithElementType(guid, ElementType.DEFAULT);
@@ -122,39 +158,107 @@ function linkElements(elements) {
     });
 }
 
+function createFlow(rootBranchElements, addStartAndEnd = true) {
+    const elementsMap = {};
+    const rootElement = { ...ROOT_ELEMENT };
+    elementsMap[rootElement.guid] = rootElement;
+    rootBranchElements = addStartAndEnd
+        ? [START_ELEMENT_GUID, ...rootBranchElements, END_ELEMENT_GUID]
+        : rootBranchElements;
+    createBranch(rootBranchElements, rootElement, 0, elementsMap, '');
+    return elementsMap;
+}
+
+function createBranch(
+    branch,
+    parentElement = getElementByType(ElementType.ROOT),
+    childIndex = 0,
+    elementsMap = {},
+    prefix
+) {
+    let prevElement = null;
+    let nextElement = null;
+
+    let hasEnd = false;
+    let branchHead;
+
+    branch.forEach(elementInfo => {
+        nextElement = createElement(elementInfo, elementsMap, prefix);
+
+        if (prevElement == null) {
+            nextElement.parent = parentElement.guid;
+            nextElement.childIndex = childIndex;
+            branchHead = nextElement;
+            parentElement.children[childIndex] = branchHead.guid;
+        } else {
+            nextElement.prev = prevElement.guid;
+            prevElement.next = nextElement.guid;
+        }
+
+        if (nextElement.elementType === ElementType.END) {
+            hasEnd = true;
+        }
+        prevElement = nextElement;
+    });
+
+    branchHead.isTerminal = hasEnd;
+
+    return branchHead;
+}
+
+function createElement(elementInfo, elementsMap = {}, prefix) {
+    let element;
+    if (typeof elementInfo === 'string') {
+        element = deepCopy(getElementByType(elementInfo)) || { guid: elementInfo };
+        element.guid = `${prefix}${element.guid}`;
+    } else {
+        element = deepCopy(elementInfo);
+        element.guid = `${prefix}${element.guid}`;
+
+        if (elementInfo.children != null) {
+            elementInfo.children.map((childBranch, i) => {
+                if (childBranch == null) {
+                    return null;
+                }
+                return createBranch(childBranch, element, i, elementsMap, `${prefix}${element.guid}:${i}-`);
+            });
+        }
+    }
+
+    elementsMap[element.guid] = element;
+
+    return element;
+}
+
 function linkBranchOrFault(branchElement, headElement, childIndex) {
     branchElement.children[childIndex] = headElement.guid;
     return { ...headElement, parent: branchElement.guid, childIndex };
 }
 
 function getEmptyFlowContext() {
-    const elements = linkElements([START_ELEMENT, END_ELEMENT]);
-    const flowModel = flowModelFromElements([ROOT_ELEMENT, ...elements]);
+    const flowModel = createFlow([]);
     return createFlowRenderContext({ flowModel });
 }
 
 function getSimpleFlowContext() {
-    const elements = linkElements([START_ELEMENT, SCREEN_ELEMENT, END_ELEMENT]);
-    const flowModel = flowModelFromElements([ROOT_ELEMENT, ...elements]);
+    const flowModel = createFlow([SCREEN_ELEMENT_GUID]);
     return createFlowRenderContext({ flowModel });
 }
 
 function getFlowWithEmptyDecisionContext() {
-    const elements = linkElements([START_ELEMENT, BRANCH_ELEMENT, END_ELEMENT]);
-    const flowModel = flowModelFromElements([ROOT_ELEMENT, ...elements]);
+    const flowModel = createFlow([BRANCH_ELEMENT_GUID]);
     return createFlowRenderContext({ flowModel });
 }
 
 function getFlowWithEmptyLoopContext() {
-    const elements = linkElements([START_ELEMENT, LOOP_ELEMENT, END_ELEMENT]);
-    const flowModel = flowModelFromElements([ROOT_ELEMENT, ...elements]);
+    const flowModel = createFlow([LOOP_ELEMENT_GUID]);
     return createFlowRenderContext({ flowModel });
 }
 
 function getFlowWithEmptyDeciisionWith3BranchesContext() {
     const branchElement = { ...BRANCH_ELEMENT, children: [null, null, null] };
-    const elements = linkElements([START_ELEMENT, branchElement, END_ELEMENT]);
-    const flowModel = flowModelFromElements([ROOT_ELEMENT, ...elements]);
+
+    const flowModel = createFlow([branchElement]);
     return createFlowRenderContext({ flowModel });
 }
 
@@ -202,6 +306,9 @@ function getFlowWithTwoFaults() {
 }
 
 export {
+    BRANCH_ELEMENT_GUID,
+    END_ELEMENT_GUID,
+    START_ELEMENT_GUID,
     ROOT_ELEMENT,
     START_ELEMENT,
     END_ELEMENT,
@@ -218,5 +325,6 @@ export {
     getFlowWithEmptyLoopContext,
     getSimpleFlowContext,
     getFlowWithDecisionWithEndedLeftBranchContext,
-    getFlowWithTwoFaults
+    getFlowWithTwoFaults,
+    createFlow
 };

@@ -23,6 +23,7 @@ import {
     getLayout,
     getBranchLayout,
     Option,
+    getMergeOutcomeCount,
     FlowRenderContext
 } from './flowRendererUtils';
 
@@ -272,7 +273,7 @@ function createNextConnector(
     context: FlowRenderContext,
     variant: ConnectorVariant
 ): ConnectorRenderInfo {
-    const { progress, nodeLayoutMap, interactionState, elementsMetadata, isDeletingBranch } = context;
+    const { flowModel, progress, nodeLayoutMap, interactionState, elementsMetadata, isDeletingBranch } = context;
     const { y, joinOffsetY } = getLayout(node.guid, progress, nodeLayoutMap);
     const { elementType } = node;
 
@@ -286,9 +287,12 @@ function createNextConnector(
             ? ConnectorVariant.POST_MERGE
             : ConnectorVariant.DEFAULT;
 
+    let showAdd = true;
+
     if (mainVariant === ConnectorVariant.POST_MERGE) {
         offsetY = joinOffsetY;
         height = height - joinOffsetY;
+        showAdd = getMergeOutcomeCount(flowModel, node) !== 1;
     }
 
     if (node.next == null) {
@@ -308,7 +312,8 @@ function createNextConnector(
         context.layoutConfig,
         context.isFault,
         [mainVariant, variant],
-        isDeletingBranch
+        isDeletingBranch,
+        showAdd
     );
 }
 
@@ -633,6 +638,7 @@ function createPreConnector(
         context.isFault || childIndex === FAULT_INDEX,
         variants,
         isDeletingBranch,
+        true,
         connectorBadgeLabel
     );
 }

@@ -1,0 +1,1 @@
+export default '[Placeholder]Start of dialog window, use arrow keys to navigate, click the checkboxes to select debug options or not, if this flow has input variables, type in to override default values. Hit “Run” button to start debug the flow. Click the “Close” icon on top right corner or “Cancel” button will escape and close the window.';

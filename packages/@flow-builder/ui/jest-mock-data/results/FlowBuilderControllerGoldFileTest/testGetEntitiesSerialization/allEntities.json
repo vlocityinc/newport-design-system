@@ -14154,7 +14154,7 @@
       "apiName":"ManagedContent",
       "createable":false,
       "custom":false,
-      "deletable":true,
+      "deletable":false,
       "entityLabel":"Managed Content",
       "entityLabelPlural":"Managed Contents",
       "queryable":true,
@@ -15469,16 +15469,6 @@
       "entityLabelPlural":"Object Permissions",
       "queryable":true,
       "updateable":true
-    },
-    {
-      "apiName":"OmniRoutingEventStore",
-      "createable":true,
-      "custom":false,
-      "deletable":true,
-      "entityLabel":"Omni Routing Event Store",
-      "entityLabelPlural":"Omni Routing Event Stores",
-      "queryable":true,
-      "updateable":false
     },
     {
       "apiName":"OnboardingMetrics",
