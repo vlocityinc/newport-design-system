@@ -135,7 +135,10 @@ export default class FlcBuilder extends LightningElement {
     @api
     set elementsMetadata(elementsMetadata: any[]) {
         this._elementsMetadata = elementsMetadata;
-        this.updateFlowRenderContext();
+        // Used to make sure flow.info sent to flc-flow does not have stale elementsMetadata
+        if (this._elementsMetadata) {
+            this.updateFlowRenderContext({ elementsMetadata: this._convertToElementMetadataMap() });
+        }
     }
 
     get elementsMetadata(): any[] {
@@ -170,10 +173,14 @@ export default class FlcBuilder extends LightningElement {
         return this.menu != null && this.menu.connectorMenu === MenuType.NODE;
     }
 
-    get elementMetadata() {
+    /**
+     * Used to return the data that drives the start node.
+     * This is different from what is in elementsMetadata
+     */
+    get getStartRenderInfo() {
         let item;
         for (item of this.flow.flowInfo.nodes) {
-            if (item.guid === this.menu.guid) {
+            if (item.metadata.type === ElementType.START) {
                 return item.node;
             }
         }
@@ -194,6 +201,19 @@ export default class FlcBuilder extends LightningElement {
         this.isZoomOutDisabled = scale <= MIN_ZOOM + FUDGE;
         this.isZoomToView = this.isZoomInDisabled;
     }
+
+    // TODO to be fix in @W-7865113. This function was used in both flc-node-menu and flc-node-start-menu to replace menu.elementMetadata
+    // get getElementMetadata() {
+    //     let item;
+    //     if (this._elementsMetadata) {
+    //         for (item of this._elementsMetadata) {
+    //             if (item.type === this.menu.elementMetadata.type) {
+    //                 return item;
+    //             }
+    //         }
+    //     }
+    //     return undefined;
+    // }
 
     renderedCallback() {
         if (this._canvasElement == null) {

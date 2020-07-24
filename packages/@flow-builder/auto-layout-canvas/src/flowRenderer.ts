@@ -152,7 +152,7 @@ function renderSimpleNode(node: NodeModel, context: FlowRenderContext): NodeRend
         guid,
         geometry: { x, y, w: layoutConfig.node.icon.w, h },
         menuOpened: isMenuOpened(node.guid, MenuType.NODE, context.interactionState),
-        label: label || guid,
+        label,
         metadata,
         config,
         flows: [],

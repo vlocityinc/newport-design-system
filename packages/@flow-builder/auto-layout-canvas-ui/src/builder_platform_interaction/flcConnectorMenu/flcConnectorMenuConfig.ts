@@ -65,7 +65,10 @@ export const configureMenu = (elementsMetadata, showEndElement, isPasteAvailable
     }
 
     const sections = elementsMetadata.reduce(
-        (acc, { section = null, description, icon, iconShape, iconBackgroundColor, label, elementType, type }) => {
+        (
+            acc,
+            { section = null, description, icon, iconShape, iconBackgroundColor, label, elementType, type, isSupported }
+        ) => {
             if (section == null || (type === ElementType.END && !showEndElement)) {
                 return acc;
             }
@@ -100,23 +103,29 @@ export const configureMenu = (elementsMetadata, showEndElement, isPasteAvailable
                 iconClass = `${iconClass} rotate-icon-svg`;
             }
 
-            sectionDefinition.items.push({
-                guid: generateGuid(),
-                description,
-                label,
-                elementType,
-                icon,
-                iconContainerClass,
-                iconClass,
-                iconSize,
-                iconVariant,
-                rowClass: 'slds-listbox__item'
-            });
+            // Using the new isSupported property to determine what is shown in the connector menu
+            if (isSupported) {
+                sectionDefinition.items.push({
+                    guid: generateGuid(),
+                    description,
+                    label,
+                    elementType,
+                    icon,
+                    iconContainerClass,
+                    iconClass,
+                    iconSize,
+                    iconVariant,
+                    rowClass: 'slds-listbox__item'
+                });
+            }
 
             return acc;
         },
         extraSections
     );
-
-    return { sections };
+    // Filtering out sections that no longer have items in them.
+    const updatedSections = sections.filter(section => {
+        return section.items && section.items.length > 0;
+    });
+    return { sections: updatedSections };
 };

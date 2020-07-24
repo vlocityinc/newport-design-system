@@ -16,16 +16,23 @@ const ACTION_ELEMENT_GUID = 'action-guid';
 const ROOT_ELEMENT = { guid: ROOT_ELEMENT_GUID, elementType: ElementType.ROOT, children: [START_ELEMENT_GUID] };
 const START_ELEMENT = {
     guid: START_ELEMENT_GUID,
+    label: START_ELEMENT_GUID,
     elementType: ElementType.START,
     parent: ROOT_ELEMENT_GUID,
     childIndex: 0,
     next: END_ELEMENT_GUID
 };
 
-const END_ELEMENT = { guid: END_ELEMENT_GUID, elementType: ElementType.END, prev: START_ELEMENT_GUID };
+const END_ELEMENT = {
+    guid: END_ELEMENT_GUID,
+    label: END_ELEMENT_GUID,
+    elementType: ElementType.END,
+    prev: START_ELEMENT_GUID
+};
 
 const BRANCH_ELEMENT = {
     guid: BRANCH_ELEMENT_GUID,
+    label: BRANCH_ELEMENT_GUID,
     elementType: ElementType.BRANCH,
     children: [null, null],
     defaultConnectorLabel: 'Default Connector Label'
@@ -33,17 +40,20 @@ const BRANCH_ELEMENT = {
 
 const LOOP_ELEMENT = {
     guid: LOOP_ELEMENT_GUID,
+    label: LOOP_ELEMENT_GUID,
     elementType: ElementType.LOOP,
     children: [null]
 };
 
 const SCREEN_ELEMENT = {
     guid: SCREEN_ELEMENT_GUID,
+    label: SCREEN_ELEMENT_GUID,
     elementType: SCREEN_ELEMENT_TYPE
 };
 
 const ACTION_ELEMENT = {
     guid: ACTION_ELEMENT_GUID,
+    label: ACTION_ELEMENT_GUID,
     elementType: ElementType.DEFAULT
 };
 
@@ -121,7 +131,8 @@ function createDefaultElement(guid) {
 function createElementWithElementType(guid, elementType) {
     return {
         guid,
-        elementType
+        elementType,
+        label: 'default'
     };
 }
 

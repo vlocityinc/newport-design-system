@@ -3,7 +3,7 @@ import { api } from 'lwc';
 
 export default class FlcNodeStartMenu extends FlcNodeMenu {
     @api
-    elementData;
+    startData;
 
     get hasTrigger() {
         return this.elementMetadata.hasTrigger;
@@ -14,7 +14,7 @@ export default class FlcNodeStartMenu extends FlcNodeMenu {
     }
 
     get startNode() {
-        return { ...this.elementData, ...{ guid: this.guid } };
+        return { ...this.startData, ...{ guid: this.guid } };
     }
 
     get startNodeClass() {

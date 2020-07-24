@@ -31,7 +31,8 @@ function augmentElementsMetadata(elementsMetadata) {
             value: ELEMENT_TYPE.ROOT_ELEMENT,
             type: getFlcElementType(ELEMENT_TYPE.ROOT_ELEMENT),
             canHaveFaultConnector: false,
-            supportsMenu: false
+            supportsMenu: false,
+            isSupported: true
         },
         {
             section: endElement.nodeConfig.section,
@@ -46,7 +47,8 @@ function augmentElementsMetadata(elementsMetadata) {
             elementType: ELEMENT_TYPE.END_ELEMENT,
             type: getFlcElementType(ELEMENT_TYPE.END_ELEMENT),
             canHaveFaultConnector: false,
-            supportsMenu: false
+            supportsMenu: false,
+            isSupported: true
         },
         {
             description: startElementDescription(startElementMetadata.triggerType),
@@ -61,6 +63,7 @@ function augmentElementsMetadata(elementsMetadata) {
             type: getFlcElementType(ELEMENT_TYPE.START_ELEMENT),
             canHaveFaultConnector: false,
             supportsMenu: true,
+            isSupported: true,
             hasTrigger: hasTrigger(startElementMetadata.triggerType),
             hasContext: hasContext(startElementMetadata.triggerType)
         }

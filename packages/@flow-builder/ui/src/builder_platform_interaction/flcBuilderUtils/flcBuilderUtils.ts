@@ -5,8 +5,9 @@ import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { TRIGGER_TYPE_LABELS } from 'builder_platform_interaction/processTypeLib';
 import { getProcessType, shouldUseAutoLayoutCanvas } from 'builder_platform_interaction/storeUtils';
 import { getProcessTypes } from 'builder_platform_interaction/systemLib';
+import { isRecordChangeTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 
-const { NONE, BEFORE_SAVE, AFTER_SAVE, SCHEDULED, PLATFORM_EVENT } = FLOW_TRIGGER_TYPE;
+const { NONE, SCHEDULED, PLATFORM_EVENT } = FLOW_TRIGGER_TYPE;
 import { FlowElement, FlowElements } from 'builder_platform_interaction/flowModel';
 
 /**
@@ -64,12 +65,7 @@ export function addFlcProperties(object, flcProperties) {
 }
 
 export const startElementDescription = triggerType => {
-    if (
-        triggerType === BEFORE_SAVE ||
-        triggerType === AFTER_SAVE ||
-        triggerType === SCHEDULED ||
-        triggerType === PLATFORM_EVENT
-    ) {
+    if (isRecordChangeTriggerType(triggerType) || triggerType === SCHEDULED || triggerType === PLATFORM_EVENT) {
         return TRIGGER_TYPE_LABELS[triggerType];
     }
     const processType = getProcessType();

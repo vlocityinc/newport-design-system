@@ -579,7 +579,7 @@ export default class Editor extends LightningElement {
             const toolboxPromise = getToolboxElements(flowProcessType, flowTriggerType).then(supportedElements => {
                 this.supportedElements = supportedElements;
             });
-
+            let palettePromise;
             if (flowProcessTypeChanged) {
                 const {
                     loadActionsPromise,
@@ -595,12 +595,16 @@ export default class Editor extends LightningElement {
                     }
                 });
 
-                const palettePromise = loadPalettePromise.then(data => {
+                palettePromise = loadPalettePromise.then(data => {
                     this.palette = data;
                 });
 
                 Promise.all([toolboxPromise, palettePromise]).then(() => {
-                    this.elementsMetadata = getElementsMetadata(this.toolboxElements, this.palette);
+                    this.elementsMetadata = getElementsMetadata(
+                        this.toolboxElements,
+                        this.palette,
+                        this.elementsMetadata
+                    );
                     this.spinners.showAutoLayoutSpinner = false;
                 });
 
@@ -610,9 +614,15 @@ export default class Editor extends LightningElement {
             }
 
             if (triggerTypeChanged) {
-                toolboxPromise.then(() => {
-                    this.elementsMetadata = getElementsMetadata(this.toolboxElements, this.palette);
-                });
+                if (this.palette) {
+                    Promise.all([toolboxPromise, palettePromise]).then(() => {
+                        this.elementsMetadata = getElementsMetadata(
+                            this.toolboxElements,
+                            this.palette,
+                            this.elementsMetadata
+                        );
+                    });
+                }
 
                 this.triggerType = flowTriggerType;
                 if (this.triggerType && this.triggerType !== FLOW_TRIGGER_TYPE.NONE) {

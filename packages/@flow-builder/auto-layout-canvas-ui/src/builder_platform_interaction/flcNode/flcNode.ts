@@ -104,6 +104,15 @@ export default class FlcNode extends LightningElement {
         });
     }
 
+    get nodeLabel() {
+        let label = this.nodeInfo.label;
+        // Start has a dynamic label that is set in the metadata.
+        if (!label && this.nodeInfo.metadata.type === ElementType.START) {
+            label = this.nodeInfo.metadata.description;
+        }
+        return label;
+    }
+
     get showElementType() {
         return this.nodeInfo.metadata.type !== ElementType.END;
     }

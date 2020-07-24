@@ -24,7 +24,8 @@ const selectors = {
     startIcon: '.background-green.slds-icon__container_circle',
     decisionIcon: '.rotate-icon-svg',
     selectionCheckbox: '.selection-checkbox',
-    textContainerElementType: '.text-element-type'
+    textContainerElementType: '.text-element-type',
+    textElementLabel: '.text-element-label'
 };
 
 describe('FlcNode', () => {
@@ -222,6 +223,65 @@ describe('FlcNode', () => {
             const flcNodeComponent = createComponentUnderTest({ nodeInfo: endNodeInfo, isSelectionMode: false });
             const endTextElementType = flcNodeComponent.shadowRoot.querySelector(selectors.textContainerElementType);
             expect(endTextElementType).toBeNull();
+        });
+    });
+
+    describe('Label Container', () => {
+        const decisionNodeInfo = {
+            guid: 'guid',
+            config: {
+                isSelected: false,
+                isSelectable: true
+            },
+            metadata: {
+                icon: 'standard:decision',
+                iconShape: ICON_SHAPE.DIAMOND,
+                label: 'elementType',
+                type: ElementType.BRANCH
+            },
+            menuOpened: false,
+            label: 'elementType'
+        };
+
+        const noLabelNodeInfo = {
+            guid: 'guid',
+            metadata: {
+                icon: 'standard:end',
+                iconShape: ICON_SHAPE.CIRCLE,
+                label: 'start',
+                type: ElementType.END
+            },
+            menuOpened: false
+        };
+
+        const startLabelNodeInfo = {
+            guid: 'guid',
+            metadata: {
+                icon: 'standard:end',
+                iconShape: ICON_SHAPE.CIRCLE,
+                label: 'start',
+                type: ElementType.START,
+                description: 'start description'
+            },
+            menuOpened: false
+        };
+
+        it('Should show the label for Decision Element', () => {
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo: decisionNodeInfo, isSelectionMode: false });
+            const decisionTextLabel = flcNodeComponent.shadowRoot.querySelector(selectors.textElementLabel);
+            expect(decisionTextLabel.textContent).toEqual('elementType');
+        });
+
+        it('Should not show the label if undefined', () => {
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo: noLabelNodeInfo, isSelectionMode: false });
+            const noLabelTextLabel = flcNodeComponent.shadowRoot.querySelector(selectors.textElementLabel);
+            expect(noLabelTextLabel.textContent).toEqual('');
+        });
+
+        it('If start node and label is not set, use description in metadata', () => {
+            const flcNodeComponent = createComponentUnderTest({ nodeInfo: startLabelNodeInfo, isSelectionMode: false });
+            const startTextLabel = flcNodeComponent.shadowRoot.querySelector(selectors.textElementLabel);
+            expect(startTextLabel.textContent).toEqual('start description');
         });
     });
 });

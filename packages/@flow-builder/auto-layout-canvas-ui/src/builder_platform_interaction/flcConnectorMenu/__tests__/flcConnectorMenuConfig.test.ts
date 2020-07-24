@@ -17,7 +17,8 @@ const metaData = [
         label: 'Screen',
         value: 'Screen',
         elementType: 'Screen',
-        description: 'Collect information from'
+        description: 'Collect information from',
+        isSupported: true
     },
     {
         section: 'Logic',
@@ -27,7 +28,8 @@ const metaData = [
         label: 'Decision',
         value: 'Decision',
         elementType: 'Decision',
-        description: 'Create Decision'
+        description: 'Create Decision',
+        isSupported: true
     },
     {
         section: 'Logic',
@@ -38,7 +40,8 @@ const metaData = [
         label: 'End',
         value: 'End',
         elementType: 'End',
-        description: 'Create End'
+        description: 'Create End',
+        isSupported: true
     }
 ];
 

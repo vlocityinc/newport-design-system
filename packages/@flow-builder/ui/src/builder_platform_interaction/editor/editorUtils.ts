@@ -809,9 +809,8 @@ export function getToolboxElements(flowProcessType, flowTriggerType) {
 /**
  *  Get the elements metadata for the flc editor
  */
-export function getElementsMetadata(toolboxElements, palette) {
-    const elementsMetadata = [];
-
+export function getElementsMetadata(toolboxElements, palette, existingMetadata = []) {
+    const newElementsMetadata = [];
     getElementSections(toolboxElements, palette).forEach(section => {
         (section._children || []).forEach(
             ({
@@ -824,7 +823,7 @@ export function getElementsMetadata(toolboxElements, palette) {
                 iconShape,
                 iconSize
             }) => {
-                elementsMetadata.push({
+                newElementsMetadata.push({
                     section: section.label,
                     canHaveFaultConnector,
                     supportsMenu: true,
@@ -835,13 +834,28 @@ export function getElementsMetadata(toolboxElements, palette) {
                     icon: iconName,
                     iconShape,
                     iconSize,
-                    value: elementType // TODO: FLC remove this property and just use elementType
+                    value: elementType, // TODO: FLC remove this property and just use elementType
+                    isSupported: true
                 });
             }
         );
     });
-
-    return elementsMetadata;
+    if (existingMetadata.length === 0) {
+        return newElementsMetadata;
+    }
+    const updatedElementsMetadata = [...newElementsMetadata];
+    const newElementsMetadataMap = {};
+    newElementsMetadata.forEach(newMetadata => {
+        newElementsMetadataMap[newMetadata.elementType] = newMetadata;
+    });
+    // Comparing the existing elementMetadata to the newElementsMetadata
+    // If an item of the old list is not found in the new one, push it the the updated list with its "isSupported" property to false
+    existingMetadata.forEach(oldMetadata => {
+        if (!newElementsMetadataMap[oldMetadata.elementType]) {
+            updatedElementsMetadata.push({ ...oldMetadata, isSupported: false });
+        }
+    });
+    return updatedElementsMetadata;
 }
 
 /**
