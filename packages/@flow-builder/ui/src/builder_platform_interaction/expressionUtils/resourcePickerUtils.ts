@@ -116,7 +116,7 @@ export const getMenuData = (
             allowSObjectFieldsTraversal,
             shouldBeWritable: !!(elementConfig && elementConfig.shouldBeWritable),
             sObjectSelectorConfig: elementConfig && elementConfig.sObjectSelectorConfig,
-            forFormula
+            showMultiPicklistGlobalVariables: forFormula
         });
     }
     return Promise.resolve(
