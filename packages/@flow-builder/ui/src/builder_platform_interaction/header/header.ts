@@ -11,6 +11,8 @@ const DEBUG_STATUS = {
     ERROR: 'ERROR'
 };
 
+const BACK_TOOLTIP_CONST = 'slds-popover  slds-nubbin_top slds-popover_tooltip custom-tooltip';
+
 export default class Header extends LightningElement {
     @api
     flowName;
@@ -63,7 +65,7 @@ export default class Header extends LightningElement {
 
     @track isGuardrailsEnabled = orgHasFlowBuilderGuardrails();
 
-    @track backTooltipClass = 'slds-popover slds-popover_tooltip slds-fall-into-ground custom-tooltip';
+    @track backTooltipClass = BACK_TOOLTIP_CONST + ' slds-fall-into-ground';
 
     get labels() {
         return LABELS;
@@ -179,9 +181,9 @@ export default class Header extends LightningElement {
     }
 
     handleBackFocus() {
-        this.backTooltipClass = 'slds-popover slds-popover_tooltip slds-rise-from-ground custom-tooltip';
+        this.backTooltipClass = BACK_TOOLTIP_CONST + ' slds-rise-from-ground ';
     }
     handleBackBlur() {
-        this.backTooltipClass = 'slds-popover slds-popover_tooltip slds-fall-into-ground custom-tooltip';
+        this.backTooltipClass = BACK_TOOLTIP_CONST + ' slds-fall-into-ground ';
     }
 }

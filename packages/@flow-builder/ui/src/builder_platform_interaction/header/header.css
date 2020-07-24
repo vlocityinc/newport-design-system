@@ -12,6 +12,5 @@
 
 .custom-tooltip {
     position: absolute;
-    top: -4px;
-    left: 35px;
+    bottom: -50px;
 }
