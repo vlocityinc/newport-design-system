@@ -573,6 +573,28 @@ describe('ferov-resource-picker', () => {
                 }
             );
         });
+        it('passes along forFormula setting', async () => {
+            props.forFormula = true;
+            setupComponentUnderTest(props);
+            await ticks(1);
+            expect(getMenuData).toHaveBeenCalledWith(
+                undefined,
+                ELEMENT_TYPE.VARIABLE,
+                expect.any(Function),
+                Store.getStore(),
+                undefined,
+                undefined,
+                {
+                    allowGlobalConstants: true,
+                    enableFieldDrilldown: false,
+                    includeNewResource: true,
+                    showSystemVariables: true,
+                    showGlobalVariables: true,
+                    forFormula: true,
+                    allowSObjectFieldsTraversal: true
+                }
+            );
+        });
     });
     describe('inline resource ', () => {
         function fetchMenuData() {

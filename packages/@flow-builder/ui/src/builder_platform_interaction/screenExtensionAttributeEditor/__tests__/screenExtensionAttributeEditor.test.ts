@@ -254,7 +254,8 @@ describe('Screen Extension Attribute Editor', () => {
             hideGlobalConstants,
             hideNewResource,
             objectType,
-            apexClass
+            apexClass,
+            hideGlobalVariables
         ) => {
             const field = query(editor, SELECTORS.PROPERTY_FIELD);
             expect(field).not.toBeNull();
@@ -263,13 +264,14 @@ describe('Screen Extension Attribute Editor', () => {
             expect(config.collection).toBe(collection);
             expect(config.elementConfig).toBe(elementConfig);
             expect(config.hideGlobalConstants).toBe(hideGlobalConstants);
+            expect(config.hideGlobalVariables).toBe(hideGlobalVariables);
             expect(config.hideNewResource).toBe(hideNewResource);
             expect(config.subtype).toBe(objectType || apexClass);
         };
 
         it('for primitives', () => {
             return runTest(STRING, undefined, null, inputEditor => {
-                testChecker(inputEditor, true, false, null, false, false, undefined, undefined);
+                testChecker(inputEditor, true, false, null, false, false, undefined, undefined, false);
             });
         });
         it('for sobjects', () => {
@@ -278,12 +280,22 @@ describe('Screen Extension Attribute Editor', () => {
             };
 
             return runTest(undefined, ACCOUNT, propertyProcessor, (inputEditor, outputEditor) => {
-                testChecker(outputEditor, false, true, null, true, false, DESCRIPTORS[ACCOUNT].subtype, undefined);
+                testChecker(
+                    outputEditor,
+                    false,
+                    true,
+                    null,
+                    true,
+                    false,
+                    DESCRIPTORS[ACCOUNT].subtype,
+                    undefined,
+                    true
+                );
             });
         });
         it('for apex types', () => {
             return runTest(APEX, undefined, null, inputEditor => {
-                testChecker(inputEditor, false, false, null, false, false, undefined, DESCRIPTORS[APEX].subtype);
+                testChecker(inputEditor, false, false, null, false, false, undefined, DESCRIPTORS[APEX].subtype, false);
             });
         });
     });

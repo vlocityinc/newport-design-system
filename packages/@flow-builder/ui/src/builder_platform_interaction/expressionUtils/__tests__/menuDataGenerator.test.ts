@@ -3,7 +3,8 @@ import {
     mutateFlowResourceToComboboxShape,
     mutatePicklistValue,
     getMenuItemForField,
-    getMenuItemsForField
+    getMenuItemsForField,
+    getSystemAndGlobalVariableMenuData
 } from '../menuDataGenerator';
 import { getDataTypeLabel, getDataTypeIcons, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getResourceCategory } from 'builder_platform_interaction/elementLabelLib';
@@ -24,6 +25,8 @@ import {
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { format } from 'builder_platform_interaction/commonUtils';
 import collectionDataType from '@salesforce/label/FlowBuilderDataTypes.collectionDataType';
+import { setGlobalVariables, setProcessTypeFeature } from 'builder_platform_interaction_mocks/systemLib';
+import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
 
 jest.mock('builder_platform_interaction/dataTypeLib', () => {
     const actual = jest.requireActual('builder_platform_interaction/dataTypeLib');
@@ -50,6 +53,14 @@ jest.mock(
     },
     { virtual: true }
 );
+
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        getProcessType: jest.fn().mockImplementation(() => {
+            return 'flow';
+        })
+    };
+});
 
 let mockGetResourceCategory = true;
 const mockImplementationForGetResourceCategory = ({ elementType, dataType, isCollection, isSystemGeneratedOutput }) => {
@@ -198,6 +209,32 @@ describe('menuDataGenerator', () => {
                 value: val,
                 dataType: 'String'
             });
+        });
+    });
+    describe('getSystemAndGlobalVariableMenuData', () => {
+        // The number of global variable types from globalVariablesForFlow which also have fields
+        const NUM_GLOBAL_VARIABLE_TYPES = 6;
+        beforeEach(() => {
+            setGlobalVariables(globalVariablesForFlow);
+            setProcessTypeFeature('flow', ['GlobalVariables']);
+        });
+        it('should not return global variables if showGlobalVariables is false', () => {
+            const menuData = getSystemAndGlobalVariableMenuData(true, false);
+            expect(menuData.length).toEqual(1);
+        });
+        it('should return global variables if showGlobalVariables is true', () => {
+            const menuData = getSystemAndGlobalVariableMenuData(true, true);
+            expect(menuData.length).toEqual(NUM_GLOBAL_VARIABLE_TYPES + 1);
+        });
+        it('should return global variables if not supported for process type but for formula', () => {
+            setProcessTypeFeature('flow', []);
+            const menuData = getSystemAndGlobalVariableMenuData(true, true, true);
+            expect(menuData.length).toEqual(NUM_GLOBAL_VARIABLE_TYPES + 1);
+        });
+        it('should not return global variables if not supported for process type and not for formula', () => {
+            setProcessTypeFeature('flow', []);
+            const menuData = getSystemAndGlobalVariableMenuData(true, true);
+            expect(menuData.length).toEqual(1);
         });
     });
     describe('getMenuItemForField', () => {

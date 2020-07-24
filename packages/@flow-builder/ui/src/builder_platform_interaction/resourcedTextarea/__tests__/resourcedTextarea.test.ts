@@ -151,6 +151,18 @@ describe('Item selection from the resource picker', () => {
         expect(ferovResourcePicker.value).toBe(resourcePickerVal);
         expect(changeEventCallback).not.toHaveBeenCalled();
     });
+    it('Should have forFormula set to false by default', async () => {
+        const existingText = 'Sample Text';
+        const element = createComponentUnderTest({ value: existingText });
+        const ferovResourcePicker = element.shadowRoot.querySelector(selectors.ferovResourcePicker);
+        expect(ferovResourcePicker.forFormula).toBe(false);
+    });
+    it('Should pass along forFormula setting', async () => {
+        const existingText = 'Sample Text';
+        const element = createComponentUnderTest({ value: existingText, forFormula: true });
+        const ferovResourcePicker = element.shadowRoot.querySelector(selectors.ferovResourcePicker);
+        expect(ferovResourcePicker.forFormula).toBe(true);
+    });
 });
 
 describe('Events from the textarea', () => {

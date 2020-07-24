@@ -46,6 +46,7 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
+import { mockGlobalVariablesWithMultiPicklistField } from 'mock/globalVariableData';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -200,39 +201,6 @@ jest.mock('../resourceUtils', () => {
         getScreenElement: jest.fn().mockImplementation(() => mockScreenElement)
     };
 });
-
-const mockGlobalVariablesWithMultiPicklist = {
-    globalVariableTypes: [
-        {
-            durableId: 'Flow-$Organization',
-            fieldsToNull: [],
-            label: 'Organization',
-            name: '$Organization'
-        }
-    ],
-    globalVariables: [
-        {
-            datatype: 'String',
-            label: 'Country',
-            name: 'Country',
-            type: {
-                fieldsToNull: [],
-                name: '$Organization'
-            }
-        },
-        {
-            datatype: 'Multipicklist',
-            durableId: 'Flow-$Organization-MP__c',
-            fieldsToNull: [],
-            label: 'MP',
-            name: 'MP__c',
-            type: {
-                fieldsToNull: [],
-                name: '$Organization'
-            }
-        }
-    ]
-};
 
 describe('Menu data retrieval', () => {
     beforeAll(() => {
@@ -832,7 +800,7 @@ describe('Menu data retrieval', () => {
         });
         describe('global variables', () => {
             beforeEach(() => {
-                setGlobalVariables(mockGlobalVariablesWithMultiPicklist);
+                setGlobalVariables(mockGlobalVariablesWithMultiPicklistField);
             });
             it('should fetch properties for global variables and hide multipicklist fields by default', async () => {
                 const items = await getChildrenItemsPromise(parentGlobalItem);
@@ -877,18 +845,16 @@ describe('Menu data retrieval', () => {
     describe('getChildrenItems', () => {
         describe('global variables', () => {
             beforeEach(() => {
-                setGlobalVariables(mockGlobalVariablesWithMultiPicklist);
+                setGlobalVariables(mockGlobalVariablesWithMultiPicklistField);
             });
             it('should fetch properties for global variables and hide multipicklist fields by default', async () => {
                 const items = await getChildrenItems(parentGlobalItem);
-                expect(Object.keys(items)).toEqual(expect.arrayContaining(['$Organization.Country']));
+                expect(Object.keys(items)).toEqual(['$Organization.Country']);
                 expectFieldsAreComplexTypeFieldDescriptions(items);
             });
             it('should show multipicklist fields if showMultiPicklistGlobalVariables is set to true', async () => {
                 const items = await getChildrenItems(parentGlobalItem, true);
-                expect(Object.keys(items)).toEqual(
-                    expect.arrayContaining(['$Organization.Country', '$Organization.MP__c'])
-                );
+                expect(Object.keys(items)).toEqual(['$Organization.Country', '$Organization.MP__c']);
                 expectFieldsAreComplexTypeFieldDescriptions(items);
             });
         });

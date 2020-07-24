@@ -4,6 +4,8 @@ import { filterAndMutateMenuData, filterFieldsForChosenElement } from '../menuDa
 import { getStoreElements } from '../storeElementsFilter';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { setGlobalVariables } from 'builder_platform_interaction_mocks/systemLib';
+import { mockGlobalVariablesWithMultiPicklistField } from 'mock/globalVariableData';
 
 const paramTypes = ['paramType'];
 
@@ -13,6 +15,10 @@ const objectName = 'Account';
 const parentItem = {
     dataType: FLOW_DATA_TYPE.SOBJECT.value,
     subtype: objectName
+};
+
+const parentGlobalItem = {
+    subtype: '$Organization'
 };
 
 const fields = ['field1'];
@@ -103,6 +109,52 @@ describe('resourcePickerUtils', () => {
                 sObjectSelectorConfig: null,
                 shouldBeWritable: false
             });
+        });
+
+        it('Should hide multipicklist global variable fields by default', async () => {
+            setGlobalVariables(mockGlobalVariablesWithMultiPicklistField);
+            filterFieldsForChosenElement.mockImplementation((chosenElement, fieldz) => {
+                return fieldz;
+            });
+
+            const result = await getMenuData(
+                null,
+                null,
+                resourcePicker.populateParamTypes,
+                null,
+                parentGlobalItem,
+                null,
+                {
+                    allowGlobalConstants: false,
+                    enableFieldDrilldown: false,
+                    includeNewResource: true
+                }
+            );
+            expect(result['$Organization.Country']).toBeDefined();
+            expect(result['$Organization.MP__c']).not.toBeDefined();
+        });
+        it('Should show multipicklist global variable fields for formula editor', async () => {
+            setGlobalVariables(mockGlobalVariablesWithMultiPicklistField);
+            filterFieldsForChosenElement.mockImplementation((chosenElement, fieldz) => {
+                return fieldz;
+            });
+
+            const result = await getMenuData(
+                null,
+                null,
+                resourcePicker.populateParamTypes,
+                null,
+                parentGlobalItem,
+                null,
+                {
+                    allowGlobalConstants: false,
+                    enableFieldDrilldown: false,
+                    includeNewResource: true,
+                    forFormula: true
+                }
+            );
+            expect(result['$Organization.Country']).toBeDefined();
+            expect(result['$Organization.MP__c']).toBeDefined();
         });
     });
 
@@ -196,6 +248,68 @@ describe('resourcePickerUtils', () => {
                 null,
                 true,
                 true,
+                true,
+                undefined,
+                false
+            );
+        });
+
+        it('should show multipicklist global variables for formula editor', async () => {
+            await getMenuData(
+                'elementConfig',
+                resourcePicker.propertyEditorElementType,
+                resourcePicker.populateParamTypes,
+                storeInstance,
+                null,
+                null,
+                {
+                    allowGlobalConstants: resourcePicker.allowGlobalConstants,
+                    enableFieldDrilldown: resourcePicker.enableFieldDrilldown,
+                    includeNewResource: false,
+                    forFormula: true
+                }
+            );
+            expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
+            expect(filterAndMutateMenuData).toHaveBeenCalledWith(
+                elements,
+                paramTypes,
+                false,
+                true,
+                true,
+                null,
+                true,
+                true,
+                true,
+                undefined,
+                true
+            );
+        });
+
+        it('should not show global variables if showGlobalVariables is false', async () => {
+            await getMenuData(
+                'elementConfig',
+                resourcePicker.propertyEditorElementType,
+                resourcePicker.populateParamTypes,
+                storeInstance,
+                null,
+                null,
+                {
+                    allowGlobalConstants: resourcePicker.allowGlobalConstants,
+                    enableFieldDrilldown: resourcePicker.enableFieldDrilldown,
+                    includeNewResource: false,
+                    showGlobalVariables: false
+                }
+            );
+            expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
+            expect(filterAndMutateMenuData).toHaveBeenCalledWith(
+                elements,
+                paramTypes,
+                false,
+                true,
+                true,
+                null,
+                true,
+                false,
                 true,
                 undefined,
                 false

@@ -80,6 +80,23 @@ jest.mock('builder_platform_interaction/systemLib', () => {
                 };
             }
             return undefined;
+        },
+        getGlobalVariable: id => {
+            if (id === '$System.OriginDateTime') {
+                return {
+                    apiName: 'OriginDateTime',
+                    dataType: 'DateTime',
+                    guid: '$System.OriginDateTime',
+                    isAssignable: false,
+                    isCollection: false,
+                    isSystemVariable: true,
+                    label: 'OriginDateTime',
+                    name: '$System.OriginDateTime',
+                    subtype: 'Flow',
+                    readOnly: true
+                };
+            }
+            return undefined;
         }
     };
 });
@@ -520,16 +537,28 @@ describe('Merge field validation', () => {
         });
     });
     describe('Global variables', () => {
-        it('Returns a validation error when it references a global variable that does not exist', () => {
+        it('Returns a validation error when it references a global $Flow variable that does not exist', () => {
             const validationErrors = validateMergeField('{!$Flow.A}');
             expect(validationErrors).toEqual([validationError(2, 8, 'invalidGlobalVariable', `Enter a valid value.`)]);
         });
-        it('Returns a validation error when it references a global variable with invalid data type', () => {
+        it('Returns a validation error when it references a global $Flow variable with invalid data type', () => {
             const validationErrors = validateMergeField('{!$Flow.CurrentDate}', {
                 allowedParamTypes: numberParamCanBeAnything
             });
             expect(validationErrors).toEqual([
                 validationError(2, 18, 'wrongDataType', `The data type of the resource you entered isn't compatible.`)
+            ]);
+        });
+        it('Returns a validation error when it references a global variable that does not exist', () => {
+            const validationErrors = validateMergeField('{!$Api.A}');
+            expect(validationErrors).toEqual([validationError(2, 7, 'invalidGlobalVariable', `Enter a valid value.`)]);
+        });
+        it('Returns a validation error when it references a global variable with invalid data type', () => {
+            const validationErrors = validateMergeField('{!$System.OriginDateTime}', {
+                allowedParamTypes: numberParamCanBeAnything
+            });
+            expect(validationErrors).toEqual([
+                validationError(2, 23, 'wrongDataType', `The data type of the resource you entered isn't compatible.`)
             ]);
         });
     });

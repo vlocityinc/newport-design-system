@@ -58,7 +58,6 @@ const getFerovMenuData = (
         storeInstance.getCurrentState(),
         elementConfig || { elementType: propertyEditorElementType }
     );
-
     return filterAndMutateMenuData(
         menuDataElements,
         populateParamTypesFn(),

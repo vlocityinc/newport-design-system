@@ -2,6 +2,10 @@
 let globalVariableTypes;
 let globalVariables;
 
+export const resetGlobalVariables = () => {
+    globalVariables = {};
+};
+
 /**
  * Creates a mapping of serialized GlobalVariableTypes.
  *
@@ -32,6 +36,7 @@ const convertData = (data, types) =>
         const name = `${type.name}.${obj.name}`;
         const variable = {
             guid: name,
+            // TODO can we use the label instead of dev name here? Is there always a label returned from the service?
             label: obj.name,
             name,
             dataType: obj.datatype,
