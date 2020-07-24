@@ -1479,10 +1479,12 @@ export default class Editor extends LightningElement {
             'builder_platform_interaction-flc-builder-container'
         );
 
-        const offsetX = autoLayoutCanvasContainer ? autoLayoutCanvasContainer.clientWidth / 2 : 0;
+        // OffsetX will be at left-most point of the Start Circle when switching to Free-Form.
+        // Subtracting 24 (half icon width) to get to that point from the center.
+        const offsetX = autoLayoutCanvasContainer ? autoLayoutCanvasContainer.clientWidth / 2 - 24 : 0;
         const { elements, canvasElements, connectors } = setupInAutoLayoutCanvas
             ? convertToAutoLayoutCanvas(addEndElementsAndConnectorsTransform(flowState))
-            : removeEndElementsAndConnectorsTransform(convertToFreeFormCanvas(flowState, [offsetX, 0]));
+            : removeEndElementsAndConnectorsTransform(convertToFreeFormCanvas(flowState, [offsetX, 48]));
 
         const payload = {
             elements,

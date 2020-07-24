@@ -49,10 +49,11 @@ import {
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const CANVAS_WIDTH = 1024;
-const startElementCoords = [CANVAS_WIDTH / 2, 0];
+const startElementCoords = [CANVAS_WIDTH / 2 - 24, 48];
 
 jest.mock('builder_platform_interaction/elementFactory', () => {
     const flowMetadata = require('builder_platform_interaction/flowMetadata');
+    const { findStartYOffset } = jest.requireActual('builder_platform_interaction/elementFactory');
     return {
         createEndElement: (props = {}) => {
             const { prev, parent, childIndex } = props;
@@ -77,7 +78,8 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
                 },
                 extraProps
             );
-        }
+        },
+        findStartYOffset
     };
 });
 

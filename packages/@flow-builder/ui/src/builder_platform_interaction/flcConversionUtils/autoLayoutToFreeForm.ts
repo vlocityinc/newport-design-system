@@ -7,11 +7,10 @@ import {
     FAULT_INDEX
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { getChildReferencesKeys } from 'builder_platform_interaction/elementConfig';
-
+import { getChildReferencesKeys, getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import { findStartYOffset } from 'builder_platform_interaction/elementFactory';
 import { supportsChildren, flcExtraProps } from 'builder_platform_interaction/flcBuilderUtils';
 import { findStartElement } from 'builder_platform_interaction/flcBuilderUtils';
-import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { createNewConnector } from 'builder_platform_interaction/connectorUtils';
 
 import {
@@ -66,18 +65,24 @@ function calculateElementPositions(
     const startElement = findStartElement(elements) as AutoLayoutCanvasElement;
     const nodeLayoutMap = getNodeLayoutMap(elements);
 
-    // TODO: need to fix the position calculations and remove the hard coded values below
-    calculateElementPositionsForBranch(
-        nodeLayoutMap,
-        elementsPosition,
-        elements,
-        startElement,
-        startOffsetX - 24,
-        startOffsetY - 96
-    );
+    // The Start Position here maps to the top-left corner of the start menu container.
+    // 126 is the gap between the start icon's left most point and top-left corner of the start menu container.
+    const startPosition = {
+        x: startOffsetX - 126,
+        y: startOffsetY
+    };
 
-    elementsPosition[startElement.guid].x -= 120;
-    elementsPosition[startElement.guid].y += 24;
+    elementsPosition[startElement.guid] = startPosition;
+
+    const firstElement = elements[startElement.next!] as AutoLayoutCanvasElement;
+
+    // Getting offsetY for the following elements. startOffsetY is at the top of the Start Contextual Menu.
+    // findStartYOffset returns Start Contextual Menu heigh.
+    // Subtracting 168 to incorporate for the "y" amount being added in the calculations further down.
+    const offsetY = startOffsetY + findStartYOffset(startElement) - 168;
+
+    // TODO: need to fix the position calculations and remove the hard coded values above
+    calculateElementPositionsForBranch(nodeLayoutMap, elementsPosition, elements, firstElement, startOffsetX, offsetY);
 
     return elementsPosition;
 }
@@ -93,9 +98,6 @@ function calculateElementPositionsForBranch(
     while (element != null) {
         const { y } = nodeLayoutMap[element.guid].layout;
 
-        if (element.elementType === ELEMENT_TYPE.DECISION) {
-            // offsetX -= 8;
-        }
         const position = {
             x: offsetX,
             y: offsetY + y

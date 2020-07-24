@@ -3,7 +3,7 @@ export default {
         'e35c2063-cb84-4765-a091-9ac3d27138a3': {
             guid: 'e35c2063-cb84-4765-a091-9ac3d27138a3',
             description: '',
-            locationX: 368,
+            locationX: 362,
             locationY: 48,
             isCanvasElement: true,
             connectorCount: 1,
@@ -35,7 +35,7 @@ export default {
             description: '',
             label: '',
             locationX: 488,
-            locationY: 144,
+            locationY: 206,
             isCanvasElement: true,
             connectorCount: 1,
             config: {
@@ -63,7 +63,7 @@ export default {
             description: '',
             label: '',
             locationX: 752,
-            locationY: 264,
+            locationY: 326,
             isCanvasElement: true,
             connectorCount: 1,
             config: {
@@ -92,7 +92,7 @@ export default {
             description: '',
             label: '',
             locationX: 928,
-            locationY: 384,
+            locationY: 446,
             isCanvasElement: true,
             connectorCount: 2,
             config: {

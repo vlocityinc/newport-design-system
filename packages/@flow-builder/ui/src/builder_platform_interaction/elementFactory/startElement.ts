@@ -25,6 +25,35 @@ export const START_ELEMENT_LOCATION = {
 const maxConnections = 1;
 const elementType = ELEMENT_TYPE.START_ELEMENT;
 
+const { BEFORE_SAVE, AFTER_SAVE, SCHEDULED, PLATFORM_EVENT, BEFORE_DELETE } = FLOW_TRIGGER_TYPE;
+const BEFORE_AFTER_SAVE_Y_OFFSET = 181;
+const SCHEDULED_Y_OFFSET = 204;
+const PLATFORM_Y_OFFSET = 122;
+const DEFAULT_Y_OFFSET = 86;
+
+/**
+ * Helper function to determine how big the start element is in the Y direction.
+ * @param startElement start element metadata structure
+ * @returns Y offset
+ */
+export function findStartYOffset(startElement: object): number {
+    switch (startElement.triggerType) {
+        case AFTER_SAVE:
+        case BEFORE_SAVE:
+        case BEFORE_DELETE:
+            return BEFORE_AFTER_SAVE_Y_OFFSET;
+        case SCHEDULED:
+            if (startElement.filters && startElement.filters.length > 0) {
+                return SCHEDULED_Y_OFFSET;
+            }
+            return BEFORE_AFTER_SAVE_Y_OFFSET;
+        case PLATFORM_EVENT:
+            return PLATFORM_Y_OFFSET;
+        default:
+            return DEFAULT_Y_OFFSET;
+    }
+}
+
 /**
  * Creates a start element object in the shape expected by the store
  * @param {Object} startElement start element object used to construct the new object

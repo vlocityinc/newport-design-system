@@ -1,21 +1,15 @@
 // @ts-nocheck
 import { swapDevNamesToUids } from './uidSwapping';
+import { METADATA_KEY, isSystemElement, forEachMetadataFlowElement } from 'builder_platform_interaction/flowMetadata';
 import {
-    METADATA_KEY,
-    isSystemElement,
-    forEachMetadataFlowElement,
-    FLOW_TRIGGER_TYPE
-} from 'builder_platform_interaction/flowMetadata';
-import { createFlowProperties, INCOMPLETE_ELEMENT } from 'builder_platform_interaction/elementFactory';
+    createFlowProperties,
+    INCOMPLETE_ELEMENT,
+    findStartYOffset
+} from 'builder_platform_interaction/elementFactory';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 
-const { BEFORE_SAVE, AFTER_SAVE, SCHEDULED, PLATFORM_EVENT, BEFORE_DELETE } = FLOW_TRIGGER_TYPE;
 const NODE_LENGTH = 48;
 const START_LENGTH = 300;
-const BEFORE_AFTER_SAVE_Y_OFFSET = 181;
-const SCHEDULED_Y_OFFSET = 204;
-const PLATFORM_Y_OFFSET = 122;
-const DEFAULT_Y_OFFSET = 86;
 const RELEASE_226_DATE = new Date('2020-07-18T01:17:24.000+0000');
 let START_Y_OFFSET;
 
@@ -170,29 +164,6 @@ function updateCanvasElementLocation(element = {}, translateX = 0) {
         });
     }
     return element;
-}
-
-/**
- * Helper function to determine how big the start element is in the Y direction.
- * @param startElement start element metadata structure
- * @returns Y offset
- */
-function findStartYOffset(startElement: object): number {
-    switch (startElement.triggerType) {
-        case AFTER_SAVE:
-        case BEFORE_SAVE:
-        case BEFORE_DELETE:
-            return BEFORE_AFTER_SAVE_Y_OFFSET;
-        case SCHEDULED:
-            if (startElement.filters && startElement.filters.length > 0) {
-                return SCHEDULED_Y_OFFSET;
-            }
-            return BEFORE_AFTER_SAVE_Y_OFFSET;
-        case PLATFORM_EVENT:
-            return PLATFORM_Y_OFFSET;
-        default:
-            return DEFAULT_Y_OFFSET;
-    }
 }
 
 /**

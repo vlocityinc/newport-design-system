@@ -13,7 +13,7 @@ export default {
         'start-element-guid': {
             guid: 'start-element-guid',
             description: '',
-            locationX: 368,
+            locationX: 362,
             locationY: 48,
             isCanvasElement: true,
             connectorCount: 1,
@@ -39,7 +39,7 @@ export default {
             description: '',
             label: 'd1',
             locationX: 488,
-            locationY: 144,
+            locationY: 206,
             isCanvasElement: true,
             connectorCount: 0,
             defaultConnectorLabel: 'Default Outcome',
