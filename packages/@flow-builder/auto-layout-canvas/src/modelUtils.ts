@@ -347,8 +347,8 @@ function findParentElement(element: NodeModel, flowModel: FlowModel): ParentNode
  * @param element - The element
  * @returns true if it is a branching element, false otherwise
  */
-function isBranchingElement(element: NodeModel): boolean {
-    return element.hasOwnProperty('children') && element.elementType !== LOOP;
+function isBranchingOrLoopElement(element: NodeModel): boolean {
+    return element.hasOwnProperty('children');
 }
 
 /**
@@ -420,7 +420,7 @@ function deleteBranch(state: FlowModel, branchHeadGuid: Guid, getSubElementGuids
  * @param childIndexToKeep - the index of the branch to keep if applicable, or FAULT_INDEX to delete a fault
  */
 function shouldAddEndElement(state: FlowModel, element: NodeModel, childIndexToKeep?: number) {
-    if (isBranchingElement(element) && childIndexToKeep === DELETE_ALL) {
+    if (isBranchingOrLoopElement(element) && childIndexToKeep === DELETE_ALL) {
         // Filtering out all branches that have been terminated
         const terminatedBranchHeads = (element as ParentNodeModel).children.filter(branchHeadGuid => {
             const branchHead = resolveNode(state, branchHeadGuid);
@@ -456,7 +456,7 @@ function deleteElement(
     let addEndElement = false;
 
     // take care of linking tail of the branch to keep to the next element
-    if (isBranchingElement(element) && childIndexToKeep != null) {
+    if (isBranchingOrLoopElement(element) && childIndexToKeep != null) {
         const headElement = resolveNode(state, (element as ParentNodeModel).children[childIndexToKeep]);
         if (headElement && next) {
             const tailElement = findLastElement(headElement, state);
@@ -517,11 +517,7 @@ function deleteElementDescendents(
 ): void {
     let elementsToDelete: NodeRef[] = [];
 
-    getSubElementGuids(element, state).map(guid => {
-        delete state[guid];
-    });
-
-    if (isBranchingElement(element)) {
+    if (isBranchingOrLoopElement(element)) {
         elementsToDelete = (element as ParentNodeModel).children.filter(
             (child, i) => child != null && i !== childIndexToKeep
         );
@@ -536,6 +532,9 @@ function deleteElementDescendents(
         new FlcList(state, guid!).forEach(listElement => {
             const elementToDelete = state[listElement.guid];
             delete state[listElement.guid];
+            getSubElementGuids(elementToDelete, state).map(subElementGuid => {
+                delete state[subElementGuid];
+            });
             deleteElementDescendents(state, elementToDelete, DELETE_ALL, getSubElementGuids);
             return elementToDelete;
         });
@@ -658,7 +657,7 @@ function inlineBranches(parentElement: ParentNodeModel, state: FlowModel) {
         parentElement.next = null;
 
         // recursive inline from the branch tail
-        if (isBranchingElement(branchTail!)) {
+        if (isBranchingOrLoopElement(branchTail!) && branchTail.elementType !== LOOP) {
             inlineBranches(branchTail as ParentNodeModel, state);
         }
     }

@@ -19,6 +19,9 @@ import {
     getResourceTypeLabel
 } from 'builder_platform_interaction/elementLabelLib';
 import { removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { DELETE_ALL } from 'builder_platform_interaction/autoLayoutCanvas';
+import { supportsChildren } from 'builder_platform_interaction/flcBuilderUtils';
 
 let storeInstance;
 let unsubscribeStore;
@@ -156,10 +159,14 @@ export default class LeftPanel extends LightningElement {
     }
 
     handleDeleteButtonClicked() {
-        const deleteEvent = new DeleteElementEvent(
-            [this.resourceDetails.elementGuid],
-            this.resourceDetails.elementType
-        );
+        const childIndexToKeep = this.resourceDetails.elementType === ELEMENT_TYPE.LOOP ? 0 : DELETE_ALL;
+        const deleteEvent = supportsChildren(this.resourceDetails)
+            ? new DeleteElementEvent(
+                  [this.resourceDetails.elementGuid],
+                  this.resourceDetails.elementType,
+                  childIndexToKeep
+              )
+            : new DeleteElementEvent([this.resourceDetails.elementGuid], this.resourceDetails.elementType);
         this.dispatchEvent(deleteEvent);
     }
 

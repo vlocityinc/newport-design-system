@@ -599,6 +599,84 @@ describe('modelUtils', () => {
 
             expect(deleteElement(elements, branchHeadElement, -2, getSubElementGuids)).toEqual(expectedState);
         });
+        it('deletes loop element nested in a decision', () => {
+            const firstElement = {
+                guid: 'first-element',
+                prev: null,
+                next: 'decision-element'
+            };
+
+            const decisionElement = {
+                guid: 'decision-element',
+                prev: 'first-element',
+                next: 'last-element',
+                children: [null, 'loop-element']
+            };
+
+            const loopElement = {
+                guid: 'loop-element',
+                prev: null,
+                next: null,
+                children: ['screen-element'],
+                parent: 'decision-element',
+                childIndex: 1,
+                isTerminal: false
+            };
+
+            const screenElement = {
+                guid: 'screen-element',
+                prev: null,
+                next: null,
+                parent: 'loop-element',
+                childIndex: 0
+            };
+
+            const lastElement = {
+                guid: 'last-element',
+                prev: 'decision-element',
+                next: null
+            };
+
+            const elements = flowModelFromElements([
+                firstElement,
+                decisionElement,
+                loopElement,
+                screenElement,
+                lastElement
+            ]);
+
+            const expectedState = {
+                state: {
+                    'first-element': {
+                        guid: 'first-element',
+                        prev: null,
+                        next: 'decision-element'
+                    },
+                    'decision-element': {
+                        guid: 'decision-element',
+                        prev: 'first-element',
+                        next: 'last-element',
+                        children: [null, 'screen-element']
+                    },
+                    'screen-element': {
+                        guid: 'screen-element',
+                        prev: null,
+                        next: null,
+                        parent: 'decision-element',
+                        childIndex: 1,
+                        isTerminal: false
+                    },
+                    'last-element': {
+                        guid: 'last-element',
+                        prev: 'decision-element',
+                        next: null
+                    }
+                },
+                addEndElement: false
+            };
+
+            expect(deleteElement(elements, loopElement, 0, getSubElementGuids)).toEqual(expectedState);
+        });
     });
 
     describe('add fault to element', () => {
