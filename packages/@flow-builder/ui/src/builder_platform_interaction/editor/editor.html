@@ -80,6 +80,21 @@
                 show-locator-icon={showLocatorIconInLeftPanel}
             ></builder_platform_interaction-left-panel>
             <div if:true={hasCanvasElements} class="slds-col">
+                <!--
+                    W-7866257: Make sure the fixed canvas comes first as both canvas can be in the DOM at the same time
+                    for brief moment when toggling (LWC bug?), and the fixed canvas use the offsets of its container
+                -->
+                <builder_platform_interaction-canvas-container
+                    if:false={properties.isAutoLayoutCanvas}
+                    canvas-config={canvasConfig}
+                    onaddelement={handleAddCanvasElement}
+                    oneditelement={handleEditElement}
+                    ondeleteelement={handleElementDelete}
+                    ontogglemarqueeon={handleClosePropertyEditor}
+                    onclosepropertyeditor={handleClosePropertyEditor}
+                    onnodeselected={handleNodeSelected}
+                >
+                </builder_platform_interaction-canvas-container>
                 <builder_platform_interaction-flc-builder-container
                     if:true={properties.isAutoLayoutCanvas}
                     elements-metadata={elementsMetadata}
@@ -99,17 +114,6 @@
                     onflccreateconnection={handleFlcCreateConnection}
                 >
                 </builder_platform_interaction-flc-builder-container>
-                <builder_platform_interaction-canvas-container
-                    if:false={properties.isAutoLayoutCanvas}
-                    canvas-config={canvasConfig}
-                    onaddelement={handleAddCanvasElement}
-                    oneditelement={handleEditElement}
-                    ondeleteelement={handleElementDelete}
-                    ontogglemarqueeon={handleClosePropertyEditor}
-                    onclosepropertyeditor={handleClosePropertyEditor}
-                    onnodeselected={handleNodeSelected}
-                >
-                </builder_platform_interaction-canvas-container>
             </div>
             <builder_platform_interaction-right-panel
                 if:true={showRightPanel}

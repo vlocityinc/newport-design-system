@@ -72,6 +72,10 @@
             "showFlowStatus":true,
             "showRestartRunButton":false
           },
+          "headerConfig":{
+            "showDebugStatus":false,
+            "showInterviewLabel":false
+          },
           "leftPanelConfig":{
             "showLeftPanel":true
           },
@@ -98,6 +102,10 @@
             "showRunButton":false,
             "showFlowStatus":false,
             "showRestartRunButton":true
+          },
+          "headerConfig":{
+            "showDebugStatus":true,
+            "showInterviewLabel":true
           },
           "leftPanelConfig":{
             "showLeftPanel":false
