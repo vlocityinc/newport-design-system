@@ -18,7 +18,7 @@ storiesOf(`${base}`, module)
   </a>
   <button class="nds-button nds-button_icon nds-button_icon nds-pill__remove" title="Remove">
     <svg class="nds-button__icon" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
     </svg>
     <span class="nds-assistive-text">Remove</span>
   </button>
@@ -29,7 +29,7 @@ storiesOf(`${base}`, module)
   <span class="nds-pill__icon_container">
     <span class="nds-icon_container nds-icon-standard-account" title="Account">
       <svg class="nds-icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+        <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
       </svg>
       <span class="nds-assistive-text">Account</span>
     </span>
@@ -39,7 +39,7 @@ storiesOf(`${base}`, module)
   </a>
   <button class="nds-button nds-button_icon nds-button_icon nds-pill__remove" title="Remove">
     <svg class="nds-button__icon" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
     </svg>
     <span class="nds-assistive-text">Remove</span>
   </button>
@@ -57,7 +57,7 @@ storiesOf(`${base}`, module)
   </a>
   <button class="nds-button nds-button_icon nds-button_icon nds-pill__remove" title="Remove">
     <svg class="nds-button__icon" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
     </svg>
     <span class="nds-assistive-text">Remove</span>
   </button>
@@ -72,7 +72,7 @@ storiesOf(`${base}`, module)
       </a>
       <button class="nds-button nds-button_icon nds-button_icon nds-pill__remove" title="Remove">
         <svg class="nds-button__icon" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
         </svg>
         <span class="nds-assistive-text">Remove</span>
       </button>
@@ -88,7 +88,7 @@ storiesOf(`${base}`, module)
     </a>
     <button class="nds-button nds-button_icon nds-button_icon nds-pill__remove" title="Remove">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
       </svg>
       <span class="nds-assistive-text">Remove</span>
     </button>
@@ -99,7 +99,7 @@ storiesOf(`${base}`, module)
     </a>
     <button class="nds-button nds-button_icon nds-button_icon nds-pill__remove" title="Remove">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
       </svg>
       <span class="nds-assistive-text">Remove</span>
     </button>
@@ -110,7 +110,7 @@ storiesOf(`${base}`, module)
     </a>
     <button class="nds-button nds-button_icon nds-button_icon nds-pill__remove" title="Remove">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
       </svg>
       <span class="nds-assistive-text">Remove</span>
     </button>
@@ -122,7 +122,7 @@ storiesOf(`${base}`, module)
   <span class="nds-pill__icon_container">
     <span class="nds-icon_container" title="Error">
       <svg class="nds-icon nds-icon-text-error" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
       </svg>
       <span class="nds-assistive-text">Warning</span>
     </span>
@@ -132,7 +132,7 @@ storiesOf(`${base}`, module)
   </a>
   <button class="nds-button nds-button_icon nds-button_icon nds-pill__remove" title="Remove">
     <svg class="nds-button__icon" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
     </svg>
     <span class="nds-assistive-text">Remove</span>
   </button>

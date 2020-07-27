@@ -57,7 +57,7 @@ storiesOf(`${base}`, module)
   <div class="nds-dueling-list__column">
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Up">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -70,7 +70,7 @@ storiesOf(`${base}`, module)
     </button>
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Down">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -108,7 +108,7 @@ storiesOf(`${base}`, module)
   <div class="nds-dueling-list__column">
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Up">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#up"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#up"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -121,7 +121,7 @@ storiesOf(`${base}`, module)
     </button>
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Down">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -181,7 +181,7 @@ storiesOf(`${base}`, module)
   <div class="nds-dueling-list__column">
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Up">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -194,7 +194,7 @@ storiesOf(`${base}`, module)
     </button>
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Down">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -233,7 +233,7 @@ storiesOf(`${base}`, module)
   <div class="nds-dueling-list__column">
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Up">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#up"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#up"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -246,7 +246,7 @@ storiesOf(`${base}`, module)
     </button>
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Down">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -306,7 +306,7 @@ storiesOf(`${base}`, module)
   <div class="nds-dueling-list__column">
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Up" disabled="">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -319,7 +319,7 @@ storiesOf(`${base}`, module)
     </button>
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Down" disabled="">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -357,7 +357,7 @@ storiesOf(`${base}`, module)
   <div class="nds-dueling-list__column">
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Up" disabled="">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#up"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#up"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -370,7 +370,7 @@ storiesOf(`${base}`, module)
     </button>
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Down" disabled="">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -430,7 +430,7 @@ storiesOf(`${base}`, module)
   <div class="nds-dueling-list__column">
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Up">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -443,7 +443,7 @@ storiesOf(`${base}`, module)
     </button>
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Down">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -481,7 +481,7 @@ storiesOf(`${base}`, module)
   <div class="nds-dueling-list__column">
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Up">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#up"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#up"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -494,7 +494,7 @@ storiesOf(`${base}`, module)
     </button>
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Down">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -554,7 +554,7 @@ storiesOf(`${base}`, module)
   <div class="nds-dueling-list__column">
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Up">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -567,7 +567,7 @@ storiesOf(`${base}`, module)
     </button>
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Down">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -605,7 +605,7 @@ storiesOf(`${base}`, module)
   <div class="nds-dueling-list__column">
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Up">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#up"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#up"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -618,7 +618,7 @@ storiesOf(`${base}`, module)
     </button>
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Down">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -678,7 +678,7 @@ storiesOf(`${base}`, module)
   <div class="nds-dueling-list__column">
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Up">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -691,7 +691,7 @@ storiesOf(`${base}`, module)
     </button>
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Down">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -729,7 +729,7 @@ storiesOf(`${base}`, module)
   <div class="nds-dueling-list__column">
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Up">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#up"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#up"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -742,7 +742,7 @@ storiesOf(`${base}`, module)
     </button>
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Down">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -802,7 +802,7 @@ storiesOf(`${base}`, module)
   <div class="nds-dueling-list__column">
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Up">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -815,7 +815,7 @@ storiesOf(`${base}`, module)
     </button>
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Down">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -853,7 +853,7 @@ storiesOf(`${base}`, module)
   <div class="nds-dueling-list__column">
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Up">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#up"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#up"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -866,7 +866,7 @@ storiesOf(`${base}`, module)
     </button>
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Down">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -926,7 +926,7 @@ storiesOf(`${base}`, module)
   <div class="nds-dueling-list__column">
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Up">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -939,7 +939,7 @@ storiesOf(`${base}`, module)
     </button>
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Down">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -977,7 +977,7 @@ storiesOf(`${base}`, module)
   <div class="nds-dueling-list__column">
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Up">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#up"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#up"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -990,7 +990,7 @@ storiesOf(`${base}`, module)
     </button>
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Down">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -1042,7 +1042,7 @@ storiesOf(`${base}`, module)
   <div class="nds-dueling-list__column">
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Up">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -1055,7 +1055,7 @@ storiesOf(`${base}`, module)
     </button>
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Down">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -1101,7 +1101,7 @@ storiesOf(`${base}`, module)
   <div class="nds-dueling-list__column">
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Up">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#up"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#up"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection
@@ -1114,7 +1114,7 @@ storiesOf(`${base}`, module)
     </button>
     <button class="nds-button nds-button_icon nds-button_icon-container" title="Down">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
       </svg>
       <span class="nds-assistive-text">
         Move Selection

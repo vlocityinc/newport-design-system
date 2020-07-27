@@ -15,11 +15,11 @@ path like this:
 
 ```
 <svg aria-hidden="true" class="nds-icon" title="when needed">
-  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
 </svg>
 ```
 
--Note:** If an icon has more than one word in the name, it should be
+-Note:\*\* If an icon has more than one word in the name, it should be
 included in the `use` attribute with the underscore separator as shown on
 the icon page. For example: log_a_call.
 
@@ -28,7 +28,8 @@ the icon page. For example: log_a_call.
 Change a background color using composed class names:
 
 ```css
-.nds-icon-[sprite name]-[icon name] {}
+.nds-icon-[sprite name]-[icon name] {
+}
 ```
 
 Place the class on the `.nds-icon_container`.
@@ -59,7 +60,7 @@ sits alone and a sighted user might need to hover for a description. If an
 icon has visible descriptive text, no `title` or extra `.nds-assistive-text`
 is required.
 
--*Note:* You must require NDS in your application for SVG sprites to work.
+-_Note:_ You must require NDS in your application for SVG sprites to work.
 If you’re using Visualforce, see [the Visualforce tutorial](/platforms/visualforce).
 If you’re using [Lightning components, see this documentation](/platforms/lightning).
 

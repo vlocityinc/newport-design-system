@@ -20,7 +20,7 @@ storiesOf(`${base}`, module)
         <a class="nds-notification__target nds-media" href="javascript:void(0);">
           <span class="nds-icon_container nds-icon-standard-event nds-media__figure" title="event">
             <svg class="nds-icon nds-icon--small" aria-hidden="true">
-              <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#event"></use>
+              <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#event"></use>
             </svg>
           </span>
           <div class="nds-media__body">
@@ -34,7 +34,7 @@ storiesOf(`${base}`, module)
         </a>
         <button class="nds-button nds-button_icon nds-button--icon-container nds-notification__close" title="Dismiss Tesla - Renewal meeting notification">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Dismiss Tesla - Renewal meeting notification</span>
         </button>
@@ -52,7 +52,7 @@ storiesOf(`${base}`, module)
         <a class="nds-notification__target nds-media" href="javascript:void(0);">
           <span class="nds-icon_container nds-icon-standard-task nds-media__figure" title="task">
             <svg class="nds-icon nds-icon--small" aria-hidden="true">
-              <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#task"></use>
+              <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#task"></use>
             </svg>
           </span>
           <div class="nds-media__body">
@@ -66,7 +66,7 @@ storiesOf(`${base}`, module)
         </a>
         <button class="nds-button nds-button_icon nds-button--icon-container nds-notification__close" title="Dismiss Call Two: Jane Johnson notification">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Dismiss Call Two: Jane Johnson notification</span>
         </button>
@@ -84,7 +84,7 @@ storiesOf(`${base}`, module)
         <a class="nds-notification__target nds-media" href="javascript:void(0);">
           <span class="nds-icon_container nds-icon-standard-task nds-media__figure" title="task">
             <svg class="nds-icon nds-icon--small" aria-hidden="true">
-              <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#task"></use>
+              <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#task"></use>
             </svg>
           </span>
           <div class="nds-media__body">
@@ -98,7 +98,7 @@ storiesOf(`${base}`, module)
         </a>
         <button class="nds-button nds-button_icon nds-button--icon-container nds-notification__close" title="Dismiss Call Two: Jane Johnson notification">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Dismiss Call Two: Jane Johnson notification</span>
         </button>
@@ -109,7 +109,7 @@ storiesOf(`${base}`, module)
         <a class="nds-notification__target nds-media" href="javascript:void(0);">
           <span class="nds-icon_container nds-icon-standard-event nds-media__figure" title="event">
             <svg class="nds-icon nds-icon--small" aria-hidden="true">
-              <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#event"></use>
+              <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#event"></use>
             </svg>
           </span>
           <div class="nds-media__body">
@@ -123,7 +123,7 @@ storiesOf(`${base}`, module)
         </a>
         <button class="nds-button nds-button_icon nds-button--icon-container nds-notification__close" title="Dismiss Tesla - Renewal meeting notification">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Dismiss Tesla - Renewal meeting notification</span>
         </button>
@@ -141,7 +141,7 @@ storiesOf(`${base}`, module)
         <a class="nds-notification__target nds-media" href="javascript:void(0);">
           <span class="nds-icon_container nds-icon-standard-task nds-media__figure" title="task">
             <svg class="nds-icon nds-icon--small" aria-hidden="true">
-              <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#task"></use>
+              <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#task"></use>
             </svg>
           </span>
           <div class="nds-media__body">
@@ -155,7 +155,7 @@ storiesOf(`${base}`, module)
         </a>
         <button class="nds-button nds-button_icon nds-button--icon-container nds-notification__close" title="Dismiss Call Two: Jane Johnson notification">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Dismiss Call Two: Jane Johnson notification</span>
         </button>
@@ -166,7 +166,7 @@ storiesOf(`${base}`, module)
         <a class="nds-notification__target nds-media" href="javascript:void(0);">
           <span class="nds-icon_container nds-icon-standard-event nds-media__figure" title="event">
             <svg class="nds-icon nds-icon--small" aria-hidden="true">
-              <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#event"></use>
+              <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#event"></use>
             </svg>
           </span>
           <div class="nds-media__body">
@@ -180,7 +180,7 @@ storiesOf(`${base}`, module)
         </a>
         <button class="nds-button nds-button_icon nds-button--icon-container nds-notification__close" title="Dismiss Tesla - Renewal meeting notification">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Dismiss Tesla - Renewal meeting notification</span>
         </button>
@@ -191,7 +191,7 @@ storiesOf(`${base}`, module)
         <a class="nds-notification__target nds-media" href="javascript:void(0);">
           <span class="nds-icon_container nds-icon-standard-task nds-media__figure" title="task">
             <svg class="nds-icon nds-icon--small" aria-hidden="true">
-              <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#task"></use>
+              <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#task"></use>
             </svg>
           </span>
           <div class="nds-media__body">
@@ -205,7 +205,7 @@ storiesOf(`${base}`, module)
         </a>
         <button class="nds-button nds-button_icon nds-button--icon-container nds-notification__close" title="Dismiss Call Three: Jim Jameson notification">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Dismiss Call Three: Jim Jameson notification</span>
         </button>
@@ -223,7 +223,7 @@ storiesOf(`${base}`, module)
         <a class="nds-notification__target nds-media" href="javascript:void(0);">
           <span class="nds-icon_container nds-icon-standard-task nds-media__figure" title="task">
             <svg class="nds-icon nds-icon--small" aria-hidden="true">
-              <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#task"></use>
+              <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#task"></use>
             </svg>
           </span>
           <div class="nds-media__body">
@@ -237,7 +237,7 @@ storiesOf(`${base}`, module)
         </a>
         <button class="nds-button nds-button_icon nds-button--icon-container nds-notification__close" title="Dismiss Call Two: Jane Johnson notification">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Dismiss Call Two: Jane Johnson notification</span>
         </button>
@@ -248,7 +248,7 @@ storiesOf(`${base}`, module)
         <a class="nds-notification__target nds-media" href="javascript:void(0);">
           <span class="nds-icon_container nds-icon-standard-event nds-media__figure" title="event">
             <svg class="nds-icon nds-icon--small" aria-hidden="true">
-              <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#event"></use>
+              <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#event"></use>
             </svg>
           </span>
           <div class="nds-media__body">
@@ -262,7 +262,7 @@ storiesOf(`${base}`, module)
         </a>
         <button class="nds-button nds-button_icon nds-button--icon-container nds-notification__close" title="Dismiss Tesla - Renewal meeting notification">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Dismiss Tesla - Renewal meeting notification</span>
         </button>
@@ -273,7 +273,7 @@ storiesOf(`${base}`, module)
         <a class="nds-notification__target nds-media" href="javascript:void(0);">
           <span class="nds-icon_container nds-icon-standard-task nds-media__figure" title="task">
             <svg class="nds-icon nds-icon--small" aria-hidden="true">
-              <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#task"></use>
+              <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#task"></use>
             </svg>
           </span>
           <div class="nds-media__body">
@@ -287,7 +287,7 @@ storiesOf(`${base}`, module)
         </a>
         <button class="nds-button nds-button_icon nds-button--icon-container nds-notification__close" title="Dismiss Call Three: Jim Jameson notification">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Dismiss Call Three: Jim Jameson notification</span>
         </button>
@@ -298,7 +298,7 @@ storiesOf(`${base}`, module)
         <a class="nds-notification__target nds-media" href="javascript:void(0);">
           <span class="nds-icon_container nds-icon-standard-task nds-media__figure" title="task">
             <svg class="nds-icon nds-icon--small" aria-hidden="true">
-              <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#task"></use>
+              <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#task"></use>
             </svg>
           </span>
           <div class="nds-media__body">
@@ -312,7 +312,7 @@ storiesOf(`${base}`, module)
         </a>
         <button class="nds-button nds-button_icon nds-button--icon-container nds-notification__close" title="Dismiss Call Two: Jane Johnson notification">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Dismiss Call Two: Jane Johnson notification</span>
         </button>
@@ -323,7 +323,7 @@ storiesOf(`${base}`, module)
         <a class="nds-notification__target nds-media" href="javascript:void(0);">
           <span class="nds-icon_container nds-icon-standard-event nds-media__figure" title="event">
             <svg class="nds-icon nds-icon--small" aria-hidden="true">
-              <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#event"></use>
+              <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#event"></use>
             </svg>
           </span>
           <div class="nds-media__body">
@@ -337,7 +337,7 @@ storiesOf(`${base}`, module)
         </a>
         <button class="nds-button nds-button_icon nds-button--icon-container nds-notification__close" title="Dismiss Tesla - Renewal meeting notification">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Dismiss Tesla - Renewal meeting notification</span>
         </button>
@@ -348,7 +348,7 @@ storiesOf(`${base}`, module)
         <a class="nds-notification__target nds-media" href="javascript:void(0);">
           <span class="nds-icon_container nds-icon-standard-task nds-media__figure" title="task">
             <svg class="nds-icon nds-icon--small" aria-hidden="true">
-              <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#task"></use>
+              <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#task"></use>
             </svg>
           </span>
           <div class="nds-media__body">
@@ -362,7 +362,7 @@ storiesOf(`${base}`, module)
         </a>
         <button class="nds-button nds-button_icon nds-button--icon-container nds-notification__close" title="Dismiss Call Three: Jim Jameson notification">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Dismiss Call Three: Jim Jameson notification</span>
         </button>

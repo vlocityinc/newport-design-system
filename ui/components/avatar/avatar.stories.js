@@ -48,7 +48,7 @@ storiesOf(`${base}`, module)
     return withExample(`<span class="nds-avatar${size}${shape}">
     <span class="nds-icon_container nds-icon-standard-user" title="Description of icon when needed">
       <svg class="nds-icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#user"></use>
+        <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#user"></use>
       </svg>
       <span class="nds-assistive-text">Description of icon</span>
     </span>

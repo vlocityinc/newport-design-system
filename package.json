@@ -80,7 +80,7 @@
   "scripts": {
     "build": "gulp build -v",
     "build-prod": "gulp build",
-    "build-storybook": "build-storybook -c .storybook -o .out",
+    "build-storybook": "build-storybook -c .storybook -s ./ -o .out",
     "dist": "node scripts/dist.js",
     "gulp": "gulp",
     "lint": "gulp lint",
