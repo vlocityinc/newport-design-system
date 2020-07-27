@@ -14,7 +14,7 @@ storiesOf(`${base}`, module)
   .add('Default (default)', () => {
     return withExample(`<button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-pressed="false" title="Like">
   <svg class="nds-button__icon" aria-hidden="true">
-    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#like"></use>
+    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#like"></use>
   </svg>
   <span class="nds-assistive-text">Like</span>
 </button>`);
@@ -22,7 +22,7 @@ storiesOf(`${base}`, module)
   .add('Button Icon Stateful Selected (states)', () => {
     return withExample(`<button class="nds-button nds-button_icon nds-button_icon-border-filled nds-is-selected" aria-pressed="true" title="Like">
   <svg class="nds-button__icon" aria-hidden="true">
-    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#like"></use>
+    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#like"></use>
   </svg>
   <span class="nds-assistive-text">Like</span>
 </button>`);

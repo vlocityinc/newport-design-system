@@ -20,7 +20,7 @@ storiesOf(`${base}`, module)
           <h2 class="nds-align-middle nds-text-heading_small">Filter</h2>
           <button class="nds-button nds-button_icon nds-col_bump-left nds-button_icon nds-button_icon-small" title="Close Filter Panel">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#forward"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#forward"></use>
             </svg>
             <span class="nds-assistive-text">Close Filter Panel</span>
           </button>
@@ -48,7 +48,7 @@ storiesOf(`${base}`, module)
                 </button>
                 <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-small" title="Remove equals THIS WEEK">
                   <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                   </svg>
                   <span class="nds-assistive-text">Remove filter: Created Date equals THIS WEEK</span>
                 </button>
@@ -63,7 +63,7 @@ storiesOf(`${base}`, module)
                 </button>
                 <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-small" title="Remove greater than &quot;500&quot;">
                   <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                   </svg>
                   <span class="nds-assistive-text">Remove filter: List Price greater than "500"</span>
                 </button>
@@ -112,7 +112,7 @@ storiesOf(`${base}`, module)
                 </button>
                 <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-small" title="Remove equals THIS WEEK">
                   <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                   </svg>
                   <span class="nds-assistive-text">Remove filter: Created Date equals THIS WEEK</span>
                 </button>
@@ -127,7 +127,7 @@ storiesOf(`${base}`, module)
                 </button>
                 <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-small" title="Remove greater than &quot;500&quot;">
                   <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                   </svg>
                   <span class="nds-assistive-text">Remove filter: List Price greater than "500"</span>
                 </button>
@@ -141,7 +141,7 @@ storiesOf(`${base}`, module)
                 </button>
                 <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-small" title="Remove New Filter">
                   <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                   </svg>
                   <span class="nds-assistive-text">Remove filter: New Filter</span>
                 </button>
@@ -191,7 +191,7 @@ storiesOf(`${base}`, module)
                 </button>
                 <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-small" title="Remove equals THIS WEEK">
                   <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                   </svg>
                   <span class="nds-assistive-text">Remove filter: Created Date equals THIS WEEK</span>
                 </button>
@@ -206,7 +206,7 @@ storiesOf(`${base}`, module)
                 </button>
                 <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-small" title="Remove greater than &quot;500&quot;">
                   <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                   </svg>
                   <span class="nds-assistive-text">Remove filter: List Price greater than "500"</span>
                 </button>
@@ -221,7 +221,7 @@ storiesOf(`${base}`, module)
                 </button>
                 <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-small" title="Remove equals &quot;Red&quot;">
                   <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                   </svg>
                   <span class="nds-assistive-text">Remove filter: Stage equals "Red"</span>
                 </button>
@@ -248,7 +248,7 @@ storiesOf(`${base}`, module)
           <h2 class="nds-align-middle nds-text-heading_small">Filter</h2>
           <button class="nds-button nds-button_icon nds-col_bump-left nds-button_icon nds-button_icon-small" title="Close Filter Panel">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#forward"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#forward"></use>
             </svg>
             <span class="nds-assistive-text">Close Filter Panel</span>
           </button>
@@ -276,7 +276,7 @@ storiesOf(`${base}`, module)
                 </button>
                 <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-small" title="Remove equals THIS WEEK">
                   <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                   </svg>
                   <span class="nds-assistive-text">Remove filter: Created Date equals THIS WEEK</span>
                 </button>
@@ -291,7 +291,7 @@ storiesOf(`${base}`, module)
                 </button>
                 <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-small" title="Remove greater than &quot;500&quot;">
                   <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                   </svg>
                   <span class="nds-assistive-text">Remove filter: List Price greater than "500"</span>
                 </button>
@@ -302,7 +302,7 @@ storiesOf(`${base}`, module)
             Locked Filters
 
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-m-left_x-small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
             </svg>
           </h3>
           <ol class="nds-list_vertical nds-list_vertical-space">

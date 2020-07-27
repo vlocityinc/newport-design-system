@@ -30,7 +30,7 @@ storiesOf(`${base}`, module)
         </span>
         <span class="nds-icon_container nds-visual-picker__text-check">
           <svg class="nds-icon nds-icon-text-check nds-icon_x-small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
           </svg>
         </span>
       </label>
@@ -50,7 +50,7 @@ storiesOf(`${base}`, module)
         </span>
         <span class="nds-icon_container nds-visual-picker__text-check">
           <svg class="nds-icon nds-icon-text-check nds-icon_x-small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
           </svg>
         </span>
       </label>
@@ -70,7 +70,7 @@ storiesOf(`${base}`, module)
         </span>
         <span class="nds-icon_container nds-visual-picker__text-check">
           <svg class="nds-icon nds-icon-text-check nds-icon_x-small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
           </svg>
         </span>
       </label>
@@ -97,7 +97,7 @@ storiesOf(`${base}`, module)
         </span>
         <span class="nds-icon_container nds-visual-picker__text-check">
           <svg class="nds-icon nds-icon-text-check nds-icon_x-small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
           </svg>
         </span>
       </label>
@@ -117,7 +117,7 @@ storiesOf(`${base}`, module)
         </span>
         <span class="nds-icon_container nds-visual-picker__text-check">
           <svg class="nds-icon nds-icon-text-check nds-icon_x-small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
           </svg>
         </span>
       </label>
@@ -137,7 +137,7 @@ storiesOf(`${base}`, module)
         </span>
         <span class="nds-icon_container nds-visual-picker__text-check">
           <svg class="nds-icon nds-icon-text-check nds-icon_x-small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
           </svg>
         </span>
       </label>
@@ -151,7 +151,7 @@ storiesOf(`${base}`, module)
     <div class="nds-media__figure nds-media__figure_fixed-width nds-align_absolute-center nds-m-left_xx-small">
       <span class="nds-icon_container nds-icon-utility-knowledge_base" title="Description of icon when needed">
         <svg class="nds-icon nds-icon-text-default" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#knowledge_base"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#knowledge_base"></use>
         </svg>
         <span class="nds-assistive-text">Description of icon</span>
       </span>

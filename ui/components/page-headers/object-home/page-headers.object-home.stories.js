@@ -19,7 +19,7 @@ storiesOf(`${base}`, module)
         <div class="nds-media__figure">
           <span class="nds-icon_container nds-icon-standard-opportunity" title="Description of icon when needed">
             <svg class="nds-icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
+              <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
             </svg>
           </span>
         </div>
@@ -37,7 +37,7 @@ storiesOf(`${base}`, module)
                 <span class="nds-truncate" title="Recently Viewed">Recently Viewed</span>
                 <span class="nds-icon_container nds-icon-utility-down" title="Description of icon when needed">
                   <svg class="nds-icon nds-icon--x-small nds-m-left_xx-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                   </svg>
                   <span class="nds-assistive-text">Description of icon</span>
                 </span>
@@ -53,7 +53,7 @@ storiesOf(`${base}`, module)
         <div class="nds-button_last">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-haspopup="true" title="More Actions">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">More Actions</span>
           </button>
@@ -69,10 +69,10 @@ storiesOf(`${base}`, module)
       <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-m-left_x-small" aria-expanded="false">
         <button class="nds-button nds-button_icon nds-button_icon-more" aria-haspopup="true" title="List View Controls">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
           </svg>
           <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">List View Controls</span>
         </button>
@@ -80,36 +80,36 @@ storiesOf(`${base}`, module)
       <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-m-left_xx-small">
         <button class="nds-button nds-button_icon nds-button_icon-more" aria-haspopup="true" title="Change view">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#table"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#table"></use>
           </svg>
           <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Change view</span>
         </button>
       </div>
       <button class="nds-button nds-button_icon nds-m-left_xx-small nds-button_icon-border-filled" title="Edit List">
         <svg class="nds-button__icon" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
         </svg>
         <span class="nds-assistive-text">Edit List</span>
       </button>
       <button class="nds-button nds-button_icon nds-m-left_xx-small nds-button_icon-border-filled" title="Refresh">
         <svg class="nds-button__icon" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#refresh"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#refresh"></use>
         </svg>
         <span class="nds-assistive-text">Refresh</span>
       </button>
       <div class="nds-button-group" role="group">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled" title="Charts">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chart"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chart"></use>
           </svg>
           <span class="nds-assistive-text">Charts</span>
         </button>
         <button class="nds-button nds-button_icon nds-button_icon-border-filled" title="Filters">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#filterList"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#filterList"></use>
           </svg>
           <span class="nds-assistive-text">Filters</span>
         </button>
@@ -127,7 +127,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure">
             <span class="nds-icon_container nds-icon-standard-opportunity" title="Description of icon when needed">
               <svg class="nds-icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
               </svg>
             </span>
           </div>
@@ -145,7 +145,7 @@ storiesOf(`${base}`, module)
                   <span class="nds-truncate" title="Recently Viewed">Recently Viewed</span>
                   <span class="nds-icon_container nds-icon-utility-down" title="Description of icon when needed">
                     <svg class="nds-icon nds-icon--x-small nds-m-left_xx-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                     </svg>
                     <span class="nds-assistive-text">Description of icon</span>
                   </span>
@@ -161,7 +161,7 @@ storiesOf(`${base}`, module)
           <div class="nds-button_last">
             <button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-haspopup="true" title="More Actions">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
               </svg>
               <span class="nds-assistive-text">More Actions</span>
             </button>
@@ -177,10 +177,10 @@ storiesOf(`${base}`, module)
         <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-m-left_x-small" aria-expanded="false">
           <button class="nds-button nds-button_icon nds-button_icon-more" aria-haspopup="true" title="List View Controls">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
             </svg>
             <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">List View Controls</span>
           </button>
@@ -188,36 +188,36 @@ storiesOf(`${base}`, module)
         <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-m-left_xx-small">
           <button class="nds-button nds-button_icon nds-button_icon-more" aria-haspopup="true" title="Change view">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#table"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#table"></use>
             </svg>
             <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Change view</span>
           </button>
         </div>
         <button class="nds-button nds-button_icon nds-m-left_xx-small nds-button_icon-border-filled" title="Edit List">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
           </svg>
           <span class="nds-assistive-text">Edit List</span>
         </button>
         <button class="nds-button nds-button_icon nds-m-left_xx-small nds-button_icon-border-filled" title="Refresh">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#refresh"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#refresh"></use>
           </svg>
           <span class="nds-assistive-text">Refresh</span>
         </button>
         <div class="nds-button-group" role="group">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" title="Charts">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chart"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chart"></use>
             </svg>
             <span class="nds-assistive-text">Charts</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" title="Filters">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#filterList"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#filterList"></use>
             </svg>
             <span class="nds-assistive-text">Filters</span>
           </button>
@@ -236,7 +236,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure">
             <span class="nds-icon_container nds-icon-standard-opportunity" title="Description of icon when needed">
               <svg class="nds-icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
               </svg>
             </span>
           </div>
@@ -254,7 +254,7 @@ storiesOf(`${base}`, module)
                   <span class="nds-truncate" title="Recently Viewed">Recently Viewed</span>
                   <span class="nds-icon_container nds-icon-utility-down" title="Description of icon when needed">
                     <svg class="nds-icon nds-icon--x-small nds-m-left_xx-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                     </svg>
                     <span class="nds-assistive-text">Description of icon</span>
                   </span>
@@ -270,7 +270,7 @@ storiesOf(`${base}`, module)
           <div class="nds-button_last">
             <button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-haspopup="true" title="More Actions">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
               </svg>
               <span class="nds-assistive-text">More Actions</span>
             </button>
@@ -286,10 +286,10 @@ storiesOf(`${base}`, module)
         <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-m-left_x-small" aria-expanded="false">
           <button class="nds-button nds-button_icon nds-button_icon-more" aria-haspopup="true" title="List View Controls">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
             </svg>
             <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">List View Controls</span>
           </button>
@@ -297,36 +297,36 @@ storiesOf(`${base}`, module)
         <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-m-left_xx-small">
           <button class="nds-button nds-button_icon nds-button_icon-more" aria-haspopup="true" title="Change view">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#table"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#table"></use>
             </svg>
             <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Change view</span>
           </button>
         </div>
         <button class="nds-button nds-button_icon nds-m-left_xx-small nds-button_icon-border-filled" title="Edit List">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
           </svg>
           <span class="nds-assistive-text">Edit List</span>
         </button>
         <button class="nds-button nds-button_icon nds-m-left_xx-small nds-button_icon-border-filled" title="Refresh">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#refresh"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#refresh"></use>
           </svg>
           <span class="nds-assistive-text">Refresh</span>
         </button>
         <div class="nds-button-group" role="group">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" title="Charts">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chart"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chart"></use>
             </svg>
             <span class="nds-assistive-text">Charts</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled" title="Filters">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#filterList"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#filterList"></use>
             </svg>
             <span class="nds-assistive-text">Filters</span>
           </button>

@@ -19,7 +19,7 @@ storiesOf(`${base}`, module)
         <div class="nds-grid nds-grid_vertical-align-center">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small nds-m-right_x-small nds-shrink-none nds-table_tree__toggle" tabindex="-1" title="Expand all rows">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
             </svg>
             <span class="nds-assistive-text">Expand all rows</span>
           </button>
@@ -41,7 +41,7 @@ storiesOf(`${base}`, module)
       <th class="nds-cell-shrink" scope="col">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -53,7 +53,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Rewis Inc">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Collapse Rewis Inc</span>
         </button>
@@ -78,7 +78,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Rewis Inc">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Rewis Inc</span>
         </button>
@@ -88,7 +88,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Collapse Acme Corporation">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Acme Corporation</span>
         </button>
@@ -113,7 +113,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Acme Corporation">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Acme Corporation</span>
         </button>
@@ -123,7 +123,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Collapse Rohde Enterprises">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Rohde Enterprises</span>
         </button>
@@ -148,7 +148,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Rohde Enterprises">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Rohde Enterprises</span>
         </button>
@@ -158,7 +158,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Cheese Corp">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Collapse Cheese Corp</span>
         </button>
@@ -183,7 +183,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Cheese Corp">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Cheese Corp</span>
         </button>
@@ -200,7 +200,7 @@ storiesOf(`${base}`, module)
         <div class="nds-grid nds-grid_vertical-align-center">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small nds-m-right_x-small nds-shrink-none nds-table_tree__toggle" tabindex="-1" title="Expand all rows">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
             </svg>
             <span class="nds-assistive-text">Expand all rows</span>
           </button>
@@ -222,7 +222,7 @@ storiesOf(`${base}`, module)
       <th class="nds-cell-shrink" scope="col">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -234,7 +234,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Rewis Inc">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Collapse Rewis Inc</span>
         </button>
@@ -259,7 +259,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Rewis Inc">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Rewis Inc</span>
         </button>
@@ -269,7 +269,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Collapse Acme Corporation">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Acme Corporation</span>
         </button>
@@ -294,7 +294,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Acme Corporation">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Acme Corporation</span>
         </button>
@@ -304,7 +304,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Acme Corporation (Oakland)">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Collapse Acme Corporation (Oakland)</span>
         </button>
@@ -329,7 +329,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Acme Corporation (Oakland)">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Acme Corporation (Oakland)</span>
         </button>
@@ -339,7 +339,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Collapse Rohde Enterprises">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Rohde Enterprises</span>
         </button>
@@ -364,7 +364,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Rohde Enterprises">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Rohde Enterprises</span>
         </button>
@@ -374,7 +374,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Cheese Corp">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Collapse Cheese Corp</span>
         </button>
@@ -399,7 +399,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Cheese Corp">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Cheese Corp</span>
         </button>
@@ -416,7 +416,7 @@ storiesOf(`${base}`, module)
         <div class="nds-grid nds-grid_vertical-align-center">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small nds-m-right_x-small nds-shrink-none nds-table_tree__toggle" tabindex="-1" title="Expand all rows">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
             </svg>
             <span class="nds-assistive-text">Expand all rows</span>
           </button>
@@ -438,7 +438,7 @@ storiesOf(`${base}`, module)
       <th class="nds-cell-shrink" scope="col">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -450,7 +450,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Rewis Inc">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Collapse Rewis Inc</span>
         </button>
@@ -475,7 +475,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Rewis Inc">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Rewis Inc</span>
         </button>
@@ -485,7 +485,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Collapse Acme Corporation">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Acme Corporation</span>
         </button>
@@ -510,7 +510,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Acme Corporation">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Acme Corporation</span>
         </button>
@@ -520,7 +520,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Collapse Acme Corporation (Bay Area)">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Acme Corporation (Bay Area)</span>
         </button>
@@ -545,7 +545,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Acme Corporation (Bay Area)">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Acme Corporation (Bay Area)</span>
         </button>
@@ -555,7 +555,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Acme Corporation (Oakland)">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Collapse Acme Corporation (Oakland)</span>
         </button>
@@ -580,7 +580,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Acme Corporation (Oakland)">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Acme Corporation (Oakland)</span>
         </button>
@@ -590,7 +590,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Acme Corporation (San Francisco)">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Collapse Acme Corporation (San Francisco)</span>
         </button>
@@ -615,7 +615,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Acme Corporation (San Francisco)">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Acme Corporation (San Francisco)</span>
         </button>
@@ -625,7 +625,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Collapse Acme Corporation (East)">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Acme Corporation (East)</span>
         </button>
@@ -650,7 +650,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Acme Corporation (East)">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Acme Corporation (East)</span>
         </button>
@@ -660,7 +660,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Acme Corporation (NY)">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Collapse Acme Corporation (NY)</span>
         </button>
@@ -685,7 +685,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Acme Corporation (NY)">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Acme Corporation (NY)</span>
         </button>
@@ -695,7 +695,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Collapse Acme Corporation (VA)">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Acme Corporation (VA)</span>
         </button>
@@ -720,7 +720,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Acme Corporation (VA)">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Acme Corporation (VA)</span>
         </button>
@@ -730,7 +730,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Collapse Allied Technologies">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Allied Technologies</span>
         </button>
@@ -755,7 +755,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Allied Technologies">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Allied Technologies</span>
         </button>
@@ -765,7 +765,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Allied Technologies (UV)">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Collapse Allied Technologies (UV)</span>
         </button>
@@ -790,7 +790,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Allied Technologies (UV)">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Allied Technologies (UV)</span>
         </button>
@@ -800,7 +800,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Collapse Rohde Enterprises">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Rohde Enterprises</span>
         </button>
@@ -825,7 +825,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Rohde Enterprises">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Rohde Enterprises</span>
         </button>
@@ -835,7 +835,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Rohde Enterprises (UCA)">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Collapse Rohde Enterprises (UCA)</span>
         </button>
@@ -860,7 +860,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Rohde Enterprises (UCA)">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Rohde Enterprises (UCA)</span>
         </button>
@@ -870,7 +870,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small" aria-hidden="true" tabindex="-1" title="Collapse Tech Labs">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Expand Tech Labs</span>
         </button>
@@ -895,7 +895,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Tech Labs">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Tech Labs</span>
         </button>
@@ -905,7 +905,7 @@ storiesOf(`${base}`, module)
       <th class="nds-tree__item" data-label="Account Name" scope="row">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-m-right_x-small nds-is-disabled" aria-hidden="true" tabindex="-1" title="Expand Opportunity Resources Inc">
           <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
           </svg>
           <span class="nds-assistive-text">Collapse Opportunity Resources Inc</span>
         </button>
@@ -930,7 +930,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="More actions for Opportunity Resources Inc">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More actions for Opportunity Resources Inc</span>
         </button>

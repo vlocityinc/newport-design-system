@@ -15,7 +15,7 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="nds-dropdown-trigger nds-dropdown-trigger_click">
   <button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-haspopup="true" title="Show More">
     <svg class="nds-button__icon" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
     </svg>
     <span class="nds-assistive-text">Show More</span>
   </button>
@@ -230,7 +230,7 @@ storiesOf(`${base}`, module)
   <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-is-open">
     <button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-haspopup="true" title="Show More">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
       </svg>
       <span class="nds-assistive-text">Show More</span>
     </button>
