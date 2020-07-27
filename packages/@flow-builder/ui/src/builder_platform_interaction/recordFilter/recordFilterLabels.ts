@@ -53,7 +53,8 @@ export const CRITERIA_RECORDS_LABELS = {
     [ELEMENT_TYPE.RECORD_UPDATE]: LABELS.criteriaMatchingRecords,
     [ELEMENT_TYPE.RECORD_DELETE]: LABELS.criteriaMatchingRecords,
     [ELEMENT_TYPE.RECORD_CHOICE_SET]: LABELS.criteriaMatchingRecords,
-    [ELEMENT_TYPE.START_ELEMENT]: LABELS.ruleFindingRecords
+    [ELEMENT_TYPE.START_ELEMENT]: LABELS.ruleFindingRecords,
+    [ELEMENT_TYPE.START_ON_DML]: LABELS.ruleFindingRecords
 };
 
 export const WARNING_LABELS = {
