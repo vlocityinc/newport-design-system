@@ -1,0 +1,57 @@
+/* b2bCategoriesList */
+.nds-b2b-categories-list {
+  background-color: $white;
+}
+.nds-b2b-categories-list_nav {
+  width: 100%;
+  transition: all 0.25s ease-in;
+  .nds-b2b-category-name {
+    padding: 0.5rem 1rem 0.5rem 2.6rem;
+    color: $black-primary;
+    transition: all 0.25s ease-in;
+    display: block;
+    font-size: $font-size-sub-category-name;
+    cursor: pointer;
+    .nds-b2b-switch-icon {
+      float: right;
+      transition: all 0.25s ease-in;
+    }
+    &:hover {
+      background: $alice-blue;
+    }
+    &.selected {
+      background: $alice-blue;
+    }
+    &.nds-b2b-category-name_label {
+      font-size: $font-size-category-name;
+      transition: all 0.25s ease-in;
+      .nds-b2b-category-icon {
+        margin-left: -2rem;
+        position: absolute;
+      }
+    }
+  }
+  .nds-b2b-category_group-list {
+    height: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+  }
+
+  .nds-b2b-categories-list_nav-list input[type="checkbox"] {
+    display: none;
+  }
+  .nds-b2b-categories-list_nav-list
+    input[type="checkbox"]:checked
+    + label
+    + ul {
+    max-height: 62rem;
+  }
+  .nds-b2b-categories-list_nav-list
+    input[type="checkbox"]:checked
+    + label
+    > .nds-b2b-switch-icon {
+    transform: rotate(90deg);
+    transition: all 0.3s ease-in;
+  }
+}

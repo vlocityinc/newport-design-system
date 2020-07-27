@@ -1,0 +1,11 @@
+.nds-b2b-items-grid {
+  background-color: transparent;
+  .nds-b2b-items-grid_title {
+    font-size: 1.5rem;
+    font-weight: $font-weight-bold;
+  }
+  .nds-b2b-items-grid_container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}

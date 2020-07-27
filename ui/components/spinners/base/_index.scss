@@ -47,18 +47,26 @@
 
   svg circle {
     fill: $color-background-spinner-dot;
+    /* clean-css ignore:start */
     r: 12.5%;
+    /* clean-css ignore:end */
 
     &:nth-child(1) {
+      /* clean-css ignore:start */
       cx: 12.5%;
+      /* clean-css ignore:end */
     }
 
     &:nth-child(2) {
+      /* clean-css ignore:start */
       cx: 50%;
+      /* clean-css ignore:end */
     }
 
     &:nth-child(3) {
+      /* clean-css ignore:start */
       cx: 87.5%;
+      /* clean-css ignore:end */
     }
   }
 }

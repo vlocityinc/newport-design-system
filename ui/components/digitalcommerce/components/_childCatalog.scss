@@ -1,5 +1,5 @@
 .nds-dc-child-catalog-container {
-  padding: 1.25rem;
+  padding: 1.25rem 0;
   .nds-dc-wrapper {
     display: flex;
     border-bottom: 1px solid $newport-border-gray;
@@ -28,14 +28,14 @@
 
 @media only screen and (min-width: 48rem) {
   .nds-dc-child-catalog-container {
-    padding: 1.25rem;
+    padding: 1.25rem 0;
     .nds-dc-wrapper {
       width: 100%;
       align-items: center;
       justify-content: space-between;
       .nds-dc-child-catalog-item {
         padding: 0.3125rem;
-        font-weight: bold;
+        font-weight: $font-weight-bold;
         cursor: pointer;
         width: 33.3333333333%;
         -ms-flex: 0 0 33.3333333333%;
@@ -50,7 +50,7 @@
     }
     h3 {
       font-size: 2em;
-      font-weight: bold;
+      font-weight: $font-weight-bold;
     }
   }
 }

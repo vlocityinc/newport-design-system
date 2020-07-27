@@ -1,0 +1,34 @@
+//Product components
+@import '../components/product-items/b2bCategoriesList';
+@import '../components/product-items/b2bPromoItem';
+@import '../components/product-items/b2bProductItem';
+@import '../components/product-items/b2bItemsGrid';
+@import '../components/product-items/b2bOfferSelection';
+//Cart components
+@import '../components/cart-summary/b2bTabs';
+@import '../components/cart-summary/b2bButtonResp';
+@import '../components/cart-summary/b2bDropdown';
+@import '../components/cart-summary/b2bCart';
+//Modal components
+@import '../components/modal/b2bModal';
+@import '../components/modal/b2bInputs';
+//Header components
+@import '../components/header/b2bHeader';
+@import '../components/header/b2bShowMore';
+// Configure Offer Components
+@import '../components/configure-offer/b2bConfigCard';
+@import '../components/configure-offer/b2bAttributeConfigOffer';
+@import '../components/configure-offer/b2bOfferAddons';
+@import '../components/configure-offer/b2bTotalBar';
+@import '../components/configure-offer/b2bItemsGridChild';
+@import '../components/configure-offer/b2bOfferConfig';
+@import '../components/configure-offer/b2bOverridePriceModal';
+@import '../components/configure-offer/b2bApplyDiscountModal';
+
+//Data Table with upload Box
+@import '../components/data-table/b2bUploadBox';
+@import '../components/data-table/b2bDataTable';
+
+//Common
+@import '../common/b2bFormElements';
+@import '../common/b2bTitles';

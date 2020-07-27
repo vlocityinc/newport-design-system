@@ -1,0 +1,84 @@
+.nds-b2b-product-item {
+  background-color: $white;
+  max-width: 24rem;
+  min-width: $b2b-product-item-min-width;
+  min-height: $b2b-product-item-min-height;
+  border-radius: 0.35rem;
+  border: 1px solid $palette-warm-gray-4;
+  padding: 0.5rem;
+  margin: 0.5rem 0 0.7rem 0.5rem;
+  box-shadow: 0px 3px 5px 0px $palette-warm-gray-4;
+  position: relative;
+  &.nds-b2b-hide {
+    background: $palette-gray-90;
+    pointer-events: none;
+    .nds-b2b-product-item_container {
+      background: $palette-gray-90;
+      pointer-events: none;
+      border: none;
+      .nds-b2b-product-description {
+        &:after {
+          background: $palette-gray-90;
+        }
+      }
+      &:hover {
+        border: none;
+        background-color: $palette-gray-90;
+        .nds-b2b-product-description {
+          @include multiLineEllipsis(1rem, 2, $palette-gray-90);
+        }
+      }
+    }
+  }
+  &.nds-b2b-loading {
+    pointer-events: none;
+  }
+  .nds-b2b-product-item_container {
+    border: 1px solid $white;
+    border-radius: 0.3rem;
+    width: 100%;
+    height: 100%;
+    padding: 0.8rem 1.5rem 0.8rem 2.6rem;
+    min-height: 8rem;
+    cursor: pointer;
+
+    .nds-b2b-product-name {
+      font-size: $font-size-6;
+      color: $black-primary;
+    }
+    .nds-b2b-product-description {
+      font-weight: $font-weight-light;
+      margin-top: 0.3rem;
+      margin-bottom: 1.25rem;
+      color: #666666;
+      @include multiLineEllipsis(1rem, 2);
+    }
+    .nds-b2b-product-icon {
+      margin-left: -1.6rem;
+      margin-right: 0.4rem;
+    }
+
+    .nds-b2b-price_info {
+      overflow: hidden;
+      display: flex;
+      flex-direction: row-reverse;
+      .nds-b2b-each-attribute {
+        margin-left: 3rem;
+        font-size: 1rem;
+        font-weight: 400;
+      }
+    }
+    
+    &:hover {
+      border: 1px solid $hawkes-blue;
+      background-color: $alice-blue;
+      .nds-b2b-product-description {
+        @include multiLineEllipsis(1rem, 2, $alice-blue);
+      }
+    }
+  }
+  @media screen and (min-width: 48rem) {
+    margin-left: 0.7rem;
+    max-width: $b2b-product-item-max-width;
+  }
+}
