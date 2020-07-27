@@ -183,17 +183,13 @@ $b2b-table-border: $palette-gray-5;
 	}
 }
 
-$b2b-popover-arrow-size: $square-icon-small;
-$b2b-popover-background: $palette-gray-2;
-$b2b-falyout-spacer: 2rem;
-
 .nds-b2b-detail-row {
     background-color: $b2b-popover-background;
     border: 1px solid $color-border-input;
     box-shadow: inset 0 0 10px -8px $black-primary;
 	position: absolute;
-	left: $b2b-falyout-spacer;
-	width: calc(100% - #{$b2b-falyout-spacer * 2});
+	left: $b2b-flyout-spacer;
+	width: calc(100% - #{$b2b-flyout-spacer * 2});
 	margin-top: $spacing-small;
 	padding: $spacing-medium;
 	z-index: $z-index-dialog;
