@@ -141,4 +141,15 @@ export default class FlcBuilderContainer extends LightningElement {
         const closePropertyEditorEvent = new ClosePropertyEditorEvent();
         this.dispatchEvent(closePropertyEditorEvent);
     };
+
+    /**
+     * Calling the function in flcBuilder to close the contextual menu
+     */
+    @api
+    callCloseNodeOrConnectorMenuInBuilder() {
+        const flcBuilder = this.template.querySelector('builder_platform_interaction-flc-builder');
+        if (flcBuilder) {
+            flcBuilder.closeNodeOrConnectorMenu();
+        }
+    }
 }

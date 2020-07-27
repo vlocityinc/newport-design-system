@@ -303,6 +303,7 @@ export default class FlcBuilder extends LightningElement {
     /**
      * Closes any opened node or connector menu
      */
+    @api
     closeNodeOrConnectorMenu() {
         if (this.menu != null) {
             this.updateFlowRenderContext({

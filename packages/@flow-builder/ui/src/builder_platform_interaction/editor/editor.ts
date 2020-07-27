@@ -1004,6 +1004,20 @@ export default class Editor extends LightningElement {
     };
 
     /**
+     * Function to close the contextual menu in Auto-Layout Canvas as needed
+     */
+    closeAutoLayoutContextualMenu = () => {
+        if (this.properties.isAutoLayoutCanvas) {
+            const flcBuilderContainer = this.template.querySelector(
+                'builder_platform_interaction-flc-builder-container'
+            );
+            if (flcBuilderContainer) {
+                flcBuilderContainer.callCloseNodeOrConnectorMenuInBuilder();
+            }
+        }
+    };
+
+    /**
      * Handles the toggleSelectionMode event and toggles the isSelectionMode
      * Toggle selection mode also closes the property editor panel
      */
@@ -1162,6 +1176,7 @@ export default class Editor extends LightningElement {
      */
     handleUndo = () => {
         if (!this.isUndoDisabled) {
+            this.closeAutoLayoutContextualMenu();
             storeInstance.dispatch(undo);
         }
     };
@@ -1172,6 +1187,7 @@ export default class Editor extends LightningElement {
      */
     handleRedo = () => {
         if (!this.isRedoDisabled) {
+            this.closeAutoLayoutContextualMenu();
             storeInstance.dispatch(redo);
         }
     };
@@ -1646,6 +1662,7 @@ export default class Editor extends LightningElement {
      */
     handleElementDelete = event => {
         if (event && event.detail) {
+            this.closeAutoLayoutContextualMenu();
             getElementsToBeDeleted(storeInstance, event.detail);
             this.handleClosePropertyEditor();
         }
