@@ -88,7 +88,7 @@ storiesOf(`${base}`, module)
     <div class="nds-nav-vertical__overflow">
       <button class="nds-button nds-button_reset nds-nav-vertical__action nds-nav-vertical__action_overflow" aria-controls="search-results" aria-expanded="false">
         <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
         </svg>
         <span class="nds-nav-vertical__action-text">
           <!-- react-text: 29 -->Show More
@@ -150,7 +150,7 @@ storiesOf(`${base}`, module)
     <div class="nds-nav-vertical__overflow">
       <button class="nds-button nds-button_reset nds-nav-vertical__action nds-nav-vertical__action_overflow" aria-controls="search-results" aria-expanded="true">
         <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>
         </svg>
         <span class="nds-nav-vertical__action-text">
           <!-- react-text: 29 -->Show Less
@@ -245,7 +245,7 @@ storiesOf(`${base}`, module)
           <a href="javascript:void(0);" class="nds-nav-vertical__action" aria-describedby="folder-header">
             <span class="nds-icon_container nds-icon-utility-open_folder nds-line-height_reset" title="Description of icon when needed">
               <svg class="nds-icon nds-icon-text-default nds-icon_x-small nds-m-right_x-small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#open_folder"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#open_folder"></use>
               </svg>
               <span class="nds-assistive-text">Folder</span>
             </span>
@@ -257,7 +257,7 @@ storiesOf(`${base}`, module)
           <a href="javascript:void(0);" class="nds-nav-vertical__action" aria-describedby="folder-header">
             <span class="nds-icon_container nds-icon-utility-open_folder nds-line-height_reset" title="Description of icon when needed">
               <svg class="nds-icon nds-icon-text-default nds-icon_x-small nds-m-right_x-small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#open_folder"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#open_folder"></use>
               </svg>
               <span class="nds-assistive-text">Folder</span>
             </span>
@@ -372,7 +372,7 @@ storiesOf(`${base}`, module)
       </label>
       <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left">
         <svg class="nds-icon nds-input__icon nds-input__icon_right nds-icon-text-default" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
         </svg>
         <input type="search" id="input-id-01" placeholder="Quick Find" class="nds-input">
       </div>

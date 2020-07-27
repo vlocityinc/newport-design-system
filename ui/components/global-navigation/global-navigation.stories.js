@@ -51,7 +51,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action nds-p-left_none">
             <button class="nds-button nds-button_icon nds-button_icon nds-context-bar__button" aria-haspopup="true" title="Open menu item submenu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open menu item submenu</span>
             </button>
@@ -62,7 +62,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Main action">
                     <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-m-right_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
                     </svg>
                     Main action
 
@@ -159,7 +159,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action nds-p-left_none">
             <button class="nds-button nds-button_icon nds-button_icon nds-context-bar__button" aria-haspopup="true" title="Open menu item submenu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open menu item submenu</span>
             </button>
@@ -170,7 +170,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Main action">
                     <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-m-right_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
                     </svg>
                     Main action
 

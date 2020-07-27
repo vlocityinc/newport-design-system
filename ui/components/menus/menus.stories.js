@@ -77,7 +77,7 @@ storiesOf(`${base}`, module)
   <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-is-open">
     <button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-haspopup="true" title="Show More">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
       </svg>
       <span class="nds-assistive-text">Show More</span>
     </button>
@@ -135,7 +135,7 @@ storiesOf(`${base}`, module)
     <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-is-open">
       <button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-haspopup="true" title="Show More">
         <svg class="nds-button__icon" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
         </svg>
         <span class="nds-assistive-text">Show More</span>
       </button>
@@ -199,7 +199,7 @@ storiesOf(`${base}`, module)
     <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-is-open">
       <button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-haspopup="true" title="Show More">
         <svg class="nds-button__icon" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
         </svg>
         <span class="nds-assistive-text">Show More</span>
       </button>
@@ -209,7 +209,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" role="menuitemcheckbox" aria-checked="true" tabindex="0">
               <span class="nds-truncate" title="Menu Item One">
                 <svg class="nds-icon nds-icon_selected nds-icon_x-small nds-icon-text-default nds-m-right_x-small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                 </svg>
                 Menu Item One
 
@@ -220,7 +220,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" role="menuitemcheckbox" aria-checked="false" tabindex="-1">
               <span class="nds-truncate" title="Menu Item Two">
                 <svg class="nds-icon nds-icon_selected nds-icon_x-small nds-icon-text-default nds-m-right_x-small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                 </svg>
                 Menu Item Two
 
@@ -231,7 +231,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" role="menuitemcheckbox" aria-checked="false" tabindex="-1">
               <span class="nds-truncate" title="Menu Item Three">
                 <svg class="nds-icon nds-icon_selected nds-icon_x-small nds-icon-text-default nds-m-right_x-small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                 </svg>
                 Menu Item Three
 
@@ -258,7 +258,7 @@ storiesOf(`${base}`, module)
     <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-is-open">
       <button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-haspopup="true" title="Show More">
         <svg class="nds-button__icon" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
         </svg>
         <span class="nds-assistive-text">Show More</span>
       </button>
@@ -268,13 +268,13 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" role="menuitemcheckbox" aria-checked="true" tabindex="0">
               <span class="nds-truncate" title="Table View">
                 <svg class="nds-icon nds-icon_selected nds-icon_x-small nds-icon-text-default nds-m-right_x-small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                 </svg>
                 Table View
 
               </span>
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-m-left_small nds-shrink-none" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#table"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#table"></use>
               </svg>
             </a>
           </li>
@@ -282,13 +282,13 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" role="menuitemcheckbox" aria-checked="false" tabindex="-1">
               <span class="nds-truncate" title="Kanban Board">
                 <svg class="nds-icon nds-icon_selected nds-icon_x-small nds-icon-text-default nds-m-right_x-small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                 </svg>
                 Kanban Board
 
               </span>
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-m-left_small nds-shrink-none" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#kanban"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#kanban"></use>
               </svg>
             </a>
           </li>
@@ -296,13 +296,13 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" role="menuitemcheckbox" aria-checked="false" tabindex="-1">
               <span class="nds-truncate" title="List View">
                 <svg class="nds-icon nds-icon_selected nds-icon_x-small nds-icon-text-default nds-m-right_x-small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                 </svg>
                 List View
 
               </span>
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-m-left_small nds-shrink-none" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
             </a>
           </li>
@@ -326,7 +326,7 @@ storiesOf(`${base}`, module)
     <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-is-open">
       <button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-haspopup="true" title="Show More">
         <svg class="nds-button__icon" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
         </svg>
         <span class="nds-assistive-text">Show More</span>
       </button>
@@ -339,7 +339,7 @@ storiesOf(`${base}`, module)
 
               </span>
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-m-left_small nds-shrink-none" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#table"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#table"></use>
               </svg>
             </a>
           </li>
@@ -350,7 +350,7 @@ storiesOf(`${base}`, module)
 
               </span>
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-m-left_small nds-shrink-none" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#kanban"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#kanban"></use>
               </svg>
             </a>
           </li>
@@ -361,7 +361,7 @@ storiesOf(`${base}`, module)
 
               </span>
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-m-left_small nds-shrink-none" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
             </a>
           </li>
@@ -384,7 +384,7 @@ storiesOf(`${base}`, module)
   <div class="nds-dropdown-trigger nds-dropdown-trigger_click nds-is-open">
     <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" title="Show More">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
       </svg>
       <span class="nds-assistive-text">Show More</span>
     </button>

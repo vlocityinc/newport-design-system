@@ -14,10 +14,10 @@ storiesOf(`${base}`, module)
   .add('Default (default)', () => {
     return withExample(`<button class="nds-button nds-button_icon nds-button_icon-more" aria-haspopup="true" title="More Options">
   <svg class="nds-button__icon" aria-hidden="true">
-    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
+    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
   </svg>
   <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
   </svg>
   <span class="nds-assistive-text">More options</span>
 </button>`);
@@ -25,10 +25,10 @@ storiesOf(`${base}`, module)
   .add('Button Icon Container With Dropdown (states)', () => {
     return withExample(`<button class="nds-button nds-button_icon nds-button_icon-container-more" aria-haspopup="true" title="More Options">
   <svg class="nds-button__icon" aria-hidden="true">
-    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
+    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
   </svg>
   <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
   </svg>
   <span class="nds-assistive-text">More options</span>
 </button>`);
@@ -36,10 +36,10 @@ storiesOf(`${base}`, module)
   .add('Button Icon With Dropdown Filled (states)', () => {
     return withExample(`<button class="nds-button nds-button_icon nds-button_icon-more nds-button_icon-more-filled" aria-haspopup="true" title="More Options">
   <svg class="nds-button__icon" aria-hidden="true">
-    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
+    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
   </svg>
   <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
   </svg>
   <span class="nds-assistive-text">More options</span>
 </button>`);
@@ -48,10 +48,10 @@ storiesOf(`${base}`, module)
     return withExample(`<div style="padding: 0.5rem; background-color: rgb(22, 50, 92);">
   <button class="nds-button nds-button_icon nds-button_icon-inverse nds-button_icon-more" aria-haspopup="true" title="More Options">
     <svg class="nds-button__icon" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
     </svg>
     <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
     </svg>
     <span class="nds-assistive-text">More options</span>
   </button>
@@ -61,10 +61,10 @@ storiesOf(`${base}`, module)
     return withExample(`<div style="padding: 0.5rem; background-color: rgb(22, 50, 92);">
   <button class="nds-button nds-button_icon nds-button_icon-inverse nds-button_icon-container-more" aria-haspopup="true" title="More Options">
     <svg class="nds-button__icon" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#settings"></use>
     </svg>
     <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
     </svg>
     <span class="nds-assistive-text">More options</span>
   </button>

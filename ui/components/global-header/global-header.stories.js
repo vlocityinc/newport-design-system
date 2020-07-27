@@ -27,7 +27,7 @@ storiesOf(`${base}`, module)
           <label class="nds-assistive-text" for="global-search-01">Search Salesforce</label>
           <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left-right">
             <svg class="nds-input__icon nds-input__icon_left" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
             </svg>
             <input type="text" aria-activedescendant="" aria-autocomplete="list" aria-controls="global-search-list-01" autocomplete="off" class="nds-input nds-lookup__search-input" id="global-search-01" placeholder="Search Salesforce" role="textbox">
           </div>
@@ -39,7 +39,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-01" role="option">
                   <svg class="nds-icon nds-icon-standard-opportunity nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Salesforce - 1,000 Licenses</span>
@@ -50,7 +50,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-02" role="option">
                   <svg class="nds-icon nds-icon-standard-contact nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Art Vandelay</span>
@@ -61,7 +61,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-03" role="option">
                   <svg class="nds-icon nds-icon-standard-account nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Vandelary Industries</span>
@@ -72,7 +72,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-04" role="option">
                   <svg class="nds-icon nds-icon-custom-8 nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/custom-sprite/svg/symbols.svg#custom8"></use>
+                    <use xlink:href="./assets/icons/custom-sprite/svg/symbols.svg#custom8"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Salesforce UK 2016 Events</span>
@@ -83,7 +83,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-05" role="option">
                   <svg class="nds-icon nds-icon-standard-lead nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">H.E. Pennypacker</span>
@@ -99,14 +99,14 @@ storiesOf(`${base}`, module)
         <li class="nds-grid">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon-favorites" aria-pressed="false" title="Toggle Favorites">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
             </svg>
             <span class="nds-assistive-text">Toggle Favorite</span>
           </button>
           <span class="nds-dropdown-trigger nds-dropdown-trigger_click">
             <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon nds-m-left_none" title="View Favorites">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">View Favorites</span>
             </button>
@@ -115,7 +115,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click nds-p-horizontal_xxx-small">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-small nds-button_icon-container nds-button_icon-x-small nds-global-header__button_icon-actions nds-m-horizontal_xx-small" title="Global Actions">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
             </svg>
             <span class="nds-assistive-text">Global Actions</span>
           </button>
@@ -123,7 +123,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon" title="Help and Training">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#question"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#question"></use>
             </svg>
             <span class="nds-assistive-text">Help and Training</span>
           </button>
@@ -131,7 +131,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon" title="Setup">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#setup"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#setup"></use>
             </svg>
             <span class="nds-assistive-text">Setup</span>
           </button>
@@ -139,7 +139,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon" title="Notifications">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#notification"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#notification"></use>
             </svg>
             <span class="nds-assistive-text">Notifications</span>
           </button>
@@ -172,7 +172,7 @@ storiesOf(`${base}`, module)
           <label class="nds-assistive-text" for="global-search-01">Search Salesforce</label>
           <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left-right">
             <svg class="nds-input__icon nds-input__icon_left" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
             </svg>
             <input type="text" aria-activedescendant="" aria-autocomplete="list" aria-controls="global-search-list-01" autocomplete="off" class="nds-input nds-lookup__search-input" id="global-search-01" placeholder="Search Salesforce" role="textbox">
           </div>
@@ -184,7 +184,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-01" role="option">
                   <svg class="nds-icon nds-icon-standard-opportunity nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Salesforce - 1,000 Licenses</span>
@@ -195,7 +195,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-02" role="option">
                   <svg class="nds-icon nds-icon-standard-contact nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Art Vandelay</span>
@@ -206,7 +206,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-03" role="option">
                   <svg class="nds-icon nds-icon-standard-account nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Vandelary Industries</span>
@@ -217,7 +217,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-04" role="option">
                   <svg class="nds-icon nds-icon-custom-8 nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/custom-sprite/svg/symbols.svg#custom8"></use>
+                    <use xlink:href="./assets/icons/custom-sprite/svg/symbols.svg#custom8"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Salesforce UK 2016 Events</span>
@@ -228,7 +228,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-05" role="option">
                   <svg class="nds-icon nds-icon-standard-lead nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">H.E. Pennypacker</span>
@@ -244,14 +244,14 @@ storiesOf(`${base}`, module)
         <li class="nds-grid">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon-favorites nds-is-selected" aria-pressed="true" title="Toggle Favorites">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
             </svg>
             <span class="nds-assistive-text">Toggle Favorite</span>
           </button>
           <span class="nds-dropdown-trigger nds-dropdown-trigger_click">
             <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon nds-m-left_none" title="View Favorites">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">View Favorites</span>
             </button>
@@ -260,7 +260,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click nds-p-horizontal_xxx-small">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-small nds-button_icon-container nds-button_icon-x-small nds-global-header__button_icon-actions nds-m-horizontal_xx-small" title="Global Actions">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
             </svg>
             <span class="nds-assistive-text">Global Actions</span>
           </button>
@@ -268,7 +268,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon" title="Help and Training">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#question"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#question"></use>
             </svg>
             <span class="nds-assistive-text">Help and Training</span>
           </button>
@@ -276,7 +276,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon" title="Setup">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#setup"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#setup"></use>
             </svg>
             <span class="nds-assistive-text">Setup</span>
           </button>
@@ -284,7 +284,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon" title="Notifications">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#notification"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#notification"></use>
             </svg>
             <span class="nds-assistive-text">Notifications</span>
           </button>
@@ -317,7 +317,7 @@ storiesOf(`${base}`, module)
           <label class="nds-assistive-text" for="global-search-01">Search Salesforce</label>
           <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left-right">
             <svg class="nds-input__icon nds-input__icon_left" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
             </svg>
             <input type="text" aria-activedescendant="" aria-autocomplete="list" aria-controls="global-search-list-01" autocomplete="off" class="nds-input nds-lookup__search-input" id="global-search-01" placeholder="Search Salesforce" role="textbox">
           </div>
@@ -329,7 +329,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-01" role="option">
                   <svg class="nds-icon nds-icon-standard-opportunity nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Salesforce - 1,000 Licenses</span>
@@ -340,7 +340,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-02" role="option">
                   <svg class="nds-icon nds-icon-standard-contact nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Art Vandelay</span>
@@ -351,7 +351,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-03" role="option">
                   <svg class="nds-icon nds-icon-standard-account nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Vandelary Industries</span>
@@ -362,7 +362,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-04" role="option">
                   <svg class="nds-icon nds-icon-custom-8 nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/custom-sprite/svg/symbols.svg#custom8"></use>
+                    <use xlink:href="./assets/icons/custom-sprite/svg/symbols.svg#custom8"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Salesforce UK 2016 Events</span>
@@ -373,7 +373,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-05" role="option">
                   <svg class="nds-icon nds-icon-standard-lead nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">H.E. Pennypacker</span>
@@ -389,14 +389,14 @@ storiesOf(`${base}`, module)
         <li class="nds-grid">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon-favorites nds-is-disabled" disabled="" aria-pressed="false" title="Toggle Favorites">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
             </svg>
             <span class="nds-assistive-text">Toggle Favorite</span>
           </button>
           <span class="nds-dropdown-trigger nds-dropdown-trigger_click">
             <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon nds-m-left_none" disabled="" title="View Favorites">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">View Favorites</span>
             </button>
@@ -405,7 +405,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click nds-p-horizontal_xxx-small">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-small nds-button_icon-container nds-button_icon-x-small nds-global-header__button_icon-actions nds-m-horizontal_xx-small" title="Global Actions">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
             </svg>
             <span class="nds-assistive-text">Global Actions</span>
           </button>
@@ -413,7 +413,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon" title="Help and Training">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#question"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#question"></use>
             </svg>
             <span class="nds-assistive-text">Help and Training</span>
           </button>
@@ -421,7 +421,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon" title="Setup">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#setup"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#setup"></use>
             </svg>
             <span class="nds-assistive-text">Setup</span>
           </button>
@@ -429,7 +429,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon" title="Notifications">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#notification"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#notification"></use>
             </svg>
             <span class="nds-assistive-text">Notifications</span>
           </button>
@@ -462,7 +462,7 @@ storiesOf(`${base}`, module)
           <label class="nds-assistive-text" for="global-search-01">Search Salesforce</label>
           <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left-right">
             <svg class="nds-input__icon nds-input__icon_left" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
             </svg>
             <input type="text" aria-activedescendant="" aria-autocomplete="list" aria-controls="global-search-list-01" autocomplete="off" class="nds-input nds-lookup__search-input" id="global-search-01" placeholder="Search Salesforce" role="textbox">
           </div>
@@ -474,7 +474,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-01" role="option">
                   <svg class="nds-icon nds-icon-standard-opportunity nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Salesforce - 1,000 Licenses</span>
@@ -485,7 +485,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-02" role="option">
                   <svg class="nds-icon nds-icon-standard-contact nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Art Vandelay</span>
@@ -496,7 +496,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-03" role="option">
                   <svg class="nds-icon nds-icon-standard-account nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Vandelary Industries</span>
@@ -507,7 +507,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-04" role="option">
                   <svg class="nds-icon nds-icon-custom-8 nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/custom-sprite/svg/symbols.svg#custom8"></use>
+                    <use xlink:href="./assets/icons/custom-sprite/svg/symbols.svg#custom8"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Salesforce UK 2016 Events</span>
@@ -518,7 +518,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-05" role="option">
                   <svg class="nds-icon nds-icon-standard-lead nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">H.E. Pennypacker</span>
@@ -534,14 +534,14 @@ storiesOf(`${base}`, module)
         <li class="nds-grid">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon-favorites" aria-pressed="false" title="Toggle Favorites">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
             </svg>
             <span class="nds-assistive-text">Toggle Favorite</span>
           </button>
           <span class="nds-dropdown-trigger nds-dropdown-trigger_click nds-is-open">
             <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon nds-m-left_none" title="View Favorites">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">View Favorites</span>
             </button>
@@ -550,7 +550,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click nds-p-horizontal_xxx-small nds-is-open">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-small nds-button_icon-container nds-button_icon-x-small nds-global-header__button_icon-actions nds-m-horizontal_xx-small" title="Global Actions">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
             </svg>
             <span class="nds-assistive-text">Global Actions</span>
           </button>
@@ -563,7 +563,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="0">
                   <span class="nds-truncate" title="[object Object], ,New Note">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-note nds-m-right_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#note"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#note"></use>
                     </svg>
                     <!-- react-text: 81 -->
                     <!-- /react-text -->
@@ -576,7 +576,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object], ,Log a Call">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-log-a-call nds-m-right_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#log_a_call"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#log_a_call"></use>
                     </svg>
                     <!-- react-text: 88 -->
                     <!-- /react-text -->
@@ -589,7 +589,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object], ,New Event">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-event nds-m-right_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#event"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#event"></use>
                     </svg>
                     <!-- react-text: 95 -->
                     <!-- /react-text -->
@@ -604,7 +604,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon" title="Help and Training">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#question"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#question"></use>
             </svg>
             <span class="nds-assistive-text">Help and Training</span>
           </button>
@@ -612,7 +612,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon" title="Setup">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#setup"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#setup"></use>
             </svg>
             <span class="nds-assistive-text">Setup</span>
           </button>
@@ -620,7 +620,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon" title="Notifications">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#notification"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#notification"></use>
             </svg>
             <span class="nds-assistive-text">Notifications</span>
           </button>
@@ -653,7 +653,7 @@ storiesOf(`${base}`, module)
           <label class="nds-assistive-text" for="global-search-01">Search Salesforce</label>
           <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left-right">
             <svg class="nds-input__icon nds-input__icon_left" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
             </svg>
             <input type="text" aria-activedescendant="" aria-autocomplete="list" aria-controls="global-search-list-01" autocomplete="off" class="nds-input nds-lookup__search-input" id="global-search-01" placeholder="Search Salesforce" role="textbox">
           </div>
@@ -665,7 +665,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-01" role="option">
                   <svg class="nds-icon nds-icon-standard-opportunity nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Salesforce - 1,000 Licenses</span>
@@ -676,7 +676,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-02" role="option">
                   <svg class="nds-icon nds-icon-standard-contact nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Art Vandelay</span>
@@ -687,7 +687,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-03" role="option">
                   <svg class="nds-icon nds-icon-standard-account nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Vandelary Industries</span>
@@ -698,7 +698,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-04" role="option">
                   <svg class="nds-icon nds-icon-custom-8 nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/custom-sprite/svg/symbols.svg#custom8"></use>
+                    <use xlink:href="./assets/icons/custom-sprite/svg/symbols.svg#custom8"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Salesforce UK 2016 Events</span>
@@ -709,7 +709,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-05" role="option">
                   <svg class="nds-icon nds-icon-standard-lead nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">H.E. Pennypacker</span>
@@ -725,14 +725,14 @@ storiesOf(`${base}`, module)
         <li class="nds-grid">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon-favorites" aria-pressed="false" title="Toggle Favorites">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
             </svg>
             <span class="nds-assistive-text">Toggle Favorite</span>
           </button>
           <span class="nds-dropdown-trigger nds-dropdown-trigger_click">
             <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon nds-m-left_none" title="View Favorites">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">View Favorites</span>
             </button>
@@ -741,7 +741,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click nds-p-horizontal_xxx-small">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-small nds-button_icon-container nds-button_icon-x-small nds-global-header__button_icon-actions nds-m-horizontal_xx-small" title="Global Actions">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
             </svg>
             <span class="nds-assistive-text">Global Actions</span>
           </button>
@@ -749,7 +749,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon" title="Help and Training">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#question"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#question"></use>
             </svg>
             <span class="nds-assistive-text">Help and Training</span>
           </button>
@@ -757,7 +757,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click nds-is-open">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon" title="Setup">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#setup"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#setup"></use>
             </svg>
             <span class="nds-assistive-text">Setup</span>
           </button>
@@ -780,7 +780,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click nds-is-open">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon" title="Notifications">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#notification"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#notification"></use>
             </svg>
             <span class="nds-assistive-text">Notifications</span>
           </button>
@@ -813,7 +813,7 @@ storiesOf(`${base}`, module)
           <label class="nds-assistive-text" for="global-search-01">Search Salesforce</label>
           <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left-right">
             <svg class="nds-input__icon nds-input__icon_left" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
             </svg>
             <input type="text" aria-activedescendant="" aria-autocomplete="list" aria-controls="global-search-list-01" autocomplete="off" class="nds-input nds-lookup__search-input" id="global-search-01" placeholder="Search Salesforce" role="textbox">
           </div>
@@ -825,7 +825,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-01" role="option">
                   <svg class="nds-icon nds-icon-standard-opportunity nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Salesforce - 1,000 Licenses</span>
@@ -836,7 +836,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-02" role="option">
                   <svg class="nds-icon nds-icon-standard-contact nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Art Vandelay</span>
@@ -847,7 +847,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-03" role="option">
                   <svg class="nds-icon nds-icon-standard-account nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Vandelary Industries</span>
@@ -858,7 +858,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-04" role="option">
                   <svg class="nds-icon nds-icon-custom-8 nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/custom-sprite/svg/symbols.svg#custom8"></use>
+                    <use xlink:href="./assets/icons/custom-sprite/svg/symbols.svg#custom8"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">Salesforce UK 2016 Events</span>
@@ -869,7 +869,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-05" role="option">
                   <svg class="nds-icon nds-icon-standard-lead nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">H.E. Pennypacker</span>
@@ -885,14 +885,14 @@ storiesOf(`${base}`, module)
         <li class="nds-grid">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon-favorites" aria-pressed="false" title="Toggle Favorites">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
             </svg>
             <span class="nds-assistive-text">Toggle Favorite</span>
           </button>
           <span class="nds-dropdown-trigger nds-dropdown-trigger_click">
             <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon nds-m-left_none" title="View Favorites">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">View Favorites</span>
             </button>
@@ -901,7 +901,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click nds-p-horizontal_xxx-small">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-small nds-button_icon-container nds-button_icon-x-small nds-global-header__button_icon-actions nds-m-horizontal_xx-small" title="Global Actions">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
             </svg>
             <span class="nds-assistive-text">Global Actions</span>
           </button>
@@ -909,7 +909,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon" title="Help and Training">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#question"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#question"></use>
             </svg>
             <span class="nds-assistive-text">Help and Training</span>
           </button>
@@ -917,7 +917,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon" title="Setup">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#setup"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#setup"></use>
             </svg>
             <span class="nds-assistive-text">Setup</span>
           </button>
@@ -925,7 +925,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon" title="Notifications">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#notification"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#notification"></use>
             </svg>
             <span class="nds-assistive-text">Notifications</span>
           </button>
@@ -958,12 +958,12 @@ storiesOf(`${base}`, module)
           <label class="nds-assistive-text" for="global-search-01">Search Salesforce</label>
           <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left-right">
             <svg class="nds-input__icon nds-input__icon_left" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
             </svg>
             <input type="text" aria-activedescendant="" aria-autocomplete="list" aria-controls="global-search-list-01" autocomplete="off" class="nds-input nds-lookup__search-input" id="global-search-01" placeholder="Search Salesforce" role="textbox" value="ibm">
             <button class="nds-input__icon nds-input__icon_right nds-button nds-button_icon">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#clear"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#clear"></use>
               </svg>
               <span class="nds-assistive-text">Clear the current search term</span>
             </button>
@@ -973,7 +973,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-lookup__item-action_label nds-text-body_small nds-has-focus" id="option-00" role="option">
                   <svg class="nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
                   </svg>
                   <span class="nds-truncate" title="'ibm' in Salesforce">"ibm" in Salesforce</span>
                 </span>
@@ -981,7 +981,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-01" role="option">
                   <svg class="nds-icon nds-icon-standard-opportunity nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">
@@ -996,7 +996,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-02" role="option">
                   <svg class="nds-icon nds-icon-standard-account nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">
@@ -1009,7 +1009,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-03" role="option">
                   <svg class="nds-icon nds-icon-standard-account nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">
@@ -1024,7 +1024,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-04" role="option">
                   <svg class="nds-icon nds-icon-standard-opportunity nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">
@@ -1039,7 +1039,7 @@ storiesOf(`${base}`, module)
               <li role="presentation">
                 <span class="nds-lookup__item-action nds-media" id="option-05" role="option">
                   <svg class="nds-icon nds-icon-standard-contact nds-icon_small nds-media__figure" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
                   </svg>
                   <span class="nds-media__body">
                     <span class="nds-lookup__result-text">
@@ -1061,14 +1061,14 @@ storiesOf(`${base}`, module)
         <li class="nds-grid">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon-favorites" aria-pressed="false" title="Toggle Favorites">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#favorite"></use>
             </svg>
             <span class="nds-assistive-text">Toggle Favorite</span>
           </button>
           <span class="nds-dropdown-trigger nds-dropdown-trigger_click">
             <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon nds-m-left_none" title="View Favorites">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">View Favorites</span>
             </button>
@@ -1077,7 +1077,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click nds-p-horizontal_xxx-small">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-small nds-button_icon-container nds-button_icon-x-small nds-global-header__button_icon-actions nds-m-horizontal_xx-small" title="Global Actions">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
             </svg>
             <span class="nds-assistive-text">Global Actions</span>
           </button>
@@ -1085,7 +1085,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon" title="Help and Training">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#question"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#question"></use>
             </svg>
             <span class="nds-assistive-text">Help and Training</span>
           </button>
@@ -1093,7 +1093,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon" title="Setup">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#setup"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#setup"></use>
             </svg>
             <span class="nds-assistive-text">Setup</span>
           </button>
@@ -1101,7 +1101,7 @@ storiesOf(`${base}`, module)
         <li class="nds-dropdown-trigger nds-dropdown-trigger_click">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-container nds-button_icon-small nds-global-header__button_icon" title="Notifications">
             <svg class="nds-button__icon nds-global-header__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#notification"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#notification"></use>
             </svg>
             <span class="nds-assistive-text">Notifications</span>
           </button>

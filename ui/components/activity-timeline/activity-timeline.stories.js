@@ -26,7 +26,7 @@ storiesOf(`${base}`, module)
                     title="task">
                   <svg class="nds-icon nds-icon_small"
                       aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#task"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#task"></use>
                   </svg>
                 </div>
               </div>
@@ -78,7 +78,7 @@ storiesOf(`${base}`, module)
                     title="More Options for Task, Review proposals">
                 <svg class="nds-button__icon"
                     aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                 </svg>
                 <span class="nds-assistive-text">More Options for Task, Review proposals</span>
               </button>
@@ -98,7 +98,7 @@ storiesOf(`${base}`, module)
                     title="event">
                   <svg class="nds-icon nds-icon_small"
                       aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#event"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#event"></use>
                   </svg>
                 </div>
               </div>
@@ -145,7 +145,7 @@ storiesOf(`${base}`, module)
                   title="More Options for Event, Company One">
                 <svg class="nds-button__icon"
                   aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                 </svg>
                 <span class="nds-assistive-text">More Options for Event, Company One</span>
               </button>
@@ -165,7 +165,7 @@ storiesOf(`${base}`, module)
                   title="call">
                   <svg class="nds-icon nds-icon_small"
                     aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#log_a_call"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#log_a_call"></use>
                   </svg>
                 </div>
               </div>
@@ -202,7 +202,7 @@ storiesOf(`${base}`, module)
                   title="More Options for Call, Mobile conversation">
                 <svg class="nds-button__icon"
                     aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                 </svg>
                 <span class="nds-assistive-text">More Options for Call, Mobile conversation</span>
               </button>
@@ -222,7 +222,7 @@ storiesOf(`${base}`, module)
                     title="email">
                   <svg class="nds-icon nds-icon_small"
                       aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#email"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#email"></use>
                   </svg>
                 </div>
               </div>
@@ -263,7 +263,7 @@ storiesOf(`${base}`, module)
                   title="More Options for Email, Mobile conversation">
                 <svg class="nds-button__icon"
                     aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                 </svg>
                 <span class="nds-assistive-text">More Options for Email, Mobile conversation</span>
               </button>

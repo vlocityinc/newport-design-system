@@ -44,7 +44,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" title="Open object switcher menu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open object switcher menu</span>
             </button>
@@ -55,7 +55,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Accounts">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     Accounts
 
@@ -66,7 +66,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Cases">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-case nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                     </svg>
                     Cases
 
@@ -77,7 +77,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Insights">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-work-order nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
                     </svg>
                     Insights
 
@@ -91,7 +91,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" aria-expanded="false" aria-controls="id_of_split_view_container" title="Toggle split view">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
               <span class="nds-assistive-text">Toggle split view</span>
             </button>
@@ -102,7 +102,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" title="Open a New Tab">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
               </svg>
               <span class="nds-assistive-text">Open a New Tab</span>
             </button>
@@ -116,7 +116,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Home" aria-selected="true" tabindex="0" aria-controls="context-tab-panel-1" id="context-tab-id-1">
               <div class="nds-icon_container" title="Home">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#home"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#home"></use>
                 </svg>
                 <span class="nds-assistive-text">Home</span>
               </div>
@@ -125,7 +125,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="0" title="Actions for Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Home</span>
               </button>
@@ -189,7 +189,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Home</span>
               </button>
@@ -199,7 +199,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 1" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-2" id="context-tab-id-2">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -208,7 +208,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 1</span>
               </button>
@@ -272,7 +272,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 1</span>
               </button>
@@ -282,7 +282,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 2" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-3" id="context-tab-id-3">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -291,7 +291,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 2</span>
               </button>
@@ -355,7 +355,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 2</span>
               </button>
@@ -403,7 +403,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" title="Open object switcher menu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open object switcher menu</span>
             </button>
@@ -414,7 +414,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Accounts">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     Accounts
 
@@ -425,7 +425,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Cases">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-case nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                     </svg>
                     Cases
 
@@ -436,7 +436,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Insights">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-work-order nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
                     </svg>
                     Insights
 
@@ -450,7 +450,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small nds-is-selected" aria-expanded="true" aria-controls="id_of_split_view_container" title="Toggle split view">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
               <span class="nds-assistive-text">Toggle split view</span>
             </button>
@@ -461,7 +461,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" title="Open a New Tab">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
               </svg>
               <span class="nds-assistive-text">Open a New Tab</span>
             </button>
@@ -475,7 +475,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Home" aria-selected="true" tabindex="0" aria-controls="context-tab-panel-1" id="context-tab-id-1">
               <div class="nds-icon_container" title="Home">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#home"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#home"></use>
                 </svg>
                 <span class="nds-assistive-text">Home</span>
               </div>
@@ -484,7 +484,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="0" title="Actions for Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Home</span>
               </button>
@@ -548,7 +548,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Home</span>
               </button>
@@ -558,7 +558,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 1" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-2" id="context-tab-id-2">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -567,7 +567,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 1</span>
               </button>
@@ -631,7 +631,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 1</span>
               </button>
@@ -641,7 +641,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 2" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-3" id="context-tab-id-3">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -650,7 +650,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 2</span>
               </button>
@@ -714,7 +714,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 2</span>
               </button>
@@ -762,7 +762,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" title="Open object switcher menu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open object switcher menu</span>
             </button>
@@ -773,7 +773,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Accounts">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     Accounts
 
@@ -784,7 +784,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Cases">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-case nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                     </svg>
                     Cases
 
@@ -795,7 +795,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Insights">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-work-order nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
                     </svg>
                     Insights
 
@@ -809,7 +809,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" aria-expanded="false" aria-controls="id_of_split_view_container" title="Toggle split view">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
               <span class="nds-assistive-text">Toggle split view</span>
             </button>
@@ -820,7 +820,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" title="Open a New Tab">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
               </svg>
               <span class="nds-assistive-text">Open a New Tab</span>
             </button>
@@ -834,7 +834,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Home" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-1" id="context-tab-id-1">
               <div class="nds-icon_container" title="Home">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#home"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#home"></use>
                 </svg>
                 <span class="nds-assistive-text">Home</span>
               </div>
@@ -843,7 +843,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Home</span>
               </button>
@@ -907,7 +907,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Home</span>
               </button>
@@ -917,7 +917,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 1" aria-selected="true" tabindex="0" aria-controls="context-tab-panel-2" id="context-tab-id-2">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -926,7 +926,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="0" title="Actions for Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 1</span>
               </button>
@@ -990,7 +990,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 1</span>
               </button>
@@ -1000,7 +1000,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 2" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-3" id="context-tab-id-3">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -1009,7 +1009,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 2</span>
               </button>
@@ -1073,7 +1073,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 2</span>
               </button>
@@ -1121,7 +1121,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" title="Open object switcher menu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open object switcher menu</span>
             </button>
@@ -1132,7 +1132,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Accounts">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     Accounts
 
@@ -1143,7 +1143,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Cases">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-case nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                     </svg>
                     Cases
 
@@ -1154,7 +1154,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Insights">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-work-order nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
                     </svg>
                     Insights
 
@@ -1168,7 +1168,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" aria-expanded="false" aria-controls="id_of_split_view_container" title="Toggle split view">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
               <span class="nds-assistive-text">Toggle split view</span>
             </button>
@@ -1179,7 +1179,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" title="Open a New Tab">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
               </svg>
               <span class="nds-assistive-text">Open a New Tab</span>
             </button>
@@ -1193,7 +1193,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Home" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-1" id="context-tab-id-1">
               <div class="nds-icon_container" title="Home">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#home"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#home"></use>
                 </svg>
                 <span class="nds-assistive-text">Home</span>
               </div>
@@ -1202,7 +1202,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Home</span>
               </button>
@@ -1266,7 +1266,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Home</span>
               </button>
@@ -1276,7 +1276,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 1" aria-selected="true" tabindex="0" aria-controls="context-tab-panel-2" id="context-tab-id-2">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -1285,7 +1285,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="0" title="Actions for Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 1</span>
               </button>
@@ -1349,7 +1349,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 1</span>
               </button>
@@ -1359,7 +1359,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 2" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-3" id="context-tab-id-3">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -1368,7 +1368,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 2</span>
               </button>
@@ -1432,7 +1432,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 2</span>
               </button>
@@ -1480,7 +1480,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" title="Open object switcher menu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open object switcher menu</span>
             </button>
@@ -1491,7 +1491,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Accounts">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     Accounts
 
@@ -1502,7 +1502,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Cases">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-case nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                     </svg>
                     Cases
 
@@ -1513,7 +1513,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Insights">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-work-order nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
                     </svg>
                     Insights
 
@@ -1527,7 +1527,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" aria-expanded="false" aria-controls="id_of_split_view_container" title="Toggle split view">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
               <span class="nds-assistive-text">Toggle split view</span>
             </button>
@@ -1538,7 +1538,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" title="Open a New Tab">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
               </svg>
               <span class="nds-assistive-text">Open a New Tab</span>
             </button>
@@ -1552,7 +1552,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Home" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-1" id="context-tab-id-1">
               <div class="nds-icon_container" title="Home">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#home"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#home"></use>
                 </svg>
                 <span class="nds-assistive-text">Home</span>
               </div>
@@ -1561,7 +1561,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Home</span>
               </button>
@@ -1625,7 +1625,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Home</span>
               </button>
@@ -1635,7 +1635,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 1" aria-selected="true" tabindex="0" aria-controls="context-tab-panel-2" id="context-tab-id-2">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -1644,7 +1644,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none nds-is-open">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="0" title="Actions for Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 1</span>
               </button>
@@ -1708,7 +1708,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 1</span>
               </button>
@@ -1718,7 +1718,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 2" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-3" id="context-tab-id-3">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -1727,7 +1727,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 2</span>
               </button>
@@ -1791,7 +1791,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 2</span>
               </button>
@@ -1839,7 +1839,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" title="Open object switcher menu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open object switcher menu</span>
             </button>
@@ -1850,7 +1850,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Accounts">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     Accounts
 
@@ -1861,7 +1861,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Cases">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-case nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                     </svg>
                     Cases
 
@@ -1872,7 +1872,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Insights">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-work-order nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
                     </svg>
                     Insights
 
@@ -1886,7 +1886,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" aria-expanded="false" aria-controls="id_of_split_view_container" title="Toggle split view">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
               <span class="nds-assistive-text">Toggle split view</span>
             </button>
@@ -1897,7 +1897,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" title="Open a New Tab">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
               </svg>
               <span class="nds-assistive-text">Open a New Tab</span>
             </button>
@@ -1911,7 +1911,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Home" aria-selected="true" tabindex="0" aria-controls="context-tab-panel-1" id="context-tab-id-1">
               <div class="nds-icon_container" title="Home">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#home"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#home"></use>
                 </svg>
                 <span class="nds-assistive-text">Home</span>
               </div>
@@ -1920,7 +1920,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="0" title="Actions for Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Home</span>
               </button>
@@ -1984,7 +1984,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Home</span>
               </button>
@@ -1994,7 +1994,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 1" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-2" id="context-tab-id-2">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -2003,7 +2003,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 1</span>
               </button>
@@ -2067,7 +2067,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 1</span>
               </button>
@@ -2078,7 +2078,7 @@ storiesOf(`${base}`, module)
               <abbr class="nds-indicator_unsaved" title="Tab Not Saved">*</abbr>
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -2087,7 +2087,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 2</span>
               </button>
@@ -2151,7 +2151,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 2</span>
               </button>
@@ -2199,7 +2199,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" title="Open object switcher menu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open object switcher menu</span>
             </button>
@@ -2210,7 +2210,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Accounts">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     Accounts
 
@@ -2221,7 +2221,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Cases">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-case nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                     </svg>
                     Cases
 
@@ -2232,7 +2232,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Insights">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-work-order nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
                     </svg>
                     Insights
 
@@ -2246,7 +2246,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" aria-expanded="false" aria-controls="id_of_split_view_container" title="Toggle split view">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
               <span class="nds-assistive-text">Toggle split view</span>
             </button>
@@ -2257,7 +2257,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" title="Open a New Tab">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
               </svg>
               <span class="nds-assistive-text">Open a New Tab</span>
             </button>
@@ -2271,7 +2271,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Home" aria-selected="true" tabindex="0" aria-controls="context-tab-panel-1" id="context-tab-id-1">
               <div class="nds-icon_container" title="Home">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#home"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#home"></use>
                 </svg>
                 <span class="nds-assistive-text">Home</span>
               </div>
@@ -2280,7 +2280,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="0" title="Actions for Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Home</span>
               </button>
@@ -2344,7 +2344,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Home</span>
               </button>
@@ -2354,7 +2354,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 1" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-2" id="context-tab-id-2">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -2363,7 +2363,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 1</span>
               </button>
@@ -2427,7 +2427,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 1</span>
               </button>
@@ -2445,7 +2445,7 @@ storiesOf(`${base}`, module)
               </span>
               <div class="nds-icon_container" title="Live Chat">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#live_chat"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#live_chat"></use>
                 </svg>
                 <span class="nds-assistive-text">Live Chat</span>
               </div>
@@ -2454,7 +2454,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Chat - Customer">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Chat - Customer</span>
               </button>
@@ -2518,7 +2518,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Chat - Customer">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Chat - Customer</span>
               </button>
@@ -2566,7 +2566,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" title="Open object switcher menu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open object switcher menu</span>
             </button>
@@ -2577,7 +2577,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Accounts">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     Accounts
 
@@ -2588,7 +2588,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Cases">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-case nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                     </svg>
                     Cases
 
@@ -2599,7 +2599,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Insights">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-work-order nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
                     </svg>
                     Insights
 
@@ -2613,7 +2613,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" aria-expanded="false" aria-controls="id_of_split_view_container" title="Toggle split view">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
               <span class="nds-assistive-text">Toggle split view</span>
             </button>
@@ -2624,7 +2624,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" title="Open a New Tab">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
               </svg>
               <span class="nds-assistive-text">Open a New Tab</span>
             </button>
@@ -2638,7 +2638,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Home" aria-selected="true" tabindex="0" aria-controls="context-tab-panel-1" id="context-tab-id-1">
               <div class="nds-icon_container" title="Home">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#home"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#home"></use>
                 </svg>
                 <span class="nds-assistive-text">Home</span>
               </div>
@@ -2647,7 +2647,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="0" title="Actions for Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Home</span>
               </button>
@@ -2711,7 +2711,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Home</span>
               </button>
@@ -2721,7 +2721,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 1" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-2" id="context-tab-id-2">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -2730,7 +2730,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 1</span>
               </button>
@@ -2794,7 +2794,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 1</span>
               </button>
@@ -2813,7 +2813,7 @@ storiesOf(`${base}`, module)
               </span>
               <div class="nds-icon_container" title="Live Chat">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#live_chat"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#live_chat"></use>
                 </svg>
                 <span class="nds-assistive-text">Live Chat</span>
               </div>
@@ -2822,7 +2822,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Chat - Customer">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Chat - Customer</span>
               </button>
@@ -2886,7 +2886,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Chat - Customer">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Chat - Customer</span>
               </button>
@@ -2934,7 +2934,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" title="Open object switcher menu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open object switcher menu</span>
             </button>
@@ -2945,7 +2945,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Accounts">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     Accounts
 
@@ -2956,7 +2956,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Cases">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-case nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                     </svg>
                     Cases
 
@@ -2967,7 +2967,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Insights">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-work-order nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
                     </svg>
                     Insights
 
@@ -2981,7 +2981,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" aria-expanded="false" aria-controls="id_of_split_view_container" title="Toggle split view">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
               <span class="nds-assistive-text">Toggle split view</span>
             </button>
@@ -2992,7 +2992,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" title="Open a New Tab">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
               </svg>
               <span class="nds-assistive-text">Open a New Tab</span>
             </button>
@@ -3006,7 +3006,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Home" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-1" id="context-tab-id-1">
               <div class="nds-icon_container" title="Home">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#home"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#home"></use>
                 </svg>
                 <span class="nds-assistive-text">Home</span>
               </div>
@@ -3015,7 +3015,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Home</span>
               </button>
@@ -3081,7 +3081,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 1" aria-selected="true" tabindex="0" aria-controls="context-tab-panel-2" id="context-tab-id-2">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -3090,7 +3090,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="0" title="Actions for Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 1</span>
               </button>
@@ -3154,7 +3154,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 1</span>
               </button>
@@ -3164,7 +3164,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 2" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-3" id="context-tab-id-3">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -3173,7 +3173,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 2</span>
               </button>
@@ -3237,7 +3237,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 2</span>
               </button>
@@ -3285,7 +3285,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" title="Open object switcher menu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open object switcher menu</span>
             </button>
@@ -3296,7 +3296,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Accounts">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     Accounts
 
@@ -3307,7 +3307,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Cases">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-case nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                     </svg>
                     Cases
 
@@ -3318,7 +3318,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Insights">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-work-order nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
                     </svg>
                     Insights
 
@@ -3332,7 +3332,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" aria-expanded="false" aria-controls="id_of_split_view_container" title="Toggle split view">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
               <span class="nds-assistive-text">Toggle split view</span>
             </button>
@@ -3343,7 +3343,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" title="Open a New Tab">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
               </svg>
               <span class="nds-assistive-text">Open a New Tab</span>
             </button>
@@ -3357,7 +3357,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Home" aria-selected="true" tabindex="0" aria-controls="context-tab-panel-1" id="context-tab-id-1">
               <div class="nds-icon_container" title="Home">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#home"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#home"></use>
                 </svg>
                 <span class="nds-assistive-text">Home</span>
               </div>
@@ -3366,7 +3366,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="0" title="Actions for Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Home</span>
               </button>
@@ -3432,7 +3432,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 1" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-2" id="context-tab-id-2">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -3441,7 +3441,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 1</span>
               </button>
@@ -3505,7 +3505,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 1</span>
               </button>
@@ -3515,7 +3515,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 2" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-3" id="context-tab-id-3">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -3524,7 +3524,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 2</span>
               </button>
@@ -3588,7 +3588,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 2</span>
               </button>
@@ -3636,7 +3636,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" title="Open object switcher menu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open object switcher menu</span>
             </button>
@@ -3647,7 +3647,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Accounts">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     Accounts
 
@@ -3658,7 +3658,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Cases">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-case nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                     </svg>
                     Cases
 
@@ -3669,7 +3669,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Insights">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-work-order nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
                     </svg>
                     Insights
 
@@ -3683,7 +3683,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" aria-expanded="false" aria-controls="id_of_split_view_container" title="Toggle split view">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
               <span class="nds-assistive-text">Toggle split view</span>
             </button>
@@ -3694,7 +3694,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" title="Open a New Tab">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
               </svg>
               <span class="nds-assistive-text">Open a New Tab</span>
             </button>
@@ -3708,7 +3708,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Home" aria-selected="true" tabindex="0" aria-controls="context-tab-panel-1" id="context-tab-id-1">
               <div class="nds-icon_container" title="Home">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#home"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#home"></use>
                 </svg>
                 <span class="nds-assistive-text">Home</span>
               </div>
@@ -3717,7 +3717,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="0" title="Actions for Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Home</span>
               </button>
@@ -3783,7 +3783,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 1" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-2" id="context-tab-id-2">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -3792,7 +3792,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 1</span>
               </button>
@@ -3856,7 +3856,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 1</span>
               </button>
@@ -3866,7 +3866,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 2" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-3" id="context-tab-id-3">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -3875,7 +3875,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 2</span>
               </button>
@@ -3939,7 +3939,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 2</span>
               </button>
@@ -3987,7 +3987,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" title="Open object switcher menu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open object switcher menu</span>
             </button>
@@ -3998,7 +3998,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Accounts">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     Accounts
 
@@ -4009,7 +4009,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Cases">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-case nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                     </svg>
                     Cases
 
@@ -4020,7 +4020,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Insights">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-work-order nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
                     </svg>
                     Insights
 
@@ -4034,7 +4034,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" aria-expanded="false" aria-controls="id_of_split_view_container" title="Toggle split view">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
               <span class="nds-assistive-text">Toggle split view</span>
             </button>
@@ -4045,7 +4045,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" title="Open a New Tab">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
               </svg>
               <span class="nds-assistive-text">Open a New Tab</span>
             </button>
@@ -4060,7 +4060,7 @@ storiesOf(`${base}`, module)
               <abbr class="nds-indicator_unsaved" title="Tab Not Saved">*</abbr>
               <div class="nds-icon_container" title="Home">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#home"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#home"></use>
                 </svg>
                 <span class="nds-assistive-text">Home</span>
               </div>
@@ -4069,7 +4069,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Home</span>
               </button>
@@ -4135,7 +4135,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 1" aria-selected="true" tabindex="0" aria-controls="context-tab-panel-2" id="context-tab-id-2">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -4144,7 +4144,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="0" title="Actions for Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 1</span>
               </button>
@@ -4208,7 +4208,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 1</span>
               </button>
@@ -4218,7 +4218,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 2" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-3" id="context-tab-id-3">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -4227,7 +4227,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 2</span>
               </button>
@@ -4291,7 +4291,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 2</span>
               </button>
@@ -4339,7 +4339,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" title="Open object switcher menu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open object switcher menu</span>
             </button>
@@ -4350,7 +4350,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Accounts">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     Accounts
 
@@ -4361,7 +4361,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Cases">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-case nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                     </svg>
                     Cases
 
@@ -4372,7 +4372,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Insights">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-work-order nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
                     </svg>
                     Insights
 
@@ -4386,7 +4386,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" aria-expanded="false" aria-controls="id_of_split_view_container" title="Toggle split view">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
               <span class="nds-assistive-text">Toggle split view</span>
             </button>
@@ -4397,7 +4397,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" title="Open a New Tab">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
               </svg>
               <span class="nds-assistive-text">Open a New Tab</span>
             </button>
@@ -4419,7 +4419,7 @@ storiesOf(`${base}`, module)
               </span>
               <div class="nds-icon_container" title="Live Chat">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#live_chat"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#live_chat"></use>
                 </svg>
                 <span class="nds-assistive-text">Live Chat</span>
               </div>
@@ -4428,7 +4428,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Chat - Customer">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Chat - Customer</span>
               </button>
@@ -4494,7 +4494,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 1" aria-selected="true" tabindex="0" aria-controls="context-tab-panel-2" id="context-tab-id-2">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -4503,7 +4503,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="0" title="Actions for Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 1</span>
               </button>
@@ -4567,7 +4567,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 1</span>
               </button>
@@ -4577,7 +4577,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 2" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-3" id="context-tab-id-3">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -4586,7 +4586,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 2</span>
               </button>
@@ -4650,7 +4650,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 2</span>
               </button>
@@ -4698,7 +4698,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" title="Open object switcher menu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open object switcher menu</span>
             </button>
@@ -4709,7 +4709,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Accounts">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     Accounts
 
@@ -4720,7 +4720,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Cases">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-case nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                     </svg>
                     Cases
 
@@ -4731,7 +4731,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Insights">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-work-order nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
                     </svg>
                     Insights
 
@@ -4745,7 +4745,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" aria-expanded="false" aria-controls="id_of_split_view_container" title="Toggle split view">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
               <span class="nds-assistive-text">Toggle split view</span>
             </button>
@@ -4756,7 +4756,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" title="Open a New Tab">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
               </svg>
               <span class="nds-assistive-text">Open a New Tab</span>
             </button>
@@ -4770,7 +4770,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Home" aria-selected="true" tabindex="0" aria-controls="context-tab-panel-1" id="context-tab-id-1">
               <div class="nds-icon_container" title="Home">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#home"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#home"></use>
                 </svg>
                 <span class="nds-assistive-text">Home</span>
               </div>
@@ -4779,7 +4779,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="0" title="Actions for Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Home</span>
               </button>
@@ -4843,7 +4843,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Home</span>
               </button>
@@ -4853,7 +4853,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 1" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-2" id="context-tab-id-2">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -4862,7 +4862,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 1</span>
               </button>
@@ -4926,7 +4926,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 1</span>
               </button>
@@ -4936,7 +4936,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 2" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-3" id="context-tab-id-3">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -4945,7 +4945,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 2</span>
               </button>
@@ -5009,7 +5009,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 2</span>
               </button>
@@ -5023,7 +5023,7 @@ storiesOf(`${base}`, module)
                 <span class="nds-assistive-text">Tabs</span>
               </span>
               <svg class="nds-button__icon nds-button__icon_small nds-button__icon_right" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
             </button>
           </li>
@@ -5069,7 +5069,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" title="Open object switcher menu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open object switcher menu</span>
             </button>
@@ -5080,7 +5080,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Accounts">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     Accounts
 
@@ -5091,7 +5091,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Cases">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-case nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                     </svg>
                     Cases
 
@@ -5102,7 +5102,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Insights">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-work-order nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
                     </svg>
                     Insights
 
@@ -5116,7 +5116,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" aria-expanded="false" aria-controls="id_of_split_view_container" title="Toggle split view">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
               <span class="nds-assistive-text">Toggle split view</span>
             </button>
@@ -5127,7 +5127,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" title="Open a New Tab">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
               </svg>
               <span class="nds-assistive-text">Open a New Tab</span>
             </button>
@@ -5141,7 +5141,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Home" aria-selected="true" tabindex="0" aria-controls="context-tab-panel-1" id="context-tab-id-1">
               <div class="nds-icon_container" title="Home">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#home"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#home"></use>
                 </svg>
                 <span class="nds-assistive-text">Home</span>
               </div>
@@ -5150,7 +5150,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="0" title="Actions for Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Home</span>
               </button>
@@ -5214,7 +5214,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Home</span>
               </button>
@@ -5224,7 +5224,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 1" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-2" id="context-tab-id-2">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -5233,7 +5233,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 1</span>
               </button>
@@ -5297,7 +5297,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 1</span>
               </button>
@@ -5307,7 +5307,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 2" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-3" id="context-tab-id-3">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -5316,7 +5316,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 2</span>
               </button>
@@ -5380,7 +5380,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 2</span>
               </button>
@@ -5394,7 +5394,7 @@ storiesOf(`${base}`, module)
                 <span class="nds-assistive-text">Tabs</span>
               </span>
               <svg class="nds-button__icon nds-button__icon_small nds-button__icon_right" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
             </button>
             <div class="nds-dropdown nds-dropdown_right">
@@ -5403,7 +5403,7 @@ storiesOf(`${base}`, module)
                   <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                     <span class="nds-truncate" title="[object Object],[object Object]">
                       <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                        <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                        <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                       </svg>
                       <span>Overflow Tab Item</span>
                     </span>
@@ -5413,7 +5413,7 @@ storiesOf(`${base}`, module)
                   <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                     <span class="nds-truncate" title="[object Object],[object Object]">
                       <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                        <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                        <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                       </svg>
                       <span>Overflow Tab Item</span>
                     </span>
@@ -5464,7 +5464,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" title="Open object switcher menu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open object switcher menu</span>
             </button>
@@ -5475,7 +5475,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Accounts">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     Accounts
 
@@ -5486,7 +5486,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Cases">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-case nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                     </svg>
                     Cases
 
@@ -5497,7 +5497,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Insights">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-work-order nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
                     </svg>
                     Insights
 
@@ -5511,7 +5511,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" aria-expanded="false" aria-controls="id_of_split_view_container" title="Toggle split view">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
               <span class="nds-assistive-text">Toggle split view</span>
             </button>
@@ -5522,7 +5522,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" title="Open a New Tab">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
               </svg>
               <span class="nds-assistive-text">Open a New Tab</span>
             </button>
@@ -5536,7 +5536,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Home" aria-selected="true" tabindex="0" aria-controls="context-tab-panel-1" id="context-tab-id-1">
               <div class="nds-icon_container" title="Home">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#home"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#home"></use>
                 </svg>
                 <span class="nds-assistive-text">Home</span>
               </div>
@@ -5545,7 +5545,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="0" title="Actions for Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Home</span>
               </button>
@@ -5609,7 +5609,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Home</span>
               </button>
@@ -5619,7 +5619,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 1" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-2" id="context-tab-id-2">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -5628,7 +5628,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 1</span>
               </button>
@@ -5692,7 +5692,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 1</span>
               </button>
@@ -5702,7 +5702,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 2" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-3" id="context-tab-id-3">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -5711,7 +5711,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 2</span>
               </button>
@@ -5775,7 +5775,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 2</span>
               </button>
@@ -5790,7 +5790,7 @@ storiesOf(`${base}`, module)
                 <span class="nds-assistive-text">Tabs</span>
               </span>
               <svg class="nds-button__icon nds-button__icon_small nds-button__icon_right" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
             </button>
           </li>
@@ -5836,7 +5836,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" title="Open object switcher menu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open object switcher menu</span>
             </button>
@@ -5847,7 +5847,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Accounts">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     Accounts
 
@@ -5858,7 +5858,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Cases">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-case nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                     </svg>
                     Cases
 
@@ -5869,7 +5869,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Insights">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-work-order nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
                     </svg>
                     Insights
 
@@ -5883,7 +5883,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" aria-expanded="false" aria-controls="id_of_split_view_container" title="Toggle split view">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
               <span class="nds-assistive-text">Toggle split view</span>
             </button>
@@ -5894,7 +5894,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" title="Open a New Tab">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
               </svg>
               <span class="nds-assistive-text">Open a New Tab</span>
             </button>
@@ -5908,7 +5908,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Home" aria-selected="true" tabindex="0" aria-controls="context-tab-panel-1" id="context-tab-id-1">
               <div class="nds-icon_container" title="Home">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#home"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#home"></use>
                 </svg>
                 <span class="nds-assistive-text">Home</span>
               </div>
@@ -5917,7 +5917,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="0" title="Actions for Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Home</span>
               </button>
@@ -5981,7 +5981,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Home</span>
               </button>
@@ -5991,7 +5991,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 1" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-2" id="context-tab-id-2">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -6000,7 +6000,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 1</span>
               </button>
@@ -6064,7 +6064,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 1</span>
               </button>
@@ -6074,7 +6074,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 2" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-3" id="context-tab-id-3">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -6083,7 +6083,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 2</span>
               </button>
@@ -6147,7 +6147,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 2</span>
               </button>
@@ -6162,7 +6162,7 @@ storiesOf(`${base}`, module)
                 <span class="nds-assistive-text">Tabs</span>
               </span>
               <svg class="nds-button__icon nds-button__icon_small nds-button__icon_right" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
             </button>
             <div class="nds-dropdown nds-dropdown_right">
@@ -6172,7 +6172,7 @@ storiesOf(`${base}`, module)
                     <span class="nds-truncate" title="Overflow Tab Item">
                       <abbr class="nds-unsaved-indicator" title="Tab(s) within menu not saved">*</abbr>
                       <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                        <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                        <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                       </svg>
                       <span>Overflow Tab Item</span>
                     </span>
@@ -6182,7 +6182,7 @@ storiesOf(`${base}`, module)
                   <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                     <span class="nds-truncate" title="Overflow Tab Item">
                       <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                        <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                        <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                       </svg>
                       <span>Overflow Tab Item</span>
                     </span>
@@ -6233,7 +6233,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" title="Open object switcher menu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open object switcher menu</span>
             </button>
@@ -6244,7 +6244,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Accounts">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     Accounts
 
@@ -6255,7 +6255,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Cases">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-case nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                     </svg>
                     Cases
 
@@ -6266,7 +6266,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Insights">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-work-order nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
                     </svg>
                     Insights
 
@@ -6280,7 +6280,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" aria-expanded="false" aria-controls="id_of_split_view_container" title="Toggle split view">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
               <span class="nds-assistive-text">Toggle split view</span>
             </button>
@@ -6291,7 +6291,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" title="Open a New Tab">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
               </svg>
               <span class="nds-assistive-text">Open a New Tab</span>
             </button>
@@ -6305,7 +6305,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Home" aria-selected="true" tabindex="0" aria-controls="context-tab-panel-1" id="context-tab-id-1">
               <div class="nds-icon_container" title="Home">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#home"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#home"></use>
                 </svg>
                 <span class="nds-assistive-text">Home</span>
               </div>
@@ -6314,7 +6314,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="0" title="Actions for Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Home</span>
               </button>
@@ -6378,7 +6378,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Home</span>
               </button>
@@ -6388,7 +6388,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 1" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-2" id="context-tab-id-2">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -6397,7 +6397,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 1</span>
               </button>
@@ -6461,7 +6461,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 1</span>
               </button>
@@ -6471,7 +6471,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 2" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-3" id="context-tab-id-3">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -6480,7 +6480,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 2</span>
               </button>
@@ -6544,7 +6544,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 2</span>
               </button>
@@ -6561,7 +6561,7 @@ storiesOf(`${base}`, module)
                 <span class="nds-assistive-text">Tabs</span>
               </span>
               <svg class="nds-button__icon nds-button__icon_small nds-button__icon_right" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
             </button>
           </li>
@@ -6607,7 +6607,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" title="Open object switcher menu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open object switcher menu</span>
             </button>
@@ -6618,7 +6618,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Accounts">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     Accounts
 
@@ -6629,7 +6629,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Cases">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-case nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                     </svg>
                     Cases
 
@@ -6640,7 +6640,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Insights">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-work-order nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
                     </svg>
                     Insights
 
@@ -6654,7 +6654,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" aria-expanded="false" aria-controls="id_of_split_view_container" title="Toggle split view">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
               <span class="nds-assistive-text">Toggle split view</span>
             </button>
@@ -6665,7 +6665,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" title="Open a New Tab">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
               </svg>
               <span class="nds-assistive-text">Open a New Tab</span>
             </button>
@@ -6679,7 +6679,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Home" aria-selected="true" tabindex="0" aria-controls="context-tab-panel-1" id="context-tab-id-1">
               <div class="nds-icon_container" title="Home">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#home"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#home"></use>
                 </svg>
                 <span class="nds-assistive-text">Home</span>
               </div>
@@ -6688,7 +6688,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="0" title="Actions for Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Home</span>
               </button>
@@ -6752,7 +6752,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="0" title="Close Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Home</span>
               </button>
@@ -6762,7 +6762,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 1" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-2" id="context-tab-id-2">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -6771,7 +6771,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 1</span>
               </button>
@@ -6835,7 +6835,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 1</span>
               </button>
@@ -6845,7 +6845,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 2" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-3" id="context-tab-id-3">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -6854,7 +6854,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 2</span>
               </button>
@@ -6918,7 +6918,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 2</span>
               </button>
@@ -6935,7 +6935,7 @@ storiesOf(`${base}`, module)
                 <span class="nds-assistive-text">Tabs</span>
               </span>
               <svg class="nds-button__icon nds-button__icon_small nds-button__icon_right" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
             </button>
             <div class="nds-dropdown nds-dropdown_right">
@@ -6947,7 +6947,7 @@ storiesOf(`${base}`, module)
                         <span class="nds-assistive-text">New Activity</span>
                       </span>
                       <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                        <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#live_chat"></use>
+                        <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#live_chat"></use>
                       </svg>
                       <span>Chat - Customer</span>
                     </span>
@@ -6957,7 +6957,7 @@ storiesOf(`${base}`, module)
                   <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                     <span class="nds-truncate" title="Overflow Tab Item">
                       <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                        <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                        <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                       </svg>
                       <span>Overflow Tab Item</span>
                     </span>
@@ -7008,7 +7008,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" title="Open object switcher menu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open object switcher menu</span>
             </button>
@@ -7019,7 +7019,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Accounts">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     Accounts
 
@@ -7030,7 +7030,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Cases">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-case nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                     </svg>
                     Cases
 
@@ -7041,7 +7041,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Insights">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-work-order nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
                     </svg>
                     Insights
 
@@ -7055,7 +7055,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" aria-expanded="false" aria-controls="id_of_split_view_container" title="Toggle split view">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
               <span class="nds-assistive-text">Toggle split view</span>
             </button>
@@ -7066,7 +7066,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" title="Open a New Tab">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
               </svg>
               <span class="nds-assistive-text">Open a New Tab</span>
             </button>
@@ -7080,7 +7080,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Home" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-1" id="context-tab-id-1">
               <div class="nds-icon_container" title="Home">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#home"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#home"></use>
                 </svg>
                 <span class="nds-assistive-text">Home</span>
               </div>
@@ -7089,7 +7089,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Home</span>
               </button>
@@ -7153,7 +7153,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Home</span>
               </button>
@@ -7163,7 +7163,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 1" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-2" id="context-tab-id-2">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -7172,7 +7172,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 1</span>
               </button>
@@ -7236,7 +7236,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 1</span>
               </button>
@@ -7246,7 +7246,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 2" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-3" id="context-tab-id-3">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -7255,7 +7255,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 2</span>
               </button>
@@ -7319,7 +7319,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 2</span>
               </button>
@@ -7367,7 +7367,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" title="Open object switcher menu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open object switcher menu</span>
             </button>
@@ -7378,7 +7378,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Accounts">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     Accounts
 
@@ -7389,7 +7389,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Cases">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-case nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                     </svg>
                     Cases
 
@@ -7400,7 +7400,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Insights">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-work-order nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
                     </svg>
                     Insights
 
@@ -7414,7 +7414,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" aria-expanded="false" aria-controls="id_of_split_view_container" title="Toggle split view">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
               <span class="nds-assistive-text">Toggle split view</span>
             </button>
@@ -7425,7 +7425,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" title="Open a New Tab">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
               </svg>
               <span class="nds-assistive-text">Open a New Tab</span>
             </button>
@@ -7439,7 +7439,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Home" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-1" id="context-tab-id-1">
               <div class="nds-icon_container" title="Home">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#home"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#home"></use>
                 </svg>
                 <span class="nds-assistive-text">Home</span>
               </div>
@@ -7448,7 +7448,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Home</span>
               </button>
@@ -7512,7 +7512,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Home</span>
               </button>
@@ -7522,7 +7522,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 1" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-2" id="context-tab-id-2">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -7531,7 +7531,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 1</span>
               </button>
@@ -7595,7 +7595,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 1</span>
               </button>
@@ -7605,7 +7605,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 2" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-3" id="context-tab-id-3">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -7614,7 +7614,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 2</span>
               </button>
@@ -7678,7 +7678,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 2</span>
               </button>
@@ -7726,7 +7726,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" title="Open object switcher menu">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
               </svg>
               <span class="nds-assistive-text">Open object switcher menu</span>
             </button>
@@ -7737,7 +7737,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Accounts">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     Accounts
 
@@ -7748,7 +7748,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Cases">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-case nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                     </svg>
                     Cases
 
@@ -7759,7 +7759,7 @@ storiesOf(`${base}`, module)
                 <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                   <span class="nds-truncate" title="[object Object],Insights">
                     <svg class="nds-icon nds-icon_small nds-icon-standard-work-order nds-m-right_small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#work_order"></use>
                     </svg>
                     Insights
 
@@ -7773,7 +7773,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" aria-expanded="false" aria-controls="id_of_split_view_container" title="Toggle split view">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#side_list"></use>
               </svg>
               <span class="nds-assistive-text">Toggle split view</span>
             </button>
@@ -7784,7 +7784,7 @@ storiesOf(`${base}`, module)
           <div class="nds-context-bar__icon-action">
             <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-small" title="Open a New Tab">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#add"></use>
               </svg>
               <span class="nds-assistive-text">Open a New Tab</span>
             </button>
@@ -7809,7 +7809,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Home" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-1" id="context-tab-id-1">
               <div class="nds-icon_container" title="Home">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#home"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#home"></use>
                 </svg>
                 <span class="nds-assistive-text">Home</span>
               </div>
@@ -7818,7 +7818,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Home</span>
               </button>
@@ -7882,7 +7882,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Home">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Home</span>
               </button>
@@ -7892,7 +7892,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 1" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-2" id="context-tab-id-2">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -7901,7 +7901,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 1</span>
               </button>
@@ -7965,7 +7965,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 1">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 1</span>
               </button>
@@ -7975,7 +7975,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-context-bar__label-action" role="tab" title="Tab Item 2" aria-selected="false" tabindex="-1" aria-controls="context-tab-panel-3" id="context-tab-id-3">
               <div class="nds-icon_container" title="Case">
                 <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
                 </svg>
                 <span class="nds-assistive-text">Case</span>
               </div>
@@ -7984,7 +7984,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-context-bar__dropdown-trigger nds-dropdown-trigger nds-dropdown-trigger_click nds-p-left_none nds-p-right_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" aria-haspopup="true" tabindex="-1" title="Actions for Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
                 </svg>
                 <span class="nds-assistive-text">Actions for Tab Item 2</span>
               </button>
@@ -8048,7 +8048,7 @@ storiesOf(`${base}`, module)
             <div class="nds-context-bar__icon-action nds-col_bump-left nds-p-left_none">
               <button class="nds-button nds-button_icon nds-button_icon-container nds-button_icon-x-small" tabindex="-1" title="Close Tab Item 2">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Close Tab Item 2</span>
               </button>
