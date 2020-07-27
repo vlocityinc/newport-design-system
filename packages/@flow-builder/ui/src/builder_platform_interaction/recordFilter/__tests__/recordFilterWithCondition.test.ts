@@ -161,14 +161,14 @@ describe('record-filter', () => {
     });
 
     describe('Combobox options', () => {
-        it('should have expected labels for for record lookup', () => {
+        it('should have expected labels for record lookup', () => {
             const filterRecord = getFilterRecordsCombobox(createComponentUnderTest());
             expect(filterRecord.options[0].label).toBe('FlowBuilderRecordEditor.filterNoCriteriaGet');
             expect(filterRecord.options[1].label).toBe('FlowBuilderConditionList.andConditionLogicLabel');
             expect(filterRecord.options[2].label).toBe('FlowBuilderConditionList.orConditionLogicLabel');
             expect(filterRecord.options[3].label).toBe('FlowBuilderConditionList.customConditionLogicLabel');
         });
-        it('should have expected labels for for record update', () => {
+        it('should have expected labels for record update', () => {
             const filterRecord = getFilterRecordsCombobox(
                 createComponentUnderTest({ elementType: ELEMENT_TYPE.RECORD_UPDATE })
             );
@@ -177,7 +177,7 @@ describe('record-filter', () => {
             expect(filterRecord.options[2].label).toBe('FlowBuilderConditionList.orConditionLogicLabel');
             expect(filterRecord.options[3].label).toBe('FlowBuilderConditionList.customConditionLogicLabel');
         });
-        it('should have expected labels for for record delete', () => {
+        it('should have expected labels for record delete', () => {
             const filterRecord = getFilterRecordsCombobox(
                 createComponentUnderTest({ elementType: ELEMENT_TYPE.RECORD_DELETE })
             );
@@ -185,7 +185,7 @@ describe('record-filter', () => {
             expect(filterRecord.options[1].label).toBe('FlowBuilderConditionList.orConditionLogicLabel');
             expect(filterRecord.options[2].label).toBe('FlowBuilderConditionList.customConditionLogicLabel');
         });
-        it('should have expected labels for for record start element', () => {
+        it('should have expected labels for record start element', () => {
             const filterRecord = getFilterRecordsCombobox(
                 createComponentUnderTest({ elementType: ELEMENT_TYPE.START_ELEMENT })
             );
@@ -194,9 +194,18 @@ describe('record-filter', () => {
             expect(filterRecord.options[2].label).toBe('FlowBuilderConditionList.orConditionLogicLabel');
             expect(filterRecord.options[3].label).toBe('FlowBuilderConditionList.customConditionLogicLabel');
         });
-        it('should have expected labels for for record choice set', () => {
+        it('should have expected labels for record choice set', () => {
             const filterRecord = getFilterRecordsCombobox(
                 createComponentUnderTest({ elementType: ELEMENT_TYPE.RECORD_CHOICE_SET })
+            );
+            expect(filterRecord.options[0].label).toBe('FlowBuilderRecordEditor.filterNoCriteriaGet');
+            expect(filterRecord.options[1].label).toBe('FlowBuilderConditionList.andConditionLogicLabel');
+            expect(filterRecord.options[2].label).toBe('FlowBuilderConditionList.orConditionLogicLabel');
+            expect(filterRecord.options[3].label).toBe('FlowBuilderConditionList.customConditionLogicLabel');
+        });
+        it('should have expected labels for START on DML', () => {
+            const filterRecord = getFilterRecordsCombobox(
+                createComponentUnderTest({ elementType: ELEMENT_TYPE.START_ON_DML })
             );
             expect(filterRecord.options[0].label).toBe('FlowBuilderRecordEditor.filterNoCriteriaGet');
             expect(filterRecord.options[1].label).toBe('FlowBuilderConditionList.andConditionLogicLabel');
