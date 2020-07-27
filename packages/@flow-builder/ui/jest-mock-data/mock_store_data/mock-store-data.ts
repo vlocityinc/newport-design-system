@@ -109,6 +109,7 @@ export const opportunitySObjectCollectionVariable = getElementByName('opportunit
 export const subflowAutomaticOutput = getElementByName('subflowAutomaticOutput');
 export const screenWithAddress = getElementByName('screenWithAddress');
 export const screenWithAddressAddress = getElementByName('Address');
+export const loopOnAccountAutoOutput = getElementByName('loopOnAccountAutoOutput');
 
 // elements after getElementForPropertyEditor
 const deepCopy = obj => JSON.parse(JSON.stringify(obj));

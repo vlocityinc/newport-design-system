@@ -566,6 +566,15 @@ describe('Record Create Editor', () => {
                     await expectCannotBeSelectedInResourcePicker(['apexContainsOnlyASingleSObjectVariable']);
                 });
             });
+            describe('Record store option', () => {
+                it('sets record option number to allRecords when using several level of traversal', () => {
+                    const element = getElementByDevName('create_multiple_from_apex_two_level_traversal');
+                    recordCreateNode = getElementForPropertyEditor(element);
+                    recordCreateElement = createComponentForTest(recordCreateNode);
+                    const recordStoreElement = getRecordStoreOption(recordCreateElement);
+                    expect(recordStoreElement.numberOfRecordsToStore).toBe('allRecords');
+                });
+            });
         });
         describe('Working with manual output handling', () => {
             let outputResourcePickerCombobox;

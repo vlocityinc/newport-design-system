@@ -14,8 +14,6 @@ import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
-import { getGlobalConstantOrSystemVariable } from 'builder_platform_interaction/systemLib';
-import { getElementByGuidFromState, getElementByDevNameFromState } from 'builder_platform_interaction/storeUtils';
 import {
     createFlowInputFieldAssignmentMetadataObject,
     createFlowInputFieldAssignment,
@@ -23,9 +21,8 @@ import {
     createEmptyAssignmentMetadata
 } from './base/baseRecordElement';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
-import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
-import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { referenceToVariable, getFirstRecordOnlyFromVariable } from './commonFactoryUtils/cludUtil';
 
 const elementType = ELEMENT_TYPE.RECORD_CREATE;
 const maxConnections = 2;
@@ -73,25 +70,16 @@ export function createRecordCreate(recordCreate = {}, { elements } = Store.getSt
         if (inputReference) {
             // When the flow is loaded, this factory is called twice. In the first phase, elements is empty. In the second phase, elements contain variables and
             // we can calculate getFirstRecordOnly
-            const complexGuid = sanitizeGuid(inputReference);
-            const variable =
-                getElementByGuidFromState({ elements }, complexGuid.guidOrLiteral) ||
-                getElementByDevNameFromState({ elements }, complexGuid.guidOrLiteral) ||
-                getGlobalConstantOrSystemVariable(complexGuid.guidOrLiteral);
+            const variable = referenceToVariable(inputReference, elements);
             if (variable) {
-                if (variable.dataType !== FLOW_DATA_TYPE.APEX.value) {
-                    getFirstRecordOnly = variable.dataType !== FLOW_DATA_TYPE.SOBJECT.value || !variable.isCollection;
-                } else if (
-                    variable.dataType === FLOW_DATA_TYPE.APEX.value &&
-                    complexGuid.fieldNames &&
-                    complexGuid.fieldNames.length === 1
-                ) {
-                    const apexClazz = apexTypeLib.getPropertiesForClass(variable.subtype);
-                    const property = apexClazz[complexGuid.fieldNames[0]];
-                    if (property) {
-                        getFirstRecordOnly = !property.isCollection;
-                    }
-                }
+                const getFirstRecordOnlyFromVariableAndReference: boolean | undefined = getFirstRecordOnlyFromVariable(
+                    variable,
+                    inputReference
+                );
+                getFirstRecordOnly =
+                    getFirstRecordOnlyFromVariableAndReference !== undefined
+                        ? getFirstRecordOnlyFromVariableAndReference
+                        : true;
             } else {
                 complete = false;
             }
