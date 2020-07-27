@@ -88,7 +88,7 @@ storiesOf(`${base}`, module)
       <li class="nds-progress__item nds-is-completed">
         <button class="nds-button nds-button_icon nds-button_icon nds-progress__marker nds-progress__marker_icon" title="Step 1 - Completed">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#success"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#success"></use>
           </svg>
           <span class="nds-assistive-text">Step 1 - Completed</span>
         </button>
@@ -156,7 +156,7 @@ storiesOf(`${base}`, module)
       <li class="nds-progress__item nds-is-completed">
         <button class="nds-button nds-button_icon nds-button_icon nds-progress__marker nds-progress__marker_icon" title="Step 1 - Completed">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#success"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#success"></use>
           </svg>
           <span class="nds-assistive-text">Step 1 - Completed</span>
         </button>
@@ -164,7 +164,7 @@ storiesOf(`${base}`, module)
       <li class="nds-progress__item nds-has-error">
         <button class="nds-button nds-button_icon nds-button_icon nds-progress__marker nds-progress__marker_icon" title="Step 2 - Error">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
           </svg>
           <span class="nds-assistive-text">Step 2 - Error</span>
         </button>
@@ -220,7 +220,7 @@ storiesOf(`${base}`, module)
       <li class="nds-progress__item nds-is-completed">
         <button class="nds-button nds-button_icon nds-button_icon nds-progress__marker nds-progress__marker_icon" title="Step 1 - Completed">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#success"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#success"></use>
           </svg>
           <span class="nds-assistive-text">Step 1 - Completed</span>
         </button>
@@ -228,7 +228,7 @@ storiesOf(`${base}`, module)
       <li class="nds-progress__item nds-is-completed">
         <button class="nds-button nds-button_icon nds-button_icon nds-progress__marker nds-progress__marker_icon" title="Step 2 - Completed">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#success"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#success"></use>
           </svg>
           <span class="nds-assistive-text">Step 2 - Completed</span>
         </button>
@@ -289,7 +289,7 @@ storiesOf(`${base}`, module)
       <header class="nds-modal__header">
         <button class="nds-button nds-button_icon nds-modal__close nds-button_icon-inverse" title="Close">
           <svg class="nds-button__icon nds-button__icon_large" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Close</span>
         </button>
@@ -303,7 +303,7 @@ storiesOf(`${base}`, module)
             <li class="nds-progress__item nds-is-completed">
               <button class="nds-button nds-button_icon nds-button_icon nds-progress__marker nds-progress__marker_icon" title="Step 1 - Completed">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#success"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#success"></use>
                 </svg>
                 <span class="nds-assistive-text">Step 1 - Completed</span>
               </button>
@@ -376,7 +376,7 @@ storiesOf(`${base}`, module)
       <li class="nds-progress__item nds-is-completed">
         <button class="nds-button nds-button_icon nds-button_icon nds-progress__marker nds-progress__marker_icon" title="Step 1 - Completed">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#success"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#success"></use>
           </svg>
           <span class="nds-assistive-text">Step 1 - Completed</span>
         </button>

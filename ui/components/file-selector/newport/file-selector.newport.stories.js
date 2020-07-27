@@ -22,7 +22,7 @@ storiesOf(`${base}`, module)
           <span class="nds-file-selector__button nds-button nds-button_neutral">Attachment</span>
           <span class="nds-file-icon">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#attach"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#attach"></use>
             </svg>
           </span>
         </label>
@@ -41,7 +41,7 @@ storiesOf(`${base}`, module)
           <span class="nds-file-selector__button nds-button nds-button_neutral">Attachment</span>
           <span class="nds-file-icon">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#attach"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#attach"></use>
             </svg>
           </span>
         </label>
@@ -50,7 +50,7 @@ storiesOf(`${base}`, module)
             <span class="nds-file-selector__button nds-button nds-button_neutral">peel-ux.png</span>
             <span class="nds-file-icon">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#clear"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#clear"></use>
               </svg>
             </span>
           </li>
@@ -58,7 +58,7 @@ storiesOf(`${base}`, module)
             <span class="nds-file-selector__button nds-button nds-button_neutral">peel-ux.png</span>
             <span class="nds-file-icon">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#clear"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#clear"></use>
               </svg>
             </span>
           </li>
@@ -66,7 +66,7 @@ storiesOf(`${base}`, module)
             <span class="nds-file-selector__button nds-button nds-button_neutral">peel-ux.png</span>
             <span class="nds-file-icon">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#clear"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#clear"></use>
               </svg>
             </span>
           </li>
@@ -86,7 +86,7 @@ storiesOf(`${base}`, module)
           <span class="nds-file-selector__button nds-button nds-button_neutral">Attachment</span>
           <span class="nds-file-icon">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#attach"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#attach"></use>
             </svg>
           </span>
         </label>
@@ -106,7 +106,7 @@ storiesOf(`${base}`, module)
           <span class="nds-file-selector__button nds-button nds-button_neutral">Attachment</span>
           <span class="nds-file-icon">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#attach"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#attach"></use>
             </svg>
           </span>
         </label>
@@ -125,7 +125,7 @@ storiesOf(`${base}`, module)
           <span class="nds-file-selector__button nds-button nds-button_neutral">Attachment</span>
           <span class="nds-file-icon">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#attach"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#attach"></use>
             </svg>
           </span>
         </label>

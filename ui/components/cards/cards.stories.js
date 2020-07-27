@@ -18,7 +18,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure">
             <span class="nds-icon_container nds-icon-standard-contact" title="description of icon when needed">
               <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
               </svg>
             </span>
           </div>
@@ -45,7 +45,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure">
             <span class="nds-icon_container nds-icon-standard-contact" title="description of icon when needed">
               <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
               </svg>
             </span>
           </div>
@@ -72,7 +72,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure">
             <span class="nds-icon_container nds-icon-standard-contact" title="description of icon when needed">
               <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
               </svg>
             </span>
           </div>
@@ -141,7 +141,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure">
             <span class="nds-icon_container nds-icon-standard-contact" title="description of icon when needed">
               <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
               </svg>
             </span>
           </div>

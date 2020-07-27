@@ -38,7 +38,7 @@ storiesOf(`${base}`, module)
       <div class="nds-shrink-none">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" aria-haspopup="true" title="More options">
           <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More options</span>
         </button>
@@ -61,7 +61,7 @@ storiesOf(`${base}`, module)
     <div class="nds-media__figure">
       <span class="nds-icon_container" title="description of icon when needed">
         <svg class="nds-icon nds-icon-standard-groups" aria-hidden="true">
-          <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#groups"></use>
+          <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#groups"></use>
         </svg>
       </span>
     </div>
@@ -162,7 +162,7 @@ storiesOf(`${base}`, module)
         <li class="nds-m-right_small">
           <button class="nds-button nds-button_icon nds-button_icon-border nds-button_icon-x-small" aria-pressed="false">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#like"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#like"></use>
             </svg>
             <span class="nds-assistive-text">Upvote</span>
           </button>
@@ -171,7 +171,7 @@ storiesOf(`${base}`, module)
         <li>
           <button class="nds-button nds-button_icon nds-button_icon-border nds-button_icon-x-small" aria-pressed="false">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#dislike"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#dislike"></use>
             </svg>
             <span class="nds-assistive-text">Downvote</span>
           </button>
@@ -212,7 +212,7 @@ storiesOf(`${base}`, module)
           <p class="nds-truncate nds-has-alert" title="Closing 12/15/2015">Closing 12/15/2015</p>
           <span class="nds-icon_container nds-tile_board__icon" title="description of icon when needed">
             <svg class="nds-icon nds-icon-text-warning nds-icon_x-small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Warning Icon</span>
           </span>
@@ -266,7 +266,7 @@ storiesOf(`${base}`, module)
           <p class="nds-truncate nds-has-alert" title="Closing 12/15/2015">Closing 12/15/2015</p>
           <span class="nds-icon_container nds-tile_board__icon" title="description of icon when needed">
             <svg class="nds-icon nds-icon-text-warning nds-icon_x-small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Warning Icon</span>
           </span>

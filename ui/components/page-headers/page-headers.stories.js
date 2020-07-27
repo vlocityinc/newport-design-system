@@ -17,7 +17,7 @@ storiesOf(`${base}`, module)
     <div class="nds-media__figure">
       <span class="nds-icon_container nds-icon-standard-opportunity" title="Description of icon when needed">
         <svg class="nds-icon nds-page-header__icon" aria-hidden="true">
-          <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
+          <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
         </svg>
       </span>
     </div>

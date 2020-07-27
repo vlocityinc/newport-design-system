@@ -16,7 +16,7 @@ storiesOf(`${base}`, module)
       <span class="nds-assistive-text">info</span>
       <span class="nds-icon_container nds-icon-utility-user nds-m-right_x-small" title="Description of icon when needed">
         <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#user"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#user"></use>
         </svg>
       </span>
       <h2>
@@ -25,7 +25,7 @@ storiesOf(`${base}`, module)
       </h2>
       <button class="nds-button nds-button_icon nds-notify__close nds-button_icon-inverse" title="Close">
         <svg class="nds-button__icon" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
         </svg>
         <span class="nds-assistive-text">Close</span>
       </button>
@@ -36,7 +36,7 @@ storiesOf(`${base}`, module)
       <span class="nds-assistive-text">warning</span>
       <span class="nds-icon_container nds-icon-utility-warning nds-m-right_x-small" title="Description of icon when needed">
         <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
         </svg>
       </span>
       <h2>
@@ -45,7 +45,7 @@ storiesOf(`${base}`, module)
       </h2>
       <button class="nds-button nds-button_icon nds-notify__close nds-button_icon-inverse" title="Close">
         <svg class="nds-button__icon" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
         </svg>
         <span class="nds-assistive-text">Close</span>
       </button>
@@ -56,7 +56,7 @@ storiesOf(`${base}`, module)
     <span class="nds-assistive-text">error</span>
     <span class="nds-icon_container nds-icon-utility-ban nds-m-right_x-small" title="Description of icon when needed">
       <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#ban"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#ban"></use>
       </svg>
     </span>
     <h2>
@@ -65,7 +65,7 @@ storiesOf(`${base}`, module)
     </h2>
     <button class="nds-button nds-button_icon nds-notify__close nds-button_icon-inverse" title="Close">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
       </svg>
       <span class="nds-assistive-text">Close</span>
     </button>
@@ -76,7 +76,7 @@ storiesOf(`${base}`, module)
     <span class="nds-assistive-text">offline</span>
     <span class="nds-icon_container nds-icon-utility-offline nds-m-right_x-small" title="Description of icon when needed">
       <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#offline"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#offline"></use>
       </svg>
     </span>
     <h2>
@@ -85,7 +85,7 @@ storiesOf(`${base}`, module)
     </h2>
     <button class="nds-button nds-button_icon nds-notify__close nds-button_icon-inverse" title="Close">
       <svg class="nds-button__icon" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
       </svg>
       <span class="nds-assistive-text">Close</span>
     </button>
