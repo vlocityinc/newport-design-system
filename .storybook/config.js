@@ -16,7 +16,7 @@ addDecorator(withDesignTokens);
 
 addParameters({
   options: {
-    name: "Newport Design System (ins-108.0)",
+    name: "Newport Design System (cmt-108.0)",
     isFullScreen: false,
     showPanel: true,
   },
