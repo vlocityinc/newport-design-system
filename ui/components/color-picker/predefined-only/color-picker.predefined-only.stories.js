@@ -20,7 +20,7 @@ storiesOf(`${base}`, module)
         <span class="nds-assistive-text">hsl(220, 46%, 55%)</span>
       </span>
       <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
       </svg>
       <span class="nds-assistive-text">Choose a color. Current color: #5679C0</span>
     </button>
@@ -249,7 +249,7 @@ storiesOf(`${base}`, module)
         <span class="nds-assistive-text">hsl(220, 46%, 55%)</span>
       </span>
       <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
       </svg>
       <span class="nds-assistive-text">Choose a color. Current color: #5679C0</span>
     </button>

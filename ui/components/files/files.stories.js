@@ -23,7 +23,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-line-height_reset">
             <span class="nds-icon_container" title="pdf">
               <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                <use xlink:href="/assets/icons/doctype-sprite/svg/symbols.svg#pdf"></use>
+                <use xlink:href="./assets/icons/doctype-sprite/svg/symbols.svg#pdf"></use>
               </svg>
               <span class="nds-assistive-text">pdf</span>
             </span>
@@ -47,7 +47,7 @@ storiesOf(`${base}`, module)
       <a href="javascript:void(0);" class="nds-file__crop">
         <span class="nds-file__icon nds-icon_container" title="image">
           <svg class="nds-icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/doctype-sprite/svg/symbols.svg#image"></use>
+            <use xlink:href="./assets/icons/doctype-sprite/svg/symbols.svg#image"></use>
           </svg>
           <span class="nds-assistive-text">Image Title</span>
         </span>
@@ -57,7 +57,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-line-height_reset">
             <span class="nds-icon_container" title="image">
               <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                <use xlink:href="/assets/icons/doctype-sprite/svg/symbols.svg#image"></use>
+                <use xlink:href="./assets/icons/doctype-sprite/svg/symbols.svg#image"></use>
               </svg>
               <span class="nds-assistive-text">image</span>
             </span>
@@ -97,7 +97,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-line-height_reset">
             <span class="nds-icon_container" title="pdf">
               <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                <use xlink:href="/assets/icons/doctype-sprite/svg/symbols.svg#pdf"></use>
+                <use xlink:href="./assets/icons/doctype-sprite/svg/symbols.svg#pdf"></use>
               </svg>
               <span class="nds-assistive-text">pdf</span>
             </span>
@@ -115,13 +115,13 @@ storiesOf(`${base}`, module)
       <div class="nds-button-group" role="group">
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small" title="Download">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#download"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#download"></use>
           </svg>
           <span class="nds-assistive-text">Download</span>
         </button>
         <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small" aria-haspopup="true" title="More Actions">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">More Actions</span>
         </button>
@@ -143,13 +143,13 @@ storiesOf(`${base}`, module)
         <div class="nds-button-group" role="group">
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-button_icon-inverse" title="Download">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#download"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#download"></use>
             </svg>
             <span class="nds-assistive-text">Download</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon nds-button_icon-x-small nds-button_icon-inverse" aria-haspopup="true" title="More Actions">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">More Actions</span>
           </button>
@@ -166,7 +166,7 @@ storiesOf(`${base}`, module)
       <a href="javascript:void(0);" class="nds-file__crop">
         <span class="nds-file__icon nds-icon_container" title="pdf">
           <svg class="nds-icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/doctype-sprite/svg/symbols.svg#pdf"></use>
+            <use xlink:href="./assets/icons/doctype-sprite/svg/symbols.svg#pdf"></use>
           </svg>
           <span class="nds-assistive-text">Proposal.pdf</span>
         </span>
@@ -176,7 +176,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-line-height_reset">
             <span class="nds-icon_container" title="pdf">
               <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                <use xlink:href="/assets/icons/doctype-sprite/svg/symbols.svg#pdf"></use>
+                <use xlink:href="./assets/icons/doctype-sprite/svg/symbols.svg#pdf"></use>
               </svg>
               <span class="nds-assistive-text">pdf</span>
             </span>
@@ -193,7 +193,7 @@ storiesOf(`${base}`, module)
     <div class="nds-file__external-icon">
       <span class="nds-file__icon nds-icon_container" title="salesforce1">
         <svg class="nds-icon nds-icon-text-default" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#salesforce1"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#salesforce1"></use>
         </svg>
         <span class="nds-assistive-text">
           Data provided by:
@@ -213,7 +213,7 @@ storiesOf(`${base}`, module)
       <a href="javascript:void(0);" class="nds-file__crop">
         <span class="nds-file__icon nds-icon_container" title="image">
           <svg class="nds-icon nds-file__loading-icon nds-icon_large" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#image"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#image"></use>
           </svg>
           <span class="nds-assistive-text">Image Title</span>
         </span>
@@ -223,7 +223,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-line-height_reset">
             <span class="nds-icon_container" title="image">
               <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                <use xlink:href="/assets/icons/doctype-sprite/svg/symbols.svg#image"></use>
+                <use xlink:href="./assets/icons/doctype-sprite/svg/symbols.svg#image"></use>
               </svg>
               <span class="nds-assistive-text">image</span>
             </span>
@@ -247,7 +247,7 @@ storiesOf(`${base}`, module)
       <a href="javascript:void(0);" class="nds-file__crop">
         <span class="nds-file__icon nds-icon_container" title="image">
           <svg class="nds-icon nds-file__loading-icon nds-icon_large" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#image"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#image"></use>
           </svg>
           <span class="nds-assistive-text">Image Title</span>
         </span>
@@ -269,7 +269,7 @@ storiesOf(`${base}`, module)
             <div class="nds-media__figure nds-line-height_reset">
               <span class="nds-icon_container" title="pdf">
                 <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/doctype-sprite/svg/symbols.svg#pdf"></use>
+                  <use xlink:href="./assets/icons/doctype-sprite/svg/symbols.svg#pdf"></use>
                 </svg>
                 <span class="nds-assistive-text">pdf</span>
               </span>
@@ -291,7 +291,7 @@ storiesOf(`${base}`, module)
         <a href="javascript:void(0);" class="nds-file__crop">
           <span class="nds-file__icon nds-icon_container" title="pdf">
             <svg class="nds-icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/doctype-sprite/svg/symbols.svg#pdf"></use>
+              <use xlink:href="./assets/icons/doctype-sprite/svg/symbols.svg#pdf"></use>
             </svg>
             <span class="nds-assistive-text">Proposal.pdf</span>
           </span>
@@ -301,7 +301,7 @@ storiesOf(`${base}`, module)
             <div class="nds-media__figure nds-line-height_reset">
               <span class="nds-icon_container" title="pdf">
                 <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/doctype-sprite/svg/symbols.svg#pdf"></use>
+                  <use xlink:href="./assets/icons/doctype-sprite/svg/symbols.svg#pdf"></use>
                 </svg>
                 <span class="nds-assistive-text">pdf</span>
               </span>
@@ -332,7 +332,7 @@ storiesOf(`${base}`, module)
             <div class="nds-media__figure nds-line-height_reset">
               <span class="nds-icon_container" title="pdf">
                 <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/doctype-sprite/svg/symbols.svg#pdf"></use>
+                  <use xlink:href="./assets/icons/doctype-sprite/svg/symbols.svg#pdf"></use>
                 </svg>
                 <span class="nds-assistive-text">pdf</span>
               </span>
@@ -354,7 +354,7 @@ storiesOf(`${base}`, module)
         <a href="javascript:void(0);" class="nds-file__crop">
           <span class="nds-file__icon nds-icon_container" title="pdf">
             <svg class="nds-icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/doctype-sprite/svg/symbols.svg#pdf"></use>
+              <use xlink:href="./assets/icons/doctype-sprite/svg/symbols.svg#pdf"></use>
             </svg>
             <span class="nds-assistive-text">Proposal.pdf</span>
           </span>
@@ -364,7 +364,7 @@ storiesOf(`${base}`, module)
             <div class="nds-media__figure nds-line-height_reset">
               <span class="nds-icon_container" title="pdf">
                 <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/doctype-sprite/svg/symbols.svg#pdf"></use>
+                  <use xlink:href="./assets/icons/doctype-sprite/svg/symbols.svg#pdf"></use>
                 </svg>
                 <span class="nds-assistive-text">pdf</span>
               </span>

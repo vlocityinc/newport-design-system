@@ -80,7 +80,7 @@ storiesOf(`${base}`, module)
             <span class="nds-assistive-text">tabs</span>
           </span>
           <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
         </a>
         <div class="nds-dropdown nds-dropdown_right">
@@ -89,7 +89,7 @@ storiesOf(`${base}`, module)
               <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                 <span class="nds-truncate" title="[object Object],Accounts">
                   <svg class="nds-icon nds-icon_small nds-icon-standard-account nds-m-right_small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                   </svg>
                   <!-- react-text: 33 -->Accounts
                   <!-- /react-text -->
@@ -100,7 +100,7 @@ storiesOf(`${base}`, module)
               <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                 <span class="nds-truncate" title="[object Object],Approvals">
                   <svg class="nds-icon nds-icon_small nds-icon-standard-approval nds-m-right_small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#approval"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#approval"></use>
                   </svg>
                   <!-- react-text: 39 -->Approvals
                   <!-- /react-text -->
@@ -111,7 +111,7 @@ storiesOf(`${base}`, module)
               <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                 <span class="nds-truncate" title="[object Object],Lead">
                   <svg class="nds-icon nds-icon_small nds-icon-standard-lead nds-m-right_small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
                   </svg>
                   <!-- react-text: 45 -->Lead
                   <!-- /react-text -->
@@ -195,7 +195,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure">
             <span class="nds-icon_container nds-icon-standard-contact" title="description of icon when needed">
               <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
               </svg>
             </span>
           </div>
@@ -220,7 +220,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure">
             <span class="nds-icon_container nds-icon-standard-contact" title="description of icon when needed">
               <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
               </svg>
             </span>
           </div>

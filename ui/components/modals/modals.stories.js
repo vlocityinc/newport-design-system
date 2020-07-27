@@ -28,7 +28,7 @@ storiesOf(`${base}`, module)
       <header class="nds-modal__header">
         <button class="nds-button nds-button_icon nds-modal__close nds-button_icon-inverse" title="Close">
           <svg class="nds-button__icon nds-button__icon_large" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Close</span>
         </button>
@@ -58,7 +58,7 @@ storiesOf(`${base}`, module)
       <header class="nds-modal__header">
         <button class="nds-button nds-button_icon nds-modal__close nds-button_icon-inverse" title="Close">
           <svg class="nds-button__icon nds-button__icon_large" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Close</span>
         </button>
@@ -97,7 +97,7 @@ storiesOf(`${base}`, module)
       <header class="nds-modal__header nds-modal__header_empty">
         <button class="nds-button nds-button_icon nds-modal__close nds-button_icon-inverse" title="Close">
           <svg class="nds-button__icon nds-button__icon_large" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Close</span>
         </button>
@@ -124,7 +124,7 @@ storiesOf(`${base}`, module)
       <header class="nds-modal__header">
         <button class="nds-button nds-button_icon nds-modal__close nds-button_icon-inverse" title="Close">
           <svg class="nds-button__icon nds-button__icon_large" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Close</span>
         </button>

@@ -21,12 +21,12 @@ storiesOf(`${base}`, module)
           <button class="nds-button nds-button_icon" aria-haspopup="true" title="Select object to search in">
             <span class="nds-icon_container nds-icon-standard-account" title="Accounts">
               <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
               </svg>
               <span class="nds-assistive-text">Searching in: Accounts</span>
             </span>
             <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
           </button>
         </div>
@@ -35,7 +35,7 @@ storiesOf(`${base}`, module)
             <input type="text" class="nds-input nds-combobox__input" id="combobox-unique-id" aria-autocomplete="list" aria-controls="listbox-unique-id" autocomplete="off" role="textbox" placeholder="Search Salesforce">
             <span class="nds-icon_container nds-icon-utility-search nds-input__icon nds-input__icon_right">
               <svg class="nds-icon nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
               </svg>
             </span>
           </div>
@@ -46,7 +46,7 @@ storiesOf(`${base}`, module)
                   <span class="nds-media__figure">
                     <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                       <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                        <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                        <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                       </svg>
                       <span class="nds-assistive-text">Description of icon</span>
                     </span>
@@ -71,7 +71,7 @@ storiesOf(`${base}`, module)
                   <span class="nds-media__figure">
                     <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                       <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                        <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                        <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                       </svg>
                       <span class="nds-assistive-text">Description of icon</span>
                     </span>
@@ -109,12 +109,12 @@ storiesOf(`${base}`, module)
           <button class="nds-button nds-button_icon" aria-haspopup="true" title="Select object to search in">
             <span class="nds-icon_container nds-icon-standard-account" title="Accounts">
               <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
               </svg>
               <span class="nds-assistive-text">Searching in: Accounts</span>
             </span>
             <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
           </button>
         </div>
@@ -123,7 +123,7 @@ storiesOf(`${base}`, module)
             <input type="text" class="nds-input nds-combobox__input" id="combobox-unique-id" aria-autocomplete="list" aria-controls="listbox-unique-id" autocomplete="off" role="textbox" placeholder="Search Salesforce">
             <span class="nds-icon_container nds-icon-utility-search nds-input__icon nds-input__icon_right">
               <svg class="nds-icon nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
               </svg>
             </span>
           </div>
@@ -134,7 +134,7 @@ storiesOf(`${base}`, module)
                   <span class="nds-media__figure">
                     <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                       <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                        <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                        <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                       </svg>
                       <span class="nds-assistive-text">Description of icon</span>
                     </span>
@@ -159,7 +159,7 @@ storiesOf(`${base}`, module)
                   <span class="nds-media__figure">
                     <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                       <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                        <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                        <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                       </svg>
                       <span class="nds-assistive-text">Description of icon</span>
                     </span>
@@ -197,12 +197,12 @@ storiesOf(`${base}`, module)
           <button class="nds-button nds-button_icon" aria-haspopup="true" title="Select object to search in">
             <span class="nds-icon_container nds-icon-standard-account" title="Accounts">
               <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
               </svg>
               <span class="nds-assistive-text">Searching in: Accounts</span>
             </span>
             <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
           </button>
         </div>
@@ -211,7 +211,7 @@ storiesOf(`${base}`, module)
             <input type="text" class="nds-input nds-combobox__input" id="combobox-unique-id" aria-activedescendant="listbox-option-unique-id-01" aria-autocomplete="list" aria-controls="listbox-unique-id" autocomplete="off" role="textbox" placeholder="Search Salesforce">
             <span class="nds-icon_container nds-icon-utility-search nds-input__icon nds-input__icon_right">
               <svg class="nds-icon nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
               </svg>
             </span>
           </div>
@@ -222,7 +222,7 @@ storiesOf(`${base}`, module)
                   <span class="nds-media__figure">
                     <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                       <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                        <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                        <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                       </svg>
                       <span class="nds-assistive-text">Description of icon</span>
                     </span>
@@ -247,7 +247,7 @@ storiesOf(`${base}`, module)
                   <span class="nds-media__figure">
                     <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                       <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                        <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                        <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                       </svg>
                       <span class="nds-assistive-text">Description of icon</span>
                     </span>
@@ -284,12 +284,12 @@ storiesOf(`${base}`, module)
         <button class="nds-button nds-button_icon" aria-haspopup="true" title="Select object to search in">
           <span class="nds-icon_container nds-icon-standard-account" title="Accounts">
             <svg class="nds-icon nds-icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+              <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
             </svg>
             <span class="nds-assistive-text">Searching in: Accounts</span>
           </span>
           <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
         </button>
       </div>
@@ -298,7 +298,7 @@ storiesOf(`${base}`, module)
           <input type="text" class="nds-input nds-combobox__input" id="combobox-unique-id" aria-autocomplete="list" aria-controls="listbox-unique-id" autocomplete="off" role="textbox" placeholder="Search Salesforce">
           <span class="nds-icon_container nds-icon-utility-search nds-input__icon nds-input__icon_right">
             <svg class="nds-icon nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
             </svg>
           </span>
         </div>
@@ -311,7 +311,7 @@ storiesOf(`${base}`, module)
             <span class="nds-avatar nds-avatar_x-small nds-pill__icon_container">
               <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                 <svg class="nds-icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                 </svg>
                 <span class="nds-assistive-text">Description of icon</span>
               </span>
@@ -319,7 +319,7 @@ storiesOf(`${base}`, module)
             <span class="nds-pill__label" title="Acme">Acme</span>
             <span class="nds-icon_container nds-pill__remove" title="Remove">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
               </svg>
               <span class="nds-assistive-text">Press delete or backspace to remove</span>
             </span>
@@ -330,7 +330,7 @@ storiesOf(`${base}`, module)
             <span class="nds-avatar nds-avatar_x-small nds-pill__icon_container">
               <span class="nds-icon_container nds-icon-standard-opportunity" title="Description of icon when needed">
                 <svg class="nds-icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
                 </svg>
                 <span class="nds-assistive-text">Description of icon</span>
               </span>
@@ -338,7 +338,7 @@ storiesOf(`${base}`, module)
             <span class="nds-pill__label" title="Salesforce.com, Inc.">Salesforce.com, Inc.</span>
             <span class="nds-icon_container nds-pill__remove" title="Remove">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
               </svg>
               <span class="nds-assistive-text">Press delete or backspace to remove</span>
             </span>
@@ -359,12 +359,12 @@ storiesOf(`${base}`, module)
           <button class="nds-button nds-button_icon" aria-haspopup="true" title="Select object to search in">
             <span class="nds-icon_container nds-icon-standard-account" title="Accounts">
               <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
               </svg>
               <span class="nds-assistive-text">Searching in: Accounts</span>
             </span>
             <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
           </button>
         </div>
@@ -373,7 +373,7 @@ storiesOf(`${base}`, module)
             <input type="text" class="nds-input nds-combobox__input" id="combobox-unique-id" aria-autocomplete="list" aria-controls="listbox-unique-id" autocomplete="off" role="textbox" placeholder="Search Salesforce">
             <span class="nds-icon_container nds-icon-utility-search nds-input__icon nds-input__icon_right">
               <svg class="nds-icon nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
               </svg>
             </span>
           </div>
@@ -384,7 +384,7 @@ storiesOf(`${base}`, module)
                   <span class="nds-media__figure">
                     <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                       <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                        <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                        <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                       </svg>
                       <span class="nds-assistive-text">Description of icon</span>
                     </span>
@@ -409,7 +409,7 @@ storiesOf(`${base}`, module)
                   <span class="nds-media__figure">
                     <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                       <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                        <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                        <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                       </svg>
                       <span class="nds-assistive-text">Description of icon</span>
                     </span>
@@ -440,7 +440,7 @@ storiesOf(`${base}`, module)
               <span class="nds-avatar nds-avatar_x-small nds-pill__icon_container">
                 <span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
                   <svg class="nds-icon" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                   </svg>
                   <span class="nds-assistive-text">Description of icon</span>
                 </span>
@@ -448,7 +448,7 @@ storiesOf(`${base}`, module)
               <span class="nds-pill__label" title="Acme">Acme</span>
               <span class="nds-icon_container nds-pill__remove" title="Remove">
                 <svg class="nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Press delete or backspace to remove</span>
               </span>
@@ -459,7 +459,7 @@ storiesOf(`${base}`, module)
               <span class="nds-avatar nds-avatar_x-small nds-pill__icon_container">
                 <span class="nds-icon_container nds-icon-standard-opportunity" title="Description of icon when needed">
                   <svg class="nds-icon" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
                   </svg>
                   <span class="nds-assistive-text">Description of icon</span>
                 </span>
@@ -467,7 +467,7 @@ storiesOf(`${base}`, module)
               <span class="nds-pill__label" title="Salesforce.com, Inc.">Salesforce.com, Inc.</span>
               <span class="nds-icon_container nds-pill__remove" title="Remove">
                 <svg class="nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                 </svg>
                 <span class="nds-assistive-text">Press delete or backspace to remove</span>
               </span>

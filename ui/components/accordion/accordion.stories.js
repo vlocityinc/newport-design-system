@@ -33,14 +33,14 @@ storiesOf(`${base}`, module)
             <h3 class="nds-text-heading_small nds-accordion__summary-heading">
               <button aria-controls="accordion-details-01" aria-expanded="true" class="nds-button nds-button_reset nds-accordion__summary-action">
                 <svg class="nds-accordion__summary-action-icon nds-button__icon nds-button__icon_left" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
                 </svg>
                 <span class="nds-truncate" title="Accordion summary">Accordion summary</span>
               </button>
             </h3>
             <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small nds-shrink-none" aria-haspopup="true">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
               </svg>
               <span class="nds-assistive-text">More Options</span>
             </button>
@@ -56,14 +56,14 @@ storiesOf(`${base}`, module)
             <h3 class="nds-text-heading_small nds-accordion__summary-heading">
               <button aria-controls="accordion-details-02" aria-expanded="false" class="nds-button nds-button_reset nds-accordion__summary-action">
                 <svg class="nds-accordion__summary-action-icon nds-button__icon nds-button__icon_left" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
                 </svg>
                 <span class="nds-truncate" title="Accordion summary">Accordion summary</span>
               </button>
             </h3>
             <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small nds-shrink-none" aria-haspopup="true">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
               </svg>
               <span class="nds-assistive-text">More Options</span>
             </button>
@@ -79,14 +79,14 @@ storiesOf(`${base}`, module)
             <h3 class="nds-text-heading_small nds-accordion__summary-heading">
               <button aria-controls="accordion-details-03" aria-expanded="false" class="nds-button nds-button_reset nds-accordion__summary-action">
                 <svg class="nds-accordion__summary-action-icon nds-button__icon nds-button__icon_left" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
                 </svg>
                 <span class="nds-truncate" title="Accordion summary">Accordion summary</span>
               </button>
             </h3>
             <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small nds-shrink-none" aria-haspopup="true">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
               </svg>
               <span class="nds-assistive-text">More Options</span>
             </button>
@@ -108,14 +108,14 @@ storiesOf(`${base}`, module)
           <h3 class="nds-text-heading_small nds-accordion__summary-heading">
             <button aria-controls="accordion-details-01" aria-expanded="true" class="nds-button nds-button_reset nds-accordion__summary-action">
               <svg class="nds-accordion__summary-action-icon nds-button__icon nds-button__icon_left" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
               </svg>
               <span class="nds-truncate" title="Accordion summary">Accordion summary</span>
             </button>
           </h3>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small nds-shrink-none" aria-haspopup="true">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">More Options</span>
           </button>
@@ -131,14 +131,14 @@ storiesOf(`${base}`, module)
           <h3 class="nds-text-heading_small nds-accordion__summary-heading">
             <button aria-controls="accordion-details-02" aria-expanded="false" class="nds-button nds-button_reset nds-accordion__summary-action">
               <svg class="nds-accordion__summary-action-icon nds-button__icon nds-button__icon_left" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
               </svg>
               <span class="nds-truncate" title="Accordion summary">Accordion summary</span>
             </button>
           </h3>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small nds-shrink-none" aria-haspopup="true">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">More Options</span>
           </button>
@@ -154,14 +154,14 @@ storiesOf(`${base}`, module)
           <h3 class="nds-text-heading_small nds-accordion__summary-heading">
             <button aria-controls="accordion-details-03" aria-expanded="false" class="nds-button nds-button_reset nds-accordion__summary-action">
               <svg class="nds-accordion__summary-action-icon nds-button__icon nds-button__icon_left" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
               </svg>
               <span class="nds-truncate" title="Accordion summary">Accordion summary</span>
             </button>
           </h3>
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small nds-shrink-none" aria-haspopup="true">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">More Options</span>
           </button>

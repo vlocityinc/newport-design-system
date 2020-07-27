@@ -37,7 +37,7 @@ storiesOf(`${base}`, module)
               <button class="nds-button nds-button_neutral nds-grow">Delete</button>
               <button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-haspopup="true" title="More Actions">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                 </svg>
                 <span class="nds-assistive-text">More Actions</span>
               </button>
@@ -133,7 +133,7 @@ storiesOf(`${base}`, module)
               <button class="nds-button nds-button_neutral nds-grow">Delete</button>
               <button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-haspopup="true" title="More Actions">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                 </svg>
                 <span class="nds-assistive-text">More Actions</span>
               </button>
@@ -150,7 +150,7 @@ storiesOf(`${base}`, module)
               <span class="nds-form-element__static">Follow up on '15 Contract</span>
               <button class="nds-button nds-button_icon nds-float_right nds-button_icon nds-button_icon-small" title="Edit this Field">
                 <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
                 </svg>
                 <span class="nds-assistive-text">Edit this Field</span>
               </button>
@@ -162,7 +162,7 @@ storiesOf(`${base}`, module)
               <span class="nds-form-element__static">6/18/16</span>
               <button class="nds-button nds-button_icon nds-float_right nds-button_icon nds-button_icon-small" title="Edit this Field">
                 <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
                 </svg>
                 <span class="nds-assistive-text">Edit this Field</span>
               </button>
@@ -174,7 +174,7 @@ storiesOf(`${base}`, module)
               <span class="nds-form-element__static">Jason Dewar</span>
               <button class="nds-button nds-button_icon nds-float_right nds-button_icon nds-button_icon-small" title="Edit this Field">
                 <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
                 </svg>
                 <span class="nds-assistive-text">Edit this Field</span>
               </button>
@@ -186,7 +186,7 @@ storiesOf(`${base}`, module)
               <span class="nds-form-element__static">Adam Choi</span>
               <button class="nds-button nds-button_icon nds-float_right nds-button_icon nds-button_icon-small" title="Edit this Field">
                 <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
                 </svg>
                 <span class="nds-assistive-text">Edit this Field</span>
               </button>
@@ -198,7 +198,7 @@ storiesOf(`${base}`, module)
               <span class="nds-form-element__static">Tesla Cloudhub + Anypoint Connectors</span>
               <button class="nds-button nds-button_icon nds-float_right nds-button_icon nds-button_icon-small" title="Edit this Field">
                 <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
                 </svg>
                 <span class="nds-assistive-text">Edit this Field</span>
               </button>
@@ -210,7 +210,7 @@ storiesOf(`${base}`, module)
               <span class="nds-form-element__static nds-text-longform">Adam was open to doing more business in the 4th quarter. Follow up with marketing demo and email templates.</span>
               <button class="nds-button nds-button_icon nds-float_right nds-button_icon nds-button_icon-small" title="Edit this Field">
                 <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
                 </svg>
                 <span class="nds-assistive-text">Edit this Field</span>
               </button>
@@ -227,7 +227,7 @@ storiesOf(`${base}`, module)
               <span class="nds-form-element__static">Not Started</span>
               <button class="nds-button nds-button_icon nds-float_right nds-button_icon nds-button_icon-small" title="Edit this Field">
                 <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
                 </svg>
                 <span class="nds-assistive-text">Edit this Field</span>
               </button>
@@ -239,7 +239,7 @@ storiesOf(`${base}`, module)
               <span class="nds-form-element__static">Normal</span>
               <button class="nds-button nds-button_icon nds-float_right nds-button_icon nds-button_icon-small" title="Edit this Field">
                 <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
                 </svg>
                 <span class="nds-assistive-text">Edit this Field</span>
               </button>
@@ -277,7 +277,7 @@ storiesOf(`${base}`, module)
               <button class="nds-button nds-button_neutral nds-grow">Delete</button>
               <button class="nds-button nds-button_icon nds-button_icon-border-filled" aria-haspopup="true" title="More Actions">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                 </svg>
                 <span class="nds-assistive-text">More Actions</span>
               </button>
@@ -307,7 +307,7 @@ storiesOf(`${base}`, module)
                 <span class="nds-pill nds-pill_link">
                   <span class="nds-icon_container nds-icon-standard-avatar nds-pill__icon_container">
                     <svg class="nds-icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#avatar"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#avatar"></use>
                     </svg>
                     <span class="nds-assistive-text">Person</span>
                   </span>
@@ -316,7 +316,7 @@ storiesOf(`${base}`, module)
                   </a>
                   <button class="nds-button nds-button_icon nds-button_icon nds-pill__remove" title="Remove">
                     <svg class="nds-button__icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                     </svg>
                     <span class="nds-assistive-text">Remove</span>
                   </button>
@@ -331,7 +331,7 @@ storiesOf(`${base}`, module)
                 <span class="nds-pill nds-pill_link">
                   <span class="nds-icon_container nds-icon-standard-avatar nds-pill__icon_container">
                     <svg class="nds-icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#avatar"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#avatar"></use>
                     </svg>
                     <span class="nds-assistive-text">Person</span>
                   </span>
@@ -340,7 +340,7 @@ storiesOf(`${base}`, module)
                   </a>
                   <button class="nds-button nds-button_icon nds-button_icon nds-pill__remove" title="Remove">
                     <svg class="nds-button__icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                     </svg>
                     <span class="nds-assistive-text">Remove</span>
                   </button>
@@ -355,7 +355,7 @@ storiesOf(`${base}`, module)
                 <span class="nds-pill nds-pill_link">
                   <span class="nds-icon_container nds-icon-standard-account nds-pill__icon_container">
                     <svg class="nds-icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                     </svg>
                     <span class="nds-assistive-text">Account</span>
                   </span>
@@ -364,7 +364,7 @@ storiesOf(`${base}`, module)
                   </a>
                   <button class="nds-button nds-button_icon nds-button_icon nds-pill__remove" title="Remove">
                     <svg class="nds-button__icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                     </svg>
                     <span class="nds-assistive-text">Remove</span>
                   </button>

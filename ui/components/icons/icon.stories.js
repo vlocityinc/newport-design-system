@@ -42,7 +42,7 @@ storiesOf(`${base}`, module)
     const color = radios(colorLabel, colorOptions, colorDefaultValue);
     return withExample(`<span class="nds-icon_container nds-icon-utility-announcement" title="Description of icon when needed">
   <svg class="nds-icon${size}${color}" aria-hidden="true">
-    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#announcement"></use>
+    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#announcement"></use>
   </svg>
   <span class="nds-assistive-text">Description of icon</span>
 </span>`);
@@ -51,7 +51,7 @@ storiesOf(`${base}`, module)
     const size = radios(sizeLabel, sizeOptions, sizeDefaultValue);
     return withExample(`<span class="nds-icon_container nds-icon_container_circle nds-icon-action-description" title="Description of icon when needed">
       <svg class="nds-icon${size}" aria-hidden="true">
-        <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#description"></use>
+        <use xlink:href="./assets/icons/action-sprite/svg/symbols.svg#description"></use>
       </svg>
       <span class="nds-assistive-text">Description of icon</span>
     </span>`);
@@ -61,7 +61,7 @@ storiesOf(`${base}`, module)
 
     return withExample(`<span class="nds-icon_container nds-icon-custom-custom5" title="Description of icon when needed">
       <svg class="nds-icon${size}" aria-hidden="true">
-        <use xlink:href="/assets/icons/custom-sprite/svg/symbols.svg#custom5"></use>
+        <use xlink:href="./assets/icons/custom-sprite/svg/symbols.svg#custom5"></use>
       </svg>
       <span class="nds-assistive-text">Description of icon</span>
     </span>`);
@@ -71,7 +71,7 @@ storiesOf(`${base}`, module)
 
     return withExample(`<span class="nds-icon_container nds-icon-doctype-xml" title="Description of icon when needed">
       <svg class="nds-icon${size}" aria-hidden="true">
-        <use xlink:href="/assets/icons/doctype-sprite/svg/symbols.svg#xml"></use>
+        <use xlink:href="./assets/icons/doctype-sprite/svg/symbols.svg#xml"></use>
       </svg>
       <span class="nds-assistive-text">Description of icon</span>
     </span>`);
@@ -81,7 +81,7 @@ storiesOf(`${base}`, module)
 
     return withExample(`<span class="nds-icon_container nds-icon-standard-account" title="Description of icon when needed">
       <svg class="nds-icon${size}" aria-hidden="true">
-        <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+        <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
       </svg>
       <span class="nds-assistive-text">Description of icon</span>
     </span>

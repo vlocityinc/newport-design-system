@@ -16,7 +16,7 @@ storiesOf(`${base}`, module)
   <div class="nds-media__figure">
     <span class="nds-icon_container nds-icon-utility-info" title="information">
       <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#info"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#info"></use>
       </svg>
       <span class="nds-assistive-text">information</span>
     </span>
@@ -37,7 +37,7 @@ storiesOf(`${base}`, module)
   <div class="nds-media__figure">
     <span class="nds-icon_container nds-icon-utility-info" title="information">
       <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#info"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#info"></use>
       </svg>
       <span class="nds-assistive-text">information</span>
     </span>
@@ -58,7 +58,7 @@ storiesOf(`${base}`, module)
   <div class="nds-media__figure">
     <span class="nds-icon_container nds-icon-utility-info" title="information">
       <svg class="nds-icon nds-icon_small" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#info"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#info"></use>
       </svg>
       <span class="nds-assistive-text">information</span>
     </span>

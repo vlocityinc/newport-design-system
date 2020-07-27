@@ -38,7 +38,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Name">Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -61,7 +61,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Account Name">Account Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -84,7 +84,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Close Date">Close Date</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -107,7 +107,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Stage">Stage</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -130,7 +130,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Confidence">Confidence</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -153,7 +153,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Amount">Amount</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -176,7 +176,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Contact">Contact</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -205,7 +205,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-01" tabindex="-1" title="Item 1 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 1 has errors</span>
           </button>
@@ -225,7 +225,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-01" tabindex="-1" title="Acme - 1,200 Widgets">Acme - 1,200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 1</span>
             </button>
@@ -236,7 +236,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Account Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 1</span>
             </button>
@@ -247,7 +247,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="4/10/15">4/10/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Close Date: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 1</span>
             </button>
@@ -258,7 +258,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Value Proposition">Value Proposition</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Stage: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 1</span>
             </button>
@@ -269,7 +269,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="30%">30%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="-1" title="Edit Confidence: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 1</span>
             </button>
@@ -280,7 +280,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000,000">$25,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Amount: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 1</span>
             </button>
@@ -291,7 +291,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="jrogers@acme.com">jrogers@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Contact: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 1</span>
             </button>
@@ -300,7 +300,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="-1" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -310,7 +310,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-02" tabindex="-1" title="Item 2 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 2 has errors</span>
           </button>
@@ -330,7 +330,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-02" tabindex="-1" title="Acme - 200 Widgets">Acme - 200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 2</span>
             </button>
@@ -341,7 +341,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Account Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 2</span>
             </button>
@@ -352,7 +352,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15">1/31/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Close Date: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 2</span>
             </button>
@@ -363,7 +363,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Prospecting">Prospecting</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Stage: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 2</span>
             </button>
@@ -374,7 +374,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="60%">60%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="-1" title="Edit Confidence: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 2</span>
             </button>
@@ -385,7 +385,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$5,000,000">$5,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Amount: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 2</span>
             </button>
@@ -396,7 +396,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="bob@acme.com">bob@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Contact: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 2</span>
             </button>
@@ -405,7 +405,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="-1" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -415,7 +415,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-03" tabindex="-1" title="Item 3 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 3 has errors</span>
           </button>
@@ -435,7 +435,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-03" tabindex="-1" title="salesforce.com - 1,000 Widgets">salesforce.com - 1,000 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 3</span>
             </button>
@@ -446,7 +446,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="salesforce.com">salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Account Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 3</span>
             </button>
@@ -457,7 +457,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15 3:45PM">1/31/15 3:45PM</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Close Date: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 3</span>
             </button>
@@ -468,7 +468,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Id. Decision Makers">Id. Decision Makers</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Stage: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 3</span>
             </button>
@@ -479,7 +479,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="70%">70%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="-1" title="Edit Confidence: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 3</span>
             </button>
@@ -490,7 +490,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000">$25,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Amount: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 3</span>
             </button>
@@ -501,7 +501,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="nathan@salesforce.com">nathan@salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Contact: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 3</span>
             </button>
@@ -510,7 +510,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="-1" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -547,7 +547,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Name">Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -570,7 +570,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Account Name">Account Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -593,7 +593,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Close Date">Close Date</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -616,7 +616,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Stage">Stage</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -639,7 +639,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Confidence">Confidence</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -662,7 +662,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Amount">Amount</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -685,7 +685,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Contact">Contact</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -714,7 +714,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-01" tabindex="-1" title="Item 1 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 1 has errors</span>
           </button>
@@ -734,7 +734,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-01" tabindex="0" title="Acme - 1,200 Widgets">Acme - 1,200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 1</span>
             </button>
@@ -745,7 +745,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 1</span>
             </button>
@@ -756,7 +756,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="4/10/15">4/10/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 1</span>
             </button>
@@ -767,7 +767,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Value Proposition">Value Proposition</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 1</span>
             </button>
@@ -778,7 +778,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="30%">30%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 1</span>
             </button>
@@ -789,7 +789,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000,000">$25,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 1</span>
             </button>
@@ -800,7 +800,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="jrogers@acme.com">jrogers@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 1</span>
             </button>
@@ -809,7 +809,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -819,7 +819,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-02" tabindex="-1" title="Item 2 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 2 has errors</span>
           </button>
@@ -839,7 +839,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-02" tabindex="0" title="Acme - 200 Widgets">Acme - 200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 2</span>
             </button>
@@ -850,7 +850,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 2</span>
             </button>
@@ -861,7 +861,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15">1/31/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 2</span>
             </button>
@@ -872,7 +872,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Prospecting">Prospecting</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 2</span>
             </button>
@@ -883,7 +883,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="60%">60%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 2</span>
             </button>
@@ -894,7 +894,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$5,000,000">$5,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 2</span>
             </button>
@@ -905,7 +905,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="bob@acme.com">bob@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 2</span>
             </button>
@@ -914,7 +914,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -924,7 +924,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-03" tabindex="-1" title="Item 3 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 3 has errors</span>
           </button>
@@ -944,7 +944,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-03" tabindex="0" title="salesforce.com - 1,000 Widgets">salesforce.com - 1,000 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 3</span>
             </button>
@@ -955,7 +955,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="salesforce.com">salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 3</span>
             </button>
@@ -966,7 +966,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15 3:45PM">1/31/15 3:45PM</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 3</span>
             </button>
@@ -977,7 +977,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Id. Decision Makers">Id. Decision Makers</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 3</span>
             </button>
@@ -988,7 +988,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="70%">70%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 3</span>
             </button>
@@ -999,7 +999,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000">$25,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 3</span>
             </button>
@@ -1010,7 +1010,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="nathan@salesforce.com">nathan@salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 3</span>
             </button>
@@ -1019,7 +1019,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -1056,7 +1056,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Name">Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -1079,7 +1079,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Account Name">Account Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -1102,7 +1102,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Close Date">Close Date</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -1125,7 +1125,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Stage">Stage</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -1148,7 +1148,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Confidence">Confidence</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -1171,7 +1171,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Amount">Amount</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -1194,7 +1194,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Contact">Contact</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -1223,7 +1223,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-01" tabindex="-1" title="Item 1 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 1 has errors</span>
           </button>
@@ -1243,7 +1243,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-01" tabindex="0" title="Acme - 1,200 Widgets">Acme - 1,200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 1</span>
             </button>
@@ -1254,7 +1254,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 1</span>
             </button>
@@ -1265,7 +1265,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="4/10/15">4/10/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 1</span>
             </button>
@@ -1276,7 +1276,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Value Proposition">Value Proposition</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 1</span>
             </button>
@@ -1287,7 +1287,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="30%">30%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 1</span>
             </button>
@@ -1298,7 +1298,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000,000">$25,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 1</span>
             </button>
@@ -1309,7 +1309,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="jrogers@acme.com">jrogers@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 1</span>
             </button>
@@ -1318,7 +1318,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -1328,7 +1328,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-02" tabindex="-1" title="Item 2 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 2 has errors</span>
           </button>
@@ -1348,7 +1348,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-02" tabindex="0" title="Acme - 200 Widgets">Acme - 200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 2</span>
             </button>
@@ -1359,7 +1359,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 2</span>
             </button>
@@ -1370,7 +1370,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15">1/31/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 2</span>
             </button>
@@ -1381,7 +1381,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Prospecting">Prospecting</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 2</span>
             </button>
@@ -1392,7 +1392,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="60%">60%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 2</span>
             </button>
@@ -1403,7 +1403,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$5,000,000">$5,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 2</span>
             </button>
@@ -1414,7 +1414,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="bob@acme.com">bob@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 2</span>
             </button>
@@ -1423,7 +1423,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -1433,7 +1433,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-03" tabindex="-1" title="Item 3 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 3 has errors</span>
           </button>
@@ -1453,7 +1453,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-03" tabindex="0" title="salesforce.com - 1,000 Widgets">salesforce.com - 1,000 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 3</span>
             </button>
@@ -1464,7 +1464,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="salesforce.com">salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 3</span>
             </button>
@@ -1475,7 +1475,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15 3:45PM">1/31/15 3:45PM</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 3</span>
             </button>
@@ -1486,7 +1486,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Id. Decision Makers">Id. Decision Makers</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 3</span>
             </button>
@@ -1497,7 +1497,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="70%">70%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 3</span>
             </button>
@@ -1508,7 +1508,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000">$25,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 3</span>
             </button>
@@ -1519,7 +1519,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="nathan@salesforce.com">nathan@salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 3</span>
             </button>
@@ -1528,7 +1528,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -1565,7 +1565,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Name">Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -1588,7 +1588,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Account Name">Account Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -1611,7 +1611,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Close Date">Close Date</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -1634,7 +1634,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Stage">Stage</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -1657,7 +1657,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Confidence">Confidence</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -1680,7 +1680,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Amount">Amount</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -1703,7 +1703,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Contact">Contact</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -1732,7 +1732,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-01" tabindex="-1" title="Item 1 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 1 has errors</span>
           </button>
@@ -1752,7 +1752,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-01" tabindex="-1" title="Acme - 1,200 Widgets">Acme - 1,200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 1</span>
             </button>
@@ -1763,7 +1763,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Account Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 1</span>
             </button>
@@ -1774,7 +1774,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="4/10/15">4/10/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Close Date: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 1</span>
             </button>
@@ -1785,7 +1785,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Value Proposition">Value Proposition</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Stage: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 1</span>
             </button>
@@ -1796,7 +1796,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="30%">30%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="-1" title="Edit Confidence: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 1</span>
             </button>
@@ -1807,7 +1807,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000,000">$25,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Amount: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 1</span>
             </button>
@@ -1818,7 +1818,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="jrogers@acme.com">jrogers@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Contact: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 1</span>
             </button>
@@ -1827,7 +1827,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="-1" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -1837,7 +1837,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-02" tabindex="-1" title="Item 2 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 2 has errors</span>
           </button>
@@ -1857,7 +1857,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-02" tabindex="-1" title="Acme - 200 Widgets">Acme - 200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 2</span>
             </button>
@@ -1868,7 +1868,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Account Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 2</span>
             </button>
@@ -1879,7 +1879,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15">1/31/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Close Date: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 2</span>
             </button>
@@ -1890,7 +1890,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Prospecting">Prospecting</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Stage: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 2</span>
             </button>
@@ -1901,7 +1901,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="60%">60%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="-1" title="Edit Confidence: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 2</span>
             </button>
@@ -1912,7 +1912,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$5,000,000">$5,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Amount: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 2</span>
             </button>
@@ -1923,7 +1923,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="bob@acme.com">bob@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Contact: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 2</span>
             </button>
@@ -1932,7 +1932,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="-1" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -1942,7 +1942,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-03" tabindex="-1" title="Item 3 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 3 has errors</span>
           </button>
@@ -1962,7 +1962,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-03" tabindex="-1" title="salesforce.com - 1,000 Widgets">salesforce.com - 1,000 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 3</span>
             </button>
@@ -1973,7 +1973,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="salesforce.com">salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Account Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 3</span>
             </button>
@@ -1984,7 +1984,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15 3:45PM">1/31/15 3:45PM</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Close Date: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 3</span>
             </button>
@@ -1995,7 +1995,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Id. Decision Makers">Id. Decision Makers</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Stage: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 3</span>
             </button>
@@ -2006,7 +2006,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="70%">70%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="-1" title="Edit Confidence: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 3</span>
             </button>
@@ -2017,7 +2017,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000">$25,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Amount: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 3</span>
             </button>
@@ -2028,7 +2028,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="nathan@salesforce.com">nathan@salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Contact: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 3</span>
             </button>
@@ -2037,7 +2037,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="-1" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -2074,7 +2074,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Name">Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -2097,7 +2097,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Account Name">Account Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -2120,7 +2120,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Close Date">Close Date</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -2143,7 +2143,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Stage">Stage</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -2166,7 +2166,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Confidence">Confidence</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -2189,7 +2189,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Amount">Amount</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -2212,7 +2212,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Contact">Contact</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -2241,7 +2241,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-01" tabindex="-1" title="Item 1 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 1 has errors</span>
           </button>
@@ -2261,7 +2261,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-01" tabindex="0" title="Acme - 1,200 Widgets">Acme - 1,200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 1</span>
             </button>
@@ -2272,7 +2272,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 1</span>
             </button>
@@ -2297,7 +2297,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="4/10/15">4/10/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 1</span>
             </button>
@@ -2308,7 +2308,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Value Proposition">Value Proposition</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 1</span>
             </button>
@@ -2319,7 +2319,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="30%">30%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 1</span>
             </button>
@@ -2330,7 +2330,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000,000">$25,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 1</span>
             </button>
@@ -2341,7 +2341,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="jrogers@acme.com">jrogers@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 1</span>
             </button>
@@ -2350,7 +2350,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -2360,7 +2360,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-02" tabindex="-1" title="Item 2 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 2 has errors</span>
           </button>
@@ -2380,7 +2380,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-02" tabindex="0" title="Acme - 200 Widgets">Acme - 200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 2</span>
             </button>
@@ -2391,7 +2391,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 2</span>
             </button>
@@ -2402,7 +2402,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15">1/31/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 2</span>
             </button>
@@ -2413,7 +2413,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Prospecting">Prospecting</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 2</span>
             </button>
@@ -2424,7 +2424,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="60%">60%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 2</span>
             </button>
@@ -2435,7 +2435,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$5,000,000">$5,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 2</span>
             </button>
@@ -2446,7 +2446,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="bob@acme.com">bob@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 2</span>
             </button>
@@ -2455,7 +2455,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -2465,7 +2465,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-03" tabindex="-1" title="Item 3 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 3 has errors</span>
           </button>
@@ -2485,7 +2485,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-03" tabindex="0" title="salesforce.com - 1,000 Widgets">salesforce.com - 1,000 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 3</span>
             </button>
@@ -2496,7 +2496,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="salesforce.com">salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 3</span>
             </button>
@@ -2507,7 +2507,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15 3:45PM">1/31/15 3:45PM</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 3</span>
             </button>
@@ -2518,7 +2518,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Id. Decision Makers">Id. Decision Makers</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 3</span>
             </button>
@@ -2529,7 +2529,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="70%">70%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 3</span>
             </button>
@@ -2540,7 +2540,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000">$25,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 3</span>
             </button>
@@ -2551,7 +2551,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="nathan@salesforce.com">nathan@salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 3</span>
             </button>
@@ -2560,7 +2560,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -2597,7 +2597,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Name">Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -2620,7 +2620,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Account Name">Account Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -2643,7 +2643,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Close Date">Close Date</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -2666,7 +2666,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Stage">Stage</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -2689,7 +2689,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Confidence">Confidence</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -2712,7 +2712,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Amount">Amount</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -2735,7 +2735,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Contact">Contact</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -2764,7 +2764,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-01" tabindex="-1" title="Item 1 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 1 has errors</span>
           </button>
@@ -2784,7 +2784,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-01" tabindex="0" title="Acme - 1,200 Widgets">Acme - 1,200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 1</span>
             </button>
@@ -2795,7 +2795,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 1</span>
             </button>
@@ -2821,7 +2821,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="4/10/15">4/10/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 1</span>
             </button>
@@ -2832,7 +2832,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Value Proposition">Value Proposition</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 1</span>
             </button>
@@ -2843,7 +2843,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="30%">30%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 1</span>
             </button>
@@ -2854,7 +2854,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000,000">$25,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 1</span>
             </button>
@@ -2865,7 +2865,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="jrogers@acme.com">jrogers@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 1</span>
             </button>
@@ -2874,7 +2874,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -2884,7 +2884,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-02" tabindex="-1" title="Item 2 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 2 has errors</span>
           </button>
@@ -2904,7 +2904,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-02" tabindex="0" title="Acme - 200 Widgets">Acme - 200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 2</span>
             </button>
@@ -2915,7 +2915,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 2</span>
             </button>
@@ -2926,7 +2926,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15">1/31/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 2</span>
             </button>
@@ -2937,7 +2937,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Prospecting">Prospecting</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 2</span>
             </button>
@@ -2948,7 +2948,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="60%">60%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 2</span>
             </button>
@@ -2959,7 +2959,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$5,000,000">$5,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 2</span>
             </button>
@@ -2970,7 +2970,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="bob@acme.com">bob@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 2</span>
             </button>
@@ -2979,7 +2979,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -2989,7 +2989,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-03" tabindex="-1" title="Item 3 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 3 has errors</span>
           </button>
@@ -3009,7 +3009,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-03" tabindex="0" title="salesforce.com - 1,000 Widgets">salesforce.com - 1,000 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 3</span>
             </button>
@@ -3020,7 +3020,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="salesforce.com">salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 3</span>
             </button>
@@ -3031,7 +3031,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15 3:45PM">1/31/15 3:45PM</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 3</span>
             </button>
@@ -3042,7 +3042,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Id. Decision Makers">Id. Decision Makers</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 3</span>
             </button>
@@ -3053,7 +3053,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="70%">70%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 3</span>
             </button>
@@ -3064,7 +3064,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000">$25,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 3</span>
             </button>
@@ -3075,7 +3075,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="nathan@salesforce.com">nathan@salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 3</span>
             </button>
@@ -3084,7 +3084,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -3121,7 +3121,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Name">Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -3144,7 +3144,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Account Name">Account Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -3167,7 +3167,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Close Date">Close Date</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -3190,7 +3190,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Stage">Stage</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -3213,7 +3213,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Confidence">Confidence</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -3236,7 +3236,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Amount">Amount</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -3259,7 +3259,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Contact">Contact</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -3288,7 +3288,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-01" tabindex="-1" title="Item 1 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 1 has errors</span>
           </button>
@@ -3308,7 +3308,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-01" tabindex="0" title="Acme - 1,200 Widgets">Acme - 1,200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 1</span>
             </button>
@@ -3319,7 +3319,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 1</span>
             </button>
@@ -3346,7 +3346,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="4/10/15">4/10/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 1</span>
             </button>
@@ -3357,7 +3357,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Value Proposition">Value Proposition</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 1</span>
             </button>
@@ -3368,7 +3368,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="30%">30%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 1</span>
             </button>
@@ -3379,7 +3379,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000,000">$25,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 1</span>
             </button>
@@ -3390,7 +3390,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="jrogers@acme.com">jrogers@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 1</span>
             </button>
@@ -3399,7 +3399,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -3409,7 +3409,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-02" tabindex="-1" title="Item 2 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 2 has errors</span>
           </button>
@@ -3429,7 +3429,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-02" tabindex="0" title="Acme - 200 Widgets">Acme - 200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 2</span>
             </button>
@@ -3440,7 +3440,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 2</span>
             </button>
@@ -3451,7 +3451,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15">1/31/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 2</span>
             </button>
@@ -3462,7 +3462,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Prospecting">Prospecting</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 2</span>
             </button>
@@ -3473,7 +3473,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="60%">60%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 2</span>
             </button>
@@ -3484,7 +3484,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$5,000,000">$5,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 2</span>
             </button>
@@ -3495,7 +3495,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="bob@acme.com">bob@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 2</span>
             </button>
@@ -3504,7 +3504,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -3514,7 +3514,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-03" tabindex="-1" title="Item 3 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 3 has errors</span>
           </button>
@@ -3534,7 +3534,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-03" tabindex="0" title="salesforce.com - 1,000 Widgets">salesforce.com - 1,000 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 3</span>
             </button>
@@ -3545,7 +3545,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="salesforce.com">salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 3</span>
             </button>
@@ -3556,7 +3556,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15 3:45PM">1/31/15 3:45PM</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 3</span>
             </button>
@@ -3567,7 +3567,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Id. Decision Makers">Id. Decision Makers</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 3</span>
             </button>
@@ -3578,7 +3578,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="70%">70%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 3</span>
             </button>
@@ -3589,7 +3589,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000">$25,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 3</span>
             </button>
@@ -3600,7 +3600,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="nathan@salesforce.com">nathan@salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 3</span>
             </button>
@@ -3609,7 +3609,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -3646,7 +3646,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Name">Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -3669,7 +3669,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Account Name">Account Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -3692,7 +3692,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Close Date">Close Date</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -3715,7 +3715,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Stage">Stage</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -3738,7 +3738,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Confidence">Confidence</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -3761,7 +3761,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Amount">Amount</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -3784,7 +3784,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Contact">Contact</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -3813,7 +3813,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-01" tabindex="-1" title="Item 1 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 1 has errors</span>
           </button>
@@ -3833,7 +3833,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-01" tabindex="0" title="Acme - 1,200 Widgets">Acme - 1,200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 1</span>
             </button>
@@ -3844,7 +3844,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 1</span>
             </button>
@@ -3855,7 +3855,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="4/10/15">4/10/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 1</span>
             </button>
@@ -3866,7 +3866,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Value Proposition">Value Proposition</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 1</span>
             </button>
@@ -3877,7 +3877,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="30%">30%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 1</span>
             </button>
@@ -3888,7 +3888,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000,000">$25,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 1</span>
             </button>
@@ -3899,7 +3899,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="jrogers@acme.com">jrogers@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 1</span>
             </button>
@@ -3908,7 +3908,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -3918,7 +3918,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-02" tabindex="-1" title="Item 2 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 2 has errors</span>
           </button>
@@ -3938,7 +3938,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-02" tabindex="0" title="Acme - 200 Widgets">Acme - 200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 2</span>
             </button>
@@ -3949,7 +3949,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 2</span>
             </button>
@@ -3960,7 +3960,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15">1/31/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 2</span>
             </button>
@@ -3971,7 +3971,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Prospecting">Prospecting</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 2</span>
             </button>
@@ -3982,7 +3982,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="60%">60%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 2</span>
             </button>
@@ -3993,7 +3993,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$5,000,000">$5,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 2</span>
             </button>
@@ -4004,7 +4004,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="bob@acme.com">bob@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 2</span>
             </button>
@@ -4013,7 +4013,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -4023,7 +4023,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-03" tabindex="-1" title="Item 3 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 3 has errors</span>
           </button>
@@ -4043,7 +4043,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-03" tabindex="0" title="salesforce.com - 1,000 Widgets">salesforce.com - 1,000 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 3</span>
             </button>
@@ -4054,7 +4054,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="salesforce.com">salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 3</span>
             </button>
@@ -4065,7 +4065,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15 3:45PM">1/31/15 3:45PM</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 3</span>
             </button>
@@ -4076,7 +4076,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Id. Decision Makers">Id. Decision Makers</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 3</span>
             </button>
@@ -4087,7 +4087,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="70%">70%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 3</span>
             </button>
@@ -4098,7 +4098,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000">$25,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 3</span>
             </button>
@@ -4109,7 +4109,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="nathan@salesforce.com">nathan@salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 3</span>
             </button>
@@ -4118,7 +4118,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -4155,7 +4155,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Name">Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -4178,7 +4178,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Account Name">Account Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -4201,7 +4201,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Close Date">Close Date</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -4224,7 +4224,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Stage">Stage</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -4247,7 +4247,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Confidence">Confidence</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -4270,7 +4270,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Amount">Amount</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -4293,7 +4293,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Contact">Contact</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -4322,7 +4322,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small" id="error-01" title="Item 1 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 1 has errors</span>
           </button>
@@ -4342,7 +4342,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-01" tabindex="0" title="Acme - 1,200 Widgets">Acme - 1,200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 1</span>
             </button>
@@ -4353,7 +4353,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 1</span>
             </button>
@@ -4364,7 +4364,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="4/10/15">4/10/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 1</span>
             </button>
@@ -4375,7 +4375,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Value Proposition">Value Proposition</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 1</span>
             </button>
@@ -4386,7 +4386,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="30%">30%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 1</span>
             </button>
@@ -4397,7 +4397,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000,000">$25,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 1</span>
             </button>
@@ -4408,7 +4408,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="jrogers@acme.com">jrogers@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 1</span>
             </button>
@@ -4417,7 +4417,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -4427,7 +4427,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-02" tabindex="-1" title="Item 2 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 2 has errors</span>
           </button>
@@ -4447,7 +4447,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-02" tabindex="0" title="Acme - 200 Widgets">Acme - 200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 2</span>
             </button>
@@ -4458,7 +4458,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 2</span>
             </button>
@@ -4469,7 +4469,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15">1/31/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 2</span>
             </button>
@@ -4480,7 +4480,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Prospecting">Prospecting</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 2</span>
             </button>
@@ -4491,7 +4491,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="60%">60%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 2</span>
             </button>
@@ -4502,7 +4502,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$5,000,000">$5,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 2</span>
             </button>
@@ -4513,7 +4513,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="bob@acme.com">bob@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 2</span>
             </button>
@@ -4522,7 +4522,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -4532,7 +4532,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-03" tabindex="-1" title="Item 3 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 3 has errors</span>
           </button>
@@ -4552,7 +4552,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-03" tabindex="0" title="salesforce.com - 1,000 Widgets">salesforce.com - 1,000 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 3</span>
             </button>
@@ -4563,7 +4563,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="salesforce.com">salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 3</span>
             </button>
@@ -4574,7 +4574,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15 3:45PM">1/31/15 3:45PM</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 3</span>
             </button>
@@ -4585,7 +4585,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Id. Decision Makers">Id. Decision Makers</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 3</span>
             </button>
@@ -4596,7 +4596,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="70%">70%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 3</span>
             </button>
@@ -4607,7 +4607,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000">$25,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 3</span>
             </button>
@@ -4618,7 +4618,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="nathan@salesforce.com">nathan@salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 3</span>
             </button>
@@ -4627,7 +4627,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -4664,7 +4664,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Name">Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -4687,7 +4687,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Account Name">Account Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -4710,7 +4710,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Close Date">Close Date</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -4733,7 +4733,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Stage">Stage</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -4756,7 +4756,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Confidence">Confidence</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -4779,7 +4779,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Amount">Amount</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -4802,7 +4802,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Contact">Contact</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -4831,7 +4831,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit nds-has-focus" role="gridcell" tabindex="0">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small" aria-describedby="error-tooltip-01" id="error-01" title="Item 1 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 1 has errors</span>
           </button>
@@ -4851,7 +4851,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-01" tabindex="0" title="Acme - 1,200 Widgets">Acme - 1,200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 1</span>
             </button>
@@ -4862,7 +4862,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 1</span>
             </button>
@@ -4873,7 +4873,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="4/10/15">4/10/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 1</span>
             </button>
@@ -4884,7 +4884,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Value Proposition">Value Proposition</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 1</span>
             </button>
@@ -4895,7 +4895,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="30%">30%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 1</span>
             </button>
@@ -4906,7 +4906,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000,000">$25,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 1</span>
             </button>
@@ -4917,7 +4917,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="jrogers@acme.com">jrogers@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 1</span>
             </button>
@@ -4926,7 +4926,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -4936,7 +4936,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-02" tabindex="-1" title="Item 2 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 2 has errors</span>
           </button>
@@ -4956,7 +4956,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-02" tabindex="0" title="Acme - 200 Widgets">Acme - 200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 2</span>
             </button>
@@ -4967,7 +4967,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 2</span>
             </button>
@@ -4978,7 +4978,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15">1/31/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 2</span>
             </button>
@@ -4989,7 +4989,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Prospecting">Prospecting</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 2</span>
             </button>
@@ -5000,7 +5000,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="60%">60%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 2</span>
             </button>
@@ -5011,7 +5011,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$5,000,000">$5,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 2</span>
             </button>
@@ -5022,7 +5022,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="bob@acme.com">bob@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 2</span>
             </button>
@@ -5031,7 +5031,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -5041,7 +5041,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-03" tabindex="-1" title="Item 3 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 3 has errors</span>
           </button>
@@ -5061,7 +5061,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-03" tabindex="0" title="salesforce.com - 1,000 Widgets">salesforce.com - 1,000 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 3</span>
             </button>
@@ -5072,7 +5072,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="salesforce.com">salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Account Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 3</span>
             </button>
@@ -5083,7 +5083,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15 3:45PM">1/31/15 3:45PM</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Close Date: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 3</span>
             </button>
@@ -5094,7 +5094,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Id. Decision Makers">Id. Decision Makers</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Stage: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 3</span>
             </button>
@@ -5105,7 +5105,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="70%">70%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="0" title="Edit Confidence: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 3</span>
             </button>
@@ -5116,7 +5116,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000">$25,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Amount: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 3</span>
             </button>
@@ -5127,7 +5127,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="nathan@salesforce.com">nathan@salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="0" title="Edit Contact: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 3</span>
             </button>
@@ -5136,7 +5136,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -5176,7 +5176,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Name">Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -5199,7 +5199,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Account Name">Account Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -5222,7 +5222,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Close Date">Close Date</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -5245,7 +5245,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Stage">Stage</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -5268,7 +5268,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Confidence">Confidence</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -5291,7 +5291,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Amount">Amount</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -5314,7 +5314,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Contact">Contact</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -5343,7 +5343,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-01" tabindex="-1" title="Item 1 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 1 has errors</span>
           </button>
@@ -5363,7 +5363,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-01" tabindex="-1" title="Acme - 1,200 Widgets">Acme - 1,200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 1</span>
             </button>
@@ -5374,7 +5374,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Account Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 1</span>
             </button>
@@ -5385,7 +5385,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="4/10/15">4/10/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Close Date: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 1</span>
             </button>
@@ -5396,7 +5396,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Value Proposition">Value Proposition</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Stage: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 1</span>
             </button>
@@ -5407,7 +5407,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="30%">30%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="-1" title="Edit Confidence: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 1</span>
             </button>
@@ -5418,7 +5418,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000,000">$25,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Amount: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 1</span>
             </button>
@@ -5429,7 +5429,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="jrogers@acme.com">jrogers@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Contact: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 1</span>
             </button>
@@ -5438,7 +5438,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="-1" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -5448,7 +5448,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-02" tabindex="-1" title="Item 2 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 2 has errors</span>
           </button>
@@ -5468,7 +5468,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-02" tabindex="-1" title="Acme - 200 Widgets">Acme - 200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 2</span>
             </button>
@@ -5479,7 +5479,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Account Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 2</span>
             </button>
@@ -5490,7 +5490,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15">1/31/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Close Date: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 2</span>
             </button>
@@ -5501,7 +5501,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Prospecting">Prospecting</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Stage: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 2</span>
             </button>
@@ -5512,7 +5512,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="60%">60%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="-1" title="Edit Confidence: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 2</span>
             </button>
@@ -5523,7 +5523,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$5,000,000">$5,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Amount: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 2</span>
             </button>
@@ -5534,7 +5534,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="bob@acme.com">bob@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Contact: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 2</span>
             </button>
@@ -5543,7 +5543,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="-1" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -5553,7 +5553,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-03" tabindex="-1" title="Item 3 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 3 has errors</span>
           </button>
@@ -5573,7 +5573,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-03" tabindex="-1" title="salesforce.com - 1,000 Widgets">salesforce.com - 1,000 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 3</span>
             </button>
@@ -5584,7 +5584,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="salesforce.com">salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Account Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 3</span>
             </button>
@@ -5595,7 +5595,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15 3:45PM">1/31/15 3:45PM</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Close Date: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 3</span>
             </button>
@@ -5606,7 +5606,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Id. Decision Makers">Id. Decision Makers</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Stage: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 3</span>
             </button>
@@ -5617,7 +5617,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="70%">70%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="-1" title="Edit Confidence: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 3</span>
             </button>
@@ -5628,7 +5628,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000">$25,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Amount: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 3</span>
             </button>
@@ -5639,7 +5639,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="nathan@salesforce.com">nathan@salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Contact: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 3</span>
             </button>
@@ -5648,7 +5648,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="-1" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -5685,7 +5685,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Name">Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -5708,7 +5708,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Account Name">Account Name</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -5731,7 +5731,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Close Date">Close Date</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -5754,7 +5754,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Stage">Stage</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -5777,7 +5777,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Confidence">Confidence</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -5800,7 +5800,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Amount">Amount</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -5823,7 +5823,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Contact">Contact</span>
             <div class="nds-icon_container">
               <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
               </svg>
             </div>
           </a>
@@ -5852,7 +5852,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-01" tabindex="-1" title="Item 1 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 1 has errors</span>
           </button>
@@ -5872,7 +5872,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-01" tabindex="-1" title="Acme - 1,200 Widgets">Acme - 1,200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 1</span>
             </button>
@@ -5883,7 +5883,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Account Name: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 1</span>
             </button>
@@ -5894,7 +5894,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="4/10/15">4/10/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Close Date: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 1</span>
             </button>
@@ -5905,7 +5905,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Value Proposition">Value Proposition</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Stage: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 1</span>
             </button>
@@ -5916,7 +5916,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="30%">30%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="-1" title="Edit Confidence: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 1</span>
             </button>
@@ -5927,7 +5927,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000,000">$25,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Amount: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 1</span>
             </button>
@@ -5938,7 +5938,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="jrogers@acme.com">jrogers@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Contact: Item 1">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 1</span>
             </button>
@@ -5947,7 +5947,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="-1" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -5957,7 +5957,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-02" tabindex="-1" title="Item 2 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 2 has errors</span>
           </button>
@@ -5977,7 +5977,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-02" tabindex="-1" title="Acme - 200 Widgets">Acme - 200 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 2</span>
             </button>
@@ -5988,7 +5988,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Acme">Acme</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Account Name: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 2</span>
             </button>
@@ -5999,7 +5999,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15">1/31/15</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Close Date: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 2</span>
             </button>
@@ -6010,7 +6010,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Prospecting">Prospecting</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Stage: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 2</span>
             </button>
@@ -6021,7 +6021,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="60%">60%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="-1" title="Edit Confidence: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 2</span>
             </button>
@@ -6032,7 +6032,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$5,000,000">$5,000,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Amount: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 2</span>
             </button>
@@ -6043,7 +6043,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="bob@acme.com">bob@acme.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Contact: Item 2">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 2</span>
             </button>
@@ -6052,7 +6052,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="-1" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
@@ -6062,7 +6062,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-error nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-error nds-m-horizontal_xxx-small nds-hidden" aria-hidden="true" id="error-03" tabindex="-1" title="Item 3 has errors">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
             </svg>
             <span class="nds-assistive-text">Item 3 has errors</span>
           </button>
@@ -6082,7 +6082,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" class="nds-truncate" id="link-03" tabindex="-1" title="salesforce.com - 1,000 Widgets">salesforce.com - 1,000 Widgets</a>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Name: Item 3</span>
             </button>
@@ -6093,7 +6093,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="salesforce.com">salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Account Name: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Account Name: Item 3</span>
             </button>
@@ -6104,7 +6104,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="1/31/15 3:45PM">1/31/15 3:45PM</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Close Date: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Close Date: Item 3</span>
             </button>
@@ -6115,7 +6115,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="Id. Decision Makers">Id. Decision Makers</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Stage: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Stage: Item 3</span>
             </button>
@@ -6126,7 +6126,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="70%">70%</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" disabled="" tabindex="-1" title="Edit Confidence: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_lock nds-button__icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#lock"></use>
               </svg>
               <span class="nds-assistive-text">Edit Confidence: Item 3</span>
             </button>
@@ -6137,7 +6137,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="$25,000">$25,000</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Amount: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Amount: Item 3</span>
             </button>
@@ -6148,7 +6148,7 @@ storiesOf(`${base}`, module)
             <span class="nds-truncate" title="nathan@salesforce.com">nathan@salesforce.com</span>
             <button class="nds-button nds-button_icon nds-cell-edit__button nds-m-left_x-small" tabindex="-1" title="Edit Contact: Item 3">
               <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_edit" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
               </svg>
               <span class="nds-assistive-text">Edit Contact: Item 3</span>
             </button>
@@ -6157,7 +6157,7 @@ storiesOf(`${base}`, module)
         <td class="nds-cell-edit" role="gridcell">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="-1" title="Show More">
             <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
             </svg>
             <span class="nds-assistive-text">Show More</span>
           </button>
