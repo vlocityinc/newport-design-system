@@ -306,7 +306,7 @@ storiesOf(`${base}`, module)
   <div class="nds-m-bottom_large">
     <div class="nds-p-around_small">
       <svg class="nds-color__fill_gray-1 nds-icon_small" aria-hidden="true">
-        <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#check"></use>
+        <use xlink:href="./assets/icons/action-sprite/svg/symbols.svg#check"></use>
       </svg>
       <span class="nds-p-left_small">
         .nds-color__fill_gray-
@@ -317,7 +317,7 @@ storiesOf(`${base}`, module)
     </div>
     <div class="nds-p-around_small">
       <svg class="nds-color__fill_gray-2 nds-icon_small" aria-hidden="true">
-        <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#check"></use>
+        <use xlink:href="./assets/icons/action-sprite/svg/symbols.svg#check"></use>
       </svg>
       <span class="nds-p-left_small">
         .nds-color__fill_gray-
@@ -328,7 +328,7 @@ storiesOf(`${base}`, module)
     </div>
     <div class="nds-p-around_small">
       <svg class="nds-color__fill_gray-3 nds-icon_small" aria-hidden="true">
-        <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#check"></use>
+        <use xlink:href="./assets/icons/action-sprite/svg/symbols.svg#check"></use>
       </svg>
       <span class="nds-p-left_small">
         .nds-color__fill_gray-
@@ -339,7 +339,7 @@ storiesOf(`${base}`, module)
     </div>
     <div class="nds-p-around_small">
       <svg class="nds-color__fill_gray-4 nds-icon_small" aria-hidden="true">
-        <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#check"></use>
+        <use xlink:href="./assets/icons/action-sprite/svg/symbols.svg#check"></use>
       </svg>
       <span class="nds-p-left_small">
         .nds-color__fill_gray-
@@ -350,7 +350,7 @@ storiesOf(`${base}`, module)
     </div>
     <div class="nds-p-around_small">
       <svg class="nds-color__fill_gray-5 nds-icon_small" aria-hidden="true">
-        <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#check"></use>
+        <use xlink:href="./assets/icons/action-sprite/svg/symbols.svg#check"></use>
       </svg>
       <span class="nds-p-left_small">
         .nds-color__fill_gray-
@@ -361,7 +361,7 @@ storiesOf(`${base}`, module)
     </div>
     <div class="nds-p-around_small">
       <svg class="nds-color__fill_gray-6 nds-icon_small" aria-hidden="true">
-        <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#check"></use>
+        <use xlink:href="./assets/icons/action-sprite/svg/symbols.svg#check"></use>
       </svg>
       <span class="nds-p-left_small">
         .nds-color__fill_gray-
@@ -372,7 +372,7 @@ storiesOf(`${base}`, module)
     </div>
     <div class="nds-p-around_small">
       <svg class="nds-color__fill_gray-7 nds-icon_small" aria-hidden="true">
-        <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#check"></use>
+        <use xlink:href="./assets/icons/action-sprite/svg/symbols.svg#check"></use>
       </svg>
       <span class="nds-p-left_small">
         .nds-color__fill_gray-
@@ -383,7 +383,7 @@ storiesOf(`${base}`, module)
     </div>
     <div class="nds-p-around_small">
       <svg class="nds-color__fill_gray-8 nds-icon_small" aria-hidden="true">
-        <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#check"></use>
+        <use xlink:href="./assets/icons/action-sprite/svg/symbols.svg#check"></use>
       </svg>
       <span class="nds-p-left_small">
         .nds-color__fill_gray-
@@ -394,7 +394,7 @@ storiesOf(`${base}`, module)
     </div>
     <div class="nds-p-around_small">
       <svg class="nds-color__fill_gray-9 nds-icon_small" aria-hidden="true">
-        <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#check"></use>
+        <use xlink:href="./assets/icons/action-sprite/svg/symbols.svg#check"></use>
       </svg>
       <span class="nds-p-left_small">
         .nds-color__fill_gray-
@@ -405,7 +405,7 @@ storiesOf(`${base}`, module)
     </div>
     <div class="nds-p-around_small">
       <svg class="nds-color__fill_gray-10 nds-icon_small" aria-hidden="true">
-        <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#check"></use>
+        <use xlink:href="./assets/icons/action-sprite/svg/symbols.svg#check"></use>
       </svg>
       <span class="nds-p-left_small">
         .nds-color__fill_gray-
@@ -416,7 +416,7 @@ storiesOf(`${base}`, module)
     </div>
     <div class="nds-p-around_small">
       <svg class="nds-color__fill_gray-11 nds-icon_small" aria-hidden="true">
-        <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#check"></use>
+        <use xlink:href="./assets/icons/action-sprite/svg/symbols.svg#check"></use>
       </svg>
       <span class="nds-p-left_small">
         .nds-color__fill_gray-
@@ -427,7 +427,7 @@ storiesOf(`${base}`, module)
     </div>
     <div class="nds-p-around_small">
       <svg class="nds-color__fill_gray-12 nds-icon_small" aria-hidden="true">
-        <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#check"></use>
+        <use xlink:href="./assets/icons/action-sprite/svg/symbols.svg#check"></use>
       </svg>
       <span class="nds-p-left_small">
         .nds-color__fill_gray-

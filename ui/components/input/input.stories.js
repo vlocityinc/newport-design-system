@@ -67,7 +67,7 @@ storiesOf(`${base}`, module)
   </label>
   <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left">
     <svg class="nds-input__icon" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
     </svg>
     <input type="text" required="" aria-describedby="error-message" id="text-input-id-1" class="nds-input" placeholder="Placeholder Text">
   </div>
@@ -95,7 +95,7 @@ storiesOf(`${base}`, module)
   <label class="nds-form-element__label" for="text-input-id-1">Input Label</label>
   <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left">
     <svg class="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
     </svg>
     <input type="text" id="text-input-id-1" class="nds-input" placeholder="Placeholder Text">
   </div>
@@ -106,7 +106,7 @@ storiesOf(`${base}`, module)
   <label class="nds-form-element__label" for="text-input-id-1">Input Label</label>
   <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_right">
     <svg class="nds-icon nds-input__icon nds-input__icon_right nds-icon-text-default" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
     </svg>
     <input type="text" id="text-input-id-1" class="nds-input" placeholder="Placeholder Text">
   </div>
@@ -117,12 +117,12 @@ storiesOf(`${base}`, module)
   <label class="nds-form-element__label" for="text-input-id-1">Input Label</label>
   <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left-right">
     <svg class="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
     </svg>
     <input type="text" id="text-input-id-1" class="nds-input" placeholder="Placeholder Text">
     <button class="nds-input__icon nds-input__icon_right nds-button nds-button_icon">
       <svg class="nds-button__icon nds-icon-text-light" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#clear"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#clear"></use>
       </svg>
       <span class="nds-assistive-text">Clear</span>
     </button>
@@ -134,7 +134,7 @@ storiesOf(`${base}`, module)
   <label class="nds-form-element__label" for="text-input-id-1">Input Label</label>
   <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left-right">
     <svg class="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
     </svg>
     <input type="text" id="text-input-id-1" class="nds-input" placeholder="Placeholder Text">
     <div class="nds-input__icon-group nds-input__icon-group_right">
@@ -154,7 +154,7 @@ storiesOf(`${base}`, module)
       </div>
       <button class="nds-input__icon nds-input__icon_right nds-button nds-button_icon">
         <svg class="nds-button__icon nds-icon-text-light" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#clear"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#clear"></use>
         </svg>
         <span class="nds-assistive-text">Clear</span>
       </button>
@@ -179,7 +179,7 @@ storiesOf(`${base}`, module)
     <div class="nds-form-element__icon">
       <button aria-describedby="help" class="nds-button nds-button_icon">
         <svg class="nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#info"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#info"></use>
         </svg>
         <span class="nds-assistive-text">Help</span>
       </button>

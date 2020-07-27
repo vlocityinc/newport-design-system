@@ -1,10 +1,10 @@
-require('@babel/register');
+require("@babel/register");
 
-const path = require('path');
-const gulp = require('gulp');
-const NewportSassWatcherPlugin = require('./sass-watcher-plugin');
+const path = require("path");
+const gulp = require("gulp");
+const NewportSassWatcherPlugin = require("./sass-watcher-plugin");
 
-require('../scripts/gulp/styles');
+require("../scripts/gulp/styles");
 
 // Export a function. Accept the base config as the only param.
 module.exports = async ({ config, mode }) => {
@@ -15,18 +15,18 @@ module.exports = async ({ config, mode }) => {
   // Make whatever fine-grained changes you need
   config.module.rules.push({
     test: /\.(scss|yml)$/,
-    loaders: ['raw-loader'],
-    include: path.resolve(__dirname, '../')
+    loaders: ["raw-loader"],
+    include: path.resolve(__dirname, "../"),
   });
 
   config.plugins.push(new NewportSassWatcherPlugin());
 
   // Sass
-  gulp.series('styles:framework')();
+  gulp.series("styles:framework")();
 
   // mock fs for comment parser
   config.node = {
-    fs: 'empty'
+    fs: "empty",
   };
 
   // Return the altered config

@@ -32,7 +32,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Name">Name</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -55,7 +55,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Account Name">Account Name</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -78,7 +78,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Close Date">Close Date</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -101,7 +101,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Stage">Stage</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -124,7 +124,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Confidence">Confidence</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -147,7 +147,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Amount">Amount</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -170,7 +170,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Contact">Contact</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -233,7 +233,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="-1" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -277,7 +277,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="-1" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -321,7 +321,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="-1" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -351,7 +351,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Name">Name</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -374,7 +374,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Account Name">Account Name</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -397,7 +397,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Close Date">Close Date</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -420,7 +420,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Stage">Stage</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -443,7 +443,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Confidence">Confidence</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -466,7 +466,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Amount">Amount</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -489,7 +489,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Contact">Contact</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -552,7 +552,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="-1" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -596,7 +596,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="-1" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -640,7 +640,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="-1" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -670,7 +670,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Name">Name</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -693,7 +693,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Account Name">Account Name</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -716,7 +716,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Close Date">Close Date</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -739,7 +739,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Stage">Stage</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -762,7 +762,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Confidence">Confidence</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -785,7 +785,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Amount">Amount</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -808,7 +808,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Contact">Contact</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -871,7 +871,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -915,7 +915,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -959,7 +959,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -989,7 +989,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Name">Name</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1012,7 +1012,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Account Name">Account Name</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1035,7 +1035,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Close Date">Close Date</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1058,7 +1058,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Stage">Stage</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1081,7 +1081,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Confidence">Confidence</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1104,7 +1104,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Amount">Amount</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1127,7 +1127,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Contact">Contact</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1190,7 +1190,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -1234,7 +1234,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -1278,7 +1278,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -1308,7 +1308,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Name">Name</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1331,7 +1331,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Account Name">Account Name</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1354,7 +1354,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Close Date">Close Date</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1377,7 +1377,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Stage">Stage</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1400,7 +1400,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Confidence">Confidence</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1423,7 +1423,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Amount">Amount</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1446,7 +1446,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Contact">Contact</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1509,7 +1509,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -1553,7 +1553,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -1597,7 +1597,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -1627,7 +1627,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Name">Name</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1650,7 +1650,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Account Name">Account Name</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1673,7 +1673,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Close Date">Close Date</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1696,7 +1696,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Stage">Stage</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1719,7 +1719,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Confidence">Confidence</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1742,7 +1742,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Amount">Amount</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1765,7 +1765,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Contact">Contact</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1828,7 +1828,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -1872,7 +1872,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -1916,7 +1916,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -1946,7 +1946,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Name">Name</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1969,7 +1969,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Account Name">Account Name</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -1992,7 +1992,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Close Date">Close Date</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -2015,7 +2015,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Stage">Stage</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -2038,7 +2038,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Confidence">Confidence</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -2061,7 +2061,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Amount">Amount</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -2084,7 +2084,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Contact">Contact</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -2147,7 +2147,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -2191,7 +2191,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -2235,7 +2235,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -2265,7 +2265,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Name">Name</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -2288,7 +2288,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Account Name">Account Name</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -2311,7 +2311,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Close Date">Close Date</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -2334,7 +2334,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Stage">Stage</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -2357,7 +2357,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Confidence">Confidence</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -2380,7 +2380,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Amount">Amount</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -2403,7 +2403,7 @@ storiesOf(`${base}`, module)
           <span class="nds-truncate" title="Contact">Contact</span>
           <div class="nds-icon_container">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default nds-is-sortable__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
           </div>
         </a>
@@ -2466,7 +2466,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -2510,7 +2510,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -2554,7 +2554,7 @@ storiesOf(`${base}`, module)
       <td role="gridcell">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" tabindex="0" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>

@@ -22,7 +22,7 @@ storiesOf(`${base}`, module)
               <a aria-selected="true" class="nds-path__link" href="javascript:void(0);" id="path-1" role="option" tabindex="0">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                   <span class="nds-assistive-text">Stage Complete</span>
                 </span>
@@ -33,7 +33,7 @@ storiesOf(`${base}`, module)
               <a aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-2" role="option" tabindex="-1">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                   <span class="nds-assistive-text">Stage Complete</span>
                 </span>
@@ -44,7 +44,7 @@ storiesOf(`${base}`, module)
               <a aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-3" role="option" tabindex="-1">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                   <span class="nds-assistive-text">Current Stage:</span>
                 </span>
@@ -55,7 +55,7 @@ storiesOf(`${base}`, module)
               <a aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-4" role="option" tabindex="-1">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                 </span>
                 <span class="nds-path__title">Nurturing</span>
@@ -65,7 +65,7 @@ storiesOf(`${base}`, module)
               <a aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-5" role="option" tabindex="-1">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                 </span>
                 <span class="nds-path__title">Closed</span>
@@ -75,13 +75,13 @@ storiesOf(`${base}`, module)
           <div class="nds-path__scroll-controls">
             <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Scroll left">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
               </svg>
               <span class="nds-assistive-text">Scroll left</span>
             </button>
             <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Scroll right">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
               </svg>
               <span class="nds-assistive-text">Scroll right</span>
             </button>
@@ -93,7 +93,7 @@ storiesOf(`${base}`, module)
       <span class="nds-path__stage-name">Stage: Unqualified</span>
       <button class="nds-button nds-button_brand nds-path__mark-complete">
         <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
         </svg>
         Mark Status as Complete
 
@@ -113,7 +113,7 @@ storiesOf(`${base}`, module)
               <a aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-1" role="option" tabindex="-1">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                   <span class="nds-assistive-text">Stage Complete</span>
                 </span>
@@ -124,7 +124,7 @@ storiesOf(`${base}`, module)
               <a aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-2" role="option" tabindex="-1">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                   <span class="nds-assistive-text">Stage Complete</span>
                 </span>
@@ -135,7 +135,7 @@ storiesOf(`${base}`, module)
               <a aria-selected="true" class="nds-path__link" href="javascript:void(0);" id="path-3" role="option" tabindex="0">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                   <span class="nds-assistive-text">Current Stage:</span>
                 </span>
@@ -146,7 +146,7 @@ storiesOf(`${base}`, module)
               <a aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-4" role="option" tabindex="-1">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                 </span>
                 <span class="nds-path__title">Nurturing</span>
@@ -156,7 +156,7 @@ storiesOf(`${base}`, module)
               <a aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-5" role="option" tabindex="-1">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                 </span>
                 <span class="nds-path__title">Closed</span>
@@ -166,13 +166,13 @@ storiesOf(`${base}`, module)
           <div class="nds-path__scroll-controls">
             <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Scroll left">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
               </svg>
               <span class="nds-assistive-text">Scroll left</span>
             </button>
             <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Scroll right">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
               </svg>
               <span class="nds-assistive-text">Scroll right</span>
             </button>
@@ -184,7 +184,7 @@ storiesOf(`${base}`, module)
       <span class="nds-path__stage-name">Stage: Unqualified</span>
       <button class="nds-button nds-button_brand nds-path__mark-complete">
         <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
         </svg>
         Mark Status as Complete
 
@@ -199,7 +199,7 @@ storiesOf(`${base}`, module)
     <div class="nds-grid nds-path__scroller-container">
       <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-path__trigger" title="Expand Sales Coaching Tab Panels">
         <svg class="nds-button__icon" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
         </svg>
         <span class="nds-assistive-text">Expand Sales Coach Tab Panels</span>
       </button>
@@ -210,7 +210,7 @@ storiesOf(`${base}`, module)
               <a aria-controls="path-content-1" aria-expanded="false" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-1" role="tab" tabindex="-1">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                   <span class="nds-assistive-text">Stage Complete</span>
                 </span>
@@ -221,7 +221,7 @@ storiesOf(`${base}`, module)
               <a aria-controls="path-content-2" aria-expanded="false" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-2" role="tab" tabindex="-1">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                   <span class="nds-assistive-text">Stage Complete</span>
                 </span>
@@ -232,7 +232,7 @@ storiesOf(`${base}`, module)
               <a aria-controls="path-content-3" aria-expanded="false" aria-selected="true" class="nds-path__link" href="javascript:void(0);" id="path-3" role="tab" tabindex="0">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                   <span class="nds-assistive-text">Current Stage:</span>
                 </span>
@@ -243,7 +243,7 @@ storiesOf(`${base}`, module)
               <a aria-controls="path-content-4" aria-expanded="false" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-4" role="tab" tabindex="-1">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                 </span>
                 <span class="nds-path__title">Nurturing</span>
@@ -253,7 +253,7 @@ storiesOf(`${base}`, module)
               <a aria-controls="path-content-5" aria-expanded="false" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-5" role="tab" tabindex="-1">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                 </span>
                 <span class="nds-path__title">Closed</span>
@@ -263,13 +263,13 @@ storiesOf(`${base}`, module)
           <div class="nds-path__scroll-controls">
             <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Scroll left">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
               </svg>
               <span class="nds-assistive-text">Scroll left</span>
             </button>
             <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Scroll right">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
               </svg>
               <span class="nds-assistive-text">Scroll right</span>
             </button>
@@ -281,7 +281,7 @@ storiesOf(`${base}`, module)
       <span class="nds-path__stage-name">Stage: Unqualified</span>
       <button class="nds-button nds-button_brand nds-path__mark-complete">
         <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
         </svg>
         Mark Status as Complete
 
@@ -312,7 +312,7 @@ storiesOf(`${base}`, module)
       <div class="nds-grid nds-path__scroller-container">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-path__trigger nds-flip_vertical" title="Collapse Sales Coaching Tab Panels">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
           </svg>
           <span class="nds-assistive-text">Collapse Sales Coach Tab Panels</span>
         </button>
@@ -323,7 +323,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-1" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-1" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -334,7 +334,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-2" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-2" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -345,7 +345,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-3" aria-expanded="true" aria-selected="true" class="nds-path__link" href="javascript:void(0);" id="path-3" role="tab" tabindex="0">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Current Stage:</span>
                   </span>
@@ -356,7 +356,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-4" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-4" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-path__title">Nurturing</span>
@@ -366,7 +366,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-5" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-5" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-path__title">Closed</span>
@@ -376,13 +376,13 @@ storiesOf(`${base}`, module)
             <div class="nds-path__scroll-controls">
               <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Scroll left">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
                 </svg>
                 <span class="nds-assistive-text">Scroll left</span>
               </button>
               <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Scroll right">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
                 </svg>
                 <span class="nds-assistive-text">Scroll right</span>
               </button>
@@ -394,7 +394,7 @@ storiesOf(`${base}`, module)
         <span class="nds-path__stage-name">Stage: Unqualified</span>
         <button class="nds-button nds-button_brand nds-path__mark-complete">
           <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
           </svg>
           Mark Status as Complete
 
@@ -421,7 +421,7 @@ storiesOf(`${base}`, module)
                 <span class="nds-form-element__static">$10,000</span>
                 <button class="nds-button nds-button_icon nds-float_right nds-button_icon nds-button_icon-small" title="Edit this Field">
                   <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
                   </svg>
                   <span class="nds-assistive-text">Edit this Field</span>
                 </button>
@@ -433,7 +433,7 @@ storiesOf(`${base}`, module)
                 <span class="nds-form-element__static">Marketing and Web Referral</span>
                 <button class="nds-button nds-button_icon nds-float_right nds-button_icon nds-button_icon-small" title="Edit this Field">
                   <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
                   </svg>
                   <span class="nds-assistive-text">Edit this Field</span>
                 </button>
@@ -445,7 +445,7 @@ storiesOf(`${base}`, module)
                 <span class="nds-form-element__static">Jack Arthur</span>
                 <button class="nds-button nds-button_icon nds-float_right nds-button_icon nds-button_icon-small" title="Edit this Field">
                   <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
                   </svg>
                   <span class="nds-assistive-text">Edit this Field</span>
                 </button>
@@ -503,7 +503,7 @@ storiesOf(`${base}`, module)
       <div class="nds-grid nds-path__scroller-container">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-path__trigger nds-flip_vertical" title="Collapse Sales Coaching Tab Panels">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
           </svg>
           <span class="nds-assistive-text">Collapse Sales Coach Tab Panels</span>
         </button>
@@ -514,7 +514,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-1" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-1" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -525,7 +525,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-2" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-2" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -536,7 +536,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-3" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-3" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Current Stage:</span>
                   </span>
@@ -547,7 +547,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-4" aria-expanded="true" aria-selected="true" class="nds-path__link" href="javascript:void(0);" id="path-4" role="tab" tabindex="0">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-path__title">Nurturing</span>
@@ -557,7 +557,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-5" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-5" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-path__title">Closed</span>
@@ -567,13 +567,13 @@ storiesOf(`${base}`, module)
             <div class="nds-path__scroll-controls">
               <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Scroll left">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
                 </svg>
                 <span class="nds-assistive-text">Scroll left</span>
               </button>
               <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Scroll right">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
                 </svg>
                 <span class="nds-assistive-text">Scroll right</span>
               </button>
@@ -609,7 +609,7 @@ storiesOf(`${base}`, module)
                 <span class="nds-form-element__static">In Motion</span>
                 <button class="nds-button nds-button_icon nds-float_right nds-button_icon nds-button_icon-small" title="Edit this Field">
                   <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
                   </svg>
                   <span class="nds-assistive-text">Edit this Field</span>
                 </button>
@@ -621,7 +621,7 @@ storiesOf(`${base}`, module)
                 <span class="nds-form-element__static">&nbsp;</span>
                 <button class="nds-button nds-button_icon nds-float_right nds-button_icon nds-button_icon-small" title="Edit this Field">
                   <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
                   </svg>
                   <span class="nds-assistive-text">Edit this Field</span>
                 </button>
@@ -633,7 +633,7 @@ storiesOf(`${base}`, module)
                 <span class="nds-form-element__static">&nbsp;</span>
                 <button class="nds-button nds-button_icon nds-float_right nds-button_icon nds-button_icon-small" title="Edit this Field">
                   <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
                   </svg>
                   <span class="nds-assistive-text">Edit this Field</span>
                 </button>
@@ -671,7 +671,7 @@ storiesOf(`${base}`, module)
     <div class="nds-grid nds-path__scroller-container">
       <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-path__trigger" title="Expand Sales Coaching Tab Panels">
         <svg class="nds-button__icon" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
         </svg>
         <span class="nds-assistive-text">Expand Sales Coach Tab Panels</span>
       </button>
@@ -682,7 +682,7 @@ storiesOf(`${base}`, module)
               <a aria-controls="path-content-1" aria-expanded="false" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-1" role="tab" tabindex="-1">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                   <span class="nds-assistive-text">Stage Complete</span>
                 </span>
@@ -693,7 +693,7 @@ storiesOf(`${base}`, module)
               <a aria-controls="path-content-2" aria-expanded="false" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-2" role="tab" tabindex="-1">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                   <span class="nds-assistive-text">Stage Complete</span>
                 </span>
@@ -704,7 +704,7 @@ storiesOf(`${base}`, module)
               <a aria-controls="path-content-3" aria-expanded="false" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-3" role="tab" tabindex="-1">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                 </span>
                 <span class="nds-path__title">Unqualified</span>
@@ -714,7 +714,7 @@ storiesOf(`${base}`, module)
               <a aria-controls="path-content-4" aria-expanded="false" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-4" role="tab" tabindex="-1">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                 </span>
                 <span class="nds-path__title">Nurturing</span>
@@ -724,7 +724,7 @@ storiesOf(`${base}`, module)
               <a aria-controls="path-content-5" aria-expanded="false" aria-selected="true" class="nds-path__link" href="javascript:void(0);" id="path-5" role="tab" tabindex="0">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                   <span class="nds-assistive-text">Current Stage:</span>
                 </span>
@@ -735,13 +735,13 @@ storiesOf(`${base}`, module)
           <div class="nds-path__scroll-controls">
             <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Scroll left">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
               </svg>
               <span class="nds-assistive-text">Scroll left</span>
             </button>
             <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Scroll right">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
               </svg>
               <span class="nds-assistive-text">Scroll right</span>
             </button>
@@ -777,7 +777,7 @@ storiesOf(`${base}`, module)
     <div class="nds-grid nds-path__scroller-container">
       <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-path__trigger" title="Expand Sales Coaching Tab Panels">
         <svg class="nds-button__icon" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
         </svg>
         <span class="nds-assistive-text">Expand Sales Coach Tab Panels</span>
       </button>
@@ -788,7 +788,7 @@ storiesOf(`${base}`, module)
               <a aria-controls="path-content-1" aria-expanded="false" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-1" role="tab" tabindex="-1">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                   <span class="nds-assistive-text">Stage Complete</span>
                 </span>
@@ -799,7 +799,7 @@ storiesOf(`${base}`, module)
               <a aria-controls="path-content-2" aria-expanded="false" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-2" role="tab" tabindex="-1">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                   <span class="nds-assistive-text">Stage Complete</span>
                 </span>
@@ -810,7 +810,7 @@ storiesOf(`${base}`, module)
               <a aria-controls="path-content-3" aria-expanded="false" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-3" role="tab" tabindex="-1">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                 </span>
                 <span class="nds-path__title">Unqualified</span>
@@ -820,7 +820,7 @@ storiesOf(`${base}`, module)
               <a aria-controls="path-content-4" aria-expanded="false" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-4" role="tab" tabindex="-1">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                 </span>
                 <span class="nds-path__title">Nurturing</span>
@@ -830,7 +830,7 @@ storiesOf(`${base}`, module)
               <a aria-controls="path-content-5" aria-expanded="false" aria-selected="true" class="nds-path__link" href="javascript:void(0);" id="path-5" role="tab" tabindex="0">
                 <span class="nds-path__stage">
                   <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                   <span class="nds-assistive-text">Current Stage:</span>
                 </span>
@@ -841,13 +841,13 @@ storiesOf(`${base}`, module)
           <div class="nds-path__scroll-controls">
             <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Scroll left">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
               </svg>
               <span class="nds-assistive-text">Scroll left</span>
             </button>
             <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Scroll right">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
               </svg>
               <span class="nds-assistive-text">Scroll right</span>
             </button>
@@ -889,7 +889,7 @@ storiesOf(`${base}`, module)
                 <a aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-11" role="option" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -900,7 +900,7 @@ storiesOf(`${base}`, module)
                 <a aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-12" role="option" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -911,7 +911,7 @@ storiesOf(`${base}`, module)
                 <a aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-1" role="option" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -922,7 +922,7 @@ storiesOf(`${base}`, module)
                 <a aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-2" role="option" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -933,7 +933,7 @@ storiesOf(`${base}`, module)
                 <a aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-3" role="option" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -944,7 +944,7 @@ storiesOf(`${base}`, module)
                 <a aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-4" role="option" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -955,7 +955,7 @@ storiesOf(`${base}`, module)
                 <a aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-5" role="option" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -966,7 +966,7 @@ storiesOf(`${base}`, module)
                 <a aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-6" role="option" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -977,7 +977,7 @@ storiesOf(`${base}`, module)
                 <a aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-7" role="option" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -988,7 +988,7 @@ storiesOf(`${base}`, module)
                 <a aria-selected="true" class="nds-path__link" href="javascript:void(0);" id="path-8" role="option" tabindex="0">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Current Stage:</span>
                   </span>
@@ -999,7 +999,7 @@ storiesOf(`${base}`, module)
                 <a aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-9" role="option" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-path__title">Nurturing</span>
@@ -1009,7 +1009,7 @@ storiesOf(`${base}`, module)
                 <a aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-10" role="option" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-path__title">Closed</span>
@@ -1019,13 +1019,13 @@ storiesOf(`${base}`, module)
             <div class="nds-path__scroll-controls">
               <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Scroll left">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
                 </svg>
                 <span class="nds-assistive-text">Scroll left</span>
               </button>
               <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Scroll right">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
                 </svg>
                 <span class="nds-assistive-text">Scroll right</span>
               </button>
@@ -1037,7 +1037,7 @@ storiesOf(`${base}`, module)
         <span class="nds-path__stage-name">Stage: Unqualified</span>
         <button class="nds-button nds-button_brand nds-path__mark-complete">
           <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
           </svg>
           Mark Status as Complete
 
@@ -1054,7 +1054,7 @@ storiesOf(`${base}`, module)
       <div class="nds-grid nds-path__scroller-container">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-path__trigger nds-flip_vertical" title="Collapse Sales Coaching Tab Panels">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
           </svg>
           <span class="nds-assistive-text">Collapse Sales Coach Tab Panels</span>
         </button>
@@ -1065,7 +1065,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-1" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-1" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -1076,7 +1076,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-2" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-2" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -1087,7 +1087,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-3" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-3" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -1098,7 +1098,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-4" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-4" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -1109,7 +1109,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-5" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-5" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -1120,7 +1120,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-6" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-6" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -1131,7 +1131,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-7" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-7" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -1142,7 +1142,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-8" aria-expanded="true" aria-selected="true" class="nds-path__link" href="javascript:void(0);" id="path-8" role="tab" tabindex="0">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Current Stage:</span>
                   </span>
@@ -1153,7 +1153,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-9" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-9" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-path__title">Nurturing</span>
@@ -1163,7 +1163,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-10" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-10" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-path__title">Closed</span>
@@ -1173,13 +1173,13 @@ storiesOf(`${base}`, module)
             <div class="nds-path__scroll-controls">
               <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Scroll left">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
                 </svg>
                 <span class="nds-assistive-text">Scroll left</span>
               </button>
               <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Scroll right">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
                 </svg>
                 <span class="nds-assistive-text">Scroll right</span>
               </button>
@@ -1191,7 +1191,7 @@ storiesOf(`${base}`, module)
         <span class="nds-path__stage-name">Stage: Unqualified</span>
         <button class="nds-button nds-button_brand nds-path__mark-complete">
           <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
           </svg>
           Mark Status as Complete
 
@@ -1233,7 +1233,7 @@ storiesOf(`${base}`, module)
                 <span class="nds-form-element__static">$10,000</span>
                 <button class="nds-button nds-button_icon nds-float_right nds-button_icon nds-button_icon-small" title="Edit this Field">
                   <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
                   </svg>
                   <span class="nds-assistive-text">Edit this Field</span>
                 </button>
@@ -1245,7 +1245,7 @@ storiesOf(`${base}`, module)
                 <span class="nds-form-element__static">Marketing and Web Referral</span>
                 <button class="nds-button nds-button_icon nds-float_right nds-button_icon nds-button_icon-small" title="Edit this Field">
                   <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
                   </svg>
                   <span class="nds-assistive-text">Edit this Field</span>
                 </button>
@@ -1257,7 +1257,7 @@ storiesOf(`${base}`, module)
                 <span class="nds-form-element__static">Jack Arthur</span>
                 <button class="nds-button nds-button_icon nds-float_right nds-button_icon nds-button_icon-small" title="Edit this Field">
                   <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
                   </svg>
                   <span class="nds-assistive-text">Edit this Field</span>
                 </button>
@@ -1315,7 +1315,7 @@ storiesOf(`${base}`, module)
       <div class="nds-grid nds-path__scroller-container">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-path__trigger nds-flip_vertical" title="Collapse Sales Coaching Tab Panels">
           <svg class="nds-button__icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>
           </svg>
           <span class="nds-assistive-text">Collapse Sales Coach Tab Panels</span>
         </button>
@@ -1326,7 +1326,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-1" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-1" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -1337,7 +1337,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-2" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-2" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -1348,7 +1348,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-3" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-3" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -1359,7 +1359,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-4" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-4" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -1370,7 +1370,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-5" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-5" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -1381,7 +1381,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-6" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-6" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -1392,7 +1392,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-7" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-7" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Stage Complete</span>
                   </span>
@@ -1403,7 +1403,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-8" aria-expanded="true" aria-selected="true" class="nds-path__link" href="javascript:void(0);" id="path-8" role="tab" tabindex="0">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                     <span class="nds-assistive-text">Current Stage:</span>
                   </span>
@@ -1414,7 +1414,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-9" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-9" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-path__title">Nurturing</span>
@@ -1424,7 +1424,7 @@ storiesOf(`${base}`, module)
                 <a aria-controls="path-content-10" aria-expanded="true" aria-selected="false" class="nds-path__link" href="javascript:void(0);" id="path-10" role="tab" tabindex="-1">
                   <span class="nds-path__stage">
                     <svg class="nds-icon nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                     </svg>
                   </span>
                   <span class="nds-path__title">Closed</span>
@@ -1434,13 +1434,13 @@ storiesOf(`${base}`, module)
             <div class="nds-path__scroll-controls">
               <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Scroll left">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left"></use>
                 </svg>
                 <span class="nds-assistive-text">Scroll left</span>
               </button>
               <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Scroll right">
                 <svg class="nds-button__icon" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
                 </svg>
                 <span class="nds-assistive-text">Scroll right</span>
               </button>
@@ -1452,7 +1452,7 @@ storiesOf(`${base}`, module)
         <span class="nds-path__stage-name">Stage: Unqualified</span>
         <button class="nds-button nds-button_brand nds-path__mark-complete">
           <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
           </svg>
           Mark Status as Complete
 
@@ -1494,7 +1494,7 @@ storiesOf(`${base}`, module)
                 <span class="nds-form-element__static">$10,000</span>
                 <button class="nds-button nds-button_icon nds-float_right nds-button_icon nds-button_icon-small" title="Edit this Field">
                   <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
                   </svg>
                   <span class="nds-assistive-text">Edit this Field</span>
                 </button>
@@ -1506,7 +1506,7 @@ storiesOf(`${base}`, module)
                 <span class="nds-form-element__static">Marketing and Web Referral</span>
                 <button class="nds-button nds-button_icon nds-float_right nds-button_icon nds-button_icon-small" title="Edit this Field">
                   <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
                   </svg>
                   <span class="nds-assistive-text">Edit this Field</span>
                 </button>
@@ -1518,7 +1518,7 @@ storiesOf(`${base}`, module)
                 <span class="nds-form-element__static">Jack Arthur</span>
                 <button class="nds-button nds-button_icon nds-float_right nds-button_icon nds-button_icon-small" title="Edit this Field">
                   <svg class="nds-button__icon nds-button__icon_hint" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
                   </svg>
                   <span class="nds-assistive-text">Edit this Field</span>
                 </button>

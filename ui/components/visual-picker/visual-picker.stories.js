@@ -22,7 +22,7 @@ storiesOf(`${base}`, module)
           <span class="nds-is-selected">
             <span class="nds-icon_container" title="description of icon when needed">
               <svg class="nds-icon nds-icon_large nds-icon-action-check" aria-hidden="true">
-                <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#check"></use>
+                <use xlink:href="./assets/icons/action-sprite/svg/symbols.svg#check"></use>
               </svg>
               <span class="nds-assistive-text">Provide description of icon</span>
             </span>
@@ -30,7 +30,7 @@ storiesOf(`${base}`, module)
           <span class="nds-is-not-selected">
             <span class="nds-icon_container" title="description of icon when needed">
               <svg class="nds-icon nds-icon-utility-connected_apps nds-icon_large nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#connected_apps"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#connected_apps"></use>
               </svg>
               <span class="nds-assistive-text">Provide description of icon</span>
             </span>
@@ -46,7 +46,7 @@ storiesOf(`${base}`, module)
           <span class="nds-is-selected">
             <span class="nds-icon_container" title="description of icon when needed">
               <svg class="nds-icon nds-icon_large nds-icon-action-check" aria-hidden="true">
-                <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#check"></use>
+                <use xlink:href="./assets/icons/action-sprite/svg/symbols.svg#check"></use>
               </svg>
               <span class="nds-assistive-text">Provide description of icon</span>
             </span>
@@ -54,7 +54,7 @@ storiesOf(`${base}`, module)
           <span class="nds-is-not-selected">
             <span class="nds-icon_container" title="description of icon when needed">
               <svg class="nds-icon nds-icon-utility-custom_apps nds-icon_large nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#custom_apps"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#custom_apps"></use>
               </svg>
               <span class="nds-assistive-text">Provide description of icon</span>
             </span>
@@ -77,7 +77,7 @@ storiesOf(`${base}`, module)
           <span class="nds-is-selected">
             <span class="nds-icon_container" title="description of icon when needed">
               <svg class="nds-icon nds-icon_large nds-icon-action-check" aria-hidden="true">
-                <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#check"></use>
+                <use xlink:href="./assets/icons/action-sprite/svg/symbols.svg#check"></use>
               </svg>
               <span class="nds-assistive-text">Provide description of icon</span>
             </span>
@@ -85,7 +85,7 @@ storiesOf(`${base}`, module)
           <span class="nds-is-not-selected">
             <span class="nds-icon_container" title="description of icon when needed">
               <svg class="nds-icon nds-icon-utility-connected_apps nds-icon_large nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#connected_apps"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#connected_apps"></use>
               </svg>
               <span class="nds-assistive-text">Provide description of icon</span>
             </span>
@@ -101,7 +101,7 @@ storiesOf(`${base}`, module)
           <span class="nds-is-selected">
             <span class="nds-icon_container" title="description of icon when needed">
               <svg class="nds-icon nds-icon_large nds-icon-action-check" aria-hidden="true">
-                <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#check"></use>
+                <use xlink:href="./assets/icons/action-sprite/svg/symbols.svg#check"></use>
               </svg>
               <span class="nds-assistive-text">Provide description of icon</span>
             </span>
@@ -109,7 +109,7 @@ storiesOf(`${base}`, module)
           <span class="nds-is-not-selected">
             <span class="nds-icon_container" title="description of icon when needed">
               <svg class="nds-icon nds-icon-utility-custom_apps nds-icon_large nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#custom_apps"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#custom_apps"></use>
               </svg>
               <span class="nds-assistive-text">Provide description of icon</span>
             </span>
@@ -132,7 +132,7 @@ storiesOf(`${base}`, module)
           <span class="nds-is-selected">
             <span class="nds-icon_container" title="description of icon when needed">
               <svg class="nds-icon nds-icon_large nds-icon-action-check" aria-hidden="true">
-                <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#check"></use>
+                <use xlink:href="./assets/icons/action-sprite/svg/symbols.svg#check"></use>
               </svg>
               <span class="nds-assistive-text">Provide description of icon</span>
             </span>
@@ -140,7 +140,7 @@ storiesOf(`${base}`, module)
           <span class="nds-is-not-selected">
             <span class="nds-icon_container" title="description of icon when needed">
               <svg class="nds-icon nds-icon-standard-account nds-icon_large" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
               </svg>
               <span class="nds-assistive-text">Provide description of icon</span>
             </span>
@@ -156,7 +156,7 @@ storiesOf(`${base}`, module)
           <span class="nds-is-selected">
             <span class="nds-icon_container" title="description of icon when needed">
               <svg class="nds-icon nds-icon_large nds-icon-action-check" aria-hidden="true">
-                <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#check"></use>
+                <use xlink:href="./assets/icons/action-sprite/svg/symbols.svg#check"></use>
               </svg>
               <span class="nds-assistive-text">Provide description of icon</span>
             </span>
@@ -164,7 +164,7 @@ storiesOf(`${base}`, module)
           <span class="nds-is-not-selected">
             <span class="nds-icon_container" title="description of icon when needed">
               <svg class="nds-icon nds-icon-standard-lead nds-icon_large" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#lead"></use>
               </svg>
               <span class="nds-assistive-text">Provide description of icon</span>
             </span>
@@ -180,7 +180,7 @@ storiesOf(`${base}`, module)
           <span class="nds-is-selected">
             <span class="nds-icon_container" title="description of icon when needed">
               <svg class="nds-icon nds-icon_large nds-icon-action-check" aria-hidden="true">
-                <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#check"></use>
+                <use xlink:href="./assets/icons/action-sprite/svg/symbols.svg#check"></use>
               </svg>
               <span class="nds-assistive-text">Provide description of icon</span>
             </span>
@@ -188,7 +188,7 @@ storiesOf(`${base}`, module)
           <span class="nds-is-not-selected">
             <span class="nds-icon_container" title="description of icon when needed">
               <svg class="nds-icon nds-icon-standard-orders nds-icon_large" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#orders"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#orders"></use>
               </svg>
               <span class="nds-assistive-text">Provide description of icon</span>
             </span>

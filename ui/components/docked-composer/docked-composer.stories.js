@@ -21,7 +21,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-m-right_x-small">
             <span class="nds-icon_container">
               <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#call"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#call"></use>
               </svg>
             </span>
           </div>
@@ -32,19 +32,19 @@ storiesOf(`${base}`, module)
         <div class="nds-col_bump-left nds-shrink-none">
           <button class="nds-button nds-button_icon nds-button_icon" title="Minimize window">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
             </svg>
             <span class="nds-assistive-text">Minimize Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Expand Composer">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
             </svg>
             <span class="nds-assistive-text">Expand Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Close">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
             </svg>
             <span class="nds-assistive-text">Close Composer Panel</span>
           </button>
@@ -77,7 +77,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-m-right_x-small">
             <span class="nds-icon_container">
               <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#call"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#call"></use>
               </svg>
             </span>
           </div>
@@ -88,19 +88,19 @@ storiesOf(`${base}`, module)
         <div class="nds-col_bump-left nds-shrink-none">
           <button class="nds-button nds-button_icon nds-button_icon" title="Minimize window">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
             </svg>
             <span class="nds-assistive-text">Minimize Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Expand Composer">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
             </svg>
             <span class="nds-assistive-text">Expand Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Close">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
             </svg>
             <span class="nds-assistive-text">Close Composer Panel</span>
           </button>
@@ -133,7 +133,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-m-right_x-small">
             <span class="nds-icon_container">
               <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#call"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#call"></use>
               </svg>
             </span>
           </div>
@@ -144,19 +144,19 @@ storiesOf(`${base}`, module)
         <div class="nds-col_bump-left nds-shrink-none">
           <button class="nds-button nds-button_icon nds-button_icon" title="Minimize window">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
             </svg>
             <span class="nds-assistive-text">Minimize Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Expand Composer">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
             </svg>
             <span class="nds-assistive-text">Expand Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Close">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
             </svg>
             <span class="nds-assistive-text">Close Composer Panel</span>
           </button>
@@ -189,7 +189,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-m-right_x-small">
             <span class="nds-icon_container">
               <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#call"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#call"></use>
               </svg>
             </span>
           </div>
@@ -201,19 +201,19 @@ storiesOf(`${base}`, module)
         <div class="nds-col_bump-left nds-shrink-none">
           <button class="nds-button nds-button_icon nds-button_icon" title="Minimize window">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
             </svg>
             <span class="nds-assistive-text">Minimize Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Expand Composer">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
             </svg>
             <span class="nds-assistive-text">Expand Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Close">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
             </svg>
             <span class="nds-assistive-text">Close Composer Panel</span>
           </button>
@@ -246,7 +246,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-m-right_x-small">
             <span class="nds-icon_container">
               <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#call"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#call"></use>
               </svg>
             </span>
           </div>
@@ -258,19 +258,19 @@ storiesOf(`${base}`, module)
         <div class="nds-col_bump-left nds-shrink-none">
           <button class="nds-button nds-button_icon nds-button_icon" title="Minimize window">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
             </svg>
             <span class="nds-assistive-text">Minimize Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Expand Composer">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
             </svg>
             <span class="nds-assistive-text">Expand Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Close">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
             </svg>
             <span class="nds-assistive-text">Close Composer Panel</span>
           </button>
@@ -306,7 +306,7 @@ storiesOf(`${base}`, module)
                 <div class="nds-media__figure nds-m-right_x-small">
                   <span class="nds-icon_container">
                     <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                      <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#call"></use>
+                      <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#call"></use>
                     </svg>
                   </span>
                 </div>
@@ -317,19 +317,19 @@ storiesOf(`${base}`, module)
               <div class="nds-col_bump-left nds-shrink-none">
                 <button class="nds-button nds-button_icon nds-button_icon" title="Minimize window">
                   <svg class="nds-button__icon" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
                   </svg>
                   <span class="nds-assistive-text">Minimize Composer Panel</span>
                 </button>
                 <button class="nds-button nds-button_icon nds-button_icon" title="Expand Composer">
                   <svg class="nds-button__icon" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
                   </svg>
                   <span class="nds-assistive-text">Expand Composer Panel</span>
                 </button>
                 <button class="nds-button nds-button_icon nds-button_icon" title="Close">
                   <svg class="nds-button__icon" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                   </svg>
                   <span class="nds-assistive-text">Close Composer Panel</span>
                 </button>
@@ -363,7 +363,7 @@ storiesOf(`${base}`, module)
     <div class="nds-docked-composer nds-docked-composer_overflow">
       <button class="nds-button nds-button_icon nds-docked-composer_overflow__button" aria-haspopup="true">
         <svg class="nds-button__icon" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#standard_objects"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#standard_objects"></use>
         </svg>
         <span class="nds-text-body_small nds-m-left_xx-small">
           3
@@ -380,7 +380,7 @@ storiesOf(`${base}`, module)
               <span class="nds-truncate" title="[object Object],Agenda for next week">
                 <span class="nds-icon_container nds-icon-standard-email nds-m-right_x-small">
                   <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#email"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#email"></use>
                   </svg>
                   <span class="nds-assistive-text">email</span>
                 </span>
@@ -394,7 +394,7 @@ storiesOf(`${base}`, module)
               <span class="nds-truncate" title="[object Object],Lei Chan">
                 <span class="nds-icon_container nds-icon-standard-call nds-m-right_x-small">
                   <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#call"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#call"></use>
                   </svg>
                   <span class="nds-assistive-text">call</span>
                 </span>
@@ -408,7 +408,7 @@ storiesOf(`${base}`, module)
               <span class="nds-truncate" title="[object Object],August 14 Meeting Notes">
                 <span class="nds-icon_container nds-icon-standard-task nds-m-right_x-small">
                   <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#task"></use>
+                    <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#task"></use>
                   </svg>
                   <span class="nds-assistive-text">task</span>
                 </span>
@@ -426,7 +426,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-m-right_x-small">
             <span class="nds-icon_container">
               <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#call"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#call"></use>
               </svg>
             </span>
           </div>
@@ -437,19 +437,19 @@ storiesOf(`${base}`, module)
         <div class="nds-col_bump-left nds-shrink-none">
           <button class="nds-button nds-button_icon nds-button_icon" title="Minimize window">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
             </svg>
             <span class="nds-assistive-text">Minimize Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Expand Composer">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
             </svg>
             <span class="nds-assistive-text">Expand Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Close">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
             </svg>
             <span class="nds-assistive-text">Close Composer Panel</span>
           </button>
@@ -482,7 +482,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-m-right_x-small">
             <span class="nds-icon_container">
               <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#task"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#task"></use>
               </svg>
             </span>
           </div>
@@ -493,19 +493,19 @@ storiesOf(`${base}`, module)
         <div class="nds-col_bump-left nds-shrink-none">
           <button class="nds-button nds-button_icon nds-button_icon" title="Minimize window">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
             </svg>
             <span class="nds-assistive-text">Minimize Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Expand Composer">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
             </svg>
             <span class="nds-assistive-text">Expand Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Close">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
             </svg>
             <span class="nds-assistive-text">Close Composer Panel</span>
           </button>
@@ -546,12 +546,12 @@ storiesOf(`${base}`, module)
                       <button class="nds-button nds-button_icon" aria-haspopup="true" title="Select object to search in">
                         <span class="nds-icon_container nds-icon-standard-account" title="Accounts">
                           <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                           </svg>
                           <span class="nds-assistive-text">Searching in: Accounts</span>
                         </span>
                         <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-                          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                         </svg>
                       </button>
                     </div>
@@ -560,7 +560,7 @@ storiesOf(`${base}`, module)
                         <input type="text" class="nds-input nds-combobox__input" id="combobox-unique-id" aria-autocomplete="list" aria-controls="listbox-unique-id" autocomplete="off" role="textbox" placeholder="Search Leads">
                         <span class="nds-icon_container nds-icon-utility-search nds-input__icon nds-input__icon_right">
                           <svg class="nds-icon nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
                           </svg>
                         </span>
                       </div>
@@ -576,12 +576,12 @@ storiesOf(`${base}`, module)
                       <button class="nds-button nds-button_icon" aria-haspopup="true" title="Select object to search in">
                         <span class="nds-icon_container nds-icon-standard-account" title="Accounts">
                           <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                           </svg>
                           <span class="nds-assistive-text">Searching in: Accounts</span>
                         </span>
                         <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-                          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                         </svg>
                       </button>
                     </div>
@@ -590,7 +590,7 @@ storiesOf(`${base}`, module)
                         <input type="text" class="nds-input nds-combobox__input" id="combobox-unique-id" aria-autocomplete="list" aria-controls="listbox-unique-id" autocomplete="off" role="textbox" placeholder="Search Accounts">
                         <span class="nds-icon_container nds-icon-utility-search nds-input__icon nds-input__icon_right">
                           <svg class="nds-icon nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
                           </svg>
                         </span>
                       </div>
@@ -618,7 +618,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-m-right_x-small">
             <span class="nds-icon_container">
               <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#call"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#call"></use>
               </svg>
             </span>
           </div>
@@ -629,19 +629,19 @@ storiesOf(`${base}`, module)
         <div class="nds-col_bump-left nds-shrink-none">
           <button class="nds-button nds-button_icon nds-button_icon" title="Minimize window">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
             </svg>
             <span class="nds-assistive-text">Minimize Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Expand Composer">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
             </svg>
             <span class="nds-assistive-text">Expand Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Close">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
             </svg>
             <span class="nds-assistive-text">Close Composer Panel</span>
           </button>
@@ -676,7 +676,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-m-right_x-small">
             <span class="nds-icon_container">
               <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#call"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#call"></use>
               </svg>
             </span>
           </div>
@@ -687,19 +687,19 @@ storiesOf(`${base}`, module)
         <div class="nds-col_bump-left nds-shrink-none">
           <button class="nds-button nds-button_icon nds-button_icon" title="Minimize window">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
             </svg>
             <span class="nds-assistive-text">Minimize Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Expand Composer">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
             </svg>
             <span class="nds-assistive-text">Expand Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Close">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
             </svg>
             <span class="nds-assistive-text">Close Composer Panel</span>
           </button>
@@ -734,7 +734,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-m-right_x-small">
             <span class="nds-icon_container">
               <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#call"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#call"></use>
               </svg>
             </span>
           </div>
@@ -745,19 +745,19 @@ storiesOf(`${base}`, module)
         <div class="nds-col_bump-left nds-shrink-none">
           <button class="nds-button nds-button_icon nds-button_icon" title="Minimize window">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
             </svg>
             <span class="nds-assistive-text">Minimize Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Expand Composer">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
             </svg>
             <span class="nds-assistive-text">Expand Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Close">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
             </svg>
             <span class="nds-assistive-text">Close Composer Panel</span>
           </button>
@@ -784,7 +784,7 @@ storiesOf(`${base}`, module)
         <div class="nds-docked-composer__toolbar">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-small" aria-pressed="false" title="Mute Yourself">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#unmuted"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#unmuted"></use>
             </svg>
             <span class="nds-assistive-text">Mute Yourself</span>
           </button>
@@ -808,7 +808,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-m-right_x-small">
             <span class="nds-icon_container">
               <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#call"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#call"></use>
               </svg>
             </span>
           </div>
@@ -819,19 +819,19 @@ storiesOf(`${base}`, module)
         <div class="nds-col_bump-left nds-shrink-none">
           <button class="nds-button nds-button_icon nds-button_icon" title="Minimize window">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
             </svg>
             <span class="nds-assistive-text">Minimize Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Expand Composer">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
             </svg>
             <span class="nds-assistive-text">Expand Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Close">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
             </svg>
             <span class="nds-assistive-text">Close Composer Panel</span>
           </button>
@@ -863,7 +863,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-m-right_x-small">
             <span class="nds-icon_container">
               <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#call"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#call"></use>
               </svg>
             </span>
           </div>
@@ -874,19 +874,19 @@ storiesOf(`${base}`, module)
         <div class="nds-col_bump-left nds-shrink-none">
           <button class="nds-button nds-button_icon nds-button_icon" title="Minimize window">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
             </svg>
             <span class="nds-assistive-text">Minimize Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Expand Composer">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
             </svg>
             <span class="nds-assistive-text">Expand Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Close">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
             </svg>
             <span class="nds-assistive-text">Close Composer Panel</span>
           </button>
@@ -922,7 +922,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-m-right_x-small">
             <span class="nds-icon_container">
               <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#call"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#call"></use>
               </svg>
             </span>
           </div>
@@ -933,19 +933,19 @@ storiesOf(`${base}`, module)
         <div class="nds-col_bump-left nds-shrink-none">
           <button class="nds-button nds-button_icon nds-button_icon" title="Minimize window">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
             </svg>
             <span class="nds-assistive-text">Minimize Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Expand Composer">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
             </svg>
             <span class="nds-assistive-text">Expand Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Close">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
             </svg>
             <span class="nds-assistive-text">Close Composer Panel</span>
           </button>
@@ -981,7 +981,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-m-right_x-small">
             <span class="nds-icon_container">
               <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#call"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#call"></use>
               </svg>
             </span>
           </div>
@@ -992,19 +992,19 @@ storiesOf(`${base}`, module)
         <div class="nds-col_bump-left nds-shrink-none">
           <button class="nds-button nds-button_icon nds-button_icon" title="Minimize window">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
             </svg>
             <span class="nds-assistive-text">Minimize Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Expand Composer">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
             </svg>
             <span class="nds-assistive-text">Expand Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Close">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
             </svg>
             <span class="nds-assistive-text">Close Composer Panel</span>
           </button>
@@ -1040,7 +1040,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-m-right_x-small">
             <span class="nds-icon_container">
               <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#call"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#call"></use>
               </svg>
             </span>
           </div>
@@ -1051,19 +1051,19 @@ storiesOf(`${base}`, module)
         <div class="nds-col_bump-left nds-shrink-none">
           <button class="nds-button nds-button_icon nds-button_icon" title="Minimize window">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
             </svg>
             <span class="nds-assistive-text">Minimize Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Expand Composer">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
             </svg>
             <span class="nds-assistive-text">Expand Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Close">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
             </svg>
             <span class="nds-assistive-text">Close Composer Panel</span>
           </button>
@@ -1089,7 +1089,7 @@ storiesOf(`${base}`, module)
         <div class="nds-docked-composer__toolbar">
           <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-small" aria-pressed="false" title="Mute Yourself">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#unmuted"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#unmuted"></use>
             </svg>
             <span class="nds-assistive-text">Mute Yourself</span>
           </button>
@@ -1113,7 +1113,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-m-right_x-small">
             <span class="nds-icon_container">
               <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#call"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#call"></use>
               </svg>
             </span>
           </div>
@@ -1124,19 +1124,19 @@ storiesOf(`${base}`, module)
         <div class="nds-col_bump-left nds-shrink-none">
           <button class="nds-button nds-button_icon nds-button_icon" title="Minimize window">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
             </svg>
             <span class="nds-assistive-text">Minimize Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Expand Composer">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
             </svg>
             <span class="nds-assistive-text">Expand Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Close">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
             </svg>
             <span class="nds-assistive-text">Close Composer Panel</span>
           </button>
@@ -1160,7 +1160,7 @@ storiesOf(`${base}`, module)
             <li class="nds-item nds-theme_shade nds-grid">
               <span class="nds-icon_container nds-icon-standard-task nds-m-right_x-small">
                 <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#task"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#task"></use>
                 </svg>
                 <span class="nds-assistive-text">Task</span>
               </span>
@@ -1171,7 +1171,7 @@ storiesOf(`${base}`, module)
             <li class="nds-item nds-theme_shade nds-grid">
               <span class="nds-icon_container nds-icon-standard-email nds-m-right_x-small">
                 <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#email"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#email"></use>
                 </svg>
                 <span class="nds-assistive-text">Email</span>
               </span>
@@ -1182,7 +1182,7 @@ storiesOf(`${base}`, module)
             <li class="nds-item nds-theme_shade nds-grid">
               <span class="nds-icon_container nds-icon-standard-note nds-m-right_x-small">
                 <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#note"></use>
+                  <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#note"></use>
                 </svg>
                 <span class="nds-assistive-text">Note</span>
               </span>
@@ -1209,7 +1209,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-m-right_x-small">
             <span class="nds-icon_container">
               <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#call"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#call"></use>
               </svg>
             </span>
           </div>
@@ -1220,19 +1220,19 @@ storiesOf(`${base}`, module)
         <div class="nds-col_bump-left nds-shrink-none">
           <button class="nds-button nds-button_icon nds-button_icon" title="Minimize window">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
             </svg>
             <span class="nds-assistive-text">Minimize Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Expand Composer">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
             </svg>
             <span class="nds-assistive-text">Expand Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Close">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
             </svg>
             <span class="nds-assistive-text">Close Composer Panel</span>
           </button>
@@ -1267,12 +1267,12 @@ storiesOf(`${base}`, module)
                       <button class="nds-button nds-button_icon" aria-haspopup="true" title="Select object to search in">
                         <span class="nds-icon_container nds-icon-standard-account" title="Accounts">
                           <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                           </svg>
                           <span class="nds-assistive-text">Searching in: Accounts</span>
                         </span>
                         <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-                          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                         </svg>
                       </button>
                     </div>
@@ -1281,7 +1281,7 @@ storiesOf(`${base}`, module)
                         <input type="text" class="nds-input nds-combobox__input" id="combobox-unique-id" aria-autocomplete="list" aria-controls="listbox-unique-id" autocomplete="off" role="textbox" placeholder="Search Leads">
                         <span class="nds-icon_container nds-icon-utility-search nds-input__icon nds-input__icon_right">
                           <svg class="nds-icon nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
                           </svg>
                         </span>
                       </div>
@@ -1297,12 +1297,12 @@ storiesOf(`${base}`, module)
                       <button class="nds-button nds-button_icon" aria-haspopup="true" title="Select object to search in">
                         <span class="nds-icon_container nds-icon-standard-account" title="Accounts">
                           <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
                           </svg>
                           <span class="nds-assistive-text">Searching in: Accounts</span>
                         </span>
                         <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-                          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                         </svg>
                       </button>
                     </div>
@@ -1311,7 +1311,7 @@ storiesOf(`${base}`, module)
                         <input type="text" class="nds-input nds-combobox__input" id="combobox-unique-id" aria-autocomplete="list" aria-controls="listbox-unique-id" autocomplete="off" role="textbox" placeholder="Search Accounts">
                         <span class="nds-icon_container nds-icon-utility-search nds-input__icon nds-input__icon_right">
                           <svg class="nds-icon nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
                           </svg>
                         </span>
                       </div>
@@ -1339,7 +1339,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-m-right_x-small">
             <span class="nds-icon_container">
               <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#email"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#email"></use>
               </svg>
             </span>
           </div>
@@ -1350,19 +1350,19 @@ storiesOf(`${base}`, module)
         <div class="nds-col_bump-left nds-shrink-none">
           <button class="nds-button nds-button_icon nds-button_icon" title="Minimize window">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
             </svg>
             <span class="nds-assistive-text">Minimize Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Expand Composer">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#expand_alt"></use>
             </svg>
             <span class="nds-assistive-text">Expand Composer Panel</span>
           </button>
           <button class="nds-button nds-button_icon nds-button_icon" title="Close">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
             </svg>
             <span class="nds-assistive-text">Close Composer Panel</span>
           </button>
@@ -1384,7 +1384,7 @@ storiesOf(`${base}`, module)
                         <span class="nds-pill__label" title="jrogers@cloudhub.com">jrogers@cloudhub.com</span>
                         <span class="nds-icon_container nds-pill__remove" title="Remove">
                           <svg class="nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                           </svg>
                           <span class="nds-assistive-text">Press delete or backspace to remove</span>
                         </span>
@@ -1446,7 +1446,7 @@ storiesOf(`${base}`, module)
                             <input type="text" class="nds-input nds-combobox__input" id="font-family" aria-controls="family-listbox" autocomplete="off" role="textbox" placeholder="Select an Option" readonly="" value="Font">
                             <span class="nds-icon_container nds-icon-utility-down nds-input__icon nds-input__icon_right" title="Description of icon when needed">
                               <svg class="nds-icon nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                               </svg>
                               <span class="nds-assistive-text">Description of icon</span>
                             </span>
@@ -1494,7 +1494,7 @@ storiesOf(`${base}`, module)
                             <input type="text" class="nds-input nds-combobox__input" id="font-size" aria-controls="size-listbox" autocomplete="off" role="textbox" placeholder="Select an Option" readonly="" tabindex="-1" value="Size">
                             <span class="nds-icon_container nds-icon-utility-down nds-input__icon nds-input__icon_right" title="Description of icon when needed">
                               <svg class="nds-icon nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                               </svg>
                               <span class="nds-assistive-text">Description of icon</span>
                             </span>
@@ -1537,7 +1537,7 @@ storiesOf(`${base}`, module)
                 <li>
                   <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
                     <svg class="nds-button__icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#bold"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#bold"></use>
                     </svg>
                     <span class="nds-assistive-text">Bold</span>
                   </button>
@@ -1545,7 +1545,7 @@ storiesOf(`${base}`, module)
                 <li>
                   <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
                     <svg class="nds-button__icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#italic"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#italic"></use>
                     </svg>
                     <span class="nds-assistive-text">Italic</span>
                   </button>
@@ -1553,7 +1553,7 @@ storiesOf(`${base}`, module)
                 <li>
                   <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
                     <svg class="nds-button__icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#underline"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#underline"></use>
                     </svg>
                     <span class="nds-assistive-text">Underline</span>
                   </button>
@@ -1561,7 +1561,7 @@ storiesOf(`${base}`, module)
                 <li>
                   <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
                     <svg class="nds-button__icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#strikethrough"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#strikethrough"></use>
                     </svg>
                     <span class="nds-assistive-text">Strike Through</span>
                   </button>
@@ -1571,10 +1571,10 @@ storiesOf(`${base}`, module)
                 <li>
                   <button tabindex="-1" class="nds-button nds-button_icon nds-button_icon-more nds-button_icon-more-filled" aria-haspopup="true">
                     <svg class="nds-button__icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#text_background_color"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#text_background_color"></use>
                     </svg>
                     <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                     </svg>
                     <span class="nds-assistive-text">Background Color</span>
                   </button>
@@ -1582,10 +1582,10 @@ storiesOf(`${base}`, module)
                 <li>
                   <button tabindex="-1" class="nds-button nds-button_icon nds-button_icon-more nds-button_icon-more-filled" aria-haspopup="true">
                     <svg class="nds-button__icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#text_color"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#text_color"></use>
                     </svg>
                     <svg class="nds-button__icon nds-button__icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                     </svg>
                     <span class="nds-assistive-text">Text Color</span>
                   </button>
@@ -1595,7 +1595,7 @@ storiesOf(`${base}`, module)
                 <li>
                   <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
                     <svg class="nds-button__icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextbulletedlist"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextbulletedlist"></use>
                     </svg>
                     <span class="nds-assistive-text">Bulleted List</span>
                   </button>
@@ -1603,7 +1603,7 @@ storiesOf(`${base}`, module)
                 <li>
                   <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
                     <svg class="nds-button__icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextnumberedlist"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextnumberedlist"></use>
                     </svg>
                     <span class="nds-assistive-text">Numbered List</span>
                   </button>
@@ -1611,7 +1611,7 @@ storiesOf(`${base}`, module)
                 <li>
                   <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
                     <svg class="nds-button__icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextindent"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextindent"></use>
                     </svg>
                     <span class="nds-assistive-text">Indent</span>
                   </button>
@@ -1619,7 +1619,7 @@ storiesOf(`${base}`, module)
                 <li>
                   <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
                     <svg class="nds-button__icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#richtextoutdent"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#richtextoutdent"></use>
                     </svg>
                     <span class="nds-assistive-text">Outdent</span>
                   </button>
@@ -1629,7 +1629,7 @@ storiesOf(`${base}`, module)
                 <li>
                   <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
                     <svg class="nds-button__icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#left_align_text"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#left_align_text"></use>
                     </svg>
                     <span class="nds-assistive-text">Left Align Text</span>
                   </button>
@@ -1637,7 +1637,7 @@ storiesOf(`${base}`, module)
                 <li>
                   <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
                     <svg class="nds-button__icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#center_align_text"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#center_align_text"></use>
                     </svg>
                     <span class="nds-assistive-text">Center Align Text</span>
                   </button>
@@ -1645,7 +1645,7 @@ storiesOf(`${base}`, module)
                 <li>
                   <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
                     <svg class="nds-button__icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right_align_text"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right_align_text"></use>
                     </svg>
                     <span class="nds-assistive-text">Right Align Text</span>
                   </button>
@@ -1655,7 +1655,7 @@ storiesOf(`${base}`, module)
                 <li>
                   <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
                     <svg class="nds-button__icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#emoji"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#emoji"></use>
                     </svg>
                     <span class="nds-assistive-text">Add Emoji</span>
                   </button>
@@ -1663,7 +1663,7 @@ storiesOf(`${base}`, module)
                 <li>
                   <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
                     <svg class="nds-button__icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#image"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#image"></use>
                     </svg>
                     <span class="nds-assistive-text">Add Image</span>
                   </button>
@@ -1671,7 +1671,7 @@ storiesOf(`${base}`, module)
                 <li>
                   <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
                     <svg class="nds-button__icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#link"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#link"></use>
                     </svg>
                     <span class="nds-assistive-text">Add Link</span>
                   </button>
@@ -1681,7 +1681,7 @@ storiesOf(`${base}`, module)
                 <li>
                   <button class="nds-button nds-button_icon nds-button_icon-border-filled" tabindex="-1" title="Provide description of action">
                     <svg class="nds-button__icon" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#remove_formatting"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#remove_formatting"></use>
                     </svg>
                     <span class="nds-assistive-text">Remove Formatting</span>
                   </button>
@@ -1701,7 +1701,7 @@ storiesOf(`${base}`, module)
               <li>
                 <button class="nds-button nds-button_icon nds-button_icon-small" title="Attach File">
                   <svg class="nds-button__icon" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#link"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#link"></use>
                   </svg>
                   <span class="nds-assistive-text">Attach File</span>
                 </button>
@@ -1709,7 +1709,7 @@ storiesOf(`${base}`, module)
               <li>
                 <button class="nds-button nds-button_icon nds-button_icon-small" tabindex="-1" title="Insert Template">
                   <svg class="nds-button__icon" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#insert_template"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#insert_template"></use>
                   </svg>
                   <span class="nds-assistive-text">Insert Template</span>
                 </button>
@@ -1717,7 +1717,7 @@ storiesOf(`${base}`, module)
               <li>
                 <button class="nds-button nds-button_icon nds-button_icon-small" tabindex="-1" title="Insert HTML">
                   <svg class="nds-button__icon" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#insert_tag_field"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#insert_tag_field"></use>
                   </svg>
                   <span class="nds-assistive-text">Insert HTML</span>
                 </button>
@@ -1725,7 +1725,7 @@ storiesOf(`${base}`, module)
             </ul>
             <button class="nds-button nds-button_icon nds-button_icon-small" tabindex="-1" title="Preview">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#preview"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#preview"></use>
               </svg>
               <span class="nds-assistive-text">Preview</span>
             </button>

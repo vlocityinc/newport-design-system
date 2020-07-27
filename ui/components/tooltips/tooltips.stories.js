@@ -17,7 +17,7 @@ storiesOf(`${base}`, module)
     <div class="nds-form-element__icon nds-align-middle">
       <button class="nds-button nds-button_icon nds-button nds-button_icon" aria-describedby="help" title="Help">
         <svg class="nds-button__icon" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#info"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#info"></use>
         </svg>
         <span class="nds-assistive-text">Help</span>
       </button>

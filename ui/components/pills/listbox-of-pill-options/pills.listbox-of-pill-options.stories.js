@@ -19,7 +19,7 @@ storiesOf(`${base}`, module)
         <span class="nds-pill__label" title="Full pill label verbiage mirrored here">Pill Label</span>
         <span class="nds-icon_container nds-pill__remove" title="Remove">
           <svg class="nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Press delete or backspace to remove</span>
         </span>
@@ -30,7 +30,7 @@ storiesOf(`${base}`, module)
         <span class="nds-pill__label" title="Full pill label verbiage mirrored here">Pill Label</span>
         <span class="nds-icon_container nds-pill__remove" title="Remove">
           <svg class="nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Press delete or backspace to remove</span>
         </span>
@@ -46,14 +46,14 @@ storiesOf(`${base}`, module)
       <span class="nds-pill" role="option" tabindex="0" aria-selected="true">
         <span class="nds-icon_container nds-icon-standard-account nds-pill__icon_container" title="Account">
           <svg class="nds-icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#account"></use>
           </svg>
           <span class="nds-assistive-text">Account</span>
         </span>
         <span class="nds-pill__label" title="Full pill label verbiage mirrored here">Pill Label</span>
         <span class="nds-icon_container nds-pill__remove" title="Remove">
           <svg class="nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Press delete or backspace to remove</span>
         </span>
@@ -63,14 +63,14 @@ storiesOf(`${base}`, module)
       <span class="nds-pill" role="option" aria-selected="true">
         <span class="nds-icon_container nds-icon-standard-case nds-pill__icon_container" title="Case">
           <svg class="nds-icon" aria-hidden="true">
-            <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+            <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#case"></use>
           </svg>
           <span class="nds-assistive-text">Case</span>
         </span>
         <span class="nds-pill__label" title="Full pill label verbiage mirrored here">Pill Label</span>
         <span class="nds-icon_container nds-pill__remove" title="Remove">
           <svg class="nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Press delete or backspace to remove</span>
         </span>
@@ -90,7 +90,7 @@ storiesOf(`${base}`, module)
         <span class="nds-pill__label" title="Full pill label verbiage mirrored here">Pill Label</span>
         <span class="nds-icon_container nds-pill__remove" title="Remove">
           <svg class="nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Press delete or backspace to remove</span>
         </span>
@@ -104,7 +104,7 @@ storiesOf(`${base}`, module)
         <span class="nds-pill__label" title="Full pill label verbiage mirrored here">Pill Label</span>
         <span class="nds-icon_container nds-pill__remove" title="Remove">
           <svg class="nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
           </svg>
           <span class="nds-assistive-text">Press delete or backspace to remove</span>
         </span>
