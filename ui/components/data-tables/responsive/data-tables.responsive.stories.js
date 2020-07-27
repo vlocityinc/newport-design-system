@@ -29,7 +29,7 @@ storiesOf(`${base}`, module)
           <!-- /react-text -->
           <button class="nds-button nds-button_icon nds-button_icon" title="Sort">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
             <span class="nds-assistive-text">Sort</span>
           </button>
@@ -41,7 +41,7 @@ storiesOf(`${base}`, module)
           <!-- /react-text -->
           <button class="nds-button nds-button_icon nds-button_icon" title="Sort">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
             <span class="nds-assistive-text">Sort</span>
           </button>
@@ -53,7 +53,7 @@ storiesOf(`${base}`, module)
           <!-- /react-text -->
           <button class="nds-button nds-button_icon nds-button_icon" title="Sort">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
             <span class="nds-assistive-text">Sort</span>
           </button>
@@ -65,7 +65,7 @@ storiesOf(`${base}`, module)
           <!-- /react-text -->
           <button class="nds-button nds-button_icon nds-button_icon" title="Sort">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
             <span class="nds-assistive-text">Sort</span>
           </button>
@@ -77,7 +77,7 @@ storiesOf(`${base}`, module)
           <!-- /react-text -->
           <button class="nds-button nds-button_icon nds-button_icon" title="Sort">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
             <span class="nds-assistive-text">Sort</span>
           </button>
@@ -89,7 +89,7 @@ storiesOf(`${base}`, module)
           <!-- /react-text -->
           <button class="nds-button nds-button_icon nds-button_icon" title="Sort">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
             <span class="nds-assistive-text">Sort</span>
           </button>
@@ -101,7 +101,7 @@ storiesOf(`${base}`, module)
           <!-- /react-text -->
           <button class="nds-button nds-button_icon nds-button_icon" title="Sort">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
             <span class="nds-assistive-text">Sort</span>
           </button>
@@ -145,7 +145,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink" data-label="Actions">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -185,7 +185,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink" data-label="Actions">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -211,7 +211,7 @@ storiesOf(`${base}`, module)
           <!-- /react-text -->
           <button class="nds-button nds-button_icon nds-button_icon" title="Sort">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
             <span class="nds-assistive-text">Sort</span>
           </button>
@@ -223,7 +223,7 @@ storiesOf(`${base}`, module)
           <!-- /react-text -->
           <button class="nds-button nds-button_icon nds-button_icon" title="Sort">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
             <span class="nds-assistive-text">Sort</span>
           </button>
@@ -235,7 +235,7 @@ storiesOf(`${base}`, module)
           <!-- /react-text -->
           <button class="nds-button nds-button_icon nds-button_icon" title="Sort">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
             <span class="nds-assistive-text">Sort</span>
           </button>
@@ -247,7 +247,7 @@ storiesOf(`${base}`, module)
           <!-- /react-text -->
           <button class="nds-button nds-button_icon nds-button_icon" title="Sort">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
             <span class="nds-assistive-text">Sort</span>
           </button>
@@ -259,7 +259,7 @@ storiesOf(`${base}`, module)
           <!-- /react-text -->
           <button class="nds-button nds-button_icon nds-button_icon" title="Sort">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
             <span class="nds-assistive-text">Sort</span>
           </button>
@@ -271,7 +271,7 @@ storiesOf(`${base}`, module)
           <!-- /react-text -->
           <button class="nds-button nds-button_icon nds-button_icon" title="Sort">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
             <span class="nds-assistive-text">Sort</span>
           </button>
@@ -283,7 +283,7 @@ storiesOf(`${base}`, module)
           <!-- /react-text -->
           <button class="nds-button nds-button_icon nds-button_icon" title="Sort">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
             <span class="nds-assistive-text">Sort</span>
           </button>
@@ -327,7 +327,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink" data-label="Actions">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -367,7 +367,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink" data-label="Actions">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -393,7 +393,7 @@ storiesOf(`${base}`, module)
           <!-- /react-text -->
           <button class="nds-button nds-button_icon nds-button_icon" title="Sort">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
             <span class="nds-assistive-text">Sort</span>
           </button>
@@ -405,7 +405,7 @@ storiesOf(`${base}`, module)
           <!-- /react-text -->
           <button class="nds-button nds-button_icon nds-button_icon" title="Sort">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
             <span class="nds-assistive-text">Sort</span>
           </button>
@@ -417,7 +417,7 @@ storiesOf(`${base}`, module)
           <!-- /react-text -->
           <button class="nds-button nds-button_icon nds-button_icon" title="Sort">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
             <span class="nds-assistive-text">Sort</span>
           </button>
@@ -429,7 +429,7 @@ storiesOf(`${base}`, module)
           <!-- /react-text -->
           <button class="nds-button nds-button_icon nds-button_icon" title="Sort">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
             <span class="nds-assistive-text">Sort</span>
           </button>
@@ -441,7 +441,7 @@ storiesOf(`${base}`, module)
           <!-- /react-text -->
           <button class="nds-button nds-button_icon nds-button_icon" title="Sort">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
             <span class="nds-assistive-text">Sort</span>
           </button>
@@ -453,7 +453,7 @@ storiesOf(`${base}`, module)
           <!-- /react-text -->
           <button class="nds-button nds-button_icon nds-button_icon" title="Sort">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
             <span class="nds-assistive-text">Sort</span>
           </button>
@@ -465,7 +465,7 @@ storiesOf(`${base}`, module)
           <!-- /react-text -->
           <button class="nds-button nds-button_icon nds-button_icon" title="Sort">
             <svg class="nds-button__icon nds-button__icon_small" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
             </svg>
             <span class="nds-assistive-text">Sort</span>
           </button>
@@ -509,7 +509,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink" data-label="Actions">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>
@@ -549,7 +549,7 @@ storiesOf(`${base}`, module)
       <td class="nds-cell-shrink" data-label="Actions">
         <button class="nds-button nds-button_icon nds-button_icon-border-filled nds-button_icon-x-small" title="Show More">
           <svg class="nds-button__icon nds-button__icon_hint nds-button__icon_small" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#down"></use>
           </svg>
           <span class="nds-assistive-text">Show More</span>
         </button>

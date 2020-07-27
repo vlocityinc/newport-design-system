@@ -20,7 +20,7 @@ storiesOf(`${base}`, module)
       <li class="nds-utility-bar__item">
         <button class="nds-button nds-utility-bar__action" aria-pressed="false">
           <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#call"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#call"></use>
           </svg>
           <span class="nds-utility-bar__text">Call</span>
         </button>
@@ -28,7 +28,7 @@ storiesOf(`${base}`, module)
       <li class="nds-utility-bar__item">
         <button class="nds-button nds-utility-bar__action" aria-pressed="false">
           <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#clock"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#clock"></use>
           </svg>
           <span class="nds-utility-bar__text">History</span>
         </button>
@@ -36,7 +36,7 @@ storiesOf(`${base}`, module)
       <li class="nds-utility-bar__item">
         <button class="nds-button nds-utility-bar__action" aria-pressed="false">
           <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#note"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#note"></use>
           </svg>
           <span class="nds-utility-bar__text">Notes</span>
         </button>
@@ -44,7 +44,7 @@ storiesOf(`${base}`, module)
       <li class="nds-utility-bar__item">
         <button class="nds-button nds-utility-bar__action" aria-pressed="false">
           <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#omni_channel"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#omni_channel"></use>
           </svg>
           <span class="nds-utility-bar__text">
             <span class="nds-m-bottom_xxx-small">Online</span>
@@ -59,7 +59,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-m-right_x-small">
             <span class="nds-icon_container">
               <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#call"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#call"></use>
               </svg>
             </span>
           </div>
@@ -70,7 +70,7 @@ storiesOf(`${base}`, module)
         <div class="nds-col_bump-left nds-shrink-none">
           <button class="nds-button nds-button_icon nds-button_icon" title="Close Panel">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
             </svg>
             <span class="nds-assistive-text">Close Panel</span>
           </button>
@@ -91,7 +91,7 @@ storiesOf(`${base}`, module)
       <li class="nds-utility-bar__item">
         <button class="nds-button nds-utility-bar__action nds-is-active" aria-pressed="true">
           <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#call"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#call"></use>
           </svg>
           <span class="nds-utility-bar__text">Call</span>
         </button>
@@ -99,7 +99,7 @@ storiesOf(`${base}`, module)
       <li class="nds-utility-bar__item">
         <button class="nds-button nds-utility-bar__action" aria-pressed="false">
           <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#clock"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#clock"></use>
           </svg>
           <span class="nds-utility-bar__text">History</span>
         </button>
@@ -107,7 +107,7 @@ storiesOf(`${base}`, module)
       <li class="nds-utility-bar__item">
         <button class="nds-button nds-utility-bar__action" aria-pressed="false">
           <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#note"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#note"></use>
           </svg>
           <span class="nds-utility-bar__text">Notes</span>
         </button>
@@ -115,7 +115,7 @@ storiesOf(`${base}`, module)
       <li class="nds-utility-bar__item">
         <button class="nds-button nds-utility-bar__action" aria-pressed="false">
           <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#omni_channel"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#omni_channel"></use>
           </svg>
           <span class="nds-utility-bar__text">
             <span class="nds-m-bottom_xxx-small">Online</span>
@@ -130,7 +130,7 @@ storiesOf(`${base}`, module)
           <div class="nds-media__figure nds-m-right_x-small">
             <span class="nds-icon_container">
               <svg class="nds-icon nds-icon_small nds-icon-text-default" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#call"></use>
+                <use xlink:href="./assets/icons/standard-sprite/svg/symbols.svg#call"></use>
               </svg>
             </span>
           </div>
@@ -141,7 +141,7 @@ storiesOf(`${base}`, module)
         <div class="nds-col_bump-left nds-shrink-none">
           <button class="nds-button nds-button_icon nds-button_icon" title="Close Panel">
             <svg class="nds-button__icon" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#minimize_window"></use>
             </svg>
             <span class="nds-assistive-text">Close Panel</span>
           </button>
@@ -162,7 +162,7 @@ storiesOf(`${base}`, module)
       <li class="nds-utility-bar__item">
         <button class="nds-button nds-utility-bar__action" aria-pressed="false">
           <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#call"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#call"></use>
           </svg>
           <span class="nds-utility-bar__text">Call</span>
         </button>
@@ -170,7 +170,7 @@ storiesOf(`${base}`, module)
       <li class="nds-utility-bar__item">
         <button class="nds-button nds-utility-bar__action" aria-pressed="false">
           <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#clock"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#clock"></use>
           </svg>
           <span class="nds-utility-bar__text">History</span>
         </button>
@@ -178,7 +178,7 @@ storiesOf(`${base}`, module)
       <li class="nds-utility-bar__item">
         <button class="nds-button nds-utility-bar__action" aria-pressed="false">
           <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#note"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#note"></use>
           </svg>
           <span class="nds-utility-bar__text">Notes</span>
         </button>
@@ -189,7 +189,7 @@ storiesOf(`${base}`, module)
             <span class="nds-assistive-text">●</span>
           </abbr>
           <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#omni_channel"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#omni_channel"></use>
           </svg>
           <span class="nds-utility-bar__text">
             <span class="nds-m-bottom_xxx-small">Online</span>

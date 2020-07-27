@@ -28,7 +28,7 @@ storiesOf(`${base}`, module)
     return withExample(`<span class="nds-badge nds-badge_lightest">
     <span class="nds-icon_container nds-icon-utility-moneybag nds-m-right_xx-small" title="Description of icon when needed">
       <svg class="nds-icon nds-icon_xx-small nds-icon-text-default" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#moneybag"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#moneybag"></use>
       </svg>
     </span>
     423 Credits Available

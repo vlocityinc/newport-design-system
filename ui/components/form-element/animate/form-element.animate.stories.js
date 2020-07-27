@@ -60,7 +60,7 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="nds-form-element nds-has-error">
   <div class="nds-form-element__control nds-form-element__control-animated-label nds-input-has-icon nds-input-has-icon_left">
     <svg class="nds-input__icon" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
     </svg>
     <input type="text" required="" aria-describedby="error-message" id="text-input-id-1" class="nds-input nds-has-value">
     <label class="nds-form-element__label" for="text-input-id-1">
@@ -94,7 +94,7 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="nds-form-element">
   <div class="nds-form-element__control nds-form-element__control-animated-label nds-input-has-icon nds-input-has-icon_left">
     <svg class="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
     </svg>
     <input type="text" id="text-input-id-1" class="nds-input nds-has-value" required="">
     <label class="nds-form-element__label" for="text-input-id-1">Input Label</label>
@@ -105,7 +105,7 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="nds-form-element">
   <div class="nds-form-element__control nds-form-element__control-animated-label nds-input-has-icon nds-input-has-icon_right">
     <svg class="nds-icon nds-input__icon nds-input__icon_right nds-icon-text-default" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
     </svg>
     <input type="text" id="text-input-id-1" class="nds-input nds-has-value" required="">
     <label class="nds-form-element__label" for="text-input-id-1">Input Label</label>
@@ -116,12 +116,12 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="nds-form-element">
   <div class="nds-form-element__control nds-form-element__control-animated-label nds-input-has-icon nds-input-has-icon_left-right">
     <svg class="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
     </svg>
     <input type="text" id="text-input-id-1" class="nds-input nds-has-value" required="">
     <button class="nds-input__icon nds-input__icon_right nds-button nds-button_icon">
       <svg class="nds-button__icon nds-icon-text-light" aria-hidden="true">
-        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#clear"></use>
+        <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#clear"></use>
       </svg>
       <span class="nds-assistive-text">Clear</span>
     </button>
@@ -133,7 +133,7 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="nds-form-element">
   <div class="nds-form-element__control nds-form-element__control-animated-label nds-input-has-icon nds-input-has-icon_left-right">
     <svg class="nds-icon nds-input__icon nds-input__icon_left nds-icon-text-default" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#search"></use>
     </svg>
     <input type="text" id="text-input-id-1" class="nds-input nds-has-value" required="">
     <div class="nds-input__icon-group nds-input__icon-group_right">
@@ -153,7 +153,7 @@ storiesOf(`${base}`, module)
       </div>
       <button class="nds-input__icon nds-input__icon_right nds-button nds-button_icon">
         <svg class="nds-button__icon nds-icon-text-light" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#clear"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#clear"></use>
         </svg>
         <span class="nds-assistive-text">Clear</span>
       </button>
@@ -182,7 +182,7 @@ storiesOf(`${base}`, module)
         <div class="nds-form-element__icon">
           <button aria-describedby="help" class="nds-button nds-button_icon">
             <svg class="nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#info"></use>
+              <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#info"></use>
             </svg>
             <span class="nds-assistive-text">Help</span>
           </button>

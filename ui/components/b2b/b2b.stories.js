@@ -20,14 +20,14 @@ storiesOf(`${base}`, module)
                 <c-icon theme="nds" icon-name="utility:rows" size="small" extraclass="nds-icon-text-default" class="nds-b2b-category-icon">
                   <span class="nds-icon_container nds-icon-utility-phone_portrait">
                     <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#phone_portrait"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#phone_portrait"></use>
                     </svg>
                   </span>
                 </c-icon>
                 Ethernet
                 <span class="nds-b2b-switch-icon">
                   <svg class="nds-accordion__summary-action-icon nds-button__icon nds-button__icon_left" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
                   </svg>
                 </span>
               </label>
@@ -38,12 +38,12 @@ storiesOf(`${base}`, module)
                 <c-b2b-category-item>
                   <li>
                     <input id="sub-group-1" type="checkbox" hidden />
-                    <label for="sub-group-1" class="nds-b2b-category-name"> Sub Child Categories 
+                    <label for="sub-group-1" class="nds-b2b-category-name"> Sub Child Categories
                       <span class="nds-b2b-switch-icon">
                         <svg class="nds-accordion__summary-action-icon nds-button__icon nds-button__icon_left" aria-hidden="true">
-                          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
+                          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
                         </svg>
-                      </span> 
+                      </span>
                     </label>
                     <ul class="nds-b2b-category_group-list">
                       <li class="nds-b2b-category-name">one</li>
@@ -60,14 +60,14 @@ storiesOf(`${base}`, module)
                 <c-icon theme="nds" icon-name="utility:rows" size="small" extraclass="nds-icon-text-default" class="nds-b2b-category-icon">
                   <span class="nds-icon_container nds-icon-utility-phone_portrait">
                     <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#phone_portrait"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#phone_portrait"></use>
                     </svg>
                   </span>
                 </c-icon>
                 Accessories
                 <span class="nds-b2b-switch-icon">
                   <svg class="nds-accordion__summary-action-icon nds-button__icon nds-button__icon_left" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
                   </svg>
                 </span>
               </label>
@@ -83,14 +83,14 @@ storiesOf(`${base}`, module)
                 <c-icon theme="nds" icon-name="utility:rows" size="small" extraclass="nds-icon-text-default" class="nds-b2b-category-icon">
                   <span class="nds-icon_container nds-icon-utility-phone_portrait">
                     <svg class="nds-icon nds-icon-text-default nds-icon_x-small" aria-hidden="true">
-                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#phone_portrait"></use>
+                      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#phone_portrait"></use>
                     </svg>
                   </span>
                 </c-icon>
                 Plans & Services
                 <span class="nds-b2b-switch-icon">
                   <svg class="nds-accordion__summary-action-icon nds-button__icon nds-button__icon_left" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
                   </svg>
                 </span>
               </label>
@@ -116,7 +116,7 @@ storiesOf(`${base}`, module)
             </svg>
           </span>
         </c-icon>
-        WAN Promotion Name 
+        WAN Promotion Name
       </div>
       <div class="nds-b2b-promo-description">A short description of how best to use this product and what it includes.Lorem ipsum dolar sit amet, consectetur, adipisci velit5</div>
       <div class="nds-b2b-promo-period">Offer ends 2/29/20</div>
@@ -134,7 +134,7 @@ storiesOf(`${base}`, module)
               </svg>
             </span>
           </c-icon>
-          Recommended Ethernet Product Name 
+          Recommended Ethernet Product Name
         </div>
         <div class="nds-b2b-product-description">A short description of how best to use this product and what it includes.Lorem ipsum dolar sit amet, consectetur, adipisci velit5</div>
         <div class="nds-b2b-product-badge_container">
@@ -163,7 +163,7 @@ storiesOf(`${base}`, module)
                       </svg>
                     </span>
                   </c-icon>
-                  Recommended Ethernet Product Name 
+                  Recommended Ethernet Product Name
                 </div>
                 <div class="nds-b2b-product-description">A short description of how best to use this product and what it includes.Lorem ipsum dolar sit amet, consectetur, adipisci velit5</div>
                 <div class="nds-b2b-product-badge_container">
@@ -184,7 +184,7 @@ storiesOf(`${base}`, module)
                       </svg>
                     </span>
                   </c-icon>
-                  Recommended Ethernet Product Name 
+                  Recommended Ethernet Product Name
                 </div>
                 <div class="nds-b2b-product-description">A short description of how best to use this product and what it includes.Lorem ipsum dolar sit amet, consectetur, adipisci velit5</div>
                 <div class="nds-b2b-product-badge_container">

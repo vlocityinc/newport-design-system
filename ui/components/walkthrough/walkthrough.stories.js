@@ -18,7 +18,7 @@ storiesOf(`${base}`, module)
     <div class="nds-grid nds-dropdown-trigger nds-dropdown-trigger_click">
       <button class="nds-button" aria-haspopup="true">
         <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+          <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
         </svg>
         <!-- react-text: 9 -->Choose your tour
         <!-- /react-text -->
@@ -29,7 +29,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" role="menuitem" tabindex="0">
               <span class="nds-truncate" title="[object Object],[object Object], Conquer Your Cases">
                 <svg class="nds-icon nds-icon_selected nds-icon_x-small nds-m-right_x-small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                 </svg>
                 <span class="nds-assistive-text">Completed:</span>
                 <!-- react-text: 18 -->Conquer Your Cases
@@ -41,7 +41,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" role="menuitem" tabindex="-1">
               <span class="nds-truncate" title="[object Object],Automate For Speed">
                 <svg class="nds-icon nds-icon_selected nds-icon_x-small nds-m-right_x-small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                 </svg>
                 <!-- react-text: 24 -->Automate For Speed
                 <!-- /react-text -->
@@ -52,7 +52,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" role="menuitem" tabindex="-1">
               <span class="nds-truncate" title="[object Object],Share Your Knowledge">
                 <svg class="nds-icon nds-icon_selected nds-icon_x-small nds-m-right_x-small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                 </svg>
                 <!-- react-text: 30 -->Share Your Knowledge
                 <!-- /react-text -->
@@ -63,7 +63,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" role="menuitem" tabindex="-1">
               <span class="nds-truncate" title="[object Object],Finish it up in a Flash">
                 <svg class="nds-icon nds-icon_selected nds-icon_x-small nds-m-right_x-small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                 </svg>
                 <!-- react-text: 36 -->Finish it up in a Flash
                 <!-- /react-text -->
@@ -75,7 +75,7 @@ storiesOf(`${base}`, module)
             <a href="javascript:void(0);" role="menuitem" tabindex="-1">
               <span class="nds-truncate" title="[object Object],Import Contacts and Accounts">
                 <svg class="nds-icon nds-icon_x-small nds-m-right_x-small" aria-hidden="true">
-                  <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
+                  <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
                 </svg>
                 <!-- react-text: 43 -->Import Contacts and Accounts
                 <!-- /react-text -->
@@ -101,7 +101,7 @@ storiesOf(`${base}`, module)
       <div class="nds-grid nds-dropdown-trigger nds-dropdown-trigger_click nds-is-open">
         <button class="nds-button" aria-haspopup="true">
           <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
-            <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+            <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#right"></use>
           </svg>
           <!-- react-text: 10 -->Choose your tour
           <!-- /react-text -->
@@ -112,7 +112,7 @@ storiesOf(`${base}`, module)
               <a href="javascript:void(0);" role="menuitem" tabindex="0">
                 <span class="nds-truncate" title="[object Object],[object Object], Conquer Your Cases">
                   <svg class="nds-icon nds-icon_selected nds-icon_x-small nds-m-right_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                   <span class="nds-assistive-text">Completed:</span>
                   <!-- react-text: 19 -->Conquer Your Cases
@@ -124,7 +124,7 @@ storiesOf(`${base}`, module)
               <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                 <span class="nds-truncate" title="[object Object],Automate For Speed">
                   <svg class="nds-icon nds-icon_selected nds-icon_x-small nds-m-right_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                   <!-- react-text: 25 -->Automate For Speed
                   <!-- /react-text -->
@@ -135,7 +135,7 @@ storiesOf(`${base}`, module)
               <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                 <span class="nds-truncate" title="[object Object],Share Your Knowledge">
                   <svg class="nds-icon nds-icon_selected nds-icon_x-small nds-m-right_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                   <!-- react-text: 31 -->Share Your Knowledge
                   <!-- /react-text -->
@@ -146,7 +146,7 @@ storiesOf(`${base}`, module)
               <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                 <span class="nds-truncate" title="[object Object],Finish it up in a Flash">
                   <svg class="nds-icon nds-icon_selected nds-icon_x-small nds-m-right_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#check"></use>
                   </svg>
                   <!-- react-text: 37 -->Finish it up in a Flash
                   <!-- /react-text -->
@@ -158,7 +158,7 @@ storiesOf(`${base}`, module)
               <a href="javascript:void(0);" role="menuitem" tabindex="-1">
                 <span class="nds-truncate" title="[object Object],Import Contacts and Accounts">
                   <svg class="nds-icon nds-icon_x-small nds-m-right_x-small" aria-hidden="true">
-                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
+                    <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
                   </svg>
                   <!-- react-text: 44 -->Import Contacts and Accounts
                   <!-- /react-text -->

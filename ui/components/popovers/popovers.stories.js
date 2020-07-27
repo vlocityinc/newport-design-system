@@ -61,7 +61,7 @@ storiesOf(`${base}`, module)
     return withExample(`<section class="nds-popover${size}${nubbin}${theme}" role="dialog" aria-label="Dialog Title" aria-describedby="dialog-body-id-19">
   <button class="nds-button nds-button_icon nds-button_icon-small nds-float_right nds-popover__close nds-button_icon" title="Close dialog">
     <svg class="nds-button__icon" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
     </svg>
     <span class="nds-assistive-text">Close dialog</span>
   </button>
@@ -77,7 +77,7 @@ storiesOf(`${base}`, module)
     return withExample(`<section class="nds-popover${size}${nubbin}${theme}" role="dialog" aria-labelledby="dialog-heading-id-20" aria-describedby="dialog-body-id-20">
   <button class="nds-button nds-button_icon nds-button_icon-small nds-float_right nds-popover__close nds-button_icon" title="Close dialog">
     <svg class="nds-button__icon" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
     </svg>
     <span class="nds-assistive-text">Close dialog</span>
   </button>
@@ -96,7 +96,7 @@ storiesOf(`${base}`, module)
     return withExample(`<section class="nds-popover${size}${nubbin}${theme}" role="dialog" aria-label="Dialog Title" aria-describedby="dialog-body-id-21">
   <button class="nds-button nds-button_icon nds-button_icon-small nds-float_right nds-popover__close nds-button_icon" title="Close dialog">
     <svg class="nds-button__icon" aria-hidden="true">
-      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+      <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#close"></use>
     </svg>
     <span class="nds-assistive-text">Close dialog</span>
   </button>

@@ -27,7 +27,7 @@ storiesOf(`${base}`, module)
           <li>
             <button class="nds-button nds-button_icon nds-button_icon-container" title="Add User">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#adduser"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#adduser"></use>
               </svg>
               <span class="nds-assistive-text">Add User</span>
             </button>
@@ -35,7 +35,7 @@ storiesOf(`${base}`, module)
           <li>
             <button class="nds-button nds-button_icon nds-button_icon-container" title="Attach a file">
               <svg class="nds-button__icon" aria-hidden="true">
-                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#attach"></use>
+                <use xlink:href="./assets/icons/utility-sprite/svg/symbols.svg#attach"></use>
               </svg>
               <span class="nds-assistive-text">Attach a file</span>
             </button>
