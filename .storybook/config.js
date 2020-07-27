@@ -1,22 +1,14 @@
-import {
-  configure,
-  addParameters,
-  addDecorator
-} from '@storybook/html';
-import {
-  withA11y
-} from '@storybook/addon-a11y';
-import {
-  withDesignTokens
-} from '../scripts/storybook/design-tokens';
-const req = require.context('../ui', true, /\.stories\.js$/);
-const reqDoc = require.context('../docs', true, /\.stories\.js$/);
+import { configure, addParameters, addDecorator } from "@storybook/html";
+import { withA11y } from "@storybook/addon-a11y";
+import { withDesignTokens } from "../scripts/storybook/design-tokens";
+const req = require.context("../ui", true, /\.stories\.js$/);
+const reqDoc = require.context("../docs", true, /\.stories\.js$/);
 
-import '../assets/styles/index.css';
+import "../assets/styles/index.css";
 
 function loadStories() {
-  reqDoc.keys().forEach(filename => reqDoc(filename));
-  req.keys().forEach(filename => req(filename));
+  reqDoc.keys().forEach((filename) => reqDoc(filename));
+  req.keys().forEach((filename) => req(filename));
 }
 
 addDecorator(withDesignTokens);
@@ -24,10 +16,10 @@ addDecorator(withDesignTokens);
 
 addParameters({
   options: {
-    name: 'Newport Design System (ins-107.0)',
+    name: "Newport Design System (cmt-107.0)",
     isFullScreen: false,
-    showPanel: true
-  }
+    showPanel: true,
+  },
 });
 
 configure(loadStories, module);
