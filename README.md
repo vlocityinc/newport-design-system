@@ -4,17 +4,17 @@ Welcome to the Vlocity Newport Design System brought to you by [Vlocity](https:/
 
 Tailored for building Vlocity Newport apps: Using the Newport Design System markup and CSS framework results in UIs that reflect the Vlocity Newport look and feel. Includes Storybook.js previewer to help you customize and rebrand all of Vlocity's newport based templates in one place.
 
+Want to see the project hosted live? Go to [http://newport.vlocinternal.com/](http://newport.vlocinternal.com/)
+
 ## Pre-requisites
 
-> NOTE: You'll need to use the command line to work with Newport, if you're not familar with the command line we recommend following the short *Git Tower Command Line 101* tutorial: https://www.git-tower.com/learn/git/ebook/en/command-line/appendix/command-line-101
+> NOTE: You'll need to use the command line to work with Newport, if you're not familar with the command line we recommend following the short _Git Tower Command Line 101_ tutorial: https://www.git-tower.com/learn/git/ebook/en/command-line/appendix/command-line-101
 
 You'll need the following installed:
 
- - Install Git: https://git-scm.com/downloads
- - Install Node.js: https://nodejs.org/en/download/
- - Install gulp-cli - after installing the above open your command prompt and run `npm install --global gulp-cli`
-
-
+- Install Git: https://git-scm.com/downloads
+- Install Node.js: https://nodejs.org/en/download/
+- Install gulp-cli - after installing the above open your command prompt and run `npm install --global gulp-cli`
 
 ## Quick start
 
@@ -54,7 +54,7 @@ Having trouble getting these steps to work on your machine? Follow the [troubles
 
 ## Docs
 
-For more indepth documentation please checkout the *documentation* section in storybook.
+For more indepth documentation please checkout the _documentation_ section in storybook.
 
 ## Browser compatibility
 
@@ -75,8 +75,6 @@ If you also want to deploy it to an org then run it with the following env varia
 ```bash
 SF_USERNAME=myusername@email.com SF_PASSWORD=mypassword npm run dist
 ```
-
-
 
 ## Troubleshooting
 
