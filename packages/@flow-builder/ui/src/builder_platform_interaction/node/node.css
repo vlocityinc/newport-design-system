@@ -13,8 +13,9 @@
 
 .node-container.jtk-drag-selected,
 .node-container.jtk-drag.jtk-dragged,
-.node-container.highlighted-container {
-    z-index: 400;
+.node-container.highlighted-container,
+.node-selected {
+    z-index: 401;
 }
 
 .targetHover .icon {

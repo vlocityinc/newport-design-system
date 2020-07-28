@@ -220,6 +220,10 @@ export default class Node extends LightningElement {
             classes = `${classes} test-node-${(this.node.elementType || '').toLowerCase()}`;
         }
 
+        if (this.node.config.isSelected) {
+            classes = `${classes} node-selected`;
+        }
+
         return classes;
     }
 
