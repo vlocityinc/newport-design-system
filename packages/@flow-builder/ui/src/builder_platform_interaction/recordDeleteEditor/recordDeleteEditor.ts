@@ -7,7 +7,7 @@ import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataM
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';
-import { ENTITY_TYPE, getDeletableEntities, fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { ENTITY_TYPE, fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
@@ -102,14 +102,6 @@ export default class RecordDeleteEditor extends LightningElement {
      */
     get recordEntityName() {
         return this.state.recordDeleteElement.object.value;
-    }
-
-    /**
-     * @returns {string} entity display name or empty string if none found
-     */
-    get entityDisplayText() {
-        const entityToDisplay = getDeletableEntities().find(entity => entity.apiName === this.recordEntityName);
-        return (entityToDisplay && entityToDisplay.entityLabel) || '';
     }
 
     /**

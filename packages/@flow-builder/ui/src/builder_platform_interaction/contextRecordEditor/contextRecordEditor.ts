@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { LightningElement, api, track } from 'lwc';
-import { fetchFieldsForEntity, getEntity, ENTITY_TYPE } from 'builder_platform_interaction/sobjectLib';
+import { fetchFieldsForEntity, ENTITY_TYPE } from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from './contextRecordEditorLabels';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -148,14 +148,6 @@ export default class contextRecordEditor extends LightningElement {
      */
     get recordEntityName() {
         return this.startElement.object.value;
-    }
-
-    /**
-     * @returns {string} entity label if any  found for current selected entity empty string otherwise
-     */
-    get resourceDisplayText() {
-        const entityToDisplay = getEntity(this.recordEntityName);
-        return entityToDisplay ? entityToDisplay.entityLabel : '';
     }
 
     /**

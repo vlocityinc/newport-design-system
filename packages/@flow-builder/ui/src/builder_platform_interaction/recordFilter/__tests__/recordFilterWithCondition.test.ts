@@ -23,6 +23,8 @@ jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
 );
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 const EMPTY_FILTER_ITEM = {
     operator: { value: '', error: null },
     leftHandSide: { value: '', error: null },

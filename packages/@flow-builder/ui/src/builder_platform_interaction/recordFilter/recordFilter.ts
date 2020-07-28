@@ -12,6 +12,7 @@ import {
     PropertyChangedEvent
 } from 'builder_platform_interaction/events';
 import { getConditionsWithPrefixes } from 'builder_platform_interaction/conditionListUtils';
+import { getEntity } from 'builder_platform_interaction/sobjectLib';
 
 const VARIANT_START = 'startElement';
 
@@ -50,9 +51,6 @@ export default class RecordFilter extends LightningElement {
     get rules() {
         return this.elementType ? getRulesForElementType(RULE_TYPES.COMPARISON, this.elementType) : undefined;
     }
-
-    @api
-    resourceDisplayText = '';
 
     /**
      * The filter items
@@ -123,7 +121,7 @@ export default class RecordFilter extends LightningElement {
     }
 
     get filterLogicOptions() {
-        return filterLogicOptions(this.elementType, this.resourceDisplayText);
+        return filterLogicOptions(this.elementType, this.entityLabelPlural);
     }
 
     get showDeleteFilter() {
@@ -146,6 +144,28 @@ export default class RecordFilter extends LightningElement {
         return WARNING_LABELS[this.elementType];
     }
 
+    /**
+     * @returns {string} entity label if any  found for current selected entity empty string otherwise
+     */
+    get entityLabelPlural() {
+        if (this.recordEntityName) {
+            const entityToDisplay = getEntity(this.recordEntityName);
+            return entityToDisplay ? entityToDisplay.entityLabelPlural : '';
+        }
+        return '';
+    }
+
+    /**
+     * @returns {string} entity label if any  found for current selected entity empty string otherwise
+     */
+    get entityLabel() {
+        if (this.recordEntityName) {
+            const entityToDisplay = getEntity(this.recordEntityName);
+            return entityToDisplay ? entityToDisplay.entityLabel : '';
+        }
+        return '';
+    }
+
     get showWarningMessage() {
         return (
             (this.elementType === ELEMENT_TYPE.RECORD_LOOKUP ||
@@ -156,7 +176,7 @@ export default class RecordFilter extends LightningElement {
     }
 
     get filterRecordsTitle() {
-        return format(this.labels.findRecords, this.resourceDisplayText);
+        return format(this.labels.findRecords, this.entityLabel);
     }
 
     /**

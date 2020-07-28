@@ -18,6 +18,8 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
+import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -26,6 +28,17 @@ jest.mock('builder_platform_interaction/storeLib', () => require('builder_platfo
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
+
+jest.mock('builder_platform_interaction/sobjectLib', () => {
+    return {
+        fetchFieldsForEntity: jest.fn().mockImplementation(() => Promise.resolve(mockAccountFields)),
+        getUpdateableEntities: jest.fn().mockImplementation(() => {
+            return mockEntities;
+        }),
+        ENTITY_TYPE: jest.requireActual('builder_platform_interaction/sobjectLib').ENTITY_TYPE,
+        getEntity: jest.fn().mockImplementation(apiName => mockEntities.find(entity => entity.apiName === apiName))
+    };
+});
 
 function createComponentForTest(node) {
     const el = createElement('builder_platform_interaction-record-update-editor', { is: RecordUpdateEditor });
@@ -61,55 +74,6 @@ const defaultRecordUpdateElement = () => {
     };
 };
 
-const recordUpdateElementWithSObject = () => {
-    return {
-        description: { value: '', error: null },
-        elementType: ELEMENT_TYPE.RECORD_UPDATE,
-        guid: 'RECORDUPDATE_1',
-        isCanvasElement: true,
-        label: { value: 'testRecord', error: null },
-        locationX: 358,
-        locationY: 227,
-        name: { value: 'testRecord', error: null },
-        useSobject: true,
-        inputReference: {
-            value: storeMockedData.accountSObjectVariable.guid,
-            error: null
-        },
-        inputReferenceIndex: { value: 'guid', error: null },
-        object: { value: null, error: null },
-        objectIndex: { value: 'guid', error: null }
-    };
-};
-
-const recordUpdateElementWithFields = () => {
-    return {
-        description: { value: '', error: null },
-        elementType: ELEMENT_TYPE.RECORD_UPDATE,
-        guid: 'RECORDUPDATE_2',
-        isCanvasElement: true,
-        label: { value: 'testRecordFields', error: null },
-        locationX: 358,
-        locationY: 227,
-        name: { value: 'testRecordFields', error: null },
-        useSobject: false,
-        inputReferenceIndex: { value: 'guid', error: null },
-        inputAssignments: [
-            {
-                leftHandSide: { value: 'Account.BillingCountry', error: null },
-                rightHandSide: { value: 'myCountry', error: null },
-                rightHandSideDataType: { value: 'String', error: null },
-                rightHandSideGuid: { value: 'myCountry', error: null },
-                rowIndex: '724cafc2-7744-4e46-8eaa-f2df29539d1d'
-            }
-        ],
-        filters: [],
-        filterLogic: { value: CONDITION_LOGIC.AND, error: null },
-        object: { value: 'account', error: null },
-        objectIndex: { value: 'guid', error: null }
-    };
-};
-
 const filterElement = {
     leftHandSide: { value: 'Account.Id', error: null },
     operator: { value: 'EqualTo', error: null },
@@ -126,16 +90,6 @@ const inputAssignmentElement = {
     rightHandSideGuid: { value: 'myAddress', error: null },
     rowIndex: '724cafc2-7744-4e46-8eaa-f2df29539d2e'
 };
-
-jest.mock('builder_platform_interaction/sobjectLib', () => {
-    return {
-        fetchFieldsForEntity: jest.fn().mockImplementation(() => Promise.resolve(mockAccountFields)),
-        getUpdateableEntities: jest.fn().mockImplementation(() => {
-            return mockEntities;
-        }),
-        ENTITY_TYPE: jest.requireActual('builder_platform_interaction/sobjectLib').ENTITY_TYPE
-    };
-});
 
 const getSObjectOrSObjectCollectionPicker = recordUpdateEditor => {
     return recordUpdateEditor.shadowRoot.querySelector(selectors.sObjectOrSObjectCollectionPicker);
@@ -186,22 +140,26 @@ describe('record-update-editor', () => {
 });
 
 describe('record-update-editor using sObject', () => {
+    let recordUpdateEditor, updateElement;
     beforeAll(() => {
         Store.setMockState(flowWithAllElementsUIModel);
     });
     afterAll(() => {
         Store.resetStore();
     });
+    beforeEach(() => {
+        updateElement = getElementByDevName('updateSObject');
+        const recordUpdateNode = getElementForPropertyEditor(updateElement);
+        recordUpdateEditor = createComponentForTest(recordUpdateNode);
+    });
     describe('Edit existing record element', () => {
         it('Selected sObject should be the same', () => {
-            const recordUpdateEditor = createComponentForTest(recordUpdateElementWithSObject());
             const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);
-            expect(sObjectOrSObjectCollectionPicker.value).toBe(storeMockedData.accountSObjectVariable.guid);
+            expect(sObjectOrSObjectCollectionPicker.value).toBe(updateElement.inputReference);
         });
     });
     describe('Handle Events', () => {
         it('handle Input Reference Changed', async () => {
-            const recordUpdateEditor = createComponentForTest(recordUpdateElementWithSObject());
             const event = new SObjectReferenceChangedEvent(storeMockedData.accountSObjectVariable.guid, null);
             let sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);
             sObjectOrSObjectCollectionPicker.dispatchEvent(event);
@@ -211,7 +169,7 @@ describe('record-update-editor using sObject', () => {
         });
     });
 });
-describe('record-update-editor usung fields', () => {
+describe('record-update-editor using fields', () => {
     let recordUpdateEditor;
     beforeAll(() => {
         Store.setMockState(flowWithAllElementsUIModel);
@@ -220,7 +178,9 @@ describe('record-update-editor usung fields', () => {
         Store.resetStore();
     });
     beforeEach(() => {
-        recordUpdateEditor = createComponentForTest(recordUpdateElementWithFields());
+        const element = getElementByDevName('updateAccountWithFilter');
+        const recordUpdateNode = getElementForPropertyEditor(element);
+        recordUpdateEditor = createComponentForTest(recordUpdateNode);
     });
     describe('Edit existing record element using fields assignment', () => {
         it('entity resource picker should be visible & sObject picker should not be visible', () => {
@@ -263,13 +223,13 @@ describe('record-update-editor usung fields', () => {
             const addRecordFilterEvent = new AddRecordFilterEvent(); // This is using the numerical rowIndex not the property rowIndex
             getRecordFilter(recordUpdateEditor).dispatchEvent(addRecordFilterEvent);
             await ticks(1);
-            expect(recordUpdateEditor.node.filters).toHaveLength(1);
+            expect(recordUpdateEditor.node.filters).toHaveLength(4);
         });
         it('record filter fire DeleteRecordFilterEvent', async () => {
             const deleteRecordFilterEvent = new DeleteRecordFilterEvent(0); // This is using the numerical rowIndex not the property rowIndex
             getRecordFilter(recordUpdateEditor).dispatchEvent(deleteRecordFilterEvent);
             await ticks(1);
-            expect(recordUpdateEditor.node.filters).toHaveLength(0);
+            expect(recordUpdateEditor.node.filters).toHaveLength(2);
         });
         it('handle AddRecordFieldAssignmentEvent should add an input Assignments element', async () => {
             const addRecordFieldAssignmentEvent = new AddRecordFieldAssignmentEvent();
