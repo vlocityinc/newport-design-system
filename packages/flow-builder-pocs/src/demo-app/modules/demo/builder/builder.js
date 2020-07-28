@@ -131,6 +131,7 @@ export default class Builder extends LightningElement {
     }
 
     handleNew() {
+        storeInstance.dispatch(updateFlow({elements: {}, canvasElements:[], connectors: [], peripheralData: {}, properties: {}}));
         this.createStartElement();
     }
 

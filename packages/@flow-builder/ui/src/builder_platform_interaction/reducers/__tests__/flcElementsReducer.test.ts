@@ -59,7 +59,7 @@ jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
         deleteElement: jest.fn(),
         linkElement: jest.fn(),
         linkBranchOrFault: jest.fn(),
-        reconnectBranchElement: jest.fn()
+        reconnectBranchElement: jest.fn(state => state)
     });
 });
 

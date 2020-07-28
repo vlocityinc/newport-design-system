@@ -347,7 +347,7 @@ export default class FlcBuilder extends LightningElement {
 
         const interactionState = toggleFlowMenu(detail, this._flowRenderContext.interactionState);
 
-        if (interactionState.menuInfo != null) {
+        if (interactionState.menuInfo != null && detail != null && detail.type != null) {
             const connectorMenu = detail.type;
             const menuButtonHalfWidth =
                 connectorMenu === MenuType.CONNECTOR ? CONNECTOR_ICON_SIZE / 2 : MENU_ICON_SIZE / 2;

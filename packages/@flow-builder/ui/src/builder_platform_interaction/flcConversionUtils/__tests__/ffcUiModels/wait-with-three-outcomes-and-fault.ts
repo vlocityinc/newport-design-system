@@ -93,7 +93,7 @@ export default {
         'screen-for-outcome1-guid': {
             guid: 'screen-for-outcome1-guid',
             description: '',
-            locationX: -40,
+            locationX: 158,
             locationY: 326,
             isCanvasElement: true,
             connectorCount: 0,
@@ -119,7 +119,7 @@ export default {
             name: 'screen-for-outcome2',
             description: '',
             label: 'screen-for-outcome2',
-            locationX: 224,
+            locationX: 422,
             locationY: 326,
             isCanvasElement: true,
             connectorCount: 0,
@@ -130,7 +130,7 @@ export default {
         'decision-for-outcome3-guid': {
             guid: 'decision-for-outcome3-guid',
             description: '',
-            locationX: 620,
+            locationX: 818,
             locationY: 326,
             isCanvasElement: true,
             connectorCount: 0,
@@ -156,7 +156,7 @@ export default {
         'fault-guid': {
             guid: 'fault-guid',
             description: '',
-            locationX: 1192,
+            locationX: 1214,
             locationY: 326,
             isCanvasElement: true,
             connectorCount: 0,

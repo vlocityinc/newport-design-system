@@ -9,14 +9,6 @@ export default {
             config: { isSelected: false }
         },
         {
-            guid: 'loop-element-guid -> loop-element-guid',
-            source: 'loop-element-guid',
-            target: 'loop-element-guid',
-            label: 'LOOP_NEXT',
-            type: 'LOOP_NEXT',
-            config: { isSelected: false }
-        },
-        {
             guid: 'loop-element-guid -> screen-after-last-element-guid',
             source: 'loop-element-guid',
             target: 'screen-after-last-element-guid',
@@ -59,14 +51,14 @@ export default {
             locationX: 488,
             locationY: 206,
             isCanvasElement: true,
-            connectorCount: 2,
+            connectorCount: 1,
             config: { isSelected: true, isHighlighted: false },
             assignNextValueToReferenceIndex: 'a908350c-409c-4d2f-bbd3-b9c61e5932b9',
             collectionReference: '9b6730a5-ad83-46b9-80f0-f8bc2acb22ac',
             collectionReferenceIndex: '2b392712-4f34-45b1-8816-2b32ddfec6fc',
             iterationOrder: 'Asc',
             maxConnections: 2,
-            availableConnections: [],
+            availableConnections: [{ type: 'LOOP_NEXT' }],
             elementType: 'Loop',
             storeOutputAutomatically: true,
             dataType: 'SObject',

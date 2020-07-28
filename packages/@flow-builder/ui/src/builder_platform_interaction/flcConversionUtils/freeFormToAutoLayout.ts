@@ -25,7 +25,7 @@ import {
 
 import { findStartElement, createRootElement } from 'builder_platform_interaction/flcBuilderUtils';
 import { createEndElement } from 'builder_platform_interaction/elementFactory';
-
+import { createNewConnector } from 'builder_platform_interaction/connectorUtils';
 export interface ConvertToAutoLayoutCanvasOptions {
     // whether to consolidate end elements when possible
     shouldConsolidateEndConnectors: boolean;
@@ -122,6 +122,7 @@ export function computeAndValidateConversionInfos(storeState: StoreState): Strin
         (infos: StringKeyedMap<ConversionInfo>, element: FlowElement) => {
             if (element.isCanvasElement) {
                 infos[element.guid] = {
+                    elementGuid: element.guid,
                     isBranching: isBranchingElement(element),
                     isLoop: element.elementType === ELEMENT_TYPE.LOOP,
                     loopClosed: false,
@@ -154,11 +155,22 @@ export function computeAndValidateConversionInfos(storeState: StoreState): Strin
         }
     });
 
-    // const startInfo = conversionInfos[startElement.guid];
+    // for free form flo loops with no next connector, we need to generate one
+    Object.values(conversionInfos).forEach(conversionInfo => {
+        const { isLoop, outs, ins, elementGuid } = conversionInfo;
+        if (isLoop && outs.length !== 2) {
+            // create a new next connector
+            const nextConnector = createNewConnector(elements, elementGuid, elementGuid, CONNECTOR_TYPE.LOOP_NEXT);
+            connectors.push(nextConnector);
+            outs.push(nextConnector);
+            ins.push(nextConnector);
 
-    // if (startInfo.ins.length !== 0) {
-    //     throw new Error();
-    // }
+            //  adjust element metadata
+            // const element = elements[elementGuid];
+            // element.availableConnections.filter(connector => connector.type !== CONNECTOR_TYPE.LOOP_NEXT);
+            // element.connectorCount++;
+        }
+    });
 
     // dfs the Free Form flow, starting with the start element
     dfs(conversionInfos, ELEMENT_TYPE.ROOT_ELEMENT, startElement.guid, 0);
@@ -412,6 +424,7 @@ function convertLoop(
     loopElement.children = [null];
 
     const loopNextConnector = outs.find(connector => connector.type === CONNECTOR_TYPE.LOOP_NEXT);
+
     if (loopNextConnector != null) {
         if (loopNextConnector.target !== loopElement.guid) {
             const branchHead = elements[loopNextConnector.target] as AutoLayoutCanvasElement;
@@ -443,7 +456,11 @@ function convertBranchingElement(
 
     const mergeGuid = conversionInfo.mergeGuid || findMerge(conversionInfos, branchingElement.guid);
 
-    branchingElement.children = new Array(branchingElement.maxConnections).fill(null);
+    const elementConfig = getConfigForElementType(branchingElement.elementType) as any;
+    const { canHaveFaultConnector } = elementConfig;
+
+    const childCount = canHaveFaultConnector ? branchingElement.maxConnections - 1 : branchingElement.maxConnections;
+    branchingElement.children = new Array(childCount).fill(null);
     branchingElement.next = mergeGuid;
 
     if (outs.length > 0) {
@@ -655,7 +672,7 @@ function consolidateEndConnectorsForBranch(
             consolidateEndConnectorsForBranch(elements, elements[element.fault] as AutoLayoutCanvasElement);
         }
 
-        if (isBranchingElement(element) && areAllBranchesTerminals(element as any, elements as any)) {
+        if (isBranchingElement(element) && areAllBranchesTerminals(element, elements)) {
             // eslint-disable-next-line no-loop-func
             element.children!.forEach(child => {
                 if (child != null) {
@@ -663,11 +680,13 @@ function consolidateEndConnectorsForBranch(
                 }
             });
 
-            const next = element.next;
-            if (next == null) {
-                const newEnd = createEndElement({ prev: element.guid });
-                element.next = newEnd.guid;
-                elements[newEnd.guid] = newEnd;
+            if (element.next == null) {
+                const next = element.next;
+                if (next == null) {
+                    const newEnd = createEndElement({ prev: element.guid });
+                    element.next = newEnd.guid;
+                    elements[newEnd.guid] = newEnd;
+                }
             }
         }
 
@@ -723,9 +742,6 @@ export function convertToAutoLayoutCanvas(
     storeState: StoreState,
     options: ConvertToAutoLayoutCanvasOptions = DEFAULT_CONVERT_TO_AUTO_LAYOUT_CANVAS_OPTIONS
 ): StoreState {
-    // create and add end elements and connectors
-    // storeState = addEndElementsAndConnectorsTransform(storeState, endConnectors);
-
     // get the conversion infos
     const conversionInfos = computeAndValidateConversionInfos(storeState);
 

@@ -561,34 +561,49 @@ function getFlcNodeData(nodeInfo: NodeRenderInfo) {
  *  @param  node - the parent element
  *  @return the count of non terminal branches
  */
-function getNonTerminalCount(state: FlowModel, node: ParentNodeModel) {
-    return (node.children || []).reduce((count, child) => {
-        if (child == null || !(state[child] as BranchHeadNodeModel).isTerminal) {
-            count++;
-        }
+// function getNonTerminalCount(state: FlowModel, node: ParentNodeModel) {
+//     return (node.children || []).reduce((count, child) => {
+//         if (child == null || !(state[child] as BranchHeadNodeModel).isTerminal) {
+//             count++;
+//         }
 
-        return count;
-    }, 0);
-}
+//         return count;
+//     }, 0);
+// }
 
-function isLastPathInLoop(flowModel: FlowModel, parentElement: ParentNodeModel, elementsMetadata: ElementsMetadata) {
+// function isLastPathInLoop(flowModel: FlowModel, parentElement: ParentNodeModel, elementsMetadata: ElementsMetadata) {
+//     let parentType = getElementMetadata(elementsMetadata, parentElement.elementType).type;
+
+//     let lastPathInLoop = true;
+//     while (parentType !== ElementType.LOOP && parentType !== ElementType.ROOT && parentType != null) {
+//         if (getNonTerminalCount(flowModel, parentElement) > 1) {
+//             lastPathInLoop = false;
+//             break;
+//         }
+//         parentElement = findParentElement(parentElement, flowModel);
+//         parentType = getElementMetadata(elementsMetadata, parentElement.elementType).type;
+//     }
+
+//     if (parentType === ElementType.ROOT) {
+//         return false;
+//     }
+
+//     return lastPathInLoop;
+// }
+
+function isInLoop(flowModel: FlowModel, parentElement: ParentNodeModel, elementsMetadata: ElementsMetadata) {
     let parentType = getElementMetadata(elementsMetadata, parentElement.elementType).type;
 
-    let lastPathInLoop = true;
-    while (parentType !== ElementType.LOOP && parentType !== ElementType.ROOT && parentType != null) {
-        if (getNonTerminalCount(flowModel, parentElement) > 1) {
-            lastPathInLoop = false;
-            break;
+    while (parentType !== ElementType.ROOT && parentType != null) {
+        if (parentType === ElementType.LOOP) {
+            return true;
         }
+
         parentElement = findParentElement(parentElement, flowModel);
         parentType = getElementMetadata(elementsMetadata, parentElement.elementType).type;
     }
 
-    if (parentType === ElementType.ROOT) {
-        return false;
-    }
-
-    return lastPathInLoop;
+    return false;
 }
 
 /**
@@ -639,7 +654,7 @@ function getFlcMenuData(
         ? flowModel[parent]
         : findParentElement(flowModel[guid!], flowModel)) as ParentNodeModel;
 
-    const hasEndElement = targetGuid == null && !isLastPathInLoop(flowModel, parentElement, elementsMetadata);
+    const hasEndElement = targetGuid == null && !isInLoop(flowModel, parentElement, elementsMetadata);
 
     return {
         canMergeEndedBranch,

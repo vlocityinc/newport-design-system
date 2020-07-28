@@ -27,13 +27,21 @@ function generateEndConnectors(elements: FlowElements): FlowConnector[] {
             if (canvasElement.availableConnections != null) {
                 // for elements that support multiple "out" connectors
                 canvasElement.availableConnections.forEach(({ childReference, type }, i) => {
-                    // @ts-ignore
-                    const connector = createNewConnector(elements, element.guid, generateGuid(element.guid, i), type);
-                    if (childReference != null) {
-                        connector.childSource = childReference;
-                        connector.label = elements[childReference].label || null;
+                    // don't create end connectors for missing faults or loop next
+                    if (type !== CONNECTOR_TYPE.FAULT && type !== CONNECTOR_TYPE.LOOP_NEXT) {
+                        const connector = createNewConnector(
+                            elements,
+                            element.guid,
+                            // @ts-ignore
+                            generateGuid(element.guid, i),
+                            type
+                        );
+                        if (childReference != null) {
+                            connector.childSource = childReference;
+                            connector.label = elements[childReference].label || null;
+                        }
+                        endConnectors.push(connector);
                     }
-                    endConnectors.push(connector);
                 });
             } else if (canvasElement.connectorCount === 0) {
                 // for elements that support only one "out" connector
@@ -100,6 +108,20 @@ export function removeEndElementsAndConnectorsTransform(
             elementsMap[element.guid] = element;
             if (element.isCanvasElement) {
                 canvasElements.push(element.guid);
+                // TODO: clean this up
+
+                // @ts-ignore
+                if (element.availableConnections != null && element.availableConnections.length > 0) {
+                    // @ts-ignore
+                    if (element.availableConnections[0].type === CONNECTOR_TYPE.FAULT) {
+                        // @ts-ignore
+                        element.availableConnections.splice(0, 1);
+                        // @ts-ignore
+                        element.availableConnections.push({
+                            type: CONNECTOR_TYPE.FAULT
+                        });
+                    }
+                }
             }
         }
         return elementsMap;

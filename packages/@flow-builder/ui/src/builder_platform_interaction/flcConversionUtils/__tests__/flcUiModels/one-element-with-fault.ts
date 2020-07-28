@@ -83,10 +83,10 @@ export default {
             maxConnections: 2,
             availableConnections: [
                 {
-                    type: 'FAULT'
+                    type: 'REGULAR'
                 },
                 {
-                    type: 'REGULAR'
+                    type: 'FAULT'
                 }
             ],
             triggerType: 'None',

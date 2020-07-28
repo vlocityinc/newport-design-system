@@ -136,6 +136,15 @@ function calculateElementPositionsForBranch(
             );
         }
 
+        // if a loop has a branch head that loops back to itself, we need to adjust the offsetY as in free form this will be a loop with
+        // no LOOP_NEXT connector
+        if (element.elementType === ELEMENT_TYPE.LOOP) {
+            const loopBranchHead = element.children[0];
+            if (loopBranchHead != null && loopBranchHead.guid === element.guid) {
+                offsetY -= y;
+            }
+        }
+
         element = elementsMap[element.next!] as AutoLayoutCanvasElement;
     }
 }
@@ -182,13 +191,9 @@ function createConnectorForBranchHead(
     if (parentElement.elementType === ELEMENT_TYPE.LOOP) {
         type = CONNECTOR_TYPE.LOOP_NEXT;
     } else {
-        const elementConfig = getConfigForElementType(parentElement.elementType) as any;
-        const { canHaveFaultConnector } = elementConfig;
+        const defaultIndex = numChildren - 1;
 
-        const faultIndex = canHaveFaultConnector ? numChildren - 1 : null;
-        const defaultIndex = canHaveFaultConnector ? numChildren - 2 : numChildren - 1;
-
-        if (childIndex === faultIndex) {
+        if (childIndex === FAULT_INDEX) {
             type = CONNECTOR_TYPE.FAULT;
         } else if (childIndex === defaultIndex) {
             type = CONNECTOR_TYPE.DEFAULT;
@@ -331,8 +336,6 @@ function convertLoopElement(
     if (loopNext != null) {
         addConnector(elements, loopElement.guid, loopNext, storeState, CONNECTOR_TYPE.LOOP_NEXT);
         convertBranchToFreeForm(storeState, elements, elements[loopNext] as AutoLayoutCanvasElement, loopElement.guid);
-    } else {
-        addConnector(elements, loopElement.guid, loopElement.guid, storeState, CONNECTOR_TYPE.LOOP_NEXT);
     }
 
     ancestorNext = loopElement.next || ancestorNext;
@@ -426,7 +429,7 @@ function assertStoreState(storeState: StoreState) {
     const { elements, connectors } = storeState;
 
     Object.values(elements)
-        .filter(({ elementType }) => elementType !== ELEMENT_TYPE.OUTCOME && elementType !== ELEMENT_TYPE.VARIABLE)
+        .filter(element => element.isCanvasElement)
         .forEach(element => {
             const { guid, elementType, connectorCount, availableConnections, childReferences } = element;
             const { canHaveFaultConnector } = getConfigForElementType(elementType) as any;

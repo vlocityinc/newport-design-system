@@ -468,6 +468,9 @@ function deleteElement(
     let nextElement;
     let addEndElement = false;
 
+    const parentElement =
+        parent != null ? resolveParent(state, parent) : findParentElement(resolveNode(state, prev)!, state);
+
     // take care of linking tail of the branch to keep to the next element
     if (isBranchingOrLoopElement(element)) {
         if (childIndexToKeep != null && childIndexToKeep !== DELETE_ALL) {
@@ -487,8 +490,6 @@ function deleteElement(
     nextElement = nextElement || resolveNode(state, next);
 
     if (parent != null) {
-        const parentElement = resolveParent(state, parent);
-
         if (childIndex === FAULT_INDEX) {
             parentElement!.fault = null;
         } else {
@@ -524,6 +525,9 @@ function deleteElement(
         branchHead.isTerminal = isEndOrAllTerminalBranchingElement(state, branchTail);
     }
 
+    if (parentElement != null && childIndex !== FAULT_INDEX) {
+        inlineFromParent(state, parentElement, false);
+    }
     return { state, addEndElement };
 }
 
@@ -596,7 +600,7 @@ function addElement(flowModel: FlowModel, element: NodeModel, isEndElement: bool
     }
 }
 
-function inlineFromParent(flowModel: FlowModel, branchParent: ParentNodeModel) {
+function inlineFromParent(flowModel: FlowModel, branchParent: ParentNodeModel, inline = true) {
     let branchHead;
     // when adding an end element, we might need to restructure things:
     // find the first branching ancestor with a non-null `next` and
@@ -605,7 +609,10 @@ function inlineFromParent(flowModel: FlowModel, branchParent: ParentNodeModel) {
         if (branchParent.next != null) {
             // once we find the first ancestor with a non-null 'next', we can inline from there,
             // the other parts of the tree are not affected by add end operation
-            inlineBranches(branchParent, flowModel);
+            if (inline) {
+                inlineBranches(branchParent, flowModel);
+            }
+
             break;
         } else {
             branchHead = findFirstElement(branchParent, flowModel);
@@ -736,7 +743,9 @@ function assertTerminalsForBranch(elements: FlowModel, branchHeadGuid: NodeRef) 
  */
 function assertTerminals(elements: FlowModel) {
     const rootElement = resolveParent(elements, ElementType.ROOT);
-    assertTerminalsForBranch(elements, rootElement.children[0]);
+    if (rootElement != null) {
+        assertTerminalsForBranch(elements, rootElement.children[0]);
+    }
 }
 
 export {

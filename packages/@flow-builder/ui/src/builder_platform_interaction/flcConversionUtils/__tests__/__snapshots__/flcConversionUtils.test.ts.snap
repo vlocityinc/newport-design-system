@@ -2367,21 +2367,14 @@ Object {
       "target": "loop-element-guid",
       "type": "REGULAR",
     },
-    Object {
-      "config": Object {
-        "isSelected": false,
-      },
-      "guid": "loop-element-guid -> loop-element-guid",
-      "label": "LOOP_NEXT",
-      "source": "loop-element-guid",
-      "target": "loop-element-guid",
-      "type": "LOOP_NEXT",
-    },
   ],
   "elements": Object {
     "loop-element-guid": Object {
       "assignNextValueToReferenceIndex": "a908350c-409c-4d2f-bbd3-b9c61e5932b9",
       "availableConnections": Array [
+        Object {
+          "type": "LOOP_NEXT",
+        },
         Object {
           "type": "LOOP_END",
         },
@@ -2392,7 +2385,7 @@ Object {
         "isHighlighted": false,
         "isSelected": true,
       },
-      "connectorCount": 1,
+      "connectorCount": 0,
       "dataType": "SObject",
       "description": "",
       "elementType": "Loop",
@@ -2925,16 +2918,6 @@ Object {
       "config": Object {
         "isSelected": false,
       },
-      "guid": "nested-loop-element-guid -> nested-loop-element-guid",
-      "label": "LOOP_NEXT",
-      "source": "nested-loop-element-guid",
-      "target": "nested-loop-element-guid",
-      "type": "LOOP_NEXT",
-    },
-    Object {
-      "config": Object {
-        "isSelected": false,
-      },
       "guid": "nested-loop-element-guid -> loop-element-guid",
       "label": "LOOP_END",
       "source": "nested-loop-element-guid",
@@ -2983,14 +2966,18 @@ Object {
     },
     "nested-loop-element-guid": Object {
       "assignNextValueToReferenceIndex": "a908350c-409c-4d2f-bbd3-b9c61e5932b9",
-      "availableConnections": Array [],
+      "availableConnections": Array [
+        Object {
+          "type": "LOOP_NEXT",
+        },
+      ],
       "collectionReference": "9b6730a5-ad83-46b9-80f0-f8bc2acb22ac",
       "collectionReferenceIndex": "2b392712-4f34-45b1-8816-2b32ddfec6fc",
       "config": Object {
         "isHighlighted": false,
         "isSelected": true,
       },
-      "connectorCount": 2,
+      "connectorCount": 1,
       "dataType": "SObject",
       "description": "",
       "elementType": "Loop",
@@ -3069,10 +3056,10 @@ Object {
     "fault-element-guid": Object {
       "availableConnections": Array [
         Object {
-          "type": "FAULT",
+          "type": "REGULAR",
         },
         Object {
-          "type": "REGULAR",
+          "type": "FAULT",
         },
       ],
       "config": Object {
@@ -4919,16 +4906,6 @@ Object {
   "canvasElements": Array [],
   "connectors": Array [],
   "elements": Object {
-    "end-element-guid (fault-element-guid::0)": Object {
-      "childIndex": -1,
-      "elementType": "END_ELEMENT",
-      "guid": "end-element-guid (fault-element-guid::0)",
-      "isCanvasElement": true,
-      "isTerminal": true,
-      "next": "null",
-      "parent": "fault-element-guid",
-      "prev": "null",
-    },
     "fault-element-guid": Object {
       "availableConnections": Array [
         Object {
@@ -4944,7 +4921,6 @@ Object {
       "connectorCount": 0,
       "description": "",
       "elementType": "RecordCreate",
-      "fault": "end-element-guid (fault-element-guid::0)",
       "filterType": "all",
       "filters": Array [],
       "guid": "fault-element-guid",
@@ -5046,10 +5022,10 @@ Object {
       "subtype": "Account",
       "subtypeIndex": "feb3aafe-8c4a-41f0-a5ba-eb4369d407b6",
     },
-    "end-element-guid (loop-element-guid::0)": Object {
+    "end-element-guid (loop-element-guid::1)": Object {
       "childIndex": "null",
       "elementType": "END_ELEMENT",
-      "guid": "end-element-guid (loop-element-guid::0)",
+      "guid": "end-element-guid (loop-element-guid::1)",
       "isCanvasElement": true,
       "next": "null",
       "parent": "null",
@@ -5058,6 +5034,9 @@ Object {
     "loop-element-guid": Object {
       "assignNextValueToReferenceIndex": "a908350c-409c-4d2f-bbd3-b9c61e5932b9",
       "availableConnections": Array [
+        Object {
+          "type": "LOOP_NEXT",
+        },
         Object {
           "type": "LOOP_END",
         },
@@ -5071,7 +5050,7 @@ Object {
         "isHighlighted": false,
         "isSelected": true,
       },
-      "connectorCount": 1,
+      "connectorCount": 0,
       "dataType": "SObject",
       "description": "",
       "elementType": "Loop",
@@ -5083,7 +5062,7 @@ Object {
       "locationY": 0,
       "maxConnections": 2,
       "name": "loop",
-      "next": "end-element-guid (loop-element-guid::0)",
+      "next": "end-element-guid (loop-element-guid::1)",
       "prev": "start-element-guid",
       "storeOutputAutomatically": true,
       "subtype": "Account",
@@ -5168,7 +5147,11 @@ Object {
     },
     "loop-element-guid": Object {
       "assignNextValueToReferenceIndex": "a908350c-409c-4d2f-bbd3-b9c61e5932b9",
-      "availableConnections": Array [],
+      "availableConnections": Array [
+        Object {
+          "type": "LOOP_NEXT",
+        },
+      ],
       "children": Array [
         "null",
       ],
@@ -5178,7 +5161,7 @@ Object {
         "isHighlighted": false,
         "isSelected": true,
       },
-      "connectorCount": 2,
+      "connectorCount": 1,
       "dataType": "SObject",
       "description": "",
       "elementType": "Loop",
@@ -5983,7 +5966,7 @@ Object {
       ],
       "guid": "start-element-guid",
       "isCanvasElement": true,
-      "isTerminal": false,
+      "isTerminal": true,
       "locationX": 0,
       "locationY": 0,
       "maxConnections": 1,
@@ -6008,7 +5991,6 @@ Object {
         "screen-for-outcome1-guid",
         "screen-for-outcome2-guid",
         "decision-for-outcome3-guid",
-        "null",
       ],
       "connectorCount": 4,
       "defaultConnectorLabel": "Default Outcome",
