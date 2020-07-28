@@ -40,6 +40,9 @@ export default class RecordFilter extends LightningElement {
     hideSystemVariables = false;
 
     @api
+    hideGlobalVariables = false;
+
+    @api
     hideTitle = false;
 
     @api
