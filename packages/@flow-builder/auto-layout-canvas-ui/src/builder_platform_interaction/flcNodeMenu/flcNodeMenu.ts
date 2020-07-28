@@ -3,9 +3,9 @@ import { api, track } from 'lwc';
 import { CopySingleElementEvent, DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import {
     HighlightPathsToDeleteEvent,
-    ToggleMenuEvent,
     DeleteElementFaultEvent,
-    AddElementFaultEvent
+    AddElementFaultEvent,
+    CloseMenuEvent
 } from 'builder_platform_interaction/flcEvents';
 import Menu from 'builder_platform_interaction/menu';
 import { CONTEXTUAL_MENU_MODE, ELEMENT_ACTION_CONFIG, getMenuConfiguration } from './flcNodeMenuConfig';
@@ -73,7 +73,7 @@ export default class FlcNodeMenu extends Menu {
      */
     handleCancelButtonClick = event => {
         event.stopPropagation();
-        this.dispatchEvent(new ToggleMenuEvent({}));
+        this.dispatchEvent(new CloseMenuEvent());
     };
 
     /**
@@ -110,7 +110,7 @@ export default class FlcNodeMenu extends Menu {
         }
 
         if (closeMenu) {
-            this.dispatchEvent(new ToggleMenuEvent({}));
+            this.dispatchEvent(new CloseMenuEvent());
         }
     };
 
@@ -135,7 +135,7 @@ export default class FlcNodeMenu extends Menu {
      */
     handleFooterButtonClick = event => {
         event.stopPropagation();
-        this.dispatchEvent(new ToggleMenuEvent({}));
+        this.dispatchEvent(new CloseMenuEvent());
 
         if (this.contextualMenuMode === CONTEXTUAL_MENU_MODE.BASE_ACTIONS_MODE) {
             this.dispatchEvent(new EditElementEvent(this.guid));

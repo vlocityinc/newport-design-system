@@ -1,5 +1,5 @@
 <template>
-    <div class="canvas" onclick={handleCanvasClick} ontogglemenu={handleToggleMenu}>
+    <div class="canvas" onclick={handleCanvasClick} ontogglemenu={handleToggleMenu} onclosemenu={handleCloseMenu}>
         <template if:true={flow}>
             <div class="flow-container">
                 <builder_platform_interaction-flc-flow

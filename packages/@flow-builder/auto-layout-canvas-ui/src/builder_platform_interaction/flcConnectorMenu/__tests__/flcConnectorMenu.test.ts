@@ -3,7 +3,7 @@ import { createElement } from 'lwc';
 import FlcConnectorMenu from 'builder_platform_interaction/flcConnectorMenu';
 import { ticks } from 'builder_platform_interaction/builderTestUtils/commonTestUtils';
 import { AddElementEvent } from 'builder_platform_interaction/events';
-import { ToggleMenuEvent } from 'builder_platform_interaction/flcEvents';
+import { CloseMenuEvent } from 'builder_platform_interaction/flcEvents';
 import { configureMenu, PASTE_ACTION, MERGE_PATH_ACTION } from '../flcConnectorMenuConfig';
 import { ICON_SHAPE } from 'builder_platform_interaction/flcComponentsUtils';
 
@@ -126,11 +126,11 @@ describe('connector menu', () => {
         expect(menu).toBeDefined();
     });
 
-    it('should dispatch toggle menu event on selecting a menu item ', async () => {
+    it('should dispatch close menu event on selecting a menu item ', async () => {
         const cmp = createComponentUnderTest();
         await ticks(1);
         const callback = jest.fn();
-        cmp.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
+        cmp.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
         cmp.shadowRoot.querySelector(selectors.listboxItem).click();
         expect(callback).toHaveBeenCalled();
     });

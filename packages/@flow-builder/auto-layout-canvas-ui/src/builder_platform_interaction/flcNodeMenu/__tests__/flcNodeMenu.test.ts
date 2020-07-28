@@ -2,7 +2,7 @@
 import { createElement } from 'lwc';
 import FlcNodeMenu from 'builder_platform_interaction/flcNodeMenu';
 import { CopySingleElementEvent, DeleteElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
-import { HighlightPathsToDeleteEvent, ToggleMenuEvent } from 'builder_platform_interaction/flcEvents';
+import { HighlightPathsToDeleteEvent, CloseMenuEvent } from 'builder_platform_interaction/flcEvents';
 import { ELEMENT_ACTION_CONFIG } from '../flcNodeMenuConfig';
 import { LABELS } from '../flcNodeMenuLabels';
 import { ElementType } from 'builder_platform_interaction/autoLayoutCanvas';
@@ -108,9 +108,9 @@ describe('Node Menu', () => {
             expect(cancelButton.title).toBe(LABELS.cancelTitle);
         });
 
-        it('Clicking on the Cancel Button should dispatch ToggleMenuEvent', () => {
+        it('Clicking on the Cancel Button should dispatch CloseMenuEvent', () => {
             const callback = jest.fn();
-            menu.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
+            menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
             const header = menu.shadowRoot.querySelector(selectors.header);
             header.querySelector(selectors.cancelButton).click();
             expect(callback).toHaveBeenCalled();
@@ -150,7 +150,7 @@ describe('Node Menu', () => {
 
             it('Clicking on the Copy Action dispatches the toggle menu event ', () => {
                 const callback = jest.fn();
-                menu.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
+                menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
                 copyRow.click();
                 expect(callback).toHaveBeenCalled();
             });
@@ -209,7 +209,7 @@ describe('Node Menu', () => {
 
             it('Clicking on the Delete Action dispatches the toggle menu event ', () => {
                 const callback = jest.fn();
-                menu.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
+                menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
                 deleteRow.click();
                 expect(callback).toHaveBeenCalled();
             });
@@ -274,9 +274,9 @@ describe('Node Menu', () => {
                 expect(callback).toHaveBeenCalled();
             });
 
-            it('Clicking the Edit Button should dispatch ToggleMenuEvent', () => {
+            it('Clicking the Edit Button should dispatch CloseMenuEvent', () => {
                 const callback = jest.fn();
-                menu.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
+                menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
                 editButton.click();
                 expect(callback).toHaveBeenCalled();
             });
@@ -286,12 +286,12 @@ describe('Node Menu', () => {
     describe('Element Action Node Menu for a Branch Element', () => {
         let menu;
         const highlightPathCallback = jest.fn();
-        const toggleMenuCallback = jest.fn();
+        const closeMenuCallback = jest.fn();
 
         beforeEach(() => {
             menu = createComponentUnderTest(dummyBranchElement, conditionOptions);
             menu.addEventListener(HighlightPathsToDeleteEvent.EVENT_NAME, highlightPathCallback);
-            menu.addEventListener(ToggleMenuEvent.EVENT_NAME, toggleMenuCallback);
+            menu.addEventListener(CloseMenuEvent.EVENT_NAME, closeMenuCallback);
             menu.shadowRoot.querySelectorAll(selectors.menuActionRow)[1].click();
         });
 
@@ -306,8 +306,8 @@ describe('Node Menu', () => {
             });
         });
 
-        it('Clicking the Delete Action should not dispatch ToggleMenuEvent', () => {
-            expect(toggleMenuCallback).not.toHaveBeenCalled();
+        it('Clicking the Delete Action should not dispatch CloseMenuEvent', () => {
+            expect(closeMenuCallback).not.toHaveBeenCalled();
         });
 
         it('Clicking on the Delete Action should reveal the path picking combobox', () => {
@@ -389,9 +389,9 @@ describe('Node Menu', () => {
                 });
             });
 
-            it('Clicking the Delete Button should dispatch ToggleMenuEvent', () => {
+            it('Clicking the Delete Button should dispatch CloseMenuEvent', () => {
                 const callback = jest.fn();
-                menu.addEventListener(ToggleMenuEvent.EVENT_NAME, callback);
+                menu.addEventListener(CloseMenuEvent.EVENT_NAME, callback);
                 deleteButton.click();
                 expect(callback).toHaveBeenCalled();
             });

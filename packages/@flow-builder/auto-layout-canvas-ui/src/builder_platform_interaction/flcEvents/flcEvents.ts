@@ -8,3 +8,4 @@ export { ToggleMenuEvent } from './toggleMenuEvent';
 export { DeleteElementFaultEvent } from './deleteElementFaultEvent';
 export { AddElementFaultEvent } from './addElementFaultEvent';
 export { PasteEvent } from './pasteEvent';
+export { CloseMenuEvent } from './closeMenuEvent';

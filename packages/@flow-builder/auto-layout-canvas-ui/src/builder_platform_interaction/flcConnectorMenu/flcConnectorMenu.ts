@@ -2,7 +2,7 @@ import { Guid, ElementsMetadata } from 'builder_platform_interaction/autoLayoutC
 
 import { api } from 'lwc';
 import { AddElementEvent } from 'builder_platform_interaction/events';
-import { ToggleMenuEvent, PasteEvent, MergeWithExistingPathEvent } from 'builder_platform_interaction/flcEvents';
+import { CloseMenuEvent, PasteEvent, MergeWithExistingPathEvent } from 'builder_platform_interaction/flcEvents';
 import Menu from 'builder_platform_interaction/menu';
 import { configureMenu, PASTE_ACTION, MERGE_PATH_ACTION } from './flcConnectorMenuConfig';
 import { LABELS } from './flcConnectorMenuLabels';
@@ -51,7 +51,7 @@ export default class FlcConnectorMenu extends Menu {
     }
 
     handleSelectMenuItem(event) {
-        this.dispatchEvent(new ToggleMenuEvent({}));
+        this.dispatchEvent(new CloseMenuEvent());
         const action = event.currentTarget.getAttribute('data-value');
 
         switch (action) {
