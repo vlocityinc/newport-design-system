@@ -576,6 +576,7 @@ export default class Editor extends LightningElement {
         const flowProcessTypeChanged = flowProcessType && flowProcessType !== this.properties.processType;
         const triggerTypeChanged = flowTriggerType !== this.triggerType;
         if (flowProcessTypeChanged || triggerTypeChanged) {
+            this.spinners.showAutoLayoutSpinner = true;
             const toolboxPromise = getToolboxElements(flowProcessType, flowTriggerType).then(supportedElements => {
                 this.supportedElements = supportedElements;
             });
@@ -599,31 +600,12 @@ export default class Editor extends LightningElement {
                     this.palette = data;
                 });
 
-                Promise.all([toolboxPromise, palettePromise]).then(() => {
-                    this.elementsMetadata = getElementsMetadata(
-                        this.toolboxElements,
-                        this.palette,
-                        this.elementsMetadata
-                    );
-                    this.spinners.showAutoLayoutSpinner = false;
-                });
-
                 if (!isVersioningDataInitialized()) {
                     loadVersioningData();
                 }
             }
 
             if (triggerTypeChanged) {
-                if (this.palette) {
-                    Promise.all([toolboxPromise, palettePromise]).then(() => {
-                        this.elementsMetadata = getElementsMetadata(
-                            this.toolboxElements,
-                            this.palette,
-                            this.elementsMetadata
-                        );
-                    });
-                }
-
                 this.triggerType = flowTriggerType;
                 if (this.triggerType && this.triggerType !== FLOW_TRIGGER_TYPE.NONE) {
                     getTriggerTypeInfo(flowTriggerType);
@@ -639,6 +621,17 @@ export default class Editor extends LightningElement {
                     this.propertyEditorBlockerCalls.push(loadEventTypesManagedSetup);
                 }
             }
+
+            Promise.all([toolboxPromise, palettePromise]).then(() => {
+                if (this.palette) {
+                    this.elementsMetadata = getElementsMetadata(
+                        this.toolboxElements,
+                        this.palette,
+                        this.elementsMetadata
+                    );
+                    this.spinners.showAutoLayoutSpinner = false;
+                }
+            });
         }
 
         this.properties = currentState.properties;
