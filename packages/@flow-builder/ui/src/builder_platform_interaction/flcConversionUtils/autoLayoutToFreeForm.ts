@@ -4,7 +4,8 @@ import {
     getDefaultLayoutConfig,
     FlowRenderContext,
     getBranchLayoutKey,
-    FAULT_INDEX
+    FAULT_INDEX,
+    assertInDev
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getChildReferencesKeys, getConfigForElementType } from 'builder_platform_interaction/elementConfig';
@@ -421,6 +422,69 @@ function convertBranchToFreeForm(
     }
 }
 
+function assertStoreState(storeState: StoreState) {
+    const { elements, connectors } = storeState;
+
+    Object.values(elements)
+        .filter(({ elementType }) => elementType !== ELEMENT_TYPE.OUTCOME && elementType !== ELEMENT_TYPE.VARIABLE)
+        .forEach(element => {
+            const { guid, elementType, connectorCount, availableConnections, childReferences } = element;
+            const { canHaveFaultConnector } = getConfigForElementType(elementType) as any;
+            let { maxConnections } = getConfigForElementType(elementType) as any;
+            const elementConnectors = connectors.filter(connector => connector.source === guid);
+
+            const childReferencesMap = elementConnectors.reduce((acc, childRef) => {
+                acc[childRef.childReference] = true;
+                return acc;
+            }, {});
+
+            if (maxConnections > 1) {
+                let expectedAvailableConnections = [...childReferences];
+
+                if (elementType === ELEMENT_TYPE.LOOP) {
+                    expectedAvailableConnections.push({ type: CONNECTOR_TYPE.LOOP_END });
+                    expectedAvailableConnections.push({ type: CONNECTOR_TYPE.LOOP_NEXT });
+                } else if (elementType === ELEMENT_TYPE.WAIT || elementType === ELEMENT_TYPE.DECISION) {
+                    expectedAvailableConnections.push({ type: CONNECTOR_TYPE.DEFAULT });
+                }
+                if (canHaveFaultConnector) {
+                    expectedAvailableConnections.push({ type: CONNECTOR_TYPE.FAULT });
+                }
+
+                expectedAvailableConnections = expectedAvailableConnections.filter(
+                    connection => !childReferencesMap[connection.childReference]
+                );
+
+                if (JSON.stringify(expectedAvailableConnections) !== JSON.stringify(availableConnections)) {
+                    throw new Error('available connections');
+                }
+                const expectedConnectorCount = maxConnections - availableConnections.length;
+                if (connectorCount !== expectedConnectorCount) {
+                    throw new Error('connector count');
+                }
+            } else if (connectorCount !== elementConnectors.length) {
+                throw new Error('connector count');
+            }
+
+            if (maxConnections == null) {
+                if (elementType === ELEMENT_TYPE.LOOP) {
+                    maxConnections = 2;
+                } else if (childReferences != null) {
+                    maxConnections = childReferences.length + 1;
+                } else {
+                    maxConnections = 1;
+                }
+
+                if (canHaveFaultConnector) {
+                    maxConnections++;
+                }
+            }
+            if (element.maxConnections !== maxConnections) {
+                throw new Error('max connections');
+            }
+        });
+}
+
 /**
  * Converts an Auto Layout Canvas UI model to a Free Form Canvas UI model
  *
@@ -476,6 +540,8 @@ export function convertToFreeFormCanvas(storeState: StoreState, startElementCoor
             canvasElement.locationY = position.y;
         }
     });
+
+    assertInDev(() => assertStoreState(ffcStoreState));
 
     return ffcStoreState;
 }

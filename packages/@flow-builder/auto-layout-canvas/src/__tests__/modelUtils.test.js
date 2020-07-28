@@ -4,7 +4,8 @@ import {
     BRANCH_ELEMENT,
     BRANCH_ELEMENT_GUID,
     START_ELEMENT_GUID,
-    END_ELEMENT_GUID
+    END_ELEMENT_GUID,
+    END_ELEMENT
 } from './testUtils';
 
 import {
@@ -25,11 +26,17 @@ function getSubElementGuids() {
     return [];
 }
 
+const END = 'END_ELEMENT';
+
 describe('modelUtils', () => {
     describe('addElement', () => {
         it('add end node to left branch of decision with empty branches', () => {
             const elements = createFlow([BRANCH_ELEMENT_GUID]);
-            addElement(elements, { guid: 'new-end-element-guid', parent: 'branch-guid', childIndex: 0 }, true);
+            addElement(
+                elements,
+                { guid: 'new-end-element-guid', parent: 'branch-guid', childIndex: 0, elementType: END },
+                true
+            );
             expect(elements).toMatchSnapshot();
         });
 
@@ -37,7 +44,11 @@ describe('modelUtils', () => {
             const branchingElement = { ...BRANCH_ELEMENT };
             branchingElement.children = [null, ['head-guid']];
             const elements = createFlow([branchingElement]);
-            addElement(elements, { guid: 'new-end-element-guid', parent: 'branch-guid', childIndex: 0 }, true);
+            addElement(
+                elements,
+                { guid: 'new-end-element-guid', parent: 'branch-guid', childIndex: 0, elementType: END },
+                true
+            );
             expect(elements).toMatchSnapshot();
         });
 
@@ -46,7 +57,11 @@ describe('modelUtils', () => {
             branchingElement.children = [['head-guid'], null];
             const elements = createFlow([branchingElement]);
 
-            addElement(elements, { guid: 'new-end-element-guid', prev: 'branch-guid:0-head-guid' }, true);
+            addElement(
+                elements,
+                { guid: 'new-end-element-guid', prev: 'branch-guid:0-head-guid', elementType: END },
+                true
+            );
             expect(elements).toMatchSnapshot();
         });
 
@@ -59,7 +74,11 @@ describe('modelUtils', () => {
 
             const elements = createFlow([branchingElement]);
 
-            addElement(elements, { guid: 'new-end-element-guid', parent: 'branch-guid', childIndex: 1 }, true);
+            addElement(
+                elements,
+                { guid: 'new-end-element-guid', parent: 'branch-guid', childIndex: 1, elementType: END },
+                true
+            );
             expect(elements).toMatchSnapshot();
         });
 
@@ -74,7 +93,7 @@ describe('modelUtils', () => {
 
             addElement(
                 elements,
-                { guid: 'new-end-element-guid', parent: 'branch-guid:0-branch-guid', childIndex: 1 },
+                { guid: 'new-end-element-guid', parent: 'branch-guid:0-branch-guid', childIndex: 1, elementType: END },
                 true
             );
             expect(elements).toMatchSnapshot();
@@ -315,11 +334,37 @@ describe('modelUtils', () => {
     });
 
     describe('delete element', () => {
+        it('delete nested decision with end elements and reconnect', () => {
+            const nestedBranchElement = { ...BRANCH_ELEMENT, children: [[END_ELEMENT], [END_ELEMENT_GUID]] };
+            const branchElement = { ...BRANCH_ELEMENT, children: [[nestedBranchElement], [END_ELEMENT_GUID]] };
+            const flowModel = createFlow([branchElement]);
+
+            // delete nested branch
+            const newFlowModel = deleteElement(
+                flowModel,
+                flowModel['branch-guid:0-branch-guid'],
+                0,
+                getSubElementGuids
+            );
+
+            expect(newFlowModel).toMatchSnapshot();
+
+            // reconnect with end of the right branch
+            expect(
+                reconnectBranchElement(
+                    flowModel,
+                    'branch-guid:0-branch-guid:0-branch-guid:0-end-guid',
+                    'branch-guid:1-end-guid'
+                )
+            ).toMatchSnapshot();
+        });
+
         it('deletes inline element', () => {
             const firstElement = {
                 guid: 'first-element',
                 prev: null,
-                next: 'inline-element'
+                next: 'inline-element',
+                isTerminal: false
             };
 
             const inlineElement = {
@@ -341,7 +386,8 @@ describe('modelUtils', () => {
                     'first-element': {
                         guid: 'first-element',
                         prev: null,
-                        next: 'last-element'
+                        next: 'last-element',
+                        isTerminal: false
                     },
 
                     'last-element': {
@@ -356,10 +402,15 @@ describe('modelUtils', () => {
             expect(deleteElement(elements, inlineElement, 0, getSubElementGuids)).toEqual(expectedState);
         });
         it('deletes branching element that supports a fault branch as well', () => {
+            const screenElement = {
+                guid: 'screen-element',
+                prev: null,
+                next: 'branching-element'
+            };
             const branchingElement = {
                 guid: 'branching-element',
                 children: ['branch-head-one', 'branch-head-two'],
-                prev: null,
+                prev: 'screen-element',
                 next: 'merge-element',
                 fault: 'fault-branch-head-element'
             };
@@ -385,7 +436,8 @@ describe('modelUtils', () => {
             const mergeElement = {
                 guid: 'merge-element',
                 prev: 'branching-element',
-                next: null
+                next: null,
+                elementType: 'END_ELEMENT'
             };
 
             const faultBranchHeadElement = {
@@ -400,10 +452,12 @@ describe('modelUtils', () => {
             const faultBranchEndElement = {
                 guid: 'fault-branch-end-element',
                 prev: 'fault-branch-head-element',
-                next: null
+                next: null,
+                elementType: END
             };
 
             const elements = flowModelFromElements([
+                screenElement,
                 branchingElement,
                 mergeElement,
                 branchHeadOne,
@@ -414,16 +468,23 @@ describe('modelUtils', () => {
 
             const expectedState = {
                 state: {
+                    'screen-element': {
+                        guid: 'screen-element',
+                        prev: null,
+                        next: 'branch-head-one',
+                        isTerminal: true
+                    },
                     'branch-head-one': {
                         guid: 'branch-head-one',
-                        prev: null,
+                        prev: 'screen-element',
                         next: 'merge-element'
                     },
 
                     'merge-element': {
                         guid: 'merge-element',
                         prev: 'branch-head-one',
-                        next: null
+                        next: null,
+                        elementType: 'END_ELEMENT'
                     }
                 },
                 addEndElement: false
@@ -487,6 +548,7 @@ describe('modelUtils', () => {
                 guid: 'inline-element',
                 prev: 'first-element',
                 next: null,
+                elementType: 'Decision',
                 children: ['branch-element-one', 'branch-element-two']
             };
 
@@ -495,6 +557,7 @@ describe('modelUtils', () => {
                 parent: 'inline-element',
                 childIndex: 0,
                 next: null,
+                elementType: END,
                 isTerminal: true
             };
 
@@ -503,6 +566,7 @@ describe('modelUtils', () => {
                 parent: 'inline-element',
                 childIndex: 1,
                 next: null,
+                elementType: END,
                 isTerminal: true
             };
 
@@ -511,6 +575,7 @@ describe('modelUtils', () => {
             const expectedState = {
                 state: {
                     'first-element': {
+                        isTerminal: false,
                         guid: 'first-element',
                         prev: null,
                         next: null

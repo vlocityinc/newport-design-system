@@ -3,6 +3,8 @@ import DemoBuilder from 'demo-builder';
 
 import configProviderService from 'lightning/configProvider';
 
+window.processEnv = { NODE_ENV: 'development' };
+
 const locale = {
     userLocaleLang: 'en',
     userLocaleCountry: 'CA',

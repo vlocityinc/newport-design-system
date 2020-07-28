@@ -79,7 +79,8 @@ function translateEventToAction(event) {
             return {
                 selectedElements: event.detail.selectedElementGUID.map(guid => storeInstance.getCurrentState().elements[guid]),
                 connectorsToDelete: [],
-                elementType: event.detail.selectedElementType
+                elementType: event.detail.selectedElementType,
+                childIndexToKeep: event.detail.childIndexToKeep
             };
         default:
             return null;

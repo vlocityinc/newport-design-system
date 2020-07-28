@@ -12,7 +12,9 @@ import {
     ElementType,
     getTargetGuidsForBranchReconnect,
     Guid,
-    NodeRenderInfo
+    NodeRenderInfo,
+    FlowRenderContext,
+    FlowRenderInfo
 } from 'builder_platform_interaction/autoLayoutCanvas';
 
 import {
@@ -29,7 +31,6 @@ import {
     getCanvasElementSelectionData,
     getCanvasElementDeselectionData
 } from 'builder_platform_interaction/flcComponentsUtils';
-import { FlowRenderContext, FlowRenderInfo } from '../../../../auto-layout-canvas/dist/types/flowRendererUtils';
 
 const MAX_ZOOM = 1;
 const MIN_ZOOM = 0.1;

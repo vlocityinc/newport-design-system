@@ -1,9 +1,11 @@
 import panzoom from 'panzoom';
 
+import { assertInDev } from './assertUtils';
+
 import { animate } from './animate';
 import { renderFlow } from './flowRenderer';
 import { toggleFlowMenu, closeFlowMenu, updateDeletionPathInfo } from './interactionUtils';
-import { calculateFlowLayout, getBranchLayoutKey } from './layout';
+import { calculateFlowLayout } from './layout';
 import { getDefaultLayoutConfig } from './defaultLayoutConfig';
 import { Geometry } from './svgUtils';
 
@@ -17,7 +19,8 @@ import {
     ConnectorRenderInfo,
     NodeRenderInfo,
     FlowRenderInfo,
-    FlowRenderContext
+    FlowRenderContext,
+    getBranchLayoutKey
 } from './flowRendererUtils';
 
 export {
@@ -53,11 +56,13 @@ export {
     deleteBranch,
     reconnectBranchElement,
     DELETE_ALL,
-    areAllBranchesTerminals
+    areAllBranchesTerminals,
+    assertTerminals
 } from './modelUtils';
 
 export {
     animate,
+    assertInDev,
     renderFlow,
     toggleFlowMenu,
     closeFlowMenu,

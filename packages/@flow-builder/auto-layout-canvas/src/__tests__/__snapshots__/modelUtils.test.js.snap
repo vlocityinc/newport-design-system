@@ -30,7 +30,7 @@ Object {
   },
   "branch-guid:0-branch-guid:0-branch-guid:0-end-guid": Object {
     "childIndex": 0,
-    "elementType": "end",
+    "elementType": "END_ELEMENT",
     "guid": "branch-guid:0-branch-guid:0-branch-guid:0-end-guid",
     "isTerminal": true,
     "label": "end-guid",
@@ -39,7 +39,7 @@ Object {
   },
   "end-guid": Object {
     "childIndex": 1,
-    "elementType": "end",
+    "elementType": "END_ELEMENT",
     "guid": "end-guid",
     "isTerminal": true,
     "label": "end-guid",
@@ -48,6 +48,7 @@ Object {
   },
   "new-end-element-guid": Object {
     "childIndex": 1,
+    "elementType": "END_ELEMENT",
     "guid": "new-end-element-guid",
     "isTerminal": true,
     "parent": "branch-guid",
@@ -101,7 +102,7 @@ Object {
   },
   "branch-guid:0-branch-guid:0-branch-guid:0-end-guid": Object {
     "childIndex": 0,
-    "elementType": "end",
+    "elementType": "END_ELEMENT",
     "guid": "branch-guid:0-branch-guid:0-branch-guid:0-end-guid",
     "isTerminal": true,
     "label": "end-guid",
@@ -110,7 +111,7 @@ Object {
   },
   "end-guid": Object {
     "childIndex": 1,
-    "elementType": "end",
+    "elementType": "END_ELEMENT",
     "guid": "end-guid",
     "isTerminal": true,
     "label": "end-guid",
@@ -119,6 +120,7 @@ Object {
   },
   "new-end-element-guid": Object {
     "childIndex": 1,
+    "elementType": "END_ELEMENT",
     "guid": "new-end-element-guid",
     "isTerminal": true,
     "parent": "branch-guid:0-branch-guid",
@@ -159,7 +161,7 @@ Object {
   },
   "end-guid": Object {
     "childIndex": 1,
-    "elementType": "end",
+    "elementType": "END_ELEMENT",
     "guid": "end-guid",
     "isTerminal": true,
     "label": "end-guid",
@@ -168,6 +170,7 @@ Object {
   },
   "new-end-element-guid": Object {
     "childIndex": 0,
+    "elementType": "END_ELEMENT",
     "guid": "new-end-element-guid",
     "isTerminal": true,
     "parent": "branch-guid",
@@ -215,7 +218,7 @@ Object {
   },
   "end-guid": Object {
     "childIndex": 1,
-    "elementType": "end",
+    "elementType": "END_ELEMENT",
     "guid": "end-guid",
     "isTerminal": true,
     "label": "end-guid",
@@ -223,6 +226,7 @@ Object {
     "prev": null,
   },
   "new-end-element-guid": Object {
+    "elementType": "END_ELEMENT",
     "guid": "new-end-element-guid",
     "prev": "branch-guid:0-head-guid",
   },
@@ -267,13 +271,14 @@ Object {
     "parent": "branch-guid",
   },
   "end-guid": Object {
-    "elementType": "end",
+    "elementType": "END_ELEMENT",
     "guid": "end-guid",
     "label": "end-guid",
     "prev": "branch-guid:1-head-guid",
   },
   "new-end-element-guid": Object {
     "childIndex": 0,
+    "elementType": "END_ELEMENT",
     "guid": "new-end-element-guid",
     "isTerminal": true,
     "parent": "branch-guid",
@@ -293,6 +298,114 @@ Object {
     "isTerminal": true,
     "label": "start-guid",
     "next": "branch-guid",
+    "parent": "root",
+  },
+}
+`;
+
+exports[`modelUtils delete element delete nested decision with end elements and reconnect 1`] = `
+Object {
+  "addEndElement": false,
+  "state": Object {
+    "branch-guid": Object {
+      "children": Array [
+        "branch-guid:0-branch-guid:0-branch-guid:0-end-guid",
+        "branch-guid:1-end-guid",
+      ],
+      "defaultConnectorLabel": "Default Connector Label",
+      "elementType": "branch",
+      "guid": "branch-guid",
+      "label": "branch-guid",
+      "next": "end-guid",
+      "prev": "start-guid",
+    },
+    "branch-guid:0-branch-guid:0-branch-guid:0-end-guid": Object {
+      "childIndex": 0,
+      "elementType": "END_ELEMENT",
+      "guid": "branch-guid:0-branch-guid:0-branch-guid:0-end-guid",
+      "isTerminal": true,
+      "label": "end-guid",
+      "parent": "branch-guid",
+      "prev": null,
+    },
+    "branch-guid:1-end-guid": Object {
+      "childIndex": 1,
+      "elementType": "END_ELEMENT",
+      "guid": "branch-guid:1-end-guid",
+      "isTerminal": true,
+      "label": "end-guid",
+      "parent": "branch-guid",
+      "prev": "start-guid",
+    },
+    "end-guid": Object {
+      "elementType": "END_ELEMENT",
+      "guid": "end-guid",
+      "label": "end-guid",
+      "prev": "branch-guid",
+    },
+    "root": Object {
+      "children": Array [
+        "start-guid",
+      ],
+      "elementType": "root",
+      "guid": "root",
+    },
+    "start-guid": Object {
+      "childIndex": 0,
+      "elementType": "start",
+      "guid": "start-guid",
+      "isTerminal": true,
+      "label": "start-guid",
+      "next": "branch-guid",
+      "parent": "root",
+    },
+  },
+}
+`;
+
+exports[`modelUtils delete element delete nested decision with end elements and reconnect 2`] = `
+Object {
+  "branch-guid": Object {
+    "children": Array [
+      null,
+      "branch-guid:1-end-guid",
+    ],
+    "defaultConnectorLabel": "Default Connector Label",
+    "elementType": "branch",
+    "guid": "branch-guid",
+    "label": "branch-guid",
+    "next": "branch-guid:1-end-guid",
+    "prev": "start-guid",
+  },
+  "branch-guid:1-end-guid": Object {
+    "childIndex": 1,
+    "elementType": "END_ELEMENT",
+    "guid": "branch-guid:1-end-guid",
+    "isTerminal": true,
+    "label": "end-guid",
+    "parent": "branch-guid",
+    "prev": "branch-guid",
+  },
+  "end-guid": Object {
+    "elementType": "END_ELEMENT",
+    "guid": "end-guid",
+    "label": "end-guid",
+    "prev": "branch-guid",
+  },
+  "root": Object {
+    "children": Array [
+      "start-guid",
+    ],
+    "elementType": "root",
+    "guid": "root",
+  },
+  "start-guid": Object {
+    "childIndex": 0,
+    "elementType": "start",
+    "guid": "start-guid",
+    "isTerminal": true,
+    "label": "start-guid",
+    "next": null,
     "parent": "root",
   },
 }
@@ -320,7 +433,7 @@ Object {
     "parent": "branch-guid",
   },
   "branch-guid:1-end-guid": Object {
-    "elementType": "end",
+    "elementType": "END_ELEMENT",
     "guid": "branch-guid:1-end-guid",
     "label": "end-guid",
     "prev": "branch-guid:1-random-guid",
@@ -338,7 +451,7 @@ Object {
     "prev": "branch-guid",
   },
   "end-guid": Object {
-    "elementType": "end",
+    "elementType": "END_ELEMENT",
     "guid": "end-guid",
     "label": "end-guid",
     "prev": "branch-guid",
@@ -354,7 +467,7 @@ Object {
     "childIndex": 0,
     "elementType": "start",
     "guid": "start-guid",
-    "isTerminal": false,
+    "isTerminal": true,
     "label": "start-guid",
     "next": "branch-guid",
     "parent": "root",
@@ -402,7 +515,7 @@ Object {
     "parent": "branch-guid",
   },
   "end-guid": Object {
-    "elementType": "end",
+    "elementType": "END_ELEMENT",
     "guid": "end-guid",
     "label": "end-guid",
     "prev": "branch-guid",

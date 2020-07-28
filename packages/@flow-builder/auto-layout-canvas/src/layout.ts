@@ -1,28 +1,20 @@
 import { NodeModel, resolveNode, ParentNodeModel, NodeRef, Guid, getElementMetadata, FAULT_INDEX } from './model';
-import { FlowRenderContext, LayoutConfig, getConnectorConfig, ConnectorVariant } from './flowRendererUtils';
+import { areAllBranchesTerminals } from './modelUtils';
+import {
+    FlowRenderContext,
+    LayoutConfig,
+    getConnectorConfig,
+    ConnectorVariant,
+    LayoutInfo,
+    NodeLayout,
+    NodeLayoutMap,
+    getBranchLayoutKey
+} from './flowRendererUtils';
 import MenuType from './MenuType';
 import ElementType from './ElementType';
 import ConnectorType from './ConnectorTypeEnum';
 
 export const NO_OFFSET = 0;
-
-export interface LayoutInfo {
-    x: number;
-    y: number;
-    w: number;
-    h: number;
-    joinOffsetY: number;
-    offsetX: number;
-}
-
-export interface NodeLayout {
-    prevLayout?: LayoutInfo | undefined;
-    layout: LayoutInfo;
-}
-
-export interface NodeLayoutMap {
-    [key: string]: NodeLayout;
-}
 
 /**
  * Returns the MenuType of a menu that is opened for a node
@@ -85,10 +77,6 @@ function createDefaultLayout(): LayoutInfo {
         joinOffsetY: 0,
         offsetX: 0
     };
-}
-
-function getBranchLayoutKey(parentGuid: string, childIndex: number) {
-    return `${parentGuid}:${childIndex}`;
 }
 
 function getBranchLayout(parentGuid: string, childIndex: number, nodeLayoutMap: NodeLayoutMap): NodeLayout {
@@ -176,7 +164,7 @@ function getElementType(context: FlowRenderContext, nodeModel: NodeModel): Eleme
  * @returns A NodeLayout for the node
  */
 function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, offsetY: number): NodeLayout {
-    const { nodeLayoutMap, layoutConfig } = context;
+    const { nodeLayoutMap, layoutConfig, flowModel } = context;
 
     let layout;
     const { guid } = nodeModel;
@@ -209,7 +197,14 @@ function calculateNodeLayout(nodeModel: NodeModel, context: FlowRenderContext, o
             ? getConnectorConfig(layoutConfig, nextNodeConnectorType, nextNodeConnectorVariant).h
             : 0;
 
-    let height = nextNodeConnectorHeight + branchingInfo.h;
+    let height = branchingInfo.h;
+
+    const isBranchingAllTerminals =
+        elementType === ElementType.BRANCH && areAllBranchesTerminals(nodeModel as ParentNodeModel, flowModel);
+
+    if (nodeModel.next != null || !isBranchingAllTerminals) {
+        height += nextNodeConnectorHeight;
+    }
 
     const menuType = getMenuType(guid, context);
 
@@ -386,17 +381,12 @@ function calculateBranchLayout(
 
     const faultLayouts = [];
 
-    let isTerminal = false;
-
     let leftWidth = 0;
     let rightWidth = 0;
 
+    let prevNode;
     while (node) {
         const { layout } = calculateNodeLayout(node, context, height);
-
-        const nodeType = getElementType(context, node);
-        isTerminal =
-            isTerminal || (nodeType === ElementType.END && parentNodeModel.next != null) || childIndex === FAULT_INDEX;
 
         if (node.fault != null) {
             const faultLayoutObject = getBranchLayout(node.guid, FAULT_INDEX, nodeLayoutMap).layout;
@@ -413,6 +403,7 @@ function calculateBranchLayout(
         height += layout.h;
 
         const next = node.next;
+        prevNode = node;
         node = next ? resolveNode(flowModel, next) : null;
     }
 
@@ -423,9 +414,9 @@ function calculateBranchLayout(
         rightWidth += faultLayout.w;
     });
 
-    // for faults and terminal branches we need to some extra height so that it won't overlap the merge connectors
-    if (isTerminal) {
-        height += getConnectorConfig(layoutConfig, ConnectorType.STRAIGHT, ConnectorVariant.BRANCH_TAIL).h;
+    // for ended nested branches, we need to some extra height so that they dont't overlap with the merge/loop after connectors
+    if (prevNode != null && getElementType(context, prevNode) === ElementType.END) {
+        height += getConnectorConfig(layoutConfig, ConnectorType.STRAIGHT, ConnectorVariant.BRANCH_TAIL).h / 2;
     }
 
     if (branchHeadGuid == null) {
@@ -478,7 +469,7 @@ function centerLayouts(branchLayouts: LayoutInfo[]): number {
     return offsetX;
 }
 
-export { calculateFlowLayout, getBranchLayoutKey, getLayoutChildOrFault };
+export { calculateFlowLayout, getLayoutChildOrFault };
 
 // function centerLayouts(branchLayouts: LayoutInfo[]): number {
 //     let maxSpacing = 0;

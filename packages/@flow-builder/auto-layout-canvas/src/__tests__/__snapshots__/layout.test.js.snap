@@ -15,10 +15,131 @@ Object {
   },
   "root:0": Object {
     "layout": Object {
+      "h": 168,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 0,
+    },
+  },
+  "start-guid": Object {
+    "layout": Object {
       "h": 120,
       "joinOffsetY": 0,
       "offsetX": 88,
       "w": 264,
+      "x": 0,
+      "y": 0,
+    },
+    "prevLayout": undefined,
+  },
+}
+`;
+
+exports[`layout calculateLayout flow with decision and ended middle branch 1`] = `
+Object {
+  "branch-guid": Object {
+    "layout": Object {
+      "h": 288,
+      "joinOffsetY": 192,
+      "offsetX": 308,
+      "w": 616,
+      "x": 0,
+      "y": 120,
+    },
+    "prevLayout": undefined,
+  },
+  "branch-guid:0": Object {
+    "layout": Object {
+      "h": 120,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 176,
+      "x": -220,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 120,
+    },
+  },
+  "branch-guid:1": Object {
+    "layout": Object {
+      "h": 192,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": -44,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 120,
+    },
+  },
+  "branch-guid:1-end-guid": Object {
+    "layout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 144,
+    },
+    "prevLayout": undefined,
+  },
+  "branch-guid:2": Object {
+    "layout": Object {
+      "h": 120,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 176,
+      "x": 220,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 120,
+    },
+  },
+  "end-guid": Object {
+    "layout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 408,
+    },
+    "prevLayout": undefined,
+  },
+  "root:0": Object {
+    "layout": Object {
+      "h": 456,
+      "joinOffsetY": 0,
+      "offsetX": 308,
+      "w": 616,
       "x": 0,
       "y": 0,
     },
@@ -118,7 +239,7 @@ Object {
   },
   "root:0": Object {
     "layout": Object {
-      "h": 456,
+      "h": 504,
       "joinOffsetY": 0,
       "offsetX": 220,
       "w": 440,
@@ -210,7 +331,7 @@ Object {
   },
   "root:0": Object {
     "layout": Object {
-      "h": 336,
+      "h": 384,
       "joinOffsetY": 0,
       "offsetX": 176,
       "w": 352,
@@ -320,7 +441,7 @@ Object {
   },
   "root:0": Object {
     "layout": Object {
-      "h": 336,
+      "h": 384,
       "joinOffsetY": 0,
       "offsetX": 264,
       "w": 528,
@@ -394,10 +515,198 @@ Object {
   },
   "root:0": Object {
     "layout": Object {
-      "h": 360,
+      "h": 408,
       "joinOffsetY": 0,
       "offsetX": 148,
       "w": 324,
+      "x": 0,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 0,
+    },
+  },
+  "start-guid": Object {
+    "layout": Object {
+      "h": 120,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 0,
+    },
+    "prevLayout": undefined,
+  },
+}
+`;
+
+exports[`layout calculateLayout flow with loop and nested loop 1`] = `
+Object {
+  "end-guid": Object {
+    "layout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 600,
+    },
+    "prevLayout": undefined,
+  },
+  "loop-guid": Object {
+    "layout": Object {
+      "h": 480,
+      "joinOffsetY": 384,
+      "offsetX": 208,
+      "w": 416,
+      "x": 0,
+      "y": 120,
+    },
+    "prevLayout": undefined,
+  },
+  "loop-guid:0": Object {
+    "layout": Object {
+      "h": 384,
+      "joinOffsetY": 0,
+      "offsetX": 148,
+      "w": 296,
+      "x": 0,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 120,
+    },
+  },
+  "loop-guid:0-loop-guid": Object {
+    "layout": Object {
+      "h": 216,
+      "joinOffsetY": 144,
+      "offsetX": 148,
+      "w": 296,
+      "x": 0,
+      "y": 144,
+    },
+    "prevLayout": undefined,
+  },
+  "loop-guid:0-loop-guid:0": Object {
+    "layout": Object {
+      "h": 144,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 176,
+      "x": 0,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 144,
+    },
+  },
+  "root:0": Object {
+    "layout": Object {
+      "h": 648,
+      "joinOffsetY": 0,
+      "offsetX": 208,
+      "w": 416,
+      "x": 0,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 0,
+    },
+  },
+  "start-guid": Object {
+    "layout": Object {
+      "h": 120,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 0,
+    },
+    "prevLayout": undefined,
+  },
+}
+`;
+
+exports[`layout calculateLayout flow with loop with ended branch 1`] = `
+Object {
+  "end-guid": Object {
+    "layout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 432,
+    },
+    "prevLayout": undefined,
+  },
+  "loop-guid": Object {
+    "layout": Object {
+      "h": 312,
+      "joinOffsetY": 216,
+      "offsetX": 148,
+      "w": 384,
+      "x": 0,
+      "y": 120,
+    },
+    "prevLayout": undefined,
+  },
+  "loop-guid:0": Object {
+    "layout": Object {
+      "h": 216,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 0,
+    },
+    "prevLayout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 0,
+      "w": 0,
+      "x": 0,
+      "y": 120,
+    },
+  },
+  "loop-guid:0-end-guid": Object {
+    "layout": Object {
+      "h": 0,
+      "joinOffsetY": 0,
+      "offsetX": 88,
+      "w": 264,
+      "x": 0,
+      "y": 144,
+    },
+    "prevLayout": undefined,
+  },
+  "root:0": Object {
+    "layout": Object {
+      "h": 480,
+      "joinOffsetY": 0,
+      "offsetX": 148,
+      "w": 384,
       "x": 0,
       "y": 0,
     },
@@ -439,7 +748,7 @@ Object {
   },
   "action-element-one:-1": Object {
     "layout": Object {
-      "h": 216,
+      "h": 168,
       "joinOffsetY": 0,
       "offsetX": 88,
       "w": 264,
@@ -468,7 +777,7 @@ Object {
   },
   "action-element-two:-1": Object {
     "layout": Object {
-      "h": 216,
+      "h": 168,
       "joinOffsetY": 0,
       "offsetX": 88,
       "w": 264,

@@ -20,13 +20,14 @@ const START_ELEMENT = {
     elementType: ElementType.START,
     parent: ROOT_ELEMENT_GUID,
     childIndex: 0,
-    next: END_ELEMENT_GUID
+    next: END_ELEMENT_GUID,
+    isTerminal: true
 };
 
 const END_ELEMENT = {
     guid: END_ELEMENT_GUID,
     label: END_ELEMENT_GUID,
-    elementType: ElementType.END,
+    elementType: 'END_ELEMENT',
     prev: START_ELEMENT_GUID
 };
 
@@ -106,7 +107,7 @@ const elementsMetadata = {
         type: ElementType.LOOP,
         icon: 'standard:default'
     },
-    [ElementType.END]: {
+    END_ELEMENT: {
         type: ElementType.END,
         icon: 'standard:default'
     },
@@ -206,7 +207,7 @@ function createBranch(
             prevElement.next = nextElement.guid;
         }
 
-        if (nextElement.elementType === ElementType.END) {
+        if (nextElement.elementType === 'END_ELEMENT') {
             hasEnd = true;
         }
         prevElement = nextElement;
@@ -274,7 +275,7 @@ function getFlowWithEmptyDeciisionWith3BranchesContext() {
 }
 
 function getFlowWithDecisionWithEndedLeftBranchContext() {
-    const leftBranchHead = createElementWithElementType('branch-left-head-guid', ElementType.END);
+    const leftBranchHead = createElementWithElementType('branch-left-head-guid', 'END_ELEMENT');
     return getFlowWithDecisionWithOneElementOnLeftBranchContext(leftBranchHead);
 }
 
@@ -296,14 +297,14 @@ function getFlowWithDecisionWithOneElementOnLeftBranchContext(leftBranchHead) {
 }
 
 function getFlowWithTwoFaults() {
-    let faultBranchHeadElementOne = createElementWithElementType('fault-branch-head-guid-one', ElementType.END);
+    let faultBranchHeadElementOne = createElementWithElementType('fault-branch-head-guid-one', 'END_ELEMENT');
     const actionElementOne = {
         ...ACTION_ELEMENT,
         guid: 'action-element-one',
         fault: faultBranchHeadElementOne.guid
     };
     faultBranchHeadElementOne = { ...faultBranchHeadElementOne, parent: actionElementOne.guid, childIndex: -1 };
-    let faultBranchHeadElementTwo = createElementWithElementType('fault-branch-head-guid-two', ElementType.END);
+    let faultBranchHeadElementTwo = createElementWithElementType('fault-branch-head-guid-two', 'END_ELEMENT');
     const actionElementTwo = {
         ...ACTION_ELEMENT,
         guid: 'action-element-two',
@@ -324,6 +325,7 @@ export {
     START_ELEMENT,
     END_ELEMENT,
     BRANCH_ELEMENT,
+    LOOP_ELEMENT,
     createDefaultElement,
     flowModelFromElements,
     createFlowRenderContext,

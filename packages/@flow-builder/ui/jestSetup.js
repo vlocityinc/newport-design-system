@@ -2,6 +2,7 @@ import { Store } from 'builder_platform_interaction_mocks/storeLib';
 import { format } from 'util';
 
 window.runningJestTest = true;
+// window.processEnv = { NODE_ENV: 'development' };
 
 jest.mock('builder_platform_interaction/loggingUtils', () =>
     require('builder_platform_interaction_mocks/loggingUtils')

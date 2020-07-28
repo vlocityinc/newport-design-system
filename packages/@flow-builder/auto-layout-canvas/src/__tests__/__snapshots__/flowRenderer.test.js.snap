@@ -3,7 +3,7 @@
 exports[`flowRenderer renderFlow empty flow 1`] = `
 Object {
   "geometry": Object {
-    "h": 120,
+    "h": 168,
     "w": 264,
     "x": 0,
     "y": 0,
@@ -234,7 +234,7 @@ L 3, 120",
         "type": "end",
       },
       "node": Object {
-        "elementType": "end",
+        "elementType": "END_ELEMENT",
         "guid": "end-guid",
         "label": "end-guid",
         "prev": "start-guid",
@@ -248,7 +248,7 @@ L 3, 120",
 exports[`flowRenderer renderFlow flow with decision with one element on left branch 1`] = `
 Object {
   "geometry": Object {
-    "h": 456,
+    "h": 504,
     "w": 440,
     "x": 0,
     "y": 0,
@@ -452,6 +452,7 @@ L 3, 120",
         "childIndex": 0,
         "elementType": "start",
         "guid": "start-guid",
+        "isTerminal": true,
         "label": "start-guid",
         "next": "branch-guid",
         "parent": "root",
@@ -1091,7 +1092,7 @@ L 3, 144",
         "type": "end",
       },
       "node": Object {
-        "elementType": "end",
+        "elementType": "END_ELEMENT",
         "guid": "end-guid",
         "label": "end-guid",
         "prev": "branch-guid",
@@ -1105,7 +1106,7 @@ L 3, 144",
 exports[`flowRenderer renderFlow flow with empty decision 1`] = `
 Object {
   "geometry": Object {
-    "h": 336,
+    "h": 384,
     "w": 352,
     "x": 0,
     "y": 0,
@@ -1889,7 +1890,7 @@ L 3, 144",
         "type": "end",
       },
       "node": Object {
-        "elementType": "end",
+        "elementType": "END_ELEMENT",
         "guid": "end-guid",
         "label": "end-guid",
         "prev": "branch-guid",
@@ -1903,7 +1904,7 @@ L 3, 144",
 exports[`flowRenderer renderFlow flow with empty decision with 3 branches 1`] = `
 Object {
   "geometry": Object {
-    "h": 336,
+    "h": 384,
     "w": 528,
     "x": 0,
     "y": 0,
@@ -2872,7 +2873,7 @@ L 3, 144",
         "type": "end",
       },
       "node": Object {
-        "elementType": "end",
+        "elementType": "END_ELEMENT",
         "guid": "end-guid",
         "label": "end-guid",
         "prev": "branch-guid",

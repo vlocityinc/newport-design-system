@@ -3,7 +3,10 @@ import {
     linkElement,
     areAllBranchesTerminals,
     addElementToState,
-    FAULT_INDEX
+    FAULT_INDEX,
+    findLastElement,
+    assertInDev,
+    assertTerminals
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import { getChildReferencesKeys, getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -636,12 +639,14 @@ function createAutoLayoutElements(elements: FlowElements): FlowElements {
  * Consolidates end connectors when possible in a Auto Layout Canvas UI Model
  *
  * @param elements - The Auto Layout Canvas elements
+ * @param branchHead - The branch head
+ * @param hasNext - whether the parent has a next
  * @return The consolidated Auto Layout Canvas elements
  */
 function consolidateEndConnectorsForBranch(
     elements: FlowElements,
     branchHead: AutoLayoutCanvasElement,
-    ancestorEnd: AutoLayoutCanvasElement | null = null
+    hasNext = false
 ): FlowElements {
     let element = branchHead;
 
@@ -651,30 +656,22 @@ function consolidateEndConnectorsForBranch(
         }
 
         if (isBranchingElement(element) && areAllBranchesTerminals(element as any, elements as any)) {
-            const next = element.next;
-            let elementNext;
-
-            if (next == null) {
-                elementNext = createEndElement({ prev: element.guid });
-                element.next = elementNext.guid;
-                elements[elementNext.guid] = elementNext;
-            } else {
-                elementNext = elements[next];
-            }
-
             // eslint-disable-next-line no-loop-func
             element.children!.forEach(child => {
                 if (child != null) {
-                    consolidateEndConnectorsForBranch(
-                        elements,
-                        elements[child] as AutoLayoutCanvasElement,
-                        elementNext
-                    );
+                    consolidateEndConnectorsForBranch(elements, elements[child] as AutoLayoutCanvasElement, true);
                 }
             });
+
+            const next = element.next;
+            if (next == null) {
+                const newEnd = createEndElement({ prev: element.guid });
+                element.next = newEnd.guid;
+                elements[newEnd.guid] = newEnd;
+            }
         }
 
-        if (element.elementType === ELEMENT_TYPE.END_ELEMENT && ancestorEnd != null) {
+        if (element.elementType === ELEMENT_TYPE.END_ELEMENT && hasNext) {
             const { prev, parent, childIndex } = element;
 
             if (prev != null) {
@@ -688,6 +685,13 @@ function consolidateEndConnectorsForBranch(
         }
 
         element = (element.next != null ? elements[element.next] : null) as AutoLayoutCanvasElement;
+    }
+
+    if (branchHead != null && elements[branchHead.guid] != null) {
+        const branchTail = findLastElement(branchHead, elements);
+        branchHead.isTerminal =
+            branchTail.elementType === ELEMENT_TYPE.END_ELEMENT ||
+            (isBranchingElement(branchTail) && areAllBranchesTerminals(branchTail, elements));
     }
 
     return elements;
@@ -734,11 +738,15 @@ export function convertToAutoLayoutCanvas(
     // set the auto layout element pointers
     convertBranchToAutoLayout(autoLayoutElements, conversionInfos, rootElement, startElement, 0, options);
 
+    const elements = options.shouldConsolidateEndConnectors
+        ? consolidateEndConnectors(autoLayoutElements)
+        : autoLayoutElements;
+
+    assertInDev(() => assertTerminals(elements));
+
     return {
         ...storeState,
-        elements: options.shouldConsolidateEndConnectors
-            ? consolidateEndConnectors(autoLayoutElements)
-            : autoLayoutElements,
+        elements,
         canvasElements: [],
         connectors: []
     };

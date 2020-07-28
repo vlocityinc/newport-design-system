@@ -35,7 +35,9 @@ import {
     deleteBranch,
     FAULT_INDEX,
     reconnectBranchElement,
-    findLastElement
+    findLastElement,
+    assertInDev,
+    assertTerminals
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import { getSubElementGuids } from './reducersUtils';
 
@@ -118,6 +120,8 @@ export default function flcElementsReducer(state = {}, action) {
         default:
     }
 
+    assertInDev(() => assertTerminals(state));
+
     return state;
 }
 
@@ -129,9 +133,10 @@ export default function flcElementsReducer(state = {}, action) {
 function addRootAndEndElements(elements, startElementGuid) {
     const rootElement = createRootElement();
     addElementToState(rootElement, elements);
-
-    linkBranchOrFault(elements, rootElement, 0, elements[startElementGuid]);
+    const startElement = elements[startElementGuid];
+    linkBranchOrFault(elements, rootElement, 0, startElement);
     linkElement(elements, createEndElement({ prev: startElementGuid }));
+    startElement.isTerminal = true;
     return elements;
 }
 

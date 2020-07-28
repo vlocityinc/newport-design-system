@@ -1,4 +1,3 @@
-import { LayoutInfo, NodeLayoutMap, getBranchLayoutKey } from './layout';
 import ConnectorType from './ConnectorTypeEnum';
 import ConnectorLabelType from './ConnectorLabelTypeEnum';
 import { SvgInfo, Geometry } from './svgUtils';
@@ -14,6 +13,24 @@ import {
 } from './model';
 import MenuType from './MenuType';
 import ElementType from './ElementType';
+
+export interface LayoutInfo {
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+    joinOffsetY: number;
+    offsetX: number;
+}
+
+export interface NodeLayout {
+    prevLayout?: LayoutInfo | undefined;
+    layout: LayoutInfo;
+}
+
+export interface NodeLayoutMap {
+    [key: string]: NodeLayout;
+}
 
 export interface FlowRenderContext {
     flowModel: FlowModel;
@@ -171,6 +188,10 @@ export interface ConnectorRenderInfo {
     toBeDeleted: boolean;
 }
 
+function getBranchLayoutKey(parentGuid: string, childIndex: number) {
+    return `${parentGuid}:${childIndex}`;
+}
+
 function getLayoutByKey(key: string, progress: number, nodeLayoutMap: NodeLayoutMap): LayoutInfo {
     const { prevLayout, layout } = nodeLayoutMap[key];
 
@@ -249,9 +270,17 @@ function getConnectorConfig(
 
     return connectorConfig;
 }
-const getMergeOutcomeCount = (flowModel: FlowModel, node: NodeModel) =>
-    (node as ParentNodeModel).children.reduce((count, child) => {
+
+/**
+ * For a branching element, get the number of outcomes that merge back
+ *
+ * @param flowModel - The flow model
+ * @param branchingElement - THe branching element
+ * @return the number of outcomes that merge back
+ */
+const getMergeOutcomeCount = (flowModel: FlowModel, branchingElement: ParentNodeModel) =>
+    branchingElement.children.reduce((count, child) => {
         return child == null || !(flowModel[child] as BranchHeadNodeModel).isTerminal ? count + 1 : count;
     }, 0);
 
-export { getBranchLayout, tween, getLayout, getConnectorConfig, getMergeOutcomeCount };
+export { getBranchLayoutKey, getBranchLayout, tween, getLayout, getConnectorConfig, getMergeOutcomeCount };

@@ -107,16 +107,20 @@ describe('elements-reducer', () => {
 
     describe('Add Start Element', () => {
         it('start, end and root elements are added', () => {
-            flcElementsReducer(
-                {},
-                {
-                    type: ADD_START_ELEMENT,
-                    payload: { guid: 'start-element-guid' }
+            const state = {
+                'start-element-guid': {
+                    guid: 'start-element-guid',
+                    isTerminal: true
                 }
-            );
+            };
 
-            expect(addElementToState).toHaveBeenLastCalledWith({ guid: 'root' }, {});
-            expect(linkElement).toHaveBeenLastCalledWith({}, { guid: 'end-element-guid' });
+            flcElementsReducer(state, {
+                type: ADD_START_ELEMENT,
+                payload: { guid: 'start-element-guid' }
+            });
+
+            expect(addElementToState).toHaveBeenLastCalledWith({ guid: 'root' }, state);
+            expect(linkElement).toHaveBeenLastCalledWith(state, { guid: 'end-element-guid' });
             expect(createEndElement).toHaveBeenLastCalledWith({ prev: 'start-element-guid' });
         });
     });

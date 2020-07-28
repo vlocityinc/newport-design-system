@@ -26,7 +26,8 @@ export default [
         elementType: ELEMENT_TYPE.SCREEN,
         description: screenComponentDescription,
         canHaveFaultConnector: false,
-        supportsMenu: true
+        supportsMenu: true,
+        isSupported: true
     },
     {
         section: 'Interaction',
@@ -38,7 +39,8 @@ export default [
         elementType: ELEMENT_TYPE.ACTION_CALL,
         description: actionFlowComponentDescription,
         canHaveFaultConnector: true,
-        supportsMenu: true
+        supportsMenu: true,
+        isSupported: true
     },
     {
         section: 'Flow Control',
@@ -50,7 +52,8 @@ export default [
         elementType: ELEMENT_TYPE.DECISION,
         description: decisionLogicDescription,
         canHaveFaultConnector: false,
-        supportsMenu: true
+        supportsMenu: true,
+        isSupported: true
     },
     {
         section: 'Flow Control',
@@ -61,7 +64,8 @@ export default [
         elementType: ELEMENT_TYPE.WAIT,
         description: waitLogicDescription,
         canHaveFaultConnector: true,
-        supportsMenu: true
+        supportsMenu: true,
+        isSupported: true
     },
     {
         section: 'Flow Control',
@@ -71,7 +75,9 @@ export default [
         value: ELEMENT_TYPE.LOOP,
         elementType: ELEMENT_TYPE.LOOP,
         description: loopLogicDescription,
-        canHaveFaultConnector: false
+        canHaveFaultConnector: false,
+        supportsMenu: true,
+        isSupported: true,
     },
     {
         section: 'Data Operation',
@@ -82,7 +88,8 @@ export default [
         elementType: ELEMENT_TYPE.RECORD_CREATE,
         description: createDataOperationDescription,
         canHaveFaultConnector: true,
-        supportsMenu: true
+        supportsMenu: true,
+        isSupported: true
     },
     {
         section: 'Data Operation',
@@ -93,7 +100,8 @@ export default [
         elementType: ELEMENT_TYPE.RECORD_UPDATE,
         description: lookupDataOperationDescription,
         canHaveFaultConnector: true,
-        supportsMenu: true
+        supportsMenu: true,
+        isSupported: true
     },
     {
         section: 'Data Operation',
@@ -104,7 +112,8 @@ export default [
         elementType: ELEMENT_TYPE.RECORD_LOOKUP,
         description: updateDataOperationDescription,
         canHaveFaultConnector: true,
-        supportsMenu: true
+        supportsMenu: true,
+        isSupported: true
     },
     {
         section: 'Data Operation',
@@ -115,7 +124,8 @@ export default [
         elementType: ELEMENT_TYPE.RECORD_DELETE,
         description: deleteDataOperationDescription,
         canHaveFaultConnector: true,
-        supportsMenu: true
+        supportsMenu: true,
+        isSupported: true
     },
     {
         section: null,

@@ -1,7 +1,6 @@
-import { FlowInteractionState } from './flowRendererUtils';
+import { FlowInteractionState, getBranchLayoutKey } from './flowRendererUtils';
 import MenuType from './MenuType';
 import { Guid } from './model';
-import { getBranchLayoutKey } from './layout';
 
 /**
  * Util functions for flow interactions

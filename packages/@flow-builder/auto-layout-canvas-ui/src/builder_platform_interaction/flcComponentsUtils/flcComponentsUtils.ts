@@ -555,6 +555,43 @@ function getFlcNodeData(nodeInfo: NodeRenderInfo) {
 }
 
 /**
+ *  Get the count of non terminal branches for a parent element
+ *
+ *  @param state - the flow model
+ *  @param  node - the parent element
+ *  @return the count of non terminal branches
+ */
+function getNonTerminalCount(state: FlowModel, node: ParentNodeModel) {
+    return (node.children || []).reduce((count, child) => {
+        if (child == null || !(state[child] as BranchHeadNodeModel).isTerminal) {
+            count++;
+        }
+
+        return count;
+    }, 0);
+}
+
+function isLastPathInLoop(flowModel: FlowModel, parentElement: ParentNodeModel, elementsMetadata: ElementsMetadata) {
+    let parentType = getElementMetadata(elementsMetadata, parentElement.elementType).type;
+
+    let lastPathInLoop = true;
+    while (parentType !== ElementType.LOOP && parentType !== ElementType.ROOT && parentType != null) {
+        if (getNonTerminalCount(flowModel, parentElement) > 1) {
+            lastPathInLoop = false;
+            break;
+        }
+        parentElement = findParentElement(parentElement, flowModel);
+        parentType = getElementMetadata(elementsMetadata, parentElement.elementType).type;
+    }
+
+    if (parentType === ElementType.ROOT) {
+        return false;
+    }
+
+    return lastPathInLoop;
+}
+
+/**
  * Creates an object with the properties needed to render the node + connector menus
  *
  * @param detail - The toggle menu event
@@ -598,11 +635,11 @@ function getFlcMenuData(
         canMergeEndedBranch = targetParentElement.fault == null && !isTargetParentRoot && isTargetEnd;
     }
 
-    const parentElement = parent != null ? flowModel[parent] : findParentElement(flowModel[guid!], flowModel);
+    const parentElement = (parent != null
+        ? flowModel[parent]
+        : findParentElement(flowModel[guid!], flowModel)) as ParentNodeModel;
 
-    const isParentLoop = getElementMetadata(elementsMetadata, parentElement.elementType).type === ElementType.LOOP;
-
-    const hasEndElement = targetGuid == null && !isParentLoop;
+    const hasEndElement = targetGuid == null && !isLastPathInLoop(flowModel, parentElement, elementsMetadata);
 
     return {
         canMergeEndedBranch,
