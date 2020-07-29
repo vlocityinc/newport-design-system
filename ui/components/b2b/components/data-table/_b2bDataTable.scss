@@ -2,6 +2,7 @@ $table-view-switch: 'large';
 $b2b-table-border: $palette-gray-5;
 .nds-b2b-table {
 	background-color: $white;
+	color: $black-primary;
 	border: 1px solid $b2b-table-border;
     table-layout: fixed;
     width: 100%;
@@ -206,4 +207,35 @@ $b2b-table-border: $palette-gray-5;
 		top: -$b2b-popover-arrow-size / 2;
 		transform: rotate(-45deg);
 	}
+}
+
+.nds-b2b-row_spacer {
+	& + & {
+		margin-top: $spacing-small;
+	}
+}
+
+.nds-b2b-desc-item {
+	margin-right: $spacing-small;
+	position: relative;
+
+	& + & {
+		margin-left: $spacing-small;
+		&::before {
+			content: '.';
+			position: absolute;
+			left: -$spacing-small;
+			color: $black-primary;
+			font-weight: bold;
+		}
+	}
+}
+		
+.nds-b2b-desc-item_label {
+	text-transform: uppercase;	
+	margin-right: .5rem;
+}
+
+.nds-item-desc-item_detail {
+	font-weight: bold;
 }
