@@ -1,26 +1,36 @@
-import { storiesOf } from '@storybook/html';
-import base from 'paths.macro';
-import notes from './doc.md';
-import scss from './base/_index.scss';
+import { storiesOf } from "@storybook/html";
+import base from "paths.macro";
+import notes from "./doc.md";
+import scss from "./base/_index.scss";
 import {
   withExample,
   withDocs,
-  commentToHTML
-} from '../../../scripts/storybook';
+  commentToHTML,
+} from "../../../scripts/storybook";
 
-storiesOf(`${base}`, module)
+storiesOf("ui/components/input", module)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
-  .add('Default (default)', () => {
-    return withExample(`<div class="nds-form-element">
+  .add(
+    "Default (default)",
+    () => {
+      return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="text-input-id-1">Input Label</label>
   <div class="nds-form-element__control">
     <input type="text" id="text-input-id-1" class="nds-input" placeholder="Placeholder Text">
   </div>
 </div>`);
-  })
-  .add('Input Required (states)', () => {
-    return withExample(`<div class="nds-form-element">
+    },
+    {
+      "in-dsm": {
+        id: "5efce78731db001f782f63d4",
+      },
+    }
+  )
+  .add(
+    "Input Required (states)",
+    () => {
+      return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="text-input-id-1">
     <abbr class="nds-required" title="required">*</abbr>
     <!-- react-text: 5 -->
@@ -32,17 +42,33 @@ storiesOf(`${base}`, module)
     <input type="text" required="" id="text-input-id-1" class="nds-input" placeholder="Placeholder Text">
   </div>
 </div>`);
-  })
-  .add('Input Disabled (states)', () => {
-    return withExample(`<div class="nds-form-element">
+    },
+    {
+      "in-dsm": {
+        id: "5efce78731db001f782f63d4",
+      },
+    }
+  )
+  .add(
+    "Input Disabled (states)",
+    () => {
+      return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="text-input-id-1">Input Label</label>
   <div class="nds-form-element__control">
     <input type="text" disabled="" id="text-input-id-1" class="nds-input" placeholder="Placeholder Text">
   </div>
 </div>`);
-  })
-  .add('Input Error (states)', () => {
-    return withExample(`<div class="nds-form-element nds-has-error">
+    },
+    {
+      "in-dsm": {
+        id: "5efce78731db001f782f63d4",
+      },
+    }
+  )
+  .add(
+    "Input Error (states)",
+    () => {
+      return withExample(`<div class="nds-form-element nds-has-error">
   <label class="nds-form-element__label" for="text-input-id-1">
     <abbr class="nds-required" title="required">*</abbr>
     <!-- react-text: 5 -->
@@ -55,9 +81,17 @@ storiesOf(`${base}`, module)
   </div>
   <div id="error-message" class="nds-form-element__help">This field is required</div>
 </div>`);
-  })
-  .add('Input Error Icon (states)', () => {
-    return withExample(`<div class="nds-form-element nds-has-error">
+    },
+    {
+      "in-dsm": {
+        id: "5efce78731db001f782f63d4",
+      },
+    }
+  )
+  .add(
+    "Input Error Icon (states)",
+    () => {
+      return withExample(`<div class="nds-form-element nds-has-error">
   <label class="nds-form-element__label" for="text-input-id-1">
     <abbr class="nds-required" title="required">*</abbr>
     <!-- react-text: 5 -->
@@ -73,8 +107,14 @@ storiesOf(`${base}`, module)
   </div>
   <div id="error-message" class="nds-form-element__help">This field is required</div>
 </div>`);
-  })
-  .add('Read Only (states)', () => {
+    },
+    {
+      "in-dsm": {
+        id: "5efce78731db001f782f63d4",
+      },
+    }
+  )
+  .add("Read Only (states)", () => {
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="text-input-id-1">Input Label</label>
   <div class="nds-form-element__control">
@@ -82,7 +122,7 @@ storiesOf(`${base}`, module)
   </div>
 </div>`);
   })
-  .add('Static (states)', () => {
+  .add("Static (states)", () => {
     return withExample(`<div class="nds-form-element">
   <span class="nds-form-element__label">Input Label</span>
   <div class="nds-form-element__control">
@@ -90,7 +130,7 @@ storiesOf(`${base}`, module)
   </div>
 </div>`);
   })
-  .add('Left Icon (examples)', () => {
+  .add("Left Icon (examples)", () => {
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="text-input-id-1">Input Label</label>
   <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left">
@@ -101,7 +141,7 @@ storiesOf(`${base}`, module)
   </div>
 </div>`);
   })
-  .add('Right Icon (examples)', () => {
+  .add("Right Icon (examples)", () => {
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="text-input-id-1">Input Label</label>
   <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_right">
@@ -112,7 +152,7 @@ storiesOf(`${base}`, module)
   </div>
 </div>`);
   })
-  .add('Double Icon (examples)', () => {
+  .add("Double Icon (examples)", () => {
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="text-input-id-1">Input Label</label>
   <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left-right">
@@ -129,7 +169,7 @@ storiesOf(`${base}`, module)
   </div>
 </div>`);
   })
-  .add('Double Icon Spinner (examples)', () => {
+  .add("Double Icon Spinner (examples)", () => {
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="text-input-id-1">Input Label</label>
   <div class="nds-form-element__control nds-input-has-icon nds-input-has-icon_left-right">
@@ -162,8 +202,10 @@ storiesOf(`${base}`, module)
   </div>
 </div>`);
   })
-  .add('Fixed Text (examples)', () => {
-    return withExample(`<div class="nds-form-element">
+  .add(
+    "Fixed Text (examples)",
+    () => {
+      return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="text-input-id-1">Input Label</label>
   <div class="nds-form-element__control nds-input-has-fixed-addon">
     <span class="nds-form-element__addon">$</span>
@@ -171,8 +213,14 @@ storiesOf(`${base}`, module)
     <span class="nds-form-element__addon">euro</span>
   </div>
 </div>`);
-  })
-  .add('Field Level Help (examples)', () => {
+    },
+    {
+      "in-dsm": {
+        id: "5efce76c1a7cab64e1b5b865",
+      },
+    }
+  )
+  .add("Field Level Help (examples)", () => {
     return withExample(`<div class="demo-only" style="padding-top: 5rem;">
   <div class="nds-form-element">
     <label class="nds-form-element__label nds-align-middle" for="form-help">Text Label</label>

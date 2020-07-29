@@ -1,34 +1,36 @@
-import { storiesOf } from '@storybook/html';
-import base from 'paths.macro';
-import { withKnobs, radios } from '@storybook/addon-knobs';
+import { storiesOf } from "@storybook/html";
+import base from "paths.macro";
+import { withKnobs, radios } from "@storybook/addon-knobs";
 import {
   withExample,
   withDocs,
-  commentToHTML
-} from '../../../scripts/storybook';
-import scss from './base/_index.scss';
-import notes from './doc.md';
+  commentToHTML,
+} from "../../../scripts/storybook";
+import scss from "./base/_index.scss";
+import notes from "./doc.md";
 
-const label = 'Open Sections';
+const label = "Open Sections";
 const options = {
-  None: '',
-  One: 'One',
-  Two: 'Two',
-  Three: 'Three'
+  None: "",
+  One: "One",
+  Two: "Two",
+  Three: "Three",
 };
-const defaultValue = '';
+const defaultValue = "";
 
-storiesOf(`${base}`, module)
+storiesOf("ui/components/accordion", module)
   .addDecorator(withKnobs)
   .addDecorator(commentToHTML(scss))
   .addDecorator(withDocs(notes))
-  .add('Default', () => {
-    const value = radios(label, options, defaultValue);
-    return withExample(`<ul class="nds-accordion">
+  .add(
+    "Default",
+    () => {
+      const value = radios(label, options, defaultValue);
+      return withExample(`<ul class="nds-accordion">
       <li class="nds-accordion__list-item">
-        <section class="nds-accordion__section ${value === 'One'
-          ? 'nds-is-open'
-          : ''}">
+        <section class="nds-accordion__section ${
+          value === "One" ? "nds-is-open" : ""
+        }">
           <div class="nds-accordion__summary">
             <h3 class="nds-text-heading_small nds-accordion__summary-heading">
               <button aria-controls="accordion-details-01" aria-expanded="true" class="nds-button nds-button_reset nds-accordion__summary-action">
@@ -49,9 +51,9 @@ storiesOf(`${base}`, module)
         </section>
       </li>
       <li class="nds-accordion__list-item">
-        <section class="nds-accordion__section ${value === 'Two'
-          ? 'nds-is-open'
-          : ''}">
+        <section class="nds-accordion__section ${
+          value === "Two" ? "nds-is-open" : ""
+        }">
           <div class="nds-accordion__summary">
             <h3 class="nds-text-heading_small nds-accordion__summary-heading">
               <button aria-controls="accordion-details-02" aria-expanded="false" class="nds-button nds-button_reset nds-accordion__summary-action">
@@ -72,9 +74,9 @@ storiesOf(`${base}`, module)
         </section>
       </li>
       <li class="nds-accordion__list-item">
-        <section class="nds-accordion__section ${value === 'Three'
-          ? 'nds-is-open'
-          : ''}">
+        <section class="nds-accordion__section ${
+          value === "Three" ? "nds-is-open" : ""
+        }">
           <div class="nds-accordion__summary">
             <h3 class="nds-text-heading_small nds-accordion__summary-heading">
               <button aria-controls="accordion-details-03" aria-expanded="false" class="nds-button nds-button_reset nds-accordion__summary-action">
@@ -95,15 +97,23 @@ storiesOf(`${base}`, module)
         </section>
       </li>
     </ul>`);
-  })
-  .add('In Card', () => {
-    const value = radios(label, options, defaultValue);
-    return withExample(`<div class="nds-card">
+    },
+    {
+      "in-dsm": {
+        id: "5f07bb3c12aa1cf3081104e8",
+      },
+    }
+  )
+  .add(
+    "In Card",
+    () => {
+      const value = radios(label, options, defaultValue);
+      return withExample(`<div class="nds-card">
   <ul class="nds-accordion">
     <li class="nds-accordion__list-item">
-      <section class="nds-accordion__section ${value === 'One'
-        ? 'nds-is-open'
-        : ''}">
+      <section class="nds-accordion__section ${
+        value === "One" ? "nds-is-open" : ""
+      }">
         <div class="nds-accordion__summary">
           <h3 class="nds-text-heading_small nds-accordion__summary-heading">
             <button aria-controls="accordion-details-01" aria-expanded="true" class="nds-button nds-button_reset nds-accordion__summary-action">
@@ -124,9 +134,9 @@ storiesOf(`${base}`, module)
       </section>
     </li>
     <li class="nds-accordion__list-item">
-      <section class="nds-accordion__section ${value === 'Two'
-        ? 'nds-is-open'
-        : ''}">
+      <section class="nds-accordion__section ${
+        value === "Two" ? "nds-is-open" : ""
+      }">
         <div class="nds-accordion__summary">
           <h3 class="nds-text-heading_small nds-accordion__summary-heading">
             <button aria-controls="accordion-details-02" aria-expanded="false" class="nds-button nds-button_reset nds-accordion__summary-action">
@@ -147,9 +157,9 @@ storiesOf(`${base}`, module)
       </section>
     </li>
     <li class="nds-accordion__list-item">
-      <section class="nds-accordion__section ${value === 'Three'
-        ? 'nds-is-open'
-        : ''}">
+      <section class="nds-accordion__section ${
+        value === "Three" ? "nds-is-open" : ""
+      }">
         <div class="nds-accordion__summary">
           <h3 class="nds-text-heading_small nds-accordion__summary-heading">
             <button aria-controls="accordion-details-03" aria-expanded="false" class="nds-button nds-button_reset nds-accordion__summary-action">
@@ -171,4 +181,10 @@ storiesOf(`${base}`, module)
     </li>
   </ul>
 </div>`);
-  });
+    },
+    {
+      "in-dsm": {
+        id: "5f07bb3c12aa1cf3081104e8",
+      },
+    }
+  );

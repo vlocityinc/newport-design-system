@@ -1,18 +1,20 @@
-import { storiesOf } from '@storybook/html';
-import base from 'paths.macro';
-import notes from '../doc.md';
-import scss from './_index.scss';
+import { storiesOf } from "@storybook/html";
+import base from "paths.macro";
+import notes from "../doc.md";
+import scss from "./_index.scss";
 import {
   withExample,
   withDocs,
-  commentToHTML
-} from '../../../../scripts/storybook';
+  commentToHTML,
+} from "../../../../scripts/storybook";
 
-storiesOf(`${base}`, module)
+storiesOf("ui/components/radio-group/newport", module)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
-  .add('Default (default)', () => {
-    return withExample(`<fieldset class="nds-form-element">
+  .add(
+    "Default (default)",
+    () => {
+      return withExample(`<fieldset class="nds-form-element">
   <legend class="nds-form-element__legend nds-form-element__label">Radio Group Label</legend>
   <div class="nds-form-element__control">
     <div class="nds-radio_custom-group nds-clearfix">
@@ -54,9 +56,17 @@ storiesOf(`${base}`, module)
     </div>
   </div>
 </fieldset>`);
-  })
-  .add('Noimage (states)', () => {
-    return withExample(`<fieldset class="nds-form-element">
+    },
+    {
+      "in-dsm": {
+        id: "5efce9e140a00f3af22f8b7d",
+      },
+    }
+  )
+  .add(
+    "Noimage (states)",
+    () => {
+      return withExample(`<fieldset class="nds-form-element">
   <legend class="nds-form-element__legend nds-form-element__label">Radio Group Label Without Image</legend>
   <div class="nds-form-element__control">
     <div class="nds-radio_custom-group nds-clearfix">
@@ -93,9 +103,17 @@ storiesOf(`${base}`, module)
     </div>
   </div>
 </fieldset>`);
-  })
-  .add('Disabled (states)', () => {
-    return withExample(`<fieldset class="nds-form-element">
+    },
+    {
+      "in-dsm": {
+        id: "5efce9e140a00f3af22f8b7d",
+      },
+    }
+  )
+  .add(
+    "Disabled (states)",
+    () => {
+      return withExample(`<fieldset class="nds-form-element">
   <legend class="nds-form-element__legend nds-form-element__label">Radio Group Label</legend>
   <div class="nds-form-element__control">
     <div class="nds-radio_custom-group nds-clearfix">
@@ -137,9 +155,17 @@ storiesOf(`${base}`, module)
     </div>
   </div>
 </fieldset>`);
-  })
-  .add('Required (states)', () => {
-    return withExample(`<fieldset class="nds-form-element">
+    },
+    {
+      "in-dsm": {
+        id: "5efce9e140a00f3af22f8b7d",
+      },
+    }
+  )
+  .add(
+    "Required (states)",
+    () => {
+      return withExample(`<fieldset class="nds-form-element">
   <legend class="nds-form-element__legend nds-form-element__label">
     <abbr class="nds-required" title="required">*</abbr>
     Radio Group Label
@@ -185,9 +211,17 @@ storiesOf(`${base}`, module)
     </div>
   </div>
 </fieldset>`);
-  })
-  .add('Error (states)', () => {
-    return withExample(`<fieldset class="nds-form-element nds-has-error">
+    },
+    {
+      "in-dsm": {
+        id: "5efce9e140a00f3af22f8b7d",
+      },
+    }
+  )
+  .add(
+    "Error (states)",
+    () => {
+      return withExample(`<fieldset class="nds-form-element nds-has-error">
   <legend class="nds-form-element__legend nds-form-element__label">
     <abbr class="nds-required" title="required">*</abbr>
     Radio Group Label
@@ -234,9 +268,17 @@ storiesOf(`${base}`, module)
     <div id="error_01" class="nds-form-element__help">This field is required</div>
   </div>
 </fieldset>`);
-  })
-  .add('With tooltip', () => {
-    return withExample(`<fieldset class="nds-form-element">
+    },
+    {
+      "in-dsm": {
+        id: "5efce9e140a00f3af22f8b7d",
+      },
+    }
+  )
+  .add(
+    "With tooltip",
+    () => {
+      return withExample(`<fieldset class="nds-form-element">
   <legend class="nds-form-element__legend nds-form-element__label">
   <span>Radio Group Label</span>
   <div class="nds-tooltip_container">
@@ -292,4 +334,10 @@ storiesOf(`${base}`, module)
     </div>
   </div>
 </fieldset>`);
-  });
+    },
+    {
+      "in-dsm": {
+        id: "5efce9e140a00f3af22f8b7d",
+      },
+    }
+  );

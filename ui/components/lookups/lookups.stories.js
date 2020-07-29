@@ -1,18 +1,20 @@
-import { storiesOf } from '@storybook/html';
-import base from 'paths.macro';
-import notes from './doc.md';
-import scss from './base/_index.scss';
+import { storiesOf } from "@storybook/html";
+import base from "paths.macro";
+import notes from "./doc.md";
+import scss from "./base/_index.scss";
 import {
   withExample,
   withDocs,
-  commentToHTML
-} from '../../../scripts/storybook';
+  commentToHTML,
+} from "../../../scripts/storybook";
 
-storiesOf(`${base}`, module)
+storiesOf("ui/components/lookups", module)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
-  .add('Default (default)', () => {
-    return withExample(`<div style="height: 10rem;">
+  .add(
+    "Default (default)",
+    () => {
+      return withExample(`<div style="height: 10rem;">
   <div class="nds-form-element">
     <label class="nds-form-element__label" for="combobox-unique-id">Search</label>
     <div class="nds-form-element__control">
@@ -85,9 +87,17 @@ storiesOf(`${base}`, module)
     </div>
   </div>
 </div>`);
-  })
-  .add('Focused (states)', () => {
-    return withExample(`<div style="height: 10rem;">
+    },
+    {
+      "in-dsm": {
+        id: "5efce7971a7cab44fab5b86a",
+      },
+    }
+  )
+  .add(
+    "Focused (states)",
+    () => {
+      return withExample(`<div style="height: 10rem;">
   <div class="nds-form-element">
     <label class="nds-form-element__label" for="combobox-unique-id">Search</label>
     <div class="nds-form-element__control">
@@ -160,9 +170,17 @@ storiesOf(`${base}`, module)
     </div>
   </div>
 </div>`);
-  })
-  .add('Open Item Focused (states)', () => {
-    return withExample(`<div style="height: 10rem;">
+    },
+    {
+      "in-dsm": {
+        id: "5efce7971a7cab44fab5b86a",
+      },
+    }
+  )
+  .add(
+    "Open Item Focused (states)",
+    () => {
+      return withExample(`<div style="height: 10rem;">
   <div class="nds-form-element">
     <label class="nds-form-element__label" for="combobox-unique-id">Search</label>
     <div class="nds-form-element__control">
@@ -235,9 +253,17 @@ storiesOf(`${base}`, module)
     </div>
   </div>
 </div>`);
-  })
-  .add('Closed Option Selected (states)', () => {
-    return withExample(`<div style="height: 10rem;">
+    },
+    {
+      "in-dsm": {
+        id: "5efce7971a7cab44fab5b86a",
+      },
+    }
+  )
+  .add(
+    "Closed Option Selected (states)",
+    () => {
+      return withExample(`<div style="height: 10rem;">
   <div class="nds-form-element">
     <label class="nds-form-element__label" for="combobox-unique-id">Search</label>
     <div class="nds-form-element__control">
@@ -317,4 +343,10 @@ storiesOf(`${base}`, module)
     </div>
   </div>
 </div>`);
-  });
+    },
+    {
+      "in-dsm": {
+        id: "5efce7971a7cab44fab5b86a",
+      },
+    }
+  );

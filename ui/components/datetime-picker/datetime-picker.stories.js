@@ -1,18 +1,20 @@
-import { storiesOf } from '@storybook/html';
-import base from 'paths.macro';
-import notes from './doc.md';
-import scss from './base/_index.scss';
+import { storiesOf } from "@storybook/html";
+import base from "paths.macro";
+import notes from "./doc.md";
+import scss from "./base/_index.scss";
 import {
   withExample,
   withDocs,
-  commentToHTML
-} from '../../../scripts/storybook';
+  commentToHTML,
+} from "../../../scripts/storybook";
 
-storiesOf(`${base}`, module)
+storiesOf("ui/components/datetime-picker", module)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
-  .add('Default (default)', () => {
-    return withExample(`<div style="height: 25rem;">
+  .add(
+    "Default (default)",
+    () => {
+      return withExample(`<div style="height: 25rem;">
   <div class="nds-form nds-form--compound">
     <fieldset class="nds-form-element">
       <legend class="nds-form-element__label">Date and Time</legend>
@@ -442,9 +444,17 @@ storiesOf(`${base}`, module)
     </fieldset>
   </div>
 </div>`);
-  })
-  .add('Date Selection (states)', () => {
-    return withExample(`<div style="height: 25rem;">
+    },
+    {
+      "in-dsm": {
+        id: "5efce77edd04a3e0a3fcddc5",
+      },
+    }
+  )
+  .add(
+    "Date Selection (states)",
+    () => {
+      return withExample(`<div style="height: 25rem;">
   <div class="nds-form nds-form--compound">
     <fieldset class="nds-form-element">
       <legend class="nds-form-element__label">Date and Time</legend>
@@ -874,9 +884,17 @@ storiesOf(`${base}`, module)
     </fieldset>
   </div>
 </div>`);
-  })
-  .add('Time Selection (states)', () => {
-    return withExample(`<div style="height: 25rem;">
+    },
+    {
+      "in-dsm": {
+        id: "5efce77edd04a3e0a3fcddc5",
+      },
+    }
+  )
+  .add(
+    "Time Selection (states)",
+    () => {
+      return withExample(`<div style="height: 25rem;">
   <div class="nds-form nds-form--compound">
     <fieldset class="nds-form-element">
       <legend class="nds-form-element__label">Date and Time</legend>
@@ -1307,4 +1325,10 @@ storiesOf(`${base}`, module)
     </fieldset>
   </div>
 </div>`);
-  });
+    },
+    {
+      "in-dsm": {
+        id: "5efce77edd04a3e0a3fcddc5",
+      },
+    }
+  );

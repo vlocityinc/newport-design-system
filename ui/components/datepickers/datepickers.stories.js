@@ -1,18 +1,22 @@
-import { storiesOf } from '@storybook/html';
-import base from 'paths.macro';
-import notes from './doc.md';
-import scss from './base/_index.scss';
+import { storiesOf } from "@storybook/html";
+import base from "paths.macro";
+import notes from "./doc.md";
+import scss from "./base/_index.scss";
 import {
   withExample,
   withDocs,
-  commentToHTML
-} from '../../../scripts/storybook';
+  commentToHTML,
+} from "../../../scripts/storybook";
 
-storiesOf(`${base}`, module)
+//`${base}`
+
+storiesOf("ui/components/datepickers", module)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
-  .add('Default (default)', () => {
-    return withExample(`<div style="height: 25rem;">
+  .add(
+    "Default (default)",
+    () => {
+      return withExample(`<div style="height: 25rem;">
   <div class="nds-form-element nds-dropdown-trigger nds-dropdown-trigger_click nds-is-open">
     <label class="nds-form-element__label" for="date-input-id">
       Date
@@ -207,9 +211,17 @@ storiesOf(`${base}`, module)
     </div>
   </div>
 </div>`);
-  })
-  .add('Datepicker Day Selected (states)', () => {
-    return withExample(`<div style="height: 25rem;">
+    },
+    {
+      "in-dsm": {
+        id: "5efce77a1a7cab1924b5b868",
+      },
+    }
+  )
+  .add(
+    "Datepicker Day Selected (states)",
+    () => {
+      return withExample(`<div style="height: 25rem;">
   <div class="nds-form-element nds-dropdown-trigger nds-dropdown-trigger_click nds-is-open">
     <label class="nds-form-element__label" for="date-input-id">
       Date
@@ -404,4 +416,10 @@ storiesOf(`${base}`, module)
     </div>
   </div>
 </div>`);
-  });
+    },
+    {
+      "in-dsm": {
+        id: "5efce77a1a7cab1924b5b868",
+      },
+    }
+  );

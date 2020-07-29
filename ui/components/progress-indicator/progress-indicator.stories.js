@@ -1,18 +1,20 @@
-import { storiesOf } from '@storybook/html';
-import base from 'paths.macro';
-import notes from './doc.md';
-import scss from './base/_index.scss';
+import { storiesOf } from "@storybook/html";
+import base from "paths.macro";
+import notes from "./doc.md";
+import scss from "./base/_index.scss";
 import {
   withExample,
   withDocs,
-  commentToHTML
-} from '../../../scripts/storybook';
+  commentToHTML,
+} from "../../../scripts/storybook";
 
-storiesOf(`${base}`, module)
+storiesOf("ui/components/progress-indicator", module)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
-  .add('Default (default)', () => {
-    return withExample(`<div class="demo-only" style="padding: 1rem;">
+  .add(
+    "Default (default)",
+    () => {
+      return withExample(`<div class="demo-only" style="padding: 1rem;">
   <div class="nds-progress">
     <ol class="nds-progress__list">
       <li class="nds-progress__item nds-is-active">
@@ -80,9 +82,17 @@ storiesOf(`${base}`, module)
     </div>
   </div>
 </div>`);
-  })
-  .add('Next Step (states)', () => {
-    return withExample(`<div class="demo-only" style="padding: 1rem;">
+    },
+    {
+      "in-dsm": {
+        id: "5efce83979d8ba77ee0554ba",
+      },
+    }
+  )
+  .add(
+    "Next Step (states)",
+    () => {
+      return withExample(`<div class="demo-only" style="padding: 1rem;">
   <div class="nds-progress">
     <ol class="nds-progress__list">
       <li class="nds-progress__item nds-is-completed">
@@ -148,9 +158,17 @@ storiesOf(`${base}`, module)
     </div>
   </div>
 </div>`);
-  })
-  .add('Has Error (states)', () => {
-    return withExample(`<div class="demo-only" style="padding: 1rem;">
+    },
+    {
+      "in-dsm": {
+        id: "5efce83979d8ba77ee0554ba",
+      },
+    }
+  )
+  .add(
+    "Has Error (states)",
+    () => {
+      return withExample(`<div class="demo-only" style="padding: 1rem;">
   <div class="nds-progress">
     <ol class="nds-progress__list">
       <li class="nds-progress__item nds-is-completed">
@@ -212,9 +230,17 @@ storiesOf(`${base}`, module)
     </div>
   </div>
 </div>`);
-  })
-  .add('Tooltip (states)', () => {
-    return withExample(`<div class="demo-only" style="padding: 3rem 1rem 0px;">
+    },
+    {
+      "in-dsm": {
+        id: "5efce83979d8ba77ee0554ba",
+      },
+    }
+  )
+  .add(
+    "Tooltip (states)",
+    () => {
+      return withExample(`<div class="demo-only" style="padding: 3rem 1rem 0px;">
   <div class="nds-progress">
     <ol class="nds-progress__list">
       <li class="nds-progress__item nds-is-completed">
@@ -281,9 +307,17 @@ storiesOf(`${base}`, module)
     <div class="nds-popover__body">Verify Email</div>
   </div>
 </div>`);
-  })
-  .add('Modal (examples)', () => {
-    return withExample(`<div class="demo-only" style="height: 640px;">
+    },
+    {
+      "in-dsm": {
+        id: "5efce83979d8ba77ee0554ba",
+      },
+    }
+  )
+  .add(
+    "Modal (examples)",
+    () => {
+      return withExample(`<div class="demo-only" style="height: 640px;">
   <section role="dialog" tabindex="-1" class="nds-modal nds-fade-in-open nds-modal_large" aria-labelledby="header43" aria-modal="true" aria-describedby="modal-content-id-1">
     <div class="nds-modal__container">
       <header class="nds-modal__header">
@@ -368,9 +402,17 @@ storiesOf(`${base}`, module)
   </section>
   <div class="nds-backdrop nds-backdrop_open"></div>
 </div>`);
-  })
-  .add('Shade (examples)', () => {
-    return withExample(`<div class="demo-only" style="background: rgb(244, 246, 249) none repeat scroll 0% 0%; padding: 1rem;">
+    },
+    {
+      "in-dsm": {
+        id: "5efce83979d8ba77ee0554ba",
+      },
+    }
+  )
+  .add(
+    "Shade (examples)",
+    () => {
+      return withExample(`<div class="demo-only" style="background: rgb(244, 246, 249) none repeat scroll 0% 0%; padding: 1rem;">
   <div class="nds-progress nds-progress_shade">
     <ol class="nds-progress__list">
       <li class="nds-progress__item nds-is-completed">
@@ -436,4 +478,10 @@ storiesOf(`${base}`, module)
     </div>
   </div>
 </div>`);
-  });
+    },
+    {
+      "in-dsm": {
+        id: "5efce83979d8ba77ee0554ba",
+      },
+    }
+  );

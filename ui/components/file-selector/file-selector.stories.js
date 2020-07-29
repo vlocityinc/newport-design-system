@@ -1,18 +1,20 @@
-import { storiesOf } from '@storybook/html';
-import base from 'paths.macro';
-import notes from './doc.md';
-import scss from './base/_index.scss';
+import { storiesOf } from "@storybook/html";
+import base from "paths.macro";
+import notes from "./doc.md";
+import scss from "./base/_index.scss";
 import {
   withExample,
   withDocs,
-  commentToHTML
-} from '../../../scripts/storybook';
+  commentToHTML,
+} from "../../../scripts/storybook";
 
-storiesOf(`${base}`, module)
+storiesOf("ui/components/file-selector", module)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
-  .add('Default (default)', () => {
-    return withExample(`<div class="nds-form-element">
+  .add(
+    "Default (default)",
+    () => {
+      return withExample(`<div class="nds-form-element">
   <span class="nds-form-element__label" id="file-selector-primary-label">Attachment</span>
   <div class="nds-form-element__control">
     <div class="nds-file-selector nds-file-selector_files">
@@ -39,9 +41,17 @@ storiesOf(`${base}`, module)
     </div>
   </div>
 </div>`);
-  })
-  .add('File Selector Files Error (states)', () => {
-    return withExample(`<div class="nds-form-element nds-has-error">
+    },
+    {
+      "in-dsm": {
+        id: "5efce79179d8ba871205548c",
+      },
+    }
+  )
+  .add(
+    "File Selector Files Error (states)",
+    () => {
+      return withExample(`<div class="nds-form-element nds-has-error">
   <span class="nds-form-element__label" id="file-selector-primary-label">Attachment</span>
   <div class="nds-form-element__control">
     <div class="nds-file-selector nds-file-selector_files">
@@ -69,9 +79,17 @@ storiesOf(`${base}`, module)
   </div>
   <div class="nds-form-element__help" id="error-01">File type not supported</div>
 </div>`);
-  })
-  .add('File Selector Files Draggover (states)', () => {
-    return withExample(`<div class="nds-form-element">
+    },
+    {
+      "in-dsm": {
+        id: "5efce79179d8ba871205548c",
+      },
+    }
+  )
+  .add(
+    "File Selector Files Draggover (states)",
+    () => {
+      return withExample(`<div class="nds-form-element">
   <span class="nds-form-element__label" id="file-selector-primary-label">Attachment</span>
   <div class="nds-form-element__control">
     <div class="nds-file-selector nds-file-selector_files">
@@ -98,9 +116,17 @@ storiesOf(`${base}`, module)
     </div>
   </div>
 </div>`);
-  })
-  .add('File Selector Files Draggover Error (states)', () => {
-    return withExample(`<div class="nds-form-element nds-has-error">
+    },
+    {
+      "in-dsm": {
+        id: "5efce79179d8ba871205548c",
+      },
+    }
+  )
+  .add(
+    "File Selector Files Draggover Error (states)",
+    () => {
+      return withExample(`<div class="nds-form-element nds-has-error">
   <span class="nds-form-element__label" id="file-selector-primary-label">Attachment</span>
   <div class="nds-form-element__control">
     <div class="nds-file-selector nds-file-selector_files">
@@ -128,4 +154,10 @@ storiesOf(`${base}`, module)
   </div>
   <div class="nds-form-element__help" id="error-01">File type not supported</div>
 </div>`);
-  });
+    },
+    {
+      "in-dsm": {
+        id: "5efce79179d8ba871205548c",
+      },
+    }
+  );

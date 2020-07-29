@@ -1,18 +1,20 @@
-import { storiesOf } from '@storybook/html';
-import base from 'paths.macro';
-import notes from './doc.md';
-import scss from './base/_index.scss';
+import { storiesOf } from "@storybook/html";
+import base from "paths.macro";
+import notes from "./doc.md";
+import scss from "./base/_index.scss";
 import {
   withExample,
   withDocs,
-  commentToHTML
-} from '../../../scripts/storybook';
+  commentToHTML,
+} from "../../../scripts/storybook";
 
-storiesOf(`${base}`, module)
+storiesOf("ui/components/slider", module)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
-  .add('Default (default)', () => {
-    return withExample(`<div class="nds-form-element">
+  .add(
+    "Default (default)",
+    () => {
+      return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
       <span class="nds-slider-label__label nds-slider-label__span">Slider Label</span>
@@ -28,9 +30,17 @@ storiesOf(`${base}`, module)
     </div>
   </div>
 </div>`);
-  })
-  .add('Disabled (states)', () => {
-    return withExample(`<div class="nds-form-element">
+    },
+    {
+      "in-dsm": {
+        id: "5efce7b52c31d78fb20a626c",
+      },
+    }
+  )
+  .add(
+    "Disabled (states)",
+    () => {
+      return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
       <span class="nds-slider-label__label nds-slider-label__span">Slider Label</span>
@@ -46,8 +56,14 @@ storiesOf(`${base}`, module)
     </div>
   </div>
 </div>`);
-  })
-  .add('Value 0 (states)', () => {
+    },
+    {
+      "in-dsm": {
+        id: "5efce7b52c31d78fb20a626c",
+      },
+    }
+  )
+  .add("Value 0 (states)", () => {
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
@@ -65,7 +81,7 @@ storiesOf(`${base}`, module)
   </div>
 </div>`);
   })
-  .add('Value 25 (states)', () => {
+  .add("Value 25 (states)", () => {
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
@@ -83,7 +99,7 @@ storiesOf(`${base}`, module)
   </div>
 </div>`);
   })
-  .add('Value 50 (states)', () => {
+  .add("Value 50 (states)", () => {
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
@@ -101,7 +117,7 @@ storiesOf(`${base}`, module)
   </div>
 </div>`);
   })
-  .add('Value 75 (states)', () => {
+  .add("Value 75 (states)", () => {
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
@@ -119,7 +135,7 @@ storiesOf(`${base}`, module)
   </div>
 </div>`);
   })
-  .add('Value 100 (states)', () => {
+  .add("Value 100 (states)", () => {
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
@@ -137,7 +153,7 @@ storiesOf(`${base}`, module)
   </div>
 </div>`);
   })
-  .add('Min Max (examples)', () => {
+  .add("Min Max (examples)", () => {
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
@@ -155,7 +171,7 @@ storiesOf(`${base}`, module)
   </div>
 </div>`);
   })
-  .add('Steps (examples)', () => {
+  .add("Steps (examples)", () => {
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
@@ -173,7 +189,7 @@ storiesOf(`${base}`, module)
   </div>
 </div>`);
   })
-  .add('Width X Small (examples)', () => {
+  .add("Width X Small (examples)", () => {
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
@@ -191,7 +207,7 @@ storiesOf(`${base}`, module)
   </div>
 </div>`);
   })
-  .add('Width Small (examples)', () => {
+  .add("Width Small (examples)", () => {
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
@@ -209,7 +225,7 @@ storiesOf(`${base}`, module)
   </div>
 </div>`);
   })
-  .add('Width Medium (examples)', () => {
+  .add("Width Medium (examples)", () => {
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
@@ -227,7 +243,7 @@ storiesOf(`${base}`, module)
   </div>
 </div>`);
   })
-  .add('Width Large (examples)', () => {
+  .add("Width Large (examples)", () => {
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
@@ -245,7 +261,7 @@ storiesOf(`${base}`, module)
   </div>
 </div>`);
   })
-  .add('Error (examples)', () => {
+  .add("Error (examples)", () => {
     return withExample(`<div class="nds-form-element nds-has-error">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">

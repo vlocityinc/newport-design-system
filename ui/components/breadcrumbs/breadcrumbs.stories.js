@@ -1,18 +1,20 @@
-import { storiesOf } from '@storybook/html';
-import base from 'paths.macro';
-import scss from './base/_index.scss';
-import notes from './doc.md';
+import { storiesOf } from "@storybook/html";
+import base from "paths.macro";
+import scss from "./base/_index.scss";
+import notes from "./doc.md";
 import {
   withExample,
   withDocs,
-  commentToHTML
-} from '../../../scripts/storybook';
+  commentToHTML,
+} from "../../../scripts/storybook";
 
-storiesOf(`${base}`, module)
+storiesOf("ui/components/breadcrumbs", module)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
-  .add('Default', () => {
-    return withExample(`<nav role="navigation" aria-label="Breadcrumbs">
+  .add(
+    "Default",
+    () => {
+      return withExample(`<nav role="navigation" aria-label="Breadcrumbs">
       <ol class="nds-breadcrumb nds-list_horizontal nds-wrap">
         <li class="nds-breadcrumb__item nds-text-title_caps">
           <a href="javascript:void(0);">Parent Entity</a>
@@ -22,4 +24,10 @@ storiesOf(`${base}`, module)
         </li>
       </ol>
     </nav>`);
-  });
+    },
+    {
+      "in-dsm": {
+        id: "5f07bb54afcd9d39ac2206d6",
+      },
+    }
+  );

@@ -1,18 +1,22 @@
-import { storiesOf } from '@storybook/html';
-import base from 'paths.macro';
-import notes from './doc.md';
-import scss from './base/_index.scss';
+import { storiesOf } from "@storybook/html";
+import base from "paths.macro";
+import notes from "./doc.md";
+import scss from "./base/_index.scss";
 import {
   withExample,
   withDocs,
-  commentToHTML
-} from '../../../scripts/storybook';
+  commentToHTML,
+} from "../../../scripts/storybook";
 
-storiesOf(`${base}`, module)
+const storyPath = `${base}`;
+
+storiesOf("ui/components/checkbox", module)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
-  .add('Default', () => {
-    return withExample(`<div class="nds-form-element">
+  .add(
+    "Default",
+    () => {
+      return withExample(`<div class="nds-form-element">
   <div class="nds-form-element__control">
     <label class="nds-checkbox">
       <input type="checkbox" name="options" id="checkbox-1" value="on">
@@ -23,9 +27,17 @@ storiesOf(`${base}`, module)
     </label>
   </div>
 </div>`);
-  })
-  .add('Indetermine', () => {
-    return withExample(`<div class="nds-form-element">
+    },
+    {
+      "in-dsm": {
+        id: "5efce4c179d8ba4bf405538f",
+      },
+    }
+  )
+  .add(
+    "Indetermine",
+    () => {
+      return withExample(`<div class="nds-form-element">
   <div class="nds-form-element__control">
     <label class="nds-checkbox">
       <input type="checkbox" name="options" id="checkbox-indeterminate-01" value="on">
@@ -36,9 +48,17 @@ storiesOf(`${base}`, module)
     </label>
   </div>
 </div>`);
-  })
-  .add('Require', () => {
-    return withExample(`<div class="nds-form-element">
+    },
+    {
+      "in-dsm": {
+        id: "5efce4c179d8ba4bf405538f",
+      },
+    }
+  )
+  .add(
+    "Require",
+    () => {
+      return withExample(`<div class="nds-form-element">
   <div class="nds-form-element__control">
     <label class="nds-checkbox">
       <abbr class="nds-required" title="required">*</abbr>
@@ -50,9 +70,17 @@ storiesOf(`${base}`, module)
     </label>
   </div>
 </div>`);
-  })
-  .add('Error', () => {
-    return withExample(`<div class="nds-form-element nds-has-error">
+    },
+    {
+      "in-dsm": {
+        id: "5efce4c179d8ba4bf405538f",
+      },
+    }
+  )
+  .add(
+    "Error",
+    () => {
+      return withExample(`<div class="nds-form-element nds-has-error">
   <div class="nds-form-element__control">
     <label class="nds-checkbox">
       <abbr class="nds-required" title="required">*</abbr>
@@ -65,9 +93,17 @@ storiesOf(`${base}`, module)
   </div>
   <div id="error_01" class="nds-form-element__help">This field is required</div>
 </div>`);
-  })
-  .add('Disabled', () => {
-    return withExample(`<div class="nds-form-element">
+    },
+    {
+      "in-dsm": {
+        id: "5efce4c179d8ba4bf405538f",
+      },
+    }
+  )
+  .add(
+    "Disabled",
+    () => {
+      return withExample(`<div class="nds-form-element">
   <div class="nds-form-element__control">
     <label class="nds-checkbox">
       <input type="checkbox" name="options" id="checkbox-7" disabled="" value="on">
@@ -78,9 +114,17 @@ storiesOf(`${base}`, module)
     </label>
   </div>
 </div>`);
-  })
-  .add('Group', () => {
-    return withExample(`<fieldset class="nds-form-element">
+    },
+    {
+      "in-dsm": {
+        id: "5efce4c179d8ba4bf405538f",
+      },
+    }
+  )
+  .add(
+    "Group",
+    () => {
+      return withExample(`<fieldset class="nds-form-element">
   <legend class="nds-form-element__legend nds-form-element__label">Checkbox Group Label</legend>
   <div class="nds-form-element__control">
     <label class="nds-checkbox">
@@ -99,9 +143,17 @@ storiesOf(`${base}`, module)
     </label>
   </div>
 </fieldset>`);
-  })
-  .add('Group Required', () => {
-    return withExample(`<fieldset class="nds-form-element">
+    },
+    {
+      "in-dsm": {
+        id: "5efce4c179d8ba4bf405538f",
+      },
+    }
+  )
+  .add(
+    "Group Required",
+    () => {
+      return withExample(`<fieldset class="nds-form-element">
   <legend class="nds-form-element__legend nds-form-element__label">
     <abbr class="nds-required" title="required">*</abbr>
     Checkbox Group Label
@@ -123,9 +175,17 @@ storiesOf(`${base}`, module)
     </label>
   </div>
 </fieldset>`);
-  })
-  .add('Group Error', () => {
-    return withExample(`<fieldset class="nds-form-element nds-has-error">
+    },
+    {
+      "in-dsm": {
+        id: "5efce4c179d8ba4bf405538f",
+      },
+    }
+  )
+  .add(
+    "Group Error",
+    () => {
+      return withExample(`<fieldset class="nds-form-element nds-has-error">
   <legend class="nds-form-element__legend nds-form-element__label">
     <abbr class="nds-required" title="required">*</abbr>
     Checkbox Group Label
@@ -148,9 +208,17 @@ storiesOf(`${base}`, module)
   </div>
   <div id="error_01" class="nds-form-element__help">This field is required</div>
 </fieldset>`);
-  })
-  .add('Group Disabled', () => {
-    return withExample(`<fieldset class="nds-form-element">
+    },
+    {
+      "in-dsm": {
+        id: "5efce4c179d8ba4bf405538f",
+      },
+    }
+  )
+  .add(
+    "Group Disabled",
+    () => {
+      return withExample(`<fieldset class="nds-form-element">
   <legend class="nds-form-element__legend nds-form-element__label">Checkbox Group Label</legend>
   <div class="nds-form-element__control">
     <label class="nds-checkbox">
@@ -169,9 +237,17 @@ storiesOf(`${base}`, module)
     </label>
   </div>
 </fieldset>`);
-  })
-  .add('Newport Group Default', () => {
-    return withExample(`<fieldset class="nds-form-element">
+    },
+    {
+      "in-dsm": {
+        id: "5efce4c179d8ba4bf405538f",
+      },
+    }
+  )
+  .add(
+    "Newport Group Default",
+    () => {
+      return withExample(`<fieldset class="nds-form-element">
 <legend class="nds-form-element__legend nds-form-element__label">Scheduled Day(s)</legend>
 <div class="nds-form-element__control">
   <div class="nds-checkbox_custom-group nds-clearfix">
@@ -213,9 +289,17 @@ storiesOf(`${base}`, module)
   </div>
 </div>
 </fieldset>`);
-  })
-  .add('Newport Group No Images', () => {
-    return withExample(`<fieldset class="nds-form-element">
+    },
+    {
+      "in-dsm": {
+        id: "5efce4c179d8ba4bf405538f",
+      },
+    }
+  )
+  .add(
+    "Newport Group No Images",
+    () => {
+      return withExample(`<fieldset class="nds-form-element">
 <legend class="nds-form-element__legend nds-form-element__label">Scheduled Day(s)</legend>
 <div class="nds-form-element__control">
   <div class="nds-checkbox_custom-group nds-clearfix">
@@ -292,9 +376,17 @@ storiesOf(`${base}`, module)
   </div>
 </div>
 </fieldset>`);
-  })
-  .add('Newport Group Has Error', () => {
-    return withExample(`<fieldset class="nds-form-element nds-has-error">
+    },
+    {
+      "in-dsm": {
+        id: "5efce4c179d8ba4bf405538f",
+      },
+    }
+  )
+  .add(
+    "Newport Group Has Error",
+    () => {
+      return withExample(`<fieldset class="nds-form-element nds-has-error">
 <legend class="nds-form-element__legend nds-form-element__label">Scheduled Day(s)</legend>
 <div class="nds-form-element__control">
   <div class="nds-checkbox_custom-group nds-clearfix">
@@ -337,9 +429,17 @@ storiesOf(`${base}`, module)
   <div id="error_01" class="nds-form-element__help">This field is required</div>
 </div>
 </fieldset>`);
-  })
-  .add('Newport Group Disabled', () => {
-    return withExample(`<fieldset class="nds-form-element">
+    },
+    {
+      "in-dsm": {
+        id: "5efce4c179d8ba4bf405538f",
+      },
+    }
+  )
+  .add(
+    "Newport Group Disabled",
+    () => {
+      return withExample(`<fieldset class="nds-form-element">
 <legend class="nds-form-element__legend nds-form-element__label">Scheduled Day(s)</legend>
 <div class="nds-form-element__control">
   <div class="nds-checkbox_custom-group nds-clearfix">
@@ -381,4 +481,10 @@ storiesOf(`${base}`, module)
   </div>
 </div>
 </fieldset>`);
-  });
+    },
+    {
+      "in-dsm": {
+        id: "5efce4c179d8ba4bf405538f",
+      },
+    }
+  );

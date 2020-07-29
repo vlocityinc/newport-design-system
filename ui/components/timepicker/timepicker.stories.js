@@ -1,18 +1,20 @@
-import { storiesOf } from '@storybook/html';
-import base from 'paths.macro';
-import notes from './doc.md';
-import scss from './base/_index.scss';
+import { storiesOf } from "@storybook/html";
+import base from "paths.macro";
+import notes from "./doc.md";
+import scss from "./base/_index.scss";
 import {
   withExample,
   withDocs,
-  commentToHTML
-} from '../../../scripts/storybook';
+  commentToHTML,
+} from "../../../scripts/storybook";
 
-storiesOf(`${base}`, module)
+storiesOf("ui/components/timepicker", module)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
-  .add('Default (default)', () => {
-    return withExample(`<div style="height: 15rem;">
+  .add(
+    "Default (default)",
+    () => {
+      return withExample(`<div style="height: 15rem;">
   <div class="nds-form-element">
     <label class="nds-form-element__label" for="combobox-unique-id">Time</label>
     <div class="nds-form-element__control">
@@ -240,9 +242,17 @@ storiesOf(`${base}`, module)
     </div>
   </div>
 </div>`);
-  })
-  .add('Focused (states)', () => {
-    return withExample(`<div style="height: 15rem;">
+    },
+    {
+      "in-dsm": {
+        id: "5efce7caa738dad9c93610f8",
+      },
+    }
+  )
+  .add(
+    "Focused (states)",
+    () => {
+      return withExample(`<div style="height: 15rem;">
   <div class="nds-form-element">
     <label class="nds-form-element__label" for="combobox-unique-id">Time</label>
     <div class="nds-form-element__control">
@@ -470,9 +480,17 @@ storiesOf(`${base}`, module)
     </div>
   </div>
 </div>`);
-  })
-  .add('Open Item Focused (states)', () => {
-    return withExample(`<div style="height: 15rem;">
+    },
+    {
+      "in-dsm": {
+        id: "5efce7caa738dad9c93610f8",
+      },
+    }
+  )
+  .add(
+    "Open Item Focused (states)",
+    () => {
+      return withExample(`<div style="height: 15rem;">
   <div class="nds-form-element">
     <label class="nds-form-element__label" for="combobox-unique-id">Time</label>
     <div class="nds-form-element__control">
@@ -700,8 +718,14 @@ storiesOf(`${base}`, module)
     </div>
   </div>
 </div>`);
-  })
-  .add('Time Selection (states)', () => {
+    },
+    {
+      "in-dsm": {
+        id: "5efce7caa738dad9c93610f8",
+      },
+    }
+  )
+  .add("Time Selection (states)", () => {
     return withExample(`<div style="height: 15rem;">
   <div class="nds-form-element">
     <label class="nds-form-element__label" for="combobox-unique-id">Time</label>
