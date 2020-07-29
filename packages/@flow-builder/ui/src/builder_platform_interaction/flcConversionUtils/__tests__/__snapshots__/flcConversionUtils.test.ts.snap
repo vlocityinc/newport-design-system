@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`consolidate end connectors for decision with nested decision with two ended branches 1`] = `
+exports[`flc conversion utils consolidate end connectors for decision with nested decision with two ended branches 1`] = `
 Object {
   "decision-element-guid": Object {
     "availableConnections": Array [
@@ -193,7 +193,7 @@ Object {
 }
 `;
 
-exports[`consolidate end connectors for decision with nested empty decision 1`] = `
+exports[`flc conversion utils consolidate end connectors for decision with nested empty decision 1`] = `
 Object {
   "decision-element-guid": Object {
     "availableConnections": Array [
@@ -345,7 +345,7 @@ Object {
 }
 `;
 
-exports[`consolidate end connectors for decision with two ended branches 1`] = `
+exports[`flc conversion utils consolidate end connectors for decision with two ended branches 1`] = `
 Object {
   "decision-element-guid": Object {
     "availableConnections": Array [],
@@ -506,7 +506,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Auto Layout decision empty with empty nested decision from Auto Layout Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Auto Layout decision empty with empty nested decision from Auto Layout Canvas 1`] = `
 Object {
   "canvasElements": Array [
     "decision-element-guid",
@@ -648,7 +648,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Auto Layout decision empty with end next from Auto Layout Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Auto Layout decision empty with end next from Auto Layout Canvas 1`] = `
 Object {
   "canvasElements": Array [
     "decision-element-guid",
@@ -738,7 +738,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Auto Layout decision empty with screen next from Auto Layout Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Auto Layout decision empty with screen next from Auto Layout Canvas 1`] = `
 Object {
   "canvasElements": Array [
     "decision-element-guid",
@@ -870,7 +870,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Auto Layout decision with child on non default outcome from Auto Layout Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Auto Layout decision with child on non default outcome from Auto Layout Canvas 1`] = `
 Object {
   "canvasElements": Array [
     "decision-element-guid",
@@ -1041,7 +1041,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Auto Layout decision with child on non default outcome next is end from Auto Layout Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Auto Layout decision with child on non default outcome next is end from Auto Layout Canvas 1`] = `
 Object {
   "canvasElements": Array [
     "decision-element-guid",
@@ -1167,7 +1167,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Auto Layout decision with decision next from Auto Layout Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Auto Layout decision with decision next from Auto Layout Canvas 1`] = `
 Object {
   "canvasElements": Array [
     "decision-element-guid",
@@ -1315,7 +1315,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Auto Layout decision with nested decision with two ended branches from Auto Layout Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Auto Layout decision with nested decision with two ended branches from Auto Layout Canvas 1`] = `
 Object {
   "canvasElements": Array [
     "decision-element-guid",
@@ -1511,7 +1511,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Auto Layout decision with nested left decision from Auto Layout Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Auto Layout decision with nested left decision from Auto Layout Canvas 1`] = `
 Object {
   "canvasElements": Array [
     "decision-element-guid",
@@ -1740,7 +1740,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Auto Layout decision with nested right decision from Auto Layout Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Auto Layout decision with nested right decision from Auto Layout Canvas 1`] = `
 Object {
   "canvasElements": Array [
     "decision-element-guid",
@@ -1969,7 +1969,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Auto Layout decision with one child on each branch, followed by a screen element from Auto Layout Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Auto Layout decision with one child on each branch, followed by a screen element from Auto Layout Canvas 1`] = `
 Object {
   "canvasElements": Array [
     "decision-element-guid",
@@ -2189,7 +2189,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Auto Layout decision with two ended branches from Auto Layout Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Auto Layout decision with two ended branches from Auto Layout Canvas 1`] = `
 Object {
   "canvasElements": Array [
     "decision-element-guid",
@@ -2350,7 +2350,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Auto Layout loop empty from Auto Layout Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Auto Layout loop empty from Auto Layout Canvas 1`] = `
 Object {
   "canvasElements": Array [
     "loop-element-guid",
@@ -2431,7 +2431,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Auto Layout loop with for each and after last end from Auto Layout Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Auto Layout loop with for each and after last end from Auto Layout Canvas 1`] = `
 Object {
   "canvasElements": Array [
     "loop-element-guid",
@@ -2573,7 +2573,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Auto Layout loop with for each and after last screen from Auto Layout Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Auto Layout loop with for each and after last screen from Auto Layout Canvas 1`] = `
 Object {
   "canvasElements": Array [
     "loop-element-guid",
@@ -2750,7 +2750,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Auto Layout loop with nested empty decision from Auto Layout Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Auto Layout loop with nested empty decision from Auto Layout Canvas 1`] = `
 Object {
   "canvasElements": Array [
     "loop-element-guid",
@@ -2896,7 +2896,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Auto Layout loop with nested loop from Auto Layout Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Auto Layout loop with nested loop from Auto Layout Canvas 1`] = `
 Object {
   "canvasElements": Array [
     "loop-element-guid",
@@ -3023,7 +3023,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Auto Layout simple one element with fault from Auto Layout Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Auto Layout simple one element with fault from Auto Layout Canvas 1`] = `
 Object {
   "canvasElements": Array [
     "fault-element-guid",
@@ -3154,7 +3154,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Auto Layout simple one screen from Auto Layout Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Auto Layout simple one screen from Auto Layout Canvas 1`] = `
 Object {
   "canvasElements": Array [
     "screen-element-guid",
@@ -3233,7 +3233,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Auto Layout simple only start from Auto Layout Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Auto Layout simple only start from Auto Layout Canvas 1`] = `
 Object {
   "canvasElements": Array [
     "start-element-guid",
@@ -3272,7 +3272,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Free Form decision complex 1 from Free Form Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Free Form decision complex 1 from Free Form Canvas 1`] = `
 Object {
   "canvasElements": Array [],
   "connectors": Array [],
@@ -3490,7 +3490,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Free Form decision empty from Free Form Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Free Form decision empty from Free Form Canvas 1`] = `
 Object {
   "canvasElements": Array [],
   "connectors": Array [],
@@ -3610,7 +3610,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Free Form decision with decision nested and join screen from Free Form Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Free Form decision with decision nested and join screen from Free Form Canvas 1`] = `
 Object {
   "canvasElements": Array [],
   "connectors": Array [],
@@ -3801,7 +3801,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Free Form decision with decision next from Free Form Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Free Form decision with decision next from Free Form Canvas 1`] = `
 Object {
   "canvasElements": Array [],
   "connectors": Array [],
@@ -3981,7 +3981,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Free Form decision with multiple outcomes from Free Form Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Free Form decision with multiple outcomes from Free Form Canvas 1`] = `
 Object {
   "canvasElements": Array [],
   "connectors": Array [],
@@ -4171,7 +4171,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Free Form decision with nested empty decision from Free Form Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Free Form decision with nested empty decision from Free Form Canvas 1`] = `
 Object {
   "canvasElements": Array [],
   "connectors": Array [],
@@ -4351,7 +4351,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Free Form decision with nested left decision from Free Form Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Free Form decision with nested left decision from Free Form Canvas 1`] = `
 Object {
   "canvasElements": Array [],
   "connectors": Array [],
@@ -4560,7 +4560,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Free Form decision with screen on each branch and screen merge from Free Form Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Free Form decision with screen on each branch and screen merge from Free Form Canvas 1`] = `
 Object {
   "canvasElements": Array [],
   "connectors": Array [],
@@ -4757,7 +4757,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Free Form fault decision head from Free Form Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Free Form fault decision head from Free Form Canvas 1`] = `
 Object {
   "canvasElements": Array [],
   "connectors": Array [],
@@ -4781,6 +4781,15 @@ Object {
       "next": "null",
       "parent": "fault-element-guid",
       "prev": "null",
+    },
+    "end-element-guid (record-create-element-guid::0)": Object {
+      "childIndex": "null",
+      "elementType": "END_ELEMENT",
+      "guid": "end-element-guid (record-create-element-guid::0)",
+      "isCanvasElement": true,
+      "next": "null",
+      "parent": "null",
+      "prev": "record-create-element-guid",
     },
     "fault-element-guid": Object {
       "availableConnections": Array [
@@ -4836,7 +4845,11 @@ Object {
       "name": "d1out",
     },
     "record-create-element-guid": Object {
-      "availableConnections": Array [],
+      "availableConnections": Array [
+        Object {
+          "type": "REGULAR",
+        },
+      ],
       "config": Object {
         "isHighlighted": false,
         "isSelectable": true,
@@ -4853,7 +4866,7 @@ Object {
       "locationX": 0,
       "locationY": 0,
       "maxConnections": 2,
-      "next": "null",
+      "next": "end-element-guid (record-create-element-guid::0)",
       "object": "",
       "objectIndex": "12c23e8e-4104-40ba-86e0-feb73e787792",
       "prev": "start-element-guid",
@@ -4886,7 +4899,7 @@ Object {
       "filters": Array [],
       "guid": "start-element-guid",
       "isCanvasElement": true,
-      "isTerminal": false,
+      "isTerminal": true,
       "locationX": 0,
       "locationY": 0,
       "maxConnections": 1,
@@ -4901,13 +4914,34 @@ Object {
 }
 `;
 
-exports[`converts round trip from Free Form fault simple from Free Form Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Free Form fault simple from Free Form Canvas 1`] = `
 Object {
   "canvasElements": Array [],
   "connectors": Array [],
   "elements": Object {
+    "end-element-guid (fault-element-guid::0)": Object {
+      "childIndex": "null",
+      "elementType": "END_ELEMENT",
+      "guid": "end-element-guid (fault-element-guid::0)",
+      "isCanvasElement": true,
+      "next": "null",
+      "parent": "null",
+      "prev": "fault-element-guid",
+    },
+    "end-element-guid (record-create-element-guid::0)": Object {
+      "childIndex": "null",
+      "elementType": "END_ELEMENT",
+      "guid": "end-element-guid (record-create-element-guid::0)",
+      "isCanvasElement": true,
+      "next": "null",
+      "parent": "null",
+      "prev": "record-create-element-guid",
+    },
     "fault-element-guid": Object {
       "availableConnections": Array [
+        Object {
+          "type": "REGULAR",
+        },
         Object {
           "type": "FAULT",
         },
@@ -4925,11 +4959,11 @@ Object {
       "filters": Array [],
       "guid": "fault-element-guid",
       "isCanvasElement": true,
-      "isTerminal": false,
+      "isTerminal": true,
       "locationX": 0,
       "locationY": 0,
       "maxConnections": 2,
-      "next": "null",
+      "next": "end-element-guid (fault-element-guid::0)",
       "object": "",
       "objectIndex": "92c23e8e-4104-40ba-86e0-feb73e787792",
       "parent": "record-create-element-guid",
@@ -4937,7 +4971,11 @@ Object {
       "triggerType": "None",
     },
     "record-create-element-guid": Object {
-      "availableConnections": Array [],
+      "availableConnections": Array [
+        Object {
+          "type": "REGULAR",
+        },
+      ],
       "config": Object {
         "isHighlighted": false,
         "isSelectable": true,
@@ -4954,7 +4992,7 @@ Object {
       "locationX": 0,
       "locationY": 0,
       "maxConnections": 2,
-      "next": "null",
+      "next": "end-element-guid (record-create-element-guid::0)",
       "object": "",
       "objectIndex": "12c23e8e-4104-40ba-86e0-feb73e787792",
       "prev": "start-element-guid",
@@ -4987,7 +5025,7 @@ Object {
       "filters": Array [],
       "guid": "start-element-guid",
       "isCanvasElement": true,
-      "isTerminal": false,
+      "isTerminal": true,
       "locationX": 0,
       "locationY": 0,
       "maxConnections": 1,
@@ -5002,7 +5040,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Free Form loop empty from Free Form Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Free Form loop empty from Free Form Canvas 1`] = `
 Object {
   "canvasElements": Array [],
   "connectors": Array [],
@@ -5116,7 +5154,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Free Form loop empty with after last from Free Form Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Free Form loop empty with after last from Free Form Canvas 1`] = `
 Object {
   "canvasElements": Array [],
   "connectors": Array [],
@@ -5257,222 +5295,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Free Form loop two nested decisions from Free Form Canvas 1`] = `
-Object {
-  "canvasElements": Array [],
-  "connectors": Array [],
-  "elements": Object {
-    "0baa6a98-e8af-4abf-a958-cbeffa4b032c": Object {
-      "conditionLogic": "and",
-      "conditions": Array [
-        Object {
-          "leftHandSide": "",
-          "operator": "",
-          "rightHandSide": "",
-          "rightHandSideDataType": "",
-          "rowIndex": "042cf693-62d2-4272-a0a1-76b49942b012",
-        },
-      ],
-      "dataType": "Boolean",
-      "doesRequireRecordChangedToMeetCriteria": false,
-      "elementType": "OUTCOME",
-      "guid": "0baa6a98-e8af-4abf-a958-cbeffa4b032c",
-      "label": "",
-      "name": "",
-    },
-    "74e4035c-c724-4ed5-a283-796b1765e6f4": Object {
-      "assignNextValueToReference": "null",
-      "assignNextValueToReferenceIndex": "cb5b3c0b-7368-4435-bba9-129d3723c932",
-      "availableConnections": Array [
-        Object {
-          "type": "LOOP_END",
-        },
-      ],
-      "children": Array [
-        "b9e0dccc-8648-4063-8a1e-56f8b32a17e2",
-      ],
-      "collectionReference": "null",
-      "collectionReferenceIndex": "694b7877-498b-4326-bb06-3d348f972277",
-      "config": Object {
-        "isHighlighted": false,
-        "isSelectable": true,
-        "isSelected": false,
-      },
-      "connectorCount": 1,
-      "description": "",
-      "elementType": "Loop",
-      "guid": "74e4035c-c724-4ed5-a283-796b1765e6f4",
-      "isCanvasElement": true,
-      "iterationOrder": "Asc",
-      "label": "",
-      "locationX": 0,
-      "locationY": 0,
-      "maxConnections": 2,
-      "name": "",
-      "next": "end-element-guid (74e4035c-c724-4ed5-a283-796b1765e6f4::0)",
-      "prev": "e35c2063-cb84-4765-a091-9ac3d27138a3",
-      "storeOutputAutomatically": true,
-    },
-    "b6754f72-a64b-4ecf-802f-da114318d74a": Object {
-      "availableConnections": Array [],
-      "childIndex": 1,
-      "childReferences": Array [
-        Object {
-          "childReference": "deaaa777-2964-413f-9c16-ca34037872cc",
-        },
-      ],
-      "children": Array [
-        "null",
-        "null",
-      ],
-      "config": Object {
-        "isHighlighted": false,
-        "isSelectable": true,
-        "isSelected": false,
-      },
-      "connectorCount": 2,
-      "defaultConnectorLabel": "Default Outcome",
-      "description": "",
-      "elementType": "Decision",
-      "guid": "b6754f72-a64b-4ecf-802f-da114318d74a",
-      "isCanvasElement": true,
-      "isTerminal": false,
-      "label": "",
-      "locationX": 0,
-      "locationY": 0,
-      "maxConnections": 2,
-      "name": "",
-      "next": "null",
-      "parent": "b9e0dccc-8648-4063-8a1e-56f8b32a17e2",
-      "prev": "null",
-    },
-    "b9e0dccc-8648-4063-8a1e-56f8b32a17e2": Object {
-      "availableConnections": Array [
-        Object {
-          "childReference": "0baa6a98-e8af-4abf-a958-cbeffa4b032c",
-          "type": "REGULAR",
-        },
-      ],
-      "childIndex": 0,
-      "childReferences": Array [
-        Object {
-          "childReference": "0baa6a98-e8af-4abf-a958-cbeffa4b032c",
-        },
-      ],
-      "children": Array [
-        "end-element-guid (b9e0dccc-8648-4063-8a1e-56f8b32a17e2::0)",
-        "b6754f72-a64b-4ecf-802f-da114318d74a",
-      ],
-      "config": Object {
-        "isHighlighted": false,
-        "isSelectable": true,
-        "isSelected": false,
-      },
-      "connectorCount": 1,
-      "defaultConnectorLabel": "Default Outcome",
-      "description": "",
-      "elementType": "Decision",
-      "guid": "b9e0dccc-8648-4063-8a1e-56f8b32a17e2",
-      "isCanvasElement": true,
-      "isTerminal": false,
-      "label": "",
-      "locationX": 0,
-      "locationY": 0,
-      "maxConnections": 2,
-      "name": "",
-      "next": "null",
-      "parent": "74e4035c-c724-4ed5-a283-796b1765e6f4",
-      "prev": "null",
-    },
-    "deaaa777-2964-413f-9c16-ca34037872cc": Object {
-      "conditionLogic": "and",
-      "conditions": Array [
-        Object {
-          "leftHandSide": "",
-          "operator": "",
-          "rightHandSide": "",
-          "rightHandSideDataType": "",
-          "rowIndex": "383bf7a8-fcf5-4082-8f09-64b480facd16",
-        },
-      ],
-      "dataType": "Boolean",
-      "doesRequireRecordChangedToMeetCriteria": false,
-      "elementType": "OUTCOME",
-      "guid": "deaaa777-2964-413f-9c16-ca34037872cc",
-      "label": "",
-      "name": "",
-    },
-    "e35c2063-cb84-4765-a091-9ac3d27138a3": Object {
-      "childIndex": 0,
-      "config": Object {
-        "isHighlighted": false,
-        "isSelectable": true,
-        "isSelected": false,
-      },
-      "connectorCount": 1,
-      "description": "",
-      "doesRequireRecordChangedToMeetCriteria": false,
-      "elementType": "START_ELEMENT",
-      "filterLogic": "and",
-      "filters": Array [
-        Object {
-          "leftHandSide": "",
-          "operator": "",
-          "rightHandSide": "",
-          "rightHandSideDataType": "",
-          "rowIndex": "88879acd-671a-4029-bac4-8dcc9ebe7269",
-        },
-      ],
-      "guid": "e35c2063-cb84-4765-a091-9ac3d27138a3",
-      "isCanvasElement": true,
-      "isTerminal": true,
-      "locationX": 0,
-      "locationY": 0,
-      "maxConnections": 1,
-      "next": "74e4035c-c724-4ed5-a283-796b1765e6f4",
-      "object": "",
-      "objectIndex": "38ba8f9e-1005-4074-8b2d-9486da04f93f",
-      "parent": "root",
-      "prev": "null",
-      "triggerType": "None",
-    },
-    "end-element-guid (74e4035c-c724-4ed5-a283-796b1765e6f4::0)": Object {
-      "childIndex": "null",
-      "elementType": "END_ELEMENT",
-      "guid": "end-element-guid (74e4035c-c724-4ed5-a283-796b1765e6f4::0)",
-      "isCanvasElement": true,
-      "next": "null",
-      "parent": "null",
-      "prev": "74e4035c-c724-4ed5-a283-796b1765e6f4",
-    },
-    "end-element-guid (b9e0dccc-8648-4063-8a1e-56f8b32a17e2::0)": Object {
-      "childIndex": 0,
-      "elementType": "END_ELEMENT",
-      "guid": "end-element-guid (b9e0dccc-8648-4063-8a1e-56f8b32a17e2::0)",
-      "isCanvasElement": true,
-      "isTerminal": true,
-      "next": "null",
-      "parent": "b9e0dccc-8648-4063-8a1e-56f8b32a17e2",
-      "prev": "null",
-    },
-    "root": Object {
-      "children": Array [
-        "e35c2063-cb84-4765-a091-9ac3d27138a3",
-      ],
-      "elementType": "root",
-      "guid": "root",
-      "label": "root",
-      "name": "root",
-      "next": "null",
-      "prev": "null",
-      "text": "root",
-      "value": "root",
-    },
-  },
-}
-`;
-
-exports[`converts round trip from Free Form loop with for each and after last from Free Form Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Free Form loop with for each and after last from Free Form Canvas 1`] = `
 Object {
   "canvasElements": Array [],
   "connectors": Array [],
@@ -5642,7 +5465,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Free Form sanity from Free Form Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Free Form sanity from Free Form Canvas 1`] = `
 Object {
   "canvasElements": Array [],
   "connectors": Array [],
@@ -5698,7 +5521,7 @@ Object {
 }
 `;
 
-exports[`converts round trip from Free Form wait with three outcomes and fault from Free Form Canvas 1`] = `
+exports[`flc conversion utils converts round trip from Free Form wait with three outcomes and fault from Free Form Canvas 1`] = `
 Object {
   "canvasElements": Array [],
   "connectors": Array [],

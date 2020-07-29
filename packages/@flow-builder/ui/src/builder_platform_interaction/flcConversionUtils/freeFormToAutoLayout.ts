@@ -6,7 +6,7 @@ import {
     FAULT_INDEX,
     findLastElement,
     assertInDev,
-    assertTerminals
+    assertAutoLayoutState
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import { getChildReferencesKeys, getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -43,6 +43,9 @@ interface ConversionInfo {
 
     // if the element is the loop element
     isLoop: boolean;
+
+    // if the element is an end element
+    isEnd: boolean;
 
     // whether the loop path is closed
     loopClosed: boolean;
@@ -126,6 +129,7 @@ export function computeAndValidateConversionInfos(storeState: StoreState): Strin
                     isBranching: isBranchingElement(element),
                     isLoop: element.elementType === ELEMENT_TYPE.LOOP,
                     loopClosed: false,
+                    isEnd: element.elementType === ELEMENT_TYPE.END_ELEMENT,
                     outs: [],
                     ins: [],
                     dominator: null,
@@ -228,27 +232,52 @@ function validateConversionInfos(elements: FlowElements, conversionInfos: String
 /**
  * Checks if a parent guid dominates a child guid
  *
- * @param elements - The conversion elements
+ * @param conversionInfos - The conversion infos
  * @param parentGuid - A parent guid
  * @param childGuid - A child guid
  *
  * @return true if parentGuid dominates childGuid
  */
 function dominates(conversionInfos: StringKeyedMap<ConversionInfo>, parentGuid: Guid, childGuid: Guid | null) {
-    while (childGuid !== ELEMENT_TYPE.ROOT_ELEMENT) {
+    let conversionInfo = conversionInfos[childGuid];
+
+    while (conversionInfo != null) {
         // don't cross a loop boundary
-        if (conversionInfos[childGuid!].isLoop) {
+        if (conversionInfo.isLoop) {
             return false;
         }
 
-        childGuid = conversionInfos[childGuid!].dominator;
-        if (childGuid === parentGuid) {
+        conversionInfo = conversionInfos[conversionInfo.dominator];
+        if (conversionInfo && conversionInfo.elementGuid === parentGuid) {
             return true;
         }
     }
 
     // if both are the root
     return parentGuid === ELEMENT_TYPE.ROOT_ELEMENT;
+}
+
+/**
+ * Checks if an element guid has a loop ancestor
+ *
+ * @param conversionInfos - The conversion infoss
+ * @param elementGuid - An element guid
+ *
+ * @return true if an element guid has a loop ancestor
+ */
+function hasLoopAncestor(conversionInfos: StringKeyedMap<ConversionInfo>, elementGuid: Guid) {
+    let conversionInfo = conversionInfos[elementGuid];
+
+    while (conversionInfo != null) {
+        // don't cross a loop boundary
+        if (conversionInfo.isLoop) {
+            return true;
+        }
+
+        conversionInfo = conversionInfos[conversionInfo.dominator];
+    }
+
+    return false;
 }
 
 /**
@@ -340,10 +369,14 @@ function dfs(
     dfsOrder: number
 ): void {
     const elementInfo = conversionInfos[elementGuid];
-    const { outs, fault, isBranching } = elementInfo;
+    const { outs, fault, isBranching, isEnd } = elementInfo;
 
     elementInfo.dfsOrder = dfsOrder++;
     elementInfo.dominator = dominator;
+
+    if (isEnd && hasLoopAncestor(conversionInfos, elementGuid)) {
+        throw new Error('Found end in loop');
+    }
 
     if (fault != null) {
         // make the fault dominator a guid that doesn't exist, so that the fault branch can't be reconnected
@@ -758,7 +791,7 @@ export function convertToAutoLayoutCanvas(
         ? consolidateEndConnectors(autoLayoutElements)
         : autoLayoutElements;
 
-    assertInDev(() => assertTerminals(elements));
+    assertInDev(() => assertAutoLayoutState(elements));
 
     return {
         ...storeState,

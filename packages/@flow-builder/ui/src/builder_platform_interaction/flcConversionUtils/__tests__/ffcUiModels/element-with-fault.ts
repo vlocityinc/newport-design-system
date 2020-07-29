@@ -31,7 +31,7 @@ export default {
             object: '',
             objectIndex: '12c23e8e-4104-40ba-86e0-feb73e787792',
             filters: [],
-            availableConnections: []
+            availableConnections: [{ type: 'REGULAR' }]
         },
         'fault-element-guid': {
             guid: 'fault-element-guid',
@@ -44,6 +44,7 @@ export default {
             elementType: 'RecordCreate',
             maxConnections: 2,
             availableConnections: [
+                { type: 'REGULAR' },
                 {
                     type: 'FAULT'
                 }

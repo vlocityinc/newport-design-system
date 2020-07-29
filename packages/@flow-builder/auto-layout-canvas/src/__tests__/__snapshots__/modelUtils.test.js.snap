@@ -411,6 +411,60 @@ Object {
 }
 `;
 
+exports[`modelUtils delete element in nested branch with ended left branch inlines 1`] = `
+Object {
+  "addEndElement": false,
+  "state": Object {
+    "branch-guid": Object {
+      "children": Array [
+        "branch-guid:0-branch-guid:0-branch-guid:0-end-guid",
+        "end-guid",
+      ],
+      "defaultConnectorLabel": "Default Connector Label",
+      "elementType": "branch",
+      "guid": "branch-guid",
+      "label": "branch-guid",
+      "next": null,
+      "prev": "start-guid",
+    },
+    "branch-guid:0-branch-guid:0-branch-guid:0-end-guid": Object {
+      "childIndex": 0,
+      "elementType": "END_ELEMENT",
+      "guid": "branch-guid:0-branch-guid:0-branch-guid:0-end-guid",
+      "isTerminal": true,
+      "label": "end-guid",
+      "parent": "branch-guid",
+      "prev": null,
+    },
+    "end-guid": Object {
+      "childIndex": 1,
+      "elementType": "END_ELEMENT",
+      "guid": "end-guid",
+      "isTerminal": true,
+      "label": "end-guid",
+      "parent": "branch-guid",
+      "prev": null,
+    },
+    "root": Object {
+      "children": Array [
+        "start-guid",
+      ],
+      "elementType": "root",
+      "guid": "root",
+    },
+    "start-guid": Object {
+      "childIndex": 0,
+      "elementType": "start",
+      "guid": "start-guid",
+      "isTerminal": true,
+      "label": "start-guid",
+      "next": "branch-guid",
+      "parent": "root",
+    },
+  },
+}
+`;
+
 exports[`modelUtils reconnectBranchElement reconnects to an element on another branch 1`] = `
 Object {
   "branch-guid": Object {

@@ -15,8 +15,11 @@
     "scripts": {
         "check:goldFiles": "./scripts/checkGoldFiles.sh -b $npm_package_config_branch",
         "check:pom": "node ./scripts/pom.js check -b $npm_package_config_branch",
-        "check:pr": "yarn clean && yarn build && yarn test:unit && yarn ci:lint",
+        "check:pr": "yarn clean:build && yarn test:unit && yarn ci:lint",
         "check:push": "yarn check:pom && yarn test:nba-components && yarn check:goldFiles -l",
+        "clean:build": "yarn clean && yarn build",
+        "clean:test": "yarn clean:build && yarn test:unit",
+        "clean:start": "yarn clean:build && yarn start",
         "clean:install": "rm -rf node_modules && yarn",
         "clean": "rm -rf src/main/modules && lerna run clean",
         "clean:force": "git clean -xfd && yarn clean",

@@ -57,7 +57,7 @@ export {
     reconnectBranchElement,
     DELETE_ALL,
     areAllBranchesTerminals,
-    assertTerminals
+    assertAutoLayoutState
 } from './modelUtils';
 
 export {

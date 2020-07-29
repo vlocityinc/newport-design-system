@@ -50,30 +50,6 @@
   "maxOccurs" : 1
 },
       {
-  "apiName" : "fieldName",
-  "dataType" : "string",
-  "description" : "Custom field on ContentVersion where we will store the passed in value.",
-  "fieldsToNull" : [ ],
-  "hasDefaultValue" : false,
-  "isInput" : true,
-  "isOutput" : true,
-  "isRequired" : false,
-  "label" : "Field Name",
-  "maxOccurs" : 1
-},
-      {
-  "apiName" : "fieldValue",
-  "dataType" : "string",
-  "description" : "Value to store in the designated custom field.",
-  "fieldsToNull" : [ ],
-  "hasDefaultValue" : false,
-  "isInput" : true,
-  "isOutput" : true,
-  "isRequired" : false,
-  "label" : "Field Value",
-  "maxOccurs" : 1
-},
-      {
   "apiName" : "label",
   "dataType" : "string",
   "description" : "The text on the file upload button.",

@@ -37,7 +37,8 @@ import {
     reconnectBranchElement,
     findLastElement,
     assertInDev,
-    assertTerminals
+    assertAutoLayoutState,
+    findFirstElement
 } from 'builder_platform_interaction/autoLayoutCanvas';
 import { getSubElementGuids } from './reducersUtils';
 
@@ -120,7 +121,7 @@ export default function flcElementsReducer(state = {}, action) {
         default:
     }
 
-    assertInDev(() => assertTerminals(state));
+    assertInDev(() => assertAutoLayoutState(state));
 
     return state;
 }
@@ -224,19 +225,20 @@ function _deleteElements(state, { payload }) {
 
     if (addEndElement) {
         const { prev, parent, childIndex } = element;
+        let endElement;
         if (prev) {
             // Adding an end element connected to the previous element
             const prevElement = state[element.prev];
-            const endElement = createEndElement({
+            endElement = createEndElement({
                 prev,
                 next: null
             });
             addElementToState(endElement, state);
             prevElement.next = endElement.guid;
-        } else if (parent) {
+        } else {
             // Adding an end element connected to the parent element at the right childIndex
             const parentElement = state[element.parent];
-            const endElement = createEndElement({
+            endElement = createEndElement({
                 parent,
                 childIndex,
                 next: null,
@@ -245,6 +247,9 @@ function _deleteElements(state, { payload }) {
             addElementToState(endElement, state);
             parentElement.children[childIndex] = endElement.guid;
         }
+
+        const branchHead = findFirstElement(endElement, state);
+        branchHead.isTerminal = true;
     }
 
     return state;

@@ -334,6 +334,20 @@ describe('modelUtils', () => {
     });
 
     describe('delete element', () => {
+        it('in nested branch with ended left branch inlines', () => {
+            const nestedBranchingElement = { ...BRANCH_ELEMENT };
+            nestedBranchingElement.children = [[END_ELEMENT_GUID], null];
+
+            const branchingElement = { ...BRANCH_ELEMENT };
+            branchingElement.children = [[nestedBranchingElement], null];
+
+            const elements = createFlow([branchingElement]);
+
+            expect(
+                deleteElement(elements, elements['branch-guid:0-branch-guid'], 0, getSubElementGuids)
+            ).toMatchSnapshot();
+        });
+
         it('delete nested decision with end elements and reconnect', () => {
             const nestedBranchElement = { ...BRANCH_ELEMENT, children: [[END_ELEMENT], [END_ELEMENT_GUID]] };
             const branchElement = { ...BRANCH_ELEMENT, children: [[nestedBranchElement], [END_ELEMENT_GUID]] };
@@ -495,7 +509,7 @@ describe('modelUtils', () => {
         it('deletes branch head element', () => {
             const branchingElement = {
                 guid: 'branching-element',
-                children: ['branch-head-element'],
+                children: ['branch-head-element', null],
                 prev: null,
                 next: 'merge-element'
             };
@@ -521,7 +535,7 @@ describe('modelUtils', () => {
                 state: {
                     'branching-element': {
                         guid: 'branching-element',
-                        children: [null],
+                        children: [null, null],
                         prev: null,
                         next: 'merge-element'
                     },

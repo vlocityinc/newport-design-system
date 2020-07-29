@@ -42,9 +42,16 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
         'builder_platform_interaction/elementFactory'
     );
     return {
-        createEndElement: jest.fn(() => ({
-            guid: 'end-element-guid'
-        })),
+        createEndElement: jest.fn(props => {
+            const prev = props ? props.prev : undefined;
+            const end = {
+                guid: 'end-element-guid'
+            };
+            if (prev != null) {
+                end.prev = prev;
+            }
+            return end;
+        }),
         createPastedAssignment,
         createPastedDecision,
         createPastedScreen,
@@ -53,13 +60,17 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
 });
 
 jest.mock('builder_platform_interaction/autoLayoutCanvas', () => {
-    return Object.assign({}, jest.requireActual('builder_platform_interaction/autoLayoutCanvas'), {
+    const actual = jest.requireActual('builder_platform_interaction/autoLayoutCanvas');
+    return Object.assign({}, actual, {
+        addElementToState: jest.fn((element, state) => {
+            state[element.guid] = element;
+        }),
         addElement: jest.fn(),
-        addElementToState: jest.fn(),
         deleteElement: jest.fn(),
         linkElement: jest.fn(),
         linkBranchOrFault: jest.fn(),
-        reconnectBranchElement: jest.fn(state => state)
+        reconnectBranchElement: jest.fn(state => state),
+        assertAutoLayoutState: jest.fn()
     });
 });
 
@@ -119,8 +130,13 @@ describe('elements-reducer', () => {
                 payload: { guid: 'start-element-guid' }
             });
 
-            expect(addElementToState).toHaveBeenLastCalledWith({ guid: 'root' }, state);
-            expect(linkElement).toHaveBeenLastCalledWith(state, { guid: 'end-element-guid' });
+            const expectedState = { ...state, root: { guid: 'root' } };
+
+            expect(addElementToState).toHaveBeenLastCalledWith({ guid: 'root' }, expectedState);
+            expect(linkElement).toHaveBeenLastCalledWith(expectedState, {
+                guid: 'end-element-guid',
+                prev: 'start-element-guid'
+            });
             expect(createEndElement).toHaveBeenLastCalledWith({ prev: 'start-element-guid' });
         });
     });
@@ -493,8 +509,13 @@ describe('elements-reducer', () => {
                 payload: elementToAddFault.guid
             });
 
-            expect(addElementToState).toHaveBeenLastCalledWith({ guid: 'end-element-guid' }, elements);
-            expect(linkBranchOrFault).toHaveBeenLastCalledWith(elements, elementToAddFault, FAULT_INDEX, {
+            const endElement = {
+                guid: 'end-element-guid'
+            };
+
+            const expectedState = { ...elements, [endElement.guid]: endElement };
+            expect(addElementToState).toHaveBeenLastCalledWith({ guid: 'end-element-guid' }, expectedState);
+            expect(linkBranchOrFault).toHaveBeenLastCalledWith(expectedState, elementToAddFault, FAULT_INDEX, {
                 guid: 'end-element-guid'
             });
         });

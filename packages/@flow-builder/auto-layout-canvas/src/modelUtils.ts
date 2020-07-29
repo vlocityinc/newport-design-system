@@ -32,7 +32,7 @@ function reconnectBranchElement(elements: FlowModel, endElementGuid: Guid, targe
     const parentElement = elements[branchHeadElement.parent] as ParentNodeModel;
 
     // delete the end element
-    deleteElement(elements, endElement);
+    deleteElement(elements, endElement, undefined, undefined, false);
 
     // nothing else to do if we are reconnecting to the merge element
     if (parentElement.next === targetGuid) {
@@ -457,11 +457,13 @@ function deleteBranch(state: FlowModel, branchHeadGuid: Guid, getSubElementGuids
  * @param getSubElementGuids - Function to get sub element guids
  * @param inline - whether to attempt inlining after deletion
  */
+// eslint-disable-next-line complexity
 function deleteElement(
     state: FlowModel,
     element: NodeModel,
     childIndexToKeep?: number,
-    getSubElementGuids?: GetSubElementGuids
+    getSubElementGuids?: GetSubElementGuids,
+    inline = true
 ): { state: FlowModel; addEndElement: boolean } {
     const { prev, next, parent, childIndex } = element as BranchHeadNodeModel;
 
@@ -474,12 +476,18 @@ function deleteElement(
     // take care of linking tail of the branch to keep to the next element
     if (isBranchingOrLoopElement(element)) {
         if (childIndexToKeep != null && childIndexToKeep !== DELETE_ALL) {
-            const headElement = resolveNode(state, (element as ParentNodeModel).children[childIndexToKeep]);
-            if (headElement && next) {
-                const tailElement = findLastElement(headElement, state);
-                tailElement.next = next;
-                linkElement(state, tailElement);
-                deleteBranchHeadProperties(headElement as BranchHeadNodeModel);
+            const headElement = resolveNode(
+                state,
+                (element as ParentNodeModel).children[childIndexToKeep]
+            ) as BranchHeadNodeModel;
+
+            if (headElement) {
+                if (next != null) {
+                    const tailElement = findLastElement(headElement, state);
+                    tailElement.next = next;
+                    linkElement(state, tailElement);
+                }
+                deleteBranchHeadProperties(headElement);
             }
             nextElement = headElement;
         } else if (childIndexToKeep === DELETE_ALL) {
@@ -525,9 +533,17 @@ function deleteElement(
         branchHead.isTerminal = isEndOrAllTerminalBranchingElement(state, branchTail);
     }
 
-    if (parentElement != null && childIndex !== FAULT_INDEX) {
-        inlineFromParent(state, parentElement, false);
+    // inline when needed
+    if (parentElement != null && childIndex !== FAULT_INDEX && !addEndElement && inline) {
+        const inlineParent =
+            nextElement != null &&
+            isBranchingElement(nextElement) &&
+            (nextElement.next == null || state[nextElement.next]!.elementType === END)
+                ? nextElement
+                : parentElement;
+        inlineFromParent(state, inlineParent as ParentNodeModel);
     }
+
     return { state, addEndElement };
 }
 
@@ -600,7 +616,7 @@ function addElement(flowModel: FlowModel, element: NodeModel, isEndElement: bool
     }
 }
 
-function inlineFromParent(flowModel: FlowModel, branchParent: ParentNodeModel, inline = true) {
+function inlineFromParent(flowModel: FlowModel, branchParent: ParentNodeModel) {
     let branchHead;
     // when adding an end element, we might need to restructure things:
     // find the first branching ancestor with a non-null `next` and
@@ -609,9 +625,7 @@ function inlineFromParent(flowModel: FlowModel, branchParent: ParentNodeModel, i
         if (branchParent.next != null) {
             // once we find the first ancestor with a non-null 'next', we can inline from there,
             // the other parts of the tree are not affected by add end operation
-            if (inline) {
-                inlineBranches(branchParent, flowModel);
-            }
+            inlineBranches(branchParent, flowModel);
 
             break;
         } else {
@@ -707,29 +721,96 @@ function inlineBranches(parentElement: ParentNodeModel, state: FlowModel) {
     }
 }
 
-function assertTerminalsForBranch(elements: FlowModel, branchHeadGuid: NodeRef) {
-    let isTerminal = false;
+function assertBranchHead(state: FlowModel, branchHead: BranchHeadNodeModel) {
+    const { guid, prev, parent, childIndex } = branchHead;
 
+    if (prev != null) {
+        throw new Error(`invalid prev for branch head ${guid}: ${prev}`);
+    }
+    if (state[parent] == null) {
+        throw new Error(`invalid parent for branch head ${guid}: ${parent}`);
+    }
+
+    if (childIndex == null) {
+        throw new Error(`invalid childIndex for branch head ${guid}: ${childIndex}`);
+    } else if (childIndex === FAULT_INDEX) {
+        if (resolveParent(state, parent).fault == null) {
+            throw new Error(`invalid branch head fault ${guid}:`);
+        }
+    } else {
+        if (childIndex < 0 || childIndex > resolveParent(state, parent).children.length - 1) {
+            throw new Error(`invalid branch head childIndex ${guid}: ${childIndex}`);
+        }
+
+        if ((state[parent!] as ParentNodeModel).children[childIndex!] !== guid) {
+            throw new Error(`invalid parent:childIndex link for branch head ${guid}: ${parent}:${childIndex}`);
+        }
+    }
+
+    if (branchHead.isTerminal == null) {
+        throw new Error(`invalid branch head isTerminal ${branchHead.isTerminal}:`);
+    } else {
+        const isTerminal = isEndOrAllTerminalBranchingElement(state, findLastElement(branchHead, state));
+
+        if (isTerminal !== branchHead.isTerminal) {
+            throw new Error(`Invalid isTerminal value for ${guid}: ${isTerminal}`);
+        }
+    }
+}
+
+function assertNonBranchHead(elements: FlowModel, element: NodeModel) {
+    const { guid, prev, next, parent, childIndex, isTerminal } = element as BranchHeadNodeModel;
+
+    if (parent != null) {
+        throw new Error(`invalid parent attribute for non branch head ${guid}: ${parent}`);
+    }
+
+    if (childIndex != null) {
+        throw new Error(`invalid childIndex attribute for non branch head ${guid}: ${childIndex}`);
+    }
+
+    if (isTerminal != null) {
+        throw new Error(`invalid isTerminal attribute for non branch head ${guid}: ${isTerminal}`);
+    }
+
+    if (prev != null && elements[prev].next !== guid) {
+        throw new Error(`invalid prev link for non branch head ${guid}: ${prev}`);
+    }
+
+    if (next != null && elements[next].prev !== guid) {
+        throw new Error(`invalid next link for non branch head ${guid}: ${next}`);
+    }
+}
+
+function assertElement(element: NodeModel) {
+    const { guid, children } = element as ParentNodeModel;
+    if (!!children !== isBranchingOrLoopElement(element)) {
+        throw new Error(`invalid children property for element ${guid}: ${children}`);
+    }
+}
+function assertAutoLayoutStateForBranch(elements: FlowModel, branchHeadGuid: NodeRef) {
     if (branchHeadGuid != null) {
-        let prevElement: NodeModel | null = null;
         const branchHead = elements[branchHeadGuid] as BranchHeadNodeModel;
         let element: NodeModel | null = branchHead;
 
+        assertBranchHead(elements, branchHead);
+
         while (element != null) {
+            assertElement(element);
+
+            if (element !== branchHead) {
+                assertNonBranchHead(elements, element);
+            }
+
             if (element.fault != null) {
-                assertTerminalsForBranch(elements, element.fault);
+                assertAutoLayoutStateForBranch(elements, element.fault);
             }
+
             if (isBranchingOrLoopElement(element)) {
-                (element as ParentNodeModel).children.forEach(child => assertTerminalsForBranch(elements, child));
+                (element as ParentNodeModel).children.forEach(child => assertAutoLayoutStateForBranch(elements, child));
             }
-            prevElement = element;
+
             element = element.next != null ? elements[element.next] : null;
-        }
-
-        isTerminal = isEndOrAllTerminalBranchingElement(elements, prevElement!);
-
-        if (isTerminal !== branchHead.isTerminal) {
-            throw new Error(`Invalid isTerminal value for ${branchHead.guid}: ${branchHead.isTerminal}`);
         }
     }
 }
@@ -741,15 +822,15 @@ function assertTerminalsForBranch(elements: FlowModel, branchHeadGuid: NodeRef) 
  * @param elements - The flow elements
  * @throws Error if an invalid isTerminal is found
  */
-function assertTerminals(elements: FlowModel) {
+function assertAutoLayoutState(elements: FlowModel) {
     const rootElement = resolveParent(elements, ElementType.ROOT);
     if (rootElement != null) {
-        assertTerminalsForBranch(elements, rootElement.children[0]);
+        assertAutoLayoutStateForBranch(elements, rootElement.children[0]);
     }
 }
 
 export {
-    assertTerminals,
+    assertAutoLayoutState,
     getTargetGuidsForBranchReconnect,
     reconnectBranchElement,
     addElementToState,

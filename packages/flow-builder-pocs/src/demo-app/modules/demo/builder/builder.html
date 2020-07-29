@@ -13,6 +13,8 @@
             onclick={handleToggleSelectionMode}
         >
         </lightning-button-stateful>
+        <lightning-button label="Undo" onclick={handleUndo}></lightning-button>
+         <lightning-button label="Redo" onclick={handleRedo}></lightning-button>
         <lightning-button label="Convert Roundtrip" onclick={handleConvertRoundTrip}></lightning-button>
         <lightning-button label="New" onclick={handleNew}></lightning-button>
         <lightning-button label="Save" onclick={handleSave}></lightning-button>

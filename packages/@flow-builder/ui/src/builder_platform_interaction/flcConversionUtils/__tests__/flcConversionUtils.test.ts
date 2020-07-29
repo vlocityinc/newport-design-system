@@ -35,7 +35,6 @@ import ffcLoopEmpty from './ffcUiModels/loop-empty';
 import ffcDecisionWithNestedDecisionAndJoinScreen from './ffcUiModels/decision-with-nested-decision-and-join-screen';
 import ffcComplex1 from './ffcUiModels/complex1';
 import ffcDecisionWithMultipleOutcomes from './ffcUiModels/decision-with-multiple-outcomes';
-import ffcLoopWithTwoNestedDecisions from './ffcUiModels/loop-with-two-nested-decisions';
 import ffcWaitWithThreeOutcomesAndFault from './ffcUiModels/wait-with-three-outcomes-and-fault';
 
 import {
@@ -208,654 +207,683 @@ function assertRoundTripFromFreeFormCanvas(ffcUiModel) {
     });
 }
 
-describe('consolidate end connectors', () => {
-    it('for decision with two ended branches', () => {
-        assertConsolidatedEndConnectors(decisionWithTwoEndedBranches.elements);
-    });
-    it('for decision with nested empty decision', () => {
-        assertConsolidatedEndConnectors(decisionWithEmptyNestedDecision.elements);
-    });
-    it('for decision with nested decision with two ended branches', () => {
-        assertConsolidatedEndConnectors(decisionWithNestedDecisionWithTwoEndedBranches.elements);
-    });
-});
-
-describe('can convert Free Form Flow with', () => {
-    it('only start node', () => {
-        const storeState = storeStateFromConnectors([]);
-        assertCanConvertToAutoLayoutCanvas(storeState);
+describe('flc conversion utils', () => {
+    describe('consolidate end connectors', () => {
+        it('for decision with two ended branches', () => {
+            assertConsolidatedEndConnectors(decisionWithTwoEndedBranches.elements);
+        });
+        it('for decision with nested empty decision', () => {
+            assertConsolidatedEndConnectors(decisionWithEmptyNestedDecision.elements);
+        });
+        it('for decision with nested decision with two ended branches', () => {
+            assertConsolidatedEndConnectors(decisionWithNestedDecisionWithTwoEndedBranches.elements);
+        });
     });
 
-    it('fault', () => {
-        const connectors = [
-            { source: 'start', target: 'action' },
-            { source: 'action', target: 'n1' },
-            { source: 'action', target: 'fault', type: CONNECTOR_TYPE.FAULT }
-        ];
-        const storeState = storeStateFromConnectors(connectors);
-        assertCanConvertToAutoLayoutCanvas(storeState);
-    });
-
-    describe('decision', () => {
-        it('with two merging branches', () => {
-            const connectors = [
-                { source: 'start', target: 'if' },
-                { source: 'if', target: 'n1' },
-                { source: 'if', target: 'n2' },
-                { source: 'n1', target: 'merge' },
-                { source: 'n2', target: 'merge' }
-            ];
-            const storeState = storeStateFromConnectors(connectors);
-            storeState.elements.if.elementType = ELEMENT_TYPE.DECISION;
+    describe('can convert Free Form Flow with', () => {
+        it('only start node', () => {
+            const storeState = storeStateFromConnectors([]);
             assertCanConvertToAutoLayoutCanvas(storeState);
         });
-        it('with two ended branches', () => {
+
+        it('fault', () => {
             const connectors = [
-                { source: 'start', target: 'if' },
-                { source: 'if', target: 'n1' },
-                { source: 'if', target: 'n2' }
+                { source: 'start', target: 'action' },
+                { source: 'action', target: 'n1' },
+                { source: 'action', target: 'fault', type: CONNECTOR_TYPE.FAULT }
             ];
             const storeState = storeStateFromConnectors(connectors);
             assertCanConvertToAutoLayoutCanvas(storeState);
         });
-        it('with nested decision', () => {
-            const connectors = [
-                { source: 'start', target: 'decision' },
-                { source: 'decision', target: 'nested-decision' },
-                { source: 'decision', target: 'merge' },
-                { source: 'nested-decision', target: 'merge' },
-                { source: 'nested-decision', target: 'merge' }
-            ];
-            const storeState = storeStateFromConnectors(connectors);
-            storeState.elements.decision.elementType = ELEMENT_TYPE.DECISION;
-            storeState.elements['nested-decision'].elementType = ELEMENT_TYPE.DECISION;
-            assertCanConvertToAutoLayoutCanvas(storeState);
+
+        describe('decision', () => {
+            it('with two merging branches', () => {
+                const connectors = [
+                    { source: 'start', target: 'if' },
+                    { source: 'if', target: 'n1' },
+                    { source: 'if', target: 'n2' },
+                    { source: 'n1', target: 'merge' },
+                    { source: 'n2', target: 'merge' }
+                ];
+                const storeState = storeStateFromConnectors(connectors);
+                storeState.elements.if.elementType = ELEMENT_TYPE.DECISION;
+                assertCanConvertToAutoLayoutCanvas(storeState);
+            });
+            it('with two ended branches', () => {
+                const connectors = [
+                    { source: 'start', target: 'if' },
+                    { source: 'if', target: 'n1' },
+                    { source: 'if', target: 'n2' }
+                ];
+                const storeState = storeStateFromConnectors(connectors);
+                assertCanConvertToAutoLayoutCanvas(storeState);
+            });
+            it('with nested decision', () => {
+                const connectors = [
+                    { source: 'start', target: 'decision' },
+                    { source: 'decision', target: 'nested-decision' },
+                    { source: 'decision', target: 'merge' },
+                    { source: 'nested-decision', target: 'merge' },
+                    { source: 'nested-decision', target: 'merge' }
+                ];
+                const storeState = storeStateFromConnectors(connectors);
+                storeState.elements.decision.elementType = ELEMENT_TYPE.DECISION;
+                storeState.elements['nested-decision'].elementType = ELEMENT_TYPE.DECISION;
+                assertCanConvertToAutoLayoutCanvas(storeState);
+            });
+        });
+
+        describe('loop', () => {
+            it('with next and end', () => {
+                const connectors = [
+                    { source: 'start', target: 'loop' },
+                    { source: 'loop', target: 'n1', type: 'LOOP_NEXT' },
+                    { source: 'loop', target: 'n2', type: 'LOOP_END' },
+                    { source: 'n1', target: 'loop' }
+                ];
+                const storeState = storeStateFromConnectors(connectors);
+                storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
+                assertCanConvertToAutoLayoutCanvas(storeState);
+            });
+
+            it('with no next', () => {
+                const connectors = [
+                    { source: 'start', target: 'loop' },
+                    { source: 'loop', target: 'n2', type: CONNECTOR_TYPE.LOOP_END }
+                ];
+                const storeState = storeStateFromConnectors(connectors);
+                storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
+                assertCanConvertToAutoLayoutCanvas(storeState);
+            });
+
+            it('with no end', () => {
+                const connectors = [
+                    { source: 'start', target: 'loop' },
+                    { source: 'loop', target: 'n1', type: CONNECTOR_TYPE.LOOP_NEXT },
+                    { source: 'n1', target: 'loop' }
+                ];
+                const storeState = storeStateFromConnectors(connectors);
+                storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
+
+                assertCanConvertToAutoLayoutCanvas(storeState);
+            });
+
+            it('with nested decision', () => {
+                const connectors = [
+                    { source: 'start', target: 'loop' },
+                    { source: 'loop', target: 'd1', type: 'LOOP_NEXT' },
+                    { source: 'loop', target: 'n2', type: 'LOOP_END' },
+                    { source: 'd1', target: 'loop' },
+                    { source: 'd1', target: 'loop' }
+                ];
+                const storeState = storeStateFromConnectors(connectors);
+                storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
+                storeState.elements.d1.elementType = ELEMENT_TYPE.DECISION;
+                assertCanConvertToAutoLayoutCanvas(storeState);
+            });
+
+            it('with nested loop', () => {
+                const connectors = [
+                    { source: 'start', target: 'loop' },
+                    { source: 'loop', target: 'nestedLoop', type: 'LOOP_NEXT' },
+                    { source: 'nestedLoop', target: 's1', type: 'LOOP_END' },
+                    { source: 'nestedLoop', target: 's2', type: 'LOOP_NEXT' },
+                    { source: 's1', target: 'loop' },
+                    { source: 's2', target: 'nestedLoop' }
+                ];
+                const storeState = storeStateFromConnectors(connectors);
+                storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
+                storeState.elements.nestedLoop.elementType = ELEMENT_TYPE.LOOP;
+                assertCanConvertToAutoLayoutCanvas(storeState);
+            });
         });
     });
 
-    describe('loop', () => {
-        it('with next and end', () => {
-            const connectors = [
-                { source: 'start', target: 'loop' },
-                { source: 'loop', target: 'n1', type: 'LOOP_NEXT' },
-                { source: 'loop', target: 'n2', type: 'LOOP_END' },
-                { source: 'n1', target: 'loop' }
-            ];
-            const storeState = storeStateFromConnectors(connectors);
-            storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
-            assertCanConvertToAutoLayoutCanvas(storeState);
+    describe('cant convert Free Form Flow with', () => {
+        it('with orphan node', () => {
+            const storeState = storeStateFromConnectors([]);
+            storeState.elements.orphan = { guid: 'orphan', isCanvasElement: true };
+            assertCanConvertToAutoLayoutCanvas(storeState, false);
         });
 
-        it('with no next', () => {
-            const connectors = [
-                { source: 'start', target: 'loop' },
-                { source: 'loop', target: 'n2', type: CONNECTOR_TYPE.LOOP_END }
-            ];
+        it('with unsupported element type', () => {
+            const connectors = [{ source: 'start', target: 'e1' }];
             const storeState = storeStateFromConnectors(connectors);
-            storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
-            assertCanConvertToAutoLayoutCanvas(storeState);
+            storeState.elements.e1.elementType = ELEMENT_TYPE.STEP;
+            assertCanConvertToAutoLayoutCanvas(storeState, false);
         });
 
-        it('with no end', () => {
+        it('fault reconnect', () => {
             const connectors = [
-                { source: 'start', target: 'loop' },
-                { source: 'loop', target: 'n1', type: CONNECTOR_TYPE.LOOP_NEXT },
-                { source: 'n1', target: 'loop' }
-            ];
-            const storeState = storeStateFromConnectors(connectors);
-            storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
-
-            assertCanConvertToAutoLayoutCanvas(storeState);
-        });
-
-        it('with nested decision', () => {
-            const connectors = [
-                { source: 'start', target: 'loop' },
-                { source: 'loop', target: 'd1', type: 'LOOP_NEXT' },
-                { source: 'loop', target: 'n2', type: 'LOOP_END' },
-                { source: 'd1', target: 'loop' },
-                { source: 'd1', target: 'loop' }
-            ];
-            const storeState = storeStateFromConnectors(connectors);
-            storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
-            storeState.elements.d1.elementType = ELEMENT_TYPE.DECISION;
-            assertCanConvertToAutoLayoutCanvas(storeState);
-        });
-
-        it('with nested loop', () => {
-            const connectors = [
-                { source: 'start', target: 'loop' },
-                { source: 'loop', target: 'nestedLoop', type: 'LOOP_NEXT' },
-                { source: 'nestedLoop', target: 's1', type: 'LOOP_END' },
-                { source: 'nestedLoop', target: 's2', type: 'LOOP_NEXT' },
-                { source: 's1', target: 'loop' },
-                { source: 's2', target: 'nestedLoop' }
-            ];
-            const storeState = storeStateFromConnectors(connectors);
-            storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
-            storeState.elements.nestedLoop.elementType = ELEMENT_TYPE.LOOP;
-            assertCanConvertToAutoLayoutCanvas(storeState);
-        });
-    });
-});
-
-describe('cant convert Free Form Flow with', () => {
-    it('with orphan node', () => {
-        const storeState = storeStateFromConnectors([]);
-        storeState.elements.orphan = { guid: 'orphan', isCanvasElement: true };
-        assertCanConvertToAutoLayoutCanvas(storeState, false);
-    });
-
-    it('with unsupported element type', () => {
-        const connectors = [{ source: 'start', target: 'e1' }];
-        const storeState = storeStateFromConnectors(connectors);
-        storeState.elements.e1.elementType = ELEMENT_TYPE.STEP;
-        assertCanConvertToAutoLayoutCanvas(storeState, false);
-    });
-
-    it('fault reconnect', () => {
-        const connectors = [
-            { source: 'start', target: 'action' },
-            { source: 'action', target: 'n1' },
-            { source: 'action', target: 'fault', type: CONNECTOR_TYPE.FAULT },
-            { source: 'fault', target: 'n1' }
-        ];
-        const storeState = storeStateFromConnectors(connectors);
-        assertCanConvertToAutoLayoutCanvas(storeState, false);
-    });
-
-    describe('decision', () => {
-        it('with back edge', () => {
-            const connectors = [
-                { source: 'start', target: 'n1' },
-                { source: 'n1', target: 'if' },
-                { source: 'if', target: 'n1' }
+                { source: 'start', target: 'action' },
+                { source: 'action', target: 'n1' },
+                { source: 'action', target: 'fault', type: CONNECTOR_TYPE.FAULT },
+                { source: 'fault', target: 'n1' }
             ];
             const storeState = storeStateFromConnectors(connectors);
             assertCanConvertToAutoLayoutCanvas(storeState, false);
         });
-        it('with jump out forward', () => {
-            const connectors = [
-                { source: 'start', target: 'if' },
-                { source: 'if', target: 'n1' },
-                { source: 'if', target: 'n2' },
-                { source: 'n1', target: 'merge' },
-                { source: 'n2', target: 'merge' },
-                { source: 'merge', target: 'n3' },
-                { source: 'n1', target: 'n3' }
-            ];
-            const storeState = storeStateFromConnectors(connectors);
-            assertCanConvertToAutoLayoutCanvas(storeState, false);
+
+        describe('decision', () => {
+            it('with back edge', () => {
+                const connectors = [
+                    { source: 'start', target: 'n1' },
+                    { source: 'n1', target: 'if' },
+                    { source: 'if', target: 'n1' }
+                ];
+                const storeState = storeStateFromConnectors(connectors);
+                assertCanConvertToAutoLayoutCanvas(storeState, false);
+            });
+            it('with jump out forward', () => {
+                const connectors = [
+                    { source: 'start', target: 'if' },
+                    { source: 'if', target: 'n1' },
+                    { source: 'if', target: 'n2' },
+                    { source: 'n1', target: 'merge' },
+                    { source: 'n2', target: 'merge' },
+                    { source: 'merge', target: 'n3' },
+                    { source: 'n1', target: 'n3' }
+                ];
+                const storeState = storeStateFromConnectors(connectors);
+                assertCanConvertToAutoLayoutCanvas(storeState, false);
+            });
+            it('with cross connector', () => {
+                const connectors = [
+                    { source: 'start', target: 'if' },
+                    { source: 'if', target: 'n1' },
+                    { source: 'if', target: 'n2' },
+                    { source: 'n1', target: 'n2' },
+                    { source: 'n1', target: 'merge' },
+                    { source: 'n2', target: 'merge' }
+                ];
+                const storeState = storeStateFromConnectors(connectors);
+                assertCanConvertToAutoLayoutCanvas(storeState, false);
+            });
+            it('with connector back to decision', () => {
+                const connectors = [
+                    { source: 'start', target: 'if' },
+                    { source: 'if', target: 'n1' },
+                    { source: 'if', target: 'n2' },
+                    { source: 'n1', target: 'if' }
+                ];
+                const storeState = storeStateFromConnectors(connectors);
+                assertCanConvertToAutoLayoutCanvas(storeState, false);
+            });
         });
-        it('with cross connector', () => {
-            const connectors = [
-                { source: 'start', target: 'if' },
-                { source: 'if', target: 'n1' },
-                { source: 'if', target: 'n2' },
-                { source: 'n1', target: 'n2' },
-                { source: 'n1', target: 'merge' },
-                { source: 'n2', target: 'merge' }
-            ];
-            const storeState = storeStateFromConnectors(connectors);
-            assertCanConvertToAutoLayoutCanvas(storeState, false);
-        });
-        it('with connector back to decision', () => {
-            const connectors = [
-                { source: 'start', target: 'if' },
-                { source: 'if', target: 'n1' },
-                { source: 'if', target: 'n2' },
-                { source: 'n1', target: 'if' }
-            ];
-            const storeState = storeStateFromConnectors(connectors);
-            assertCanConvertToAutoLayoutCanvas(storeState, false);
+
+        describe('loop', () => {
+            it('with end element', () => {
+                const connectors = [
+                    { source: 'start', target: 'loop' },
+                    { source: 'loop', target: 'e1', type: 'LOOP_NEXT' },
+                    { source: 'loop', target: 'n2', type: 'LOOP_END' }
+                ];
+
+                const storeState = storeStateFromConnectors(connectors);
+                storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
+                storeState.elements.e1.elementType = ELEMENT_TYPE.END_ELEMENT;
+                assertCanConvertToAutoLayoutCanvas(storeState, false);
+            });
+
+            it('with decision with no default', () => {
+                const connectors = [
+                    { source: 'start', target: 'loop' },
+                    { source: 'loop', target: 'd1', type: 'LOOP_NEXT' },
+                    { source: 'd1', target: 'loop', type: 'REGULAR' },
+                    { source: 'd1', target: 'end', type: 'DEFAULT' },
+                    { source: 'loop', target: 'n2', type: 'LOOP_END' }
+                ];
+
+                const storeState = storeStateFromConnectors(connectors);
+                storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
+                storeState.elements.end.elementType = ELEMENT_TYPE.END_ELEMENT;
+                storeState.elements.d1.elementType = ELEMENT_TYPE.DECISION;
+
+                assertCanConvertToAutoLayoutCanvas(storeState, false);
+            });
+            it('with ended branch', () => {
+                const connectors = [
+                    { source: 'start', target: 'loop' },
+                    { source: 'loop', target: 'd1', type: 'LOOP_NEXT' },
+                    { source: 'loop', target: 'n2', type: 'LOOP_END' }
+                ];
+                const storeState = storeStateFromConnectors(connectors);
+                storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
+                storeState.elements.d1.elementType = ELEMENT_TYPE.DECISION;
+                assertCanConvertToAutoLayoutCanvas(storeState, false);
+            });
+
+            it('loop with nested loop with element jumping to top loop', () => {
+                const connectors = [
+                    { source: 'start', target: 'loop' },
+                    { source: 'loop', target: 'nestedLoop', type: 'LOOP_NEXT' },
+                    { source: 'nestedLoop', target: 's1', type: 'LOOP_END' },
+                    { source: 'nestedLoop', target: 's2', type: 'LOOP_NEXT' },
+                    { source: 's1', target: 'loop' },
+                    { source: 's2', target: 'loop' }
+                ];
+                const storeState = storeStateFromConnectors(connectors);
+                storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
+                storeState.elements.nestedLoop.elementType = ELEMENT_TYPE.LOOP;
+                assertCanConvertToAutoLayoutCanvas(storeState, false);
+            });
+
+            it('with nested decision jumping after loop', () => {
+                const connectors = [
+                    { source: 'start', target: 'd1' },
+                    { source: 'd1', target: 'loop' },
+                    { source: 'loop', target: 'd2', type: 'LOOP_NEXT' },
+                    { source: 'loop', target: 'n2', type: 'LOOP_END' },
+                    { source: 'd2', target: 's1' },
+                    { source: 's1', target: 'loop' },
+                    { source: 'd2', target: 'n2' }
+                ];
+                const storeState = storeStateFromConnectors(connectors);
+                storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
+                storeState.elements.d2.elementType = ELEMENT_TYPE.DECISION;
+                storeState.elements.d1.elementType = ELEMENT_TYPE.DECISION;
+                assertCanConvertToAutoLayoutCanvas(storeState, false);
+            });
         });
     });
 
-    describe('loop', () => {
-        it('with ended branch', () => {
-            const connectors = [
-                { source: 'start', target: 'loop' },
-                { source: 'loop', target: 'd1', type: 'LOOP_NEXT' },
-                { source: 'loop', target: 'n2', type: 'LOOP_END' }
-            ];
-            const storeState = storeStateFromConnectors(connectors);
-            storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
-            storeState.elements.d1.elementType = ELEMENT_TYPE.DECISION;
-            assertCanConvertToAutoLayoutCanvas(storeState, false);
-        });
+    describe('converts', () => {
+        describe('round trip from Free Form', () => {
+            describe('sanity', () => {
+                assertRoundTripFromFreeFormCanvas(ffcSanity);
+            });
+            describe('fault', () => {
+                describe('simple', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcElementWithFault);
+                });
+                describe('decision head', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcElementWithFaultWithDecisionHead);
+                });
+            });
 
-        it('loop with nested loop with element jumping to top loop', () => {
-            const connectors = [
-                { source: 'start', target: 'loop' },
-                { source: 'loop', target: 'nestedLoop', type: 'LOOP_NEXT' },
-                { source: 'nestedLoop', target: 's1', type: 'LOOP_END' },
-                { source: 'nestedLoop', target: 's2', type: 'LOOP_NEXT' },
-                { source: 's1', target: 'loop' },
-                { source: 's2', target: 'loop' }
-            ];
-            const storeState = storeStateFromConnectors(connectors);
-            storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
-            storeState.elements.nestedLoop.elementType = ELEMENT_TYPE.LOOP;
-            assertCanConvertToAutoLayoutCanvas(storeState, false);
+            describe('decision', () => {
+                describe('empty', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcDecisionEmpty);
+                });
+                describe('with multiple outcomes', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcDecisionWithMultipleOutcomes);
+                });
+                describe('with nested empty decision', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcDecisionWithNestedEmptyDecision);
+                });
+                describe('with screen on each branch and screen merge', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcDecisionWithScreenOnEachBranchAndScreenMerge);
+                });
+                describe('with decision next', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcDecisionWithDecisionNext);
+                });
+                describe('with nested left decision', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcDecisionWithNestedLeftDecision);
+                });
+                describe('with decision nested and join screen', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcDecisionWithNestedDecisionAndJoinScreen);
+                });
+                describe('complex 1', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcComplex1);
+                });
+            });
+            describe('wait', () => {
+                describe('with three outcomes and fault', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcWaitWithThreeOutcomesAndFault);
+                });
+            });
+            describe('loop', () => {
+                describe('with for each and after last', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcLoopWithForEachAndAfterLast);
+                });
+                describe('empty with after last', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcLoopEmptyWithAfterLast);
+                });
+                describe('empty', () => {
+                    assertRoundTripFromFreeFormCanvas(ffcLoopEmpty);
+                });
+            });
         });
-
-        it('with nested decision jumping after loop', () => {
-            const connectors = [
-                { source: 'start', target: 'd1' },
-                { source: 'd1', target: 'loop' },
-                { source: 'loop', target: 'd2', type: 'LOOP_NEXT' },
-                { source: 'loop', target: 'n2', type: 'LOOP_END' },
-                { source: 'd2', target: 's1' },
-                { source: 's1', target: 'loop' },
-                { source: 'd2', target: 'n2' }
-            ];
-            const storeState = storeStateFromConnectors(connectors);
-            storeState.elements.loop.elementType = ELEMENT_TYPE.LOOP;
-            storeState.elements.d2.elementType = ELEMENT_TYPE.DECISION;
-            storeState.elements.d1.elementType = ELEMENT_TYPE.DECISION;
-            assertCanConvertToAutoLayoutCanvas(storeState, false);
-        });
-    });
-});
-
-describe('converts', () => {
-    describe('round trip from Free Form', () => {
-        describe('sanity', () => {
-            assertRoundTripFromFreeFormCanvas(ffcSanity);
-        });
-        describe('fault', () => {
+        describe('round trip from Auto Layout', () => {
             describe('simple', () => {
-                assertRoundTripFromFreeFormCanvas(ffcElementWithFault);
-            });
-            describe('decision head', () => {
-                assertRoundTripFromFreeFormCanvas(ffcElementWithFaultWithDecisionHead);
-            });
-        });
-
-        describe('decision', () => {
-            describe('empty', () => {
-                assertRoundTripFromFreeFormCanvas(ffcDecisionEmpty);
-            });
-            describe('with multiple outcomes', () => {
-                assertRoundTripFromFreeFormCanvas(ffcDecisionWithMultipleOutcomes);
-            });
-            describe('with nested empty decision', () => {
-                assertRoundTripFromFreeFormCanvas(ffcDecisionWithNestedEmptyDecision);
-            });
-            describe('with screen on each branch and screen merge', () => {
-                assertRoundTripFromFreeFormCanvas(ffcDecisionWithScreenOnEachBranchAndScreenMerge);
-            });
-            describe('with decision next', () => {
-                assertRoundTripFromFreeFormCanvas(ffcDecisionWithDecisionNext);
-            });
-            describe('with nested left decision', () => {
-                assertRoundTripFromFreeFormCanvas(ffcDecisionWithNestedLeftDecision);
-            });
-            describe('with decision nested and join screen', () => {
-                assertRoundTripFromFreeFormCanvas(ffcDecisionWithNestedDecisionAndJoinScreen);
-            });
-            describe('complex 1', () => {
-                assertRoundTripFromFreeFormCanvas(ffcComplex1);
-            });
-        });
-        describe('wait', () => {
-            describe('with three outcomes and fault', () => {
-                assertRoundTripFromFreeFormCanvas(ffcWaitWithThreeOutcomesAndFault);
-            });
-        });
-        describe('loop', () => {
-            describe('with for each and after last', () => {
-                assertRoundTripFromFreeFormCanvas(ffcLoopWithForEachAndAfterLast);
-            });
-            describe('empty with after last', () => {
-                assertRoundTripFromFreeFormCanvas(ffcLoopEmptyWithAfterLast);
-            });
-            describe('empty', () => {
-                assertRoundTripFromFreeFormCanvas(ffcLoopEmpty);
-            });
-            describe('two nested decisions', () => {
-                assertRoundTripFromFreeFormCanvas(ffcLoopWithTwoNestedDecisions);
-            });
-        });
-    });
-    describe('round trip from Auto Layout', () => {
-        describe('simple', () => {
-            describe('only start', () => {
-                const endConnectors = [
-                    {
-                        config: {
-                            isSelected: false
+                describe('only start', () => {
+                    const endConnectors = [
+                        {
+                            config: {
+                                isSelected: false
+                            },
+                            guid: 'start-element-guid -> end-element-guid (start-element-guid)',
+                            label: null,
+                            source: 'start-element-guid',
+                            target: 'end-element-guid (start-element-guid)',
+                            type: 'REGULAR'
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(sanity, endConnectors);
+                });
+                describe('one screen', () => {
+                    const endConnectors = [
+                        {
+                            config: {
+                                isSelected: false
+                            },
+                            guid: 'screen-element-guid -> end-element-guid (screen-element-guid)',
+                            label: null,
+                            source: 'screen-element-guid',
+                            target: 'end-element-guid (screen-element-guid)',
+                            type: 'REGULAR'
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(oneScreen, endConnectors);
+                });
+                describe('one element with fault', () => {
+                    const expectedEndConnectors = [
+                        {
+                            config: { isSelected: false },
+                            guid: 'fault-element-guid -> end-element-guid (fault-element-guid)',
+                            label: null,
+                            source: 'fault-element-guid',
+                            target: 'end-element-guid (fault-element-guid)',
+                            type: 'REGULAR'
                         },
-                        guid: 'start-element-guid -> end-element-guid (start-element-guid)',
-                        label: null,
-                        source: 'start-element-guid',
-                        target: 'end-element-guid (start-element-guid)',
-                        type: 'REGULAR'
-                    }
-                ];
-                assertRoundTripFromAutoLayoutCanvas(sanity, endConnectors);
+                        {
+                            config: { isSelected: false },
+                            guid: 'record-create-element-guid -> end-element-guid (record-create-element-guid)',
+                            label: null,
+                            source: 'record-create-element-guid',
+                            target: 'end-element-guid (record-create-element-guid)',
+                            type: 'REGULAR'
+                        }
+                    ];
+
+                    assertRoundTripFromAutoLayoutCanvas(oneElementWithFault, expectedEndConnectors);
+                });
             });
-            describe('one screen', () => {
-                const endConnectors = [
-                    {
-                        config: {
-                            isSelected: false
+            describe('decision', () => {
+                describe('empty with empty nested decision', () => {
+                    const endConnectors = [
+                        {
+                            guid: 'nested-decision-element-guid -> end-element-guid (decision-element-guid)',
+                            source: 'nested-decision-element-guid',
+                            childSource: 'outcome2-element-guid',
+                            target: 'end-element-guid (decision-element-guid)',
+                            label: 'd1out',
+                            type: 'REGULAR',
+                            config: { isSelected: false }
                         },
-                        guid: 'screen-element-guid -> end-element-guid (screen-element-guid)',
-                        label: null,
-                        source: 'screen-element-guid',
-                        target: 'end-element-guid (screen-element-guid)',
-                        type: 'REGULAR'
-                    }
-                ];
-                assertRoundTripFromAutoLayoutCanvas(oneScreen, endConnectors);
+                        {
+                            guid: 'nested-decision-element-guid -> end-element-guid (decision-element-guid)',
+                            source: 'nested-decision-element-guid',
+                            target: 'end-element-guid (decision-element-guid)',
+                            label: 'DEFAULT',
+                            type: 'DEFAULT',
+                            config: { isSelected: false }
+                        },
+                        {
+                            guid: 'decision-element-guid -> end-element-guid (decision-element-guid)',
+                            source: 'decision-element-guid',
+                            target: 'end-element-guid (decision-element-guid)',
+                            label: 'DEFAULT',
+                            type: 'DEFAULT',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(decisionWithEmptyNestedDecision, endConnectors);
+                });
+                describe('empty with screen next', () => {
+                    const endConnectors = [
+                        {
+                            guid:
+                                'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
+                            source: 'screen-after-decision-element-guid',
+                            target: 'end-element-guid (screen-after-decision-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(decisionEmptyWithScreenNext, endConnectors);
+                });
+                describe('empty with end next', () => {
+                    const endConnectors = [
+                        {
+                            guid: 'decision-element-guid -> end-element-guid (decision-element-guid)',
+                            source: 'decision-element-guid',
+                            childSource: 'outcome-element-guid',
+                            target: 'end-element-guid (decision-element-guid)',
+                            label: 'd1out',
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        },
+                        {
+                            guid: 'decision-element-guid -> end-element-guid (decision-element-guid)',
+                            source: 'decision-element-guid',
+                            target: 'end-element-guid (decision-element-guid)',
+                            label: 'DEFAULT',
+                            type: 'DEFAULT',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(emptyDecisionWithEndNext, endConnectors);
+                });
+                describe('with child on non default outcome', () => {
+                    const endConnectors = [
+                        {
+                            guid:
+                                'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
+                            source: 'screen-after-decision-element-guid',
+                            target: 'end-element-guid (screen-after-decision-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(decisionWithChildOnNonDefaultOutcome, endConnectors);
+                });
+                describe('with child on non default outcome next is end', () => {
+                    const endConnectors = [
+                        {
+                            guid: 'screen-left-element-guid -> end-element-guid (decision-element-guid)',
+                            source: 'screen-left-element-guid',
+                            target: 'end-element-guid (decision-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        },
+                        {
+                            guid: 'decision-element-guid -> end-element-guid (decision-element-guid)',
+                            source: 'decision-element-guid',
+                            target: 'end-element-guid (decision-element-guid)',
+                            label: 'DEFAULT',
+                            type: 'DEFAULT',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(decisionWithChildOnNonDefaultOutcomeNextIsEnd, endConnectors);
+                });
+                describe('with one child on each branch, followed by a screen element', () => {
+                    const endConnectors = [
+                        {
+                            guid:
+                                'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
+                            source: 'screen-after-decision-element-guid',
+                            target: 'end-element-guid (screen-after-decision-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(decisionOneChildOnEachBranchNextIsNotEnd, endConnectors);
+                });
+                describe('with two ended branches', () => {
+                    const endConnectors = [
+                        {
+                            guid: 'screen-left-element-guid -> end-element-guid (screen-left-element-guid)',
+                            source: 'screen-left-element-guid',
+                            target: 'end-element-guid (screen-left-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        },
+                        {
+                            guid: 'screen-right-element-guid -> end-element-guid (screen-right-element-guid)',
+                            source: 'screen-right-element-guid',
+                            target: 'end-element-guid (screen-right-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(decisionWithTwoEndedBranches, endConnectors);
+                });
+                describe('with nested decision with two ended branches', () => {
+                    const endConnectors = [
+                        {
+                            guid: 'screen-left-element-guid -> end-element-guid (screen-left-element-guid)',
+                            source: 'screen-left-element-guid',
+                            target: 'end-element-guid (screen-left-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        },
+                        {
+                            guid: 'screen-right-element-guid -> end-element-guid (screen-right-element-guid)',
+                            source: 'screen-right-element-guid',
+                            target: 'end-element-guid (screen-right-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        },
+                        {
+                            guid: 'decision-element-guid -> end-element-guid (decision-element-guid)',
+                            source: 'decision-element-guid',
+                            target: 'end-element-guid (decision-element-guid)',
+                            label: 'DEFAULT',
+                            type: 'DEFAULT',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(decisionWithNestedDecisionWithTwoEndedBranches, endConnectors);
+                });
+                describe('with decision next', () => {
+                    const endConnectors = [
+                        {
+                            guid: 'decision-next-element-guid -> end-element-guid (decision-next-element-guid)',
+                            source: 'decision-next-element-guid',
+                            childSource: 'outcome2-element-guid',
+                            target: 'end-element-guid (decision-next-element-guid)',
+                            label: 'd1out',
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        },
+                        {
+                            guid: 'decision-next-element-guid -> end-element-guid (decision-next-element-guid)',
+                            source: 'decision-next-element-guid',
+                            target: 'end-element-guid (decision-next-element-guid)',
+                            label: 'DEFAULT',
+                            type: 'DEFAULT',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(decisionWithDecisionNext, endConnectors);
+                });
+                describe('with nested left decision', () => {
+                    const endConnectors = [
+                        {
+                            guid:
+                                'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
+                            source: 'screen-after-decision-element-guid',
+                            target: 'end-element-guid (screen-after-decision-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(decisionWithNestedLeftDecision, endConnectors);
+                });
+                describe('with nested right decision', () => {
+                    const endConnectors = [
+                        {
+                            guid:
+                                'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
+                            source: 'screen-after-decision-element-guid',
+                            target: 'end-element-guid (screen-after-decision-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(decisionWithNestedRightDecision, endConnectors);
+                });
             });
-            describe('one element with fault', () => {
-                const expectedEndConnectors = [
-                    {
-                        config: { isSelected: false },
-                        guid: 'fault-element-guid -> end-element-guid (fault-element-guid)',
-                        label: null,
-                        source: 'fault-element-guid',
-                        target: 'end-element-guid (fault-element-guid)',
-                        type: 'REGULAR'
-                    },
-                    {
-                        config: { isSelected: false },
-                        guid: 'record-create-element-guid -> end-element-guid (record-create-element-guid)',
-                        label: null,
-                        source: 'record-create-element-guid',
-                        target: 'end-element-guid (record-create-element-guid)',
-                        type: 'REGULAR'
-                    }
-                ];
-                assertRoundTripFromAutoLayoutCanvas(oneElementWithFault, expectedEndConnectors);
-            });
-        });
-        describe('decision', () => {
-            describe('empty with empty nested decision', () => {
-                const endConnectors = [
-                    {
-                        guid: 'nested-decision-element-guid -> end-element-guid (decision-element-guid)',
-                        source: 'nested-decision-element-guid',
-                        childSource: 'outcome2-element-guid',
-                        target: 'end-element-guid (decision-element-guid)',
-                        label: 'd1out',
-                        type: 'REGULAR',
-                        config: { isSelected: false }
-                    },
-                    {
-                        guid: 'nested-decision-element-guid -> end-element-guid (decision-element-guid)',
-                        source: 'nested-decision-element-guid',
-                        target: 'end-element-guid (decision-element-guid)',
-                        label: 'DEFAULT',
-                        type: 'DEFAULT',
-                        config: { isSelected: false }
-                    },
-                    {
-                        guid: 'decision-element-guid -> end-element-guid (decision-element-guid)',
-                        source: 'decision-element-guid',
-                        target: 'end-element-guid (decision-element-guid)',
-                        label: 'DEFAULT',
-                        type: 'DEFAULT',
-                        config: { isSelected: false }
-                    }
-                ];
-                assertRoundTripFromAutoLayoutCanvas(decisionWithEmptyNestedDecision, endConnectors);
-            });
-            describe('empty with screen next', () => {
-                const endConnectors = [
-                    {
-                        guid:
-                            'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
-                        source: 'screen-after-decision-element-guid',
-                        target: 'end-element-guid (screen-after-decision-element-guid)',
-                        label: null,
-                        type: 'REGULAR',
-                        config: { isSelected: false }
-                    }
-                ];
-                assertRoundTripFromAutoLayoutCanvas(decisionEmptyWithScreenNext, endConnectors);
-            });
-            describe('empty with end next', () => {
-                const endConnectors = [
-                    {
-                        guid: 'decision-element-guid -> end-element-guid (decision-element-guid)',
-                        source: 'decision-element-guid',
-                        childSource: 'outcome-element-guid',
-                        target: 'end-element-guid (decision-element-guid)',
-                        label: 'd1out',
-                        type: 'REGULAR',
-                        config: { isSelected: false }
-                    },
-                    {
-                        guid: 'decision-element-guid -> end-element-guid (decision-element-guid)',
-                        source: 'decision-element-guid',
-                        target: 'end-element-guid (decision-element-guid)',
-                        label: 'DEFAULT',
-                        type: 'DEFAULT',
-                        config: { isSelected: false }
-                    }
-                ];
-                assertRoundTripFromAutoLayoutCanvas(emptyDecisionWithEndNext, endConnectors);
-            });
-            describe('with child on non default outcome', () => {
-                const endConnectors = [
-                    {
-                        guid:
-                            'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
-                        source: 'screen-after-decision-element-guid',
-                        target: 'end-element-guid (screen-after-decision-element-guid)',
-                        label: null,
-                        type: 'REGULAR',
-                        config: { isSelected: false }
-                    }
-                ];
-                assertRoundTripFromAutoLayoutCanvas(decisionWithChildOnNonDefaultOutcome, endConnectors);
-            });
-            describe('with child on non default outcome next is end', () => {
-                const endConnectors = [
-                    {
-                        guid: 'screen-left-element-guid -> end-element-guid (decision-element-guid)',
-                        source: 'screen-left-element-guid',
-                        target: 'end-element-guid (decision-element-guid)',
-                        label: null,
-                        type: 'REGULAR',
-                        config: { isSelected: false }
-                    },
-                    {
-                        guid: 'decision-element-guid -> end-element-guid (decision-element-guid)',
-                        source: 'decision-element-guid',
-                        target: 'end-element-guid (decision-element-guid)',
-                        label: 'DEFAULT',
-                        type: 'DEFAULT',
-                        config: { isSelected: false }
-                    }
-                ];
-                assertRoundTripFromAutoLayoutCanvas(decisionWithChildOnNonDefaultOutcomeNextIsEnd, endConnectors);
-            });
-            describe('with one child on each branch, followed by a screen element', () => {
-                const endConnectors = [
-                    {
-                        guid:
-                            'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
-                        source: 'screen-after-decision-element-guid',
-                        target: 'end-element-guid (screen-after-decision-element-guid)',
-                        label: null,
-                        type: 'REGULAR',
-                        config: { isSelected: false }
-                    }
-                ];
-                assertRoundTripFromAutoLayoutCanvas(decisionOneChildOnEachBranchNextIsNotEnd, endConnectors);
-            });
-            describe('with two ended branches', () => {
-                const endConnectors = [
-                    {
-                        guid: 'screen-left-element-guid -> end-element-guid (screen-left-element-guid)',
-                        source: 'screen-left-element-guid',
-                        target: 'end-element-guid (screen-left-element-guid)',
-                        label: null,
-                        type: 'REGULAR',
-                        config: { isSelected: false }
-                    },
-                    {
-                        guid: 'screen-right-element-guid -> end-element-guid (screen-right-element-guid)',
-                        source: 'screen-right-element-guid',
-                        target: 'end-element-guid (screen-right-element-guid)',
-                        label: null,
-                        type: 'REGULAR',
-                        config: { isSelected: false }
-                    }
-                ];
-                assertRoundTripFromAutoLayoutCanvas(decisionWithTwoEndedBranches, endConnectors);
-            });
-            describe('with nested decision with two ended branches', () => {
-                const endConnectors = [
-                    {
-                        guid: 'screen-left-element-guid -> end-element-guid (screen-left-element-guid)',
-                        source: 'screen-left-element-guid',
-                        target: 'end-element-guid (screen-left-element-guid)',
-                        label: null,
-                        type: 'REGULAR',
-                        config: { isSelected: false }
-                    },
-                    {
-                        guid: 'screen-right-element-guid -> end-element-guid (screen-right-element-guid)',
-                        source: 'screen-right-element-guid',
-                        target: 'end-element-guid (screen-right-element-guid)',
-                        label: null,
-                        type: 'REGULAR',
-                        config: { isSelected: false }
-                    },
-                    {
-                        guid: 'decision-element-guid -> end-element-guid (decision-element-guid)',
-                        source: 'decision-element-guid',
-                        target: 'end-element-guid (decision-element-guid)',
-                        label: 'DEFAULT',
-                        type: 'DEFAULT',
-                        config: { isSelected: false }
-                    }
-                ];
-                assertRoundTripFromAutoLayoutCanvas(decisionWithNestedDecisionWithTwoEndedBranches, endConnectors);
-            });
-            describe('with decision next', () => {
-                const endConnectors = [
-                    {
-                        guid: 'decision-next-element-guid -> end-element-guid (decision-next-element-guid)',
-                        source: 'decision-next-element-guid',
-                        childSource: 'outcome2-element-guid',
-                        target: 'end-element-guid (decision-next-element-guid)',
-                        label: 'd1out',
-                        type: 'REGULAR',
-                        config: { isSelected: false }
-                    },
-                    {
-                        guid: 'decision-next-element-guid -> end-element-guid (decision-next-element-guid)',
-                        source: 'decision-next-element-guid',
-                        target: 'end-element-guid (decision-next-element-guid)',
-                        label: 'DEFAULT',
-                        type: 'DEFAULT',
-                        config: { isSelected: false }
-                    }
-                ];
-                assertRoundTripFromAutoLayoutCanvas(decisionWithDecisionNext, endConnectors);
-            });
-            describe('with nested left decision', () => {
-                const endConnectors = [
-                    {
-                        guid:
-                            'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
-                        source: 'screen-after-decision-element-guid',
-                        target: 'end-element-guid (screen-after-decision-element-guid)',
-                        label: null,
-                        type: 'REGULAR',
-                        config: { isSelected: false }
-                    }
-                ];
-                assertRoundTripFromAutoLayoutCanvas(decisionWithNestedLeftDecision, endConnectors);
-            });
-            describe('with nested right decision', () => {
-                const endConnectors = [
-                    {
-                        guid:
-                            'screen-after-decision-element-guid -> end-element-guid (screen-after-decision-element-guid)',
-                        source: 'screen-after-decision-element-guid',
-                        target: 'end-element-guid (screen-after-decision-element-guid)',
-                        label: null,
-                        type: 'REGULAR',
-                        config: { isSelected: false }
-                    }
-                ];
-                assertRoundTripFromAutoLayoutCanvas(decisionWithNestedRightDecision, endConnectors);
-            });
-        });
-        describe('loop', () => {
-            describe('empty', () => {
-                const endConnectors = [
-                    {
-                        guid: 'loop-element-guid -> end-element-guid (loop-element-guid)',
-                        source: 'loop-element-guid',
-                        target: 'end-element-guid (loop-element-guid)',
-                        label: 'LOOP_END',
-                        type: 'LOOP_END',
-                        config: { isSelected: false }
-                    }
-                ];
-                assertRoundTripFromAutoLayoutCanvas(emptyLoopWithEndNext, endConnectors);
-            });
-            describe('with for each and after last screen', () => {
-                const endConnectors = [
-                    {
-                        guid: 'screen-after-last-element-guid -> end-element-guid (screen-after-last-element-guid)',
-                        source: 'screen-after-last-element-guid',
-                        target: 'end-element-guid (screen-after-last-element-guid)',
-                        label: null,
-                        type: 'REGULAR',
-                        config: { isSelected: false }
-                    }
-                ];
-                assertRoundTripFromAutoLayoutCanvas(loopWithForEachScreenAndAfterLastScreen, endConnectors);
-            });
-            describe('with for each and after last end', () => {
-                const endConnectors = [
-                    {
-                        guid: 'loop-element-guid -> end-element-guid (loop-element-guid)',
-                        source: 'loop-element-guid',
-                        target: 'end-element-guid (loop-element-guid)',
-                        label: 'LOOP_END',
-                        type: 'LOOP_END',
-                        config: { isSelected: false }
-                    }
-                ];
-                assertRoundTripFromAutoLayoutCanvas(loopWithForEachScreenAndAfterLastEnd, endConnectors);
-            });
+            describe('loop', () => {
+                describe('empty', () => {
+                    const endConnectors = [
+                        {
+                            guid: 'loop-element-guid -> end-element-guid (loop-element-guid)',
+                            source: 'loop-element-guid',
+                            target: 'end-element-guid (loop-element-guid)',
+                            label: 'LOOP_END',
+                            type: 'LOOP_END',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(emptyLoopWithEndNext, endConnectors);
+                });
+                describe('with for each and after last screen', () => {
+                    const endConnectors = [
+                        {
+                            guid: 'screen-after-last-element-guid -> end-element-guid (screen-after-last-element-guid)',
+                            source: 'screen-after-last-element-guid',
+                            target: 'end-element-guid (screen-after-last-element-guid)',
+                            label: null,
+                            type: 'REGULAR',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(loopWithForEachScreenAndAfterLastScreen, endConnectors);
+                });
+                describe('with for each and after last end', () => {
+                    const endConnectors = [
+                        {
+                            guid: 'loop-element-guid -> end-element-guid (loop-element-guid)',
+                            source: 'loop-element-guid',
+                            target: 'end-element-guid (loop-element-guid)',
+                            label: 'LOOP_END',
+                            type: 'LOOP_END',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(loopWithForEachScreenAndAfterLastEnd, endConnectors);
+                });
 
-            describe('with nested empty decision', () => {
-                const endConnectors = [
-                    {
-                        guid: 'loop-element-guid -> end-element-guid (loop-element-guid)',
-                        source: 'loop-element-guid',
-                        target: 'end-element-guid (loop-element-guid)',
-                        label: 'LOOP_END',
-                        type: 'LOOP_END',
-                        config: { isSelected: false }
-                    }
-                ];
-                assertRoundTripFromAutoLayoutCanvas(loopWithNestedEmptyDecision, endConnectors);
-            });
+                describe('with nested empty decision', () => {
+                    const endConnectors = [
+                        {
+                            guid: 'loop-element-guid -> end-element-guid (loop-element-guid)',
+                            source: 'loop-element-guid',
+                            target: 'end-element-guid (loop-element-guid)',
+                            label: 'LOOP_END',
+                            type: 'LOOP_END',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(loopWithNestedEmptyDecision, endConnectors);
+                });
 
-            describe('with nested loop', () => {
-                const endConnectors = [
-                    {
-                        guid: 'loop-element-guid -> end-element-guid (loop-element-guid)',
-                        source: 'loop-element-guid',
-                        target: 'end-element-guid (loop-element-guid)',
-                        label: 'LOOP_END',
-                        type: 'LOOP_END',
-                        config: { isSelected: false }
-                    }
-                ];
-                assertRoundTripFromAutoLayoutCanvas(loopWithNestedLoop, endConnectors);
+                describe('with nested loop', () => {
+                    const endConnectors = [
+                        {
+                            guid: 'loop-element-guid -> end-element-guid (loop-element-guid)',
+                            source: 'loop-element-guid',
+                            target: 'end-element-guid (loop-element-guid)',
+                            label: 'LOOP_END',
+                            type: 'LOOP_END',
+                            config: { isSelected: false }
+                        }
+                    ];
+                    assertRoundTripFromAutoLayoutCanvas(loopWithNestedLoop, endConnectors);
+                });
             });
         });
     });

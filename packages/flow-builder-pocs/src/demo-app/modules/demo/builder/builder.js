@@ -90,6 +90,10 @@ function translateEventToAction(event) {
 export default class Builder extends LightningElement {
     elementsMetadata = elementsMetadataForScreenFlow;
 
+    undoRedoStack = [];
+    undoRedoStackPointer = -1;
+    updateStack = true;
+
     @track
     isSelectionMode = false;
 
@@ -97,6 +101,12 @@ export default class Builder extends LightningElement {
         super();
 
         storeInstance = Store.getStore(reducer);
+        storeInstance.subscribe(() => {
+            if (this.undoRedoStackPointer === this.undoRedoStack.length - 1) {
+                this.undoRedoStack.push(storeInstance.getCurrentState());
+                this.undoRedoStackPointer++;
+            }
+        });
         this.createStartElement();
 
         this.handleLoad();
@@ -119,6 +129,7 @@ export default class Builder extends LightningElement {
         storeInstance.dispatch(deleteElements(payload));
     }
 
+
     handleSave() {
         localStorage.setItem('flow', JSON.stringify(storeInstance.getCurrentState()));
     }
@@ -134,6 +145,24 @@ export default class Builder extends LightningElement {
         storeInstance.dispatch(updateFlow({elements: {}, canvasElements:[], connectors: [], peripheralData: {}, properties: {}}));
         this.createStartElement();
     }
+
+    handleUndo() {
+        const undoRedoStackPointer = this.undoRedoStackPointer - 1;
+        if (undoRedoStackPointer > 0) {
+            this.undoRedoStackPointer--;
+            storeInstance.dispatch(updateFlow(this.undoRedoStack[undoRedoStackPointer]));
+        }
+    }
+
+    handleRedo() {
+         const undoRedoStackPointer = this.undoRedoStackPointer + 1;
+        if (undoRedoStackPointer <= this.undoRedoStack.length - 1) {
+           storeInstance.dispatch(updateFlow(this.undoRedoStack[undoRedoStackPointer]));
+           this.undoRedoStackPointer++;
+        }
+    }
+
+
 
     handleToggleSelectionMode() {
         this.isSelectionMode = !this.isSelectionMode;
