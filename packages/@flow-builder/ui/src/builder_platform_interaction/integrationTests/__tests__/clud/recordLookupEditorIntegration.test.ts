@@ -570,19 +570,19 @@ describe('Record Lookup Editor', () => {
                 });
             });
             describe('assign variables', () => {
-                beforeEach(() => {
-                    const element = getElementByDevName('lookupRecordOutputReference');
-                    recordLookupNode = getElementForPropertyEditor(element);
-                    recordLookupComponent = createComponentForTest(
-                        recordLookupNode,
-                        EditElementEvent.EVENT_NAME,
-                        FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
-                    );
-                    sObjectOrSObjectCollectionPicker = getRecordObjectAndQueryFieldResourceGroupedCombobox(
-                        recordLookupComponent
-                    );
-                });
                 describe('Sobject or Sobject collection picker', () => {
+                    beforeEach(() => {
+                        const element = getElementByDevName('lookupRecordOutputReference');
+                        recordLookupNode = getElementForPropertyEditor(element);
+                        recordLookupComponent = createComponentForTest(
+                            recordLookupNode,
+                            EditElementEvent.EVENT_NAME,
+                            FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
+                        );
+                        sObjectOrSObjectCollectionPicker = getRecordObjectAndQueryFieldResourceGroupedCombobox(
+                            recordLookupComponent
+                        );
+                    });
                     it('shows account variables up, no traversal', async () => {
                         await expectCannotBeTraversedInResourcePicker(['accountSObjectVariable']);
                     });
@@ -617,6 +617,34 @@ describe('Record Lookup Editor', () => {
                                 .errorMessage
                         ).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC);
                     });
+                });
+            });
+            describe('Record store options', () => {
+                it('is set to All Records for multiple records into an apex variable', () => {
+                    const element = getElementByDevName('get_accounts_into_apex_variable');
+                    recordLookupNode = getElementForPropertyEditor(element);
+                    recordLookupComponent = createComponentForTest(
+                        recordLookupNode,
+                        EditElementEvent.EVENT_NAME,
+                        FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
+                    );
+
+                    const recordStoreElement = getRecordStoreOption(recordLookupComponent);
+
+                    expect(recordStoreElement.numberOfRecordsToStore).toBe('allRecords');
+                });
+                it('is set to first record for single record into an apex variable', () => {
+                    const element = getElementByDevName('get_account_into_apex_variable');
+                    recordLookupNode = getElementForPropertyEditor(element);
+                    recordLookupComponent = createComponentForTest(
+                        recordLookupNode,
+                        EditElementEvent.EVENT_NAME,
+                        FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
+                    );
+
+                    const recordStoreElement = getRecordStoreOption(recordLookupComponent);
+
+                    expect(recordStoreElement.numberOfRecordsToStore).toBe('firstRecord');
                 });
             });
         });

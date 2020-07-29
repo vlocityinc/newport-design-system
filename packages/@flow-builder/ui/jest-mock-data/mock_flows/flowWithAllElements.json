@@ -916,6 +916,45 @@
                 "sortField": "Name",
                 "storeOutputAutomatically": true,
                 "getFirstRecordOnly": false
+            },
+            {
+                "name": "get_account_into_apex_variable",
+                "description": "",
+                "label": "get account into apex variable",
+                "locationX": 157,
+                "locationY": 465,
+                "elementSubtype": null,
+                "object": "Account",
+                "outputReference": "apexComplexTypeVariable.acct",
+                "assignNullValuesIfNoRecordsFound": false,
+                "filters": [],
+                "queriedFields": ["Id"]
+            },
+            {
+                "name": "get_accounts_into_apex_variable",
+                "description": "",
+                "label": "get accounts into apex variable",
+                "locationX": 166,
+                "locationY": 175,
+                "elementSubtype": null,
+                "object": "Account",
+                "outputReference": "apexComplexTypeVariable.acctListField",
+                "assignNullValuesIfNoRecordsFound": false,
+                "filters": [],
+                "queriedFields": ["Id"]
+            },
+            {
+                "name": "lookupAccountsManual",
+                "description": "",
+                "label": "lookupAccountsManual",
+                "locationX": 745,
+                "locationY": 352.3125,
+                "elementSubtype": null,
+                "object": "Account",
+                "outputReference": "accountSObjectCollectionVariable",
+                "assignNullValuesIfNoRecordsFound": false,
+                "filters": [],
+                "queriedFields": ["Id"]
             }
         ],
         "recordDeletes": [

@@ -14,7 +14,15 @@ import {
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
+import {
+    flowWithAllElementsUIModel,
+    lookupRecordCollectionManualOutput,
+    lookupRecordOutputReference,
+    getAccountManualOutputIntoApexVariable,
+    getAccountsManualOutputIntoApexVariable
+} from 'mock/storeData';
+import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -64,41 +72,6 @@ const recordLookupSObjectStore = () => ({
     object: 'Account',
     outputReference: 'vSobjectAccount',
     queriedFields: [{ field: 'BillingCountry', rowIndex: MOCK_GUID }],
-    sortField: '',
-    sortOrder: 'NotSorted'
-});
-
-const recordLookupSObjectCollectionStore = () => ({
-    assignNullValuesIfNoRecordsFound: false,
-    availableConnections: [
-        {
-            type: 'REGULAR'
-        },
-        {
-            type: 'FAULT'
-        }
-    ],
-    config: { isSelected: false },
-    connectorCount: 0,
-    dataType: 'Boolean',
-    description: '',
-    elementType: ELEMENT_TYPE.RECORD_LOOKUP,
-    filterLogic: CONDITION_LOGIC.NO_CONDITIONS,
-    filters: [],
-    guid: MOCK_GUID,
-    isCanvasElement: true,
-    label: 'lookupSObject',
-    locationX: 304,
-    locationY: 629,
-    maxConnections: 2,
-    name: 'lookupSObject',
-    getFirstRecordOnly: false,
-    object: 'Account',
-    outputReference: 'vSobjectAccountCollection',
-    queriedFields: [
-        { field: 'BillingCountry', rowIndex: MOCK_GUID },
-        { field: '', rowIndex: MOCK_GUID }
-    ],
     sortField: '',
     sortOrder: 'NotSorted'
 });
@@ -303,10 +276,12 @@ describe('recordLookup', () => {
     const storeLib = require('builder_platform_interaction/storeLib');
     storeLib.generateGuid = jest.fn().mockReturnValue(MOCK_GUID);
     beforeAll(() => {
+        setApexClasses(apexTypesForFlow);
         Store.setMockState(flowWithAllElementsUIModel);
     });
     afterAll(() => {
         Store.resetStore();
+        setApexClasses(null);
     });
     describe('createRecordLookup function', () => {
         let recordLookup;
@@ -330,18 +305,31 @@ describe('recordLookup', () => {
         });
 
         describe('when store recordLookup is passed', () => {
-            beforeEach(() => {
-                recordLookup = createRecordLookup(recordLookupSObjectStore());
-            });
             it('has dataType of boolean', () => {
+                recordLookup = createRecordLookup(recordLookupSObjectStore());
                 expect(recordLookup.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
             });
             it('has no common mutable object with ecord lookup from store passed as parameter', () => {
+                recordLookup = createRecordLookup(recordLookupSObjectStore());
                 expect(recordLookup).toHaveNoCommonMutableObjectWith(recordLookupSObjectStore());
             });
-            it('has the "how many records" property set from the passed object', () => {
-                const valueFromCreation = createRecordLookup(recordLookupSObjectCollectionStore()).getFirstRecordOnly;
-                expect(valueFromCreation).toEqual(false);
+            it('has the "getFirstRecordOnly" property equals to the one in the passed object', () => {
+                const { getFirstRecordOnly } = createRecordLookup(lookupRecordCollectionManualOutput);
+                expect(getFirstRecordOnly).toEqual(false);
+            });
+            it('has getFirstRecordOnly true for manual output single record', () => {
+                const getFirstRecordOnly = createRecordLookup(lookupRecordOutputReference).getFirstRecordOnly;
+                expect(getFirstRecordOnly).toEqual(true);
+            });
+            it('has getFirstRecordOnly true for manual output single record into an apex variable', () => {
+                const getFirstRecordOnly = createRecordLookup(getAccountManualOutputIntoApexVariable)
+                    .getFirstRecordOnly;
+                expect(getFirstRecordOnly).toEqual(true);
+            });
+            it('has getFirstRecordOnly false for manual output multiple records into an apex variable', () => {
+                const getFirstRecordOnly = createRecordLookup(getAccountsManualOutputIntoApexVariable)
+                    .getFirstRecordOnly;
+                expect(getFirstRecordOnly).toEqual(false);
             });
         });
     });

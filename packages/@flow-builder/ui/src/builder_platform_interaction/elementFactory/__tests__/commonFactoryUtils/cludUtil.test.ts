@@ -56,7 +56,7 @@ describe('clud util', () => {
                 expect(variable).toMatchObject(expectedVariable);
             }
         );
-        it('returns undefine when variable does not exist', () => {
+        it('returns undefined when variable does not exist', () => {
             const variable = referenceToVariable('IDontExist', Store.getStore().getCurrentState().elements);
 
             expect(variable).toBeUndefined();

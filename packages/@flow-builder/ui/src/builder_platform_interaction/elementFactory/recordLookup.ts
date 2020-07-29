@@ -23,9 +23,8 @@ import { SORT_ORDER, VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { getGlobalConstantOrSystemVariable } from 'builder_platform_interaction/systemLib';
-import { getElementByGuidFromState, getElementByDevNameFromState } from 'builder_platform_interaction/storeUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { referenceToVariable, getFirstRecordOnlyFromVariable } from './commonFactoryUtils/cludUtil';
 
 const elementType = ELEMENT_TYPE.RECORD_LOOKUP;
 const maxConnections = 2;
@@ -66,8 +65,7 @@ function createRecordLookupWithOuputReference(recordLookup = {}, { elements } = 
         availableConnections = getDefaultAvailableConnections(),
         filterLogic = CONDITION_LOGIC.AND,
         filters,
-        queriedFields = [],
-        getFirstRecordOnly = true
+        queriedFields = []
     } = recordLookup;
     const {
         object = '',
@@ -91,15 +89,19 @@ function createRecordLookupWithOuputReference(recordLookup = {}, { elements } = 
     }
 
     let complete = true;
-
+    let getFirstRecordOnly = true;
     // When the flow is loaded, this factory is called twice. In the first phase, elements is empty. In the second phase, elements contain variables and
     // we can calculate getFirstRecordOnly
-    const variable =
-        getElementByGuidFromState({ elements }, outputReference) ||
-        getElementByDevNameFromState({ elements }, outputReference) ||
-        getGlobalConstantOrSystemVariable(outputReference);
+    const variable = referenceToVariable(outputReference, elements);
     if (variable) {
-        getFirstRecordOnly = !(variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection);
+        const getFirstRecordOnlyFromVariableAndReference: boolean | undefined = getFirstRecordOnlyFromVariable(
+            variable,
+            outputReference
+        );
+        getFirstRecordOnly =
+            getFirstRecordOnlyFromVariableAndReference !== undefined
+                ? getFirstRecordOnlyFromVariableAndReference
+                : true;
     } else {
         complete = false;
     }
