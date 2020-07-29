@@ -220,7 +220,7 @@ export const elementsForPropertyEditors = {
             value: 'String',
             error: null
         },
-        isPlainTextMode: false
+        isViewedAsPlainText: false
     },
     textTemplate2: {
         guid: 'd66cf236-ca0a-4351-952d-b12df4abdaf8',
@@ -241,7 +241,7 @@ export const elementsForPropertyEditors = {
             value: 'String',
             error: null
         },
-        isPlainTextMode: true
+        isViewedAsPlainText: true
     },
     stringConstant: {
         guid: '6160bbc3-c247-458e-b1b8-abc60b4d3d39',

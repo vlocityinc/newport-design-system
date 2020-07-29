@@ -23,23 +23,23 @@ describe('text-template-reducer', () => {
             expect(resultObj).not.toBe(textTemplateResourceInRichText);
         });
         it('updates the value of isPlainTextMode from default (rich text) to plain text mode', () => {
-            const isPlainTextMode = true;
+            const isViewedAsPlainText = true;
             const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
-                value: isPlainTextMode,
-                propertyName: 'isPlainTextMode'
+                value: isViewedAsPlainText,
+                propertyName: 'isViewedAsPlainText'
             });
             const resultObj = textTemplateReducer(textTemplateResourceInRichText, action);
-            expect(resultObj.isPlainTextMode).toEqual(isPlainTextMode);
+            expect(resultObj.isViewedAsPlainText).toEqual(isViewedAsPlainText);
             expect(resultObj).not.toBe(textTemplateResourceInRichText);
         });
         it('updates the value of isPlainTextMode from plain text to rich text mode', () => {
-            const isPlainTextMode = false;
+            const isViewedAsPlainText = false;
             const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
-                value: isPlainTextMode,
-                propertyName: 'isPlainTextMode'
+                value: isViewedAsPlainText,
+                propertyName: 'isViewedAsPlainText'
             });
             const resultObj = textTemplateReducer(textTemplateResourceInPlainText, action);
-            expect(resultObj.isPlainTextMode).toEqual(isPlainTextMode);
+            expect(resultObj.isViewedAsPlainText).toEqual(isViewedAsPlainText);
             expect(resultObj).not.toBe(textTemplateResourceInPlainText);
         });
     });

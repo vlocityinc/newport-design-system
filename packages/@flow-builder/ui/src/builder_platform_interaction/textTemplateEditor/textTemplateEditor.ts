@@ -83,7 +83,7 @@ export default class TextTemplateEditor extends LightningElement {
 
     handleRichTextPlainTextSwitchChange(event) {
         event.stopPropagation();
-        const propertyName = 'isPlainTextMode';
+        const propertyName = 'isViewedAsPlainText';
         const value = event.detail.isPlainText;
         const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value });
         this.textTemplateResource = textTemplateReducer(this.textTemplateResource, action);

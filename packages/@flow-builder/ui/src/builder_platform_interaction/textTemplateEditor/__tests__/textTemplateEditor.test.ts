@@ -145,7 +145,7 @@ describe('text-template-editor', () => {
         textTemplateEditor.shadowRoot.querySelector(SELECTORS.RESOURCED_RICH_TEXT_EDITOR).dispatchEvent(event);
         expect(createAction.mock.calls[0][0]).toEqual(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY);
         expect(createAction.mock.calls[0][1]).toEqual({
-            propertyName: 'isPlainTextMode',
+            propertyName: 'isViewedAsPlainText',
             value: true
         });
         expect(textTemplateReducer.mock.calls[0][0]).toEqual(textTemplateEditor.node);
@@ -163,7 +163,7 @@ describe('text-template-editor', () => {
         textTemplateEditor.shadowRoot.querySelector(SELECTORS.RESOURCED_RICH_TEXT_EDITOR).dispatchEvent(event);
         expect(createAction.mock.calls[0][0]).toEqual(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY);
         expect(createAction.mock.calls[0][1]).toEqual({
-            propertyName: 'isPlainTextMode',
+            propertyName: 'isViewedAsPlainText',
             value: false
         });
         expect(textTemplateReducer.mock.calls[0][0]).toEqual(textTemplateEditor.node);

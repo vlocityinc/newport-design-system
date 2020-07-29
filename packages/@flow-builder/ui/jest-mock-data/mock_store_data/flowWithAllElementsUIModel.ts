@@ -1257,7 +1257,7 @@ export const flowWithAllElementsUIModel = {
             elementType: 'TextTemplate',
             text: '<p>Hello {!756e3b06-1ee6-4f8e-82b2-ce141c9405db}</p>',
             dataType: 'String',
-            isPlainTextMode: false
+            isViewedAsPlainText: false
         },
         'd66cf236-ca0a-4351-952d-b12df4abdaf8': {
             guid: 'd66cf236-ca0a-4351-952d-b12df4abdaf8',
@@ -1266,7 +1266,7 @@ export const flowWithAllElementsUIModel = {
             elementType: 'TextTemplate',
             text: 'This text template is in plain text mode.',
             dataType: 'String',
-            isPlainTextMode: true
+            isViewedAsPlainText: true
         },
         '2e02687e-41a2-42eb-ba74-81c130218b86': {
             guid: '2e02687e-41a2-42eb-ba74-81c130218b86',

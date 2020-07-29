@@ -655,13 +655,13 @@
                 "name": "textTemplate1",
                 "description": "",
                 "text": "<p>Hello {!stringVariable}</p>",
-                "isPlainTextMode": false
+                "isViewedAsPlainText": false
             },
             {
                 "name": "textTemplate2",
                 "description": "",
                 "text": "This text template is in plain text mode.",
-                "isPlainTextMode": true
+                "isViewedAsPlainText": true
             }
         ],
         "subflows": [

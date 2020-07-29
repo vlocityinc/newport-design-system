@@ -13,7 +13,7 @@ export function createTextTemplate(textTemplate = {}) {
         elementType,
         text,
         dataType: FLOW_DATA_TYPE.STRING.value,
-        isPlainTextMode: textTemplate.isPlainTextMode || false
+        isViewedAsPlainText: textTemplate.isViewedAsPlainText || false
     });
     return textTemplateObject;
 }
@@ -28,10 +28,10 @@ export function createTextTemplateMetadataObject(textTemplate) {
         throw new Error('textTemplate is not defined');
     }
     const newTextTemplate = baseResourceMetadataObject(textTemplate);
-    const { text, isPlainTextMode } = textTemplate;
+    const { text, isViewedAsPlainText } = textTemplate;
 
     return Object.assign(newTextTemplate, {
         text,
-        isPlainTextMode
+        isViewedAsPlainText
     });
 }
