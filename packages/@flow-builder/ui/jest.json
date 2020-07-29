@@ -12,6 +12,7 @@
         "^mock/eventTypesData$": "<rootDir>/jest-mock-data/mock_event_type_data/mock-event-type-data",
         "^mock/calloutData$": "<rootDir>/jest-mock-data/mock_callout_data/mock-callout-data",
         "^mock/flows/(.+)$": "<rootDir>/jest-mock-data/mock_flows/$1",
+        "^mock/debugResponse/(.+)$": "<rootDir>/jest-mock-data/mock_debug_response/$1",
         "^mock/processTypesData": "<rootDir>/jest-mock-data/mock_process_types_data/mock-process-types-data",
         "^mock/flowEntryData": "<rootDir>/jest-mock-data/mock_flow_entry_data/mock-flow-entry-data",
         "^mock/flowExtensionsData": "<rootDir>/jest-mock-data/mock_flow_extensions_data/mock-flow-extensions-data",
