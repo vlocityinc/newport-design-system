@@ -31,9 +31,9 @@ const FIELD_SEPARATOR = '.';
  * Mapping between combobox item value and pill label for global constants and some global variables
  */
 const GLOBAL_CONSTANT_GLOBAL_VARIABLE_TO_LABEL_MAP = new Map([
-    [`${GLOBAL_CONSTANT_PREFIX}${FIELD_SEPARATOR}True`, 'True'],
-    [`${GLOBAL_CONSTANT_PREFIX}${FIELD_SEPARATOR}False`, 'False'],
-    [`${GLOBAL_CONSTANT_PREFIX}${FIELD_SEPARATOR}EmptyString`, 'EmptyString'],
+    [`${GLOBAL_CONSTANT_PREFIX}${FIELD_SEPARATOR}EmptyString`, LABELS.globalConstantEmptyString],
+    [`${GLOBAL_CONSTANT_PREFIX}${FIELD_SEPARATOR}False`, LABELS.globalConstantFalse],
+    [`${GLOBAL_CONSTANT_PREFIX}${FIELD_SEPARATOR}True`, LABELS.globalConstantTrue],
     [`${SYSTEM_VARIABLE_PREFIX}${FIELD_SEPARATOR}CurrentDate`, LABELS.flowCurrentDate],
     [`${SYSTEM_VARIABLE_PREFIX}${FIELD_SEPARATOR}CurrentDateTime`, LABELS.flowCurrentDateTime],
     [`${SYSTEM_VARIABLE_PREFIX}${FIELD_SEPARATOR}FaultMessage`, LABELS.flowFaultMessage],

@@ -46,7 +46,7 @@ describe('getPillLabel', () => {
         ${mockApexSObjectEntitySecondLevelComboboxItem}                  | ${'vApexComplexTypeTestOne216 > acct'}
         ${mockEmailScreenFieldAutoSecondLevelFieldComboboxItem}          | ${'emailScreenFieldAutomaticOutput > Read Only'}
         ${mockApexCallApexClassOutputSecondLevelComboboxItem}            | ${'Outputs from apexCall_Car_automatic_output > car'}
-        ${mockGlobalConstantEmptyStringComboboxItem}                     | ${'EmptyString'}
+        ${mockGlobalConstantEmptyStringComboboxItem}                     | ${'FlowBuilderPill.globalConstantEmptyString'}
         ${mockGlobalVariableFlowCurrentDateComboboxItem}                 | ${'FlowBuilderPill.flowCurrentDate'}
     `(' returns expected label', ({ item, label, expectedLabel }) => {
         test(`For item: ${
@@ -104,9 +104,9 @@ describe('getGlobalConstantOrSystemVariableLabel', () => {
         ${null}                                    | ${undefined}
         ${undefined}                               | ${undefined}
         ${''}                                      | ${undefined}
-        ${'$GlobalConstant.True'}                  | ${'True'}
-        ${'$GlobalConstant.False'}                 | ${'False'}
-        ${'$GlobalConstant.EmptyString'}           | ${'EmptyString'}
+        ${'$GlobalConstant.True'}                  | ${'FlowBuilderPill.globalConstantTrue'}
+        ${'$GlobalConstant.False'}                 | ${'FlowBuilderPill.globalConstantFalse'}
+        ${'$GlobalConstant.EmptyString'}           | ${'FlowBuilderPill.globalConstantEmptyString'}
         ${'GlobalConstant.False'}                  | ${undefined}
         ${'$Flow.CurrentDate'}                     | ${'FlowBuilderPill.flowCurrentDate'}
         ${'$Flow.CurrentDateTime'}                 | ${'FlowBuilderPill.flowCurrentDateTime'}
