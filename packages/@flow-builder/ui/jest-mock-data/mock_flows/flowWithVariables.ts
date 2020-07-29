@@ -11,152 +11,161 @@ export const flowWithVariables = {
     manageableState: 'unmanaged',
     masterLabel: 'FlowWithVariables',
     metadata: {
-        actionCalls: [],
-        apexPluginCalls: [],
-        assignments: [],
-        choices: [],
-        constants: [],
-        decisions: [],
-        dynamicChoiceSets: [],
-        formulas: [],
-        interviewLabel: 'FlowWithVariables {!$Flow.CurrentDateTime}',
-        isTemplate: false,
-        label: 'FlowWithVariables',
-        loops: [],
-        processMetadataValues: [],
-        processType: 'AutoLaunchedFlow',
-        recordCreates: [],
-        recordDeletes: [],
-        recordLookups: [],
-        recordUpdates: [],
-        screens: [],
-        stages: [],
         start: {
             locationX: 1000,
             locationY: 2000,
-            doesRequireRecordChangedToMeetCriteria: false
+            doesRequireRecordChangedToMeetCriteria: false,
+            filters: []
         },
-        status: 'InvalidDraft',
-        steps: [],
-        subflows: [],
-        textTemplates: [],
         variables: [
             {
+                name: 'VariableWithBooleanValue',
+                description: '',
                 dataType: 'Boolean',
                 isCollection: false,
                 isInput: false,
                 isOutput: false,
-                name: 'VariableWithBooleanValue',
                 scale: 0,
                 value: {
                     booleanValue: true
                 }
             },
             {
+                name: 'VariableWithCollection',
+                description: '',
                 dataType: 'String',
                 isCollection: true,
                 isInput: false,
                 isOutput: false,
-                name: 'VariableWithCollection',
                 scale: 0
             },
             {
+                name: 'VariableWithCurrencyValue',
+                description: '',
                 dataType: 'Currency',
                 isCollection: false,
                 isInput: false,
                 isOutput: false,
-                name: 'VariableWithCurrencyValue',
                 scale: 2,
                 value: {
-                    numberValue: 10
+                    numberValue: '10'
                 }
             },
             {
+                name: 'VariableWithDateTimeValue',
+                description: '',
                 dataType: 'DateTime',
                 isCollection: false,
                 isInput: false,
                 isOutput: false,
-                name: 'VariableWithDateTimeValue',
                 scale: 0,
                 value: {
                     dateTimeValue: '2018-09-04T07:00:00.000+0000'
                 }
             },
             {
+                name: 'VariableWithDateValue',
+                description: '',
                 dataType: 'Date',
                 isCollection: false,
                 isInput: false,
                 isOutput: false,
-                name: 'VariableWithDateValue',
                 scale: 0,
                 value: {
                     dateValue: '2018-09-03T00:00:00.000+0000'
                 }
             },
             {
+                name: 'VariableWithElementReference',
+                description: '',
                 dataType: 'String',
                 isCollection: false,
                 isInput: false,
                 isOutput: false,
-                name: 'VariableWithElementReference',
                 scale: 0,
                 value: {
                     elementReference: 'VariableWithTextValue'
                 }
             },
             {
+                name: 'VariableWithNumberValue',
+                description: '',
                 dataType: 'Number',
                 isCollection: false,
                 isInput: false,
                 isOutput: false,
-                name: 'VariableWithNumberValue',
                 scale: 2,
                 value: {
-                    numberValue: 10
+                    numberValue: '10'
                 }
             },
             {
+                name: 'VariableWithRecordCollection',
+                description: '',
+                objectType: 'Account',
                 dataType: 'SObject',
                 isCollection: true,
                 isInput: false,
                 isOutput: false,
-                name: 'VariableWithRecordCollection',
-                objectType: 'Account',
                 scale: 0
             },
             {
+                name: 'VariableWithRecordValue',
+                description: '',
+                objectType: 'Account',
                 dataType: 'SObject',
                 isCollection: false,
                 isInput: false,
                 isOutput: false,
-                name: 'VariableWithRecordValue',
-                objectType: 'Account',
                 scale: 0
             },
             {
+                name: 'VariableWithStringValue',
+                description: '',
                 dataType: 'String',
                 isCollection: false,
                 isInput: false,
                 isOutput: false,
-                name: 'VariableWithStringValue',
                 scale: 0,
                 value: {
                     stringValue: 'Hello {!VariableWithTextValue}'
                 }
             },
             {
+                name: 'VariableWithTextValue',
+                description: '',
                 dataType: 'String',
                 isCollection: false,
                 isInput: false,
                 isOutput: false,
-                name: 'VariableWithTextValue',
                 scale: 0,
                 value: {
                     stringValue: 'abc'
                 }
             }
         ],
-        waits: []
+        description: '',
+        interviewLabel: 'FlowWithVariables {!$Flow.CurrentDateTime}',
+        isTemplate: false,
+        label: 'FlowWithVariables',
+        processMetadataValues: [
+            {
+                name: 'BuilderType',
+                value: {
+                    stringValue: 'LightningFlowBuilder'
+                }
+            },
+            {
+                name: 'CanvasMode',
+                value: {
+                    stringValue: 'FREE_FORM_CANVAS'
+                }
+            }
+        ],
+        processType: 'AutoLaunchedFlow',
+        runInMode: null,
+        status: 'InvalidDraft',
+        apiVersion: 49
     },
     processType: 'AutoLaunchedFlow',
     status: 'InvalidDraft',

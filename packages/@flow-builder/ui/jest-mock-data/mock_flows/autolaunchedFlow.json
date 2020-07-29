@@ -27,6 +27,7 @@
                 "frequency": "Once"
             },
             "object": "Account",
+            "doesRequireRecordChangedToMeetCriteria": false,
             "filters": []
         },
         "actionCalls": [
@@ -76,7 +77,8 @@
                                 "operator": "EqualTo"
                             }
                         ],
-                        "conditionLogic": "and"
+                        "conditionLogic": "and",
+                        "doesRequireRecordChangedToMeetCriteria": false
                     }
                 ],
                 "defaultConnectorLabel": "Default Outcome"
@@ -254,6 +256,12 @@
                 "name": "OriginBuilderType",
                 "value": {
                     "stringValue": "LightningFlowBuilder"
+                }
+            },
+            {
+                "name": "CanvasMode",
+                "value": {
+                    "stringValue": "FREE_FORM_CANVAS"
                 }
             }
         ],

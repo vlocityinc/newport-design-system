@@ -1,4 +1,5 @@
 // @ts-nocheck
+// FIXME cannot be updated
 export const flowWithScreenAndLightningComponentAddress = {
     createdById: '005xx000001X8unAAC',
     createdDate: '2019-07-05T13:52:43.000+0000',

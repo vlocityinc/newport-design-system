@@ -15,18 +15,259 @@ export const flowWithSubflows = {
     manageableState: 'unmanaged',
     masterLabel: 'Flow with all types variables',
     metadata: {
-        actionCalls: [],
-        apexPluginCalls: [],
-        assignments: [],
-        choices: [],
-        constants: [],
-        decisions: [],
-        dynamicChoiceSets: [],
-        formulas: [],
+        start: {
+            locationX: 35,
+            locationY: 46,
+            connector: {
+                targetReference: 'Flow_With_All_Types_Variables'
+            },
+            doesRequireRecordChangedToMeetCriteria: false,
+            filters: []
+        },
+        variables: [
+            {
+                name: 'accountSObjectCollectionVariable',
+                description: '',
+                objectType: 'Account',
+                dataType: 'SObject',
+                isCollection: true,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            },
+            {
+                name: 'accountSObjectVariable',
+                description: '',
+                objectType: 'Account',
+                dataType: 'SObject',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            },
+            {
+                name: 'booleanVariable',
+                description: '',
+                dataType: 'Boolean',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            },
+            {
+                name: 'caseSObjectVariable',
+                description: '',
+                objectType: 'Case',
+                dataType: 'SObject',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            },
+            {
+                name: 'currencyCollectionVariable',
+                description: '',
+                dataType: 'Currency',
+                isCollection: true,
+                isInput: false,
+                isOutput: false,
+                scale: 2
+            },
+            {
+                name: 'currencyVariable',
+                description: '',
+                dataType: 'Currency',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 2
+            },
+            {
+                name: 'dateTimeVariable',
+                description: '',
+                dataType: 'DateTime',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            },
+            {
+                name: 'dateVariable',
+                description: '',
+                dataType: 'Date',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            },
+            {
+                name: 'numberCollectionVariable',
+                description: '',
+                dataType: 'Number',
+                isCollection: true,
+                isInput: false,
+                isOutput: false,
+                scale: 2
+            },
+            {
+                name: 'numberVariable',
+                description: '',
+                dataType: 'Number',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 2
+            },
+            {
+                name: 'stringCollectionVariable',
+                description: '',
+                dataType: 'String',
+                isCollection: true,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            },
+            {
+                name: 'stringVariable',
+                description: '',
+                dataType: 'String',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            }
+        ],
+        subflows: [
+            {
+                name: 'Flow_With_All_Types_Variables',
+                description: '',
+                label: 'Flow With All Types Variables',
+                locationX: 250,
+                locationY: 88,
+                flowName: 'FlowWithAllTypesVariables',
+                inputAssignments: [
+                    {
+                        name: 'inputOutputAccountColVar',
+                        value: {
+                            elementReference: 'accountSObjectCollectionVariable'
+                        }
+                    },
+                    {
+                        name: 'inputOutputAccountVar',
+                        value: {
+                            elementReference: 'accountSObjectVariable'
+                        }
+                    },
+                    {
+                        name: 'inputOutputBoolVar',
+                        value: {
+                            elementReference: 'booleanVariable'
+                        }
+                    },
+                    {
+                        name: 'inputOutputCurrencyVar',
+                        value: {
+                            elementReference: 'currencyVariable'
+                        }
+                    },
+                    {
+                        name: 'inputOutputDateTimeVar',
+                        value: {
+                            elementReference: 'dateTimeVariable'
+                        }
+                    },
+                    {
+                        name: 'inputOutputDateVar',
+                        value: {
+                            elementReference: 'dateVariable'
+                        }
+                    },
+                    {
+                        name: 'inputOutputNumberVar',
+                        value: {
+                            elementReference: 'numberVariable'
+                        }
+                    },
+                    {
+                        name: 'inputOutputNumberVar',
+                        value: {
+                            elementReference: 'numberVariable'
+                        }
+                    },
+                    {
+                        name: 'inputNotAvailableParam',
+                        value: {
+                            elementReference: 'stringVariable'
+                        }
+                    },
+                    {
+                        name: 'inputOutputStringVar',
+                        value: {
+                            elementReference: 'stringVariable'
+                        }
+                    }
+                ],
+                outputAssignments: [
+                    {
+                        name: 'inputOutputAccountColVar',
+                        assignToReference: 'accountSObjectCollectionVariable'
+                    },
+                    {
+                        name: 'inputOutputAccountVar',
+                        assignToReference: 'accountSObjectVariable'
+                    },
+                    {
+                        name: 'inputOutputBoolVar',
+                        assignToReference: 'booleanVariable'
+                    },
+                    {
+                        name: 'inputOutputCurrencyVar',
+                        assignToReference: 'currencyVariable'
+                    },
+                    {
+                        name: 'inputOutputDateTimeVar',
+                        assignToReference: 'dateVariable'
+                    },
+                    {
+                        name: 'inputOutputDateVar',
+                        assignToReference: 'dateVariable'
+                    },
+                    {
+                        name: 'inputOutputNumberVar',
+                        assignToReference: 'numberVariable'
+                    },
+                    {
+                        name: 'inputOutputNumberVar',
+                        assignToReference: 'numberVariable'
+                    },
+                    {
+                        name: 'outputNotAvailableParam',
+                        assignToReference: 'stringVariable'
+                    },
+                    {
+                        name: 'inputOutputStringColVar',
+                        assignToReference: 'stringCollectionVariable'
+                    },
+                    {
+                        name: 'inputOutputStringVar',
+                        assignToReference: 'stringVariable'
+                    },
+                    {
+                        name: 'latestOutputStringColVar',
+                        assignToReference: 'stringCollectionVariable'
+                    },
+                    {
+                        name: 'latestOutputStringVar',
+                        assignToReference: 'stringVariable'
+                    }
+                ],
+                storeOutputAutomatically: false
+            }
+        ],
+        description: '',
         interviewLabel: 'Flow with all types variables {!$Flow.CurrentDateTime}',
         isTemplate: false,
         label: 'Flow with all types variables',
-        loops: [],
         processMetadataValues: [
             {
                 name: 'BuilderType',
@@ -39,282 +280,17 @@ export const flowWithSubflows = {
                 value: {
                     stringValue: 'LightningFlowBuilder'
                 }
+            },
+            {
+                name: 'CanvasMode',
+                value: {
+                    stringValue: 'FREE_FORM_CANVAS'
+                }
             }
         ],
         processType: 'Flow',
-        recordCreates: [],
-        recordDeletes: [],
-        recordLookups: [],
-        recordUpdates: [],
-        screens: [],
-        stages: [],
-        startElementReference: 'Flow_With_All_Types_Variables',
-        status: 'Draft',
-        steps: [],
-        subflows: [
-            {
-                flowName: 'FlowWithAllTypesVariables',
-                inputAssignments: [
-                    {
-                        name: 'inputOutputAccountColVar',
-                        processMetadataValues: [],
-                        value: {
-                            elementReference: 'accountSObjectCollectionVariable'
-                        }
-                    },
-                    {
-                        name: 'inputOutputAccountVar',
-                        processMetadataValues: [],
-                        value: {
-                            elementReference: 'accountSObjectVariable'
-                        }
-                    },
-                    {
-                        name: 'inputOutputBoolVar',
-                        processMetadataValues: [],
-                        value: {
-                            elementReference: 'booleanVariable'
-                        }
-                    },
-                    {
-                        name: 'inputOutputCurrencyVar',
-                        processMetadataValues: [],
-                        value: {
-                            elementReference: 'currencyVariable'
-                        }
-                    },
-                    {
-                        name: 'inputOutputDateTimeVar',
-                        processMetadataValues: [],
-                        value: {
-                            elementReference: 'dateTimeVariable'
-                        }
-                    },
-                    {
-                        name: 'inputOutputDateVar',
-                        processMetadataValues: [],
-                        value: {
-                            elementReference: 'dateVariable'
-                        }
-                    },
-                    {
-                        name: 'inputOutputNumberVar',
-                        processMetadataValues: [],
-                        value: {
-                            elementReference: 'numberVariable'
-                        }
-                    },
-                    {
-                        name: 'inputOutputNumberVar',
-                        processMetadataValues: [],
-                        value: {
-                            elementReference: 'numberVariable'
-                        }
-                    },
-                    {
-                        name: 'inputNotAvailableParam',
-                        processMetadataValues: [],
-                        value: {
-                            elementReference: 'stringVariable'
-                        }
-                    },
-                    {
-                        name: 'inputOutputStringVar',
-                        processMetadataValues: [],
-                        value: {
-                            elementReference: 'stringVariable'
-                        }
-                    }
-                ],
-                label: 'Flow With All Types Variables',
-                locationX: 250,
-                locationY: 88,
-                name: 'Flow_With_All_Types_Variables',
-                outputAssignments: [
-                    {
-                        assignToReference: 'accountSObjectCollectionVariable',
-                        name: 'inputOutputAccountColVar',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'accountSObjectVariable',
-                        name: 'inputOutputAccountVar',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'booleanVariable',
-                        name: 'inputOutputBoolVar',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'currencyVariable',
-                        name: 'inputOutputCurrencyVar',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'dateVariable',
-                        name: 'inputOutputDateTimeVar',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'dateVariable',
-                        name: 'inputOutputDateVar',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'numberVariable',
-                        name: 'inputOutputNumberVar',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'numberVariable',
-                        name: 'inputOutputNumberVar',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'stringVariable',
-                        name: 'outputNotAvailableParam',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'stringCollectionVariable',
-                        name: 'inputOutputStringColVar',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'stringVariable',
-                        name: 'inputOutputStringVar',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'stringCollectionVariable',
-                        name: 'latestOutputStringColVar',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'stringVariable',
-                        name: 'latestOutputStringVar',
-                        processMetadataValues: []
-                    }
-                ],
-                processMetadataValues: []
-            }
-        ],
-        textTemplates: [],
-        variables: [
-            {
-                dataType: 'SObject',
-                isCollection: true,
-                isInput: false,
-                isOutput: false,
-                name: 'accountSObjectCollectionVariable',
-                objectType: 'Account',
-                processMetadataValues: [],
-                scale: 0
-            },
-            {
-                dataType: 'SObject',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'accountSObjectVariable',
-                objectType: 'Account',
-                processMetadataValues: [],
-                scale: 0
-            },
-            {
-                dataType: 'Boolean',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'booleanVariable',
-                processMetadataValues: [],
-                scale: 0
-            },
-            {
-                dataType: 'SObject',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'caseSObjectVariable',
-                objectType: 'Case',
-                processMetadataValues: [],
-                scale: 0
-            },
-            {
-                dataType: 'Currency',
-                isCollection: true,
-                isInput: false,
-                isOutput: false,
-                name: 'currencyCollectionVariable',
-                processMetadataValues: [],
-                scale: 2
-            },
-            {
-                dataType: 'Currency',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'currencyVariable',
-                processMetadataValues: [],
-                scale: 2
-            },
-            {
-                dataType: 'DateTime',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'dateTimeVariable',
-                processMetadataValues: [],
-                scale: 0
-            },
-            {
-                dataType: 'Date',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'dateVariable',
-                processMetadataValues: [],
-                scale: 0
-            },
-            {
-                dataType: 'Number',
-                isCollection: true,
-                isInput: false,
-                isOutput: false,
-                name: 'numberCollectionVariable',
-                processMetadataValues: [],
-                scale: 2
-            },
-            {
-                dataType: 'Number',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'numberVariable',
-                processMetadataValues: [],
-                scale: 2
-            },
-            {
-                dataType: 'String',
-                isCollection: true,
-                isInput: false,
-                isOutput: false,
-                name: 'stringCollectionVariable',
-                processMetadataValues: [],
-                scale: 0
-            },
-            {
-                dataType: 'String',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'stringVariable',
-                processMetadataValues: [],
-                scale: 0
-            }
-        ],
-        waits: []
+        runInMode: null,
+        status: 'Draft'
     },
     processType: 'Flow',
     status: 'Draft',

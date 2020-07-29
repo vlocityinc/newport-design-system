@@ -84,6 +84,17 @@
                 "scale": 0
             }
         ],
+        "recordCreates": [
+            {
+                "name": "create_account_from_variable",
+                "description": "",
+                "label": "create account from variable",
+                "locationX": 154,
+                "locationY": 185,
+                "elementSubtype": null,
+                "inputReference": "vMyTestAccount"
+            }
+        ],
         "recordLookups": [
             {
                 "name": "get_Account_with_sObject",
@@ -214,17 +225,6 @@
                 "helpText": "",
                 "showFooter": true,
                 "showHeader": true
-            }
-        ],
-        "recordCreates": [
-            {
-                "name": "create_account_from_variable",
-                "description": "",
-                "label": "create account from variable",
-                "locationX": 154,
-                "locationY": 185,
-                "elementSubtype": null,
-                "inputReference": "vMyTestAccount"
             }
         ],
         "description": "",

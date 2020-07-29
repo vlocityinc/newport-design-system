@@ -11,36 +11,48 @@ export const flowCollectionServicesDemo = {
     manageableState: 'unmanaged',
     masterLabel: 'Collection Services Demonstration',
     metadata: {
-        actionCalls: [],
-        apexPluginCalls: [],
+        start: {
+            locationX: 1000,
+            locationY: 2000,
+            connector: {
+                targetReference: 'Build_Word'
+            },
+            doesRequireRecordChangedToMeetCriteria: false,
+            filters: []
+        },
         assignments: [
             {
+                name: 'Add_to_Start',
+                description: '',
+                label: 'Add to Start',
+                locationX: 630,
+                locationY: 466,
+                connector: {
+                    targetReference: 'Display'
+                },
                 assignmentItems: [
                     {
                         assignToReference: 'LettersArray',
                         operator: 'AddAtStart',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'Add_What_Text'
                         }
                     }
-                ],
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Display'
-                },
-                label: 'Add to Start',
-                locationX: 630,
-                locationY: 466,
-                name: 'Add_to_Start',
-                processMetadataValues: []
+                ]
             },
             {
+                name: 'Build_Word',
+                description: '',
+                label: 'Build Word',
+                locationX: 223,
+                locationY: 77,
+                connector: {
+                    targetReference: 'Display'
+                },
                 assignmentItems: [
                     {
                         assignToReference: 'LettersArray',
                         operator: 'Add',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'LetterS'
                         }
@@ -48,7 +60,6 @@ export const flowCollectionServicesDemo = {
                     {
                         assignToReference: 'LettersArray',
                         operator: 'Add',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'LetterN'
                         }
@@ -56,7 +67,6 @@ export const flowCollectionServicesDemo = {
                     {
                         assignToReference: 'LettersArray',
                         operator: 'Add',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'LetterO'
                         }
@@ -64,7 +74,6 @@ export const flowCollectionServicesDemo = {
                     {
                         assignToReference: 'LettersArray',
                         operator: 'Add',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'LetterW'
                         }
@@ -72,7 +81,6 @@ export const flowCollectionServicesDemo = {
                     {
                         assignToReference: 'LettersArray',
                         operator: 'Add',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'LetterI'
                         }
@@ -80,7 +88,6 @@ export const flowCollectionServicesDemo = {
                     {
                         assignToReference: 'LettersArray',
                         operator: 'Add',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'LetterN'
                         }
@@ -88,1030 +95,958 @@ export const flowCollectionServicesDemo = {
                     {
                         assignToReference: 'LettersArray',
                         operator: 'Add',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'LetterG'
                         }
                     }
-                ],
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Display'
-                },
-                label: 'Build Word',
-                locationX: 225,
-                locationY: 59,
-                name: 'Build_Word',
-                processMetadataValues: []
+                ]
             },
             {
+                name: 'Pop_Element',
+                description: '',
+                label: 'Pop Element',
+                locationX: 601,
+                locationY: 260,
+                connector: {
+                    targetReference: 'Display'
+                },
                 assignmentItems: [
                     {
                         assignToReference: 'LettersArray',
                         operator: 'RemovePosition',
-                        processMetadataValues: [],
                         value: {
-                            numberValue: 1
+                            numberValue: '1'
                         }
                     }
-                ],
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Display'
-                },
-                label: 'Pop Element',
-                locationX: 601,
-                locationY: 260,
-                name: 'Pop_Element',
-                processMetadataValues: []
+                ]
             },
             {
+                name: 'Remove_After_First_assignment',
+                description: '',
+                label: 'Remove After First',
+                locationX: 621,
+                locationY: 577,
+                connector: {
+                    targetReference: 'Display'
+                },
                 assignmentItems: [
                     {
                         assignToReference: 'LettersArray',
                         operator: 'RemoveAfterFirst',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'Remove_after_which_item'
                         }
                     }
-                ],
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Display'
-                },
-                label: 'Remove After First',
-                locationX: 621,
-                locationY: 577,
-                name: 'Remove_After_First_assignment',
-                processMetadataValues: []
+                ]
             },
             {
+                name: 'Remove_All_assignment',
+                description: '',
+                label: 'Remove All',
+                locationX: 528,
+                locationY: 683,
+                connector: {
+                    targetReference: 'Display'
+                },
                 assignmentItems: [
                     {
                         assignToReference: 'LettersArray',
                         operator: 'RemoveAll',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'Remove_all_instances_of_which_item'
                         }
                     }
-                ],
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Display'
-                },
-                label: 'Remove All',
-                locationX: 528,
-                locationY: 683,
-                name: 'Remove_All_assignment',
-                processMetadataValues: []
+                ]
             },
             {
+                name: 'Remove_Before_First_assignment',
+                description: '',
+                label: 'Remove Before First',
+                locationX: 504,
+                locationY: 781,
+                connector: {
+                    targetReference: 'Display'
+                },
                 assignmentItems: [
                     {
                         assignToReference: 'LettersArray',
                         operator: 'RemoveBeforeFirst',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'Remove_everything_in_front_of_which_item'
                         }
                     }
-                ],
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Display'
-                },
-                label: 'Remove Before First',
-                locationX: 504,
-                locationY: 781,
-                name: 'Remove_Before_First_assignment',
-                processMetadataValues: []
+                ]
             },
             {
+                name: 'Remove_First_assignment',
+                description: '',
+                label: 'Remove First',
+                locationX: 413,
+                locationY: 886,
+                connector: {
+                    targetReference: 'Display'
+                },
                 assignmentItems: [
                     {
                         assignToReference: 'LettersArray',
                         operator: 'RemoveFirst',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'Remove_the_first_instance_of_which_item'
                         }
                     }
-                ],
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Display'
-                },
-                label: 'Remove First',
-                locationX: 413,
-                locationY: 886,
-                name: 'Remove_First_assignment',
-                processMetadataValues: []
+                ]
             },
             {
+                name: 'Remove_Position',
+                description: '',
+                label: 'Remove Position',
+                locationX: 750,
+                locationY: 393,
+                connector: {
+                    targetReference: 'Display'
+                },
                 assignmentItems: [
                     {
                         assignToReference: 'LettersArray',
                         operator: 'RemovePosition',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'Position_Number'
                         }
                     }
-                ],
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Display'
-                },
-                label: 'Remove Position',
-                locationX: 750,
-                locationY: 393,
-                name: 'Remove_Position',
-                processMetadataValues: []
+                ]
             },
             {
+                name: 'Set_to_Empty',
+                description: '',
+                label: 'Set to Empty',
+                locationX: 162,
+                locationY: 277,
+                connector: {
+                    targetReference: 'Build_Word'
+                },
                 assignmentItems: [
                     {
                         assignToReference: 'LettersArray',
                         operator: 'Assign',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'emptyCollection'
                         }
                     }
-                ],
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Build_Word'
-                },
-                label: 'Set to Empty',
-                locationX: 162,
-                locationY: 277,
-                name: 'Set_to_Empty',
-                processMetadataValues: []
-            }
-        ],
-        choices: [
-            {
-                choiceText: 'Choice1',
-                dataType: 'String',
-                name: 'Choice1',
-                processMetadataValues: [],
-                userInput: {
-                    isRequired: false,
-                    processMetadataValues: []
-                }
-            }
-        ],
-        constants: [],
-        decisions: [
-            {
-                defaultConnectorLabel: '[Default Outcome]',
-                label: 'BranchController',
-                locationX: 349,
-                locationY: 269,
-                name: 'BranchController',
-                processMetadataValues: [],
-                rules: [
-                    {
-                        conditionLogic: 'and',
-                        conditions: [
-                            {
-                                leftValueReference: 'navTarget',
-                                operator: 'EqualTo',
-                                processMetadataValues: [],
-                                rightValue: {
-                                    stringValue: 'pop element'
-                                }
-                            }
-                        ],
-                        connector: {
-                            processMetadataValues: [],
-                            targetReference: 'Pop_Element'
-                        },
-                        doesRequireRecordChangedToMeetCriteria: false,
-                        label: 'Pop Element',
-                        name: 'Pop_Element_outcome',
-                        processMetadataValues: []
-                    },
-                    {
-                        conditionLogic: 'and',
-                        conditions: [
-                            {
-                                leftValueReference: 'navTarget',
-                                operator: 'EqualTo',
-                                processMetadataValues: [],
-                                rightValue: {
-                                    stringValue: 'remove position'
-                                }
-                            }
-                        ],
-                        connector: {
-                            processMetadataValues: [],
-                            targetReference: 'Get_Position'
-                        },
-                        doesRequireRecordChangedToMeetCriteria: false,
-                        label: 'Remove Position',
-                        name: 'Remove_Position_outcome',
-                        processMetadataValues: []
-                    },
-                    {
-                        conditionLogic: 'and',
-                        conditions: [
-                            {
-                                leftValueReference: 'navTarget',
-                                operator: 'EqualTo',
-                                processMetadataValues: [],
-                                rightValue: {
-                                    stringValue: 'add at start'
-                                }
-                            }
-                        ],
-                        connector: {
-                            processMetadataValues: [],
-                            targetReference: 'Get_Position_0'
-                        },
-                        doesRequireRecordChangedToMeetCriteria: false,
-                        label: 'Add to Start',
-                        name: 'Add_to_Start_outcome',
-                        processMetadataValues: []
-                    },
-                    {
-                        conditionLogic: 'and',
-                        conditions: [
-                            {
-                                leftValueReference: 'navTarget',
-                                operator: 'EqualTo',
-                                processMetadataValues: [],
-                                rightValue: {
-                                    stringValue: 'remove after first'
-                                }
-                            }
-                        ],
-                        connector: {
-                            processMetadataValues: [],
-                            targetReference: 'Remove_After_First'
-                        },
-                        doesRequireRecordChangedToMeetCriteria: false,
-                        label: 'Remove After First',
-                        name: 'Remove_After_First_outcome',
-                        processMetadataValues: []
-                    },
-                    {
-                        conditionLogic: 'and',
-                        conditions: [
-                            {
-                                leftValueReference: 'navTarget',
-                                operator: 'EqualTo',
-                                processMetadataValues: [],
-                                rightValue: {
-                                    stringValue: 'reset'
-                                }
-                            }
-                        ],
-                        connector: {
-                            processMetadataValues: [],
-                            targetReference: 'Set_to_Empty'
-                        },
-                        doesRequireRecordChangedToMeetCriteria: false,
-                        label: 'Reset',
-                        name: 'Reset',
-                        processMetadataValues: []
-                    },
-                    {
-                        conditionLogic: 'and',
-                        conditions: [
-                            {
-                                leftValueReference: 'navTarget',
-                                operator: 'EqualTo',
-                                processMetadataValues: [],
-                                rightValue: {
-                                    stringValue: 'remove all'
-                                }
-                            }
-                        ],
-                        connector: {
-                            processMetadataValues: [],
-                            targetReference: 'Remove_All_screen'
-                        },
-                        doesRequireRecordChangedToMeetCriteria: false,
-                        label: 'Remove All',
-                        name: 'Remove_All',
-                        processMetadataValues: []
-                    },
-                    {
-                        conditionLogic: 'and',
-                        conditions: [
-                            {
-                                leftValueReference: 'navTarget',
-                                operator: 'EqualTo',
-                                processMetadataValues: [],
-                                rightValue: {
-                                    stringValue: 'remove before first'
-                                }
-                            }
-                        ],
-                        connector: {
-                            processMetadataValues: [],
-                            targetReference: 'Remove_Before_First'
-                        },
-                        doesRequireRecordChangedToMeetCriteria: false,
-                        label: 'Remove Before First',
-                        name: 'Remove_Before_First_outcome',
-                        processMetadataValues: []
-                    },
-                    {
-                        conditionLogic: 'and',
-                        conditions: [
-                            {
-                                leftValueReference: 'navTarget',
-                                operator: 'EqualTo',
-                                processMetadataValues: [],
-                                rightValue: {
-                                    stringValue: 'remove first'
-                                }
-                            }
-                        ],
-                        connector: {
-                            processMetadataValues: [],
-                            targetReference: 'Remove_First'
-                        },
-                        doesRequireRecordChangedToMeetCriteria: false,
-                        label: 'Remove First',
-                        name: 'Remove_First_outcome',
-                        processMetadataValues: []
-                    }
                 ]
             }
         ],
-        description: 'PM demo org flow - Extracted on Oct 3rd, 2018',
-        dynamicChoiceSets: [],
-        formulas: [],
-        interviewLabel: 'CollectionOperators Demo {!$Flow.CurrentDateTime}',
-        isTemplate: false,
-        label: 'Collection Services Demonstration',
-        loops: [],
-        processMetadataValues: [],
-        processType: 'Flow',
-        recordCreates: [],
-        recordDeletes: [],
-        recordLookups: [
+        decisions: [
             {
-                assignNullValuesIfNoRecordsFound: false,
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Build_Word'
-                },
-                filterLogic: 'and',
-                filters: [
+                name: 'BranchController',
+                description: '',
+                label: 'BranchController',
+                locationX: 349,
+                locationY: 269,
+                rules: [
                     {
-                        field: 'CreatedDate',
-                        operator: 'GreaterThan',
-                        processMetadataValues: [],
-                        value: {
-                            dateTimeValue: '2018-05-01T07:00:00.000+0000'
-                        }
-                    }
-                ],
-                label: 'Get Repair Procedures',
-                locationX: 690,
-                locationY: 55,
-                name: 'Get_Repair_Procedures',
-                object: 'RepairProcedure__c',
-                outputAssignments: [],
-                outputReference: 'curRepairProcedures',
-                processMetadataValues: [],
-                queriedFields: ['Id', 'Category__c', 'Frequency__c', 'Contact__c', 'RepairProcedureType__c']
-            }
-        ],
-        recordUpdates: [],
-        screens: [
-            {
-                allowBack: true,
-                allowFinish: true,
-                allowPause: false,
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'BranchController'
-                },
-                fields: [
-                    {
-                        choiceReferences: [],
-                        fieldText: '{!LettersArray}',
-                        fieldType: 'DisplayText',
-                        inputParameters: [],
-                        isRequired: false,
-                        isVisible: false,
-                        name: 'DisplayText',
-                        outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
-                    },
-                    {
-                        choiceReferences: [],
-                        extensionName: 'c:buttonNavFSC',
-                        fieldType: 'ComponentInstance',
-                        inputParameters: [
+                        name: 'Pop_Element_outcome',
+                        label: 'Pop Element',
+                        connector: {
+                            targetReference: 'Pop_Element'
+                        },
+                        conditions: [
                             {
-                                name: 'pathNameButtonTwo',
-                                processMetadataValues: [],
-                                value: {
-                                    stringValue: 'remove position'
-                                }
-                            },
-                            {
-                                name: 'labelButtonThree',
-                                processMetadataValues: [],
-                                value: {
-                                    stringValue: 'Add at Start'
-                                }
-                            },
-                            {
-                                name: 'pathNameButtonThree',
-                                processMetadataValues: [],
-                                value: {
-                                    stringValue: 'add at start'
-                                }
-                            },
-                            {
-                                name: 'labelButtonFour',
-                                processMetadataValues: [],
-                                value: {
-                                    stringValue: 'Remove Everything After'
-                                }
-                            },
-                            {
-                                name: 'pathNameButtonFour',
-                                processMetadataValues: [],
-                                value: {
-                                    stringValue: 'remove after first'
-                                }
-                            },
-                            {
-                                name: 'labelButtonTwo',
-                                processMetadataValues: [],
-                                value: {
-                                    stringValue: 'Remove at Position'
-                                }
-                            },
-                            {
-                                name: 'labelButtonOne',
-                                processMetadataValues: [],
-                                value: {
-                                    stringValue: 'Pop First Element'
-                                }
-                            },
-                            {
-                                name: 'pathNameButtonOne',
-                                processMetadataValues: [],
-                                value: {
+                                leftValueReference: 'navTarget',
+                                rightValue: {
                                     stringValue: 'pop element'
-                                }
+                                },
+                                operator: 'EqualTo'
                             }
                         ],
-                        isRequired: true,
-                        isVisible: false,
-                        name: 'ButtonNav1',
-                        outputParameters: [
-                            {
-                                assignToReference: 'navTarget',
-                                name: 'selectedPathName',
-                                processMetadataValues: []
-                            }
-                        ],
-                        processMetadataValues: [],
-                        scale: 0
+                        conditionLogic: 'and',
+                        doesRequireRecordChangedToMeetCriteria: false
                     },
                     {
-                        choiceReferences: [],
-                        extensionName: 'c:MultiShim',
-                        fieldType: 'ComponentInstance',
-                        inputParameters: [
+                        name: 'Remove_Position_outcome',
+                        label: 'Remove Position',
+                        connector: {
+                            targetReference: 'Get_Position'
+                        },
+                        conditions: [
                             {
-                                name: 'lineCount',
-                                processMetadataValues: [],
-                                value: {
-                                    numberValue: 1
-                                }
+                                leftValueReference: 'navTarget',
+                                rightValue: {
+                                    stringValue: 'remove position'
+                                },
+                                operator: 'EqualTo'
                             }
                         ],
-                        isRequired: true,
-                        isVisible: false,
-                        name: 'shim1',
-                        outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        conditionLogic: 'and',
+                        doesRequireRecordChangedToMeetCriteria: false
                     },
                     {
-                        choiceReferences: [],
-                        extensionName: 'c:buttonNavFSC',
-                        fieldType: 'ComponentInstance',
-                        inputParameters: [
+                        name: 'Add_to_Start_outcome',
+                        label: 'Add to Start',
+                        connector: {
+                            targetReference: 'Get_Position_0'
+                        },
+                        conditions: [
                             {
-                                name: 'labelButtonOne',
-                                processMetadataValues: [],
-                                value: {
-                                    stringValue: 'Remove All Matches'
-                                }
-                            },
-                            {
-                                name: 'pathNameButtonOne',
-                                processMetadataValues: [],
-                                value: {
-                                    stringValue: 'remove all'
-                                }
-                            },
-                            {
-                                name: 'labelButtonTwo',
-                                processMetadataValues: [],
-                                value: {
-                                    stringValue: 'Remove Before'
-                                }
-                            },
-                            {
-                                name: 'pathNameButtonTwo',
-                                processMetadataValues: [],
-                                value: {
-                                    stringValue: 'remove before first'
-                                }
-                            },
-                            {
-                                name: 'labelButtonThree',
-                                processMetadataValues: [],
-                                value: {
-                                    stringValue: 'Remove First'
-                                }
-                            },
-                            {
-                                name: 'pathNameButtonThree',
-                                processMetadataValues: [],
-                                value: {
-                                    stringValue: 'remove first'
-                                }
+                                leftValueReference: 'navTarget',
+                                rightValue: {
+                                    stringValue: 'add at start'
+                                },
+                                operator: 'EqualTo'
                             }
                         ],
-                        isRequired: true,
-                        isVisible: false,
-                        name: 'SecondSet',
-                        outputParameters: [
-                            {
-                                assignToReference: 'navTarget',
-                                name: 'selectedPathName',
-                                processMetadataValues: []
-                            }
-                        ],
-                        processMetadataValues: [],
-                        scale: 0
+                        conditionLogic: 'and',
+                        doesRequireRecordChangedToMeetCriteria: false
                     },
                     {
-                        choiceReferences: [],
-                        extensionName: 'c:buttonNavFSC',
-                        fieldType: 'ComponentInstance',
-                        inputParameters: [
+                        name: 'Remove_After_First_outcome',
+                        label: 'Remove After First',
+                        connector: {
+                            targetReference: 'Remove_After_First'
+                        },
+                        conditions: [
                             {
-                                name: 'labelButtonOne',
-                                processMetadataValues: [],
-                                value: {
-                                    stringValue: 'Reset'
-                                }
-                            },
+                                leftValueReference: 'navTarget',
+                                rightValue: {
+                                    stringValue: 'remove after first'
+                                },
+                                operator: 'EqualTo'
+                            }
+                        ],
+                        conditionLogic: 'and',
+                        doesRequireRecordChangedToMeetCriteria: false
+                    },
+                    {
+                        name: 'Reset',
+                        label: 'Reset',
+                        connector: {
+                            targetReference: 'Set_to_Empty'
+                        },
+                        conditions: [
                             {
-                                name: 'pathNameButtonOne',
-                                processMetadataValues: [],
-                                value: {
+                                leftValueReference: 'navTarget',
+                                rightValue: {
                                     stringValue: 'reset'
-                                }
+                                },
+                                operator: 'EqualTo'
                             }
                         ],
-                        isRequired: true,
-                        isVisible: false,
-                        name: 'ResetButton',
-                        outputParameters: [
+                        conditionLogic: 'and',
+                        doesRequireRecordChangedToMeetCriteria: false
+                    },
+                    {
+                        name: 'Remove_All',
+                        label: 'Remove All',
+                        connector: {
+                            targetReference: 'Remove_All_screen'
+                        },
+                        conditions: [
                             {
-                                assignToReference: 'navTarget',
-                                name: 'selectedPathName',
-                                processMetadataValues: []
+                                leftValueReference: 'navTarget',
+                                rightValue: {
+                                    stringValue: 'remove all'
+                                },
+                                operator: 'EqualTo'
                             }
                         ],
-                        processMetadataValues: [],
-                        scale: 0
-                    }
-                ],
-                label: 'Display',
-                locationX: 1173,
-                locationY: 398,
-                name: 'Display',
-                processMetadataValues: [],
-                rules: [],
-                showFooter: false,
-                showHeader: true
-            },
-            {
-                allowBack: true,
-                allowFinish: true,
-                allowPause: true,
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Remove_Position'
-                },
-                fields: [
-                    {
-                        choiceReferences: [],
-                        fieldText:
-                            '<DIV ALIGN="LEFT"><FONT FACE="Arial" STYLE="font-size:16px" COLOR="#000000" LETTERSPACING="0" KERNING="0"><B>We will remove one item from your set of items. At what position should we do this?</B></FONT></DIV>',
-                        fieldType: 'DisplayText',
-                        inputParameters: [],
-                        isRequired: false,
-                        isVisible: false,
-                        name: 'WhatsthePosition',
-                        outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        conditionLogic: 'and',
+                        doesRequireRecordChangedToMeetCriteria: false
                     },
                     {
-                        choiceReferences: [],
-                        dataType: 'Number',
-                        fieldText: 'Position Number (starts from 1)',
-                        fieldType: 'InputField',
-                        inputParameters: [],
-                        isRequired: false,
-                        isVisible: false,
-                        name: 'Position_Number',
-                        outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 2
-                    }
-                ],
-                label: 'Get Position',
-                locationX: 565,
-                locationY: 343,
-                name: 'Get_Position',
-                processMetadataValues: [],
-                rules: [],
-                showFooter: true,
-                showHeader: true
-            },
-            {
-                allowBack: true,
-                allowFinish: true,
-                allowPause: true,
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Add_to_Start'
-                },
-                fields: [
-                    {
-                        choiceReferences: [],
-                        fieldText:
-                            '<DIV ALIGN="LEFT"><FONT FACE="Arial" STYLE="font-size:16px" COLOR="#000000" LETTERSPACING="0" KERNING="0"><B>We will add one item to the start of your list. What would you like to add?</B></FONT></DIV>',
-                        fieldType: 'DisplayText',
-                        inputParameters: [],
-                        isRequired: false,
-                        isVisible: false,
-                        name: 'WhatsthePosition_0',
-                        outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        name: 'Remove_Before_First_outcome',
+                        label: 'Remove Before First',
+                        connector: {
+                            targetReference: 'Remove_Before_First'
+                        },
+                        conditions: [
+                            {
+                                leftValueReference: 'navTarget',
+                                rightValue: {
+                                    stringValue: 'remove before first'
+                                },
+                                operator: 'EqualTo'
+                            }
+                        ],
+                        conditionLogic: 'and',
+                        doesRequireRecordChangedToMeetCriteria: false
                     },
                     {
-                        choiceReferences: [],
-                        dataType: 'String',
-                        fieldText: 'Add What Text?',
-                        fieldType: 'InputField',
-                        inputParameters: [],
-                        isRequired: false,
-                        isVisible: false,
-                        name: 'Add_What_Text',
-                        outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        name: 'Remove_First_outcome',
+                        label: 'Remove First',
+                        connector: {
+                            targetReference: 'Remove_First'
+                        },
+                        conditions: [
+                            {
+                                leftValueReference: 'navTarget',
+                                rightValue: {
+                                    stringValue: 'remove first'
+                                },
+                                operator: 'EqualTo'
+                            }
+                        ],
+                        conditionLogic: 'and',
+                        doesRequireRecordChangedToMeetCriteria: false
                     }
                 ],
-                label: 'Get Position',
-                locationX: 494,
-                locationY: 463,
-                name: 'Get_Position_0',
-                processMetadataValues: [],
-                rules: [],
-                showFooter: true,
-                showHeader: true
-            },
-            {
-                allowBack: true,
-                allowFinish: true,
-                allowPause: true,
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Remove_After_First_assignment'
-                },
-                fields: [
-                    {
-                        choiceReferences: [],
-                        fieldText:
-                            '<DIV ALIGN="LEFT"><FONT FACE="Arial" STYLE="font-size:16px" COLOR="#000000" LETTERSPACING="0" KERNING="0"><B>We will remove everything after the first instance of this item:</B></FONT></DIV>',
-                        fieldType: 'DisplayText',
-                        inputParameters: [],
-                        isRequired: false,
-                        isVisible: false,
-                        name: 'WhatsthePosition_0_0',
-                        outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
-                    },
-                    {
-                        choiceReferences: [],
-                        dataType: 'String',
-                        fieldText: 'Remove after which item?',
-                        fieldType: 'InputField',
-                        inputParameters: [],
-                        isRequired: false,
-                        isVisible: false,
-                        name: 'Remove_after_which_item',
-                        outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
-                    }
-                ],
-                label: 'Remove After First',
-                locationX: 479,
-                locationY: 571,
-                name: 'Remove_After_First',
-                processMetadataValues: [],
-                rules: [],
-                showFooter: true,
-                showHeader: true
-            },
-            {
-                allowBack: true,
-                allowFinish: true,
-                allowPause: true,
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Remove_All_assignment'
-                },
-                fields: [
-                    {
-                        choiceReferences: [],
-                        fieldText:
-                            '<DIV ALIGN="LEFT"><FONT FACE="Arial" STYLE="font-size:16px" COLOR="#000000" LETTERSPACING="0" KERNING="0"><B>We will remove </B><B><U>each instance</U></B><B> of the specified item:</B></FONT></DIV>',
-                        fieldType: 'DisplayText',
-                        inputParameters: [],
-                        isRequired: false,
-                        isVisible: false,
-                        name: 'WhatsthePosition_0_0_0',
-                        outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
-                    },
-                    {
-                        choiceReferences: [],
-                        dataType: 'String',
-                        fieldText: 'Remove all instances of which item?',
-                        fieldType: 'InputField',
-                        inputParameters: [],
-                        isRequired: false,
-                        isVisible: false,
-                        name: 'Remove_all_instances_of_which_item',
-                        outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
-                    }
-                ],
-                label: 'Remove All',
-                locationX: 372,
-                locationY: 686,
-                name: 'Remove_All_screen',
-                processMetadataValues: [],
-                rules: [],
-                showFooter: true,
-                showHeader: true
-            },
-            {
-                allowBack: true,
-                allowFinish: true,
-                allowPause: true,
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Remove_Before_First_assignment'
-                },
-                fields: [
-                    {
-                        choiceReferences: [],
-                        fieldText:
-                            '<DIV ALIGN="LEFT"><FONT FACE="Arial" STYLE="font-size:16px" COLOR="#000000" LETTERSPACING="0" KERNING="0"><B>We will remove </B><B><U>everything before</U></B><B> the specified item:</B></FONT></DIV>',
-                        fieldType: 'DisplayText',
-                        inputParameters: [],
-                        isRequired: false,
-                        isVisible: false,
-                        name: 'WhatsthePosition_0_0_0_0',
-                        outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
-                    },
-                    {
-                        choiceReferences: [],
-                        dataType: 'String',
-                        fieldText: 'Remove everything in front of which item?',
-                        fieldType: 'InputField',
-                        inputParameters: [],
-                        isRequired: false,
-                        isVisible: false,
-                        name: 'Remove_everything_in_front_of_which_item',
-                        outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
-                    }
-                ],
-                label: 'Remove Before First',
-                locationX: 313,
-                locationY: 782,
-                name: 'Remove_Before_First',
-                processMetadataValues: [],
-                rules: [],
-                showFooter: true,
-                showHeader: true
-            },
-            {
-                allowBack: true,
-                allowFinish: true,
-                allowPause: true,
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Remove_First_assignment'
-                },
-                fields: [
-                    {
-                        choiceReferences: [],
-                        fieldText:
-                            '<DIV ALIGN="LEFT"><FONT FACE="Arial" STYLE="font-size:16px" COLOR="#000000" LETTERSPACING="0" KERNING="0"><B>We will remove </B><B><U>the first instance of</U></B><B> the specified item:</B></FONT></DIV>',
-                        fieldType: 'DisplayText',
-                        inputParameters: [],
-                        isRequired: false,
-                        isVisible: false,
-                        name: 'WhatsthePosition_0_0_0_0_0',
-                        outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
-                    },
-                    {
-                        choiceReferences: [],
-                        dataType: 'String',
-                        fieldText: 'Remove the first instance of which item?',
-                        fieldType: 'InputField',
-                        inputParameters: [],
-                        isRequired: false,
-                        isVisible: false,
-                        name: 'Remove_the_first_instance_of_which_item',
-                        outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
-                    }
-                ],
-                label: 'Remove First',
-                locationX: 218,
-                locationY: 886,
-                name: 'Remove_First',
-                processMetadataValues: [],
-                rules: [],
-                showFooter: true,
-                showHeader: true
+                defaultConnectorLabel: '[Default Outcome]'
             }
         ],
-        stages: [],
-        start: {
-            locationX: 1000,
-            locationY: 2000,
-            doesRequireRecordChangedToMeetCriteria: false,
-            connector: {
-                targetReference: 'Build_Word'
-            }
-        },
-        status: 'Draft',
-        steps: [],
-        subflows: [],
-        textTemplates: [],
         variables: [
             {
+                name: 'curRepairProcedures',
+                description: '',
+                objectType: 'RepairProcedure__c',
                 dataType: 'SObject',
                 isCollection: true,
                 isInput: true,
                 isOutput: true,
-                name: 'curRepairProcedures',
-                objectType: 'RepairProcedure__c',
-                processMetadataValues: [],
                 scale: 0
             },
             {
+                name: 'emptyCollection',
+                description: '',
                 dataType: 'String',
                 isCollection: true,
                 isInput: false,
                 isOutput: false,
-                name: 'emptyCollection',
-                processMetadataValues: [],
                 scale: 0
             },
             {
+                name: 'LetterG',
+                description: '',
                 dataType: 'String',
                 isCollection: false,
                 isInput: true,
                 isOutput: true,
-                name: 'LetterG',
-                processMetadataValues: [],
                 scale: 0,
                 value: {
                     stringValue: 'G'
                 }
             },
             {
+                name: 'LetterI',
+                description: '',
                 dataType: 'String',
                 isCollection: false,
                 isInput: true,
                 isOutput: true,
-                name: 'LetterI',
-                processMetadataValues: [],
                 scale: 0,
                 value: {
                     stringValue: 'I'
                 }
             },
             {
+                name: 'LetterN',
+                description: '',
                 dataType: 'String',
                 isCollection: false,
                 isInput: true,
                 isOutput: true,
-                name: 'LetterN',
-                processMetadataValues: [],
                 scale: 0,
                 value: {
                     stringValue: 'N'
                 }
             },
             {
+                name: 'LetterO',
+                description: '',
                 dataType: 'String',
                 isCollection: false,
                 isInput: true,
                 isOutput: true,
-                name: 'LetterO',
-                processMetadataValues: [],
                 scale: 0,
                 value: {
                     stringValue: 'O'
                 }
             },
             {
+                name: 'LetterS',
+                description: '',
                 dataType: 'String',
                 isCollection: false,
                 isInput: true,
                 isOutput: true,
-                name: 'LetterS',
-                processMetadataValues: [],
                 scale: 0,
                 value: {
                     stringValue: 'S'
                 }
             },
             {
+                name: 'LettersArray',
+                description: '',
                 dataType: 'String',
                 isCollection: true,
                 isInput: true,
                 isOutput: true,
-                name: 'LettersArray',
-                processMetadataValues: [],
                 scale: 0
             },
             {
+                name: 'LetterW',
+                description: '',
                 dataType: 'String',
                 isCollection: false,
                 isInput: true,
                 isOutput: true,
-                name: 'LetterW',
-                processMetadataValues: [],
                 scale: 0,
                 value: {
                     stringValue: 'W'
                 }
             },
             {
+                name: 'navTarget',
+                description: '',
                 dataType: 'String',
                 isCollection: false,
                 isInput: true,
                 isOutput: true,
-                name: 'navTarget',
-                processMetadataValues: [],
                 scale: 0
             },
             {
+                name: 'requestedPosition',
+                description: '',
                 dataType: 'Number',
                 isCollection: false,
                 isInput: true,
                 isOutput: true,
-                name: 'requestedPosition',
-                processMetadataValues: [],
                 scale: 2
             }
         ],
-        waits: []
+        recordLookups: [
+            {
+                name: 'Get_Repair_Procedures',
+                description: '',
+                label: 'Get Repair Procedures',
+                locationX: 690,
+                locationY: 55,
+                connector: {
+                    targetReference: 'Build_Word'
+                },
+                object: 'RepairProcedure__c',
+                outputReference: 'curRepairProcedures',
+                assignNullValuesIfNoRecordsFound: false,
+                filterLogic: 'and',
+                filters: [
+                    {
+                        field: 'CreatedDate',
+                        operator: 'GreaterThan',
+                        value: {
+                            dateTimeValue: '2018-05-01T07:00:00.000+0000'
+                        }
+                    }
+                ],
+                queriedFields: ['Id', 'Category__c', 'Frequency__c', 'Contact__c', 'RepairProcedureType__c']
+            }
+        ],
+        screens: [
+            {
+                name: 'Display',
+                description: '',
+                label: 'Display',
+                locationX: 1173,
+                locationY: 398,
+                connector: {
+                    targetReference: 'BranchController'
+                },
+                pausedText: '',
+                fields: [
+                    {
+                        choiceReferences: [],
+                        fieldText: '{!LettersArray}',
+                        fieldType: 'DisplayText',
+                        helpText: '',
+                        inputParameters: [],
+                        isRequired: false,
+                        name: 'DisplayText',
+                        outputParameters: [],
+                        scale: 0,
+                        fields: []
+                    },
+                    {
+                        choiceReferences: [],
+                        fieldText: '',
+                        fieldType: 'ComponentInstance',
+                        helpText: '',
+                        inputParameters: [
+                            {
+                                name: 'pathNameButtonTwo',
+                                value: {
+                                    stringValue: 'remove position'
+                                }
+                            },
+                            {
+                                name: 'labelButtonThree',
+                                value: {
+                                    stringValue: 'Add at Start'
+                                }
+                            },
+                            {
+                                name: 'pathNameButtonThree',
+                                value: {
+                                    stringValue: 'add at start'
+                                }
+                            },
+                            {
+                                name: 'labelButtonFour',
+                                value: {
+                                    stringValue: 'Remove Everything After'
+                                }
+                            },
+                            {
+                                name: 'pathNameButtonFour',
+                                value: {
+                                    stringValue: 'remove after first'
+                                }
+                            },
+                            {
+                                name: 'labelButtonTwo',
+                                value: {
+                                    stringValue: 'Remove at Position'
+                                }
+                            },
+                            {
+                                name: 'labelButtonOne',
+                                value: {
+                                    stringValue: 'Pop First Element'
+                                }
+                            },
+                            {
+                                name: 'pathNameButtonOne',
+                                value: {
+                                    stringValue: 'pop element'
+                                }
+                            }
+                        ],
+                        isRequired: true,
+                        name: 'ButtonNav1',
+                        outputParameters: [
+                            {
+                                name: 'selectedPathName',
+                                assignToReference: 'navTarget'
+                            }
+                        ],
+                        scale: 0,
+                        fields: [],
+                        extensionName: 'c:buttonNavFSC'
+                    },
+                    {
+                        choiceReferences: [],
+                        fieldText: '',
+                        fieldType: 'ComponentInstance',
+                        helpText: '',
+                        inputParameters: [
+                            {
+                                name: 'lineCount',
+                                value: {
+                                    numberValue: '1'
+                                }
+                            }
+                        ],
+                        isRequired: true,
+                        name: 'shim1',
+                        outputParameters: [],
+                        scale: 0,
+                        fields: [],
+                        extensionName: 'c:MultiShim'
+                    },
+                    {
+                        choiceReferences: [],
+                        fieldText: '',
+                        fieldType: 'ComponentInstance',
+                        helpText: '',
+                        inputParameters: [
+                            {
+                                name: 'labelButtonOne',
+                                value: {
+                                    stringValue: 'Remove All Matches'
+                                }
+                            },
+                            {
+                                name: 'pathNameButtonOne',
+                                value: {
+                                    stringValue: 'remove all'
+                                }
+                            },
+                            {
+                                name: 'labelButtonTwo',
+                                value: {
+                                    stringValue: 'Remove Before'
+                                }
+                            },
+                            {
+                                name: 'pathNameButtonTwo',
+                                value: {
+                                    stringValue: 'remove before first'
+                                }
+                            },
+                            {
+                                name: 'labelButtonThree',
+                                value: {
+                                    stringValue: 'Remove First'
+                                }
+                            },
+                            {
+                                name: 'pathNameButtonThree',
+                                value: {
+                                    stringValue: 'remove first'
+                                }
+                            }
+                        ],
+                        isRequired: true,
+                        name: 'SecondSet',
+                        outputParameters: [
+                            {
+                                name: 'selectedPathName',
+                                assignToReference: 'navTarget'
+                            }
+                        ],
+                        scale: 0,
+                        fields: [],
+                        extensionName: 'c:buttonNavFSC'
+                    },
+                    {
+                        choiceReferences: [],
+                        fieldText: '',
+                        fieldType: 'ComponentInstance',
+                        helpText: '',
+                        inputParameters: [
+                            {
+                                name: 'labelButtonOne',
+                                value: {
+                                    stringValue: 'Reset'
+                                }
+                            },
+                            {
+                                name: 'pathNameButtonOne',
+                                value: {
+                                    stringValue: 'reset'
+                                }
+                            }
+                        ],
+                        isRequired: true,
+                        name: 'ResetButton',
+                        outputParameters: [
+                            {
+                                name: 'selectedPathName',
+                                assignToReference: 'navTarget'
+                            }
+                        ],
+                        scale: 0,
+                        fields: [],
+                        extensionName: 'c:buttonNavFSC'
+                    }
+                ],
+                allowBack: true,
+                allowFinish: true,
+                allowPause: false,
+                helpText: '',
+                showFooter: false,
+                showHeader: true
+            },
+            {
+                name: 'Get_Position',
+                description: '',
+                label: 'Get Position',
+                locationX: 565,
+                locationY: 343,
+                connector: {
+                    targetReference: 'Remove_Position'
+                },
+                pausedText: '',
+                fields: [
+                    {
+                        choiceReferences: [],
+                        fieldText:
+                            '<DIV ALIGN="LEFT"><FONT FACE="Arial" STYLE="font-size:16px" COLOR="#000000" LETTERSPACING="0" KERNING="0"><B>We will remove one item from your set of items. At what position should we do this?</B></FONT></DIV>',
+                        fieldType: 'DisplayText',
+                        helpText: '',
+                        inputParameters: [],
+                        isRequired: false,
+                        name: 'WhatsthePosition',
+                        outputParameters: [],
+                        scale: 0,
+                        fields: []
+                    },
+                    {
+                        choiceReferences: [],
+                        dataType: 'Number',
+                        fieldText: 'Position Number (starts from 1)',
+                        fieldType: 'InputField',
+                        helpText: '',
+                        inputParameters: [],
+                        isRequired: false,
+                        name: 'Position_Number',
+                        outputParameters: [],
+                        scale: 2,
+                        fields: []
+                    }
+                ],
+                allowBack: true,
+                allowFinish: true,
+                allowPause: true,
+                helpText: '',
+                showFooter: true,
+                showHeader: true
+            },
+            {
+                name: 'Get_Position_0',
+                description: '',
+                label: 'Get Position',
+                locationX: 494,
+                locationY: 463,
+                connector: {
+                    targetReference: 'Add_to_Start'
+                },
+                pausedText: '',
+                fields: [
+                    {
+                        choiceReferences: [],
+                        fieldText:
+                            '<DIV ALIGN="LEFT"><FONT FACE="Arial" STYLE="font-size:16px" COLOR="#000000" LETTERSPACING="0" KERNING="0"><B>We will add one item to the start of your list. What would you like to add?</B></FONT></DIV>',
+                        fieldType: 'DisplayText',
+                        helpText: '',
+                        inputParameters: [],
+                        isRequired: false,
+                        name: 'WhatsthePosition_0',
+                        outputParameters: [],
+                        scale: 0,
+                        fields: []
+                    },
+                    {
+                        choiceReferences: [],
+                        dataType: 'String',
+                        fieldText: 'Add What Text?',
+                        fieldType: 'InputField',
+                        helpText: '',
+                        inputParameters: [],
+                        isRequired: false,
+                        name: 'Add_What_Text',
+                        outputParameters: [],
+                        scale: 0,
+                        fields: []
+                    }
+                ],
+                allowBack: true,
+                allowFinish: true,
+                allowPause: true,
+                helpText: '',
+                showFooter: true,
+                showHeader: true
+            },
+            {
+                name: 'Remove_After_First',
+                description: '',
+                label: 'Remove After First',
+                locationX: 479,
+                locationY: 571,
+                connector: {
+                    targetReference: 'Remove_After_First_assignment'
+                },
+                pausedText: '',
+                fields: [
+                    {
+                        choiceReferences: [],
+                        fieldText:
+                            '<DIV ALIGN="LEFT"><FONT FACE="Arial" STYLE="font-size:16px" COLOR="#000000" LETTERSPACING="0" KERNING="0"><B>We will remove everything after the first instance of this item:</B></FONT></DIV>',
+                        fieldType: 'DisplayText',
+                        helpText: '',
+                        inputParameters: [],
+                        isRequired: false,
+                        name: 'WhatsthePosition_0_0',
+                        outputParameters: [],
+                        scale: 0,
+                        fields: []
+                    },
+                    {
+                        choiceReferences: [],
+                        dataType: 'String',
+                        fieldText: 'Remove after which item?',
+                        fieldType: 'InputField',
+                        helpText: '',
+                        inputParameters: [],
+                        isRequired: false,
+                        name: 'Remove_after_which_item',
+                        outputParameters: [],
+                        scale: 0,
+                        fields: []
+                    }
+                ],
+                allowBack: true,
+                allowFinish: true,
+                allowPause: true,
+                helpText: '',
+                showFooter: true,
+                showHeader: true
+            },
+            {
+                name: 'Remove_All_screen',
+                description: '',
+                label: 'Remove All',
+                locationX: 372,
+                locationY: 686,
+                connector: {
+                    targetReference: 'Remove_All_assignment'
+                },
+                pausedText: '',
+                fields: [
+                    {
+                        choiceReferences: [],
+                        fieldText:
+                            '<DIV ALIGN="LEFT"><FONT FACE="Arial" STYLE="font-size:16px" COLOR="#000000" LETTERSPACING="0" KERNING="0"><B>We will remove </B><B><U>each instance</U></B><B> of the specified item:</B></FONT></DIV>',
+                        fieldType: 'DisplayText',
+                        helpText: '',
+                        inputParameters: [],
+                        isRequired: false,
+                        name: 'WhatsthePosition_0_0_0',
+                        outputParameters: [],
+                        scale: 0,
+                        fields: []
+                    },
+                    {
+                        choiceReferences: [],
+                        dataType: 'String',
+                        fieldText: 'Remove all instances of which item?',
+                        fieldType: 'InputField',
+                        helpText: '',
+                        inputParameters: [],
+                        isRequired: false,
+                        name: 'Remove_all_instances_of_which_item',
+                        outputParameters: [],
+                        scale: 0,
+                        fields: []
+                    }
+                ],
+                allowBack: true,
+                allowFinish: true,
+                allowPause: true,
+                helpText: '',
+                showFooter: true,
+                showHeader: true
+            },
+            {
+                name: 'Remove_Before_First',
+                description: '',
+                label: 'Remove Before First',
+                locationX: 313,
+                locationY: 782,
+                connector: {
+                    targetReference: 'Remove_Before_First_assignment'
+                },
+                pausedText: '',
+                fields: [
+                    {
+                        choiceReferences: [],
+                        fieldText:
+                            '<DIV ALIGN="LEFT"><FONT FACE="Arial" STYLE="font-size:16px" COLOR="#000000" LETTERSPACING="0" KERNING="0"><B>We will remove </B><B><U>everything before</U></B><B> the specified item:</B></FONT></DIV>',
+                        fieldType: 'DisplayText',
+                        helpText: '',
+                        inputParameters: [],
+                        isRequired: false,
+                        name: 'WhatsthePosition_0_0_0_0',
+                        outputParameters: [],
+                        scale: 0,
+                        fields: []
+                    },
+                    {
+                        choiceReferences: [],
+                        dataType: 'String',
+                        fieldText: 'Remove everything in front of which item?',
+                        fieldType: 'InputField',
+                        helpText: '',
+                        inputParameters: [],
+                        isRequired: false,
+                        name: 'Remove_everything_in_front_of_which_item',
+                        outputParameters: [],
+                        scale: 0,
+                        fields: []
+                    }
+                ],
+                allowBack: true,
+                allowFinish: true,
+                allowPause: true,
+                helpText: '',
+                showFooter: true,
+                showHeader: true
+            },
+            {
+                name: 'Remove_First',
+                description: '',
+                label: 'Remove First',
+                locationX: 218,
+                locationY: 886,
+                connector: {
+                    targetReference: 'Remove_First_assignment'
+                },
+                pausedText: '',
+                fields: [
+                    {
+                        choiceReferences: [],
+                        fieldText:
+                            '<DIV ALIGN="LEFT"><FONT FACE="Arial" STYLE="font-size:16px" COLOR="#000000" LETTERSPACING="0" KERNING="0"><B>We will remove </B><B><U>the first instance of</U></B><B> the specified item:</B></FONT></DIV>',
+                        fieldType: 'DisplayText',
+                        helpText: '',
+                        inputParameters: [],
+                        isRequired: false,
+                        name: 'WhatsthePosition_0_0_0_0_0',
+                        outputParameters: [],
+                        scale: 0,
+                        fields: []
+                    },
+                    {
+                        choiceReferences: [],
+                        dataType: 'String',
+                        fieldText: 'Remove the first instance of which item?',
+                        fieldType: 'InputField',
+                        helpText: '',
+                        inputParameters: [],
+                        isRequired: false,
+                        name: 'Remove_the_first_instance_of_which_item',
+                        outputParameters: [],
+                        scale: 0,
+                        fields: []
+                    }
+                ],
+                allowBack: true,
+                allowFinish: true,
+                allowPause: true,
+                helpText: '',
+                showFooter: true,
+                showHeader: true
+            }
+        ],
+        choices: [
+            {
+                name: 'Choice1',
+                description: '',
+                dataType: 'String',
+                choiceText: 'Choice1',
+                userInput: {
+                    isRequired: false,
+                    promptText: null
+                }
+            }
+        ],
+        description: 'PM demo org flow - Extracted on Oct 3rd, 2018',
+        interviewLabel: 'CollectionOperators Demo {!$Flow.CurrentDateTime}',
+        isTemplate: false,
+        label: 'Collection Services Demonstration',
+        processMetadataValues: [
+            {
+                name: 'BuilderType',
+                value: {
+                    stringValue: 'LightningFlowBuilder'
+                }
+            },
+            {
+                name: 'CanvasMode',
+                value: {
+                    stringValue: 'FREE_FORM_CANVAS'
+                }
+            }
+        ],
+        processType: 'Flow',
+        runInMode: null,
+        status: 'Draft',
+        apiVersion: 49
     },
     processType: 'Flow',
     status: 'Draft',

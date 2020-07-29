@@ -14,8 +14,33 @@
         "start": {
             "locationX": 80,
             "locationY": 53,
+            "doesRequireRecordChangedToMeetCriteria": false,
             "filters": []
         },
+        "decisions": [
+            {
+                "name": "decision",
+                "description": "",
+                "label": "decision",
+                "locationX": 227,
+                "locationY": 360.6875,
+                "rules": [
+                    {
+                        "name": "outcome",
+                        "label": "outcome",
+                        "conditions": [
+                            {
+                                "leftValueReference": "vMyTestAccount.CloneSourceId",
+                                "operator": "EqualTo"
+                            }
+                        ],
+                        "conditionLogic": "and",
+                        "doesRequireRecordChangedToMeetCriteria": false
+                    }
+                ],
+                "defaultConnectorLabel": "Default Outcome"
+            }
+        ],
         "variables": [
             {
                 "name": "accountID",
@@ -75,6 +100,7 @@
                     }
                 ],
                 "assignNullValuesIfNoRecordsFound": true,
+                "filterLogic": "and",
                 "filters": [
                     {
                         "field": "Name",
@@ -97,6 +123,7 @@
                 "object": "Account",
                 "outputReference": "vMyTestAccount",
                 "assignNullValuesIfNoRecordsFound": true,
+                "filterLogic": "and",
                 "filters": [
                     {
                         "field": "Name",
@@ -117,6 +144,7 @@
                 "object": "Account",
                 "outputReference": "vAccounts",
                 "assignNullValuesIfNoRecordsFound": true,
+                "filterLogic": "and",
                 "filters": [
                     {
                         "field": "Name",
@@ -148,6 +176,7 @@
                         "name": "Address",
                         "outputParameters": [],
                         "scale": 0,
+                        "fields": [],
                         "extensionName": "flowruntime:address"
                     }
                 ],
@@ -157,29 +186,6 @@
                 "helpText": "",
                 "showFooter": true,
                 "showHeader": true
-            }
-        ],
-        "decisions": [
-            {
-                "name": "decision",
-                "description": "",
-                "label": "decision",
-                "locationX": 227,
-                "locationY": 360.6875,
-                "rules": [
-                    {
-                        "name": "outcome",
-                        "label": "outcome",
-                        "conditions": [
-                            {
-                                "leftValueReference": "vMyTestAccount.CloneSourceId",
-                                "operator": "EqualTo"
-                            }
-                        ],
-                        "conditionLogic": "and"
-                    }
-                ],
-                "defaultConnectorLabel": "Default Outcome"
             }
         ],
         "description": "",
@@ -197,6 +203,12 @@
                 "name": "OriginBuilderType",
                 "value": {
                     "stringValue": "LightningFlowBuilder"
+                }
+            },
+            {
+                "name": "CanvasMode",
+                "value": {
+                    "stringValue": "FREE_FORM_CANVAS"
                 }
             }
         ],

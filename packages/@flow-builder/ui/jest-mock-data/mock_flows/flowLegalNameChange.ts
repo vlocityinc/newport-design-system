@@ -11,1358 +11,1274 @@ export const flowLegalNameChange = {
     manageableState: 'unmanaged',
     masterLabel: 'Legal Name Change',
     metadata: {
+        start: {
+            locationX: 1000,
+            locationY: 2000,
+            connector: {
+                targetReference: 'Check_Object_Type'
+            },
+            doesRequireRecordChangedToMeetCriteria: false,
+            filters: []
+        },
         actionCalls: [
             {
-                actionName: 'chatterPost',
-                actionType: 'chatterPost',
+                name: 'Update_Feed',
+                description: '',
+                label: 'Update Feed',
+                locationX: 882,
+                locationY: 414,
                 connector: {
-                    processMetadataValues: [],
                     targetReference: 'Final_Screen'
                 },
+                actionType: 'chatterPost',
+                actionName: 'chatterPost',
                 inputParameters: [
                     {
                         name: 'subjectNameOrId',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'recordId'
                         }
                     },
                     {
                         name: 'text',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'FeedUpdate'
                         }
                     }
                 ],
-                label: 'Update Feed',
-                locationX: 882,
-                locationY: 414,
-                name: 'Update_Feed',
                 outputParameters: [
                     {
-                        assignToReference: 'vFeedItemID',
                         name: 'feedItemId',
-                        processMetadataValues: []
+                        assignToReference: 'vFeedItemID'
                     }
                 ],
-                storeOutputAutomatically: false,
-                processMetadataValues: []
+                storeOutputAutomatically: false
             }
         ],
-        apexPluginCalls: [],
         assignments: [
             {
+                name: 'Assign_recordId_to_AccountId',
+                description: '',
+                label: 'Assign recordId to AccountId',
+                locationX: 281,
+                locationY: 625,
+                connector: {
+                    targetReference: 'Initial_Info_Screen'
+                },
                 assignmentItems: [
                     {
                         assignToReference: 'recordId',
                         operator: 'Assign',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'vCaseAccountId'
                         }
                     }
-                ],
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Initial_Info_Screen'
-                },
-                label: 'Assign recordId to AccountId',
-                locationX: 281,
-                locationY: 625,
-                name: 'Assign_recordId_to_AccountId',
-                processMetadataValues: []
+                ]
             },
             {
+                name: 'Assign_recordId_to_Contactid',
+                description: '',
+                label: 'Assign recordId to Contactid',
+                locationX: 283,
+                locationY: 502,
+                connector: {
+                    targetReference: 'Initial_Info_Screen'
+                },
                 assignmentItems: [
                     {
                         assignToReference: 'recordId',
                         operator: 'Assign',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'vCaseContactId'
                         }
                     }
-                ],
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Initial_Info_Screen'
-                },
-                label: 'Assign recordId to Contactid',
-                locationX: 283,
-                locationY: 502,
-                name: 'Assign_recordId_to_Contactid',
-                processMetadataValues: []
+                ]
             }
         ],
-        choices: [],
-        constants: [],
         decisions: [
             {
-                defaultConnector: {
-                    processMetadataValues: [],
-                    targetReference: 'Unsupported_Object_Type_Message'
-                },
-                defaultConnectorLabel: 'Company',
+                name: 'Check_if_Account_is_Person_Account',
+                description: '',
                 label: 'Check if Account is Person Account',
                 locationX: 298,
                 locationY: 73,
-                name: 'Check_if_Account_is_Person_Account',
-                processMetadataValues: [],
+                defaultConnector: {
+                    targetReference: 'Unsupported_Object_Type_Message'
+                },
+                defaultConnectorLabel: 'Company',
                 rules: [
                     {
-                        conditionLogic: 'and',
+                        name: 'Account_is_Person_Account',
+                        label: 'Account is Person Account',
+                        connector: {
+                            targetReference: 'Initial_Info_Screen'
+                        },
                         conditions: [
                             {
                                 leftValueReference: 'vIsPersonAccount',
-                                operator: 'EqualTo',
-                                processMetadataValues: [],
                                 rightValue: {
                                     stringValue: 'true'
-                                }
+                                },
+                                operator: 'EqualTo'
                             }
                         ],
-                        connector: {
-                            processMetadataValues: [],
-                            targetReference: 'Initial_Info_Screen'
-                        },
-                        doesRequireRecordChangedToMeetCriteria: false,
-                        label: 'Account is Person Account',
-                        name: 'Account_is_Person_Account',
-                        processMetadataValues: []
+                        conditionLogic: 'and',
+                        doesRequireRecordChangedToMeetCriteria: false
                     }
                 ]
             },
             {
-                defaultConnector: {
-                    processMetadataValues: [],
-                    targetReference: 'Lookup_Person_Account_Information'
-                },
-                defaultConnectorLabel: 'Is Person Account',
+                name: 'Check_if_Case_Contact_is_Person_Account',
+                description: '',
                 label: 'Check if Case Contact is Person Account',
                 locationX: 90,
                 locationY: 501,
-                name: 'Check_if_Case_Contact_is_Person_Account',
-                processMetadataValues: [],
+                defaultConnector: {
+                    targetReference: 'Lookup_Person_Account_Information'
+                },
+                defaultConnectorLabel: 'Is Person Account',
                 rules: [
                     {
-                        conditionLogic: 'and',
+                        name: 'Is_Contact',
+                        label: 'Is Contact',
+                        connector: {
+                            targetReference: 'Assign_recordId_to_Contactid'
+                        },
                         conditions: [
                             {
                                 leftValueReference: 'vIsCaseContactPersonAccount',
-                                operator: 'NotEqualTo',
-                                processMetadataValues: [],
                                 rightValue: {
                                     stringValue: 'true'
-                                }
+                                },
+                                operator: 'NotEqualTo'
                             }
                         ],
-                        connector: {
-                            processMetadataValues: [],
-                            targetReference: 'Assign_recordId_to_Contactid'
-                        },
-                        doesRequireRecordChangedToMeetCriteria: false,
-                        label: 'Is Contact',
-                        name: 'Is_Contact',
-                        processMetadataValues: []
+                        conditionLogic: 'and',
+                        doesRequireRecordChangedToMeetCriteria: false
                     }
                 ]
             },
             {
+                name: 'Check_Object_Type',
+                description: '',
+                label: 'Check Object Type',
+                locationX: 88,
+                locationY: 182,
                 defaultConnector: {
-                    processMetadataValues: [],
                     targetReference: 'Unsupported_Object_Type_Message'
                 },
                 defaultConnectorLabel: 'Unsupported Object',
-                label: 'Check Object Type',
-                locationX: 86,
-                locationY: 190,
-                name: 'Check_Object_Type',
-                processMetadataValues: [],
                 rules: [
                     {
-                        conditionLogic: 'and',
-                        conditions: [
-                            {
-                                leftValueReference: 'recordId',
-                                operator: 'StartsWith',
-                                processMetadataValues: [],
-                                rightValue: {
-                                    stringValue: '001'
-                                }
-                            }
-                        ],
+                        name: 'Account',
+                        label: 'Account',
                         connector: {
-                            processMetadataValues: [],
                             targetReference: 'Account_Lookup'
                         },
-                        doesRequireRecordChangedToMeetCriteria: false,
-                        label: 'Account',
-                        name: 'Account',
-                        processMetadataValues: []
-                    },
-                    {
-                        conditionLogic: 'and',
                         conditions: [
                             {
                                 leftValueReference: 'recordId',
-                                operator: 'StartsWith',
-                                processMetadataValues: [],
                                 rightValue: {
-                                    stringValue: '003'
-                                }
+                                    stringValue: '001'
+                                },
+                                operator: 'StartsWith'
                             }
                         ],
+                        conditionLogic: 'and',
+                        doesRequireRecordChangedToMeetCriteria: false
+                    },
+                    {
+                        name: 'Contact',
+                        label: 'Contact',
                         connector: {
-                            processMetadataValues: [],
                             targetReference: 'Contact_Lookup'
                         },
-                        doesRequireRecordChangedToMeetCriteria: false,
-                        label: 'Contact',
-                        name: 'Contact',
-                        processMetadataValues: []
-                    },
-                    {
-                        conditionLogic: 'and',
                         conditions: [
                             {
                                 leftValueReference: 'recordId',
-                                operator: 'StartsWith',
-                                processMetadataValues: [],
                                 rightValue: {
-                                    stringValue: '500'
-                                }
+                                    stringValue: '003'
+                                },
+                                operator: 'StartsWith'
                             }
                         ],
+                        conditionLogic: 'and',
+                        doesRequireRecordChangedToMeetCriteria: false
+                    },
+                    {
+                        name: 'Case',
+                        label: 'Case',
                         connector: {
-                            processMetadataValues: [],
                             targetReference: 'Case_Lookup'
                         },
-                        doesRequireRecordChangedToMeetCriteria: false,
-                        label: 'Case',
-                        name: 'Case',
-                        processMetadataValues: []
+                        conditions: [
+                            {
+                                leftValueReference: 'recordId',
+                                rightValue: {
+                                    stringValue: '500'
+                                },
+                                operator: 'StartsWith'
+                            }
+                        ],
+                        conditionLogic: 'and',
+                        doesRequireRecordChangedToMeetCriteria: false
                     }
                 ]
             },
             {
-                defaultConnectorLabel: '[Default Outcome]',
+                name: 'Customer_Info_Object_Type_Decision',
+                description: '',
                 label: 'Customer Info Object Type Decision',
                 locationX: 891,
                 locationY: 194,
-                name: 'Customer_Info_Object_Type_Decision',
-                processMetadataValues: [],
                 rules: [
                     {
-                        conditionLogic: 'and',
-                        conditions: [
-                            {
-                                leftValueReference: 'recordId',
-                                operator: 'StartsWith',
-                                processMetadataValues: [],
-                                rightValue: {
-                                    stringValue: '001'
-                                }
-                            }
-                        ],
+                        name: 'AccountUpdate',
+                        label: 'AccountUpdate',
                         connector: {
-                            processMetadataValues: [],
                             targetReference: 'Update_Person_Account'
                         },
-                        doesRequireRecordChangedToMeetCriteria: false,
-                        label: 'AccountUpdate',
-                        name: 'AccountUpdate',
-                        processMetadataValues: []
-                    },
-                    {
-                        conditionLogic: 'and',
                         conditions: [
                             {
                                 leftValueReference: 'recordId',
-                                operator: 'StartsWith',
-                                processMetadataValues: [],
                                 rightValue: {
-                                    stringValue: '003'
-                                }
+                                    stringValue: '001'
+                                },
+                                operator: 'StartsWith'
                             }
                         ],
+                        conditionLogic: 'and',
+                        doesRequireRecordChangedToMeetCriteria: false
+                    },
+                    {
+                        name: 'ContactUpdate',
+                        label: 'ContactUpdate',
                         connector: {
-                            processMetadataValues: [],
                             targetReference: 'Update_Contact'
                         },
-                        doesRequireRecordChangedToMeetCriteria: false,
-                        label: 'ContactUpdate',
-                        name: 'ContactUpdate',
-                        processMetadataValues: []
+                        conditions: [
+                            {
+                                leftValueReference: 'recordId',
+                                rightValue: {
+                                    stringValue: '003'
+                                },
+                                operator: 'StartsWith'
+                            }
+                        ],
+                        conditionLogic: 'and',
+                        doesRequireRecordChangedToMeetCriteria: false
                     }
-                ]
-            }
-        ],
-        description:
-            'This Flow prompts for and changes the name of the Contact or Person Account, it also requires upload of documentation (pdf, jpg, png) and it updates the Feed for the record after the change. Can be launched from Contact, Person Account or Case records.',
-        dynamicChoiceSets: [
-            {
-                dataType: 'Picklist',
-                filters: [],
-                limit: 5,
-                name: 'Salutation',
-                outputAssignments: [],
-                picklistField: 'Salutation',
-                picklistObject: 'Contact',
-                processMetadataValues: []
+                ],
+                defaultConnectorLabel: '[Default Outcome]'
             }
         ],
         formulas: [
             {
-                dataType: 'String',
+                name: 'FeedUpdate',
+                description: '',
                 expression:
                     '"The name on this Contact or Person Account record was updated using a Flow. The original name was " & {!vFormerSalutation} & " " & {!vFirstName} & " " & {!vFormerLastName} & ". The new name is " & {!New_Salutation} & " " & {!New_First_Name} & " " & {!New_Last_Name}',
-                name: 'FeedUpdate',
-                processMetadataValues: [],
+                dataType: 'String',
                 scale: 0
             }
         ],
-        interviewLabel: 'Legal Name Change {!$Flow.CurrentDateTime}',
-        isTemplate: false,
-        label: 'Legal Name Change',
-        loops: [],
-        processMetadataValues: [],
-        processType: 'Flow',
-        recordCreates: [],
-        recordDeletes: [],
+        variables: [
+            {
+                name: 'recordId',
+                description: '',
+                dataType: 'String',
+                isCollection: false,
+                isInput: true,
+                isOutput: false,
+                scale: 0
+            },
+            {
+                name: 'vCaseAccountId',
+                description: '',
+                dataType: 'String',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            },
+            {
+                name: 'vCaseContactId',
+                description: '',
+                dataType: 'String',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            },
+            {
+                name: 'vFeedItemID',
+                description: '',
+                dataType: 'String',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            },
+            {
+                name: 'vFirstName',
+                description: '',
+                dataType: 'String',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            },
+            {
+                name: 'vFormerLastName',
+                description: '',
+                dataType: 'String',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            },
+            {
+                name: 'vFormerSalutation',
+                description: '',
+                dataType: 'String',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            },
+            {
+                name: 'vIsCaseContactPersonAccount',
+                description: '',
+                dataType: 'String',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            },
+            {
+                name: 'vIsPersonAccount',
+                description: '',
+                dataType: 'String',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            },
+            {
+                name: 'vMailingCity',
+                description: '',
+                dataType: 'String',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            },
+            {
+                name: 'vMailingCountry',
+                description: '',
+                dataType: 'String',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            },
+            {
+                name: 'vMailingPostal',
+                description: '',
+                dataType: 'String',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            },
+            {
+                name: 'vMailingState',
+                description: '',
+                dataType: 'String',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            },
+            {
+                name: 'vMailingStreet',
+                description: '',
+                dataType: 'String',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            },
+            {
+                name: 'vRelatedRecordId',
+                description: '',
+                dataType: 'String',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            },
+            {
+                name: 'vUploadedFiles',
+                description: '',
+                dataType: 'String',
+                isCollection: false,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            }
+        ],
         recordLookups: [
             {
-                assignNullValuesIfNoRecordsFound: false,
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Check_if_Account_is_Person_Account'
-                },
-                filterLogic: 'and',
-                filters: [
-                    {
-                        field: 'Id',
-                        operator: 'EqualTo',
-                        processMetadataValues: [],
-                        value: {
-                            elementReference: 'recordId'
-                        }
-                    }
-                ],
+                name: 'Account_Lookup',
+                description: '',
                 label: 'Account Lookup',
                 locationX: 297,
                 locationY: 183,
-                name: 'Account_Lookup',
+                connector: {
+                    targetReference: 'Check_if_Account_is_Person_Account'
+                },
                 object: 'Account',
                 outputAssignments: [
                     {
-                        assignToReference: 'vFirstName',
                         field: 'FirstName',
-                        processMetadataValues: []
+                        assignToReference: 'vFirstName'
                     },
                     {
-                        assignToReference: 'vIsPersonAccount',
                         field: 'IsPersonAccount',
-                        processMetadataValues: []
+                        assignToReference: 'vIsPersonAccount'
                     },
                     {
-                        assignToReference: 'vFormerLastName',
                         field: 'LastName',
-                        processMetadataValues: []
+                        assignToReference: 'vFormerLastName'
                     },
                     {
-                        assignToReference: 'vMailingCity',
                         field: 'PersonMailingCity',
-                        processMetadataValues: []
+                        assignToReference: 'vMailingCity'
                     },
                     {
-                        assignToReference: 'vMailingCountry',
                         field: 'PersonMailingCountry',
-                        processMetadataValues: []
+                        assignToReference: 'vMailingCountry'
                     },
                     {
-                        assignToReference: 'vMailingPostal',
                         field: 'PersonMailingPostalCode',
-                        processMetadataValues: []
+                        assignToReference: 'vMailingPostal'
                     },
                     {
-                        assignToReference: 'vMailingState',
                         field: 'PersonMailingState',
-                        processMetadataValues: []
+                        assignToReference: 'vMailingState'
                     },
                     {
-                        assignToReference: 'vMailingStreet',
                         field: 'PersonMailingStreet',
-                        processMetadataValues: []
+                        assignToReference: 'vMailingStreet'
                     },
                     {
-                        assignToReference: 'vFormerSalutation',
                         field: 'Salutation',
-                        processMetadataValues: []
+                        assignToReference: 'vFormerSalutation'
                     }
                 ],
-                processMetadataValues: [],
-                queriedFields: []
-            },
-            {
                 assignNullValuesIfNoRecordsFound: false,
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Find_Contact_Info_for_Case'
-                },
                 filterLogic: 'and',
                 filters: [
                     {
                         field: 'Id',
                         operator: 'EqualTo',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'recordId'
                         }
                     }
                 ],
+                queriedFields: []
+            },
+            {
+                name: 'Case_Lookup',
+                description: '',
                 label: 'Case Lookup',
                 locationX: 89,
                 locationY: 305,
-                name: 'Case_Lookup',
+                connector: {
+                    targetReference: 'Find_Contact_Info_for_Case'
+                },
                 object: 'Case',
                 outputAssignments: [
                     {
-                        assignToReference: 'vCaseAccountId',
                         field: 'AccountId',
-                        processMetadataValues: []
+                        assignToReference: 'vCaseAccountId'
                     },
                     {
-                        assignToReference: 'vCaseContactId',
                         field: 'ContactId',
-                        processMetadataValues: []
+                        assignToReference: 'vCaseContactId'
                     }
                 ],
-                processMetadataValues: [],
-                queriedFields: []
-            },
-            {
                 assignNullValuesIfNoRecordsFound: false,
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Initial_Info_Screen'
-                },
                 filterLogic: 'and',
                 filters: [
                     {
                         field: 'Id',
                         operator: 'EqualTo',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'recordId'
                         }
                     }
                 ],
-                label: 'Contact Lookup',
-                locationX: 294,
-                locationY: 299,
-                name: 'Contact_Lookup',
-                object: 'Contact',
-                outputAssignments: [
-                    {
-                        assignToReference: 'vFirstName',
-                        field: 'FirstName',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'vFormerLastName',
-                        field: 'LastName',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'vMailingCity',
-                        field: 'MailingCity',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'vMailingCountry',
-                        field: 'MailingCountry',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'vMailingPostal',
-                        field: 'MailingPostalCode',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'vMailingState',
-                        field: 'MailingState',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'vMailingStreet',
-                        field: 'MailingStreet',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'vFormerSalutation',
-                        field: 'Salutation',
-                        processMetadataValues: []
-                    }
-                ],
-                processMetadataValues: [],
                 queriedFields: []
             },
             {
-                assignNullValuesIfNoRecordsFound: false,
+                name: 'Contact_Lookup',
+                description: '',
+                label: 'Contact Lookup',
+                locationX: 294,
+                locationY: 299,
                 connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Check_if_Case_Contact_is_Person_Account'
+                    targetReference: 'Initial_Info_Screen'
                 },
+                object: 'Contact',
+                outputAssignments: [
+                    {
+                        field: 'FirstName',
+                        assignToReference: 'vFirstName'
+                    },
+                    {
+                        field: 'LastName',
+                        assignToReference: 'vFormerLastName'
+                    },
+                    {
+                        field: 'MailingCity',
+                        assignToReference: 'vMailingCity'
+                    },
+                    {
+                        field: 'MailingCountry',
+                        assignToReference: 'vMailingCountry'
+                    },
+                    {
+                        field: 'MailingPostalCode',
+                        assignToReference: 'vMailingPostal'
+                    },
+                    {
+                        field: 'MailingState',
+                        assignToReference: 'vMailingState'
+                    },
+                    {
+                        field: 'MailingStreet',
+                        assignToReference: 'vMailingStreet'
+                    },
+                    {
+                        field: 'Salutation',
+                        assignToReference: 'vFormerSalutation'
+                    }
+                ],
+                assignNullValuesIfNoRecordsFound: false,
                 filterLogic: 'and',
                 filters: [
                     {
                         field: 'Id',
                         operator: 'EqualTo',
-                        processMetadataValues: [],
+                        value: {
+                            elementReference: 'recordId'
+                        }
+                    }
+                ],
+                queriedFields: []
+            },
+            {
+                name: 'Find_Contact_Info_for_Case',
+                description: '',
+                label: 'Find Contact Info for Case',
+                locationX: 90,
+                locationY: 403,
+                connector: {
+                    targetReference: 'Check_if_Case_Contact_is_Person_Account'
+                },
+                object: 'Contact',
+                outputAssignments: [
+                    {
+                        field: 'FirstName',
+                        assignToReference: 'vFirstName'
+                    },
+                    {
+                        field: 'IsPersonAccount',
+                        assignToReference: 'vIsCaseContactPersonAccount'
+                    },
+                    {
+                        field: 'LastName',
+                        assignToReference: 'vFormerLastName'
+                    },
+                    {
+                        field: 'MailingCity',
+                        assignToReference: 'vMailingCity'
+                    },
+                    {
+                        field: 'MailingCountry',
+                        assignToReference: 'vMailingCountry'
+                    },
+                    {
+                        field: 'MailingPostalCode',
+                        assignToReference: 'vMailingPostal'
+                    },
+                    {
+                        field: 'MailingState',
+                        assignToReference: 'vMailingState'
+                    },
+                    {
+                        field: 'MailingStreet',
+                        assignToReference: 'vMailingStreet'
+                    },
+                    {
+                        field: 'Salutation',
+                        assignToReference: 'vFormerSalutation'
+                    }
+                ],
+                assignNullValuesIfNoRecordsFound: false,
+                filterLogic: 'and',
+                filters: [
+                    {
+                        field: 'Id',
+                        operator: 'EqualTo',
                         value: {
                             elementReference: 'vCaseContactId'
                         }
                     }
                 ],
-                label: 'Find Contact Info for Case',
-                locationX: 90,
-                locationY: 403,
-                name: 'Find_Contact_Info_for_Case',
-                object: 'Contact',
-                outputAssignments: [
-                    {
-                        assignToReference: 'vFirstName',
-                        field: 'FirstName',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'vIsCaseContactPersonAccount',
-                        field: 'IsPersonAccount',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'vFormerLastName',
-                        field: 'LastName',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'vMailingCity',
-                        field: 'MailingCity',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'vMailingCountry',
-                        field: 'MailingCountry',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'vMailingPostal',
-                        field: 'MailingPostalCode',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'vMailingState',
-                        field: 'MailingState',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'vMailingStreet',
-                        field: 'MailingStreet',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'vFormerSalutation',
-                        field: 'Salutation',
-                        processMetadataValues: []
-                    }
-                ],
-                processMetadataValues: [],
                 queriedFields: []
             },
             {
-                assignNullValuesIfNoRecordsFound: false,
+                name: 'Lookup_Person_Account_Information',
+                description: '',
+                label: 'Lookup Person Account Information',
+                locationX: 93,
+                locationY: 621,
                 connector: {
-                    processMetadataValues: [],
                     targetReference: 'Assign_recordId_to_AccountId'
                 },
+                object: 'Account',
+                outputAssignments: [
+                    {
+                        field: 'FirstName',
+                        assignToReference: 'vFirstName'
+                    },
+                    {
+                        field: 'LastName',
+                        assignToReference: 'vFormerLastName'
+                    },
+                    {
+                        field: 'PersonMailingCity',
+                        assignToReference: 'vMailingCity'
+                    },
+                    {
+                        field: 'PersonMailingCountry',
+                        assignToReference: 'vMailingCountry'
+                    },
+                    {
+                        field: 'PersonMailingPostalCode',
+                        assignToReference: 'vMailingPostal'
+                    },
+                    {
+                        field: 'PersonMailingState',
+                        assignToReference: 'vMailingState'
+                    },
+                    {
+                        field: 'PersonMailingStreet',
+                        assignToReference: 'vMailingStreet'
+                    },
+                    {
+                        field: 'Salutation',
+                        assignToReference: 'vFormerSalutation'
+                    }
+                ],
+                assignNullValuesIfNoRecordsFound: false,
                 filterLogic: 'and',
                 filters: [
                     {
                         field: 'Id',
                         operator: 'EqualTo',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'vCaseAccountId'
                         }
                     }
                 ],
-                label: 'Lookup Person Account Information',
-                locationX: 93,
-                locationY: 621,
-                name: 'Lookup_Person_Account_Information',
-                object: 'Account',
-                outputAssignments: [
-                    {
-                        assignToReference: 'vFirstName',
-                        field: 'FirstName',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'vFormerLastName',
-                        field: 'LastName',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'vMailingCity',
-                        field: 'PersonMailingCity',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'vMailingCountry',
-                        field: 'PersonMailingCountry',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'vMailingPostal',
-                        field: 'PersonMailingPostalCode',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'vMailingState',
-                        field: 'PersonMailingState',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'vMailingStreet',
-                        field: 'PersonMailingStreet',
-                        processMetadataValues: []
-                    },
-                    {
-                        assignToReference: 'vFormerSalutation',
-                        field: 'Salutation',
-                        processMetadataValues: []
-                    }
-                ],
-                processMetadataValues: [],
                 queriedFields: []
             }
         ],
         recordUpdates: [
             {
-                connector: {
-                    processMetadataValues: [],
-                    targetReference: 'Update_Feed'
-                },
-                filterLogic: 'and',
-                filters: [
-                    {
-                        field: 'Id',
-                        operator: 'EqualTo',
-                        processMetadataValues: [],
-                        value: {
-                            elementReference: 'recordId'
-                        }
-                    }
-                ],
-                inputAssignments: [
-                    {
-                        field: 'FirstName',
-                        processMetadataValues: [],
-                        value: {
-                            elementReference: 'New_First_Name'
-                        }
-                    },
-                    {
-                        field: 'LastName',
-                        processMetadataValues: [],
-                        value: {
-                            elementReference: 'New_Last_Name'
-                        }
-                    },
-                    {
-                        field: 'Salutation',
-                        processMetadataValues: [],
-                        value: {
-                            elementReference: 'New_Salutation'
-                        }
-                    }
-                ],
+                name: 'Update_Contact',
+                description: '',
                 label: 'Update Contact',
                 locationX: 979,
                 locationY: 317,
-                name: 'Update_Contact',
-                object: 'Contact',
-                processMetadataValues: []
-            },
-            {
                 connector: {
-                    processMetadataValues: [],
                     targetReference: 'Update_Feed'
                 },
-                filterLogic: 'and',
                 filters: [
                     {
                         field: 'Id',
                         operator: 'EqualTo',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'recordId'
                         }
                     }
                 ],
+                filterLogic: 'and',
+                object: 'Contact',
                 inputAssignments: [
                     {
                         field: 'FirstName',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'New_First_Name'
                         }
                     },
                     {
                         field: 'LastName',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'New_Last_Name'
                         }
                     },
                     {
                         field: 'Salutation',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'New_Salutation'
                         }
                     }
-                ],
+                ]
+            },
+            {
+                name: 'Update_Person_Account',
+                description: '',
                 label: 'Update Person Account',
                 locationX: 783,
                 locationY: 316,
-                name: 'Update_Person_Account',
+                connector: {
+                    targetReference: 'Update_Feed'
+                },
+                filters: [
+                    {
+                        field: 'Id',
+                        operator: 'EqualTo',
+                        value: {
+                            elementReference: 'recordId'
+                        }
+                    }
+                ],
+                filterLogic: 'and',
                 object: 'Account',
-                processMetadataValues: []
+                inputAssignments: [
+                    {
+                        field: 'FirstName',
+                        value: {
+                            elementReference: 'New_First_Name'
+                        }
+                    },
+                    {
+                        field: 'LastName',
+                        value: {
+                            elementReference: 'New_Last_Name'
+                        }
+                    },
+                    {
+                        field: 'Salutation',
+                        value: {
+                            elementReference: 'New_Salutation'
+                        }
+                    }
+                ]
             }
         ],
         screens: [
             {
-                allowBack: true,
-                allowFinish: false,
-                allowPause: false,
+                name: 'Confirmation_Screen',
+                description: '',
+                label: 'Confirmation Screen',
+                locationX: 841,
+                locationY: 77,
                 connector: {
-                    processMetadataValues: [],
                     targetReference: 'Customer_Info_Object_Type_Decision'
                 },
+                pausedText: '',
                 fields: [
                     {
                         choiceReferences: [],
                         fieldText:
                             '<DIV ALIGN="LEFT"><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">You have requested that the name on the account will be changed to the following:</FONT></DIV><DIV ALIGN="LEFT"><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">-</FONT></DIV><DIV ALIGN="LEFT"><FONT FACE="Courier New" STYLE="font-size:12px" COLOR="#FF0000" LETTERSPACING="0" KERNING="0"><B>{!New_First_Name} {!New_Last_Name}</B></FONT></DIV><DIV ALIGN="LEFT"><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">-</FONT></DIV><DIV ALIGN="LEFT"><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">If this is not correct press Previous and make the changes.</FONT></DIV>',
                         fieldType: 'DisplayText',
+                        helpText: '',
                         inputParameters: [],
                         isRequired: false,
-                        isVisible: false,
                         name: 'veacsd',
                         outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        scale: 0,
+                        fields: []
                     }
                 ],
-                label: 'Confirmation Screen',
-                locationX: 841,
-                locationY: 77,
-                name: 'Confirmation_Screen',
-                processMetadataValues: [],
-                rules: [],
+                allowBack: true,
+                allowFinish: false,
+                allowPause: false,
+                helpText: '',
                 showFooter: true,
                 showHeader: true
             },
             {
-                allowBack: true,
-                allowFinish: false,
-                allowPause: false,
+                name: 'Document_Upload_Screen',
+                description: '',
+                label: 'Document Upload Screen',
+                locationX: 694,
+                locationY: 70,
                 connector: {
-                    processMetadataValues: [],
                     targetReference: 'Confirmation_Screen'
                 },
+                pausedText: '',
                 fields: [
                     {
                         choiceReferences: [],
                         fieldText:
                             'Please upload the following files one by one:\n- Copy or picture of Social Security Card with the new name\n- Copy or picture of utility bill showing the new name\nThe following file extensions are allowed: .JPG and .PNG',
                         fieldType: 'DisplayText',
+                        helpText: '',
                         inputParameters: [],
                         isRequired: false,
-                        isVisible: false,
                         name: 'terdsx',
                         outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        scale: 0,
+                        fields: []
                     },
                     {
                         choiceReferences: [],
+                        fieldText: '',
                         fieldType: 'DisplayText',
+                        helpText: '',
                         inputParameters: [],
                         isRequired: false,
-                        isVisible: false,
                         name: 'Empty00',
                         outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        scale: 0,
+                        fields: []
                     },
                     {
                         choiceReferences: [],
-                        extensionName: 'forceContent:fileUpload',
+                        fieldText: '',
                         fieldType: 'ComponentInstance',
+                        helpText: '',
                         inputParameters: [
                             {
                                 name: 'label',
-                                processMetadataValues: [],
                                 value: {
                                     stringValue: 'Upload Files'
                                 }
                             },
                             {
                                 name: 'recordId',
-                                processMetadataValues: [],
                                 value: {
                                     elementReference: 'recordId'
                                 }
                             },
                             {
                                 name: 'accept',
-                                processMetadataValues: [],
                                 value: {
                                     stringValue: '.jpg, .png, .pdf'
                                 }
                             }
                         ],
                         isRequired: true,
-                        isVisible: false,
                         name: 'DocUploader',
                         outputParameters: [
                             {
-                                assignToReference: 'vRelatedRecordId',
                                 name: 'recordId',
-                                processMetadataValues: []
+                                assignToReference: 'vRelatedRecordId'
                             }
                         ],
-                        processMetadataValues: [],
-                        scale: 0
+                        scale: 0,
+                        fields: [],
+                        extensionName: 'forceContent:fileUpload'
                     }
                 ],
-                label: 'Document Upload Screen',
-                locationX: 694,
-                locationY: 70,
-                name: 'Document_Upload_Screen',
-                processMetadataValues: [],
-                rules: [],
+                allowBack: true,
+                allowFinish: false,
+                allowPause: false,
+                helpText: '',
                 showFooter: true,
                 showHeader: true
             },
             {
-                allowBack: false,
-                allowFinish: true,
-                allowPause: false,
+                name: 'Final_Screen',
+                description: '',
+                label: 'Final Screen',
+                locationX: 880,
+                locationY: 514,
+                pausedText: '',
                 fields: [
                     {
                         choiceReferences: [],
                         fieldText:
                             'Thank you for contacting us and letting us know your new name. This will take 24-48 hours to process. We will contact you if there are any questions.',
                         fieldType: 'DisplayText',
+                        helpText: '',
                         inputParameters: [],
                         isRequired: false,
-                        isVisible: false,
                         name: 'gfwds',
                         outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        scale: 0,
+                        fields: []
                     }
                 ],
-                label: 'Final Screen',
-                locationX: 880,
-                locationY: 514,
-                name: 'Final_Screen',
-                processMetadataValues: [],
-                rules: [],
+                allowBack: false,
+                allowFinish: true,
+                allowPause: false,
+                helpText: '',
                 showFooter: true,
                 showHeader: true
             },
             {
-                allowBack: true,
-                allowFinish: false,
-                allowPause: false,
+                name: 'General_Info_Verification',
+                description: '',
+                label: 'General Info Verification',
+                locationX: 574,
+                locationY: 311,
                 connector: {
-                    processMetadataValues: [],
                     targetReference: 'New_Name_Information_Input'
                 },
+                pausedText: '',
                 fields: [
                     {
                         choiceReferences: [],
                         fieldText: 'Please provide the following information for verification.',
                         fieldType: 'DisplayText',
+                        helpText: '',
                         inputParameters: [],
                         isRequired: false,
-                        isVisible: false,
                         name: 'vascd',
                         outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        scale: 0,
+                        fields: []
                     },
                     {
                         choiceReferences: [],
                         dataType: 'String',
-                        defaultValue: {
-                            stringValue: '123-45-6789'
-                        },
                         fieldText: 'Social Security Number',
                         fieldType: 'InputField',
+                        helpText: '',
                         inputParameters: [],
                         isRequired: false,
-                        isVisible: false,
                         name: 'Social_Security_Number',
                         outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        scale: 0,
+                        fields: [],
+                        defaultValue: {
+                            stringValue: '123-45-6789'
+                        }
                     },
                     {
                         choiceReferences: [],
                         dataType: 'String',
-                        defaultValue: {
-                            elementReference: 'vMailingStreet'
-                        },
                         fieldText: 'Street',
                         fieldType: 'InputField',
+                        helpText: '',
                         inputParameters: [],
                         isRequired: false,
-                        isVisible: false,
                         name: 'Street',
                         outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        scale: 0,
+                        fields: [],
+                        defaultValue: {
+                            elementReference: 'vMailingStreet'
+                        }
                     },
                     {
                         choiceReferences: [],
                         dataType: 'String',
-                        defaultValue: {
-                            elementReference: 'vMailingCity'
-                        },
                         fieldText: 'City',
                         fieldType: 'InputField',
+                        helpText: '',
                         inputParameters: [],
                         isRequired: false,
-                        isVisible: false,
                         name: 'City',
                         outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        scale: 0,
+                        fields: [],
+                        defaultValue: {
+                            elementReference: 'vMailingCity'
+                        }
                     },
                     {
                         choiceReferences: [],
                         dataType: 'String',
-                        defaultValue: {
-                            elementReference: 'vMailingState'
-                        },
                         fieldText: 'State',
                         fieldType: 'InputField',
+                        helpText: '',
                         inputParameters: [],
                         isRequired: false,
-                        isVisible: false,
                         name: 'State',
                         outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        scale: 0,
+                        fields: [],
+                        defaultValue: {
+                            elementReference: 'vMailingState'
+                        }
                     },
                     {
                         choiceReferences: [],
                         dataType: 'String',
-                        defaultValue: {
-                            elementReference: 'vMailingPostal'
-                        },
                         fieldText: 'Postal Code',
                         fieldType: 'InputField',
+                        helpText: '',
                         inputParameters: [],
                         isRequired: false,
-                        isVisible: false,
                         name: 'Postal_Code',
                         outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        scale: 0,
+                        fields: [],
+                        defaultValue: {
+                            elementReference: 'vMailingPostal'
+                        }
                     },
                     {
                         choiceReferences: [],
                         dataType: 'String',
-                        defaultValue: {
-                            elementReference: 'vMailingCountry'
-                        },
                         fieldText: 'Country',
                         fieldType: 'InputField',
+                        helpText: '',
                         inputParameters: [],
                         isRequired: false,
-                        isVisible: false,
                         name: 'Country',
                         outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        scale: 0,
+                        fields: [],
+                        defaultValue: {
+                            elementReference: 'vMailingCountry'
+                        }
                     },
                     {
                         choiceReferences: [],
                         fieldText: 'Please provide the former name that this financial institution knows you under.',
                         fieldType: 'DisplayText',
+                        helpText: '',
                         inputParameters: [],
                         isRequired: false,
-                        isVisible: false,
                         name: 'FormerNameText',
                         outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        scale: 0,
+                        fields: []
                     },
                     {
                         choiceReferences: [],
                         dataType: 'String',
-                        defaultValue: {
-                            elementReference: 'vFormerSalutation'
-                        },
                         fieldText: 'Salutation',
                         fieldType: 'InputField',
+                        helpText: '',
                         inputParameters: [],
                         isRequired: false,
-                        isVisible: false,
                         name: 'Former_Salutation',
                         outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        scale: 0,
+                        fields: [],
+                        defaultValue: {
+                            elementReference: 'vFormerSalutation'
+                        }
                     },
                     {
                         choiceReferences: [],
                         dataType: 'String',
-                        defaultValue: {
-                            elementReference: 'vFirstName'
-                        },
                         fieldText: 'First Name',
                         fieldType: 'InputField',
+                        helpText: '',
                         inputParameters: [],
                         isRequired: false,
-                        isVisible: false,
                         name: 'Former_First_Name',
                         outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        scale: 0,
+                        fields: [],
+                        defaultValue: {
+                            elementReference: 'vFirstName'
+                        }
                     },
                     {
                         choiceReferences: [],
                         dataType: 'String',
-                        defaultValue: {
-                            elementReference: 'vFormerLastName'
-                        },
                         fieldText: 'Last Name',
                         fieldType: 'InputField',
+                        helpText: '',
                         inputParameters: [],
                         isRequired: false,
-                        isVisible: false,
                         name: 'Former_Last_Name',
                         outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        scale: 0,
+                        fields: [],
+                        defaultValue: {
+                            elementReference: 'vFormerLastName'
+                        }
                     }
                 ],
-                label: 'General Info Verification',
-                locationX: 574,
-                locationY: 311,
-                name: 'General_Info_Verification',
-                processMetadataValues: [],
-                rules: [],
+                allowBack: true,
+                allowFinish: false,
+                allowPause: false,
+                helpText: '',
                 showFooter: true,
                 showHeader: true
             },
             {
-                allowBack: true,
-                allowFinish: false,
-                allowPause: false,
+                name: 'Initial_Info_Screen',
+                description: '',
+                label: 'Initial Info Screen',
+                locationX: 508,
+                locationY: 183,
                 connector: {
-                    processMetadataValues: [],
                     targetReference: 'General_Info_Verification'
                 },
+                pausedText: '',
                 fields: [
                     {
                         choiceReferences: [],
                         fieldText:
                             '<DIV ALIGN="LEFT"><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">Before we get started {!vFirstName} I have to inform you that in order for us to finalize the process of changing the name on your accounts you will need to provide the following information either electronically or in person at a branch or office.</FONT></DIV><DIV ALIGN="LEFT"><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0"></FONT></DIV><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">Social Security Card showing new name.</FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">Eletrical or Gas Bill showing new name</FONT></LI></TEXTFORMAT>',
                         fieldType: 'DisplayText',
+                        helpText: '',
                         inputParameters: [],
                         isRequired: false,
-                        isVisible: false,
                         name: 'InitialMessage',
                         outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        scale: 0,
+                        fields: []
                     }
                 ],
-                label: 'Initial Info Screen',
-                locationX: 508,
-                locationY: 183,
-                name: 'Initial_Info_Screen',
-                processMetadataValues: [],
-                rules: [],
+                allowBack: true,
+                allowFinish: false,
+                allowPause: false,
+                helpText: '',
                 showFooter: true,
                 showHeader: true
             },
             {
-                allowBack: true,
-                allowFinish: false,
-                allowPause: false,
+                name: 'New_Name_Information_Input',
+                description: '',
+                label: 'New Name Information Input',
+                locationX: 704,
+                locationY: 178,
                 connector: {
-                    processMetadataValues: [],
                     targetReference: 'Document_Upload_Screen'
                 },
+                pausedText: '',
                 fields: [
                     {
                         choiceReferences: [],
                         fieldText:
                             '<DIV ALIGN="LEFT"><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">Please provide your <U>new</U> First Name, Middle Initial and Last Name. Please make sure to spell it out exactly as it is on your Social Security Card.</FONT></DIV>',
                         fieldType: 'DisplayText',
+                        helpText: '',
                         inputParameters: [],
                         isRequired: false,
-                        isVisible: false,
                         name: 'vrfcs',
                         outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        scale: 0,
+                        fields: []
                     },
                     {
                         choiceReferences: ['Salutation'],
                         dataType: 'String',
                         fieldText: 'Salutation',
                         fieldType: 'DropdownBox',
+                        helpText: '',
                         inputParameters: [],
                         isRequired: true,
-                        isVisible: false,
                         name: 'New_Salutation',
                         outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        scale: 0,
+                        fields: []
                     },
                     {
                         choiceReferences: [],
                         dataType: 'String',
                         fieldText: 'First Name',
                         fieldType: 'InputField',
+                        helpText: '',
                         inputParameters: [],
                         isRequired: true,
-                        isVisible: false,
                         name: 'New_First_Name',
                         outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        scale: 0,
+                        fields: []
                     },
                     {
                         choiceReferences: [],
                         dataType: 'String',
                         fieldText: 'Last Name',
                         fieldType: 'InputField',
+                        helpText: '',
                         inputParameters: [],
                         isRequired: true,
-                        isVisible: false,
                         name: 'New_Last_Name',
                         outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        scale: 0,
+                        fields: []
                     }
                 ],
-                label: 'New Name Information Input',
-                locationX: 704,
-                locationY: 178,
-                name: 'New_Name_Information_Input',
-                processMetadataValues: [],
-                rules: [],
+                allowBack: true,
+                allowFinish: false,
+                allowPause: false,
+                helpText: '',
                 showFooter: true,
                 showHeader: true
             },
             {
-                allowBack: false,
-                allowFinish: true,
-                allowPause: false,
+                name: 'Unsupported_Object_Type_Message',
+                description: '',
+                label: 'Unsupported Object Type Message',
+                locationX: 89,
+                locationY: 710,
+                pausedText: '',
                 fields: [
                     {
                         choiceReferences: [],
                         fieldText: 'This is not a supported object type.',
                         fieldType: 'DisplayText',
+                        helpText: '',
                         inputParameters: [],
                         isRequired: false,
-                        isVisible: false,
                         name: 'UnsupportedObjectTypeDisplay',
                         outputParameters: [],
-                        processMetadataValues: [],
-                        scale: 0
+                        scale: 0,
+                        fields: []
                     }
                 ],
-                label: 'Unsupported Object Type Message',
-                locationX: 89,
-                locationY: 710,
-                name: 'Unsupported_Object_Type_Message',
-                processMetadataValues: [],
-                rules: [],
+                allowBack: false,
+                allowFinish: true,
+                allowPause: false,
+                helpText: '',
                 showFooter: true,
                 showHeader: true
             }
         ],
-        stages: [],
-        start: {
-            locationX: 1000,
-            locationY: 2000,
-            doesRequireRecordChangedToMeetCriteria: false,
-            connector: {
-                targetReference: 'Check_Object_Type'
-            }
-        },
-        status: 'Active',
-        steps: [],
-        subflows: [],
-        textTemplates: [],
-        variables: [
+        dynamicChoiceSets: [
             {
-                dataType: 'String',
-                isCollection: false,
-                isInput: true,
-                isOutput: false,
-                name: 'recordId',
-                processMetadataValues: [],
-                scale: 0
-            },
-            {
-                dataType: 'String',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'vCaseAccountId',
-                processMetadataValues: [],
-                scale: 0
-            },
-            {
-                dataType: 'String',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'vCaseContactId',
-                processMetadataValues: [],
-                scale: 0
-            },
-            {
-                dataType: 'String',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'vFeedItemID',
-                processMetadataValues: [],
-                scale: 0
-            },
-            {
-                dataType: 'String',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'vFirstName',
-                processMetadataValues: [],
-                scale: 0
-            },
-            {
-                dataType: 'String',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'vFormerLastName',
-                processMetadataValues: [],
-                scale: 0
-            },
-            {
-                dataType: 'String',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'vFormerSalutation',
-                processMetadataValues: [],
-                scale: 0
-            },
-            {
-                dataType: 'String',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'vIsCaseContactPersonAccount',
-                processMetadataValues: [],
-                scale: 0
-            },
-            {
-                dataType: 'String',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'vIsPersonAccount',
-                processMetadataValues: [],
-                scale: 0
-            },
-            {
-                dataType: 'String',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'vMailingCity',
-                processMetadataValues: [],
-                scale: 0
-            },
-            {
-                dataType: 'String',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'vMailingCountry',
-                processMetadataValues: [],
-                scale: 0
-            },
-            {
-                dataType: 'String',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'vMailingPostal',
-                processMetadataValues: [],
-                scale: 0
-            },
-            {
-                dataType: 'String',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'vMailingState',
-                processMetadataValues: [],
-                scale: 0
-            },
-            {
-                dataType: 'String',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'vMailingStreet',
-                processMetadataValues: [],
-                scale: 0
-            },
-            {
-                dataType: 'String',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'vRelatedRecordId',
-                processMetadataValues: [],
-                scale: 0
-            },
-            {
-                dataType: 'String',
-                isCollection: false,
-                isInput: false,
-                isOutput: false,
-                name: 'vUploadedFiles',
-                processMetadataValues: [],
-                scale: 0
+                name: 'Salutation',
+                description: '',
+                limit: '5',
+                valueField: null,
+                dataType: 'Picklist',
+                picklistField: 'Salutation',
+                picklistObject: 'Contact'
             }
         ],
-        waits: []
+        description:
+            'This Flow prompts for and changes the name of the Contact or Person Account, it also requires upload of documentation (pdf, jpg, png) and it updates the Feed for the record after the change. Can be launched from Contact, Person Account or Case records.',
+        interviewLabel: 'Legal Name Change {!$Flow.CurrentDateTime}',
+        isTemplate: false,
+        label: 'Legal Name Change',
+        processMetadataValues: [
+            {
+                name: 'BuilderType',
+                value: {
+                    stringValue: 'LightningFlowBuilder'
+                }
+            },
+            {
+                name: 'CanvasMode',
+                value: {
+                    stringValue: 'FREE_FORM_CANVAS'
+                }
+            }
+        ],
+        processType: 'Flow',
+        runInMode: null,
+        status: 'Active',
+        apiVersion: 49
     },
     processType: 'Flow',
     status: 'Active',

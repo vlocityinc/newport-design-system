@@ -16,45 +16,54 @@ export const flowWithApexActionSubmitForApproval = {
     manageableState: 'unmanaged',
     masterLabel: 'submitForApprovalBug',
     metadata: {
+        start: {
+            locationX: 49,
+            locationY: 60,
+            doesRequireRecordChangedToMeetCriteria: false,
+            filters: []
+        },
         actionCalls: [
             {
-                actionName: 'submit',
+                name: 'submitForApproval',
+                description: '',
+                label: 'submitForApproval',
+                locationX: 381,
+                locationY: 305,
                 actionType: 'submit',
+                actionName: 'submit',
                 inputParameters: [
                     {
                         name: 'nextApproverIds',
-                        processMetadataValues: [],
                         value: {
                             elementReference: 'textColVar'
                         }
                     },
                     {
                         name: 'objectId',
-                        processMetadataValues: [],
                         value: {
                             stringValue: ''
                         }
                     }
                 ],
-                label: 'submitForApproval',
-                locationX: 381,
-                locationY: 305,
-                name: 'submitForApproval',
                 outputParameters: [],
-                processMetadataValues: []
+                storeOutputAutomatically: true
             }
         ],
-        apexPluginCalls: [],
-        assignments: [],
-        choices: [],
-        constants: [],
-        decisions: [],
-        dynamicChoiceSets: [],
-        formulas: [],
+        variables: [
+            {
+                name: 'textColVar',
+                description: '',
+                dataType: 'String',
+                isCollection: true,
+                isInput: false,
+                isOutput: false,
+                scale: 0
+            }
+        ],
+        description: '',
         interviewLabel: 'submitForApprovalBug {!$Flow.CurrentDateTime}',
         isTemplate: false,
         label: 'submitForApprovalBug',
-        loops: [],
         processMetadataValues: [
             {
                 name: 'BuilderType',
@@ -67,31 +76,17 @@ export const flowWithApexActionSubmitForApproval = {
                 value: {
                     stringValue: 'LightningFlowBuilder'
                 }
+            },
+            {
+                name: 'CanvasMode',
+                value: {
+                    stringValue: 'FREE_FORM_CANVAS'
+                }
             }
         ],
         processType: 'Flow',
-        recordCreates: [],
-        recordDeletes: [],
-        recordLookups: [],
-        recordUpdates: [],
-        screens: [],
-        stages: [],
-        status: 'InvalidDraft',
-        steps: [],
-        subflows: [],
-        textTemplates: [],
-        variables: [
-            {
-                dataType: 'String',
-                isCollection: true,
-                isInput: false,
-                isOutput: false,
-                name: 'textColVar',
-                processMetadataValues: [],
-                scale: 0
-            }
-        ],
-        waits: []
+        runInMode: null,
+        status: 'InvalidDraft'
     },
     processType: 'Flow',
     status: 'InvalidDraft',

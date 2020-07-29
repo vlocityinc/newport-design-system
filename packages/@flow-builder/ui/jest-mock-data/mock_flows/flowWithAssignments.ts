@@ -11,10 +11,19 @@ export const flowWithAssignments = {
     manageableState: 'unmanaged',
     masterLabel: 'FlowWithAssignment',
     metadata: {
-        actionCalls: [],
-        apexPluginCalls: [],
+        start: {
+            locationX: 1000,
+            locationY: 2000,
+            doesRequireRecordChangedToMeetCriteria: false,
+            filters: []
+        },
         assignments: [
             {
+                name: 'AssignmentWithMultipleAssignmentItems',
+                description: '',
+                label: 'AssignmentWithMultipleAssignmentItems',
+                locationX: 256,
+                locationY: 209,
                 assignmentItems: [
                     {
                         assignToReference: 'VariableWithText',
@@ -27,7 +36,7 @@ export const flowWithAssignments = {
                         assignToReference: 'VariableWithNumber',
                         operator: 'Add',
                         value: {
-                            numberValue: 10
+                            numberValue: '10'
                         }
                     },
                     {
@@ -41,88 +50,79 @@ export const flowWithAssignments = {
                         assignToReference: 'VariableWithNumber',
                         operator: 'Subtract',
                         value: {
-                            numberValue: 2
+                            numberValue: '2'
                         }
                     }
-                ],
-                label: 'AssignmentWithMultipleAssignmentItems',
-                locationX: 262,
-                locationY: 216,
-                name: 'AssignmentWithMultipleAssignmentItems'
+                ]
             }
         ],
-        choices: [],
-        constants: [],
-        decisions: [],
-        dynamicChoiceSets: [],
-        formulas: [],
-        interviewLabel: 'FlowWithAssignment {!$Flow.CurrentDateTime}',
-        isTemplate: false,
-        label: 'FlowWithAssignment',
-        loops: [],
-        processMetadataValues: [],
-        processType: 'AutoLaunchedFlow',
-        recordCreates: [],
-        recordDeletes: [],
-        recordLookups: [],
-        recordUpdates: [],
-        screens: [],
-        stages: [],
-        start: {
-            locationX: 1000,
-            locationY: 2000,
-            doesRequireRecordChangedToMeetCriteria: false
-        },
-        status: 'InvalidDraft',
-        steps: [],
-        subflows: [],
-        textTemplates: [],
         variables: [
             {
+                name: 'VariableWithDate',
+                description: '',
                 dataType: 'Date',
                 isCollection: false,
                 isInput: false,
                 isOutput: false,
-                name: 'VariableWithDate',
-                processMetadataValues: [],
                 scale: 0
             },
             {
+                name: 'VariableWithNumber',
+                description: '',
                 dataType: 'Number',
                 isCollection: false,
                 isInput: false,
                 isOutput: false,
-                name: 'VariableWithNumber',
-                processMetadataValues: [],
                 scale: 2,
                 value: {
-                    numberValue: 10
+                    numberValue: '10'
                 }
             },
             {
+                name: 'VariableWithRecordValue',
+                description: '',
+                objectType: 'Account',
                 dataType: 'SObject',
                 isCollection: false,
                 isInput: false,
                 isOutput: false,
-                name: 'VariableWithRecordValue',
-                objectType: 'Account',
-                processMetadataValues: [],
                 scale: 0
             },
             {
+                name: 'VariableWithText',
+                description: '',
                 dataType: 'String',
                 isCollection: false,
                 isInput: false,
                 isOutput: false,
-                name: 'VariableWithText',
-                processMetadataValues: [],
                 scale: 0,
                 value: {
                     stringValue: 'Hello World!!'
                 }
             }
         ],
-        waits: []
+        description: '',
+        interviewLabel: 'FlowWithAssignment {!$Flow.CurrentDateTime}',
+        isTemplate: false,
+        label: 'FlowWithAssignment',
+        processMetadataValues: [
+            {
+                name: 'BuilderType',
+                value: {
+                    stringValue: 'LightningFlowBuilder'
+                }
+            },
+            {
+                name: 'CanvasMode',
+                value: {
+                    stringValue: 'FREE_FORM_CANVAS'
+                }
+            }
+        ],
+        processType: 'AutoLaunchedFlow',
+        runInMode: null,
+        status: 'InvalidDraft',
+        apiVersion: 49
     },
     processType: 'AutoLaunchedFlow',
     status: 'InvalidDraft',

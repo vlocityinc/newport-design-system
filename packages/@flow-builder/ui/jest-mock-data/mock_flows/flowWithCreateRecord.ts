@@ -12,65 +12,64 @@ export const flowWithCreateRecordUsingSObject = {
     manageableState: 'unmanaged',
     masterLabel: 'flowCreateRecordWithSObject',
     metadata: {
-        actionCalls: [],
-        apexPluginCalls: [],
-        assignments: [],
-        choices: [],
-        constants: [],
-        decisions: [],
-        dynamicChoiceSets: [],
-        formulas: [],
-        interviewLabel: 'flowCreateRecordWithSObject {!$Flow.CurrentDateTime}',
-        isTemplate: false,
-        label: 'flowCreateRecordWithSObject',
-        loops: [],
-        processType: 'AutoLaunchedFlow',
-        processMetadataValues: [
-            {
-                name: 'BuilderType',
-                value: { stringValue: 'LightningFlowBuilder' }
+        start: {
+            locationX: 50,
+            locationY: 45,
+            connector: {
+                targetReference: 'Create_Record_Using_SObject'
             },
-            {
-                name: 'OriginBuilderType',
-                value: { stringValue: 'LightningFlowBuilder' }
-            }
-        ],
-        recordCreates: [
-            {
-                inputAssignments: [],
-                inputReference: 'vAccount',
-                label: 'Create Record Using SObject',
-                description: 'Create account record in sobject mode',
-                locationX: 474,
-                locationY: 50,
-                name: 'Create_Record_Using_SObject',
-                processMetadataValues: [],
-                storeOutputAutomatically: false
-            }
-        ],
-        recordDeletes: [],
-        recordLookups: [],
-        recordUpdates: [],
-        screens: [],
-        stages: [],
-        startElementReference: 'Create_Record_Using_SObject',
-        status: 'Draft',
-        steps: [],
-        subflows: [],
-        textTemplates: [],
+            doesRequireRecordChangedToMeetCriteria: false,
+            filters: []
+        },
         variables: [
             {
+                name: 'vAccount',
+                description: '',
+                objectType: 'Account',
                 dataType: 'SObject',
                 isCollection: false,
                 isInput: false,
                 isOutput: false,
-                name: 'vAccount',
-                objectType: 'Account',
-                processMetadataValues: [],
                 scale: 0
             }
         ],
-        waits: []
+        recordCreates: [
+            {
+                name: 'Create_Record_Using_SObject',
+                description: 'Create account record in sobject mode',
+                label: 'Create Record Using SObject',
+                locationX: 474,
+                locationY: 50,
+                inputReference: 'vAccount'
+            }
+        ],
+        description: '',
+        interviewLabel: 'flowCreateRecordWithSObject {!$Flow.CurrentDateTime}',
+        isTemplate: false,
+        label: 'flowCreateRecordWithSObject',
+        processMetadataValues: [
+            {
+                name: 'BuilderType',
+                value: {
+                    stringValue: 'LightningFlowBuilder'
+                }
+            },
+            {
+                name: 'OriginBuilderType',
+                value: {
+                    stringValue: 'LightningFlowBuilder'
+                }
+            },
+            {
+                name: 'CanvasMode',
+                value: {
+                    stringValue: 'FREE_FORM_CANVAS'
+                }
+            }
+        ],
+        processType: 'AutoLaunchedFlow',
+        runInMode: null,
+        status: 'Draft'
     },
     processType: 'AutoLaunchedFlow',
     status: 'Draft',
@@ -90,71 +89,71 @@ export const flowWithCreateRecordUsingSObjectCollection = {
     manageableState: 'unmanaged',
     masterLabel: 'Flow Create Record Using SObject Collection',
     metadata: {
-        actionCalls: [],
-        apexPluginCalls: [],
-        assignments: [],
-        choices: [],
-        constants: [],
-        decisions: [],
-        dynamicChoiceSets: [],
-        formulas: [],
-        interviewLabel: 'Flow Create Record Using SObject Collection {!$Flow.CurrentDateTime}',
-        isTemplate: false,
-        label: 'Flow Create Record Using SObject Collection',
-        loops: [],
-        processType: 'AutoLaunchedFlow',
-        processMetadataValues: [
-            {
-                name: 'BuilderType',
-                value: { stringValue: 'LightningFlowBuilder' }
+        start: {
+            locationX: 56,
+            locationY: 73,
+            connector: {
+                targetReference: 'Create_Record_Using_SObject_Collection'
             },
-            {
-                name: 'OriginBuilderType',
-                value: { stringValue: 'LightningFlowBuilder' }
-            }
-        ],
-        recordCreates: [
-            {
-                inputAssignments: [],
-                inputReference: 'vAccounts',
-                description: 'Create account records in sobject mode',
-                label: 'Create Record Using SObject Collection',
-                locationX: 523,
-                locationY: 200,
-                name: 'Create_Record_Using_SObject_Collection',
-                processMetadataValues: [],
-                storeOutputAutomatically: false
-            }
-        ],
-        recordDeletes: [],
-        recordLookups: [],
-        recordUpdates: [],
-        screens: [],
-        stages: [],
-        startElementReference: 'Create_Record_Using_SObject_Collection',
-        status: 'Draft',
-        steps: [],
-        subflows: [],
-        textTemplates: [],
+            doesRequireRecordChangedToMeetCriteria: false,
+            filters: []
+        },
         variables: [
             {
+                name: 'vAccounts',
+                description: '',
+                objectType: 'Account',
                 dataType: 'SObject',
                 isCollection: true,
                 isInput: false,
                 isOutput: false,
-                name: 'vAccounts',
-                objectType: 'Account',
-                processMetadataValues: [],
                 scale: 0
             }
         ],
-        waits: []
+        recordCreates: [
+            {
+                name: 'Create_Record_Using_SObject_Collection',
+                description: 'Create account records in sobject mode',
+                label: 'Create Record Using SObject Collection',
+                locationX: 523,
+                locationY: 200,
+                inputReference: 'vAccounts'
+            }
+        ],
+        description: '',
+        interviewLabel: 'Flow Create Record Using SObject Collection {!$Flow.CurrentDateTime}',
+        isTemplate: false,
+        label: 'Flow Create Record Using SObject Collection',
+        processMetadataValues: [
+            {
+                name: 'BuilderType',
+                value: {
+                    stringValue: 'LightningFlowBuilder'
+                }
+            },
+            {
+                name: 'OriginBuilderType',
+                value: {
+                    stringValue: 'LightningFlowBuilder'
+                }
+            },
+            {
+                name: 'CanvasMode',
+                value: {
+                    stringValue: 'FREE_FORM_CANVAS'
+                }
+            }
+        ],
+        processType: 'AutoLaunchedFlow',
+        runInMode: null,
+        status: 'Draft'
     },
     processType: 'AutoLaunchedFlow',
     status: 'Draft',
     versionNumber: 1
 };
 
+// FIXME this cannot be updated
 export const flowWithCreateRecordUsingFields = {
     createdById: '005xx000001X7i5AAC',
     createdDate: '2019-01-09T10:48:20.000+0000',
@@ -263,6 +262,7 @@ export const flowWithCreateRecordUsingFields = {
     versionNumber: 1
 };
 
+// FIXME same
 export const flowWithCreateRecordAutomatedOutput = {
     createdById: '005xx000001X7i5AAC',
     createdDate: '2019-01-09T10:48:20.000+0000',
