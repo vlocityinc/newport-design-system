@@ -128,10 +128,6 @@ describe('the button menu', () => {
         expect(button).not.toBeNull();
     });
 
-    /*
-    TODO: This test is flapping for some reason. Commenting it out until we can figure
-    out why
-
     it('should dispatch the toggleMenu event if we are NOT in selection mode', () => {
         const cmp = createComponentUnderTest();
         const button = cmp.shadowRoot.querySelector(selectors.triggerButton);
@@ -140,7 +136,6 @@ describe('the button menu', () => {
         button.click();
         expect(callback).toHaveBeenCalled();
     });
-    */
 
     it('should not dispatch the toggleMenu event if we are in selection mode', () => {
         const cmp = createComponentUnderTest(screenMetadata, false, true);
