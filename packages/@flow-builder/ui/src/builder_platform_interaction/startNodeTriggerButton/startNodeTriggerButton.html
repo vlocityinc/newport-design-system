@@ -1,6 +1,6 @@
 <template>
     <!--TRIGGER/SCHEDULE-->
-    <div class={triggerButtonClass} style="background-color: white;" onclick={handleTriggerClick}>
+    <div class="slds-border_top test-trigger-button" style="background-color: white;" onclick={handleTriggerClick}>
         <!--UNSET TRIGGER/SCHEDULE-->
         <div if:false={isSetTrigger} tabindex="0" class={unsetStartButtonClasses}>
             <!--icon-->
@@ -22,7 +22,7 @@
                 <div class={selectedTriggerSize}>
                     <span class="text-labels-bold" title={selectedTriggerLabel}>{selectedTriggerLabel}</span>
                 </div>
-                <div if:false={flcMode} class="edit-size">
+                <div class="edit-size">
                     <span class="edit">{editLabel}</span>
                 </div>
             </div>

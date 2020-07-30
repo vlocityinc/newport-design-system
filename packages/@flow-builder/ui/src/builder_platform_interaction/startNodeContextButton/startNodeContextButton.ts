@@ -20,9 +20,6 @@ export default class startNodeContextButton extends LightningElement {
         config: {}
     };
 
-    @api
-    flcMode;
-
     getNodeConfig() {
         return getConfigForElementType(this.node.elementType).nodeConfig;
     }
@@ -33,12 +30,6 @@ export default class startNodeContextButton extends LightningElement {
 
     get startButtonClasses() {
         return 'start-button-trigger-context slds-p-vertical_x-small slds-p-horizontal_medium';
-    }
-
-    get selectedObjectSize() {
-        return this.flcMode
-            ? 'flc-selected-object-label-size slds-truncate'
-            : 'selected-object-label-size slds-truncate';
     }
 
     get chooseContext() {

@@ -15,9 +15,6 @@ export default class startNodeTriggerButton extends LightningElement {
         config: {}
     };
 
-    @api
-    flcMode;
-
     get unsetStartButtonClasses() {
         return 'unset-start-button slds-p-vertical_x-small slds-p-horizontal_medium';
     }
@@ -97,10 +94,6 @@ export default class startNodeTriggerButton extends LightningElement {
             : LABELS.startElementFlowStarts;
     }
 
-    get triggerButtonClass() {
-        return this.flcMode ? 'test-trigger-button' : 'slds-border_top test-trigger-button';
-    }
-
     get triggerSize() {
         return isRecordChangeTriggerType(this.node.triggerType)
             ? 'trigger-label-size'
@@ -114,13 +107,11 @@ export default class startNodeTriggerButton extends LightningElement {
     }
 
     get selectedTriggerSize() {
-        const triggerCssClass = isRecordChangeTriggerType(this.node.triggerType)
+        return isRecordChangeTriggerType(this.node.triggerType)
             ? 'selected-trigger-label-size slds-truncate'
             : this.node.triggerType === PLATFORM_EVENT
             ? 'selected-platform-event-size slds-truncate'
             : 'selected-flow-starts-size slds-truncate';
-
-        return this.flcMode ? 'flc-' + triggerCssClass : triggerCssClass;
     }
 
     get runFlowLabel() {
